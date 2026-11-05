@@ -8,7 +8,8 @@ from collections import defaultdict
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = os.environ.get("SV_BASE", "http://127.0.0.1:8765/")
-routes_data = json.loads(Path("/tmp/routes.json").read_text())
+ROUTES_FILE = Path(os.environ.get("SWEEP_ROUTES", "/tmp/routes.json"))
+routes_data = json.loads(ROUTES_FILE.read_text())
 ALL = routes_data["routes"]
 VIEWPORTS = [("1280x800", 1280, 800), ("1440x900", 1440, 900), ("390x844", 390, 844)]
 THEMES = ["light", "dark"]
@@ -22,7 +23,12 @@ def worker(job_slice, out_q, wid):
         issues.append(kw)
     t0 = time.time()
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        launch_kwargs = {"headless": True}
+        if os.environ.get("SWEEP_CHANNEL"):
+            launch_kwargs["channel"] = os.environ["SWEEP_CHANNEL"]
+        if os.environ.get("SWEEP_EXECUTABLE"):
+            launch_kwargs["executable_path"] = os.environ["SWEEP_EXECUTABLE"]
+        browser = p.chromium.launch(**launch_kwargs)
         batches = defaultdict(list)
         for route, vp_name, theme in job_slice:
             batches[(vp_name, theme)].append(route)

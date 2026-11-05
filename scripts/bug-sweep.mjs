@@ -1,8 +1,16 @@
 #!/usr/bin/env node
 /**
  * Full-route visual/runtime bug sweep with Playwright.
- * Checks: console errors, size growth, horizontal overflow, KaTeX errors,
- * broken in-page anchors, overlapping (basic).
+ * Checks: console errors, page errors, HTTP >=400, size growth, horizontal
+ * overflow, KaTeX errors, broken in-page anchors.
+ *
+ * Setup:
+ *   node scripts/build-routes.mjs                 # writes /tmp/routes.json
+ *   python3 scripts/serve-dev.py . 8765          # keep-alive static server
+ *   SWEEP_CONCURRENCY=8 node scripts/bug-sweep.mjs full
+ *
+ * Playwright: install locally (`npm i -D playwright`) or make it resolvable
+ * via node_modules. Chrome channel is used by default (SWEEP_CHANNEL=chrome).
  */
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
@@ -11,7 +19,8 @@ import { fileURLToPath } from 'url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.SV_BASE || 'http://127.0.0.1:8765/';
-const routesData = JSON.parse(readFileSync('/tmp/routes.json', 'utf8'));
+const ROUTES_FILE = process.env.SWEEP_ROUTES || '/tmp/routes.json';
+const routesData = JSON.parse(readFileSync(ROUTES_FILE, 'utf8'));
 const ALL_ROUTES = routesData.routes;
 const MODULE_ROUTES = ALL_ROUTES.filter((r) => r.startsWith('#/m/'));
 
@@ -29,10 +38,10 @@ function add(issue) {
 
 async function setTheme(page, theme) {
   await page.evaluate((t) => {
+    localStorage.setItem('science-viz-theme', t);
     localStorage.setItem('sv-theme', t);
     document.documentElement.dataset.theme = t;
     document.documentElement.classList.toggle('dark', t === 'dark');
-    // also try known keys
     localStorage.setItem('theme', t);
   }, theme);
 }
@@ -41,12 +50,19 @@ async function auditRoute(page, route, viewport, theme, { watchMs = 1500, sample
   const tag = { route, viewport: viewport.name, theme };
   const consoleErrs = [];
   const pageErrors = [];
+  const failedResponses = [];
   const onConsole = (msg) => {
     if (msg.type() === 'error') consoleErrs.push(msg.text());
   };
   const onPageError = (err) => pageErrors.push(String(err));
+  const onResponse = (resp) => {
+    if (resp.status() >= 400 && !/favicon/i.test(resp.url())) {
+      failedResponses.push(`${resp.status()} ${resp.url()}`);
+    }
+  };
   page.on('console', onConsole);
   page.on('pageerror', onPageError);
+  page.on('response', onResponse);
 
   try {
     await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 20000 });
@@ -138,17 +154,22 @@ async function auditRoute(page, route, viewport, theme, { watchMs = 1500, sample
     for (const b of broken) add({ ...tag, kind: 'empty_anchor', severity: 'warn', msg: b });
 
     for (const e of consoleErrs) {
-      if (/favicon|Download the React|Cursor/i.test(e)) continue;
+      // Rapid route switching/closing aborts in-flight module fetches; not a product bug.
+      if (/favicon|Download the React|Cursor|net::ERR_CONNECTION_RESET|net::ERR_ABORTED|Failed to load resource: net::ERR_/i.test(e)) continue;
       add({ ...tag, kind: 'console_error', severity: 'error', msg: e.slice(0, 300) });
     }
     for (const e of pageErrors) {
       add({ ...tag, kind: 'page_error', severity: 'error', msg: e.slice(0, 300) });
+    }
+    for (const e of failedResponses) {
+      add({ ...tag, kind: 'http_error', severity: 'error', msg: e.slice(0, 300) });
     }
   } catch (err) {
     add({ ...tag, kind: 'nav_fail', severity: 'error', msg: String(err).slice(0, 300) });
   } finally {
     page.off('console', onConsole);
     page.off('pageerror', onPageError);
+    page.off('response', onResponse);
   }
 }
 
@@ -167,7 +188,11 @@ async function runPool(items, concurrency, worker) {
 
 const mode = process.argv[2] || 'full';
 
-const browser = await chromium.launch({ headless: true });
+const launchOptions = { headless: true };
+if (process.env.SWEEP_EXECUTABLE) launchOptions.executablePath = process.env.SWEEP_EXECUTABLE;
+else launchOptions.channel = process.env.SWEEP_CHANNEL || 'chrome';
+const browser = await chromium.launch(launchOptions);
+const CONCURRENCY = Math.max(1, parseInt(process.env.SWEEP_CONCURRENCY || '6', 10));
 const started = Date.now();
 
 async function sweep(routeList, viewports, themes, opts) {
@@ -179,8 +204,8 @@ async function sweep(routeList, viewports, themes, opts) {
       }
     }
   }
-  console.error(`jobs=${jobs.length} opts=${JSON.stringify(opts)}`);
-  await runPool(jobs, 4, async (job) => {
+  console.error(`jobs=${jobs.length} opts=${JSON.stringify(opts)} concurrency=${CONCURRENCY}`);
+  await runPool(jobs, CONCURRENCY, async (job) => {
     const context = await browser.newContext({
       viewport: { width: job.viewport.width, height: job.viewport.height },
       deviceScaleFactor: 1,
@@ -230,4 +255,46 @@ const out = {
   issues,
 };
 writeFileSync(join(ROOT, 'audit/bug-sweep.json'), JSON.stringify(out, null, 2));
+
+const lines = [
+  '# Bug sweep report',
+  '',
+  `- Generated: ${out.generatedAt}`,
+  `- Mode: \`${mode}\``,
+  `- Routes: ${out.routeCount}`,
+  `- Elapsed: ${(out.elapsedMs / 1000).toFixed(1)} s`,
+  `- Issues: **${out.issueCount}**`,
+  '',
+  '## By kind',
+  '',
+  '| Kind | Count |',
+  '|---|---:|',
+];
+for (const [k, v] of Object.entries(out.byKind).sort((a, b) => b[1] - a[1])) {
+  lines.push(`| \`${k}\` | ${v} |`);
+}
+lines.push('', '## Issues', '');
+const grouped = new Map();
+for (const it of issues) {
+  if (!grouped.has(it.kind)) grouped.set(it.kind, new Map());
+  const key = `${it.route}|${(it.msg || '').slice(0, 160)}`;
+  const bucket = grouped.get(it.kind);
+  if (!bucket.has(key)) bucket.set(key, { route: it.route, msg: it.msg, vps: [] });
+  bucket.get(key).vps.push(`${it.viewport}/${it.theme}`);
+}
+for (const [kind, bucket] of [...grouped.entries()].sort((a, b) => b[1].size - a[1].size)) {
+  lines.push(`### ${kind} (${bucket.size} unique)`, '');
+  let n = 0;
+  for (const item of bucket.values()) {
+    if (n++ >= 80) {
+      lines.push(`- … +${bucket.size - 80} more unique`);
+      break;
+    }
+    const vps = [...new Set(item.vps)];
+    lines.push(`- \`${item.route}\` — ${item.msg} _(in ${vps.slice(0, 6).join(', ')}${vps.length > 6 ? '…' : ''})_`);
+  }
+  lines.push('');
+}
+writeFileSync(join(ROOT, 'audit/bug-sweep.md'), lines.join('\n'));
+
 console.log(JSON.stringify({ ok: true, issueCount: issues.length, byKind: out.byKind, elapsedMs: out.elapsedMs }, null, 2));

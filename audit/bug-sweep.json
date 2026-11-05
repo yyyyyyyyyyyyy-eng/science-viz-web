@@ -1,66 +1,9 @@
 {
-  "generatedAt": "2026-11-05T21:21:06",
-  "timezoneNote": "Asia/Shanghai",
-  "issueCount": 9,
-  "byKind": {
-    "console": 8,
-    "console_error": 1
-  },
-  "issues": [
-    {
-      "route": "#/math/map",
-      "theme": "light",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/mech/map",
-      "theme": "light",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/em/map",
-      "theme": "light",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/bio/map",
-      "theme": "light",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/math/map",
-      "theme": "dark",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/mech/map",
-      "theme": "dark",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/em/map",
-      "theme": "dark",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/bio/map",
-      "theme": "dark",
-      "kind": "console",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    },
-    {
-      "route": "#/t/bio/bio-prep-chem/P1.1",
-      "theme": "light",
-      "kind": "console_error",
-      "msg": "Failed to load resource: the server responded with a status of 404 (File not found)"
-    }
-  ],
-  "note": "Focused sweep: all modules×3vp×2theme growth; maps screenshots; ~1/5 topics + key pages. Canvas unbounded growth fix verified."
+  "generatedAt": "2026-11-05T15:38:08.883Z",
+  "mode": "full",
+  "elapsedMs": 1117149,
+  "routeCount": 481,
+  "issueCount": 0,
+  "byKind": {},
+  "issues": []
 }

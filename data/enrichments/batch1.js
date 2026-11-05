@@ -321,7 +321,7 @@ export const ENRICHMENTS = {
     summary: '因式分解是展开的逆过程，是解方程与化简的基本工具。',
   },
 
-  'mech/mech-u3/3.4': {
+  'mech/mech-u3/3.1': {
     enrichedAt: 'batch1',
     definition: '功–动能定理：合外力对质点做的功等于动能的改变\n\\[\nW_{\\mathrm{net}}=\\Delta K=K_f-K_i=\\dfrac{1}{2}mv_f^{2}-\\dfrac{1}{2}mv_i^{2}.\n\\]\n对变力，\(W=\\int\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}\\)。',
     intuition: '推得越狠、位移越大，动能增加越多；阻力做负功则动能减少。',
@@ -382,16 +382,16 @@ export const ENRICHMENTS = {
       '可用能量方法替代多步牛顿定律。',
     ],
     related: [
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '功', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.2', title: '动能', relation: '定义' },
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.5', title: '功率', relation: '相关' },
+      { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '先修' },
+      { subject: 'mech', chapterId: 'mech-u3', code: '3.2', title: '力与势能', relation: '相关' },
+      { subject: 'mech', chapterId: 'mech-u3', code: '3.4', title: '功率', relation: '后续' },
     ],
     development: ['恒力功', '动能定义', '由牛顿定律导出定理', '变力积分'],
     checks: ['合功为负时动能如何变？', '为何单个力的功一般不等于 \\(\\Delta K\\)？'],
     summary: '合外力做功等于动能变化——连接力与运动的能量桥梁。',
   },
 
-  'mech/mech-u2/2.3': {
+  'mech/mech-u2/2.5': {
     enrichedAt: 'batch1',
     definition: '牛顿第三定律：两物体相互作用时，力总是成对出现，大小相等、方向相反、作用在不同物体上、沿同一直线：\n\\[\n\\mathbf{F}_{12}=-\\mathbf{F}_{21}.\n\\]',
     intuition: '你推墙，墙也推你；火箭排气向后，气体推火箭向前。',
@@ -441,9 +441,9 @@ export const ENRICHMENTS = {
     ],
     examTips: ['CED Unit 2：清晰区分平衡力与作用反作用', '受力分析图只画“作用在该物体上的力”'],
     related: [
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.1', title: '牛顿第一定律', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.2', title: '牛顿第二定律', relation: '联用' },
-      { subject: 'mech', chapterId: 'mech-u4', code: '4.1', title: '动量', relation: '后续' },
+      { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '先修' },
+      { subject: 'mech', chapterId: 'mech-u2', code: '2.6', title: '万有引力', relation: '应用' },
+      { subject: 'mech', chapterId: 'mech-u4', code: '4.1', title: '冲量与动量', relation: '后续' },
     ],
     development: ['观察相互作用', '陈述第三定律', '与平衡对比', '火箭/行走应用'],
     checks: ['为什么作用反作用不能抵消？', '走路时地面摩擦力的反作用力作用在谁上？'],
@@ -451,65 +451,69 @@ export const ENRICHMENTS = {
   },
 
   'em/em-u10/10.3': {
-    enrichedAt: 'batch1',
-    definition: '理想变压器满足磁通量联动：\\(\\dfrac{V_s}{V_p}=\\dfrac{N_s}{N_p}\\)。若近似无损耗，功率守恒 \\(V_p I_p=V_s I_s\\)，故\n\\[\n\\dfrac{I_s}{I_p}=\\dfrac{N_p}{N_s}.\n\\]',
-    intuition: '匝数比决定电压比；升压必降流（理想情形），以保持功率。',
-    intuitionDetailed: '交变原边电流产生变化磁通，副边感应电动势与匝数成正比。',
+    enrichedAt: 'batch1-fix',
+    definition: '电容器由两片导体极板夹一层电介质构成。平行板电容器的电容为 \\(C=\\dfrac{\\kappa\\varepsilon_0 A}{d}\\)，定义式为 \\(C=\\dfrac{Q}{V}\\)：给定电压下能储存的电荷量由几何与电介质决定。',
+    intuition: '电容器是电荷的临时仓库：极板面积越大、间距越小、介质越好，仓库越大。',
+    intuitionDetailed: '接上电源时，电源把电子从一个极板搬到另一个极板，极板间建立电场并储存能量；断开电源后电荷被“锁”在极板上，电压随电容改变。',
     formulas: [
-      { latex: '\\dfrac{V_s}{V_p}=\\dfrac{N_s}{N_p}', note: '电压比＝匝数比。' },
-      { latex: 'V_p I_p=V_s I_s', note: '理想功率守恒。' },
+      { latex: 'C=\\dfrac{Q}{V}', note: '电容定义式，适用于任何电容器。' },
+      { latex: 'C=\\dfrac{\\kappa\\varepsilon_0 A}{d}', note: '平行板电容器（填满电介质）。' },
+      { latex: 'U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}', note: '储存的电场能。' },
     ],
     derivationNotes: [
-      { from: '法拉第定律', to: '匝数比', note: '同一 \\(\\mathrm{d}\\Phi_B/\\mathrm{d}t\\) 穿过每匝，\\(\\mathcal{E}=N\\mathrm{d}\\Phi_B/\\mathrm{d}t\\)。' },
+      { from: '定义式', to: '平行板公式', note: '由 \\(E=\\sigma/\\varepsilon\\)、\\(V=Ed\\) 与 \\(\\sigma=Q/A\\) 得 \\(C=\\varepsilon A/d\\)。' },
     ],
-    conditions: ['交流；理想假设：无漏磁、无电阻损耗、磁芯不饱和', '直流稳态下变压器不工作'],
-    keyPoints: ['升压变压器 \\(N_s>N_p\\)', '理想：\\(P_\\mathrm{in}=P_\\mathrm{out}\\)', '输电用高压低电流减焦耳热'],
+    conditions: ['平行板近似：间距远小于极板尺寸，忽略边缘效应', '电介质填满极板间；\\(\\kappa\\) 为相对介电常数', '\\(Q\\) 取一个极板电荷量的绝对值'],
+    keyPoints: ['\\(C\\) 由几何与电介质决定，与 \\(Q\\)、\\(V\\) 无关', '串联 \\(\\dfrac{1}{C_\\mathrm{eq}}=\\sum\\dfrac{1}{C_i}\\)，并联 \\(C_\\mathrm{eq}=\\sum C_i\\)', '插入电介质使 \\(C\\) 增大；孤立电容器 \\(Q\\) 不变，接电源 \\(V\\) 不变'],
     misconceptions: [
-      '以为直流也能用变压器变压',
-      '忽略功率守恒导致电流比写反',
-      '把匝数比与电流比同向记忆',
+      '以为 \\(C\\) 随 \\(Q\\) 或 \\(V\\) 改变',
+      '把电容串联/并联公式与电阻混淆',
+      '认为插入电介质一定改变 \\(Q\\)（孤立时 \\(Q\\) 不变）',
     ],
     examples: [
       {
-        title: '例 1',
-        prompt: '原边 100 匝、120 V；副边 500 匝。求副边电压（理想）。',
+        title: '例 1 · 平行板',
+        prompt: '\\(A=0.01\\,\\mathrm{m^2}\\)、\\(d=1\\,\\mathrm{mm}\\)、真空，求 \\(C\\)。',
         steps: [
-          '\\(\\dfrac{V_s}{120}=\\dfrac{500}{100}=5\\Rightarrow V_s=600\\,\\mathrm{V}\\)。',
+          '\\(C=\\varepsilon_0 A/d=8.85\\times10^{-12}\\cdot0.01/10^{-3}\\)。',
+          '\\(C\\approx8.85\\times10^{-11}\\,\\mathrm{F}=88.5\\,\\mathrm{pF}\\)。',
         ],
-        solution: '\\(600\\,\\mathrm{V}\\)。',
-        solutionLatex: 'V_s=600\\,\\mathrm{V}',
+        solution: '约 \\(88.5\\,\\mathrm{pF}\\)。',
+        solutionLatex: 'C\\approx88.5\\,\\mathrm{pF}',
       },
       {
-        title: '例 2 · 电流',
-        prompt: '上例若原边电流 2 A，求副边电流（理想）。',
+        title: '例 2 · 储能',
+        prompt: '\\(C=0.1\\,\\mu\\mathrm{F}\\)，\\(V=100\\,\\mathrm{V}\\)，求 \\(Q\\) 与 \\(U\\)。',
         steps: [
-          '\\(120\\cdot 2=600\\cdot I_s\\Rightarrow I_s=\\dfrac{240}{600}=0.4\\,\\mathrm{A}\\)。',
+          '\\(Q=CV=10^{-7}\\cdot100=10^{-5}\\,\\mathrm{C}=10\\,\\mu\\mathrm{C}\\)。',
+          '\\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}\\cdot10^{-7}\\cdot10^{4}=5\\times10^{-4}\\,\\mathrm{J}\\)。',
         ],
-        solution: '\\(0.4\\,\\mathrm{A}\\)。',
-        solutionLatex: 'I_s=0.4\\,\\mathrm{A}',
+        solution: '\\(Q=10\\,\\mu\\mathrm{C}\\)，\\(U=0.5\\,\\mathrm{mJ}\\)。',
       },
       {
-        title: '例 3 · 输电',
-        prompt: '为何远距离输电用高压？',
+        title: '例 3 · 插入介质',
+        prompt: '孤立带电电容器插入 \\(\\kappa=2\\) 的介质，\\(Q\\)、\\(C\\)、\\(V\\)、\\(U\\) 如何变？',
         steps: [
-          '线损 \\(P_{\\mathrm{loss}}=I^{2}R\\)。',
-          '升压后同功率下电流变小，损耗显著下降。',
+          '孤立 → \\(Q\\) 不变。',
+          '\\(C\\) 变为 \\(2C\\)。',
+          '\\(V=Q/C\\) 变为 \\(V/2\\)。',
+          '\\(U=Q^{2}/(2C)\\) 变为 \\(U/2\\)。',
         ],
-        solution: '高压 → 低电流 → 低 \\(I^{2}R\\) 损耗。',
+        solution: '\\(Q\\) 不变，\\(C\\times2\\)，\\(V\\div2\\)，\\(U\\div2\\)。',
       },
     ],
-    examTips: ['Physics C E&M CED：电磁感应与交流电路相关目标；变压器常与法拉第定律联考', '先写匝数比再写功率守恒'],
+    examTips: ['CED Unit 10：导体、电容、电介质', '先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）”', '能量变化可用 \\(U=Q^{2}/(2C)\\) 或 \\(\\dfrac{1}{2}CV^{2}\\) 判断'],
     related: [
-      { subject: 'em', chapterId: 'em-u10', code: '10.1', title: '法拉第定律', relation: '先修' },
-      { subject: 'em', chapterId: 'em-u10', code: '10.2', title: '楞次定律', relation: '相关' },
-      { subject: 'em', chapterId: 'em-u11', code: '11.1', title: '交流电路入门', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
+      { subject: 'em', chapterId: 'em-u10', code: '10.4', title: '电介质', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.8', title: 'RC 电路', relation: '应用' },
     ],
-    development: ['磁通联动', '电压比', '功率守恒与电流比', '输电应用'],
-    checks: ['匝数比 1:10，电压如何变？电流如何变？', '为何直流马达前的稳压不是靠变压器？'],
-    summary: '理想变压器：电压比等于匝数比；功率守恒决定电流反比。',
+    development: ['电容定义', '平行板公式', '电介质与 \\(\\kappa\\)', '储能与连接'],
+    checks: ['\\(C\\) 由哪些因素决定？', '孤立电容器插入电介质后 \\(Q\\)、\\(V\\)、\\(U\\) 如何变？'],
+    summary: '电容描述给定电压下的储电荷能力，由极板几何与电介质决定。',
   },
 
-  'em/em-u8/8.1': {
+  'em/em-u11/11.1': {
     enrichedAt: 'batch1',
     definition: '电流是电荷的定向流动。平均电流\n\\[\nI_{\\mathrm{avg}}=\\dfrac{\\Delta Q}{\\Delta t},\\qquad I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}.\n\\]\n单位：安培 \\(\\mathrm{A}=\\mathrm{C/s}\\)。约定正电流方向与正电荷运动方向相同。',
     intuition: '像水流过管道；单位时间流过截面的电荷量就是电流。',
@@ -555,16 +559,16 @@ export const ENRICHMENTS = {
     ],
     examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\mathrm{d}Q/\\mathrm{d}t\\) 与微观式', '单位换算：mA、μA'],
     related: [
-      { subject: 'em', chapterId: 'em-u8', code: '8.2', title: '电阻与欧姆定律', relation: '后续' },
-      { subject: 'em', chapterId: 'em-u7', code: '7.1', title: '电势', relation: '先修场概念' },
-      { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '基尔霍夫', relation: '电路' },
+      { subject: 'em', chapterId: 'em-u8', code: '8.1', title: '电荷与力', relation: '先修' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.2', title: '简单电路', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.3', title: '电阻与欧姆定律', relation: '相关' },
     ],
     development: ['宏观定义', '微观漂移', '方向约定', '进入欧姆定律'],
     checks: ['1 mA 等于多少 C/s？', '为何灯几乎“立刻”亮而电子漂移很慢？'],
     summary: '电流是电荷的时间变化率；微观上由漂移速度决定。',
   },
 
-  'bio/bio-u3/3.4': {
+  'bio/bio-u3/3.1': {
     enrichedAt: 'batch1',
     definition: '酶是生物催化剂（多数为蛋白质，少数为核酶），通过降低活化能 \\(E_a\\) 加快反应速率，但不改变 \\(\\Delta G\\) 与平衡点。活性位点与底物特异性结合形成酶–底物复合物。',
     intuition: '酶像精确模具：把底物摆成易反应的取向，降低“翻山”所需能量。',
@@ -613,9 +617,9 @@ export const ENRICHMENTS = {
     ],
     examTips: ['AP Bio CED Unit 3：酶与能量；会读反应坐标图（有/无酶）', '实验设计：温度、pH、底物浓度曲线'],
     related: [
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.1', title: '酶结构', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '环境对酶的影响', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.6', title: '细胞呼吸导论', relation: '应用' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.6', title: '酶结构与功能', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.2', title: '环境影响酶', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '细胞呼吸', relation: '应用' },
     ],
     development: ['催化剂概念', '活性位点', '环境因素', '抑制剂'],
     checks: ['酶改变的是 \\(E_a\\) 还是 \\(\\Delta G\\)？', '画出有酶与无酶的反应坐标图'],
@@ -669,7 +673,7 @@ export const ENRICHMENTS = {
     summary: '减数分裂把染色体数减半并制造遗传多样的配子。',
   },
 
-  'bio/bio-u4/4.7': {
+  'bio/bio-u4/4.6': {
     enrichedAt: 'batch1',
     definition: '细胞周期检查点（尤其 G1、G2、M）确保 DNA 完好、复制完成、纺锤体正确附着后才继续分裂。肿瘤抑制基因（如 p53）与原癌基因失衡可导致失控增殖。',
     intuition: '检查点是细胞分裂的“安检门”；失灵则可能癌变。',
@@ -709,9 +713,9 @@ export const ENRICHMENTS = {
     ],
     examTips: ['CED Unit 4：细胞沟通与周期；会用实验/图解释检查点', '联系癌症但不需临床细节'],
     related: [
-      { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '有丝分裂', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u4', code: '4.5', title: '信号通路', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 结构', relation: '损伤修复联系' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.5', title: '细胞周期', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.7', title: '有丝分裂', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '损伤修复联系' },
     ],
     development: ['周期阶段', '检查点', 'CDK', '癌症联系'],
     checks: ['三大检查点名称？', 'p53 属于哪类基因产物？'],
@@ -771,7 +775,7 @@ export const ENRICHMENTS = {
     summary: 'DNA 半保留复制：模板配对、\\(5\'\\to 3\'\\) 合成、滞后链分段。',
   },
 
-  'bio/bio-u1/1.5': {
+  'bio/bio-u1/1.1': {
     enrichedAt: 'batch1',
     definition: '水的极性与氢键赋予其高比热、高汽化热、内聚/黏附、表面张力及作为溶剂的能力，使水成为生命的介质。',
     intuition: '水分子像小磁铁（正负端），彼此拉扯形成氢键网络。',
@@ -808,9 +812,9 @@ export const ENRICHMENTS = {
     ],
     examTips: ['CED Unit 1：化学与水；会用氢键解释性质', 'FRQ 常要求“结构→性质→功能”链条'],
     related: [
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.1', title: '元素与键', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.4', title: '生物大分子', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞结构', relation: '应用环境' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.2', title: '元素与大分子', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.7', title: '渗透与水势', relation: '应用' },
     ],
     development: ['极性', '氢键', '宏观性质', '生态/生理意义'],
     checks: ['氢键是分子内还是分子间？', '列出水的三项关键性质及意义'],

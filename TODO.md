@@ -31,6 +31,18 @@
    - 修复：手柄缩至 0.11，改取两端知识点的单元色混色；点击热区 1.4 → 0.62，减少误触
    - 抽检 bio/math/mech/em 浅色 + bio 深色：灰色节点消失，关系点仍可辨识/点击
 
+7. **全站 Playwright bug sweep**
+   - 新增 `scripts/build-routes.mjs`（481 routes）与 `scripts/serve-dev.py`（keep-alive + backlog 256）
+   - `SWEEP_CONCURRENCY=8 node scripts/bug-sweep.mjs full`：481 routes × 3 viewports × 2 themes，**0 issue**
+   - 报告：`audit/bug-sweep.json` / `audit/bug-sweep.md`
+   - 注意：`python3 -m http.server` 在 6+ 并发下会出现 `ERR_CONNECTION_RESET`，属测试服问题，不是页面 bug
+
+8. **Enrichment 映射修复 + batch2 起步**
+   - batch1 修正 7 处 key 错位：bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1；电容器 10.3 内容重写
+   - 同步修正相关链接（酶、水、细胞周期、功–能、牛顿第三、电流）
+   - `data/enrichments/batch2.js` 新增 3 条：P2.5 酶、4.4 反馈、6.4 翻译
+   - 验证：17 条 enrichment 的 key/related 全部命中；16 个 topic 页 0 error、0 KaTeX error
+
 ### 已推送 SHA（截至收工）
 
 | 仓库 | SHA | 说明 |
@@ -45,18 +57,18 @@
 
 ## 未完成与下一步
 
-### 1. 全站 Playwright bug sweep（优先）
-- **状态**：`scripts/bug-sweep-full.py` 已写好；今日跑到约 **120/442 × 6 workers ≈ 27%**（watch=5s，issues=0），收工时已停止，**未写出最终报告**。
-- **下一步**：
-  1. `python3 -m http.server 8765`（或现有静态服）
-  2. `SWEEP_WORKERS=6 nohup python3 scripts/bug-sweep-full.py > /tmp/full-sweep.log 2>&1 &`
-  3. 跑完后确认 `audit/bug-sweep.json` + **`audit/bug-sweep.md`**
-  4. 修严重项 → 再全量/抽检 → commit/push
-- **注意**：旧的 `audit/bug-sweep.json`（21:21）是更早短扫，勿当本次全量结果。
+### 1. 全站 Playwright bug sweep（✅ 已完成 2026-11-05）
+- **结果**：481 routes × 3 viewports × 2 themes（2886 jobs），**0 issue**；报告见 `audit/bug-sweep.json` / `audit/bug-sweep.md`。
+- **复跑步骤**：
+  1. `node scripts/build-routes.mjs`
+  2. `python3 scripts/serve-dev.py . 8765`
+  3. `SWEEP_CONCURRENCY=8 node scripts/bug-sweep.mjs full`
+- **注意**：不要用默认 `python3 -m http.server` 跑高并发 sweep，其 backlog=5 会导致 `ERR_CONNECTION_RESET` 假阳性。
 
 ### 2. 内容 enrichment（batch 续写）
-- **状态**：`data/enrichments/batch1.js` 约 14 个知识点；`batch2.js` 仍是空占位。
+- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 3 条（P2.5 酶、4.4 反馈、6.4 翻译）。
 - **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（大量 bio 仍 ~56–59 词），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
+- **注意**：`audit/topic-depth.json` 当前缺失，需先从 `data/*/*.js` 重新生成或从旧工作区取回。
 
 ### 3. 数学练习（可选加深）
 - **状态**：单元族模板已替换污染；题干仍有模板重复（同族内旋转），非跨单元错误拷贝。
@@ -82,8 +94,8 @@
 
 ## 已知问题
 
-- **全量 5s sweep 未完成** → 无权威 `bug-sweep.md`；潜在溢出/死链/控件问题未清点。
-- **enrichment 覆盖仍薄**：多数 topic 仍短正文；batch1 未覆盖全部最薄项。
+- ~~**全量 5s sweep 未完成**~~ → 已完成：481 routes × 3 viewports × 2 themes，0 issue（`audit/bug-sweep.md`）。
+- **enrichment 覆盖仍薄**：batch2 仅 3 条；多数 bio topic 仍为模板正文，需继续按 CED 续写。
 - **math practice**：同族题干循环复用，深度仍不如手写题库。
 - **web 仓**：本地可能有未跟踪的 `desktop/`、旧 `verify-*.py`（勿误提交无关大文件）。
 - **本地 `science-viz` 无 remote**：以 web/app 的 GitHub 为准。
@@ -98,8 +110,10 @@
 | `audit/figure-preview-bio-math.html` | bio/math 图 Playwright 预览页 |
 | `audit/figure-coverage-physics.md` | 物理图覆盖 |
 | `audit/topic-depth.json` | 340 topics 深度（enrichment 排序） |
-| `audit/bug-sweep.json` | 上次短扫（非今日全量） |
-| `audit/bug-sweep.md` | **待全量 sweep 生成** |
+| `audit/bug-sweep.json` | 全量 sweep 原始结果（0 issue） |
+| `audit/bug-sweep.md` | 全量 sweep 可读报告 |
+| `scripts/build-routes.mjs` | 生成 481 条全站路由（`/tmp/routes.json`） |
+| `scripts/serve-dev.py` | 高并发本地静态服（keep-alive + backlog 256） |
 | `/workspace/audit-figures-coding2.md` | 物理 figure-audit 原报告（工作区） |
 | `/workspace/audit-coding2.md` | 内容准确度审计（E latex 等，已修过一批） |
 | `data/enrichments/batch1.js` / `batch2.js` |  enrichment 覆盖层 |
@@ -110,9 +124,8 @@
 
 ## 建议明日顺序
 
-1. 跑完 bug-sweep-full → 写 `audit/bug-sweep.md` → 修严重项并 push  
-2. enrichment batch2（先 bio 最薄 CED 点）  
-3. 物理 figure-audit 页面复检勾选  
-4. Mac dist + Release  
+1. enrichment batch2（先 bio 最薄 CED 点；补齐 `audit/topic-depth.json`）  
+2. 物理 figure-audit 页面复检勾选  
+3. Mac dist + Release
 
 - [x] 思维导图灰色节点修复：关系中点已缩小并着单元色（2026-11-05）
