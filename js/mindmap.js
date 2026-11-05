@@ -3,14 +3,48 @@ import { el, clear } from './ui-shared.js';
 import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
 
-/** Soft per-unit palette (AP); prep stays muted grey. */
+/** Harmonious, distinguishable per-unit palette; prep muted. */
 const UNIT_COLORS_AP = [
-  0x5b6cff, 0x0f9f6e, 0xe06b3f, 0x7c5cff, 0x2a9d8f, 0xe9c46a, 0x457b9d, 0xf4a261, 0x6d597a, 0x4cc9f0,
+  0x4f6ef7, // indigo
+  0x0f9f6e, // green
+  0xe06b3f, // coral
+  0x8b5cf6, // violet
+  0x0891b2, // cyan
+  0xd4a017, // gold
+  0xdb2777, // rose
+  0x65a30d, // lime
+  0xea580c, // orange
+  0x2563eb, // blue
+  0x7c3aed, // purple
+  0x0d9488, // teal
 ];
 const PREP_COLOR = 0x8a8a84;
 const EDGE_DIM = 0xc4c2bb;
-const EDGE_HOT = 0x5b6cff;
+const EDGE_HOT = 0x4f6ef7;
 const SELECT_COLOR = 0x8b97ff;
+
+function hashStr(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function mulberry32(a) {
+  return function () {
+    let t = (a += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function unitColor(unitIndex, unitColorMap) {
+  if (unitIndex == null || unitIndex < 0) return PREP_COLOR;
+  const slot = unitColorMap?.get(unitIndex);
+  const i = slot != null ? slot : unitIndex;
+  return UNIT_COLORS_AP[i % UNIT_COLORS_AP.length];
+}
 
 function cssColor(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -138,61 +172,159 @@ export async function renderMindMap(main, subject) {
     if (!depthMap.has(n.id)) depthMap.set(n.id, n.layer === 'prep' ? 0 : 2);
     maxDepth = Math.max(maxDepth, depthMap.get(n.id));
   }
-  // Group by depth shell; within shell, sector by unitIndex; Fibonacci sphere per shell
-  const shells = new Map();
+  // Organic force-directed 3D layout: soft radial bias by depth, weak unit clusters, jitter.
+  // Sphere + inner(basic)/outer(advanced) are tendencies only — no Fibonacci/grid shells.
+  const unitIdsSorted = [...new Set(GRAPH.nodes.map((n) => n.unitIndex).filter((u) => u != null && u >= 0))].sort((a, b) => a - b);
+  const unitColorMap = new Map(unitIdsSorted.map((u, i) => [u, i]));
+  const unitLabel = new Map();
   for (const n of GRAPH.nodes) {
-    const d = depthMap.get(n.id);
-    if (!shells.has(d)) shells.set(d, []);
-    shells.get(d).push(n);
+    if (n.layer === 'prep') continue;
+    if (n.unitIndex != null && !unitLabel.has(n.unitIndex)) {
+      unitLabel.set(n.unitIndex, 'U' + (n.unitCode || n.unitIndex));
+    }
   }
-  function fibSphere(i, n) {
-    const phi = Math.acos(1 - (2 * (i + 0.5)) / n);
-    const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+
+  const R0 = 8;
+  const DR = 5.5;
+  const nodes = GRAPH.nodes.map((n) => {
+    const d = depthMap.get(n.id) || 0;
+    const rnd = mulberry32(hashStr(n.id + '|' + subject));
+    // random direction on sphere
+    const u = rnd() * 2 - 1;
+    const phi = rnd() * Math.PI * 2;
+    const rxy = Math.sqrt(Math.max(0, 1 - u * u));
+    let x = rxy * Math.cos(phi);
+    let y = u;
+    let z = rxy * Math.sin(phi);
+    // weak unit angular bias (soft cluster tendency, not hard sectors)
+    if (n.layer !== 'prep' && n.unitIndex != null) {
+      const slot = unitColorMap.get(n.unitIndex) || 0;
+      const ang = (slot / Math.max(1, unitIdsSorted.length)) * Math.PI * 2 + (rnd() - 0.5) * 0.9;
+      const elev = (rnd() - 0.5) * 0.7;
+      const bx = Math.cos(ang) * Math.cos(elev);
+      const by = Math.sin(elev);
+      const bz = Math.sin(ang) * Math.cos(elev);
+      const mix = 0.28;
+      x = x * (1 - mix) + bx * mix;
+      y = y * (1 - mix) + by * mix;
+      z = z * (1 - mix) + bz * mix;
+      const len0 = Math.hypot(x, y, z) || 1;
+      x /= len0; y /= len0; z /= len0;
+    }
+    const targetR = R0 + d * DR + (rnd() - 0.5) * DR * 0.85;
+    const j = 0.35 + rnd() * 0.4;
     return {
-      x: Math.sin(phi) * Math.cos(theta),
-      y: Math.cos(phi),
-      z: Math.sin(phi) * Math.sin(theta),
+      ...n,
+      depth: d,
+      targetR,
+      x: x * targetR * j,
+      y: y * targetR * j,
+      z: z * targetR * j,
+      vx: 0,
+      vy: 0,
+      vz: 0,
     };
+  });
+
+  // Offline force relaxation
+  {
+    const N = nodes.length;
+    const idx = new Map(nodes.map((n, i) => [n.id, i]));
+    const links = edgesRaw
+      .map((e) => ({ a: idx.get(e.source), b: idx.get(e.target) }))
+      .filter((l) => l.a != null && l.b != null);
+    const iterations = Math.min(420, 180 + N * 1.2);
+    for (let it = 0; it < iterations; it++) {
+      const cool = 1 - it / iterations;
+      // pairwise repulsion (Barnes-Hut-lite: skip far pairs every other iter for speed)
+      const step = it % 2 === 0 ? 1 : 2;
+      for (let i = 0; i < N; i += step) {
+        const a = nodes[i];
+        for (let j = i + 1; j < N; j += step) {
+          const b = nodes[j];
+          let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+          let dist2 = dx * dx + dy * dy + dz * dz + 0.05;
+          const dist = Math.sqrt(dist2);
+          const force = (18 * cool) / dist2;
+          dx = (dx / dist) * force;
+          dy = (dy / dist) * force;
+          dz = (dz / dist) * force;
+          a.vx += dx; a.vy += dy; a.vz += dz;
+          b.vx -= dx; b.vy -= dy; b.vz -= dz;
+        }
+      }
+      // edge springs
+      for (const l of links) {
+        const a = nodes[l.a], b = nodes[l.b];
+        let dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
+        const dist = Math.hypot(dx, dy, dz) || 0.01;
+        const ideal = 4.2 + Math.abs(a.depth - b.depth) * 0.9;
+        const f = (dist - ideal) * 0.045 * cool;
+        dx = (dx / dist) * f;
+        dy = (dy / dist) * f;
+        dz = (dz / dist) * f;
+        a.vx += dx; a.vy += dy; a.vz += dz;
+        b.vx -= dx; b.vy -= dy; b.vz -= dz;
+      }
+      // soft radial bias + weak unit clustering + centering
+      const unitAcc = new Map(); // sum positions per unit
+      for (const n of nodes) {
+        if (n.layer === 'prep') continue;
+        const u = n.unitIndex;
+        if (!unitAcc.has(u)) unitAcc.set(u, { x: 0, y: 0, z: 0, c: 0 });
+        const s = unitAcc.get(u);
+        s.x += n.x; s.y += n.y; s.z += n.z; s.c += 1;
+      }
+      for (const n of nodes) {
+        const r = Math.hypot(n.x, n.y, n.z) || 0.01;
+        const tr = n.targetR;
+        const radial = (tr - r) * 0.028 * cool;
+        n.vx += (n.x / r) * radial;
+        n.vy += (n.y / r) * radial;
+        n.vz += (n.z / r) * radial;
+        // gentle pull to origin so cloud stays framed
+        n.vx -= n.x * 0.002;
+        n.vy -= n.y * 0.002;
+        n.vz -= n.z * 0.002;
+        if (n.layer !== 'prep' && unitAcc.has(n.unitIndex)) {
+          const s = unitAcc.get(n.unitIndex);
+          const cx = s.x / s.c, cy = s.y / s.c, cz = s.z / s.c;
+          n.vx += (cx - n.x) * 0.012 * cool;
+          n.vy += (cy - n.y) * 0.012 * cool;
+          n.vz += (cz - n.z) * 0.012 * cool;
+        }
+        // integrate
+        n.vx *= 0.72;
+        n.vy *= 0.72;
+        n.vz *= 0.72;
+        n.x += n.vx;
+        n.y += n.vy;
+        n.z += n.vz;
+      }
+    }
+    // store targets for settle animation
+    for (const n of nodes) {
+      n.tx = n.x;
+      n.ty = n.y;
+      n.tz = n.z;
+      n.vx = n.vy = n.vz = 0;
+    }
   }
-  const SHELL_R0 = 10;
-  const SHELL_DR = 7;
-  const nodes = [];
-  for (const [d, list] of [...shells.entries()].sort((a, b) => a[0] - b[0])) {
-    // sort by unit then topic for stable sectors
-    list.sort((a, b) => (a.unitIndex - b.unitIndex) || (a.topicIndex - b.topicIndex));
-    const R = SHELL_R0 + d * SHELL_DR;
-    const unitIds = [...new Set(list.map((n) => n.unitIndex))];
-    list.forEach((n, i) => {
-      // blend Fibonacci with unit sector bias
-      const fib = fibSphere(i, list.length);
-      const sector = unitIds.indexOf(n.unitIndex);
-      const sectorAngle = (sector / Math.max(1, unitIds.length)) * Math.PI * 2;
-      const mix = 0.35;
-      const bx = Math.cos(sectorAngle) * Math.sqrt(Math.max(0, 1 - fib.y * fib.y));
-      const bz = Math.sin(sectorAngle) * Math.sqrt(Math.max(0, 1 - fib.y * fib.y));
-      const x = (fib.x * (1 - mix) + bx * mix) * R;
-      const y = fib.y * R;
-      const z = (fib.z * (1 - mix) + bz * mix) * R;
-      // normalize to exact shell radius
-      const len = Math.hypot(x, y, z) || 1;
-      nodes.push({
-        ...n,
-        depth: d,
-        shellR: R,
-        x: (x / len) * R,
-        y: (y / len) * R,
-        z: (z / len) * R,
-        tx: (x / len) * R,
-        ty: (y / len) * R,
-        tz: (z / len) * R,
-        vx: 0,
-        vy: 0,
-        vz: 0,
-      });
-    });
-  }
+
   const byId = new Map(nodes.map((n) => [n.id, n]));
   const edges = edgesRaw;
+  if (unitIdsSorted.length) {
+    const legend = el('div', { className: 'map-legend', 'aria-label': '单元配色' });
+    for (const u of unitIdsSorted) {
+      const item = el('span', { className: 'map-legend-item' });
+      const sw = el('span', { className: 'map-legend-swatch', 'aria-hidden': 'true' });
+      sw.style.background = '#' + unitColor(u, unitColorMap).toString(16).padStart(6, '0');
+      item.append(sw, el('span', { text: String(unitLabel.get(u) || u) }));
+      legend.appendChild(item);
+    }
+    toolbar.appendChild(legend);
+  }
+
   let revealDepth = maxDepth; // show all after unfold
   let unfoldT = 0; // 0..1 animation
   let RELATIONS = {};
@@ -229,7 +361,7 @@ export async function renderMindMap(main, subject) {
   const meshes = new Map();
   const geo = new THREE.SphereGeometry(0.32, 24, 24);
   for (const n of nodes) {
-    const color = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
+    const color = n.layer === 'prep' ? PREP_COLOR : unitColor(n.unitIndex, unitColorMap);
     const mat = new THREE.MeshStandardMaterial({
       color,
       roughness: 0.38,
@@ -512,7 +644,7 @@ export async function renderMindMap(main, subject) {
     clearBtn.hidden = !has;
     for (const [id, mesh] of meshes) {
       const n = mesh.userData;
-      const base = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
+      const base = n.layer === 'prep' ? PREP_COLOR : unitColor(n.unitIndex, unitColorMap);
       if (!has) {
         mesh.material.color.setHex(base);
         mesh.material.opacity = n.layer === 'prep' ? 0.75 : 0.95;
@@ -855,7 +987,7 @@ export async function renderMindMap(main, subject) {
         applyReveal();
       }
     }
-    // Hold spherical layout; tiny breathe only
+    // Settle toward force-layout targets; tiny organic breathe
     for (const n of nodes) {
       n.x += (n.tx - n.x) * 0.12;
       n.y += (n.ty - n.y) * 0.12;

@@ -84,3 +84,10 @@
 - CSS map radial glow flattened to solid canvas background
 - Re-verified: edge handles, Shift multi-select, zero errors → `audit/map-only-qa.json`
 - Reshot: `screenshots/final/map-{bio,math,mech,em}.png`
+
+## Map layout correction (organic)
+
+- Replaced Fibonacci/shell-normalized layout with offline **force-directed 3D** (repulsion + edge springs + soft radial depth bias + weak unit clustering + seeded jitter)
+- Per-unit distinct colors + compact legend; prep muted grey
+- Still **points + lines only** (no shell rings); edge midpoint handles retained
+- Screenshots: `screenshots/final/map-{bio,math,mech,em}.png`, `map-edge-relation.png`

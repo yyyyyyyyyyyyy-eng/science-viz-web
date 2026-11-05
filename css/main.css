@@ -2442,3 +2442,29 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Map unit legend — minimal, no cards */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  align-items: center;
+  max-width: 100%;
+  margin-left: auto;
+  padding: 0.15rem 0;
+}
+.map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.map-legend-swatch {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  flex: 0 0 auto;
+}
