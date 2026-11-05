@@ -931,4 +931,158 @@ export const ENRICHMENTS = {
     checks: ['为什么带电离子难以直接穿过脂双层？', '水通道蛋白的作用是什么？'],
     summary: '膜通透性由分子性质与膜组成共同决定；小非极性分子易通过，带电/大分子需蛋白。',
   },
+
+  'bio/bio-u2/2.6': {
+    enrichedAt: 'batch2',
+    definition: '促进扩散是极性或带电分子在膜蛋白帮助下顺浓度梯度跨膜的过程，不直接消耗 ATP。通道蛋白形成孔道，载体蛋白通过构象变化搬运分子；该过程具有特异性与饱和性。',
+    intuition: '促进扩散像走专用闸机：不用付电费（ATP），但必须走对应的门，而且门一次只能过一个人。',
+    intuitionDetailed: '葡萄糖经 GLUT 载体顺梯度进入细胞；离子经通道蛋白快速通过；水经水通道蛋白。载体数量有限，因此速率随浓度升高而趋于饱和，这一点与简单扩散不同。',
+    formulas: [
+      { latex: 'v=\\dfrac{V_{\\max}[S]}{K_m+[S]}', note: '载体介导运输的饱和动力学（定性）。' },
+    ],
+    conditions: ['顺浓度或电化学梯度', '需要特异性膜蛋白', '不直接消耗 ATP（但可偶联其他梯度）'],
+    keyPoints: ['通道 vs 载体', '特异性与饱和性', '不耗能但依赖蛋白', '与主动运输的区别是方向与能量'],
+    misconceptions: [
+      '认为促进扩散需要 ATP',
+      '认为所有分子共用同一通道',
+      '认为速率会随浓度无限增加',
+      '把通道与载体机制混为一谈',
+    ],
+    examples: [
+      {
+        title: '例 1 · 葡萄糖',
+        prompt: '葡萄糖进入红细胞属于哪种运输？',
+        steps: ['顺浓度梯度。', '经 GLUT 载体蛋白。', '不消耗 ATP。'],
+        solution: '促进扩散。',
+      },
+      {
+        title: '例 2 · 饱和',
+        prompt: '为什么促进扩散速率在高浓度下趋于平台？',
+        steps: ['膜上载体数量有限。', '载体全部被占用后无法继续加速。'],
+        solution: '载体饱和。',
+      },
+      {
+        title: '例 3 · 通道',
+        prompt: '离子通道与载体蛋白有何不同？',
+        steps: ['通道形成亲水孔道，开放时离子快速通过。', '载体需结合底物并发生构象变化，速率较慢。'],
+        solution: '通道快、载体慢且具饱和性。',
+      },
+    ],
+    examTips: [
+      'CED Unit 2：膜运输',
+      '看饱和曲线判断是否由蛋白介导',
+      'FRQ 常考：比较简单扩散、促进扩散、主动运输',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.4', title: '膜通透性', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.5', title: '膜运输', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.8', title: '主动运输', relation: '对比' },
+    ],
+    development: ['通道与载体', '饱和动力学', '特异性', '与主动运输对比'],
+    checks: ['促进扩散为什么不耗 ATP？', '饱和曲线说明什么？'],
+    summary: '促进扩散借助膜蛋白顺梯度运输，不耗能，具有特异性与饱和性。',
+  },
+
+  'bio/bio-u3/3.3': {
+    enrichedAt: 'batch2',
+    definition: '细胞能量代谢通过 ATP 的合成与水解来转移能量。ATP 是通用能量货币；放能反应与吸能反应通过偶联完成，酶降低活化能，电子载体（NAD⁺/FAD）在氧化还原反应中传递电子。',
+    intuition: 'ATP 像可充电电池：放能反应给它充电，吸能反应用它做功，用完变回 ADP 再充。',
+    intuitionDetailed: 'ATP 水解为 ADP + Pi 释放自由能，可驱动主动运输、肌肉收缩与合成反应；细胞呼吸与光合作用通过电子传递链建立质子梯度，再由 ATP 合酶把 ADP 磷酸化。',
+    formulas: [
+      { latex: '\\text{ATP}+H_2O\\to\\text{ADP}+P_i+\\text{能量}', note: 'ATP 水解。' },
+      { latex: '\\Delta G=\\Delta H-T\\Delta S', note: '判断反应自发性的热力学关系。' },
+    ],
+    conditions: ['ATP 水解与吸能反应偶联', '酶不改变 ΔG，只降低活化能', '氧化还原反应需要电子载体'],
+    keyPoints: ['ATP 是能量货币，不是长期储能分子', '放能/吸能反应通过偶联匹配', 'NAD⁺/FAD 传递电子', '酶降低活化能', '代谢分分解代谢与合成代谢'],
+    misconceptions: [
+      '认为 ATP 储存大量长期能量',
+      '认为酶提供能量',
+      '把 ΔG 与活化能混为一谈',
+      '认为所有反应都自发',
+    ],
+    examples: [
+      {
+        title: '例 1 · 偶联',
+        prompt: '为什么 ATP 水解能驱动主动运输？',
+        steps: ['ATP 水解为放能反应。', '释放的自由能偶联到载体蛋白构象变化。', '逆梯度运输得以进行。'],
+        solution: '放能水解偶联吸能运输。',
+      },
+      {
+        title: '例 2 · 酶',
+        prompt: '酶如何影响反应的 ΔG 与速率？',
+        steps: ['酶降低活化能，加快速率。', '不改变反应物与产物自由能，故 ΔG 不变。'],
+        solution: '速率变，ΔG 不变。',
+      },
+      {
+        title: '例 3 · 电子载体',
+        prompt: 'NADH 在细胞呼吸中的作用是什么？',
+        steps: ['携带高能电子。', '把电子交给电子传递链，驱动质子泵与 ATP 合成。'],
+        solution: '传递电子到 ETC。',
+      },
+    ],
+    examTips: [
+      'CED Unit 3：细胞能量',
+      '区分 ΔG、活化能与 ATP 的角色',
+      'FRQ 常考：解释偶联反应与电子载体',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.1', title: '酶催化', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.4', title: '光合作用', relation: '相关' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '细胞呼吸', relation: '相关' },
+    ],
+    development: ['ATP 结构与水解', '偶联反应', '电子载体', '代谢类型'],
+    checks: ['ATP 与葡萄糖哪个更适合长期储能？', '酶改变 ΔG 吗？'],
+    summary: 'ATP 通过水解与合成偶联放能/吸能反应，电子载体连接氧化还原与 ATP 生产。',
+  },
+
+  'bio/bio-u4/4.1': {
+    enrichedAt: 'batch2',
+    definition: '细胞通讯是细胞通过信号分子与受体相互作用，把外界或邻近细胞的信息转化为细胞内反应的过程。按距离可分为自分泌、旁分泌、突触与内分泌信号。',
+    intuition: '细胞通讯像寄信：信号分子是信，受体是收件地址，只有地址匹配的细胞才会拆信并行动。',
+    intuitionDetailed: '配体与受体结合具有特异性；受体类型包括 G 蛋白偶联受体、受体酪氨酸激酶、离子通道型受体与胞内受体。结合后触发信号转导级联，最终改变基因表达、代谢或细胞行为。',
+    formulas: [
+      { latex: '\\text{配体}+\\text{受体}\\rightleftharpoons\\text{复合物}\\to\\text{细胞反应}', note: '通讯的基本步骤。' },
+    ],
+    conditions: ['需要信号分子、受体与下游转导通路', '受体分布决定哪些细胞能响应', '信号可被降解、回收或抑制'],
+    keyPoints: ['自分泌/旁分泌/突触/内分泌', '受体具有特异性', '信号转导常放大', '同一信号在不同细胞可产生不同反应', '信号终止同样重要'],
+    misconceptions: [
+      '认为信号分子只能作用于邻近细胞',
+      '认为所有细胞对同一信号反应相同',
+      '忽略受体特异性',
+      '认为信号一旦启动不会停止',
+    ],
+    examples: [
+      {
+        title: '例 1 · 类型',
+        prompt: '胰岛素通过血液作用于全身细胞，属于哪种信号？',
+        steps: ['信号经血液长距离运输。', '作用于远处靶细胞。'],
+        solution: '内分泌信号。',
+      },
+      {
+        title: '例 2 · 突触',
+        prompt: '神经元释放神经递质属于哪种通讯？',
+        steps: ['信号跨越突触间隙。', '作用于突触后膜受体。'],
+        solution: '突触信号（局部、快速）。',
+      },
+      {
+        title: '例 3 · 特异性',
+        prompt: '为什么肾上腺素只对某些细胞产生反应？',
+        steps: ['靶细胞表达相应受体。', '无受体的细胞不响应。'],
+        solution: '受体表达决定靶细胞特异性。',
+      },
+    ],
+    examTips: [
+      'CED Unit 4：细胞通讯',
+      '区分四种信号距离类型',
+      'FRQ 常考：配体-受体特异性与信号放大',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号导引导论', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.3', title: '信号转导', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈', relation: '应用' },
+    ],
+    development: ['信号类型', '受体类型', '信号转导', '信号终止'],
+    checks: ['四种细胞通讯类型如何区分？', '为什么同一信号对不同细胞效果不同？'],
+    summary: '细胞通讯依赖配体-受体特异性结合，按距离分为自分泌、旁分泌、突触与内分泌。',
+  },
 };

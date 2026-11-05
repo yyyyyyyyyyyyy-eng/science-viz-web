@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T17:09:12.070Z",
+  "generatedAt": "2026-11-05T17:10:57.656Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 32,
+  "enrichedCount": 35,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -462,7 +462,7 @@
       "titleZh": "促进扩散",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u3/3.3",
@@ -472,7 +472,7 @@
       "titleZh": "细胞能量",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u3/3.5",
@@ -492,7 +492,7 @@
       "titleZh": "细胞通讯",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u4/4.3",
