@@ -11,6 +11,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Import syllabus via dynamic — it's ESM
 const { ALL_UNITS } = await import(join(ROOT, 'modules/syllabus.js'));
+const { mathStimulus, mathSetQuestion, mathStandalone } = await import(join(ROOT, 'scripts/math-practice-templates.mjs'));
 
 const SOURCES = {
   openstax_bio: {
@@ -199,63 +200,14 @@ function makeStimulus(subject, unit, topic, s) {
     }
     return base;
   }
-  // math
-  return {
-    title: `${title} · 多表征`,
-    text: '下表给出 f 在若干点的值；图像为同一函数的示意。用数值、图像与符号三种方式作答。',
-    table: {
-      headers: ['x', 'f(x)'],
-      rows: [['0', '1'], ['1', '2'], ['2', '5'], ['3', '10']],
-    },
-    graph: { points: [[0, 1], [1, 2], [2, 5], [3, 10]], xLabel: 'x', yLabel: 'f' },
-    ...srcLine('openstax_calc', 'Multi-rep style aligned with OpenStax Calculus pedagogy; data original.'),
-  };
+  // math — unit-family-specific (no cross-unit copies)
+  return mathStimulus(unit, topic, s, srcLine);
 }
 
 function makeSetQuestion(subject, unit, topics, qid, j, stim, s) {
   const t = topics[j % Math.max(1, topics.length)] || { titleZh: unit.titleZh };
   if (subject === 'math') {
-    if (j === 0) {
-      return {
-        id: qid,
-        title: `估计变化率`,
-        type: 'frq',
-        difficulty: diff(j),
-        calculator: true,
-        stem: `根据表中数据，估计 f 在 x=1 与 x=2 之间的平均变化率。`,
-        check: 'numeric',
-        expected: 3,
-        tol: 0.05,
-        answerLatex: '3',
-        solution: '平均变化率 (f(2)-f(1))/(2-1)=(5-2)/1=3。',
-        ...srcLine('openstax_calc'),
-      };
-    }
-    if (j === 1) {
-      return {
-        id: qid,
-        title: '符号极限',
-        type: 'frq',
-        difficulty: diff(j),
-        calculator: false,
-        check: 'symbolic',
-        stemLatex: String.raw`\text{若 }f(x)=x^{2}+1\text{，化简 }\dfrac{f(x)-f(1)}{x-1}\ (x\neq 1)`,
-        expected: 'x+1',
-        answerLatex: 'x+1',
-        solution: '因式分解 (x-1)(x+1)/(x-1)=x+1。',
-        ...srcLine('openstax_calc'),
-      };
-    }
-    return {
-      id: qid,
-      title: '图像论证',
-      type: 'frq',
-      difficulty: '中',
-      stem: '说明图像上哪一段斜率最大，并与表中差分商对照。',
-      answer: 'x∈[2,3] 段差分商最大（约 5），与图像最陡段一致。',
-      solution: '多表征对齐是 AP Calc 核心技能。',
-      ...srcLine('original'),
-    };
+    return mathSetQuestion(unit, topics, qid, j, stim, s, srcLine);
   }
   if (subject === 'bio') {
     const prompts = [
@@ -333,47 +285,7 @@ function makeStandalone(subject, unit, topic, qid, i) {
   const title = topic.titleZh || unit.titleZh || '练习';
   const code = topic.code || '';
   if (subject === 'math') {
-    const gens = ['power', 'chain', 'product', 'limit', 'integral'];
-    const mode = i % 7;
-    if (mode < 5) {
-      return {
-        id: qid,
-        title: `${code} ${title} · 参数化`,
-        difficulty: diff(i),
-        generator: gens[mode],
-        calculator: mode === 3 ? false : i % 2 === 0,
-        ...srcLine('original'),
-      };
-    }
-    if (mode === 5) {
-      const n = 2 + (i % 4);
-      return {
-        id: qid,
-        title: `${code} 符号等价`,
-        type: 'frq',
-        difficulty: diff(i),
-        calculator: false,
-        check: 'symbolic',
-        stemLatex: String.raw`\text{化简 }\dfrac{x^{${n}}-1}{x-1}\ (x\neq 1)`,
-        expected: polyExpand(n),
-        answerLatex: polyExpandLatex(n),
-        solution: '几何级数求和或因式分解。',
-        ...srcLine('openstax_calc'),
-      };
-    }
-    return {
-      id: qid,
-      title: `${code} 多表征 FRQ`,
-      type: 'frq',
-      difficulty: diff(i),
-      calculator: true,
-      stem: `关于「${title}」：用图像、数值表与符号表达式各给一种合理表示，并说明瞬时与平均变化率的区别。`,
-      parts: [
-        { stem: '写出区间 [a,b] 上平均变化率。', type: 'frq', answerLatex: String.raw`\dfrac{f(b)-f(a)}{b-a}`, solution: '割线斜率。' },
-        { stem: '说明如何用极限得到瞬时变化率。', type: 'frq', answer: '令 h→0，差分商极限即 f′(a)。', solution: '定义。' },
-      ],
-      ...srcLine('original'),
-    };
+    return mathStandalone(unit, topic, qid, i, srcLine);
   }
 
   if (subject === 'bio') {
@@ -613,7 +525,9 @@ function polyExpandLatex(n) {
 
 // ——— Write banks ———
 const summary = { bySubject: {}, total: 0, banks: 0 };
+const ONLY = process.env.MATH_ONLY === '1' ? ['math'] : null;
 for (const [subject, units] of Object.entries(ALL_UNITS)) {
+  if (ONLY && !ONLY.includes(subject)) continue;
   summary.bySubject[subject] = { banks: 0, items: 0, ap: 0, prep: 0 };
   const dir = join(ROOT, 'data', subject, 'practice');
   mkdirSync(dir, { recursive: true });

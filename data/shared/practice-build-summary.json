@@ -1,30 +1,12 @@
 {
   "bySubject": {
-    "bio": {
-      "banks": 10,
-      "items": 556,
-      "ap": 476,
-      "prep": 80
-    },
     "math": {
       "banks": 15,
       "items": 898,
       "ap": 740,
       "prep": 158
-    },
-    "mech": {
-      "banks": 10,
-      "items": 402,
-      "ap": 300,
-      "prep": 102
-    },
-    "em": {
-      "banks": 7,
-      "items": 328,
-      "ap": 292,
-      "prep": 36
     }
   },
-  "total": 2184,
-  "banks": 42
+  "total": 898,
+  "banks": 15
 }
