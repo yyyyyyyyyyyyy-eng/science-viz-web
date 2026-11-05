@@ -1085,4 +1085,157 @@ export const ENRICHMENTS = {
     checks: ['四种细胞通讯类型如何区分？', '为什么同一信号对不同细胞效果不同？'],
     summary: '细胞通讯依赖配体-受体特异性结合，按距离分为自分泌、旁分泌、突触与内分泌。',
   },
+
+  'bio/bio-u4/4.3': {
+    enrichedAt: 'batch2',
+    definition: '信号转导是细胞把配体-受体结合事件转化为特定细胞反应的过程，通常包括接收、转导与响应三个环节。通路可放大信号、整合多路输入，并通过负反馈或降解终止。',
+    intuition: '信号转导像接力赛：受体接到信号后，把接力棒传给一串蛋白，最后交给效应器执行。',
+    intuitionDetailed: '常见机制包括蛋白磷酸化级联、第二信使（cAMP、Ca²⁺）、GTP 酶开关与支架蛋白组装。GPCR 激活 G 蛋白，RTK 自磷酸化后招募接头蛋白，胞内受体则直接调节基因表达。',
+    formulas: [
+      { latex: '\\text{信号}\\to\\text{受体}\\to\\text{转导级联}\\to\\text{效应器}\\to\\text{反应}', note: '信号转导的基本框架。' },
+    ],
+    conditions: ['需要特异性受体与下游通路', '信号可被放大，也可被终止', '不同细胞对同一信号的响应取决于受体与效应器'],
+    keyPoints: ['接收—转导—响应三步', '磷酸化级联可放大信号', '第二信使扩散放大', '负反馈与降解终止信号', '通路之间可交叉对话'],
+    misconceptions: [
+      '认为信号转导只有一步',
+      '认为信号放大等于信号无限持续',
+      '忽略信号终止机制',
+      '认为同一配体在所有细胞中产生同一反应',
+    ],
+    examples: [
+      {
+        title: '例 1 · 肾上腺素',
+        prompt: '肾上腺素如何促使肝细胞分解糖原？',
+        steps: ['肾上腺素结合膜受体。', '激活 G 蛋白 → 腺苷酸环化酶 → cAMP 升高。', '激活 PKA，促进糖原分解。'],
+        solution: 'GPCR–cAMP–PKA 级联。',
+      },
+      {
+        title: '例 2 · 放大',
+        prompt: '为什么少量激素能产生显著反应？',
+        steps: ['每个受体可激活多个 G 蛋白。', '每个酶产生许多 cAMP 分子。', '级联逐级放大。'],
+        solution: '酶促级联与第二信使放大信号。',
+      },
+      {
+        title: '例 3 · 终止',
+        prompt: '信号为什么必须被终止？',
+        steps: ['持续信号会导致过度反应。', '受体脱敏、磷酸二酯酶降解 cAMP、蛋白磷酸酶去磷酸化。'],
+        solution: '避免失控，恢复静息状态。',
+      },
+    ],
+    examTips: [
+      'CED Unit 4：信号转导',
+      'FRQ 常考：描述级联顺序与放大机制',
+      '区分膜受体与胞内受体',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.1', title: '细胞通讯', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号导引导论', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈', relation: '应用' },
+    ],
+    development: ['接收与受体', '转导级联', '第二信使与放大', '终止与整合'],
+    checks: ['信号转导的三个环节是什么？', '为什么信号放大需要终止机制？'],
+    summary: '信号转导把配体结合转化为细胞反应，通过级联放大并受负反馈与降解调控。',
+  },
+
+  'bio/bio-u4/4.5': {
+    enrichedAt: 'batch2',
+    definition: '细胞周期是细胞从一次分裂结束到下一次分裂结束的有序过程，包括间期（G1、S、G2）与分裂期（M）。周期受检查点与 cyclin–CDK 复合物调控。',
+    intuition: '细胞周期像工厂排班：G1 备料、S 复制 DNA、G2 质检、M 分装，每个关口都有检查员。',
+    intuitionDetailed: 'G1/S 检查点评估营养、DNA 损伤与生长信号；G2/M 检查点确认 DNA 复制完成且无损伤；纺锤体检查点确保染色体正确附着。cyclin 浓度周期性变化，与 CDK 结合后磷酸化靶蛋白，推动周期前进。',
+    formulas: [
+      { latex: '\\text{G1}\\to\\text{S}\\to\\text{G2}\\to\\text{M}', note: '细胞周期顺序。' },
+    ],
+    conditions: ['需要生长信号、营养与 DNA 完整性', '检查点失败可导致突变积累与癌症', '不同细胞类型周期长度差异很大'],
+    keyPoints: ['间期占大部分时间', 'S 期复制 DNA', 'cyclin–CDK 驱动周期', '检查点监控损伤与纺锤体', '终末分化细胞可退出周期（G0）'],
+    misconceptions: [
+      '认为 M 期最长（间期更长）',
+      '认为 DNA 复制发生在 G1',
+      '认为所有细胞都不断分裂',
+      '忽略检查点与癌症的关系',
+    ],
+    examples: [
+      {
+        title: '例 1 · 分期',
+        prompt: 'DNA 复制发生在哪个阶段？',
+        steps: ['S 期（synthesis）。', '复制后每条染色体含两条姐妹染色单体。'],
+        solution: 'S 期。',
+      },
+      {
+        title: '例 2 · 检查点',
+        prompt: 'G1/S 检查点主要检查什么？',
+        steps: ['细胞大小、营养、DNA 损伤。', '若条件不足，进入 G0 或修复。'],
+        solution: '生长条件与 DNA 完整性。',
+      },
+      {
+        title: '例 3 · 癌症',
+        prompt: '为什么 p53 失活会增加癌症风险？',
+        steps: ['p53 在 DNA 损伤时阻止周期或诱导凋亡。', '失活后损伤细胞继续分裂，突变积累。'],
+        solution: '检查点失效导致基因组不稳定。',
+      },
+    ],
+    examTips: [
+      'CED Unit 4：细胞周期',
+      '读图：cyclin 浓度与 CDK 活性',
+      'FRQ 常考：检查点功能与癌症',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '细胞周期调控', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.7', title: '有丝分裂', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂', relation: '对比' },
+    ],
+    development: ['间期', 'M 期', 'cyclin–CDK', '检查点与 G0'],
+    checks: ['S 期发生了什么？', '检查点失效为什么会导致癌症？'],
+    summary: '细胞周期按 G1→S→G2→M 推进，由 cyclin–CDK 与检查点精确调控。',
+  },
+
+  'bio/bio-u7/7.2': {
+    enrichedAt: 'batch2',
+    definition: '自然选择是种群中具有可遗传变异的个体因差异生存与繁殖，使有利等位基因频率逐代升高的过程。它作用于表型，改变种群而非个体，且不具定向性。',
+    intuition: '自然选择像环境设置的过滤器：适应当前环境的变异更容易留下后代，不适应者被筛掉。',
+    intuitionDetailed: '自然选择需要变异、遗传与差异繁殖成功率。选择压力可来自捕食、疾病、气候、配偶选择等。方向性选择、稳定化选择与分裂性选择是三种常见模式。',
+    formulas: [
+      { latex: '\\text{适应度}\\;w=\\dfrac{\\text{个体相对繁殖贡献}}{\\text{参考基因型}}', note: '适应度的相对定义。' },
+    ],
+    conditions: ['种群内存在可遗传变异', '变异影响生存或繁殖', '环境选择压力持续存在'],
+    keyPoints: ['作用于表型，改变种群基因频率', '不产生新变异，只筛选已有变异', '方向性/稳定化/分裂性选择', '性选择也是自然选择的一种', '适应是相对的、情境依赖的'],
+    misconceptions: [
+      '认为生物为了适应而主动突变',
+      '认为自然选择作用于个体以获得进化',
+      '认为进化总是向更复杂方向',
+      '把自然选择与人工选择混为一谈',
+    ],
+    examples: [
+      {
+        title: '例 1 · 抗生素',
+        prompt: '为什么抗生素滥用会加速耐药菌出现？',
+        steps: ['细菌种群中存在随机耐药变异。', '抗生素杀死敏感菌，耐药菌存活繁殖。', '耐药等位基因频率升高。'],
+        solution: '抗生素作为选择压力筛选耐药变异。',
+      },
+      {
+        title: '例 2 · 工业黑化',
+        prompt: '工业革命时期桦尺蛾深色型为何增多？',
+        steps: ['树皮被煤烟熏黑。', '深色蛾更不易被鸟发现。', '深色型繁殖成功率更高。'],
+        solution: '方向性选择使深色等位基因频率上升。',
+      },
+      {
+        title: '例 3 · 稳定化',
+        prompt: '人类出生体重为什么集中在中间范围？',
+        steps: ['过轻或过重的新生儿存活率较低。', '中间体重个体存活与繁殖更好。'],
+        solution: '稳定化选择。',
+      },
+    ],
+    examTips: [
+      'CED Unit 7：自然选择',
+      'FRQ 常考：用变异—选择—遗传解释种群变化',
+      '区分方向性、稳定化、分裂性选择',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.3', title: '人工选择', relation: '对比' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传', relation: '后续' },
+    ],
+    development: ['变异与遗传', '差异繁殖', '选择模式', '适应与证据'],
+    checks: ['自然选择为什么不是定向突变？', '三种选择模式有何区别？'],
+    summary: '自然选择通过差异繁殖筛选可遗传变异，改变种群基因频率；适应是相对且情境依赖的。',
+  },
 };

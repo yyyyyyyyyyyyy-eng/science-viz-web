@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T17:10:57.656Z",
+  "generatedAt": "2026-11-05T17:12:38.195Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 35,
+  "enrichedCount": 38,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -502,7 +502,7 @@
       "titleZh": "信号转导",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u4/4.5",
@@ -512,7 +512,7 @@
       "titleZh": "细胞周期",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.2",
@@ -522,7 +522,7 @@
       "titleZh": "自然选择",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.3",
