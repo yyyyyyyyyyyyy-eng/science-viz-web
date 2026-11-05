@@ -1,6 +1,18 @@
 node_modules/
-dist/
-.DS_Store
-*.log
-.idea/
-.vscode/
+desktop/node_modules/
+dist/linux-unpacked/
+dist/mac/
+dist/mac-arm64/
+dist/.icon-icns/
+*.blockmap
+builder-debug.yml
+desktop/node_modules/
+node_modules/
+dist/linux-unpacked/
+dist/mac/
+dist/mac-arm64/
+dist/.icon-icns/
+dist/*.blockmap
+dist/builder-debug.yml
+# large packaged zips kept locally in dist/; rebuild via desktop/
+dist/*.zip

@@ -165,11 +165,3 @@ python3 verify-v7.py
 ```
 
 截图：`screenshots/v7/`。
-
-## Delivery notes (2026-11-05 Asia/Shanghai)
-
-- Maps: 3-tier stage→unit→topic organic hierarchy; capsule stages; 59 curated cross-topic edges
-- Past papers: year-specific verified FRQ paraphrases for 2023–2026 (104 rows); 2020 hub-only; 2021–22 omitted (unverifiable PDFs)
-- Module numeric audit: 31/31 — see `audit/REPORT.md`
-- Screenshots: `screenshots/final/`
-- Private delivery repo — do not push unless the owner asks
