@@ -40,7 +40,7 @@
 8. **Enrichment 映射修复 + batch2 起步**
    - batch1 修正 7 处 key 错位：bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1；电容器 10.3 内容重写
    - 同步修正相关链接（酶、水、细胞周期、功–能、牛顿第三、电流）
-   - `data/enrichments/batch2.js` 新增 3 条：P2.5 酶、4.4 反馈、6.4 翻译
+   - `data/enrichments/batch2.js` 新增 6 条：P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝
    - 验证：17 条 enrichment 的 key/related 全部命中；16 个 topic 页 0 error、0 KaTeX error
 
 ### 已推送 SHA（截至收工）
@@ -66,7 +66,7 @@
 - **注意**：不要用默认 `python3 -m http.server` 跑高并发 sweep，其 backlog=5 会导致 `ERR_CONNECTION_RESET` 假阳性。
 
 ### 2. 内容 enrichment（batch 续写）
-- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 3 条（P2.5 酶、4.4 反馈、6.4 翻译）。
+- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 6 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝）。
 - **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（大量 bio 仍 ~56–59 词），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
 - **注意**：`audit/topic-depth.json` 当前缺失，需先从 `data/*/*.js` 重新生成或从旧工作区取回。
 
@@ -95,7 +95,7 @@
 ## 已知问题
 
 - ~~**全量 5s sweep 未完成**~~ → 已完成：481 routes × 3 viewports × 2 themes，0 issue（`audit/bug-sweep.md`）。
-- **enrichment 覆盖仍薄**：batch2 仅 3 条；多数 bio topic 仍为模板正文，需继续按 CED 续写。
+- **enrichment 覆盖仍薄**：batch2 仅 6 条；多数 bio topic 仍为模板正文，需继续按 CED 续写。
 - **math practice**：同族题干循环复用，深度仍不如手写题库。
 - **web 仓**：本地可能有未跟踪的 `desktop/`、旧 `verify-*.py`（勿误提交无关大文件）。
 - **本地 `science-viz` 无 remote**：以 web/app 的 GitHub 为准。
