@@ -83,7 +83,10 @@ def main():
             if sel >= 1:
                 break
         page.keyboard.up('Shift')
-        report['cluster_labels'] = page.locator('.map-cluster-label').count()
+        labels = page.locator('.map-cluster-label').all_inner_texts()
+        report['cluster_labels'] = len(labels)
+        report['label_sample'] = labels[:20]
+        report['bare_p_codes'] = [x for x in labels if __import__('re').fullmatch(r'P\d+', x.strip())]
         report['edge_tooltip'] = edge_tip
         report['edge_panel'] = rel_panel
         report['shift_sel'] = sel
@@ -103,7 +106,7 @@ def main():
         and not report.get('has_fibonacci')
         and report['edge_tooltip'] and report['edge_panel']
         and report['shift_sel'] >= 1 and report['error_count'] == 0
-        and report.get('cluster_labels', 0) >= 3
+        and report.get('cluster_labels', 0) >= 3 and not report.get('bare_p_codes')
         and all(report.get(f'map_{s}') for s in ['bio','math','mech','em'])
     )
     (ROOT/'audit'/'map-only-qa.json').write_text(json.dumps(report, indent=2, ensure_ascii=False))

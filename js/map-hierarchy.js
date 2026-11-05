@@ -26,40 +26,50 @@ const STAGE_DEFS = {
   ],
 };
 
-/** Human unit titles when chapterId alone is opaque. */
+/** Human-readable unit titles (never bare P1/P4 codes). */
 const UNIT_TITLE_HINTS = {
-  'calc-u0': 'Limits Prep',
-  'calc-u1': 'Limits & Continuity',
-  'calc-u2': 'Differentiation',
-  'calc-u3': 'Composite / Implicit / Inverse',
-  'calc-u4': 'Contextual Applications',
-  'calc-u5': 'Analytical Applications',
-  'calc-u6': 'Integration',
-  'calc-u7': 'Differential Equations',
-  'calc-u8': 'Applications of Integration',
-  'calc-u9': 'Parametric / Polar / Vector',
-  'calc-u10': 'Infinite Sequences & Series',
-  'bio-u1': 'Chemistry of Life',
-  'bio-u2': 'Cell Structure & Function',
-  'bio-u3': 'Cellular Energetics',
-  'bio-u4': 'Cell Communication & Cycle',
-  'bio-u5': 'Heredity',
-  'bio-u6': 'Gene Expression & Regulation',
-  'bio-u7': 'Natural Selection',
-  'bio-u8': 'Ecology',
-  'mech-u1': 'Kinematics',
-  'mech-u2': "Newton's Laws",
-  'mech-u3': 'Work, Energy, Power',
-  'mech-u4': 'Systems of Particles / Momentum',
-  'mech-u5': 'Rotation',
-  'mech-u6': 'Oscillations',
-  'mech-u7': 'Gravitation',
-  'em-u8': 'Electrostatics',
-  'em-u9': 'Conductors / Capacitors / Dielectrics',
-  'em-u10': 'Electric Circuits',
-  'em-u11': 'Magnetic Fields',
-  'em-u12': 'Electromagnetism',
-  'em-u13': 'Geometric / Physical Optics',
+  'math-prep-alg1': '表达式与方程',
+  'math-prep-geo': '几何基础',
+  'math-prep-alg2': '函数与多项式',
+  'math-prep-precalc': '三角与分析预备',
+  'calc-u0': '极限预备',
+  'calc-u1': '极限与连续',
+  'calc-u2': '微分',
+  'calc-u3': '复合/隐函数/反函数',
+  'calc-u4': '情境应用',
+  'calc-u5': '分析应用',
+  'calc-u6': '积分',
+  'calc-u7': '微分方程',
+  'calc-u8': '积分应用',
+  'calc-u9': '参数/极坐标/向量',
+  'calc-u10': '无穷级数',
+  'bio-prep-chem': '化学基础',
+  'bio-prep-hs': '高中生物基础',
+  'bio-u1': '生命化学',
+  'bio-u2': '细胞结构与功能',
+  'bio-u3': '细胞能量',
+  'bio-u4': '细胞通讯与周期',
+  'bio-u5': '遗传',
+  'bio-u6': '基因表达与调控',
+  'bio-u7': '自然选择',
+  'bio-u8': '生态学',
+  'mech-prep-hs': '高中物理基础',
+  'mech-prep-ap1': 'AP Physics 1 预备',
+  'mech-prep-math': '物理数学工具',
+  'mech-u1': '运动学',
+  'mech-u2': '牛顿定律',
+  'mech-u3': '功·能·功率',
+  'mech-u4': '动量与质点系',
+  'mech-u5': '转动',
+  'mech-u6': '振动',
+  'mech-u7': '万有引力',
+  'em-prep-found': '电磁预备',
+  'em-u8': '静电学',
+  'em-u9': '导体·电容·电介质',
+  'em-u10': '电路',
+  'em-u11': '磁场',
+  'em-u12': '电磁感应',
+  'em-u13': '几何/波动光学',
 };
 
 export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRelations = {}) {
@@ -85,11 +95,7 @@ export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRel
     const st = stageForChapter(ch, sample.layer);
     const id = `unit:${ch}`;
     const hint = UNIT_TITLE_HINTS[ch];
-    const titleZh = hint
-      ? hint
-      : sample.layer === 'prep'
-        ? `${sample.unitCode}`
-        : `Unit ${String(sample.unitCode).replace(/^u/i, '')}`;
+    const titleZh = hint || (sample.layer === 'prep' ? `${st.labelZh}·单元` : `单元 ${sample.unitCode}`);
     const node = {
       id,
       code: sample.unitCode,
@@ -108,6 +114,15 @@ export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRel
     };
     unitNodes.push(node);
     unitByChapter.set(ch, node);
+  }
+
+  // Mark units that are the sole child of a stage — label can be omitted (stage name enough)
+  const unitsPerStage = new Map();
+  for (const u of unitNodes) {
+    unitsPerStage.set(u.stageId, (unitsPerStage.get(u.stageId) || 0) + 1);
+  }
+  for (const u of unitNodes) {
+    u.soleUnderStage = unitsPerStage.get(u.stageId) === 1;
   }
 
   const stageNodes = stages.map((st) => ({
@@ -163,48 +178,63 @@ export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRel
   };
 }
 
-/** Organic non-ring layout with loose unit clusters under stages. */
+/** Organic layout: stages pinned in curriculum order L→R, units/topics clustered. */
 export function layoutOrganic(nodes, allEdges, subject) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
-  const stages = nodes.filter((n) => n.tier === 'stage');
+  const stages = nodes.filter((n) => n.tier === 'stage'); // already curriculum order
   const units = nodes.filter((n) => n.tier === 'unit');
   const topics = nodes.filter((n) => n.tier === 'topic');
 
+  const nSt = Math.max(1, stages.length);
+  // Compact spacing so the whole curriculum fits with margin
+  const gap = nSt <= 2 ? 13 : nSt <= 3 ? 10 : 8.5;
+  const totalW = gap * Math.max(1, nSt - 1);
   stages.forEach((st, i) => {
-    const rnd = mulberry32(hashStr(subject + st.id));
-    const n = Math.max(1, stages.length);
-    const ang = (i / n) * Math.PI * 1.7 - 0.35 + (rnd() - 0.5) * 0.55;
-    const r = 7 + rnd() * 4;
-    st.x = Math.cos(ang) * r * (0.75 + rnd() * 0.45);
-    st.y = (rnd() - 0.5) * 6;
-    st.z = Math.sin(ang) * r * (0.55 + rnd() * 0.45);
+    const rnd = mulberry32(hashStr(subject + ':st:' + st.id));
+    const t = nSt === 1 ? 0.5 : i / (nSt - 1);
+    st.x = (t - 0.5) * totalW;
+    // Gentle organic arc (not a ring): slight forward/back + small height jitter
+    st.y = (rnd() - 0.5) * 2.2 + Math.sin(t * Math.PI) * 0.8;
+    st.z = Math.sin((t - 0.5) * Math.PI) * 4.5 + (rnd() - 0.5) * 2.5;
     st.tx = st.x; st.ty = st.y; st.tz = st.z;
     st.vx = st.vy = st.vz = 0;
+    st._pinned = true;
   });
 
-  units.forEach((u) => {
-    const st = byId.get(u.stageId);
-    const rnd = mulberry32(hashStr(subject + u.id));
-    const ang = rnd() * Math.PI * 2;
-    const elev = (rnd() - 0.5) * 1.3;
-    const rad = 3.4 + rnd() * 2.4;
-    const sx = st ? st.x : 0, sy = st ? st.y : 0, sz = st ? st.z : 0;
-    u.x = sx + Math.cos(ang) * Math.cos(elev) * rad;
-    u.y = sy + Math.sin(elev) * rad * 0.85;
-    u.z = sz + Math.sin(ang) * Math.cos(elev) * rad;
-    u.tx = u.x; u.ty = u.y; u.tz = u.z;
-    u.vx = u.vy = u.vz = 0;
-  });
+  // Units fan around their stage — keep clusters compact so stages don't need huge gaps
+  const unitsByStage = new Map();
+  for (const u of units) {
+    if (!unitsByStage.has(u.stageId)) unitsByStage.set(u.stageId, []);
+    unitsByStage.get(u.stageId).push(u);
+  }
+  for (const [sid, list] of unitsByStage) {
+    const st = byId.get(sid);
+    list.forEach((u, i) => {
+      const rnd = mulberry32(hashStr(subject + ':u:' + u.id));
+      const nU = list.length;
+      // Prefer a front-facing fan so labels read clearly
+      const span = Math.min(Math.PI * 1.4, 0.55 * nU + 0.8);
+      const ang = -span / 2 + (nU <= 1 ? 0 : (i / (nU - 1)) * span) + (rnd() - 0.5) * 0.25;
+      const elev = (rnd() - 0.5) * 0.55;
+      const rad = (nU <= 1 ? 3.2 : 3.6 + Math.min(2.5, nU) * 0.18) + rnd() * 0.9;
+      const sx = st ? st.x : 0, sy = st ? st.y : 0, sz = st ? st.z : 0;
+      u.x = sx + Math.sin(ang) * rad;
+      u.y = sy + Math.sin(elev) * rad * 0.55 + (rnd() - 0.5) * 1.2;
+      u.z = sz + Math.cos(ang) * rad * 0.85;
+      u.tx = u.x; u.ty = u.y; u.tz = u.z;
+      u.vx = u.vy = u.vz = 0;
+    });
+  }
 
   topics.forEach((t) => {
     const u = byId.get(`unit:${t.chapterId}`);
-    const rnd = mulberry32(hashStr(subject + t.id));
+    const rnd = mulberry32(hashStr(subject + ':t:' + t.id));
     const ang = rnd() * Math.PI * 2;
     const elev = (rnd() - 0.5) * Math.PI;
-    const rad = 1.15 + rnd() * 1.7;
+    const rad = 0.85 + rnd() * 1.15;
     const cx = u ? u.x : 0, cy = u ? u.y : 0, cz = u ? u.z : 0;
     t.x = cx + Math.cos(ang) * Math.sin(elev + 1) * rad;
-    t.y = cy + Math.cos(elev) * rad * 0.75;
+    t.y = cy + Math.cos(elev) * rad * 0.55;
     t.z = cz + Math.sin(ang) * Math.sin(elev + 1) * rad;
     t.tx = t.x; t.ty = t.y; t.tz = t.z;
     t.vx = t.vy = t.vz = 0;
@@ -216,44 +246,48 @@ export function layoutOrganic(nodes, allEdges, subject) {
     .map((e) => ({ a: idx.get(e.source), b: idx.get(e.target), type: e.type }))
     .filter((l) => l.a != null && l.b != null);
 
-  for (let it = 0; it < 200; it++) {
-    const cool = 1 - it / 200;
+  for (let it = 0; it < 160; it++) {
+    const cool = 1 - it / 160;
     for (let i = 0; i < N; i++) {
       const a = nodes[i];
+      if (a._pinned) continue;
       for (let j = i + 1; j < N; j++) {
         const b = nodes[j];
         let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
         let dist2 = dx * dx + dy * dy + dz * dz;
-        if (dist2 > 81) continue;
-        dist2 = Math.max(0.08, dist2);
+        if (dist2 > 64) continue;
+        dist2 = Math.max(0.06, dist2);
         const dist = Math.sqrt(dist2);
         const sameUnit = a.chapterId && a.chapterId === b.chapterId;
-        const force = ((sameUnit ? 1.6 : 4.2) * cool) / dist2;
+        const force = ((sameUnit ? 1.2 : 3.2) * cool) / dist2;
         dx = (dx / dist) * force; dy = (dy / dist) * force; dz = (dz / dist) * force;
         a.vx += dx; a.vy += dy; a.vz += dz;
-        b.vx -= dx; b.vy -= dy; b.vz -= dz;
+        if (!b._pinned) { b.vx -= dx; b.vy -= dy; b.vz -= dz; }
       }
     }
     for (const l of links) {
       const a = nodes[l.a], b = nodes[l.b];
       let dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
       const dist = Math.hypot(dx, dy, dz) || 0.01;
-      let ideal = 5;
-      if (l.type === 'tree-stage-unit') ideal = 4.4;
-      else if (l.type === 'tree-unit-topic') ideal = 1.85;
-      else if (l.type === 'prerequisite') ideal = 2.5;
-      else if (l.type === 'connects' || l.type === 'applies-to') ideal = 7.5;
-      const k = l.type?.startsWith('tree') ? 0.085 : l.type === 'connects' || l.type === 'applies-to' ? 0.012 : 0.028;
+      let ideal = 4;
+      if (l.type === 'tree-stage-unit') ideal = 4.5;
+      else if (l.type === 'tree-unit-topic') ideal = 1.55;
+      else if (l.type === 'prerequisite') ideal = 2.1;
+      else if (l.type === 'connects' || l.type === 'applies-to') ideal = 10;
+      const k = l.type?.startsWith('tree') ? 0.1 : l.type === 'connects' || l.type === 'applies-to' ? 0.006 : 0.02;
       const f = (dist - ideal) * k * cool;
       dx = (dx / dist) * f; dy = (dy / dist) * f; dz = (dz / dist) * f;
-      a.vx += dx; a.vy += dy; a.vz += dz;
-      b.vx -= dx; b.vy -= dy; b.vz -= dz;
+      if (!a._pinned) { a.vx += dx; a.vy += dy; a.vz += dz; }
+      if (!b._pinned) { b.vx -= dx; b.vy -= dy; b.vz -= dz; }
     }
     for (const n of nodes) {
-      if (n.tier === 'stage') {
-        n.vx -= n.x * 0.012; n.vy -= n.y * 0.012; n.vz -= n.z * 0.012;
+      if (n._pinned) {
+        n.x = n.tx; n.y = n.ty; n.z = n.tz;
+        n.vx = n.vy = n.vz = 0;
+        continue;
       }
-      n.vx *= 0.72; n.vy *= 0.72; n.vz *= 0.72;
+      // Soft pull toward parent stage/unit home
+      n.vx *= 0.68; n.vy *= 0.68; n.vz *= 0.68;
       n.x += n.vx; n.y += n.vy; n.z += n.vz;
     }
   }
@@ -268,4 +302,14 @@ export function nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR) {
   if (n.tier === 'stage' && n.color != null) return n.color;
   if (n.layer === 'prep') return PREP_COLOR;
   return UNIT_COLORS_AP[Math.max(0, n.unitIndex) % UNIT_COLORS_AP.length];
+}
+
+/** Axis-aligned screen bbox helpers for label collision. */
+export function rectsOverlap(a, b, pad = 4) {
+  return !(
+    a.x + a.w + pad < b.x ||
+    b.x + b.w + pad < a.x ||
+    a.y + a.h + pad < b.y ||
+    b.y + b.h + pad < a.y
+  );
 }

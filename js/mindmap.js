@@ -2,7 +2,7 @@ import * as THREE from '../vendor/three/three.module.js';
 import { el, clear } from './ui-shared.js';
 import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
-import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor } from './map-hierarchy.js';
+import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor, rectsOverlap } from './map-hierarchy.js';
 
 /** Soft per-unit palette (AP); prep stays muted grey. */
 const UNIT_COLORS_AP = [
@@ -114,23 +114,46 @@ export async function renderMindMap(main, subject) {
   const nodes = layoutOrganic(hier.nodes, hier.allEdges, subject);
   const byId = new Map(nodes.map((n) => [n.id, n]));
   // Visible lines: tree hierarchy + topic/cross edges
-  const edges = hier.allEdges.filter((e) => byId.has(e.source) && byId.has(e.target));
+  const edges = hier.allEdges.filter((e) => {
+    if (!byId.has(e.source) || !byId.has(e.target)) return false;
+    // Hide scaffolding to invisible sole units
+    if (e.type === 'tree-stage-unit') {
+      const t = byId.get(e.target);
+      if (t && t.soleUnderStage) return false;
+    }
+    if (e.type === 'tree-unit-topic') {
+      const s = byId.get(e.source);
+      if (s && s.soleUnderStage) {
+        // Rewire visually: draw stage→topic instead
+        return false;
+      }
+    }
+    return true;
+  });
+  // Add stage→topic edges for sole units so topics stay connected
+  for (const n of nodes) {
+    if (n.tier !== 'topic') continue;
+    const u = byId.get(`unit:${n.chapterId}`);
+    if (u && u.soleUnderStage && u.stageId) {
+      edges.push({ source: u.stageId, target: n.id, type: 'tree-stage-topic' });
+    }
+  }
   // Relation midpoints only on topic↔topic edges (prereq + cross), not tree scaffolding
   const relationEdges = hier.topicEdges.filter((e) => byId.has(e.source) && byId.has(e.target));
 
   function baseColor(n) {
     return nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR);
   }
+  // Geos already encode tier size (stage≈3× topic, unit≈1.8×); scale≈1 + screen stabilize
   function baseScale(n) {
-    if (n.tier === 'stage') return 1;
-    if (n.tier === 'unit') return 1;
-    return n.hasViz ? 1.25 : n.layer === 'prep' ? 0.85 : 1;
+    if (n.tier === 'topic') return n.hasViz ? 1.15 : n.layer === 'prep' ? 0.9 : 1.0;
+    return 1.0;
   }
 
   const bgHex = cssColor('--canvas-plot', '#f7f5f0');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(bgHex);
-  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.012);
+  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.004);
 
   const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
   camera.position.set(0, 14, 62);
@@ -150,11 +173,15 @@ export async function renderMindMap(main, subject) {
   scene.add(nodeGroup);
   const meshes = new Map();
   const geos = [];
-  const stageGeo = new THREE.CapsuleGeometry(0.48, 1.55, 6, 12);
-  const unitGeo = new THREE.CapsuleGeometry(0.28, 0.85, 5, 10);
-  const topicGeo = new THREE.SphereGeometry(0.32, 12, 12);
-  const topicVizGeo = new THREE.SphereGeometry(0.38, 12, 12);
+  // Crisp small meshes; tier scale applied in tick for near-constant screen size
+  // Topic sphere r=0.14; capsules at scale=1 are topic-sized, then ×1.8 / ×3
+  // Absolute sizes: topic Ø≈0.4; unit ≈1.8×; stage pill ≈3× (crisp, not giant)
+  const topicGeo = new THREE.SphereGeometry(0.2, 10, 10);
+  const topicVizGeo = new THREE.SphereGeometry(0.23, 10, 10);
+  const unitGeo = new THREE.CapsuleGeometry(0.17, 0.32, 4, 10);   // ~1.8× topic
+  const stageGeo = new THREE.CapsuleGeometry(0.28, 0.6, 5, 12);    // ~3× topic diameter, crisp pill
   geos.push(stageGeo, unitGeo, topicGeo, topicVizGeo);
+  const REF_DIST = 42; // world units: scale meshes so screen size stays stable
 
   for (const n of nodes) {
     const color = baseColor(n);
@@ -162,18 +189,21 @@ export async function renderMindMap(main, subject) {
     if (n.tier === 'stage') geo = stageGeo;
     else if (n.tier === 'unit') geo = unitGeo;
     else geo = n.hasViz ? topicVizGeo : topicGeo;
-    const opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.8 : n.tier === 'unit' ? 0.92 : 1;
+    const opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.82 : n.tier === 'unit' ? 0.95 : 1;
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(n.x, n.y, n.z);
-    // Capsules are Y-aligned; tip them toward horizontal pills
     if (n.tier === 'stage' || n.tier === 'unit') {
-      mesh.rotation.z = Math.PI / 2;
-      mesh.rotation.y = (n.unitIndex || 0) * 0.17;
+      mesh.rotation.z = Math.PI / 2; // horizontal pill
     }
     mesh.userData = n;
-    mesh.scale.setScalar(baseScale(n));
-    const hitR = n.tier === 'stage' ? 2.2 : n.tier === 'unit' ? 1.5 : 1.05;
+    const bs = baseScale(n);
+    mesh.scale.setScalar(bs);
+    // Sole prep unit under a stage: keep as layout anchor, hide mesh (stage pill is enough)
+    if (n.tier === 'unit' && n.soleUnderStage) {
+      mesh.visible = false;
+    }
+    const hitR = n.tier === 'stage' ? 0.85 : n.tier === 'unit' ? 0.55 : 0.4;
     const hit = new THREE.Mesh(
       new THREE.SphereGeometry(hitR, 8, 8),
       new THREE.MeshBasicMaterial({ visible: false }),
@@ -183,40 +213,118 @@ export async function renderMindMap(main, subject) {
     nodeGroup.add(mesh);
     meshes.set(n.id, mesh);
     mesh.userData._hit = hit;
-    mesh.userData._baseScale = baseScale(n);
+    mesh.userData._baseScale = bs;
+    mesh.userData._tier = n.tier;
   }
 
-  // HTML labels for stage + unit (topics: name on hover only)
+  // HTML labels for stage + unit (topics: name on hover only).
+  // Sole unit under a stage (prep 1:1) skips a redundant unit label.
   const labelLayer = el('div', { className: 'map-cluster-labels', id: 'map-node-labels' });
   stage.appendChild(labelLayer);
   const labelEls = new Map();
   for (const n of nodes) {
-    if (n.tier !== 'stage' && n.tier !== 'unit') continue;
+    if (n.tier === 'stage') {
+      /* always */
+    } else if (n.tier === 'unit') {
+      if (n.soleUnderStage) continue;
+    } else continue;
     const lab = el('div', {
       className: `map-cluster-label map-tier-${n.tier}`,
-      text: n.tier === 'stage' ? n.titleZh : n.titleZh,
+      text: n.titleZh,
     });
     lab.style.setProperty('--swatch', `#${baseColor(n).toString(16).padStart(6, '0')}`);
+    lab.dataset.tier = n.tier;
+    lab.dataset.nodeId = n.id;
     labelLayer.appendChild(lab);
     labelEls.set(n.id, lab);
   }
   const _proj = new THREE.Vector3();
+  const LABEL_OFFSETS = [
+    [-50, -140], [-50, -110], [-50, -170],
+    [8, -130], [-108, -130], [-50, -80],
+    [20, -160], [-120, -160], [-50, -200],
+    [40, -100], [-140, -100],
+  ];
   function updateLabels() {
     const w = stage.clientWidth || 1;
     const h = stage.clientHeight || 1;
+    const stageCands = [];
+    const unitCands = [];
     for (const [id, lab] of labelEls) {
       const n = byId.get(id);
-      const m = meshes.get(id);
-      if (!n || !m) continue;
+      if (!n) continue;
       _proj.set(n.x, n.y, n.z).project(camera);
       if (_proj.z > 1) {
         lab.style.display = 'none';
         continue;
       }
-      const x = (_proj.x * 0.5 + 0.5) * w;
-      const y = (-_proj.y * 0.5 + 0.5) * h;
+      const sx = (_proj.x * 0.5 + 0.5) * w;
+      const sy = (-_proj.y * 0.5 + 0.5) * h;
       lab.style.display = '';
-      lab.style.transform = `translate(${x}px, ${y}px) translate(-50%, -130%)`;
+      lab.style.visibility = 'hidden';
+      lab.style.transform = 'translate(0,0)';
+      const lw = Math.max(lab.offsetWidth || 48, 36);
+      const lh = Math.max(lab.offsetHeight || 18, 14);
+      const item = { id, lab, n, sx, sy, lw, lh };
+      if (n.tier === 'stage') stageCands.push(item);
+      else unitCands.push(item);
+    }
+
+    // Stages: pin label centered above node (curriculum L→R already separates them)
+    const placed = [];
+    stageCands.sort((a, b) => a.sx - b.sx);
+    stageCands.forEach((c, i) => {
+      let x = c.sx - c.lw / 2;
+      let y = c.sy - c.lh - 14;
+      // Mild vertical stagger if two stages project very close
+      if (i > 0) {
+        const prev = placed[placed.length - 1];
+        if (prev && Math.abs((prev.x + prev.w / 2) - c.sx) < (prev.w + c.lw) * 0.55) {
+          y = prev.y - c.lh - 6;
+        }
+      }
+      x = Math.min(Math.max(6, x), w - c.lw - 6);
+      y = Math.min(Math.max(6, y), h - c.lh - 6);
+      const rect = { x, y, w: c.lw, h: c.lh, tier: 'stage' };
+      c.lab.style.display = '';
+      c.lab.style.visibility = '';
+      c.lab.style.transform = `translate(${x}px, ${y}px)`;
+      placed.push(rect);
+    });
+
+    // Units: try offsets; hide on any collision with placed (stages win)
+    const unitOffs = [
+      [-0.5, -1.6], [-0.5, -2.1], [0.15, -1.5], [-1.15, -1.5],
+      [-0.5, -1.1], [0.3, -2.0], [-1.3, -2.0], [-0.5, -2.55],
+      [0.4, -1.2], [-1.4, -1.2],
+    ];
+    unitCands.sort((a, b) => a.id.localeCompare(b.id));
+    for (const c of unitCands) {
+      let chosen = null;
+      for (const [fx, fy] of unitOffs) {
+        const rect = {
+          x: c.sx + fx * c.lw,
+          y: c.sy + fy * c.lh,
+          w: c.lw,
+          h: c.lh,
+        };
+        if (rect.x < 4 || rect.y < 4 || rect.x + rect.w > w - 4 || rect.y + rect.h > h - 4) continue;
+        let hit = false;
+        for (const p of placed) {
+          if (rectsOverlap(rect, p, p.tier === 'stage' ? 14 : 10)) { hit = true; break; }
+        }
+        if (!hit) { chosen = rect; break; }
+      }
+      if (!chosen) {
+        c.lab.style.display = 'none';
+        c.lab.style.visibility = '';
+        continue;
+      }
+      c.lab.style.display = '';
+      c.lab.style.visibility = '';
+      c.lab.style.transform = `translate(${chosen.x}px, ${chosen.y}px)`;
+      chosen.tier = 'unit';
+      placed.push(chosen);
     }
   }
 
@@ -314,6 +422,55 @@ export async function renderMindMap(main, subject) {
   let idle = true;
   const t0 = performance.now();
 
+
+  function fitGraph(fill = 0.92) {
+    const box = new THREE.Box3();
+    for (const n of nodes) box.expandByPoint(new THREE.Vector3(n.x, n.y, n.z));
+    if (box.isEmpty()) return;
+    const c = new THREE.Vector3();
+    box.getCenter(c);
+    panX = tpanX = c.x;
+    panY = tpanY = c.y;
+    panZ = tpanZ = c.z;
+    // Prefer a flatter, more readable angle
+    ax = tax = 0.04;
+    ay = tay = 0.08;
+
+    // View-aligned camera basis at unit distance, then scale
+    const right = new THREE.Vector3(
+      Math.cos(ay),
+      0,
+      -Math.sin(ay),
+    ).normalize();
+    // camera up ≈ world up tilted
+    const forward = new THREE.Vector3(
+      -Math.sin(ay) * Math.cos(ax),
+      -Math.sin(ax),
+      -Math.cos(ay) * Math.cos(ax),
+    ).normalize();
+    const up = new THREE.Vector3().crossVectors(right, forward).normalize();
+    // Re-orthogonalize right
+    right.crossVectors(forward, up).normalize();
+
+    let maxR = 0, maxU = 0;
+    const v = new THREE.Vector3();
+    for (const n of nodes) {
+      v.set(n.x - c.x, n.y - c.y, n.z - c.z);
+      maxR = Math.max(maxR, Math.abs(v.dot(right)));
+      maxU = Math.max(maxU, Math.abs(v.dot(up)));
+    }
+    // Small pad so outermost topics aren't clipped
+    maxR *= 1.05;
+    maxU *= 1.05;
+    const fov = (camera.fov * Math.PI) / 180;
+    const aspect = Math.max(0.55, camera.aspect || 1);
+    const distForH = maxU / (Math.tan(fov / 2) * fill);
+    const distForW = maxR / (Math.tan(fov / 2) * aspect * fill);
+    let d = Math.max(distForH, distForW, 16);
+    d = Math.max(20, Math.min(160, d));
+    dist = tdist = d;
+  }
+
   function resize() {
     const w = stage.clientWidth || 800;
     const h = stage.clientHeight || 500;
@@ -322,8 +479,14 @@ export async function renderMindMap(main, subject) {
     renderer.setSize(w, h, false);
   }
   resize();
-  const ro = new ResizeObserver(resize);
+  fitGraph(0.92);
+  const ro = new ResizeObserver(() => {
+    resize();
+    // keep framing when shell resizes; don't fight user zoom after first interaction
+    if (!userMovedCamera) fitGraph(0.92);
+  });
   ro.observe(stage);
+  let userMovedCamera = false;
 
   function applyCamera() {
     const cx = panX, cy = panY, cz = panZ;
@@ -591,7 +754,7 @@ export async function renderMindMap(main, subject) {
 
   function flyTo(n) {
     const targetDist = Math.hypot(n.x, n.y, n.z) + 16;
-    tdist = Math.max(18, Math.min(70, targetDist));
+    tdist = Math.max(18, Math.min(140, targetDist));
     openDetail(n);
   }
 
@@ -626,6 +789,7 @@ export async function renderMindMap(main, subject) {
     // Capture modifiers at down — reliable for Shift+click in browser & Electron
     downMods = { shift: !!e.shiftKey, meta: !!e.metaKey, ctrl: !!e.ctrlKey };
     idle = false;
+    userMovedCamera = true;
     if (e.button === 2 || e.buttons === 2) dragMode = 'pan';
     else if (pointers.size >= 2) {
       dragMode = 'pinch';
@@ -698,7 +862,7 @@ export async function renderMindMap(main, subject) {
       const d = pointerDistance();
       if (pinchStartDist > 0 && d > 0) {
         const scale = pinchStartDist / d;
-        tdist = Math.max(16, Math.min(90, pinchStartTdist * scale));
+        tdist = Math.max(16, Math.min(160, pinchStartTdist * scale));
         moved = true;
       }
       // two-finger drag → pan
@@ -781,9 +945,10 @@ export async function renderMindMap(main, subject) {
     (e) => {
       e.preventDefault();
       idle = false;
+      userMovedCamera = true;
       if (e.ctrlKey) {
         // trackpad pinch
-        tdist = Math.max(16, Math.min(90, tdist + e.deltaY * 0.05));
+        tdist = Math.max(16, Math.min(160, tdist + e.deltaY * 0.05));
       } else if (isTrackpadPanWheel(e)) {
         const right = new THREE.Vector3();
         const up = new THREE.Vector3();
@@ -793,7 +958,7 @@ export async function renderMindMap(main, subject) {
         tpanZ -= right.z * e.deltaX * 0.04 - up.z * e.deltaY * 0.04;
       } else {
         // mouse wheel → zoom
-        tdist = Math.max(16, Math.min(90, tdist + e.deltaY * 0.035));
+        tdist = Math.max(16, Math.min(160, tdist + e.deltaY * 0.035));
       }
       setTimeout(() => {
         idle = true;
@@ -815,38 +980,20 @@ export async function renderMindMap(main, subject) {
   function tick() {
     if (!alive) return;
     const now = performance.now();
-    // soft forces — preserve organic home positions, light link springs
-    for (const e of edges) {
-      const a = byId.get(e.source);
-      const b = byId.get(e.target);
-      if (!a || !b) continue;
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const dz = b.z - a.z;
-      const dist2 = dx * dx + dy * dy + dz * dz || 0.01;
-      const ideal = e.type === 'tree-unit-topic' ? 3.2 : e.type === 'tree-stage-unit' ? 18 : e.cross ? 55 : 12;
-      const f = (dist2 - ideal) * 0.000008;
-      a.vx += dx * f;
-      a.vy += dy * f;
-      a.vz += dz * f;
-      b.vx -= dx * f;
-      b.vy -= dy * f;
-      b.vz -= dz * f;
-    }
+    // Layout is precomputed; keep nodes locked to home (no collapse after autofit)
+    const camPos = camera.position;
     for (const n of nodes) {
-      // home spring
-      n.vx += (n.tx - n.x) * 0.012;
-      n.vy += (n.ty - n.y) * 0.012;
-      n.vz += (n.tz - n.z) * 0.012;
-      n.vx *= 0.86;
-      n.vy *= 0.86;
-      n.vz *= 0.86;
-      n.x += n.vx;
-      n.y += n.vy;
-      n.z += n.vz;
-      const breathe = idle ? Math.sin((now - t0) * 0.0004 + (n.unitIndex || 0)) * (n.tier === 'topic' ? 0.06 : 0.03) : 0;
+      n.x = n.tx;
+      n.y = n.ty;
+      n.z = n.tz;
+      const breathe = idle ? Math.sin((now - t0) * 0.00035 + (n.unitIndex || 0) * 0.7) * (n.tier === 'topic' ? 0.04 : 0.015) : 0;
       const m = meshes.get(n.id);
-      if (m) m.position.set(n.x, n.y + breathe, n.z);
+      if (!m) continue;
+      m.position.set(n.x, n.y + breathe, n.z);
+      // Near-constant screen size so near stages aren't giant blobs
+      const d = Math.hypot(n.x - camPos.x, n.y + breathe - camPos.y, n.z - camPos.z) || REF_DIST;
+      const s = (m.userData._baseScale || 1) * (d / REF_DIST);
+      m.scale.setScalar(Math.max(0.7, Math.min(1.35, s)));
     }
     let i = 0;
     for (const e of edges) {
@@ -864,7 +1011,7 @@ export async function renderMindMap(main, subject) {
     if (selected.size) setHotEdges(pathEdgesAmong(selected));
 
     // damp camera toward targets + idle drift
-    if (idle) tay += 0.0008;
+    if (idle) tay += 0.00025;
     ax += (tax - ax) * 0.08;
     ay += (tay - ay) * 0.08;
     dist += (tdist - dist) * 0.08;

@@ -2480,6 +2480,7 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   position: absolute;
   left: 0;
   top: 0;
+  transform-origin: 0 0;
   padding: 0.15rem 0.45rem 0.15rem 0.7rem;
   font-size: 0.72rem;
   font-weight: 600;
@@ -2504,14 +2505,19 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
 
 
 .map-tier-stage {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  padding: 0.25rem 0.65rem 0.25rem 0.9rem;
+  padding: 0.28rem 0.7rem 0.28rem 0.95rem;
+  z-index: 3;
 }
 .map-tier-unit {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 600;
-  opacity: 0.92;
+  opacity: 0.95;
+  z-index: 2;
+  max-width: 11rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .map-cluster-label.map-tier-stage::before {
   width: 8px;
