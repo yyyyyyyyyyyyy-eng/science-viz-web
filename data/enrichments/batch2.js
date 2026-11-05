@@ -310,4 +310,163 @@ export const ENRICHMENTS = {
     checks: ['局域消失与全球灭绝有何区别？', '为什么小种群更容易灭绝？'],
     summary: '灭绝是物种的永久消失；背景灭绝与大规模灭绝共同塑造生物多样性，人类活动正在加速这一过程。',
   },
+
+  'bio/bio-u1/1.5': {
+    enrichedAt: 'batch2',
+    definition: '核酸是由核苷酸聚合成的生物大分子。每个核苷酸由磷酸、五碳糖和含氮碱基组成；DNA 为双链反向平行，碱基 A–T、G–C 配对；RNA 通常为单链，以 U 代替 T。DNA 储存遗传信息，RNA 参与表达与催化。',
+    intuition: '核酸像一本用四种字母写成的说明书：DNA 是长期存档，RNA 是抄出来用于施工的副本。',
+    intuitionDetailed: '核苷酸之间通过磷酸二酯键连接，形成 5′→3′ 方向的骨架。两条 DNA 链反向平行，A 与 T 形成两个氢键，G 与 C 形成三个氢键，因此 GC 含量高的 DNA 更稳定。',
+    formulas: [
+      { latex: '\\text{DNA}:\\;A=T,\\;G\\equiv C', note: '碱基互补配对（DNA）。' },
+      { latex: '5\\text{-}\\ldots\\text{-}3\\;\\parallel\\;3\\text{-}\\ldots\\text{-}5', note: '双链反向平行。' },
+    ],
+    conditions: ['DNA 双螺旋在生理条件下稳定；高温或强碱可使其变性', 'RNA 可形成局部双链或复杂二级结构', '碱基配对具有方向性与互补性'],
+    keyPoints: ['核苷酸 = 磷酸 + 五碳糖 + 碱基', 'DNA 用脱氧核糖与 T；RNA 用核糖与 U', '磷酸二酯键连接 5′ 磷酸与 3′ 羟基', 'mRNA、tRNA、rRNA 功能不同'],
+    misconceptions: [
+      '认为 DNA 是单链、RNA 是双链（通常相反）',
+      '在 DNA 中写 A–U 配对',
+      '混淆脱氧核糖与核糖',
+      '认为两条 DNA 链同向平行',
+    ],
+    examples: [
+      {
+        title: '例 1 · 互补链',
+        prompt: '一条 DNA 链为 \\(5\\text{-ATGC-}3\\)，写出互补链。',
+        steps: ['按 A–T、T–A、G–C、C–G 配对。', '互补链方向相反，写作 \\(3\\text{-TACG-}5\\)。'],
+        solution: '\\(3\\text{-TACG-}5\\)。',
+        solutionLatex: '3\\text{-TACG-}5',
+      },
+      {
+        title: '例 2 · DNA vs RNA',
+        prompt: '列出 DNA 与 RNA 的三点结构差异。',
+        steps: ['五碳糖：脱氧核糖 vs 核糖。', '碱基：T vs U。', '链数：通常双链 vs 单链。'],
+        solution: '糖、碱基、链数不同。',
+      },
+      {
+        title: '例 3 · GC 含量',
+        prompt: '为什么 GC 含量高的 DNA 解链温度更高？',
+        steps: ['G–C 之间有三个氢键，A–T 只有两个。', '破坏更多氢键需要更高能量。'],
+        solution: 'GC 含量越高，双链越稳定，解链温度越高。',
+      },
+    ],
+    examTips: [
+      'CED Unit 1 / Unit 6：核酸结构与功能',
+      '画核苷酸时标出磷酸、糖、碱基与 5′/3′ 端',
+      'FRQ 常考：根据一条链写互补链、判断方向与氢键数',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.2', title: '复制', relation: '应用' },
+    ],
+    development: ['核苷酸组成', '磷酸二酯键与方向性', '碱基配对与双螺旋', 'DNA/RNA 分工'],
+    checks: ['DNA 与 RNA 在糖和碱基上有何不同？', '为什么两条 DNA 链必须反向平行？'],
+    summary: '核酸以核苷酸为单体，通过互补碱基配对与方向性骨架储存和传递遗传信息。',
+  },
+
+  'bio/bio-u2/2.5': {
+    enrichedAt: 'batch2',
+    definition: '膜运输是物质跨膜移动的过程。被动运输顺浓度梯度、不直接消耗 ATP，包括简单扩散、协助扩散与渗透；主动运输逆浓度梯度、需要载体蛋白与能量；大分子和颗粒通过胞吞/胞吐进出细胞。',
+    intuition: '被动运输像水往低处流；主动运输像用泵把水抽到高处，需要付电费（ATP）。',
+    intuitionDetailed: '通道蛋白形成亲水孔道，载体蛋白通过构象变化搬运特定分子。Na⁺/K⁺ 泵每消耗 1 个 ATP，把 3 个 Na⁺ 泵出、2 个 K⁺ 泵入，维持膜电位与渗透平衡。',
+    formulas: [
+      { latex: '\\text{被动运输}:\\;\\Delta G<0,\\;\\text{不耗 ATP}', note: '顺浓度梯度。' },
+      { latex: '\\text{主动运输}:\\;\\Delta G>0,\\;\\text{需 ATP}', note: '逆浓度梯度。' },
+    ],
+    conditions: ['被动运输依赖浓度梯度或电化学梯度', '主动运输需要能量与特异性载体', '膜的选择透过性决定哪些分子走哪条路径'],
+    keyPoints: ['简单扩散 vs 协助扩散 vs 主动运输', '通道蛋白与载体蛋白机制不同', '渗透是水的扩散', 'Na⁺/K⁺ 泵建立电化学梯度', '胞吞/胞吐运输大分子'],
+    misconceptions: [
+      '认为协助扩散需要 ATP（不需要）',
+      '把渗透与溶质扩散混为一谈',
+      '认为主动运输只能逆浓度梯度（也可维持梯度）',
+      '忽略泵与通道的选择性',
+    ],
+    examples: [
+      {
+        title: '例 1 · 分类',
+        prompt: 'O₂、葡萄糖（经 GLUT）、K⁺（经泵）分别属于哪种运输？',
+        steps: ['O₂ 非极性小分子 → 简单扩散。', '葡萄糖经 GLUT 顺梯度 → 协助扩散。', 'K⁺ 逆梯度经泵 → 主动运输。'],
+        solution: '简单扩散 / 协助扩散 / 主动运输。',
+      },
+      {
+        title: '例 2 · 饱和曲线',
+        prompt: '为什么协助扩散速率在高浓度下会饱和？',
+        steps: ['载体蛋白数量有限。', '所有载体都被占用后，速率不再随浓度增加。'],
+        solution: '载体饱和。',
+      },
+      {
+        title: '例 3 · 渗透',
+        prompt: '红细胞放入高渗溶液会怎样？',
+        steps: ['外界溶质浓度高，水势低。', '水从细胞内向外出走。', '细胞皱缩（crenation）。'],
+        solution: '失水皱缩。',
+      },
+    ],
+    examTips: [
+      'CED Unit 2：细胞膜与运输',
+      '读图：饱和曲线说明载体参与；直线说明简单扩散',
+      'FRQ 常考：判断运输方式并说明能量/蛋白需求',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.3', title: '质膜', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.4', title: '膜通透性', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.7', title: '渗透与水势', relation: '应用' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.8', title: '主动运输', relation: '后续' },
+    ],
+    development: ['被动运输', '通道与载体', '主动运输与泵', '渗透与胞吞胞吐'],
+    checks: ['协助扩散与主动运输的关键区别是什么？', '为什么 Na⁺/K⁺ 泵对维持膜电位重要？'],
+    summary: '膜运输按是否耗能与是否顺梯度分类；蛋白介导的运输具有特异性和饱和性。',
+  },
+
+  'bio/bio-u3/3.4': {
+    enrichedAt: 'batch2',
+    definition: '光合作用利用光能，把 CO₂ 与 H₂O 转化为有机物并释放 O₂。光反应在类囊体膜上进行，产生 ATP 与 NADPH；Calvin 循环在叶绿体基质中固定 CO₂，合成糖。',
+    intuition: '光反应像太阳能电站，把光能转成 ATP/NADPH 两种“电池”；Calvin 循环像工厂，用电池把 CO₂ 装成糖。',
+    intuitionDetailed: '光系统 II 吸收光能、氧化水释放 O₂，电子经电子传递链流向光系统 I，建立质子梯度驱动 ATP 合成；光系统 I 还原 NADP⁺。Calvin 循环中 rubisco 固定 CO₂，生成 3-PGA，再还原为 G3P 并再生 RuBP。',
+    formulas: [
+      { latex: '6CO_2+6H_2O\\xrightarrow{\\text{light}}C_6H_{12}O_6+6O_2', note: '总反应式。' },
+      { latex: '\\text{光反应}:\\;H_2O\\to O_2+ATP+NADPH', note: '类囊体膜。' },
+      { latex: '\\text{Calvin}:\\;CO_2\\to\\text{糖}', note: '基质，需 ATP/NADPH。' },
+    ],
+    conditions: ['需要光、CO₂、水与适宜温度', '光反应与 Calvin 循环通过 ATP/NADPH 与 ADP/NADP⁺ 耦合', 'Rubisco 的羧化与加氧活性受 CO₂/O₂ 比例影响'],
+    keyPoints: ['O₂ 来自水的光解', '光反应产生 ATP 与 NADPH', 'Calvin 循环不直接需要光，但依赖光反应产物', 'rubisco 是 CO₂ 固定的关键酶', 'C4/CAM 是适应高温干旱的机制'],
+    misconceptions: [
+      '认为 O₂ 来自 CO₂',
+      '认为暗反应完全不需要光（需要光反应提供的 ATP/NADPH）',
+      '认为 Calvin 循环直接生成葡萄糖（先得 G3P）',
+      '忽略光呼吸与 C4/CAM 的适应意义',
+    ],
+    examples: [
+      {
+        title: '例 1 · 位置',
+        prompt: '光反应与 Calvin 循环分别发生在哪里？',
+        steps: ['光反应：类囊体膜。', 'Calvin 循环：叶绿体基质。'],
+        solution: '类囊体膜 / 基质。',
+      },
+      {
+        title: '例 2 · 限制因素',
+        prompt: '光照强度增加时，光合速率一定一直增加吗？',
+        steps: ['初期随光强增加而上升。', '达到光饱和点后，受 CO₂、温度或酶活性限制。'],
+        solution: '不会；存在光饱和点。',
+      },
+      {
+        title: '例 3 · C4',
+        prompt: 'C4 植物为何在高温强光下效率更高？',
+        steps: ['先在叶肉细胞固定 CO₂ 为四碳酸。', '在维管束鞘细胞释放 CO₂，提高 rubisco 周围 CO₂ 浓度。', '减少光呼吸。'],
+        solution: '浓缩 CO₂，降低光呼吸损耗。',
+      },
+    ],
+    examTips: [
+      'CED Unit 3：细胞能量与光合作用',
+      '画图：类囊体膜上的 PSII/PSI、ATP 合酶、Calvin 循环',
+      'FRQ 常考：O₂ 来源、ATP/NADPH 去向、限制因素曲线',
+    ],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.3', title: '细胞能量', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '细胞呼吸', relation: '相关' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.6', title: '适应与能量', relation: '应用' },
+    ],
+    development: ['光反应', '电子传递与化学渗透', 'Calvin 循环', '限制因素与 C4/CAM'],
+    checks: ['光合作用释放的 O₂ 来自哪里？', 'Calvin 循环为什么依赖光反应？'],
+    summary: '光反应把光能转为 ATP/NADPH，Calvin 循环用其固定 CO₂ 合成糖；O₂ 来自水的光解。',
+  },
 };

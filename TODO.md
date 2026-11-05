@@ -40,8 +40,8 @@
 8. **Enrichment 映射修复 + batch2 起步**
    - batch1 修正 7 处 key 错位：bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1；电容器 10.3 内容重写
    - 同步修正相关链接（酶、水、细胞周期、功–能、牛顿第三、电流）
-   - `data/enrichments/batch2.js` 新增 6 条：P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝
-   - 验证：17 条 enrichment 的 key/related 全部命中；16 个 topic 页 0 error、0 KaTeX error
+   - `data/enrichments/batch2.js` 新增 9 条：P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用
+   - 验证：23 条 enrichment 的 key/related 全部命中；23 个 topic 页 0 error、0 KaTeX error
 
 ### 已推送 SHA（截至收工）
 
@@ -66,9 +66,9 @@
 - **注意**：不要用默认 `python3 -m http.server` 跑高并发 sweep，其 backlog=5 会导致 `ERR_CONNECTION_RESET` 假阳性。
 
 ### 2. 内容 enrichment（batch 续写）
-- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 6 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝）。
-- **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（大量 bio 仍 ~56–59 词），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
-- **注意**：`audit/topic-depth.json` 当前缺失，需先从 `data/*/*.js` 重新生成或从旧工作区取回。
+- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 9 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用）。
+- **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（当前 23/340 已 enrichment），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
+- **注意**：`audit/topic-depth.json` 已由 `scripts/build-topic-depth.mjs` 重新生成（340 topics，含 enriched 标记）。
 
 ### 3. 数学练习（可选加深）
 - **状态**：单元族模板已替换污染；题干仍有模板重复（同族内旋转），非跨单元错误拷贝。
@@ -95,7 +95,7 @@
 ## 已知问题
 
 - ~~**全量 5s sweep 未完成**~~ → 已完成：481 routes × 3 viewports × 2 themes，0 issue（`audit/bug-sweep.md`）。
-- **enrichment 覆盖仍薄**：batch2 仅 6 条；多数 bio topic 仍为模板正文，需继续按 CED 续写。
+- **enrichment 覆盖仍薄**：23/340 已 enrichment；多数 bio topic 仍为模板正文，需继续按 CED 续写。
 - **math practice**：同族题干循环复用，深度仍不如手写题库。
 - **web 仓**：本地可能有未跟踪的 `desktop/`、旧 `verify-*.py`（勿误提交无关大文件）。
 - **本地 `science-viz` 无 remote**：以 web/app 的 GitHub 为准。
@@ -109,7 +109,8 @@
 | `audit/figure-coverage-bio-math.md` | bio/math 图覆盖勾选 |
 | `audit/figure-preview-bio-math.html` | bio/math 图 Playwright 预览页 |
 | `audit/figure-coverage-physics.md` | 物理图覆盖 |
-| `audit/topic-depth.json` | 340 topics 深度（enrichment 排序） |
+| `audit/topic-depth.json` | 340 topics 深度排序（含 enriched 标记） |
+| `scripts/build-topic-depth.mjs` | 重新生成 topic-depth.json |
 | `audit/bug-sweep.json` | 全量 sweep 原始结果（0 issue） |
 | `audit/bug-sweep.md` | 全量 sweep 可读报告 |
 | `scripts/build-routes.mjs` | 生成 481 条全站路由（`/tmp/routes.json`） |
@@ -124,7 +125,7 @@
 
 ## 建议明日顺序
 
-1. enrichment batch2（先 bio 最薄 CED 点；补齐 `audit/topic-depth.json`）  
+1. 继续 enrichment batch2（按 `audit/topic-depth.json` 升序选题）  
 2. 物理 figure-audit 页面复检勾选  
 3. Mac dist + Release
 

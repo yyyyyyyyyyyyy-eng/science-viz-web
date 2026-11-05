@@ -1,0 +1,3408 @@
+{
+  "generatedAt": "2026-11-05T16:31:18.771Z",
+  "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
+  "total": 340,
+  "enrichedCount": 23,
+  "rows": [
+    {
+      "id": "bio/bio-prep-hs/P2.5",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.5",
+      "titleZh": "酶",
+      "layer": "prep",
+      "words": 370,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u4/4.4",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.4",
+      "titleZh": "反馈",
+      "layer": "ap",
+      "words": 376,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u6/6.2",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.2",
+      "titleZh": "复制",
+      "layer": "ap",
+      "words": 376,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u6/6.4",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.4",
+      "titleZh": "翻译",
+      "layer": "ap",
+      "words": 376,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u6/6.7",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.7",
+      "titleZh": "突变",
+      "layer": "ap",
+      "words": 376,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u7/7.11",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.11",
+      "titleZh": "灭绝",
+      "layer": "ap",
+      "words": 376,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u13/13.4",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.4",
+      "titleZh": "电感",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.2",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.2",
+      "titleZh": "系统",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u3/3.4",
+      "subject": "mech",
+      "chapterId": "mech-u3",
+      "code": "3.4",
+      "titleZh": "功率",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u6/6.3",
+      "subject": "mech",
+      "chapterId": "mech-u6",
+      "code": "6.3",
+      "titleZh": "滚动",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u6/6.4",
+      "subject": "mech",
+      "chapterId": "mech-u6",
+      "code": "6.4",
+      "titleZh": "轨道",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u7/7.2",
+      "subject": "mech",
+      "chapterId": "mech-u7",
+      "code": "7.2",
+      "titleZh": "单摆",
+      "layer": "ap",
+      "words": 376,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.10",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.10",
+      "titleZh": "变换",
+      "layer": "prep",
+      "words": 377,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u1/1.5",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.5",
+      "titleZh": "核酸",
+      "layer": "ap",
+      "words": 378,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u2/2.3",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.3",
+      "titleZh": "质膜",
+      "layer": "ap",
+      "words": 378,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u11/11.1",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.1",
+      "titleZh": "电流",
+      "layer": "ap",
+      "words": 378,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u12/12.1",
+      "subject": "em",
+      "chapterId": "em-u12",
+      "code": "12.1",
+      "titleZh": "磁场",
+      "layer": "ap",
+      "words": 378,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u8/8.2",
+      "subject": "em",
+      "chapterId": "em-u8",
+      "code": "8.2",
+      "titleZh": "电场",
+      "layer": "ap",
+      "words": 378,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u9/9.2",
+      "subject": "em",
+      "chapterId": "em-u9",
+      "code": "9.2",
+      "titleZh": "电势",
+      "layer": "ap",
+      "words": 378,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u7/7.3",
+      "subject": "mech",
+      "chapterId": "mech-u7",
+      "code": "7.3",
+      "titleZh": "复摆",
+      "layer": "ap",
+      "words": 378,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.1",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.1",
+      "titleZh": "质心",
+      "layer": "ap",
+      "words": 380,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.9",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.9",
+      "titleZh": "区隔化",
+      "layer": "ap",
+      "words": 383,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u10/10.3",
+      "subject": "em",
+      "chapterId": "em-u10",
+      "code": "10.3",
+      "titleZh": "电容器",
+      "layer": "ap",
+      "words": 383,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u10/10.4",
+      "subject": "em",
+      "chapterId": "em-u10",
+      "code": "10.4",
+      "titleZh": "电介质",
+      "layer": "ap",
+      "words": 383,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.5",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.5",
+      "titleZh": "膜运输",
+      "layer": "ap",
+      "words": 385,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u3/3.1",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.1",
+      "titleZh": "酶催化",
+      "layer": "ap",
+      "words": 385,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u11/11.4",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.4",
+      "titleZh": "电功率",
+      "layer": "ap",
+      "words": 385,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u13/13.1",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.1",
+      "titleZh": "磁通量",
+      "layer": "ap",
+      "words": 385,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u8/8.4",
+      "subject": "em",
+      "chapterId": "em-u8",
+      "code": "8.4",
+      "titleZh": "电通量",
+      "layer": "ap",
+      "words": 385,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u6/6.2",
+      "subject": "mech",
+      "chapterId": "mech-u6",
+      "code": "6.2",
+      "titleZh": "角动量",
+      "layer": "ap",
+      "words": 385,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u9/9.1",
+      "subject": "em",
+      "chapterId": "em-u9",
+      "code": "9.1",
+      "titleZh": "电势能",
+      "layer": "ap",
+      "words": 387,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.2",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.2",
+      "titleZh": "能量流",
+      "layer": "ap",
+      "words": 389,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.8",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.8",
+      "titleZh": "RC 电路",
+      "layer": "ap",
+      "words": 389,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u3/3.4",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.4",
+      "titleZh": "光合作用",
+      "layer": "ap",
+      "words": 390,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u4/4.7",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.7",
+      "titleZh": "有丝分裂",
+      "layer": "ap",
+      "words": 390,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u5/5.1",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.1",
+      "titleZh": "减数分裂",
+      "layer": "ap",
+      "words": 390,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u6/6.8",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.8",
+      "titleZh": "生物技术",
+      "layer": "ap",
+      "words": 390,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.10",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.10",
+      "titleZh": "物种形成",
+      "layer": "ap",
+      "words": 390,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.9",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.9",
+      "titleZh": "系统发生",
+      "layer": "ap",
+      "words": 390,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.6",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.6",
+      "titleZh": "万有引力",
+      "layer": "ap",
+      "words": 390,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.2",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.2",
+      "titleZh": "斜率场",
+      "layer": "ap",
+      "words": 391,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.9",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.9",
+      "titleZh": "Logistic 模型",
+      "layer": "ap",
+      "words": 391,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.9",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.9",
+      "titleZh": "因式分解",
+      "layer": "prep",
+      "words": 391,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u2/2.2",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.2",
+      "titleZh": "细胞大小",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.4",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.4",
+      "titleZh": "膜通透性",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.6",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.6",
+      "titleZh": "促进扩散",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u3/3.3",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.3",
+      "titleZh": "细胞能量",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u3/3.5",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.5",
+      "titleZh": "细胞呼吸",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u4/4.1",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.1",
+      "titleZh": "细胞通讯",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u4/4.3",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.3",
+      "titleZh": "信号转导",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u4/4.5",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.5",
+      "titleZh": "细胞周期",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.2",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.2",
+      "titleZh": "自然选择",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.3",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.3",
+      "titleZh": "人工选择",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.4",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.4",
+      "titleZh": "群体遗传",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.7",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.7",
+      "titleZh": "共同祖先",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.3",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.3",
+      "titleZh": "种群生态",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.5",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.5",
+      "titleZh": "群落生态",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.2",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.2",
+      "titleZh": "简单电路",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u13/13.2",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.2",
+      "titleZh": "电磁感应",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.13",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.13",
+      "titleZh": "除去间断",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.4",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.4",
+      "titleZh": "圆周运动",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u7/7.1",
+      "subject": "mech",
+      "chapterId": "mech-u7",
+      "code": "7.1",
+      "titleZh": "周期运动",
+      "layer": "ap",
+      "words": 392,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.3",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.3",
+      "titleZh": "细胞结构",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.4",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.4",
+      "titleZh": "电容直觉",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.3",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.3",
+      "titleZh": "增减性",
+      "layer": "ap",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.5",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.5",
+      "titleZh": "欧拉法",
+      "layer": "ap",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.2",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.2",
+      "titleZh": "线性方程",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.7",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.7",
+      "titleZh": "指数运算",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.10",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.10",
+      "titleZh": "矩阵入门",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.4",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.4",
+      "titleZh": "有理函数",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.6",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.6",
+      "titleZh": "指数函数",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.7",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.7",
+      "titleZh": "对数函数",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.9",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.9",
+      "titleZh": "坐标几何",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.7",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.7",
+      "titleZh": "向量入门",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.9",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.9",
+      "titleZh": "极限直觉",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.4",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.4",
+      "titleZh": "能量系统",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.5",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.5",
+      "titleZh": "动量系统",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.7",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.7",
+      "titleZh": "基础电路",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.11",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.11",
+      "titleZh": "转动入门",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.14",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.14",
+      "titleZh": "静电入门",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.6",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.6",
+      "titleZh": "圆周运动",
+      "layer": "prep",
+      "words": 393,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.8",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.8",
+      "titleZh": "主动运输",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.6",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.6",
+      "titleZh": "进化证据",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u10/10.1",
+      "subject": "em",
+      "chapterId": "em-u10",
+      "code": "10.1",
+      "titleZh": "导体静电",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u8/8.5",
+      "subject": "em",
+      "chapterId": "em-u8",
+      "code": "8.5",
+      "titleZh": "高斯定律",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.8",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.8",
+      "titleZh": "积商法则",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.1",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.1",
+      "titleZh": "链式法则",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.11",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.11",
+      "titleZh": "优化求解",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.12",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.12",
+      "titleZh": "反常积分",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.7",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.7",
+      "titleZh": "特解",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u3/3.1",
+      "subject": "mech",
+      "chapterId": "mech-u3",
+      "code": "3.1",
+      "titleZh": "动能定理",
+      "layer": "ap",
+      "words": 394,
+      "enriched": true
+    },
+    {
+      "id": "mech/mech-u6/6.1",
+      "subject": "mech",
+      "chapterId": "mech-u6",
+      "code": "6.1",
+      "titleZh": "转动动能",
+      "layer": "ap",
+      "words": 394,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.2",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.2",
+      "titleZh": "电场直觉",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.3",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.3",
+      "titleZh": "电势直觉",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u13/13.5",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.5",
+      "titleZh": "LR 电路",
+      "layer": "ap",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u13/13.6",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.6",
+      "titleZh": "LC 电路",
+      "layer": "ap",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.11",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.11",
+      "titleZh": "证明基础",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.6",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.6",
+      "titleZh": "圆的性质",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.6",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.6",
+      "titleZh": "简谐与波",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.12",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.12",
+      "titleZh": "简谐运动",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.4",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.4",
+      "titleZh": "牛顿定律",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-math/P3.5",
+      "subject": "mech",
+      "chapterId": "mech-prep-math",
+      "code": "P3.5",
+      "titleZh": "小角近似",
+      "layer": "prep",
+      "words": 395,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.1",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.1",
+      "titleZh": "环境响应",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u12/12.4",
+      "subject": "em",
+      "chapterId": "em-u12",
+      "code": "12.4",
+      "titleZh": "安培定律",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u8/8.1",
+      "subject": "em",
+      "chapterId": "em-u8",
+      "code": "8.1",
+      "titleZh": "电荷与力",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.2",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.2",
+      "titleZh": "几何级数",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.4",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.4",
+      "titleZh": "积分检验",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.6",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.6",
+      "titleZh": "比较检验",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.8",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.8",
+      "titleZh": "比值检验",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.6",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.6",
+      "titleZh": "高阶导数",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.10",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.10",
+      "titleZh": "优化导论",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.13",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.13",
+      "titleZh": "弧长",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u3/3.2",
+      "subject": "mech",
+      "chapterId": "mech-u3",
+      "code": "3.2",
+      "titleZh": "力与势能",
+      "layer": "ap",
+      "words": 396,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.8",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.8",
+      "titleZh": "酸碱与 pH",
+      "layer": "prep",
+      "words": 397,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.9",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.9",
+      "titleZh": "水与氢键",
+      "layer": "prep",
+      "words": 397,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u3/3.6",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.6",
+      "titleZh": "适应与能量",
+      "layer": "ap",
+      "words": 397,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.6",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.6",
+      "titleZh": "生物多样性",
+      "layer": "ap",
+      "words": 397,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.8",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.8",
+      "titleZh": "功与动能",
+      "layer": "prep",
+      "words": 397,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.14",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.14",
+      "titleZh": "生物多样性",
+      "layer": "prep",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u6/6.6",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.6",
+      "titleZh": "基因突变",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.13",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.13",
+      "titleZh": "生命起源",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.4",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.4",
+      "titleZh": "密度效应",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u8/8.3",
+      "subject": "em",
+      "chapterId": "em-u8",
+      "code": "8.3",
+      "titleZh": "电场叠加",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.7",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.7",
+      "titleZh": "交替级数",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.1",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.1",
+      "titleZh": "中值定理",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.10",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.10",
+      "titleZh": "分部积分",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.11",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.11",
+      "titleZh": "部分分式",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.8",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.8",
+      "titleZh": "指数模型",
+      "layer": "ap",
+      "words": 398,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u5/5.3",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.3",
+      "titleZh": "孟德尔遗传",
+      "layer": "ap",
+      "words": 399,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u5/5.6",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.6",
+      "titleZh": "染色体遗传",
+      "layer": "ap",
+      "words": 399,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.8",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.8",
+      "titleZh": "延续与变化",
+      "layer": "ap",
+      "words": 399,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.2",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.2",
+      "titleZh": "隐函数求导",
+      "layer": "ap",
+      "words": 399,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u5/5.2",
+      "subject": "mech",
+      "chapterId": "mech-u5",
+      "code": "5.2",
+      "titleZh": "转动运动学",
+      "layer": "ap",
+      "words": 399,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.3",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.3",
+      "titleZh": "元素周期表",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.2",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.2",
+      "titleZh": "生物大分子",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.9",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.9",
+      "titleZh": "孟德尔遗传",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u1/1.1",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.1",
+      "titleZh": "水与生命",
+      "layer": "ap",
+      "words": 400,
+      "enriched": true
+    },
+    {
+      "id": "em/em-u9/9.3",
+      "subject": "em",
+      "chapterId": "em-u9",
+      "code": "9.3",
+      "titleZh": "电势与场",
+      "layer": "ap",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.8",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.8",
+      "titleZh": "挤压定理",
+      "layer": "ap",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.1",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.1",
+      "titleZh": "序列收敛",
+      "layer": "ap",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.3",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.3",
+      "titleZh": "n 项检验",
+      "layer": "ap",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.3",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.3",
+      "titleZh": "线性不等式",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.8",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.8",
+      "titleZh": "多项式运算",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.3",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.3",
+      "titleZh": "多项式函数",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.3",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.3",
+      "titleZh": "相似三角形",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.1",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.1",
+      "titleZh": "运动学建模",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.2",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.2",
+      "titleZh": "一维运动学",
+      "layer": "prep",
+      "words": 400,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.7",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.7",
+      "titleZh": "渗透与水势",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.5",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.5",
+      "titleZh": "哈代–温伯格",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u0/0.1",
+      "subject": "math",
+      "chapterId": "calc-u0",
+      "code": "0.1",
+      "titleZh": "函数与图像",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.9",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.9",
+      "titleZh": "积商法则续",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.3",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.3",
+      "titleZh": "反函数导数",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.9",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.9",
+      "titleZh": "换元积分法",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.3",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.3",
+      "titleZh": "斜率场草图",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u3/3.3",
+      "subject": "mech",
+      "chapterId": "mech-u3",
+      "code": "3.3",
+      "titleZh": "机械能守恒",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u4/4.1",
+      "subject": "mech",
+      "chapterId": "mech-u4",
+      "code": "4.1",
+      "titleZh": "冲量与动量",
+      "layer": "ap",
+      "words": 401,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.7",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.7",
+      "titleZh": "溶液与浓度",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.7",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.7",
+      "titleZh": "磁通量直觉",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.8",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.8",
+      "titleZh": "函数草图",
+      "layer": "ap",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.9",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.9",
+      "titleZh": "概率与计数",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.5",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.5",
+      "titleZh": "三角比入门",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.7",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.7",
+      "titleZh": "面积与周长",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.5",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.5",
+      "titleZh": "极坐标入门",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.8",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.8",
+      "titleZh": "矩阵与变换",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.10",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.10",
+      "titleZh": "动量与碰撞",
+      "layer": "prep",
+      "words": 402,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u1/1.4",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.4",
+      "titleZh": "蛋白质性质",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u6/6.1",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.1",
+      "titleZh": "DNA 与 RNA 结构",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u9/9.4",
+      "subject": "em",
+      "chapterId": "em-u9",
+      "code": "9.4",
+      "titleZh": "电势差与功",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.4",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.4",
+      "titleZh": "导数与连续",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.5",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.5",
+      "titleZh": "幂函数导数",
+      "layer": "ap",
+      "words": 403,
+      "enriched": true
+    },
+    {
+      "id": "math/calc-u4/4.4",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.4",
+      "titleZh": "相关变化率",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.4",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.4",
+      "titleZh": "斜率场推理",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.11",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.11",
+      "titleZh": "垫圈法",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.9",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.9",
+      "titleZh": "圆盘法",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u1/1.1",
+      "subject": "mech",
+      "chapterId": "mech-u1",
+      "code": "1.1",
+      "titleZh": "一维运动学",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u1/1.2",
+      "subject": "mech",
+      "chapterId": "mech-u1",
+      "code": "1.2",
+      "titleZh": "二维运动学",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u5/5.3",
+      "subject": "mech",
+      "chapterId": "mech-u5",
+      "code": "5.3",
+      "titleZh": "转动动力学",
+      "layer": "ap",
+      "words": 403,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.2",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.2",
+      "titleZh": "直线运动",
+      "layer": "ap",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.6",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.6",
+      "titleZh": "线性方程组",
+      "layer": "prep",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.1",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.1",
+      "titleZh": "函数族回顾",
+      "layer": "prep",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.1",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.1",
+      "titleZh": "点线面与角",
+      "layer": "prep",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.10",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.10",
+      "titleZh": "变化率直觉",
+      "layer": "prep",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.9",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.9",
+      "titleZh": "势能与守恒",
+      "layer": "prep",
+      "words": 404,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u3/3.2",
+      "subject": "bio",
+      "chapterId": "bio-u3",
+      "code": "3.2",
+      "titleZh": "环境影响酶",
+      "layer": "ap",
+      "words": 405,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u10/10.2",
+      "subject": "em",
+      "chapterId": "em-u10",
+      "code": "10.2",
+      "titleZh": "电荷再分布",
+      "layer": "ap",
+      "words": 405,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.11",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.11",
+      "titleZh": "定义连续性",
+      "layer": "ap",
+      "words": 405,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.15",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.15",
+      "titleZh": "幂级数运算",
+      "layer": "ap",
+      "words": 405,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.2",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.2",
+      "titleZh": "黎曼和近似",
+      "layer": "ap",
+      "words": 405,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.8",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.8",
+      "titleZh": "求原函数",
+      "layer": "ap",
+      "words": 406,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.3",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.3",
+      "titleZh": "参数弧长",
+      "layer": "ap",
+      "words": 406,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.6",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.6",
+      "titleZh": "光合作用概览",
+      "layer": "prep",
+      "words": 407,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.4",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.4",
+      "titleZh": "向量值函数",
+      "layer": "ap",
+      "words": 407,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.7",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.7",
+      "titleZh": "万有引力入门",
+      "layer": "prep",
+      "words": 407,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u1/1.2",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.2",
+      "titleZh": "元素与大分子",
+      "layer": "ap",
+      "words": 408,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u5/5.4",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.4",
+      "titleZh": "非孟德尔遗传",
+      "layer": "ap",
+      "words": 408,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u8/8.7",
+      "subject": "bio",
+      "chapterId": "bio-u8",
+      "code": "8.7",
+      "titleZh": "生态系统扰动",
+      "layer": "ap",
+      "words": 408,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.2",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.2",
+      "titleZh": "导数定义",
+      "layer": "ap",
+      "words": 408,
+      "enriched": true
+    },
+    {
+      "id": "math/calc-u5/5.2",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.2",
+      "titleZh": "极值定理",
+      "layer": "ap",
+      "words": 408,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.11",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.11",
+      "titleZh": "自然选择入门",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.7",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.7",
+      "titleZh": "细胞呼吸概览",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.16",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.16",
+      "titleZh": "中间值定理",
+      "layer": "ap",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.1",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.1",
+      "titleZh": "瞬时变化率",
+      "layer": "ap",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.6",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.6",
+      "titleZh": "凹性与拐点",
+      "layer": "ap",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.6",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.6",
+      "titleZh": "可分离变量",
+      "layer": "ap",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.10",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.10",
+      "titleZh": "二次方程入门",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.11",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.11",
+      "titleZh": "指数增长入门",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.11",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.11",
+      "titleZh": "圆锥曲线入门",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.6",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.6",
+      "titleZh": "参数方程入门",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.15",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.15",
+      "titleZh": "直流电路基础",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-math/P3.3",
+      "subject": "mech",
+      "chapterId": "mech-prep-math",
+      "code": "P3.3",
+      "titleZh": "积分作为累积",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-math/P3.4",
+      "subject": "mech",
+      "chapterId": "mech-prep-math",
+      "code": "P3.4",
+      "titleZh": "微分方程直觉",
+      "layer": "prep",
+      "words": 409,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.10",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.10",
+      "titleZh": "细胞区隔起源",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u4/4.2",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.2",
+      "titleZh": "信号导引导论",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u4/4.6",
+      "subject": "bio",
+      "chapterId": "bio-u4",
+      "code": "4.6",
+      "titleZh": "细胞周期调控",
+      "layer": "ap",
+      "words": 410,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u5/5.5",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.5",
+      "titleZh": "环境影响表型",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u6/6.3",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.3",
+      "titleZh": "转录与 RNA 加工",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u6/6.5",
+      "subject": "bio",
+      "chapterId": "bio-u6",
+      "code": "6.5",
+      "titleZh": "基因表达调控",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.1",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.1",
+      "titleZh": "自然选择导论",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.5",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.5",
+      "titleZh": "复合直流电路",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.6",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.6",
+      "titleZh": "基尔霍夫环路",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.7",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.7",
+      "titleZh": "基尔霍夫结点",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u0/0.2",
+      "subject": "math",
+      "chapterId": "calc-u0",
+      "code": "0.2",
+      "titleZh": "单位圆与三角",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.10",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.10",
+      "titleZh": "探索间断类型",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.10",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.10",
+      "titleZh": "交替级数误差",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.1",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.1",
+      "titleZh": "累积变化探查",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.14",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.14",
+      "titleZh": "积分技巧综合",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u5/5.1",
+      "subject": "mech",
+      "chapterId": "mech-u5",
+      "code": "5.1",
+      "titleZh": "力矩与静力学",
+      "layer": "ap",
+      "words": 410,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.13",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.13",
+      "titleZh": "人体系统概览",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.4",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.4",
+      "titleZh": "细胞膜与运输",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.13",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.13",
+      "titleZh": "半径与区间",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.3",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.3",
+      "titleZh": "可微性估计",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.1",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.1",
+      "titleZh": "变化率情境",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.5",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.5",
+      "titleZh": "定积分解释",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.7",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.7",
+      "titleZh": "定积分求值",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.7",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.7",
+      "titleZh": "极坐标导数",
+      "layer": "ap",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.2",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.2",
+      "titleZh": "二次函数深入",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.8",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.8",
+      "titleZh": "表面积与体积",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.13",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.13",
+      "titleZh": "机械波与声音",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.16",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.16",
+      "titleZh": "磁与电磁入门",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.5",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.5",
+      "titleZh": "应用力与摩擦",
+      "layer": "prep",
+      "words": 411,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u1/1.6",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.6",
+      "titleZh": "酶结构与功能",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.12",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.12",
+      "titleZh": "确认区间连续",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.4",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.4",
+      "titleZh": "由表估计极限",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.9",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.9",
+      "titleZh": "连通间断类型",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.5",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.5",
+      "titleZh": "高阶导数选讲",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.12",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.12",
+      "titleZh": "隐式关系行为",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u7/7.1",
+      "subject": "math",
+      "chapterId": "calc-u7",
+      "code": "7.1",
+      "titleZh": "微分方程建模",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.1",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.1",
+      "titleZh": "参数运动导数",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.2",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.2",
+      "titleZh": "参数二阶导数",
+      "layer": "ap",
+      "words": 412,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.3",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.3",
+      "titleZh": "累积变化率",
+      "layer": "ap",
+      "words": 413,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u7/7.12",
+      "subject": "bio",
+      "chapterId": "bio-u7",
+      "code": "7.12",
+      "titleZh": "生命起源多样性",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.12",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.12",
+      "titleZh": "拉格朗日误差界",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.7",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.7",
+      "titleZh": "eˣ 与 aˣ 导数",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.7",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.7",
+      "titleZh": "洛必达法则",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.1",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.1",
+      "titleZh": "积分求平均",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.4",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.4",
+      "titleZh": "曲线间面积",
+      "layer": "ap",
+      "words": 415,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.8",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.8",
+      "titleZh": "已知截面体积",
+      "layer": "ap",
+      "words": 416,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.12",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.12",
+      "titleZh": "三角恒等式预备",
+      "layer": "prep",
+      "words": 416,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.8",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.8",
+      "titleZh": "转动动力学入门",
+      "layer": "prep",
+      "words": 416,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.5",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.5",
+      "titleZh": "牛顿第三定律",
+      "layer": "ap",
+      "words": 416,
+      "enriched": true
+    },
+    {
+      "id": "bio/bio-u1/1.3",
+      "subject": "bio",
+      "chapterId": "bio-u1",
+      "code": "1.3",
+      "titleZh": "生物大分子导论",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u2/2.1",
+      "subject": "bio",
+      "chapterId": "bio-u2",
+      "code": "2.1",
+      "titleZh": "细胞器与区隔化",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u12/12.2",
+      "subject": "em",
+      "chapterId": "em-u12",
+      "code": "12.2",
+      "titleZh": "运动电荷与磁场",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u3/3.4",
+      "subject": "math",
+      "chapterId": "calc-u3",
+      "code": "3.4",
+      "titleZh": "反三角函数导数",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.5",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.5",
+      "titleZh": "相关变化率求解",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.5",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.5",
+      "titleZh": "向量值函数积分",
+      "layer": "ap",
+      "words": 417,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.10",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.10",
+      "titleZh": "有机官能团入门",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.4",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.4",
+      "titleZh": "离子键与共价键",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.5",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.5",
+      "titleZh": "分子几何与极性",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.6",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.6",
+      "titleZh": "化学反应与计量",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.1",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.1",
+      "titleZh": "瞬时变化导论",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.6",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.6",
+      "titleZh": "常数倍与和差",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.5",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.5",
+      "titleZh": "候选绝对极值",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.7",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.7",
+      "titleZh": "二阶导数检验",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.13",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.13",
+      "titleZh": "积分技巧选择",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.10",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.10",
+      "titleZh": "圆盘法其他轴",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.12",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.12",
+      "titleZh": "垫圈法其他轴",
+      "layer": "ap",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.12",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.12",
+      "titleZh": "数据与线性模型",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.4",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.4",
+      "titleZh": "函数与图像入门",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.5",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.5",
+      "titleZh": "根式与有理指数",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg2/P3.8",
+      "subject": "math",
+      "chapterId": "math-prep-alg2",
+      "code": "P3.8",
+      "titleZh": "数列与级数入门",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.2",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.2",
+      "titleZh": "指数与对数模型",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.3",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.3",
+      "titleZh": "圆周与万有引力",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.1",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.1",
+      "titleZh": "测量、单位与矢量",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-hs/P1.3",
+      "subject": "mech",
+      "chapterId": "mech-prep-hs",
+      "code": "P1.3",
+      "titleZh": "二维运动与抛体",
+      "layer": "prep",
+      "words": 418,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u13/13.3",
+      "subject": "em",
+      "chapterId": "em-u13",
+      "code": "13.3",
+      "titleZh": "感应电流与磁力",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.3",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.3",
+      "titleZh": "由图像估计极限",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.6",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.6",
+      "titleZh": "代数操作求极限",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.7",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.7",
+      "titleZh": "选择求极限程序",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.9",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.9",
+      "titleZh": "绝对与条件收敛",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u4/4.2",
+      "subject": "mech",
+      "chapterId": "mech-u4",
+      "code": "4.2",
+      "titleZh": "动量守恒与碰撞",
+      "layer": "ap",
+      "words": 419,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.1",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.1",
+      "titleZh": "电荷与库仑定律",
+      "layer": "prep",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.5",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.5",
+      "titleZh": "欧姆定律与电路",
+      "layer": "prep",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.3",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.3",
+      "titleZh": "变化率与单位",
+      "layer": "ap",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.6",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.6",
+      "titleZh": "向量运动解题",
+      "layer": "ap",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.5",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.5",
+      "titleZh": "斜率与直线方程",
+      "layer": "prep",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-math/P3.1",
+      "subject": "mech",
+      "chapterId": "mech-prep-math",
+      "code": "P3.1",
+      "titleZh": "矢量分解与点积",
+      "layer": "prep",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-math/P3.2",
+      "subject": "mech",
+      "chapterId": "mech-prep-math",
+      "code": "P3.2",
+      "titleZh": "导数作为变化率",
+      "layer": "prep",
+      "words": 420,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u11/11.3",
+      "subject": "em",
+      "chapterId": "em-u11",
+      "code": "11.3",
+      "titleZh": "电阻与欧姆定律",
+      "layer": "ap",
+      "words": 421,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.2",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.2",
+      "titleZh": "极限定义与记号",
+      "layer": "ap",
+      "words": 421,
+      "enriched": true
+    },
+    {
+      "id": "math/calc-u10/10.11",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.11",
+      "titleZh": "泰勒多项式导论",
+      "layer": "ap",
+      "words": 421,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.9",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.9",
+      "titleZh": "微积分工具回顾",
+      "layer": "prep",
+      "words": 422,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u2/2.10",
+      "subject": "math",
+      "chapterId": "calc-u2",
+      "code": "2.10",
+      "titleZh": "三角函数导数",
+      "layer": "ap",
+      "words": 422,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u4/4.6",
+      "subject": "math",
+      "chapterId": "calc-u4",
+      "code": "4.6",
+      "titleZh": "局部线性近似",
+      "layer": "ap",
+      "words": 422,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.4",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.4",
+      "titleZh": "一阶导数检验",
+      "layer": "ap",
+      "words": 422,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.5",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.5",
+      "titleZh": "曲线间面积 y",
+      "layer": "ap",
+      "words": 422,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.5",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.5",
+      "titleZh": "极限的代数性质",
+      "layer": "ap",
+      "words": 423,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.2",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.2",
+      "titleZh": "位置速度加速度",
+      "layer": "ap",
+      "words": 423,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.7",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.7",
+      "titleZh": "旋转体体积盘法",
+      "layer": "ap",
+      "words": 423,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.2",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.2",
+      "titleZh": "原子结构与同位素",
+      "layer": "prep",
+      "words": 425,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.4",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.4",
+      "titleZh": "微积分基本定理",
+      "layer": "ap",
+      "words": 425,
+      "enriched": true
+    },
+    {
+      "id": "math/math-prep-precalc/P4.4",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.4",
+      "titleZh": "三角方程与恒等式",
+      "layer": "prep",
+      "words": 425,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.5",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.5",
+      "titleZh": "调和级数与 p 级数",
+      "layer": "ap",
+      "words": 426,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.12",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.12",
+      "titleZh": "生态层级与能量流",
+      "layer": "prep",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.8",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.8",
+      "titleZh": "矢量场与通量直觉",
+      "layer": "prep",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.8",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.8",
+      "titleZh": "极坐标面积",
+      "layer": "ap",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.2",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.2",
+      "titleZh": "平行与三角形全等",
+      "layer": "prep",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.3",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.3",
+      "titleZh": "单位圆与三角函数",
+      "layer": "prep",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-prep-ap1/P2.2",
+      "subject": "mech",
+      "chapterId": "mech-prep-ap1",
+      "code": "P2.2",
+      "titleZh": "动力学与自由体图",
+      "layer": "prep",
+      "words": 427,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.11",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.11",
+      "titleZh": "热力学与反应热入门",
+      "layer": "prep",
+      "words": 428,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u5/5.9",
+      "subject": "math",
+      "chapterId": "calc-u5",
+      "code": "5.9",
+      "titleZh": "函数与导数关联",
+      "layer": "ap",
+      "words": 429,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-alg1/P1.1",
+      "subject": "math",
+      "chapterId": "math-prep-alg1",
+      "code": "P1.1",
+      "titleZh": "表达式与实数性质",
+      "layer": "prep",
+      "words": 429,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.8",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.8",
+      "titleZh": "有丝分裂与减数分裂",
+      "layer": "prep",
+      "words": 430,
+      "enriched": false
+    },
+    {
+      "id": "em/em-u12/12.3",
+      "subject": "em",
+      "chapterId": "em-u12",
+      "code": "12.3",
+      "titleZh": "毕奥–萨伐尔定律",
+      "layer": "ap",
+      "words": 431,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u8/8.6",
+      "subject": "math",
+      "chapterId": "calc-u8",
+      "code": "8.6",
+      "titleZh": "曲线间面积其他",
+      "layer": "ap",
+      "words": 431,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u9/9.9",
+      "subject": "math",
+      "chapterId": "calc-u9",
+      "code": "9.9",
+      "titleZh": "两极曲线间面积",
+      "layer": "ap",
+      "words": 431,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.1",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.1",
+      "titleZh": "科学测量与有效数字",
+      "layer": "prep",
+      "words": 432,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-chem/P1.12",
+      "subject": "bio",
+      "chapterId": "bio-prep-chem",
+      "code": "P1.12",
+      "titleZh": "反应速率与平衡入门",
+      "layer": "prep",
+      "words": 432,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u10/10.14",
+      "subject": "math",
+      "chapterId": "calc-u10",
+      "code": "10.14",
+      "titleZh": "函数表示为幂级数",
+      "layer": "ap",
+      "words": 432,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.6",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.6",
+      "titleZh": "微积分基本定理应用",
+      "layer": "ap",
+      "words": 433,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.1",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.1",
+      "titleZh": "科学方法与实验设计",
+      "layer": "prep",
+      "words": 434,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-prep-hs/P2.10",
+      "subject": "bio",
+      "chapterId": "bio-prep-hs",
+      "code": "P2.10",
+      "titleZh": "DNA 与蛋白质合成入门",
+      "layer": "prep",
+      "words": 434,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.14",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.14",
+      "titleZh": "无限极限与竖直渐近",
+      "layer": "ap",
+      "words": 435,
+      "enriched": false
+    },
+    {
+      "id": "em/em-prep-found/P1.6",
+      "subject": "em",
+      "chapterId": "em-prep-found",
+      "code": "P1.6",
+      "titleZh": "磁场与洛伦兹力直觉",
+      "layer": "prep",
+      "words": 436,
+      "enriched": false
+    },
+    {
+      "id": "bio/bio-u5/5.2",
+      "subject": "bio",
+      "chapterId": "bio-u5",
+      "code": "5.2",
+      "titleZh": "减数分裂与遗传多样性",
+      "layer": "ap",
+      "words": 438,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-precalc/P4.1",
+      "subject": "math",
+      "chapterId": "math-prep-precalc",
+      "code": "P4.1",
+      "titleZh": "多项式与有理函数分析",
+      "layer": "prep",
+      "words": 439,
+      "enriched": false
+    },
+    {
+      "id": "math/math-prep-geo/P2.4",
+      "subject": "math",
+      "chapterId": "math-prep-geo",
+      "code": "P2.4",
+      "titleZh": "直角三角与毕达哥拉斯",
+      "layer": "prep",
+      "words": 441,
+      "enriched": false
+    },
+    {
+      "id": "mech/mech-u2/2.3",
+      "subject": "mech",
+      "chapterId": "mech-u2",
+      "code": "2.3",
+      "titleZh": "牛顿第一与第二定律",
+      "layer": "ap",
+      "words": 441,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u1/1.15",
+      "subject": "math",
+      "chapterId": "calc-u1",
+      "code": "1.15",
+      "titleZh": "无穷远处极限与水平渐近",
+      "layer": "ap",
+      "words": 451,
+      "enriched": false
+    },
+    {
+      "id": "math/calc-u6/6.3",
+      "subject": "math",
+      "chapterId": "calc-u6",
+      "code": "6.3",
+      "titleZh": "黎曼和、求和记号与定积分",
+      "layer": "ap",
+      "words": 453,
+      "enriched": false
+    }
+  ]
+}
