@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T16:33:31.171Z",
+  "generatedAt": "2026-11-05T17:07:09.816Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 26,
+  "enrichedCount": 29,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -222,7 +222,7 @@
       "titleZh": "区隔化",
       "layer": "ap",
       "words": 383,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u10/10.3",
@@ -322,7 +322,7 @@
       "titleZh": "能量流",
       "layer": "ap",
       "words": 389,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u11/11.8",
@@ -372,7 +372,7 @@
       "titleZh": "生物技术",
       "layer": "ap",
       "words": 390,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.10",
