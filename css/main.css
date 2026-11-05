@@ -2481,45 +2481,73 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   left: 0;
   top: 0;
   transform-origin: 0 0;
-  padding: 0.15rem 0.45rem 0.15rem 0.7rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  padding: 0.12rem 0.4rem 0.12rem 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
   color: var(--text-strong);
-  background: color-mix(in srgb, var(--bg-elev) 82%, transparent);
-  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  border: none;
+  border-radius: 0;
   white-space: nowrap;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px) saturate(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  box-shadow: none;
+  transition: opacity 0.15s ease;
 }
 .map-cluster-label::before {
   content: "";
   position: absolute;
-  left: 0.25rem;
+  left: 0.2rem;
   top: 50%;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   transform: translateY(-50%);
   background: var(--swatch, var(--accent));
+  opacity: 0.9;
 }
-
-
 .map-tier-stage {
-  font-size: 0.92rem;
-  font-weight: 700;
-  padding: 0.28rem 0.7rem 0.28rem 0.95rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  padding: 0.18rem 0.5rem 0.18rem 0.8rem;
   z-index: 3;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
 }
 .map-tier-unit {
-  font-size: 0.66rem;
-  font-weight: 600;
-  opacity: 0.95;
+  font-size: 0.64rem;
+  font-weight: 500;
+  opacity: 0.92;
   z-index: 2;
   max-width: 11rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 40%, transparent);
 }
 .map-cluster-label.map-tier-stage::before {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
+}
+[data-theme="dark"] .map-cluster-label {
+  background: color-mix(in srgb, var(--bg) 48%, transparent);
+  color: var(--text-strong);
+}
+[data-theme="dark"] .map-tier-stage {
+  background: color-mix(in srgb, var(--bg-elev, var(--bg)) 62%, transparent);
+}
+[data-theme="dark"] .map-tier-unit {
+  background: color-mix(in srgb, var(--bg) 35%, transparent);
+  color: var(--text);
+}
+.map-tooltip {
+  background: color-mix(in srgb, var(--bg) 88%, transparent) !important;
+  border: 1px solid var(--hairline);
+  border-radius: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  box-shadow: none;
 }

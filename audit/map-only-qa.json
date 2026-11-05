@@ -8,6 +8,10 @@
   "map_math": true,
   "map_mech": true,
   "map_em": true,
+  "map_bio_dark": true,
+  "map_math_dark": true,
+  "map_mech_dark": true,
+  "map_em_dark": true,
   "cluster_labels": 11,
   "label_sample": [
     "预备化学",

@@ -2,7 +2,7 @@ import * as THREE from '../vendor/three/three.module.js';
 import { el, clear } from './ui-shared.js';
 import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
-import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor, rectsOverlap } from './map-hierarchy.js';
+import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor, rectsOverlap, mixHex } from './map-hierarchy.js';
 
 /** Soft per-unit palette (AP); prep stays muted grey. */
 const UNIT_COLORS_AP = [
@@ -11,6 +11,7 @@ const UNIT_COLORS_AP = [
 const PREP_COLOR = 0x9aa0a6;
 const EDGE_DIM = 0xb0b0b0;
 const EDGE_HOT = 0xc45c26;
+const EDGE_CROSS = 0x7c6af0; // subtle violet accent for cross-topic relations
 const SELECT_COLOR = 0xe8a87c;
 
 function cssColor(name, fallback) {
@@ -150,10 +151,21 @@ export async function renderMindMap(main, subject) {
     return 1.0;
   }
 
+  function isDarkTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark';
+  }
+  function refreshSceneTheme() {
+    const bg = cssColor('--canvas-plot', isDarkTheme() ? '#12141a' : '#f7f5f0');
+    scene.background = new THREE.Color(bg);
+    scene.fog = new THREE.FogExp2(new THREE.Color(bg).getHex(), isDarkTheme() ? 0.011 : 0.007);
+    crossMat.color.setHex(isDarkTheme() ? 0xa89bff : EDGE_CROSS);
+    crossMat.opacity = isDarkTheme() ? 0.45 : 0.38;
+    treeMat.opacity = isDarkTheme() ? 0.24 : 0.17;
+  }
   const bgHex = cssColor('--canvas-plot', '#f7f5f0');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(bgHex);
-  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.004);
+  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.009);
 
   const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
   camera.position.set(0, 14, 62);
@@ -189,7 +201,7 @@ export async function renderMindMap(main, subject) {
     if (n.tier === 'stage') geo = stageGeo;
     else if (n.tier === 'unit') geo = unitGeo;
     else geo = n.hasViz ? topicVizGeo : topicGeo;
-    const opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.82 : n.tier === 'unit' ? 0.95 : 1;
+    const opacity = n.tier === 'topic' ? (n.layer === 'prep' ? 0.88 : 0.96) : n.tier === 'unit' ? 0.94 : 1;
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(n.x, n.y, n.z);
@@ -215,6 +227,8 @@ export async function renderMindMap(main, subject) {
     mesh.userData._hit = hit;
     mesh.userData._baseScale = bs;
     mesh.userData._tier = n.tier;
+    mesh.userData._baseOpacity = opacity;
+    mesh.userData._baseColor = color;
   }
 
   // HTML labels for stage + unit (topics: name on hover only).
@@ -328,17 +342,57 @@ export async function renderMindMap(main, subject) {
     }
   }
 
-  const positions = new Float32Array(edges.length * 6);
-  const lineGeo = new THREE.BufferGeometry();
-  lineGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const lineMat = new THREE.LineBasicMaterial({
-    color: EDGE_DIM,
+  // Split edges: tree (unit-tinted, thin) vs cross-topic (accent dashed)
+  const treeEdgeList = edges.filter((e) => String(e.type || '').startsWith('tree') || e.type === 'prerequisite');
+  const crossEdgeList = edges.filter((e) => e.cross || e.type === 'connects' || e.type === 'applies-to');
+  // leftover topic prereqs already in treeEdgeList; avoid double-drawing crosses
+  const crossIds = new Set(crossEdgeList.map((e) => `${e.source}|${e.target}|${e.type}`));
+  const treeOnly = edges.filter((e) => !crossIds.has(`${e.source}|${e.target}|${e.type}`));
+
+  function edgeTint(e) {
+    const a = byId.get(e.source);
+    const b = byId.get(e.target);
+    const ref = (a && a.tier === 'topic' ? a : b && b.tier === 'topic' ? b : a) || b;
+    if (!ref) return EDGE_DIM;
+    const col = baseColor(ref);
+    return mixHex(col, EDGE_DIM, 0.55);
+  }
+
+  const treePositions = new Float32Array(treeOnly.length * 6);
+  const treeColors = new Float32Array(treeOnly.length * 6);
+  const treeGeo = new THREE.BufferGeometry();
+  treeGeo.setAttribute('position', new THREE.BufferAttribute(treePositions, 3));
+  treeGeo.setAttribute('color', new THREE.BufferAttribute(treeColors, 3));
+  const treeMat = new THREE.LineBasicMaterial({
+    vertexColors: true,
     transparent: true,
     opacity: 0.18,
     depthWrite: false,
   });
-  const lines = new THREE.LineSegments(lineGeo, lineMat);
-  scene.add(lines);
+  const treeLines = new THREE.LineSegments(treeGeo, treeMat);
+  scene.add(treeLines);
+
+  const crossPositions = new Float32Array(crossEdgeList.length * 6);
+  const crossGeo = new THREE.BufferGeometry();
+  crossGeo.setAttribute('position', new THREE.BufferAttribute(crossPositions, 3));
+  const crossMat = new THREE.LineDashedMaterial({
+    color: EDGE_CROSS,
+    transparent: true,
+    opacity: 0.4,
+    dashSize: 0.45,
+    gapSize: 0.3,
+    depthWrite: false,
+  });
+  const crossLines = new THREE.LineSegments(crossGeo, crossMat);
+  scene.add(crossLines);
+  refreshSceneTheme();
+  const themeObs = new MutationObserver(() => refreshSceneTheme());
+  themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // legacy alias used by selection opacity tweaks
+  const lineMat = treeMat;
+  const lineGeo = treeGeo;
+  const positions = treePositions;
 
   // Edge midpoint handles (kept from later map work)
   const edgeHandleGroup = new THREE.Group();
@@ -419,11 +473,26 @@ export async function renderMindMap(main, subject) {
   let multiMode = false;
   const selected = new Set();
   let focusId = null;
+  let hoverId = null;
   let idle = true;
   const t0 = performance.now();
 
+  // adjacency for hover neighbor highlight
+  const adj = new Map();
+  for (const e of edges) {
+    if (!adj.has(e.source)) adj.set(e.source, []);
+    if (!adj.has(e.target)) adj.set(e.target, []);
+    adj.get(e.source).push(e.target);
+    adj.get(e.target).push(e.source);
+  }
+  function neighborSet(id) {
+    const s = new Set([id]);
+    for (const v of adj.get(id) || []) s.add(v);
+    return s;
+  }
 
-  function fitGraph(fill = 0.92) {
+
+  function fitGraph(fill = 0.78) {
     const box = new THREE.Box3();
     for (const n of nodes) box.expandByPoint(new THREE.Vector3(n.x, n.y, n.z));
     if (box.isEmpty()) return;
@@ -460,8 +529,8 @@ export async function renderMindMap(main, subject) {
       maxU = Math.max(maxU, Math.abs(v.dot(up)));
     }
     // Small pad so outermost topics aren't clipped
-    maxR *= 1.05;
-    maxU *= 1.05;
+    maxR *= 1.16;
+    maxU *= 1.16;
     const fov = (camera.fov * Math.PI) / 180;
     const aspect = Math.max(0.55, camera.aspect || 1);
     const distForH = maxU / (Math.tan(fov / 2) * fill);
@@ -479,11 +548,11 @@ export async function renderMindMap(main, subject) {
     renderer.setSize(w, h, false);
   }
   resize();
-  fitGraph(0.92);
+  fitGraph(0.78);
   const ro = new ResizeObserver(() => {
     resize();
     // keep framing when shell resizes; don't fight user zoom after first interaction
-    if (!userMovedCamera) fitGraph(0.92);
+    if (!userMovedCamera) fitGraph(0.78);
   });
   ro.observe(stage);
   let userMovedCamera = false;
@@ -595,28 +664,60 @@ export async function renderMindMap(main, subject) {
   }
 
   function refreshSelectionVisual() {
-    const has = selected.size > 0;
-    clearBtn.hidden = !has;
+    const hasSel = selected.size > 0;
+    clearBtn.hidden = !hasSel;
+    const neigh = hoverId && !hasSel ? neighborSet(hoverId) : null;
     for (const [id, mesh] of meshes) {
       const n = mesh.userData;
-      const base = baseColor(n);
+      if (!mesh.visible && n.soleUnderStage) continue;
+      const base = mesh.userData._baseColor ?? baseColor(n);
       const bs = mesh.userData._baseScale || baseScale(n);
-      if (!has) {
-        mesh.material.color.setHex(base);
-        mesh.material.opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.75 : n.tier === 'unit' ? 0.9 : 0.95;
-        mesh.scale.setScalar(bs);
-      } else if (selected.has(id)) {
-        mesh.material.color.setHex(SELECT_COLOR);
-        mesh.material.opacity = 1;
-        mesh.scale.setScalar(bs * 1.4);
+      const baseOp = mesh.userData._baseOpacity ?? 0.95;
+      if (hasSel) {
+        if (selected.has(id)) {
+          mesh.material.color.setHex(SELECT_COLOR);
+          mesh.material.opacity = 1;
+          mesh.userData._selBoost = 1.35;
+        } else {
+          mesh.material.color.setHex(base);
+          mesh.material.opacity = Math.min(0.18, baseOp * 0.22);
+          mesh.userData._selBoost = 0.85;
+        }
+      } else if (neigh) {
+        if (neigh.has(id)) {
+          mesh.material.color.setHex(id === hoverId ? mixHex(base, 0xffffff, 0.18) : base);
+          mesh.material.opacity = 1;
+          mesh.userData._selBoost = id === hoverId ? 1.25 : 1.1;
+        } else {
+          mesh.material.color.setHex(base);
+          mesh.material.opacity = Math.min(0.14, baseOp * 0.18);
+          mesh.userData._selBoost = 0.82;
+        }
       } else {
         mesh.material.color.setHex(base);
-        mesh.material.opacity = n.tier === 'stage' || n.tier === 'unit' ? 0.35 : 0.16;
-        mesh.scale.setScalar(bs * 0.85);
+        mesh.material.opacity = baseOp;
+        mesh.userData._selBoost = 1;
       }
     }
-    lineMat.opacity = has ? 0.06 : 0.2;
-    setHotEdges(has ? pathEdgesAmong(selected) : []);
+    treeMat.opacity = hasSel ? 0.06 : (neigh ? 0.1 : (isDarkTheme() ? 0.28 : 0.2));
+    crossMat.opacity = hasSel ? 0.08 : (neigh ? 0.14 : (isDarkTheme() ? 0.42 : 0.36));
+    // dim cross lines not connected on hover
+    if (neigh) {
+      crossMat.opacity = 0.12;
+    }
+    setHotEdges(hasSel ? pathEdgesAmong(selected) : []);
+    // label dim
+    for (const [id, lab] of labelEls) {
+      if (!neigh && !hasSel) {
+        lab.style.opacity = '';
+        continue;
+      }
+      if (hasSel) {
+        lab.style.opacity = selected.has(id) ? '1' : '0.25';
+      } else {
+        lab.style.opacity = neigh.has(id) ? '1' : '0.22';
+      }
+    }
   }
 
   function openDetail(n) {
@@ -931,14 +1032,26 @@ export async function renderMindMap(main, subject) {
         tooltip.style.left = `${Math.min(x, rect.width - 220)}px`;
         tooltip.style.top = `${Math.min(y, rect.height - 40)}px`;
         renderer.domElement.style.cursor = 'pointer';
+        if (hoverId !== n.id) {
+          hoverId = n.id;
+          refreshSelectionVisual();
+        }
       } else {
         tooltip.hidden = true;
         renderer.domElement.style.cursor = 'grab';
+        if (hoverId) {
+          hoverId = null;
+          refreshSelectionVisual();
+        }
       }
     }
   });
   renderer.domElement.addEventListener('pointerleave', () => {
     tooltip.hidden = true;
+    if (hoverId) {
+      hoverId = null;
+      refreshSelectionVisual();
+    }
   });
   renderer.domElement.addEventListener(
     'wheel',
@@ -992,21 +1105,36 @@ export async function renderMindMap(main, subject) {
       m.position.set(n.x, n.y + breathe, n.z);
       // Near-constant screen size so near stages aren't giant blobs
       const d = Math.hypot(n.x - camPos.x, n.y + breathe - camPos.y, n.z - camPos.z) || REF_DIST;
-      const s = (m.userData._baseScale || 1) * (d / REF_DIST);
-      m.scale.setScalar(Math.max(0.7, Math.min(1.35, s)));
+      // Mild screen-stable scale + slight distance attenuation for depth
+      const screen = Math.max(0.75, Math.min(1.25, d / REF_DIST));
+      const atten = Math.max(0.72, Math.min(1.05, REF_DIST / Math.max(d, 8)));
+      const boost = m.userData._selBoost || 1;
+      m.scale.setScalar((m.userData._baseScale || 1) * screen * (0.55 + 0.45 * atten) * boost);
     }
     let i = 0;
-    for (const e of edges) {
+    for (const e of treeOnly) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
-      positions[i++] = a.x;
-      positions[i++] = a.y;
-      positions[i++] = a.z;
-      positions[i++] = b.x;
-      positions[i++] = b.y;
-      positions[i++] = b.z;
+      if (!a || !b) continue;
+      treePositions[i] = a.x; treePositions[i + 1] = a.y; treePositions[i + 2] = a.z;
+      treePositions[i + 3] = b.x; treePositions[i + 4] = b.y; treePositions[i + 5] = b.z;
+      const tint = new THREE.Color(edgeTint(e));
+      treeColors[i] = tint.r; treeColors[i + 1] = tint.g; treeColors[i + 2] = tint.b;
+      treeColors[i + 3] = tint.r; treeColors[i + 4] = tint.g; treeColors[i + 5] = tint.b;
+      i += 6;
     }
-    lineGeo.attributes.position.needsUpdate = true;
+    treeGeo.attributes.position.needsUpdate = true;
+    treeGeo.attributes.color.needsUpdate = true;
+    let ci = 0;
+    for (const e of crossEdgeList) {
+      const a = byId.get(e.source);
+      const b = byId.get(e.target);
+      if (!a || !b) continue;
+      crossPositions[ci++] = a.x; crossPositions[ci++] = a.y; crossPositions[ci++] = a.z;
+      crossPositions[ci++] = b.x; crossPositions[ci++] = b.y; crossPositions[ci++] = b.z;
+    }
+    crossGeo.attributes.position.needsUpdate = true;
+    crossLines.computeLineDistances();
     updateEdgeHandles();
     if (selected.size) setHotEdges(pathEdgesAmong(selected));
 
@@ -1031,10 +1159,13 @@ export async function renderMindMap(main, subject) {
       alive = false;
       document.removeEventListener('keydown', onKey);
       ro.disconnect();
+      themeObs.disconnect();
       renderer.dispose();
       for (const g of geos) g.dispose();
-      lineGeo.dispose();
-      lineMat.dispose();
+      treeGeo.dispose();
+      treeMat.dispose();
+      crossGeo.dispose();
+      crossMat.dispose();
       if (hotLine) {
         hotLine.geometry.dispose();
         hotLine.material.dispose();

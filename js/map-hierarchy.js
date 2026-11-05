@@ -298,10 +298,25 @@ export function layoutOrganic(nodes, allEdges, subject) {
   return nodes;
 }
 
+export function mixHex(a, b, t) {
+  const ar = (a >> 16) & 0xff, ag = (a >> 8) & 0xff, ab = a & 0xff;
+  const br = (b >> 16) & 0xff, bg = (b >> 8) & 0xff, bb = b & 0xff;
+  const r = Math.round(ar + (br - ar) * t);
+  const g = Math.round(ag + (bg - ag) * t);
+  const bl = Math.round(ab + (bb - ab) * t);
+  return (r << 16) | (g << 8) | bl;
+}
+
 export function nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR) {
   if (n.tier === 'stage' && n.color != null) return n.color;
-  if (n.layer === 'prep') return PREP_COLOR;
-  return UNIT_COLORS_AP[Math.max(0, n.unitIndex) % UNIT_COLORS_AP.length];
+  const unitCol = UNIT_COLORS_AP[Math.max(0, n.unitIndex) % UNIT_COLORS_AP.length];
+  // Prep topics/units: soft tint of unit hue instead of flat gray
+  if (n.layer === 'prep') {
+    if (n.tier === 'topic') return mixHex(PREP_COLOR, unitCol, 0.58);
+    return mixHex(PREP_COLOR, unitCol, 0.4);
+  }
+  if (n.tier === 'topic') return mixHex(unitCol, 0xf5f2ec, 0.12);
+  return unitCol;
 }
 
 /** Axis-aligned screen bbox helpers for label collision. */

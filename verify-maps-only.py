@@ -51,6 +51,17 @@ def main():
             page.screenshot(path=str(OUT / f'map-{sub}.png'))
             report[f'map_{sub}'] = True
 
+        # Dark-mode map screenshots
+        page.evaluate("() => document.documentElement.setAttribute('data-theme','dark')")
+        page.wait_for_timeout(200)
+        for sub in ['bio','math','mech','em']:
+            page.goto(base + f'#/{sub}/map', wait_until='networkidle')
+            page.wait_for_timeout(2600)
+            page.screenshot(path=str(OUT / f'map-{sub}-dark.png'))
+            report[f'map_{sub}_dark'] = True
+        page.evaluate("() => document.documentElement.setAttribute('data-theme','light')")
+        page.wait_for_timeout(100)
+
         # Interaction: edge midpoint + shift on bio
         page.goto(base + '#/bio/map', wait_until='networkidle')
         page.wait_for_timeout(3000)
@@ -108,6 +119,7 @@ def main():
         and report['shift_sel'] >= 1 and report['error_count'] == 0
         and report.get('cluster_labels', 0) >= 3 and not report.get('bare_p_codes')
         and all(report.get(f'map_{s}') for s in ['bio','math','mech','em'])
+        and all(report.get(f'map_{s}_dark') for s in ['bio','math','mech','em'])
     )
     (ROOT/'audit'/'map-only-qa.json').write_text(json.dumps(report, indent=2, ensure_ascii=False))
     print(json.dumps(report, indent=2, ensure_ascii=False))
