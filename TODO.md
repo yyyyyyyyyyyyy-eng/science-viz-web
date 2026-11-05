@@ -109,3 +109,5 @@
 2. enrichment batch2（先 bio 最薄 CED 点）  
 3. 物理 figure-audit 页面复检勾选  
 4. Mac dist + Release  
+
+- [ ] 思维导图：部分知识点仍显示为灰色，未着上单元浅彩色，优先修复
