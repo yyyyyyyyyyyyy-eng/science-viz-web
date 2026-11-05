@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T16:31:18.771Z",
+  "generatedAt": "2026-11-05T16:33:31.171Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 23,
+  "enrichedCount": 26,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -352,7 +352,7 @@
       "titleZh": "有丝分裂",
       "layer": "ap",
       "words": 390,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u5/5.1",
@@ -382,7 +382,7 @@
       "titleZh": "物种形成",
       "layer": "ap",
       "words": 390,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.9",
@@ -482,7 +482,7 @@
       "titleZh": "细胞呼吸",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u4/4.1",
