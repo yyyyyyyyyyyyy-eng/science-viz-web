@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T17:07:09.816Z",
+  "generatedAt": "2026-11-05T17:09:12.070Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 29,
+  "enrichedCount": 32,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -392,7 +392,7 @@
       "titleZh": "系统发生",
       "layer": "ap",
       "words": 390,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u2/2.6",
@@ -442,7 +442,7 @@
       "titleZh": "细胞大小",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u2/2.4",
@@ -452,7 +452,7 @@
       "titleZh": "膜通透性",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u2/2.6",

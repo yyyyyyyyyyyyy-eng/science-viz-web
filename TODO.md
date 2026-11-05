@@ -40,8 +40,8 @@
 8. **Enrichment 映射修复 + batch2 起步**
    - batch1 修正 7 处 key 错位：bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1；电容器 10.3 内容重写
    - 同步修正相关链接（酶、水、细胞周期、功–能、牛顿第三、电流）
-   - `data/enrichments/batch2.js` 新增 15 条：P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用、3.5 细胞呼吸、4.7 有丝分裂、7.10 物种形成、2.9 区隔化、8.2 能量流、6.8 生物技术
-   - 验证：29 条 enrichment 的 key/related 全部命中；29 个 topic 页 0 error、0 KaTeX error
+   - `data/enrichments/batch2.js` 新增 18 条：P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用、3.5 细胞呼吸、4.7 有丝分裂、7.10 物种形成、2.9 区隔化、8.2 能量流、6.8 生物技术、7.9 系统发生、2.2 细胞大小、2.4 膜通透性
+   - 验证：32 条 enrichment 的 key/related 全部命中；32 个 topic 页 0 error、0 KaTeX error
 
 ### 已推送 SHA（截至收工）
 
@@ -66,8 +66,8 @@
 - **注意**：不要用默认 `python3 -m http.server` 跑高并发 sweep，其 backlog=5 会导致 `ERR_CONNECTION_RESET` 假阳性。
 
 ### 2. 内容 enrichment（batch 续写）
-- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 15 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用、3.5 细胞呼吸、4.7 有丝分裂、7.10 物种形成、2.9 区隔化、8.2 能量流、6.8 生物技术）。
-- **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（当前 29/340 已 enrichment），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
+- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 18 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用、3.5 细胞呼吸、4.7 有丝分裂、7.10 物种形成、2.9 区隔化、8.2 能量流、6.8 生物技术、7.9 系统发生、2.2 细胞大小、2.4 膜通透性）。
+- **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（当前 32/340 已 enrichment），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
 - **注意**：`audit/topic-depth.json` 已由 `scripts/build-topic-depth.mjs` 重新生成（340 topics，含 enriched 标记）。
 
 ### 3. 数学练习（可选加深）
@@ -95,7 +95,7 @@
 ## 已知问题
 
 - ~~**全量 5s sweep 未完成**~~ → 已完成：481 routes × 3 viewports × 2 themes，0 issue（`audit/bug-sweep.md`）。
-- **enrichment 覆盖仍薄**：29/340 已 enrichment；多数 bio topic 仍为模板正文，需继续按 CED 续写。
+- **enrichment 覆盖仍薄**：32/340 已 enrichment；多数 bio topic 仍为模板正文，需继续按 CED 续写。
 - **math practice**：同族题干循环复用，深度仍不如手写题库。
 - **web 仓**：本地可能有未跟踪的 `desktop/`、旧 `verify-*.py`（勿误提交无关大文件）。
 - **本地 `science-viz` 无 remote**：以 web/app 的 GitHub 为准。
