@@ -116,7 +116,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u2",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -253,7 +258,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u2",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -532,7 +542,16 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      },
+      {
+        "id": "gravity-orbit",
+        "title": "万有引力轨道"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u2",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -804,7 +823,12 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "gravity-orbit",
+        "title": "万有引力轨道"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u2",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

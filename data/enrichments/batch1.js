@@ -1,0 +1,820 @@
+/** Batch 1: enrich thinnest / high-value CED topics with self-study depth. */
+export const ENRICHMENTS = {
+  'math/calc-u1/1.2': {
+    enrichedAt: 'batch1',
+    definition: '设函数 \(f\) 在 \(x=a\) 附近有定义（点 \(a\) 本身可无定义）。若存在实数 \(L\)，使得当 \(x\) 无限接近 \(a\)（但 \(x\\neq a\)）时 \(f(x)\) 无限接近 \(L\)，则称极限存在，记作\n\\[\\lim_{x\\to a}f(x)=L.\\]\n左右极限分别记为 \(\\lim_{x\\to a^-}f(x)\)、 \(\\lim_{x\\to a^+}f(x)\)；二者相等当且仅当双侧极限存在。',
+    intuition: '极限描述“趋势”，不是“代入”。\(x\) 可以永远到不了 \(a\)，但 \(f(x)\) 仍可逼近某个高度 \(L\)。',
+    intuitionDetailed: '把 \(x\) 想象成滑块：只要它足够靠近 \(a\)，函数值就被关进 \(L\) 附近任意窄的水平带。洞、可去间断、跳跃，都靠左右极限是否相同来分类。',
+    formulas: [
+      { latex: '\\lim_{x\\to a}f(x)=L', note: '双侧极限存在并等于 L。' },
+      { latex: '\\lim_{x\\to a}f(x)=L \\iff \\lim_{x\\to a^-}f(x)=\\lim_{x\\to a^+}f(x)=L', note: '左右极限判据。' },
+    ],
+    derivationNotes: [
+      { from: 'ε-δ 定义', to: '运算律', note: '和差积商极限定理由 ε-δ 证明；商式要求分母极限非零。' },
+      { from: '代数操作', to: '可去间断', note: '约去 \((x-a)\) 后在 \(x=a\) 的代入值即极限（若简化后连续）。' },
+    ],
+    conditions: ['讨论 \(x\\to a\) 时不要求 \(f(a)\) 有定义', '商的极限需分母极限不为 0', '无穷极限用 \(\\infty\) 记号时说“发散于无穷”，通常仍称极限不存在（有限意义下）'],
+    keyPoints: ['极限 ≠ 函数值', '左右极限是双侧极限存在的充要条件', '优先代数化简再代入；\(\\frac{0}{0}\) 是待定型不是答案'],
+    misconceptions: [
+      '以为 \(f(a)\) 必须有定义才谈极限',
+      '把 \(\\dfrac{0}{0}\) 写成“无意义”就停止，不进行因式分解/有理化',
+      '左右极限不同却仍写双侧极限等于某数',
+      '用斜线分式 \(1/2x\) 引起歧义（应写 \(\\dfrac{1}{2x}\) 或 \(\\dfrac{1}{2}x\)）',
+    ],
+    examples: [
+      {
+        title: '例 1 · 直接代入',
+        prompt: '求 \(\\lim_{x\\to 3}(2x^2-5)\)。',
+        steps: [
+          '多项式处处连续，极限等于函数值。',
+          '代入：\(2\\cdot 3^2-5=18-5=13\)。',
+        ],
+        solution: '答案：13。',
+        solutionLatex: '\\lim_{x\\to 3}(2x^{2}-5)=13',
+      },
+      {
+        title: '例 2 · 可去间断',
+        prompt: '求 \(\\lim_{x\\to 2}\\dfrac{x^2-4}{x-2}\)。',
+        steps: [
+          '代入得 \(\\dfrac{0}{0}\)，待定型。',
+          '因式分解：\(x^2-4=(x-2)(x+2)\)。',
+          '当 \(x\\neq 2\) 时，\(\\dfrac{(x-2)(x+2)}{x-2}=x+2\)。',
+          '故极限为 \(\\lim_{x\\to 2}(x+2)=4\)。',
+        ],
+        solution: '答案：4。图形上 \(x=2\) 有可去空洞，极限仍存在。',
+        solutionLatex: '\\lim_{x\\to 2}\\dfrac{x^{2}-4}{x-2}=4',
+      },
+      {
+        title: '例 3 · 左右极限',
+        prompt: '设 \(f(x)=\\begin{cases}x+1,&x<0\\\\ x^2,&x\\ge 0\\end{cases}\)。判断 \(\\lim_{x\\to 0}f(x)\) 是否存在。',
+        steps: [
+          '左极限：\(\\lim_{x\\to 0^-}(x+1)=1\)。',
+          '右极限：\(\\lim_{x\\to 0^+}x^2=0\)。',
+          '左右不等，双侧极限不存在。',
+        ],
+        solution: '极限不存在（跳跃间断）。',
+      },
+    ],
+    examTips: [
+      'FRQ：若写“极限不存在”，最好补一句左右极限或说明发散方式。',
+      'MCQ：先看是否 \(\\frac{0}{0}\)，再分解/共轭；不要过早用洛必达（Unit 4 才系统讲）。',
+      'CED 1.2：会用极限记号，并区分 \(x\\to a\)、\(x\\to a^\\pm\)、\(x\\to\\infty\)。',
+    ],
+    related: [
+      { subject: 'math', chapterId: 'calc-u1', code: '1.1', title: '瞬时变化导论', relation: '先修直觉' },
+      { subject: 'math', chapterId: 'calc-u1', code: '1.5', title: '极限的代数性质', relation: '后续' },
+      { subject: 'math', chapterId: 'calc-u1', code: '1.11', title: '定义连续性', relation: '联系' },
+    ],
+    development: [
+      '用表格观察 \(x\\to a\) 时 \(f(x)\) 的趋势。',
+      '用图像读左右极限。',
+      '用代数确认精确值。',
+    ],
+    checks: [
+      '能否解释“极限存在但函数在该点无定义”的例子？',
+      '能否写出一个左右极限不同的分段函数？',
+    ],
+    summary: '极限刻画逼近趋势；左右极限一致是双侧极限存在的关键。',
+  },
+
+  'math/calc-u2/2.2': {
+    enrichedAt: 'batch1',
+    definition: '函数 \(f\) 在 \(x=a\) 的导数定义为极限（若存在）\n\\[f\'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}=\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}.\\]\n导数是瞬时变化率，也是切线斜率。记号 \(f\'(a)\)、\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\big|_{x=a}\) 等价。',
+    intuition: '平均变化率是割线斜率；让两点贴合，割线变成切线，斜率变成导数。',
+    intuitionDetailed: '若位置 \(s(t)\)，则 \(\\dfrac{s(t+h)-s(t)}{h}\) 是时段 \(h\) 的平均速度；\(h\\to 0\) 得到瞬时速度 \(s\'(t)\)。',
+    formulas: [
+      { latex: "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}", note: '差商极限定义。' },
+      { latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)", note: '莱布尼茨记号；叠式分式。' },
+    ],
+    derivationNotes: [
+      { from: '平均变化率', to: '导数', note: '对差商取 \(h\\to 0\) 极限。' },
+      { from: '导数定义', to: '切线方程', note: '点斜式：\(y-f(a)=f\'(a)(x-a)\)。' },
+    ],
+    conditions: ['定义中的极限必须存在（有限）', '可导 ⇒ 连续，反之不然（如 \(|x|\) 在 0）'],
+    keyPoints: ['导数是极限，不是代入差商', '几何：切线斜率；物理：瞬时率', '先化简差商再取极限'],
+    misconceptions: [
+      '把平均速度当成瞬时速度',
+      '认为连续就一定可导',
+      '差商未化简就对 \(h=0\) 代入',
+      '斜线书写 \(dy/dx\) 造成与 \(d(y/dx)\) 混淆——展示时用 \(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\)',
+    ],
+    examples: [
+      {
+        title: '例 1 · 用定义求 \(f\'(2)\)',
+        prompt: '设 \(f(x)=x^2\)。用定义求 \(f\'(2)\)。',
+        steps: [
+          '写差商：\(\\dfrac{(2+h)^2-2^2}{h}=\\dfrac{4+4h+h^2-4}{h}=\\dfrac{4h+h^2}{h}\)。',
+          '\(h\\neq 0\) 时等于 \(4+h\)。',
+          '极限：\(\\lim_{h\\to 0}(4+h)=4\)。',
+        ],
+        solution: '故 \(f\'(2)=4\)。与幂法则 \(f\'(x)=2x\) 在 \(x=2\) 一致。',
+        solutionLatex: "f'(2)=4",
+      },
+      {
+        title: '例 2 · 切线方程',
+        prompt: '求 \(y=\\sqrt{x}\) 在 \(x=4\) 处的切线方程。',
+        steps: [
+          '\(f(x)=x^{1/2}\)，\(f(4)=2\)。',
+          '差商：\(\\dfrac{\\sqrt{4+h}-2}{h}\)，有理化得 \(\\dfrac{1}{\\sqrt{4+h}+2}\)。',
+          '极限 \(h\\to 0\)：\(\\dfrac{1}{4}\)，即斜率。',
+          '切线：\(y-2=\\dfrac{1}{4}(x-4)\)，即 \(y=\\dfrac{1}{4}x+1\)。',
+        ],
+        solution: '切线为 \(y=\\dfrac{1}{4}x+1\)。',
+        solutionLatex: 'y=\\dfrac{1}{4}x+1',
+      },
+      {
+        title: '例 3 · 不可导',
+        prompt: '说明 \(f(x)=|x|\) 在 \(x=0\) 连续但不可导。',
+        steps: [
+          '连续：\(\\lim_{x\\to 0}|x|=0=f(0)\)。',
+          '右导数：\(\\lim_{h\\to 0^+}\\dfrac{|h|}{h}=1\)。',
+          '左导数：\(\\lim_{h\\to 0^-}\\dfrac{|h|}{h}=-1\)。',
+          '左右导数不等，故 \(f\'(0)\) 不存在。',
+        ],
+        solution: '尖点：连续≠可导。',
+      },
+    ],
+    examTips: [
+      'CED 2.2：会写定义、会用定义算简单导数、会解释导数含义。',
+      '若题目要求“用定义”，不要直接写幂法则。',
+      '单位：若 \(s\) 以 m、\(t\) 以 s，则 \(s\'\) 的单位是 m/s。',
+    ],
+    related: [
+      { subject: 'math', chapterId: 'calc-u2', code: '2.1', title: '瞬时变化率', relation: '先修' },
+      { subject: 'math', chapterId: 'calc-u2', code: '2.4', title: '导数与连续', relation: '后续' },
+      { subject: 'math', chapterId: 'calc-u2', code: '2.5', title: '幂函数导数', relation: '快捷法则' },
+    ],
+    development: ['先算平均率', '再让间隔趋于 0', '对照切线与瞬时速度语言'],
+    checks: ['能否用定义求 \(f(x)=3x^2\) 的 \(f\'(1)\)？', '能否举出连续不可导的例子？'],
+    summary: '导数是差商的极限：瞬时率与切线斜率的统一。',
+  },
+
+  'math/calc-u2/2.5': {
+    enrichedAt: 'batch1',
+    definition: '对任意实数 \(n\)（在 \(x>0\) 或使幂有定义的定义域上），有幂法则\n\\[\\dfrac{\\mathrm{d}}{\\mathrm{d}x}x^n=nx^{n-1}.\\]\n特别地常数函数导数为 0；线性函数 \(x\) 的导数为 1。',
+    intuition: '把 \(x^n\) 想象成“自乘 \(n\) 次”；变厚一点时，变化率与 \(n\) 和“矮一阶”的幂成正比。',
+    intuitionDetailed: '由二项式展开 \((x+h)^n=x^n+nx^{n-1}h+\\cdots\)，差商极限只留下 \(nx^{n-1}\) 项。',
+    formulas: [
+      { latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}x^{n}=nx^{n-1}', note: '幂法则。' },
+      { latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}c=0', note: '常数法则。' },
+    ],
+    derivationNotes: [
+      { from: '导数定义', to: '正整数幂', note: '二项式定理展开后除以 \(h\) 再令 \(h\\to 0\)。' },
+      { from: '正整数', to: '一般实数', note: '对有理数用隐函数/链式法则；一般实数用指数定义 \(x^n=e^{n\\ln x}\)。' },
+    ],
+    conditions: ['\(x^n\) 在所讨论点可导（如 \(x^{-1}\) 在 0 无定义）', '与常数倍、和差法则联用'],
+    keyPoints: ['指数减一、前面乘原指数', '可与常数倍结合：\((cx^n)\'=cnx^{n-1}\)'],
+    misconceptions: [
+      '误记成 \(nx^{n+1}\) 或 \(n^{x-1}\)',
+      '对 \(\\sqrt{x}\) 忘记写成 \(x^{1/2}\) 再用幂法则',
+      '以为 \((x^n)\'=x^{n-1}\) 漏乘 \(n\)',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '求 \(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(5x^4-3x+7)\)。',
+        steps: [
+          '逐项：\(5\\cdot 4x^3-3\\cdot 1+0=20x^3-3\)。',
+        ],
+        solution: '答案：\(20x^3-3\)。',
+        solutionLatex: '20x^{3}-3',
+      },
+      {
+        title: '例 2 · 根式',
+        prompt: '求 \(y=\\sqrt[3]{x^2}\) 的导数。',
+        steps: [
+          '改写 \(y=x^{2/3}\)。',
+          '\(y\'=\\dfrac{2}{3}x^{-1/3}=\\dfrac{2}{3\\sqrt[3]{x}}\)（\(x\\neq 0\)）。',
+        ],
+        solution: '在 \(x=0\) 需另议可导性；\(x\\neq 0\) 用上式。',
+        solutionLatex: "y'=\\dfrac{2}{3}x^{-1/3}",
+      },
+      {
+        title: '例 3 · 负指数',
+        prompt: '求 \(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(\\dfrac{1}{x^2}\\right)\)。',
+        steps: [
+          '\(\\dfrac{1}{x^2}=x^{-2}\)。',
+          '导数 \(-2x^{-3}=-\\dfrac{2}{x^3}\)。',
+        ],
+        solution: '答案：\(-\\dfrac{2}{x^3}\)。',
+        solutionLatex: '-\\dfrac{2}{x^{3}}',
+      },
+    ],
+    examTips: ['CED 2.5：熟练幂法则；根式与倒数先改写指数', '与积商法则、链式法则组合是后续重点'],
+    related: [
+      { subject: 'math', chapterId: 'calc-u2', code: '2.2', title: '导数定义', relation: '先修' },
+      { subject: 'math', chapterId: 'calc-u2', code: '2.6', title: '常数倍与和差', relation: '联用' },
+      { subject: 'math', chapterId: 'calc-u3', code: '3.1', title: '链式法则', relation: '后续' },
+    ],
+    development: ['整数幂', '根式与负指数', '与四则法则联用'],
+    checks: ['\((x^{-3})\'\) 是多少？', '\((\\sqrt{x})\'\) 能否写成叠式分式？'],
+    summary: '幂法则：指数乘到前面，幂减一。',
+  },
+
+  'math/calc-u6/6.4': {
+    enrichedAt: 'batch1',
+    definition: '微积分基本定理（FTC）分两部分。FTC1：若 \(f\) 在 \([a,b]\) 连续，定义 \(F(x)=\\int_a^x f(t)\\,\\mathrm{d}t\)，则 \(F\'(x)=f(x)\)。FTC2：若 \(F\'=f\) 连续，则\n\\[\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a).\\]',
+    intuition: '“累积函数的瞬时增长率就是被积函数”；定积分等于原函数净变化。',
+    intuitionDetailed: '面积函数 \(F(x)\) 在右端点多扫过的细条高度约为 \(f(x)\)，宽度 \(\\mathrm{d}x\)，故 \(F\'=f\)。',
+    formulas: [
+      { latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\int_{a}^{x}f(t)\\,\\mathrm{d}t=f(x)', note: 'FTC1。' },
+      { latex: '\\int_{a}^{b}f(x)\\,\\mathrm{d}x=F(b)-F(a)', note: 'FTC2，其中 \(F\'=f\)。' },
+    ],
+    derivationNotes: [
+      { from: '黎曼和', to: '面积函数', note: '把上限变量化得到累积函数。' },
+      { from: 'FTC1', to: 'FTC2', note: '对 \(F(b)-F(a)\) 用 MVT/积分中值思想，或由 FTC1 与链式反推。' },
+    ],
+    conditions: ['FTC1 通常要求 \(f\) 连续（可放宽到可积）', 'FTC2 需要原函数在区间上可导且导数为 \(f\)'],
+    keyPoints: ['积分与微分互逆', '变上限积分求导时注意链式法则（上限为 \(g(x)\) 时乘 \(g\'(x)\)）'],
+    misconceptions: [
+      '忘记变上限积分的链式法则',
+      '把 \(\\int_a^b f\) 与原函数混用却漏写 \(F(b)-F(a)\)',
+      '下限大于上限时符号处理错误',
+    ],
+    examples: [
+      {
+        title: '例 1 · FTC2',
+        prompt: '计算 \(\\int_0^2 (3x^2-1)\\,\\mathrm{d}x\)。',
+        steps: [
+          '原函数 \(F(x)=x^3-x\)。',
+          '\(F(2)-F(0)=(8-2)-0=6\)。',
+        ],
+        solution: '答案：6。',
+        solutionLatex: '\\int_{0}^{2}(3x^{2}-1)\\,\\mathrm{d}x=6',
+      },
+      {
+        title: '例 2 · FTC1',
+        prompt: '设 \(F(x)=\\int_1^x \\cos t\\,\\mathrm{d}t\)。求 \(F\'(x)\)。',
+        steps: ['由 FTC1，\(F\'(x)=\\cos x\)。'],
+        solution: '答案：\(\\cos x\)。',
+        solutionLatex: "F'(x)=\\cos x",
+      },
+      {
+        title: '例 3 · 变上限',
+        prompt: '求 \(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\displaystyle\\int_0^{x^2}\\sin t\\,\\mathrm{d}t\)。',
+        steps: [
+          '令 \(u=x^2\)，则 \(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\int_0^{u}\\sin t\\,\\mathrm{d}t=\\sin u\\cdot u\'\)。',
+          '即 \(\\sin(x^2)\\cdot 2x=2x\\sin(x^2)\)。',
+        ],
+        solution: '答案：\(2x\\sin(x^2)\)。',
+        solutionLatex: '2x\\sin(x^{2})',
+      },
+    ],
+    examTips: ['CED 6.4–6.7：FTC 是 BC 核心；变上限必考链式法则', '检查端点代入顺序 \(F(b)-F(a)\)'],
+    related: [
+      { subject: 'math', chapterId: 'calc-u6', code: '6.2', title: '黎曼和近似', relation: '先修' },
+      { subject: 'math', chapterId: 'calc-u6', code: '6.7', title: '定积分求值', relation: '应用' },
+      { subject: 'math', chapterId: 'calc-u2', code: '2.2', title: '导数定义', relation: '互逆' },
+    ],
+    development: ['黎曼和 → 定积分', '面积函数 → FTC1', '原函数净变化 → FTC2'],
+    checks: ['\(\\int_0^{x^3}e^{t^2}\\mathrm{d}t\) 对 \(x\) 的导数？', '能否口述 FTC 的一句话总结？'],
+    summary: 'FTC 把微分与积分连通：累积函数的导数是被积函数；定积分是原函数净变化。',
+  },
+
+  'math/math-prep-alg1/P1.9': {
+    enrichedAt: 'batch1',
+    definition: '因式分解是把多项式写成若干多项式之积。对二次式 \(ax^2+bx+c\)，常用十字相乘、完全平方、平方差 \(a^2-b^2=(a-b)(a+b)\) 等方法，使方程求解或化简分式。',
+    intuition: '乘法的逆运算：展开是“拆开括号”，因式分解是“找括号”。',
+    intuitionDetailed: '能分解则方程可用零因子法则：乘积为 0 ⇒ 某一因子为 0。',
+    formulas: [
+      { latex: 'a^{2}-b^{2}=(a-b)(a+b)', note: '平方差。' },
+      { latex: 'a^{2}\\pm 2ab+b^{2}=(a\\pm b)^{2}', note: '完全平方。' },
+    ],
+    derivationNotes: [
+      { from: '分配律', to: '平方差', note: '直接展开右边验证。' },
+    ],
+    conditions: ['在实数范围内不一定总能一次因式分解（判别式为负）', '先提取公因式'],
+    keyPoints: ['先提公因式', '二次式看判别式与十字相乘', '分解后可解方程、化简有理式'],
+    misconceptions: [
+      '漏提公因式',
+      '把 \(x^2+4\) 误写成 \((x+2)^2\)',
+      '符号错误：\(a^2-2ab+b^2=(a-b)^2\) 不是 \((a+b)^2\)',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '分解 \(x^2-5x+6\)。',
+        steps: ['找两数积为 6、和为 -5：-2 与 -3。', '得 \((x-2)(x-3)\)。'],
+        solution: '\((x-2)(x-3)\)。',
+      },
+      {
+        title: '例 2',
+        prompt: '分解 \(2x^2+4x\)。',
+        steps: ['提 \(2x\)：\(2x(x+2)\)。'],
+        solution: '\(2x(x+2)\)。',
+      },
+      {
+        title: '例 3 · 解方程',
+        prompt: '解 \(x^2-9=0\)。',
+        steps: ['\((x-3)(x+3)=0\)', '\(x=3\) 或 \(x=-3\)。'],
+        solution: '\(x=\\pm 3\)。',
+      },
+    ],
+    examTips: ['代数预备：为极限中约分、导数差商化简打基础', '验算：展开因式应回到原式'],
+    related: [
+      { subject: 'math', chapterId: 'math-prep-alg1', code: 'P1.8', title: '多项式运算', relation: '先修' },
+      { subject: 'math', chapterId: 'math-prep-alg1', code: 'P1.10', title: '二次方程入门', relation: '应用' },
+      { subject: 'math', chapterId: 'calc-u1', code: '1.6', title: '代数操作求极限', relation: '后续' },
+    ],
+    development: ['公因式', '二次式十字相乘', '公式法'],
+    checks: ['分解 \(x^2-16\)', '解 \((x-1)(x+4)=0\)'],
+    summary: '因式分解是展开的逆过程，是解方程与化简的基本工具。',
+  },
+
+  'mech/mech-u3/3.4': {
+    enrichedAt: 'batch1',
+    definition: '功–动能定理：合外力对质点做的功等于动能的改变\n\\[\nW_{\\mathrm{net}}=\\Delta K=K_f-K_i=\\dfrac{1}{2}mv_f^{2}-\\dfrac{1}{2}mv_i^{2}.\n\\]\n对变力，\(W=\\int\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}\\)。',
+    intuition: '推得越狠、位移越大，动能增加越多；阻力做负功则动能减少。',
+    intuitionDetailed: '由牛顿第二定律 \(F=ma\) 与链式法则 \(a=v\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}\)，积分得 \(W=\\Delta K\)。',
+    formulas: [
+      { latex: 'W_{\\mathrm{net}}=\\Delta K', note: '功–动能定理。' },
+      { latex: 'K=\\dfrac{1}{2}mv^{2}', note: '平动动能。' },
+      { latex: 'W=\\int_{i}^{f}\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}', note: '变力功。' },
+    ],
+    derivationNotes: [
+      { from: '牛顿第二定律', to: '功–动能定理', note: '\\(F\\,\\mathrm{d}x=mv\\,\\mathrm{d}v\\)，两边积分。' },
+    ],
+    conditions: ['对质点或可视为质点的平动；合外力做功', '动能相对惯性系'],
+    keyPoints: ['功是标量，可正可负', '只有合功等于 \\(\\Delta K\\)，某一分力功一般不等于 \\(\\Delta K\\)', '摩擦等非保守力做功改变机械能'],
+    misconceptions: [
+      '以为单个力的功等于 \\(\\Delta K\\)',
+      '漏掉负功（阻力）',
+      '把功率与功混淆',
+      '用斜线写 \\(1/2 mv^2\\) —— 必须用 \\(\\dfrac{1}{2}mv^{2}\\)',
+    ],
+    examples: [
+      {
+        title: '例 1 · 恒力加速',
+        prompt: '质量 \\(m=2\\,\\mathrm{kg}\\) 物体由静止经合外力 \\(F=10\\,\\mathrm{N}\\) 沿力方向位移 \\(4\\,\\mathrm{m}\\)。求末速。',
+        steps: [
+          '\\(W=F\\Delta x=10\\cdot 4=40\\,\\mathrm{J}\\)。',
+          '\\(W=\\Delta K=\\dfrac{1}{2}mv_f^{2}-0\\)。',
+          '\\(\\dfrac{1}{2}\\cdot 2\\cdot v_f^{2}=40\\Rightarrow v_f^{2}=40\\Rightarrow v_f=\\sqrt{40}=2\\sqrt{10}\\,\\mathrm{m/s}\\)。',
+        ],
+        solution: '末速 \\(2\\sqrt{10}\\,\\mathrm{m/s}\\)。',
+        solutionLatex: 'v_f=2\\sqrt{10}\\,\\mathrm{m/s}',
+      },
+      {
+        title: '例 2 · 有摩擦',
+        prompt: '物体质量 \\(3\\,\\mathrm{kg}\\)，初速 \\(5\\,\\mathrm{m/s}\\)，水平面上滑行 \\(4\\,\\mathrm{m}\\) 后停下。求平均摩擦力大小。',
+        steps: [
+          '\\(\\Delta K=0-\\dfrac{1}{2}\\cdot 3\\cdot 25=-\\dfrac{75}{2}\\,\\mathrm{J}\\)。',
+          '合功即摩擦力功：\\(W_f=f\\cdot(-4)=-4f\\)（与位移反向）。',
+          '\\(-4f=-\\dfrac{75}{2}\\Rightarrow f=\\dfrac{75}{8}\\,\\mathrm{N}\\)。',
+        ],
+        solution: '平均摩擦力 \\(\\dfrac{75}{8}\\,\\mathrm{N}\\)。',
+        solutionLatex: 'f=\\dfrac{75}{8}\\,\\mathrm{N}',
+      },
+      {
+        title: '例 3 · 变力（一维）',
+        prompt: '\\(F_x=3x\\)（N，\\(x\\) 以 m）把质点从 \\(x=0\\) 推到 \\(x=2\\,\\mathrm{m}\\)。求功。若 \\(m=1\\,\\mathrm{kg}\\) 且由静止开始，求末速。',
+        steps: [
+          '\\(W=\\int_0^2 3x\\,\\mathrm{d}x=\\dfrac{3}{2}x^{2}\\Big|_0^2=6\\,\\mathrm{J}\\)。',
+          '\\(\\dfrac{1}{2}mv^{2}=6\\Rightarrow v=\\sqrt{12}=2\\sqrt{3}\\,\\mathrm{m/s}\\)。',
+        ],
+        solution: '功 \\(6\\,\\mathrm{J}\\)，末速 \\(2\\sqrt{3}\\,\\mathrm{m/s}\\)。',
+        solutionLatex: 'W=6\\,\\mathrm{J},\\; v=2\\sqrt{3}\\,\\mathrm{m/s}',
+      },
+    ],
+    examTips: [
+      'Physics C Mech CED Unit 3：功、能量、功率；功–动能定理是核心目标。',
+      '符号：与位移同向为正功。',
+      '可用能量方法替代多步牛顿定律。',
+    ],
+    related: [
+      { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '功', relation: '先修' },
+      { subject: 'mech', chapterId: 'mech-u3', code: '3.2', title: '动能', relation: '定义' },
+      { subject: 'mech', chapterId: 'mech-u3', code: '3.5', title: '功率', relation: '相关' },
+    ],
+    development: ['恒力功', '动能定义', '由牛顿定律导出定理', '变力积分'],
+    checks: ['合功为负时动能如何变？', '为何单个力的功一般不等于 \\(\\Delta K\\)？'],
+    summary: '合外力做功等于动能变化——连接力与运动的能量桥梁。',
+  },
+
+  'mech/mech-u2/2.3': {
+    enrichedAt: 'batch1',
+    definition: '牛顿第三定律：两物体相互作用时，力总是成对出现，大小相等、方向相反、作用在不同物体上、沿同一直线：\n\\[\n\\mathbf{F}_{12}=-\\mathbf{F}_{21}.\n\\]',
+    intuition: '你推墙，墙也推你；火箭排气向后，气体推火箭向前。',
+    intuitionDetailed: '作用力与反作用力同时产生、同时消失，永不作用在同一物体上，因此不会“抵消”。',
+    formulas: [
+      { latex: '\\mathbf{F}_{AB}=-\\mathbf{F}_{BA}', note: '作用力与反作用力。' },
+    ],
+    derivationNotes: [
+      { from: '实验观察', to: '第三定律', note: '动量守恒的微观体现：内力成对抵消。' },
+    ],
+    conditions: ['惯性系中成立', '力的性质可以是接触力、引力、电磁力等'],
+    keyPoints: ['等大反向共线，作用在不同物体', '不能在同一受力分析中互相抵消', '与“平衡的两个力”不同'],
+    misconceptions: [
+      '以为作用力反作用力作用在同一物体而抵消',
+      '与共点平衡的“等大反向”混淆',
+      '认为运动的物体受力更大',
+    ],
+    examples: [
+      {
+        title: '例 1 · 人推箱子',
+        prompt: '人以水平力 \\(120\\,\\mathrm{N}\\) 推箱子，箱子推人的力多大？方向？',
+        steps: [
+          '由第三定律，箱子对人的力大小 \\(120\\,\\mathrm{N}\\)，方向相反（人被向后推）。',
+          '该力作用在人上，不影响箱子的 \\(\\sum F\\)（箱子只受人的推力与摩擦等）。',
+        ],
+        solution: '\\(120\\,\\mathrm{N}\\)，与人对箱子推力反向。',
+      },
+      {
+        title: '例 2 · 火箭',
+        prompt: '简述火箭加速的第三定律解释。',
+        steps: [
+          '火箭向后喷射气体（对气体施力）。',
+          '气体对火箭施以向前的反作用力，使火箭动量增加。',
+        ],
+        solution: '推进力是排气反作用力，无需“蹬空气”。',
+      },
+      {
+        title: '例 3 · 与平衡对比',
+        prompt: '书本静止在桌上：重力与支持力是第三定律力对吗？',
+        steps: [
+          '不是。重力（地球→书）的反作用力是书→地球的引力。',
+          '支持力（桌→书）的反作用力是书→桌的压力。',
+          '重力与支持力是作用在同一物体上的平衡力。',
+        ],
+        solution: '平衡力 ≠ 作用反作用力。',
+      },
+    ],
+    examTips: ['CED Unit 2：清晰区分平衡力与作用反作用', '受力分析图只画“作用在该物体上的力”'],
+    related: [
+      { subject: 'mech', chapterId: 'mech-u2', code: '2.1', title: '牛顿第一定律', relation: '先修' },
+      { subject: 'mech', chapterId: 'mech-u2', code: '2.2', title: '牛顿第二定律', relation: '联用' },
+      { subject: 'mech', chapterId: 'mech-u4', code: '4.1', title: '动量', relation: '后续' },
+    ],
+    development: ['观察相互作用', '陈述第三定律', '与平衡对比', '火箭/行走应用'],
+    checks: ['为什么作用反作用不能抵消？', '走路时地面摩擦力的反作用力作用在谁上？'],
+    summary: '力成对出现：等大、反向、共线、异体。',
+  },
+
+  'em/em-u10/10.3': {
+    enrichedAt: 'batch1',
+    definition: '理想变压器满足磁通量联动：\\(\\dfrac{V_s}{V_p}=\\dfrac{N_s}{N_p}\\)。若近似无损耗，功率守恒 \\(V_p I_p=V_s I_s\\)，故\n\\[\n\\dfrac{I_s}{I_p}=\\dfrac{N_p}{N_s}.\n\\]',
+    intuition: '匝数比决定电压比；升压必降流（理想情形），以保持功率。',
+    intuitionDetailed: '交变原边电流产生变化磁通，副边感应电动势与匝数成正比。',
+    formulas: [
+      { latex: '\\dfrac{V_s}{V_p}=\\dfrac{N_s}{N_p}', note: '电压比＝匝数比。' },
+      { latex: 'V_p I_p=V_s I_s', note: '理想功率守恒。' },
+    ],
+    derivationNotes: [
+      { from: '法拉第定律', to: '匝数比', note: '同一 \\(\\mathrm{d}\\Phi_B/\\mathrm{d}t\\) 穿过每匝，\\(\\mathcal{E}=N\\mathrm{d}\\Phi_B/\\mathrm{d}t\\)。' },
+    ],
+    conditions: ['交流；理想假设：无漏磁、无电阻损耗、磁芯不饱和', '直流稳态下变压器不工作'],
+    keyPoints: ['升压变压器 \\(N_s>N_p\\)', '理想：\\(P_\\mathrm{in}=P_\\mathrm{out}\\)', '输电用高压低电流减焦耳热'],
+    misconceptions: [
+      '以为直流也能用变压器变压',
+      '忽略功率守恒导致电流比写反',
+      '把匝数比与电流比同向记忆',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '原边 100 匝、120 V；副边 500 匝。求副边电压（理想）。',
+        steps: [
+          '\\(\\dfrac{V_s}{120}=\\dfrac{500}{100}=5\\Rightarrow V_s=600\\,\\mathrm{V}\\)。',
+        ],
+        solution: '\\(600\\,\\mathrm{V}\\)。',
+        solutionLatex: 'V_s=600\\,\\mathrm{V}',
+      },
+      {
+        title: '例 2 · 电流',
+        prompt: '上例若原边电流 2 A，求副边电流（理想）。',
+        steps: [
+          '\\(120\\cdot 2=600\\cdot I_s\\Rightarrow I_s=\\dfrac{240}{600}=0.4\\,\\mathrm{A}\\)。',
+        ],
+        solution: '\\(0.4\\,\\mathrm{A}\\)。',
+        solutionLatex: 'I_s=0.4\\,\\mathrm{A}',
+      },
+      {
+        title: '例 3 · 输电',
+        prompt: '为何远距离输电用高压？',
+        steps: [
+          '线损 \\(P_{\\mathrm{loss}}=I^{2}R\\)。',
+          '升压后同功率下电流变小，损耗显著下降。',
+        ],
+        solution: '高压 → 低电流 → 低 \\(I^{2}R\\) 损耗。',
+      },
+    ],
+    examTips: ['Physics C E&M CED：电磁感应与交流电路相关目标；变压器常与法拉第定律联考', '先写匝数比再写功率守恒'],
+    related: [
+      { subject: 'em', chapterId: 'em-u10', code: '10.1', title: '法拉第定律', relation: '先修' },
+      { subject: 'em', chapterId: 'em-u10', code: '10.2', title: '楞次定律', relation: '相关' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.1', title: '交流电路入门', relation: '后续' },
+    ],
+    development: ['磁通联动', '电压比', '功率守恒与电流比', '输电应用'],
+    checks: ['匝数比 1:10，电压如何变？电流如何变？', '为何直流马达前的稳压不是靠变压器？'],
+    summary: '理想变压器：电压比等于匝数比；功率守恒决定电流反比。',
+  },
+
+  'em/em-u8/8.1': {
+    enrichedAt: 'batch1',
+    definition: '电流是电荷的定向流动。平均电流\n\\[\nI_{\\mathrm{avg}}=\\dfrac{\\Delta Q}{\\Delta t},\\qquad I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}.\n\\]\n单位：安培 \\(\\mathrm{A}=\\mathrm{C/s}\\)。约定正电流方向与正电荷运动方向相同。',
+    intuition: '像水流过管道；单位时间流过截面的电荷量就是电流。',
+    intuitionDetailed: '微观：\\(I=nqv_d A\\)，其中 \\(n\\) 载流子数密度，\\(v_d\\) 漂移速度，\\(A\\) 截面积。',
+    formulas: [
+      { latex: 'I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}', note: '瞬时电流。' },
+      { latex: 'I=nqv_d A', note: '微观表达式（正载流子）。' },
+    ],
+    derivationNotes: [
+      { from: '电荷守恒', to: '电流定义', note: '时间变化率。' },
+      { from: '漂移模型', to: '微观式', note: '时间 \\(\\mathrm{d}t\\) 内体积 \\(Av_d\\mathrm{d}t\\) 的电荷通过截面。' },
+    ],
+    conditions: ['稳恒电流时电路中串联各处 \\(I\\) 相同', '电子带负电，其速度与约定电流方向相反'],
+    keyPoints: ['电流是标量（有方向约定）', '漂移速度通常极慢，信号以近光速传播的是场'],
+    misconceptions: [
+      '以为电子跑得很快才有电流',
+      '混淆约定电流方向与电子运动方向',
+      '把电流当成矢量去分解（电路分析中按支路标方向）',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '2 s 内通过导线截面 6 C 电荷，求平均电流。',
+        steps: ['\\(I=\\dfrac{6}{2}=3\\,\\mathrm{A}\\)。'],
+        solution: '\\(3\\,\\mathrm{A}\\)。',
+        solutionLatex: 'I=3\\,\\mathrm{A}',
+      },
+      {
+        title: '例 2 · 微观',
+        prompt: '铜线 \\(n=8.5\\times 10^{28}\\,\\mathrm{m}^{-3}\\)，\\(A=1.0\\times 10^{-6}\\,\\mathrm{m}^{2}\\)，\\(I=1.0\\,\\mathrm{A}\\)。估计 \\(v_d\\)。',
+        steps: [
+          '\\(v_d=\\dfrac{I}{nqA}=\\dfrac{1}{(8.5\\times 10^{28})(1.6\\times 10^{-19})(1.0\\times 10^{-6})}\\)。',
+          '约 \\(7.4\\times 10^{-5}\\,\\mathrm{m/s}\\)（数量级 \\(10^{-4}\\,\\mathrm{m/s}\\)）。',
+        ],
+        solution: '漂移速度极慢，约 \\(7\\times 10^{-5}\\,\\mathrm{m/s}\\)。',
+      },
+      {
+        title: '例 3 · 电子方向',
+        prompt: '金属中电子向左漂移，约定电流方向？',
+        steps: ['电子带负电，负电荷向左 ≡ 正电流向右。'],
+        solution: '约定电流向右。',
+      },
+    ],
+    examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\mathrm{d}Q/\\mathrm{d}t\\) 与微观式', '单位换算：mA、μA'],
+    related: [
+      { subject: 'em', chapterId: 'em-u8', code: '8.2', title: '电阻与欧姆定律', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u7', code: '7.1', title: '电势', relation: '先修场概念' },
+      { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '基尔霍夫', relation: '电路' },
+    ],
+    development: ['宏观定义', '微观漂移', '方向约定', '进入欧姆定律'],
+    checks: ['1 mA 等于多少 C/s？', '为何灯几乎“立刻”亮而电子漂移很慢？'],
+    summary: '电流是电荷的时间变化率；微观上由漂移速度决定。',
+  },
+
+  'bio/bio-u3/3.4': {
+    enrichedAt: 'batch1',
+    definition: '酶是生物催化剂（多数为蛋白质，少数为核酶），通过降低活化能 \\(E_a\\) 加快反应速率，但不改变 \\(\\Delta G\\) 与平衡点。活性位点与底物特异性结合形成酶–底物复合物。',
+    intuition: '酶像精确模具：把底物摆成易反应的取向，降低“翻山”所需能量。',
+    intuitionDetailed: '诱导契合：结合可引起构象微调。温度、pH、抑制剂影响活性。',
+    formulas: [
+      { latex: 'E+S\\rightleftharpoons ES\\rightarrow E+P', note: '简化米氏路径。' },
+    ],
+    derivationNotes: [
+      { from: '过渡态理论', to: '降活化能', note: '稳定过渡态，降低 \\(E_a\\)，加速正逆反应，平衡常数不变。' },
+    ],
+    conditions: ['适宜温度与 pH', '底物浓度可饱和（\\(V_{\\max}\\)）'],
+    keyPoints: ['酶不改 \\(\\Delta G\\)', '具特异性与可调节性', '竞争性抑制 vs 非竞争性抑制'],
+    misconceptions: [
+      '以为酶提供能量或改变 \\(\\Delta G\\)',
+      '认为高温总是更好（变性）',
+      '混淆竞争与非竞争抑制剂对 \\(K_m\\)、\\(V_{\\max}\\) 的影响',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '为何酶加速反应却不改平衡？',
+        steps: [
+          '正逆反应的活化能都被降低。',
+          '平衡由 \\(\\Delta G\\) 决定，酶不改反应物与产物的自由能。',
+        ],
+        solution: '速率变、平衡不变。',
+      },
+      {
+        title: '例 2 · 竞争性抑制',
+        prompt: '竞争性抑制如何影响 \\(K_m\\) 与 \\(V_{\\max}\\)？',
+        steps: [
+          '抑制剂与底物抢活性位点，表观亲和力下降，\\(K_m\\) 增大。',
+          '足够底物可挤掉抑制剂，\\(V_{\\max}\\) 不变。',
+        ],
+        solution: '\\(K_m\\uparrow\\)，\\(V_{\\max}\\) 不变。',
+      },
+      {
+        title: '例 3 · 体温',
+        prompt: '人体酶最适温度约为？过高会怎样？',
+        steps: [
+          '约 \\(37^\\circ\\mathrm{C}\\)。',
+          '过高导致蛋白质变性，活性位点构象破坏。',
+        ],
+        solution: '最适约 37°C；过热变性失活。',
+      },
+    ],
+    examTips: ['AP Bio CED Unit 3：酶与能量；会读反应坐标图（有/无酶）', '实验设计：温度、pH、底物浓度曲线'],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.1', title: '酶结构', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '环境对酶的影响', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.6', title: '细胞呼吸导论', relation: '应用' },
+    ],
+    development: ['催化剂概念', '活性位点', '环境因素', '抑制剂'],
+    checks: ['酶改变的是 \\(E_a\\) 还是 \\(\\Delta G\\)？', '画出有酶与无酶的反应坐标图'],
+    summary: '酶降低活化能以加速反应，不改变热力学平衡。',
+  },
+
+  'bio/bio-u5/5.1': {
+    enrichedAt: 'batch1',
+    definition: '减数分裂是产生配子的分裂：一次 DNA 复制，两次分裂，结果染色体数减半（二倍体 \\(\\to\\) 单倍体）。减数第一次分裂同源染色体分离；减数第二次分裂类似有丝分裂分离姐妹染色单体。',
+    intuition: '有性生殖需要单倍体配子，受精后再恢复二倍体——减数分裂负责“减半”。',
+    intuitionDetailed: '前期 I 联会与交叉互换增加遗传多样性；独立分配也产生多样性。',
+    formulas: [],
+    derivationNotes: [
+      { from: '有丝分裂对比', to: '减数分裂', note: '多一次分裂且同源染色体分离，实现减半。' },
+    ],
+    conditions: ['发生于生殖细胞系', 'DNA 在间期只复制一次'],
+    keyPoints: ['产物 4 个遗传不同的单倍体细胞（精细胞）或 1 卵+极体', '交叉互换与独立分配是多样性来源'],
+    misconceptions: [
+      '以为减数分裂有两次 DNA 复制',
+      '混淆同源染色体分离与姐妹染色单体分离发生的时期',
+      '以为有丝分裂也发生交叉互换',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '人体 \\(2n=46\\)。减数分裂后配子染色体数？',
+        steps: ['减半得 \\(n=23\\)。'],
+        solution: '23 条。',
+      },
+      {
+        title: '例 2',
+        prompt: '同源染色体分离发生在？',
+        steps: ['减数第一次分裂后期（Anaphase I）。'],
+        solution: 'Anaphase I。',
+      },
+      {
+        title: '例 3',
+        prompt: '交叉互换的主要意义？',
+        steps: ['在非姐妹染色单体间交换片段，重组等位基因组合。'],
+        solution: '增加遗传多样性。',
+      },
+    ],
+    examTips: ['CED Unit 5：遗传；会比较有丝/减数表格', '会解释多样性的两个机制'],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '有丝分裂', relation: '对比' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.2', title: '减数分裂细节', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传', relation: '应用' },
+    ],
+    development: ['二倍体/单倍体', '两次分裂', '互换与独立分配', '与有丝分裂对比'],
+    checks: ['DNA 复制几次？分裂几次？', '多样性来自哪些过程？'],
+    summary: '减数分裂把染色体数减半并制造遗传多样的配子。',
+  },
+
+  'bio/bio-u4/4.7': {
+    enrichedAt: 'batch1',
+    definition: '细胞周期检查点（尤其 G1、G2、M）确保 DNA 完好、复制完成、纺锤体正确附着后才继续分裂。肿瘤抑制基因（如 p53）与原癌基因失衡可导致失控增殖。',
+    intuition: '检查点是细胞分裂的“安检门”；失灵则可能癌变。',
+    intuitionDetailed: 'G1：环境与 DNA 损伤；G2：复制完成；M（纺锤体）：着丝粒–微管连接。',
+    formulas: [],
+    derivationNotes: [
+      { from: 'CDK–周期蛋白', to: '检查点调控', note: '周期蛋白浓度起伏驱动 CDK 活性，推进或阻滞周期。' },
+    ],
+    conditions: ['多细胞生物发育与组织稳态依赖检查点'],
+    keyPoints: ['检查点防止受损 DNA 传递', '原癌基因过度激活 / 肿瘤抑制失活 → 癌症风险'],
+    misconceptions: [
+      '以为所有突变都致癌',
+      '混淆原癌基因与肿瘤抑制基因的“油门/刹车”角色',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: 'DNA 严重损伤时 p53 的典型作用？',
+        steps: ['阻滞 G1，启动修复或凋亡，防止突变传递。'],
+        solution: '刹车：阻滞或凋亡。',
+      },
+      {
+        title: '例 2',
+        prompt: '纺锤体检查点失败可能导致？',
+        steps: ['染色体错误分配 → 非整倍体。'],
+        solution: '非整倍体子细胞。',
+      },
+      {
+        title: '例 3',
+        prompt: '原癌基因 vs 肿瘤抑制基因？',
+        steps: [
+          '原癌基因：促增殖（油门）；突变后可能变成癌基因。',
+          '肿瘤抑制：抑制增殖或促凋亡（刹车）；需通常两拷贝失活。',
+        ],
+        solution: '油门 vs 刹车。',
+      },
+    ],
+    examTips: ['CED Unit 4：细胞沟通与周期；会用实验/图解释检查点', '联系癌症但不需临床细节'],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '有丝分裂', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.5', title: '信号通路', relation: '相关' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 结构', relation: '损伤修复联系' },
+    ],
+    development: ['周期阶段', '检查点', 'CDK', '癌症联系'],
+    checks: ['三大检查点名称？', 'p53 属于哪类基因产物？'],
+    summary: '检查点守护基因组完整性；调控失灵与癌症相关。',
+  },
+
+  'bio/bio-u6/6.2': {
+    enrichedAt: 'batch1',
+    definition: 'DNA 复制为半保留复制：每条链作模板，合成互补新链。关键酶：解旋酶、单链结合蛋白、引物酶、DNA 聚合酶、连接酶。复制方向 \\(5\'\\to 3\'\\)，导致前导链连续、滞后链冈崎片段。',
+    intuition: '拉链拉开，两边各配上新链；因为酶只能单向合成，一边顺畅一边分段。',
+    intuitionDetailed: '碱基配对 A–T、G–C 保证遗传信息精确传递；校对降低突变率。',
+    formulas: [],
+    derivationNotes: [
+      { from: 'Watson–Crick 配对', to: '半保留', note: 'Meselson–Stahl 实验证实。' },
+    ],
+    conditions: ['需要引物（RNA）', '能量来自三磷酸核苷'],
+    keyPoints: ['半保留', '\\(5\'\\to 3\'\\) 合成', '前导/滞后链差异', '复制叉'],
+    misconceptions: [
+      '以为全保留或弥散复制',
+      '忘记引物酶',
+      '写错合成方向',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: 'Meselson–Stahl 如何支持半保留？',
+        steps: [
+          '15N 标记后转到 14N：一代后全为中间密度；二代出现中间+轻带。',
+          '符合每子代分子一条旧链一条新链。',
+        ],
+        solution: '一代一条带、二代两条带 → 半保留。',
+      },
+      {
+        title: '例 2',
+        prompt: '为何滞后链形成冈崎片段？',
+        steps: [
+          '双链反向平行，复制叉单向打开。',
+          '聚合酶只能 \\(5\'\\to 3\'\\)，故滞后链分段合成再连接。',
+        ],
+        solution: '方向限制 → 冈崎片段。',
+      },
+      {
+        title: '例 3',
+        prompt: 'DNA 连接酶的作用？',
+        steps: ['连接冈崎片段之间的磷酸二酯键缺口。'],
+        solution: '密封缺口，形成连续链。',
+      },
+    ],
+    examTips: ['CED Unit 6：基因表达；复制机制与实验证据常考', '会标注复制叉图中的酶与方向'],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.3', title: '转录', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂', relation: '遗传背景' },
+    ],
+    development: ['半保留证据', '酶与步骤', '前导/滞后', '校对与保真'],
+    checks: ['复制方向？', '列举四种关键酶的功能'],
+    summary: 'DNA 半保留复制：模板配对、\\(5\'\\to 3\'\\) 合成、滞后链分段。',
+  },
+
+  'bio/bio-u1/1.5': {
+    enrichedAt: 'batch1',
+    definition: '水的极性与氢键赋予其高比热、高汽化热、内聚/黏附、表面张力及作为溶剂的能力，使水成为生命的介质。',
+    intuition: '水分子像小磁铁（正负端），彼此拉扯形成氢键网络。',
+    intuitionDetailed: '比热高 → 体温/气候稳定；冰密度小于液态水 → 水体表面结冰保护水下生命。',
+    formulas: [],
+    derivationNotes: [
+      { from: '极性共价键', to: '氢键', note: 'O 电负性高，H 带部分正电，分子间形成氢键。' },
+    ],
+    conditions: ['氢键弱于共价键但数量庞大'],
+    keyPoints: ['极性与氢键', '四大特性：比热、汽化热、内聚黏附、溶剂', '冰浮于水'],
+    misconceptions: [
+      '以为氢键是水分子内的键（实为分子间）',
+      '忽视溶剂对离子/极性分子的水合',
+    ],
+    examples: [
+      {
+        title: '例 1',
+        prompt: '沿海气候比内陆温和的水相关解释？',
+        steps: ['水比热高，吸收/释放大量热而温度变化小。'],
+        solution: '高比热缓冲气温。',
+      },
+      {
+        title: '例 2',
+        prompt: '为何冰浮在水面？',
+        steps: ['固态氢键形成较空旷晶格，密度小于液态水。'],
+        solution: '晶格密度低 → 冰浮。',
+      },
+      {
+        title: '例 3',
+        prompt: '植物导管中水柱上升与哪些性质有关？',
+        steps: ['内聚（水–水）与黏附（水–细胞壁）及蒸腾拉力。'],
+        solution: '内聚–黏附–蒸腾连续体。',
+      },
+    ],
+    examTips: ['CED Unit 1：化学与水；会用氢键解释性质', 'FRQ 常要求“结构→性质→功能”链条'],
+    related: [
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.1', title: '元素与键', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.4', title: '生物大分子', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞结构', relation: '应用环境' },
+    ],
+    development: ['极性', '氢键', '宏观性质', '生态/生理意义'],
+    checks: ['氢键是分子内还是分子间？', '列出水的三项关键性质及意义'],
+    summary: '水的极性与氢键支撑生命所需的物理化学性质。',
+  },
+};
+

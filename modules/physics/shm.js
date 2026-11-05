@@ -1,8 +1,9 @@
+import { mountExamFigures } from './exam-figures.js';
 import { el, slider, button, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 
 
-export function create(viz, controls) {
+function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas');
   wrap.appendChild(canvas);
@@ -285,4 +286,10 @@ export function create(viz, controls) {
     cancelAnimationFrame(raf);
     unobserve();
   };
+}
+
+export function create(viz, controls) {
+  const inst = createBase(viz, controls);
+  mountExamFigures(viz, 'shm');
+  return inst;
 }

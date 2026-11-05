@@ -258,7 +258,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "work-energy",
+        "title": "功与机械能"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u3",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

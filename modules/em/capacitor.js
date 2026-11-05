@@ -1,7 +1,8 @@
+import { mountExamFigures } from '../physics/exam-figures.js';
 import { el, slider, select, checkbox, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 
-export function create(viz, controls) {
+function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
@@ -33,4 +34,10 @@ export function create(viz, controls) {
   observeSize(wrap, draw);
   const loop = () => { draw(); requestAnimationFrame(loop); }; loop();
   return { destroy() {} };
+}
+
+export function create(viz, controls) {
+  const inst = createBase(viz, controls);
+  mountExamFigures(viz, 'capacitor');
+  return inst;
 }

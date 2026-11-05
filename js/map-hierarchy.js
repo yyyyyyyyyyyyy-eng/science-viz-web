@@ -5,24 +5,24 @@ import { hashStr, mulberry32 } from './map-rng.js';
 
 const STAGE_DEFS = {
   math: [
-    { id: 'stage:alg1', label: 'Algebra I', labelZh: '代数 I', chapters: ['math-prep-alg1'], color: 0xc45c26 },
-    { id: 'stage:geo', label: 'Geometry', labelZh: '几何', chapters: ['math-prep-geo'], color: 0x2f6fed },
-    { id: 'stage:alg2', label: 'Algebra II', labelZh: '代数 II', chapters: ['math-prep-alg2'], color: 0x0f7b6c },
-    { id: 'stage:precalc', label: 'Precalculus', labelZh: '预备微积分', chapters: ['math-prep-precalc'], color: 0x8b5cf6 },
-    { id: 'stage:calc', label: 'Calculus BC', labelZh: '微积分 BC', chapters: null, color: 0xb45309, apOnly: true },
+    { id: 'stage:alg1', label: 'Algebra I', labelZh: '代数 I', chapters: ['math-prep-alg1'], color: 0xf0a07a },
+    { id: 'stage:geo', label: 'Geometry', labelZh: '几何', chapters: ['math-prep-geo'], color: 0x7eade8 },
+    { id: 'stage:alg2', label: 'Algebra II', labelZh: '代数 II', chapters: ['math-prep-alg2'], color: 0x6fc4b0 },
+    { id: 'stage:precalc', label: 'Precalculus', labelZh: '预备微积分', chapters: ['math-prep-precalc'], color: 0xb9a3eb },
+    { id: 'stage:calc', label: 'Calculus BC', labelZh: '微积分 BC', chapters: null, color: 0xe0b06a, apOnly: true },
   ],
   bio: [
-    { id: 'stage:chem', label: 'Prep Chemistry', labelZh: '预备化学', chapters: ['bio-prep-chem'], color: 0x0e7490 },
-    { id: 'stage:hsbio', label: 'Prep Biology', labelZh: '预备生物', chapters: ['bio-prep-hs'], color: 0x0f7b6c },
-    { id: 'stage:apbio', label: 'AP Biology', labelZh: 'AP 生物', chapters: null, color: 0xc45c26, apOnly: true },
+    { id: 'stage:chem', label: 'Prep Chemistry', labelZh: '预备化学', chapters: ['bio-prep-chem'], color: 0x6eb9c9 },
+    { id: 'stage:hsbio', label: 'Prep Biology', labelZh: '预备生物', chapters: ['bio-prep-hs'], color: 0x6fc4b0 },
+    { id: 'stage:apbio', label: 'AP Biology', labelZh: 'AP 生物', chapters: null, color: 0xf0a07a, apOnly: true },
   ],
   mech: [
-    { id: 'stage:prep', label: 'Prep Physics', labelZh: '预备物理', chapters: ['mech-prep-hs', 'mech-prep-ap1', 'mech-prep-math'], color: 0x2f6fed },
-    { id: 'stage:mech', label: 'Mechanics', labelZh: '力学', chapters: null, color: 0xc45c26, apOnly: true },
+    { id: 'stage:prep', label: 'Prep Physics', labelZh: '预备物理', chapters: ['mech-prep-hs', 'mech-prep-ap1', 'mech-prep-math'], color: 0x7eade8 },
+    { id: 'stage:mech', label: 'Mechanics', labelZh: '力学', chapters: null, color: 0xf0a07a, apOnly: true },
   ],
   em: [
-    { id: 'stage:prep', label: 'Prep Physics', labelZh: '预备物理', chapters: ['em-prep-found'], color: 0x2f6fed },
-    { id: 'stage:em', label: 'E&M', labelZh: '电磁学', chapters: null, color: 0x8b5cf6, apOnly: true },
+    { id: 'stage:prep', label: 'Prep Physics', labelZh: '预备物理', chapters: ['em-prep-found'], color: 0x7eade8 },
+    { id: 'stage:em', label: 'E&M', labelZh: '电磁学', chapters: null, color: 0xb9a3eb, apOnly: true },
   ],
 };
 
@@ -310,12 +310,13 @@ export function mixHex(a, b, t) {
 export function nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR) {
   if (n.tier === 'stage' && n.color != null) return n.color;
   const unitCol = UNIT_COLORS_AP[Math.max(0, n.unitIndex) % UNIT_COLORS_AP.length];
-  // Prep topics/units: soft tint of unit hue instead of flat gray
+  // Pastel topics: keep unit hue, lift toward cream so spheres stay soft (not gray).
   if (n.layer === 'prep') {
-    if (n.tier === 'topic') return mixHex(PREP_COLOR, unitCol, 0.58);
-    return mixHex(PREP_COLOR, unitCol, 0.4);
+    if (n.tier === 'topic') return mixHex(unitCol, 0xf7f5f0, 0.28);
+    return mixHex(unitCol, 0xf7f5f0, 0.18);
   }
-  if (n.tier === 'topic') return mixHex(unitCol, 0xf5f2ec, 0.12);
+  if (n.tier === 'topic') return mixHex(unitCol, 0xfffaf5, 0.22);
+  if (n.tier === 'unit') return mixHex(unitCol, 0xfffaf5, 0.08);
   return unitCol;
 }
 

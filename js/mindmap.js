@@ -4,14 +4,24 @@ import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
 import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor, rectsOverlap, mixHex } from './map-hierarchy.js';
 
-/** Soft per-unit palette (AP); prep stays muted grey. */
+/** Soft pastel per-unit palette — saturated but light, never gray. */
 const UNIT_COLORS_AP = [
-  0xc45c26, 0x2f6fed, 0x0f7b6c, 0x8b5cf6, 0xb45309, 0x0e7490, 0xbe123c, 0x365314, 0x1d4ed8, 0x7c2d12,
+  0xf0a07a, // coral
+  0x7eade8, // sky
+  0x6fc4b0, // mint-teal
+  0xb9a3eb, // lavender
+  0xe0b06a, // amber
+  0x6eb9c9, // aqua
+  0xe890a4, // rose
+  0x9cbc6e, // leaf
+  0x8aa0e0, // periwinkle
+  0xd4a08c, // clay
 ];
-const PREP_COLOR = 0x9aa0a6;
-const EDGE_DIM = 0xb0b0b0;
-const EDGE_HOT = 0xc45c26;
-const EDGE_CROSS = 0x7c6af0; // subtle violet accent for cross-topic relations
+const PREP_COLOR = 0xc5cdd8; // soft cool tint (mixed with unit hue later)
+const EDGE_NEUTRAL = 0x8e8e8e; // all edges: thin neutral gray
+const EDGE_DIM = EDGE_NEUTRAL;
+const EDGE_HOT = 0xc45c26; // selection path only
+const EDGE_CROSS = EDGE_NEUTRAL; // dashed but gray, not violet
 const SELECT_COLOR = 0xe8a87c;
 
 function cssColor(name, fallback) {
@@ -158,9 +168,12 @@ export async function renderMindMap(main, subject) {
     const bg = cssColor('--canvas-plot', isDarkTheme() ? '#12141a' : '#f7f5f0');
     scene.background = new THREE.Color(bg);
     scene.fog = new THREE.FogExp2(new THREE.Color(bg).getHex(), isDarkTheme() ? 0.011 : 0.007);
-    crossMat.color.setHex(isDarkTheme() ? 0xa89bff : EDGE_CROSS);
-    crossMat.opacity = isDarkTheme() ? 0.45 : 0.38;
-    treeMat.opacity = isDarkTheme() ? 0.24 : 0.17;
+    const edge = isDarkTheme() ? 0xa0a0a0 : EDGE_NEUTRAL;
+    treeMat.color.setHex(edge);
+    crossMat.color.setHex(edge);
+    // Low-opacity thin gray — separate from colorful nodes
+    treeMat.opacity = isDarkTheme() ? 0.28 : 0.2;
+    crossMat.opacity = isDarkTheme() ? 0.32 : 0.24;
   }
   const bgHex = cssColor('--canvas-plot', '#f7f5f0');
   const scene = new THREE.Scene();
@@ -182,16 +195,15 @@ export async function renderMindMap(main, subject) {
   scene.add(key);
 
   const nodeGroup = new THREE.Group();
+  nodeGroup.renderOrder = 10;
   scene.add(nodeGroup);
   const meshes = new Map();
   const geos = [];
-  // Crisp small meshes; tier scale applied in tick for near-constant screen size
-  // Topic sphere r=0.14; capsules at scale=1 are topic-sized, then ×1.8 / ×3
-  // Absolute sizes: topic Ø≈0.4; unit ≈1.8×; stage pill ≈3× (crisp, not giant)
-  const topicGeo = new THREE.SphereGeometry(0.2, 10, 10);
-  const topicVizGeo = new THREE.SphereGeometry(0.23, 10, 10);
-  const unitGeo = new THREE.CapsuleGeometry(0.17, 0.32, 4, 10);   // ~1.8× topic
-  const stageGeo = new THREE.CapsuleGeometry(0.28, 0.6, 5, 12);    // ~3× topic diameter, crisp pill
+  // Tier sizes: topics clearly larger than ~1px edges; unit ≈1.8×; stage ≈3×
+  const topicGeo = new THREE.SphereGeometry(0.32, 12, 12);
+  const topicVizGeo = new THREE.SphereGeometry(0.36, 12, 12);
+  const unitGeo = new THREE.CapsuleGeometry(0.27, 0.5, 4, 12);   // ~1.8× topic
+  const stageGeo = new THREE.CapsuleGeometry(0.42, 0.88, 5, 12);    // ~3× topic
   geos.push(stageGeo, unitGeo, topicGeo, topicVizGeo);
   const REF_DIST = 42; // world units: scale meshes so screen size stays stable
 
@@ -201,9 +213,17 @@ export async function renderMindMap(main, subject) {
     if (n.tier === 'stage') geo = stageGeo;
     else if (n.tier === 'unit') geo = unitGeo;
     else geo = n.hasViz ? topicVizGeo : topicGeo;
-    const opacity = n.tier === 'topic' ? (n.layer === 'prep' ? 0.88 : 0.96) : n.tier === 'unit' ? 0.94 : 1;
-    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
+    // Near-opaque pastels so depthWrite hides edges crossing through spheres
+    const opacity = n.tier === 'topic' ? (n.layer === 'prep' ? 0.94 : 1) : n.tier === 'unit' ? 1 : 1;
+    const mat = new THREE.MeshBasicMaterial({
+      color,
+      transparent: opacity < 0.999,
+      opacity,
+      depthTest: true,
+      depthWrite: true,
+    });
     const mesh = new THREE.Mesh(geo, mat);
+    mesh.renderOrder = 10;
     mesh.position.set(n.x, n.y, n.z);
     if (n.tier === 'stage' || n.tier === 'unit') {
       mesh.rotation.z = Math.PI / 2; // horizontal pill
@@ -342,48 +362,44 @@ export async function renderMindMap(main, subject) {
     }
   }
 
-  // Split edges: tree (unit-tinted, thin) vs cross-topic (accent dashed)
+  // Split edges: tree (solid gray) vs cross-topic (dashed gray). Never colored / never violet.
   const treeEdgeList = edges.filter((e) => String(e.type || '').startsWith('tree') || e.type === 'prerequisite');
   const crossEdgeList = edges.filter((e) => e.cross || e.type === 'connects' || e.type === 'applies-to');
-  // leftover topic prereqs already in treeEdgeList; avoid double-drawing crosses
   const crossIds = new Set(crossEdgeList.map((e) => `${e.source}|${e.target}|${e.type}`));
   const treeOnly = edges.filter((e) => !crossIds.has(`${e.source}|${e.target}|${e.type}`));
 
-  function edgeTint(e) {
-    const a = byId.get(e.source);
-    const b = byId.get(e.target);
-    const ref = (a && a.tier === 'topic' ? a : b && b.tier === 'topic' ? b : a) || b;
-    if (!ref) return EDGE_DIM;
-    const col = baseColor(ref);
-    return mixHex(col, EDGE_DIM, 0.55);
-  }
-
   const treePositions = new Float32Array(treeOnly.length * 6);
-  const treeColors = new Float32Array(treeOnly.length * 6);
   const treeGeo = new THREE.BufferGeometry();
   treeGeo.setAttribute('position', new THREE.BufferAttribute(treePositions, 3));
-  treeGeo.setAttribute('color', new THREE.BufferAttribute(treeColors, 3));
   const treeMat = new THREE.LineBasicMaterial({
-    vertexColors: true,
+    color: EDGE_NEUTRAL,
     transparent: true,
-    opacity: 0.18,
+    opacity: 0.2,
+    depthTest: true,
     depthWrite: false,
+    linewidth: 1, // ~1px where the GL driver honors it
   });
   const treeLines = new THREE.LineSegments(treeGeo, treeMat);
+  treeLines.renderOrder = 0;
+  treeLines.frustumCulled = false;
   scene.add(treeLines);
 
   const crossPositions = new Float32Array(crossEdgeList.length * 6);
   const crossGeo = new THREE.BufferGeometry();
   crossGeo.setAttribute('position', new THREE.BufferAttribute(crossPositions, 3));
   const crossMat = new THREE.LineDashedMaterial({
-    color: EDGE_CROSS,
+    color: EDGE_NEUTRAL,
     transparent: true,
-    opacity: 0.4,
+    opacity: 0.24,
     dashSize: 0.45,
     gapSize: 0.3,
+    depthTest: true,
     depthWrite: false,
+    linewidth: 1,
   });
   const crossLines = new THREE.LineSegments(crossGeo, crossMat);
+  crossLines.renderOrder = 0;
+  crossLines.frustumCulled = false;
   scene.add(crossLines);
   refreshSceneTheme();
   const themeObs = new MutationObserver(() => refreshSceneTheme());
@@ -404,7 +420,7 @@ export async function renderMindMap(main, subject) {
     const a = byId.get(e.source);
     const b = byId.get(e.target);
     if (!a || !b) continue;
-    const mat = new THREE.MeshBasicMaterial({ color: e.cross ? 0xc45c26 : 0x9a9a9a, transparent: true, opacity: e.cross ? 0.8 : 0.55 });
+    const mat = new THREE.MeshBasicMaterial({ color: 0x9a9a9a, transparent: true, opacity: e.cross ? 0.7 : 0.5, depthWrite: true });
     const dot = new THREE.Mesh(handleGeo, mat);
     const hit = new THREE.Mesh(handleHitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     dot.add(hit);
@@ -699,11 +715,10 @@ export async function renderMindMap(main, subject) {
         mesh.userData._selBoost = 1;
       }
     }
-    treeMat.opacity = hasSel ? 0.06 : (neigh ? 0.1 : (isDarkTheme() ? 0.28 : 0.2));
-    crossMat.opacity = hasSel ? 0.08 : (neigh ? 0.14 : (isDarkTheme() ? 0.42 : 0.36));
-    // dim cross lines not connected on hover
-    if (neigh) {
-      crossMat.opacity = 0.12;
+    treeMat.opacity = hasSel ? 0.05 : (neigh ? 0.09 : (isDarkTheme() ? 0.26 : 0.18));
+    crossMat.opacity = hasSel ? 0.06 : (neigh ? 0.1 : (isDarkTheme() ? 0.3 : 0.22));
+    if (neigh && !hasSel) {
+      crossMat.opacity = 0.1;
     }
     setHotEdges(hasSel ? pathEdgesAmong(selected) : []);
     // label dim
@@ -1089,6 +1104,33 @@ export async function renderMindMap(main, subject) {
     if (hit) flyTo(hit);
   });
 
+
+  function nodeEdgeRadius(n) {
+    if (!n) return 0.2;
+    if (n.tier === 'stage') return 0.55;
+    if (n.tier === 'unit') return 0.38;
+    return n.hasViz ? 0.34 : 0.3;
+  }
+  /** Trim segment so it stops at each node's surface — lines never paint across sphere faces. */
+  function trimmedEndpoints(a, b) {
+    const dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
+    const len = Math.hypot(dx, dy, dz) || 1;
+    const ra = nodeEdgeRadius(a);
+    const rb = nodeEdgeRadius(b);
+    const t0 = Math.min(0.45, ra / len);
+    const t1 = Math.min(0.45, rb / len);
+    if (t0 + t1 >= 0.92) {
+      // Degenerate short link: keep a tiny mid segment
+      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, mz = (a.z + b.z) / 2;
+      const ux = dx / len, uy = dy / len, uz = dz / len;
+      return [mx - ux * 0.04, my - uy * 0.04, mz - uz * 0.04, mx + ux * 0.04, my + uy * 0.04, mz + uz * 0.04];
+    }
+    return [
+      a.x + dx * t0, a.y + dy * t0, a.z + dz * t0,
+      b.x - dx * t1, b.y - dy * t1, b.z - dz * t1,
+    ];
+  }
+
   let alive = true;
   function tick() {
     if (!alive) return;
@@ -1116,22 +1158,21 @@ export async function renderMindMap(main, subject) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
       if (!a || !b) continue;
-      treePositions[i] = a.x; treePositions[i + 1] = a.y; treePositions[i + 2] = a.z;
-      treePositions[i + 3] = b.x; treePositions[i + 4] = b.y; treePositions[i + 5] = b.z;
-      const tint = new THREE.Color(edgeTint(e));
-      treeColors[i] = tint.r; treeColors[i + 1] = tint.g; treeColors[i + 2] = tint.b;
-      treeColors[i + 3] = tint.r; treeColors[i + 4] = tint.g; treeColors[i + 5] = tint.b;
+      const pts = trimmedEndpoints(a, b);
+      treePositions[i] = pts[0]; treePositions[i + 1] = pts[1]; treePositions[i + 2] = pts[2];
+      treePositions[i + 3] = pts[3]; treePositions[i + 4] = pts[4]; treePositions[i + 5] = pts[5];
       i += 6;
     }
     treeGeo.attributes.position.needsUpdate = true;
-    treeGeo.attributes.color.needsUpdate = true;
+
     let ci = 0;
     for (const e of crossEdgeList) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
       if (!a || !b) continue;
-      crossPositions[ci++] = a.x; crossPositions[ci++] = a.y; crossPositions[ci++] = a.z;
-      crossPositions[ci++] = b.x; crossPositions[ci++] = b.y; crossPositions[ci++] = b.z;
+      const pts = trimmedEndpoints(a, b);
+      crossPositions[ci++] = pts[0]; crossPositions[ci++] = pts[1]; crossPositions[ci++] = pts[2];
+      crossPositions[ci++] = pts[3]; crossPositions[ci++] = pts[4]; crossPositions[ci++] = pts[5];
     }
     crossGeo.attributes.position.needsUpdate = true;
     crossLines.computeLineDistances();

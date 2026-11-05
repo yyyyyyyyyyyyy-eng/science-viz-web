@@ -237,7 +237,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "projectile",
+        "title": "抛体运动"
+      }
+    ],
     "essentialKnowledge": [
       "Vector Basics：准确陈述定义、适用范围与符号约定。",
       "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
@@ -368,7 +373,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "projectile",
+        "title": "抛体运动"
+      }
+    ],
     "essentialKnowledge": [
       "Intro 1D Motion：准确陈述定义、适用范围与符号约定。",
       "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
@@ -499,7 +509,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "essentialKnowledge": [
       "Intro to Forces：准确陈述定义、适用范围与符号约定。",
       "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
@@ -623,7 +638,12 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "work-energy",
+        "title": "功与机械能"
+      }
+    ],
     "essentialKnowledge": [
       "Energy Intuition：准确陈述定义、适用范围与符号约定。",
       "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",

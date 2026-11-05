@@ -327,6 +327,7 @@ export function fitCanvas(canvas, a, b) {
   let cssW;
   let cssH;
   if (a && typeof a === 'object' && a.getBoundingClientRect && b == null) {
+    // Prefer the layout box of the constrained host; never drive CSS size from bitmap size.
     const r = a.getBoundingClientRect();
     cssW = r.width;
     cssH = r.height;
@@ -337,10 +338,16 @@ export function fitCanvas(canvas, a, b) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const w = Math.max(1, Math.floor(cssW || 1));
   const h = Math.max(1, Math.floor(cssH || 1));
-  canvas.width = Math.floor(w * dpr);
-  canvas.height = Math.floor(h * dpr);
-  canvas.style.width = `${w}px`;
-  canvas.style.height = `${h}px`;
+  const bw = Math.floor(w * dpr);
+  const bh = Math.floor(h * dpr);
+  // DPR backing store only — do NOT set canvas.style width/height (avoids ResizeObserver loops
+  // when CSS already owns layout via width/height: 100% on a constrained .canvas-wrap).
+  if (canvas.width !== bw) canvas.width = bw;
+  if (canvas.height !== bh) canvas.height = bh;
+  if (canvas.style.width) canvas.style.width = '';
+  if (canvas.style.height) canvas.style.height = '';
+  canvas.style.maxWidth = '100%';
+  canvas.style.maxHeight = '100%';
   canvas.style.touchAction = 'none';
   const ctx = canvas.getContext('2d');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -348,11 +355,27 @@ export function fitCanvas(canvas, a, b) {
 }
 
 export function observeSize(elNode, cb) {
+  let lastW = -1;
+  let lastH = -1;
+  let raf = 0;
   const ro = new ResizeObserver((entries) => {
     const cr = entries[0]?.contentRect;
     if (!cr) return;
-    cb(cr.width, cr.height);
+    const w = Math.round(cr.width);
+    const h = Math.round(cr.height);
+    if (w === lastW && h === lastH) return;
+    if (Math.abs(w - lastW) < 1 && Math.abs(h - lastH) < 1 && lastW >= 0) return;
+    lastW = w;
+    lastH = h;
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      cb(w, h);
+    });
   });
   ro.observe(elNode);
-  return () => ro.disconnect();
+  return () => {
+    ro.disconnect();
+    if (raf) cancelAnimationFrame(raf);
+  };
 }

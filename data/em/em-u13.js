@@ -542,7 +542,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u13",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -679,7 +684,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u13",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -813,7 +823,12 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u13",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

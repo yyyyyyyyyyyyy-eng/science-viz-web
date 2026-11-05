@@ -400,7 +400,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "electric-potential",
+        "title": "电势与电势能"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u9",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

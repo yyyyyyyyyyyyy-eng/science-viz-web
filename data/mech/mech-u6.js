@@ -116,7 +116,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rigid-rotation",
+        "title": "刚体转动与转动惯量"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u6",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -253,7 +258,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rigid-rotation",
+        "title": "刚体转动与转动惯量"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u6",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -390,7 +400,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rigid-rotation",
+        "title": "刚体转动与转动惯量"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u6",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

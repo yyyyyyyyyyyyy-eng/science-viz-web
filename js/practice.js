@@ -125,11 +125,14 @@ function renderStimulus(stim) {
 function drawGraph(canvas, g) {
   const dpr = Math.min(devicePixelRatio || 1, 2);
   const w = canvas.clientWidth || 320;
-  const h = 160;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.width = `${w}px`;
-  canvas.style.height = `${h}px`;
+  const h = canvas.clientHeight || 160;
+  const bw = Math.floor(w * dpr);
+  const bh = Math.floor(h * dpr);
+  if (canvas.width !== bw) canvas.width = bw;
+  if (canvas.height !== bh) canvas.height = bh;
+  // CSS owns layout (.stim-graph); do not write style width/height from measurements.
+  canvas.style.width = '';
+  canvas.style.height = '';
   const ctx = canvas.getContext('2d');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   const style = getComputedStyle(document.documentElement);

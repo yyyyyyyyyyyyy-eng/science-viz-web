@@ -1,10 +1,11 @@
+import { mountExamFigures } from './exam-figures.js';
 import { el, button, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 
 
 const K = 1; // scaled Coulomb constant for visualization
 
-export function create(viz, controls) {
+function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas');
   wrap.appendChild(canvas);
@@ -347,4 +348,10 @@ export function create(viz, controls) {
     cancelAnimationFrame(raf);
     unobserve();
   };
+}
+
+export function create(viz, controls) {
+  const inst = createBase(viz, controls);
+  mountExamFigures(viz, 'electric-field');
+  return inst;
 }

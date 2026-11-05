@@ -116,7 +116,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "projectile",
+        "title": "抛体运动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -253,7 +258,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "projectile",
+        "title": "抛体运动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -390,7 +400,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "projectile",
+        "title": "抛体运动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -527,7 +542,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -664,7 +684,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -801,7 +826,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "newton-incline",
+        "title": "牛顿第二定律与斜面"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -938,7 +968,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "gravity-orbit",
+        "title": "万有引力轨道"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1075,7 +1110,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "work-energy",
+        "title": "功与机械能"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1212,7 +1252,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "work-energy",
+        "title": "功与机械能"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1349,7 +1394,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "collision-momentum",
+        "title": "动量守恒碰撞"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1486,7 +1536,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rigid-rotation",
+        "title": "刚体转动与转动惯量"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1623,7 +1678,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "shm",
+        "title": "简谐振动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1760,7 +1820,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "shm",
+        "title": "简谐振动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1897,7 +1962,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "electric-field",
+        "title": "电场线与等势"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -2034,7 +2104,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -2164,7 +2239,16 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "charged-particle-B",
+        "title": "磁场中的带电粒子"
+      },
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-prep-hs",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

@@ -4,21 +4,67 @@ import { getChapter } from '../modules/registry.js';
 import { markVisited, markCompleted, isCompleted, isVisited } from './progress.js';
 import { loadCourseData } from '../data/courses.js';
 import { pastPapersForTopic } from '../data/shared/pastpapers.js';
+import { mountTopicExamFigures } from '../modules/physics/exam-figures.js';
 
 function topicId(subject, chapterId, code) {
   return `topic:${subject}/${chapterId}/${code}`;
 }
 
-function renderKatex(tex) {
-  const span = el('span', { className: 'tex' });
+function renderKatex(tex, displayMode = true) {
+  const span = el('span', { className: displayMode ? 'tex' : 'tex-inline' });
   if (window.katex) {
     try {
-      window.katex.render(tex, span, { throwOnError: false, displayMode: true });
+      window.katex.render(tex, span, { throwOnError: false, displayMode });
       return span;
     } catch (_) {}
   }
   span.textContent = tex;
   return span;
+}
+
+/** Fill a container with text that may contain \(...\) and \[...\] KaTeX. */
+function appendMathText(parent, text, className) {
+  const wrap = el(className ? 'p' : 'p', className ? { className } : {});
+  if (text == null || text === '') {
+    parent.appendChild(wrap);
+    return wrap;
+  }
+  const s = String(text);
+  const re = /(\\\[[\s\S]+?\\\])|(\\\([\s\S]+?\\\))/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) wrap.appendChild(document.createTextNode(s.slice(last, m.index)));
+    const raw = m[0];
+    if (raw.startsWith('\\[')) {
+      const tex = raw.slice(2, -2);
+      wrap.appendChild(renderKatex(tex, true));
+    } else {
+      const tex = raw.slice(2, -2);
+      wrap.appendChild(renderKatex(tex, false));
+    }
+    last = m.index + raw.length;
+  }
+  if (last < s.length) wrap.appendChild(document.createTextNode(s.slice(last)));
+  parent.appendChild(wrap);
+  return wrap;
+}
+
+function appendMathLi(ul, text) {
+  const li = el('li');
+  const s = String(text ?? '');
+  const re = /(\\\[[\s\S]+?\\\])|(\\\([\s\S]+?\\\))/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) li.appendChild(document.createTextNode(s.slice(last, m.index)));
+    const raw = m[0];
+    if (raw.startsWith('\\[')) li.appendChild(renderKatex(raw.slice(2, -2), true));
+    else li.appendChild(renderKatex(raw.slice(2, -2), false));
+    last = m.index + raw.length;
+  }
+  if (last < s.length) li.appendChild(document.createTextNode(s.slice(last)));
+  ul.appendChild(li);
 }
 
 export async function renderTopicPage(main, { subject, chapterId, code }) {
@@ -54,70 +100,77 @@ export async function renderTopicPage(main, { subject, chapterId, code }) {
   root.appendChild(el('h1', { text: `${topic.code}　${topic.titleZh}` }));
   root.appendChild(el('p', { className: 'lead', text: topic.titleEn }));
 
-  root.appendChild(el('section', { className: 'topic-block' }, [
-    el('h2', { text: '定义' }),
-    el('p', { text: topic.definition }),
-    topic.intuition ? el('p', { className: 'muted', text: topic.intuition }) : null,
-  ]));
+  const defSec = el('section', { className: 'topic-block' }, [el('h2', { text: '定义' })]);
+  appendMathText(defSec, topic.definition);
+  if (topic.intuition) appendMathText(defSec, topic.intuition, 'muted');
+  root.appendChild(defSec);
 
   if (topic.essentialKnowledge?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.essentialKnowledge.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.essentialKnowledge.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '本质知识（教学改写）' }), ul]));
   }
 
   if (topic.learningObjectives?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.learningObjectives.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.learningObjectives.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '学习目标' }), ul]));
   }
 
   if (topic.formulas?.length) {
     const box = el('section', { className: 'topic-block' }, [el('h2', { text: '公式' })]);
     topic.formulas.forEach((f) => {
-      box.appendChild(renderKatex(f.latex));
-      if (f.note) box.appendChild(el('p', { className: 'formula-note', text: f.note }));
+      box.appendChild(renderKatex(f.latex, true));
+      if (f.note) appendMathText(box, f.note, 'formula-note');
     });
     root.appendChild(box);
   }
 
   if (topic.derivationNotes?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.derivationNotes.forEach((d) => ul.appendChild(el('li', { text: `${d.from} → ${d.note}` })));
+    topic.derivationNotes.forEach((d) => appendMathLi(ul, `${d.from} → ${d.note}`));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '推导要点' }), ul]));
   }
 
   if (topic.conditions?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.conditions.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.conditions.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '条件与假设' }), ul]));
   }
 
   if (topic.keyPoints?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.keyPoints.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.keyPoints.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '要点' }), ul]));
   }
 
   if (topic.misconceptions?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.misconceptions.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.misconceptions.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '常见误解' }), ul]));
   }
 
   if (topic.examples?.length) {
     const sec = el('section', { className: 'topic-block' }, [el('h2', { text: '例题' })]);
     topic.examples.forEach((ex) => {
-      sec.appendChild(el('h3', { text: ex.title }));
-      sec.appendChild(el('p', { text: ex.prompt }));
-      sec.appendChild(el('p', { className: 'example-sol', text: ex.solution }));
+      sec.appendChild(el('h3', { text: ex.title || '例题' }));
+      appendMathText(sec, ex.prompt);
+      if (ex.steps?.length) {
+        const ol = el('ol', { className: 'topic-list example-steps' });
+        ex.steps.forEach((s) => appendMathLi(ol, s));
+        sec.appendChild(ol);
+      }
+      if (ex.solution) appendMathText(sec, ex.solution, 'example-sol');
+      if (ex.solutionLatex) {
+        sec.appendChild(renderKatex(ex.solutionLatex, true));
+      }
     });
     root.appendChild(sec);
   }
 
   if (topic.examTips?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.examTips.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.examTips.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: 'AP 提示' }), ul]));
   }
 
@@ -131,46 +184,56 @@ export async function renderTopicPage(main, { subject, chapterId, code }) {
 
   if (topic.connections?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.connections.forEach((c) => ul.appendChild(el('li', { text: c })));
+    topic.connections.forEach((c) => appendMathLi(ul, c));
     root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '知识联系' }), ul]));
   }
 
   if (topic.related?.length) {
     const sec = el('section', { className: 'topic-block' }, [el('h2', { text: '相关知识点' })]);
     topic.related.forEach((r) => {
+      const label = r.titleZh || r.title || '';
+      const rel = r.relation ? `${r.relation} · ` : '';
       sec.appendChild(
         el('a', {
           className: 'entry-row hit-target',
           href: `#/t/${r.subject}/${r.chapterId}/${r.code}`,
-          text: `${r.relation} · ${r.code} ${r.title}`,
+          text: `${rel}${r.code} ${label}`,
         }),
       );
     });
     root.appendChild(sec);
   }
 
-
-  // Self-study blocks
   if (topic.intuitionDetailed || topic.development || topic.checks || topic.summary) {
     if (topic.intuitionDetailed) {
-      root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '直觉理解' }), el('p', { text: topic.intuitionDetailed })]));
+      const sec = el('section', { className: 'topic-block' }, [el('h2', { text: '直觉理解' })]);
+      appendMathText(sec, topic.intuitionDetailed);
+      root.appendChild(sec);
     }
     if (topic.development?.length) {
       const ol = el('ol', { className: 'topic-list' });
-      topic.development.forEach((s) => ol.appendChild(el('li', { text: s })));
+      topic.development.forEach((s) => appendMathLi(ol, s));
       root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '循序展开' }), ol]));
     }
     if (topic.checks?.length) {
       const ul = el('ul', { className: 'topic-list' });
-      topic.checks.forEach((s) => ul.appendChild(el('li', { text: s })));
+      topic.checks.forEach((s) => appendMathLi(ul, s));
       root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '自测' }), ul]));
     }
     if (topic.summary) {
-      root.appendChild(el('section', { className: 'topic-block' }, [el('h2', { text: '小结' }), el('p', { text: topic.summary })]));
+      const sec = el('section', { className: 'topic-block' }, [el('h2', { text: '小结' })]);
+      appendMathText(sec, topic.summary);
+      root.appendChild(sec);
     }
   }
 
-  // Past papers tagged to this topic
+  // Physics exam figures (Mechanics / E&M) — size-constrained SVG gallery
+  try {
+    if (subject === 'mech' || subject === 'em') {
+      mountTopicExamFigures(root, topic);
+    }
+  } catch (_) {}
+
   try {
     const papers = pastPapersForTopic(`${chapterId}:${code}`);
     if (papers?.length) {

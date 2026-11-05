@@ -116,7 +116,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u11",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -537,7 +542,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u11",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -674,7 +684,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u11",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -811,7 +826,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u11",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -948,7 +968,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-u11",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

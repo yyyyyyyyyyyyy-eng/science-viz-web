@@ -393,7 +393,12 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "shm",
+        "title": "简谐振动"
+      }
+    ],
     "practiceHref": "#/mech/practice/mech-u7",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",

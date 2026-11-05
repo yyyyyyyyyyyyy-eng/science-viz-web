@@ -116,7 +116,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "electric-field",
+        "title": "电场线与等势"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -253,7 +258,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "electric-field",
+        "title": "电场线与等势"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -390,7 +400,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "electric-potential",
+        "title": "电势与电势能"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -527,7 +542,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "capacitor",
+        "title": "平行板电容器"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -664,7 +684,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "rc-circuit",
+        "title": "RC 电路"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -801,7 +826,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "charged-particle-B",
+        "title": "磁场中的带电粒子"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -938,7 +968,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1075,7 +1110,12 @@ export const TOPICS = {
         "relation": "related"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "gauss-law",
+        "title": "高斯定律"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
@@ -1205,7 +1245,12 @@ export const TOPICS = {
         "relation": "prerequisite"
       }
     ],
-    "modules": [],
+    "modules": [
+      {
+        "id": "gauss-law",
+        "title": "高斯定律"
+      }
+    ],
     "practiceHref": "#/em/practice/em-prep-found",
     "connections": [
       "上游：本单元前置主题为后续推导提供定义或定律",
