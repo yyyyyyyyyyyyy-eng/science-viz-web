@@ -60,8 +60,29 @@ function eq(x, y, parts, o = {}) {
     const w = Math.max(wEst(n, fs), wEst(d, fs)) + 6;
     return { w, s: ln(x0, y, x0 + w, y, { c, w: 1.1 }) + tx(x0 + w / 2, y - 4, n, { anchor: 'middle', fs, c }) + tx(x0 + w / 2, y + fs + 1, d, { anchor: 'middle', fs, c }) };
   };
+  /** Nested den: { n, dPrefix?: string, d: { n, d } } → numerator over (prefix + small frac). */
+  const nestedDen = (x0, p) => {
+    const inner = fracAt(0, p.d.n, p.d.d); // measure only
+    const pref = p.dPrefix || '';
+    const prefW = pref ? wEst(pref, fs) + 2 : 0;
+    const denW = prefW + inner.w;
+    const numW = wEst(p.n, fs);
+    const w = Math.max(numW, denW) + 8;
+    let s = ln(x0, y, x0 + w, y, { c, w: 1.1 });
+    s += tx(x0 + w / 2, y - 4, p.n, { anchor: 'middle', fs, c });
+    const denX = x0 + (w - denW) / 2;
+    if (pref) s += tx(denX, y + fs + 1, pref, { fs, c });
+    const ix = denX + prefW;
+    s += ln(ix, y + fs + 1, ix + inner.w, y + fs + 1, { c, w: 1.0 });
+    s += tx(ix + inner.w / 2, y + fs - 3, p.d.n, { anchor: 'middle', fs: fs * 0.85, c });
+    s += tx(ix + inner.w / 2, y + fs * 2 + 2, p.d.d, { anchor: 'middle', fs: fs * 0.85, c });
+    return { w, s };
+  };
   for (const p of parts) {
     if (typeof p === 'string') { out += tx(cx, y + fs * 0.35, p, { fs, c }); cx += wEst(p, fs); }
+    else if (p.n !== undefined && p.d && typeof p.d === 'object' && p.d.n !== undefined) {
+      const f = nestedDen(cx + 2, p); out += f.s; cx += f.w + 4;
+    }
     else if (p.n !== undefined) { const f = fracAt(cx + 2, p.n, p.d); out += f.s; cx += f.w + 4; }
     else if (p.sqrt !== undefined) {
       const inner = typeof p.sqrt === 'string' ? null : p.sqrt;
@@ -290,7 +311,7 @@ function banked(withFriction) {
 }
 def('banked-frictionless', '倾斜弯道（无摩擦）', '\\tan\\theta=\\dfrac{v^2}{rg}', () => banked(false));
 def('banked-friction', '倾斜弯道（有静摩擦，最大速度）', 'v_{\\max}^2=rg\\,\\dfrac{\\sin\\theta+\\mu_s\\cos\\theta}{\\cos\\theta-\\mu_s\\sin\\theta}', () => banked(true));
-def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T=2\\pi\\sqrt{\\dfrac{L\\cos\\theta}{g}}', () => {
+def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T_0=2\\pi\\sqrt{\\dfrac{L\\cos\\theta}{g}}', () => {
   const px = 140, py = 30, L = 160, th = 35; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
   let s = hatch(90, py, 190) + `<ellipse cx="${px}" cy="${r1(by)}" rx="${r1(bx - px)}" ry="18" style="fill:none;stroke:${COL.m};stroke-dasharray:5 4"/>`;
   s += ln(px, py, px, by, { c: 'm', dash: '4 4' }) + ln(px, py, bx, by) + arc(px, py, 34, -90, -90 + th, { w: 1 }) + tx(px + 6, py + 48, 'θ');
@@ -298,7 +319,7 @@ def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T=2\\pi\
   s += circ(bx, by, 9, { fill: 'currentColor' });
   const Tl = 72; s += arr(bx, by, bx - Tl * Math.sin(rad(th)), by - Tl * Math.cos(rad(th)), 'f') + tx(bx - 34, by - 62, 'T', { c: 'f', anchor: 'end' });
   s += arr(bx, by, bx, by + 59, 'f') + tx(bx + 6, by + 58, 'mg', { c: 'f' }) + arr(bx + 16, by - 20, bx + 16 - 45, by - 20, 'a', 1.8) + tx(bx + 20, by - 16, 'a_{c}', { c: 'a' });
-  s += eq(265, 60, ['tan θ = ', { n: 'v^{2}', d: 'rg' }]) + eq(265, 125, ['T = 2π', { sqrt: { n: 'L cos θ', d: 'g' } }], { fs: 12 }) + tx(265, 175, 'T cos θ = mg', { fs: 12 }) + eq(265, 205, ['T sin θ = ', { n: 'mv^{2}', d: 'r' }], { fs: 12 });
+  s += eq(265, 60, ['tan θ = ', { n: 'v^{2}', d: 'rg' }]) + eq(265, 125, ['T₀ = 2π', { sqrt: { n: 'L cos θ', d: 'g' } }], { fs: 12 }) + tx(265, 175, 'T cos θ = mg（T：张力）', { fs: 11 }) + eq(265, 205, ['T sin θ = ', { n: 'mv^{2}', d: 'r' }], { fs: 12 });
   return s;
 });
 def('vertical-loop', '竖直圆环（物体在轨道内侧）', 'v_{\\text{top,min}}=\\sqrt{gR}', () => {
@@ -312,12 +333,12 @@ def('vertical-loop', '竖直圆环（物体在轨道内侧）', 'v_{\\text{top,m
   s += tx(250, 145, '恰好过顶部（N = 0）：', { it: false, fs: 12 }) + eq(260, 180, ['v_{min} = ', { sqrt: 'gR' }]) + tx(250, 225, '侧点：N 指向圆心', { it: false, fs: 11 });
   return s;
 });
-def('orbit', '圆轨道卫星', 'v=\\sqrt{\\dfrac{GM}{r}},\\; T^2=\\dfrac{4\\pi^2}{GM}r^3', () => {
+def('orbit', '圆轨道卫星', 'v=\\sqrt{\\dfrac{GM}{r}},\\; U=-\\dfrac{GMm}{r},\\; T^2\\propto r^3', () => {
   const cx = 130, cy = 130, r = 95; let s = circ(cx, cy, 26, { fill: 'var(--canvas-plot, transparent)' }) + tx(cx, cy + 5, 'M', { anchor: 'middle' }) + circ(cx, cy, r, { c: 'm', dash: '5 4' });
   const [sx, sy] = pt(cx, cy, r, 40); s += circ(sx, sy, 7, { fill: 'currentColor' }) + tx(sx + 10, sy - 8, 'm');
   s += arr(sx, sy, ...pt(sx, sy, 50, 220), 'f') + tx(...pt(sx, sy, 62, 232), 'F_{g}', { c: 'f' }) + arr(sx, sy, ...pt(sx, sy, 60, 130), 'v') + tx(...pt(sx, sy, 70, 126), 'v', { c: 'v' });
   s += ln(cx, cy, ...pt(cx, cy, r, -30), { c: 'm' }) + tx(...pt(cx, cy, r / 2, -18), 'r');
-  s += eq(250, 60, [{ n: 'GMm', d: 'r^{2}' }, ' = ', { n: 'mv^{2}', d: 'r' }]) + eq(250, 125, ['v = ', { sqrt: { n: 'GM', d: 'r' } }]) + eq(250, 190, ['U = −', { n: 'GMm', d: 'r' }]);
+  s += eq(250, 50, [{ n: 'GMm', d: 'r^{2}' }, ' = ', { n: 'mv^{2}', d: 'r' }]) + eq(250, 110, ['v = ', { sqrt: { n: 'GM', d: 'r' } }]) + eq(250, 170, ['U = −', { n: 'GMm', d: 'r' }]) + tx(250, 215, '开普勒：T² ∝ r³', { fs: 11, it: false });
   return s;
 });
 
@@ -326,10 +347,10 @@ def('force-position', 'F–x 图面积 = 功；弹簧势能曲线 U(x)', 'W=\\in
   let s = '';
   const g1 = graph(40, 30, 130, 120, { fns: [{ f: (x) => x, c: 'f' }], t1: 1, ymin: 0, ymax: 1.1, xl: 'x', yl: 'F' });
   s += g1.s + poly([[g1.X(0), g1.Y(0)], [g1.X(0.8), g1.Y(0.8)], [g1.X(0.8), g1.Y(0)], [g1.X(0), g1.Y(0)]], { fill: COL.f, op: 0.18, c: 'f', w: 0.5 }) + tx(g1.X(0.55), g1.Y(0.18), 'W', { anchor: 'middle' });
-  s += eq(40, 205, ['W = ', { n: '1', d: '2' }, 'kx^{2}（F = kx）']);
+  s += eq(40, 205, ['W = ', { n: '1', d: '2' }, 'kx^{2}（F_{app} = kx）']);
   const g2 = graph(250, 30, 120, 120, { fns: [{ f: (x) => (x - 0.5) ** 2 * 4 }, { f: () => 0.64, c: 'm', dash: '4 3', w: 1.2 }], t1: 1, ymin: 0, ymax: 1.1, xl: 'x', yl: 'U', vmarks: [{ t: 0.1, label: '−A' }, { t: 0.9, label: 'A' }] });
   s += g2.s + tx(g2.X(0.5), g2.Y(0.64) - 6, 'E', { anchor: 'middle' });
-  s += eq(250, 205, ['F = −', { n: 'dU', d: 'dx' }]);
+  s += eq(250, 205, ['F_s = −', { n: 'dU', d: 'dx' }, ' = −kx']);
   return s;
 });
 
@@ -393,7 +414,7 @@ def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfr
   const fe = add(cp, u, -36); s += arr(cp[0], cp[1], fe[0], fe[1], 'f') + tx(fe[0] - 4, fe[1] + 14, 'f_{s}', { c: 'f', anchor: 'end' });
   const v0 = add(C, n, R + 12), v1 = add(v0, u, 44); s += arr(v0[0], v0[1], v1[0], v1[1], 'v') + tx(v1[0] + 4, v1[1] - 4, 'v_{cm}', { c: 'v' });
   s += arc(C[0], C[1], R - 8, 160, 20, { c: 'a', w: 1.5, me: 'a' }) + tx(C[0] - R - 6, C[1] - R + 2, 'ω', { c: 'a', anchor: 'end' });
-  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', d: '1 + I/(MR^{2})' }]) + eq(230, 140, ['实心球：a = ', { n: '5', d: '7' }, 'g sin θ'], { fs: 12 });
+  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', dPrefix: '1 + ', d: { n: 'I', d: 'MR^{2}' } }]) + eq(230, 155, ['实心球：a = ', { n: '5', d: '7' }, 'g sin θ'], { fs: 12 });
   return s;
 });
 def('rolling-velocity', '纯滚动：轮上各点速度（地面参考系）', 'v_{\\text{top}}=2v_{cm},\\; v_{\\text{contact}}=0', () => {
@@ -423,7 +444,7 @@ def('disk-string', '定轴均匀圆盘 + 绕绳悬挂物', 'a=\\dfrac{mg}{m+\\df
   s += arr(cx + R + 4, cy + 4, cx + R + 4, cy + 46, 'f') + tx(cx + R + 10, cy + 40, 'T（作用于盘）', { c: 'f', fs: 11 });
   s += arr(cx + R, 180, cx + R, 146, 'f') + tx(cx + R + 6, 156, 'T', { c: 'f' }) + arr(cx + R, 210, cx + R, 246, 'f') + tx(cx + R + 6, 246, 'mg', { c: 'f' });
   s += arr(cx + R - 34, 190, cx + R - 34, 224, 'a') + tx(cx + R - 40, 214, 'a', { c: 'a', anchor: 'end' }) + arc(cx, cy, R + 10, 150, 60, { c: 'a', w: 1.4, me: 'a' }) + tx(cx - R - 14, cy - 20, 'α', { c: 'a', anchor: 'end' });
-  s += tx(250, 30, 'mg − T = ma', { fs: 12 }) + tx(250, 52, 'TR = Iα，a = Rα', { fs: 12 }) + eq(250, 95, ['a = ', { n: 'mg', d: 'm + I/R^{2}' }]) + eq(250, 155, ['圆盘 I = ', { n: '1', d: '2' }, 'MR^{2}'], { fs: 12 }) + eq(250, 210, ['a = ', { n: '2mg', d: '2m + M' }]);
+  s += tx(250, 30, 'mg − T = ma', { fs: 12 }) + tx(250, 52, 'TR = Iα，a = Rα', { fs: 12 }) + eq(250, 100, ['a = ', { n: 'mg', dPrefix: 'm + ', d: { n: 'I', d: 'R^{2}' } }]) + eq(250, 165, ['圆盘 I = ', { n: '1', d: '2' }, 'MR^{2}'], { fs: 12 }) + eq(250, 215, ['a = ', { n: '2mg', d: '2m + M' }]);
   return s;
 });
 def('ladder', '转动静力学：靠墙梯子（光滑墙、粗糙地面）', '\\mu_s\\ge\\dfrac{1}{2\\tan\\theta}', () => {
@@ -516,7 +537,7 @@ def('parallel-plate-potential', '平行板间匀强电场与等势线', 'E=\\dfr
   let s = ln(60, 50, 280, 50, { w: 4 }) + ln(60, 200, 280, 200, { w: 4 });
   for (let x = 75; x <= 270; x += 30) { s += tx(x, 42, '+', { anchor: 'middle', it: false }) + tx(x, 220, '−', { anchor: 'middle', it: false }); }
   for (let x = 90; x <= 260; x += 45) s += arr(x, 56, x, 194, 'E', 1.4);
-  [87.5, 125, 162.5].forEach((y, i) => { s += ln(62, y, 278, y, { c: 'm', dash: '5 4', w: 1 }) + tx(286, y + 4, ['V₀ − ΔV/4', 'V₀ − ΔV/2', 'V₀ − 3ΔV/4'][i], { fs: 10 }); });
+  [87.5, 125, 162.5].forEach((y, i) => { s += ln(62, y, 278, y, { c: 'm', dash: '5 4', w: 1 }) + tx(286, y + 4, ['V₀ − ¼ΔV', 'V₀ − ½ΔV', 'V₀ − ¾ΔV'][i], { fs: 10 }); });
   s += tx(286, 54, 'V₀', { fs: 11 }) + tx(286, 204, 'V₀ − ΔV', { fs: 11 }) + tx(36, 130, 'd', {}) + arr(46, 60, 46, 190, 'g', 1) + tx(100, 130, 'E', { c: 'E' });
   s += eq(70, 240, ['E = ', { n: 'ΔV', d: 'd' }, ' = ', { n: 'σ', d: 'ε₀' }], { fs: 12 });
   return s;
@@ -575,8 +596,8 @@ def('capacitor-dielectric', '电容器充满电介质 κ', 'C=\\kappa\\dfrac{\\v
   s += rect(70, 54, 200, 112, { fill: COL.B, op: 0.1, c: 'B', dash: '3 2' }) + tx(250, 112, 'κ', { c: 'B', fs: 16 });
   for (let x = 85; x <= 260; x += 25) { s += tx(x, 68, '−', { anchor: 'middle', it: false, fs: 12, c: 'B' }) + tx(x, 162, '+', { anchor: 'middle', it: false, fs: 12, c: 'B' }); }
   for (let x = 100; x <= 240; x += 46) s += arr(x, 76, x, 146, 'E', 1.4);
-  s += tx(120, 116, 'E = E₀/κ', { c: 'E', fs: 12 }) + tx(300, 100, '介质表面', { it: false, fs: 10, c: 'B' }) + tx(300, 114, '束缚电荷', { it: false, fs: 10, c: 'B' }) + tx(300, 128, '削弱板间场', { it: false, fs: 10, c: 'B' });
-  s += eq(30, 222, ['C = κ', { n: 'ε₀A', d: 'd' }]) + tx(160, 214, '断开电源（Q 不变）：V ↓、U ↓', { it: false, fs: 10 }) + tx(160, 232, '接着电源（V 不变）：Q ↑、U ↑', { it: false, fs: 10 });
+  s += eq(70, 112, ['E = ', { n: 'E₀', d: 'κ' }], { fs: 12, c: 'E' }) + tx(300, 100, '介质表面', { it: false, fs: 10, c: 'B' }) + tx(300, 114, '束缚电荷', { it: false, fs: 10, c: 'B' }) + tx(300, 128, '削弱板间场', { it: false, fs: 10, c: 'B' });
+  s += eq(30, 222, ['C = κ', { n: 'ε₀A', d: 'd' }]) + tx(160, 214, '断开电源（Q 不变）：V ↓、U ↓', { it: false, fs: 10 }) + tx(160, 232, '接上电源（V 不变）：Q ↑、U ↑', { it: false, fs: 10 });
   return s;
 });
 def('capacitor-dielectric-partial', '部分填充电介质：并联型 / 串联型', 'C_{\\parallel}=\\dfrac{\\varepsilon_0A}{2d}(1+\\kappa),\\; C_{\\text{series}}=\\dfrac{2\\kappa\\varepsilon_0A}{(1+\\kappa)d}', () => {
@@ -617,15 +638,15 @@ def('rc-circuit', 'RC 电路（单刀双掷开关：a 充电 / b 放电）', '\\
   s += tx(20, 232, 'S 接 a：电源经 R 给 C 充电', { it: false, fs: 11 }) + tx(20, 250, 'S 接 b：C 经 R 放电（不经电源）', { it: false, fs: 11 }) + eq(300, 240, ['τ = RC']);
   return s;
 });
-def('rc-charging', 'RC 充电：q(t) 与 I(t)', 'q=C\\varepsilon\\left(1-e^{-t/RC}\\right),\\; I=\\dfrac{\\varepsilon}{R}e^{-t/RC}', () => {
+def('rc-charging', 'RC 充电：q(t) 与 I(t)', 'q=C\\varepsilon\\left(1-e^{-\\dfrac{t}{RC}}\\right),\\; I=\\dfrac{\\varepsilon}{R}e^{-\\dfrac{t}{RC}}', () => {
   const g1 = graph(55, 30, 120, 120, { fns: [{ f: (t) => 1 - Math.exp(-t) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Cε' }, { v: 0.632, label: '0.63Cε' }], vmarks: [{ t: 1, label: 'τ' }] });
   const g2 = graph(255, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.368, label: '0.37ε/R' }], vmarks: [{ t: 1, label: 'τ' }] });
-  return g1.s + g2.s + eq(20, 205, ['q = Cε(1 − e^{−t/RC})'], { fs: 12 }) + eq(225, 205, ['I = ', { n: 'ε', d: 'R' }, 'e^{−t/RC}'], { fs: 12 }) + tx(20, 250, 't = 0：C 相当于导线；t → ∞：C 相当于断路', { it: false, fs: 11 });
+  return g1.s + g2.s + eq(20, 205, ['q = Cε(1 − exp(−', { n: 't', d: 'RC' }, '))'], { fs: 12 }) + eq(225, 205, ['I = ', { n: 'ε', d: 'R' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, 't = 0：C 相当于导线；t → ∞：C 相当于断路', { it: false, fs: 11 });
 });
-def('rc-discharging', 'RC 放电：q(t) 与 |I(t)|', 'q=Q_0e^{-t/RC},\\; |I|=\\dfrac{Q_0}{RC}e^{-t/RC}', () => {
+def('rc-discharging', 'RC 放电：q(t) 与 |I(t)|', 'q=Q_0e^{-\\dfrac{t}{RC}},\\; |I|=\\dfrac{Q_0}{RC}e^{-\\dfrac{t}{RC}}', () => {
   const g1 = graph(55, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Q₀' }, { v: 0.368, label: '0.37Q₀' }], vmarks: [{ t: 1, label: 'τ' }] });
   const g2 = graph(255, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: '|I|', hmarks: [{ v: 1, label: 'Q₀/RC' }], vmarks: [{ t: 1, label: 'τ' }] });
-  return g1.s + g2.s + eq(20, 205, ['q = Q₀e^{−t/RC}'], { fs: 12 }) + eq(225, 205, ['|I| = ', { n: 'Q₀', d: 'RC' }, 'e^{−t/RC}'], { fs: 12 }) + tx(20, 250, '放电电流方向与充电电流方向相反', { it: false, fs: 11 });
+  return g1.s + g2.s + eq(20, 205, ['q = Q₀ exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + eq(225, 205, ['|I| = ', { n: 'Q₀', d: 'RC' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, '放电电流方向与充电电流方向相反', { it: false, fs: 11 });
 });
 
 /* ======================= Magnetism ======================= */
@@ -702,11 +723,11 @@ def('faraday-changing-B', '法拉第：均匀变化磁场中的固定线圈（B 
   s += eq(250, 125, ['ε = −', { n: 'dΦ_{B}', d: 'dt' }]) + eq(250, 190, ['|ε| = πr^{2}', { n: 'dB', d: 'dt' }]);
   return s;
 });
-def('rl-circuit', 'RL 电路（开关闭合）与电流增长曲线', 'I=\\dfrac{\\varepsilon}{R}\\left(1-e^{-t/\\tau}\\right),\\; \\tau=\\dfrac{L}{R}', () => {
+def('rl-circuit', 'RL 电路（开关闭合）与电流增长曲线', 'I=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\dfrac{t}{\\tau}}\\right),\\; \\tau=\\dfrac{L}{R}', () => {
   const L0 = 40, T = 40, B = 170; let s = battery(L0, B, L0, T, 'ε', true) + ln(L0, T, 60, T) + sw(60, T, 100, T, 'S') + resistor(100, T, 180, T, 'R') + inductor(180, T, 180, B, 'L') + ln(180, B, L0, B);
   s += arr(125, T + 14, 150, T + 14, 'I', 1.4);
   const g = graph(260, 30, 110, 110, { fns: [{ f: (t) => 1 - Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.632, label: '0.63' }], vmarks: [{ t: 1, label: 'τ' }] });
-  s += g.s + eq(20, 212, ['I = ', { n: 'ε', d: 'R' }, '(1 − e^{−t/τ})'], { fs: 12 }) + eq(200, 212, ['τ = ', { n: 'L', d: 'R' }]) + eq(280, 212, ['ε_{L} = −L', { n: 'dI', d: 'dt' }], { fs: 12 }) + tx(20, 252, 't = 0：L 相当于断路；t → ∞：L 相当于导线', { it: false, fs: 11 });
+  s += g.s + eq(20, 212, ['I = ', { n: 'ε', d: 'R' }, '(1 − exp(−', { n: 't', d: 'τ' }, '))'], { fs: 11 }) + eq(210, 212, ['τ = ', { n: 'L', d: 'R' }]) + eq(290, 212, ['ε_{L} = −L', { n: 'dI', d: 'dt' }], { fs: 11 }) + tx(20, 252, 't = 0：L 相当于断路；t → ∞：L 相当于导线', { it: false, fs: 11 });
   return s;
 });
 def('lc-circuit', 'LC 振荡电路与 q(t)、I(t)', '\\omega=\\dfrac{1}{\\sqrt{LC}},\\; q=Q_0\\cos\\omega t,\\; I=\\dfrac{dq}{dt}=-Q_0\\omega\\sin\\omega t', () => {

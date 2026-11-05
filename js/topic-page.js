@@ -5,6 +5,7 @@ import { markVisited, markCompleted, isCompleted, isVisited } from './progress.j
 import { loadCourseData } from '../data/courses.js';
 import { pastPapersForTopic } from '../data/shared/pastpapers.js';
 import { mountTopicExamFigures } from '../modules/physics/exam-figures.js';
+import { renderFigures } from '../data/math/figlib.js';
 
 function topicId(subject, chapterId, code) {
   return `topic:${subject}/${chapterId}/${code}`;
@@ -227,10 +228,12 @@ export async function renderTopicPage(main, { subject, chapterId, code }) {
     }
   }
 
-  // Physics exam figures (Mechanics / E&M) — size-constrained SVG gallery
+  // Exam figures — physics (mech/em) via MODULE/TOPIC maps; bio/math via topic.figures
   try {
     if (subject === 'mech' || subject === 'em') {
       mountTopicExamFigures(root, topic);
+    } else if ((subject === 'bio' || subject === 'math') && topic.figures?.length) {
+      renderFigures(root, topic.figures);
     }
   } catch (_) {}
 

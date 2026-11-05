@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Bio/Math figure preview</title>
+<link rel="stylesheet" href="../vendor/katex/katex.min.css">
+<script src="../vendor/katex/katex.min.js"></script>
+<style>body{font-family:system-ui;margin:0 auto;max-width:900px;padding:12px}h2{font-size:15px;margin-top:28px}</style></head>
+<body><h1>Bio + Math exam figures</h1><div id="root"></div>
+<script type="module">
+import * as bio from '../data/bio/index.js';
+import * as math from '../data/math/index.js';
+import { renderFigures } from '../data/math/figlib.js';
+const root = document.getElementById('root'); let n = 0;
+const only = new URLSearchParams(location.search).get('subj');
+for (const m of [bio, math]) { if (only && m.COURSE_ID !== only) continue;
+  for (const t of m.allTopics()) { const tp = m.getTopic(t.chapterId, t.code); const sec = document.createElement('div');
+    sec.innerHTML = `<h2>${t.chapterId} ${t.code} — ${t.titleEn || ''}</h2>`; root.appendChild(sec); renderFigures(sec, tp.figures); n += tp.figures.length; } }
+document.body.dataset.count = n; document.body.dataset.done = '1';
+</script></body></html>
