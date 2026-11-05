@@ -336,8 +336,10 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
         e.set ? el('span', { className: 'tag', text: `Set ${e.set}` }) : null,
         el('span', { className: 'tag', text: e.difficulty }),
         e.pdfMissing ? el('span', { className: 'tag', text: 'PDF 见官网' }) : null,
+        e.verified ? el('span', { className: 'tag tag-ok', text: '已核验 PDF' }) : el('span', { className: 'tag tag-warn', text: e.verification || '未核验' }),
       ]));
-      card.appendChild(el('h2', { text: `${e.year} ${e.examLabel} FRQ ${e.question}` }));
+      const titleQ = e.question ? `FRQ ${e.question}` : '入口说明';
+      card.appendChild(el('h2', { text: `${e.year} ${e.examLabel} ${titleQ}` }));
       card.appendChild(el('p', { text: e.paraphrase }));
       card.appendChild(el('p', { className: 'practice-source muted', text: e.copyrightNote }));
       const links = el('div', { className: 'practice-filters' });
@@ -358,13 +360,23 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
         });
         card.appendChild(sol);
       }
-      const tops = el('p', { className: 'muted' });
-      tops.appendChild(document.createTextNode('主题：'));
-      e.topics.forEach((tid) => {
-        const [ch, code] = tid.split(':');
-        tops.appendChild(el('a', { className: 'hit-target', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${tid} ` }));
-      });
-      card.appendChild(tops);
+      if (e.topics?.length) {
+        const tops = el('p', { className: 'muted' });
+        tops.appendChild(document.createTextNode('主题：'));
+        e.topics.forEach((tid) => {
+          const [ch, code] = tid.split(':');
+          tops.appendChild(el('a', { className: 'hit-target', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${tid} ` }));
+        });
+        card.appendChild(tops);
+      }
+      if (e.hubLinks) {
+        const hubs = el('div', { className: 'practice-filters' });
+        Object.entries(e.hubLinks).forEach(([k, url]) => {
+          if (k === 'mathAb') return;
+          hubs.appendChild(el('a', { className: 'btn hit-target', href: url, target: '_blank', rel: 'noopener', text: `${k} 历年页` }));
+        });
+        card.appendChild(hubs);
+      }
       list.appendChild(card);
     }
   }
@@ -374,7 +386,7 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
     b.addEventListener('click', () => { curSub = c.id; redraw(); });
     filters.appendChild(b);
   });
-  [null, 2026, 2025, 2024, 2023, 2022, 2021, 2020].forEach((y) => {
+  [null, 2026, 2025, 2024, 2023, 2020].forEach((y) => {
     const b = el('button', { type: 'button', className: 'btn hit-target', text: y ? String(y) : '各年' });
     b.addEventListener('click', () => { curYear = y; redraw(); });
     filters.appendChild(b);

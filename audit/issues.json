@@ -1,0 +1,1479 @@
+{
+  "checks": 1198,
+  "issues": [
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q011",
+      "msg": "vague part answer in mech/mech-prep-ap1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-ap1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-ap1-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-ap1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q017",
+      "msg": "vague part answer in mech/mech-prep-ap1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-ap1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-ap1-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-ap1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q023",
+      "msg": "vague part answer in mech/mech-prep-ap1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-ap1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-ap1-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-ap1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q029",
+      "msg": "vague part answer in mech/mech-prep-ap1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-ap1-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-ap1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-ap1-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-ap1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q011",
+      "msg": "vague part answer in mech/mech-prep-hs.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-hs.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-hs-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-hs.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q017",
+      "msg": "vague part answer in mech/mech-prep-hs.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-hs.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-hs-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-hs.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q023",
+      "msg": "vague part answer in mech/mech-prep-hs.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-hs.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-hs-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-hs.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q029",
+      "msg": "vague part answer in mech/mech-prep-hs.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-hs.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-hs-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-hs.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q035",
+      "msg": "vague part answer in mech/mech-prep-hs.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-hs-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-hs.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-hs-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-hs.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q011",
+      "msg": "vague part answer in mech/mech-prep-math.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-math.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-math-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-math.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q017",
+      "msg": "vague part answer in mech/mech-prep-math.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-math.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-math-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-math.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q023",
+      "msg": "vague part answer in mech/mech-prep-math.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-prep-math-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-prep-math.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-prep-math-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-prep-math.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q011",
+      "msg": "vague part answer in mech/mech-u1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u1-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q017",
+      "msg": "vague part answer in mech/mech-u1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u1-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q023",
+      "msg": "vague part answer in mech/mech-u1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u1-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q029",
+      "msg": "vague part answer in mech/mech-u1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u1-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q035",
+      "msg": "vague part answer in mech/mech-u1.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u1-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u1.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u1-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u1.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q011",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q017",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q023",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q029",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q035",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q041",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q041",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q041",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q047",
+      "msg": "vague part answer in mech/mech-u2.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u2-q047",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u2.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u2-q047",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u2.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q011",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q017",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q023",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q029",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q035",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q041",
+      "msg": "vague part answer in mech/mech-u3.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u3-q041",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u3.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u3-q041",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u3.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q011",
+      "msg": "vague part answer in mech/mech-u4.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u4.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u4-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u4.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q017",
+      "msg": "vague part answer in mech/mech-u4.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u4.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u4-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u4.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q023",
+      "msg": "vague part answer in mech/mech-u4.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u4.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u4-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u4.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q029",
+      "msg": "vague part answer in mech/mech-u4.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u4.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u4-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u4.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q035",
+      "msg": "vague part answer in mech/mech-u4.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u4-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u4.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u4-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u4.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q011",
+      "msg": "vague part answer in mech/mech-u5.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u5.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u5-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u5.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q017",
+      "msg": "vague part answer in mech/mech-u5.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u5.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u5-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u5.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q023",
+      "msg": "vague part answer in mech/mech-u5.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u5.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u5-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u5.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q029",
+      "msg": "vague part answer in mech/mech-u5.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u5.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u5-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u5.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q035",
+      "msg": "vague part answer in mech/mech-u5.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u5-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u5.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u5-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u5.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q011",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q017",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q023",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q029",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q035",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q041",
+      "msg": "vague part answer in mech/mech-u6.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u6-q041",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u6.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u6-q041",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u6.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q011",
+      "msg": "vague part answer in mech/mech-u7.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q011",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u7.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u7-q011",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u7.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q017",
+      "msg": "vague part answer in mech/mech-u7.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q017",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u7.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u7-q017",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u7.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q023",
+      "msg": "vague part answer in mech/mech-u7.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q023",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u7.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u7-q023",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u7.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q029",
+      "msg": "vague part answer in mech/mech-u7.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q029",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u7.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u7-q029",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u7.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q035",
+      "msg": "vague part answer in mech/mech-u7.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "mech-u7-q035",
+      "msg": "vague answer with numeric expected=12 in mech/mech-u7.js",
+      "severity": "error"
+    },
+    {
+      "cat": "consistency",
+      "id": "mech-u7-q035",
+      "msg": "FBD diagram but expected=12=½mv² (KE) — wrong physical target (mech/mech-u7.js)",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q011",
+      "msg": "vague part answer in em/em-prep-found.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-prep-found.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q017",
+      "msg": "vague part answer in em/em-prep-found.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-prep-found.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q023",
+      "msg": "vague part answer in em/em-prep-found.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-prep-found.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q029",
+      "msg": "vague part answer in em/em-prep-found.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-prep-found.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q035",
+      "msg": "vague part answer in em/em-prep-found.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-prep-found-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-prep-found.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q011",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q017",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q023",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q029",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q035",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q041",
+      "msg": "vague part answer in em/em-u10.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u10-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u10.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q011",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q017",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q023",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q029",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q035",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q041",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q047",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q047",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q053",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q053",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q059",
+      "msg": "vague part answer in em/em-u11.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u11-q059",
+      "msg": "vague answer with numeric expected=180000 in em/em-u11.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q011",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q017",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q023",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q029",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q035",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q041",
+      "msg": "vague part answer in em/em-u12.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u12-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u12.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q011",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q017",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q023",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q029",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q035",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q041",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q047",
+      "msg": "vague part answer in em/em-u13.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u13-q047",
+      "msg": "vague answer with numeric expected=180000 in em/em-u13.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q011",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q017",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q023",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q029",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q035",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q041",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q047",
+      "msg": "vague part answer in em/em-u8.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u8-q047",
+      "msg": "vague answer with numeric expected=180000 in em/em-u8.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q011",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q011",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q017",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q017",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q023",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q023",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q029",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q029",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q035",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q035",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q041",
+      "msg": "vague part answer in em/em-u9.js: 见解析中的数量级。",
+      "severity": "error"
+    },
+    {
+      "cat": "numeric",
+      "id": "em-u9-q041",
+      "msg": "vague answer with numeric expected=180000 in em/em-u9.js",
+      "severity": "error"
+    }
+  ],
+  "byCat": {
+    "numeric": 194,
+    "consistency": 51
+  }
+}

@@ -29,8 +29,11 @@ export function create(viz, controls) {
     ctx.fillStyle = T.text; ctx.fillRect(cx + pos.x * sc - 3, cy - pos.y * sc - 3, 6, 6);
     const r = Math.hypot(pos.x, pos.y), speed = Math.hypot(vel.x, vel.y);
     readouts.replaceChildren();
+    const E = 0.5 * speed * speed - GM / r;
+    const vCirc = Math.sqrt(GM / r);
     readouts.appendChild(el('span', { text: `r=${r.toFixed(2)}  v=${speed.toFixed(2)}` }));
-    readouts.appendChild(el('span', { text: '调初速：圆/椭圆/双曲' }));
+    readouts.appendChild(el('span', { text: `E=${E.toFixed(3)}  v_circ=${vCirc.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: 'E<0 椭圆；E=0 抛物；E>0 双曲（单位 GM=1）' }));
   }
   observeSize(wrap, draw);
   const loop = () => { draw(); requestAnimationFrame(loop); }; loop();

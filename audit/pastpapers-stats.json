@@ -1,0 +1,38 @@
+{
+  "total": 104,
+  "hubOnly": 1,
+  "removedUnverifiedYears": [
+    2020,
+    2021,
+    2022
+  ],
+  "note2020": "hub-only marker retained",
+  "note2021_2022": "removed — media PDFs unavailable (38KB HTML stubs)",
+  "byCourseYear": {
+    "bio": {
+      "2023": 6,
+      "2024": 6,
+      "2025": 6,
+      "2026": 6
+    },
+    "math": {
+      "2023": 10,
+      "2024": 10,
+      "2025": 10,
+      "2026": 10
+    },
+    "mech": {
+      "2023": 6,
+      "2024": 6,
+      "2025": 4,
+      "2026": 4
+    },
+    "em": {
+      "2023": 6,
+      "2024": 6,
+      "2025": 4,
+      "2026": 4
+    }
+  },
+  "verifiedUrls": 48
+}

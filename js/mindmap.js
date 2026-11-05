@@ -5,12 +5,12 @@ import { loadCourseData } from '../data/courses.js';
 
 /** Soft per-unit palette (AP); prep stays muted grey. */
 const UNIT_COLORS_AP = [
-  0xb86a45, 0x4a6fa5, 0x3d8b7a, 0x7a6aad, 0xa67c52, 0x3d7a8c, 0xa35d6a, 0x5a7a4a, 0x4a6aad, 0x8a5a4a,
+  0x5b6cff, 0x0f9f6e, 0xe06b3f, 0x7c5cff, 0x2a9d8f, 0xe9c46a, 0x457b9d, 0xf4a261, 0x6d597a, 0x4cc9f0,
 ];
-const PREP_COLOR = 0x9aa0a6;
-const EDGE_DIM = 0xb0b0b0;
-const EDGE_HOT = 0xc45c26;
-const SELECT_COLOR = 0xe8a87c;
+const PREP_COLOR = 0x8a8a84;
+const EDGE_DIM = 0xc4c2bb;
+const EDGE_HOT = 0x5b6cff;
+const SELECT_COLOR = 0x8b97ff;
 
 function cssColor(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -216,21 +216,24 @@ export async function renderMindMap(main, subject) {
   renderer.domElement.classList.add('map-canvas');
   renderer.domElement.style.touchAction = 'none';
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-  const key = new THREE.DirectionalLight(0xffffff, 0.35);
-  key.position.set(20, 30, 10);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+  const key = new THREE.DirectionalLight(0xffffff, 0.55);
+  key.position.set(18, 28, 14);
   scene.add(key);
+  const fill = new THREE.DirectionalLight(0xb8c0ff, 0.22);
+  fill.position.set(-16, 8, -10);
+  scene.add(fill);
 
   const nodeGroup = new THREE.Group();
   scene.add(nodeGroup);
   const meshes = new Map();
-  const geo = new THREE.SphereGeometry(0.28, 16, 16);
+  const geo = new THREE.SphereGeometry(0.32, 24, 24);
   for (const n of nodes) {
     const color = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
     const mat = new THREE.MeshStandardMaterial({
       color,
-      roughness: 0.55,
-      metalness: 0.05,
+      roughness: 0.38,
+      metalness: 0.12,
       transparent: true,
       opacity: n.layer === 'prep' ? 0.75 : 0.95,
     });
@@ -256,12 +259,12 @@ export async function renderMindMap(main, subject) {
   const shellMats = [];
   for (let d = 0; d <= maxDepth; d++) {
     const R = SHELL_R0 + d * SHELL_DR;
-    const sg = new THREE.SphereGeometry(R, 48, 24);
+    const sg = new THREE.SphereGeometry(R, 64, 32);
     const sm = new THREE.MeshBasicMaterial({
       color: d === 0 ? 0x9aa0a6 : UNIT_COLORS_AP[d % UNIT_COLORS_AP.length],
       wireframe: true,
       transparent: true,
-      opacity: 0.08,
+      opacity: 0.07,
       depthWrite: false,
     });
     shellMats.push(sm);

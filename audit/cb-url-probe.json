@@ -1,0 +1,62 @@
+{
+  "bio-2021": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap21-frq-biology.pdf"
+  },
+  "bio-2022": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap22-frq-biology.pdf"
+  },
+  "bio-2023": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap23-frq-biology.pdf"
+  },
+  "bio-2024": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap24-frq-biology.pdf"
+  },
+  "bio-2025": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap25-frq-biology.pdf"
+  },
+  "bio-2026": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap26-frq-biology.pdf"
+  },
+  "math-2021": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap21-frq-calculus-bc.pdf"
+  },
+  "math-2022": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap22-frq-calculus-bc.pdf"
+  },
+  "math-2023": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap23-frq-calculus-bc.pdf"
+  },
+  "math-2024": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap24-frq-calculus-bc.pdf"
+  },
+  "math-2025": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap25-frq-calculus-bc.pdf"
+  },
+  "math-2026": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap26-frq-calculus-bc.pdf"
+  },
+  "mech-2021": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap21-frq-physics-c-mechanics.pdf"
+  },
+  "mech-2022": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap22-frq-physics-c-mechanics.pdf"
+  },
+  "mech-2025": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap25-frq-physics-c-mech.pdf"
+  },
+  "mech-2026": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap26-frq-physics-c-mech.pdf"
+  },
+  "em-2021": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap21-frq-physics-c-electricity-and-magnetism.pdf"
+  },
+  "em-2022": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap22-frq-physics-c-electricity-and-magnetism.pdf"
+  },
+  "em-2025": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap25-frq-physics-c-em.pdf"
+  },
+  "em-2026": {
+    "frq": "https://apcentral.collegeboard.org/media/pdf/ap26-frq-physics-c-em.pdf"
+  }
+}

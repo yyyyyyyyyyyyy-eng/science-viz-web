@@ -1,0 +1,194 @@
+{
+  "generatedAt": "2026-11-05T11:40:44.527Z",
+  "total": 31,
+  "passed": 31,
+  "failed": 0,
+  "results": [
+    {
+      "name": "mech/work-energy μ=0 mechanical energy",
+      "pass": true,
+      "detail": "max |U+K−E0|=0.0404 J",
+      "fix": null
+    },
+    {
+      "name": "mech/work-energy μ>0 E+W_f ≈ E0",
+      "pass": true,
+      "detail": "E=45.79 Wf=3.25 sum=49.04 E0=49.00",
+      "fix": null
+    },
+    {
+      "name": "physics/shm undamped energy conservation",
+      "pass": true,
+      "detail": "max |ΔE|=0.00408 J over 4 periods",
+      "fix": null
+    },
+    {
+      "name": "physics/shm period matches 2π√(m/k)",
+      "pass": true,
+      "detail": "T=2.221441 s",
+      "fix": null
+    },
+    {
+      "name": "physics/shm numeric vs analytic x(t) (semi-implicit)",
+      "pass": true,
+      "detail": "max |x−x_exact|=0.0009 m over 4T (dt=0.0005)",
+      "fix": null
+    },
+    {
+      "name": "physics/projectile range analytic",
+      "pass": true,
+      "detail": "numeric R=40.814 analytic=40.816",
+      "fix": null
+    },
+    {
+      "name": "physics/projectile apex height",
+      "pass": true,
+      "detail": "numeric H=10.203 analytic=10.204",
+      "fix": null
+    },
+    {
+      "name": "mech/collision-momentum elastic p conserved",
+      "pass": true,
+      "detail": "p0=5 p1=5",
+      "fix": null
+    },
+    {
+      "name": "mech/collision-momentum elastic K conserved",
+      "pass": true,
+      "detail": "K0=9.5 K1=9.499999999999998",
+      "fix": null
+    },
+    {
+      "name": "mech/newton-incline acceleration formula",
+      "pass": true,
+      "detail": "a=4.0513 m/s²",
+      "fix": null
+    },
+    {
+      "name": "mech/gravity-orbit circular: v=√(GM/r)",
+      "pass": true,
+      "detail": "a_c=8.6940e+0 a_g=8.6940e+0 T=92.4 min",
+      "fix": null
+    },
+    {
+      "name": "mech/rigid-rotation rolling kinematics a=αR",
+      "pass": true,
+      "detail": "a=1.3333 αR=1.3333",
+      "fix": null
+    },
+    {
+      "name": "mech/rigid-rotation disk I=½MR²",
+      "pass": true,
+      "detail": "I=0.25",
+      "fix": null
+    },
+    {
+      "name": "em/gauss-law outside E=kQ/r²",
+      "pass": true,
+      "detail": "E=2.247e+5 N/C",
+      "fix": null
+    },
+    {
+      "name": "em/gauss-law inside uniform ball E∝r",
+      "pass": true,
+      "detail": "E_in=4.495e+5",
+      "fix": null
+    },
+    {
+      "name": "em/rc-circuit τ=RC",
+      "pass": true,
+      "detail": "τ=0.001 s",
+      "fix": null
+    },
+    {
+      "name": "em/rc-circuit charging Vc(τ)=V(1−1/e)",
+      "pass": true,
+      "detail": "Vc=7.5854 V",
+      "fix": null
+    },
+    {
+      "name": "em/rc-circuit I(τ)=I0/e",
+      "pass": true,
+      "detail": "I=4.415e-3 A",
+      "fix": null
+    },
+    {
+      "name": "em/capacitor C=ε₀A/d",
+      "pass": true,
+      "detail": "C=8.8540e-11 F",
+      "fix": null
+    },
+    {
+      "name": "em/faraday |ε|=A|dB/dt| (⊥ loop)",
+      "pass": true,
+      "detail": "ε=0.020000000000000004 V",
+      "fix": null
+    },
+    {
+      "name": "em/charged-particle-B r=mv/qB",
+      "pass": true,
+      "detail": "r=2.088e-3 m ω=4.790e+7 rad/s",
+      "fix": null
+    },
+    {
+      "name": "math/slope-field-euler error shrinks with h",
+      "pass": true,
+      "detail": "err(0.1)=0.6616 err(0.05)=0.3491 err(0.01)=0.0730 exact=7.3891",
+      "fix": null
+    },
+    {
+      "name": "math/slope-field-euler fine-step accuracy",
+      "pass": true,
+      "detail": "err(h=0.01)=0.0730",
+      "fix": null
+    },
+    {
+      "name": "math/riemann-sum midpoint ∫x²",
+      "pass": true,
+      "detail": "sum=0.333325 exact=0.333…",
+      "fix": null
+    },
+    {
+      "name": "math/taylor-series eˣ order 12",
+      "pass": true,
+      "detail": "s=2.7182818282861687 e=2.718281828459045",
+      "fix": null
+    },
+    {
+      "name": "bio/hardy-weinberg p²+2pq+q²=1",
+      "pass": true,
+      "detail": "p²=0.36 2pq=0.48 q²=0.16",
+      "fix": null
+    },
+    {
+      "name": "bio/lotka-volterra equilibrium (c/d, a/b)",
+      "pass": true,
+      "detail": "x*=4 y*=2.75",
+      "fix": null
+    },
+    {
+      "name": "units: g=9.8 m/s² in mech modules",
+      "pass": true,
+      "detail": "documented as 9.8",
+      "fix": null
+    },
+    {
+      "name": "units: energy J = N·m = kg·m²/s²",
+      "pass": true,
+      "detail": "SI coherent",
+      "fix": null
+    },
+    {
+      "name": "units: ε₀≈8.854e-12 F/m",
+      "pass": true,
+      "detail": "ε₀ from 1/(4πk)=8.8518e-12",
+      "fix": null
+    },
+    {
+      "name": "static: canvas modules use g=9.8 (not g=10)",
+      "pass": true,
+      "detail": "topic-content may use g=10 as AP approx example only",
+      "fix": null
+    }
+  ]
+}

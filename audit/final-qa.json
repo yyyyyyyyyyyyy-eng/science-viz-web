@@ -1,0 +1,27 @@
+{
+  "rounds": [
+    "r1",
+    "r2"
+  ],
+  "r1_pastpapers": 105,
+  "r1_nonzero_radius_sample": 0,
+  "r1_errors": [],
+  "r2_pastpapers": 105,
+  "r2_nonzero_radius_sample": 0,
+  "r2_errors": [],
+  "hit_areas_home": [],
+  "subjects_ok": true,
+  "practice_items": 0,
+  "progress": "菜单\n科学可视化\n起始\n生物\n微积分\n力学\n电磁\n路径\n深色\n科学可视化\n\nAP 生物 / 微积分 BC / 物理 C 力学与电磁 · 含预备课程\n\n01\n选入口\n02\n调参数\n03\n看下一步\n\n来源与许可 / College Board 索引 · 历年真题\n\n生物\n微积分\n力学\n电磁\n学习路径\n继续：万有引力轨道\n\nCtrl/Cmd+K 搜索 · ← → 切换模块",
+  "edge_tooltip": true,
+  "edge_panel": true,
+  "shift_sel": 2,
+  "map_gesture": true,
+  "overflows": [],
+  "katex": 1,
+  "frac": 2,
+  "verified_tags": 6,
+  "bio2024_cards": 6,
+  "radius_css_forced": "0px",
+  "ok": true
+}
