@@ -1,0 +1,14 @@
+{
+  "has_shellGroup": false,
+  "has_wireframe_mat": false,
+  "map_bio": true,
+  "map_math": true,
+  "map_mech": true,
+  "map_em": true,
+  "edge_tooltip": true,
+  "edge_panel": true,
+  "shift_sel": 2,
+  "errors": [],
+  "error_count": 0,
+  "ok": true
+}

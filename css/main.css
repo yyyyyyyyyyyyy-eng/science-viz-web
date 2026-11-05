@@ -2409,13 +2409,11 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
 .tag-warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, var(--border)); }
 
 .map-shell {
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 40%, var(--glow), transparent 70%),
-    var(--bg);
+  background: var(--bg);
 }
 .map-stage {
   border: 1px solid var(--hairline);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 88%, transparent), var(--bg));
+  background: var(--canvas-plot);
 }
 .map-canvas canvas {
   filter: contrast(1.02) saturate(1.05);

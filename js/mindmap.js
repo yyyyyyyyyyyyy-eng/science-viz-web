@@ -253,25 +253,7 @@ export async function renderMindMap(main, subject) {
     mesh.userData.depth = n.depth;
   }
 
-  // Concentric shell wireframes
-  const shellGroup = new THREE.Group();
-  scene.add(shellGroup);
-  const shellMats = [];
-  for (let d = 0; d <= maxDepth; d++) {
-    const R = SHELL_R0 + d * SHELL_DR;
-    const sg = new THREE.SphereGeometry(R, 64, 32);
-    const sm = new THREE.MeshBasicMaterial({
-      color: d === 0 ? 0x9aa0a6 : UNIT_COLORS_AP[d % UNIT_COLORS_AP.length],
-      wireframe: true,
-      transparent: true,
-      opacity: 0.07,
-      depthWrite: false,
-    });
-    shellMats.push(sm);
-    const mesh = new THREE.Mesh(sg, sm);
-    mesh.userData.depth = d;
-    shellGroup.add(mesh);
-  }
+  // Shell radii used only for node layout (no drawn rings/wireframes)
 
   depthRange.max = String(maxDepth);
   depthRange.value = String(maxDepth);
@@ -283,10 +265,6 @@ export async function renderMindMap(main, subject) {
       m.visible = show;
       m.material.opacity = show ? (n.layer === 'prep' ? 0.75 : 0.95) : 0;
     }
-    shellGroup.children.forEach((c) => {
-      c.visible = c.userData.depth <= revealDepth;
-      c.material.opacity = c.userData.depth === revealDepth ? 0.14 : 0.06;
-    });
   }
   depthRange.addEventListener('input', () => {
     revealDepth = Number(depthRange.value);

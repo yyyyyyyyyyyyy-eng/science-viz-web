@@ -75,3 +75,12 @@
 - `screenshots/final/`, `screenshots/redesign-final-r1/`
 - Source of truth: `/workspace/science-viz`
 - Delivery: `/workspace/science-viz-web`, `/workspace/science-viz-app` (no push)
+
+## Map visual correction (2026-11-05 Asia/Shanghai)
+
+- Removed all concentric shell wireframe spheres / rings from `js/mindmap.js`
+- Spherical layout retained via node positions only (basic inside → advanced outside)
+- Visible scene = node points + edge lines (+ small edge midpoint handles for interaction)
+- CSS map radial glow flattened to solid canvas background
+- Re-verified: edge handles, Shift multi-select, zero errors → `audit/map-only-qa.json`
+- Reshot: `screenshots/final/map-{bio,math,mech,em}.png`
