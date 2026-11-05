@@ -2501,3 +2501,19 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   transform: translateY(-50%);
   background: var(--swatch, var(--accent));
 }
+
+
+.map-tier-stage {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem 0.25rem 0.9rem;
+}
+.map-tier-unit {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.92;
+}
+.map-cluster-label.map-tier-stage::before {
+  width: 8px;
+  height: 8px;
+}

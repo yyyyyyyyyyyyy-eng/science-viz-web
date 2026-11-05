@@ -2,6 +2,7 @@ import * as THREE from '../vendor/three/three.module.js';
 import { el, clear } from './ui-shared.js';
 import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
+import { buildHierarchicalGraph, layoutOrganic, nodeBaseColor } from './map-hierarchy.js';
 
 /** Soft per-unit palette (AP); prep stays muted grey. */
 const UNIT_COLORS_AP = [
@@ -92,30 +93,39 @@ export async function renderMindMap(main, subject) {
     return { destroy() {} };
   }
   const { GRAPH } = data;
-  // Layout restored from first map (7ae7fb2): concentric rings by prep/AP unit, not sphere/Kumu
-  const nCount = GRAPH.nodes.length || 1;
-  const nodes = GRAPH.nodes.map((n, i) => {
-    const angle = (i / nCount) * Math.PI * 2;
-    const ring = n.layer === 'prep' ? 18 : 28 + (n.unitIndex % 5) * 2;
-    const y = n.layer === 'prep' ? -8 : (n.unitIndex - 3) * 2.2;
-    return {
-      ...n,
-      x: Math.cos(angle) * ring,
-      y,
-      z: Math.sin(angle) * ring,
-      vx: 0,
-      vy: 0,
-      vz: 0,
-    };
-  });
-  const byId = new Map(nodes.map((n) => [n.id, n]));
-  const edges = GRAPH.edges.filter((e) => byId.has(e.source) && byId.has(e.target));
+
+  let CROSS_EDGES = [];
+  let CROSS_RELATIONS = {};
+  try {
+    const xl = await import(`../data/${subject}/cross-links.js`);
+    CROSS_EDGES = xl.CROSS_EDGES || [];
+    CROSS_RELATIONS = xl.CROSS_RELATIONS || {};
+  } catch (_) {}
 
   let RELATIONS = {};
   try {
     const relMod = await import(`../data/${subject}/relations.js`);
-    RELATIONS = relMod.RELATIONS || {};
-  } catch (_) {}
+    RELATIONS = { ...(relMod.RELATIONS || {}), ...CROSS_RELATIONS };
+  } catch (_) {
+    RELATIONS = { ...CROSS_RELATIONS };
+  }
+
+  const hier = buildHierarchicalGraph(subject, GRAPH, CROSS_EDGES, CROSS_RELATIONS);
+  const nodes = layoutOrganic(hier.nodes, hier.allEdges, subject);
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  // Visible lines: tree hierarchy + topic/cross edges
+  const edges = hier.allEdges.filter((e) => byId.has(e.source) && byId.has(e.target));
+  // Relation midpoints only on topic↔topic edges (prereq + cross), not tree scaffolding
+  const relationEdges = hier.topicEdges.filter((e) => byId.has(e.source) && byId.has(e.target));
+
+  function baseColor(n) {
+    return nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR);
+  }
+  function baseScale(n) {
+    if (n.tier === 'stage') return 1;
+    if (n.tier === 'unit') return 1;
+    return n.hasViz ? 1.25 : n.layer === 'prep' ? 0.85 : 1;
+  }
 
   const bgHex = cssColor('--canvas-plot', '#f7f5f0');
   const scene = new THREE.Scene();
@@ -123,7 +133,7 @@ export async function renderMindMap(main, subject) {
   scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.012);
 
   const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
-  camera.position.set(0, 12, 55);
+  camera.position.set(0, 14, 62);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -139,21 +149,75 @@ export async function renderMindMap(main, subject) {
   const nodeGroup = new THREE.Group();
   scene.add(nodeGroup);
   const meshes = new Map();
-  const geo = new THREE.SphereGeometry(0.55, 12, 12);
+  const geos = [];
+  const stageGeo = new THREE.CapsuleGeometry(0.48, 1.55, 6, 12);
+  const unitGeo = new THREE.CapsuleGeometry(0.28, 0.85, 5, 10);
+  const topicGeo = new THREE.SphereGeometry(0.32, 12, 12);
+  const topicVizGeo = new THREE.SphereGeometry(0.38, 12, 12);
+  geos.push(stageGeo, unitGeo, topicGeo, topicVizGeo);
+
   for (const n of nodes) {
-    const color = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
-    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: n.layer === 'prep' ? 0.85 : 1 });
+    const color = baseColor(n);
+    let geo;
+    if (n.tier === 'stage') geo = stageGeo;
+    else if (n.tier === 'unit') geo = unitGeo;
+    else geo = n.hasViz ? topicVizGeo : topicGeo;
+    const opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.8 : n.tier === 'unit' ? 0.92 : 1;
+    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(n.x, n.y, n.z);
+    // Capsules are Y-aligned; tip them toward horizontal pills
+    if (n.tier === 'stage' || n.tier === 'unit') {
+      mesh.rotation.z = Math.PI / 2;
+      mesh.rotation.y = (n.unitIndex || 0) * 0.17;
+    }
     mesh.userData = n;
-    mesh.scale.setScalar(n.hasViz ? 1.35 : n.layer === 'prep' ? 0.85 : 1);
-    const hitGeo = new THREE.SphereGeometry(1.1, 8, 8);
-    const hit = new THREE.Mesh(hitGeo, new THREE.MeshBasicMaterial({ visible: false }));
+    mesh.scale.setScalar(baseScale(n));
+    const hitR = n.tier === 'stage' ? 2.2 : n.tier === 'unit' ? 1.5 : 1.05;
+    const hit = new THREE.Mesh(
+      new THREE.SphereGeometry(hitR, 8, 8),
+      new THREE.MeshBasicMaterial({ visible: false }),
+    );
     hit.userData = n;
     mesh.add(hit);
     nodeGroup.add(mesh);
     meshes.set(n.id, mesh);
     mesh.userData._hit = hit;
+    mesh.userData._baseScale = baseScale(n);
+  }
+
+  // HTML labels for stage + unit (topics: name on hover only)
+  const labelLayer = el('div', { className: 'map-cluster-labels', id: 'map-node-labels' });
+  stage.appendChild(labelLayer);
+  const labelEls = new Map();
+  for (const n of nodes) {
+    if (n.tier !== 'stage' && n.tier !== 'unit') continue;
+    const lab = el('div', {
+      className: `map-cluster-label map-tier-${n.tier}`,
+      text: n.tier === 'stage' ? n.titleZh : n.titleZh,
+    });
+    lab.style.setProperty('--swatch', `#${baseColor(n).toString(16).padStart(6, '0')}`);
+    labelLayer.appendChild(lab);
+    labelEls.set(n.id, lab);
+  }
+  const _proj = new THREE.Vector3();
+  function updateLabels() {
+    const w = stage.clientWidth || 1;
+    const h = stage.clientHeight || 1;
+    for (const [id, lab] of labelEls) {
+      const n = byId.get(id);
+      const m = meshes.get(id);
+      if (!n || !m) continue;
+      _proj.set(n.x, n.y, n.z).project(camera);
+      if (_proj.z > 1) {
+        lab.style.display = 'none';
+        continue;
+      }
+      const x = (_proj.x * 0.5 + 0.5) * w;
+      const y = (-_proj.y * 0.5 + 0.5) * h;
+      lab.style.display = '';
+      lab.style.transform = `translate(${x}px, ${y}px) translate(-50%, -130%)`;
+    }
   }
 
   const positions = new Float32Array(edges.length * 6);
@@ -162,7 +226,7 @@ export async function renderMindMap(main, subject) {
   const lineMat = new THREE.LineBasicMaterial({
     color: EDGE_DIM,
     transparent: true,
-    opacity: 0.22,
+    opacity: 0.18,
     depthWrite: false,
   });
   const lines = new THREE.LineSegments(lineGeo, lineMat);
@@ -174,11 +238,11 @@ export async function renderMindMap(main, subject) {
   const edgeHandles = [];
   const handleGeo = new THREE.SphereGeometry(0.28, 10, 10);
   const handleHitGeo = new THREE.SphereGeometry(1.4, 8, 8);
-  for (const e of edges) {
+  for (const e of relationEdges) {
     const a = byId.get(e.source);
     const b = byId.get(e.target);
     if (!a || !b) continue;
-    const mat = new THREE.MeshBasicMaterial({ color: 0x9a9a9a, transparent: true, opacity: 0.65 });
+    const mat = new THREE.MeshBasicMaterial({ color: e.cross ? 0xc45c26 : 0x9a9a9a, transparent: true, opacity: e.cross ? 0.8 : 0.55 });
     const dot = new THREE.Mesh(handleGeo, mat);
     const hit = new THREE.Mesh(handleHitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     dot.add(hit);
@@ -190,7 +254,7 @@ export async function renderMindMap(main, subject) {
   }
   function updateEdgeHandles() {
     let hi = 0;
-    for (const e of edges) {
+    for (const e of relationEdges) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
       const dot = edgeHandles[hi++];
@@ -228,7 +292,7 @@ export async function renderMindMap(main, subject) {
   // damped orbit targets
   let ax = 0.28;
   let ay = 0.15;
-  let dist = 55;
+  let dist = 62;
   let tax = ax;
   let tay = ay;
   let tdist = dist;
@@ -372,22 +436,23 @@ export async function renderMindMap(main, subject) {
     clearBtn.hidden = !has;
     for (const [id, mesh] of meshes) {
       const n = mesh.userData;
-      const base = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
+      const base = baseColor(n);
+      const bs = mesh.userData._baseScale || baseScale(n);
       if (!has) {
         mesh.material.color.setHex(base);
-        mesh.material.opacity = n.layer === 'prep' ? 0.75 : 0.95;
-        mesh.scale.setScalar(n.hasViz ? 1.25 : n.layer === 'prep' ? 0.8 : 1);
+        mesh.material.opacity = n.tier === 'topic' && n.layer === 'prep' ? 0.75 : n.tier === 'unit' ? 0.9 : 0.95;
+        mesh.scale.setScalar(bs);
       } else if (selected.has(id)) {
         mesh.material.color.setHex(SELECT_COLOR);
         mesh.material.opacity = 1;
-        mesh.scale.setScalar((n.hasViz ? 1.25 : 1) * 1.45);
+        mesh.scale.setScalar(bs * 1.4);
       } else {
         mesh.material.color.setHex(base);
-        mesh.material.opacity = 0.18;
-        mesh.scale.setScalar(n.hasViz ? 1.05 : 0.7);
+        mesh.material.opacity = n.tier === 'stage' || n.tier === 'unit' ? 0.35 : 0.16;
+        mesh.scale.setScalar(bs * 0.85);
       }
     }
-    lineMat.opacity = has ? 0.06 : 0.22;
+    lineMat.opacity = has ? 0.06 : 0.2;
     setHotEdges(has ? pathEdgesAmong(selected) : []);
   }
 
@@ -395,16 +460,59 @@ export async function renderMindMap(main, subject) {
     focusId = n.id;
     panel.hidden = false;
     clear(panel);
+    const closeBtn = el('button', {
+      className: 'map-panel-close hit-target',
+      type: 'button',
+      text: '关闭',
+      onclick: () => {
+        panel.hidden = true;
+        focusId = null;
+      },
+    });
+    if (n.tier === 'stage') {
+      const kids = nodes.filter((x) => x.tier === 'unit' && x.stageId === n.id);
+      panel.append(
+        closeBtn,
+        el('p', { className: 'topic-kicker', text: '课程阶段' }),
+        el('h2', { text: n.titleZh }),
+        el('p', { className: 'muted', text: n.titleEn }),
+        el('p', { text: `下属单元 ${kids.length} 个；点击单元或知识点可继续下钻。` }),
+      );
+      kids.forEach((u) => {
+        panel.appendChild(
+          el('button', {
+            className: 'entry-row hit-target',
+            type: 'button',
+            text: u.titleZh,
+            onclick: () => openDetail(u),
+          }),
+        );
+      });
+      return;
+    }
+    if (n.tier === 'unit') {
+      const kids = nodes.filter((x) => x.tier === 'topic' && x.chapterId === n.chapterId);
+      panel.append(
+        closeBtn,
+        el('p', { className: 'topic-kicker', text: `${n.layer === 'prep' ? '预备' : 'AP'} · 单元` }),
+        el('h2', { text: n.titleZh }),
+        el('p', { className: 'muted', text: n.titleEn || n.chapterId }),
+        el('p', { text: `本单元知识点 ${kids.length} 个。` }),
+      );
+      kids.slice(0, 24).forEach((t) => {
+        panel.appendChild(
+          el('a', {
+            className: 'entry-row hit-target',
+            href: `#/t/${subject}/${t.chapterId}/${t.code}`,
+            text: `${t.code} ${t.titleZh}`,
+          }),
+        );
+      });
+      if (kids.length > 24) panel.appendChild(el('p', { className: 'muted', text: `…另有 ${kids.length - 24} 个` }));
+      return;
+    }
     panel.append(
-      el('button', {
-        className: 'map-panel-close hit-target',
-        type: 'button',
-        text: '关闭',
-        onclick: () => {
-          panel.hidden = true;
-          focusId = null;
-        },
-      }),
+      closeBtn,
       el('p', { className: 'topic-kicker', text: `${n.layer === 'prep' ? '预备' : 'AP'} · Unit ${n.unitCode}` }),
       el('h2', { text: `${n.code} ${n.titleZh}` }),
       el('p', { className: 'muted', text: n.titleEn }),
@@ -437,6 +545,10 @@ export async function renderMindMap(main, subject) {
     for (const id of selected) {
       const n = byId.get(id);
       if (!n) continue;
+      if (n.tier !== 'topic') {
+        panel.appendChild(el('p', { className: 'entry-row', text: n.titleZh }));
+        continue;
+      }
       panel.appendChild(
         el('a', {
           className: 'entry-row hit-target',
@@ -552,7 +664,7 @@ export async function renderMindMap(main, subject) {
             e.shiftKey ||
             e.metaKey ||
             e.ctrlKey;
-          if (multi) {
+          if (multi && n.tier === 'topic') {
             toggleSelect(n);
           } else {
             if (selected.size) {
@@ -647,10 +759,12 @@ export async function renderMindMap(main, subject) {
       } else if (hit?.kind === 'node') {
         const n = hit.data;
         tooltip.hidden = false;
-        tooltip.textContent = `${n.code} ${n.titleZh}`;
+        if (n.tier === 'stage') tooltip.textContent = `${n.titleZh} · ${n.titleEn}`;
+        else if (n.tier === 'unit') tooltip.textContent = `单元 · ${n.titleZh}`;
+        else tooltip.textContent = `${n.code} ${n.titleZh}`;
         const x = e.clientX - rect.left + 14;
         const y = e.clientY - rect.top + 14;
-        tooltip.style.left = `${Math.min(x, rect.width - 180)}px`;
+        tooltip.style.left = `${Math.min(x, rect.width - 220)}px`;
         tooltip.style.top = `${Math.min(y, rect.height - 40)}px`;
         renderer.domElement.style.cursor = 'pointer';
       } else {
@@ -691,7 +805,9 @@ export async function renderMindMap(main, subject) {
   search.addEventListener('input', () => {
     const q = search.value.trim().toLowerCase();
     if (!q) return;
-    const hit = nodes.find((n) => `${n.code} ${n.titleZh} ${n.titleEn}`.toLowerCase().includes(q));
+    const hit =
+      nodes.find((n) => n.tier === 'topic' && `${n.code} ${n.titleZh} ${n.titleEn}`.toLowerCase().includes(q)) ||
+      nodes.find((n) => `${n.code} ${n.titleZh} ${n.titleEn || ''}`.toLowerCase().includes(q));
     if (hit) flyTo(hit);
   });
 
@@ -699,7 +815,7 @@ export async function renderMindMap(main, subject) {
   function tick() {
     if (!alive) return;
     const now = performance.now();
-    // soft forces
+    // soft forces — preserve organic home positions, light link springs
     for (const e of edges) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
@@ -708,7 +824,8 @@ export async function renderMindMap(main, subject) {
       const dy = b.y - a.y;
       const dz = b.z - a.z;
       const dist2 = dx * dx + dy * dy + dz * dz || 0.01;
-      const f = (dist2 - 90) * 0.000015;
+      const ideal = e.type === 'tree-unit-topic' ? 3.2 : e.type === 'tree-stage-unit' ? 18 : e.cross ? 55 : 12;
+      const f = (dist2 - ideal) * 0.000008;
       a.vx += dx * f;
       a.vy += dy * f;
       a.vz += dz * f;
@@ -717,14 +834,17 @@ export async function renderMindMap(main, subject) {
       b.vz -= dz * f;
     }
     for (const n of nodes) {
-      n.vx *= 0.9;
-      n.vy *= 0.9;
-      n.vz *= 0.9;
+      // home spring
+      n.vx += (n.tx - n.x) * 0.012;
+      n.vy += (n.ty - n.y) * 0.012;
+      n.vz += (n.tz - n.z) * 0.012;
+      n.vx *= 0.86;
+      n.vy *= 0.86;
+      n.vz *= 0.86;
       n.x += n.vx;
       n.y += n.vy;
       n.z += n.vz;
-      // gentle idle breathe
-      const breathe = idle ? Math.sin((now - t0) * 0.0004 + n.unitIndex) * 0.08 : 0;
+      const breathe = idle ? Math.sin((now - t0) * 0.0004 + (n.unitIndex || 0)) * (n.tier === 'topic' ? 0.06 : 0.03) : 0;
       const m = meshes.get(n.id);
       if (m) m.position.set(n.x, n.y + breathe, n.z);
     }
@@ -752,6 +872,7 @@ export async function renderMindMap(main, subject) {
     panY += (tpanY - panY) * 0.12;
     panZ += (tpanZ - panZ) * 0.12;
     applyCamera();
+    updateLabels();
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
@@ -764,7 +885,7 @@ export async function renderMindMap(main, subject) {
       document.removeEventListener('keydown', onKey);
       ro.disconnect();
       renderer.dispose();
-      geo.dispose();
+      for (const g of geos) g.dispose();
       lineGeo.dispose();
       lineMat.dispose();
       if (hotLine) {

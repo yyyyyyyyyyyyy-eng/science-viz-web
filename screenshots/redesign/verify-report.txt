@@ -1,0 +1,47 @@
+search '导数' -> 2 cards
+screenshot home-light.png
+screenshot home-dark.png
+theme-toggle -> light
+mitosis: light screenshot -> mitosis.png
+mitosis@light: OK
+dna-replication: light screenshot -> dna-replication.png
+dna-replication@light: OK
+lotka-volterra: light screenshot -> lotka-volterra.png
+lotka-volterra@light: OK
+function-graph: light screenshot -> function-graph.png
+function-graph@light: OK
+derivative-tangent: light screenshot -> derivative-tangent.png
+derivative-tangent@light: OK
+taylor-series: light screenshot -> taylor-series.png
+taylor-series@light: OK
+unit-circle: light screenshot -> unit-circle.png
+unit-circle@light: OK
+projectile: light screenshot -> projectile.png
+projectile@light: OK
+shm: light screenshot -> shm.png
+shm@light: OK
+electric-field: light screenshot -> electric-field.png
+electric-field@light: OK
+mitosis: dark OK (no shot required)
+mitosis@dark: OK
+dna-replication: dark OK (no shot required)
+dna-replication@dark: OK
+lotka-volterra: dark OK (no shot required)
+lotka-volterra@dark: OK
+function-graph: dark OK (no shot required)
+function-graph@dark: OK
+derivative-tangent: dark OK (no shot required)
+derivative-tangent@dark: OK
+taylor-series: dark OK (no shot required)
+taylor-series@dark: OK
+unit-circle: dark OK (no shot required)
+unit-circle@dark: OK
+projectile: dark OK (no shot required)
+projectile@dark: OK
+shm: dark OK (no shot required)
+shm@dark: OK
+electric-field: dark OK (no shot required)
+electric-field@dark: OK
+
+ERRORS:
+NONE

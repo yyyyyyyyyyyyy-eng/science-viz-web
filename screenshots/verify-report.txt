@@ -1,0 +1,15 @@
+search '导数' -> 2 cards
+screenshot home.png
+mitosis: OK -> /workspace/science-viz/screenshots/mitosis.png
+dna-replication: OK -> /workspace/science-viz/screenshots/dna-replication.png
+lotka-volterra: OK -> /workspace/science-viz/screenshots/lotka-volterra.png
+function-graph: OK -> /workspace/science-viz/screenshots/function-graph.png
+derivative-tangent: OK -> /workspace/science-viz/screenshots/derivative-tangent.png
+taylor-series: OK -> /workspace/science-viz/screenshots/taylor-series.png
+unit-circle: OK -> /workspace/science-viz/screenshots/unit-circle.png
+projectile: OK -> /workspace/science-viz/screenshots/projectile.png
+shm: OK -> /workspace/science-viz/screenshots/shm.png
+electric-field: OK -> /workspace/science-viz/screenshots/electric-field.png
+
+ERRORS:
+NONE

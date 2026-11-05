@@ -1,0 +1,27 @@
+home loaded
+mega-menu open screenshot
+mega-link -> #/m/mitosis
+subject math chapters=3
+editable slider ok
+ArrowRight #/m/derivative-tangent -> #/m/taylor-series
+ArrowLeft -> #/m/derivative-tangent
+palette select -> #/m/electric-field
+Esc closes palette: True
+/ focus -> search-input
+mobile menu open
+mobile link -> #/
+mitosis: OK reset=True
+dna-replication: OK reset=True
+lotka-volterra: OK reset=True
+function-graph: OK reset=True
+derivative-tangent: OK reset=True
+taylor-series: OK reset=True
+unit-circle: OK reset=True
+projectile: OK reset=True
+shm: OK reset=True
+electric-field: OK reset=True
+last module remembered: electric-field
+non-zero radius sample: NONE
+
+ERRORS:
+NONE

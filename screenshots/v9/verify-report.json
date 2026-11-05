@@ -1,0 +1,30 @@
+{
+  "overflow": {
+    "375xlight": [],
+    "375xdark": [],
+    "768xlight": [],
+    "768xdark": [],
+    "1024xlight": [],
+    "1024xdark": [],
+    "1280xlight": [],
+    "1280xdark": [],
+    "1440xlight": [],
+    "1440xdark": [],
+    "1920xlight": [],
+    "1920xdark": []
+  },
+  "hit": {
+    "map": [],
+    "practice": []
+  },
+  "shift_click": true,
+  "diagrams": {
+    "bio_svg": 17,
+    "sets": 3
+  },
+  "symbolic": true,
+  "symbolic_feedback": "",
+  "shift_selected": 2,
+  "errors": [],
+  "error_count": 0
+}
