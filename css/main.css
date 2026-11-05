@@ -2468,3 +2468,36 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   background: var(--accent);
   flex: 0 0 auto;
 }
+
+.map-cluster-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+.map-cluster-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.15rem 0.45rem 0.15rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  background: color-mix(in srgb, var(--bg-elev) 82%, transparent);
+  border: 1px solid var(--hairline);
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.map-cluster-label::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translateY(-50%);
+  background: var(--swatch, var(--accent));
+}

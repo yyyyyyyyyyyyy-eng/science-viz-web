@@ -91,3 +91,10 @@
 - Per-unit distinct colors + compact legend; prep muted grey
 - Still **points + lines only** (no shell rings); edge midpoint handles retained
 - Screenshots: `screenshots/final/map-{bio,math,mech,em}.png`, `map-edge-relation.png`
+
+## Kumu-style map restyle
+
+- Compact per-unit clusters, distinct colors, cluster name labels, short intra-cluster edges
+- Two-phase layout (force + pack); points+lines only; fit viewport on load
+- Screenshots: `screenshots/final/map-{bio,math,mech,em}.png`, `map-edge-relation.png`
+- QA: `audit/map-only-qa.json` VERIFY_OK
