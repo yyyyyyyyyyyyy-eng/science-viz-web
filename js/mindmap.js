@@ -3,48 +3,14 @@ import { el, clear } from './ui-shared.js';
 import { SUBJECT_LABEL } from './ui-shared.js';
 import { loadCourseData } from '../data/courses.js';
 
-/** Harmonious, distinguishable per-unit palette; prep muted. */
+/** Soft per-unit palette (AP); prep stays muted grey. */
 const UNIT_COLORS_AP = [
-  0x4f6ef7, // indigo
-  0x0f9f6e, // green
-  0xe06b3f, // coral
-  0x8b5cf6, // violet
-  0x0891b2, // cyan
-  0xd4a017, // gold
-  0xdb2777, // rose
-  0x65a30d, // lime
-  0xea580c, // orange
-  0x2563eb, // blue
-  0x7c3aed, // purple
-  0x0d9488, // teal
+  0xc45c26, 0x2f6fed, 0x0f7b6c, 0x8b5cf6, 0xb45309, 0x0e7490, 0xbe123c, 0x365314, 0x1d4ed8, 0x7c2d12,
 ];
-const PREP_COLOR = 0x8a8a84;
-const EDGE_DIM = 0xc4c2bb;
-const EDGE_HOT = 0x4f6ef7;
-const SELECT_COLOR = 0x8b97ff;
-
-function hashStr(s) {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-function mulberry32(a) {
-  return function () {
-    let t = (a += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-function unitColor(unitIndex, unitColorMap) {
-  if (unitIndex == null || unitIndex < 0) return PREP_COLOR;
-  const slot = unitColorMap?.get(unitIndex);
-  const i = slot != null ? slot : unitIndex;
-  return UNIT_COLORS_AP[i % UNIT_COLORS_AP.length];
-}
+const PREP_COLOR = 0x9aa0a6;
+const EDGE_DIM = 0xb0b0b0;
+const EDGE_HOT = 0xc45c26;
+const SELECT_COLOR = 0xe8a87c;
 
 function cssColor(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -105,16 +71,6 @@ export async function renderMindMap(main, subject) {
     text: '清除选择',
     hidden: true,
   });
-  const depthLabel = el('span', { className: 'map-depth-label muted', text: '层深' });
-  const depthRange = el('input', {
-    className: 'map-depth-range hit-target',
-    type: 'range',
-    min: '0',
-    max: '6',
-    value: '6',
-    'aria-label': '显示层深',
-  });
-  const unfoldBtn = el('button', { type: 'button', className: 'btn hit-target', text: '展开动画' });
   toolbar.append(
     el('a', { className: 'hit-target', href: `#/${subject}`, text: SUBJECT_LABEL[subject] || subject }),
     el('span', { className: 'crumb-sep', text: '/' }),
@@ -122,9 +78,6 @@ export async function renderMindMap(main, subject) {
     search,
     multiBtn,
     clearBtn,
-    depthLabel,
-    depthRange,
-    unfoldBtn,
   );
   const stage = el('div', { className: 'map-stage', id: 'map-stage' });
   const panel = el('aside', { className: 'map-panel', hidden: true, id: 'map-panel' });
@@ -139,344 +92,38 @@ export async function renderMindMap(main, subject) {
     return { destroy() {} };
   }
   const { GRAPH } = data;
-  const byIdRaw = new Map(GRAPH.nodes.map((n) => [n.id, n]));
-  const edgesRaw = GRAPH.edges.filter((e) => byIdRaw.has(e.source) && byIdRaw.has(e.target));
-  // Prerequisite depth via BFS from roots (nodes with no inbound edges)
-  const indeg = new Map(GRAPH.nodes.map((n) => [n.id, 0]));
-  for (const e of edgesRaw) indeg.set(e.target, (indeg.get(e.target) || 0) + 1);
-  const depthMap = new Map();
-  const q = [];
-  for (const n of GRAPH.nodes) {
-    if ((indeg.get(n.id) || 0) === 0) {
-      depthMap.set(n.id, n.layer === 'prep' ? 0 : 1);
-      q.push(n.id);
-    }
-  }
-  const adj = new Map();
-  for (const e of edgesRaw) {
-    if (!adj.has(e.source)) adj.set(e.source, []);
-    adj.get(e.source).push(e.target);
-  }
-  while (q.length) {
-    const u = q.shift();
-    for (const v of adj.get(u) || []) {
-      const nd = (depthMap.get(u) || 0) + 1;
-      if (!depthMap.has(v) || nd < depthMap.get(v)) {
-        depthMap.set(v, nd);
-        q.push(v);
-      }
-    }
-  }
-  let maxDepth = 0;
-  for (const n of GRAPH.nodes) {
-    if (!depthMap.has(n.id)) depthMap.set(n.id, n.layer === 'prep' ? 0 : 2);
-    maxDepth = Math.max(maxDepth, depthMap.get(n.id));
-  }
-  // Kumu-style compact clusters: tight per-unit blobs, short intra edges, soft sphere of clusters.
-  const unitIdsSorted = [...new Set(GRAPH.nodes.filter((n) => n.layer !== 'prep').map((n) => n.unitIndex).filter((u) => u != null && u >= 0))].sort((a, b) => a - b);
-  const unitColorMap = new Map(unitIdsSorted.map((u, i) => [u, i]));
-  const unitLabel = new Map();
-  for (const n of GRAPH.nodes) {
-    if (n.layer === 'prep') continue;
-    if (n.unitIndex != null && !unitLabel.has(n.unitIndex)) {
-      unitLabel.set(n.unitIndex, 'Unit ' + (n.unitCode || n.unitIndex));
-    }
-  }
-
-  // Cluster keys: prep + each unit
-  const clusterKeys = ['prep', ...unitIdsSorted.map(String)];
-  const clusterCenters = new Map();
-  {
-    const apKeys = unitIdsSorted.map(String);
-    const nC = apKeys.length;
-    // Prep near center; AP units on a compact ring/sphere
-    clusterCenters.set('prep', { x: 0, y: 0, z: 0 });
-    const Rclust = 4.2 + Math.sqrt(Math.max(1, nC)) * 0.95;
-    for (let i = 0; i < nC; i++) {
-      const rnd = mulberry32(hashStr(subject + '|c2|' + apKeys[i]));
-      const y = 1 - (2 * (i + 0.5)) / nC;
-      const rxy = Math.sqrt(Math.max(0, 1 - y * y));
-      const th = Math.PI * (1 + Math.sqrt(5)) * i + (rnd() - 0.5) * 0.4;
-      const j = 0.9 + rnd() * 0.18;
-      clusterCenters.set(apKeys[i], {
-        x: Math.cos(th) * rxy * Rclust * j,
-        y: y * Rclust * j * 0.75,
-        z: Math.sin(th) * rxy * Rclust * j,
-      });
-    }
-  }
-
-  function clusterKeyOf(n) {
-    if (n.layer === 'prep') return 'prep';
-    return String(n.unitIndex);
-  }
-
-  const nodes = GRAPH.nodes.map((n) => {
-    const d = depthMap.get(n.id) || 0;
-    const ck = clusterKeyOf(n);
-    const c = clusterCenters.get(ck) || { x: 0, y: 0, z: 0 };
-    const rnd = mulberry32(hashStr(n.id + '|kumu|' + subject));
-    // seed tightly around cluster center
-    const spread = n.layer === 'prep' ? 1.25 : 1.05;
+  // Layout restored from first map (7ae7fb2): concentric rings by prep/AP unit, not sphere/Kumu
+  const nCount = GRAPH.nodes.length || 1;
+  const nodes = GRAPH.nodes.map((n, i) => {
+    const angle = (i / nCount) * Math.PI * 2;
+    const ring = n.layer === 'prep' ? 18 : 28 + (n.unitIndex % 5) * 2;
+    const y = n.layer === 'prep' ? -8 : (n.unitIndex - 3) * 2.2;
     return {
       ...n,
-      depth: d,
-      clusterKey: ck,
-      x: c.x + (rnd() - 0.5) * spread,
-      y: c.y + (rnd() - 0.5) * spread,
-      z: c.z + (rnd() - 0.5) * spread,
+      x: Math.cos(angle) * ring,
+      y,
+      z: Math.sin(angle) * ring,
       vx: 0,
       vy: 0,
       vz: 0,
     };
   });
-
-  let clusterCentroids = [];
-  // Offline Kumu-like force: tight clusters, short intra edges, centroid separation
-  {
-    const N = nodes.length;
-    const idx = new Map(nodes.map((n, i) => [n.id, i]));
-    const links = edgesRaw
-      .map((e) => {
-        const a = idx.get(e.source);
-        const b = idx.get(e.target);
-        if (a == null || b == null) return null;
-        const same = nodes[a].clusterKey === nodes[b].clusterKey;
-        return { a, b, same };
-      })
-      .filter(Boolean);
-    const iterations = Math.min(520, 220 + N);
-    for (let it = 0; it < iterations; it++) {
-      const cool = 1 - it / iterations;
-      // short-range node repulsion (keeps local spacing, not global scatter)
-      for (let i = 0; i < N; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < N; j++) {
-          const b = nodes[j];
-          let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
-          let dist2 = dx * dx + dy * dy + dz * dz;
-          if (dist2 > 36) continue; // ignore far pairs
-          dist2 = Math.max(dist2, 0.04);
-          const dist = Math.sqrt(dist2);
-          const same = a.clusterKey === b.clusterKey;
-          const force = ((same ? 2.8 : 9.5) * cool) / dist2;
-          dx = (dx / dist) * force;
-          dy = (dy / dist) * force;
-          dz = (dz / dist) * force;
-          a.vx += dx; a.vy += dy; a.vz += dz;
-          b.vx -= dx; b.vy -= dy; b.vz -= dz;
-        }
-      }
-      // edge springs: short within cluster, longer between
-      for (const l of links) {
-        const a = nodes[l.a], b = nodes[l.b];
-        let dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
-        const dist = Math.hypot(dx, dy, dz) || 0.01;
-        const ideal = l.same ? 1.0 : 6.5;
-        const k = l.same ? 0.2 : 0.008;
-        const f = (dist - ideal) * k * cool;
-        dx = (dx / dist) * f;
-        dy = (dy / dist) * f;
-        dz = (dz / dist) * f;
-        a.vx += dx; a.vy += dy; a.vz += dz;
-        b.vx -= dx; b.vy -= dy; b.vz -= dz;
-      }
-      // recompute / pull to cluster centroids + separate centroids
-      const sums = new Map();
-      for (const n of nodes) {
-        if (!sums.has(n.clusterKey)) sums.set(n.clusterKey, { x: 0, y: 0, z: 0, c: 0 });
-        const s = sums.get(n.clusterKey);
-        s.x += n.x; s.y += n.y; s.z += n.z; s.c += 1;
-      }
-      const cents = [];
-      for (const [k, s] of sums) {
-        cents.push({ k, x: s.x / s.c, y: s.y / s.c, z: s.z / s.c, c: s.c });
-      }
-      // centroid–centroid repulsion for visible separation while staying compact
-      for (let i = 0; i < cents.length; i++) {
-        for (let j = i + 1; j < cents.length; j++) {
-          const A = cents[i], B = cents[j];
-          let dx = A.x - B.x, dy = A.y - B.y, dz = A.z - B.z;
-          const dist = Math.hypot(dx, dy, dz) || 0.01;
-          const ideal = 4.4;
-          if (dist < ideal) {
-            const f = ((ideal - dist) / dist) * 0.06 * cool;
-            dx *= f; dy *= f; dz *= f;
-            A.x += dx; A.y += dy; A.z += dz;
-            B.x -= dx; B.y -= dy; B.z -= dz;
-          }
-        }
-      }
-      // soft pull cluster centers toward sphere shell (prep stays center)
-      for (const A of cents) {
-        if (A.k === 'prep') {
-          A.x *= 0.92; A.y *= 0.92; A.z *= 0.92;
-          continue;
-        }
-        const r = Math.hypot(A.x, A.y, A.z) || 0.01;
-        const tr = 5.2 + Math.sqrt(Math.max(1, cents.length - 1)) * 1.15;
-        const f = (tr - r) * 0.04 * cool;
-        A.x += (A.x / r) * f;
-        A.y += (A.y / r) * f;
-        A.z += (A.z / r) * f;
-      }
-      const centMap = new Map(cents.map((c) => [c.k, c]));
-      for (const n of nodes) {
-        const c = centMap.get(n.clusterKey);
-        // strong cluster cohesion
-        n.vx += (c.x - n.x) * 0.12 * cool;
-        n.vy += (c.y - n.y) * 0.12 * cool;
-        n.vz += (c.z - n.z) * 0.12 * cool;
-        // basic (low depth) gently toward world origin
-        const depthPull = Math.max(0, 1 - n.depth / (maxDepth + 1)) * 0.006;
-        n.vx -= n.x * depthPull;
-        n.vy -= n.y * depthPull;
-        n.vz -= n.z * depthPull;
-        n.vx *= 0.68;
-        n.vy *= 0.68;
-        n.vz *= 0.68;
-        n.x += n.vx;
-        n.y += n.vy;
-        n.z += n.vz;
-      }
-    }
-    // final cluster centroids for labels + camera fit
-    const finalSums = new Map();
-    for (const n of nodes) {
-      if (!finalSums.has(n.clusterKey)) finalSums.set(n.clusterKey, { x: 0, y: 0, z: 0, c: 0 });
-      const s = finalSums.get(n.clusterKey);
-      s.x += n.x; s.y += n.y; s.z += n.z; s.c += 1;
-      n.tx = n.x; n.ty = n.y; n.tz = n.z;
-      n.vx = n.vy = n.vz = 0;
-    }
-    clusterCentroids = [...finalSums.entries()].map(([k, s]) => ({
-      key: k,
-      x: s.x / s.c,
-      y: s.y / s.c,
-      z: s.z / s.c,
-      label: k === 'prep' ? '预备' : (unitLabel.get(Number(k)) || k),
-      color: k === 'prep' ? PREP_COLOR : unitColor(Number(k), unitColorMap),
-    }));
-  }
-
-
-  // Phase 2: lock cluster centers apart, pack nodes tightly inside each cluster
-  {
-    const sums = new Map();
-    for (const n of nodes) {
-      if (!sums.has(n.clusterKey)) sums.set(n.clusterKey, { x: 0, y: 0, z: 0, c: 0 });
-      const s = sums.get(n.clusterKey);
-      s.x += n.x; s.y += n.y; s.z += n.z; s.c += 1;
-    }
-    let cents = [...sums.entries()].map(([k, s]) => ({
-      k, x: s.x / s.c, y: s.y / s.c, z: s.z / s.c,
-    }));
-    // push centers apart then compact toward sphere
-    for (let it = 0; it < 80; it++) {
-      for (let i = 0; i < cents.length; i++) {
-        for (let j = i + 1; j < cents.length; j++) {
-          const A = cents[i], B = cents[j];
-          let dx = A.x - B.x, dy = A.y - B.y, dz = A.z - B.z;
-          const dist = Math.hypot(dx, dy, dz) || 0.01;
-          const want = (A.k === 'prep' || B.k === 'prep') ? 4.2 : 5.0;
-          if (dist < want) {
-            const f = ((want - dist) / dist) * 0.2;
-            dx *= f; dy *= f; dz *= f;
-            A.x += dx; A.y += dy; A.z += dz;
-            B.x -= dx; B.y -= dy; B.z -= dz;
-          }
-        }
-      }
-      for (const A of cents) {
-        if (A.k === 'prep') { A.x *= 0.5; A.y *= 0.5; A.z *= 0.5; continue; }
-        const r = Math.hypot(A.x, A.y, A.z) || 0.01;
-        const tr = 5.0;
-        A.x += (A.x / r) * (tr - r) * 0.15;
-        A.y += (A.y / r) * (tr - r) * 0.15;
-        A.z += (A.z / r) * (tr - r) * 0.15;
-      }
-    }
-    const cmap = new Map(cents.map((c) => [c.k, c]));
-    const rndBy = new Map();
-    for (const n of nodes) {
-      const c = cmap.get(n.clusterKey);
-      const rnd = mulberry32(hashStr(n.id + '|pack'));
-      if (!rndBy.has(n.clusterKey)) rndBy.set(n.clusterKey, 0);
-      const i = rndBy.get(n.clusterKey);
-      rndBy.set(n.clusterKey, i + 1);
-      // small sphere pack around center
-      const u = rnd() * 2 - 1;
-      const th = rnd() * Math.PI * 2;
-      const rr = (0.7 + rnd() * 1.35) * (n.layer === 'prep' ? 1.15 : 1);
-      const rxy = Math.sqrt(Math.max(0, 1 - u * u)) * rr;
-      n.x = c.x + rxy * Math.cos(th);
-      n.y = c.y + u * rr;
-      n.z = c.z + rxy * Math.sin(th);
-      n.tx = n.x; n.ty = n.y; n.tz = n.z;
-    }
-    // refresh centroids for labels
-    const finalSums = new Map();
-    for (const n of nodes) {
-      if (!finalSums.has(n.clusterKey)) finalSums.set(n.clusterKey, { x: 0, y: 0, z: 0, c: 0 });
-      const s = finalSums.get(n.clusterKey);
-      s.x += n.x; s.y += n.y; s.z += n.z; s.c += 1;
-    }
-    clusterCentroids = [...finalSums.entries()].map(([k, s]) => ({
-      key: k,
-      x: s.x / s.c,
-      y: s.y / s.c,
-      z: s.z / s.c,
-      label: k === 'prep' ? '预备' : (unitLabel.get(Number(k)) || k),
-      color: k === 'prep' ? PREP_COLOR : unitColor(Number(k), unitColorMap),
-    }));
-  }
-
   const byId = new Map(nodes.map((n) => [n.id, n]));
-  const edges = edgesRaw;
-  // Legend + in-scene cluster name labels (HTML overlays)
-  if (unitIdsSorted.length || clusterCentroids.length) {
-    const legend = el('div', { className: 'map-legend', 'aria-label': '单元配色' });
-    if (clusterCentroids.some((c) => c.key === 'prep')) {
-      const item = el('span', { className: 'map-legend-item' });
-      const sw = el('span', { className: 'map-legend-swatch', 'aria-hidden': 'true' });
-      sw.style.background = '#' + PREP_COLOR.toString(16).padStart(6, '0');
-      item.append(sw, el('span', { text: '预备' }));
-      legend.appendChild(item);
-    }
-    for (const u of unitIdsSorted) {
-      const item = el('span', { className: 'map-legend-item' });
-      const sw = el('span', { className: 'map-legend-swatch', 'aria-hidden': 'true' });
-      sw.style.background = '#' + unitColor(u, unitColorMap).toString(16).padStart(6, '0');
-      item.append(sw, el('span', { text: String(unitLabel.get(u) || u) }));
-      legend.appendChild(item);
-    }
-    toolbar.appendChild(legend);
-  }
-  const labelLayer = el('div', { className: 'map-cluster-labels', 'aria-hidden': 'true' });
-  stage.appendChild(labelLayer);
-  const clusterLabelEls = clusterCentroids.map((c) => {
-    const lab = el('div', { className: 'map-cluster-label', text: c.label });
-    lab.style.setProperty('--swatch', '#' + c.color.toString(16).padStart(6, '0'));
-    labelLayer.appendChild(lab);
-    return { el: lab, c };
-  });
+  const edges = GRAPH.edges.filter((e) => byId.has(e.source) && byId.has(e.target));
 
-  let revealDepth = maxDepth; // show all after unfold
-  let unfoldT = 0; // 0..1 animation
   let RELATIONS = {};
   try {
     const relMod = await import(`../data/${subject}/relations.js`);
     RELATIONS = relMod.RELATIONS || {};
   } catch (_) {}
 
-
   const bgHex = cssColor('--canvas-plot', '#f7f5f0');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(bgHex);
-  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.0035);
+  scene.fog = new THREE.FogExp2(new THREE.Color(bgHex).getHex(), 0.012);
 
   const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
-  camera.position.set(0, 14, 62);
+  camera.position.set(0, 12, 55);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -484,75 +131,30 @@ export async function renderMindMap(main, subject) {
   renderer.domElement.classList.add('map-canvas');
   renderer.domElement.style.touchAction = 'none';
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.72));
-  const key = new THREE.DirectionalLight(0xffffff, 0.55);
-  key.position.set(18, 28, 14);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  const key = new THREE.DirectionalLight(0xffffff, 0.35);
+  key.position.set(20, 30, 10);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xb8c0ff, 0.22);
-  fill.position.set(-16, 8, -10);
-  scene.add(fill);
 
   const nodeGroup = new THREE.Group();
   scene.add(nodeGroup);
   const meshes = new Map();
-  const geo = new THREE.SphereGeometry(0.55, 20, 20);
-  const outlineGeo = new THREE.SphereGeometry(0.58, 16, 16);
+  const geo = new THREE.SphereGeometry(0.55, 12, 12);
   for (const n of nodes) {
-    const color = n.layer === 'prep' ? PREP_COLOR : unitColor(n.unitIndex, unitColorMap);
-    const mat = new THREE.MeshBasicMaterial({
-      color,
-      transparent: true,
-      opacity: n.layer === 'prep' ? 0.9 : 1,
-    });
+    const color = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
+    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: n.layer === 'prep' ? 0.85 : 1 });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(n.x, n.y, n.z);
     mesh.userData = n;
-    mesh.scale.setScalar(n.hasViz ? 1.15 : n.layer === 'prep' ? 0.85 : 1);
-    // subtle outline (still a point — slightly larger dark sphere behind)
-    const outline = new THREE.Mesh(
-      outlineGeo,
-      new THREE.MeshBasicMaterial({ color: 0x2a2a28, transparent: true, opacity: 0.4, depthWrite: false }),
-    );
-    outline.scale.setScalar(1.02);
-    outline.renderOrder = -1;
-    mesh.add(outline);
-    const hitGeo = new THREE.SphereGeometry(1.0, 8, 8);
+    mesh.scale.setScalar(n.hasViz ? 1.35 : n.layer === 'prep' ? 0.85 : 1);
+    const hitGeo = new THREE.SphereGeometry(1.1, 8, 8);
     const hit = new THREE.Mesh(hitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     hit.userData = n;
     mesh.add(hit);
     nodeGroup.add(mesh);
     meshes.set(n.id, mesh);
     mesh.userData._hit = hit;
-    mesh.userData.depth = n.depth;
   }
-
-  // Shell radii used only for node layout (no drawn rings/wireframes)
-
-  depthRange.max = String(maxDepth);
-  depthRange.value = String(maxDepth);
-  function applyReveal() {
-    for (const n of nodes) {
-      const m = meshes.get(n.id);
-      if (!m) continue;
-      const show = n.depth <= revealDepth;
-      m.visible = show;
-      m.material.opacity = show ? (n.layer === 'prep' ? 0.75 : 0.95) : 0;
-    }
-  }
-  depthRange.addEventListener('input', () => {
-    revealDepth = Number(depthRange.value);
-    applyReveal();
-  });
-  unfoldBtn.addEventListener('click', () => {
-    unfoldT = 0;
-    revealDepth = 0;
-    depthRange.value = '0';
-    applyReveal();
-  });
-  // start nearly fully revealed so graph fits viewport; unfold still available
-  unfoldT = 1;
-  revealDepth = maxDepth;
-  depthRange.value = String(maxDepth);
 
   const positions = new Float32Array(edges.length * 6);
   const lineGeo = new THREE.BufferGeometry();
@@ -560,32 +162,27 @@ export async function renderMindMap(main, subject) {
   const lineMat = new THREE.LineBasicMaterial({
     color: EDGE_DIM,
     transparent: true,
-    opacity: 0.28,
+    opacity: 0.22,
     depthWrite: false,
   });
   const lines = new THREE.LineSegments(lineGeo, lineMat);
   scene.add(lines);
 
+  // Edge midpoint handles (kept from later map work)
   const edgeHandleGroup = new THREE.Group();
   scene.add(edgeHandleGroup);
   const edgeHandles = [];
-  const handleGeo = new THREE.SphereGeometry(0.18, 10, 10);
-  const handleHitGeo = new THREE.SphereGeometry(1.35, 8, 8);
+  const handleGeo = new THREE.SphereGeometry(0.28, 10, 10);
+  const handleHitGeo = new THREE.SphereGeometry(1.4, 8, 8);
   for (const e of edges) {
     const a = byId.get(e.source);
     const b = byId.get(e.target);
     if (!a || !b) continue;
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xb0b0b0,
-      roughness: 0.4,
-      metalness: 0.15,
-      transparent: true,
-      opacity: 0.55,
-    });
+    const mat = new THREE.MeshBasicMaterial({ color: 0x9a9a9a, transparent: true, opacity: 0.65 });
     const dot = new THREE.Mesh(handleGeo, mat);
     const hit = new THREE.Mesh(handleHitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     dot.add(hit);
-    const rel = RELATIONS[`${e.source}=>${e.target}`] || null;
+    const rel = RELATIONS[`${e.source}=>${e.target}`] || RELATIONS[`${e.target}=>${e.source}`] || null;
     dot.userData = { kind: 'edge', edge: e, rel, sourceNode: a, targetNode: b };
     hit.userData = dot.userData;
     edgeHandleGroup.add(dot);
@@ -598,7 +195,7 @@ export async function renderMindMap(main, subject) {
       const b = byId.get(e.target);
       const dot = edgeHandles[hi++];
       if (!dot || !a || !b) continue;
-      dot.visible = a.depth <= revealDepth && b.depth <= revealDepth;
+      dot.visible = true;
       dot.position.set((a.x + b.x) * 0.5, (a.y + b.y) * 0.5, (a.z + b.z) * 0.5);
     }
   }
@@ -629,17 +226,9 @@ export async function renderMindMap(main, subject) {
   }
 
   // damped orbit targets
-  // Fit whole graph in viewport
-  let fitR = 10;
-  {
-    let maxR = 0;
-    for (const n of nodes) maxR = Math.max(maxR, Math.hypot(n.x, n.y, n.z));
-    fitR = Math.max(6, maxR * 1.08);
-  }
-  let ax = 0.18;
-  let ay = 0.4;
-  const fitDist = fitR / Math.sin((camera.fov) * Math.PI / 360) * 0.78;
-  let dist = fitDist;
+  let ax = 0.28;
+  let ay = 0.15;
+  let dist = 55;
   let tax = ax;
   let tay = ay;
   let tdist = dist;
@@ -717,8 +306,8 @@ export async function renderMindMap(main, subject) {
     const hits = raycaster.intersectObjects([...meshes.values()], true);
     if (hits.length) {
       let obj = hits[0].object;
-      while (obj && !obj.userData?.code && obj.parent) obj = obj.parent;
-      if (obj?.userData?.code || obj?.userData?.id) return { kind: 'node', data: obj.userData, mesh: obj };
+      while (obj && !obj.userData?.id && obj.parent) obj = obj.parent;
+      if (obj?.userData?.id) return { kind: 'node', data: obj.userData, mesh: obj };
     }
     return null;
   }
@@ -741,26 +330,16 @@ export async function renderMindMap(main, subject) {
       el('h2', { text: rel?.titleZh || `${a.code} → ${b.code}` }),
       el('p', { text: rel?.summary || '两知识点之间存在课程图谱连接。' }),
     );
-    if (rel?.why) {
-      panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '为何连接' }), el('p', { text: rel.why })]));
-    }
+    if (rel?.why) panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '为何连接' }), el('p', { text: rel.why })]));
     if (rel?.shared?.length) {
       const ul = el('ul', { className: 'topic-list' });
       rel.shared.forEach((s) => ul.appendChild(el('li', { text: s })));
       panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '共享概念' }), ul]));
     }
-    if (rel?.example) {
-      panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '联结例' }), el('p', { text: rel.example })]));
-    }
-    if (rel?.steps?.length) {
-      const ol = el('ol', { className: 'topic-list' });
-      rel.steps.forEach((s) => ol.appendChild(el('li', { text: s })));
-      panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '自学步骤' }), ol]));
-    }
-    panel.appendChild(el('a', { className: 'entry-row hit-target', href: rel?.sourceHref || `#/t/${subject}/${a.chapterId}/${a.code}`, text: `打开 ${a.code} ${a.titleZh}` }));
-    panel.appendChild(el('a', { className: 'entry-row hit-target', href: rel?.targetHref || `#/t/${subject}/${b.chapterId}/${b.code}`, text: `打开 ${b.code} ${b.titleZh}` }));
+    if (rel?.example) panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '联结例' }), el('p', { text: rel.example })]));
+    panel.appendChild(el('a', { className: 'entry-row hit-target', href: `#/t/${subject}/${a.chapterId}/${a.code}`, text: `打开 ${a.code} ${a.titleZh}` }));
+    panel.appendChild(el('a', { className: 'entry-row hit-target', href: `#/t/${subject}/${b.chapterId}/${b.code}`, text: `打开 ${b.code} ${b.titleZh}` }));
   }
-
 
   function relationsAmong(ids) {
     const set = new Set(ids);
@@ -793,7 +372,7 @@ export async function renderMindMap(main, subject) {
     clearBtn.hidden = !has;
     for (const [id, mesh] of meshes) {
       const n = mesh.userData;
-      const base = n.layer === 'prep' ? PREP_COLOR : unitColor(n.unitIndex, unitColorMap);
+      const base = n.layer === 'prep' ? PREP_COLOR : UNIT_COLORS_AP[n.unitIndex % UNIT_COLORS_AP.length];
       if (!has) {
         mesh.material.color.setHex(base);
         mesh.material.opacity = n.layer === 'prep' ? 0.75 : 0.95;
@@ -900,7 +479,7 @@ export async function renderMindMap(main, subject) {
 
   function flyTo(n) {
     const targetDist = Math.hypot(n.x, n.y, n.z) + 16;
-    tdist = Math.max(fitR * 1.2, Math.min(fitR * 5.5, targetDist));
+    tdist = Math.max(18, Math.min(70, targetDist));
     openDetail(n);
   }
 
@@ -958,6 +537,10 @@ export async function renderMindMap(main, subject) {
       if (isClick && e.button === 0) {
         const hit = pick(e);
         if (hit?.kind === 'edge') {
+          if (selected.size) {
+            selected.clear();
+            refreshSelectionVisual();
+          }
           openRelationPanel(hit.data);
         } else if (hit?.kind === 'node') {
           const n = hit.data;
@@ -1003,7 +586,7 @@ export async function renderMindMap(main, subject) {
       const d = pointerDistance();
       if (pinchStartDist > 0 && d > 0) {
         const scale = pinchStartDist / d;
-        tdist = Math.max(fitR * 1.15, Math.min(fitR * 6, pinchStartTdist * scale));
+        tdist = Math.max(16, Math.min(90, pinchStartTdist * scale));
         moved = true;
       }
       // two-finger drag → pan
@@ -1051,26 +634,16 @@ export async function renderMindMap(main, subject) {
     } else {
       const hit = pick(e);
       const rect = stage.getBoundingClientRect();
-      for (const d of edgeHandles) {
-        d.material.opacity = 0.55;
-        d.material.color.setHex(0xb0b0b0);
-      }
       if (hit?.kind === 'edge') {
-        const ud = hit.data;
-        const a = ud.sourceNode;
-        const b = ud.targetNode;
-        const typ = ud.rel?.typeZh || ud.edge.type || '关系';
+        const a = hit.data.sourceNode;
+        const b = hit.data.targetNode;
         tooltip.hidden = false;
-        tooltip.textContent = `${a.code} ${a.titleZh} —[${typ}]→ ${b.code} ${b.titleZh}`;
+        tooltip.textContent = `${a.code} ${a.titleZh} — ${b.code} ${b.titleZh}`;
         const x = e.clientX - rect.left + 14;
         const y = e.clientY - rect.top + 14;
-        tooltip.style.left = `${Math.min(x, rect.width - 300)}px`;
+        tooltip.style.left = `${Math.min(x, rect.width - 280)}px`;
         tooltip.style.top = `${Math.min(y, rect.height - 40)}px`;
         renderer.domElement.style.cursor = 'pointer';
-        if (hit.mesh?.material) {
-          hit.mesh.material.opacity = 0.95;
-          hit.mesh.material.color.setHex(EDGE_HOT);
-        }
       } else if (hit?.kind === 'node') {
         const n = hit.data;
         tooltip.hidden = false;
@@ -1096,7 +669,7 @@ export async function renderMindMap(main, subject) {
       idle = false;
       if (e.ctrlKey) {
         // trackpad pinch
-        tdist = Math.max(fitR * 1.15, Math.min(fitR * 6, tdist + e.deltaY * 0.04));
+        tdist = Math.max(16, Math.min(90, tdist + e.deltaY * 0.05));
       } else if (isTrackpadPanWheel(e)) {
         const right = new THREE.Vector3();
         const up = new THREE.Vector3();
@@ -1106,7 +679,7 @@ export async function renderMindMap(main, subject) {
         tpanZ -= right.z * e.deltaX * 0.04 - up.z * e.deltaY * 0.04;
       } else {
         // mouse wheel → zoom
-        tdist = Math.max(fitR * 1.15, Math.min(fitR * 6, tdist + e.deltaY * 0.03));
+        tdist = Math.max(16, Math.min(90, tdist + e.deltaY * 0.035));
       }
       setTimeout(() => {
         idle = true;
@@ -1126,53 +699,39 @@ export async function renderMindMap(main, subject) {
   function tick() {
     if (!alive) return;
     const now = performance.now();
-    // Unfold animation: reveal shells layer by layer
-    if (unfoldT < 1) {
-      unfoldT = Math.min(1, unfoldT + 0.004);
-      const target = Math.min(maxDepth, Math.floor(unfoldT * (maxDepth + 1.001)));
-      if (target !== revealDepth) {
-        revealDepth = target;
-        depthRange.value = String(revealDepth);
-        applyReveal();
-      }
+    // soft forces
+    for (const e of edges) {
+      const a = byId.get(e.source);
+      const b = byId.get(e.target);
+      if (!a || !b) continue;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dz = b.z - a.z;
+      const dist2 = dx * dx + dy * dy + dz * dz || 0.01;
+      const f = (dist2 - 90) * 0.000015;
+      a.vx += dx * f;
+      a.vy += dy * f;
+      a.vz += dz * f;
+      b.vx -= dx * f;
+      b.vy -= dy * f;
+      b.vz -= dz * f;
     }
-    // Settle toward layout targets; tiny breathe
     for (const n of nodes) {
-      n.x += (n.tx - n.x) * 0.14;
-      n.y += (n.ty - n.y) * 0.14;
-      n.z += (n.tz - n.z) * 0.14;
-      const breathe = idle ? Math.sin((now - t0) * 0.00035 + (n.unitIndex || 0)) * 0.04 : 0;
+      n.vx *= 0.9;
+      n.vy *= 0.9;
+      n.vz *= 0.9;
+      n.x += n.vx;
+      n.y += n.vy;
+      n.z += n.vz;
+      // gentle idle breathe
+      const breathe = idle ? Math.sin((now - t0) * 0.0004 + n.unitIndex) * 0.08 : 0;
       const m = meshes.get(n.id);
-      if (m) {
-        m.position.set(n.x, n.y + breathe, n.z);
-        m.visible = n.depth <= revealDepth;
-      }
+      if (m) m.position.set(n.x, n.y + breathe, n.z);
     }
-    // Project cluster labels
-    if (typeof clusterLabelEls !== 'undefined') {
-      const w = stage.clientWidth || 1;
-      const h = stage.clientHeight || 1;
-      for (const { el: lab, c } of clusterLabelEls) {
-        const v = new THREE.Vector3(c.x, c.y, c.z);
-        v.project(camera);
-        const on = v.z < 1 && Math.abs(v.x) < 1.15 && Math.abs(v.y) < 1.15;
-        lab.hidden = !on;
-        if (on) {
-          lab.style.transform = `translate(${(v.x * 0.5 + 0.5) * w}px, ${(-v.y * 0.5 + 0.5) * h}px) translate(-50%, -50%)`;
-        }
-      }
-    }
-    // Curved edge midpoints for nicer arcs (polyline 2 segments)
-    // keep LineSegments endpoints at nodes
     let i = 0;
     for (const e of edges) {
       const a = byId.get(e.source);
       const b = byId.get(e.target);
-      if (a.depth > revealDepth || b.depth > revealDepth) {
-        positions[i++] = 0; positions[i++] = 0; positions[i++] = 0;
-        positions[i++] = 0; positions[i++] = 0; positions[i++] = 0;
-        continue;
-      }
       positions[i++] = a.x;
       positions[i++] = a.y;
       positions[i++] = a.z;
@@ -1196,7 +755,6 @@ export async function renderMindMap(main, subject) {
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
-  applyReveal();
   tick();
   refreshSelectionVisual();
 
