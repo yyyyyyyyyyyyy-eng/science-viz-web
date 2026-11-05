@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>科学可视化</title>
+  <script>
+    // GitHub Pages: redirect unknown paths to index with hash preserved when possible
+    var seg = location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+    // project pages: /repo/... → keep base
+    var base = '/';
+    if (seg.length && !seg[0].includes('.')) {
+      // if hosted at /science-viz/
+      if (location.hostname.endsWith('github.io') && seg[0] !== 'index.html') {
+        base = '/' + seg[0] + '/';
+      }
+    }
+    var hash = location.hash || '#/';
+    location.replace(base + 'index.html' + hash);
+  </script>
+  <meta http-equiv="refresh" content="0; url=./index.html" />
+</head>
+<body>
+  <p><a href="./index.html">返回科学可视化</a></p>
+</body>
+</html>

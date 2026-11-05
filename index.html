@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>科学可视化平台</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="vendor/katex/katex.min.css" />
+  <script defer src="vendor/katex/katex.min.js"></script>
+  <script defer src="vendor/mathjs/math.min.js"></script>
+  <script>
+    try {
+      var t = localStorage.getItem('science-viz-theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <div id="app">
+    <header class="site-header">
+      <div class="header-inner">
+        <button type="button" class="nav-mobile-toggle hit-target" id="nav-mobile-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobile-nav">菜单</button>
+        <a href="#/" class="brand hit-target" id="brand-link">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">科学可视化</span>
+        </a>
+        <nav class="subject-nav" id="subject-nav" aria-label="学科导航">
+          <!-- filled by js/nav.js -->
+        </nav>
+        <div class="header-actions">
+          <div class="search-wrap">
+            <input type="search" id="search-input" placeholder="搜索 / 或 Ctrl+K" autocomplete="off" aria-label="搜索模块" />
+          </div>
+          <button type="button" class="theme-toggle hit-target" id="theme-toggle" aria-label="切换深浅色主题" title="切换主题">
+            <span class="label-light">深色</span>
+            <span class="label-dark">浅色</span>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-nav" id="mobile-nav" hidden></div>
+    </header>
+
+    <main id="main" class="main"></main>
+
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
