@@ -37,7 +37,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势能」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -87,7 +87,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -172,7 +172,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -222,7 +222,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -314,7 +314,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势与场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -364,7 +364,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",

@@ -21,10 +21,6 @@ export const stimuli = {
         {
           "type": "resistor",
           "label": "R"
-        },
-        {
-          "type": "capacitor",
-          "label": "C"
         }
       ],
       "ammeter": true
@@ -42,12 +38,7 @@ export const stimuli = {
         [
           "R",
           "6 Ω"
-        ],
-        [
-          "C",
-          "50 μF"
-        ]
-      ]
+        ]]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -90,12 +81,7 @@ export const stimuli = {
         [
           "R",
           "6 Ω"
-        ],
-        [
-          "C",
-          "50 μF"
-        ]
-      ]
+        ]]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -123,12 +109,7 @@ export const stimuli = {
         [
           "R",
           "6 Ω"
-        ],
-        [
-          "C",
-          "50 μF"
-        ]
-      ]
+        ]]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -156,10 +137,6 @@ export const problems = [
           {
             "type": "resistor",
             "label": "R"
-          },
-          {
-            "type": "capacitor",
-            "label": "C"
           }
         ],
         "ammeter": true
@@ -177,12 +154,7 @@ export const problems = [
           [
             "R",
             "6 Ω"
-          ],
-          [
-            "C",
-            "50 μF"
-          ]
-        ]
+          ]]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -315,12 +287,7 @@ export const problems = [
           [
             "R",
             "6 Ω"
-          ],
-          [
-            "C",
-            "50 μF"
-          ]
-        ]
+          ]]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -459,12 +426,7 @@ export const problems = [
           [
             "R",
             "6 Ω"
-          ],
-          [
-            "C",
-            "50 μF"
-          ]
-        ]
+          ]]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -613,8 +575,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -792,8 +754,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -993,8 +955,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1172,8 +1134,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1373,8 +1335,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1552,8 +1514,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1753,8 +1715,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1932,8 +1894,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2133,8 +2095,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2312,8 +2274,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2513,8 +2475,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2692,8 +2654,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2893,8 +2855,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -3072,8 +3034,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -3273,8 +3235,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -3452,8 +3414,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -3653,8 +3615,8 @@ export const problems = [
         "check": "numeric",
         "expected": 1799999.9999999995,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{5}",
-        "solution": "E=kq/r²=9e9·2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}",
+        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
       }
     ],
     "sourceId": "openstax-university-physics",

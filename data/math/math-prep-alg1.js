@@ -441,7 +441,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数与图像入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
         "note": "pH 定义。"
       }
     ],
@@ -491,7 +491,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]"
+        "solutionLatex": "\\lim_{x\\to a}f(x)=L"
       },
       {
         "title": "例 3 · 中",

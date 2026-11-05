@@ -313,7 +313,7 @@ export const TOPICS = {
         "note": "极限记号；勿写成 f(a)/ 形式代替极限。"
       },
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
+        "latex": "\\lim_{x\\to a}f(x)=L",
         "note": "pH 定义。"
       }
     ],

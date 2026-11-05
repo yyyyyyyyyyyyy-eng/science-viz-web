@@ -37,7 +37,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「磁通量」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -87,7 +87,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -172,7 +172,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电磁感应」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -222,7 +222,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -314,7 +314,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「感应电流与磁力」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\\\dfrac{t}{\\tau}}\\right)",
+        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
         "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
       }
     ],
@@ -364,7 +364,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\\\dfrac{t}{\\tau}}\\right)"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -456,7 +456,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电感」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
+        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
         "note": "力学/电磁常用矢量方程。"
       }
     ],
@@ -506,7 +506,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -598,7 +598,7 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「LR 电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\\\dfrac{t}{\\tau}}\\right)",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
       }
     ],
@@ -648,7 +648,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\\\dfrac{t}{\\tau}}\\right)"
+        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -740,11 +740,11 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「LC 电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "平行板电容。"
       },
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\\\dfrac{t}{\\tau}}\\right)",
+        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
         "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
       }
     ],

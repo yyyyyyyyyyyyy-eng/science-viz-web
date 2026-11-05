@@ -183,12 +183,12 @@ function makeStimulus(subject, unit, topic, s) {
       table: {
         headers: ['量', '值'],
         rows: subject === 'em'
-          ? [['ε', '12 V'], ['R', '6 Ω'], ['C', '50 μF']]
+          ? [['ε', '12 V'], ['R', '6 Ω']]
           : [['m', '2.0 kg'], ['μ_k', '0.20'], ['θ', '30°']],
       },
       ...srcLine(src, 'Numbers/style inspired by OpenStax University Physics; original wording.'),
     };
-    if (kind === 'circuit') base.diagram = { kind: 'circuit', elements: [{ type: 'battery', label: 'ε' }, { type: 'resistor', label: 'R' }, { type: 'capacitor', label: 'C' }], ammeter: true };
+    if (kind === 'circuit') base.diagram = { kind: 'circuit', elements: [{ type: 'battery', label: 'ε' }, { type: 'resistor', label: 'R' }], ammeter: true };
     if (kind === 'field') base.diagram = { kind: 'field', charges: [{ x: 90, y: 90, q: '+q' }, { x: 190, y: 90, q: '−q' }], pointP: { x: 140, y: 50 } };
     if (kind === 'gauss') base.diagram = { kind: 'gauss', kindSurface: 'sphere' };
     if (kind === 'fbd') base.diagram = { kind: 'fbd', surface: true, massLabel: 'm', forces: [{ label: 'N', dx: 0, dy: -50 }, { label: 'mg', dx: 0, dy: 55 }, { label: 'F', dx: 55, dy: 0 }, { label: 'f', dx: -40, dy: 0 }] };
@@ -305,7 +305,7 @@ function makeSetQuestion(subject, unit, topics, qid, j, stim, s) {
       stem: '代入表中数据求一个目标量（取合理目标）。',
       expected: subject === 'em' ? 2 : 3,
       tol: 0.15,
-      answer: subject === 'em' ? '例如 I=ε/R=2 A（串联电阻情形）' : '例如水平面 a=(F−μmg)/m ≈ 3 m/s²',
+      answer: subject === 'em' ? '例如 I=ε/R=2 A（仅电阻串联；若含电容则直流稳态 I=0）' : '例如水平面 a=(F−μmg)/m ≈ 3 m/s²',
       solution: '定量计算并检查单位。',
     },
     {
@@ -437,7 +437,7 @@ function makeStandalone(subject, unit, topic, qid, i) {
     if (mode === 0 || mode === 3) {
       const q = 2.0e-6; // C
       const r = 0.10; // m
-      const E = 9.0e9 * q / (r * r); // 1.8e5
+      const E = 9.0e9 * q / (r * r); // 1.8e6
       return {
         id: qid,
         title: `${code} 点电荷电场`,
@@ -451,7 +451,7 @@ function makeStandalone(subject, unit, topic, qid, i) {
         },
         parts: [
           { stem: '写出点电荷电场公式（符号）。', type: 'frq', answerLatex: String.raw`E=\dfrac{1}{4\pi\varepsilon_0}\dfrac{|q|}{r^{2}}`, solution: '库仑定律定义场。' },
-          { stem: '代入表中数据求 E（N/C）。', type: 'frq', check: 'numeric', expected: E, tol: 0.01, answerLatex: String.raw`1.8\times10^{5}`, solution: `E=kq/r²=9e9·2e-6/0.01=${E}.` },
+          { stem: '代入表中数据求 E（N/C）。', type: 'frq', check: 'numeric', expected: E, tol: 0.01, answerLatex: String.raw`1.8\times10^{6}`, solution: `E=kq/r²=9e9·2e-6/0.01=${E}.` },
         ],
         ...srcLine('openstax_up'),
       };
@@ -486,7 +486,7 @@ function makeStandalone(subject, unit, topic, qid, i) {
           table: { headers: ['量', '值'], rows: [['ε', '12 V'], ['R', '6 Ω']] },
         },
         parts: [
-          { stem: '写出欧姆定律。', type: 'frq', answerLatex: 'I=\\varepsilon/R', solution: '理想串联。' },
+          { stem: '写出欧姆定律。', type: 'frq', answerLatex: String.raw`I=\dfrac{\varepsilon}{R}`, solution: '理想串联。' },
           { stem: '求电流 I（A）。', type: 'frq', check: 'numeric', expected: I, tol: 0.01, answerLatex: '2', solution: `I=${eps}/${R}=${I} A.` },
         ],
         ...srcLine('openstax_up'),

@@ -597,7 +597,7 @@ export const TOPICS = {
         "note": "定积分。"
       },
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
+        "latex": "\\lim_{x\\to a}f(x)=L",
         "note": "pH 定义。"
       }
     ],
