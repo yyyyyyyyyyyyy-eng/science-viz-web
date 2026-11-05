@@ -414,13 +414,21 @@ export async function renderMindMap(main, subject) {
   const edgeHandleGroup = new THREE.Group();
   scene.add(edgeHandleGroup);
   const edgeHandles = [];
-  const handleGeo = new THREE.SphereGeometry(0.28, 10, 10);
-  const handleHitGeo = new THREE.SphereGeometry(1.4, 8, 8);
+  // Small connector beads (not nodes): keep them far below topic sphere size (0.32)
+  // and tint by the two endpoint units so they never read as uncolored topics.
+  const handleGeo = new THREE.SphereGeometry(0.11, 8, 8);
+  const handleHitGeo = new THREE.SphereGeometry(0.62, 8, 8);
   for (const e of relationEdges) {
     const a = byId.get(e.source);
     const b = byId.get(e.target);
     if (!a || !b) continue;
-    const mat = new THREE.MeshBasicMaterial({ color: 0x9a9a9a, transparent: true, opacity: e.cross ? 0.7 : 0.5, depthWrite: true });
+    const edgeColor = mixHex(baseColor(a), baseColor(b), 0.5);
+    const mat = new THREE.MeshBasicMaterial({
+      color: mixHex(edgeColor, 0xffffff, 0.12),
+      transparent: true,
+      opacity: e.cross ? 0.78 : 0.68,
+      depthWrite: true,
+    });
     const dot = new THREE.Mesh(handleGeo, mat);
     const hit = new THREE.Mesh(handleHitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     dot.add(hit);
