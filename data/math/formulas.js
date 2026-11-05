@@ -1,0 +1,81 @@
+/** AP Calculus–oriented formula table. All latex uses \\frac stacked fractions. */
+export const MATH_FORMULA_GROUPS = [
+  {
+    id: 'deriv-basic',
+    title: '基本导数',
+    titleEn: 'Basic Derivatives',
+    rows: [
+      { id: 'd-c', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[c]=0', symbols: [{ s: 'c', m: '常数' }], conditions: 'c 为常数', derivation: '差分商分子恒为 0。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[7]\\)', a: '0' }, related: ['#/t/math/calc-u2/2.5'] },
+      { id: 'd-power', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[x^n]=nx^{n-1}', symbols: [{ s: 'n', m: '实数幂' }], conditions: '在定义域内', derivation: '二项式或指数律推广。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[x^5]\\)', a: '5x^4' }, related: ['#/t/math/calc-u2/2.5'] },
+      { id: 'd-exp', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^x]=e^x', symbols: [{ s: 'e', m: '自然底' }], conditions: '全实数', derivation: '由极限定义 \\(\\lim_{h\\to 0}\\dfrac{e^h-1}{h}=1\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{2x}]\\)', a: '2e^{2x}' }, related: ['#/t/math/calc-u2/2.7'] },
+      { id: 'd-aexp', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[a^x]=a^x\\ln a', symbols: [{ s: 'a', m: '正底且 \\(a\\neq 1\\)' }], conditions: 'a>0', derivation: '写成 \\(e^{x\\ln a}\\) 再链式法则。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[2^x]\\)', a: '2^x\\ln 2' }, related: ['#/t/math/calc-u3/3.1'] },
+      { id: 'd-ln', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln|x|]=\\dfrac{1}{x}', symbols: [{ s: 'x', m: '自变量' }], conditions: 'x\\neq 0', derivation: '指数函数反函数求导。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln(3x)]\\)', a: '\\dfrac{1}{x}' }, related: ['#/t/math/calc-u2/2.7'] },
+      { id: 'd-log', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\log_a x]=\\dfrac{1}{x\\ln a}', symbols: [{ s: 'a', m: '底' }], conditions: 'x>0,a>0,a\\neq1', derivation: '换底公式。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\log_{10}x]\\)', a: '\\dfrac{1}{x\\ln 10}' }, related: ['#/t/math/calc-u2/2.7'] },
+      { id: 'd-sin', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x', symbols: [], conditions: '弧度制', derivation: '角和公式与极限 \\(\\lim_{\\theta\\to 0}\\dfrac{\\sin\\theta}{\\theta}=1\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin(3x)]\\)', a: '3\\cos(3x)' }, related: ['#/t/math/calc-u2/2.7'] },
+      { id: 'd-cos', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x', symbols: [], conditions: '弧度制', derivation: '由正弦导数与余角关系。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]\\)', a: '-\\sin x' }, related: ['#/t/math/calc-u2/2.7'] },
+      { id: 'd-tan', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^2 x', symbols: [], conditions: '\\(\\cos x\\neq 0\\)', derivation: '商法则用于 \\(\\dfrac{\\sin x}{\\cos x}\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]\\)', a: '\\sec^2 x' }, related: ['#/t/math/calc-u2/2.10'] },
+      { id: 'd-arcsin', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]=\\dfrac{1}{\\sqrt{1-x^2}}', symbols: [], conditions: '|x|<1', derivation: '隐函数：\\(y=\\arcsin x\\Rightarrow \\sin y=x\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin(0.5)]\\)', a: '\\dfrac{1}{\\sqrt{1-0.25}}=\\dfrac{2}{\\sqrt{3}}' }, related: ['#/t/math/calc-u3/3.4'] },
+      { id: 'd-arctan', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arctan x]=\\dfrac{1}{1+x^2}', symbols: [], conditions: '全实数', derivation: '隐函数求导。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arctan x]\\big|_{x=1}\\)', a: '\\dfrac{1}{2}' }, related: ['#/t/math/calc-u3/3.4'] },
+    ],
+  },
+  {
+    id: 'deriv-rules',
+    title: '求导法则',
+    titleEn: 'Differentiation Rules',
+    rows: [
+      { id: 'r-sum', latex: '(u\\pm v)\'=u\'\\pm v\'', symbols: [{ s: 'u,v', m: '可导函数' }], conditions: '对应点可导', derivation: '极限线性性。', example: { q: '(x^2+\\sin x)\'', a: '2x+\\cos x' }, related: ['#/t/math/calc-u2/2.6'] },
+      { id: 'r-prod', latex: '(uv)\'=u\'v+uv\'', symbols: [], conditions: '可导', derivation: '差分商展开。', example: { q: '(x e^x)\'', a: 'e^x+x e^x' }, related: ['#/t/math/calc-u2/2.8'] },
+      { id: 'r-quot', latex: '\\left(\\dfrac{u}{v}\\right)\'=\\dfrac{u\'v-uv\'}{v^2}', symbols: [], conditions: 'v\\neq 0', derivation: '乘积法则作用于 u v^{-1}。', example: { q: '\\left(\\dfrac{x}{x+1}\\right)\'', a: '\\dfrac{1}{(x+1)^2}' }, related: ['#/t/math/calc-u2/2.9'] },
+      { id: 'r-chain', latex: '(f\\circ g)\'(x)=f\'(g(x))g\'(x)', symbols: [], conditions: '复合可导', derivation: '差分商串联。', example: { q: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin(x^2)]', a: '2x\\cos(x^2)' }, related: ['#/t/math/calc-u3/3.1'] },
+      { id: 'r-impl', latex: '\\text{若 }F(x,y)=0,\\text{则 }\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}', symbols: [{ s: 'F_x,F_y', m: '偏导' }], conditions: 'F_y\\neq 0', derivation: '全微分。', example: { q: 'x^2+y^2=1', a: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{x}{y}' }, related: ['#/t/math/calc-u3/3.2'] },
+    ],
+  },
+  {
+    id: 'integ-basic',
+    title: '基本积分',
+    titleEn: 'Basic Integrals',
+    rows: [
+      { id: 'i-power', latex: '\\int x^n\\,\\mathrm{d}x=\\dfrac{x^{n+1}}{n+1}+C\\ (n\\neq -1)', symbols: [{ s: 'C', m: '任意常数' }], conditions: 'n\\neq -1', derivation: '导数幂法则逆运算。', example: { q: '\\int x^3\\,\\mathrm{d}x', a: '\\dfrac{x^4}{4}+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-inv', latex: '\\int \\dfrac{1}{x}\\,\\mathrm{d}x=\\ln|x|+C', symbols: [], conditions: 'x\\neq 0', derivation: '对数导数。', example: { q: '\\int \\dfrac{1}{x}\\,\\mathrm{d}x', a: '\\ln|x|+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-exp', latex: '\\int e^x\\,\\mathrm{d}x=e^x+C', symbols: [], conditions: '', derivation: '指数导数。', example: { q: '\\int e^{2x}\\,\\mathrm{d}x', a: '\\dfrac{1}{2}e^{2x}+C' }, related: ['#/t/math/calc-u6/6.9'] },
+      { id: 'i-sin', latex: '\\int \\sin x\\,\\mathrm{d}x=-\\cos x+C', symbols: [], conditions: '弧度', derivation: '余弦导数。', example: { q: '\\int \\sin x\\,\\mathrm{d}x', a: '-\\cos x+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-cos', latex: '\\int \\cos x\\,\\mathrm{d}x=\\sin x+C', symbols: [], conditions: '弧度', derivation: '正弦导数。', example: { q: '\\int \\cos x\\,\\mathrm{d}x', a: '\\sin x+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-sec2', latex: '\\int \\sec^2 x\\,\\mathrm{d}x=\\tan x+C', symbols: [], conditions: '', derivation: '正切导数。', example: { q: '\\int \\sec^2 x\\,\\mathrm{d}x', a: '\\tan x+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-arctan', latex: '\\int \\dfrac{1}{1+x^2}\\,\\mathrm{d}x=\\arctan x+C', symbols: [], conditions: '', derivation: '反正切导数。', example: { q: '\\int \\dfrac{1}{1+x^2}\\,\\mathrm{d}x', a: '\\arctan x+C' }, related: ['#/t/math/calc-u6/6.8'] },
+      { id: 'i-arcs', latex: '\\int \\dfrac{1}{\\sqrt{1-x^2}}\\,\\mathrm{d}x=\\arcsin x+C', symbols: [], conditions: '|x|<1', derivation: '反正弦导数。', example: { q: '\\int \\dfrac{1}{\\sqrt{1-x^2}}\\,\\mathrm{d}x', a: '\\arcsin x+C' }, related: ['#/t/math/calc-u6/6.8'] },
+    ],
+  },
+  {
+    id: 'integ-tech',
+    title: '积分技巧',
+    titleEn: 'Integration Techniques',
+    rows: [
+      { id: 'i-usub', latex: '\\int f(g(x))g\'(x)\\,\\mathrm{d}x=\\int f(u)\\,\\mathrm{d}u', symbols: [{ s: 'u', m: 'g(x)' }], conditions: 'g 可导', derivation: '链式法则逆运算。', example: { q: '\\int 2x e^{x^2}\\,\\mathrm{d}x', a: 'e^{x^2}+C' }, related: ['#/t/math/calc-u6/6.9'] },
+      { id: 'i-parts', latex: '\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u', symbols: [], conditions: '分部可积', derivation: '乘积法则积分。', example: { q: '\\int x e^x\\,\\mathrm{d}x', a: 'x e^x-e^x+C' }, related: ['#/t/math/calc-u6/6.10'] },
+      { id: 'i-pf', latex: '\\dfrac{P(x)}{Q(x)}=\\sum \\dfrac{A_i}{(x-r_i)^{k}} +\\cdots', symbols: [{ s: 'A_i', m: '待定系数' }], conditions: '有理真分式', derivation: '分解后逐项积分。', example: { q: '\\int \\dfrac{1}{x(x+1)}\\,\\mathrm{d}x', a: '\\ln\\left|\\dfrac{x}{x+1}\\right|+C' }, related: ['#/t/math/calc-u6/6.11'] },
+      { id: 'i-imp', latex: '\\int_a^{\\infty}f=\\lim_{b\\to\\infty}\\int_a^b f', symbols: [], conditions: '极限存在则收敛', derivation: '反常积分定义。', example: { q: '\\int_1^{\\infty}\\dfrac{1}{x^2}\\,\\mathrm{d}x', a: '1' }, related: ['#/t/math/calc-u6/6.12'] },
+    ],
+  },
+  {
+    id: 'series',
+    title: '级数与麦克劳林',
+    titleEn: 'Series & Maclaurin',
+    rows: [
+      { id: 's-geo', latex: '\\sum_{n=0}^{\\infty}ar^n=\\dfrac{a}{1-r}\\quad(|r|<1)', symbols: [{ s: 'r', m: '公比' }], conditions: '|r|<1', derivation: '部分和极限。', example: { q: '\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^n', a: '2' }, related: ['#/t/math/calc-u10/10.2'] },
+      { id: 's-expm', latex: 'e^x=\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}', symbols: [], conditions: '全实数', derivation: '泰勒在 0 展开。', example: { q: 'e^x 的前三项', a: '1+x+\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-sinm', latex: '\\sin x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\sin x 到 x^3', a: 'x-\\dfrac{x^3}{6}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-cosm', latex: '\\cos x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\cos x 到 x^2', a: '1-\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-ratio', latex: '\\text{比值审敛：}L=\\lim\\left|\\dfrac{a_{n+1}}{a_n}\\right|', symbols: [{ s: 'L', m: '极限' }], conditions: 'L<1 绝对收敛；L>1 发散', derivation: '与几何级数比较。', example: { q: '\\sum \\dfrac{n!}{n^n}', a: '用比值审敛判定收敛' }, related: ['#/t/math/calc-u10/10.8'] },
+    ],
+  },
+  {
+    id: 'param-polar',
+    title: '参数与极坐标',
+    titleEn: 'Parametric & Polar',
+    rows: [
+      { id: 'p-dy', latex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{y\'(t)}{x\'(t)}', symbols: [{ s: 't', m: '参数' }], conditions: 'x\'(t)\\neq 0', derivation: '链式法则。', example: { q: 'x=\\cos t,y=\\sin t', a: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{\\cos t}{\\sin t}=-\\cot t' }, related: ['#/t/math/calc-u9/9.1'] },
+      { id: 'p-arc', latex: 'L=\\int_{t_1}^{t_2}\\sqrt{[x\'(t)]^2+[y\'(t)]^2}\\,\\mathrm{d}t', symbols: [], conditions: '光滑曲线', derivation: '弧长微元。', example: { q: '单位圆一周', a: '2\\pi' }, related: ['#/t/math/calc-u9/9.3'] },
+      { id: 'p-area', latex: 'A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^2\\,\\mathrm{d}\\theta', symbols: [{ s: 'r', m: '极径' }], conditions: '单叶区域', derivation: '扇形面积积分。', example: { q: 'r=1,\\ 0\\le\\theta\\le 2\\pi', a: '\\pi' }, related: ['#/t/math/calc-u9/9.8'] },
+    ],
+  },
+];
