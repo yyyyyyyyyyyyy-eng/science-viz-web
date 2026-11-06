@@ -37,8 +37,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「运动学建模」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t},\\quad \\vec a=\\dfrac{\\mathrm{d}\\vec v}{\\mathrm{d}t}",
+        "note": "速度与加速度的瞬时定义。"
+      },
+      {
+        "latex": "\\vec r=\\vec r_0+\\vec v_0t+\\dfrac{1}{2}\\vec a t^{2}",
+        "note": "匀加速运动的矢量方程。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +63,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "匀加速时可用矢量运动学方程；一般运动用导数定义",
+      "x、y 分量独立，可分别列方程",
+      "先取定正方向与坐标原点"
     ],
     "keyPoints": [
       "掌握 P2.1「运动学建模」准确定义",
@@ -75,19 +80,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「运动学建模」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t},\\quad \\vec a=\\dfrac{\\mathrm{d}\\vec v}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +177,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「动力学与自由体图」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\sum\\vec F=m\\vec a",
+        "note": "牛顿第二定律。"
+      },
+      {
+        "latex": "\\sum F_x=ma_x,\\quad \\sum F_y=ma_y",
+        "note": "分量形式的牛顿第二定律。"
+      },
+      {
+        "latex": "\\sum\\vec F=0",
+        "note": "平衡条件。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +207,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "先选系统与惯性参考系，再画外力；内力不画",
+      "每个力都要有施力物体；坐标轴可沿加速度方向",
+      "受力图只画作用在研究对象上的力"
     ],
     "keyPoints": [
       "掌握 P2.2「动力学与自由体图」准确定义",
@@ -210,19 +224,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「动力学与自由体图」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\sum\\vec F=m\\vec a"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +328,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「圆周与万有引力」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "F=G\\dfrac{m_1 m_2}{r^{2}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "a_c=\\dfrac{v^{2}}{r},\\quad \\sum F_r=ma_c",
+        "note": "圆周运动的向心加速度与径向方程。"
+      },
+      {
+        "latex": "F_g=G\\dfrac{m_1m_2}{r^{2}}",
+        "note": "万有引力。"
+      },
+      {
+        "latex": "v_{\\mathrm{circ}}=\\sqrt{\\dfrac{GM}{r}}",
+        "note": "圆轨道速度。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +358,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "圆周运动：r 为曲率半径，向心方向为正",
+      "引力公式适用于质点或球对称质量分布",
+      "圆轨道速度由万有引力提供向心力推出"
     ],
     "keyPoints": [
       "掌握 P2.3「圆周与万有引力」准确定义",
@@ -352,19 +375,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「圆周与万有引力」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "a_c=\\dfrac{v^{2}}{r},\\quad \\sum F_r=ma_c"
       },
       {
         "title": "例 3 · 中",
@@ -460,8 +483,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「能量系统」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "W_{\\mathrm{nc}}=\\Delta E=\\Delta K+\\Delta U",
+        "note": "非保守力做功改变机械能。"
+      },
+      {
+        "latex": "E=K+U",
+        "note": "机械能。"
+      },
+      {
+        "latex": "P=\\dfrac{\\mathrm{d}W}{\\mathrm{d}t}",
+        "note": "瞬时功率。"
       }
     ],
     "derivationNotes": [
@@ -482,8 +513,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "W_nc 为非保守力（摩擦、外力等）做的功",
+      "只有保守力做功时 E 守恒",
+      "势能零点可任选，但同一问题中必须固定"
     ],
     "keyPoints": [
       "掌握 P2.4「能量系统」准确定义",
@@ -498,19 +530,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「能量系统」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "W_{\\mathrm{nc}}=\\Delta E=\\Delta K+\\Delta U"
       },
       {
         "title": "例 3 · 中",
@@ -602,8 +634,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「动量系统」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec p=m\\vec v",
+        "note": "动量。"
+      },
+      {
+        "latex": "\\vec J=\\int\\vec F\\,\\mathrm{d}t=\\Delta\\vec p",
+        "note": "冲量—动量定理。"
+      },
+      {
+        "latex": "\\sum\\vec p_i=\\sum\\vec p_f",
+        "note": "合外力冲量为零时的动量守恒。"
       }
     ],
     "derivationNotes": [
@@ -624,8 +664,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "动量守恒按方向判断：某方向合外力冲量为零即可在该方向守恒",
+      "碰撞时间极短时，外力冲量常可忽略",
+      "完全弹性碰撞同时守恒动量与动能"
     ],
     "keyPoints": [
       "掌握 P2.5「动量系统」准确定义",
@@ -640,19 +681,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「动量系统」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\vec p=m\\vec v"
       },
       {
         "title": "例 3 · 中",
@@ -744,8 +785,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「简谐与波」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "a=-\\omega^{2}x,\\quad x=A\\cos(\\omega t+\\phi)",
+        "note": "简谐运动。"
+      },
+      {
+        "latex": "T=2\\pi\\sqrt{\\dfrac{m}{k}}",
+        "note": "弹簧振子的周期。"
+      },
+      {
+        "latex": "v=f\\lambda",
+        "note": "波速、频率与波长的关系。"
       }
     ],
     "derivationNotes": [
@@ -766,8 +815,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "SHM 要求回复力 F=-kx；单摆需小角度",
+      "波速由介质决定，频率由波源决定",
+      "振幅与初相由初始条件决定"
     ],
     "keyPoints": [
       "掌握 P2.6「简谐与波」准确定义",
@@ -782,19 +832,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「简谐与波」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "a=-\\omega^{2}x,\\quad x=A\\cos(\\omega t+\\phi)"
       },
       {
         "title": "例 3 · 中",
@@ -886,8 +936,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「基础电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "V=IR",
+        "note": "欧姆定律。"
+      },
+      {
+        "latex": "R_{\\mathrm{series}}=\\sum R_i,\\quad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum\\dfrac{1}{R_i}",
+        "note": "串联与并联等效电阻。"
+      },
+      {
+        "latex": "q(t)=C\\mathcal{E}\\left(1-e^{-\\dfrac{t}{RC}}\\right)",
+        "note": "RC 充电；初始电荷为零。"
       }
     ],
     "derivationNotes": [
@@ -908,8 +966,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "线性电阻；温度等条件稳定",
+      "串联电流相同；并联电压相同",
+      "RC 充电公式假设初始电荷为零、电源内阻忽略"
     ],
     "keyPoints": [
       "掌握 P2.7「基础电路」准确定义",
@@ -924,19 +983,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「基础电路」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "V=IR"
       },
       {
         "title": "例 3 · 中",
@@ -1028,8 +1087,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「转动动力学入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\tau=rF\\sin\\theta",
+        "note": "力矩。"
+      },
+      {
+        "latex": "\\sum\\tau=I\\alpha",
+        "note": "转动第二定律。"
+      },
+      {
+        "latex": "L=I\\omega,\\quad \\tau_{\\mathrm{net}}=\\dfrac{\\mathrm{d}L}{\\mathrm{d}t}",
+        "note": "角动量与角动量定理。"
       }
     ],
     "derivationNotes": [
@@ -1050,8 +1117,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "刚体绕固定轴；角度用弧度",
+      "I 与转轴有关；平行轴定理：I 等于绕质心轴的转动惯量加上 Md²",
+      "角动量方向沿转轴，按右手定则"
     ],
     "keyPoints": [
       "掌握 P2.8「转动动力学入门」准确定义",
@@ -1066,19 +1134,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「转动动力学入门」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\tau=rF\\sin\\theta"
       },
       {
         "title": "例 3 · 中",

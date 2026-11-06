@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「矢量分解与点积」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec A\\cdot\\vec B=AB\\cos\\theta=A_xB_x+A_yB_y",
+        "note": "点积的几何式与分量式。"
+      },
+      {
+        "latex": "|\\vec A|=\\sqrt{A_x^{2}+A_y^{2}}",
+        "note": "矢量大小。"
+      },
+      {
+        "latex": "A_x=A\\cos\\theta,\\quad A_y=A\\sin\\theta",
+        "note": "分量分解。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "点积是标量；θ 为两矢量夹角",
+      "分量式要求同一正交坐标系",
+      "A·B=0 表示两非零矢量垂直"
     ],
     "keyPoints": [
       "掌握 P3.1「矢量分解与点积」准确定义",
@@ -75,19 +84,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「矢量分解与点积」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\vec A\\cdot\\vec B=AB\\cos\\theta=A_xB_x+A_yB_y"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「导数作为变化率」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}",
+        "note": "导数定义；差商的极限。"
+      },
+      {
+        "latex": "f'(a)=\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}",
+        "note": "等价的导数定义。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +207,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "差商极限存在（左右导数相等）时导数存在",
+      "f'(a) 是瞬时变化率，也是切线斜率",
+      "可导必连续，连续不一定可导"
     ],
     "keyPoints": [
       "掌握 P3.2「导数作为变化率」准确定义",
@@ -210,19 +224,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「导数作为变化率」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "solutionLatex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}"
       },
       {
         "title": "例 3 · 中",
@@ -315,7 +329,11 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "note": "定积分作为黎曼和的极限。"
+      },
+      {
+        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a)",
+        "note": "微积分基本定理；F 为 f 的原函数。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +354,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "f 在 [a,b] 上可积（如连续或分段连续）",
+      "面积有向：x 轴下方为负",
+      "F 为 f 的任意一个原函数"
     ],
     "keyPoints": [
       "掌握 P3.3「积分作为累积」准确定义",
@@ -352,13 +371,13 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「积分作为累积」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
@@ -456,8 +475,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「微分方程直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\quad\\Rightarrow\\quad y(t)=y_0e^{kt}",
+        "note": "一阶线性齐次微分方程及其指数解。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +497,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "k 为常数；y_0=y(0) 为初始值",
+      "k>0 指数增长，k<0 指数衰减",
+      "分离变量后两边积分"
     ],
     "keyPoints": [
       "掌握 P3.4「微分方程直觉」准确定义",
@@ -494,19 +514,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「微分方程直觉」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\quad\\Rightarrow\\quad y(t)=y_0e^{kt}"
       },
       {
         "title": "例 3 · 中",
@@ -598,8 +618,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「小角近似」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\sin\\theta\\approx\\theta,\\quad \\cos\\theta\\approx1-\\dfrac{\\theta^{2}}{2},\\quad \\tan\\theta\\approx\\theta",
+        "note": "小角度近似；θ 用弧度。"
       }
     ],
     "derivationNotes": [
@@ -620,8 +640,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "θ 用弧度，|θ|≪1（通常小于约 0.1 rad）",
+      "误差随 θ 的高阶项增长（sin/tan 首项为 θ³，cos 首项为 θ⁴），大角度不能使用",
+      "仅用于乘除或小量展开，不可用于需要精确值的场合"
     ],
     "keyPoints": [
       "掌握 P3.5「小角近似」准确定义",
@@ -636,19 +657,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「小角近似」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\sin\\theta\\approx\\theta,\\quad \\cos\\theta\\approx1-\\dfrac{\\theta^{2}}{2},\\quad \\tan\\theta\\approx\\theta"
       },
       {
         "title": "例 3 · 中",

@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「一维运动学」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "v=\\dfrac{\\mathrm{d}x}{\\mathrm{d}t},\\quad a=\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}",
+        "note": "瞬时速度与瞬时加速度。"
+      },
+      {
+        "latex": "v=v_0+at",
+        "note": "匀加速直线运动的速度方程。"
+      },
+      {
+        "latex": "x=x_0+v_0t+\\dfrac{1}{2}at^{2},\\quad v^{2}=v_0^{2}+2a(x-x_0)",
+        "note": "匀加速直线运动的位置与速度—位移关系。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "匀加速公式仅当 a 恒定；一般运动用导数定义",
+      "直线运动，先取定正方向",
+      "平均速度等于位移除以时间，对任意运动成立"
     ],
     "keyPoints": [
       "掌握 1.1「一维运动学」准确定义",
@@ -75,19 +84,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「一维运动学」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "v=\\dfrac{\\mathrm{d}x}{\\mathrm{d}t},\\quad a=\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「二维运动学」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec r=x\\hat i+y\\hat j,\\quad \\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t},\\quad \\vec a=\\dfrac{\\mathrm{d}\\vec v}{\\mathrm{d}t}",
+        "note": "二维位置、速度与加速度。"
+      },
+      {
+        "latex": "x=x_0+v_{0x}t,\\quad y=y_0+v_{0y}t-\\dfrac{1}{2}gt^{2}",
+        "note": "抛体运动的分量方程；y 轴向上。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +207,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "各分量独立；抛体运动忽略空气阻力",
+      "水平加速度为零，竖直加速度为 -g（y 轴向上）",
+      "初速度分量为 v₀cosθ₀ 与 v₀sinθ₀"
     ],
     "keyPoints": [
       "掌握 1.2「二维运动学」准确定义",
@@ -210,19 +224,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「二维运动学」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\vec r=x\\hat i+y\\hat j,\\quad \\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t},\\quad \\vec a=\\dfrac{\\mathrm{d}\\vec v}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",

@@ -37,8 +37,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「力矩与静力学」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec\\tau=\\vec r\\times\\vec F,\\quad \\tau=rF\\sin\\theta",
+        "note": "力矩。"
+      },
+      {
+        "latex": "\\sum\\vec\\tau=0,\\quad \\sum\\vec F=0",
+        "note": "静力平衡条件。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +63,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "r 从转轴指向作用点；θ 为 r 与 F 的夹角",
+      "静力平衡需合力与合力矩均为零",
+      "转轴选择任意，但力矩要统一"
     ],
     "keyPoints": [
       "掌握 5.1「力矩与静力学」准确定义",
@@ -75,19 +80,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「力矩与静力学」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\vec\\tau=\\vec r\\times\\vec F,\\quad \\tau=rF\\sin\\theta"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +177,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「转动运动学」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\omega=\\omega_0+\\alpha t",
+        "note": "匀角加速转动。"
+      },
+      {
+        "latex": "\\theta=\\theta_0+\\omega_0t+\\dfrac{1}{2}\\alpha t^{2}",
+        "note": "角位置。"
+      },
+      {
+        "latex": "\\omega^{2}=\\omega_0^{2}+2\\alpha(\\theta-\\theta_0)",
+        "note": "消去时间的角速度—角位移关系。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +207,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "α 恒定；绕固定轴转动",
+      "角度用弧度，ω 与 α 的正负按约定转向",
+      "线速度等于半径乘角速度；切向加速度等于半径乘角加速度"
     ],
     "keyPoints": [
       "掌握 5.2「转动运动学」准确定义",
@@ -210,19 +224,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「转动运动学」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\omega=\\omega_0+\\alpha t"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +328,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「转动动力学」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\tau_{\\mathrm{net}}=I\\alpha",
+        "note": "转动第二定律。"
+      },
+      {
+        "latex": "K_{\\mathrm{rot}}=\\dfrac{1}{2}I\\omega^{2}",
+        "note": "转动动能。"
+      },
+      {
+        "latex": "W=\\int\\tau\\,\\mathrm{d}\\theta",
+        "note": "力矩做功。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +358,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "刚体绕固定轴；I 与转轴有关",
+      "τ_net 为对同一轴的合力矩",
+      "恒力矩做功 W=τΔθ；变力矩用积分"
     ],
     "keyPoints": [
       "掌握 5.3「转动动力学」准确定义",
@@ -352,19 +375,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「转动动力学」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "\\tau_{\\mathrm{net}}=I\\alpha"
       },
       {
         "title": "例 3 · 中",

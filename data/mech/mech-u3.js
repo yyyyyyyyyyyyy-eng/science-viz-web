@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「动能定理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "W_{\\mathrm{net}}=\\Delta K",
+        "note": "动能定理。"
+      },
+      {
+        "latex": "K=\\dfrac{1}{2}mv^{2}",
+        "note": "平动动能。"
+      },
+      {
+        "latex": "W=\\int\\vec F\\cdot\\mathrm{d}\\vec r",
+        "note": "变力做功。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "W_net 为合外力做功；动能按惯性系计算",
+      "变力功用积分；恒力功 F·Δr",
+      "定理对质点成立；刚体需考虑转动动能"
     ],
     "keyPoints": [
       "掌握 3.1「动能定理」准确定义",
@@ -75,19 +84,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「动能定理」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "W_{\\mathrm{net}}=\\Delta K"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「力与势能」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "W_{\\mathrm{net}}=\\Delta K",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}",
+        "note": "一维保守力与势能的关系。"
+      },
+      {
+        "latex": "\\Delta U=-W_{\\mathrm{cons}}",
+        "note": "势能变化与保守力做功。"
+      },
+      {
+        "latex": "U_g=mgh,\\quad U_s=\\dfrac{1}{2}kx^{2}",
+        "note": "重力势能与弹簧势能。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +211,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "势能只对保守力定义；零势能点任选",
+      "F=-dU/dx 是一维情形；三维用梯度",
+      "U_g=mgh 仅在 g 常量时成立"
     ],
     "keyPoints": [
       "掌握 3.2「力与势能」准确定义",
@@ -210,19 +228,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「力与势能」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +332,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「机械能守恒」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\sum \\vec F=m\\vec a",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "E=K+U",
+        "note": "机械能。"
+      },
+      {
+        "latex": "K_i+U_i+W_{\\mathrm{nc}}=K_f+U_f",
+        "note": "含非保守力做功的能量方程。"
+      },
+      {
+        "latex": "\\Delta E=W_{\\mathrm{nc}}",
+        "note": "机械能变化等于非保守力做功。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +362,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "只有保守力做功时机械能守恒",
+      "非保守力（摩擦等）做功改变机械能",
+      "系统与势能零点需明确"
     ],
     "keyPoints": [
       "掌握 3.3「机械能守恒」准确定义",
@@ -352,19 +379,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「机械能守恒」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\sum \\vec F=m\\vec a"
+        "solutionLatex": "E=K+U"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +483,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「功率」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "P=\\dfrac{\\mathrm{d}W}{\\mathrm{d}t}",
+        "note": "瞬时功率。"
+      },
+      {
+        "latex": "P=\\vec F\\cdot\\vec v=Fv\\cos\\theta",
+        "note": "力与速度的瞬时功率。"
+      },
+      {
+        "latex": "P=\\dfrac{\\Delta E}{\\Delta t}",
+        "note": "平均功率。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +513,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "瞬时功率用导数；平均功率用 ΔW/Δt",
+      "F 与 v 同向时 P=Fv；夹角 θ 时 P=Fv cosθ",
+      "功率是标量，单位 W"
     ],
     "keyPoints": [
       "掌握 3.4「功率」准确定义",
@@ -494,19 +530,19 @@ export const TOPICS = {
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
       "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "受力图漏力或把内力当作外力"
     ],
     "examples": [
       {
         "title": "例 1 · 易",
         "prompt": "写出「功率」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "solution": "定义需包含对象、关系与适用条件；条件应按该定律或模型的假设逐条核对。不满足时说明修正。"
       },
       {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "P=\\dfrac{\\mathrm{d}W}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
