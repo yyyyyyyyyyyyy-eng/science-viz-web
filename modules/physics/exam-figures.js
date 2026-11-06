@@ -315,7 +315,7 @@ def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T_0=2\\p
   const px = 140, py = 30, L = 160, th = 35; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
   let s = hatch(90, py, 190) + `<ellipse cx="${px}" cy="${r1(by)}" rx="${r1(bx - px)}" ry="18" style="fill:none;stroke:${COL.m};stroke-dasharray:5 4"/>`;
   s += ln(px, py, px, by, { c: 'm', dash: '4 4' }) + ln(px, py, bx, by) + arc(px, py, 34, -90, -90 + th, { w: 1 }) + tx(px + 6, py + 48, 'θ');
-  s += tx((px + bx) / 2 + 10, (py + by) / 2, 'L') + ln(px, by, bx, by, { c: 'm', dash: '3 3' }) + tx((px + bx) / 2, by + 30, 'r', { anchor: 'middle' });
+  s += tx((px + bx) / 2 - 10, (py + by) / 2 + 4, 'L', { anchor: 'end' }) + ln(px, by, bx, by, { c: 'm', dash: '3 3' }) + tx((px + bx) / 2, by + 30, 'r', { anchor: 'middle' });
   s += circ(bx, by, 9, { fill: 'currentColor' });
   const Tl = 72; s += arr(bx, by, bx - Tl * Math.sin(rad(th)), by - Tl * Math.cos(rad(th)), 'f') + tx(bx - 34, by - 62, 'T', { c: 'f', anchor: 'end' });
   s += arr(bx, by, bx, by + 59, 'f') + tx(bx + 6, by + 58, 'mg', { c: 'f' }) + arr(bx + 16, by - 20, bx + 16 - 45, by - 20, 'a', 1.8) + tx(bx + 20, by - 16, 'a_{c}', { c: 'a' });
@@ -412,9 +412,9 @@ def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfr
   s += arr(C[0], C[1], C[0], C[1] + 66, 'f') + tx(C[0] - 6, C[1] + 66, 'Mg', { c: 'f', anchor: 'end' });
   const Ne = add(cp, n, 2 * R + 30); s += arr(cp[0], cp[1], Ne[0], Ne[1], 'f') + tx(Ne[0] + 6, Ne[1], 'N', { c: 'f' });
   const fe = add(cp, u, -36); s += arr(cp[0], cp[1], fe[0], fe[1], 'f') + tx(fe[0] - 4, fe[1] + 14, 'f_{s}', { c: 'f', anchor: 'end' });
-  const v0 = add(C, n, R + 12), v1 = add(v0, u, 44); s += arr(v0[0], v0[1], v1[0], v1[1], 'v') + tx(v1[0] + 4, v1[1] - 4, 'v_{cm}', { c: 'v' });
+  const v0 = add(C, n, R + 12), v1 = add(v0, u, 44); s += arr(v0[0], v0[1], v1[0], v1[1], 'v') + tx(v1[0] + 4, v1[1] + 14, 'v_{cm}', { c: 'v' });
   s += arc(C[0], C[1], R - 8, 160, 20, { c: 'a', w: 1.5, me: 'a' }) + tx(C[0] - R - 6, C[1] - R + 2, 'ω', { c: 'a', anchor: 'end' });
-  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', dPrefix: '1 + ', d: { n: 'I', d: 'MR^{2}' } }]) + eq(230, 155, ['实心球：a = ', { n: '5', d: '7' }, 'g sin θ'], { fs: 12 });
+  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', dPrefix: '1 + ', d: { n: 'I', d: 'MR^{2}' } }]) + tx(230, 159, '实心球', { it: false, fs: 12 }) + eq(276, 155, ['a = ', { n: '5', d: '7' }, 'g sin θ'], { fs: 12 });
   return s;
 });
 def('rolling-velocity', '纯滚动：轮上各点速度（地面参考系）', 'v_{\\text{top}}=2v_{cm},\\; v_{\\text{contact}}=0', () => {
