@@ -118,10 +118,11 @@
 
 ## 扩充自检（2026-11-06）
 
-- 在 light/dark 两套主题、1440×1000 与 390×844 两种视口下复检扩充后的 28 个 topic：图数符合预期，0 console/page error，0 KaTeX error，0 图注横向溢出，0 SVG 文本重叠或出界，图片均加载成功。
+- 在 light/dark 两套主题、1440×1000 与 390×844 两种视口下复检扩充后的 29 个 topic：图数符合预期，0 console/page error，0 KaTeX error，0 图注横向溢出，0 SVG 文本重叠或出界，图片均加载成功。
 - `node scripts/check-math-notation.mjs` 通过；新增图注无单层 `\frac` / `\tfrac`，指数分式统一为 `\dfrac`。
 - 自检中修正：库仑力曲线裁切、电梯视重箭头越界、球壳标签重叠、电势曲线裁切、LC 图例重叠、动量条形图标签压线、细杆转动惯量斜杠分数、轨道能量曲线裁切、功率图轴标碰撞，以及既有 projectile / incline / SHM 图的少量标签碰撞。
 - 新增 4 张公开授权参考图的 credit 行在明暗两套主题均可读；未改 `css/main.css`、`js/**` 或其他 session 文件。
+- 对应提交：web `74ae379` / app `a2df169`。
 
 ## 知识点 → 模块（图示）映射
 
