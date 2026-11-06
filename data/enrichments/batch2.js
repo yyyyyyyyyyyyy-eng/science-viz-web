@@ -1407,10 +1407,10 @@ export const ENRICHMENTS = {
     derivationNotes: [
       { from: '磁链定义', to: '自感系数', note: '把每匝磁通相加得 \\(N\\Phi_B\\)，再除以电流。' },
       { from: '法拉第定律', to: '自感电动势', note: '线性电感中 \\(\\Phi_B\\propto I\\)，故 \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=L\\,\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}\\)。' },
-      { from: '电源功率', to: '磁场能', note: '克服反电动势的功率为 \\(LI\\,\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}\\)，积分得 \\(\\tfrac12LI^{2}\\)。' },
+      { from: '电源功率', to: '磁场能', note: '克服反电动势的功率为 \\(LI\\,\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}\\)，积分得 \\(\\dfrac12LI^{2}\\)。' },
     ],
     conditions: ['线性电感：\\(L\\) 为常数，磁介质未饱和', '理想电感无电阻；实际线圈要同时考虑电阻', '感应电动势方向由楞次定律判断，始终反抗电流的变化', '长直螺线管公式要求长度远大于直径、忽略端部效应'],
-    keyPoints: ['电感反抗电流的变化，不反抗稳定的电流', '稳态直流下理想电感两端电压为零', '\\(L\\) 由几何形状与磁介质决定，线性范围内与电流无关', '磁场能 \\(U_L=\\tfrac12LI^{2}\\)，电流加倍则能量变为四倍', '螺线管 \\(L\\propto N^{2}\\)：匝数加倍，电感变为四倍'],
+    keyPoints: ['电感反抗电流的变化，不反抗稳定的电流', '稳态直流下理想电感两端电压为零', '\\(L\\) 由几何形状与磁介质决定，线性范围内与电流无关', '磁场能 \\(U_L=\\dfrac12LI^{2}\\)，电流加倍则能量变为四倍', '螺线管 \\(L\\propto N^{2}\\)：匝数加倍，电感变为四倍'],
     misconceptions: [
       '认为电感“储存电流”或“阻止电流流动”',
       '认为稳态时理想电感两端仍有电压',
@@ -1465,7 +1465,7 @@ export const ENRICHMENTS = {
     ],
     development: ['磁链与自感定义', '法拉第定律给出 \\(\\varepsilon_L=-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}\\)', '磁场能与功率', '螺线管电感的几何依赖', '进入 LR 暂态'],
     checks: ['稳态直流下理想电感两端电压是多少？', '电流减小时感应电动势方向如何？', '\\(L\\) 会随电流线性增大吗？'],
-    summary: '电感用电感系数 \\(L\\) 描述回路对电流变化的“惯性”，感应电动势反抗电流变化，磁场能 \\(U_L=\\tfrac12LI^{2}\\)。',
+    summary: '电感用电感系数 \\(L\\) 描述回路对电流变化的“惯性”，感应电动势反抗电流变化，磁场能 \\(U_L=\\dfrac12LI^{2}\\)。',
   },
 
   'mech/mech-u2/2.2': {
@@ -1510,7 +1510,7 @@ export const ENRICHMENTS = {
         steps: [
           '爆炸内力远大于外力，系统总动量守恒：\\(0=0.50(12)+1.5v\\)。',
           '\\(v=-\\dfrac{6.0}{1.5}=-4.0\\,\\mathrm{m\,s^{-1}}\\)，即向左 \\(4.0\\,\\mathrm{m\,s^{-1}}\\)。',
-          '初动能为零，末动能 \\(=\\tfrac12(0.50)(12)^{2}+\\tfrac12(1.5)(4.0)^{2}=36+12=48\\,\\mathrm{J}\\)，来自内部化学能。',
+          '初动能为零，末动能 \\(=\\dfrac12(0.50)(12)^{2}+\\dfrac12(1.5)(4.0)^{2}=36+12=48\\,\\mathrm{J}\\)，来自内部化学能。',
         ],
         solution: '重块向左 \\(4.0\\,\\mathrm{m\,s^{-1}}\\)；动能来自内部能量。',
         solutionLatex: 'v_2=-4.0\\,\\mathrm{m\,s^{-1}},\\;\\Delta K=48\\,\\mathrm{J}',
@@ -1633,13 +1633,13 @@ export const ENRICHMENTS = {
       { from: '牛顿第二定律 + 转动定律', to: '斜面加速度', note: '\\(Mg\\sin\\theta-f=Ma\\)，\\(fR=I\\alpha\\)，联立消去 \\(f\\)。' },
     ],
     conditions: ['无滑动：静摩擦足够大，接触面无相对滑动', '刚体与固定表面；轮子质量分布给定', '斜面滚动时静摩擦通常沿斜面向上（下滚加速情形）', '若有其他阻力或打滑，机械能不守恒'],
-    keyPoints: ['无滑动滚动中静摩擦不做功，机械能守恒（无其他损耗）', '滚动动能包含平动与转动两部分', '同样外形下 \\(\dfrac{I}{MR^{2}}\\) 越小，滚得越快', '实心球 \\(I=\\tfrac25MR^{2}\\)，实心圆柱 \\(I=\\tfrac12MR^{2}\\)，薄圆环 \\(I=MR^{2}\\)', '打滑时 \\(v_{\\mathrm{cm}}\\ne\\omega R\\)，需分别用牛顿定律与转动定律'],
+    keyPoints: ['无滑动滚动中静摩擦不做功，机械能守恒（无其他损耗）', '滚动动能包含平动与转动两部分', '同样外形下 \\(\dfrac{I}{MR^{2}}\\) 越小，滚得越快', '实心球 \\(I=\\dfrac25MR^{2}\\)，实心圆柱 \\(I=\\dfrac12MR^{2}\\)，薄圆环 \\(I=MR^{2}\\)', '打滑时 \\(v_{\\mathrm{cm}}\\ne\\omega R\\)，需分别用牛顿定律与转动定律'],
     misconceptions: [
       '认为滚动摩擦一定做负功（无滑动时静摩擦不做功）',
       '认为所有滚动物体沿斜面下滑的加速度相同',
       '把 \\(v=\\omega R\\) 用于打滑情形',
       '认为静摩擦方向总沿斜面向上（取决于运动状态与驱动力矩）',
-      '把滚动动能只写成 \\(\\tfrac12Mv^{2}\\)，漏掉转动部分',
+      '把滚动动能只写成 \\(\\dfrac12Mv^{2}\\)，漏掉转动部分',
     ],
     examples: [
       {
@@ -1647,7 +1647,7 @@ export const ENRICHMENTS = {
         prompt: '薄圆环与实心圆柱从同一斜面同一高度由静止无滑动滚下。谁先到达底部？',
         steps: [
           '沿斜面加速度 \\(a=\\dfrac{g\\sin\\theta}{1+\dfrac{I}{MR^{2}}}\\)。',
-          '圆环 \\(I=MR^{2}\\)，\\(a_{\\mathrm{ring}}=\\tfrac12g\\sin\\theta\\)；圆柱 \\(I=\\tfrac12MR^{2}\\)，\\(a_{\\mathrm{cyl}}=\\tfrac23g\\sin\\theta\\)。',
+          '圆环 \\(I=MR^{2}\\)，\\(a_{\\mathrm{ring}}=\\dfrac12g\\sin\\theta\\)；圆柱 \\(I=\\dfrac12MR^{2}\\)，\\(a_{\\mathrm{cyl}}=\\dfrac23g\\sin\\theta\\)。',
           '\\(a_{\\mathrm{cyl}}>a_{\\mathrm{ring}}\\)，实心圆柱先到。',
         ],
         solution: '实心圆柱先到；转动惯量越小，平动加速度越大。',
@@ -1657,8 +1657,8 @@ export const ENRICHMENTS = {
         prompt: '质量 \\(1.0\\,\\mathrm{kg}\\)、半径 \\(0.10\\,\\mathrm{m}\\) 的实心球以 \\(2.0\\,\\mathrm{m\,s^{-1}}\\) 无滑动滚动。求总动能。',
         steps: [
           '\\(\\omega=\\dfrac{v}{R}=\\dfrac{2.0}{0.10}=20\\,\\mathrm{rad\,s^{-1}}\\)。',
-          '实心球 \\(I=\\tfrac25mR^{2}\\)，故 \\(\\tfrac12I\\omega^{2}=\\tfrac12\\cdot\\tfrac25mR^{2}\\cdot\\dfrac{v^{2}}{R^{2}}=\\tfrac15mv^{2}\\)。',
-          '\\(K=\\tfrac12mv^{2}+\\tfrac15mv^{2}=0.70mv^{2}=0.70(1.0)(4.0)=2.8\\,\\mathrm{J}\\)。',
+          '实心球 \\(I=\\dfrac25mR^{2}\\)，故 \\(\\dfrac12I\\omega^{2}=\\dfrac12\\cdot\\dfrac25mR^{2}\\cdot\\dfrac{v^{2}}{R^{2}}=\\dfrac15mv^{2}\\)。',
+          '\\(K=\\dfrac12mv^{2}+\\dfrac15mv^{2}=0.70mv^{2}=0.70(1.0)(4.0)=2.8\\,\\mathrm{J}\\)。',
         ],
         solution: '\\(K=2.8\\,\\mathrm{J}\\)。',
         solutionLatex: 'K=2.8\\,\\mathrm{J}',
@@ -1667,8 +1667,8 @@ export const ENRICHMENTS = {
         title: '例 3 · 斜面静摩擦',
         prompt: '质量 \\(1.0\\,\\mathrm{kg}\\) 的实心圆柱沿 \\(30^\\circ\\) 斜面无滑动下滚。求加速度与静摩擦大小。',
         steps: [
-          '\\(a=\\dfrac{g\\sin30^\\circ}{1+\\tfrac12}=\\dfrac{9.8\\times0.50}{1.5}=3.27\\,\\mathrm{m\,s^{-2}}\\)。',
-          '\\(f=\\dfrac{Ia}{R^{2}}=\\dfrac{\\tfrac12MR^{2}a}{R^{2}}=\\tfrac12Ma=0.50(1.0)(3.27)=1.63\\,\\mathrm{N}\\)。',
+          '\\(a=\\dfrac{g\\sin30^\\circ}{1+\\dfrac12}=\\dfrac{9.8\\times0.50}{1.5}=3.27\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(f=\\dfrac{Ia}{R^{2}}=\\dfrac{\\dfrac12MR^{2}a}{R^{2}}=\\dfrac12Ma=0.50(1.0)(3.27)=1.63\\,\\mathrm{N}\\)。',
           '方向沿斜面向上。',
         ],
         solution: '\\(a\\approx3.3\\,\\mathrm{m\,s^{-2}}\\)，\\(f_s\\approx1.6\\,\\mathrm{N}\\) 沿斜面向上。',
@@ -1782,7 +1782,7 @@ export const ENRICHMENTS = {
     derivationNotes: [
       { from: '切向牛顿第二定律', to: '简谐方程', note: '\\(mL\\ddot\\theta=-mg\\sin\\theta\\)，小角时 \\(\\sin\\theta\\approx\\theta\\)。' },
       { from: '简谐方程', to: '周期公式', note: '与 \\(\\ddot x=-\\omega^{2}x\\) 对比得 \\(\\omega^{2}=\dfrac{g}{L}\\)。' },
-      { from: '能量守恒', to: '速度与张力', note: '\\(mgh=\\tfrac12mv^{2}\\)，再在最低点写径向牛顿第二定律。' },
+      { from: '能量守恒', to: '速度与张力', note: '\\(mgh=\\dfrac12mv^{2}\\)，再在最低点写径向牛顿第二定律。' },
     ],
     conditions: ['轻绳不可伸长，摆球视为质点', '小角度（通常 \\(\\theta_0\\lesssim10^\\circ\\)）才能视为简谐', '无空气阻力，悬点固定', '大角度时周期随振幅增大，需用椭圆积分修正'],
     keyPoints: ['周期与摆球质量无关', '周期随 \\(L\\) 增大而增大，随 \\(g\\) 增大而减小', '小角度近似是得到简谐运动的关键', '能量在重力势能与动能之间转换', '最低点张力最大，最高点张力最小'],
@@ -2292,7 +2292,7 @@ export const ENRICHMENTS = {
     enrichedAt: 'batch2',
     definition: '电介质是绝缘体，外电场使其分子极化，产生束缚电荷。以自由电荷产生的场 \\(E_0\\) 为基准，线性均匀介质内部场强 \\(E=\\dfrac{E_0}{\\kappa}\\)，电容 \\(C=\\kappa C_0\\)，其中 \\(\\kappa\\) 为相对介电常数（\\(\\kappa\\ge1\\)）。',
     intuition: '介质像一群被电场拉偏的小偶极子，它们的反向场抵消了一部分外场，所以介质内部电场变弱。',
-    intuitionDetailed: '插入介质后有两种典型情形：若电容器与电源断开（\\(Q\\) 不变），电压降为 \\(\\dfrac{V_0}{\\kappa}\\)，电容增大，储能 \\(U=\dfrac{Q^{2}}{2C}\\) 减小；若始终接电源（\\(V\\) 不变），电荷增为 \\(\\kappa Q_0\\)，电容增大，储能 \\(U=\\tfrac12CV^{2}\\) 增大。',
+    intuitionDetailed: '插入介质后有两种典型情形：若电容器与电源断开（\\(Q\\) 不变），电压降为 \\(\\dfrac{V_0}{\\kappa}\\)，电容增大，储能 \\(U=\dfrac{Q^{2}}{2C}\\) 减小；若始终接电源（\\(V\\) 不变），电荷增为 \\(\\kappa Q_0\\)，电容增大，储能 \\(U=\\dfrac12CV^{2}\\) 增大。',
     formulas: [
       { latex: 'E=\\dfrac{E_0}{\\kappa}', note: '介质内部场强。' },
       { latex: 'C=\\kappa C_0=\\dfrac{\\kappa\\varepsilon_0A}{d}', note: '平行板电容器填满介质。' },
@@ -2302,10 +2302,10 @@ export const ENRICHMENTS = {
     derivationNotes: [
       { from: '极化机制', to: '场强削弱', note: '束缚电荷产生的反向场叠加到外场上，使净场减小。' },
       { from: '电容定义', to: '介质电容', note: '\\(C=\dfrac{Q}{V}\\)；\\(Q\\) 不变时 \\(V\\) 降为原来的 \\(\\dfrac{1}{\\kappa}\\)，故 \\(C\\) 增为 \\(\\kappa\\) 倍。' },
-      { from: '能量密度', to: '总能量', note: '对体积积分 \\(\\tfrac12\\kappa\\varepsilon_0E^{2}\\)。' },
+      { from: '能量密度', to: '总能量', note: '对体积积分 \\(\\dfrac12\\kappa\\varepsilon_0E^{2}\\)。' },
     ],
     conditions: ['线性、均匀、各向同性介质', '介质未击穿；\\(\\kappa\\) 与温度、频率有关', '电池连接与否决定 \\(Q\\) 或 \\(V\\) 不变', '接电源时 \\(E\\) 由 \\(\\dfrac{V}{d}\\) 决定，\\(\\kappa\\) 增大主要体现为自由电荷与电容增大', '若介质只部分填充电容器，需按串联与并联模型处理'],
-    keyPoints: ['介质削弱 \\(E\\)，增大 \\(C\\)', '\\(\\kappa\\) 无量纲，真空 \\(\\kappa=1\\)', '断开电源时 \\(Q\\) 不变、\\(V\\) 减小；接电源时 \\(V\\) 不变、\\(Q\\) 增大', '介质中能量密度为 \\(\\tfrac12\\kappa\\varepsilon_0E^{2}\\)', '介质强度限制最大场强，超过会击穿'],
+    keyPoints: ['介质削弱 \\(E\\)，增大 \\(C\\)', '\\(\\kappa\\) 无量纲，真空 \\(\\kappa=1\\)', '断开电源时 \\(Q\\) 不变、\\(V\\) 减小；接电源时 \\(V\\) 不变、\\(Q\\) 增大', '介质中能量密度为 \\(\\dfrac12\\kappa\\varepsilon_0E^{2}\\)', '介质强度限制最大场强，超过会击穿'],
     misconceptions: [
       '认为介质会增强电场',
       '认为插入介质总是使储能增加（取决于是否接电源）',
@@ -2515,7 +2515,7 @@ export const ENRICHMENTS = {
 
   'em/em-u8/8.4': {
     enrichedAt: 'batch2',
-    definition: '电通量是电场穿过曲面的通量：\\(\\Phi_E=\\int\\mathbf E\\cdot\\mathrm{d}\\mathbf A\\)。匀强场中平面 \\(\\Phi_E=EA\\cos\\theta\\)，单位 \\(\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。对闭合曲面，面积矢量取外法线。',
+    definition: '电通量是电场穿过曲面的通量：\\(\\Phi_E=\\int\\mathbf E\\cdot\\mathrm{d}\\mathbf A\\)。匀强场中平面 \\(\\Phi_E=EA\\cos\\theta\\)（\\(\\theta\\) 为 \\(\\mathbf E\\) 与面法线的夹角），单位 \\(\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。对闭合曲面，面积矢量取外法线。',
     intuition: '电通量数“穿出曲面的电场线净根数”：穿出为正，穿入为负。',
     intuitionDetailed: '闭合曲面的净电通量只由内部净电荷决定：\\(\\Phi_E=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}\\)（高斯定律）。曲面形状和外部电荷都不影响净通量；但外部电荷会影响曲面上各点的局部场强。',
     formulas: [
@@ -2541,7 +2541,7 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 平面通量',
-        prompt: '\\(E=200\\,\\mathrm{N\,C^{-1}}\\)，面积 \\(A=0.50\\,\\mathrm{m^{2}}\\)。求面与电场垂直、成 \\(60^\\circ\\) 时的电通量。',
+        prompt: '\\(E=200\\,\\mathrm{N\,C^{-1}}\\)，面积 \\(A=0.50\\,\\mathrm{m^{2}}\\)。求面法线与电场成 \\(0^\\circ\\) 和 \\(60^\\circ\\) 时的电通量。',
         steps: [
           '垂直时 \\(\\theta=0\\)：\\(\\Phi_E=EA=200(0.50)=100\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
           '成 \\(60^\\circ\\) 时 \\(\\Phi_E=100\\cos60^\\circ=50\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
@@ -2620,7 +2620,7 @@ export const ENRICHMENTS = {
         steps: [
           '无外力矩，角动量守恒：\\(I_i\\omega_i=I_f\\omega_f\\)。',
           '\\(\\omega_f=\\dfrac{4.0(2.0)}{1.0}=8.0\\,\\mathrm{rad\,s^{-1}}\\)。',
-          '\\(K_i=\\tfrac12(4.0)(2.0)^{2}=8.0\\,\\mathrm{J}\\)，\\(K_f=\\tfrac12(1.0)(8.0)^{2}=32\\,\\mathrm{J}\\)，动能增加来自肌肉做功。',
+          '\\(K_i=\\dfrac12(4.0)(2.0)^{2}=8.0\\,\\mathrm{J}\\)，\\(K_f=\\dfrac12(1.0)(8.0)^{2}=32\\,\\mathrm{J}\\)，动能增加来自肌肉做功。',
         ],
         solution: '\\(\\omega_f=8.0\\,\\mathrm{rad\,s^{-1}}\\)，动能由 \\(8.0\\,\\mathrm{J}\\) 增至 \\(32\\,\\mathrm{J}\\)。',
         solutionLatex: '\\omega_f=8.0\\,\\mathrm{rad\,s^{-1}},\\;K_f=32\\,\\mathrm{J}',
@@ -3000,10 +3000,10 @@ export const ENRICHMENTS = {
         steps: [
           '\\(A=\\dfrac{L-P_0}{P_0}=\\dfrac{900}{100}=9\\)。',
           '\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)。',
-          '\\(P(10)=\\dfrac{1000}{1+9e^{-5}}\\approx993\\)。',
+          '\\(P(10)=\\dfrac{1000}{1+9e^{-5}}\\approx943\\)。',
         ],
-        solution: '\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)，\\(P(10)\\approx993\\)。',
-        solutionLatex: 'P(t)=\\dfrac{1000}{1+9e^{-0.50t}},\\;P(10)\\approx993',
+        solution: '\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)，\\(P(10)\\approx943\\)。',
+        solutionLatex: 'P(t)=\\dfrac{1000}{1+9e^{-0.50t}},\\;P(10)\\approx943',
       },
       {
         title: '例 2 · 最大增长速率',
