@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势能」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "U=k\\dfrac{q_1q_2}{r}",
+        "note": "两点电荷的电势能；无穷远为零。"
+      },
+      {
+        "latex": "U=qV",
+        "note": "电荷在电势 V 处的电势能。"
+      },
+      {
+        "latex": "W_{\\mathrm{field}}=-\\Delta U",
+        "note": "电场力做功与电势能变化。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "点电荷或球对称分布；r 为球心距离",
+      "零势能点通常取无穷远",
+      "电势能是系统量，符号由电荷正负决定"
     ],
     "keyPoints": [
       "掌握 9.1「电势能」准确定义",
@@ -87,7 +96,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "U=k\\dfrac{q_1q_2}{r}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "V=\\dfrac{U}{q}",
+        "note": "电势定义。"
+      },
+      {
+        "latex": "V=k\\dfrac{q}{r}",
+        "note": "点电荷电势；无穷远为零。"
+      },
+      {
+        "latex": "E_x=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}",
+        "note": "电场是电势的负梯度（一维）。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +211,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "零势点可任选；点电荷通常取无穷远为零",
+      "电势是标量，叠加不带方向",
+      "梯度关系适用于静电场（无旋场）"
     ],
     "keyPoints": [
       "掌握 9.2「电势」准确定义",
@@ -222,7 +240,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "V=\\dfrac{U}{q}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +332,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势与场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "V=k\\int\\dfrac{\\mathrm{d}q}{r}",
+        "note": "连续电荷分布的电势。"
+      },
+      {
+        "latex": "V_{\\mathrm{total}}=\\sum V_i",
+        "note": "离散电荷的电势代数和。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +358,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "电势是标量，直接代数相加",
+      "r 为电荷元到场点距离；零势点需统一",
+      "电荷分布连续或离散；积分可能需分段"
     ],
     "keyPoints": [
       "掌握 9.3「电势与场」准确定义",
@@ -364,7 +387,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "V=k\\int\\dfrac{\\mathrm{d}q}{r}"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +479,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势差与功」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "K_i+U_i=K_f+U_f",
+        "note": "只有电场力做功时的能量守恒。"
+      },
+      {
+        "latex": "\\Delta K=-\\Delta U",
+        "note": "动能变化等于电势能变化的负值。"
+      },
+      {
+        "latex": "U=qV",
+        "note": "电荷在电势中的势能。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +509,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "只有静电力做功；无摩擦/辐射等非保守力",
+      "非相对论；电荷在真空中运动",
+      "零势点统一；系统与电荷分布明确"
     ],
     "keyPoints": [
       "掌握 9.4「电势差与功」准确定义",
@@ -506,7 +538,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "K_i+U_i=K_f+U_f"
       },
       {
         "title": "例 3 · 中",

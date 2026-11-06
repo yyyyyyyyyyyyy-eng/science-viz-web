@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电流」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}",
+        "note": "瞬时电流。"
+      },
+      {
+        "latex": "I=nqv_dA",
+        "note": "电流的微观表达式。"
+      },
+      {
+        "latex": "J=\\dfrac{I}{A}",
+        "note": "电流密度。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒电流；串联各处 I 相同",
+      "正电流方向约定为正电荷运动方向",
+      "电子带负电，漂移方向与约定电流方向相反"
     ],
     "keyPoints": [
       "掌握 11.1「电流」准确定义",
@@ -87,7 +96,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「简单电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\varepsilon=I(R+r)",
+        "note": "含内阻的闭合电路。"
+      },
+      {
+        "latex": "V_{\\mathrm{term}}=\\varepsilon-Ir",
+        "note": "端电压。"
+      },
+      {
+        "latex": "R_{\\mathrm{series}}=\\sum R_i,\\quad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum\\dfrac{1}{R_i}",
+        "note": "串并联等效电阻。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +211,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒直流、集中参数电路",
+      "实际电表有内阻；理想导线",
+      "内阻不可忽略时端电压随电流下降"
     ],
     "keyPoints": [
       "掌握 11.2「简单电路」准确定义",
@@ -222,7 +240,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\varepsilon=I(R+r)"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +332,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电阻与欧姆定律」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "I=\\dfrac{\\varepsilon}{R}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "R=\\rho\\dfrac{L}{A}",
+        "note": "电阻与电阻率。"
+      },
+      {
+        "latex": "V=IR",
+        "note": "欧姆定律。"
+      },
+      {
+        "latex": "\\rho=\\rho_0[1+\\alpha(T-T_0)]",
+        "note": "电阻率的温度依赖（线性近似）。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +362,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "均匀截面、均匀材料；L 为长度、A 为截面积",
+      "欧姆材料；温度稳定或线性温度系数",
+      "电流方向沿导体长度"
     ],
     "keyPoints": [
       "掌握 11.3「电阻与欧姆定律」准确定义",
@@ -364,7 +391,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "R=\\rho\\dfrac{L}{A}"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +483,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电功率」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "P=IV",
+        "note": "电功率的一般式。"
+      },
+      {
+        "latex": "P=I^{2}R=\\dfrac{V^{2}}{R}",
+        "note": "纯电阻的功率。"
+      },
+      {
+        "latex": "E=Pt",
+        "note": "电能。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +513,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "P=IV 对任意元件成立",
+      "P=I²R=V²/R 只适用于纯电阻",
+      "电动机等非纯电阻要区分输入功率与损耗"
     ],
     "keyPoints": [
       "掌握 11.4「电功率」准确定义",
@@ -506,7 +542,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "P=IV"
       },
       {
         "title": "例 3 · 中",
@@ -598,8 +634,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「复合直流电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\sum I_{\\mathrm{in}}=\\sum I_{\\mathrm{out}}",
+        "note": "结点电流守恒。"
+      },
+      {
+        "latex": "\\sum \\Delta V=0",
+        "note": "闭合回路电压降代数和为零。"
+      },
+      {
+        "latex": "R_{\\mathrm{series}}=\\sum R_i,\\quad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum\\dfrac{1}{R_i}",
+        "note": "等效电阻。"
       }
     ],
     "derivationNotes": [
@@ -620,8 +664,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒直流、集中参数电路",
+      "先标定电流方向与回路绕行方向",
+      "理想导线；电表内阻按题意处理"
     ],
     "keyPoints": [
       "掌握 11.5「复合直流电路」准确定义",
@@ -648,7 +693,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\sum \\Delta V=0"
       },
       {
         "title": "例 3 · 中",
@@ -740,8 +785,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「基尔霍夫环路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "I=\\dfrac{\\varepsilon}{R}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\sum \\Delta V=0",
+        "note": "基尔霍夫环路定律。"
       }
     ],
     "derivationNotes": [
@@ -762,8 +807,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "闭合回路；稳恒电流",
+      "沿同一绕行方向取电压降的正负",
+      "电源、电阻、电容的电压符号要统一"
     ],
     "keyPoints": [
       "掌握 11.6「基尔霍夫环路」准确定义",
@@ -790,7 +836,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\sum \\Delta V=0"
       },
       {
         "title": "例 3 · 中",
@@ -882,8 +928,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「基尔霍夫结点」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "I=\\dfrac{\\varepsilon}{R}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\sum I_{\\mathrm{in}}=\\sum I_{\\mathrm{out}}",
+        "note": "基尔霍夫结点定律（电荷守恒）。"
       }
     ],
     "derivationNotes": [
@@ -904,8 +950,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒电流；结点无电荷积累",
+      "流入为正、流出为负时也可写成 ΣI=0",
+      "所有支路电流方向先假设，结果负号表示实际反向"
     ],
     "keyPoints": [
       "掌握 11.7「基尔霍夫结点」准确定义",
@@ -932,7 +979,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\sum I_{\\mathrm{in}}=\\sum I_{\\mathrm{out}}"
       },
       {
         "title": "例 3 · 中",
@@ -1024,8 +1071,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「RC 电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\tau=RC,\\quad q(t)=CE\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)",
-        "note": "RC 充电；放电为指数衰减。"
+        "latex": "\\tau=RC",
+        "note": "RC 时间常数。"
+      },
+      {
+        "latex": "q(t)=C\\varepsilon\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)",
+        "note": "充电；初始电荷为零。"
+      },
+      {
+        "latex": "q(t)=Q_0e^{-\\dfrac{t}{\\tau}}",
+        "note": "放电；初始电荷 Q₀。"
       }
     ],
     "derivationNotes": [
@@ -1046,8 +1101,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "恒定 R、C；电源内阻可并入 R",
+      "充电初始 q(0)=0；放电初始 q(0)=Q₀",
+      "t=τ 时充至 63.2%；约 5τ 基本完成"
     ],
     "keyPoints": [
       "掌握 11.8「RC 电路」准确定义",
@@ -1074,7 +1130,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}"
+        "solutionLatex": "\\tau=RC"
       },
       {
         "title": "例 3 · 中",

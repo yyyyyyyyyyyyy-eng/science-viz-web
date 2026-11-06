@@ -37,8 +37,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电荷与库仑定律」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "F=k\\dfrac{|q_1q_2|}{r^{2}}",
+        "note": "库仑定律；k=1/(4πε₀)。"
+      },
+      {
+        "latex": "\\vec F_{12}=-\\vec F_{21}",
+        "note": "两电荷间的作用力与反作用力。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +63,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "点电荷模型；r 为电荷间距离",
+      "真空或空气；介质中 k 需换为 1/(4πε)",
+      "多个电荷用矢量叠加；同号相斥、异号相吸"
     ],
     "keyPoints": [
       "掌握 P1.1「电荷与库仑定律」准确定义",
@@ -87,7 +92,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "F=k\\dfrac{|q_1q_2|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +177,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电场直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec E=\\dfrac{\\vec F}{q_0}",
+        "note": "电场强度定义；q₀ 为正试探电荷。"
+      },
+      {
+        "latex": "E=k\\dfrac{|q|}{r^{2}}",
+        "note": "点电荷场强大小。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +203,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "试探电荷足够小，不扰动源电荷",
+      "点电荷公式要求 r 远大于电荷尺度",
+      "场方向为正电荷受力方向；负电荷受力反向"
     ],
     "keyPoints": [
       "掌握 P1.2「电场直觉」准确定义",
@@ -222,7 +232,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec E=\\dfrac{\\vec F}{q_0}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +324,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电势直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "V=\\dfrac{U}{q}",
+        "note": "电势定义：单位电荷的电势能。"
+      },
+      {
+        "latex": "V=k\\dfrac{q}{r}",
+        "note": "点电荷电势；无穷远为零。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +350,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "零势点可任选；点电荷通常取无穷远为零",
+      "电势是标量，可代数相加",
+      "电势差与路径无关（静电场）"
     ],
     "keyPoints": [
       "掌握 P1.3「电势直觉」准确定义",
@@ -364,7 +379,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "V=k\\dfrac{q}{r}"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +471,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电容直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
+        "latex": "C=\\dfrac{Q}{V}",
+        "note": "电容定义式。"
+      },
+      {
         "latex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}",
-        "note": "平行板电容。"
+        "note": "平行板电容器；填满电介质。"
+      },
+      {
+        "latex": "U=\\dfrac{1}{2}CV^{2}",
+        "note": "电容器储存的电场能。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +501,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "平行板近似：d 远小于极板尺寸，忽略边缘效应",
+      "电介质填满极板间；κ 为相对介电常数",
+      "Q 取一个极板电荷量的绝对值"
     ],
     "keyPoints": [
       "掌握 P1.4「电容直觉」准确定义",
@@ -506,7 +530,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}"
+        "solutionLatex": "C=\\dfrac{Q}{V}"
       },
       {
         "title": "例 3 · 中",
@@ -598,8 +622,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「欧姆定律与电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "V=IR",
+        "note": "欧姆定律。"
+      },
+      {
+        "latex": "P=IV=I^{2}R=\\dfrac{V^{2}}{R}",
+        "note": "电功率（纯电阻）。"
+      },
+      {
+        "latex": "R_{\\mathrm{series}}=\\sum R_i,\\quad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum\\dfrac{1}{R_i}",
+        "note": "串联与并联等效电阻。"
       }
     ],
     "derivationNotes": [
@@ -620,8 +652,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "线性欧姆电阻；温度等条件稳定",
+      "稳恒直流、集中参数电路",
+      "纯电阻才可直接用 P=I²R=V²/R"
     ],
     "keyPoints": [
       "掌握 P1.5「欧姆定律与电路」准确定义",
@@ -648,7 +681,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "V=IR"
       },
       {
         "title": "例 3 · 中",
@@ -740,8 +773,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「磁场与洛伦兹力直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\vec F=q\\vec v\\times\\vec B",
+        "note": "洛伦兹力。"
+      },
+      {
+        "latex": "F=qvB\\sin\\theta",
+        "note": "洛伦兹力大小；θ 为 v 与 B 的夹角。"
+      },
+      {
+        "latex": "\\vec F=I\\vec L\\times\\vec B",
+        "note": "电流元受到的磁力。"
       }
     ],
     "derivationNotes": [
@@ -762,8 +803,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "电荷必须运动；静止电荷不受磁力",
+      "磁力垂直于 v 与 B，不做功",
+      "方向用右手定则；B 由电流、磁体或变化电场产生"
     ],
     "keyPoints": [
       "掌握 P1.6「磁场与洛伦兹力直觉」准确定义",
@@ -790,7 +832,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec F=q\\vec v\\times\\vec B"
       },
       {
         "title": "例 3 · 中",
@@ -882,8 +924,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「磁通量直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\Phi_B=\\vec B\\cdot\\vec A=BA\\cos\\theta",
+        "note": "匀强磁场穿过平面的磁通量。"
+      },
+      {
+        "latex": "\\Phi_B=\\int\\vec B\\cdot\\mathrm{d}\\vec A",
+        "note": "一般曲面的磁通量。"
       }
     ],
     "derivationNotes": [
@@ -904,8 +950,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "θ 为 B 与面法线的夹角",
+      "面积矢量方向按右手定则选取",
+      "闭合曲面净磁通为零（无磁单极）"
     ],
     "keyPoints": [
       "掌握 P1.7「磁通量直觉」准确定义",
@@ -932,7 +979,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\Phi_B=\\vec B\\cdot\\vec A=BA\\cos\\theta"
       },
       {
         "title": "例 3 · 中",
@@ -1024,8 +1071,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「矢量场与通量直觉」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\Phi_F=\\int\\vec F\\cdot\\mathrm{d}\\vec A",
+        "note": "任意矢量场的通量。"
+      },
+      {
+        "latex": "\\Phi_E=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
+        "note": "高斯定律：电通量与包围电荷的关系。"
       }
     ],
     "derivationNotes": [
@@ -1046,8 +1097,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "曲面取向决定通量正负；闭合曲面取外法线",
+      "高斯定律对任意闭合曲面成立",
+      "利用对称性才能由高斯定律直接求场强"
     ],
     "keyPoints": [
       "掌握 P1.8「矢量场与通量直觉」准确定义",
@@ -1074,7 +1126,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\Phi_E=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}"
       },
       {
         "title": "例 3 · 中",
@@ -1167,7 +1219,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "note": "定积分作为黎曼和的极限。"
       }
     ],
     "derivationNotes": [
@@ -1188,8 +1240,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "f 在 [a,b] 上可积（如连续或分段连续）",
+      "面积有向：x 轴下方为负",
+      "FTC：∫_a^b f = F(b)-F(a)，F 为原函数"
     ],
     "keyPoints": [
       "掌握 P1.9「微积分工具回顾」准确定义",

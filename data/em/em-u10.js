@@ -37,8 +37,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「导体静电」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec E_{\\mathrm{inside}}=0",
+        "note": "静电平衡时导体内部场强为零。"
+      },
+      {
+        "latex": "V_{\\mathrm{inside}}=V_{\\mathrm{surface}}",
+        "note": "静电平衡时导体是等势体。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +63,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "静电平衡（无宏观电流）",
+      "导体内部无净电荷；多余电荷分布在表面",
+      "外部电场会使表面电荷重新分布"
     ],
     "keyPoints": [
       "掌握 10.1「导体静电」准确定义",
@@ -87,7 +92,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec E_{\\mathrm{inside}}=0"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +177,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电荷再分布」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "Q_1+Q_2=Q_{\\mathrm{total}}",
+        "note": "孤立导体系统电荷守恒。"
+      },
+      {
+        "latex": "V_1=V_2",
+        "note": "用导线连接后达到同一电势。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +203,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "系统与外界绝缘；总电荷守恒",
+      "连接后达到静电平衡",
+      "导体形状/间距决定电荷分配；可用 C=Q/V 计算"
     ],
     "keyPoints": [
       "掌握 10.2「电荷再分布」准确定义",
@@ -222,7 +232,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "Q_1+Q_2=Q_{\\mathrm{total}}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +324,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电容器」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
+        "latex": "C=\\dfrac{Q}{V}",
+        "note": "电容定义式。"
+      },
+      {
         "latex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}",
-        "note": "平行板电容。"
+        "note": "平行板电容器。"
+      },
+      {
+        "latex": "U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}",
+        "note": "储存的电场能。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +354,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "平行板近似；忽略边缘效应",
+      "电介质填满极板间",
+      "串联 1/C_eq=Σ1/C_i；并联 C_eq=ΣC_i"
     ],
     "keyPoints": [
       "掌握 10.3「电容器」准确定义",
@@ -364,7 +383,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}"
+        "solutionLatex": "C=\\dfrac{Q}{V}"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +475,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电介质」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "C=\\kappa C_0",
+        "note": "填充电介质后的电容。"
+      },
+      {
+        "latex": "E=\\dfrac{E_0}{\\kappa}",
+        "note": "介质内部场强减小。"
+      },
+      {
+        "latex": "u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}",
+        "note": "介质中的电场能量密度。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +505,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "线性、均匀、各向同性介质；未击穿",
+      "电池连接与否决定 Q 或 V 不变",
+      "κ≥1；部分填充需按串并联模型处理"
     ],
     "keyPoints": [
       "掌握 10.4「电介质」准确定义",
@@ -506,7 +534,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "C=\\kappa C_0"
       },
       {
         "title": "例 3 · 中",

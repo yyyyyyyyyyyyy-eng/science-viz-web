@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「磁场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec F=q\\vec v\\times\\vec B",
+        "note": "运动电荷受到的磁力。"
+      },
+      {
+        "latex": "\\vec F=I\\vec L\\times\\vec B",
+        "note": "电流元受到的磁力。"
+      },
+      {
+        "latex": "\\Phi_B=BA\\cos\\theta",
+        "note": "磁通量（匀强场、平面）。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "电荷运动或存在电流；静止电荷不受磁力",
+      "磁力垂直于 v 与 B，不做功",
+      "磁感线闭合；无磁单极子"
     ],
     "keyPoints": [
       "掌握 12.1「磁场」准确定义",
@@ -87,7 +96,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec F=q\\vec v\\times\\vec B"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「运动电荷与磁场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec F=q\\vec v\\times\\vec B",
+        "note": "洛伦兹力。"
+      },
+      {
+        "latex": "r=\\dfrac{mv}{|q|B}",
+        "note": "垂直于匀强 B 运动的圆周半径。"
+      },
+      {
+        "latex": "T=\\dfrac{2\\pi m}{|q|B}",
+        "note": "回旋周期，与速率无关（非相对论）。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +211,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "匀强磁场；v 垂直于 B 时做圆周运动",
+      "非相对论；忽略辐射损失",
+      "磁力提供向心力，速率不变"
     ],
     "keyPoints": [
       "掌握 12.2「运动电荷与磁场」准确定义",
@@ -222,7 +240,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec F=q\\vec v\\times\\vec B"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +332,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「毕奥–萨伐尔定律」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}",
+        "note": "毕奥–萨伐尔定律。"
+      },
+      {
+        "latex": "B=\\dfrac{\\mu_0 I}{2\\pi r}",
+        "note": "长直载流导线。"
+      },
+      {
+        "latex": "B=\\mu_0 nI",
+        "note": "长直螺线管内部。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +362,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒电流；真空或线性磁介质",
+      "长直导线/长螺线管近似；忽略端点效应",
+      "方向由右手定则；叠加原理"
     ],
     "keyPoints": [
       "掌握 12.3「毕奥–萨伐尔定律」准确定义",
@@ -364,7 +391,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -457,7 +484,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}",
-        "note": "力学/电磁常用矢量方程。"
+        "note": "安培环路定律。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +505,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "稳恒电流；闭合安培环路",
+      "I_enc 为穿过环路所围曲面的净电流",
+      "高对称性（长直导线、螺线管、螺绕环）才能直接求 B"
     ],
     "keyPoints": [
       "掌握 12.4「安培定律」准确定义",
@@ -506,7 +534,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{enc}}"
       },
       {
         "title": "例 3 · 中",

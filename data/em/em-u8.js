@@ -37,8 +37,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电荷与力」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "F=k\\dfrac{|q_1q_2|}{r^{2}}",
+        "note": "库仑定律。"
+      },
+      {
+        "latex": "q=ne",
+        "note": "电荷量子化；e 为基本电荷。"
+      },
+      {
+        "latex": "\\vec F_{12}=-\\vec F_{21}",
+        "note": "电荷间作用力成对。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +67,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "点电荷；r 为电荷间距离",
+      "电荷守恒；孤立系统总电荷不变",
+      "多个电荷用矢量叠加；同号相斥、异号相吸"
     ],
     "keyPoints": [
       "掌握 8.1「电荷与力」准确定义",
@@ -87,7 +96,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "F=k\\dfrac{|q_1q_2|}{r^{2}}"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +181,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\vec E=\\dfrac{\\vec F}{q_0}",
+        "note": "电场强度定义。"
+      },
+      {
+        "latex": "E=k\\dfrac{|q|}{r^{2}}",
+        "note": "点电荷场强。"
+      },
+      {
+        "latex": "\\vec E_{\\mathrm{net}}=\\sum\\vec E_i",
+        "note": "场强叠加原理。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +211,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "试探电荷足够小，不改变源电荷分布",
+      "点电荷公式要求 r 远大于电荷尺度",
+      "电场方向为正电荷受力方向"
     ],
     "keyPoints": [
       "掌握 8.2「电场」准确定义",
@@ -222,7 +240,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\vec E=\\dfrac{\\vec F}{q_0}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +332,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电场叠加」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r",
+        "note": "连续电荷分布的场强微元。"
+      },
+      {
+        "latex": "\\vec E=\\int\\mathrm{d}\\vec E",
+        "note": "对整个分布积分求总场。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +358,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "电荷连续分布；dq 为线/面/体电荷元",
+      "r 为电荷元到场点距离，r̂ 从电荷元指向场点",
+      "叠加原理；积分需按对称性分解分量"
     ],
     "keyPoints": [
       "掌握 8.3「电场叠加」准确定义",
@@ -364,7 +387,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +479,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电通量」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\Phi_E=\\int\\vec E\\cdot\\mathrm{d}\\vec A",
+        "note": "电通量定义。"
+      },
+      {
+        "latex": "\\Phi_E=EA\\cos\\theta",
+        "note": "匀强场穿过平面。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +505,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "θ 为 E 与面法线的夹角",
+      "闭合曲面取外法线；通量可正可负",
+      "单位 N·m²/C"
     ],
     "keyPoints": [
       "掌握 8.4「电通量」准确定义",
@@ -506,7 +534,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\Phi_E=\\int\\vec E\\cdot\\mathrm{d}\\vec A"
       },
       {
         "title": "例 3 · 中",
@@ -620,8 +648,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "闭合曲面（高斯面）；Q_enc 只计面内净电荷",
+      "真空或线性介质；介质中用 ε 代替 ε₀",
+      "只有对称性足够时才可由高斯定律直接求 E"
     ],
     "keyPoints": [
       "掌握 8.5「高斯定律」准确定义",

@@ -37,8 +37,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「磁通量」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\Phi_B=\\int\\vec B\\cdot\\mathrm{d}\\vec A",
+        "note": "磁通量定义。"
+      },
+      {
+        "latex": "\\Phi_B=BA\\cos\\theta",
+        "note": "匀强场穿过平面。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +63,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "θ 为 B 与面法线的夹角",
+      "面积矢量方向与回路绕向满足右手定则",
+      "闭合曲面净磁通为零"
     ],
     "keyPoints": [
       "掌握 13.1「磁通量」准确定义",
@@ -87,7 +92,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\Phi_B=BA\\cos\\theta"
       },
       {
         "title": "例 3 · 中",
@@ -172,8 +177,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电磁感应」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}",
+        "note": "法拉第电磁感应定律。"
+      },
+      {
+        "latex": "\\varepsilon=-N\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}",
+        "note": "N 匝线圈。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +203,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "闭合回路；磁通量随时间变化",
+      "负号表示楞次定律：感应电流反抗磁通变化",
+      "线圈电阻决定感应电流大小"
     ],
     "keyPoints": [
       "掌握 13.2「电磁感应」准确定义",
@@ -222,7 +232,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
@@ -314,8 +324,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「感应电流与磁力」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}",
+        "note": "感应电动势。"
+      },
+      {
+        "latex": "I=\\dfrac{\\varepsilon}{R}",
+        "note": "闭合回路的感应电流。"
+      },
+      {
+        "latex": "\\vec F=I\\vec L\\times\\vec B",
+        "note": "感应电流受到的磁力。"
       }
     ],
     "derivationNotes": [
@@ -336,8 +354,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "闭合导体回路；磁通量变化",
+      "楞次定律判断感应电流方向",
+      "磁力通常阻碍相对运动（能量守恒）"
     ],
     "keyPoints": [
       "掌握 13.3「感应电流与磁力」准确定义",
@@ -364,7 +383,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}"
       },
       {
         "title": "例 3 · 中",
@@ -456,8 +475,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「电感」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\varepsilon=-\\dfrac{d\\Phi_B}{dt}",
-        "note": "力学/电磁常用矢量方程。"
+        "latex": "L=\\dfrac{N\\Phi_B}{I}",
+        "note": "自感系数定义。"
+      },
+      {
+        "latex": "\\varepsilon_L=-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}",
+        "note": "自感电动势。"
+      },
+      {
+        "latex": "U=\\dfrac{1}{2}LI^{2}",
+        "note": "电感储存的磁能。"
       }
     ],
     "derivationNotes": [
@@ -478,8 +505,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "线性电感；磁介质未饱和",
+      "理想电感无电阻；实际线圈含电阻",
+      "感应电动势方向由楞次定律判断"
     ],
     "keyPoints": [
       "掌握 13.4「电感」准确定义",
@@ -506,7 +534,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "L=\\dfrac{N\\Phi_B}{I}"
       },
       {
         "title": "例 3 · 中",
@@ -598,8 +626,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「LR 电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "\\tau=\\dfrac{L}{R}",
+        "note": "LR 时间常数。"
+      },
+      {
+        "latex": "I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)",
+        "note": "接通电源后的电流上升。"
+      },
+      {
+        "latex": "I(t)=I_0e^{-\\dfrac{t}{\\tau}}",
+        "note": "断开电源后的电流衰减。"
       }
     ],
     "derivationNotes": [
@@ -620,8 +656,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "恒定 L、R；理想电感",
+      "接通初始 I(0)=0；断开初始 I(0)=I₀",
+      "t=τ 时达到 63.2%；约 5τ 基本稳定"
     ],
     "keyPoints": [
       "掌握 13.5「LR 电路」准确定义",
@@ -648,7 +685,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}"
+        "solutionLatex": "\\tau=\\dfrac{L}{R}"
       },
       {
         "title": "例 3 · 中",
@@ -740,12 +777,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「LC 电路」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "平行板电容。"
+        "latex": "\\omega=\\dfrac{1}{\\sqrt{LC}}",
+        "note": "LC 振荡角频率。"
       },
       {
-        "latex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "T=2\\pi\\sqrt{LC}",
+        "note": "LC 振荡周期。"
+      },
+      {
+        "latex": "q(t)=Q_{\\max}\\cos(\\omega t+\\phi)",
+        "note": "电荷随时间振荡。"
       }
     ],
     "derivationNotes": [
@@ -766,8 +807,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "理想 L、C；无电阻损耗",
+      "能量在电场与磁场间振荡，总能量守恒",
+      "初始条件决定 Q_max 与 φ"
     ],
     "keyPoints": [
       "掌握 13.6「LC 电路」准确定义",
@@ -794,7 +836,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "C=\\kappa\\varepsilon_0\\dfrac{A}{d}"
+        "solutionLatex": "\\omega=\\dfrac{1}{\\sqrt{LC}}"
       },
       {
         "title": "例 3 · 中",
