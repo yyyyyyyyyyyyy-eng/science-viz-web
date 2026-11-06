@@ -135,7 +135,9 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
   stage.append(tooltip, panel);
   stage.appendChild(el('p', {
     className: 'map-hint',
-    text: window.matchMedia('(hover: none)').matches ? '拖拽平移 · 双指缩放' : '拖拽平移 · 滚轮缩放 · 点击查看',
+    text: window.matchMedia('(hover: none)').matches
+      ? '拖拽旋转 · 双指拖平移 · 双指缩放 · 点按查看'
+      : '拖拽旋转 · 右键拖平移 · 滚轮缩放 · 点击查看',
   }));
   const { GRAPH } = data;
 
@@ -234,7 +236,7 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
   renderer.domElement.style.touchAction = 'none';
   renderer.domElement.tabIndex = 0;
   renderer.domElement.setAttribute('role', 'application');
-  renderer.domElement.setAttribute('aria-label', '知识图谱画布；拖拽平移，滚轮缩放，点击节点查看');
+  renderer.domElement.setAttribute('aria-label', '知识图谱画布；拖拽旋转，右键拖动或双指拖动平移，滚轮或双指缩放，点击节点查看');
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.9));
   const key = new THREE.DirectionalLight(0xffffff, 0.35);
@@ -1011,7 +1013,11 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
       dragMode = 'pinch';
       pinchStartDist = pointerDistance() || 1;
       pinchStartTdist = tdist;
-    } else dragMode = (e.altKey || e.shiftKey) ? 'rotate' : 'pan';
+      // Start two-finger pan from the gesture centroid, not the second finger.
+      const pts = [...pointers.values()];
+      lastX = (pts[0].x + pts[1].x) / 2;
+      lastY = (pts[0].y + pts[1].y) / 2;
+    } else dragMode = 'rotate';
     try {
       renderer.domElement.setPointerCapture(e.pointerId);
     } catch (_) {}
@@ -1063,7 +1069,8 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
         idle = true;
       }, 2000);
     } else if (pointers.size === 1) {
-      dragMode = 'pan';
+      // Back to a single pointer: resume drag-to-rotate.
+      dragMode = 'rotate';
       const rem = [...pointers.values()][0];
       lastX = rem.x;
       lastY = rem.y;
