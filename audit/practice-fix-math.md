@@ -78,4 +78,6 @@ All displayed math uses KaTeX and `\dfrac`; no template MCQs were added.
 - Re-read the changed generator sections and all 8 new FRQ sets; re-ran the build and the Playwright checks above.
 - Grep: 0 remaining `结合本单元定义与定理作答`, 0 `评分看定义准确性` in banks, 0 `x^{1}`, 0 `\frac`/`\tfrac` in practice banks and generator scripts.
 - No broken LaTeX, slash fractions in displayed answers, overflow, or console errors found in the sampled pages.
+- Re-ran `MATH_ONLY=1 node scripts/build-practice-v9.mjs` after the commit: 962 items, no diff against the committed banks.
+- Final Playwright pass (`calc-u10`, `calc-u1`, `calc-u2`, `calc-u4`, `calc-u6`, `calc-u8`): 0 console errors, 0 KaTeX errors; `calc-u10-q006` still accepts `1/e`.
 - One cosmetic redundancy in `calc-u10-q006`: the answer shows \(\dfrac{1}{e}\) and the solution repeats the limit. It is correct and legible, so left as is.

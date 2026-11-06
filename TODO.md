@@ -73,6 +73,7 @@
 ### 3. 数学练习（可选加深）
 - **状态**：已修复 `calc-u10-q006` 比值极限（`1/e`）与 198 条泛化 FRQ 答案；`x^{1}` 已归一。新增 8 组原创 AP Calc BC FRQ（24 题）：切线、相关变化率、优化、平均值/FTC、分离变量、截面体积、极坐标面积、级数收敛区间。
 - **下一步**：可选替换泛化 meta-MCQ；继续按 CED 去重同族符号题；保持 `\dfrac`、禁止 slash 分式。
+
 ### 4. 生物/数学图（维护）
 - **状态**：已 enrich。光合作用 3.4 新增 7 张分步图（叶绿体/PSII 光解/cyt b₆f 泵质子/PSI-NADPH/ATP 合酶/Calvin 固定/还原与再生）；呼吸作用 3.5 新增 glycolysis、pyruvate oxidation、Krebs cycle 等，共 7 张。另加入公版叶横切图 `data/bio/media/leaf-anatomy.png`（PD，署名见 ATTRIBUTION）。数学补 `derivative-limit` 并跨 topic 复用既有图。
 - **验证**：311 unique / 520 placements；494 route loads 0 issue；7,498 text nodes 0 contrast failure；380/1280 无 overflow、0 KaTeX error。单图 topic 由 130 降至 38（bio 11 / math 27）。
