@@ -130,8 +130,8 @@ export function plot(o) {
     g += path(toD(pts, X, Y, (y1 - y0) * 2.5), { stroke: col, w: cv.w || 2, dash: cv.dash });
     if (cv.label) { const at = cv.labelAt || pts[Math.floor(pts.length * 0.85)] || [x1, y1]; g += text(X(at[0]) + (cv.dx || 4), Y(at[1]) + (cv.dy || -10), cv.label, { size: 11, color: cv.labelColor || col, anchor: cv.anchor || 'start', bold: true }); }
   });
-  (o.vlines || []).forEach((v) => { g += line(X(v.x), T, X(v.x), H - B, { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(X(v.x) + 4, T + 10, v.label, { size: 10, anchor: 'start', color: v.color || C.muted }); });
-  (o.hlines || []).forEach((v) => { g += line(L, Y(v.y), W - R, Y(v.y), { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(W - R - 4, Y(v.y) - 8, v.label, { size: 10, anchor: 'end', color: v.color || C.muted }); });
+  (o.vlines || []).forEach((v) => { g += line(X(v.x), T, X(v.x), H - B, { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(X(v.x) + 4, T + 10, v.label, { size: 10, anchor: 'start', color: v.labelColor || v.color || C.muted }); });
+  (o.hlines || []).forEach((v) => { g += line(L, Y(v.y), W - R, Y(v.y), { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(W - R - 4, Y(v.y) - 8, v.label, { size: 10, anchor: 'end', color: v.labelColor || v.color || C.muted }); });
   (o.segs || []).forEach((sg) => { g += line(X(sg[0]), Y(sg[1]), X(sg[2]), Y(sg[3]), { color: sg[4] || C.ink, w: sg[5] || 1.5, dash: sg[6], arrow: sg[7] }); });
   s += `<g clip-path="url(#${clipId})">${g}</g>`;
   (o.points || []).forEach((p) => {

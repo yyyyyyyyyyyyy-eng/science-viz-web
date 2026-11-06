@@ -13,6 +13,16 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - **Gap table:** `audit/figure-gaps-bio-math.md` lists all 130 topics with only one variant (24 bio, 106 math). No topic has zero figures; filling the one-variant gaps is deferred to a later session.
 - **Screenshots:** `screenshots/figures-bio-math/before/` and `screenshots/figures-bio-math/after/` (light + dark, representative fixed topics).
 
+### Self-check — 2026-11-06 (post-`c4d9765`)
+
+- Re-read the shipped diff (`data/bio/figures.js`, `data/math/figures.js`, `data/math/figlib.js`, `css/main.css`, this checklist, the preview, the gap table) and re-ran the build audit, the 494-load mount scan, the shape-aware contrast scan, `scripts/check-math-notation.mjs`, and the preview at 1280/380 px in both themes. All still pass: 0 mount issues, 0 KaTeX errors, 0 text-contrast failures, 0 horizontal overflow.
+- Fixed three follow-ups found during the re-read:
+  - `translation`: `E/P/A` labels were one codon to the right; moved to `x = 70/134/198` so each aligns with its mRNA codon/tRNA, and caption order changed to `E, P, A`.
+  - `concavity` / `interval-conv`: shading had been lightened too far to keep labels AA-compliant, making it nearly invisible; restored to `opacity 0.08` / `0.10` and added `labelColor` for vline/hline labels in `figlib.js` so the labels stay dark/light while the fill remains visible.
+  - Pre-existing label collisions surfaced by a text-bbox sweep: pH scale `water 7`/`seawater 8.1`, enzyme-temperature `opt 41°C`/`thermophile`, and rational-analysis point labels. Separated without changing the underlying data.
+- Remaining bbox hits are multi-line label adjacency (`glycolysis`/`(cytosol)`), stacked-fraction parts, or tick labels 1–2 px from annotations; no unreadable collisions remain in the sampled set.
+- Baseline SHAs self-checked: web `c4d9765`, app `3370151`. The follow-up fixes are committed after this note.
+
 ## bio
 
 ### bio-prep-chem

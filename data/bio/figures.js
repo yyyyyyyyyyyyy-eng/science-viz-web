@@ -22,7 +22,7 @@ function peakOf(f, a, b) { let bx = a, by = -1; for (let x = a; x <= b; x += 0.0
 def('enz-temp', 'Enzyme activity vs temperature', '', () => {
   const h = enzT(45), t = enzT(85), [ph, py] = peakOf(h, 0, 100), [tp, ty] = peakOf(t, 0, 100), s = 1 / Math.max(py, ty);
   setCap('enz-temp', `Rate = Arrhenius factor \\(e^{-E_a/RT}\\) (\\(E_a=50\\) kJ/mol) × fraction folded (two-state unfolding). Human enzyme (\\(T_m=45\\)°C) peaks near ${fmt(ph, 0)}°C; thermophile enzyme (\\(T_m=85\\)°C) near ${fmt(tp, 0)}°C. Above the optimum, denaturation causes the steep drop.`);
-  return plot({ x: [0, 100], y: [0, 1.1], ystep: 0.2, xlabel: 'temperature (°C)', ylabel: 'relative rate', curves: [{ f: (T) => h(T) * s, color: C.a, label: 'human enzyme', labelAt: [12, 0.42] }, { f: (T) => t(T) * s, color: C.b, label: 'thermophile (Taq-like)', labelAt: [48, 1.02] }], vlines: [{ x: ph, label: `opt ${fmt(ph, 0)}°C`, color: C.a }] });
+  return plot({ x: [0, 100], y: [0, 1.1], ystep: 0.2, xlabel: 'temperature (°C)', ylabel: 'relative rate', curves: [{ f: (T) => h(T) * s, color: C.a, label: 'human enzyme', labelAt: [12, 0.42] }, { f: (T) => t(T) * s, color: C.b, label: 'thermophile (Taq-like)', labelAt: [58, 1.02] }], vlines: [{ x: ph, label: `opt ${fmt(ph, 0)}°C`, color: C.a }] });
 });
 def('enz-ph', 'Enzyme activity vs pH', 'Bell-shaped activity profiles centered on each enzyme\'s optimum: pepsin (stomach) ≈ pH 2, salivary amylase ≈ pH 7, trypsin (small intestine) ≈ pH 8. Away from the optimum, altered ionization of R-groups disrupts the active site.', () =>
   plot({ x: [0, 14], y: [0, 1.15], ystep: 0.2, xstep: 1, xlabel: 'pH', ylabel: 'relative rate', curves: [{ f: (x) => gauss(x, 2, 0.9), color: C.e, label: 'pepsin', labelAt: [2.3, 1.05] }, { f: (x) => gauss(x, 7, 1.1), color: C.a, label: 'amylase', labelAt: [5.2, 1.05] }, { f: (x) => gauss(x, 8, 1.0), color: C.c, label: 'trypsin', labelAt: [8.3, 1.05] }] }));
@@ -120,7 +120,7 @@ def('ph-scale', 'The pH scale', '\\(\\mathrm{pH}=-\\log[\\mathrm{H^+}]\\): each 
   const W = 520, H = 150, X = (p) => 30 + p * 33; let s = '';
   for (let p = 0; p < 14; p++) { const t = p / 13, col = `hsl(${t * 260},70%,55%)`; s += rect(X(p), 50, 33, 30, { fill: col, op: 0.85, stroke: 'none' }); }
   for (let p = 0; p <= 14; p++) s += text(X(p), 92, String(p), { size: 10 });
-  [['stomach', 1.5], ['lemon', 2.3], ['coffee', 5], ['water', 7], ['blood', 7.4], ['seawater', 8.1], ['ammonia', 11.6], ['bleach', 12.5]].forEach(([n, p], i) => { const y = i % 2 ? 125 : 30; s += line(X(p), i % 2 ? 80 : 50, X(p), y + (i % 2 ? -8 : 8), { color: C.muted, w: 1 }) + text(X(p), y, `${n} ${p}`, { size: 10 }); });
+  [['stomach', 1.5, 0], ['lemon', 2.3, 0], ['coffee', 5, 0], ['water', 7, -14], ['blood', 7.4, 0], ['seawater', 8.1, 16], ['ammonia', 11.6, 0], ['bleach', 12.5, 0]].forEach(([n, p, dx], i) => { const y = i % 2 ? 125 : 30; const lx = X(p) + dx; s += line(X(p), i % 2 ? 80 : 50, lx, y + (i % 2 ? -8 : 8), { color: C.muted, w: 1 }) + text(lx, y, `${n} ${p}`, { size: 10 }); });
   s += text(X(2), 140, '← acidic  [H⁺] > 10⁻⁷ M', { size: 10, color: C.e }) + text(X(12), 140, 'basic →', { size: 10, color: C.a });
   return svg(W, H, s, 'pH scale');
 });
@@ -493,10 +493,10 @@ def('transcription-splicing', 'Transcription and RNA processing', 'RNA polymeras
 });
 def('translation', 'Translation at the ribosome', '', () => {
   const dna = 'ATGGCTTGGAAACGTTAA', mrna = dna.replace(/T/g, 'U'), aa = translate(dna);
-  setCap('translation', `mRNA 5′-${mrna}-3′ is read in codons by tRNAs with complementary anticodons (A, P, E sites). Using the standard genetic code it encodes ${[...aa].map((a) => ({ M: 'Met', A: 'Ala', W: 'Trp', K: 'Lys', R: 'Arg', '*': 'STOP' })[a]).join('–')}. AUG = start; UAA = stop (release factor).`);
+  setCap('translation', `mRNA 5′-${mrna}-3′ is read in codons by tRNAs with complementary anticodons (E, P, A sites). Using the standard genetic code it encodes ${[...aa].map((a) => ({ M: 'Met', A: 'Ala', W: 'Trp', K: 'Lys', R: 'Arg', '*': 'STOP' })[a]).join('–')}. AUG = start; UAA = stop (release factor).`);
   let s = `<ellipse cx="230" cy="70" rx="150" ry="46" fill="${C.d}" fill-opacity="0.15" stroke="${C.d}"/>` + `<ellipse cx="230" cy="140" rx="170" ry="34" fill="${C.d}" fill-opacity="0.22" stroke="${C.d}"/>`;
   const cod = mrna.match(/.{3}/g); cod.forEach((c, i) => { s += rect(40 + i * 64, 150, 60, 22, { fill: i === 2 ? C.a : C.muted, op: 0.2, stroke: C.ink, w: 0.8 }) + text(70 + i * 64, 161, c, { size: 11, bold: true }); });
-  ['E', 'P', 'A'].forEach((t, i) => { s += text(134 + i * 64, 82, t, { size: 12, bold: true, color: C.ink }); });
+  ['E', 'P', 'A'].forEach((t, i) => { s += text(70 + i * 64, 82, t, { size: 12, bold: true, color: C.ink }); });
   [[1, 'CGA'], [2, 'ACC']].forEach(([i, ac]) => { s += rect(40 + i * 64 + 10, 92, 40, 40, { rx: 6, fill: C.b, op: 0.25, stroke: C.b }) + text(70 + i * 64, 124, ac, { size: 10 }); });
   s += [...'MA'].map((a, i) => circle(90 + i * 34, 56, 14, { fill: C.c, op: 0.35, stroke: C.c }) + text(90 + i * 34, 56, { M: 'Met', A: 'Ala' }[a], { size: 9 })).join('') + text(410, 161, '3′', { bold: true }) + text(26, 161, '5′', { bold: true }) + text(230, 190, 'mRNA moves one codon per step →', { size: 10, color: C.muted });
   return svg(460, 200, s, 'translation');
