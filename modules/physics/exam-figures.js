@@ -7,6 +7,9 @@
  */
 
 const VW = 400, VH = 260;
+// Extra inline depth so stacked-fraction captions clear the figcaption's
+// overflow edge (KaTeX fractions otherwise touch the bottom of the box).
+const CAP_DESCENT = '\\vphantom{\\sqrt{\\dfrac{1}{1}}}';
 const COL = {
   g: 'currentColor',                 // geometry
   f: 'var(--accent, #d9480f)',       // forces
@@ -405,7 +408,7 @@ def('momentum-graph', 'p–t 图：两车弹性碰撞（等质量）', 'p_1+p_2=
 });
 
 /* ======================= Rotation ======================= */
-def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}', () => {
+def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, () => {
   const th = 28, x0 = 20, y0 = 70, L = 340; const u = [Math.cos(rad(th)), Math.sin(rad(th))]; // down-slope
   const n = [Math.sin(rad(th)), -Math.cos(rad(th))]; // outward normal
   const bot = [x0 + u[0] * L, y0 + u[1] * L];
@@ -429,7 +432,7 @@ def('rolling-velocity', '纯滚动：轮上各点速度（地面参考系）', '
   s += eq(285, 120, ['ω = ', { n: 'v_{cm}', d: 'R' }]) + eq(210, 185, ['K = ', { n: '1', d: '2' }, 'Mv_{cm}^{2} + ', { n: '1', d: '2' }, 'Iω^{2}'], { fs: 12 });
   return s;
 });
-def('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfrac{1}{3}ML^2,\\; \\alpha=\\dfrac{3g}{2L}', () => {
+def('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfrac{1}{3}ML^2,\\; \\alpha=\\dfrac{3g}{2L}' + CAP_DESCENT, () => {
   const px = 50, py = 110, L = 280; let s = '';
   s += `<polygon points="${px},${py} ${px - 12},${py + 22} ${px + 12},${py + 22}" style="fill:none;stroke:currentColor;stroke-width:1.5"/>` + hatch(px - 20, py + 22, px + 22);
   s += rect(px, py - 5, L, 10) + circ(px, py, 3.5, { fill: 'currentColor' });
@@ -440,7 +443,7 @@ def('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfr
   s += eq(40, 220, ['τ = Mg', { n: 'L', d: '2' }, ' = ', { n: '1', d: '3' }, 'ML^{2}α']) + eq(260, 220, ['α = ', { n: '3g', d: '2L' }]);
   return s;
 });
-def('disk-string', '定轴均匀圆盘 + 绕绳悬挂物', 'a=\\dfrac{mg}{m+\\dfrac{I}{R^2}}=\\dfrac{2mg}{2m+M}', () => {
+def('disk-string', '定轴均匀圆盘 + 绕绳悬挂物', 'a=\\dfrac{mg}{m+\\dfrac{I}{R^2}}=\\dfrac{2mg}{2m+M}' + CAP_DESCENT, () => {
   const cx = 120, cy = 80, R = 52; let s = hatch(70, 14, 170) + ln(cx, 14, cx, cy, { w: 2 }) + circ(cx, cy, R, { fill: 'var(--canvas-plot, transparent)' }) + circ(cx, cy, 3, { fill: 'currentColor' }) + tx(cx - 30, cy + 6, 'M', {});
   s += ln(cx, cy, cx + R, cy, { c: 'm', dash: '3 3' }) + tx(cx + R / 2, cy - 6, 'R', { anchor: 'middle', fs: 12 });
   s += ln(cx + R, cy, cx + R, 180) + mass(cx + R - 18, 180, 36, 30, 'm');
@@ -894,7 +897,7 @@ def('seesaw', '杠杆平衡：力矩相等', 'm_1gd_1=m_2gd_2', () => {
   s += eq(40, 248, ['m₁gd₁ = m₂gd₂']);
   return s;
 });
-def('moment-of-inertia', '常见刚体的转动惯量（绕中心轴）', 'I_{\\text{hoop}}=MR^2,\\; I_{\\text{disk}}=\\dfrac12MR^2,\\; I_{\\text{sphere}}=\\dfrac25MR^2', () => {
+def('moment-of-inertia', '常见刚体的转动惯量（绕中心轴）', 'I_{\\text{hoop}}=MR^2,\\; I_{\\text{disk}}=\\dfrac12MR^2,\\; I_{\\text{sphere}}=\\dfrac25MR^2' + CAP_DESCENT, () => {
   let s = tx(20, 24, '绕中心轴 / 质心轴', { it: false, fs: 11 });
   s += circ(105, 78, 26, { w: 2.4 }) + tx(105, 124, 'I = MR²', { anchor: 'middle', fs: 11 });
   s += circ(295, 78, 26, { fill: 'currentColor', op: 0.08, w: 2.2 }) + tx(295, 124, 'I = ½MR²', { anchor: 'middle', fs: 11 });
@@ -903,7 +906,7 @@ def('moment-of-inertia', '常见刚体的转动惯量（绕中心轴）', 'I_{\\
   s += tx(20, 250, '圆环 / 圆盘 / 实心球 / 细杆', { it: false, fs: 10 });
   return s;
 });
-def('rolling-race', '纯滚动比赛：球 > 盘 > 环', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}', () => {
+def('rolling-race', '纯滚动比赛：球 > 盘 > 环', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, () => {
   const th = 22, I = incline(th, 20, 215, 340); let s = I.s;
   const R = 16;
   const items = [{ d: 55, label: '环' }, { d: 125, label: '盘' }, { d: 200, label: '球' }];

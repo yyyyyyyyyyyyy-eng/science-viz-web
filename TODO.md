@@ -57,8 +57,9 @@
 
 ## 未完成与下一步
 
-### 1. 全站 Playwright bug sweep（✅ 已完成 2026-11-05）
-- **结果**：481 routes × 3 viewports × 2 themes（2886 jobs），**0 issue**；报告见 `audit/bug-sweep.json` / `audit/bug-sweep.md`。
+### 1. 全站 Playwright bug sweep（✅ 已完成 2026-11-06）
+- **结果**：UI 重设计（`5d6f63d` / `84c33f5`）后重跑 481 routes × 3 viewports × 2 themes（2886 jobs），**0 issue**；报告见 `audit/bug-sweep.json` / `audit/bug-sweep.md`（2026-11-06T13:03Z）。
+- **额外修复**：`#/t/mech/mech-u5/5.3` 图注分数底部被 `figcaption` 裁切；仅在 `modules/physics/exam-figures.js` 为 5 个含堆叠分数的图注追加不可见 descent phantom，未改共享 CSS；明暗/桌面/手机复核通过，截图见 `screenshots/bug-sweep/`。
 - **复跑步骤**：
   1. `node scripts/build-routes.mjs`
   2. `python3 scripts/serve-dev.py . 8765`
