@@ -77,8 +77,8 @@
 
 ### 4. 生物/数学图（维护）
 - **状态**：✅ round2 完成（2026-11-06）。原先 38 个单图 topic（bio 11 / math 27）均已补上第二张考试风格变体；`TOPIC_FIGURES` 现为 bio 89 topics / 0 singles / 89 multi，math 158 / 0 / 158。新增图例包括 macromolecule-compare、nucleotide-anatomy、endosymbiosis-evidence、isolation-barriers、extinction-rates、chnops-table、stoich-particles、polymer-linkages、phenotype-matrix、selection-response、error-bars，以及 27 个 math round2 stem（angle-pairs、arc-sector、congruence-tests、vector-components 等）。
-- **验证**：`node --check` 通过 `data/bio/figures.js`、`data/math/figures.js`、`data/math/figlib.js`；placements 219（bio）+ 339（math）= 558；mounted unique 147 + 202 = 349。明暗截图 76 张：`screenshots/figures-bio-math/round2/`。审计：`audit/figure-gaps-bio-math.md`（已改为 0 singles）。
-- **下一步**：单图 gap 已清零；可选对 38 个 round2 topic 做定向 remount；E&M 11.4/11.6/11.7 补图见第 5 项（只改 `modules/physics/exam-figures.js`）。
+- **验证**：`node --check` 逐个通过 `data/bio/figures.js`、`data/math/figures.js`、`data/math/figlib.js`；`MATH_NOTATION_OK`。placements 219（bio）+ 339（math）= 558；mounted unique 147 + 202 = 349。全量 remount 247 topics × 明暗 = 494 loads（1280×900 与 380×800 各一轮）：558 figures，0 empty/overflow/KaTeX/console/page error；38 张新图 bbox sweep 0 出界、0 文字重叠。明暗截图 76 张：`screenshots/figures-bio-math/round2/`。审计：`audit/figure-gaps-bio-math.md`、`audit/figure-coverage-bio-math.md`（均改为 0 singles）。
+- **下一步**：单图 gap 已清零；round2 topic remount 已完成；E&M 11.4/11.6/11.7 补图见第 5 项（只改 `modules/physics/exam-figures.js`）。
 
 ### 5. 物理 figure-audit（收尾）
 - **状态**：主 finding 已修并完成明暗两套页面复检；物理图示已扩充到 108 张（104 张原创 SVG + 4 张公开授权参考图），高频 topic 达到 3–6 张（2.3 / 2.4 / 4.2 / 5.3 / 8.5 为 6 张）。

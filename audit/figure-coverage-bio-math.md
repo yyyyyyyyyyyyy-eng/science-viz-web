@@ -2,7 +2,24 @@
 
 Generated from `data/{bio,math}/figures.js` (TOPIC_FIGURES). Every figure is an SVG computed from real functions/data (fixed viewBox, `width:100%`, fixed aspect ratio, wrapper `max-width:min(100%,560px)`); captions use KaTeX with `\dfrac` stacked fractions.
 
-Unique figures: bio 136, math 175, total 311. Verified via Playwright (box Chrome) on audit/figure-preview-bio-math.html: 520 topic-figure placements, 0 console errors, 0 KaTeX errors, 0 overflow at 380px, no aspect/height drift on resize.
+Unique figures: bio 147, math 202, total 349. Verified via Playwright (box Chrome) on audit/figure-preview-bio-math.html: 558 topic-figure placements, 0 console errors, 0 KaTeX errors, 0 overflow at 380px and 1280px, no aspect/height drift on resize.
+
+## Round-2 pass — 2026-11-06
+
+Added 38 second-variant figures (11 bio, 27 math) to close every remaining single-variant topic. Each is a distinct exam-style representation (comparison table, particle view, data plot, geometry construction, or worked example), not a recolour.
+
+- **Biology second variants:** `stoich-particles`, `polymer-linkages`, `error-bars`, `chnops-table`, `macromolecule-compare`, `nucleotide-anatomy`, `endosymbiosis-evidence`, `phenotype-matrix`, `selection-response`, `isolation-barriers`, `extinction-rates`. The five priority AP Bio topics (1.3, 1.5, 2.10, 7.10, 7.11) each now mount two exam variants.
+- **Math second variants:** number classes, balance-scale equation, exponent-rule table, polynomial-operations table, factoring patterns, compound interest, residual plot, angle pairs, congruence tests, similarity tests, special right triangles, unit-circle trig, arc/sector, area decomposition, solid scaling, perpendicular bisector, symmetry classification, proof template, transformation table, polynomial sign chart, radical equation, exponential parameters, log properties, matrix inverse, conic standard forms, identity derivation, vector components.
+- **Figure toolkit:** added a small ruled `table()` helper to `data/math/figlib.js`; added an opt-in `ylabelTop` layout so long axis labels in the new charts do not cross tick labels; bar values now sit above error bars.
+- **Counts:** bio 147 unique / 219 placements; math 202 / 339; total 349 unique / 558 placements. Zero single-variant topics remain.
+
+### Self-check — round 2
+
+- Rebuilt every figure in both modules; no empty SVGs, NaNs, missing viewBoxes, unused IDs or mapping keys.
+- Full mount scan at 1280×900 and 380×800, light and dark: 247 sections, 558 figures, section title exactly `AP 考试常见图示`, 0 empty/zero-size figures, 0 box/SVG/page overflow, 0 KaTeX errors, 0 console/page errors.
+- Focused text-bbox sweep over the 38 new figures: 0 text nodes outside their viewBox and 0 text-text overlaps after fixing the polynomial sign chart, extinction-rate labels, unit-circle tangent label, vector projection label and number-class nesting.
+- `node scripts/check-math-notation.mjs` → `MATH_NOTATION_OK`; captions use `\dfrac` only (no `\frac`/`\tfrac` in the new captions).
+- Screenshots: `screenshots/figures-bio-math/round2/` (38 new variants × light/dark = 76 PNGs).
 
 ## Enrichment pass — 2026-11-06
 
@@ -50,16 +67,16 @@ Added 11 original programmatic figures and one public-domain image, then expande
 - [x] **P1.3 Periodic Table** — `periodic-radius` Periodic trend: atomic radius vs atomic number; `electronegativity` Electronegativity across period 2
 - [x] **P1.4 Ionic and Covalent Bonding** — `bond-types` Ionic vs covalent bonding; `electronegativity` Electronegativity across period 2
 - [x] **P1.5 Molecular Geometry and Polarity** — `vsepr` Molecular geometry (VSEPR); `water-hbond` Water polarity and hydrogen bonding
-- [x] **P1.6 Chemical Reactions and Stoichiometry** — `stoich` Stoichiometry: mole ratios
+- [x] **P1.6 Chemical Reactions and Stoichiometry** — `stoich` Stoichiometry: mole ratios; `stoich-particles` Limiting reagent: particle view
 - [x] **P1.7 Solutions and Concentration** — `solubility` Solubility curves; `water-potential` Water potential Ψ = Ψs + Ψp
 - [x] **P1.8 Acids, Bases, and pH** — `ph-scale` The pH scale; `titration` Titration curve: strong acid with strong base
 - [x] **P1.9 Water and Hydrogen Bonding** — `water-hbond` Water polarity and hydrogen bonding; `water-density` Density of water vs temperature; `specific-heat` Specific heat of water vs other substances
-- [x] **P1.10 Intro Organic Functional Groups** — `functional-groups` Functional groups in biological molecules
+- [x] **P1.10 Intro Organic Functional Groups** — `functional-groups` Functional groups in biological molecules; `polymer-linkages` Polymer classes and their linkages
 - [x] **P1.11 Intro Thermochemistry** — `exo-endo` Exergonic vs endergonic reactions; `activation-energy` Activation energy with and without enzyme
 - [x] **P1.12 Intro Kinetics and Equilibrium** — `rate-equilibrium` Reaction rate and equilibrium; `activation-energy` Activation energy with and without enzyme
 
 ### bio-prep-hs
-- [x] **P2.1 Scientific Method and Experimental Design** — `experiment-design` Experimental design: control vs treatment with error bars
+- [x] **P2.1 Scientific Method and Experimental Design** — `experiment-design` Experimental design: control vs treatment with error bars; `error-bars` Replication and error-bar interpretation
 - [x] **P2.2 Biological Macromolecules** — `macromolecules` Dehydration synthesis and hydrolysis; `protein-structure` Levels of protein structure
 - [x] **P2.3 Cell Structure** — `cell-structure` Eukaryotic cells: animal vs plant; `endomembrane` Endomembrane system: protein secretion pathway
 - [x] **P2.4 Cell Membrane and Transport** — `transport-types` Membrane transport types; `tonicity` Tonicity: animal and plant cells
@@ -76,10 +93,10 @@ Added 11 original programmatic figures and one public-domain image, then expande
 
 ### bio-u1
 - [x] **1.1 Structure of Water and Hydrogen Bonding** — `water-hbond` Water polarity and hydrogen bonding; `specific-heat` Specific heat of water vs other substances; `water-density` Density of water vs temperature
-- [x] **1.2 Elements of Life** — `body-elements` Elements of life: human body composition by mass
-- [x] **1.3 Introduction to Biological Macromolecules** — `macromolecules` Dehydration synthesis and hydrolysis
+- [x] **1.2 Elements of Life** — `body-elements` Elements of life: human body composition by mass; `chnops-table` CHNOPS and trace-element roles
+- [x] **1.3 Introduction to Biological Macromolecules** — `macromolecules` Dehydration synthesis and hydrolysis; `macromolecule-compare` Four-class comparison chart
 - [x] **1.4 Properties of Biological Macromolecules** — `protein-structure` Levels of protein structure; `functional-groups` Functional groups in biological molecules
-- [x] **1.5 Nucleic Acids** — `dna-structure` DNA double helix: antiparallel strands & base pairing
+- [x] **1.5 Nucleic Acids** — `dna-structure` DNA double helix: antiparallel strands & base pairing; `nucleotide-anatomy` Nucleotide anatomy and DNA vs RNA
 - [x] **1.6 Structure and Function of Enzymes** — `induced-fit` Enzyme–substrate induced fit; `activation-energy` Activation energy with and without enzyme
 
 ### bio-u2
@@ -92,7 +109,7 @@ Added 11 original programmatic figures and one public-domain image, then expande
 - [x] **2.7 Tonicity and Osmoregulation** — `tonicity` Tonicity: animal and plant cells; `water-potential` Water potential Ψ = Ψs + Ψp; `osmosis-potato` Osmosis lab: % mass change vs sucrose molarity
 - [x] **2.8 Mechanisms of Transport** — `na-k-pump` Na⁺/K⁺-ATPase cycle and bulk transport; `transport-types` Membrane transport types
 - [x] **2.9 Compartmentalization** — `endomembrane` Endomembrane system: protein secretion pathway; `etc` Electron transport chain & chemiosmosis
-- [x] **2.10 Origins of Cell Compartmentalization** — `endosymbiosis` Endosymbiotic theory
+- [x] **2.10 Origins of Cell Compartmentalization** — `endosymbiosis` Endosymbiotic theory; `endosymbiosis-evidence` Evidence for endosymbiosis
 
 ### bio-u3
 - [x] **3.1 Enzyme Catalysis** — `activation-energy` Activation energy with and without enzyme; `enz-substrate` Reaction rate vs substrate concentration (Michaelis–Menten); `enz-inhibition` Competitive vs noncompetitive inhibition; `induced-fit` Enzyme–substrate induced fit
@@ -116,7 +133,7 @@ Added 11 original programmatic figures and one public-domain image, then expande
 - [x] **5.2 Meiosis and Genetic Diversity** — `crossing-over` Crossing over and independent assortment; `meiosis-stages` Meiosis I and II (2n = 4 → four n = 2 cells)
 - [x] **5.3 Mendelian Genetics** — `punnett-mono` Punnett square: monohybrid cross Aa × Aa; `punnett-di` Punnett square: dihybrid cross AaBb × AaBb; `punnett-test` Test cross: A? × aa; `chi-square` Chi-square goodness of fit
 - [x] **5.4 Non-Mendelian Genetics** — `punnett-incomplete` Incomplete dominance: snapdragon RW × RW; `blood-type` Multiple alleles & codominance: ABO blood type; `punnett-xlinked` X-linked recessive cross: XᴴXʰ × XᴴY; `pedigree-ar` Pedigree: autosomal recessive; `pedigree-ad` Pedigree: autosomal dominant; `pedigree-xr` Pedigree: X-linked recessive; `linkage-map` Linked genes: recombination frequency map
-- [x] **5.5 Environmental Effects on Phenotype** — `env-phenotype` Environmental effects on phenotype
+- [x] **5.5 Environmental Effects on Phenotype** — `env-phenotype` Environmental effects on phenotype; `phenotype-matrix` Same genotype, three environments
 - [x] **5.6 Chromosomal Inheritance** — `nondisjunction` Nondisjunction in meiosis I vs II; `karyotype` Karyotype: trisomy 21; `linkage-map` Linked genes: recombination frequency map; `pedigree-xr` Pedigree: X-linked recessive
 
 ### bio-u6
@@ -132,15 +149,15 @@ Added 11 original programmatic figures and one public-domain image, then expande
 ### bio-u7
 - [x] **7.1 Introduction to Natural Selection** — `sel-directional` Directional selection; `variation` Variation in populations: continuous trait distribution
 - [x] **7.2 Natural Selection** — `sel-stabilizing` Stabilizing selection; `sel-directional` Directional selection; `sel-disruptive` Disruptive selection
-- [x] **7.3 Artificial Selection** — `artificial-selection` Artificial selection: Brassica oleracea
+- [x] **7.3 Artificial Selection** — `artificial-selection` Artificial selection: Brassica oleracea; `selection-response` Response to artificial selection
 - [x] **7.4 Population Genetics** — `genetic-drift` Genetic drift: small vs large populations; `bottleneck` Bottleneck effect
 - [x] **7.5 Hardy-Weinberg Equilibrium** — `hw-curves` Hardy–Weinberg genotype frequencies vs allele frequency; `hw-data` Hardy–Weinberg test on population data
 - [x] **7.6 Evidence of Evolution** — `homologous-structures` Evidence of evolution: homologous structures; `molecular-tree` Molecular evidence: cytochrome c differences
 - [x] **7.7 Common Ancestry** — `molecular-tree` Molecular evidence: cytochrome c differences; `phylo-tree` Phylogenetic tree (cladogram) with shared derived characters
 - [x] **7.8 Continuing Evolution** — `antibiotic-resistance` Continuing evolution: antibiotic resistance; `sel-directional` Directional selection
 - [x] **7.9 Phylogeny** — `phylo-tree` Phylogenetic tree (cladogram) with shared derived characters; `character-matrix` Building a tree from a character table
-- [x] **7.10 Speciation** — `speciation` Speciation: allopatric vs sympatric; gradualism vs punctuated equilibrium
-- [x] **7.11 Extinction** — `extinction` Extinction through time: the "Big Five"
+- [x] **7.10 Speciation** — `speciation` Speciation: allopatric vs sympatric; gradualism vs punctuated equilibrium; `isolation-barriers` Reproductive-isolation mechanisms
+- [x] **7.11 Extinction** — `extinction` Extinction through time: the "Big Five"; `extinction-rates` Background vs mass-extinction rates
 - [x] **7.12 Variations in Populations** — `variation` Variation in populations: continuous trait distribution; `genetic-drift` Genetic drift: small vs large populations
 - [x] **7.13 Origins of Life on Earth** — `origins-life` Origins of life: timeline; `endosymbiosis` Endosymbiotic theory
 
@@ -158,45 +175,45 @@ Added 11 original programmatic figures and one public-domain image, then expande
 > Baseline topic lists below. The 2026-11-06 enrichment pass adds cross-mounted variants across calculus limits, continuity, derivatives, MVT/extrema, FTC/integrals, area/volume methods, parametric/polar, and series/Taylor topics; exact current mappings are in `data/math/figures.js` and the single-variant counts are in `audit/figure-gaps-bio-math.md`.
 
 ### math-prep-alg1
-- [x] **P1.1 Expressions and Properties of Real Numbers** — `numline` Real number line
-- [x] **P1.2 Linear Equations** — `lin-eq` Solving a linear equation graphically
+- [x] **P1.1 Expressions and Properties of Real Numbers** — `numline` Real number line; `number-classes` Number-classification tree
+- [x] **P1.2 Linear Equations** — `lin-eq` Solving a linear equation graphically; `lin-eq-balance` Balance-scale solution
 - [x] **P1.3 Linear Inequalities** — `ineq-1d` Compound inequality on a number line; `ineq-2d` Linear inequality in two variables
 - [x] **P1.4 Intro Functions and Graphs** — `vlt` Function vs not a function (vertical line test); `fn-graphs` Reading a function graph: domain, range, zeros, extrema
 - [x] **P1.5 Slope and Equations of Lines** — `slope` Slope as rise over run; `slope-forms` Positive, negative, zero, undefined slope
 - [x] **P1.6 Systems of Linear Equations** — `sys-one` System of linear equations: one solution; `sys-none` System of linear equations: no solution; `sys-inf` System of linear equations: infinitely many solutions
-- [x] **P1.7 Exponent Rules** — `exp-rules` Exponential functions 2ˣ and (1/2)ˣ
-- [x] **P1.8 Polynomial Operations** — `area-model` Polynomial multiplication area model
-- [x] **P1.9 Factoring** — `factor-roots` Factoring ↔ x-intercepts
+- [x] **P1.7 Exponent Rules** — `exp-rules` Exponential functions 2ˣ and (1/2)ˣ; `exponent-rules` Exponent rules with numeric examples
+- [x] **P1.8 Polynomial Operations** — `area-model` Polynomial multiplication area model; `poly-ops-table` Degree and leading-coefficient table
+- [x] **P1.9 Factoring** — `factor-roots` Factoring ↔ x-intercepts; `factoring-patterns` Factoring patterns and zero product
 - [x] **P1.10 Intro Quadratic Equations** — `quadratic` Quadratic: vertex, axis, roots; `discriminant` Discriminant: 2, 1, or 0 real roots
-- [x] **P1.11 Intro Exponential Growth** — `lin-vs-exp` Linear vs exponential growth
-- [x] **P1.12 Data and Linear Models** — `scatter-fit` Scatter plot with least-squares line
+- [x] **P1.11 Intro Exponential Growth** — `lin-vs-exp` Linear vs exponential growth; `compound-interest` Compound vs simple interest
+- [x] **P1.12 Data and Linear Models** — `scatter-fit` Scatter plot with least-squares line; `residual-plot` Residual plot
 
 ### math-prep-geo
-- [x] **P2.1 Points, Lines, Planes, Angles** — `angles` Angle pairs at intersecting lines
-- [x] **P2.2 Parallel Lines and Triangle Congruence** — `parallel-transversal` Parallel lines cut by a transversal
-- [x] **P2.3 Similar Triangles** — `similar-tri` Similar triangles (scale factor 1.5)
-- [x] **P2.4 Right Triangles and Pythagorean Theorem** — `pythagoras` Pythagorean theorem (3-4-5)
-- [x] **P2.5 Intro Trigonometric Ratios** — `trig-ratios` Right-triangle trig ratios (SOH-CAH-TOA)
-- [x] **P2.6 Properties of Circles** — `circle-angles` Central and inscribed angles
-- [x] **P2.7 Area and Perimeter** — `area-perim` Area and perimeter of a composite figure
-- [x] **P2.8 Surface Area and Volume** — `solids` Volumes of solids (Archimedes)
-- [x] **P2.9 Coordinate Geometry** — `dist-mid` Distance and midpoint
-- [x] **P2.10 Transformations** — `transformations` Rigid transformations of a triangle
-- [x] **P2.11 Basics of Proof** — `isosceles-proof` Proof figure: isosceles triangle
+- [x] **P2.1 Points, Lines, Planes, Angles** — `angles` Angle pairs at intersecting lines; `angle-pairs` Angle-pair reference
+- [x] **P2.2 Parallel Lines and Triangle Congruence** — `parallel-transversal` Parallel lines cut by a transversal; `congruence-tests` SSS/SAS/ASA congruence
+- [x] **P2.3 Similar Triangles** — `similar-tri` Similar triangles (scale factor 1.5); `similarity-tests` AA/SAS/SSS similarity
+- [x] **P2.4 Right Triangles and Pythagorean Theorem** — `pythagoras` Pythagorean theorem (3-4-5); `special-right-triangles` Special right triangles and the converse
+- [x] **P2.5 Intro Trigonometric Ratios** — `trig-ratios` Right-triangle trig ratios (SOH-CAH-TOA); `unit-circle-trig` Unit-circle definitions
+- [x] **P2.6 Properties of Circles** — `circle-angles` Central and inscribed angles; `arc-sector` Arc length and sector area
+- [x] **P2.7 Area and Perimeter** — `area-perim` Area and perimeter of a composite figure; `area-decompose` Decomposition and unit conversion
+- [x] **P2.8 Surface Area and Volume** — `solids` Volumes of solids (Archimedes); `solid-scaling` Scaling of similar solids
+- [x] **P2.9 Coordinate Geometry** — `dist-mid` Distance and midpoint; `perp-bisector` Perpendicular bisector
+- [x] **P2.10 Transformations** — `transformations` Rigid transformations of a triangle; `symmetry-types` Line and rotational symmetry
+- [x] **P2.11 Basics of Proof** — `isosceles-proof` Proof figure: isosceles triangle; `proof-template` Two-column proof and CPCTC
 
 ### math-prep-alg2
-- [x] **P3.1 Families of Functions Review** — `parent-fns` Families of parent functions
+- [x] **P3.1 Families of Functions Review** — `parent-fns` Families of parent functions; `function-transformations` Transformation summary table
 - [x] **P3.2 Quadratic Functions in Depth** — `vertex-form` Transformations: y = a(x − h)² + k; `quadratic` Quadratic: vertex, axis, roots
-- [x] **P3.3 Polynomial Functions** — `poly-mult` Polynomial: zeros, multiplicity, end behavior
+- [x] **P3.3 Polynomial Functions** — `poly-mult` Polynomial: zeros, multiplicity, end behavior; `poly-sign-chart` Sign chart and end behavior
 - [x] **P3.4 Rational Functions** — `rational-analysis` Rational function: asymptotes, hole, intercepts; `limit-va` Infinite limits / vertical asymptote; `limit-ha` Limits at infinity / horizontal asymptote
-- [x] **P3.5 Radicals and Rational Exponents** — `radical-fns` Radical functions √x and ∛x
-- [x] **P3.6 Exponential Functions** — `exp-family` Exponential families and asymptotes
-- [x] **P3.7 Logarithmic Functions** — `log-inverse` Logarithm as the inverse of exponential
+- [x] **P3.5 Radicals and Rational Exponents** — `radical-fns` Radical functions √x and ∛x; `radical-equation` Extraneous-root example
+- [x] **P3.6 Exponential Functions** — `exp-family` Exponential families and asymptotes; `exp-parameters` Growth, decay and shifts
+- [x] **P3.7 Logarithmic Functions** — `log-inverse` Logarithm as the inverse of exponential; `log-properties` Log properties and a worked equation
 - [x] **P3.8 Sequences and Series Intro** — `sequences` Arithmetic vs geometric sequences; `geo-series` Geometric series partial sums
 - [x] **P3.9 Probability and Counting** — `binomial` Binomial probability distribution; `prob-tree` Probability tree diagram
-- [x] **P3.10 Intro Matrices** — `matrix-transform` Matrix as a linear transformation
-- [x] **P3.11 Intro Conic Sections** — `conics` Conic sections
-- [x] **P3.12 Trig Identity Prep** — `pythag-id` sin²x + cos²x = 1
+- [x] **P3.10 Intro Matrices** — `matrix-transform` Matrix as a linear transformation; `matrix-inverse` Determinant and inverse
+- [x] **P3.11 Intro Conic Sections** — `conics` Conic sections; `conic-standard` Standard forms and completing the square
+- [x] **P3.12 Trig Identity Prep** — `pythag-id` sin²x + cos²x = 1; `identity-derivation` Unit-circle derivation
 
 ### math-prep-precalc
 - [x] **P4.1 Polynomial and Rational Analysis** — `rational-analysis` Rational function: asymptotes, hole, intercepts; `poly-mult` Polynomial: zeros, multiplicity, end behavior
@@ -205,7 +222,7 @@ Added 11 original programmatic figures and one public-domain image, then expande
 - [x] **P4.4 Trig Equations and Identities** — `trig-eq` Solving sin x = 1/2 on [0, 2π]; `pythag-id` sin²x + cos²x = 1
 - [x] **P4.5 Intro Polar Coordinates** — `polar-points` Plotting polar points & conversion; `polar-basic` Polar coordinates: cardioid r = 1 + cos θ
 - [x] **P4.6 Intro Parametric Equations** — `param-intro` Parametric equations: ellipse; `cycloid` Parametric arc length: cycloid
-- [x] **P4.7 Intro Vectors** — `vectors` Vector addition (tip-to-tail / parallelogram)
+- [x] **P4.7 Intro Vectors** — `vectors` Vector addition (tip-to-tail / parallelogram); `vector-components` Components, magnitude and projection
 - [x] **P4.8 Matrices and Transformations** — `matrix-transform` Matrix as a linear transformation; `matrix-rot` Rotation matrix
 - [x] **P4.9 Limit Intuition** — `limit-sinx` sin x / x near 0; `limit-table` Estimating a limit from a table
 - [x] **P4.10 Rate of Change Intuition** — `rate-intuition` Rate of change intuition: shrinking intervals; `secant-tangent` Secant lines → tangent line

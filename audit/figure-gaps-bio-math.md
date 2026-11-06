@@ -16,14 +16,15 @@ Definition of a variant: a distinct visual representation that teaches the same 
 - Counts above were recomputed from `TOPIC_FIGURES` in the working tree (brace-matched object; keys whose array has 0 / 1 / 2+ string IDs).
 - Round-2 screenshots (38 topics × light/dark = 76 PNGs): `screenshots/figures-bio-math/round2/`.
 
-## Mount scan (prior pass; still the last full bio/math mount audit)
+## Mount scan (round 2)
 
-- 247 routes × light/dark = 494 Playwright page loads (recorded before round 2).
+- 247 bio/math topic routes × light/dark = 494 page loads, 558 figure placements, at 1280×900 and 380×800.
 - Every route mounted exactly one `.exam-figures` section, with `figure count === topic.figures.length`.
 - Section title is exactly `AP 考试常见图示` on every route.
-- 0 empty mounts, 0 zero-size figures, 0 overflow, 0 KaTeX errors, 0 console/page errors.
-- 0 horizontal page overflow at 1280×900.
-- Round-2 figure JS passed `node --check`; a full remount sweep was not re-run for this commit (targeted checks only).
+- 0 empty mounts, 0 zero-size figures, 0 box/SVG/page overflow, 0 KaTeX errors, 0 console/page errors.
+- 38 new figures: 0 text nodes outside their viewBox and 0 text-text overlaps in the focused bbox sweep.
+- `node --check` passed separately for `data/bio/figures.js`, `data/math/figures.js` and `data/math/figlib.js`; `scripts/check-math-notation.mjs` printed `MATH_NOTATION_OK`.
+- Screenshots: `screenshots/figures-bio-math/round2/` (76 PNGs).
 
 ## Round 2 — former bio single-variant topics (11 → 0)
 
