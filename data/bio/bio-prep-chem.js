@@ -1011,8 +1011,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "25 °C 稀水溶液；活度近似用浓度代替",
+      "pH = -log10[H+]；一元强酸完全解离时 [H+] ≈ 酸的浓度",
+      "pH 每降低 1，[H+] 增大 10 倍"
     ],
     "keyPoints": [
       "掌握 P1.8「酸碱与 pH」准确定义",
@@ -1537,8 +1538,12 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「反应速率与平衡入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "v=k[A]^{m}[B]^{n}",
+        "note": "速率方程；m、n 由实验确定，不一定等于配平系数。"
+      },
+      {
+        "latex": "K_c=\\dfrac{[C]^{c}[D]^{d}}{[A]^{a}[B]^{b}}",
+        "note": "浓度平衡常数（aA+bB⇌cC+dD）；纯固体/纯液体不写入。"
       }
     ],
     "derivationNotes": [
@@ -1559,8 +1564,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "温度恒定；速率常数 k 随温度变化",
+      "达到平衡时正逆反应速率相等，浓度不再宏观变化",
+      "K_c 只与温度有关；活度近似用浓度代替"
     ],
     "keyPoints": [
       "掌握 P1.12「反应速率与平衡入门」准确定义",
@@ -1587,7 +1593,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "K_c=\\dfrac{[C]^{c}[D]^{d}}{[A]^{a}[B]^{b}}"
       },
       {
         "title": "例 3 · 中",

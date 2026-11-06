@@ -588,8 +588,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「环境影响表型」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
-        "note": "pH 定义。"
+        "latex": "P=G+E",
+        "note": "数量性状表型的简化分解：P 表型、G 遗传、E 环境。"
       }
     ],
     "derivationNotes": [
@@ -610,8 +610,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "适用于多基因/数量性状的简化模型",
+      "环境可改变基因表达与表型；实际常含 G×E 互作",
+      "P=G+E 不是所有性状的完整模型"
     ],
     "keyPoints": [
       "掌握 5.5「环境影响表型」准确定义",
@@ -638,7 +639,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]"
+        "solutionLatex": "P=G+E"
       },
       {
         "title": "例 3 · 中",

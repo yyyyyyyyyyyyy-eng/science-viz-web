@@ -610,8 +610,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "种群足够大、随机交配、无突变、无选择、无迁移",
+      "p+q=1；p²+2pq+q²=1（一对等位基因）",
+      "偏离 HW 平衡提示选择、漂变、迁移或非随机交配"
     ],
     "keyPoints": [
       "掌握 7.5「哈代–温伯格」准确定义",
@@ -1141,8 +1142,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「系统发生」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
-        "note": "pH 定义。"
+        "latex": "\\text{共同祖先越近}\\Rightarrow\\text{亲缘关系越近}",
+        "note": "系统树由同源性状或分子序列推断；节点为最近共同祖先。"
       }
     ],
     "derivationNotes": [
@@ -1163,8 +1164,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "使用同源性状，不以趋同为亲缘证据",
+      "系统树是基于数据的假说；不同基因可能给出不同树",
+      "水平基因转移与不完全谱系分选可造成基因树冲突"
     ],
     "keyPoints": [
       "掌握 7.9「系统发生」准确定义",
@@ -1191,7 +1193,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]"
+        "solutionLatex": "\\text{共同祖先越近}\\Rightarrow\\text{亲缘关系越近}"
       },
       {
         "title": "例 3 · 中",

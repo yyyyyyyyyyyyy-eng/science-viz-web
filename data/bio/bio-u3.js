@@ -446,8 +446,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「光合作用」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]",
-        "note": "pH 定义。"
+        "latex": "6CO_2+6H_2O\\xrightarrow{\\text{light}}C_6H_{12}O_6+6O_2",
+        "note": "光合作用总反应；O₂ 来自水的光解。"
       }
     ],
     "derivationNotes": [
@@ -468,8 +468,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "光反应在类囊体膜产生 ATP 与 NADPH",
+      "Calvin 循环在叶绿体基质固定 CO₂",
+      "Rubisco 的羧化/加氧活性受 CO₂/O₂ 比例影响"
     ],
     "keyPoints": [
       "掌握 3.4「光合作用」准确定义",
@@ -496,7 +497,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\mathrm{pH}=-\\log_{10}\\![\\mathrm{H}^+]"
+        "solutionLatex": "6CO_2+6H_2O\\xrightarrow{\\text{light}}C_6H_{12}O_6+6O_2"
       },
       {
         "title": "例 3 · 中",

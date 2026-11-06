@@ -715,8 +715,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「酶结构与功能」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "K=\\dfrac{1}{2}mv^2",
-        "note": "动能；叠式分式。"
+        "latex": "E+S\\rightleftharpoons ES\\rightarrow E+P",
+        "note": "酶—底物复合物；活性位点决定特异性。"
       }
     ],
     "derivationNotes": [
@@ -737,8 +737,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "活性位点与底物形状/化学性质互补（诱导契合）",
+      "适宜温度与 pH；过酸、过碱或高温可使酶变性",
+      "酶降低活化能，不改变 ΔG 与平衡点"
     ],
     "keyPoints": [
       "掌握 1.6「酶结构与功能」准确定义",
@@ -765,7 +766,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "K=\\dfrac{1}{2}mv^2"
+        "solutionLatex": "E+S\\rightleftharpoons ES\\rightarrow E+P"
       },
       {
         "title": "例 3 · 中",
