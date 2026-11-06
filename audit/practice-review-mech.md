@@ -12,6 +12,7 @@ Method: parsed every bank, reviewed every distinct item template and its worked 
 | High | Kinetic-energy items were placed in kinematics, momentum, rotation, and oscillation units | 65 |
 | Moderate | Terminology error “动能摩擦” (should be “动摩擦”) | 102 |
 | Moderate | Slash/ASCII fractions in worked solutions instead of `\dfrac` | 151 |
+| Moderate | “Doubling” example used Ohm's law instead of a mechanics relation | 10 |
 | Moderate | Vacuous MCQs that can be answered without the unit content | ~90 |
 | Low | Duplicated identical items inside each bank | ~300 |
 
@@ -75,11 +76,15 @@ a=\dfrac{F-\mu_k mg}{m}
 =\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\ \mathrm{m/s^2}.
 \]
 
-### 5. Moderate — vacuous MCQs (not changed)
+### 5. Moderate — wrong-domain proportion example
+
+`mech-u1-q007` (and the equivalent item in every mechanics bank, 10 total) answered “若某一参数加倍…” with “R↑⇒I↓ 成反比（欧姆情形）”. Ohm's law is not a mechanics model. Replaced with the actual mechanics relation: \(a=F/m\); at fixed \(m\), doubling \(F\) doubles \(a\), and at fixed \(F\), doubling \(m\) halves \(a\).
+
+### 6. Moderate — vacuous MCQs (not changed)
 
 Representative: `mech-u1-q012`, `mech-u2-q012`, `mech-u3-q018`, all `mech-prep-*` concept MCQs. The correct option is “适用定律有明确条件，矢量/符号必须一致”; distractors include “场线密度与物理强度无关”, which is not a mechanics concept. These are not factually false, but they test no mechanics content and can be answered from exam-taking heuristics. Replacing them requires per-topic editorial content, which is outside a factual-fix pass; see Remaining issues.
 
-### 6. Low — duplicated items
+### 7. Low — duplicated items
 
 Each bank contains the same 9–13 templates repeated many times (e.g. ten copies of the friction block, ten copies of the \(a=F/m\) item). Counts are inflated without adding coverage. This is a content-production issue, not an accuracy bug.
 
