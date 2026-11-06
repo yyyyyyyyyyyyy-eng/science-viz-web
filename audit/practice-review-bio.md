@@ -78,3 +78,18 @@ There are no calculations, concentrations, or genetic ratios in the current bank
 1. **Rewrite the question layer.** The bank needs one specific claim/evidence/reasoning prompt per topic, with a rubric, plus MCQs whose correct answer states a real mechanism (e.g. “减数分裂 I 的同源染色体分离增加遗传多样性”). That is a large editorial batch; I did not generate it.
 2. **Some units still share generic stimuli.** The mapping above is topic-appropriate at the level of diagram type, but the question text remains generic.
 3. If the product goal is “exam-accurate practice”, these banks should be treated as placeholders, not as AP Bio practice.
+
+## Self-check (2026-11-06)
+
+Re-read the shipped commit (`dbe96f5`) and all 10 bio practice files; verified the current files are unchanged after `bf2a022`.
+
+Re-ran:
+
+- Node `vm` parse of all 10 banks: all load; item counts unchanged (45/45/59/78/59/64/59/69/92/64).
+- Checked all 30 shared sets still have the intended diagram kind and that non-enzyme sets no longer carry the enzyme \(v\)–\([S]\) table.
+- Playwright on all 27 practice routes at 390×844 and 1280×900, light and dark: 0 console errors, 0 KaTeX errors, no horizontal page overflow, no card overlap, minimum text contrast 5.1 (light) / 7.6 (dark).
+- Rechecked the MCQ choices and FRQ answers: no new incorrect biological statement found.
+
+No new factual or layout issue found in the bio practice files. The mapping remains at unit level, not per-topic; for example “科学测量” still uses a generic enzyme data table and “自然选择” uses a pedigree/food-web diagram. That is a known content-depth limitation, not a new factual error, and remains documented above.
+
+Base SHAs before this self-check: web `bf2a022`, app `72faec1`. The self-check commit SHA is listed in the final session report.

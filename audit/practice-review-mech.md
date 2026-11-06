@@ -34,7 +34,7 @@ Before the fix:
 Fix applied to all 30 items:
 
 - Set 1: added `F = 10 N` and `g = 9.8 m/s²`; asked explicitly for the block acceleration; expected `3.04`, tolerance `0.01`; solution now derives \(a=(F-\mu_k mg)/m=3.04\ \mathrm{m/s^2}\).
-- Set 2: replaced the table with `m₁ = 2.0 kg`, `m₂ = 1.0 kg`, `g = 9.8 m/s²`; asked for the Atwood acceleration; expected `3.27`, tolerance `0.01`; solution \(a=m_2g/(m_1+m_2)=3.27\ \mathrm{m/s^2}\).
+- Set 2: replaced the table with `m₁ = 2.0 kg`, `m₂ = 1.0 kg`, `g = 9.8 m/s²`; rewrote the text as an Atwood machine (both masses hanging, \(m_1>m_2\)) so it matches the pulley diagram; expected `3.27`, tolerance `0.01`; solution \(a=(m_1-m_2)g/(m_1+m_2)=3.27\ \mathrm{m/s^2}\).
 - Set 3: removed the irrelevant mass/friction table; asked for the slope of the \(v\)-\(t\) graph over \(0\)–\(1\ \mathrm{s}\); expected `3.0`, tolerance `0.01`; solution \(\Delta v/\Delta t=3.0\ \mathrm{m/s^2}\).
 
 ### 2. High — kinetic-energy items were attached to non-energy units
@@ -93,7 +93,7 @@ Each bank contains the same 9–13 templates repeated many times (e.g. ten copie
 - Parsed every bank after editing with Node `vm`; all banks load and all item counts are unchanged (34/40/28/40/52/44/40/40/44/40).
 - Recomputed new answers:
   - \(a=(10-0.2\cdot2\cdot9.8)/2=3.04\)
-  - \(a=1.0\cdot9.8/(2.0+1.0)=3.27\)
+  - \(a=(2.0-1.0)(9.8)/(2.0+1.0)=3.27\)
   - slope \((3-0)/(1-0)=3.0\)
   - \(a_c=4^2/2=8.0\)
   - \(T=2\pi\sqrt{0.50/50}=0.628\)
@@ -106,3 +106,20 @@ Each bank contains the same 9–13 templates repeated many times (e.g. ten copie
 2. **MCQs need editorial rewrite** (G6). Recommend one specific correct proposition plus three misconception-based distractors per topic.
 3. **Deduplication.** A curated bank of ~12–20 distinct items per unit would be better than 40–52 mostly repeated items.
 4. The generator `scripts/build-practice-v9.mjs` still produces the old cross-unit templates. It was out of scope for this review and should be changed if these banks are ever regenerated.
+
+## Self-check (2026-11-06)
+
+Re-read the shipped commits (`e327e5e`, `7fb3b56`) and every mechanics practice file; verified the current files are unchanged after `bf2a022`.
+
+Re-ran:
+
+- Node `vm` parse of all 10 banks: all load; item/card counts unchanged.
+- Greps for `动能摩擦`, `R↑⇒I↓`, generic “代入表中数据求一个目标量”, float-noise `expected`: 0 remaining.
+- Playwright on all 27 practice routes at 390×844 and 1280×900, light and dark: 0 console errors, 0 KaTeX errors, no horizontal page overflow, no card overlap, all visible controls ≥44 px, minimum text contrast 5.1 (light) / 7.6 (dark).
+- Recomputed the new answers: 3.04, 3.27, 3.0, 6.0, 8.0, 5.0, 2.0, 0.628.
+
+Found and fixed one real self-check issue: the set-2 pulley diagram shows an Atwood machine (both masses hanging), while the text and solution described “\(m_1\) on a smooth table, \(m_2\) hanging”. Changed the text and solution to the Atwood model; the numeric answer remains \(3.27\ \mathrm{m/s^2}\).
+
+No other factual, notation, or layout issue found in the mechanics files. Known remaining issue unchanged: some sets are still dynamics content in non-dynamics units; that needs a curated rewrite, not a one-line fix.
+
+Base SHAs before this self-check: web `bf2a022`, app `72faec1`. The self-check commit SHA is listed in the final session report.

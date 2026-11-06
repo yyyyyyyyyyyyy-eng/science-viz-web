@@ -70,7 +70,7 @@ export const stimuli = {
   },
   "stim-mech-prep-hs-2": {
     "title": "滑轮系统 · 物理情境",
-    "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
+    "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
     "diagram": {
       "kind": "pulley",
       "m1": "m₁",
@@ -317,7 +317,7 @@ export const problems = [
     "sharedStimulus": "stim-mech-prep-hs-2",
     "stimulus": {
       "title": "滑轮系统 · 物理情境",
-      "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
+      "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
       "diagram": {
         "kind": "pulley",
         "m1": "m₁",
@@ -381,7 +381,7 @@ export const problems = [
         "stem": "求两物块加速度大小 a（m/s²）。",
         "expected": 3.27,
         "tol": 0.01,
-        "solution": "系统整体受力 m₂g，总质量 m₁+m₂。",
+        "solution": "系统整体受力 (m₁−m₂)g，总质量 m₁+m₂。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -395,7 +395,7 @@ export const problems = [
           }
         ],
         "answerLatex": "3.27\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{m_2 g}{m_1+m_2}=\\dfrac{(1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
+        "solutionLatex": "a=\\dfrac{(m_1-m_2)g}{m_1+m_2}=\\dfrac{(2.0-1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-prep-hs-q006",

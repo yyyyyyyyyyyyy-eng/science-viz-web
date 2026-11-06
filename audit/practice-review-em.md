@@ -104,3 +104,21 @@ For the non-capacitor circuit sets, the answer now says explicitly “纯电阻�
 2. **No capacitor/dielectric numerical items.** `em-u10` now has the correct steady-state concept, but no \(C=Q/\Delta V\), dielectric, or energy-storage calculation.
 3. **MCQs remain generic** (`em-u8-q012`, `em-u11-q012`, etc.); correct option is “适用定律有明确条件…” and options mention field-line density even in circuit units.
 4. The generator `scripts/build-practice-v9.mjs` still emits the old cross-unit templates and the `I=\varepsilon/R` example. It was out of scope here; if the banks are regenerated, the generator must be fixed first.
+
+## Self-check (2026-11-06)
+
+Re-read the shipped commits (`13cd759`, `bf2a022`) and every E&M practice file; verified the current files are unchanged after `bf2a022`.
+
+Re-ran:
+
+- Node `vm` parse of all 7 banks: all load; item/card counts unchanged.
+- Verified `em-u10-set1` still has `C = 50 μF`, asks for the DC steady-state current, `expected: 0`, and solution \(I_\infty=0\).
+- Verified every field set still computes \(E=kq/r^2=1.8\times10^6\ \mathrm{N/C}\) and every Gauss set \(E=kQ/r^2=9.0\times10^5\ \mathrm{N/C}\).
+- Grepped for `R↑⇒I↓`, `I=\varepsilon/R`, `Q_{\mathrm{enc}}/\varepsilon_0`, float-noise `expected`: 0 remaining.
+- Playwright on all 27 practice routes at 390×844 and 1280×900, light and dark: 0 console errors, 0 KaTeX errors, no horizontal page overflow, no card overlap, minimum text contrast 5.1 (light) / 7.6 (dark).
+
+Found and fixed one real self-check issue: the set-2 “point charge” diagram still showed a dipole (\(+q\) and \(-q\)), while the text and table described a single point charge. Replaced it with a single \(+q\) diagram; the numeric field value is unchanged.
+
+No other factual, notation, or layout issue found in the E&M files. Known remaining issue unchanged: `em-u11`–`u13` still reuse electrostatics sets and need unit-specific magnetism/induction content.
+
+Base SHAs before this self-check: web `bf2a022`, app `72faec1`. The self-check commit SHA is listed in the final session report.

@@ -54,18 +54,13 @@ export const stimuli = {
       "kind": "field",
       "charges": [
         {
-          "x": 90,
+          "x": 140,
           "y": 90,
           "q": "+q"
-        },
-        {
-          "x": 190,
-          "y": 90,
-          "q": "−q"
         }
       ],
       "pointP": {
-        "x": 140,
+        "x": 200,
         "y": 50
       }
     },
@@ -268,18 +263,13 @@ export const problems = [
         "kind": "field",
         "charges": [
           {
-            "x": 90,
+            "x": 140,
             "y": 90,
             "q": "+q"
-          },
-          {
-            "x": 190,
-            "y": 90,
-            "q": "−q"
           }
         ],
         "pointP": {
-          "x": 140,
+          "x": 200,
           "y": 50
         }
       },

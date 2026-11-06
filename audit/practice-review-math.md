@@ -104,3 +104,16 @@ I recomputed the sampled numeric items:
 3. Replace the meta-MCQ pools with unit-specific propositions.
 4. Normalize `x^{1}` → `x`.
 5. Deduplicate: each unit repeats the same symbolic derivative/integral item 10–20 times.
+
+## Self-check (2026-11-06)
+
+Re-read the current math practice banks after the later math-session commits (`014b593`, `2a27135`) and rechecked the report-only findings.
+
+- `calc-u10-q006` is still wrong: `expected: "0"`, but \((n/(n+1))^n\to1/e\); this was not changed by the later math commits.
+- 198 generic “结合本单元定义与定理作答” answers remain.
+- 19 `calc-u10` prompts still ask for a conditionally convergent example without naming one.
+- 7 `x^{1}` notation occurrences remain.
+
+No math practice file was edited (out of scope). No new wrong formula/order-of-magnitude issue was found in the sampled items; the report above remains current.
+
+Base SHA: web `bf2a022`. The self-check commit SHA is listed in the final session report; app sync follows the final web commit.
