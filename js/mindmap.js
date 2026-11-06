@@ -59,15 +59,49 @@ function shortestPath(edges, byId, a, b) {
   return null;
 }
 
-export async function renderMindMap(main, subject) {
+export async function renderMindMap(main, subject, { isCurrent = () => true } = {}) {
   clear(main);
   const shell = el('div', { className: 'map-shell' });
   const toolbar = el('div', { className: 'map-toolbar' });
+  const subName = SUBJECT_LABEL[subject] || subject;
+  const title = el('div', { className: 'map-title-block' }, [
+    el('div', { className: 'map-kicker' }, [
+      el('a', { className: 'hit-target', href: `#/${subject}`, text: subName }),
+      el('span', { className: 'crumb-sep', text: '/' }),
+      el('span', { text: '知识图谱' }),
+    ]),
+    el('div', { className: 'map-heading' }, [
+      el('h1', { text: '知识图谱' }),
+      el('span', { className: 'map-subject-label', text: subName }),
+    ]),
+  ]);
   const search = el('input', {
     className: 'map-search hit-target',
     type: 'search',
-    placeholder: '搜索…',
-    'aria-label': '搜索知识点',
+    placeholder: '搜索知识点 · Enter',
+    'aria-label': '搜索知识点，按回车跳转',
+    autocomplete: 'off',
+  });
+  const zoomOut = el('button', {
+    type: 'button',
+    className: 'map-tool hit-target',
+    text: '−',
+    'aria-label': '缩小',
+    title: '缩小',
+  });
+  const zoomIn = el('button', {
+    type: 'button',
+    className: 'map-tool hit-target',
+    text: '+',
+    'aria-label': '放大',
+    title: '放大',
+  });
+  const fitBtn = el('button', {
+    type: 'button',
+    className: 'map-tool hit-target',
+    text: '适应',
+    'aria-label': '适应视图',
+    title: '适应视图',
   });
   const multiBtn = el('button', {
     type: 'button',
@@ -79,29 +113,30 @@ export async function renderMindMap(main, subject) {
   const clearBtn = el('button', {
     type: 'button',
     className: 'btn hit-target map-clear-sel',
-    text: '清除选择',
+    text: '清除',
     hidden: true,
   });
-  toolbar.append(
-    el('a', { className: 'hit-target', href: `#/${subject}`, text: SUBJECT_LABEL[subject] || subject }),
-    el('span', { className: 'crumb-sep', text: '/' }),
-    el('span', { text: '知识图谱' }),
-    search,
-    multiBtn,
-    clearBtn,
-  );
+  const tools = el('div', { className: 'map-tools' }, [search, zoomOut, zoomIn, fitBtn, multiBtn, clearBtn]);
+  toolbar.append(title, tools);
   const stage = el('div', { className: 'map-stage', id: 'map-stage' });
   const panel = el('aside', { className: 'map-panel', hidden: true, id: 'map-panel' });
   const tooltip = el('div', { className: 'map-tooltip', hidden: true, role: 'tooltip' });
-  stage.appendChild(tooltip);
-  shell.append(toolbar, stage, panel);
+  shell.append(toolbar, stage);
   main.appendChild(shell);
+  stage.textContent = '载入图谱…';
 
   const data = await loadCourseData(subject);
+  if (!isCurrent()) return { destroy() {} };
   if (!data) {
     stage.textContent = '无法加载图谱数据';
     return { destroy() {} };
   }
+  stage.textContent = '';
+  stage.append(tooltip, panel);
+  stage.appendChild(el('p', {
+    className: 'map-hint',
+    text: window.matchMedia('(hover: none)').matches ? '拖拽平移 · 双指缩放' : '拖拽平移 · 滚轮缩放 · 点击查看',
+  }));
   const { GRAPH } = data;
 
   let CROSS_EDGES = [];
@@ -119,6 +154,7 @@ export async function renderMindMap(main, subject) {
   } catch (_) {
     RELATIONS = { ...CROSS_RELATIONS };
   }
+  if (!isCurrent()) return { destroy() {} };
 
   const hier = buildHierarchicalGraph(subject, GRAPH, CROSS_EDGES, CROSS_RELATIONS);
   const nodes = layoutOrganic(hier.nodes, hier.allEdges, subject);
@@ -196,6 +232,9 @@ export async function renderMindMap(main, subject) {
   stage.appendChild(renderer.domElement);
   renderer.domElement.classList.add('map-canvas');
   renderer.domElement.style.touchAction = 'none';
+  renderer.domElement.tabIndex = 0;
+  renderer.domElement.setAttribute('role', 'application');
+  renderer.domElement.setAttribute('aria-label', '知识图谱画布；拖拽平移，滚轮缩放，点击节点查看');
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.9));
   const key = new THREE.DirectionalLight(0xffffff, 0.35);
@@ -243,7 +282,7 @@ export async function renderMindMap(main, subject) {
     if (n.tier === 'unit' && n.soleUnderStage) {
       mesh.visible = false;
     }
-    const hitR = n.tier === 'stage' ? 0.85 : n.tier === 'unit' ? 0.55 : 0.4;
+    const hitR = n.tier === 'stage' ? 0.85 : n.tier === 'unit' ? 0.55 : 0.55;
     const hit = new THREE.Mesh(
       new THREE.SphereGeometry(hitR, 8, 8),
       new THREE.MeshBasicMaterial({ visible: false }),
@@ -281,15 +320,37 @@ export async function renderMindMap(main, subject) {
     labelEls.set(n.id, lab);
   }
   const _proj = new THREE.Vector3();
-  const LABEL_OFFSETS = [
-    [-50, -140], [-50, -110], [-50, -170],
-    [8, -130], [-108, -130], [-50, -80],
-    [20, -160], [-120, -160], [-50, -200],
-    [40, -100], [-140, -100],
-  ];
+  const labelDims = new Map();
+  function measureLabels() {
+    for (const [id, lab] of labelEls) {
+      lab.style.display = '';
+      lab.style.visibility = 'hidden';
+      labelDims.set(id, {
+        w: Math.max(lab.offsetWidth || 56, 34),
+        h: Math.max(lab.offsetHeight || 18, 14),
+      });
+    }
+  }
+
+  function placeLabel(item, offsets, placed, pad, w, h) {
+    for (const [ox, oy] of offsets) {
+      const rect = {
+        x: item.sx + ox(item.lw),
+        y: item.sy + oy(item.lh),
+        w: item.lw,
+        h: item.lh,
+      };
+      if (rect.x < 6 || rect.y < 6 || rect.x + rect.w > w - 6 || rect.y + rect.h > h - 6) continue;
+      if (placed.some((p) => rectsOverlap(rect, p, pad))) continue;
+      return rect;
+    }
+    return null;
+  }
+
   function updateLabels() {
     const w = stage.clientWidth || 1;
     const h = stage.clientHeight || 1;
+    const compact = w < 720;
     const stageCands = [];
     const unitCands = [];
     for (const [id, lab] of labelEls) {
@@ -300,74 +361,63 @@ export async function renderMindMap(main, subject) {
         lab.style.display = 'none';
         continue;
       }
+      if (n.tier === 'unit' && compact) {
+        lab.style.display = 'none';
+        continue;
+      }
       const sx = (_proj.x * 0.5 + 0.5) * w;
       const sy = (-_proj.y * 0.5 + 0.5) * h;
+      const dim = labelDims.get(id) || { w: 64, h: 20 };
+      const item = { id, lab, n, sx, sy, lw: dim.w, lh: dim.h };
       lab.style.display = '';
       lab.style.visibility = 'hidden';
-      lab.style.transform = 'translate(0,0)';
-      const lw = Math.max(lab.offsetWidth || 48, 36);
-      const lh = Math.max(lab.offsetHeight || 18, 14);
-      const item = { id, lab, n, sx, sy, lw, lh };
       if (n.tier === 'stage') stageCands.push(item);
       else unitCands.push(item);
     }
 
-    // Stages: pin label centered above node (curriculum L→R already separates them)
     const placed = [];
-    stageCands.sort((a, b) => a.sx - b.sx);
-    stageCands.forEach((c, i) => {
-      let x = c.sx - c.lw / 2;
-      let y = c.sy - c.lh - 14;
-      // Mild vertical stagger if two stages project very close
-      if (i > 0) {
-        const prev = placed[placed.length - 1];
-        if (prev && Math.abs((prev.x + prev.w / 2) - c.sx) < (prev.w + c.lw) * 0.55) {
-          y = prev.y - c.lh - 6;
-        }
+
+    // Stage labels: prefer above the stage capsule, then below / sides.
+    stageCands.sort((a, b) => a.sy - b.sy || a.sx - b.sx);
+    stageCands.forEach((c) => {
+      const offsets = [
+        [(lw) => -lw / 2, (lh) => -lh - 16],
+        [(lw) => -lw / 2, () => 14],
+        [() => 14, (lh) => -lh / 2],
+        [(lw) => -lw - 14, (lh) => -lh / 2],
+        [(lw) => -lw / 2, (lh) => -lh - 36],
+      ];
+      const rect = placeLabel(c, offsets, placed, 10, w, h);
+      if (!rect) {
+        c.lab.style.display = 'none';
+        return;
       }
-      x = Math.min(Math.max(6, x), w - c.lw - 6);
-      y = Math.min(Math.max(6, y), h - c.lh - 6);
-      const rect = { x, y, w: c.lw, h: c.lh, tier: 'stage' };
-      c.lab.style.display = '';
       c.lab.style.visibility = '';
-      c.lab.style.transform = `translate(${x}px, ${y}px)`;
-      placed.push(rect);
+      c.lab.style.transform = `translate(${rect.x}px, ${rect.y}px)`;
+      placed.push({ ...rect, tier: 'stage' });
     });
 
-    // Units: try offsets; hide on any collision with placed (stages win)
-    const unitOffs = [
-      [-0.5, -1.6], [-0.5, -2.1], [0.15, -1.5], [-1.15, -1.5],
-      [-0.5, -1.1], [0.3, -2.0], [-1.3, -2.0], [-0.5, -2.55],
-      [0.4, -1.2], [-1.4, -1.2],
-    ];
-    unitCands.sort((a, b) => a.id.localeCompare(b.id));
-    for (const c of unitCands) {
-      let chosen = null;
-      for (const [fx, fy] of unitOffs) {
-        const rect = {
-          x: c.sx + fx * c.lw,
-          y: c.sy + fy * c.lh,
-          w: c.lw,
-          h: c.lh,
-        };
-        if (rect.x < 4 || rect.y < 4 || rect.x + rect.w > w - 4 || rect.y + rect.h > h - 4) continue;
-        let hit = false;
-        for (const p of placed) {
-          if (rectsOverlap(rect, p, p.tier === 'stage' ? 14 : 10)) { hit = true; break; }
-        }
-        if (!hit) { chosen = rect; break; }
-      }
-      if (!chosen) {
+    // Unit labels: above / below / to the side, always inside the stage.
+    unitCands.sort((a, b) => a.sy - b.sy || a.sx - b.sx);
+    unitCands.forEach((c) => {
+      const offsets = [
+        [(lw) => -lw / 2, (lh) => -lh - 11],
+        [(lw) => -lw / 2, () => 12],
+        [() => 12, (lh) => -lh / 2],
+        [(lw) => -lw - 12, (lh) => -lh / 2],
+        [(lw) => 8, (lh) => -lh - 11],
+        [(lw) => -lw - 8, (lh) => -lh - 11],
+        [(lw) => -lw / 2, (lh) => -lh - 32],
+      ];
+      const rect = placeLabel(c, offsets, placed, 8, w, h);
+      if (!rect) {
         c.lab.style.display = 'none';
-        c.lab.style.visibility = '';
-        continue;
+        return;
       }
-      c.lab.style.display = '';
       c.lab.style.visibility = '';
-      c.lab.style.transform = `translate(${chosen.x}px, ${chosen.y}px)`;
-      chosen.tier = 'unit';
-      placed.push(chosen);
-    }
+      c.lab.style.transform = `translate(${rect.x}px, ${rect.y}px)`;
+      placed.push({ ...rect, tier: 'unit' });
+    });
   }
 
   // Split edges: tree (solid gray) vs cross-topic (dashed gray). Never colored / never violet.
@@ -478,8 +528,8 @@ export async function renderMindMap(main, subject) {
   }
 
   // damped orbit targets
-  let ax = 0.28;
-  let ay = 0.15;
+  let ax = 0.14;
+  let ay = 0.02;
   let dist = 62;
   let tax = ax;
   let tay = ay;
@@ -518,7 +568,7 @@ export async function renderMindMap(main, subject) {
   }
 
 
-  function fitGraph(fill = 0.78) {
+  function fitGraph(fill = 0.82) {
     const box = new THREE.Box3();
     for (const n of nodes) box.expandByPoint(new THREE.Vector3(n.x, n.y, n.z));
     if (box.isEmpty()) return;
@@ -527,9 +577,9 @@ export async function renderMindMap(main, subject) {
     panX = tpanX = c.x;
     panY = tpanY = c.y;
     panZ = tpanZ = c.z;
-    // Prefer a flatter, more readable angle
-    ax = tax = 0.04;
-    ay = tay = 0.08;
+    // Flatter angle keeps the curriculum left→right and labels readable.
+    ax = tax = 0.14;
+    ay = tay = 0.02;
 
     // View-aligned camera basis at unit distance, then scale
     const right = new THREE.Vector3(
@@ -537,14 +587,12 @@ export async function renderMindMap(main, subject) {
       0,
       -Math.sin(ay),
     ).normalize();
-    // camera up ≈ world up tilted
     const forward = new THREE.Vector3(
       -Math.sin(ay) * Math.cos(ax),
       -Math.sin(ax),
       -Math.cos(ay) * Math.cos(ax),
     ).normalize();
     const up = new THREE.Vector3().crossVectors(right, forward).normalize();
-    // Re-orthogonalize right
     right.crossVectors(forward, up).normalize();
 
     let maxR = 0, maxU = 0;
@@ -554,15 +602,15 @@ export async function renderMindMap(main, subject) {
       maxR = Math.max(maxR, Math.abs(v.dot(right)));
       maxU = Math.max(maxU, Math.abs(v.dot(up)));
     }
-    // Small pad so outermost topics aren't clipped
-    maxR *= 1.16;
-    maxU *= 1.16;
+    // Leave room for stage/unit labels at the outer edges.
+    maxR *= 1.2;
+    maxU *= 1.26;
     const fov = (camera.fov * Math.PI) / 180;
     const aspect = Math.max(0.55, camera.aspect || 1);
     const distForH = maxU / (Math.tan(fov / 2) * fill);
     const distForW = maxR / (Math.tan(fov / 2) * aspect * fill);
-    let d = Math.max(distForH, distForW, 16);
-    d = Math.max(20, Math.min(160, d));
+    let d = Math.max(distForH, distForW, 14);
+    d = Math.max(18, Math.min(180, d));
     dist = tdist = d;
   }
 
@@ -572,16 +620,18 @@ export async function renderMindMap(main, subject) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h, false);
+    measureLabels();
   }
   resize();
-  fitGraph(0.78);
+  fitGraph(0.82);
   const ro = new ResizeObserver(() => {
     resize();
     // keep framing when shell resizes; don't fight user zoom after first interaction
-    if (!userMovedCamera) fitGraph(0.78);
+    if (!userMovedCamera) fitGraph(0.82);
   });
   ro.observe(stage);
   let userMovedCamera = false;
+  document.fonts?.ready?.then(() => { if (alive !== false) measureLabels(); }).catch(() => {});
 
   function applyCamera() {
     const cx = panX, cy = panY, cz = panZ;
@@ -591,6 +641,17 @@ export async function renderMindMap(main, subject) {
       cz + dist * Math.cos(ay) * Math.cos(ax),
     );
     camera.lookAt(cx, cy, cz);
+  }
+
+  function zoomBy(factor) {
+    userMovedCamera = true;
+    tdist = Math.max(10, Math.min(190, tdist * factor));
+  }
+
+  function resetView() {
+    fitGraph(0.82);
+    userMovedCamera = false;
+    idle = true;
   }
 
   function pointerDistance() {
@@ -619,17 +680,19 @@ export async function renderMindMap(main, subject) {
     pointer.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
     pointer.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1;
     raycaster.setFromCamera(pointer, camera);
-    const edgeHits = raycaster.intersectObjects(edgeHandles, true);
-    if (edgeHits.length) {
-      let obj = edgeHits[0].object;
-      while (obj && (!obj.userData || obj.userData.kind !== 'edge') && obj.parent) obj = obj.parent;
-      if (obj?.userData?.kind === 'edge') return { kind: 'edge', data: obj.userData, mesh: obj };
-    }
+    // Nodes win over relation dots, so a precise click on a sphere never turns
+    // into a nearby edge hit. The midpoint dots keep their generous hit area.
     const hits = raycaster.intersectObjects([...meshes.values()], true);
     if (hits.length) {
       let obj = hits[0].object;
       while (obj && !obj.userData?.id && obj.parent) obj = obj.parent;
       if (obj?.userData?.id) return { kind: 'node', data: obj.userData, mesh: obj };
+    }
+    const edgeHits = raycaster.intersectObjects(edgeHandles, true);
+    if (edgeHits.length) {
+      let obj = edgeHits[0].object;
+      while (obj && (!obj.userData || obj.userData.kind !== 'edge') && obj.parent) obj = obj.parent;
+      if (obj?.userData?.kind === 'edge') return { kind: 'edge', data: obj.userData, mesh: obj };
     }
     return null;
   }
@@ -879,7 +942,11 @@ export async function renderMindMap(main, subject) {
   }
 
   function flyTo(n) {
-    const targetDist = Math.hypot(n.x, n.y, n.z) + 16;
+    userMovedCamera = true;
+    tpanX = n.x;
+    tpanY = n.y;
+    tpanZ = n.z;
+    const targetDist = n.tier === 'topic' ? 30 : n.tier === 'unit' ? 42 : 54;
     tdist = Math.max(18, Math.min(140, targetDist));
     openDetail(n);
   }
@@ -890,6 +957,9 @@ export async function renderMindMap(main, subject) {
     multiBtn.classList.toggle('primary', multiMode);
   });
   clearBtn.addEventListener('click', clearSelection);
+  zoomIn.addEventListener('click', () => zoomBy(0.8));
+  zoomOut.addEventListener('click', () => zoomBy(1.25));
+  fitBtn.addEventListener('click', () => resetView());
 
   const onKey = (e) => {
     if (e.key === 'Escape') {
@@ -905,6 +975,26 @@ export async function renderMindMap(main, subject) {
   document.addEventListener('keydown', onKey);
 
   renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
+  renderer.domElement.addEventListener('keydown', (e) => {
+    const step = e.shiftKey ? 4 : 1.6;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      userMovedCamera = true;
+      if (e.key === 'ArrowLeft') tpanX -= step;
+      if (e.key === 'ArrowRight') tpanX += step;
+      if (e.key === 'ArrowUp') tpanY += step;
+      if (e.key === 'ArrowDown') tpanY -= step;
+    } else if (e.key === '+' || e.key === '=') {
+      e.preventDefault();
+      zoomBy(0.82);
+    } else if (e.key === '-' || e.key === '_') {
+      e.preventDefault();
+      zoomBy(1.22);
+    } else if (e.key === '0' || e.key === 'Home') {
+      e.preventDefault();
+      resetView();
+    }
+  });
 
   renderer.domElement.addEventListener('pointerdown', (e) => {
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -921,7 +1011,7 @@ export async function renderMindMap(main, subject) {
       dragMode = 'pinch';
       pinchStartDist = pointerDistance() || 1;
       pinchStartTdist = tdist;
-    } else dragMode = 'rotate';
+    } else dragMode = (e.altKey || e.shiftKey) ? 'rotate' : 'pan';
     try {
       renderer.domElement.setPointerCapture(e.pointerId);
     } catch (_) {}
@@ -1034,39 +1124,43 @@ export async function renderMindMap(main, subject) {
       }
       tooltip.hidden = true;
     } else {
-      const hit = pick(e);
-      const rect = stage.getBoundingClientRect();
-      if (hit?.kind === 'edge') {
-        const a = hit.data.sourceNode;
-        const b = hit.data.targetNode;
-        tooltip.hidden = false;
-        tooltip.textContent = `${a.code} ${a.titleZh} — ${b.code} ${b.titleZh}`;
-        const x = e.clientX - rect.left + 14;
-        const y = e.clientY - rect.top + 14;
-        tooltip.style.left = `${Math.min(x, rect.width - 280)}px`;
-        tooltip.style.top = `${Math.min(y, rect.height - 40)}px`;
-        renderer.domElement.style.cursor = 'pointer';
-      } else if (hit?.kind === 'node') {
-        const n = hit.data;
-        tooltip.hidden = false;
-        if (n.tier === 'stage') tooltip.textContent = `${n.titleZh} · ${n.titleEn}`;
-        else if (n.tier === 'unit') tooltip.textContent = `单元 · ${n.titleZh}`;
-        else tooltip.textContent = `${n.code} ${n.titleZh}`;
-        const x = e.clientX - rect.left + 14;
-        const y = e.clientY - rect.top + 14;
-        tooltip.style.left = `${Math.min(x, rect.width - 220)}px`;
-        tooltip.style.top = `${Math.min(y, rect.height - 40)}px`;
-        renderer.domElement.style.cursor = 'pointer';
-        if (hoverId !== n.id) {
-          hoverId = n.id;
-          refreshSelectionVisual();
-        }
-      } else {
+      if (e.pointerType === 'touch') {
         tooltip.hidden = true;
-        renderer.domElement.style.cursor = 'grab';
-        if (hoverId) {
-          hoverId = null;
-          refreshSelectionVisual();
+      } else {
+        const hit = pick(e);
+        const rect = stage.getBoundingClientRect();
+        const showTooltip = (text) => {
+          tooltip.hidden = false;
+          tooltip.textContent = text;
+          const tw = tooltip.offsetWidth || 200;
+          const th = tooltip.offsetHeight || 30;
+          const x = e.clientX - rect.left + 14;
+          const y = e.clientY - rect.top + 14;
+          tooltip.style.left = `${Math.max(8, Math.min(x, rect.width - tw - 12))}px`;
+          tooltip.style.top = `${Math.max(8, Math.min(y, rect.height - th - 12))}px`;
+        };
+        if (hit?.kind === 'edge') {
+          const a = hit.data.sourceNode;
+          const b = hit.data.targetNode;
+          showTooltip(`${a.code} ${a.titleZh} — ${b.code} ${b.titleZh}`);
+          renderer.domElement.style.cursor = 'pointer';
+        } else if (hit?.kind === 'node') {
+          const n = hit.data;
+          if (n.tier === 'stage') showTooltip(`${n.titleZh} · ${n.titleEn}`);
+          else if (n.tier === 'unit') showTooltip(`单元 · ${n.titleZh}`);
+          else showTooltip(`${n.code} ${n.titleZh}`);
+          renderer.domElement.style.cursor = 'pointer';
+          if (hoverId !== n.id) {
+            hoverId = n.id;
+            refreshSelectionVisual();
+          }
+        } else {
+          tooltip.hidden = true;
+          renderer.domElement.style.cursor = 'grab';
+          if (hoverId) {
+            hoverId = null;
+            refreshSelectionVisual();
+          }
         }
       }
     }
@@ -1086,7 +1180,7 @@ export async function renderMindMap(main, subject) {
       userMovedCamera = true;
       if (e.ctrlKey) {
         // trackpad pinch
-        tdist = Math.max(16, Math.min(160, tdist + e.deltaY * 0.05));
+        tdist = Math.max(10, Math.min(190, tdist + e.deltaY * 0.05));
       } else if (isTrackpadPanWheel(e)) {
         const right = new THREE.Vector3();
         const up = new THREE.Vector3();
@@ -1096,7 +1190,7 @@ export async function renderMindMap(main, subject) {
         tpanZ -= right.z * e.deltaX * 0.04 - up.z * e.deltaY * 0.04;
       } else {
         // mouse wheel → zoom
-        tdist = Math.max(16, Math.min(160, tdist + e.deltaY * 0.035));
+        tdist = Math.max(10, Math.min(190, tdist + e.deltaY * 0.035));
       }
       setTimeout(() => {
         idle = true;
@@ -1105,13 +1199,26 @@ export async function renderMindMap(main, subject) {
     { passive: false },
   );
 
-  search.addEventListener('input', () => {
+  function searchHit() {
     const q = search.value.trim().toLowerCase();
-    if (!q) return;
-    const hit =
-      nodes.find((n) => n.tier === 'topic' && `${n.code} ${n.titleZh} ${n.titleEn}`.toLowerCase().includes(q)) ||
-      nodes.find((n) => `${n.code} ${n.titleZh} ${n.titleEn || ''}`.toLowerCase().includes(q));
+    if (!q) return null;
+    return nodes.find((n) => n.tier === 'topic' && `${n.code} ${n.titleZh} ${n.titleEn}`.toLowerCase().includes(q))
+      || nodes.find((n) => `${n.code} ${n.titleZh} ${n.titleEn || ''}`.toLowerCase().includes(q));
+  }
+  search.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      search.value = '';
+      search.blur();
+      return;
+    }
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const hit = searchHit();
     if (hit) flyTo(hit);
+  });
+  search.addEventListener('input', () => {
+    search.title = search.value.trim() ? '按 Enter 跳转' : '';
   });
 
 
@@ -1142,6 +1249,7 @@ export async function renderMindMap(main, subject) {
   }
 
   let alive = true;
+  let frame = 0;
   function tick() {
     if (!alive) return;
     const now = performance.now();
@@ -1151,7 +1259,7 @@ export async function renderMindMap(main, subject) {
       n.x = n.tx;
       n.y = n.ty;
       n.z = n.tz;
-      const breathe = idle ? Math.sin((now - t0) * 0.00035 + (n.unitIndex || 0) * 0.7) * (n.tier === 'topic' ? 0.04 : 0.015) : 0;
+      const breathe = 0; // static layout keeps labels precisely anchored
       const m = meshes.get(n.id);
       if (!m) continue;
       m.position.set(n.x, n.y + breathe, n.z);
@@ -1189,8 +1297,7 @@ export async function renderMindMap(main, subject) {
     updateEdgeHandles();
     if (selected.size) setHotEdges(pathEdgesAmong(selected));
 
-    // damp camera toward targets + idle drift
-    if (idle) tay += 0.00025;
+    // damp camera toward targets; no idle rotation, so labels stay precise
     ax += (tax - ax) * 0.08;
     ay += (tay - ay) * 0.08;
     dist += (tdist - dist) * 0.08;
@@ -1200,7 +1307,7 @@ export async function renderMindMap(main, subject) {
     applyCamera();
     updateLabels();
     renderer.render(scene, camera);
-    requestAnimationFrame(tick);
+    frame = requestAnimationFrame(tick);
   }
   tick();
   refreshSelectionVisual();
@@ -1208,6 +1315,7 @@ export async function renderMindMap(main, subject) {
   return {
     destroy() {
       alive = false;
+      if (frame) cancelAnimationFrame(frame);
       document.removeEventListener('keydown', onKey);
       ro.disconnect();
       themeObs.disconnect();
@@ -1221,6 +1329,24 @@ export async function renderMindMap(main, subject) {
         hotLine.geometry.dispose();
         hotLine.material.dispose();
       }
+      const seenGeo = new Set();
+      const seenMat = new Set();
+      scene.traverse((obj) => {
+        if (obj.geometry && !seenGeo.has(obj.geometry)) {
+          seenGeo.add(obj.geometry);
+          obj.geometry.dispose();
+        }
+        if (obj.material) {
+          const list = Array.isArray(obj.material) ? obj.material : [obj.material];
+          list.forEach((m) => {
+            if (m && !seenMat.has(m)) {
+              seenMat.add(m);
+              m.dispose();
+            }
+          });
+        }
+      });
+      renderer.forceContextLoss?.();
     },
   };
 }

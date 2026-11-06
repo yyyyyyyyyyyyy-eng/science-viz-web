@@ -92,6 +92,13 @@
 
 ---
 
+### 7. UI / 交互重设计（2026-11-06）
+- **状态**：完成（全局 chrome、导航/命令面板、首页/学科/章节、topic 阅读栏、练习、公式、mindmap、移动端）。
+- **范围**：header/mega menu/移动抽屉；统一命令面板（页面 / 章节 / 知识点 / 实验）；首页索引与学科单元分组；topic 粘性目录与上一/下一；practice 题号栏、筛选计数、选择→检查→反馈；公式分组目录；四科知识图谱布局与交互。
+- **关键修复**：桌面误显示“菜单”；移动抽屉被 header `backdrop-filter` 截断；公式目录 `#group-…` 与 hash router 冲突；公式页移动端长公式撑宽 grid；mindmap prep 区块过散、BC 标签碰撞、bio AP 过密、左拖旋转；topic/practice 访问污染“最近实验”。
+- **验证**：targeted Playwright 16 routes × light/dark + 8 mobile routes，0 console/page error；四科 map light/dark 标签重叠 0 / 越界 0；360/390/768/1024/1440 无横向溢出；可见交互元素均 ≥44×44；截图在 `screenshots/ui-redesign/`，设计记录见 `audit/ui-redesign.md`。
+- **限制**：未重跑 481 路由全量 sweep；390px map 仍为宽图 overview（双指缩放与搜索可用）。
+
 ## 已知问题
 
 - ~~**全量 5s sweep 未完成**~~ → 已完成：481 routes × 3 viewports × 2 themes，0 issue（`audit/bug-sweep.md`）。

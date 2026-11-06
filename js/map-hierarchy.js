@@ -1,7 +1,7 @@
 /**
  * Build 3-tier map graph: stage → unit → topic, plus cross-topic edges.
  */
-import { hashStr, mulberry32 } from './map-rng.js';
+import { hashStr } from './map-rng.js';
 
 const STAGE_DEFS = {
   math: [
@@ -179,121 +179,155 @@ export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRel
   };
 }
 
-/** Organic layout: stages pinned in curriculum order L→R, units/topics clustered. */
+/** Organic layout: compact prep block + a content-proportional AP unit grid. */
 export function layoutOrganic(nodes, allEdges, subject) {
   const byId = new Map(nodes.map((n) => [n.id, n]));
-  const stages = nodes.filter((n) => n.tier === 'stage'); // already curriculum order
+  const stages = nodes.filter((n) => n.tier === 'stage');
   const units = nodes.filter((n) => n.tier === 'unit');
   const topics = nodes.filter((n) => n.tier === 'topic');
 
-  const nSt = Math.max(1, stages.length);
-  // Compact spacing so the whole curriculum fits with margin
-  const gap = nSt <= 2 ? 13 : nSt <= 3 ? 10 : 8.5;
-  const totalW = gap * Math.max(1, nSt - 1);
-  stages.forEach((st, i) => {
-    const rnd = mulberry32(hashStr(subject + ':st:' + st.id));
-    const t = nSt === 1 ? 0.5 : i / (nSt - 1);
-    st.x = (t - 0.5) * totalW;
-    // Gentle organic arc (not a ring): slight forward/back + small height jitter
-    st.y = (rnd() - 0.5) * 2.2 + Math.sin(t * Math.PI) * 0.8;
-    st.z = Math.sin((t - 0.5) * Math.PI) * 4.5 + (rnd() - 0.5) * 2.5;
-    st.tx = st.x; st.ty = st.y; st.tz = st.z;
-    st.vx = st.vy = st.vz = 0;
-    st._pinned = true;
-  });
-
-  // Units fan around their stage — keep clusters compact so stages don't need huge gaps
   const unitsByStage = new Map();
   for (const u of units) {
     if (!unitsByStage.has(u.stageId)) unitsByStage.set(u.stageId, []);
     unitsByStage.get(u.stageId).push(u);
   }
-  for (const [sid, list] of unitsByStage) {
-    const st = byId.get(sid);
+  const topicsByUnit = new Map();
+  for (const t of topics) {
+    if (!topicsByUnit.has(t.chapterId)) topicsByUnit.set(t.chapterId, []);
+    topicsByUnit.get(t.chapterId).push(t);
+  }
+
+  const CELL_W = 5.2;
+  const CELL_H = 4.8;
+
+  function colsFor(count) {
+    if (count >= 10) return 6;
+    if (count >= 7) return 4;
+    if (count >= 4) return 3;
+    return Math.max(1, count);
+  }
+
+  function layoutCluster(stage, list, origin) {
+    const cols = colsFor(list.length || 1);
+    const rows = Math.max(1, Math.ceil(list.length / cols));
+    const gw = (cols - 1) * CELL_W;
+    const gh = (rows - 1) * CELL_H;
+
+    stage.x = origin.x;
+    stage.y = origin.y + gh / 2 + 3.2;
+    stage.z = 0.35;
+    stage.tx = stage.x; stage.ty = stage.y; stage.tz = stage.z;
+
     list.forEach((u, i) => {
-      const rnd = mulberry32(hashStr(subject + ':u:' + u.id));
-      const nU = list.length;
-      // Prefer a front-facing fan so labels read clearly
-      const span = Math.min(Math.PI * 1.4, 0.55 * nU + 0.8);
-      const ang = -span / 2 + (nU <= 1 ? 0 : (i / (nU - 1)) * span) + (rnd() - 0.5) * 0.25;
-      const elev = (rnd() - 0.5) * 0.55;
-      const rad = (nU <= 1 ? 3.2 : 3.6 + Math.min(2.5, nU) * 0.18) + rnd() * 0.9;
-      const sx = st ? st.x : 0, sy = st ? st.y : 0, sz = st ? st.z : 0;
-      u.x = sx + Math.sin(ang) * rad;
-      u.y = sy + Math.sin(elev) * rad * 0.55 + (rnd() - 0.5) * 1.2;
-      u.z = sz + Math.cos(ang) * rad * 0.85;
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      u.x = origin.x + (col - (cols - 1) / 2) * CELL_W;
+      u.y = origin.y + (rows - 1) / 2 * CELL_H - row * CELL_H;
+      u.z = ((i % 3) - 1) * 0.22;
       u.tx = u.x; u.ty = u.y; u.tz = u.z;
-      u.vx = u.vy = u.vz = 0;
+      const uts = (topicsByUnit.get(u.chapterId) || [])
+        .slice()
+        .sort((a, b) => (a.topicIndex ?? 0) - (b.topicIndex ?? 0));
+      const n = uts.length;
+      const seed = (hashStr(u.id) % 997) / 997 * Math.PI * 2;
+      uts.forEach((t, ti) => {
+        const k = ti + 0.5;
+        const phi = n === 1 ? Math.PI / 2 : Math.acos(1 - 2 * k / n);
+        const theta = 2.3999632297 * k + seed;
+        const ring = 1.2 + (ti % 2) * 0.22 + (n > 12 ? 0.14 : 0);
+        t.x = u.x + Math.sin(phi) * Math.cos(theta) * ring;
+        t.y = u.y + Math.cos(phi) * ring * 0.94;
+        t.z = u.z + Math.sin(phi) * Math.sin(theta) * ring * 0.68;
+        t.tx = t.x; t.ty = t.y; t.tz = t.z;
+      });
+    });
+
+    return {
+      width: gw + 4.8,
+      top: origin.y + gh / 2 + 4.2,
+      bottom: origin.y - gh / 2 - 2.0,
+    };
+  }
+
+  const prep = stages.filter((s) => !s.apOnly);
+  const ap = stages.filter((s) => s.apOnly);
+  const prepLayouts = prep.map((stage) => {
+    const list = (unitsByStage.get(stage.id) || []).slice();
+    const cols = colsFor(list.length || 1);
+    return {
+      stage,
+      list,
+      width: (cols - 1) * CELL_W + 4.8,
+      height: Math.max(1, Math.ceil((list.length || 1) / cols) - 1) * CELL_H + 6.2,
+    };
+  });
+
+  // Prep is a compact 1–2 column block, not a full-width extra stage row.
+  const prepCols = prepLayouts.length >= 3 ? 2 : Math.max(1, prepLayouts.length);
+  const prepRows = prepLayouts.length ? Math.ceil(prepLayouts.length / prepCols) : 0;
+  const prepCellW = prepLayouts.length ? Math.max(...prepLayouts.map((p) => p.width)) + 2.4 : 0;
+  const prepCellH = prepLayouts.length ? Math.max(...prepLayouts.map((p) => p.height)) + 2.4 : 0;
+  const prepRight = prepLayouts.length ? ((prepCols - 1) / 2) * prepCellW + prepCellW / 2 : 0;
+
+  prepLayouts.forEach((p, i) => {
+    const col = i % prepCols;
+    const row = Math.floor(i / prepCols);
+    layoutCluster(p.stage, p.list, {
+      x: (col - (prepCols - 1) / 2) * prepCellW,
+      y: ((prepRows - 1) / 2 - row) * prepCellH,
+      z: 0,
+    });
+  });
+
+  const apStage = ap[0] || null;
+  if (apStage) {
+    const list = (unitsByStage.get(apStage.id) || []).slice();
+    const cols = colsFor(list.length || 1);
+    const apWidth = (cols - 1) * CELL_W + 4.8;
+    const apOrigin = {
+      x: prepLayouts.length ? prepRight + 6.0 + apWidth / 2 : 0,
+      y: 0,
+      z: 0,
+    };
+    layoutCluster(apStage, list, apOrigin);
+  } else {
+    // Defensive: any stage not covered above still gets a position.
+    stages.forEach((stage, i) => {
+      if (stage.tx != null) return;
+      layoutCluster(stage, unitsByStage.get(stage.id) || [], {
+        x: prepLayouts.length ? prepRight + 6.0 + i * 4 : i * 4,
+        y: 0,
+        z: 0,
+      });
     });
   }
 
-  topics.forEach((t) => {
+  // Keep any orphan topic attached to its unit instead of leaving it at origin.
+  for (const t of topics) {
+    if (t.tx != null) continue;
     const u = byId.get(`unit:${t.chapterId}`);
-    const rnd = mulberry32(hashStr(subject + ':t:' + t.id));
-    const ang = rnd() * Math.PI * 2;
-    const elev = (rnd() - 0.5) * Math.PI;
-    const rad = 0.85 + rnd() * 1.15;
-    const cx = u ? u.x : 0, cy = u ? u.y : 0, cz = u ? u.z : 0;
-    t.x = cx + Math.cos(ang) * Math.sin(elev + 1) * rad;
-    t.y = cy + Math.cos(elev) * rad * 0.55;
-    t.z = cz + Math.sin(ang) * Math.sin(elev + 1) * rad;
+    t.x = (u?.x || 0) + 0.6;
+    t.y = (u?.y || 0) + 0.6;
+    t.z = 0;
     t.tx = t.x; t.ty = t.y; t.tz = t.z;
-    t.vx = t.vy = t.vz = 0;
-  });
-
-  const N = nodes.length;
-  const idx = new Map(nodes.map((n, i) => [n.id, i]));
-  const links = allEdges
-    .map((e) => ({ a: idx.get(e.source), b: idx.get(e.target), type: e.type }))
-    .filter((l) => l.a != null && l.b != null);
-
-  for (let it = 0; it < 160; it++) {
-    const cool = 1 - it / 160;
-    for (let i = 0; i < N; i++) {
-      const a = nodes[i];
-      if (a._pinned) continue;
-      for (let j = i + 1; j < N; j++) {
-        const b = nodes[j];
-        let dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
-        let dist2 = dx * dx + dy * dy + dz * dz;
-        if (dist2 > 64) continue;
-        dist2 = Math.max(0.06, dist2);
-        const dist = Math.sqrt(dist2);
-        const sameUnit = a.chapterId && a.chapterId === b.chapterId;
-        const force = ((sameUnit ? 1.2 : 3.2) * cool) / dist2;
-        dx = (dx / dist) * force; dy = (dy / dist) * force; dz = (dz / dist) * force;
-        a.vx += dx; a.vy += dy; a.vz += dz;
-        if (!b._pinned) { b.vx -= dx; b.vy -= dy; b.vz -= dz; }
-      }
-    }
-    for (const l of links) {
-      const a = nodes[l.a], b = nodes[l.b];
-      let dx = b.x - a.x, dy = b.y - a.y, dz = b.z - a.z;
-      const dist = Math.hypot(dx, dy, dz) || 0.01;
-      let ideal = 4;
-      if (l.type === 'tree-stage-unit') ideal = 4.5;
-      else if (l.type === 'tree-unit-topic') ideal = 1.55;
-      else if (l.type === 'prerequisite') ideal = 2.1;
-      else if (l.type === 'connects' || l.type === 'applies-to') ideal = 10;
-      const k = l.type?.startsWith('tree') ? 0.1 : l.type === 'connects' || l.type === 'applies-to' ? 0.006 : 0.02;
-      const f = (dist - ideal) * k * cool;
-      dx = (dx / dist) * f; dy = (dy / dist) * f; dz = (dz / dist) * f;
-      if (!a._pinned) { a.vx += dx; a.vy += dy; a.vz += dz; }
-      if (!b._pinned) { b.vx -= dx; b.vy -= dy; b.vz -= dz; }
-    }
-    for (const n of nodes) {
-      if (n._pinned) {
-        n.x = n.tx; n.y = n.ty; n.z = n.tz;
-        n.vx = n.vy = n.vz = 0;
-        continue;
-      }
-      // Soft pull toward parent stage/unit home
-      n.vx *= 0.68; n.vy *= 0.68; n.vz *= 0.68;
-      n.x += n.vx; n.y += n.vy; n.z += n.vz;
-    }
   }
+
+  // Center the whole map on the origin so the camera fit is balanced.
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
   for (const n of nodes) {
-    n.tx = n.x; n.ty = n.y; n.tz = n.z;
+    minX = Math.min(minX, n.x);
+    maxX = Math.max(maxX, n.x);
+    minY = Math.min(minY, n.y);
+    maxY = Math.max(maxY, n.y);
+  }
+  const cx = (minX + maxX) / 2;
+  const cy = (minY + maxY) / 2;
+  for (const n of nodes) {
+    n.x -= cx;
+    n.y -= cy;
+    n.tx = n.x;
+    n.ty = n.y;
+    n.tz = n.z;
     n.vx = n.vy = n.vz = 0;
   }
   return nodes;
