@@ -40,46 +40,118 @@ export const stimuli = {
     "license": "CC BY-NC-SA 4.0",
     "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
-  },
-  "stim-calc-u7-2": {
-    "title": "斜率场 · 斜率场要点",
-    "text": "微分方程 dy/dx = y − x 的斜率场在若干格点给出方向。",
-    "table": {
-      "headers": [
-        "点",
-        "斜率"
-      ],
-      "rows": [
-        [
-          "(0,0)",
-          "0"
-        ],
-        [
-          "(1,0)",
-          "−1"
-        ],
-        [
-          "(0,1)",
-          "1"
-        ],
-        [
-          "(1,1)",
-          "0"
-        ]
-      ]
-    },
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
   }
 };
 export const problems = [
   {
     "kind": "set",
+    "id": "calc-u7-extra1",
+    "title": "Logistic 模型",
+    "stimulus": {
+      "title": "种群增长",
+      "text": "某种群数量 P(t) 满足右侧微分方程，初始 P(0)=200。下表与图像给出部分时刻的数量。",
+      "textLatex": "\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.4P\\left(1-\\dfrac{P}{1200}\\right)",
+      "table": {
+        "headers": [
+          "t",
+          "0",
+          "2",
+          "4",
+          "6"
+        ],
+        "rows": [
+          [
+            "P(t)",
+            "200",
+            "370",
+            "597",
+            "826"
+          ]
+        ]
+      },
+      "graph": {
+        "points": [
+          [
+            0,
+            200
+          ],
+          [
+            2,
+            370
+          ],
+          [
+            4,
+            597
+          ],
+          [
+            6,
+            826
+          ]
+        ],
+        "xLabel": "t",
+        "yLabel": "P"
+      },
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u7-q001",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "求解模型",
+        "check": "symbolic",
+        "stem": "求 P(t) 的表达式。",
+        "expected": "1200/(1+5*e^(-0.4*t))",
+        "answerLatex": "P(t)=\\dfrac{1200}{1+5e^{-0.4t}}",
+        "solution": "分离变量得 P(t)=L/(1+Ce^{−kt})；由 P(0)=200 得 C=5。"
+      },
+      {
+        "id": "calc-u7-q002",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": true,
+        "title": "模型求值",
+        "check": "numeric",
+        "stem": "用模型求 P(2)（保留到个位附近即可）。",
+        "expected": 369.6123433001111,
+        "tol": 0.001,
+        "answerLatex": "≈370",
+        "solution": "P(2)=1200÷(1+5e^{−0.8})≈370。"
+      },
+      {
+        "id": "calc-u7-q003",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": true,
+        "title": "最快增长时刻",
+        "check": "numeric",
+        "stem": "种群增长最快时 P=600。求对应的 t（精确到 0.01）。",
+        "expected": 4.023594781085251,
+        "tol": 0.005,
+        "answerLatex": "t=\\dfrac{\\ln 5}{0.4}\\approx 4.02",
+        "solution": "令 P=600，解 1+5e^{−0.4t}=2，得 t=ln5÷0.4≈4.02。"
+      },
+      {
+        "id": "calc-u7-q004",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "长期行为",
+        "stem": "求 t→∞ 时 P(t) 的极限，并解释 1200 在该模型中的意义。",
+        "answer": "极限为 1200；它是环境容纳量（carrying capacity），即长期可维持的最大种群数量。",
+        "solution": "Logistic 模型的平衡解为 P=0 与 P=L；初值大于 0 时趋于 L。"
+      }
+    ]
+  },
+  {
+    "kind": "set",
     "id": "calc-u7-set1",
-    "title": "题组 1 · 共享刺激",
+    "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-calc-u7-1",
     "stimulus": {
       "title": "微分方程建模 · 斜率场要点",
@@ -116,127 +188,17 @@ export const problems = [
     },
     "questions": [
       {
-        "id": "calc-u7-q001",
-        "difficulty": "易",
-        "calculator": true,
-        "title": "斜率读取",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "在点 (1,0) 处 dy/dx = y−x 的斜率是？",
-        "expected": -1,
-        "tol": 0.01,
-        "answerLatex": "-1",
-        "solution": "0−1=−1。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
-        "id": "calc-u7-q002",
-        "difficulty": "中",
-        "calculator": false,
-        "title": "特解检验",
-        "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\text{验证 }y=x+1\\text{ 是否满足 }\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=y-x",
-        "expected": "y'=1=y-x",
-        "answerLatex": "y'=1=y-x",
-        "solution": "两边同为 1。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
-        "id": "calc-u7-q003",
-        "difficulty": "难",
-        "calculator": false,
-        "title": "分离变量",
-        "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=ky\\text{ 的通解（C 任意）}",
-        "expected": "y=Ce^{kx}",
-        "answerLatex": "y=Ce^{kx}",
-        "solution": "分离变量。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      }
-    ]
-  },
-  {
-    "kind": "set",
-    "id": "calc-u7-set2",
-    "title": "题组 2 · 共享刺激",
-    "sharedStimulus": "stim-calc-u7-2",
-    "stimulus": {
-      "title": "斜率场 · 斜率场要点",
-      "text": "微分方程 dy/dx = y − x 的斜率场在若干格点给出方向。",
-      "table": {
-        "headers": [
-          "点",
-          "斜率"
-        ],
-        "rows": [
-          [
-            "(0,0)",
-            "0"
-          ],
-          [
-            "(1,0)",
-            "−1"
-          ],
-          [
-            "(0,1)",
-            "1"
-          ],
-          [
-            "(1,1)",
-            "0"
-          ]
-        ]
-      },
-      "sourceId": "openstax-calculus",
-      "source": "OpenStax Calculus Volumes 1–3",
-      "license": "CC BY-NC-SA 4.0",
-      "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-      "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
-    },
-    "questions": [
-      {
-        "id": "calc-u7-q004",
-        "difficulty": "易",
-        "calculator": true,
-        "title": "斜率读取",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "在点 (1,0) 处 dy/dx = y−x 的斜率是？",
-        "expected": -1,
-        "tol": 0.01,
-        "answerLatex": "-1",
-        "solution": "0−1=−1。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
         "id": "calc-u7-q005",
-        "difficulty": "中",
-        "calculator": false,
-        "title": "特解检验",
+        "difficulty": "易",
+        "calculator": true,
+        "title": "斜率读取",
         "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\text{验证 }y=x+1\\text{ 是否满足 }\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=y-x",
-        "expected": "y'=1=y-x",
-        "answerLatex": "y'=1=y-x",
-        "solution": "两边同为 1。",
+        "check": "numeric",
+        "stem": "在点 (1,0) 处 dy/dx = y−x 的斜率是？",
+        "expected": -1,
+        "tol": 0.01,
+        "answerLatex": "-1",
+        "solution": "0−1=−1。",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -245,6 +207,23 @@ export const problems = [
       },
       {
         "id": "calc-u7-q006",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "特解检验",
+        "type": "frq",
+        "check": "symbolic",
+        "stemLatex": "\\text{验证 }y=x+1\\text{ 是否满足 }\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=y-x",
+        "expected": "y'=1=y-x",
+        "answerLatex": "y'=1=y-x",
+        "solution": "两边同为 1。",
+        "sourceId": "openstax-calculus",
+        "source": "OpenStax Calculus Volumes 1–3",
+        "license": "CC BY-NC-SA 4.0",
+        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+      },
+      {
+        "id": "calc-u7-q007",
         "difficulty": "难",
         "calculator": false,
         "title": "分离变量",
@@ -254,21 +233,6 @@ export const problems = [
         "expected": "y=Ce^{kx}",
         "answerLatex": "y=Ce^{kx}",
         "solution": "分离变量。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
-        "id": "calc-u7-q007",
-        "difficulty": "易",
-        "calculator": false,
-        "title": "斜率场叙述",
-        "type": "frq",
-        "stem": "就「斜率场推理」说明斜率场如何帮助画出特解曲线。",
-        "answer": "沿格点方向作短线，从初值点顺着场画曲线。",
-        "solution": "定性解。",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -279,24 +243,9 @@ export const problems = [
   },
   {
     "id": "calc-u7-q008",
-    "title": "7.1 论述 · 微分方程建模",
+    "title": "7.1 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「微分方程建模」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q009",
-    "title": "7.2 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
@@ -310,28 +259,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q010",
-    "title": "7.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q011",
-    "title": "7.4 概念",
+    "id": "calc-u7-q009",
+    "title": "7.2 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「斜率场推理」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「斜率场」，下列正确的是？",
     "choices": [
       {
         "text": "斜率场给出每个点的解曲线切线方向",
@@ -357,10 +289,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q012",
-    "title": "7.5 计算",
+    "id": "calc-u7-q010",
+    "title": "7.3 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
@@ -375,27 +307,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q013",
-    "title": "7.6 论述 · 可分离变量",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「可分离变量」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q014",
-    "title": "7.7 论述 · 特解",
+    "id": "calc-u7-q011",
+    "title": "7.4 论述 · 斜率场推理",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「特解」：解释欧拉法一步如何用斜率推进近似解。",
+    "stem": "关于「斜率场推理」：解释欧拉法一步如何用斜率推进近似解。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -405,8 +322,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q015",
-    "title": "7.8 符号",
+    "id": "calc-u7-q012",
+    "title": "7.5 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -422,16 +339,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u7-q013",
+    "title": "7.6 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「可分离变量」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q014",
+    "title": "7.7 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q015",
+    "title": "7.8 论述 · 指数模型",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「指数模型」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u7-q016",
-    "title": "7.9 因式化简",
+    "title": "7.9 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -503,24 +483,9 @@ export const problems = [
   },
   {
     "id": "calc-u7-q020",
-    "title": "7.4 论述 · 斜率场推理",
+    "title": "7.4 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「斜率场推理」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q021",
-    "title": "7.5 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
@@ -534,28 +499,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q022",
-    "title": "7.6 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q023",
-    "title": "7.7 概念",
+    "id": "calc-u7-q021",
+    "title": "7.5 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「特解」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「欧拉法」，下列正确的是？",
     "choices": [
       {
         "text": "斜率场给出每个点的解曲线切线方向",
@@ -581,10 +529,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q024",
-    "title": "7.8 计算",
+    "id": "calc-u7-q022",
+    "title": "7.6 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
@@ -599,27 +547,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q025",
-    "title": "7.9 论述 · Logistic 模型",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「Logistic 模型」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q026",
-    "title": "7.1 论述 · 微分方程建模",
+    "id": "calc-u7-q023",
+    "title": "7.7 论述 · 特解",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「微分方程建模」：解释欧拉法一步如何用斜率推进近似解。",
+    "stem": "关于「特解」：解释欧拉法一步如何用斜率推进近似解。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -629,8 +562,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q027",
-    "title": "7.2 符号",
+    "id": "calc-u7-q024",
+    "title": "7.8 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -646,16 +579,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u7-q025",
+    "title": "7.9 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「Logistic 模型」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q026",
+    "title": "7.1 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q027",
+    "title": "7.2 论述 · 斜率场",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「斜率场」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u7-q028",
-    "title": "7.3 因式化简",
+    "title": "7.3 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -727,24 +723,9 @@ export const problems = [
   },
   {
     "id": "calc-u7-q032",
-    "title": "7.7 论述 · 特解",
+    "title": "7.7 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「特解」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q033",
-    "title": "7.8 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
@@ -758,28 +739,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q034",
-    "title": "7.9 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q035",
-    "title": "7.1 概念",
+    "id": "calc-u7-q033",
+    "title": "7.8 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「微分方程建模」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「指数模型」，下列正确的是？",
     "choices": [
       {
         "text": "斜率场给出每个点的解曲线切线方向",
@@ -805,10 +769,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q036",
-    "title": "7.2 计算",
+    "id": "calc-u7-q034",
+    "title": "7.9 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
@@ -823,27 +787,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q037",
-    "title": "7.3 论述 · 斜率场草图",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「斜率场草图」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q038",
-    "title": "7.4 论述 · 斜率场推理",
+    "id": "calc-u7-q035",
+    "title": "7.1 论述 · 微分方程建模",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「斜率场推理」：解释欧拉法一步如何用斜率推进近似解。",
+    "stem": "关于「微分方程建模」：解释欧拉法一步如何用斜率推进近似解。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -853,8 +802,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q039",
-    "title": "7.5 符号",
+    "id": "calc-u7-q036",
+    "title": "7.2 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -870,16 +819,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u7-q037",
+    "title": "7.3 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「斜率场草图」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q038",
+    "title": "7.4 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q039",
+    "title": "7.5 论述 · 欧拉法",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「欧拉法」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u7-q040",
-    "title": "7.6 因式化简",
+    "title": "7.6 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -951,24 +963,9 @@ export const problems = [
   },
   {
     "id": "calc-u7-q044",
-    "title": "7.1 论述 · 微分方程建模",
+    "title": "7.1 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「微分方程建模」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q045",
-    "title": "7.2 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
@@ -982,28 +979,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q046",
-    "title": "7.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q047",
-    "title": "7.4 概念",
+    "id": "calc-u7-q045",
+    "title": "7.2 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「斜率场推理」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「斜率场」，下列正确的是？",
     "choices": [
       {
         "text": "斜率场给出每个点的解曲线切线方向",
@@ -1029,10 +1009,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q048",
-    "title": "7.5 计算",
+    "id": "calc-u7-q046",
+    "title": "7.3 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
@@ -1047,27 +1027,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q049",
-    "title": "7.6 论述 · 可分离变量",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「可分离变量」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q050",
-    "title": "7.7 论述 · 特解",
+    "id": "calc-u7-q047",
+    "title": "7.4 论述 · 斜率场推理",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「特解」：解释欧拉法一步如何用斜率推进近似解。",
+    "stem": "关于「斜率场推理」：解释欧拉法一步如何用斜率推进近似解。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -1077,8 +1042,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q051",
-    "title": "7.8 符号",
+    "id": "calc-u7-q048",
+    "title": "7.5 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -1094,16 +1059,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u7-q049",
+    "title": "7.6 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「可分离变量」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q050",
+    "title": "7.7 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q051",
+    "title": "7.8 论述 · 指数模型",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「指数模型」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u7-q052",
-    "title": "7.9 因式化简",
+    "title": "7.9 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1175,24 +1203,9 @@ export const problems = [
   },
   {
     "id": "calc-u7-q056",
-    "title": "7.4 论述 · 斜率场推理",
+    "title": "7.4 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「斜率场推理」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q057",
-    "title": "7.5 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
@@ -1206,28 +1219,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q058",
-    "title": "7.6 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q059",
-    "title": "7.7 概念",
+    "id": "calc-u7-q057",
+    "title": "7.5 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「特解」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「欧拉法」，下列正确的是？",
     "choices": [
       {
         "text": "斜率场给出每个点的解曲线切线方向",
@@ -1253,8 +1249,168 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u7-q058",
+    "title": "7.6 计算",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q059",
+    "title": "7.7 论述 · 特解",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "stem": "关于「特解」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u7-q060",
-    "title": "7.8 计算",
+    "title": "7.8 符号",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q061",
+    "title": "7.9 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「Logistic 模型」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q062",
+    "title": "7.1 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "y'=2y,\\;y(0)=3\\Rightarrow y(1)=",
+    "expected": 22.167168,
+    "tol": 0.02,
+    "answerLatex": "3e^{2}",
+    "solution": "y=3e^{2t}。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q063",
+    "title": "7.2 论述 · 斜率场",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「斜率场」：解释欧拉法一步如何用斜率推进近似解。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q064",
+    "title": "7.3 符号",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
+    "expected": "Ce^{2x}",
+    "answerLatex": "Ce^{2x}",
+    "solution": "分离变量。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q065",
+    "title": "7.4 概念",
+    "type": "mcq",
+    "difficulty": "易",
+    "stem": "关于「斜率场推理」，下列正确的是？",
+    "choices": [
+      {
+        "text": "斜率场给出每个点的解曲线切线方向",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u7-q066",
+    "title": "7.5 计算",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -1271,12 +1427,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q061",
-    "title": "7.9 论述 · Logistic 模型",
+    "id": "calc-u7-q067",
+    "title": "7.6 论述 · 可分离变量",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「Logistic 模型」：解释欧拉法一步如何用斜率推进近似解。",
+    "stem": "关于「可分离变量」：解释欧拉法一步如何用斜率推进近似解。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -1286,48 +1442,16 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u7-q062",
-    "title": "7.1 论述 · 微分方程建模",
+    "id": "calc-u7-q068",
+    "title": "7.7 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「微分方程建模」：解释欧拉法一步如何用斜率推进近似解。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q063",
-    "title": "7.2 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=2y\\Rightarrow y=",
     "expected": "Ce^{2x}",
     "answerLatex": "Ce^{2x}",
     "solution": "分离变量。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u7-q064",
-    "title": "7.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",

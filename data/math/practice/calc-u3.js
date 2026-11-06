@@ -7,367 +7,113 @@ export const UNIT_REF = {
   "layer": "ap",
   "subject": "math"
 };
-export const stimuli = {
-  "stim-calc-u3-1": {
-    "title": "链式法则 · 数值—图像—符号",
-    "text": "下表给出 f 在若干点的值；图像为同一函数示意。用三种表征回答。",
-    "table": {
-      "headers": [
-        "x",
-        "f(x)"
-      ],
-      "rows": [
-        [
-          "0",
-          "1"
-        ],
-        [
-          "1",
-          "2"
-        ],
-        [
-          "2",
-          "5"
-        ],
-        [
-          "3",
-          "10"
-        ]
-      ]
-    },
-    "graph": {
-      "points": [
-        [
-          0,
-          1
-        ],
-        [
-          1,
-          2
-        ],
-        [
-          2,
-          5
-        ],
-        [
-          3,
-          10
-        ]
-      ],
-      "xLabel": "x",
-      "yLabel": "f"
-    },
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
-  },
-  "stim-calc-u3-2": {
-    "title": "隐函数求导 · 数值—图像—符号",
-    "text": "下表给出 f 在若干点的值；图像为同一函数示意。用三种表征回答。",
-    "table": {
-      "headers": [
-        "x",
-        "f(x)"
-      ],
-      "rows": [
-        [
-          "0",
-          "1"
-        ],
-        [
-          "1",
-          "2"
-        ],
-        [
-          "2",
-          "5"
-        ],
-        [
-          "3",
-          "10"
-        ]
-      ]
-    },
-    "graph": {
-      "points": [
-        [
-          0,
-          1
-        ],
-        [
-          1,
-          2
-        ],
-        [
-          2,
-          5
-        ],
-        [
-          3,
-          10
-        ]
-      ],
-      "xLabel": "x",
-      "yLabel": "f"
-    },
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
-  }
-};
+export const stimuli = {};
 export const problems = [
   {
     "kind": "set",
-    "id": "calc-u3-set1",
-    "title": "题组 1 · 共享刺激",
-    "sharedStimulus": "stim-calc-u3-1",
+    "id": "calc-u3-extra1",
+    "title": "链式、反函数与隐函数导数",
     "stimulus": {
-      "title": "链式法则 · 数值—图像—符号",
-      "text": "下表给出 f 在若干点的值；图像为同一函数示意。用三种表征回答。",
+      "title": "函数数据与隐式曲线",
+      "text": "可微函数 f 满足下表数据；另有一条隐式曲线 C。",
       "table": {
         "headers": [
           "x",
-          "f(x)"
+          "f(x)",
+          "f'(x)"
         ],
         "rows": [
           [
-            "0",
-            "1"
+            "2",
+            "5",
+            "−3"
           ],
           [
+            "4",
             "1",
             "2"
-          ],
-          [
-            "2",
-            "5"
-          ],
-          [
-            "3",
-            "10"
           ]
         ]
       },
       "graph": {
         "points": [
           [
-            0,
-            1
-          ],
-          [
-            1,
-            2
-          ],
-          [
             2,
             5
           ],
           [
-            3,
-            10
+            4,
+            1
           ]
         ],
         "xLabel": "x",
         "yLabel": "f"
       },
-      "sourceId": "openstax-calculus",
-      "source": "OpenStax Calculus Volumes 1–3",
-      "license": "CC BY-NC-SA 4.0",
-      "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-      "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
     },
     "questions": [
       {
         "id": "calc-u3-q001",
-        "difficulty": "易",
-        "calculator": false,
-        "title": "幂法则",
         "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}x^{4}=",
-        "expected": "4x^3",
-        "answerLatex": "4x^{3}",
-        "solution": "幂法则。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+        "difficulty": "中",
+        "calculator": false,
+        "title": "链式法则",
+        "check": "numeric",
+        "stemLatex": "\\text{求 }\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[f\\left(x^{2}\\right)\\right]\\text{ 在 }x=2\\text{ 处的值}",
+        "expected": 8,
+        "tol": 0.01,
+        "answerLatex": "8",
+        "solution": "f′(x²)·2x，在 x=2 时为 f′(4)·4=2·4=8。"
       },
       {
         "id": "calc-u3-q002",
+        "type": "frq",
         "difficulty": "中",
         "calculator": false,
-        "title": "差分商",
-        "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "f(x)=x^{2}+1:\\ \\dfrac{f(x)-f(1)}{x-1}\\ (x\\neq 1)",
-        "expected": "x+1",
-        "answerLatex": "x+1",
-        "solution": "因式分解。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+        "title": "反函数导数",
+        "check": "numeric",
+        "stemLatex": "\\text{求 }\\left(f^{-1}\\right)'(5)",
+        "expected": -0.3333333333333333,
+        "tol": 0.01,
+        "answerLatex": "-\\dfrac{1}{3}",
+        "solution": "由反函数定理，等于 f′(2) 的倒数，即 −⅓。"
       },
       {
         "id": "calc-u3-q003",
-        "difficulty": "难",
-        "calculator": false,
-        "title": "链式",
         "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin(3x)=",
-        "expected": "3cos(3x)",
-        "answerLatex": "3\\cos(3x)",
-        "solution": "链式法则。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      }
-    ]
-  },
-  {
-    "kind": "set",
-    "id": "calc-u3-set2",
-    "title": "题组 2 · 共享刺激",
-    "sharedStimulus": "stim-calc-u3-2",
-    "stimulus": {
-      "title": "隐函数求导 · 数值—图像—符号",
-      "text": "下表给出 f 在若干点的值；图像为同一函数示意。用三种表征回答。",
-      "table": {
-        "headers": [
-          "x",
-          "f(x)"
-        ],
-        "rows": [
-          [
-            "0",
-            "1"
-          ],
-          [
-            "1",
-            "2"
-          ],
-          [
-            "2",
-            "5"
-          ],
-          [
-            "3",
-            "10"
-          ]
-        ]
-      },
-      "graph": {
-        "points": [
-          [
-            0,
-            1
-          ],
-          [
-            1,
-            2
-          ],
-          [
-            2,
-            5
-          ],
-          [
-            3,
-            10
-          ]
-        ],
-        "xLabel": "x",
-        "yLabel": "f"
-      },
-      "sourceId": "openstax-calculus",
-      "source": "OpenStax Calculus Volumes 1–3",
-      "license": "CC BY-NC-SA 4.0",
-      "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-      "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
-    },
-    "questions": [
-      {
-        "id": "calc-u3-q004",
-        "difficulty": "易",
-        "calculator": false,
-        "title": "幂法则",
-        "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}x^{4}=",
-        "expected": "4x^3",
-        "answerLatex": "4x^{3}",
-        "solution": "幂法则。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
-        "id": "calc-u3-q005",
         "difficulty": "中",
         "calculator": false,
-        "title": "差分商",
-        "type": "frq",
-        "check": "symbolic",
-        "stemLatex": "f(x)=x^{2}+1:\\ \\dfrac{f(x)-f(1)}{x-1}\\ (x\\neq 1)",
-        "expected": "x+1",
-        "answerLatex": "x+1",
-        "solution": "因式分解。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+        "title": "隐函数求导",
+        "check": "numeric",
+        "stem": "曲线 C 由 x²+xy+y²=7 给出。求 C 在点 (1,2) 处的 dy/dx。",
+        "expected": -0.8,
+        "tol": 0.01,
+        "answerLatex": "-\\dfrac{4}{5}",
+        "solution": "隐式求导得 (2x+y)+(x+2y)y′=0，代入 (1,2) 得 y′=−⅘。"
       },
       {
-        "id": "calc-u3-q006",
+        "id": "calc-u3-q004",
+        "type": "frq",
         "difficulty": "难",
         "calculator": false,
-        "title": "链式",
-        "type": "frq",
+        "title": "隐式切线",
         "check": "symbolic",
-        "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin(3x)=",
-        "expected": "3cos(3x)",
-        "answerLatex": "3\\cos(3x)",
-        "solution": "链式法则。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-      },
-      {
-        "id": "calc-u3-q007",
-        "difficulty": "易",
-        "calculator": false,
-        "title": "可微性",
-        "type": "frq",
-        "stem": "结合「反三角函数导数」，说明尖点处为何不可导。",
-        "answer": "左右导数不相等（或差分商极限不存在）。",
-        "solution": "定义。",
-        "sourceId": "openstax-calculus",
-        "source": "OpenStax Calculus Volumes 1–3",
-        "license": "CC BY-NC-SA 4.0",
-        "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+        "stem": "求曲线 C 在点 (1,2) 处的切线方程，写成 y=… 右侧的表达式。",
+        "expected": "-4/5*x+14/5",
+        "answerLatex": "y=-\\dfrac{4}{5}x+\\dfrac{14}{5}",
+        "solution": "斜率为 −⅘，过 (1,2)，所以 y−2=−⅘(x−1)。"
       }
     ]
   },
   {
-    "id": "calc-u3-q008",
-    "title": "3.1 链式法则 · 参数化",
+    "id": "calc-u3-q005",
+    "title": "3.1 链式法则 · 变式",
     "difficulty": "易",
-    "generator": "power",
+    "generator": "chain",
     "calculator": true,
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -376,16 +122,16 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q009",
+    "id": "calc-u3-q006",
     "title": "3.2 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -393,31 +139,14 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q010",
-    "title": "3.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q011",
-    "title": "3.4 概念",
+    "id": "calc-u3-q007",
+    "title": "3.3 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "difficulty": "难",
+    "stem": "关于「反函数导数」，下列正确的是？",
     "choices": [
       {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
         "correct": true
       },
       {
@@ -440,17 +169,17 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q012",
-    "title": "3.5 计算",
+    "id": "calc-u3-q008",
+    "title": "3.4 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "易",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
     "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -458,12 +187,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q013",
-    "title": "3.6 论述 · 高阶导数",
+    "id": "calc-u3-q009",
+    "title": "3.5 论述 · 高阶导数选讲",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "中",
     "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
+    "stem": "关于「高阶导数选讲」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -473,11 +202,91 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q014",
-    "title": "3.1 链式法则 · 参数化",
+    "id": "calc-u3-q010",
+    "title": "3.6 高阶导数 · 变式",
+    "difficulty": "难",
+    "generator": "chain",
+    "calculator": false,
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q011",
+    "title": "3.1 符号",
+    "type": "frq",
     "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
+    "calculator": false,
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q012",
+    "title": "3.2 概念",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "关于「隐函数求导」，下列正确的是？",
+    "choices": [
+      {
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q013",
+    "title": "3.3 计算",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
+    "tol": 0.02,
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q014",
+    "title": "3.4 论述 · 反三角函数导数",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "stem": "关于「反三角函数导数」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -486,32 +295,27 @@ export const problems = [
   },
   {
     "id": "calc-u3-q015",
-    "title": "3.2 符号",
-    "type": "frq",
+    "title": "3.5 高阶导数选讲 · 变式",
     "difficulty": "中",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "generator": "chain",
+    "calculator": true,
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
     "id": "calc-u3-q016",
-    "title": "3.3 因式化简",
+    "title": "3.6 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -520,13 +324,13 @@ export const problems = [
   },
   {
     "id": "calc-u3-q017",
-    "title": "3.4 概念",
+    "title": "3.1 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "stem": "关于「链式法则」，下列正确的是？",
     "choices": [
       {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
         "correct": true
       },
       {
@@ -550,16 +354,16 @@ export const problems = [
   },
   {
     "id": "calc-u3-q018",
-    "title": "3.5 计算",
+    "title": "3.2 计算",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
     "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -568,11 +372,11 @@ export const problems = [
   },
   {
     "id": "calc-u3-q019",
-    "title": "3.6 论述 · 高阶导数",
+    "title": "3.3 论述 · 反函数导数",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
+    "stem": "关于「反函数导数」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -583,10 +387,10 @@ export const problems = [
   },
   {
     "id": "calc-u3-q020",
-    "title": "3.1 链式法则 · 参数化",
+    "title": "3.4 反三角函数导数 · 变式",
     "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
+    "generator": "chain",
+    "calculator": false,
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -595,15 +399,15 @@ export const problems = [
   },
   {
     "id": "calc-u3-q021",
-    "title": "3.2 符号",
+    "title": "3.5 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -612,30 +416,13 @@ export const problems = [
   },
   {
     "id": "calc-u3-q022",
-    "title": "3.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q023",
-    "title": "3.4 概念",
+    "title": "3.6 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "difficulty": "难",
+    "stem": "关于「高阶导数」，下列正确的是？",
     "choices": [
       {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
         "correct": true
       },
       {
@@ -658,17 +445,17 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q024",
-    "title": "3.5 计算",
+    "id": "calc-u3-q023",
+    "title": "3.1 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "易",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
     "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -676,14 +463,26 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q025",
-    "title": "3.6 论述 · 高阶导数",
+    "id": "calc-u3-q024",
+    "title": "3.2 论述 · 隐函数求导",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "中",
     "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
+    "stem": "关于「隐函数求导」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q025",
+    "title": "3.3 反函数导数 · 变式",
+    "difficulty": "难",
+    "generator": "chain",
+    "calculator": true,
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -692,27 +491,15 @@ export const problems = [
   },
   {
     "id": "calc-u3-q026",
-    "title": "3.1 链式法则 · 参数化",
-    "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q027",
-    "title": "3.2 符号",
+    "title": "3.4 符号",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "易",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -720,16 +507,47 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u3-q027",
+    "title": "3.5 概念",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "关于「高阶导数选讲」，下列正确的是？",
+    "choices": [
+      {
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u3-q028",
-    "title": "3.3 因式化简",
+    "title": "3.6 计算",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "check": "numeric",
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
+    "tol": 0.02,
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -738,28 +556,13 @@ export const problems = [
   },
   {
     "id": "calc-u3-q029",
-    "title": "3.4 概念",
-    "type": "mcq",
+    "title": "3.1 论述 · 链式法则",
+    "type": "frq",
     "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
-    "choices": [
-      {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
-        "correct": true
-      },
-      {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
-        "correct": false
-      },
-      {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
-        "correct": false
-      },
-      {
-        "text": "单位与量纲在数学建模中可以忽略",
-        "correct": false
-      }
-    ],
+    "calculator": false,
+    "stem": "关于「链式法则」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -768,31 +571,10 @@ export const problems = [
   },
   {
     "id": "calc-u3-q030",
-    "title": "3.5 计算",
-    "type": "frq",
+    "title": "3.2 隐函数求导 · 变式",
     "difficulty": "中",
+    "generator": "chain",
     "calculator": false,
-    "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
-    "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q031",
-    "title": "3.6 论述 · 高阶导数",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -800,11 +582,46 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "calc-u3-q031",
+    "title": "3.3 符号",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "calc-u3-q032",
-    "title": "3.1 链式法则 · 参数化",
+    "title": "3.4 概念",
+    "type": "mcq",
     "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
+    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "choices": [
+      {
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -813,15 +630,16 @@ export const problems = [
   },
   {
     "id": "calc-u3-q033",
-    "title": "3.2 符号",
+    "title": "3.5 计算",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
+    "check": "numeric",
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
+    "tol": 0.02,
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -830,45 +648,25 @@ export const problems = [
   },
   {
     "id": "calc-u3-q034",
-    "title": "3.3 因式化简",
+    "title": "3.6 论述 · 高阶导数",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "stem": "关于「高阶导数」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
     "id": "calc-u3-q035",
-    "title": "3.4 概念",
-    "type": "mcq",
+    "title": "3.1 链式法则 · 变式",
     "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
-    "choices": [
-      {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
-        "correct": true
-      },
-      {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
-        "correct": false
-      },
-      {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
-        "correct": false
-      },
-      {
-        "text": "单位与量纲在数学建模中可以忽略",
-        "correct": false
-      }
-    ],
+    "generator": "chain",
+    "calculator": true,
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -877,16 +675,15 @@ export const problems = [
   },
   {
     "id": "calc-u3-q036",
-    "title": "3.5 计算",
+    "title": "3.2 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
-    "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -895,74 +692,13 @@ export const problems = [
   },
   {
     "id": "calc-u3-q037",
-    "title": "3.6 论述 · 高阶导数",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q038",
-    "title": "3.1 链式法则 · 参数化",
-    "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q039",
-    "title": "3.2 符号",
-    "type": "frq",
-    "difficulty": "中",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q040",
-    "title": "3.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "calc-u3-q041",
-    "title": "3.4 概念",
+    "title": "3.3 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "difficulty": "难",
+    "stem": "关于「反函数导数」，下列正确的是？",
     "choices": [
       {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
         "correct": true
       },
       {
@@ -985,17 +721,17 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q042",
-    "title": "3.5 计算",
+    "id": "calc-u3-q038",
+    "title": "3.4 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "易",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
     "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1003,12 +739,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q043",
-    "title": "3.6 论述 · 高阶导数",
+    "id": "calc-u3-q039",
+    "title": "3.5 论述 · 高阶导数选讲",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "中",
     "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
+    "stem": "关于「高阶导数选讲」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -1018,11 +754,91 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "calc-u3-q044",
-    "title": "3.1 链式法则 · 参数化",
+    "id": "calc-u3-q040",
+    "title": "3.6 高阶导数 · 变式",
+    "difficulty": "难",
+    "generator": "chain",
+    "calculator": false,
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q041",
+    "title": "3.1 符号",
+    "type": "frq",
     "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
+    "calculator": false,
+    "check": "symbolic",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q042",
+    "title": "3.2 概念",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "关于「隐函数求导」，下列正确的是？",
+    "choices": [
+      {
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q043",
+    "title": "3.3 计算",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
+    "tol": 0.02,
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q044",
+    "title": "3.4 论述 · 反三角函数导数",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "stem": "关于「反三角函数导数」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1031,32 +847,27 @@ export const problems = [
   },
   {
     "id": "calc-u3-q045",
-    "title": "3.2 符号",
-    "type": "frq",
+    "title": "3.5 高阶导数选讲 · 变式",
     "difficulty": "中",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "generator": "chain",
+    "calculator": true,
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
     "id": "calc-u3-q046",
-    "title": "3.3 因式化简",
+    "title": "3.6 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1065,13 +876,13 @@ export const problems = [
   },
   {
     "id": "calc-u3-q047",
-    "title": "3.4 概念",
+    "title": "3.1 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「反三角函数导数」，下列正确的是？",
+    "stem": "关于「链式法则」，下列正确的是？",
     "choices": [
       {
-        "text": "可导 ⇒ 连续；连续 ⇏ 可导",
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
         "correct": true
       },
       {
@@ -1095,16 +906,16 @@ export const problems = [
   },
   {
     "id": "calc-u3-q048",
-    "title": "3.5 计算",
+    "title": "3.2 计算",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "f(x)=x^{3},\\;f'(2)=",
-    "expected": 12,
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
     "tol": 0.02,
-    "answerLatex": "12",
-    "solution": "3x² ⇒ 12。",
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1113,11 +924,11 @@ export const problems = [
   },
   {
     "id": "calc-u3-q049",
-    "title": "3.6 论述 · 高阶导数",
+    "title": "3.3 论述 · 反函数导数",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「高阶导数」：解释差分商极限如何从平均变化率过渡到瞬时变化率。",
+    "stem": "关于「反函数导数」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -1128,10 +939,10 @@ export const problems = [
   },
   {
     "id": "calc-u3-q050",
-    "title": "3.1 链式法则 · 参数化",
+    "title": "3.4 反三角函数导数 · 变式",
     "difficulty": "易",
-    "generator": "power",
-    "calculator": true,
+    "generator": "chain",
+    "calculator": false,
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1140,15 +951,15 @@ export const problems = [
   },
   {
     "id": "calc-u3-q051",
-    "title": "3.2 符号",
+    "title": "3.5 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
-    "answerLatex": "e^{x}(3x^{2}+x^{3})",
-    "solution": "乘积法则。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1157,15 +968,90 @@ export const problems = [
   },
   {
     "id": "calc-u3-q052",
-    "title": "3.3 因式化简",
-    "type": "frq",
+    "title": "3.6 概念",
+    "type": "mcq",
     "difficulty": "难",
+    "stem": "关于「高阶导数」，下列正确的是？",
+    "choices": [
+      {
+        "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q053",
+    "title": "3.1 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "f(x)=\\left(x^{2}+1\\right)^{3},\\;f'(1)=",
+    "expected": 24,
+    "tol": 0.02,
+    "answerLatex": "24",
+    "solution": "链式法则：3(x²+1)²·2x，在 x=1 得 24。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q054",
+    "title": "3.2 论述 · 隐函数求导",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「隐函数求导」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q055",
+    "title": "3.3 反函数导数 · 变式",
+    "difficulty": "难",
+    "generator": "chain",
+    "calculator": true,
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "calc-u3-q056",
+    "title": "3.4 符号",
+    "type": "frq",
+    "difficulty": "易",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\sin\\left(x^{2}\\right)=",
+    "expected": "2x cos(x^2)",
+    "answerLatex": "2x\\cos\\left(x^{2}\\right)",
+    "solution": "链式法则：外层余弦乘以内层导数 2x。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",

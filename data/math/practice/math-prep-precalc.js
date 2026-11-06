@@ -25,18 +25,18 @@ export const stimuli = {
         ],
         [
           "π/6",
-          "√3/2",
-          "1/2"
+          "0.866",
+          "0.5"
         ],
         [
           "π/4",
-          "√2/2",
-          "√2/2"
+          "0.707",
+          "0.707"
         ],
         [
           "π/3",
-          "1/2",
-          "√3/2"
+          "0.5",
+          "0.866"
         ]
       ]
     },
@@ -63,18 +63,18 @@ export const stimuli = {
         ],
         [
           "π/6",
-          "√3/2",
-          "1/2"
+          "0.866",
+          "0.5"
         ],
         [
           "π/4",
-          "√2/2",
-          "√2/2"
+          "0.707",
+          "0.707"
         ],
         [
           "π/3",
-          "1/2",
-          "√3/2"
+          "0.5",
+          "0.866"
         ]
       ]
     },
@@ -108,18 +108,18 @@ export const problems = [
           ],
           [
             "π/6",
-            "√3/2",
-            "1/2"
+            "0.866",
+            "0.5"
           ],
           [
             "π/4",
-            "√2/2",
-            "√2/2"
+            "0.707",
+            "0.707"
           ],
           [
             "π/3",
-            "1/2",
-            "√3/2"
+            "0.5",
+            "0.866"
           ]
         ]
       },
@@ -206,18 +206,18 @@ export const problems = [
           ],
           [
             "π/6",
-            "√3/2",
-            "1/2"
+            "0.866",
+            "0.5"
           ],
           [
             "π/4",
-            "√2/2",
-            "√2/2"
+            "0.707",
+            "0.707"
           ],
           [
             "π/3",
-            "1/2",
-            "√3/2"
+            "0.5",
+            "0.866"
           ]
         ]
       },
@@ -299,24 +299,9 @@ export const problems = [
   },
   {
     "id": "math-prep-precalc-q008",
-    "title": "P4.1 论述 · 多项式与有理函数分析",
+    "title": "P4.1 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「多项式与有理函数分析」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q009",
-    "title": "P4.2 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
@@ -330,28 +315,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q010",
-    "title": "P4.3 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q011",
-    "title": "P4.4 概念",
+    "id": "math-prep-precalc-q009",
+    "title": "P4.2 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「三角方程与恒等式」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「指数与对数模型」，下列正确的是？",
     "choices": [
       {
         "text": "单位圆定义使三角函数对任意实角有意义",
@@ -377,10 +345,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q012",
-    "title": "P4.5 计算",
+    "id": "math-prep-precalc-q010",
+    "title": "P4.3 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\log_{10} 1000",
@@ -395,27 +363,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q013",
-    "title": "P4.6 论述 · 参数方程入门",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「参数方程入门」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q014",
-    "title": "P4.7 论述 · 向量入门",
+    "id": "math-prep-precalc-q011",
+    "title": "P4.4 论述 · 三角方程与恒等式",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「向量入门」：说明弧度制下单位圆弧长与圆心角的关系。",
+    "stem": "关于「三角方程与恒等式」：说明弧度制下单位圆弧长与圆心角的关系。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -425,8 +378,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q015",
-    "title": "P4.8 符号",
+    "id": "math-prep-precalc-q012",
+    "title": "P4.5 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -442,16 +395,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "math-prep-precalc-q013",
+    "title": "P4.6 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「参数方程入门」，下列正确的是？",
+    "choices": [
+      {
+        "text": "单位圆定义使三角函数对任意实角有意义",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q014",
+    "title": "P4.7 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "\\log_{10} 1000",
+    "expected": 3,
+    "tol": 0.02,
+    "answerLatex": "3",
+    "solution": "10³=1000。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q015",
+    "title": "P4.8 论述 · 矩阵与变换",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「矩阵与变换」：说明弧度制下单位圆弧长与圆心角的关系。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "math-prep-precalc-q016",
-    "title": "P4.9 因式化简",
+    "title": "P4.9 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
+    "expected": "1/2",
+    "answerLatex": "\\dfrac{1}{2}",
+    "solution": "特殊角。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -523,24 +539,9 @@ export const problems = [
   },
   {
     "id": "math-prep-precalc-q020",
-    "title": "P4.3 论述 · 单位圆与三角函数",
+    "title": "P4.3 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「单位圆与三角函数」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q021",
-    "title": "P4.4 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
@@ -554,28 +555,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q022",
-    "title": "P4.5 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q023",
-    "title": "P4.6 概念",
+    "id": "math-prep-precalc-q021",
+    "title": "P4.4 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「参数方程入门」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「三角方程与恒等式」，下列正确的是？",
     "choices": [
       {
         "text": "单位圆定义使三角函数对任意实角有意义",
@@ -601,10 +585,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q024",
-    "title": "P4.7 计算",
+    "id": "math-prep-precalc-q022",
+    "title": "P4.5 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\log_{10} 1000",
@@ -619,27 +603,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q025",
-    "title": "P4.8 论述 · 矩阵与变换",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "stem": "关于「矩阵与变换」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q026",
-    "title": "P4.9 论述 · 极限直觉",
+    "id": "math-prep-precalc-q023",
+    "title": "P4.6 论述 · 参数方程入门",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「极限直觉」：说明弧度制下单位圆弧长与圆心角的关系。",
+    "stem": "关于「参数方程入门」：说明弧度制下单位圆弧长与圆心角的关系。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -649,8 +618,8 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q027",
-    "title": "P4.10 符号",
+    "id": "math-prep-precalc-q024",
+    "title": "P4.7 符号",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -666,16 +635,79 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
+    "id": "math-prep-precalc-q025",
+    "title": "P4.8 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「矩阵与变换」，下列正确的是？",
+    "choices": [
+      {
+        "text": "单位圆定义使三角函数对任意实角有意义",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q026",
+    "title": "P4.9 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "\\log_{10} 1000",
+    "expected": 3,
+    "tol": 0.02,
+    "answerLatex": "3",
+    "solution": "10³=1000。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q027",
+    "title": "P4.10 论述 · 变化率直觉",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于「变化率直觉」：说明弧度制下单位圆弧长与圆心角的关系。",
+    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
+    "solution": "评分看定义准确性与推理链。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
     "id": "math-prep-precalc-q028",
-    "title": "P4.1 因式化简",
+    "title": "P4.1 符号",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{2}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^1+1",
-    "answerLatex": "x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
+    "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
+    "expected": "1/2",
+    "answerLatex": "\\dfrac{1}{2}",
+    "solution": "特殊角。",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -747,24 +779,9 @@ export const problems = [
   },
   {
     "id": "math-prep-precalc-q032",
-    "title": "P4.5 论述 · 极坐标入门",
+    "title": "P4.5 符号",
     "type": "frq",
     "difficulty": "易",
-    "calculator": false,
-    "stem": "关于「极坐标入门」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
-    "sourceId": "original",
-    "source": "Original AP-style item (this project)",
-    "license": "Project",
-    "sourceUrl": "",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q033",
-    "title": "P4.6 符号",
-    "type": "frq",
-    "difficulty": "中",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
@@ -778,28 +795,11 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q034",
-    "title": "P4.7 因式化简",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "symbolic",
-    "stemLatex": "\\text{化简 }\\dfrac{x^{4}-1}{x-1}\\ (x\\neq 1)",
-    "expected": "x^3+x^2+x^1+1",
-    "answerLatex": "x^{3}+x^{2}+x^{1}+1",
-    "solution": "几何级数求和或因式分解。",
-    "sourceId": "openstax-calculus",
-    "source": "OpenStax Calculus Volumes 1–3",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  },
-  {
-    "id": "math-prep-precalc-q035",
-    "title": "P4.8 概念",
+    "id": "math-prep-precalc-q033",
+    "title": "P4.6 概念",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「矩阵与变换」，下列正确的是？",
+    "difficulty": "中",
+    "stem": "关于「参数方程入门」，下列正确的是？",
     "choices": [
       {
         "text": "单位圆定义使三角函数对任意实角有意义",
@@ -825,10 +825,10 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q036",
-    "title": "P4.9 计算",
+    "id": "math-prep-precalc-q034",
+    "title": "P4.7 计算",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "难",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\log_{10} 1000",
@@ -843,12 +843,12 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q037",
-    "title": "P4.10 论述 · 变化率直觉",
+    "id": "math-prep-precalc-q035",
+    "title": "P4.8 论述 · 矩阵与变换",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "易",
     "calculator": false,
-    "stem": "关于「变化率直觉」：说明弧度制下单位圆弧长与圆心角的关系。",
+    "stem": "关于「矩阵与变换」：说明弧度制下单位圆弧长与圆心角的关系。",
     "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
     "solution": "评分看定义准确性与推理链。",
     "sourceId": "original",
@@ -858,18 +858,68 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   {
-    "id": "math-prep-precalc-q038",
-    "title": "P4.1 论述 · 多项式与有理函数分析",
+    "id": "math-prep-precalc-q036",
+    "title": "P4.9 符号",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "中",
     "calculator": false,
-    "stem": "关于「多项式与有理函数分析」：说明弧度制下单位圆弧长与圆心角的关系。",
-    "answer": "结合本单元定义与定理作答；写出关键公式时使用堆叠分式。",
-    "solution": "评分看定义准确性与推理链。",
+    "check": "symbolic",
+    "stemLatex": "\\cos\\dfrac{\\pi}{3}=",
+    "expected": "1/2",
+    "answerLatex": "\\dfrac{1}{2}",
+    "solution": "特殊角。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q037",
+    "title": "P4.10 概念",
+    "type": "mcq",
+    "difficulty": "难",
+    "stem": "关于「变化率直觉」，下列正确的是？",
+    "choices": [
+      {
+        "text": "单位圆定义使三角函数对任意实角有意义",
+        "correct": true
+      },
+      {
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "correct": false
+      },
+      {
+        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "correct": false
+      },
+      {
+        "text": "单位与量纲在数学建模中可以忽略",
+        "correct": false
+      }
+    ],
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
     "sourceUrl": "",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "id": "math-prep-precalc-q038",
+    "title": "P4.1 计算",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "\\log_{10} 1000",
+    "expected": 3,
+    "tol": 0.02,
+    "answerLatex": "3",
+    "solution": "10³=1000。",
+    "sourceId": "openstax-calculus",
+    "source": "OpenStax Calculus Volumes 1–3",
+    "license": "CC BY-NC-SA 4.0",
+    "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   }
 ];

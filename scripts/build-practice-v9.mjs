@@ -11,7 +11,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Import syllabus via dynamic — it's ESM
 const { ALL_UNITS } = await import(join(ROOT, 'modules/syllabus.js'));
-const { mathStimulus, mathSetQuestion, mathStandalone } = await import(join(ROOT, 'scripts/math-practice-templates.mjs'));
+const {
+  mathStimulus,
+  mathSetQuestion,
+  mathStandalone,
+  mathSetCount,
+  mathSupplemental,
+} = await import(join(ROOT, 'scripts/math-practice-templates.mjs'));
 
 const SOURCES = {
   openstax_bio: {
@@ -75,14 +81,19 @@ function diff(i) {
 /** Build shared stimulus bank + problems for one unit */
 function buildBank(subject, unit) {
   const topics = unit.topics || [];
-  const N = targetCount(unit);
   const stimuli = {};
   const problems = [];
   let q = 0;
   const id = () => `${unit.id}-q${String(++q).padStart(3, '0')}`;
 
-  // —— Shared stimulus sets (2–4 per unit) ——
-  const setCount = subject === 'math' ? 2 : 3;
+  // Curated AP-style sets first: they are unit-scoped and carry their own stimulus.
+  const extras = subject === 'math' ? mathSupplemental(unit, id, srcLine) : [];
+  const extraItems = countItems(extras);
+  const N = targetCount(unit) + extraItems;
+
+  // —— Shared stimulus sets (unit-specific for math where curated sets exist) ——
+  const setCount = subject === 'math' ? mathSetCount(unit) : 3;
+  const genericProblems = [];
   for (let s = 0; s < setCount; s++) {
     const sid = `stim-${unit.id}-${s + 1}`;
     const stim = makeStimulus(subject, unit, topics[s % Math.max(1, topics.length)], s);
@@ -92,15 +103,16 @@ function buildBank(subject, unit) {
     for (let j = 0; j < setSize; j++) {
       qs.push(makeSetQuestion(subject, unit, topics, id(), j, stim, s));
     }
-    problems.push({
+    genericProblems.push({
       kind: 'set',
       id: `${unit.id}-set${s + 1}`,
-      title: `题组 ${s + 1} · 共享刺激`,
+      title: `题组 ${extras.length + s + 1} · 共享刺激`,
       sharedStimulus: sid,
       stimulus: stim,
       questions: qs,
     });
   }
+  problems.push(...extras, ...genericProblems);
 
   // —— Standalone items until target ——
   let standalone = 0;
@@ -550,5 +562,8 @@ for (const [subject, units] of Object.entries(ALL_UNITS)) {
   }
 }
 
-writeFileSync(join(ROOT, 'data/shared/practice-build-summary.json'), JSON.stringify(summary, null, 2));
+// A partial (MATH_ONLY) build must not overwrite the shared all-subject summary.
+if (!ONLY) {
+  writeFileSync(join(ROOT, 'data/shared/practice-build-summary.json'), JSON.stringify(summary, null, 2));
+}
 console.log('SUMMARY', JSON.stringify(summary, null, 2));
