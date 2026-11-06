@@ -73,7 +73,7 @@ const PI_TICKS = (lo, hi, step) => { const out = []; for (let k = Math.ceil(lo /
  * rects:[{x0,x1,y,color}], points:[{x,y,open,color,label}], vlines:[{x,dash,label}], hlines, segs, arrows, texts, field}
  */
 export function plot(o) {
-  const W = o.W || 480, H = o.H || 320, L = o.padL ?? 46, R = 16, T = o.title ? 30 : 16, B = 38;
+  const W = o.W || 480, H = o.H || 320, L = o.padL ?? 46, R = 16, T = o.title ? 30 : (o.ylabelTop ? 26 : 16), B = 38;
   const [x0, x1] = o.x, [y0, y1] = o.y;
   const X = (x) => L + ((x - x0) / (x1 - x0)) * (W - L - R);
   const Y = (y) => H - B - ((y - y0) / (y1 - y0)) * (H - T - B);
@@ -103,7 +103,7 @@ export function plot(o) {
   } else (xt || []).forEach((v) => { if (Math.abs(v - axisX) < 1e-9 && o.hideZero !== false) return; s += line(X(v), Y(axisY) - 3, X(v), Y(axisY) + 3, { w: 1 }) + text(X(v), tickY, o.xfmt ? o.xfmt(v) : fmt(v), { size: 10, color: C.muted }); });
   yt.forEach((v) => { if (Math.abs(v - axisY) < 1e-9) return; s += line(X(axisX) - 3, Y(v), X(axisX) + 3, Y(v), { w: 1 }) + text(Math.max(X(axisX) - 6, L - 6), Y(v), o.yfmt ? o.yfmt(v) : fmt(v), { size: 10, anchor: 'end', color: C.muted }); });
   if (o.xlabel) s += text((L + W - R) / 2, H - 8, o.xlabel, { size: 11, color: C.muted });
-  if (o.ylabel) s += text(12, (T + H - B) / 2, o.ylabel, { size: 11, color: C.muted, rotate: -90 });
+  if (o.ylabel) s += o.ylabelTop ? text(L, 9, o.ylabel, { size: 10, color: C.muted, anchor: 'start' }) : text(12, (T + H - B) / 2, o.ylabel, { size: 11, color: C.muted, rotate: -90 });
   let g = '';
   // slope field
   if (o.field) {
@@ -169,7 +169,7 @@ function toD(pts, X, Y, jump) {
 }
 /** Bar chart: bars [{label, v, color}] */
 export function bars(o) {
-  const W = o.W || 480, H = o.H || 300, L = 50, B = 46, T = o.title ? 30 : 14, R = 14;
+  const W = o.W || 480, H = o.H || 300, L = 50, B = 46, T = o.title ? 30 : (o.ylabelTop ? 26 : 14), R = 14;
   const max = o.max || Math.max(...o.bars.map((b) => b.v)) * 1.15;
   const bw = (W - L - R) / o.bars.length;
   let s = o.title ? text(W / 2, 14, o.title, { size: 13, bold: true }) : '';
@@ -180,12 +180,48 @@ export function bars(o) {
     s += rect(x, H - B - h, bw * 0.7, h, { fill: b.color || C.a, op: 0.75, stroke: b.color || C.a });
     if (b.err) { const e = (b.err / max) * (H - T - B), cx = x + bw * 0.35; s += line(cx, H - B - h - e, cx, H - B - h + e, { w: 1.2 }) + line(cx - 5, H - B - h - e, cx + 5, H - B - h - e, { w: 1.2 }) + line(cx - 5, H - B - h + e, cx + 5, H - B - h + e, { w: 1.2 }); }
     s += text(x + bw * 0.35, H - B + 13, b.label, { size: 10 });
-    if (o.showV) s += text(x + bw * 0.35, H - B - h - 8, fmt(b.v), { size: 10, color: C.muted });
+    if (o.showV) s += text(x + bw * 0.35, H - B - h - (b.err ? (b.err / max) * (H - T - B) : 0) - 8, fmt(b.v), { size: 10, color: C.muted });
   });
   s += line(L, H - B, W - R, H - B) + line(L, T, L, H - B);
   if (o.xlabel) s += text((L + W) / 2, H - 10, o.xlabel, { size: 11, color: C.muted });
-  if (o.ylabel) s += text(12, (T + H - B) / 2, o.ylabel, { size: 11, color: C.muted, rotate: -90 });
+  if (o.ylabel) s += o.ylabelTop ? text(L, 9, o.ylabel, { size: 10, color: C.muted, anchor: 'start' }) : text(12, (T + H - B) / 2, o.ylabel, { size: 11, color: C.muted, rotate: -90 });
   return svg(W, H, s, o.title || 'bar chart');
+}
+
+/**
+ * Ruled reference table. colW: column widths. rows: array of arrays; a cell may be a
+ * string or {t, bold, color, anchor, size}. opts: {headers, rowH, size, headFill,
+ * headOp, zebra, align, headerColor}. Draws no outer rounded frame (minimal style).
+ */
+export function table(x, y, colW, rows, o = {}) {
+  const rowH = o.rowH || 30, fs = o.size || 10.5;
+  const W = colW.reduce((a, b) => a + b, 0);
+  const all = o.headers ? [o.headers, ...rows] : rows;
+  let s = '';
+  all.forEach((row, r) => {
+    const yy = y + r * rowH;
+    if (o.headers && r === 0) s += rect(x, yy, W, rowH, { fill: o.headFill || C.a, op: o.headOp ?? 0.14, stroke: 'none' });
+    else if (o.zebra && r % 2 === 0) s += rect(x, yy, W, rowH, { fill: C.muted, op: 0.05, stroke: 'none' });
+    s += line(x, yy, x + W, yy, { color: C.grid, w: 0.9 });
+    let cx = x;
+    row.forEach((cell, c) => {
+      const v = cell && typeof cell === 'object' ? cell : { t: cell };
+      const anchor = v.anchor || (c === 0 ? 'start' : (o.align?.[c] || 'start'));
+      const tx = anchor === 'middle' ? cx + colW[c] / 2 : anchor === 'end' ? cx + colW[c] - 8 : cx + 8;
+      s += text(tx, yy + rowH / 2, v.t, {
+        size: v.size || fs, anchor,
+        bold: v.bold || (o.headers && r === 0),
+        color: v.color || (o.headers && r === 0 ? (o.headerColor || C.ink) : C.ink),
+      });
+      cx += colW[c];
+    });
+  });
+  const bottom = y + all.length * rowH;
+  s += line(x, bottom, x + W, bottom, { color: C.grid, w: 0.9 });
+  let cx = x;
+  colW.forEach((w) => { s += line(cx, y, cx, bottom, { color: C.grid, w: 0.9 }); cx += w; });
+  s += line(x + W, y, x + W, bottom, { color: C.grid, w: 0.9 });
+  return s;
 }
 
 /** Numerical helpers */

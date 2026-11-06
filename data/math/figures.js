@@ -3,9 +3,9 @@
  * Each figure is computed from the stated function/data at build time (see figlib.js).
  * FIGURES: id → {title, caption, build}. TOPIC_FIGURES: "chapterId:code" → [figure ids].
  */
-import { plot, bars, svg, text, frac, line, rect, circle, path, arrow, C, PAL, simpson, mulberry, fact, range } from './figlib.js';
+import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, simpson, mulberry, fact, range } from './figlib.js';
 
-const { PI, E, sin, cos, tan, exp, log, sqrt, abs, atan, asin } = Math;
+const { PI, E, sin, cos, tan, exp, log, sqrt, abs, atan, atan2, asin } = Math;
 const F = {};
 const def = (id, title, caption, build) => { F[id] = { id, title, caption, build }; };
 const setCap = (id, c) => { F[id].caption = c; };
@@ -638,17 +638,346 @@ def('prob-tree', 'Probability tree diagram', 'Two draws without replacement from
 def('conics', 'Conic sections', 'Circle \\(x^2+y^2=4\\); ellipse \\(\\dfrac{x^2}{16}+\\dfrac{y^2}{4}=1\\); parabola \\(y=\\dfrac{x^2}{4}-3\\); hyperbola \\(x^2-y^2=1\\) (asymptotes \\(y=\\pm x\\)).', () =>
   plot({ W: 420, H: 400, x: [-5, 5], y: [-4.5, 4.5], curves: [{ param: (t) => [2 * cos(t), 2 * sin(t)], dom: [0, 2 * PI], label: 'circle', labelAt: [0.9, 2.3] }, { param: (t) => [4 * cos(t), 2 * sin(t)], dom: [0, 2 * PI], label: 'ellipse', labelAt: [3.1, 1.75] }, { f: (x) => x * x / 4 - 3, label: 'parabola', labelAt: [3.2, -0.6] }, { param: (t) => [Math.cosh(t), Math.sinh(t)], dom: [-2.2, 2.2], label: 'hyperbola', labelAt: [3.3, 3.9] }, { param: (t) => [-Math.cosh(t), Math.sinh(t)], dom: [-2.2, 2.2], color: PAL[3] }, { f: (x) => x, color: C.muted, dash: '3 3', w: 1 }, { f: (x) => -x, color: C.muted, dash: '3 3', w: 1 }] }));
 
-/* ---------- topic → figure mapping ---------- */
+/* ---------- algebra / geometry single-topic variants (2026-11-06) ---------- */
+def('number-classes', 'Real numbers: classification tree', 'Every natural number is a whole number, every whole number is an integer, every integer is rational, and every rational number is real: \\(\\mathbb{N}\\subset\\mathbb{W}\\subset\\mathbb{Z}\\subset\\mathbb{Q}\\subset\\mathbb{R}\\). Irrational numbers are real but not rational; their decimals neither terminate nor repeat. Rational decimals always terminate or repeat.', () => {
+  let s = text(310, 22, 'real numbers ℝ', { bold: true, size: 13 });
+  s += rect(230, 38, 160, 38, { fill: C.a, op: 0.14, stroke: C.a, w: 1.2 }) + text(310, 57, 'ℝ: all points on the line', { size: 10 });
+  s += line(310, 76, 190, 110, { color: C.muted, w: 1.2 }) + line(310, 76, 470, 110, { color: C.muted, w: 1.2 });
+  s += rect(40, 110, 300, 52, { fill: C.c, op: 0.15, stroke: C.c, w: 1.2 }) + text(190, 130, 'rational ℚ', { bold: true, size: 11 }) + text(190, 148, 'a ÷ b with b ≠ 0', { size: 9.5 });
+  s += rect(400, 110, 190, 52, { fill: C.b, op: 0.15, stroke: C.b, w: 1.2 }) + text(495, 130, 'irrational', { bold: true, size: 11 }) + text(495, 148, '√2, π, e', { size: 10.5 });
+  s += rect(60, 172, 260, 116, { fill: C.c, op: 0.06, stroke: C.c, w: 1.2 }) + text(70, 190, 'integers ℤ: …, −2, −1, 0, 1, 2, …', { anchor: 'start', size: 10 });
+  s += rect(78, 204, 224, 72, { fill: C.c, op: 0.08, stroke: C.c, w: 1.1 }) + text(88, 220, 'whole 𝕎: 0, 1, 2, 3, …', { anchor: 'start', size: 10 });
+  s += rect(98, 232, 184, 36, { fill: C.c, op: 0.12, stroke: C.c, w: 1.1 }) + text(108, 250, 'natural ℕ: 1, 2, 3, …', { anchor: 'start', size: 10 });
+  s += text(70, 304, 'non-integer rationals: 3/4, −1.5, 0.333…', { anchor: 'start', size: 9.5, color: C.muted });
+  s += text(495, 190, 'non-terminating,\nnon-repeating decimals', { size: 9.5, color: C.muted });
+  s += text(495, 232, '√2 ≈ 1.414…\nπ ≈ 3.14159…', { size: 10.5, color: C.b });
+  return svg(620, 320, s, 'real number classification');
+});
+def('lin-eq-balance', 'Solving 2x + 3 = 7 with a balance', 'A balance scale models an equation: whatever is done to one side must be done to the other. Subtract 3 from both sides (2x = 4), then divide both sides by 2 (x = 2). Substituting back gives 2(2) + 3 = 7.', () => {
+  const beamY = 72, left = 150, right = 430, cx = 290;
+  let s = line(left, beamY, right, beamY, { w: 3 }) + path(`M${cx - 38},${beamY + 74} L${cx},${beamY} L${cx + 38},${beamY + 74} Z`, { fill: C.muted, op: 0.12, stroke: C.muted, w: 1.4 });
+  s += line(left, beamY, left - 55, 128, { w: 1.1 }) + line(left, beamY, left + 55, 128, { w: 1.1 }) + path(`M${left - 58},128 Q${left},150 ${left + 58},128`, { w: 1.4 });
+  s += line(right, beamY, right - 55, 128, { w: 1.1 }) + line(right, beamY, right + 55, 128, { w: 1.1 }) + path(`M${right - 58},128 Q${right},150 ${right + 58},128`, { w: 1.4 });
+  s += rect(left - 48, 98, 28, 28, { fill: C.a, op: 0.22, stroke: C.a }) + text(left - 34, 112, 'x', { bold: true, size: 13 }) + rect(left - 14, 98, 28, 28, { fill: C.a, op: 0.22, stroke: C.a }) + text(left, 112, 'x', { bold: true, size: 13 });
+  [176, 194, 212].forEach((x) => { s += rect(x, 110, 14, 16, { fill: C.b, op: 0.25, stroke: C.b }) + text(x + 7, 118, '1', { size: 9 }); });
+  for (let k = 0; k < 7; k++) s += rect(right - 54 + k * 16, 110, 14, 16, { fill: C.b, op: 0.25, stroke: C.b }) + text(right - 47 + k * 16, 118, '1', { size: 9 });
+  s += text(left, 172, '2x + 3', { bold: true, size: 12 }) + text(right, 172, '7', { bold: true, size: 12 });
+  const steps = [['2x + 3 = 7', ''], ['2x = 4', '−3 from both sides'], ['x = 2', '÷2 both sides']];
+  steps.forEach(([eq, note], i) => {
+    const x = 25 + i * 200;
+    s += rect(x, 220, 150, 40, { fill: i === 2 ? C.c : C.a, op: i === 2 ? 0.2 : 0.08, stroke: i === 2 ? C.c : C.a, w: 1.3 }) + text(x + 75, 240, eq, { bold: true, size: 13 });
+    if (note) s += text(x - 25, 206, note, { size: 9.5, color: C.muted });
+    if (i < 2) s += arrow(x + 154, 240, x + 196, 240, { color: C.muted, w: 1.2 });
+  });
+  return svg(620, 280, s, 'balance scale linear equation');
+});
+def('exponent-rules', 'Exponent rules with numeric examples', 'The exponent rules follow from repeated multiplication: add exponents when multiplying like bases, subtract when dividing, and multiply when raising a power to a power. Negative exponents give reciprocals and fractional exponents give roots; these conventions make the same rules work for all integer and rational exponents.', () =>
+  svg(620, 320, table(15, 32, [180, 225, 185], [
+    ['product', 'bᵐ · bⁿ = bᵐ⁺ⁿ', '2³ · 2⁴ = 2⁷ = 128'],
+    ['quotient', 'bᵐ ÷ bⁿ = bᵐ⁻ⁿ', '2⁵ ÷ 2² = 2³ = 8'],
+    ['power of a power', '(bᵐ)ⁿ = bᵐⁿ', '(2³)² = 2⁶ = 64'],
+    ['zero exponent', 'b⁰ = 1 (b ≠ 0)', '7⁰ = 1'],
+    ['negative exponent', 'b⁻ⁿ = 1 ÷ bⁿ', '2⁻³ = 1 ÷ 8 = 0.125'],
+    ['fractional exponent', 'b^(1/n) = ⁿ√b', '9^(1/2) = 3; 8^(1/3) = 2'],
+    ['combined', 'b^(m/n) = ⁿ√(bᵐ)', '16^(3/4) = 8'],
+  ], { headers: ['rule', 'general form', 'example'], rowH: 34, size: 9.5 }), 'exponent rules table'));
+def('poly-ops-table', 'Polynomial operations: degree and leading coefficient', 'Adding or subtracting aligns like terms, so the degree can drop when leading terms cancel. Multiplying multiplies leading coefficients and adds degrees: \\(\\deg(fg)=\\deg f+\\deg g\\). The result of addition or subtraction has degree at most the larger input degree.', () =>
+  svg(620, 290, table(15, 32, [90, 260, 205, 55], [
+    ['add', '(2x² + 3x) + (x² − 5)', '3x² + 3x − 5', '2'],
+    ['subtract', '(2x³ − x) − (x³ + 4x²)', 'x³ − 4x² − x', '3'],
+    ['multiply', '(x + 2)(x² − 3)', 'x³ + 2x² − 3x − 6', '3'],
+    ['degree rule', 'deg(fg) = deg f + deg g', 'leading coefficients multiply', '—'],
+    ['like terms', 'matching powers only', 'degree can drop', '—'],
+  ], { headers: ['operation', 'example', 'result', 'degree'], rowH: 36, size: 9.5 }), 'polynomial operations table'));
+def('factoring-patterns', 'Factoring patterns and the zero-product property', 'Always try the greatest common factor first, then match a pattern: difference of squares, perfect square, trinomial or grouping. Expanding the factored form checks the result. The zero-product property then gives the roots: if \\(ab=0\\), then \\(a=0\\) or \\(b=0\\).', () =>
+  svg(620, 330, table(15, 32, [180, 240, 190], [
+    ['greatest common factor', '6x² + 9x', '3x(2x + 3)'],
+    ['difference of squares', 'x² − 16', '(x − 4)(x + 4)'],
+    ['perfect square', 'x² + 6x + 9', '(x + 3)²'],
+    ['trinomial, a = 1', 'x² − 5x + 6', '(x − 2)(x − 3)'],
+    ['trinomial, a ≠ 1', '2x² + 7x + 3', '(2x + 1)(x + 3)'],
+    ['grouping', 'x³ + 2x² + 3x + 6', '(x + 2)(x² + 3)'],
+  ], { headers: ['pattern', 'example', 'factored form'], rowH: 35, size: 9.5 }) + text(310, 300, 'zero-product property: if (x − 2)(x − 3) = 0, then x = 2 or x = 3', { size: 10.5, color: C.muted }), 'factoring patterns'));
+def('compound-interest', 'Compound vs simple interest', 'For \\(P=1000\\) and \\(r=5\\%\\), simple interest adds $50 each year, while compound interest multiplies by 1.05. After 20 years simple interest gives $2000 and annual compounding gives $2653. Doubling time at 5% is \\(\\dfrac{\\ln 2}{\\ln 1.05}\\approx14.2\\) years, not 20.', () => {
+  const p = plot({ W: 400, H: 300, x: [0, 20], y: [1000, 2800], xstep: 5, ystep: 500, xlabel: 'years', ylabel: 'account value ($)', ylabelTop: true, curves: [{ f: (t) => 1000 * (1 + 0.05 * t), color: C.a, label: 'simple', labelAt: [15.5, 1880] }, { f: (t) => 1000 * 1.05 ** t, color: C.b, label: 'compound', labelAt: [12.5, 2250] }], points: [10, 20].flatMap((t) => [{ x: t, y: 1000 * (1 + 0.05 * t), color: C.a, r: 3 }, { x: t, y: 1000 * 1.05 ** t, color: C.b, r: 3 }]) });
+  const inner = p.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '').replace(/<defs>[\s\S]*?<\/defs>/, '');
+  let s = `<g>${inner}</g>` + text(525, 42, 'value of $1000 at 5%', { size: 11, bold: true });
+  s += table(415, 58, [80, 65, 75], [
+    ['0', '1000', '1000'],
+    ['5', '1250', '1276'],
+    ['10', '1500', '1629'],
+    ['20', '2000', '2653'],
+  ], { headers: ['year', 'simple', 'compound'], rowH: 28, size: 9.5, align: ['middle', 'end', 'end'] });
+  return svg(640, 320, s, 'compound interest');
+});
+def('residual-plot', 'Residual plot for a linear model', 'Residual \\(=y-\\hat y\\) for the same 14 seeded points as the scatter plot. The residuals bounce randomly around zero with no curve or funnel, supporting a linear fit. Here \\(r\\approx0.93\\) and \\(r^2\\approx0.86\\), so about 86% of the variation in \\(y\\) is explained by \\(x\\); correlation still does not prove causation.', () => {
+  const rnd = mulberry(7), xs = Array.from({ length: 14 }, (_, i) => 1 + i * 0.7), ys = xs.map((x) => 2 + 1.5 * x + (rnd() - 0.5) * 3);
+  const n = xs.length, mx = xs.reduce((a, b) => a + b) / n, my = ys.reduce((a, b) => a + b) / n;
+  const sxy = xs.reduce((a, x, i) => a + (x - mx) * (ys[i] - my), 0), sxx = xs.reduce((a, x) => a + (x - mx) ** 2, 0), syy = ys.reduce((a, y) => a + (y - my) ** 2, 0);
+  const b = sxy / sxx, a = my - b * mx, r = sxy / sqrt(sxx * syy);
+  setCap('residual-plot', `Residual \\(=y-\\hat y\\) for the same 14 seeded points as the scatter plot. The residuals bounce randomly around zero with no curve or funnel, supporting a linear fit. Here \\(r\\approx${fmt(r, 3)}\\) and \\(r^2\\approx${fmt(r * r, 3)}\\), so about ${fmt(r * r * 100, 0)}% of the variation in \\(y\\) is explained by \\(x\\); correlation still does not prove causation.`);
+  return plot({ x: [0, 11], y: [-2.5, 2.5], ystep: 1, xstep: 2, xlabel: 'x', ylabel: 'residual y − ŷ', ylabelTop: true, hlines: [{ y: 0, label: 'zero', color: C.muted }], points: xs.map((x, i) => ({ x, y: ys[i] - (a + b * x), color: C.a, r: 3.5 })), texts: [[7.5, 2, 'random scatter: linear model looks reasonable', C.muted]] });
+});
+
+
+/* ---------- geometry prerequisites (P2) ---------- */
+const D2R = PI / 180;
+function figArc(cx, cy, r, a0, a1, color = C.a, w = 1.6) {
+  const norm = (a) => ((a % 360) + 360) % 360;
+  const s = norm(a0), d = norm(a1 - a0);
+  const start = d > 180 ? norm(a1) : s, span = d > 180 ? 360 - d : d;
+  const n = Math.max(6, Math.ceil(span / 6));
+  const pts = Array.from({ length: n + 1 }, (_, i) => {
+    const a = (start + (span * i) / n) * D2R;
+    return [cx + r * cos(a), cy - r * sin(a)];
+  });
+  return path('M' + pts.map((p) => p.join(',')).join('L'), { stroke: color, w });
+}
+function angleAt(v, p1, p2, r, color = C.b) {
+  let a1 = atan2(-(p1[1] - v[1]), p1[0] - v[0]) / D2R;
+  let a2 = atan2(-(p2[1] - v[1]), p2[0] - v[0]) / D2R;
+  if (a2 < a1) [a1, a2] = [a2, a1];
+  return figArc(v[0], v[1], r, a1, a2, color);
+}
+function tickMark(p1, p2, n = 1, color = C.b) {
+  const dx = p2[0] - p1[0], dy = p2[1] - p1[1], L = Math.hypot(dx, dy), px = -dy / L, py = dx / L;
+  let s = '';
+  for (let i = 0; i < n; i++) {
+    const t = 0.5 + (i - (n - 1) / 2) * 0.13, mx = p1[0] + dx * t, my = p1[1] + dy * t;
+    s += line(mx + px * 5, my + py * 5, mx - px * 5, my - py * 5, { color, w: 1.5 });
+  }
+  return s;
+}
+def('angle-pairs', 'Angle-pair reference: complementary, supplementary, vertical', 'Complementary angles sum to \\(90°\\); supplementary angles sum to \\(180°\\). Vertical angles formed by two intersecting lines are equal, and a linear pair is supplementary. These relationships are the basis of angle-chasing in geometry proofs.', () => {
+  let s = '';
+  const panel = (cx, title) => text(cx, 22, title, { bold: true, size: 11 });
+  s += panel(110, 'complementary');
+  s += line(110, 205, 210, 205, { w: 2 }) + line(110, 205, 110, 105, { w: 2 }) + line(110, 205, 160, 118, { w: 2 });
+  s += rect(110, 193, 12, 12, { w: 1 }) + figArc(110, 205, 40, 0, 60, C.a) + text(152, 172, '60°', { color: C.a }) + figArc(110, 205, 52, 60, 90, C.b) + text(126, 137, '30°', { color: C.b });
+  s += text(110, 238, '60° + 30° = 90°', { size: 10, color: C.muted });
+  s += panel(330, 'supplementary');
+  s += line(230, 205, 430, 205, { w: 2 }) + line(330, 205, 295, 105, { w: 2 });
+  s += figArc(330, 205, 44, 0, 110, C.a) + text(370, 166, '110°', { color: C.a }) + figArc(330, 205, 58, 110, 180, C.b) + text(285, 166, '70°', { color: C.b });
+  s += text(330, 238, '110° + 70° = 180°', { size: 10, color: C.muted });
+  s += panel(550, 'vertical angles');
+  s += line(450, 205, 650, 205, { w: 2 }) + line(480, 238, 620, 172, { w: 2 });
+  s += figArc(550, 205, 42, 0, 40, C.a) + text(584, 188, '40°', { color: C.a }) + figArc(550, 205, 54, 40, 180, C.b) + text(510, 178, '140°', { color: C.b });
+  s += text(550, 238, 'vertical angles are equal', { size: 10, color: C.muted });
+  return svg(660, 260, s, 'angle pairs');
+});
+def('congruence-tests', 'Triangle congruence: SSS, SAS, ASA', 'SSS, SAS and ASA guarantee congruent triangles because the given parts fix the whole triangle. Mark matching sides with tick marks and matching angles with arcs. AAA fixes shape but not size (similar, not congruent), and SSA can produce two different triangles (the ambiguous case).', () => {
+  let s = '';
+  const panel = (cx, label, kind, note) => {
+    const A = [cx, 220], B = [cx + 150, 220], Cc = [cx + 55, 80];
+    let t = text(cx + 75, 22, label, { bold: true, size: 13 }) + path(`M${A}L${B}L${Cc}Z`, { fill: C.a, op: 0.1, stroke: C.a, w: 2 });
+    if (kind === 'SSS') t += tickMark(A, B, 2) + tickMark(B, Cc, 2) + tickMark(Cc, A, 2);
+    if (kind === 'SAS') t += tickMark(A, B, 1) + tickMark(Cc, A, 1) + angleAt(A, B, Cc, 28, C.b);
+    if (kind === 'ASA') t += tickMark(A, B, 2) + angleAt(A, B, Cc, 26, C.b) + angleAt(B, A, Cc, 26, C.b);
+    t += text(cx + 75, 252, note, { size: 10, color: C.muted });
+    return t;
+  };
+  s += panel(25, 'SSS', 'SSS', 'three sides') + panel(230, 'SAS', 'SAS', 'two sides + included angle') + panel(435, 'ASA', 'ASA', 'two angles + included side');
+  return svg(610, 275, s, 'congruence tests');
+});
+def('similarity-tests', 'Similarity criteria: AA, SAS, SSS', 'AA similarity needs two pairs of congruent angles; SAS needs two proportional sides with the included angle equal; SSS needs all three side ratios equal. Similar triangles have equal corresponding angles and proportional sides: \\(\\dfrac{DE}{AB}=\\dfrac{EF}{BC}=\\dfrac{DF}{AC}=k\\). Areas scale by \\(k^2\\) and volumes by \\(k^3\\).', () => {
+  let s = '';
+  const panel = (cx, label, kind, note) => {
+    const small = [[cx - 105, 230], [cx - 25, 230], [cx - 88, 165]];
+    const large = [[cx + 10, 230], [cx + 120, 230], [cx + 42, 120]];
+    const tx = (P) => `M${P[0]}L${P[1]}L${P[2]}Z`;
+    let t = text(cx, 28, label, { bold: true, size: 13 }) + path(tx(small), { fill: C.a, op: 0.12, stroke: C.a, w: 1.8 }) + path(tx(large), { fill: C.b, op: 0.12, stroke: C.b, w: 1.8 });
+    if (kind === 'AA') {
+      t += angleAt(small[0], small[1], small[2], 20, C.c) + angleAt(small[1], small[0], small[2], 20, C.c) + angleAt(large[0], large[1], large[2], 24, C.c) + angleAt(large[1], large[0], large[2], 24, C.c);
+    } else if (kind === 'SAS') {
+      t += tickMark(small[0], small[1], 1) + tickMark(small[0], small[2], 1) + tickMark(large[0], large[1], 2) + tickMark(large[0], large[2], 2) + angleAt(small[0], small[1], small[2], 20, C.c) + angleAt(large[0], large[1], large[2], 24, C.c);
+    } else {
+      t += tickMark(small[0], small[1], 1) + tickMark(small[1], small[2], 1) + tickMark(small[2], small[0], 1) + tickMark(large[0], large[1], 2) + tickMark(large[1], large[2], 2) + tickMark(large[2], large[0], 2);
+    }
+    t += text(cx - 40, 252, 'small', { size: 9, color: C.muted }) + text(cx + 65, 252, 'large', { size: 9, color: C.muted }) + text(cx, 276, note, { size: 9.5, color: C.muted });
+    return t;
+  };
+  s += panel(125, 'AA', 'AA', 'two equal angles') + panel(370, 'SAS', 'SAS', 'two proportional sides + angle') + panel(610, 'SSS', 'SSS', 'three proportional sides');
+  return svg(760, 300, s, 'similarity criteria');
+});
+def('special-right-triangles', 'Special right triangles and the converse', '45°-45°-90° triangles have sides in the ratio \\(1:1:\\sqrt2\\); 30°-60°-90° triangles have sides in the ratio \\(1:\\sqrt3:2\\). The converse of the Pythagorean theorem classifies a triangle: if \\(a^2+b^2=c^2\\) it is right, if \\(a^2+b^2>c^2\\) it is acute, and if \\(a^2+b^2<c^2\\) it is obtuse.', () => {
+  let s = text(90, 30, '45°-45°-90°', { bold: true, size: 12 }) + text(440, 30, '30°-60°-90°', { bold: true, size: 12 });
+  const A = [45, 240], B = [205, 240], Cc = [45, 80];
+  s += path(`M${A}L${B}L${Cc}Z`, { fill: C.a, op: 0.1, stroke: C.a, w: 2 }) + rect(45, 228, 12, 12, { w: 1 });
+  s += text(125, 258, '1', { size: 12 }) + text(28, 165, '1', { size: 12, rotate: -90 }) + text(142, 148, '√2', { size: 12, rotate: -45 }) + text(65, 225, '45°', { size: 10, color: C.b }) + text(190, 225, '45°', { size: 10, color: C.b });
+  const A2 = [335, 240], B2 = [540, 240], C2 = [335, 120];
+  s += path(`M${A2}L${B2}L${C2}Z`, { fill: C.c, op: 0.1, stroke: C.c, w: 2 }) + rect(335, 228, 12, 12, { w: 1 });
+  s += text(437, 260, '√3', { size: 12 }) + text(318, 185, '1', { size: 12, rotate: -90 }) + text(450, 165, '2', { size: 12, rotate: -30 }) + text(355, 226, '30°', { size: 10, color: C.b }) + text(520, 226, '60°', { size: 10, color: C.b });
+  s += text(330, 298, 'converse:  a² + b² = c² → right   ·   a² + b² > c² → acute   ·   a² + b² < c² → obtuse', { size: 9.5, color: C.muted });
+  return svg(620, 315, s, 'special right triangles');
+});
+def('unit-circle-trig', 'Unit-circle definitions of sin, cos and tan', 'On the unit circle, a point at angle \\(\\theta\\) has coordinates \\((\\cos\\theta,\\sin\\theta)\\). Thus \\(\\sin\\theta=y\\), \\(\\cos\\theta=x\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\) (the slope of the terminal ray). The table gives exact values; inverse trig functions recover an angle from a ratio.', () => {
+  const cx = 160, cy = 180, R = 110, th = 35 * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
+  let s = circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, px, py, { color: C.a, w: 2 }) + line(px, py, px, cy, { color: C.b, dash: '4 3', w: 1.4 }) + line(cx, cy, px, cy, { color: C.b, dash: '4 3', w: 1.4 });
+  s += line(cx - 135, cy, cx + 135, cy, { w: 1 }) + line(cx, cy + 125, cx, cy - 125, { w: 1 });
+  s += text(px + 8, py - 8, '(cos θ, sin θ)', { anchor: 'start', size: 9.5 }) + text((cx + px) / 2, cy + 16, 'cos θ', { size: 10, color: C.b }) + text(px + 10, (py + cy) / 2, 'sin θ', { size: 10, color: C.b, anchor: 'start' });
+  s += text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, 35, C.a);
+  s += line(cx + R, 60, cx + R, 300, { color: C.muted, dash: '4 3', w: 1 }) + line(px, py, cx + R, cy - R * tan(th), { color: C.a, dash: '2 2', w: 1 }) + text(cx + R + 8, 70, 'tan θ', { anchor: 'start', size: 10, color: C.a });
+  s += table(340, 55, [60, 75, 75, 75], [
+    ['0°', '0', '1', '0'],
+    ['30°', '1/2', '√3/2', '1/√3'],
+    ['45°', '√2/2', '√2/2', '1'],
+    ['60°', '√3/2', '1/2', '√3'],
+    ['90°', '1', '0', 'undef'],
+  ], { headers: ['θ', 'sin θ', 'cos θ', 'tan θ'], rowH: 30, size: 9.5, align: ['middle', 'middle', 'middle', 'middle'] });
+  s += text(500, 260, 'exact values on the unit circle', { size: 9.5, color: C.muted });
+  return svg(640, 315, s, 'unit circle trig');
+});
+def('arc-sector', 'Arc length and sector area', 'For a central angle \\(\\theta\\) in radians, arc length is \\(s=r\\theta\\) and sector area is \\(A=\\dfrac12r^2\\theta\\). Convert degrees with \\(\\theta_{rad}=\\theta_{deg}\\dfrac{\\pi}{180}\\). Example: \\(r=6\\), \\(\\theta=120°=\\dfrac{2\\pi}{3}\\) gives \\(s=4\\pi\\approx12.57\\) and \\(A=12\\pi\\approx37.70\\).', () => {
+  const cx = 170, cy = 175, R = 110, a0 = 20, a1 = 140;
+  const p = (a) => [cx + R * cos(a * D2R), cy - R * sin(a * D2R)];
+  const [x0, y0] = p(a0), [x1, y1] = p(a1);
+  let s = path(`M${cx},${cy} L${x0},${y0} A${R} ${R} 0 0 0 ${x1},${y1} Z`, { fill: C.a, op: 0.16, stroke: 'none' });
+  s += circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, x0, y0, { w: 2 }) + line(cx, cy, x1, y1, { w: 2 }) + path(`M${x0},${y0} A${R} ${R} 0 0 0 ${x1},${y1}`, { stroke: C.b, w: 4 });
+  s += figArc(cx, cy, 38, a0, a1, C.e) + text(cx + 56, cy - 44, 'θ = 120°', { size: 10.5, color: C.e }) + text(cx + 82, cy + 6, 'r', { size: 12, bold: true }) + text(108, 74, 'arc s', { size: 11, color: C.b });
+  s += text(340, 52, 'radian measure', { bold: true, size: 12, anchor: 'start' });
+  s += text(340, 80, 'arc length:  s = rθ', { size: 11, anchor: 'start' }) + text(340, 104, 'sector area:  A = ½ r²θ', { size: 11, anchor: 'start' });
+  s += text(340, 128, 'degrees → radians:  θ × π ÷ 180', { size: 10, anchor: 'start', color: C.muted });
+  s += table(340, 150, [85, 105], [['90°', 'π/2'], ['180°', 'π'], ['270°', '3π/2'], ['360°', '2π']], { headers: ['degrees', 'radians'], rowH: 28, size: 10, align: ['middle', 'middle'] });
+  s += text(340, 300, 'r = 6, θ = 2π/3 → s ≈ 12.57, A ≈ 37.70', { size: 9.5, anchor: 'start' });
+  return svg(620, 325, s, 'arc length sector area');
+});
+def('area-decompose', 'Area by decomposition and unit conversion', 'The L-shaped figure splits into an \\(8\\times4\\) rectangle (32 m²) and a \\(5\\times2\\) rectangle (10 m²), for a total area of 42 m². Perimeter follows only the outside boundary: 8 + 4 + 3 + 2 + 5 + 6 = 28 m; the dashed cut is not part of the perimeter. Convert units before computing: \\(1\\text{ m}=100\\text{ cm}\\) and \\(1\\text{ m}^2=10{,}000\\text{ cm}^2\\).', () => {
+  const sc = 40, ox = 40, oy = 300;
+  let s = path(`M${ox},${oy} L${ox + 8 * sc},${oy} L${ox + 8 * sc},${oy - 4 * sc} L${ox + 5 * sc},${oy - 4 * sc} L${ox + 5 * sc},${oy - 6 * sc} L${ox},${oy - 6 * sc} Z`, { fill: C.a, op: 0.15, stroke: C.a, w: 2 });
+  s += line(ox, oy - 4 * sc, ox + 8 * sc, oy - 4 * sc, { color: C.muted, dash: '5 4', w: 1 }) + line(ox + 5 * sc, oy - 6 * sc, ox + 5 * sc, oy - 4 * sc, { color: C.muted, dash: '5 4', w: 1 });
+  s += text(ox + 4 * sc, oy - 2 * sc, '8 × 4 = 32 m²', { size: 11, bold: true }) + text(ox + 2.5 * sc, oy - 5 * sc, '5 × 2 = 10 m²', { size: 11, bold: true });
+  s += text(ox + 4 * sc, oy + 20, '8 m', { size: 10.5 }) + text(ox - 14, oy - 3 * sc, '6 m', { size: 10.5, rotate: -90 }) + text(ox + 2.5 * sc, oy - 6 * sc - 12, '5 m', { size: 10.5 }) + text(ox + 6.5 * sc, oy - 6 * sc - 12, '3 m', { size: 10.5 }) + text(ox + 8 * sc + 14, oy - 5 * sc, '2 m', { size: 10.5, rotate: -90 });
+  s += text(ox + 4 * sc, oy + 46, 'A = 42 m²   ·   P = 28 m', { size: 12, bold: true });
+  s += table(430, 70, [90, 140], [['1 m', '100 cm'], ['1 m²', '10,000 cm²'], ['1 m³', '1,000,000 cm³'], ['1 L', '1000 cm³']], { headers: ['unit', 'conversion'], rowH: 32, size: 10, align: ['start', 'start'] });
+  s += text(430, 250, '2.5 m = 250 cm', { anchor: 'start', size: 10 }) + text(430, 274, '3 m² = 30,000 cm²', { anchor: 'start', size: 10 }) + text(430, 298, 'convert, then add areas', { anchor: 'start', size: 9.5, color: C.muted });
+  return svg(660, 360, s, 'area decomposition');
+});
+def('solid-scaling', 'Scaling similar solids: length, area, volume', 'When every length is multiplied by \\(k\\), surface area is multiplied by \\(k^2\\) and volume by \\(k^3\\). The two cylinders are similar with \\(k=2\\): radius 1→2, height 2→4, surface area \\(6\\pi\\to24\\pi\\) (×4), and volume \\(2\\pi\\to8\\pi\\) (×8).', () => {
+  const cyl = (cx, top, bot, rx, ry) => `<ellipse cx="${cx}" cy="${top}" rx="${rx}" ry="${ry}" fill="none" stroke="${C.a}" stroke-width="1.6"/><ellipse cx="${cx}" cy="${bot}" rx="${rx}" ry="${ry}" fill="none" stroke="${C.a}" stroke-width="1.6" stroke-dasharray="4 3"/><line x1="${cx - rx}" y1="${top}" x2="${cx - rx}" y2="${bot}" stroke="${C.a}" stroke-width="1.6"/><line x1="${cx + rx}" y1="${top}" x2="${cx + rx}" y2="${bot}" stroke="${C.a}" stroke-width="1.6"/>`;
+  let s = cyl(100, 80, 200, 34, 9) + cyl(280, 40, 280, 68, 18);
+  s += text(100, 224, 'r = 1, h = 2', { size: 10.5 }) + text(280, 318, 'r = 2, h = 4', { size: 10.5 });
+  s += table(370, 50, [90, 65, 65, 65], [['radius', '1', '2', '×2'], ['height', '2', '4', '×2'], ['surface area', '6π', '24π', '×4'], ['volume', '2π', '8π', '×8']], { headers: ['quantity', 'small', 'large', 'factor'], rowH: 30, size: 9.5, align: ['start', 'middle', 'middle', 'middle'] });
+  s += text(370, 225, 'length × k   ·   area × k²   ·   volume × k³', { anchor: 'start', size: 10.5, bold: true });
+  s += text(370, 252, 'k = 2 → 2, 4, 8', { anchor: 'start', size: 10.5, color: C.muted });
+  return svg(660, 330, s, 'similar solid scaling');
+});
+def('perp-bisector', 'Perpendicular bisector and equidistance', 'The perpendicular bisector of \\(\\overline{AB}\\) is the set of points equidistant from \\(A\\) and \\(B\\). For \\(A(1,1)\\), \\(B(7,9)\\), the midpoint is \\(M(4,5)\\) and \\(m_{AB}=\\dfrac43\\), so the bisector has slope \\(-\\dfrac34\\) and equation \\(3x+4y=32\\). Point \\(P(8,2)\\) satisfies \\(PA=PB=\\sqrt{50}\\).', () =>
+  plot({ W: 470, H: 420, x: [-1, 9], y: [-1, 10], segs: [[1, 1, 7, 9, C.a, 2.2], [1, 1, 8, 2, C.muted, 1.2, '4 3'], [7, 9, 8, 2, C.muted, 1.2, '4 3']], curves: [{ f: (x) => 5 - 0.75 * (x - 4), color: C.b, label: 'perpendicular bisector', labelAt: [1.0, 7.7], anchor: 'start', dx: 4, dy: -10 }], points: [{ x: 1, y: 1, label: 'A(1, 1)', dy: 14 }, { x: 7, y: 9, label: 'B(7, 9)', anchor: 'end', dx: -8 }, { x: 4, y: 5, color: C.b, label: 'M(4, 5)', anchor: 'end', dx: -6 }, { x: 8, y: 2, color: C.c, label: 'P(8, 2)', dy: 14 }], texts: [[4.25, 5.45, '⊥', C.b]] }));
+def('symmetry-types', 'Line and rotational symmetry', 'An equilateral triangle has 3 lines of symmetry and rotational symmetry of order 3 (120°); a square has 4 lines and order 4 (90°); a non-square rectangle has 2 lines and only 180° rotational symmetry; a circle has infinitely many lines and any rotation. A regular \\(n\\)-gon has \\(n\\) symmetry lines and rotational order \\(n\\).', () => {
+  let s = '';
+  const tri = (cx, cy, r) => [0, 1, 2].map((k) => { const a = (-90 + k * 120) * D2R; return [cx + r * cos(a), cy - r * sin(a)]; });
+  const T = tri(85, 150, 62); s += path('M' + T.map((p) => p.join(',')).join('L') + 'Z', { fill: C.a, op: 0.12, stroke: C.a, w: 2 });
+  T.forEach((p, i) => { const q = T[(i + 1) % 3], r = T[(i + 2) % 3], m = [(q[0] + r[0]) / 2, (q[1] + r[1]) / 2]; s += line(p[0], p[1], m[0], m[1], { color: C.muted, dash: '4 3', w: 1 }); });
+  const sq = (cx, cy, h) => path(`M${cx - h},${cy - h} L${cx + h},${cy - h} L${cx + h},${cy + h} L${cx - h},${cy + h} Z`, { fill: C.c, op: 0.12, stroke: C.c, w: 2 });
+  s += sq(235, 150, 58) + line(235, 92, 235, 208, { color: C.muted, dash: '4 3', w: 1 }) + line(177, 150, 293, 150, { color: C.muted, dash: '4 3', w: 1 }) + line(194, 109, 276, 191, { color: C.muted, dash: '4 3', w: 1 }) + line(194, 191, 276, 109, { color: C.muted, dash: '4 3', w: 1 });
+  s += path('M350,110 L470,110 L470,190 L350,190 Z', { fill: C.d, op: 0.12, stroke: C.d, w: 2 }) + line(410, 110, 410, 190, { color: C.muted, dash: '4 3', w: 1 }) + line(350, 150, 470, 150, { color: C.muted, dash: '4 3', w: 1 });
+  s += circle(570, 150, 58, { stroke: C.b, w: 2 }) + [0, 45, 90, 135].map((a) => line(570 - 58 * cos(a * D2R), 150 - 58 * sin(a * D2R), 570 + 58 * cos(a * D2R), 150 + 58 * sin(a * D2R), { color: C.muted, dash: '4 3', w: 1 })).join('');
+  s += text(85, 235, '3 lines · 120°', { size: 10, bold: true }) + text(235, 235, '4 lines · 90°', { size: 10, bold: true }) + text(410, 235, '2 lines · 180°', { size: 10, bold: true }) + text(570, 235, '∞ lines · any angle', { size: 10, bold: true });
+  return svg(660, 260, s, 'symmetry classification');
+});
+def('proof-template', 'Two-column proof template with CPCTC', 'Given \\(AB\\cong AC\\) and \\(D\\) the midpoint of \\(\\overline{BC}\\), prove \\(\\angle B\\cong\\angle C\\). Statements 1–4 establish \\(BD\\cong DC\\) and the shared side \\(AD\\) by the reflexive property; SSS then gives \\(\\triangle ABD\\cong\\triangle ACD\\), so the base angles are congruent by CPCTC. Every statement needs a reason.', () =>
+  svg(620, 320, text(310, 22, 'Given: AB ≅ AC, D midpoint of BC   ·   Prove: ∠B ≅ ∠C', { bold: true, size: 11 }) + table(15, 40, [300, 290], [
+    ['1. AB ≅ AC', 'Given'],
+    ['2. D is the midpoint of BC', 'Given'],
+    ['3. BD ≅ DC', 'Definition of midpoint'],
+    ['4. AD ≅ AD', 'Reflexive property'],
+    ['5. △ABD ≅ △ACD', 'SSS'],
+    ['6. ∠B ≅ ∠C', 'CPCTC'],
+  ], { headers: ['statement', 'reason'], rowH: 38, size: 10.5 }), 'two-column proof'));
+
+/* ---------- algebra II / precalculus single-topic variants ---------- */
+def('function-transformations', 'Function transformations: summary table', 'Each transformation changes the graph in a predictable way. Vertical changes act outside the function and horizontal changes act inside; inside changes are counterintuitive (f(x − h) shifts right). Apply reflections and stretches before translations when graphing a chain of transformations. Even functions satisfy \\(f(-x)=f(x)\\); odd functions satisfy \\(f(-x)=-f(x)\\).', () =>
+  svg(640, 320, table(15, 32, [150, 230, 220], [
+    ['f(x) + k', 'vertical shift by k', 'x² + 2 moves up 2'],
+    ['f(x − h)', 'horizontal shift by h', '(x − 3)² moves right 3'],
+    ['−f(x)', 'reflect across the x-axis', '−√x'],
+    ['f(−x)', 'reflect across the y-axis', '√(−x)'],
+    ['a·f(x)', 'vertical stretch by |a|', '2 sin x'],
+    ['f(bx)', 'horizontal compression by 1 ÷ |b|', 'sin(2x)'],
+    ['|f(x)|', 'reflect negative values up', '|x² − 1|'],
+  ], { headers: ['transformation', 'effect on the graph', 'example'], rowH: 34, size: 9.5 }), 'function transformations table'));
+def('poly-sign-chart', 'Polynomial sign chart and end behavior', 'For \\(p(x)=(x+2)(x-1)^2(x-3)\\), the sign chart is \\(+\\,-\\,-\\,+\\) across the zeros −2, 1, 3. At \\(x=1\\) the factor is squared (even multiplicity), so the graph touches but does not cross. Degree 4 with positive leading coefficient means both ends rise: \\(p(x)\\to+\\infty\\) as \\(x\\to\\pm\\infty\\).', () => {
+  const xs = [150, 320, 470];
+  let s = text(320, 24, 'p(x) = (x + 2)(x − 1)²(x − 3)', { bold: true, size: 12 });
+  s += line(60, 80, 600, 80, { w: 1.4 }) + line(590, 74, 606, 80, { arrow: false });
+  [['−∞', 62], ['−2', xs[0]], ['1', xs[1]], ['3', xs[2]], ['+∞', 594]].forEach(([t, x], i) => { if (i > 0 && i < 4) s += line(x, 72, x, 88, { w: 1.2 }); s += text(x, 100, t, { size: 10.5, color: i === 0 || i === 4 ? C.muted : C.ink }); });
+  [['+', 105], ['−', 235], ['−', 395], ['+', 535]].forEach(([sg, x]) => { s += text(x, 55, sg, { size: 18, bold: true, color: sg === '+' ? C.c : C.e }); });
+  s += text(xs[1], 128, 'touch (×2)', { size: 9.5, color: C.muted });
+  s += table(30, 150, [120, 120, 300], [
+    ['(−∞, −2)', '+', 'rises from +∞, crosses at −2'],
+    ['(−2, 1)', '−', 'below the axis'],
+    ['(1, 3)', '−', 'touches at 1, stays below'],
+    ['(3, ∞)', '+', 'crosses at 3, rises to +∞'],
+  ], { headers: ['interval', 'sign of p', 'graph behavior'], rowH: 30, size: 9.5, align: ['start', 'middle', 'start'] });
+  return svg(640, 300, s, 'polynomial sign chart');
+});
+def('radical-equation', 'Solving a radical equation: checking for extraneous roots', 'Square both sides of \\(\\sqrt{2x+3}=x\\): \\(2x+3=x^2\\), so \\(x^2-2x-3=0\\) and \\(x=3\\) or \\(x=-1\\). Checking in the original equation, \\(x=3\\) gives 3 = 3, but \\(x=-1\\) gives 1 = −1, so it is extraneous. The graph intersects only at \\((3,3)\\). The domain is \\(x\\ge-\\dfrac32\\) and the range is \\(y\\ge0\\).', () =>
+  plot({ x: [-2, 6], y: [-2, 5], xstep: 1, ystep: 1, xlabel: 'x', ylabel: 'y', curves: [{ f: (x) => sqrt(2 * x + 3), dom: [-1.5, 6], color: C.a, label: 'y = √(2x + 3)', labelAt: [4.1, 3.2] }, { f: (x) => x, color: C.b, label: 'y = x', labelAt: [4.3, 4.1] }], points: [{ x: 3, y: 3, color: C.c, label: 'x = 3 valid', dy: 14 }, { x: -1, y: 1, color: C.a, r: 3.5, label: '√1 = 1', anchor: 'end', dx: -8 }, { x: -1, y: -1, open: true, color: C.b, label: 'x = −1 extraneous', dy: 14 }], vlines: [{ x: -1, color: C.e }] }));
+def('exp-parameters', 'Exponential parameters: growth, decay and shifts', 'In \\(y=a b^x+k\\), the base \\(b\\) sets growth (\\(b>1\\)) or decay (\\(0<b<1\\)); \\(a\\) scales and can reflect the graph; \\(k\\) is the horizontal asymptote. The y-intercept is \\(a+k\\), not \\(k\\). Doubling time solves \\(b^t=2\\), so \\(t=\\dfrac{\\ln2}{\\ln b}\\); half-life solves \\(b^t=\\dfrac12\\).', () =>
+  svg(660, 330, table(15, 32, [120, 250, 230], [
+    ['a > 0', 'scales the graph; y-intercept a + k', '3·2ˣ starts at 3'],
+    ['a < 0', 'reflects across the x-axis', '−2ˣ is always negative'],
+    ['b > 1', 'exponential growth', '2ˣ, 1.05ˣ'],
+    ['0 < b < 1', 'exponential decay', '(1/2)ˣ = 2⁻ˣ'],
+    ['k', 'vertical shift; asymptote y = k', '2ˣ − 2 has asymptote −2'],
+    ['x − h', 'horizontal shift by h', '2^(x − 3) shifts right 3'],
+    ['doubling / half-life', 'solve bᵗ = 2 or bᵗ = 1/2', 't = ln 2 ÷ ln b'],
+  ], { headers: ['parameter', 'effect on y = a·bˣ + k', 'example'], rowH: 34, size: 9.5 }), 'exponential parameters'));
+def('log-properties', 'Logarithm properties and a worked equation', 'Logs turn products into sums and quotients into differences; a power comes down as a factor. Change of base writes any log as a ratio of natural logs. When solving, check every candidate in the original equation: logarithms are defined only for positive arguments, so \\(x=-2\\) is rejected in \\( \\log_2 x+\\log_2(x-2)=3\\).', () =>
+  svg(640, 335, table(15, 32, [300, 290], [
+    ['log_b(MN) = log_b M + log_b N', 'log₂(8·4) = 3 + 2 = 5'],
+    ['log_b(M ÷ N) = log_b M − log_b N', 'log₂(8 ÷ 4) = 3 − 2 = 1'],
+    ['log_b(Mᵖ) = p log_b M', 'log₂(8²) = 2·3 = 6'],
+    ['log_b b = 1; log_b 1 = 0', 'log₅ 5 = 1; log₅ 1 = 0'],
+    ['change of base: log_b M = ln M ÷ ln b', 'log₅ 25 = ln 25 ÷ ln 5 = 2'],
+  ], { headers: ['property', 'numeric example'], rowH: 34, size: 9.5 }) + text(20, 260, 'Solve  log₂ x + log₂(x − 2) = 3', { anchor: 'start', size: 11, bold: true }) + text(20, 283, 'log₂[x(x − 2)] = 3  ⇒  x(x − 2) = 8  ⇒  x² − 2x − 8 = 0', { anchor: 'start', size: 10 }) + text(20, 306, '(x − 4)(x + 2) = 0  ⇒  x = 4  (x = −2 rejected: log of a negative)', { anchor: 'start', size: 9.5, color: C.muted }), 'log properties'));
+def('matrix-inverse', 'Determinant, area scaling and the inverse matrix', 'For \\(A=\\begin{bmatrix}3&1\\\\2&2\\end{bmatrix}\\), \\(\\det A=3(2)-1(2)=4\\). The unit square maps to a parallelogram of area \\(|\\det A|=4\\). Because the determinant is nonzero, \\(A^{-1}=\\dfrac{1}{\\det A}\\begin{bmatrix}d&-b\\\\-c&a\\end{bmatrix}=\\dfrac14\\begin{bmatrix}2&-1\\\\-2&3\\end{bmatrix}\\), and \\(A^{-1}A=I\\). If \\(\\det A=0\\), area collapses and no inverse exists.', () => {
+  const p = plot({ W: 370, H: 360, x: [-1, 5], y: [-1, 5], polys: [{ pts: [[0, 0], [1, 0], [1, 1], [0, 1]], close: true, fill: C.muted, color: C.muted, op: 0.12 }, { pts: [[0, 0], [3, 2], [4, 4], [1, 2]], close: true, fill: C.a, color: C.a, op: 0.18 }], points: [{ x: 1, y: 1, label: 'unit square', dy: -12, color: C.muted }, { x: 4, y: 4, label: 'image', dy: 14, color: C.a }] });
+  const inner = p.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '').replace(/<defs>[\s\S]*?<\/defs>/, '');
+  let s = `<g>${inner}</g>`;
+  s += text(390, 48, 'A = [ 3  1 ; 2  2 ]', { anchor: 'start', bold: true, size: 12 });
+  s += text(390, 86, 'det A = 3(2) − 1(2) = 4', { anchor: 'start', size: 10.5 });
+  s += text(390, 112, 'area scale = |det A| = 4', { anchor: 'start', size: 10.5 });
+  s += text(390, 146, 'A⁻¹ = (1 ÷ det A) · [ d  −b ; −c  a ]', { anchor: 'start', size: 10 });
+  s += text(390, 170, 'A⁻¹ = ¼ [ 2  −1 ; −2  3 ]', { anchor: 'start', size: 10.5, bold: true });
+  s += text(390, 208, 'A⁻¹A = I', { anchor: 'start', size: 10.5 });
+  s += text(390, 232, 'det A = 0 → area 0, no inverse', { anchor: 'start', size: 9.5, color: C.muted });
+  return svg(640, 360, s, 'matrix inverse');
+});
+def('conic-standard', 'Conic standard forms and completing the square', 'Each conic has a standard form that reveals its center, vertex or axes. Completing the square converts a general equation into standard form: \\(x^2+4x+y^2-6y=3\\) becomes \\((x+2)^2+(y-3)^2=16\\), a circle with center \\((-2,3)\\) and radius 4. The discriminant of the general second-degree equation classifies the conic.', () =>
+  svg(640, 335, table(15, 32, [110, 260, 220], [
+    ['circle', '(x − h)² + (y − k)² = r²', 'center (h, k), radius r'],
+    ['ellipse', '(x − h)² ÷ a² + (y − k)² ÷ b² = 1', 'axes 2a and 2b'],
+    ['parabola', '(x − h)² = 4p(y − k)', 'vertex, focus, directrix'],
+    ['hyperbola', '(x − h)² ÷ a² − (y − k)² ÷ b² = 1', 'asymptotes slope ± b ÷ a'],
+  ], { headers: ['conic', 'standard form', 'key features'], rowH: 38, size: 9.5 }) + text(20, 245, 'Complete the square:  x² + 4x + y² − 6y = 3', { anchor: 'start', size: 11, bold: true }) + text(20, 272, '(x² + 4x + 4) + (y² − 6y + 9) = 3 + 4 + 9', { anchor: 'start', size: 10 }) + text(20, 299, '(x + 2)² + (y − 3)² = 16  →  center (−2, 3), radius 4', { anchor: 'start', size: 10.5 }), 'conic standard forms'));
+def('identity-derivation', 'Pythagorean identity from the unit circle', 'A point on the unit circle has coordinates \\((\\cos\\theta,\\sin\\theta)\\), so \\(x^2+y^2=1\\) becomes \\(\\sin^2\\theta+\\cos^2\\theta=1\\). Dividing by \\(\\cos^2\\theta\\) gives \\(1+\\tan^2\\theta=\\sec^2\\theta\\); dividing by \\(\\sin^2\\theta\\) gives \\(1+\\cot^2\\theta=\\csc^2\\theta\\). The double-angle identities follow from the same circle.', () => {
+  const cx = 160, cy = 180, R = 110, th = 35 * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
+  let s = circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, px, py, { color: C.a, w: 2 }) + line(px, py, px, cy, { color: C.b, dash: '4 3', w: 1.4 }) + line(cx, cy, px, cy, { color: C.b, dash: '4 3', w: 1.4 });
+  s += line(cx - 135, cy, cx + 135, cy, { w: 1 }) + line(cx, cy + 125, cx, cy - 125, { w: 1 });
+  s += text(px + 8, py - 8, '(cos θ, sin θ)', { anchor: 'start', size: 9.5 }) + text((cx + px) / 2, cy + 16, 'cos θ', { size: 10, color: C.b }) + text(px + 10, (py + cy) / 2, 'sin θ', { size: 10, color: C.b, anchor: 'start' }) + text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, 35, C.a);
+  s += table(340, 55, [160, 140], [
+    ['sin²θ + cos²θ = 1', 'unit circle x² + y² = 1'],
+    ['1 + tan²θ = sec²θ', 'divide by cos²θ'],
+    ['1 + cot²θ = csc²θ', 'divide by sin²θ'],
+    ['sin 2θ = 2 sinθ cosθ', 'double angle'],
+    ['cos 2θ = cos²θ − sin²θ', 'double angle'],
+  ], { headers: ['identity', 'why it holds'], rowH: 34, size: 9.5 });
+  s += text(500, 270, 'hypotenuse = 1', { size: 9.5, color: C.muted });
+  return svg(640, 300, s, 'pythagorean identity derivation');
+});
+def('vector-components', 'Vector components, magnitude, direction and projection', 'For \\(\\vec u=\\langle3,4\\rangle\\), the components are 3 (horizontal) and 4 (vertical), so \\(|\\vec u|=\\sqrt{3^2+4^2}=5\\) and \\(\\theta=\\arctan\\dfrac43\\approx53.1°\\). With \\(\\vec v=\\langle5,0\\rangle\\), \\(\\vec u\\cdot\\vec v=15\\), so the projection of \\(\\vec u\\) onto \\(\\vec v\\) is \\(\\dfrac{\\vec u\\cdot\\vec v}{|\\vec v|^2}\\vec v=\\langle3,0\\rangle\\).', () =>
+  plot({ W: 540, H: 400, x: [-1, 6], y: [-1, 6], xstep: 1, ystep: 1, xlabel: 'x', ylabel: 'y', segs: [[0, 0, 3, 4, C.a, 2.6, null, true], [0, 0, 5, 0, C.b, 2.6, null, true], [0, 0, 3, 0, C.c, 4.5], [3, 0, 3, 4, C.muted, 1.3, '4 3']], points: [{ x: 3, y: 4, color: C.a, r: 3.5 }, { x: 5, y: 0, color: C.b, r: 3.5 }], texts: [[3.12, 4.22, 'u = ⟨3, 4⟩', C.a, 'start'], [4.1, 0.28, 'v = ⟨5, 0⟩', C.b, 'start'], [0.5, 0.7, 'projection ⟨3, 0⟩', C.c, 'start']] }));
 export const TOPIC_FIGURES = {
-  'math-prep-alg1:P1.1': ['numline'], 'math-prep-alg1:P1.2': ['lin-eq'], 'math-prep-alg1:P1.3': ['ineq-1d', 'ineq-2d'], 'math-prep-alg1:P1.4': ['vlt', 'fn-graphs'],
-  'math-prep-alg1:P1.5': ['slope', 'slope-forms'], 'math-prep-alg1:P1.6': ['sys-one', 'sys-none', 'sys-inf'], 'math-prep-alg1:P1.7': ['exp-rules'], 'math-prep-alg1:P1.8': ['area-model'],
-  'math-prep-alg1:P1.9': ['factor-roots'], 'math-prep-alg1:P1.10': ['quadratic', 'discriminant'], 'math-prep-alg1:P1.11': ['lin-vs-exp'], 'math-prep-alg1:P1.12': ['scatter-fit'],
-  'math-prep-geo:P2.1': ['angles'], 'math-prep-geo:P2.2': ['parallel-transversal'], 'math-prep-geo:P2.3': ['similar-tri'], 'math-prep-geo:P2.4': ['pythagoras'], 'math-prep-geo:P2.5': ['trig-ratios'],
-  'math-prep-geo:P2.6': ['circle-angles'], 'math-prep-geo:P2.7': ['area-perim'], 'math-prep-geo:P2.8': ['solids'], 'math-prep-geo:P2.9': ['dist-mid'], 'math-prep-geo:P2.10': ['transformations'], 'math-prep-geo:P2.11': ['isosceles-proof'],
-  'math-prep-alg2:P3.1': ['parent-fns'], 'math-prep-alg2:P3.2': ['vertex-form', 'quadratic'], 'math-prep-alg2:P3.3': ['poly-mult'], 'math-prep-alg2:P3.4': ['rational-analysis', 'limit-va', 'limit-ha'], 'math-prep-alg2:P3.5': ['radical-fns'],
-  'math-prep-alg2:P3.6': ['exp-family'], 'math-prep-alg2:P3.7': ['log-inverse'], 'math-prep-alg2:P3.8': ['sequences', 'geo-series'], 'math-prep-alg2:P3.9': ['binomial', 'prob-tree'], 'math-prep-alg2:P3.10': ['matrix-transform'], 'math-prep-alg2:P3.11': ['conics'], 'math-prep-alg2:P3.12': ['pythag-id'],
+  'math-prep-alg1:P1.1': ['numline', 'number-classes'], 'math-prep-alg1:P1.2': ['lin-eq', 'lin-eq-balance'], 'math-prep-alg1:P1.3': ['ineq-1d', 'ineq-2d'], 'math-prep-alg1:P1.4': ['vlt', 'fn-graphs'],
+  'math-prep-alg1:P1.5': ['slope', 'slope-forms'], 'math-prep-alg1:P1.6': ['sys-one', 'sys-none', 'sys-inf'], 'math-prep-alg1:P1.7': ['exp-rules', 'exponent-rules'], 'math-prep-alg1:P1.8': ['area-model', 'poly-ops-table'],
+  'math-prep-alg1:P1.9': ['factor-roots', 'factoring-patterns'], 'math-prep-alg1:P1.10': ['quadratic', 'discriminant'], 'math-prep-alg1:P1.11': ['lin-vs-exp', 'compound-interest'], 'math-prep-alg1:P1.12': ['scatter-fit', 'residual-plot'],
+  'math-prep-geo:P2.1': ['angles', 'angle-pairs'], 'math-prep-geo:P2.2': ['parallel-transversal', 'congruence-tests'], 'math-prep-geo:P2.3': ['similar-tri', 'similarity-tests'], 'math-prep-geo:P2.4': ['pythagoras', 'special-right-triangles'], 'math-prep-geo:P2.5': ['trig-ratios', 'unit-circle-trig'],
+  'math-prep-geo:P2.6': ['circle-angles', 'arc-sector'], 'math-prep-geo:P2.7': ['area-perim', 'area-decompose'], 'math-prep-geo:P2.8': ['solids', 'solid-scaling'], 'math-prep-geo:P2.9': ['dist-mid', 'perp-bisector'], 'math-prep-geo:P2.10': ['transformations', 'symmetry-types'], 'math-prep-geo:P2.11': ['isosceles-proof', 'proof-template'],
+  'math-prep-alg2:P3.1': ['parent-fns', 'function-transformations'], 'math-prep-alg2:P3.2': ['vertex-form', 'quadratic'], 'math-prep-alg2:P3.3': ['poly-mult', 'poly-sign-chart'], 'math-prep-alg2:P3.4': ['rational-analysis', 'limit-va', 'limit-ha'], 'math-prep-alg2:P3.5': ['radical-fns', 'radical-equation'],
+  'math-prep-alg2:P3.6': ['exp-family', 'exp-parameters'], 'math-prep-alg2:P3.7': ['log-inverse', 'log-properties'], 'math-prep-alg2:P3.8': ['sequences', 'geo-series'], 'math-prep-alg2:P3.9': ['binomial', 'prob-tree'], 'math-prep-alg2:P3.10': ['matrix-transform', 'matrix-inverse'], 'math-prep-alg2:P3.11': ['conics', 'conic-standard'], 'math-prep-alg2:P3.12': ['pythag-id', 'identity-derivation'],
   'math-prep-precalc:P4.1': ['rational-analysis', 'poly-mult'], 'math-prep-precalc:P4.2': ['exp-log-model', 'log-inverse'], 'math-prep-precalc:P4.3': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'], 'math-prep-precalc:P4.4': ['trig-eq', 'pythag-id'],
-  'math-prep-precalc:P4.5': ['polar-points', 'polar-basic'], 'math-prep-precalc:P4.6': ['param-intro', 'cycloid'], 'math-prep-precalc:P4.7': ['vectors'], 'math-prep-precalc:P4.8': ['matrix-transform', 'matrix-rot'], 'math-prep-precalc:P4.9': ['limit-sinx', 'limit-table'], 'math-prep-precalc:P4.10': ['rate-intuition', 'secant-tangent'],
+  'math-prep-precalc:P4.5': ['polar-points', 'polar-basic'], 'math-prep-precalc:P4.6': ['param-intro', 'cycloid'], 'math-prep-precalc:P4.7': ['vectors', 'vector-components'], 'math-prep-precalc:P4.8': ['matrix-transform', 'matrix-rot'], 'math-prep-precalc:P4.9': ['limit-sinx', 'limit-table'], 'math-prep-precalc:P4.10': ['rate-intuition', 'secant-tangent'],
   'calc-u0:0.1': ['parent-fns', 'fn-graphs'], 'calc-u0:0.2': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'],
   'calc-u1:1.1': ['secant-tangent', 'derivative-limit'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
   'calc-u1:1.5': ['limit-algebra', 'limit-1sided'], 'calc-u1:1.6': ['limit-hole', 'limit-rationalize'], 'calc-u1:1.7': ['limit-rationalize', 'limit-sinx'], 'calc-u1:1.8': ['limit-squeeze', 'limit-sinx'], 'calc-u1:1.9': ['limit-table', 'limit-1sided', 'limit-hole'],

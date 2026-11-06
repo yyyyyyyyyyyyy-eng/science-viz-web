@@ -48,10 +48,10 @@
 | 仓库 | SHA | 说明 |
 |------|-----|------|
 | science-viz（本地） | `ba3a3d2` | 含 figures 接线 + math practice |
-| science-viz-web `main` | `838af10` | 已 push |
-| science-viz-app `main` | `83d4430` | stamp + sync；另有 `89aa930` favicon sync 脚本 |
+| science-viz-web `main` | `7d1eec5` | 含 bio/math round2 第二变体；见下方 §4 |
+| science-viz-app `main` | `PENDING_APP_SHA` | sync 自 web；见下方 §4 |
 
-（本 TODO 提交后 web/app SHA 会再前进一次。）
+（提交并 push 后把 `PENDING_*` 换成实际 short SHA。）
 
 ---
 
@@ -76,9 +76,9 @@
 - **下一步**：可选替换泛化 meta-MCQ；继续按 CED 去重同族符号题；保持 `\dfrac`、禁止 slash 分式。
 
 ### 4. 生物/数学图（维护）
-- **状态**：已 enrich。光合作用 3.4 新增 7 张分步图（叶绿体/PSII 光解/cyt b₆f 泵质子/PSI-NADPH/ATP 合酶/Calvin 固定/还原与再生）；呼吸作用 3.5 新增 glycolysis、pyruvate oxidation、Krebs cycle 等，共 7 张。另加入公版叶横切图 `data/bio/media/leaf-anatomy.png`（PD，署名见 ATTRIBUTION）。数学补 `derivative-limit` 并跨 topic 复用既有图。
-- **验证**：311 unique / 520 placements；494 route loads 0 issue；7,498 text nodes 0 contrast failure；380/1280 无 overflow、0 KaTeX error。单图 topic 由 130 降至 38（bio 11 / math 27）。
-- **下一步**：继续补 38 个单图 topic，优先 `bio-u7:7.10`、`bio-u7:7.11`、`bio-u1:1.3`、`bio-u2:2.10` 与 math-prep 几何/代数；详见 `audit/figure-gaps-bio-math.md`。
+- **状态**：✅ round2 完成（2026-11-06）。原先 38 个单图 topic（bio 11 / math 27）均已补上第二张考试风格变体；`TOPIC_FIGURES` 现为 bio 89 topics / 0 singles / 89 multi，math 158 / 0 / 158。新增图例包括 macromolecule-compare、nucleotide-anatomy、endosymbiosis-evidence、isolation-barriers、extinction-rates、chnops-table、stoich-particles、polymer-linkages、phenotype-matrix、selection-response、error-bars，以及 27 个 math round2 stem（angle-pairs、arc-sector、congruence-tests、vector-components 等）。
+- **验证**：`node --check` 通过 `data/bio/figures.js`、`data/math/figures.js`、`data/math/figlib.js`；placements 219（bio）+ 339（math）= 558；mounted unique 147 + 202 = 349。明暗截图 76 张：`screenshots/figures-bio-math/round2/`。审计：`audit/figure-gaps-bio-math.md`（已改为 0 singles）。
+- **下一步**：单图 gap 已清零；可选对 38 个 round2 topic 做定向 remount；E&M 11.4/11.6/11.7 补图见第 5 项（只改 `modules/physics/exam-figures.js`）。
 
 ### 5. 物理 figure-audit（收尾）
 - **状态**：主 finding 已修并完成明暗两套页面复检；物理图示已扩充到 108 张（104 张原创 SVG + 4 张公开授权参考图），高频 topic 达到 3–6 张（2.3 / 2.4 / 4.2 / 5.3 / 8.5 为 6 张）。

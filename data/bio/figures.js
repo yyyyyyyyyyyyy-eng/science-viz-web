@@ -4,7 +4,7 @@
  * Hardy–Weinberg, Punnett enumeration, Wright–Fisher drift, etc.); diagrams encode the textbook structure.
  * FIGURES: id → {title, caption, build}. TOPIC_FIGURES: "chapterId:code" → [figure ids].
  */
-import { plot, bars, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, rk4, mulberry, fact, range } from '../math/figlib.js';
+import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, rk4, mulberry, fact, range } from '../math/figlib.js';
 
 const MEDIA_BASE = new URL('./media/', import.meta.url);
 
@@ -847,28 +847,148 @@ def('food-chain', 'Food chain and trophic levels', 'Sun → grass (producer) →
   return svg(510, 110, s, 'food chain');
 });
 
+/* ================= SINGLE-TOPIC VARIANTS (2026-11-06) ================= */
+/* Each of these adds a second, exam-style representation to a topic that previously
+   mounted only one visual: a particle view, comparison table, data plot or diagram. */
+def('stoich-particles', 'Limiting reagent: particle view', '4 H₂ + 3 O₂ → 4 H₂O + O₂. Eight H atoms and six O atoms appear on both sides. H₂ is limiting because 4 H₂ can consume only 2 O₂, leaving 1 O₂ unreacted; the balanced equation fixes the 2:1:2 mole ratio.', () => {
+  const h2 = (x, y) => circle(x - 7, y, 6, { fill: C.muted, op: 0.45, stroke: C.muted, w: 1 }) + circle(x + 7, y, 6, { fill: C.muted, op: 0.45, stroke: C.muted, w: 1 }) + line(x - 1, y, x + 1, y, { w: 1 });
+  const o2 = (x, y) => circle(x - 10, y, 9, { fill: C.e, op: 0.35, stroke: C.e, w: 1 }) + circle(x + 10, y, 9, { fill: C.e, op: 0.35, stroke: C.e, w: 1 }) + line(x - 1, y, x + 1, y, { w: 1 });
+  const h2o = (x, y) => circle(x, y, 11, { fill: C.e, op: 0.32, stroke: C.e, w: 1 }) + circle(x - 14, y - 14, 6, { fill: C.muted, op: 0.45, stroke: C.muted, w: 1 }) + circle(x + 14, y - 14, 6, { fill: C.muted, op: 0.45, stroke: C.muted, w: 1 }) + line(x, y, x - 10, y - 10, { w: 1 }) + line(x, y, x + 10, y - 10, { w: 1 });
+  let s = text(20, 30, 'reactants', { size: 10.5, anchor: 'start', color: C.muted });
+  [60, 115, 170, 225].forEach((x) => { s += h2(x, 62); });
+  s += text(142, 92, '4 H₂', { size: 11, bold: true }) + text(270, 62, '+', { size: 16 });
+  [325, 385, 445].forEach((x) => { s += o2(x, 62); });
+  s += text(385, 92, '3 O₂', { size: 11, bold: true });
+  s += text(20, 155, 'products', { size: 10.5, anchor: 'start', color: C.muted });
+  [60, 135, 210, 285].forEach((x) => { s += h2o(x, 188); });
+  s += text(337, 188, '+', { size: 16 }) + o2(395, 188) + text(395, 222, '1 O₂ unused', { size: 10.5 });
+  s += text(176, 232, '4 H₂O', { size: 11, bold: true });
+  s += arrow(510, 75, 510, 170, { color: C.a, w: 2 }) + text(522, 120, 'H₂ limits', { size: 10.5, anchor: 'start', color: C.a });
+  s += text(230, 258, 'atom check — H: 8 → 8   O: 6 → 6', { size: 10, color: C.muted });
+  return svg(620, 275, s, 'limiting reagent particle view');
+});
+def('polymer-linkages', 'Polymer classes and their linkages', 'Dehydration synthesis joins monomers and releases water; hydrolysis adds water and breaks the bond. The four classes use different linkages: glycosidic (carbohydrates), peptide (proteins), phosphodiester (nucleic acids), and ester (lipids). Lipids are not true polymers, but they are built from glycerol and fatty acids by ester bonds.', () =>
+  svg(600, 255, table(20, 35, [145, 135, 125, 155], [
+    ['carbohydrate', 'monosaccharide', 'glycosidic', '–OH (hydroxyl)'],
+    ['protein', 'amino acid', 'peptide', '–NH₂, –COOH'],
+    ['nucleic acid', 'nucleotide', 'phosphodiester', 'phosphate, –OH'],
+    ['lipid', 'glycerol + 3 fatty acids', 'ester', '–COOH, –OH'],
+  ], { headers: ['class', 'monomer', 'linkage', 'functional groups'], rowH: 34, size: 10 }), 'polymer linkages'));
+def('error-bars', 'Replication and error-bar interpretation', 'Mean ± 2 SEM, n = 10 plants per group. The control and low-dose error bars overlap, so the apparent difference is not clearly significant; the high-dose mean is separated from both. More replication narrows the error bars; overlapping ±2 SEM is a rough (not exact) significance guide.', () =>
+  bars({ W: 560, H: 310, bars: [{ label: 'control', v: 12.4, err: 0.8, color: C.muted }, { label: 'low dose', v: 13.2, err: 0.9, color: C.d }, { label: 'high dose', v: 18.5, err: 1.1, color: C.c }], showV: true, ylabel: 'mean height (cm)', ylabelTop: true, xlabel: 'fertilizer dose (independent variable)', max: 22 }));
+def('chnops-table', 'CHNOPS and trace elements: where each element is used', 'CHNOPS builds the four macromolecule classes: C is the backbone, H and O dominate water and organic molecules, N is in amino and nitrogenous bases, P in nucleic acids/phospholipids/ATP, and S in cysteine disulfide bridges. Ca and trace metals (Fe, Mg, K) are ions and cofactors, not major structural elements of polymers.', () =>
+  svg(620, 275, table(15, 35, [75, 245, 165, 100], [
+    ['C', 'backbone of organic molecules', 'all four classes', '18.5%'],
+    ['H', 'hydrogen bonds; pH and oxidation', 'water, all classes', '9.5%'],
+    ['O', 'electron acceptor; respiration', 'water, all classes', '65%'],
+    ['N', 'amino groups; nitrogenous bases', 'proteins, nucleic acids', '3.2%'],
+    ['P', 'ATP; sugar-phosphate backbone', 'nucleic acids, phospholipids', '1.0%'],
+    ['S', 'disulfide bridges (cysteine)', 'some proteins', 'trace'],
+    ['Ca + trace', 'signaling, cofactors (Fe, Mg, K)', 'ions, coenzymes', '1.5% + 1.3%'],
+  ], { headers: ['element', 'role in cells', 'main macromolecules', 'body mass'], rowH: 29, size: 9.5 }), 'CHNOPS table'));
+def('macromolecule-compare', 'Four classes of biological macromolecules', 'Comparison chart for the four classes: monomers, polymers, linkages, examples and a common lab test. Carbohydrates and proteins are true polymers; nucleic acids are polymers of nucleotides; lipids are assembled from glycerol and fatty acids but are not true polymers. The same functional groups recur across classes.', () =>
+  svg(640, 300, table(20, 32, [80, 115, 80, 85, 145, 90], [
+    ['carbohydrate', 'monosaccharide', 'polysaccharide', 'glycosidic', 'glucose, starch, cellulose', "Benedict's; iodine"],
+    ['protein', 'amino acid', 'polypeptide', 'peptide', 'enzymes, hemoglobin', 'Biuret'],
+    ['nucleic acid', 'nucleotide', 'DNA / RNA', 'phosphodiester', 'DNA, RNA, ATP', 'no simple test'],
+    ['lipid', 'glycerol + fatty acids', 'triglyceride', 'ester', 'fats, oils, phospholipids', 'Sudan IV'],
+  ], { headers: ['class', 'monomer', 'polymer', 'linkage', 'examples', 'lab test'], rowH: 44, size: 9.2 }), 'macromolecule comparison'));
+def('nucleotide-anatomy', 'Nucleotide anatomy and DNA vs RNA', 'A nucleotide has a phosphate group, a five-carbon sugar and a nitrogenous base. In DNA the sugar is deoxyribose and the bases are A, T, G, C; RNA uses ribose and U instead of T. Nucleotides join by phosphodiester bonds between the 3′ OH of one sugar and the phosphate of the next, giving the sugar-phosphate backbone.', () => {
+  const cx = 210, cy = 82, rr = 32, pts = [0, 1, 2, 3, 4].map((k) => { const a = (-90 + k * 72) * PI / 180; return [cx + rr * cos(a), cy + rr * sin(a)]; });
+  let s = text(cx, 20, 'one nucleotide', { bold: true, size: 12 });
+  s += circle(78, 82, 21, { fill: C.d, op: 0.25, stroke: C.d, w: 1.4 }) + text(78, 82, 'P', { bold: true, size: 13 }) + text(78, 119, 'phosphate', { size: 10 });
+  s += path('M' + pts.map((p) => p.join(',')).join('L') + 'Z', { fill: C.a, op: 0.15, stroke: C.a, w: 1.4 }) + text(cx, cy + 2, 'sugar', { size: 10.5, bold: true }) + text(cx, 128, 'deoxyribose', { size: 10 });
+  s += line(99, 82, pts[3][0], pts[3][1], { w: 2.4, color: C.ink }) + text(122, 50, '5′', { size: 11, bold: true }) + text(246, 112, '3′ OH', { size: 10.5 });
+  s += rect(282, 57, 96, 50, { fill: C.c, op: 0.18, stroke: C.c, w: 1.4 }) + text(330, 74, 'base', { bold: true }) + text(330, 90, 'A / T / G / C', { size: 9.5 });
+  s += text(330, 124, 'nitrogenous base', { size: 10 });
+  s += text(170, 158, 'phosphodiester bond links the 3′ OH to the next phosphate', { size: 9.5, color: C.muted });
+  s += table(30, 174, [130, 220, 200], [
+    ['sugar', 'deoxyribose', 'ribose'],
+    ['bases', 'A, T, G, C', 'A, U, G, C'],
+    ['strands', 'double helix', 'usually single'],
+    ['location', 'nucleus', 'nucleus + cytoplasm'],
+    ['role', 'stores information', 'transfers and translates'],
+  ], { headers: ['feature', 'DNA', 'RNA'], rowH: 24, size: 9.5 });
+  return svg(620, 330, s, 'nucleotide anatomy');
+});
+def('endosymbiosis-evidence', 'Evidence for endosymbiosis', 'Mitochondria and chloroplasts share traits with free-living bacteria: a double membrane, their own circular DNA, 70S ribosomes, binary fission, and sensitivity to antibacterial antibiotics. Mitochondria are related to α-proteobacteria and chloroplasts to cyanobacteria; the double membrane is interpreted as the host vesicle plus the engulfed cell membrane.', () =>
+  svg(640, 330, table(15, 35, [125, 160, 160, 175], [
+    ['size', '1–10 µm', '2–10 µm', '1–10 µm'],
+    ['membranes', 'double', 'double', 'single'],
+    ['DNA', 'circular, own genome', 'circular, own genome', 'circular'],
+    ['ribosomes', '70S', '70S', '70S'],
+    ['division', 'binary fission', 'binary fission', 'binary fission'],
+    ['antibiotics', 'sensitive', 'sensitive', 'sensitive'],
+    ['protein import', 'yes (TOC/TIC)', 'yes', 'no'],
+  ], { headers: ['feature', 'mitochondrion', 'chloroplast', 'free-living bacterium'], rowH: 34, size: 9.5 }), 'endosymbiosis evidence'));
+def('phenotype-matrix', 'Same genotype, three environments', 'Two genotypes grown across a soil-pH gradient. Genotype A changes strongly (blue index 8 → 2), genotype B changes little (6 → 4): the phenotype is plastic, and the different slopes are a genotype × environment interaction. Phenotype = genotype + environment + G×E; a reaction-norm plot graphs these values as lines.', () => {
+  const cols = ['pH 5.5', 'pH 6.5', 'pH 7.5'], xs = [165, 285, 405];
+  let s = text(300, 20, 'flower-color phenotype (blue index)', { bold: true, size: 12 });
+  cols.forEach((c, j) => { s += text(xs[j] + 50, 56, c, { size: 10.5, bold: true }); });
+  const rows = [['genotype A', [8, 5, 2]], ['genotype B', [6, 5, 4]]];
+  rows.forEach(([name, vals], i) => {
+    const y = 78 + i * 76;
+    s += text(20, y + 28, name, { anchor: 'start', size: 10.5, bold: true });
+    vals.forEach((v, j) => {
+      const col = v >= 7 ? C.a : v >= 5 ? C.f : C.b;
+      s += rect(xs[j], y, 100, 56, { fill: col, op: 0.28, stroke: col, w: 1 }) + text(xs[j] + 50, y + 22, `index ${v}`, { size: 11, bold: true }) + text(xs[j] + 50, y + 40, v >= 7 ? 'blue' : v >= 5 ? 'violet' : 'pink', { size: 9.5, color: C.muted });
+    });
+  });
+  s += text(300, 245, 'genotype A: steep reaction norm · genotype B: flat reaction norm', { size: 10, color: C.muted });
+  s += text(300, 268, 'same genes, different environment → different phenotype', { size: 10.5 });
+  return svg(600, 285, s, 'phenotype environment matrix');
+});
+def('selection-response', 'Response to artificial selection over generations', 'Idealized bidirectional selection on corn oil content: the high-oil line rises and the low-oil line falls, while the unselected control stays near 4.7%. The response \\(R\\) depends on the selection differential \\(S\\) and heritability \\(h^2\\): \\(R=h^2S\\), so \\(h^2=\\dfrac{R}{S}\\).', () =>
+  plot({ x: [0, 20], y: [0, 15], xstep: 5, ystep: 3, xlabel: 'generation', ylabel: 'mean oil content (%)', ylabelTop: true, curves: [{ f: (t) => 4.7 + 0.36 * t, color: C.a, label: 'high-oil line', labelAt: [8, 10.4] }, { f: (t) => 4.7 - 0.18 * t, color: C.b, label: 'low-oil line', labelAt: [11, 2.6] }, { f: (t) => 4.7 + 0.01 * t, color: C.muted, dash: '5 3', label: 'control', labelAt: [13, 5.2] }], points: [0, 10, 20].flatMap((t) => [{ x: t, y: 4.7 + 0.36 * t, color: C.a, r: 3 }, { x: t, y: 4.7 - 0.18 * t, color: C.b, r: 3 }, { x: t, y: 4.7 + 0.01 * t, color: C.muted, r: 2.5 }]) }));
+def('isolation-barriers', 'Reproductive-isolation mechanisms', 'Prezygotic barriers prevent fertilization (habitat, temporal, behavioral, mechanical, gametic); postzygotic barriers act after fertilization (hybrid inviability, sterility, breakdown). Any one barrier can maintain species boundaries. Allopatric speciation begins with geographic isolation; sympatric speciation can arise through polyploidy or ecological/sexual isolation.', () =>
+  svg(640, 355, table(15, 32, [140, 210, 170, 95], [
+    ['habitat', 'different habitats; no meeting', 'canyon mice', 'prezygotic'],
+    ['temporal', 'different breeding seasons', 'periodical cicadas', 'prezygotic'],
+    ['behavioral', 'different courtship signals', 'fireflies', 'prezygotic'],
+    ['mechanical', 'incompatible reproductive anatomy', 'snails', 'prezygotic'],
+    ['gametic', 'sperm and egg cannot fuse', 'sea urchins', 'prezygotic'],
+    ['hybrid inviability', 'hybrid embryo dies', 'some frogs', 'postzygotic'],
+    ['hybrid sterility', 'hybrid adult is sterile', 'mule', 'postzygotic'],
+    ['hybrid breakdown', 'F2 offspring weak or sterile', 'some rice', 'postzygotic'],
+  ], { headers: ['barrier', 'mechanism', 'example', 'stage'], rowH: 34, size: 9.5 }), 'reproductive isolation table'));
+def('extinction-rates', 'Background vs mass-extinction rates', 'Extinction intensity in extinctions per million species-years (E/MSY). The background rate is about 0.1–1 E/MSY; the Big Five mass extinctions reached roughly 10–100 E/MSY. Current estimates are about 100–1000 E/MSY, i.e. 100–1000 times the background rate, although the modern record is much shorter and uncertain.', () => {
+  const W = 640, H = 315, L = 110, R = 570, X = (v) => L + ((log(v) - log(0.01)) / (log(1000) - log(0.01))) * (R - L);
+  let s = line(L, 265, R, 265, { w: 1.2 });
+  [0.01, 0.1, 1, 10, 100, 1000].forEach((v) => { s += line(X(v), 259, X(v), 271, { w: 1 }) + text(X(v), 283, v >= 1 ? String(v) : v.toFixed(2), { size: 9.5, color: C.muted }); });
+  s += text((L + R) / 2, 303, 'extinctions per million species-years (log scale)', { size: 10.5, color: C.muted });
+  const rows = [['background', 0.1, C.muted, '≈0.1'], ['end-Cretaceous', 10, C.b, '≈10'], ['end-Permian', 100, C.e, '≈100']];
+  rows.forEach(([name, v, col, lab], i) => {
+    const y = 52 + i * 48;
+    s += text(105, y + 13, name, { anchor: 'end', size: 10.5, bold: true }) + rect(X(0.01), y, X(v) - X(0.01), 26, { fill: col, op: 0.55, stroke: col, w: 1 }) + text(X(v) + 6, y + 13, lab, { size: 10.5, anchor: 'start', color: col });
+  });
+  const y4 = 196;
+  s += text(105, y4 + 13, 'today (estimate)', { anchor: 'end', size: 10.5, bold: true }) + rect(X(100), y4, X(1000) - X(100), 26, { fill: C.d, op: 0.25, stroke: C.d, w: 1, dash: '5 3' }) + text(X(1000) + 6, y4 + 13, '100–1000', { size: 10.5, anchor: 'start', color: C.d });
+  s += text((L + R) / 2, 34, 'Big Five spikes vs the present', { size: 12, bold: true });
+  return svg(W, H, s, 'extinction rates');
+});
+
 /* ---------- topic → figure mapping ---------- */
 export const TOPIC_FIGURES = {
   'bio-prep-chem:P1.1': ['experiment-design', 'c14-decay'], 'bio-prep-chem:P1.2': ['bohr-carbon', 'isotopes', 'c14-decay'], 'bio-prep-chem:P1.3': ['periodic-radius', 'electronegativity'], 'bio-prep-chem:P1.4': ['bond-types', 'electronegativity'],
-  'bio-prep-chem:P1.5': ['vsepr', 'water-hbond'], 'bio-prep-chem:P1.6': ['stoich'], 'bio-prep-chem:P1.7': ['solubility', 'water-potential'], 'bio-prep-chem:P1.8': ['ph-scale', 'titration'], 'bio-prep-chem:P1.9': ['water-hbond', 'water-density', 'specific-heat'],
-  'bio-prep-chem:P1.10': ['functional-groups'], 'bio-prep-chem:P1.11': ['exo-endo', 'activation-energy'], 'bio-prep-chem:P1.12': ['rate-equilibrium', 'activation-energy'],
-  'bio-prep-hs:P2.1': ['experiment-design'], 'bio-prep-hs:P2.2': ['macromolecules', 'protein-structure'], 'bio-prep-hs:P2.3': ['cell-structure', 'endomembrane'], 'bio-prep-hs:P2.4': ['transport-types', 'tonicity'], 'bio-prep-hs:P2.5': ['enz-temp', 'enz-ph', 'activation-energy'],
+  'bio-prep-chem:P1.5': ['vsepr', 'water-hbond'], 'bio-prep-chem:P1.6': ['stoich', 'stoich-particles'], 'bio-prep-chem:P1.7': ['solubility', 'water-potential'], 'bio-prep-chem:P1.8': ['ph-scale', 'titration'], 'bio-prep-chem:P1.9': ['water-hbond', 'water-density', 'specific-heat'],
+  'bio-prep-chem:P1.10': ['functional-groups', 'polymer-linkages'], 'bio-prep-chem:P1.11': ['exo-endo', 'activation-energy'], 'bio-prep-chem:P1.12': ['rate-equilibrium', 'activation-energy'],
+  'bio-prep-hs:P2.1': ['experiment-design', 'error-bars'], 'bio-prep-hs:P2.2': ['macromolecules', 'protein-structure'], 'bio-prep-hs:P2.3': ['cell-structure', 'endomembrane'], 'bio-prep-hs:P2.4': ['transport-types', 'tonicity'], 'bio-prep-hs:P2.5': ['enz-temp', 'enz-ph', 'activation-energy'],
   'bio-prep-hs:P2.6': ['photo-resp-cycle', 'light-reactions', 'calvin-cycle', 'absorption-spectrum', 'photo-rate-light', 'leaf-anatomy'], 'bio-prep-hs:P2.7': ['respiration-overview', 'photo-resp-cycle', 'respirometer'], 'bio-prep-hs:P2.8': ['mitosis-stages', 'meiosis-stages'], 'bio-prep-hs:P2.9': ['punnett-mono', 'pedigree-ar'], 'bio-prep-hs:P2.10': ['central-dogma', 'dna-structure'],
   'bio-prep-hs:P2.11': ['sel-directional', 'antibiotic-resistance'], 'bio-prep-hs:P2.12': ['food-chain', 'energy-pyramid', 'food-web'], 'bio-prep-hs:P2.13': ['body-systems', 'feedback-glucose'], 'bio-prep-hs:P2.14': ['species-area', 'diversity-index'],
-  'bio-u1:1.1': ['water-hbond', 'specific-heat', 'water-density'], 'bio-u1:1.2': ['body-elements'], 'bio-u1:1.3': ['macromolecules'], 'bio-u1:1.4': ['protein-structure', 'functional-groups'], 'bio-u1:1.5': ['dna-structure'], 'bio-u1:1.6': ['induced-fit', 'activation-energy'],
+  'bio-u1:1.1': ['water-hbond', 'specific-heat', 'water-density'], 'bio-u1:1.2': ['body-elements', 'chnops-table'], 'bio-u1:1.3': ['macromolecules', 'macromolecule-compare'], 'bio-u1:1.4': ['protein-structure', 'functional-groups'], 'bio-u1:1.5': ['dna-structure', 'nucleotide-anatomy'], 'bio-u1:1.6': ['induced-fit', 'activation-energy'],
   'bio-u2:2.1': ['cell-structure', 'endomembrane'], 'bio-u2:2.2': ['sa-volume', 'cell-structure'], 'bio-u2:2.3': ['fluid-mosaic', 'transport-types'], 'bio-u2:2.4': ['permeability', 'fluid-mosaic', 'transport-types'], 'bio-u2:2.5': ['transport-types', 'diffusion-rate'], 'bio-u2:2.6': ['diffusion-rate', 'transport-types'],
-  'bio-u2:2.7': ['tonicity', 'water-potential', 'osmosis-potato'], 'bio-u2:2.8': ['na-k-pump', 'transport-types'], 'bio-u2:2.9': ['endomembrane', 'etc'], 'bio-u2:2.10': ['endosymbiosis'],
+  'bio-u2:2.7': ['tonicity', 'water-potential', 'osmosis-potato'], 'bio-u2:2.8': ['na-k-pump', 'transport-types'], 'bio-u2:2.9': ['endomembrane', 'etc'], 'bio-u2:2.10': ['endosymbiosis', 'endosymbiosis-evidence'],
   'bio-u3:3.1': ['activation-energy', 'enz-substrate', 'enz-inhibition', 'induced-fit'], 'bio-u3:3.2': ['enz-temp', 'enz-ph', 'enz-inhibition'], 'bio-u3:3.3': ['atp-cycle', 'exo-endo'],
   'bio-u3:3.4': ['chloroplast-sites', 'psii-photolysis', 'cytb6f-pump', 'psi-nadph', 'atp-synthase', 'calvin-fixation', 'calvin-reduction-regeneration'], 'bio-u3:3.5': ['respiration-overview', 'glycolysis', 'pyruvate-oxidation', 'krebs-cycle', 'etc', 'atp-yield', 'fermentation'], 'bio-u3:3.6': ['metabolic-temp', 'enz-temp'],
   'bio-u4:4.1': ['signal-types', 'signal-transduction'], 'bio-u4:4.2': ['signal-transduction', 'rtk', 'signal-amplification'], 'bio-u4:4.3': ['signal-transduction', 'signal-amplification', 'rtk'], 'bio-u4:4.4': ['feedback-loops', 'feedback-glucose'],
   'bio-u4:4.5': ['cell-cycle', 'dna-content-mitosis'], 'bio-u4:4.6': ['cyclin-cdk', 'cell-cycle'], 'bio-u4:4.7': ['mitosis-stages', 'dna-content-mitosis'],
   'bio-u5:5.1': ['meiosis-stages', 'dna-content-meiosis'], 'bio-u5:5.2': ['crossing-over', 'meiosis-stages'], 'bio-u5:5.3': ['punnett-mono', 'punnett-di', 'punnett-test', 'chi-square'],
-  'bio-u5:5.4': ['punnett-incomplete', 'blood-type', 'punnett-xlinked', 'pedigree-ar', 'pedigree-ad', 'pedigree-xr', 'linkage-map'], 'bio-u5:5.5': ['env-phenotype'], 'bio-u5:5.6': ['nondisjunction', 'karyotype', 'linkage-map', 'pedigree-xr'],
+  'bio-u5:5.4': ['punnett-incomplete', 'blood-type', 'punnett-xlinked', 'pedigree-ar', 'pedigree-ad', 'pedigree-xr', 'linkage-map'], 'bio-u5:5.5': ['env-phenotype', 'phenotype-matrix'], 'bio-u5:5.6': ['nondisjunction', 'karyotype', 'linkage-map', 'pedigree-xr'],
   'bio-u6:6.1': ['dna-structure', 'central-dogma'], 'bio-u6:6.2': ['replication-fork', 'dna-structure'], 'bio-u6:6.3': ['transcription-splicing', 'central-dogma'], 'bio-u6:6.4': ['translation', 'central-dogma'], 'bio-u6:6.5': ['lac-operon', 'trp-operon', 'euk-regulation'],
   'bio-u6:6.6': ['cell-specialization', 'euk-regulation'], 'bio-u6:6.7': ['mutations', 'translation'], 'bio-u6:6.8': ['gel-electrophoresis', 'pcr', 'biotech-plasmid'],
-  'bio-u7:7.1': ['sel-directional', 'variation'], 'bio-u7:7.2': ['sel-stabilizing', 'sel-directional', 'sel-disruptive'], 'bio-u7:7.3': ['artificial-selection'], 'bio-u7:7.4': ['genetic-drift', 'bottleneck'],
+  'bio-u7:7.1': ['sel-directional', 'variation'], 'bio-u7:7.2': ['sel-stabilizing', 'sel-directional', 'sel-disruptive'], 'bio-u7:7.3': ['artificial-selection', 'selection-response'], 'bio-u7:7.4': ['genetic-drift', 'bottleneck'],
   'bio-u7:7.5': ['hw-curves', 'hw-data'], 'bio-u7:7.6': ['homologous-structures', 'molecular-tree'], 'bio-u7:7.7': ['molecular-tree', 'phylo-tree'], 'bio-u7:7.8': ['antibiotic-resistance', 'sel-directional'],
-  'bio-u7:7.9': ['phylo-tree', 'character-matrix'], 'bio-u7:7.10': ['speciation'], 'bio-u7:7.11': ['extinction'], 'bio-u7:7.12': ['variation', 'genetic-drift'], 'bio-u7:7.13': ['origins-life', 'endosymbiosis'],
+  'bio-u7:7.9': ['phylo-tree', 'character-matrix'], 'bio-u7:7.10': ['speciation', 'isolation-barriers'], 'bio-u7:7.11': ['extinction', 'extinction-rates'], 'bio-u7:7.12': ['variation', 'genetic-drift'], 'bio-u7:7.13': ['origins-life', 'endosymbiosis'],
   'bio-u8:8.1': ['behavior-taxis', 'photoperiod'], 'bio-u8:8.2': ['energy-pyramid', 'food-web', 'trophic-biomass'], 'bio-u8:8.3': ['pop-growth', 'survivorship'], 'bio-u8:8.4': ['density-dependence', 'pop-oscillation'],
   'bio-u8:8.5': ['predator-prey', 'competition', 'food-web'], 'bio-u8:8.6': ['diversity-index', 'species-area'], 'bio-u8:8.7': ['disruption', 'succession'],
 };
