@@ -122,4 +122,4 @@ Found and fixed one real self-check issue: the set-2 pulley diagram shows an Atw
 
 No other factual, notation, or layout issue found in the mechanics files. Known remaining issue unchanged: some sets are still dynamics content in non-dynamics units; that needs a curated rewrite, not a one-line fix.
 
-Base SHAs before this self-check: web `bf2a022`, app `72faec1`. The self-check commit SHA is listed in the final session report.
+Base SHAs before this self-check: web `bf2a022`, app `72faec1`. Self-check fix commit: web `8dd08bb`; app sync: `e73b01e`. The final report-only SHA is listed in the session report.

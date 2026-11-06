@@ -92,4 +92,4 @@ Re-ran:
 
 No new factual or layout issue found in the bio practice files. The mapping remains at unit level, not per-topic; for example “科学测量” still uses a generic enzyme data table and “自然选择” uses a pedigree/food-web diagram. That is a known content-depth limitation, not a new factual error, and remains documented above.
 
-Base SHAs before this self-check: web `bf2a022`, app `72faec1`. The self-check commit SHA is listed in the final session report.
+Base SHAs before this self-check: web `bf2a022`, app `72faec1`. Self-check fix commit: web `8dd08bb`; app sync: `e73b01e`. The final report-only SHA is listed in the session report.

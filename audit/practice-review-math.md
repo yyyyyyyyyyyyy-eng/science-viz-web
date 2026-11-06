@@ -116,4 +116,4 @@ Re-read the current math practice banks after the later math-session commits (`0
 
 No math practice file was edited (out of scope). No new wrong formula/order-of-magnitude issue was found in the sampled items; the report above remains current.
 
-Base SHA: web `bf2a022`. The self-check commit SHA is listed in the final session report; app sync follows the final web commit.
+Base SHA: web `bf2a022`. Self-check report commit: web `8dd08bb`; app sync: `e73b01e`. The final report-only SHA is listed in the session report.
