@@ -310,11 +310,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\lim_{x\\to a}f(x)=L",
-        "note": "极限记号；勿写成 f(a)/ 形式代替极限。"
-      },
-      {
-        "latex": "\\lim_{x\\to a}f(x)=L",
-        "note": "pH 定义。"
+        "note": "极限记号；左右极限相等才是双侧极限。"
       }
     ],
     "derivationNotes": [
@@ -335,8 +331,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "极限存在不要求 f(a) 有定义",
+      "图像上的空洞或跳跃要靠左右极限判断",
+      "y 值趋近 L，与 f(a) 的实际取值无关"
     ],
     "keyPoints": [
       "掌握 1.3「由图像估计极限」准确定义",

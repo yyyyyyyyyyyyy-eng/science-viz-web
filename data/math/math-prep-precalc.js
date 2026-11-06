@@ -305,7 +305,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "note": "单位圆基本恒等式。"
       }
     ],
     "derivationNotes": [
@@ -326,8 +326,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "θ 用弧度",
+      "单位圆上的点为 (cosθ, sinθ)",
+      "由该式可推出 1+tan²θ=sec²θ 等"
     ],
     "keyPoints": [
       "掌握 P4.3「单位圆与三角函数」准确定义",

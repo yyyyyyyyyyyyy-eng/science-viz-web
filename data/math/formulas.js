@@ -14,7 +14,7 @@ export const MATH_FORMULA_GROUPS = [
       { id: 'd-sin', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x', symbols: [], conditions: '弧度制', derivation: '角和公式与极限 \\(\\lim_{\\theta\\to 0}\\dfrac{\\sin\\theta}{\\theta}=1\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin(3x)]\\)', a: '3\\cos(3x)' }, related: ['#/t/math/calc-u2/2.7'] },
       { id: 'd-cos', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x', symbols: [], conditions: '弧度制', derivation: '由正弦导数与余角关系。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]\\)', a: '-\\sin x' }, related: ['#/t/math/calc-u2/2.7'] },
       { id: 'd-tan', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^2 x', symbols: [], conditions: '\\(\\cos x\\neq 0\\)', derivation: '商法则用于 \\(\\dfrac{\\sin x}{\\cos x}\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]\\)', a: '\\sec^2 x' }, related: ['#/t/math/calc-u2/2.10'] },
-      { id: 'd-arcsin', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]=\\dfrac{1}{\\sqrt{1-x^2}}', symbols: [], conditions: '|x|<1', derivation: '隐函数：\\(y=\\arcsin x\\Rightarrow \\sin y=x\\)。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin(0.5)]\\)', a: '\\dfrac{1}{\\sqrt{1-0.25}}=\\dfrac{2}{\\sqrt{3}}' }, related: ['#/t/math/calc-u3/3.4'] },
+      { id: 'd-arcsin', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]=\\dfrac{1}{\\sqrt{1-x^2}}', symbols: [], conditions: '|x|<1', derivation: '隐函数：\\(y=\\arcsin x\\Rightarrow \\sin y=x\\)。', example: { q: '\\(\\left.\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]\\right|_{x=0.5}\\)', a: '\\dfrac{1}{\\sqrt{1-0.25}}=\\dfrac{2}{\\sqrt{3}}' }, related: ['#/t/math/calc-u3/3.4'] },
       { id: 'd-arctan', latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arctan x]=\\dfrac{1}{1+x^2}', symbols: [], conditions: '全实数', derivation: '隐函数求导。', example: { q: '\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arctan x]\\big|_{x=1}\\)', a: '\\dfrac{1}{2}' }, related: ['#/t/math/calc-u3/3.4'] },
     ],
   },
@@ -65,7 +65,7 @@ export const MATH_FORMULA_GROUPS = [
       { id: 's-expm', latex: 'e^x=\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}', symbols: [], conditions: '全实数', derivation: '泰勒在 0 展开。', example: { q: 'e^x 的前三项', a: '1+x+\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
       { id: 's-sinm', latex: '\\sin x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\sin x 到 x^3', a: 'x-\\dfrac{x^3}{6}' }, related: ['#/t/math/calc-u10/10.14'] },
       { id: 's-cosm', latex: '\\cos x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\cos x 到 x^2', a: '1-\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
-      { id: 's-ratio', latex: '\\text{比值审敛：}L=\\lim\\left|\\dfrac{a_{n+1}}{a_n}\\right|', symbols: [{ s: 'L', m: '极限' }], conditions: 'L<1 绝对收敛；L>1 发散', derivation: '与几何级数比较。', example: { q: '\\sum \\dfrac{n!}{n^n}', a: '用比值审敛判定收敛' }, related: ['#/t/math/calc-u10/10.8'] },
+      { id: 's-ratio', latex: '\\text{比值审敛：}L=\\lim\\left|\\dfrac{a_{n+1}}{a_n}\\right|', symbols: [{ s: 'L', m: '极限' }], conditions: 'L<1 绝对收敛；L>1 发散；L=1 时无法判定', derivation: '与几何级数比较。', example: { q: '\\sum \\dfrac{n!}{n^n}', a: '用比值审敛判定收敛' }, related: ['#/t/math/calc-u10/10.8'] },
     ],
   },
   {

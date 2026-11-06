@@ -1004,8 +1004,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数草图」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "pH 定义。"
+        "latex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}",
+        "note": "导数定义；用 f′ 与 f″ 的符号描绘草图。"
       }
     ],
     "derivationNotes": [
@@ -1026,8 +1026,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "f 在讨论区间上可导",
+      "f'>0 递增，f'<0 递减",
+      "f''>0 凹向上，f''<0 凹向下"
     ],
     "keyPoints": [
       "掌握 5.8「函数草图」准确定义",
@@ -1054,7 +1055,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\lim_{x\\to a}f(x)=L"
+        "solutionLatex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}"
       },
       {
         "title": "例 3 · 中",

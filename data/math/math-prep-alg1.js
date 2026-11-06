@@ -441,8 +441,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数与图像入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "pH 定义。"
+        "latex": "y=f(x)",
+        "note": "函数把每个 x 对应到唯一的 y。"
       }
     ],
     "derivationNotes": [
@@ -463,8 +463,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "定义域内每个 x 只对应一个 y",
+      "图像上的点写作 (x,y)",
+      "垂直线检验：一条竖线与图像至多一个交点"
     ],
     "keyPoints": [
       "掌握 P1.4「函数与图像入门」准确定义",
@@ -491,7 +492,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\lim_{x\\to a}f(x)=L"
+        "solutionLatex": "y=f(x)"
       },
       {
         "title": "例 3 · 中",

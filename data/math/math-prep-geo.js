@@ -715,8 +715,16 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「圆的性质」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "A=\\pi r^{2}",
+        "note": "圆面积。"
+      },
+      {
+        "latex": "C=2\\pi r",
+        "note": "圆周长。"
+      },
+      {
+        "latex": "s=r\\theta",
+        "note": "弧长；θ 用弧度。"
       }
     ],
     "derivationNotes": [
@@ -737,8 +745,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "高中标准假设",
-      "进入 AP 前完成本页例题"
+      "r>0",
+      "弧长与扇形面积公式中 θ 用弧度",
+      "同弧所对圆心角是圆周角的两倍"
     ],
     "keyPoints": [
       "掌握 P2.6「圆的性质」准确定义",
@@ -765,7 +774,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1"
+        "solutionLatex": "A=\\pi r^{2}"
       },
       {
         "title": "例 3 · 中",

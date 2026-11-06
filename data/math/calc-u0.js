@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数与图像」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "pH 定义。"
+        "latex": "y=f(x)",
+        "note": "函数图像：每个 x 对应唯一 y。"
       }
     ],
     "derivationNotes": [
@@ -59,8 +59,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "定义域内每个 x 只对应一个 y",
+      "读图关注零点、增减、对称性与渐近行为",
+      "垂直线检验判断是否为函数"
     ],
     "keyPoints": [
       "掌握 0.1「函数与图像」准确定义",
@@ -87,7 +88,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\lim_{x\\to a}f(x)=L"
+        "solutionLatex": "y=f(x)"
       },
       {
         "title": "例 3 · 中",
@@ -173,7 +174,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "note": "单位圆基本恒等式。"
       }
     ],
     "derivationNotes": [
@@ -194,8 +195,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "θ 用弧度",
+      "单位圆上的点为 (cosθ, sinθ)",
+      "周期性：sin(θ+2π)=sinθ，cos(θ+2π)=cosθ"
     ],
     "keyPoints": [
       "掌握 0.2「单位圆与三角」准确定义",

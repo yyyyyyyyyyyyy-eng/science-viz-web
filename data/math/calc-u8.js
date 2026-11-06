@@ -994,7 +994,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "V=\\int_a^b A(x)\\,\\mathrm{d}x",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "note": "截面面积 A(x) 沿 x 积分得体积。"
       }
     ],
     "derivationNotes": [
@@ -1015,8 +1015,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "截面垂直于 x 轴，位置 x 处面积为 A(x)",
+      "A(x) 连续；截面形状可随 x 变化",
+      "三角形/半圆截面的面积公式要用对（半圆以 s 为直径时 A=πs²/8）"
     ],
     "keyPoints": [
       "掌握 8.8「已知截面体积」准确定义",
@@ -1043,7 +1044,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1"
+        "solutionLatex": "V=\\int_a^b A(x)\\,\\mathrm{d}x"
       },
       {
         "title": "例 3 · 中",
@@ -1689,7 +1690,7 @@ export const TOPICS = {
     "formulas": [
       {
         "latex": "L=\\int_a^b\\sqrt{1+(y')^{2}}\\,\\mathrm{d}x",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "note": "光滑曲线 y=f(x) 的弧长。"
       }
     ],
     "derivationNotes": [
@@ -1710,8 +1711,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "f 在 [a,b] 上连续可导，y' 连续",
+      "曲线不自交；a<b",
+      "对参数曲线应改用 ∫√((dx/dt)²+(dy/dt)²) dt"
     ],
     "keyPoints": [
       "掌握 8.13「弧长」准确定义",
@@ -1738,7 +1740,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1"
+        "solutionLatex": "L=\\int_a^b\\sqrt{1+(y')^{2}}\\,\\mathrm{d}x"
       },
       {
         "title": "例 3 · 中",

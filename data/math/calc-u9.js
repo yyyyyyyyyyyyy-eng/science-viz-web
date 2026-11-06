@@ -309,8 +309,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「参数弧长」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "L=\\int_a^b\\sqrt{1+(y')^{2}}\\,\\mathrm{d}x",
-        "note": "注意指数中写 -t/\\tau 在 KaTeX 用 \\dfrac{-t}{\\tau} 更佳。"
+        "latex": "L=\\int_{t_1}^{t_2}\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\,\\mathrm{d}t",
+        "note": "参数曲线弧长；对参数 t 积分。"
       }
     ],
     "derivationNotes": [
@@ -331,8 +331,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "x(t)、y(t) 在 [t_1,t_2] 上连续可导，且不同时为零",
+      "曲线光滑、不自我重叠；t_1<t_2",
+      "弧长微元为 √((dx/dt)²+(dy/dt)²) dt，不是 √(1+(dy/dx)²) dx"
     ],
     "keyPoints": [
       "掌握 9.3「参数弧长」准确定义",
@@ -359,7 +360,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\cos^{2}\\theta+\\sin^{2}\\theta=1"
+        "solutionLatex": "L=\\int_{t_1}^{t_2}\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\,\\mathrm{d}t"
       },
       {
         "title": "例 3 · 中",
@@ -999,8 +1000,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「极坐标面积」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta",
+        "note": "极坐标曲线 r(θ) 与两条射线围成的面积。"
       }
     ],
     "derivationNotes": [
@@ -1021,8 +1022,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "r(θ) 在 [α,β] 上连续；区域由 θ=α、θ=β 与曲线围成",
+      "角度用弧度；曲线不自我重叠（否则分段）",
+      "被积函数是 r²，不要漏掉 1/2"
     ],
     "keyPoints": [
       "掌握 9.8「极坐标面积」准确定义",
@@ -1049,7 +1051,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)"
+        "solutionLatex": "A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta"
       },
       {
         "title": "例 3 · 中",
@@ -1141,8 +1143,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「两极曲线间面积」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}\\left([r_{\\mathrm{outer}}(\\theta)]^{2}-[r_{\\mathrm{inner}}(\\theta)]^{2}\\right)\\mathrm{d}\\theta",
+        "note": "两条极坐标曲线之间的面积；外曲线减内曲线。"
       }
     ],
     "derivationNotes": [
@@ -1163,8 +1165,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "在 [α,β] 上 r_outer(θ) ≥ r_inner(θ) ≥ 0",
+      "角度用弧度；积分限由交点确定",
+      "曲线交叉时需分段积分"
     ],
     "keyPoints": [
       "掌握 9.9「两极曲线间面积」准确定义",
@@ -1191,7 +1194,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)"
+        "solutionLatex": "A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}\\left([r_{\\mathrm{outer}}(\\theta)]^{2}-[r_{\\mathrm{inner}}(\\theta)]^{2}\\right)\\mathrm{d}\\theta"
       },
       {
         "title": "例 3 · 中",

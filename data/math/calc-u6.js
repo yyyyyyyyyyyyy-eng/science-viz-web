@@ -593,12 +593,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「定积分解释」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
-      },
-      {
-        "latex": "\\lim_{x\\to a}f(x)=L",
-        "note": "pH 定义。"
+        "latex": "A(x)=\\int_a^x f(t)\\,\\mathrm{d}t,\\quad A'(x)=f(x)",
+        "note": "累积函数及其导数（FTC）。"
       }
     ],
     "derivationNotes": [
@@ -619,8 +615,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "f 在含 a、x 的区间上连续",
+      "A(x) 表示从 a 到 x 的有向面积",
+      "对变上限求导时直接得 f(x)；变下限需加负号"
     ],
     "keyPoints": [
       "掌握 6.5「定积分解释」准确定义",
@@ -647,7 +644,7 @@ export const TOPICS = {
         "title": "例 2 · 中",
         "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
         "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x"
+        "solutionLatex": "A(x)=\\int_a^x f(t)\\,\\mathrm{d}t,\\quad A'(x)=f(x)"
       },
       {
         "title": "例 3 · 中",
