@@ -10,7 +10,7 @@ export const UNIT_REF = {
 export const stimuli = {
   "stim-calc-u10-1": {
     "title": "序列收敛 · 部分和",
-    "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(½)^{n−1}）。",
+    "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
     "table": {
       "headers": [
         "n",
@@ -25,17 +25,17 @@ export const stimuli = {
         ],
         [
           "2",
-          "½",
+          "0.5",
           "1.5"
         ],
         [
           "3",
-          "¼",
+          "0.25",
           "1.75"
         ],
         [
           "4",
-          "⅛",
+          "0.125",
           "1.875"
         ]
       ]
@@ -130,7 +130,8 @@ export const problems = [
         "expected": 0.015625,
         "tol": 0.01,
         "answerLatex": "\\dfrac{1}{64}",
-        "solution": "误差不超过下一个被舍去项的绝对值 1÷4³=1÷64。"
+        "solution": "误差不超过下一个被舍去项的绝对值。",
+        "solutionLatex": "|S-S_3|\\le|a_4|=\\dfrac{1}{4^{3}}=\\dfrac{1}{64}"
       },
       {
         "id": "calc-u10-q003",
@@ -155,7 +156,8 @@ export const problems = [
         "expected": 0.00008142685054401135,
         "tol": 0.02,
         "answerLatex": "8.14\\times 10^{-5}",
-        "solution": "|R₃|≤e^{0.2}·0.2⁴÷4!≈8.14×10⁻⁵。"
+        "solution": "用拉格朗日余项公式估计。",
+        "solutionLatex": "|R_3|\\le e^{0.2}\\cdot\\dfrac{0.2^{4}}{4!}\\approx8.14\\times10^{-5}"
       }
     ]
   },
@@ -166,7 +168,7 @@ export const problems = [
     "sharedStimulus": "stim-calc-u10-1",
     "stimulus": {
       "title": "序列收敛 · 部分和",
-      "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(½)^{n−1}）。",
+      "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
       "table": {
         "headers": [
           "n",
@@ -181,17 +183,17 @@ export const problems = [
           ],
           [
             "2",
-            "½",
+            "0.5",
             "1.5"
           ],
           [
             "3",
-            "¼",
+            "0.25",
             "1.75"
           ],
           [
             "4",
-            "⅛",
+            "0.125",
             "1.875"
           ]
         ]
@@ -213,7 +215,8 @@ export const problems = [
         "stemLatex": "\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^{n}\\text{ 的和}",
         "expected": "2",
         "answerLatex": "2",
-        "solution": "1÷(1−½)=2。",
+        "solution": "几何级数求和：首项为 1，公比为二分之一。",
+        "solutionLatex": "\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^{n}=\\dfrac{1}{1-\\dfrac{1}{2}}=2",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -245,11 +248,12 @@ export const problems = [
         "title": "部分和",
         "type": "frq",
         "check": "numeric",
-        "stem": "几何级数首项 1、公比 ½：S_4=？",
+        "stem": "几何级数首项 1、公比为二分之一：S_4=？",
         "expected": 1.875,
         "tol": 0.01,
         "answerLatex": "\\dfrac{15}{8}",
-        "solution": "1+½+¼+⅛=1.875。",
+        "solution": "逐项相加得 1.875。",
+        "solutionLatex": "1+\\dfrac{1}{2}+\\dfrac{1}{4}+\\dfrac{1}{8}=\\dfrac{15}{8}=1.875",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -331,7 +335,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -412,7 +416,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -493,7 +497,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -574,7 +578,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「序列收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -655,7 +659,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「调和级数与 p 级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -736,7 +740,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「绝对与条件收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -817,7 +821,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「半径与区间」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -898,7 +902,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「几何级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -979,7 +983,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「比较检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1060,7 +1064,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「交替级数误差」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1141,7 +1145,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「函数表示为幂级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1222,7 +1226,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「n 项检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1303,7 +1307,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「交替级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1384,7 +1388,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「泰勒多项式导论」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1465,7 +1469,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「幂级数运算」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1546,7 +1550,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1627,7 +1631,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1708,7 +1712,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1789,7 +1793,7 @@ export const problems = [
     "calculator": false,
     "stem": "关于「序列收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
@@ -1839,7 +1843,8 @@ export const problems = [
         "stem": "写出 ln(1+x) 的麦克劳林级数从 x 的一次项开始的前三项。",
         "expected": "x-x^2/2+x^3/3",
         "answerLatex": "x-\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{3}",
-        "solution": "代入 n=1,2,3 得 x−x²÷2+x³÷3。"
+        "solution": "代入 n=1,2,3，见下式。",
+        "solutionLatex": "\\ln(1+x)=x-\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{3}-\\cdots"
       },
       {
         "id": "calc-u10-frq1-q2",
@@ -1852,7 +1857,8 @@ export const problems = [
         "expected": 0.18266666666666667,
         "tol": 0.001,
         "answerLatex": "\\approx0.1827",
-        "solution": "0.2−0.2²÷2+0.2³÷3≈0.1827；下一项 0.2⁴÷4=0.0004，故误差不超过 0.0004。"
+        "solution": "用前三项计算；下一项的绝对值给出误差上界。",
+        "solutionLatex": "0.2-\\dfrac{0.2^{2}}{2}+\\dfrac{0.2^{3}}{3}\\approx0.1827,\\qquad \\dfrac{0.2^{4}}{4}=0.0004"
       },
       {
         "id": "calc-u10-frq1-q3",
@@ -1862,8 +1868,9 @@ export const problems = [
         "title": "收敛区间",
         "stemLatex": "\\text{求 }\\sum_{n=1}^{\\infty}\\dfrac{(x-1)^{n}}{n\\,3^{n}}\\text{ 的收敛区间}",
         "answerLatex": "x\\in[-2,4)",
-        "answer": "由比值审敛法，|x−1|÷3<1 得 −2<x<4，半径 R=3。端点 x=−2 时为 ∑(−1)ⁿ÷n，条件收敛；x=4 时为 ∑1÷n，发散。故收敛区间为 [−2,4)。",
-        "solution": "先求半径，再分别检验两个端点。"
+        "answer": "由比值审敛法得半径 R=3 与开区间 (−2,4)。端点 x=−2 时化为交错调和级数，条件收敛；x=4 时为调和级数，发散。故收敛区间为 [−2,4)。",
+        "solution": "先求半径，再分别检验两个端点。",
+        "solutionLatex": "\\dfrac{|x-1|}{3}<1\\Rightarrow -2<x<4"
       }
     ]
   }

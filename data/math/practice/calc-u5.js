@@ -54,7 +54,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "(f(4)−f(0))÷(4−0)=(10−2)÷4=2。"
+        "solution": "函数值增量与区间长度之比为 2。",
+        "solutionLatex": "\\dfrac{f(4)-f(0)}{4-0}=\\dfrac{10-2}{4}=2"
       },
       {
         "id": "calc-u5-q002",

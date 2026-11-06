@@ -566,8 +566,25 @@ for (const [subject, units] of Object.entries(ALL_UNITS)) {
   }
 }
 
-// A partial (MATH_ONLY) build must not overwrite the shared all-subject summary.
-if (!ONLY) {
-  writeFileSync(join(ROOT, 'data/shared/practice-build-summary.json'), JSON.stringify(summary, null, 2));
+// A partial (MATH_ONLY) build updates only the subjects it rebuilt; a full
+// build replaces the shared summary with the all-subject totals.
+const summaryPath = join(ROOT, 'data/shared/practice-build-summary.json');
+if (ONLY) {
+  let previous = { bySubject: {} };
+  if (existsSync(summaryPath)) {
+    try {
+      previous = JSON.parse(readFileSync(summaryPath, 'utf8'));
+    } catch (_) {}
+  }
+  const bySubject = { ...(previous.bySubject || {}), ...summary.bySubject };
+  let total = 0;
+  let banks = 0;
+  for (const row of Object.values(bySubject)) {
+    total += row.items || 0;
+    banks += row.banks || 0;
+  }
+  writeFileSync(summaryPath, JSON.stringify({ bySubject, total, banks }, null, 2));
+} else {
+  writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
 }
 console.log('SUMMARY', JSON.stringify(summary, null, 2));

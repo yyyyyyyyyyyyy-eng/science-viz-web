@@ -80,7 +80,8 @@ export const problems = [
         "expected": -0.3333333333333333,
         "tol": 0.01,
         "answerLatex": "-\\dfrac{1}{3}",
-        "solution": "由反函数定理，等于 f′(2) 的倒数，即 −⅓。"
+        "solution": "由反函数定理，导数为原函数导数的倒数。",
+        "solutionLatex": "\\left(f^{-1}\\right)'(5)=\\dfrac{1}{f'(2)}=-\\dfrac{1}{3}"
       },
       {
         "id": "calc-u3-q003",
@@ -93,7 +94,8 @@ export const problems = [
         "expected": -0.8,
         "tol": 0.01,
         "answerLatex": "-\\dfrac{4}{5}",
-        "solution": "隐式求导得 (2x+y)+(x+2y)y′=0，代入 (1,2) 得 y′=−⅘。"
+        "solution": "隐式求导后代入点 (1,2)。",
+        "solutionLatex": "2x+y+(x+2y)y'=0\\Rightarrow y'=-\\dfrac{4}{5}"
       },
       {
         "id": "calc-u3-q004",
@@ -105,7 +107,8 @@ export const problems = [
         "stem": "求曲线 C 在点 (1,2) 处的切线方程，写成 y=… 右侧的表达式。",
         "expected": "-4/5*x+14/5",
         "answerLatex": "y=-\\dfrac{4}{5}x+\\dfrac{14}{5}",
-        "solution": "斜率为 −⅘，过 (1,2)，所以 y−2=−⅘(x−1)。"
+        "solution": "由点斜式得切线方程。",
+        "solutionLatex": "y-2=-\\dfrac{4}{5}(x-1)\\Rightarrow y=-\\dfrac{4}{5}x+\\dfrac{14}{5}"
       }
     ]
   },

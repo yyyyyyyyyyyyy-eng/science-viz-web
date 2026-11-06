@@ -358,7 +358,7 @@ export const problems = [
         "calculator": false,
         "title": "定义域",
         "type": "frq",
-        "stem": "求 f(x)=1÷(x−3) 的定义域。",
+        "stemLatex": "\\text{求 }f(x)=\\dfrac{1}{x-3}\\text{ 的定义域。}",
         "answer": "x≠3，即 (−∞,3)∪(3,∞)。",
         "solution": "分母不能为零。",
         "sourceId": "openstax-calculus",

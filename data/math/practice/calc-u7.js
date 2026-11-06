@@ -108,7 +108,8 @@ export const problems = [
         "stem": "求 P(t) 的表达式。",
         "expected": "1200/(1+5*e^(-0.4*t))",
         "answerLatex": "P(t)=\\dfrac{1200}{1+5e^{-0.4t}}",
-        "solution": "分离变量得 P(t)=L/(1+Ce^{−kt})；由 P(0)=200 得 C=5。"
+        "solution": "分离变量后积分，得到 logistic 通式；再由初值确定常数。",
+        "solutionLatex": "P(t)=\\dfrac{L}{1+Ce^{-kt}}"
       },
       {
         "id": "calc-u7-q002",
@@ -121,7 +122,8 @@ export const problems = [
         "expected": 369.6123433001111,
         "tol": 0.001,
         "answerLatex": "≈370",
-        "solution": "P(2)=1200÷(1+5e^{−0.8})≈370。"
+        "solution": "把 t=2 代入模型计算。",
+        "solutionLatex": "P(2)=\\dfrac{1200}{1+5e^{-0.8}}\\approx370"
       },
       {
         "id": "calc-u7-q003",
@@ -134,7 +136,8 @@ export const problems = [
         "expected": 4.023594781085251,
         "tol": 0.005,
         "answerLatex": "t=\\dfrac{\\ln 5}{0.4}\\approx 4.02",
-        "solution": "令 P=600，解 1+5e^{−0.4t}=2，得 t=ln5÷0.4≈4.02。"
+        "solution": "令 P=600，解指数方程。",
+        "solutionLatex": "1+5e^{-0.4t}=2\\Rightarrow t=\\dfrac{\\ln 5}{0.4}\\approx4.02"
       },
       {
         "id": "calc-u7-q004",
@@ -1498,7 +1501,8 @@ export const problems = [
         "stem": "求微分方程的通解（C 为任意常数）。",
         "expected": "C*e^(0.05*t)",
         "answerLatex": "P(t)=Ce^{0.05t}",
-        "solution": "分离变量 dP÷P=0.05dt，积分得 ln P=0.05t+C。"
+        "solution": "分离变量后两边积分，再取指数。",
+        "solutionLatex": "\\dfrac{\\mathrm{d}P}{P}=0.05\\,\\mathrm{d}t\\Rightarrow \\ln P=0.05t+C\\Rightarrow P=Ce^{0.05t}"
       },
       {
         "id": "calc-u7-frq1-q2",
@@ -1523,7 +1527,8 @@ export const problems = [
         "expected": 13.862943611198906,
         "tol": 0.01,
         "answerLatex": "t=20\\ln 2\\approx13.86",
-        "solution": "令 200e^{0.05t}=400，得 e^{0.05t}=2，所以 t=ln2÷0.05=20ln2≈13.86。"
+        "solution": "令种群数量为 400，解指数方程。",
+        "solutionLatex": "200e^{0.05t}=400\\Rightarrow e^{0.05t}=2\\Rightarrow t=\\dfrac{\\ln 2}{0.05}=20\\ln 2\\approx13.86"
       }
     ]
   }

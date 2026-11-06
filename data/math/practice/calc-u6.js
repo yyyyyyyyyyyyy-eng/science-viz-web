@@ -80,7 +80,8 @@ export const problems = [
         "expected": 6.5,
         "tol": 0.01,
         "answerLatex": "6.5",
-        "solution": "(2+4)÷2+(4+3)÷2=3+3.5=6.5。"
+        "solution": "用梯形法逐段求面积再相加。",
+        "solutionLatex": "\\dfrac{2+4}{2}+\\dfrac{4+3}{2}=3+3.5=6.5"
       },
       {
         "id": "calc-u6-q002",
@@ -106,7 +107,8 @@ export const problems = [
         "expected": 0.5,
         "tol": 0.01,
         "answerLatex": "0.5",
-        "solution": "F″=v′，中心差商为 (v(3)−v(1))÷(3−1)=(5−4)÷2=0.5。"
+        "solution": "F″ 等于 v′，用中心差商估计。",
+        "solutionLatex": "F''(2)\\approx\\dfrac{v(3)-v(1)}{3-1}=\\dfrac{5-4}{2}=0.5"
       },
       {
         "id": "calc-u6-q004",
@@ -1766,7 +1768,8 @@ export const problems = [
         "expected": 2.6666666666666665,
         "tol": 0.01,
         "answerLatex": "\\dfrac{8}{3}",
-        "solution": "(1÷2)∫₀²(4−x²)dx=(1÷2)[4x−x³÷3]₀²=(1÷2)(8−8÷3)=8÷3。"
+        "solution": "先求定积分，再除以区间长度。",
+        "solutionLatex": "\\dfrac{1}{2}\\int_0^2(4-x^2)\\,\\mathrm{d}x=\\dfrac{1}{2}\\left[4x-\\dfrac{x^3}{3}\\right]_0^2=\\dfrac{1}{2}\\left(8-\\dfrac{8}{3}\\right)=\\dfrac{8}{3}"
       },
       {
         "id": "calc-u6-frq1-q2",
@@ -1779,7 +1782,8 @@ export const problems = [
         "expected": 1.1547005383792517,
         "tol": 0.01,
         "answerLatex": "c=\\dfrac{2}{\\sqrt{3}}",
-        "solution": "4−c²=8÷3 ⇒ c²=4÷3；取 [0,2] 内的 c=2÷√3。"
+        "solution": "令 f(c) 等于平均值，解出 [0,2] 内的 c。",
+        "solutionLatex": "4-c^{2}=\\dfrac{8}{3}\\Rightarrow c^{2}=\\dfrac{4}{3}\\Rightarrow c=\\dfrac{2}{\\sqrt{3}}"
       },
       {
         "id": "calc-u6-frq1-q3",

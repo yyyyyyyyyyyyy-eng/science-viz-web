@@ -57,7 +57,8 @@ export const problems = [
         "stemLatex": "\\text{由相似三角形，用 }h\\text{ 表示水面半径 }r",
         "expected": "h/3",
         "answerLatex": "r=\\dfrac{h}{3}",
-        "solution": "r÷h=R÷H=2÷6=⅓。"
+        "solution": "由相似三角形，半径与水深之比等于顶部半径与水箱高之比。",
+        "solutionLatex": "\\dfrac{r}{h}=\\dfrac{R}{H}=\\dfrac{2}{6}=\\dfrac{1}{3}"
       },
       {
         "id": "calc-u4-q002",
@@ -69,7 +70,8 @@ export const problems = [
         "stemLatex": "\\text{用 }h\\text{ 表示体积 }V",
         "expected": "pi*h^3/27",
         "answerLatex": "V=\\dfrac{\\pi h^{3}}{27}",
-        "solution": "V=⅓πr²h=⅓π(h÷3)²h=πh³÷27。"
+        "solution": "把 r 用水深 h 表示后代入圆锥体积公式。",
+        "solutionLatex": "V=\\dfrac{1}{3}\\pi r^{2}h=\\dfrac{1}{3}\\pi\\left(\\dfrac{h}{3}\\right)^{2}h=\\dfrac{\\pi h^{3}}{27}"
       },
       {
         "id": "calc-u4-q003",
@@ -82,7 +84,8 @@ export const problems = [
         "expected": 0.6366197723675814,
         "tol": 0.005,
         "answerLatex": "\\dfrac{2}{\\pi}",
-        "solution": "dV/dt=(πh²÷9)dh/dt；h=3 时 π·dh/dt=2，所以 dh/dt=2÷π。"
+        "solution": "对体积关系求导，再代入 h=3 与注入速率。",
+        "solutionLatex": "\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\pi h^{2}}{9}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\Rightarrow \\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{2}{\\pi}"
       },
       {
         "id": "calc-u4-q004",
@@ -1286,7 +1289,8 @@ export const problems = [
         "expected": -1.5,
         "tol": 0.01,
         "answerLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{3}{2}",
-        "solution": "x²+y²=100 两边对 t 求导：2x·dx/dt+2y·dy/dt=0。x=6 时 y=8，故 dy/dt=−6·2÷8=−3÷2。"
+        "solution": "两边对 t 求导；x=6 时 y=8，代入底端速度。",
+        "solutionLatex": "2x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+2y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\Rightarrow \\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{x}{y}\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\dfrac{6}{8}\\cdot2=-\\dfrac{3}{2}"
       },
       {
         "id": "calc-u4-frq1-q3",
@@ -1295,11 +1299,12 @@ export const problems = [
         "calculator": false,
         "title": "面积变化率",
         "check": "numeric",
-        "stem": "在同一时刻 x=6 ft，求三角形面积 A=xy÷2 的变化率 dA/dt（单位：ft²/s）。",
+        "stem": "在同一时刻 x=6 ft，求三角形面积 A（等于 x 与 y 乘积的一半）的变化率 dA/dt（单位：ft² 每秒）。",
         "expected": 3.5,
         "tol": 0.01,
         "answerLatex": "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=\\dfrac{7}{2}",
-        "solution": "dA/dt=(x·dy/dt+y·dx/dt)÷2=(6·(−3÷2)+8·2)÷2=7÷2。"
+        "solution": "对面积关系求导，再代入同一时刻的 x、y 与两个速度。",
+        "solutionLatex": "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=\\dfrac{1}{2}\\left(x\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}+y\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\right)=\\dfrac{1}{2}\\left(6\\cdot\\left(-\\dfrac{3}{2}\\right)+8\\cdot2\\right)=\\dfrac{7}{2}"
       }
     ]
   }
