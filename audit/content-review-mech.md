@@ -242,3 +242,12 @@ For each topic I replaced `formulas`, `conditions`, and the stale `solutionLatex
 4. **Module mapping mismatches (reported, not changed).** A few topic pages mount a simulation that does not match the topic, e.g. `P1.1` (measurement) → `projectile`, `P1.2` (1D kinematics) → `projectile`, `1.1` (1D kinematics) → `projectile`, `P3.3` (integral) → `collision-momentum`, `P3.2` (derivative) → `projectile`. These are figure/module assignments, not formulas; changing them may collide with the physics-figures session.
 5. **`mech-prep-math/P3.2` and `P3.3`** already had correct formulas; I only added conditions. Their generic prose is still thin.
 6. **Enrichments:** batch1 `mech/mech-u2/2.5` and `mech/mech-u3/3.1` were checked line by line; no factual errors found, so no edit was made. Batch2 mechanics overlays were spot-checked for consistency but not edited (another session owns the file).
+
+## Self-check (Mechanics)
+
+- Re-opened the committed mechanics diff (`625ab15`) and re-read all 58 changed formula/condition blocks across 11 files.
+- Re-ran `node scripts/check-math-notation.mjs` → `MATH_NOTATION_OK`.
+- Re-ran KaTeX on all 209 mechanics formula/`solutionLatex` strings → 0 errors; imported `data/mech/index.js` → 53 mounted topics plus the 5 orphaned prep-found topics.
+- Scanned for leftover pH, off-topic `F=ma`, `dy/dx`, duplicate formulas, wrong `solutionLatex`, raw LaTeX in conditions, broken braces, and slash fractions. No leftovers; `F=ma` remains only on the legitimate force/Newton topics.
+- Checked `solutionLatex` against each first formula: 0 mismatches.
+- Found no further issues. Mechanics self-check complete.

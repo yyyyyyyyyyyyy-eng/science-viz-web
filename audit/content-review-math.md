@@ -226,3 +226,13 @@ No practice files, figure libraries, batch2, or other sessions’ files were tou
 3. **Systemic formula/depth gap (blocker for self-study).** 150 of 158 topics have no enrichment overlay; most prep/calculus pages still show a generic derivative/limit/integral line instead of the named rule. This is an enrichment task, not an accuracy patch.
 4. **Formula sheet is the better source.** `data/math/formulas.js` already has correct rows for power/product/quotient/chain/implicit, basic integrals, substitution/parts/partial fractions, geometric series, ratio test, parametric derivative/arc length, and polar area. Aligning topic pages to those rows would fix many of the “missing formula” cases mechanically.
 5. **Condition arrays remain generic on 146 topics** (“满足定理/定律条件 / 注意理想化假设”). I corrected conditions for 12 of the 13 edited topics (P4.3 only needed a note correction); the rest need per-topic assumptions (e.g. L’Hôpital’s `0/0`/`∞/∞`, alternating-series monotonicity, p-series `p>1`).
+
+## Self-check (Calculus)
+
+- Re-opened the committed calculus diff (`2a27135`) and re-read the 13 changed topic blocks plus `data/math/formulas.js`.
+- Re-ran `node scripts/check-math-notation.mjs` → `MATH_NOTATION_OK`.
+- Re-ran KaTeX on all 320 math formula/`solutionLatex` strings → 0 errors; imported `data/math/index.js` → 158 topics; KaTeX on all 36 formula-sheet rows → 0 errors.
+- Checked the changed topics for wrong `solutionLatex`: 0 mismatches. Confirmed the 9.3 parametric formula is the parametric integral, not the Cartesian one, and that 9.8/9.9 use `1/2∫r²dθ` and the outer-minus-inner form.
+- Confirmed no pH/RC notes, broken braces, raw LaTeX in conditions, or slash fractions remain in the changed topics.
+- The 88 topics still showing `dy/dx=f'(x)` are the documented template-depth gap in “Remaining issues”, not accidental leftovers from this pass; replacing all of them would be the course-wide enrichment rewrite the task excludes.
+- No further issues found in the calculus work. Self-check complete.
