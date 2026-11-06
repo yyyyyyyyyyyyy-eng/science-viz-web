@@ -4,6 +4,15 @@ Generated from `data/{bio,math}/figures.js` (TOPIC_FIGURES). Every figure is an 
 
 Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrome) on audit/figure-preview-bio-math.html: 412 topic-figure placements, 0 console errors, 0 KaTeX errors, 0 overflow at 380px, no aspect/height drift on resize.
 
+## Maintenance pass — 2026-11-06
+
+- **Mount scan:** 247 bio/math topic routes (bio 89, math 158) × light/dark = 494 page loads. Every route mounted exactly one `.exam-figures` section with `figure count === topic.figures.length`; title was exactly `AP 考试常见图示`; 0 empty mounts, 0 zero-size SVGs, 0 SVG/box overflow, 0 KaTeX errors, 0 console/page errors, 0 horizontal page overflow at 1280×900.
+- **Contrast:** theme-aware `--fig-*` palette added in `data/math/figlib.js` + dedicated `.exam-figures` CSS (light/dark values). Shape-aware audit of all 299 unique figures checked 6,025 SVG text nodes against their computed backgrounds: **0 AA failures** in light or dark after fixes (grid lines are intentionally below the 3:1 non-text threshold; axes, ticks, curves, labels, and diagram strokes pass).
+- **Figure fixes:** photoperiod day/night fills no longer invert in dark theme; translation `E/P/A` site labels moved clear of tRNA boxes; labels drawn on tinted fills switched to ink/darker palette values (`functional-groups`, `translation`, `gel-electrophoresis`, `ineq-2d`, `trig-ratios`, `concavity`, `interval-conv`, `water-hbond`, `rtk`).
+- **Preview:** `audit/figure-preview-bio-math.html` now loads `css/main.css` and accepts `?theme=dark`, so the audit page matches the app's theme tokens.
+- **Gap table:** `audit/figure-gaps-bio-math.md` lists all 130 topics with only one variant (24 bio, 106 math). No topic has zero figures; filling the one-variant gaps is deferred to a later session.
+- **Screenshots:** `screenshots/figures-bio-math/before/` and `screenshots/figures-bio-math/after/` (light + dark, representative fixed topics).
+
 ## bio
 
 ### bio-prep-chem

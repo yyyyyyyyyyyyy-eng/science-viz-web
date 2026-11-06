@@ -9,7 +9,9 @@
  */
 export const C = {
   ink: 'var(--text, #0f0f0e)', muted: 'var(--text-muted, #6b6a64)', grid: 'var(--border, #e4e2db)',
-  a: '#5b6cff', b: '#e06b3f', c: '#0f9f6e', d: '#c9921a', e: '#d14343', f: '#8b5cf6',
+  a: 'var(--fig-a, #3346c9)', b: 'var(--fig-b, #a8481f)', c: 'var(--fig-c, #087a52)',
+  d: 'var(--fig-d, #8a6200)', e: 'var(--fig-e, #9a1a14)', f: 'var(--fig-f, #6d3fc4)',
+  day: 'var(--fig-day, #fde68a)', night: 'var(--fig-night, #2c2c28)',
 };
 export const PAL = [C.a, C.b, C.c, C.d, C.e, C.f];
 
@@ -126,7 +128,7 @@ export function plot(o) {
     const col = cv.color || PAL[i % PAL.length];
     const pts = samplePts(cv, x0, x1);
     g += path(toD(pts, X, Y, (y1 - y0) * 2.5), { stroke: col, w: cv.w || 2, dash: cv.dash });
-    if (cv.label) { const at = cv.labelAt || pts[Math.floor(pts.length * 0.85)] || [x1, y1]; g += text(X(at[0]) + (cv.dx || 4), Y(at[1]) + (cv.dy || -10), cv.label, { size: 11, color: col, anchor: cv.anchor || 'start', bold: true }); }
+    if (cv.label) { const at = cv.labelAt || pts[Math.floor(pts.length * 0.85)] || [x1, y1]; g += text(X(at[0]) + (cv.dx || 4), Y(at[1]) + (cv.dy || -10), cv.label, { size: 11, color: cv.labelColor || col, anchor: cv.anchor || 'start', bold: true }); }
   });
   (o.vlines || []).forEach((v) => { g += line(X(v.x), T, X(v.x), H - B, { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(X(v.x) + 4, T + 10, v.label, { size: 10, anchor: 'start', color: v.color || C.muted }); });
   (o.hlines || []).forEach((v) => { g += line(L, Y(v.y), W - R, Y(v.y), { color: v.color || C.muted, dash: v.dash ?? '5 4', w: 1.2 }); if (v.label) g += text(W - R - 4, Y(v.y) - 8, v.label, { size: 10, anchor: 'end', color: v.color || C.muted }); });
@@ -134,7 +136,7 @@ export function plot(o) {
   s += `<g clip-path="url(#${clipId})">${g}</g>`;
   (o.points || []).forEach((p) => {
     s += circle(X(p.x), Y(p.y), p.r || 4, { fill: p.open ? 'var(--bg-elev, #fff)' : p.color || C.ink, op: 1, stroke: p.color || C.ink, w: 1.6 });
-    if (p.label) s += text(X(p.x) + (p.dx ?? 8), Y(p.y) + (p.dy ?? -10), p.label, { size: 10.5, anchor: p.anchor || 'start', color: p.color || C.ink });
+    if (p.label) s += text(X(p.x) + (p.dx ?? 8), Y(p.y) + (p.dy ?? -10), p.label, { size: 10.5, anchor: p.anchor || 'start', color: p.labelColor || p.color || C.ink });
   });
   (o.texts || []).forEach((t) => { s += text(X(t[0]), Y(t[1]), t[2], { size: 11, color: t[3] || C.ink, anchor: t[4] || 'middle', bold: t[5] }); });
   (o.fracs || []).forEach((t) => { s += frac(X(t[0]), Y(t[1]), t[2], t[3], { size: 12, color: t[4] || C.ink, prefix: t[5], suffix: t[6] }); });

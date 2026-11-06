@@ -2579,9 +2579,28 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
 
 /* Exam figure galleries (module + topic pages): constrained, no cards */
 .exam-figures {
+  /* Theme-aware figure palette: tuned for >=4.5:1 label contrast on --canvas-plot. */
+  --fig-a: #3346c9;
+  --fig-b: #a8481f;
+  --fig-c: #087a52;
+  --fig-d: #8a6200;
+  --fig-e: #9a1a14;
+  --fig-f: #6d3fc4;
+  --fig-day: #f2d98b;
+  --fig-night: #2c2c28;
   margin-top: 1.25rem;
   max-width: 100%;
   min-width: 0;
+}
+[data-theme="dark"] .exam-figures {
+  --fig-a: #9aa5ff;
+  --fig-b: #ff9a6c;
+  --fig-c: #46d6a0;
+  --fig-d: #e6bb52;
+  --fig-e: #ff8585;
+  --fig-f: #b79aff;
+  --fig-day: #d8b24a;
+  --fig-night: #242420;
 }
 .exam-figures > h2 {
   font-size: 1.05rem;

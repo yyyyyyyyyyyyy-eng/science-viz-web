@@ -1,6 +1,11 @@
 <!doctype html><html><head><meta charset="utf-8"><title>Bio/Math figure preview</title>
+<link rel="stylesheet" href="../css/main.css">
 <link rel="stylesheet" href="../vendor/katex/katex.min.css">
 <script src="../vendor/katex/katex.min.js"></script>
+<script>
+  const _t = new URLSearchParams(location.search).get('theme');
+  if (_t === 'dark' || _t === 'light') document.documentElement.dataset.theme = _t;
+</script>
 <style>body{font-family:system-ui;margin:0 auto;max-width:900px;padding:12px}h2{font-size:15px;margin-top:28px}</style></head>
 <body><h1>Bio + Math exam figures</h1><div id="root"></div>
 <script type="module">
