@@ -234,5 +234,5 @@ No practice files, figure libraries, batch2, or other sessions’ files were tou
 - Re-ran KaTeX on all 320 math formula/`solutionLatex` strings → 0 errors; imported `data/math/index.js` → 158 topics; KaTeX on all 36 formula-sheet rows → 0 errors.
 - Checked the changed topics for wrong `solutionLatex`: 0 mismatches. Confirmed the 9.3 parametric formula is the parametric integral, not the Cartesian one, and that 9.8/9.9 use `1/2∫r²dθ` and the outer-minus-inner form.
 - Confirmed no pH/RC notes, broken braces, raw LaTeX in conditions, or slash fractions remain in the changed topics.
-- The 88 topics still showing `dy/dx=f'(x)` are the documented template-depth gap in “Remaining issues”, not accidental leftovers from this pass; replacing all of them would be the course-wide enrichment rewrite the task excludes.
+- The 88 base topics still carrying `dy/dx=f'(x)` (86 displayed; 2 masked by enrichments) are the documented template-depth gap in “Remaining issues”, not accidental leftovers from this pass; replacing all of them would be the course-wide enrichment rewrite the task excludes.
 - No further issues found in the calculus work. Self-check complete.
