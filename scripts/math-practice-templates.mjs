@@ -220,7 +220,7 @@ export function mathSetQuestion(unit, topics, qid, j, stim, s, srcLine) {
     ],
     series: [
       { title: '几何级数', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`\sum_{n=0}^{\infty}\left(\dfrac{1}{2}\right)^{n}\text{ 的和}`, expected: '2', answerLatex: '2', solution: '1÷(1−½)=2。' },
-      { title: '比值审敛', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`a_n=\dfrac{n!}{n^{n}}\text{：}\lim\dfrac{|a_{n+1}|}{|a_n|}`, expected: '0', answerLatex: '0', solution: '→0，绝对收敛。' },
+      { title: '比值审敛', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`a_n=\dfrac{n!}{n^{n}}\text{：}\lim\dfrac{|a_{n+1}|}{|a_n|}`, expected: '1/E', answerLatex: String.raw`\dfrac{1}{e}`, solution: '比值极限为 e 的倒数（约 0.368），小于 1，故绝对收敛。', solutionLatex: String.raw`\lim_{n\to\infty}\dfrac{|a_{n+1}|}{|a_n|}=\dfrac{1}{e}<1\Rightarrow\text{绝对收敛}` },
       { title: '部分和', type: 'frq', check: 'numeric', stem: '几何级数首项 1、公比 ½：S_4=？', expected: 1.875, tol: 0.01, answerLatex: String.raw`\dfrac{15}{8}`, solution: '1+½+¼+⅛=1.875。' },
       { title: '收敛叙述', type: 'frq', stem: `就「${t.titleZh}」区分序列收敛与级数收敛。`, answer: '序列看 a_n→L；级数看部分和 S_n→S。', solution: '必要条件 a_n→0。' },
     ],
@@ -288,10 +288,80 @@ function polyExpand(n) {
 }
 function polyExpandLatex(n) {
   const terms = [];
-  for (let k = n - 1; k >= 1; k--) terms.push(`x^{${k}}`);
+  for (let k = n - 1; k >= 1; k--) {
+    terms.push(k === 1 ? 'x' : `x^{${k}}`);
+  }
   terms.push('1');
   return terms.join('+');
 }
+
+/** Prompt-specific model answers for the argumentative FRQs. */
+const FRQ_MODEL_ANSWERS = {
+  '用 ε-δ 直觉或图像说明为何去掉一点仍可有极限。': {
+    answerLatex: String.raw`\lim_{x\to2}\dfrac{x^{2}-4}{x-2}=4`,
+    answer: '极限只由 x 在 a 附近（但 x≠a）的取值决定，与 f(a) 是否有定义无关。例如 f(x)=(x²−4)÷(x−2) 在 x=2 无定义，但 x≠2 时 f(x)=x+2，故极限为 4。按 ε-δ：任给 ε>0，取 δ=ε，当 0<|x−2|<δ 时 |f(x)−4|=|x−2|<ε。',
+    solution: '可去间断处函数值可以缺失或被改写；只要去心邻域内函数值趋近同一数，极限就存在。',
+  },
+  '解释差分商极限如何从平均变化率过渡到瞬时变化率。': {
+    answerLatex: String.raw`f'(a)=\lim_{h\to0}\dfrac{f(a+h)-f(a)}{h}`,
+    answer: '平均变化率是区间上的割线斜率 [f(a+h)−f(a)]÷h；让 h→0，割线趋近切线，差商极限就是瞬时变化率 f′(a)。例如 f(x)=x² 时差商为 (2ah+h²)÷h=2a+h→2a，即 f′(a)=2a。',
+    solution: '先从两点割线求平均变化率，再令两点间距趋于零取极限。',
+  },
+  '用链式法则解释复合函数求导的顺序，并举一个例子。': {
+    answerLatex: String.raw`\dfrac{\mathrm{d}}{\mathrm{d}x}f(g(x))=f'(g(x))g'(x)`,
+    answer: '复合函数 y=f(g(x)) 的导数是外层导数在 g(x) 处的值乘以内层导数：y′=f′(g(x))g′(x)。先对外层求导（内层保持不变），再乘内层导数。例如 y=(3x²+1)⁵，y′=5(3x²+1)⁴·6x=30x(3x²+1)⁴。',
+    solution: '由外向内逐层求导，每一层都乘以下一层的导数；不要漏掉内层导数。',
+  },
+  '举一个相关变化率的实际例子并写出等式。': {
+    answerLatex: String.raw`A=\pi r^{2}\Rightarrow\dfrac{\mathrm{d}A}{\mathrm{d}t}=2\pi r\dfrac{\mathrm{d}r}{\mathrm{d}t}`,
+    answer: '例：圆形水波的半径 r 以 2 cm·s⁻¹ 增大，面积 A=πr²。对时间 t 求导得 A′(t)=2πr·r′(t)；当 r=5 cm 时 A′(t)=2π·5·2=20π cm²·s⁻¹。',
+    solution: '先写出联系各变量的几何关系，再对同一时间变量用链式法则求导。',
+  },
+  '说明一阶导数与二阶导数的符号分别能提供什么图像信息。': {
+    answer: 'f′>0 时函数递增，f′<0 时递减，f′=0 且变号处为局部极值；f″>0 时图像凹向上，f″<0 时凹向下，f″=0 且变号处为拐点。',
+    solution: '一阶导数控制增减与极值，二阶导数控制凹凸与拐点；两者合起来才能较完整地描出图像。',
+  },
+  '说明净面积与总面积（绝对值）在应用中的区别。': {
+    answerLatex: String.raw`\int_0^{2\pi}\sin x\,\mathrm{d}x=0,\qquad \int_0^{2\pi}|\sin x|\,\mathrm{d}x=4`,
+    answer: '净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。',
+    solution: '净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。',
+  },
+  '解释欧拉法一步如何用斜率推进近似解。': {
+    answerLatex: String.raw`y_{n+1}=y_n+h\,y'(x_n,y_n),\qquad x_{n+1}=x_n+h`,
+    answer: '欧拉法从已知点 (x_n,y_n) 出发，用该点斜率场给出的斜率 m=y′(x_n,y_n) 作切线，沿切线前进步长 h：y_{n+1}=y_n+h·m，x_{n+1}=x_n+h。也就是用一步线性近似代替真实解曲线，步长越小通常越接近。',
+    solution: '一步欧拉法把局部切线当作解曲线的近似；每步都在新点重新读取斜率。',
+  },
+  '说明同一曲线不同参数化时 dy/dx 不变的原因。': {
+    answerLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t}`,
+    answer: '因为曲线的切线斜率是几何量，与参数选取无关。若换参数 t=t(s) 且 dt÷ds≠0，则 (dy÷ds)÷(dx÷ds)=[(dy÷dt)(dt÷ds)]÷[(dx÷dt)(dt÷ds)]=(dy÷dt)÷(dx÷dt)。只要 dx÷dt≠0，商不变。',
+    solution: '参数化只是描述曲线的不同“走法”；链式法则使参数变化率在商中约去。',
+  },
+  '举一个条件收敛但不绝对收敛的级数例子（名称即可）。': {
+    answerLatex: String.raw`\sum_{n=1}^{\infty}\dfrac{(-1)^{n}}{n}`,
+    answer: '∑_{n=1}^{∞}(−1)ⁿ÷n（交错调和级数）。它按交错级数判别法收敛，但取绝对值后为调和级数 ∑(1÷n)，发散，所以条件收敛而不绝对收敛。',
+    solution: '条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。',
+  },
+  '说明为何解方程时移项与两边同加是等价变形。': {
+    answer: '等式两边同加（或同减）同一个数仍相等；移项本质是两边同加该项的相反数。例如由 x+3=7 两边同加 −3 得 x=4，所以移项与两边同加是同一等价变形，不会改变解集。',
+    solution: '等式性质保证同加同一个数后解集不变；移项只是把这一步写成更快的简写。',
+  },
+  '解释函数复合 (f∘g)(x) 的求值顺序。': {
+    answer: '(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。',
+    solution: '记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。',
+  },
+  '说明为何 AAA 相似但不能推出全等。': {
+    answer: 'AAA 只保证三个角对应相等，因而形状相同、对应边成比例，是相似；全等还要求对应边长度相等（比例因子为 1）。例如边长 3、4、5 与 6、8、10 的两个三角形 AAA 相似但不全等。',
+    solution: '角度决定形状，边长决定大小；AAA 缺少边长信息，所以不能推出全等。',
+  },
+  '说明弧度制下单位圆弧长与圆心角的关系。': {
+    answer: '弧度制用弧长与半径之比定义圆心角：θ=s÷r（θ 以弧度计）。单位圆 r=1 时，θ 就等于所夹弧长 s；一整圈对应 2π 弧度。',
+    solution: '弧度是“弧长除以半径”的无量纲比值；单位圆使弧长与角度的数值相同。',
+  },
+  '对照说明平均变化率与瞬时变化率。': {
+    answer: '平均变化率是区间 [a,b] 上割线斜率 [f(b)−f(a)]÷(b−a)；瞬时变化率是 b→a 时割线斜率的极限，即切线斜率 f′(a)。例如 f(x)=x² 在 [1,3] 上平均变化率为 (9−1)÷(3−1)=4，而 f′(1)=2。',
+    solution: '平均变化率描述一段区间，瞬时变化率描述一点；后者是前者在区间长度趋于零时的极限。',
+  },
+};
 
 export function mathStandalone(unit, topic, qid, i, srcLine) {
   const title = topic.titleZh || unit.titleZh || '练习';
@@ -393,15 +463,19 @@ export function mathStandalone(unit, topic, qid, i, srcLine) {
     'prep-precalc': '说明弧度制下单位圆弧长与圆心角的关系。',
     'calc-prep': '对照说明平均变化率与瞬时变化率。',
   };
+  const prompt = UNIT_PROMPTS[unit.id] || prompts[fam] || prompts.limits;
+  const model = FRQ_MODEL_ANSWERS[prompt] || {
+    answer: '先写出本单元的关键定义或定理，再代入本题条件完成推理。',
+    solution: '评分看定义准确性与推理链。',
+  };
   return {
     id: qid,
     title: `${code} 论述 · ${title}`,
     type: 'frq',
     difficulty: diff(i),
     calculator: false,
-    stem: `关于「${title}」：${UNIT_PROMPTS[unit.id] || prompts[fam] || prompts.limits}`,
-    answer: '结合本单元定义与定理作答；写出关键公式时使用堆叠分式。',
-    solution: '评分看定义准确性与推理链。',
+    stem: `关于「${title}」：${prompt}`,
+    ...model,
     ...srcLine('original'),
   };
 }

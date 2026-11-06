@@ -530,7 +530,7 @@ function polyExpand(n) {
 }
 function polyExpandLatex(n) {
   const terms = [];
-  for (let k = n - 1; k >= 1; k--) terms.push(`x^{${k}}`);
+  for (let k = n - 1; k >= 1; k--) terms.push(k === 1 ? 'x' : `x^{${k}}`);
   terms.push('1');
   return terms.join('+');
 }
