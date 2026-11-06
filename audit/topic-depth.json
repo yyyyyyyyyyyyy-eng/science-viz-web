@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-05T17:22:44.870Z",
+  "generatedAt": "2026-11-06T13:05:13.217Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 41,
+  "enrichedCount": 79,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -72,7 +72,7 @@
       "titleZh": "电感",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u2/2.2",
@@ -82,7 +82,7 @@
       "titleZh": "系统",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u3/3.4",
@@ -92,7 +92,7 @@
       "titleZh": "功率",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u6/6.3",
@@ -102,7 +102,7 @@
       "titleZh": "滚动",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u6/6.4",
@@ -112,7 +112,7 @@
       "titleZh": "轨道",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u7/7.2",
@@ -122,7 +122,7 @@
       "titleZh": "单摆",
       "layer": "ap",
       "words": 376,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/math-prep-geo/P2.10",
@@ -132,7 +132,7 @@
       "titleZh": "变换",
       "layer": "prep",
       "words": 377,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u1/1.5",
@@ -172,7 +172,7 @@
       "titleZh": "磁场",
       "layer": "ap",
       "words": 378,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u8/8.2",
@@ -182,7 +182,7 @@
       "titleZh": "电场",
       "layer": "ap",
       "words": 378,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u9/9.2",
@@ -192,7 +192,7 @@
       "titleZh": "电势",
       "layer": "ap",
       "words": 378,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u7/7.3",
@@ -202,7 +202,7 @@
       "titleZh": "复摆",
       "layer": "ap",
       "words": 378,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u2/2.1",
@@ -212,7 +212,7 @@
       "titleZh": "质心",
       "layer": "ap",
       "words": 380,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u2/2.9",
@@ -242,7 +242,7 @@
       "titleZh": "电介质",
       "layer": "ap",
       "words": 383,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u2/2.5",
@@ -272,7 +272,7 @@
       "titleZh": "电功率",
       "layer": "ap",
       "words": 385,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u13/13.1",
@@ -282,7 +282,7 @@
       "titleZh": "磁通量",
       "layer": "ap",
       "words": 385,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u8/8.4",
@@ -292,7 +292,7 @@
       "titleZh": "电通量",
       "layer": "ap",
       "words": 385,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u6/6.2",
@@ -302,7 +302,7 @@
       "titleZh": "角动量",
       "layer": "ap",
       "words": 385,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u9/9.1",
@@ -312,7 +312,7 @@
       "titleZh": "电势能",
       "layer": "ap",
       "words": 387,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u8/8.2",
@@ -332,7 +332,7 @@
       "titleZh": "RC 电路",
       "layer": "ap",
       "words": 389,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u3/3.4",
@@ -402,7 +402,7 @@
       "titleZh": "万有引力",
       "layer": "ap",
       "words": 390,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u7/7.2",
@@ -412,7 +412,7 @@
       "titleZh": "斜率场",
       "layer": "ap",
       "words": 391,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u7/7.9",
@@ -422,7 +422,7 @@
       "titleZh": "Logistic 模型",
       "layer": "ap",
       "words": 391,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/math-prep-alg1/P1.9",
@@ -562,7 +562,7 @@
       "titleZh": "种群生态",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u8/8.5",
@@ -572,7 +572,7 @@
       "titleZh": "群落生态",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u11/11.2",
@@ -582,7 +582,7 @@
       "titleZh": "简单电路",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u13/13.2",
@@ -612,7 +612,7 @@
       "titleZh": "圆周运动",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u7/7.1",
@@ -622,7 +622,7 @@
       "titleZh": "周期运动",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-prep-hs/P2.3",
@@ -922,7 +922,7 @@
       "titleZh": "转动动能",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-prep-found/P1.2",
@@ -1132,7 +1132,7 @@
       "titleZh": "力与势能",
       "layer": "ap",
       "words": 396,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-prep-chem/P1.8",
@@ -1332,7 +1332,7 @@
       "titleZh": "转动运动学",
       "layer": "ap",
       "words": 399,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-prep-chem/P1.3",
@@ -1552,7 +1552,7 @@
       "titleZh": "机械能守恒",
       "layer": "ap",
       "words": 401,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u4/4.1",
@@ -1562,7 +1562,7 @@
       "titleZh": "冲量与动量",
       "layer": "ap",
       "words": 401,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-prep-chem/P1.7",
@@ -1752,7 +1752,7 @@
       "titleZh": "一维运动学",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u1/1.2",
@@ -1762,7 +1762,7 @@
       "titleZh": "二维运动学",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u5/5.3",
@@ -1772,7 +1772,7 @@
       "titleZh": "转动动力学",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u4/4.2",
@@ -2272,7 +2272,7 @@
       "titleZh": "力矩与静力学",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-prep-hs/P2.13",
@@ -2912,7 +2912,7 @@
       "titleZh": "动量守恒与碰撞",
       "layer": "ap",
       "words": 419,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-prep-found/P1.1",
@@ -3382,7 +3382,7 @@
       "titleZh": "牛顿第一与第二定律",
       "layer": "ap",
       "words": 441,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u1/1.15",
