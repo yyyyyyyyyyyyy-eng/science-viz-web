@@ -80,8 +80,9 @@
 - **下一步**：继续补 38 个单图 topic，优先 `bio-u7:7.10`、`bio-u7:7.11`、`bio-u1:1.3`、`bio-u2:2.10` 与 math-prep 几何/代数；详见 `audit/figure-gaps-bio-math.md`。
 
 ### 5. 物理 figure-audit（收尾）
-- **状态**：主 finding 已修；审计原文见 `/workspace/audit-figures-coding2.md`（及仓内相关笔记）。
-- **下一步**：对 conical-pendulum / rolling-incline / disk-string / force-position / rc / rl 做 PNG 或页面复检后勾掉清单。
+- **状态**：主 finding 已修并完成明暗两套页面复检；物理图示已扩充到 108 张（104 张原创 SVG + 4 张公开授权参考图），高频 topic 达到 3–6 张（2.3 / 2.4 / 4.2 / 5.3 / 8.5 为 6 张）。
+- **新增**：运动图、能量/动量条形图、电梯视重、摩擦力图、平弯道、开普勒椭圆、力矩、转动惯量、纯滚动比赛、角动量、SHM 能量/相位、库仑力、场叠加、高斯球壳、电势能、电容器组合/储能、等效电路、电表接法、RC 储能、洛伦兹力、速度选择器、质谱仪、毕奥–萨伐尔、磁通量、感应电动势、电感/LC 能量等；4 张 Wikimedia Commons 参考图已在 `modules/physics/media/ATTRIBUTION.md` 记录来源与许可证。
+- **下一步**：可选补 11.4 电功率、11.6/11.7 基尔霍夫单图 topic；Mac 打包见第 6 项。
 
 ### 6. Mac 桌面打包与 Release
 - **状态**：app 仅 README stamp + `app/` 本地 sync；未跑 `npm run dist` / GitHub Release。

@@ -1,6 +1,6 @@
 # Physics C 考试图示覆盖清单（Mechanics + E&M，含先修）
 
-图示库：`modules/physics/exam-figures.js`（56 张独立 SVG 图示，挂载到 14 个物理模块中，共 59 处显示）。
+图示库：`modules/physics/exam-figures.js`（104 张原创 SVG + 4 张公开授权参考图，共 108 张；挂载到 14 个物理模块与 83 个 topic）。
 每个模块页 `#/m/<id>` 底部有一个“AP 考试常见图示”区块。知识点页通过 `data/` 里的 `modules` 链接跳转过去。
 
 尺寸约束：每张图都是固定 400×260 viewBox 的 SVG，放在 `width:100%; max-width:min(100%,480px); aspect-ratio:400/260; contain:size layout paint` 的容器里。宽度不会超过所在列，也不会超过 480px，比例固定，窗口变宽时不会继续变大（已用 Playwright 在 380 / 1280 / 1900px 宽度下验证）。
@@ -59,6 +59,69 @@
 
 ## 额外补充的常考图示
 `kin-graphs`（x/v/a–t）、`projectile`、`orbit`、`force-position`（F–x 面积、U(x)）、`ladder`（转动静力学）、`point-charge-field`、`dipole-field`（逐点由库仑定律计算）、`parallel-plate-potential`、`gauss-conductor`、`capacitor-plate`、`circuit-kirchhoff`、`particle-in-B`。
+
+## 扩充图示（2026-11-06）
+
+本轮把高频 topic 从 1–4 张扩到 3–6 张，优先补充互补视角：受力图、图像、能量/动量条形图、特殊情形与公开授权参考图。
+
+| Topic | 原 | 现 | 新增 |
+|---|---:|---:|---|
+| 1.1 一维运动学 | 1 | 3 | `motion-diagram`, `free-fall` |
+| 1.2 二维运动学 | 2 | 3 | `projectile-range` |
+| 2.3 牛顿定律 | 4 | 6 | `elevator`, `friction-graph` |
+| 2.4 圆周运动 | 4 | 6 | `flat-curve`, `circular-vectors` |
+| 2.5 牛顿第三定律 | 2 | 3 | `atwood-apparatus` |
+| 2.6 万有引力 | 2 | 5 | `kepler-ellipse`, `gravitational-potential`, `orbit-energy` |
+| 3.1 动能定理 | 2 | 5 | `energy-bars`, `work-incline`, `work-angle` |
+| 3.3 机械能守恒 | 2 | 3 | `energy-bars` |
+| 3.4 功率 | 0 | 1 | `power-graph` |
+| 4.1 冲量与动量 | 2 | 3 | `momentum-bars` |
+| 4.2 碰撞 | 4 | 6 | `momentum-bars`, `explosion` |
+| 5.1 力矩与静力学 | 2 | 3 | `seesaw` |
+| 5.2 转动运动学 | 1 | 2 | `angular-graphs` |
+| 5.3 转动动力学 | 3 | 6 | `moment-of-inertia`, `rolling-race`, `angular-momentum-skater` |
+| 6.1 / 6.2 / 6.3 | 2 | 3 | `rolling-race` / `angular-momentum-skater` / `rolling-race` |
+| 6.4 轨道 | 1 | 2 | `orbit-energy` |
+| 7.1 周期运动 | 3 | 5 | `shm-energy`, `shm-phase` |
+| 7.2 单摆 | 2 | 4 | `pendulum-period`, `pendulum-apparatus` |
+| 7.3 复摆 | 2 | 3 | `physical-pendulum-fbd` |
+| 8.1 电荷与力 | 1 | 2 | `coulomb-force` |
+| 8.2 / 8.3 电场 | 2 | 4 | `field-vectors`, `field-superposition`, `field-lines-equipotentials` |
+| 8.4 电通量 | 3 | 4 | `flux-angle` |
+| 8.5 高斯定律 | 4 | 6 | `gauss-shell`, `line-charge` |
+| 9.1 / 9.2 / 9.3 / 9.4 | 1–2 | 2–4 | `potential-energy-sign`, `potential-point-charge`, `charge-in-field` |
+| 10.1 / 10.2 导体 | 2 / 1 | 3 / 2 | `gauss-shell` |
+| 10.3 / 10.4 电容器 | 1 / 2 | 3 / 3 | `capacitor-combinations`, `capacitor-energy` |
+| 11.2 简单电路 | 2 | 4 | `circuit-equivalent`, `ammeter-voltmeter` |
+| 11.3 电阻 | 2 | 3 | `ohmic-nonohmic` |
+| 11.8 RC 电路 | 3 | 4 | `rc-energy` |
+| 12.2 运动电荷 | 1 | 5 | `magnetic-force-rhr`, `cathode-ray-tube`, `velocity-selector`, `mass-spectrometer` |
+| 12.3 毕奥–萨伐尔 | 2 | 3 | `biot-savart` |
+| 12.4 安培定律 | 3 | 4 | `line-charge` |
+| 13.1 磁通量 | 1 | 2 | `magnetic-flux-angle` |
+| 13.2 电磁感应 | 2 | 3 | `flux-emf-graph` |
+| 13.4 / 13.5 电感 | 2 / 1 | 3 / 2 | `inductor-energy` |
+| 13.6 LC 电路 | 1 | 2 | `lc-energy` |
+
+## 公开授权参考图
+
+下载文件位于 `modules/physics/media/`，完整来源与许可证见 `modules/physics/media/ATTRIBUTION.md`。
+
+| 图示 id | 文件 | 作者 | 许可证 |
+|---|---|---|---|
+| `atwood-apparatus` | `atwood-machine.svg` | MikeRun | CC BY-SA 4.0 |
+| `pendulum-apparatus` | `simple-pendulum.svg` | Chetvorno | Public domain |
+| `field-lines-equipotentials` | `field-lines-equipotentials.svg` | Sjlegg | Public domain |
+| `cathode-ray-tube` | `cathode-ray-tube.svg` | Interiot, Theresa Knott | CC BY-SA 3.0 |
+
+图注中显示作者 + 许可证 + Wikimedia Commons；未对原文件裁剪、改色或改写。
+
+## 扩充自检（2026-11-06）
+
+- 在 light/dark 两套主题、1440×1000 与 390×844 两种视口下复检扩充后的 28 个 topic：图数符合预期，0 console/page error，0 KaTeX error，0 图注横向溢出，0 SVG 文本重叠或出界，图片均加载成功。
+- `node scripts/check-math-notation.mjs` 通过；新增图注无单层 `\frac` / `\tfrac`，指数分式统一为 `\dfrac`。
+- 自检中修正：库仑力曲线裁切、电梯视重箭头越界、球壳标签重叠、电势曲线裁切、LC 图例重叠、动量条形图标签压线、细杆转动惯量斜杠分数、轨道能量曲线裁切、功率图轴标碰撞，以及既有 projectile / incline / SHM 图的少量标签碰撞。
+- 新增 4 张公开授权参考图的 credit 行在明暗两套主题均可读；未改 `css/main.css`、`js/**` 或其他 session 文件。
 
 ## 知识点 → 模块（图示）映射
 
