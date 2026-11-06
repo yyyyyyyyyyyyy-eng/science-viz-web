@@ -78,3 +78,12 @@
 - 变化 B：B 出纸面且增大 ⇒ I 顺时针。
 - 磁场中 +q：v 向右、B 入纸面 ⇒ F 向上 ⇒ 逆时针圆周。
 - RC / RL：在 t = τ 处标出 63% / 37%；LC 中 q = Q₀cos ωt，I = −Q₀ω sin ωt。
+
+## 自检记录（2026-11-06）
+
+- 复核已推送提交 web `d88ae70` / app `55b7ce0`，在 web `2a27135` 之上追加本记录。
+- Playwright 复检（1440×1000，light/dark，2×）：`conical-pendulum`、`rolling-incline`、`disk-string`、`force-position`、`rc-circuit`、`rc-charging`、`rc-discharging`、`rl-circuit`；16 个图实例，0 console/page error，0 KaTeX error，0 图注溢出，0 SVG 文本重叠或出界，400×260 比例保持。
+- 公式复核：conical 周期 `T_0` / 张力 `T`；rolling / disk 嵌套分母；force-position `F_app = kx` 与 `F_s = −dU/dx = −kx`；RC / RL 指数 `e^{−t/RC}`、`e^{−t/τ}` 均为 `\dfrac`；目标图 `tex` 无单层 `\frac`。
+- 与已提交 PNG 逐张比对：图形内容一致；后续无关页面改动只带来 0–2px 截图偏移/高度差，无视觉回归。明暗两套标签均可读，无新对比度问题。
+- 关键力学变体计数：2.3 力/斜面 4、2.4 圆周 4、3.1 功–能 2、4.2 碰撞 4、5.3 转动 3、6.1 滚动 2、7.1 SHM 3；明暗两套均 0 error。
+- 结论：未发现新的公式、标签重叠、溢出或对比度问题；未改图，仅追加本记录。
