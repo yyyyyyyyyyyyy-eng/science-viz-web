@@ -919,7 +919,7 @@ def('endosymbiosis-evidence', 'Evidence for endosymbiosis', 'Mitochondria and ch
     ['ribosomes', '70S', '70S', '70S'],
     ['division', 'binary fission', 'binary fission', 'binary fission'],
     ['antibiotics', 'sensitive', 'sensitive', 'sensitive'],
-    ['protein import', 'yes (TOC/TIC)', 'yes', 'no'],
+    ['protein import', 'yes (TOM/TIM)', 'yes (TOC/TIC)', 'no'],
   ], { headers: ['feature', 'mitochondrion', 'chloroplast', 'free-living bacterium'], rowH: 34, size: 9.5 }), 'endosymbiosis evidence'));
 def('phenotype-matrix', 'Same genotype, three environments', 'Two genotypes grown across a soil-pH gradient. Genotype A changes strongly (blue index 8 → 2), genotype B changes little (6 → 4): the phenotype is plastic, and the different slopes are a genotype × environment interaction. Phenotype = genotype + environment + G×E; a reaction-norm plot graphs these values as lines.', () => {
   const cols = ['pH 5.5', 'pH 6.5', 'pH 7.5'], xs = [165, 285, 405];
