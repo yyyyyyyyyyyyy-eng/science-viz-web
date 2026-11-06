@@ -75,8 +75,9 @@
 - **下一步**：按 CED 为高频 topic 加更多原创 FRQ/刺激；核对 generator（power/chain/…）与单元匹配；继续禁止 slash 分式。
 
 ### 4. 生物/数学图（维护）
-- **状态**：接线完成；预览 `audit/figure-preview-bio-math.html`，清单 `audit/figure-coverage-bio-math.md`。
-- **下一步**：全量 topic 路由扫一遍图挂载；暗色主题对比度；与物理图标题「AP 考试常见图示」已对齐。
+- **状态**：已 enrich。光合作用 3.4 新增 7 张分步图（叶绿体/PSII 光解/cyt b₆f 泵质子/PSI-NADPH/ATP 合酶/Calvin 固定/还原与再生）；呼吸作用 3.5 新增 glycolysis、pyruvate oxidation、Krebs cycle 等，共 7 张。另加入公版叶横切图 `data/bio/media/leaf-anatomy.png`（PD，署名见 ATTRIBUTION）。数学补 `derivative-limit` 并跨 topic 复用既有图。
+- **验证**：311 unique / 520 placements；494 route loads 0 issue；7,498 text nodes 0 contrast failure；380/1280 无 overflow、0 KaTeX error。单图 topic 由 130 降至 38（bio 11 / math 27）。
+- **下一步**：继续补 38 个单图 topic，优先 `bio-u7:7.10`、`bio-u7:7.11`、`bio-u1:1.3`、`bio-u2:2.10` 与 math-prep 几何/代数；详见 `audit/figure-gaps-bio-math.md`。
 
 ### 5. 物理 figure-audit（收尾）
 - **状态**：主 finding 已修；审计原文见 `/workspace/audit-figures-coding2.md`（及仓内相关笔记）。

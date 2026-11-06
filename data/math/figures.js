@@ -92,6 +92,22 @@ def('ivt', 'Intermediate Value Theorem', '', () => {
 /* ---------- derivatives ---------- */
 def('secant-tangent', 'Secant lines → tangent line', 'For \\(f(x)=x^2\\) at \\(x=1\\): secant slopes \\(\\dfrac{f(1+h)-f(1)}{h}=2+h\\) for \\(h=2,1,0.5\\) approach the tangent slope 2.', () =>
   plot({ x: [-1, 3.5], y: [-1, 10], curves: [{ f: (x) => x * x, color: C.ink, label: 'y = x²', labelAt: [2.55, 7.2] }, ...[2, 1, 0.5].map((h, i) => ({ f: (x) => 1 + (2 + h) * (x - 1), color: PAL[i + 1], dash: '5 3', label: `m = ${2 + h}`, labelAt: [3.05, 1 + (2 + h) * 2.05 > 9.5 ? 9.3 - i : 1 + (2 + h) * 2.05] })), { f: (x) => 1 + 2 * (x - 1), color: C.a, w: 2.4, label: 'tangent m = 2', labelAt: [2.4, 3.2] }], points: [{ x: 1, y: 1 }, ...[2, 1, 0.5].map((h) => ({ x: 1 + h, y: (1 + h) ** 2, r: 3 }))] }));
+def('derivative-limit', 'Secant slopes approach the derivative', 'For \\(f(x)=x^2\\) at \\(x=1\\), the secant slope is \\(\\dfrac{f(1+h)-f(1)}{h}=2+h\\). As \\(h\\to0\\), the slopes 3, 2.5, 2.1, … approach the tangent slope \\(f\'(1)=2\\).', () => {
+  const W = 640, H = 300, X = (x) => 60 + (x / 2.5) * 330, Y = (y) => 250 - (y / 6.5) * 220;
+  let s = line(60, 250, 400, 250, { arrow: true }) + line(60, 250, 60, 25, { arrow: true });
+  s += text(230, 285, 'x', { size: 11, color: C.muted }) + text(20, 135, 'f(x)', { size: 11, color: C.muted, rotate: -90 });
+  for (const x of [1, 2]) s += line(X(x), 246, X(x), 254, { w: 1 }) + text(X(x), 266, String(x), { size: 10, color: C.muted });
+  for (const y of [2, 4, 6]) s += line(56, Y(y), 64, Y(y), { w: 1 }) + text(50, Y(y), String(y), { size: 10, color: C.muted, anchor: 'end' });
+  let d = ''; for (let i = 0; i <= 100; i++) { const x = (i / 100) * 2.5; d += (i ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(x * x).toFixed(1); }
+  s += path(d, { stroke: C.ink, w: 2 }) + text(300, 50, 'f(x) = x²', { size: 11, anchor: 'start' });
+  const sec = [[1, C.b], [0.5, C.c], [0.1, C.d]];
+  for (const [h, col] of sec) { const x2 = 1 + h; s += line(X(1), Y(1), X(x2), Y(x2 * x2), { color: col, w: 1.4, dash: '5 3' }) + circle(X(x2), Y(x2 * x2), 3, { fill: col, stroke: col }); }
+  s += line(X(0.6), Y(0.2), X(1.8), Y(2.6), { color: C.a, w: 2.2 }) + circle(X(1), Y(1), 4, { fill: C.ink, stroke: C.ink });
+  s += text(440, 40, 'h', { size: 11, bold: true, anchor: 'start' }) + text(560, 40, 'secant slope', { size: 11, bold: true, anchor: 'start' });
+  const rows = [['1', '3'], ['0.5', '2.5'], ['0.1', '2.1'], ['→ 0', '→ 2 = f′(1)']];
+  rows.forEach(([a, b], i) => { const y = 70 + i * 30; s += line(430, y - 18, 620, y - 18, { color: C.grid, w: 0.8 }) + text(440, y, a, { size: 11, anchor: 'start' }) + text(560, y, b, { size: 11, anchor: 'start', color: i === 3 ? C.a : C.ink }); });
+  return svg(W, H, s, 'secant slopes limit');
+});
 def('avg-inst', 'Average vs instantaneous rate', '\\(f(x)=x^2\\) on \\([1,3]\\): average rate \\(\\dfrac{f(3)-f(1)}{3-1}=4\\); instantaneous rate \\(f\'(2)=4\\) (parallel lines).', () =>
   plot({ x: [-0.5, 4], y: [-2, 12], curves: [{ f: (x) => x * x, color: C.ink }, { f: (x) => 1 + 4 * (x - 1), color: C.b, dash: '5 3', label: 'secant m = 4', labelAt: [3.05, 9.5] }, { f: (x) => 4 + 4 * (x - 2), color: C.a, label: 'tangent at x = 2', labelAt: [1.2, -1.2] }], points: [{ x: 1, y: 1 }, { x: 3, y: 9 }, { x: 2, y: 4, color: C.a }] }));
 def('diff-quotient', 'Difference quotient', 'Secant slope from \\((x,f(x))\\) to \\((x+h,f(x+h))\\) is \\(\\dfrac{f(x+h)-f(x)}{h}\\); \\(f\'(x)=\\displaystyle\\lim_{h\\to0}\\dfrac{f(x+h)-f(x)}{h}\\). Shown for \\(f=\\sqrt{x}\\), \\(x=1\\), \\(h=2\\).', () =>
@@ -634,26 +650,26 @@ export const TOPIC_FIGURES = {
   'math-prep-precalc:P4.1': ['rational-analysis', 'poly-mult'], 'math-prep-precalc:P4.2': ['exp-log-model', 'log-inverse'], 'math-prep-precalc:P4.3': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'], 'math-prep-precalc:P4.4': ['trig-eq', 'pythag-id'],
   'math-prep-precalc:P4.5': ['polar-points', 'polar-basic'], 'math-prep-precalc:P4.6': ['param-intro', 'cycloid'], 'math-prep-precalc:P4.7': ['vectors'], 'math-prep-precalc:P4.8': ['matrix-transform', 'matrix-rot'], 'math-prep-precalc:P4.9': ['limit-sinx', 'limit-table'], 'math-prep-precalc:P4.10': ['rate-intuition', 'secant-tangent'],
   'calc-u0:0.1': ['parent-fns', 'fn-graphs'], 'calc-u0:0.2': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'],
-  'calc-u1:1.1': ['secant-tangent'], 'calc-u1:1.2': ['limit-1sided'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided'], 'calc-u1:1.4': ['limit-table'],
-  'calc-u1:1.5': ['limit-algebra'], 'calc-u1:1.6': ['limit-hole', 'limit-rationalize'], 'calc-u1:1.7': ['limit-rationalize', 'limit-sinx'], 'calc-u1:1.8': ['limit-squeeze'], 'calc-u1:1.9': ['limit-table', 'limit-1sided'],
-  'calc-u1:1.10': ['disc-types', 'limit-jump', 'limit-hole', 'limit-va'], 'calc-u1:1.11': ['cont-3cond'], 'calc-u1:1.12': ['cont-interval'], 'calc-u1:1.13': ['cont-remove'], 'calc-u1:1.14': ['limit-va'], 'calc-u1:1.15': ['limit-ha'], 'calc-u1:1.16': ['ivt'],
-  'calc-u2:2.1': ['avg-inst', 'secant-tangent'], 'calc-u2:2.2': ['diff-quotient'], 'calc-u2:2.3': ['deriv-table'], 'calc-u2:2.4': ['nondiff'], 'calc-u2:2.5': ['power-rule'], 'calc-u2:2.6': ['sum-rule'],
-  'calc-u2:2.7': ['trig-deriv', 'exp-ln-deriv'], 'calc-u2:2.8': ['product-rule'], 'calc-u2:2.9': ['quotient-rule'], 'calc-u2:2.10': ['tan-sec'],
-  'calc-u3:3.1': ['chain-rule'], 'calc-u3:3.2': ['implicit-circle', 'implicit-folium'], 'calc-u3:3.3': ['inverse-deriv'], 'calc-u3:3.4': ['inverse-trig'], 'calc-u3:3.5': ['chain-rule', 'quotient-rule'], 'calc-u3:3.6': ['higher-deriv', 'fff'],
-  'calc-u4:4.1': ['context-rate'], 'calc-u4:4.2': ['motion-svt'], 'calc-u4:4.3': ['marginal'], 'calc-u4:4.4': ['ladder'], 'calc-u4:4.5': ['ladder', 'cone-tank'], 'calc-u4:4.6': ['linearization'], 'calc-u4:4.7': ['lhopital', 'lhopital-inf'],
-  'calc-u5:5.1': ['mvt'], 'calc-u5:5.2': ['evt'], 'calc-u5:5.3': ['inc-dec'], 'calc-u5:5.4': ['fdt-chart', 'inc-dec'], 'calc-u5:5.5': ['candidates'], 'calc-u5:5.6': ['concavity'], 'calc-u5:5.7': ['sdt'],
-  'calc-u5:5.8': ['f-from-fprime', 'fff'], 'calc-u5:5.9': ['fff-panels', 'fff', 'f-from-fprime'], 'calc-u5:5.10': ['optimization-diagram', 'optimization'], 'calc-u5:5.11': ['optimization'], 'calc-u5:5.12': ['implicit-behavior'],
-  'calc-u6:6.1': ['accum-velocity'], 'calc-u6:6.2': ['riemann-left', 'riemann-right', 'riemann-mid', 'riemann-trap', 'riemann-table'], 'calc-u6:6.3': ['riemann-converge'], 'calc-u6:6.4': ['ftc-accum'], 'calc-u6:6.5': ['accum-graph'],
-  'calc-u6:6.6': ['integral-props'], 'calc-u6:6.7': ['ftc-area'], 'calc-u6:6.8': ['antideriv-family'], 'calc-u6:6.9': ['u-sub'], 'calc-u6:6.10': ['ibp'], 'calc-u6:6.11': ['partial-frac'], 'calc-u6:6.12': ['improper'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],
-  'calc-u7:7.1': ['exp-model', 'logistic'], 'calc-u7:7.2': ['de-verify'], 'calc-u7:7.3': ['sf-xy', 'sf-xy2', 'sf-logistic', 'sf-x-over-y'], 'calc-u7:7.4': ['sf-xy', 'sf-logistic'], 'calc-u7:7.5': ['euler', 'euler-steps'],
-  'calc-u7:7.6': ['separable'], 'calc-u7:7.7': ['separable', 'sf-x-over-y'], 'calc-u7:7.8': ['exp-model'], 'calc-u7:7.9': ['logistic', 'sf-logistic'],
-  'calc-u8:8.1': ['avg-value'], 'calc-u8:8.2': ['disp-dist'], 'calc-u8:8.3': ['rate-in-out'], 'calc-u8:8.4': ['area-x'], 'calc-u8:8.5': ['area-y'], 'calc-u8:8.6': ['area-multi'],
-  'calc-u8:8.7': ['xsec-square'], 'calc-u8:8.8': ['xsec-tri', 'xsec-semi'], 'calc-u8:8.9': ['disc-x'], 'calc-u8:8.10': ['disc-other'], 'calc-u8:8.11': ['washer-x'], 'calc-u8:8.12': ['washer-other'], 'calc-u8:8.13': ['arc-length'],
-  'calc-u9:9.1': ['param-curve'], 'calc-u9:9.2': ['param-concavity'], 'calc-u9:9.3': ['cycloid'], 'calc-u9:9.4': ['vector-motion'], 'calc-u9:9.5': ['vector-integral'], 'calc-u9:9.6': ['vector-motion', 'param-curve'],
-  'calc-u9:9.7': ['polar-basic', 'polar-limacon'], 'calc-u9:9.8': ['polar-area'], 'calc-u9:9.9': ['polar-two'],
-  'calc-u10:10.1': ['conv-div', 'geo-series'], 'calc-u10:10.2': ['geo-series'], 'calc-u10:10.3': ['nth-term'], 'calc-u10:10.4': ['integral-test'], 'calc-u10:10.5': ['p-series', 'conv-div'], 'calc-u10:10.6': ['comparison'],
-  'calc-u10:10.7': ['alt-series'], 'calc-u10:10.8': ['ratio-test'], 'calc-u10:10.9': ['abs-cond'], 'calc-u10:10.10': ['alt-series'], 'calc-u10:10.11': ['taylor-sin', 'taylor-exp'], 'calc-u10:10.12': ['lagrange'],
-  'calc-u10:10.13': ['interval-conv'], 'calc-u10:10.14': ['maclaurin-cos', 'taylor-sin'], 'calc-u10:10.15': ['power-geo'],
+  'calc-u1:1.1': ['secant-tangent', 'derivative-limit'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
+  'calc-u1:1.5': ['limit-algebra', 'limit-1sided'], 'calc-u1:1.6': ['limit-hole', 'limit-rationalize'], 'calc-u1:1.7': ['limit-rationalize', 'limit-sinx'], 'calc-u1:1.8': ['limit-squeeze', 'limit-sinx'], 'calc-u1:1.9': ['limit-table', 'limit-1sided', 'limit-hole'],
+  'calc-u1:1.10': ['disc-types', 'limit-jump', 'limit-hole', 'limit-va'], 'calc-u1:1.11': ['cont-3cond', 'cont-interval'], 'calc-u1:1.12': ['cont-interval', 'cont-3cond'], 'calc-u1:1.13': ['cont-remove', 'limit-hole'], 'calc-u1:1.14': ['limit-va', 'limit-ha'], 'calc-u1:1.15': ['limit-ha', 'limit-va'], 'calc-u1:1.16': ['ivt', 'cont-interval'],
+  'calc-u2:2.1': ['avg-inst', 'secant-tangent'], 'calc-u2:2.2': ['diff-quotient', 'secant-tangent', 'derivative-limit'], 'calc-u2:2.3': ['deriv-table', 'diff-quotient', 'derivative-limit'], 'calc-u2:2.4': ['nondiff', 'limit-jump'], 'calc-u2:2.5': ['power-rule', 'secant-tangent'], 'calc-u2:2.6': ['sum-rule', 'power-rule'],
+  'calc-u2:2.7': ['trig-deriv', 'exp-ln-deriv'], 'calc-u2:2.8': ['product-rule', 'area-model'], 'calc-u2:2.9': ['quotient-rule', 'product-rule'], 'calc-u2:2.10': ['tan-sec', 'trig-deriv'],
+  'calc-u3:3.1': ['chain-rule', 'diff-quotient'], 'calc-u3:3.2': ['implicit-circle', 'implicit-folium'], 'calc-u3:3.3': ['inverse-deriv', 'inverse-trig'], 'calc-u3:3.4': ['inverse-trig', 'inverse-deriv'], 'calc-u3:3.5': ['chain-rule', 'quotient-rule'], 'calc-u3:3.6': ['higher-deriv', 'fff'],
+  'calc-u4:4.1': ['context-rate', 'motion-svt'], 'calc-u4:4.2': ['motion-svt', 'disp-dist'], 'calc-u4:4.3': ['marginal', 'context-rate'], 'calc-u4:4.4': ['ladder', 'cone-tank'], 'calc-u4:4.5': ['ladder', 'cone-tank'], 'calc-u4:4.6': ['linearization', 'diff-quotient'], 'calc-u4:4.7': ['lhopital', 'lhopital-inf'],
+  'calc-u5:5.1': ['mvt', 'secant-tangent'], 'calc-u5:5.2': ['evt', 'candidates'], 'calc-u5:5.3': ['inc-dec', 'fdt-chart'], 'calc-u5:5.4': ['fdt-chart', 'inc-dec'], 'calc-u5:5.5': ['candidates', 'evt'], 'calc-u5:5.6': ['concavity', 'fff-panels'], 'calc-u5:5.7': ['sdt', 'concavity'],
+  'calc-u5:5.8': ['f-from-fprime', 'fff'], 'calc-u5:5.9': ['fff-panels', 'fff', 'f-from-fprime'], 'calc-u5:5.10': ['optimization-diagram', 'optimization'], 'calc-u5:5.11': ['optimization', 'optimization-diagram'], 'calc-u5:5.12': ['implicit-behavior', 'implicit-circle'],
+  'calc-u6:6.1': ['accum-velocity', 'ftc-area'], 'calc-u6:6.2': ['riemann-left', 'riemann-right', 'riemann-mid', 'riemann-trap', 'riemann-table'], 'calc-u6:6.3': ['riemann-converge', 'riemann-left'], 'calc-u6:6.4': ['ftc-accum', 'ftc-area'], 'calc-u6:6.5': ['accum-graph', 'ftc-accum'],
+  'calc-u6:6.6': ['integral-props', 'ftc-area'], 'calc-u6:6.7': ['ftc-area', 'ftc-accum'], 'calc-u6:6.8': ['antideriv-family', 'u-sub'], 'calc-u6:6.9': ['u-sub', 'antideriv-family'], 'calc-u6:6.10': ['ibp', 'u-sub'], 'calc-u6:6.11': ['partial-frac', 'u-sub'], 'calc-u6:6.12': ['improper', 'p-series'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],
+  'calc-u7:7.1': ['exp-model', 'logistic'], 'calc-u7:7.2': ['de-verify', 'separable'], 'calc-u7:7.3': ['sf-xy', 'sf-xy2', 'sf-logistic', 'sf-x-over-y'], 'calc-u7:7.4': ['sf-xy', 'sf-logistic'], 'calc-u7:7.5': ['euler', 'euler-steps'],
+  'calc-u7:7.6': ['separable', 'exp-model'], 'calc-u7:7.7': ['separable', 'sf-x-over-y'], 'calc-u7:7.8': ['exp-model', 'logistic'], 'calc-u7:7.9': ['logistic', 'sf-logistic'],
+  'calc-u8:8.1': ['avg-value', 'mvt'], 'calc-u8:8.2': ['disp-dist', 'accum-velocity'], 'calc-u8:8.3': ['rate-in-out', 'accum-velocity'], 'calc-u8:8.4': ['area-x', 'area-y'], 'calc-u8:8.5': ['area-y', 'area-x'], 'calc-u8:8.6': ['area-multi', 'area-x'],
+  'calc-u8:8.7': ['xsec-square', 'xsec-tri'], 'calc-u8:8.8': ['xsec-tri', 'xsec-semi'], 'calc-u8:8.9': ['disc-x', 'washer-x'], 'calc-u8:8.10': ['disc-other', 'disc-x'], 'calc-u8:8.11': ['washer-x', 'disc-x'], 'calc-u8:8.12': ['washer-other', 'washer-x'], 'calc-u8:8.13': ['arc-length', 'cycloid'],
+  'calc-u9:9.1': ['param-curve', 'param-concavity'], 'calc-u9:9.2': ['param-concavity', 'param-curve'], 'calc-u9:9.3': ['cycloid', 'arc-length'], 'calc-u9:9.4': ['vector-motion', 'vector-integral'], 'calc-u9:9.5': ['vector-integral', 'vector-motion'], 'calc-u9:9.6': ['vector-motion', 'param-curve'],
+  'calc-u9:9.7': ['polar-basic', 'polar-limacon'], 'calc-u9:9.8': ['polar-area', 'polar-basic'], 'calc-u9:9.9': ['polar-two', 'polar-area'],
+  'calc-u10:10.1': ['conv-div', 'geo-series'], 'calc-u10:10.2': ['geo-series', 'conv-div'], 'calc-u10:10.3': ['nth-term', 'p-series'], 'calc-u10:10.4': ['integral-test', 'p-series'], 'calc-u10:10.5': ['p-series', 'conv-div'], 'calc-u10:10.6': ['comparison', 'p-series'],
+  'calc-u10:10.7': ['alt-series', 'abs-cond'], 'calc-u10:10.8': ['ratio-test', 'abs-cond'], 'calc-u10:10.9': ['abs-cond', 'alt-series'], 'calc-u10:10.10': ['alt-series', 'lagrange'], 'calc-u10:10.11': ['taylor-sin', 'taylor-exp'], 'calc-u10:10.12': ['lagrange', 'taylor-sin'],
+  'calc-u10:10.13': ['interval-conv', 'geo-series'], 'calc-u10:10.14': ['maclaurin-cos', 'taylor-sin'], 'calc-u10:10.15': ['power-geo', 'geo-series'],
 };
 export const FIGURES = F;
 const cache = {};

@@ -6,6 +6,8 @@
  */
 import { plot, bars, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, rk4, mulberry, fact, range } from '../math/figlib.js';
 
+const MEDIA_BASE = new URL('./media/', import.meta.url);
+
 const { PI, exp, log, sqrt, abs, cos, sin } = Math;
 const F = {};
 const def = (id, title, caption, build) => { F[id] = { id, title, caption, build }; };
@@ -258,6 +260,119 @@ def('calvin-cycle', 'Calvin cycle (light-independent reactions)', 'Per 3 CO₂: 
 def('photo-rate-light', 'Photosynthesis rate vs light intensity and CO₂', 'Rectangular-hyperbola light response \\(P=\\dfrac{P_{max}I}{K+I}-R_d\\) (\\(R_d=2\\)): net rate is negative in the dark, zero at the light compensation point, and saturates where CO₂ (or enzyme) becomes limiting; higher CO₂ raises \\(P_{max}\\) (20 → 30).', () => {
   const P = (Pm) => (I) => (Pm * I) / (150 + I) - 2, lcp = (2 * 150) / (20 - 2);
   return plot({ x: [0, 1000], y: [-4, 30], ystep: 5, xlabel: 'light intensity (µmol photons m⁻² s⁻¹)', ylabel: 'net O₂ evolution', curves: [{ f: P(20), color: C.a, label: 'low CO₂', labelAt: [800, 14.2] }, { f: P(30), color: C.c, label: 'high CO₂', labelAt: [800, 23.5] }], points: [{ x: lcp, y: 0, color: C.e, label: `compensation ≈ ${fmt(lcp, 0)}` }] });
+});
+
+/* ================= PHOTOSYNTHESIS — STEP FIGURES ================= */
+function thylakoidBand(y0, y1, x0 = 30, x1 = 590) {
+  let s = rect(x0, y0, x1 - x0, y1 - y0, { fill: C.d, op: 0.06, stroke: 'none' });
+  s += line(x0, y0, x1, y0, { color: C.d, w: 1.2 }) + line(x0, y1, x1, y1, { color: C.d, w: 1.2 });
+  return s;
+}
+def('chloroplast-sites', 'Chloroplast and leaf: where photosynthesis happens', 'Leaf mesophyll cells contain chloroplasts. Thylakoid membranes (grana) host PSII, cytochrome b₆f, PSI and ATP synthase; the stroma hosts rubisco and the Calvin cycle. Light drives electron flow, CO₂ enters through stomata, and O₂ leaves.', () => {
+  let s = path('M30,120 C80,50 190,55 225,95 C195,160 90,180 30,120 Z', { fill: C.c, op: 0.12, stroke: C.c, w: 2 });
+  s += path('M45,120 C95,110 150,100 210,96', { stroke: C.c, w: 1.4 }) + path('M90,125 C105,105 125,95 145,92', { stroke: C.c, w: 1 }) + path('M135,120 C150,100 170,95 185,95', { stroke: C.c, w: 1 });
+  s += text(30, 40, 'leaf', { bold: true, size: 12, anchor: 'start' }) + text(30, 210, 'mesophyll cells', { size: 10, color: C.muted, anchor: 'start' });
+  s += `<ellipse cx="430" cy="180" rx="170" ry="115" fill="${C.c}" fill-opacity="0.08" stroke="${C.c}" stroke-width="2"/>`;
+  s += text(430, 45, 'chloroplast', { bold: true, size: 12 });
+  s += line(225, 110, 260, 130, { color: C.muted, dash: '4 3' }) + line(225, 135, 260, 155, { color: C.muted, dash: '4 3' });
+  for (const [gx, gy] of [[310, 125], [390, 125], [470, 125]]) for (let i = 0; i < 4; i++) s += `<ellipse cx="${gx}" cy="${gy + i * 14}" rx="38" ry="6" fill="${C.c}" fill-opacity="0.35" stroke="${C.c}" stroke-width="1"/>`;
+  s += text(390, 70, 'thylakoid stacks', { bold: true, size: 11 }) + text(390, 87, 'light reactions', { size: 10, color: C.ink });
+  s += text(430, 300, 'stroma · Calvin cycle', { size: 10, color: C.muted });
+  s += text(430, 325, 'double membrane', { size: 9, color: C.muted, anchor: 'start' }) + line(500, 320, 585, 255, { color: C.muted, w: 0.8 });
+  s += arrow(570, 25, 500, 90, { color: C.d }) + text(575, 20, 'light', { size: 10, color: C.d, anchor: 'end' });
+  s += arrow(570, 320, 505, 255, { color: C.b }) + text(585, 325, 'CO₂', { size: 10, color: C.b, anchor: 'end' });
+  s += arrow(300, 95, 255, 55, { color: C.a }) + text(245, 50, 'O₂', { size: 10, color: C.a, anchor: 'end' });
+  return svg(620, 340, s, 'chloroplast and leaf');
+});
+def('psii-photolysis', 'Photosystem II and photolysis of water', 'PSII (P680) absorbs light, passes an excited electron to plastoquinone (PQ), and replaces it by photolysis of water: \\(2H_2O \\to O_2 + 4H^+ + 4e^-\\). The oxygen-evolving complex sits on the lumen side; four protons are released into the thylakoid lumen per O₂.', () => {
+  let s = thylakoidBand(120, 180) + text(40, 30, 'stroma (low H⁺)', { size: 10, color: C.muted, anchor: 'start' }) + text(500, 285, 'lumen (high H⁺)', { size: 10, color: C.muted, anchor: 'end' });
+  s += box(240, 65, 120, 115, 'PSII\nP680', { fill: C.c, size: 11 });
+  s += arrow(300, 20, 300, 60, { color: C.d }) + text(315, 35, 'light', { size: 10, color: C.d, anchor: 'start' });
+  s += text(90, 215, '2 H₂O', { size: 11, anchor: 'start' }) + text(90, 245, 'O₂ + 4H⁺ + 4e⁻', { size: 10, color: C.muted, anchor: 'start' });
+  s += arrow(190, 225, 240, 175, { color: C.b }) + text(250, 235, '4H⁺ → lumen', { size: 10, color: C.b, anchor: 'start' });
+  s += arrow(360, 105, 420, 105, { color: C.e }) + text(390, 90, 'e⁻', { size: 10, color: C.e });
+  s += box(420, 80, 80, 50, 'PQ', { fill: C.d, size: 11 }) + text(480, 150, 'to cyt b₆f', { size: 9, color: C.muted, anchor: 'start' });
+  s += text(310, 205, 'oxygen-evolving complex', { size: 9, color: C.muted });
+  return svg(620, 300, s, 'PSII photolysis');
+});
+def('cytb6f-pump', 'Cytochrome b₆f and proton pumping', 'PQH₂ carries electrons from PSII to cytochrome b₆f. The Q cycle releases 4H⁺ into the lumen per 2 e⁻ transferred to plastocyanin (PC); this is the main proton-pumping step of linear electron flow.', () => {
+  let s = thylakoidBand(120, 180) + text(40, 30, 'stroma (low H⁺)', { size: 10, color: C.muted, anchor: 'start' }) + text(40, 255, 'lumen (high H⁺)', { size: 10, color: C.muted, anchor: 'start' });
+  s += box(60, 80, 90, 50, '2 PQH₂', { fill: C.d, size: 11 }) + box(260, 60, 110, 130, 'cyt b₆f', { fill: C.b, size: 11 }) + box(440, 80, 90, 50, '2 PC', { fill: C.d, size: 11 });
+  s += arrow(150, 105, 260, 105, { color: C.e }) + text(205, 90, '2 e⁻', { size: 10, color: C.e });
+  s += arrow(370, 105, 440, 105, { color: C.e }) + text(405, 90, '2 e⁻', { size: 10, color: C.e });
+  s += arrow(295, 45, 295, 65, { color: C.b }) + text(230, 40, 'H⁺ (stroma)', { size: 10, color: C.b, anchor: 'end' });
+  s += arrow(335, 195, 335, 245, { color: C.b }) + text(350, 230, '4H⁺ → lumen', { size: 10, color: C.b, anchor: 'start' });
+  s += text(310, 285, '2 PQH₂ + 2 PC(ox) → 2 PQ + 2 PC(red)', { size: 10, color: C.muted });
+  return svg(620, 300, s, 'cytochrome b6f proton pump');
+});
+def('psi-nadph', 'Photosystem I and NADPH production', 'PSI (P700) absorbs light and passes electrons via ferredoxin (Fd) to NADP⁺ reductase: \\(2e^- + NADP^+ + H^+ \\to NADPH\\). PSI does not pump protons; the gradient was built by PSII and cytochrome b₆f.', () => {
+  let s = thylakoidBand(120, 180) + text(40, 30, 'stroma (low H⁺)', { size: 10, color: C.muted, anchor: 'start' }) + text(40, 255, 'lumen (high H⁺)', { size: 10, color: C.muted, anchor: 'start' });
+  s += box(60, 85, 85, 50, 'PC', { fill: C.d, size: 11 }) + box(220, 65, 110, 115, 'PSI\nP700', { fill: C.c, size: 11 }) + box(380, 80, 70, 50, 'Fd', { fill: C.d, size: 11 }) + box(480, 80, 90, 80, 'NADP⁺\nreductase', { fill: C.a, size: 10 });
+  s += arrow(145, 105, 220, 105, { color: C.e }) + text(180, 90, 'e⁻', { size: 10, color: C.e });
+  s += arrow(330, 105, 380, 105, { color: C.e }) + text(355, 90, 'e⁻', { size: 10, color: C.e });
+  s += arrow(450, 105, 480, 105, { color: C.e }) + text(465, 90, 'e⁻', { size: 10, color: C.e });
+  s += arrow(275, 20, 275, 60, { color: C.d }) + text(290, 35, 'light', { size: 10, color: C.d, anchor: 'start' });
+  s += arrow(525, 160, 525, 205, { color: C.a }) + text(540, 190, 'NADPH', { size: 10, color: C.a, anchor: 'start' });
+  s += text(250, 250, '2 e⁻ + NADP⁺ + H⁺ → NADPH', { size: 10, color: C.muted });
+  return svg(620, 300, s, 'PSI NADPH');
+});
+def('atp-synthase', 'ATP synthase and photophosphorylation', 'Protons flow down their electrochemical gradient from the lumen through ATP synthase (CF₀ channel → CF₁ head) back to the stroma. The energy drives \\(ADP + P_i \\to ATP\\) (photophosphorylation).', () => {
+  let s = thylakoidBand(120, 180) + text(40, 30, 'stroma (low H⁺)', { size: 10, color: C.muted, anchor: 'start' }) + text(40, 255, 'lumen (high H⁺)', { size: 10, color: C.muted, anchor: 'start' });
+  s += box(270, 55, 90, 150, 'ATP\nsynthase', { fill: C.e, size: 11 }) + text(315, 225, 'CF₀ / CF₁', { size: 9, color: C.muted });
+  s += arrow(315, 245, 315, 210, { color: C.b }) + text(370, 235, 'H⁺', { size: 10, color: C.b, anchor: 'start' });
+  s += arrow(315, 50, 315, 20, { color: C.b }) + text(330, 30, 'H⁺', { size: 10, color: C.b, anchor: 'start' });
+  s += box(60, 55, 120, 45, 'ADP + Pᵢ', { fill: C.a, size: 11 }) + box(430, 55, 100, 45, 'ATP', { fill: C.c, size: 11 });
+  s += arrow(180, 77, 270, 77, { color: C.a }) + arrow(360, 77, 430, 77, { color: C.c });
+  s += text(315, 285, 'photophosphorylation', { size: 10, color: C.muted });
+  return svg(620, 300, s, 'ATP synthase');
+});
+def('calvin-fixation', 'Calvin cycle: carbon fixation by rubisco', 'Rubisco fixes 3 CO₂ onto 3 RuBP (5C), producing 6 3-phosphoglycerate (3-PGA, 3C). This is carbon fixation, the first step of the Calvin cycle; rubisco is the rate-limiting enzyme.', () => {
+  let s = box(40, 80, 120, 70, '3 RuBP\n(5C)', { fill: C.c, size: 11 }) + box(40, 170, 120, 50, '3 CO₂', { fill: C.a, size: 11 });
+  s += box(250, 95, 120, 80, 'rubisco', { fill: C.b, size: 12, bold: true }) + box(450, 80, 130, 80, '6 3-PGA\n(3C)', { fill: C.c, size: 11 });
+  s += arrow(160, 115, 250, 120, { color: C.e }) + arrow(160, 190, 250, 155, { color: C.a }) + arrow(370, 125, 450, 120, { color: C.e });
+  s += text(315, 70, 'carbon fixation', { size: 10, color: C.muted }) + text(515, 190, 'first stable product', { size: 9, color: C.muted });
+  s += text(315, 245, 'per 3 CO₂: 3 RuBP + 3 CO₂ → 6 3-PGA', { size: 10, color: C.muted });
+  return svg(620, 270, s, 'Calvin fixation');
+});
+def('calvin-reduction-regeneration', 'Calvin cycle: reduction and regeneration', 'Reduction: 6 3-PGA + 6 ATP + 6 NADPH → 6 G3P + 6 ADP + 6 NADP⁺ + 6 Pᵢ. Regeneration: 5 G3P + 3 ATP → 3 RuBP + 3 ADP. One G3P exits per 3 CO₂ to build glucose; the cycle consumes 9 ATP and 6 NADPH per G3P.', () => {
+  let s = line(320, 25, 320, 265, { color: C.grid, w: 1 });
+  s += text(160, 25, 'reduction', { bold: true, size: 12 }) + text(480, 25, 'regeneration', { bold: true, size: 12 });
+  s += box(30, 80, 110, 60, '6 3-PGA', { fill: C.c, size: 11 }) + box(190, 80, 110, 60, '6 G3P', { fill: C.c, size: 11 });
+  s += arrow(140, 110, 190, 110, { color: C.e }) + text(165, 65, '6 ATP + 6 NADPH', { size: 9, color: C.e });
+  s += text(165, 175, '6 ADP + 6 NADP⁺ + 6 Pᵢ', { size: 9, color: C.muted });
+  s += box(170, 215, 90, 35, 'sugar', { fill: C.b, size: 10 }) + arrow(245, 140, 245, 215, { color: C.b }) + text(260, 180, '1 G3P', { size: 9, color: C.b, anchor: 'start' });
+  s += box(360, 80, 110, 60, '5 G3P', { fill: C.c, size: 11 }) + box(510, 80, 80, 60, '3 RuBP', { fill: C.c, size: 11 });
+  s += arrow(470, 110, 510, 110, { color: C.e }) + text(490, 65, '3 ATP', { size: 9, color: C.e }) + text(490, 155, '3 ADP', { size: 9, color: C.muted });
+  s += text(480, 245, 'per 3 CO₂: 9 ATP + 6 NADPH', { size: 10, color: C.muted });
+  return svg(620, 290, s, 'Calvin reduction regeneration');
+});
+def('leaf-anatomy', 'Leaf cross-section: photosynthesis sites', 'CO₂ diffuses through stomata into the spongy and palisade mesophyll; chloroplasts in mesophyll cells carry out photosynthesis, and veins deliver water and export sugar. Legend: 1 cuticle, 2 upper epidermis, 3 palisade mesophyll, 4 spongy mesophyll, 5 lower epidermis, 6 stoma, 7 guard cells, 8 xylem, 9 phloem, 10 vascular bundle. Image: Agnieszka Kwiecień (Nova), public domain, Wikimedia Commons (resized).', () => `<img src="${MEDIA_BASE}leaf-anatomy.png" alt="Leaf cross-section with numbered tissues" style="display:block;width:100%;height:100%;object-fit:contain">`);
+def('glycolysis', 'Glycolysis: glucose to pyruvate', 'In the cytosol, glucose (6C) is split into 2 G3P (3C). Investment of 2 ATP is followed by payoff of 4 ATP and 2 NADH, so net glycolysis yields 2 ATP, 2 NADH and 2 pyruvate per glucose. No O₂ is required.', () => {
+  let s = text(310, 22, 'cytosol', { size: 10, color: C.muted });
+  s += box(30, 105, 110, 50, 'glucose (6C)', { fill: C.c, size: 10 }) + box(210, 105, 110, 50, '2 G3P (3C)', { fill: C.c, size: 10 }) + box(430, 105, 120, 50, '2 pyruvate (3C)', { fill: C.a, size: 10 });
+  s += arrow(140, 130, 210, 130, { color: C.e }) + text(175, 80, '2 ATP invested', { size: 9, color: C.e }) + text(175, 155, '2 ADP', { size: 9, color: C.muted });
+  s += arrow(320, 130, 430, 130, { color: C.e }) + text(375, 80, '4 ATP + 2 NADH', { size: 9, color: C.e }) + text(375, 155, '4 ADP, 2 NAD⁺', { size: 9, color: C.muted });
+  s += text(310, 220, 'net: 2 ATP + 2 NADH + 2 pyruvate', { size: 11, color: C.ink });
+  return svg(620, 270, s, 'glycolysis');
+});
+def('pyruvate-oxidation', 'Pyruvate oxidation: link reaction to acetyl-CoA', 'In the mitochondrial matrix, pyruvate dehydrogenase removes CO₂ from each pyruvate and transfers the remaining 2C acetyl group to coenzyme A: 2 pyruvate + 2 NAD⁺ + 2 CoA → 2 acetyl-CoA + 2 CO₂ + 2 NADH. No ATP is made in this step.', () => {
+  let s = text(310, 22, 'mitochondrial matrix', { size: 10, color: C.muted });
+  s += box(30, 95, 120, 55, '2 pyruvate', { fill: C.a, size: 11 }) + box(250, 95, 140, 55, '2 acetyl-CoA', { fill: C.c, size: 11 });
+  s += arrow(150, 122, 250, 122, { color: C.e }) + text(200, 80, 'pyruvate dehydrogenase', { size: 9, color: C.b });
+  s += text(450, 80, '2 CO₂', { size: 11, color: C.b }) + text(450, 160, '2 NADH', { size: 11, color: C.a });
+  s += arrow(320, 80, 420, 80, { color: C.b }) + arrow(320, 160, 420, 160, { color: C.a });
+  s += text(310, 220, '2 pyruvate + 2 NAD⁺ + 2 CoA → 2 acetyl-CoA + 2 CO₂ + 2 NADH', { size: 10, color: C.muted });
+  return svg(620, 250, s, 'pyruvate oxidation');
+});
+def('krebs-cycle', 'Krebs cycle: acetyl-CoA oxidation', 'Per turn, acetyl-CoA (2C) joins oxaloacetate (4C) to form citrate (6C); two carbons leave as CO₂, and the cycle regenerates oxaloacetate. Per glucose (2 turns): 6 NADH, 2 FADH₂, 2 ATP and 4 CO₂. The cycle occurs in the mitochondrial matrix.', () => {
+  let s = text(310, 18, 'mitochondrial matrix', { size: 10, color: C.muted });
+  s += box(250, 35, 120, 40, 'citrate (6C)', { fill: C.c, size: 10 }) + box(450, 150, 140, 40, 'α-ketoglutarate (5C)', { fill: C.c, size: 9 }) + box(250, 285, 120, 40, 'succinate (4C)', { fill: C.c, size: 10 }) + box(20, 150, 140, 40, 'oxaloacetate (4C)', { fill: C.c, size: 9 });
+  s += path('M370,55 Q500,75 510,150', { stroke: C.e, w: 1.8, arrow: true }) + text(500, 100, 'CO₂ + NADH', { size: 9, color: C.e, anchor: 'start' });
+  s += path('M540,190 Q510,290 370,305', { stroke: C.e, w: 1.8, arrow: true }) + text(520, 260, 'CO₂ + NADH + ATP', { size: 9, color: C.e, anchor: 'start' });
+  s += path('M250,305 Q120,290 90,190', { stroke: C.e, w: 1.8, arrow: true }) + text(110, 260, 'FADH₂ + NADH', { size: 9, color: C.e, anchor: 'end' });
+  s += path('M120,150 Q140,70 250,55', { stroke: C.e, w: 1.8, arrow: true }) + text(135, 100, 'acetyl-CoA in', { size: 9, color: C.b, anchor: 'start' });
+  s += text(310, 180, '2 turns per glucose', { size: 11, color: C.ink }) + text(310, 200, '6 NADH · 2 FADH₂ · 2 ATP · 4 CO₂', { size: 10, color: C.muted });
+  return svg(620, 350, s, 'Krebs cycle');
 });
 def('respiration-overview', 'Cellular respiration pathway', 'Glucose → glycolysis (cytosol: 2 pyruvate, 2 ATP net, 2 NADH) → pyruvate oxidation (matrix: 2 acetyl-CoA, 2 CO₂, 2 NADH) → Krebs cycle (2 ATP, 6 NADH, 2 FADH₂, 4 CO₂) → ETC & oxidative phosphorylation (inner membrane: ≈26–28 ATP; O₂ is final e⁻ acceptor → H₂O).', () => {
   const st = [['glucose', C.muted], ['glycolysis\n(cytosol)', C.a], ['pyruvate\noxidation', C.b], ['Krebs cycle\n(matrix)', C.c], ['ETC + ATP\nsynthase', C.e]];
@@ -737,23 +852,23 @@ export const TOPIC_FIGURES = {
   'bio-prep-chem:P1.1': ['experiment-design', 'c14-decay'], 'bio-prep-chem:P1.2': ['bohr-carbon', 'isotopes', 'c14-decay'], 'bio-prep-chem:P1.3': ['periodic-radius', 'electronegativity'], 'bio-prep-chem:P1.4': ['bond-types', 'electronegativity'],
   'bio-prep-chem:P1.5': ['vsepr', 'water-hbond'], 'bio-prep-chem:P1.6': ['stoich'], 'bio-prep-chem:P1.7': ['solubility', 'water-potential'], 'bio-prep-chem:P1.8': ['ph-scale', 'titration'], 'bio-prep-chem:P1.9': ['water-hbond', 'water-density', 'specific-heat'],
   'bio-prep-chem:P1.10': ['functional-groups'], 'bio-prep-chem:P1.11': ['exo-endo', 'activation-energy'], 'bio-prep-chem:P1.12': ['rate-equilibrium', 'activation-energy'],
-  'bio-prep-hs:P2.1': ['experiment-design'], 'bio-prep-hs:P2.2': ['macromolecules', 'protein-structure'], 'bio-prep-hs:P2.3': ['cell-structure'], 'bio-prep-hs:P2.4': ['transport-types', 'tonicity'], 'bio-prep-hs:P2.5': ['enz-temp', 'enz-ph', 'activation-energy'],
-  'bio-prep-hs:P2.6': ['photo-resp-cycle', 'absorption-spectrum'], 'bio-prep-hs:P2.7': ['respiration-overview', 'photo-resp-cycle'], 'bio-prep-hs:P2.8': ['mitosis-stages', 'meiosis-stages'], 'bio-prep-hs:P2.9': ['punnett-mono', 'pedigree-ar'], 'bio-prep-hs:P2.10': ['central-dogma', 'dna-structure'],
+  'bio-prep-hs:P2.1': ['experiment-design'], 'bio-prep-hs:P2.2': ['macromolecules', 'protein-structure'], 'bio-prep-hs:P2.3': ['cell-structure', 'endomembrane'], 'bio-prep-hs:P2.4': ['transport-types', 'tonicity'], 'bio-prep-hs:P2.5': ['enz-temp', 'enz-ph', 'activation-energy'],
+  'bio-prep-hs:P2.6': ['photo-resp-cycle', 'light-reactions', 'calvin-cycle', 'absorption-spectrum', 'photo-rate-light', 'leaf-anatomy'], 'bio-prep-hs:P2.7': ['respiration-overview', 'photo-resp-cycle', 'respirometer'], 'bio-prep-hs:P2.8': ['mitosis-stages', 'meiosis-stages'], 'bio-prep-hs:P2.9': ['punnett-mono', 'pedigree-ar'], 'bio-prep-hs:P2.10': ['central-dogma', 'dna-structure'],
   'bio-prep-hs:P2.11': ['sel-directional', 'antibiotic-resistance'], 'bio-prep-hs:P2.12': ['food-chain', 'energy-pyramid', 'food-web'], 'bio-prep-hs:P2.13': ['body-systems', 'feedback-glucose'], 'bio-prep-hs:P2.14': ['species-area', 'diversity-index'],
   'bio-u1:1.1': ['water-hbond', 'specific-heat', 'water-density'], 'bio-u1:1.2': ['body-elements'], 'bio-u1:1.3': ['macromolecules'], 'bio-u1:1.4': ['protein-structure', 'functional-groups'], 'bio-u1:1.5': ['dna-structure'], 'bio-u1:1.6': ['induced-fit', 'activation-energy'],
-  'bio-u2:2.1': ['cell-structure', 'endomembrane'], 'bio-u2:2.2': ['sa-volume'], 'bio-u2:2.3': ['fluid-mosaic'], 'bio-u2:2.4': ['permeability'], 'bio-u2:2.5': ['transport-types', 'diffusion-rate'], 'bio-u2:2.6': ['diffusion-rate', 'transport-types'],
+  'bio-u2:2.1': ['cell-structure', 'endomembrane'], 'bio-u2:2.2': ['sa-volume', 'cell-structure'], 'bio-u2:2.3': ['fluid-mosaic', 'transport-types'], 'bio-u2:2.4': ['permeability', 'fluid-mosaic', 'transport-types'], 'bio-u2:2.5': ['transport-types', 'diffusion-rate'], 'bio-u2:2.6': ['diffusion-rate', 'transport-types'],
   'bio-u2:2.7': ['tonicity', 'water-potential', 'osmosis-potato'], 'bio-u2:2.8': ['na-k-pump', 'transport-types'], 'bio-u2:2.9': ['endomembrane', 'etc'], 'bio-u2:2.10': ['endosymbiosis'],
   'bio-u3:3.1': ['activation-energy', 'enz-substrate', 'enz-inhibition', 'induced-fit'], 'bio-u3:3.2': ['enz-temp', 'enz-ph', 'enz-inhibition'], 'bio-u3:3.3': ['atp-cycle', 'exo-endo'],
-  'bio-u3:3.4': ['light-reactions', 'calvin-cycle', 'absorption-spectrum', 'photo-rate-light'], 'bio-u3:3.5': ['respiration-overview', 'etc', 'atp-yield', 'fermentation', 'respirometer'], 'bio-u3:3.6': ['metabolic-temp'],
-  'bio-u4:4.1': ['signal-types'], 'bio-u4:4.2': ['signal-transduction'], 'bio-u4:4.3': ['signal-transduction', 'signal-amplification', 'rtk'], 'bio-u4:4.4': ['feedback-loops', 'feedback-glucose'],
+  'bio-u3:3.4': ['chloroplast-sites', 'psii-photolysis', 'cytb6f-pump', 'psi-nadph', 'atp-synthase', 'calvin-fixation', 'calvin-reduction-regeneration'], 'bio-u3:3.5': ['respiration-overview', 'glycolysis', 'pyruvate-oxidation', 'krebs-cycle', 'etc', 'atp-yield', 'fermentation'], 'bio-u3:3.6': ['metabolic-temp', 'enz-temp'],
+  'bio-u4:4.1': ['signal-types', 'signal-transduction'], 'bio-u4:4.2': ['signal-transduction', 'rtk', 'signal-amplification'], 'bio-u4:4.3': ['signal-transduction', 'signal-amplification', 'rtk'], 'bio-u4:4.4': ['feedback-loops', 'feedback-glucose'],
   'bio-u4:4.5': ['cell-cycle', 'dna-content-mitosis'], 'bio-u4:4.6': ['cyclin-cdk', 'cell-cycle'], 'bio-u4:4.7': ['mitosis-stages', 'dna-content-mitosis'],
   'bio-u5:5.1': ['meiosis-stages', 'dna-content-meiosis'], 'bio-u5:5.2': ['crossing-over', 'meiosis-stages'], 'bio-u5:5.3': ['punnett-mono', 'punnett-di', 'punnett-test', 'chi-square'],
   'bio-u5:5.4': ['punnett-incomplete', 'blood-type', 'punnett-xlinked', 'pedigree-ar', 'pedigree-ad', 'pedigree-xr', 'linkage-map'], 'bio-u5:5.5': ['env-phenotype'], 'bio-u5:5.6': ['nondisjunction', 'karyotype', 'linkage-map', 'pedigree-xr'],
-  'bio-u6:6.1': ['dna-structure'], 'bio-u6:6.2': ['replication-fork'], 'bio-u6:6.3': ['transcription-splicing', 'central-dogma'], 'bio-u6:6.4': ['translation'], 'bio-u6:6.5': ['lac-operon', 'trp-operon', 'euk-regulation'],
-  'bio-u6:6.6': ['cell-specialization', 'euk-regulation'], 'bio-u6:6.7': ['mutations'], 'bio-u6:6.8': ['gel-electrophoresis', 'pcr', 'biotech-plasmid'],
+  'bio-u6:6.1': ['dna-structure', 'central-dogma'], 'bio-u6:6.2': ['replication-fork', 'dna-structure'], 'bio-u6:6.3': ['transcription-splicing', 'central-dogma'], 'bio-u6:6.4': ['translation', 'central-dogma'], 'bio-u6:6.5': ['lac-operon', 'trp-operon', 'euk-regulation'],
+  'bio-u6:6.6': ['cell-specialization', 'euk-regulation'], 'bio-u6:6.7': ['mutations', 'translation'], 'bio-u6:6.8': ['gel-electrophoresis', 'pcr', 'biotech-plasmid'],
   'bio-u7:7.1': ['sel-directional', 'variation'], 'bio-u7:7.2': ['sel-stabilizing', 'sel-directional', 'sel-disruptive'], 'bio-u7:7.3': ['artificial-selection'], 'bio-u7:7.4': ['genetic-drift', 'bottleneck'],
-  'bio-u7:7.5': ['hw-curves', 'hw-data'], 'bio-u7:7.6': ['homologous-structures', 'molecular-tree'], 'bio-u7:7.7': ['molecular-tree', 'phylo-tree'], 'bio-u7:7.8': ['antibiotic-resistance'],
-  'bio-u7:7.9': ['phylo-tree', 'character-matrix'], 'bio-u7:7.10': ['speciation'], 'bio-u7:7.11': ['extinction'], 'bio-u7:7.12': ['variation', 'genetic-drift'], 'bio-u7:7.13': ['origins-life'],
+  'bio-u7:7.5': ['hw-curves', 'hw-data'], 'bio-u7:7.6': ['homologous-structures', 'molecular-tree'], 'bio-u7:7.7': ['molecular-tree', 'phylo-tree'], 'bio-u7:7.8': ['antibiotic-resistance', 'sel-directional'],
+  'bio-u7:7.9': ['phylo-tree', 'character-matrix'], 'bio-u7:7.10': ['speciation'], 'bio-u7:7.11': ['extinction'], 'bio-u7:7.12': ['variation', 'genetic-drift'], 'bio-u7:7.13': ['origins-life', 'endosymbiosis'],
   'bio-u8:8.1': ['behavior-taxis', 'photoperiod'], 'bio-u8:8.2': ['energy-pyramid', 'food-web', 'trophic-biomass'], 'bio-u8:8.3': ['pop-growth', 'survivorship'], 'bio-u8:8.4': ['density-dependence', 'pop-oscillation'],
   'bio-u8:8.5': ['predator-prey', 'competition', 'food-web'], 'bio-u8:8.6': ['diversity-index', 'species-area'], 'bio-u8:8.7': ['disruption', 'succession'],
 };

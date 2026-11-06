@@ -2,7 +2,26 @@
 
 Generated from `data/{bio,math}/figures.js` (TOPIC_FIGURES). Every figure is an SVG computed from real functions/data (fixed viewBox, `width:100%`, fixed aspect ratio, wrapper `max-width:min(100%,560px)`); captions use KaTeX with `\dfrac` stacked fractions.
 
-Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrome) on audit/figure-preview-bio-math.html: 412 topic-figure placements, 0 console errors, 0 KaTeX errors, 0 overflow at 380px, no aspect/height drift on resize.
+Unique figures: bio 136, math 175, total 311. Verified via Playwright (box Chrome) on audit/figure-preview-bio-math.html: 520 topic-figure placements, 0 console errors, 0 KaTeX errors, 0 overflow at 380px, no aspect/height drift on resize.
+
+## Enrichment pass — 2026-11-06
+
+Added 11 original programmatic figures and one public-domain image, then expanded many topics with existing variants.
+
+- **Photosynthesis 3.4 (7 figures):** `chloroplast-sites`, `psii-photolysis`, `cytb6f-pump`, `psi-nadph`, `atp-synthase`, `calvin-fixation`, `calvin-reduction-regeneration`. The overview/data figures `light-reactions`, `calvin-cycle`, `absorption-spectrum`, `photo-rate-light` moved to the HS overview topic `P2.6`, which also gains `leaf-anatomy`.
+- **Respiration 3.5 (7 figures):** `respiration-overview`, `glycolysis`, `pyruvate-oxidation`, `krebs-cycle`, `etc`, `atp-yield`, `fermentation`; `respirometer` moved to `P2.7`.
+- **Other bio cross-mounts:** membranes/transport (2.2–2.4), signal transduction (4.1–4.2), nucleic acids/replication/translation/mutation (6.1–6.7), continuing evolution (7.8), origins of life (7.13), and cell structure (P2.3).
+- **Math:** added `derivative-limit` (secant slopes → derivative) and cross-mounted existing variants across calculus limits, continuity, derivatives, MVT/extrema, FTC/integrals, area/volume methods, parametric/polar, and series/Taylor topics. Math single-variant topics dropped from 106 to 27.
+- **Public media:** `data/bio/media/leaf-anatomy.png`, public domain, Agnieszka Kwiecień (Nova), Wikimedia Commons; attribution in `data/bio/media/ATTRIBUTION.md`. Caption carries the credit.
+- **Gap table:** now 38 single-variant topics (11 bio, 27 math), down from 130. No topic has zero figures.
+
+### Self-check — enrichment pass
+
+- Re-read all new figure functions, the updated mappings, the media attribution, and the rebuilt checklist/gap table.
+- Re-ran the build audit (311 unique figures, 520 placements, 0 unused/missing IDs), the 494-load mount scan (0 issues), the shape-aware contrast scan (7,498 text nodes, 0 AA failures light/dark), the notation check (`MATH_NOTATION_OK`), the preview at 380/1280 px, and a text-bbox sweep over the new figures.
+- Fixed during self-check: `chloroplast-sites` double-membrane label vs CO₂ label; `psii-photolysis` lumen label vs product text; `atp-synthase` overlapping H⁺-flow/CF labels; `calvin-reduction-regeneration` export arrow now points to a sugar box rather than regeneration; leaf image path made module-relative so it works from both the app and the audit preview.
+- Public media: `data/bio/media/leaf-anatomy.png` is public domain; credit is visible in the figure caption and recorded in `data/bio/media/ATTRIBUTION.md`.
+- Starting point for this batch: web `f839d73`, app `2b82208`. The final enrichment commit/app sync SHAs are in the conversation report.
 
 ## Maintenance pass — 2026-11-06
 
@@ -10,7 +29,7 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - **Contrast:** theme-aware `--fig-*` palette added in `data/math/figlib.js` + dedicated `.exam-figures` CSS (light/dark values). Shape-aware audit of all 299 unique figures checked 6,025 SVG text nodes against their computed backgrounds: **0 AA failures** in light or dark after fixes (grid lines are intentionally below the 3:1 non-text threshold; axes, ticks, curves, labels, and diagram strokes pass).
 - **Figure fixes:** photoperiod day/night fills no longer invert in dark theme; translation `E/P/A` site labels moved clear of tRNA boxes; labels drawn on tinted fills switched to ink/darker palette values (`functional-groups`, `translation`, `gel-electrophoresis`, `ineq-2d`, `trig-ratios`, `concavity`, `interval-conv`, `water-hbond`, `rtk`).
 - **Preview:** `audit/figure-preview-bio-math.html` now loads `css/main.css` and accepts `?theme=dark`, so the audit page matches the app's theme tokens.
-- **Gap table:** `audit/figure-gaps-bio-math.md` lists all 130 topics with only one variant (24 bio, 106 math). No topic has zero figures; filling the one-variant gaps is deferred to a later session.
+- **Gap table:** the baseline listed 130 topics with only one variant (24 bio, 106 math); the enrichment pass reduced this to 38 (11 bio, 27 math). No topic has zero figures; see `audit/figure-gaps-bio-math.md`.
 - **Screenshots:** `screenshots/figures-bio-math/before/` and `screenshots/figures-bio-math/after/` (light + dark, representative fixed topics).
 
 ### Self-check — 2026-11-06 (post-`c4d9765`)
@@ -42,11 +61,11 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 ### bio-prep-hs
 - [x] **P2.1 Scientific Method and Experimental Design** — `experiment-design` Experimental design: control vs treatment with error bars
 - [x] **P2.2 Biological Macromolecules** — `macromolecules` Dehydration synthesis and hydrolysis; `protein-structure` Levels of protein structure
-- [x] **P2.3 Cell Structure** — `cell-structure` Eukaryotic cells: animal vs plant
+- [x] **P2.3 Cell Structure** — `cell-structure` Eukaryotic cells: animal vs plant; `endomembrane` Endomembrane system: protein secretion pathway
 - [x] **P2.4 Cell Membrane and Transport** — `transport-types` Membrane transport types; `tonicity` Tonicity: animal and plant cells
 - [x] **P2.5 Enzymes** — `enz-temp` Enzyme activity vs temperature; `enz-ph` Enzyme activity vs pH; `activation-energy` Activation energy with and without enzyme
-- [x] **P2.6 Photosynthesis Overview** — `photo-resp-cycle` Photosynthesis and respiration are complementary; `absorption-spectrum` Absorption and action spectra of photosynthesis
-- [x] **P2.7 Cellular Respiration Overview** — `respiration-overview` Cellular respiration pathway; `photo-resp-cycle` Photosynthesis and respiration are complementary
+- [x] **P2.6 Photosynthesis Overview** — `photo-resp-cycle` Photosynthesis and respiration are complementary; `light-reactions` Light reactions overview; `calvin-cycle` Calvin cycle overview; `absorption-spectrum` Absorption and action spectra; `photo-rate-light` Rate vs light and CO₂; `leaf-anatomy` Leaf cross-section (public domain)
+- [x] **P2.7 Cellular Respiration Overview** — `respiration-overview` Cellular respiration pathway; `photo-resp-cycle` Photosynthesis and respiration are complementary; `respirometer` Respirometer data: O₂ consumption vs temperature
 - [x] **P2.8 Mitosis and Meiosis** — `mitosis-stages` Mitosis stages (2n = 4); `meiosis-stages` Meiosis I and II (2n = 4 → four n = 2 cells)
 - [x] **P2.9 Mendelian Genetics** — `punnett-mono` Punnett square: monohybrid cross Aa × Aa; `pedigree-ar` Pedigree: autosomal recessive
 - [x] **P2.10 DNA and Protein Synthesis Intro** — `central-dogma` Central dogma: DNA → RNA → protein; `dna-structure` DNA double helix: antiparallel strands & base pairing
@@ -65,9 +84,9 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 
 ### bio-u2
 - [x] **2.1 Cell Structure: Subcellular Components** — `cell-structure` Eukaryotic cells: animal vs plant; `endomembrane` Endomembrane system: protein secretion pathway
-- [x] **2.2 Cell Size** — `sa-volume` Cell size: surface-area-to-volume ratio
-- [x] **2.3 Plasma Membranes** — `fluid-mosaic` Fluid mosaic model of the plasma membrane
-- [x] **2.4 Membrane Permeability** — `permeability` Selective permeability of the bilayer
+- [x] **2.2 Cell Size** — `sa-volume` Cell size: surface-area-to-volume ratio; `cell-structure` Cell compartment scale comparison
+- [x] **2.3 Plasma Membranes** — `fluid-mosaic` Fluid mosaic model of the plasma membrane; `transport-types` Membrane transport types
+- [x] **2.4 Membrane Permeability** — `permeability` Selective permeability of the bilayer; `fluid-mosaic` Fluid mosaic model; `transport-types` Membrane transport types
 - [x] **2.5 Membrane Transport** — `transport-types` Membrane transport types; `diffusion-rate` Simple vs facilitated diffusion rate
 - [x] **2.6 Facilitated Diffusion** — `diffusion-rate` Simple vs facilitated diffusion rate; `transport-types` Membrane transport types
 - [x] **2.7 Tonicity and Osmoregulation** — `tonicity` Tonicity: animal and plant cells; `water-potential` Water potential Ψ = Ψs + Ψp; `osmosis-potato` Osmosis lab: % mass change vs sucrose molarity
@@ -79,13 +98,13 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - [x] **3.1 Enzyme Catalysis** — `activation-energy` Activation energy with and without enzyme; `enz-substrate` Reaction rate vs substrate concentration (Michaelis–Menten); `enz-inhibition` Competitive vs noncompetitive inhibition; `induced-fit` Enzyme–substrate induced fit
 - [x] **3.2 Environmental Impacts on Enzyme Function** — `enz-temp` Enzyme activity vs temperature; `enz-ph` Enzyme activity vs pH; `enz-inhibition` Competitive vs noncompetitive inhibition
 - [x] **3.3 Cellular Energy** — `atp-cycle` ATP/ADP cycle and energy coupling; `exo-endo` Exergonic vs endergonic reactions
-- [x] **3.4 Photosynthesis** — `light-reactions` Light reactions: thylakoid electron transport; `calvin-cycle` Calvin cycle (light-independent reactions); `absorption-spectrum` Absorption and action spectra of photosynthesis; `photo-rate-light` Photosynthesis rate vs light intensity and CO₂
-- [x] **3.5 Cellular Respiration** — `respiration-overview` Cellular respiration pathway; `etc` Electron transport chain & chemiosmosis; `atp-yield` ATP yield per glucose by stage; `fermentation` Fermentation vs aerobic respiration; `respirometer` Respirometer data: O₂ consumption vs temperature
-- [x] **3.6 Fitness** — `metabolic-temp` Fitness & metabolism: endotherm vs ectotherm
+- [x] **3.4 Photosynthesis** — `chloroplast-sites` Leaf/chloroplast sites; `psii-photolysis` PSII and water splitting; `cytb6f-pump` Cytochrome b₆f proton pumping; `psi-nadph` PSI and NADPH; `atp-synthase` Photophosphorylation; `calvin-fixation` Rubisco carbon fixation; `calvin-reduction-regeneration` Reduction and RuBP regeneration
+- [x] **3.5 Cellular Respiration** — `respiration-overview` Pathway overview; `glycolysis` Glucose → pyruvate; `pyruvate-oxidation` Link reaction; `krebs-cycle` Acetyl-CoA oxidation; `etc` Electron transport chain & chemiosmosis; `atp-yield` ATP yield by stage; `fermentation` Fermentation vs aerobic respiration
+- [x] **3.6 Fitness** — `metabolic-temp` Fitness & metabolism: endotherm vs ectotherm; `enz-temp` Enzyme activity vs temperature
 
 ### bio-u4
-- [x] **4.1 Cell Communication** — `signal-types` Types of cell signaling
-- [x] **4.2 Introduction to Signal Transduction** — `signal-transduction` Signal transduction: GPCR → cAMP cascade
+- [x] **4.1 Cell Communication** — `signal-types` Types of cell signaling; `signal-transduction` Signal transduction overview
+- [x] **4.2 Introduction to Signal Transduction** — `signal-transduction` GPCR → cAMP cascade; `rtk` Receptor tyrosine kinase activation; `signal-amplification` Amplification in a signaling cascade
 - [x] **4.3 Signal Transduction** — `signal-transduction` Signal transduction: GPCR → cAMP cascade; `signal-amplification` Amplification in a signaling cascade; `rtk` Receptor tyrosine kinase activation
 - [x] **4.4 Feedback** — `feedback-loops` Negative vs positive feedback loops; `feedback-glucose` Negative feedback: blood glucose regulation
 - [x] **4.5 Cell Cycle** — `cell-cycle` The cell cycle (24-hour mammalian cell); `dna-content-mitosis` DNA content per cell through the cell cycle
@@ -101,13 +120,13 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - [x] **5.6 Chromosomal Inheritance** — `nondisjunction` Nondisjunction in meiosis I vs II; `karyotype` Karyotype: trisomy 21; `linkage-map` Linked genes: recombination frequency map; `pedigree-xr` Pedigree: X-linked recessive
 
 ### bio-u6
-- [x] **6.1 DNA and RNA Structure** — `dna-structure` DNA double helix: antiparallel strands & base pairing
-- [x] **6.2 Replication** — `replication-fork` DNA replication fork
+- [x] **6.1 DNA and RNA Structure** — `dna-structure` DNA double helix: antiparallel strands & base pairing; `central-dogma` Central dogma overview
+- [x] **6.2 Replication** — `replication-fork` DNA replication fork; `dna-structure` DNA double helix structure
 - [x] **6.3 Transcription and RNA Processing** — `transcription-splicing` Transcription and RNA processing; `central-dogma` Central dogma: DNA → RNA → protein
-- [x] **6.4 Translation** — `translation` Translation at the ribosome
+- [x] **6.4 Translation** — `translation` Translation at the ribosome; `central-dogma` Central dogma overview
 - [x] **6.5 Regulation of Gene Expression** — `lac-operon` lac operon (inducible); `trp-operon` trp operon (repressible); `euk-regulation` Eukaryotic gene regulation
 - [x] **6.6 Gene Expression and Cell Specialization** — `cell-specialization` Differential gene expression → cell specialization; `euk-regulation` Eukaryotic gene regulation
-- [x] **6.7 Mutations** — `mutations` Mutation types and their effect on protein
+- [x] **6.7 Mutations** — `mutations` Mutation types and their effect on protein; `translation` Translation at the ribosome
 - [x] **6.8 Biotechnology** — `gel-electrophoresis` Gel electrophoresis (computed migration); `pcr` PCR amplification; `biotech-plasmid` Recombinant DNA: plasmid cloning
 
 ### bio-u7
@@ -118,12 +137,12 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - [x] **7.5 Hardy-Weinberg Equilibrium** — `hw-curves` Hardy–Weinberg genotype frequencies vs allele frequency; `hw-data` Hardy–Weinberg test on population data
 - [x] **7.6 Evidence of Evolution** — `homologous-structures` Evidence of evolution: homologous structures; `molecular-tree` Molecular evidence: cytochrome c differences
 - [x] **7.7 Common Ancestry** — `molecular-tree` Molecular evidence: cytochrome c differences; `phylo-tree` Phylogenetic tree (cladogram) with shared derived characters
-- [x] **7.8 Continuing Evolution** — `antibiotic-resistance` Continuing evolution: antibiotic resistance
+- [x] **7.8 Continuing Evolution** — `antibiotic-resistance` Continuing evolution: antibiotic resistance; `sel-directional` Directional selection
 - [x] **7.9 Phylogeny** — `phylo-tree` Phylogenetic tree (cladogram) with shared derived characters; `character-matrix` Building a tree from a character table
 - [x] **7.10 Speciation** — `speciation` Speciation: allopatric vs sympatric; gradualism vs punctuated equilibrium
 - [x] **7.11 Extinction** — `extinction` Extinction through time: the "Big Five"
 - [x] **7.12 Variations in Populations** — `variation` Variation in populations: continuous trait distribution; `genetic-drift` Genetic drift: small vs large populations
-- [x] **7.13 Origins of Life on Earth** — `origins-life` Origins of life: timeline
+- [x] **7.13 Origins of Life on Earth** — `origins-life` Origins of life: timeline; `endosymbiosis` Endosymbiotic theory
 
 ### bio-u8
 - [x] **8.1 Responses to the Environment** — `behavior-taxis` Responses to the environment: taxis vs kinesis; `photoperiod` Plant responses: photoperiodism
@@ -135,6 +154,8 @@ Unique figures: bio 125, math 174, total 299. Verified via Playwright (box Chrom
 - [x] **8.7 Disruptions to Ecosystems** — `disruption` Ecosystem disruption: invasive species; `succession` Ecological succession
 
 ## math
+
+> Baseline topic lists below. The 2026-11-06 enrichment pass adds cross-mounted variants across calculus limits, continuity, derivatives, MVT/extrema, FTC/integrals, area/volume methods, parametric/polar, and series/Taylor topics; exact current mappings are in `data/math/figures.js` and the single-variant counts are in `audit/figure-gaps-bio-math.md`.
 
 ### math-prep-alg1
 - [x] **P1.1 Expressions and Properties of Real Numbers** — `numline` Real number line
