@@ -15,6 +15,7 @@ Method: parsed every bank, reviewed every distinct template and worked solution,
 | Moderate | Slash fractions `I=\varepsilon/R`, `Q_{\mathrm{enc}}/\varepsilon_0` | 136 |
 | Moderate | Float-noise `expected` values (`1799999.9999999995`, `899999.9999999998`) | 136 |
 | Moderate | Circuit/point-charge templates repeated in magnetism, induction, and capacitor units | ~400 |
+| Moderate | “Doubling” example used Ohm's law in point-charge field sets | 7 |
 | Moderate | Vacuous MCQs with “场线密度” distractors | ~90 |
 
 No arithmetic error remains in the numeric E&M items: \(E=kq/r^2=1.8\times10^6\ \mathrm{N/C}\), \(E=kQ/r^2=9.0\times10^5\ \mathrm{N/C}\), \(I=\varepsilon/R=2.00\ \mathrm{A}\), and the capacitor steady-state current is \(0\).
@@ -84,6 +85,10 @@ I did clean the binary-float noise: `1799999.9999999995 → 1800000` and `899999
 ### 6. Moderate — capacitor note in every pure-resistor item
 
 For the non-capacitor circuit sets, the answer now says explicitly “纯电阻回路；若串联电容，直流稳态 \(I=0\)”. This keeps the correct resistor result \(2\ \mathrm{A}\) while preventing the old misconception from being taught in the capacitor/RC units.
+
+### 7. Moderate — wrong-domain “doubling” example in field sets
+
+`em-u8-q007` (and the equivalent set-2 item in every E&M bank, 7 total) answered “若某一参数加倍…” with the Ohm's-law example \(R\uparrow\Rightarrow I\downarrow\), even though the set is a point-charge field. Replaced with the field relation: \(E=kq/r^2\); doubling \(q\) doubles \(E\), doubling \(r\) makes \(E\) one quarter.
 
 ## Verification
 
