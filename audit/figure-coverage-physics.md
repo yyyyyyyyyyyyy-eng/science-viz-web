@@ -81,7 +81,7 @@
 
 ## 自检记录（2026-11-06）
 
-- 复核已推送提交 web `d88ae70` / app `55b7ce0`，在 web `2a27135` 之上追加本记录。
+- 复核已推送提交 web `d88ae70` / app `55b7ce0`；自检运行于 web `2a27135`，首条记录提交 `5f6cef3`，app 同步 `955d075`。
 - Playwright 复检（1440×1000，light/dark，2×）：`conical-pendulum`、`rolling-incline`、`disk-string`、`force-position`、`rc-circuit`、`rc-charging`、`rc-discharging`、`rl-circuit`；16 个图实例，0 console/page error，0 KaTeX error，0 图注溢出，0 SVG 文本重叠或出界，400×260 比例保持。
 - 公式复核：conical 周期 `T_0` / 张力 `T`；rolling / disk 嵌套分母；force-position `F_app = kx` 与 `F_s = −dU/dx = −kx`；RC / RL 指数 `e^{−t/RC}`、`e^{−t/τ}` 均为 `\dfrac`；目标图 `tex` 无单层 `\frac`。
 - 与已提交 PNG 逐张比对：图形内容一致；后续无关页面改动只带来 0–2px 截图偏移/高度差，无视觉回归。明暗两套标签均可读，无新对比度问题。
