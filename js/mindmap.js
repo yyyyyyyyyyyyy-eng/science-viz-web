@@ -17,7 +17,6 @@ const UNIT_COLORS_AP = [
   0x8aa0e0, // periwinkle
   0xd4a08c, // clay
 ];
-const PREP_COLOR = 0xc5cdd8; // soft cool tint (mixed with unit hue later)
 const EDGE_NEUTRAL = 0x8e8e8e; // all edges: thin neutral gray
 const EDGE_DIM = EDGE_NEUTRAL;
 const EDGE_HOT = 0xc45c26; // selection path only
@@ -124,6 +123,7 @@ export async function renderMindMap(main, subject) {
   const hier = buildHierarchicalGraph(subject, GRAPH, CROSS_EDGES, CROSS_RELATIONS);
   const nodes = layoutOrganic(hier.nodes, hier.allEdges, subject);
   const byId = new Map(nodes.map((n) => [n.id, n]));
+  const unitByChapter = hier.unitByChapter;
   // Visible lines: tree hierarchy + topic/cross edges
   const edges = hier.allEdges.filter((e) => {
     if (!byId.has(e.source) || !byId.has(e.target)) return false;
@@ -153,7 +153,15 @@ export async function renderMindMap(main, subject) {
   const relationEdges = hier.topicEdges.filter((e) => byId.has(e.source) && byId.has(e.target));
 
   function baseColor(n) {
-    return nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR);
+    // Resolve topic color through its parent unit, not a duplicated field on the
+    // topic, so a wrong/missing topic unitIndex can never break unit tinting.
+    if (n.tier === 'topic') {
+      const unit = unitByChapter.get(n.chapterId);
+      if (unit && Number.isFinite(Number(unit.unitIndex))) {
+        return nodeBaseColor({ ...n, unitIndex: unit.unitIndex }, UNIT_COLORS_AP);
+      }
+    }
+    return nodeBaseColor(n, UNIT_COLORS_AP);
   }
   // Geos already encode tier size (stage≈3× topic, unit≈1.8×); scale≈1 + screen stabilize
   function baseScale(n) {
@@ -414,21 +422,15 @@ export async function renderMindMap(main, subject) {
   const edgeHandleGroup = new THREE.Group();
   scene.add(edgeHandleGroup);
   const edgeHandles = [];
-  // Small connector beads (not nodes): keep them far below topic sphere size (0.32)
-  // and tint by the two endpoint units so they never read as uncolored topics.
-  const handleGeo = new THREE.SphereGeometry(0.11, 8, 8);
-  const handleHitGeo = new THREE.SphereGeometry(0.62, 8, 8);
+  // Midpoint affordance must never read as a knowledge-point sphere: keep a
+  // small neutral dot while leaving the generous invisible hit area for hover.
+  const handleGeo = new THREE.SphereGeometry(0.085, 8, 8);
+  const handleHitGeo = new THREE.SphereGeometry(1.4, 8, 8);
   for (const e of relationEdges) {
     const a = byId.get(e.source);
     const b = byId.get(e.target);
     if (!a || !b) continue;
-    const edgeColor = mixHex(baseColor(a), baseColor(b), 0.5);
-    const mat = new THREE.MeshBasicMaterial({
-      color: mixHex(edgeColor, 0xffffff, 0.12),
-      transparent: true,
-      opacity: e.cross ? 0.78 : 0.68,
-      depthWrite: true,
-    });
+    const mat = new THREE.MeshBasicMaterial({ color: EDGE_NEUTRAL, transparent: true, opacity: e.cross ? 0.55 : 0.38, depthWrite: false });
     const dot = new THREE.Mesh(handleGeo, mat);
     const hit = new THREE.Mesh(handleHitGeo, new THREE.MeshBasicMaterial({ visible: false }));
     dot.add(hit);

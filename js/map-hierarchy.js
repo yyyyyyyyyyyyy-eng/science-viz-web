@@ -175,6 +175,7 @@ export function buildHierarchicalGraph(subject, GRAPH, crossEdges = [], crossRel
     stageNodes,
     unitNodes,
     topicNodes,
+    unitByChapter,
   };
 }
 
@@ -307,9 +308,16 @@ export function mixHex(a, b, t) {
   return (r << 16) | (g << 8) | bl;
 }
 
-export function nodeBaseColor(n, UNIT_COLORS_AP, PREP_COLOR) {
+export function nodeBaseColor(n, UNIT_COLORS_AP) {
   if (n.tier === 'stage' && n.color != null) return n.color;
-  const unitCol = UNIT_COLORS_AP[Math.max(0, n.unitIndex) % UNIT_COLORS_AP.length];
+  // unitIndex is the authoritative unit slot; if a node ever lacks it, derive a
+  // stable slot from its chapter so the whole unit still shares one hue instead
+  // of falling through to an undefined palette entry (which renders near-gray).
+  const rawIndex = Number(n.unitIndex);
+  const index = Number.isFinite(rawIndex)
+    ? Math.max(0, Math.floor(rawIndex))
+    : hashStr(n.chapterId || n.id || 'unit');
+  const unitCol = UNIT_COLORS_AP[index % UNIT_COLORS_AP.length];
   // Pastel topics: keep unit hue, lift toward cream so spheres stay soft (not gray).
   if (n.layer === 'prep') {
     if (n.tier === 'topic') return mixHex(unitCol, 0xf7f5f0, 0.28);

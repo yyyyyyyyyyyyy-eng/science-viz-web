@@ -26,10 +26,10 @@
 
 5. **收工前关键路由抽检**：首页 / 四科 / 典型 topic / math practice / map — **0 console errors**；favicon 200
 
-6. **思维导图灰色节点修复**
+6. **思维导图灰色节点修复（item 1，2026-11-06 完成）**
    - 根因：关系边中点手柄（半径 0.28、纯灰 `0x9a9a9a`）与知识点球（0.32）尺寸接近，被误认为未上色的灰色知识点
-   - 修复：手柄缩至 0.11，改取两端知识点的单元色混色；点击热区 1.4 → 0.62，减少误触
-   - 抽检 bio/math/mech/em 浅色 + bio 深色：灰色节点消失，关系点仍可辨识/点击
+   - 修复：手柄缩至 0.085 中性小点（保留 1.4 命中区），关系点仍可 hover/点击/Shift 多选；知识点颜色经父单元 `unitByChapter` 解析，unitIndex 缺失时按 chapterId 稳定回退
+   - 验证：四科 × 明暗 8 张 `screenshots/mindmap-colors/{bio,math,mech,em}-{light,dark}.png`；全部 topic 非灰，标签 0 重叠 / 0 越界、节点 0 裁剪、0 console error
 
 7. **全站 Playwright bug sweep**
    - 新增 `scripts/build-routes.mjs`（481 routes）与 `scripts/serve-dev.py`（keep-alive + backlog 256）
@@ -129,4 +129,4 @@
 2. 物理 figure-audit 页面复检勾选  
 3. Mac dist + Release
 
-- [x] 思维导图灰色节点修复：关系中点已缩小并着单元色（2026-11-05）
+- [x] 思维导图灰色节点修复：关系中点缩小为中性小点，知识点按父单元浅色着色（2026-11-06 完成，见上）
