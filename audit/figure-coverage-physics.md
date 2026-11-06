@@ -1,6 +1,6 @@
 # Physics C 考试图示覆盖清单（Mechanics + E&M，含先修）
 
-图示库：`modules/physics/exam-figures.js`（104 张原创 SVG + 4 张公开授权参考图，共 108 张；挂载到 14 个物理模块与 83 个 topic）。
+图示库：`modules/physics/exam-figures.js`（107 张原创 SVG + 4 张公开授权参考图，共 111 张；挂载到 14 个物理模块与 83 个 topic）。
 每个模块页 `#/m/<id>` 底部有一个“AP 考试常见图示”区块。知识点页通过 `data/` 里的 `modules` 链接跳转过去。
 
 尺寸约束：每张图都是固定 400×260 viewBox 的 SVG，放在 `width:100%; max-width:min(100%,480px); aspect-ratio:400/260; contain:size layout paint` 的容器里。宽度不会超过所在列，也不会超过 480px，比例固定，窗口变宽时不会继续变大（已用 Playwright 在 380 / 1280 / 1900px 宽度下验证）。
@@ -102,6 +102,18 @@
 | 13.2 电磁感应 | 2 | 3 | `flux-emf-graph` |
 | 13.4 / 13.5 电感 | 2 / 1 | 3 / 2 | `inductor-energy` |
 | 13.6 LC 电路 | 1 | 2 | `lc-energy` |
+
+## 第二轮补充（2026-11-06：E&M 11.4 / 11.6 / 11.7）
+
+本轮为电功率与基尔霍夫两个薄主题补第二视角图示，均为原创 SVG，固定 `400×260` viewBox，容器契约不变。新图同时加入 `rc-circuit` 模块图示库。
+
+| Topic | 原 | 现 | 新增 |
+|---|---:|---:|---|
+| 11.4 电功率 | 1 | 2 | `power-series-parallel`（串联 I 相同 / 并联 V 相同，功率与 R 的比例关系） |
+| 11.6 基尔霍夫环路 | 1 | 2 | `kirchhoff-loop-signs`（绕行方向、电池与电阻的电压符号） |
+| 11.7 基尔霍夫结点 | 2 | 3 | `kirchhoff-junction`（四支路结点，流入 = 流出） |
+
+图注使用 KaTeX `\dfrac`；含叠式分式或深下标的图注追加 `CAP_DESCENT`，避免图注容器底部裁切。自检见 `screenshots/figures-physics/em-11/`：1280×900 与 390×844、light/dark 共 12 次页面检查，新增图 0 console/page error、0 KaTeX error、0 横向溢出、0 SVG 文本越界或重叠，图注完整可见。
 
 ## 公开授权参考图
 

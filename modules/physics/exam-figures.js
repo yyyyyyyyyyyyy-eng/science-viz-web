@@ -634,6 +634,50 @@ def('circuit-kirchhoff', '双回路电路：基尔霍夫定律', '\\sum_{\\text{
   s += tx(20, 205, '结点：I₂ = I₁ + I₃', { fs: 12 }) + tx(20, 228, '左回路：ε₁ − I₁R₁ − I₂R₂ = 0', { fs: 12 }) + tx(20, 251, '右回路：ε₂ − I₃R₃ − I₂R₂ = 0', { fs: 12 });
   return s;
 });
+def('power-series-parallel', '电功率：串联（I 相同）与并联（V 相同）', 'P=IV=I^{2}R=\\dfrac{V^{2}}{R}' + CAP_DESCENT, () => {
+  let s = tx(22, 24, '串联：I 相同 → P ∝ R', { it: false, fs: 11 }) + tx(218, 24, '并联：V 相同 → P ∝ 1/R', { it: false, fs: 11 });
+  const L = 35, R = 185, T = 56, B = 158;
+  s += battery(L, B, L, T, 'ε', true) + ln(L, T, R, T) + resistor(L, T, 110, T, 'R₁') + resistor(110, T, R, T, 'R₂') + ln(R, T, R, B) + ln(R, B, L, B);
+  s += arr(160, B - 10, 120, B - 10, 'I', 1.4) + tx(140, B + 6, 'I', { c: 'I', anchor: 'middle', fs: 11 });
+  s += tx(110, 190, 'P₁ : P₂ = R₁ : R₂ = 1 : 2', { it: false, fs: 10, anchor: 'middle' });
+  const L2 = 225, R2 = 370, T2 = 56, B2 = 158;
+  s += battery(L2, B2, L2, T2, 'ε', true) + ln(L2, T2, R2, T2) + ln(L2, B2, R2, B2);
+  s += resistor(295, 80, 295, 140, 'R₁') + ln(295, T2, 295, 80) + ln(295, 140, 295, B2);
+  s += resistor(365, 80, 365, 140, 'R₂') + ln(365, T2, 365, 80) + ln(365, 140, 365, B2);
+  s += node(295, T2) + node(295, B2) + node(365, T2) + node(365, B2);
+  s += arr(240, T2 - 10, 270, T2 - 10, 'I', 1.4) + tx(255, T2 - 16, 'I', { c: 'I', anchor: 'middle', fs: 11 });
+  s += arr(295, 62, 295, 78, 'I', 1.2) + tx(288, 72, 'I₁', { c: 'I', anchor: 'end', fs: 11 });
+  s += arr(365, 62, 365, 78, 'I', 1.2) + tx(372, 72, 'I₂', { c: 'I', fs: 11 });
+  s += tx(297, 190, 'P₁ : P₂ = R₂ : R₁ = 2 : 1', { it: false, fs: 10, anchor: 'middle' });
+  s += eq(20, 216, ['P = IV = I²R = ', { n: 'V²', d: 'R' }], { fs: 13 });
+  s += tx(20, 244, '同一电源、R₂ = 2R₁：串联时 R₂ 更亮，并联时 R₁ 更亮', { it: false, fs: 10 });
+  return s;
+});
+def('kirchhoff-loop-signs', '基尔霍夫环路：绕行方向与电压符号', '\\sum_{\\text{loop}}\\Delta V=0' + CAP_DESCENT, () => {
+  const L = 45, R = 345, T = 60, B = 175;
+  let s = battery(L, B, L, T, '', true) + tx(8, 104, 'ε₁', { fs: 12 }) + tx(8, 124, '+ε₁', { c: 'a', fs: 11 });
+  s += resistor(L, T, R, T, '') + tx(195, 46, 'R₁', { anchor: 'middle' }) + tx(195, 82, '−IR₁', { anchor: 'middle', c: 'f', fs: 12 });
+  s += battery(R, T, R, B, '', false) + tx(358, 145, 'ε₂', { fs: 12 }) + tx(358, 162, '−ε₂', { c: 'f', fs: 11 });
+  s += resistor(R, B, L, B, '') + tx(195, 190, 'R₂', { anchor: 'middle' }) + tx(195, 158, '−IR₂', { anchor: 'middle', c: 'f', fs: 12 });
+  s += arc(195, 118, 24, 140, -140, { c: 'm', w: 1.2, me: 'm' }) + tx(195, 122, 'I', { c: 'I', anchor: 'middle', fs: 13 });
+  s += eq(20, 214, ['+ε₁ − IR₁ − ε₂ − IR₂ = 0'], { fs: 13 });
+  s += tx(20, 241, '沿绕行方向：电池 −→+ 记 +ε；电阻顺电流记 −IR', { it: false, fs: 10 });
+  return s;
+});
+def('kirchhoff-junction', '基尔霍夫结点：流入电流之和 = 流出电流之和', '\\sum I_{\\text{in}}=\\sum I_{\\text{out}}', () => {
+  const cx = 200, cy = 120;
+  let s = ln(45, cy, cx, cy) + ln(cx, 35, cx, cy) + ln(cx, cy, 355, cy) + ln(cx, cy, cx, 195);
+  s += arr(55, cy, 175, cy, 'I', 1.6) + tx(100, cy - 10, 'I₁', { c: 'I', fs: 12, anchor: 'middle' });
+  s += arr(cx, 45, cx, 100, 'I', 1.6) + tx(cx + 12, 78, 'I₂', { c: 'I', fs: 12 });
+  s += arr(225, cy, 345, cy, 'I', 1.6) + tx(300, cy - 10, 'I₃', { c: 'I', fs: 12, anchor: 'middle' });
+  s += arr(cx, 140, cx, 185, 'I', 1.6) + tx(cx + 12, 172, 'I₄', { c: 'I', fs: 12 });
+  s += circ(cx, cy, 24, { c: 'm', dash: '4 3' }) + node(cx, cy);
+  s += tx(228, 156, '结点', { it: false, fs: 10, c: 'm' });
+  s += tx(78, 96, '流入', { it: false, fs: 10, c: 'I' }) + tx(300, 96, '流出', { it: false, fs: 10, c: 'I' });
+  s += eq(55, 230, ['I₁ + I₂ = I₃ + I₄'], { fs: 13 });
+  s += tx(55, 252, 'ΣI = 0（流入取 +，流出取 −）；结点无电荷积累', { it: false, fs: 10 });
+  return s;
+});
 def('rc-circuit', 'RC 电路（单刀双掷开关：a 充电 / b 放电）', '\\tau=RC', () => {
   const L = 60, T = 50, B = 190, sx = 150; let s = battery(L, B, L, T, 'ε', true) + ln(L, T, 120, T);
   // pole at (sx, T+30) can connect up to a (battery side) or down to b (discharge path)
@@ -1181,7 +1225,7 @@ export const MODULE_FIGURES = {
   'gauss-law': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'gauss-conductor', 'flux-angle', 'gauss-shell', 'line-charge'],
   'electric-potential': ['parallel-plate-potential', 'point-charge-field', 'potential-energy-sign', 'potential-point-charge', 'charge-in-field', 'field-lines-equipotentials'],
   capacitor: ['capacitor-plate', 'capacitor-dielectric', 'capacitor-dielectric-partial', 'capacitor-combinations', 'capacitor-energy'],
-  'rc-circuit': ['circuit-series', 'circuit-parallel', 'circuit-kirchhoff', 'rc-circuit', 'rc-charging', 'rc-discharging', 'rc-energy'],
+  'rc-circuit': ['circuit-series', 'circuit-parallel', 'circuit-kirchhoff', 'power-series-parallel', 'kirchhoff-loop-signs', 'kirchhoff-junction', 'rc-circuit', 'rc-charging', 'rc-discharging', 'rc-energy'],
   'charged-particle-B': ['wire-field', 'loop-field', 'solenoid-field', 'ampere-wire', 'ampere-thick-wire', 'particle-in-B', 'magnetic-force-rhr', 'cathode-ray-tube', 'biot-savart', 'velocity-selector', 'mass-spectrometer'],
   'faraday-induction': ['faraday-rod', 'faraday-changing-B', 'rl-circuit', 'lc-circuit', 'magnetic-flux-angle', 'flux-emf-graph', 'inductor-energy', 'lc-energy'],
 };
@@ -1268,10 +1312,10 @@ export const TOPIC_FIGURES = {
   'em/em-u11/11.1': ['circuit-series'],
   'em/em-u11/11.2': ['circuit-series', 'circuit-parallel', 'circuit-equivalent', 'ammeter-voltmeter'],
   'em/em-u11/11.3': ['circuit-series', 'circuit-parallel', 'ohmic-nonohmic'],
-  'em/em-u11/11.4': ['circuit-series'],
+  'em/em-u11/11.4': ['circuit-series', 'power-series-parallel'],
   'em/em-u11/11.5': ['circuit-series', 'circuit-parallel', 'circuit-kirchhoff', 'circuit-equivalent'],
-  'em/em-u11/11.6': ['circuit-kirchhoff'],
-  'em/em-u11/11.7': ['circuit-kirchhoff', 'circuit-parallel'],
+  'em/em-u11/11.6': ['circuit-kirchhoff', 'kirchhoff-loop-signs'],
+  'em/em-u11/11.7': ['circuit-kirchhoff', 'circuit-parallel', 'kirchhoff-junction'],
   'em/em-u11/11.8': ['rc-circuit', 'rc-charging', 'rc-discharging', 'rc-energy'],
   'em/em-u12/12.1': ['wire-field', 'loop-field', 'solenoid-field'],
   'em/em-u12/12.2': ['particle-in-B', 'magnetic-force-rhr', 'cathode-ray-tube', 'velocity-selector', 'mass-spectrometer'],
