@@ -12,9 +12,7 @@ export const stimuli = {
     "title": "科学测量与有效数字 · 刺激材料",
     "text": "下列数据与图示与「科学测量与有效数字」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "enzyme",
-      "vmax": 42,
-      "km": 1.2
+      "kind": "enzyme"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -80,38 +78,7 @@ export const stimuli = {
     "title": "原子结构与同位素 · 刺激材料",
     "text": "下列数据与图示与「原子结构与同位素」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "pedigree",
-      "generations": [
-        [
-          {
-            "id": "I-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "I-2",
-            "sex": "f",
-            "aff": true
-          }
-        ],
-        [
-          {
-            "id": "II-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "II-2",
-            "sex": "f",
-            "aff": true
-          },
-          {
-            "id": "II-3",
-            "sex": "m",
-            "aff": false
-          }
-        ]
-      ]
+      "kind": "pathway"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -123,25 +90,7 @@ export const stimuli = {
     "title": "元素周期表 · 刺激材料",
     "text": "下列数据与图示与「元素周期表」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "punnett",
-      "top": [
-        "B",
-        "b"
-      ],
-      "side": [
-        "B",
-        "b"
-      ],
-      "cells": [
-        [
-          "BB",
-          "Bb"
-        ],
-        [
-          "Bb",
-          "bb"
-        ]
-      ]
+      "kind": "gel"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -160,9 +109,7 @@ export const problems = [
       "title": "科学测量与有效数字 · 刺激材料",
       "text": "下列数据与图示与「科学测量与有效数字」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "enzyme",
-        "vmax": 42,
-        "km": 1.2
+        "kind": "enzyme"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
@@ -315,38 +262,7 @@ export const problems = [
       "title": "原子结构与同位素 · 刺激材料",
       "text": "下列数据与图示与「原子结构与同位素」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "pedigree",
-        "generations": [
-          [
-            {
-              "id": "I-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "I-2",
-              "sex": "f",
-              "aff": true
-            }
-          ],
-          [
-            {
-              "id": "II-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "II-2",
-              "sex": "f",
-              "aff": true
-            },
-            {
-              "id": "II-3",
-              "sex": "m",
-              "aff": false
-            }
-          ]
-        ]
+        "kind": "pathway"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
@@ -466,25 +382,7 @@ export const problems = [
       "title": "元素周期表 · 刺激材料",
       "text": "下列数据与图示与「元素周期表」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "punnett",
-        "top": [
-          "B",
-          "b"
-        ],
-        "side": [
-          "B",
-          "b"
-        ],
-        "cells": [
-          [
-            "BB",
-            "Bb"
-          ],
-          [
-            "Bb",
-            "bb"
-          ]
-        ]
+        "kind": "gel"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",

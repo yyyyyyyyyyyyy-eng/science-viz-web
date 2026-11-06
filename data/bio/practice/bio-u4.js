@@ -12,106 +12,19 @@ export const stimuli = {
     "title": "细胞通讯 · 刺激材料",
     "text": "下列数据与图示与「细胞通讯」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "enzyme",
-      "vmax": 42,
-      "km": 1.2
+      "kind": "pathway"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/books/biology-2e/pages/1-introduction",
-    "sourceNote": "Themes aligned with OpenStax Biology 2e; figures/data original.",
-    "table": {
-      "headers": [
-        "[S] / mM",
-        "v / μM·s⁻¹"
-      ],
-      "rows": [
-        [
-          "0.5",
-          "12"
-        ],
-        [
-          "1.0",
-          "20"
-        ],
-        [
-          "2.0",
-          "30"
-        ],
-        [
-          "4.0",
-          "36"
-        ],
-        [
-          "8.0",
-          "39"
-        ]
-      ]
-    },
-    "graph": {
-      "points": [
-        [
-          0.5,
-          12
-        ],
-        [
-          1,
-          20
-        ],
-        [
-          2,
-          30
-        ],
-        [
-          4,
-          36
-        ],
-        [
-          8,
-          39
-        ]
-      ],
-      "xLabel": "[S]",
-      "yLabel": "v"
-    }
+    "sourceNote": "Themes aligned with OpenStax Biology 2e; figures/data original."
   },
   "stim-bio-u4-2": {
     "title": "信号导引导论 · 刺激材料",
     "text": "下列数据与图示与「信号导引导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "pedigree",
-      "generations": [
-        [
-          {
-            "id": "I-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "I-2",
-            "sex": "f",
-            "aff": true
-          }
-        ],
-        [
-          {
-            "id": "II-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "II-2",
-            "sex": "f",
-            "aff": true
-          },
-          {
-            "id": "II-3",
-            "sex": "m",
-            "aff": false
-          }
-        ]
-      ]
+      "kind": "cell"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -123,25 +36,7 @@ export const stimuli = {
     "title": "信号转导 · 刺激材料",
     "text": "下列数据与图示与「信号转导」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "punnett",
-      "top": [
-        "B",
-        "b"
-      ],
-      "side": [
-        "B",
-        "b"
-      ],
-      "cells": [
-        [
-          "BB",
-          "Bb"
-        ],
-        [
-          "Bb",
-          "bb"
-        ]
-      ]
+      "kind": "pathway"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -160,69 +55,13 @@ export const problems = [
       "title": "细胞通讯 · 刺激材料",
       "text": "下列数据与图示与「细胞通讯」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "enzyme",
-        "vmax": 42,
-        "km": 1.2
+        "kind": "pathway"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/books/biology-2e/pages/1-introduction",
-      "sourceNote": "Themes aligned with OpenStax Biology 2e; figures/data original.",
-      "table": {
-        "headers": [
-          "[S] / mM",
-          "v / μM·s⁻¹"
-        ],
-        "rows": [
-          [
-            "0.5",
-            "12"
-          ],
-          [
-            "1.0",
-            "20"
-          ],
-          [
-            "2.0",
-            "30"
-          ],
-          [
-            "4.0",
-            "36"
-          ],
-          [
-            "8.0",
-            "39"
-          ]
-        ]
-      },
-      "graph": {
-        "points": [
-          [
-            0.5,
-            12
-          ],
-          [
-            1,
-            20
-          ],
-          [
-            2,
-            30
-          ],
-          [
-            4,
-            36
-          ],
-          [
-            8,
-            39
-          ]
-        ],
-        "xLabel": "[S]",
-        "yLabel": "v"
-      }
+      "sourceNote": "Themes aligned with OpenStax Biology 2e; figures/data original."
     },
     "questions": [
       {
@@ -315,38 +154,7 @@ export const problems = [
       "title": "信号导引导论 · 刺激材料",
       "text": "下列数据与图示与「信号导引导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "pedigree",
-        "generations": [
-          [
-            {
-              "id": "I-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "I-2",
-              "sex": "f",
-              "aff": true
-            }
-          ],
-          [
-            {
-              "id": "II-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "II-2",
-              "sex": "f",
-              "aff": true
-            },
-            {
-              "id": "II-3",
-              "sex": "m",
-              "aff": false
-            }
-          ]
-        ]
+        "kind": "cell"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
@@ -466,25 +274,7 @@ export const problems = [
       "title": "信号转导 · 刺激材料",
       "text": "下列数据与图示与「信号转导」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "punnett",
-        "top": [
-          "B",
-          "b"
-        ],
-        "side": [
-          "B",
-          "b"
-        ],
-        "cells": [
-          [
-            "BB",
-            "Bb"
-          ],
-          [
-            "Bb",
-            "bb"
-          ]
-        ]
+        "kind": "pathway"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",

@@ -12,9 +12,7 @@ export const stimuli = {
     "title": "水与生命 · 刺激材料",
     "text": "下列数据与图示与「水与生命」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "enzyme",
-      "vmax": 42,
-      "km": 1.2
+      "kind": "enzyme"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -80,38 +78,7 @@ export const stimuli = {
     "title": "元素与大分子 · 刺激材料",
     "text": "下列数据与图示与「元素与大分子」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "pedigree",
-      "generations": [
-        [
-          {
-            "id": "I-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "I-2",
-            "sex": "f",
-            "aff": true
-          }
-        ],
-        [
-          {
-            "id": "II-1",
-            "sex": "m",
-            "aff": false
-          },
-          {
-            "id": "II-2",
-            "sex": "f",
-            "aff": true
-          },
-          {
-            "id": "II-3",
-            "sex": "m",
-            "aff": false
-          }
-        ]
-      ]
+      "kind": "pathway"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -123,25 +90,7 @@ export const stimuli = {
     "title": "生物大分子导论 · 刺激材料",
     "text": "下列数据与图示与「生物大分子导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
-      "kind": "punnett",
-      "top": [
-        "B",
-        "b"
-      ],
-      "side": [
-        "B",
-        "b"
-      ],
-      "cells": [
-        [
-          "BB",
-          "Bb"
-        ],
-        [
-          "Bb",
-          "bb"
-        ]
-      ]
+      "kind": "cell"
     },
     "sourceId": "openstax-biology-2e",
     "source": "OpenStax Biology 2e",
@@ -160,9 +109,7 @@ export const problems = [
       "title": "水与生命 · 刺激材料",
       "text": "下列数据与图示与「水与生命」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "enzyme",
-        "vmax": 42,
-        "km": 1.2
+        "kind": "enzyme"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
@@ -315,38 +262,7 @@ export const problems = [
       "title": "元素与大分子 · 刺激材料",
       "text": "下列数据与图示与「元素与大分子」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "pedigree",
-        "generations": [
-          [
-            {
-              "id": "I-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "I-2",
-              "sex": "f",
-              "aff": true
-            }
-          ],
-          [
-            {
-              "id": "II-1",
-              "sex": "m",
-              "aff": false
-            },
-            {
-              "id": "II-2",
-              "sex": "f",
-              "aff": true
-            },
-            {
-              "id": "II-3",
-              "sex": "m",
-              "aff": false
-            }
-          ]
-        ]
+        "kind": "pathway"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
@@ -466,25 +382,7 @@ export const problems = [
       "title": "生物大分子导论 · 刺激材料",
       "text": "下列数据与图示与「生物大分子导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
-        "kind": "punnett",
-        "top": [
-          "B",
-          "b"
-        ],
-        "side": [
-          "B",
-          "b"
-        ],
-        "cells": [
-          [
-            "BB",
-            "Bb"
-          ],
-          [
-            "Bb",
-            "bb"
-          ]
-        ]
+        "kind": "cell"
       },
       "sourceId": "openstax-biology-2e",
       "source": "OpenStax Biology 2e",
