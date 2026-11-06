@@ -18,6 +18,7 @@ Added 38 second-variant figures (11 bio, 27 math) to close every remaining singl
 - Rebuilt every figure in both modules; no empty SVGs, NaNs, missing viewBoxes, unused IDs or mapping keys.
 - Full mount scan at 1280×900 and 380×800, light and dark: 247 sections, 558 figures, section title exactly `AP 考试常见图示`, 0 empty/zero-size figures, 0 box/SVG/page overflow, 0 KaTeX errors, 0 console/page errors.
 - Focused text-bbox sweep over the 38 new figures: 0 text nodes outside their viewBox and 0 text-text overlaps after fixing the polynomial sign chart, extinction-rate labels, unit-circle tangent label, vector projection label and number-class nesting.
+- Found and fixed during self-check: caption escaping for KaTeX delimiters, an oversize ASA angle arc, long axis labels crossing tick labels, bar values hidden by error bars, and the endosymbiosis protein-import row (mitochondrial TOM/TIM vs chloroplast TOC/TIC).
 - `node scripts/check-math-notation.mjs` → `MATH_NOTATION_OK`; captions use `\dfrac` only (no `\frac`/`\tfrac` in the new captions).
 - Screenshots: `screenshots/figures-bio-math/round2/` (38 new variants × light/dark = 76 PNGs).
 
