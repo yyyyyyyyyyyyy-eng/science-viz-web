@@ -9,8 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-mech-u5-1": {
-    "title": "力矩与静力学 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "水平面加速度 · 物理情境",
+    "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
     "diagram": {
       "kind": "fbd",
       "surface": true,
@@ -49,12 +49,16 @@ export const stimuli = {
           "2.0 kg"
         ],
         [
+          "F",
+          "10 N"
+        ],
+        [
           "μ_k",
           "0.20"
         ],
         [
-          "θ",
-          "30°"
+          "g",
+          "9.8 m/s²"
         ]
       ]
     },
@@ -65,8 +69,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-mech-u5-2": {
-    "title": "转动运动学 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "滑轮系统 · 物理情境",
+    "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
     "diagram": {
       "kind": "pulley",
       "m1": "m₁",
@@ -80,16 +84,16 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "m",
+          "m₁",
           "2.0 kg"
         ],
         [
-          "μ_k",
-          "0.20"
+          "m₂",
+          "1.0 kg"
         ],
         [
-          "θ",
-          "30°"
+          "g",
+          "9.8 m/s²"
         ]
       ]
     },
@@ -100,8 +104,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-mech-u5-3": {
-    "title": "转动动力学 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "v–t 图像 · 物理情境",
+    "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
     "diagram": {
       "kind": "motionGraph",
       "points": [
@@ -124,26 +128,6 @@ export const stimuli = {
       ],
       "xLabel": "t",
       "yLabel": "v"
-    },
-    "table": {
-      "headers": [
-        "量",
-        "值"
-      ],
-      "rows": [
-        [
-          "m",
-          "2.0 kg"
-        ],
-        [
-          "μ_k",
-          "0.20"
-        ],
-        [
-          "θ",
-          "30°"
-        ]
-      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -181,8 +165,8 @@ export const problems = [
     "title": "题组 1 · 共享刺激",
     "sharedStimulus": "stim-mech-u5-1",
     "stimulus": {
-      "title": "力矩与静力学 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "水平面加速度 · 物理情境",
+      "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
       "diagram": {
         "kind": "fbd",
         "surface": true,
@@ -221,12 +205,16 @@ export const problems = [
             "2.0 kg"
           ],
           [
+            "F",
+            "10 N"
+          ],
+          [
             "μ_k",
             "0.20"
           ],
           [
-            "θ",
-            "30°"
+            "g",
+            "9.8 m/s²"
           ]
         ]
       },
@@ -260,15 +248,14 @@ export const problems = [
       },
       {
         "id": "mech-u5-q002",
-        "title": "定量/概念 (2)",
+        "title": "水平面加速度",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "stem": "求物块加速度 a（m/s²）。",
+        "expected": 3.04,
+        "tol": 0.01,
+        "solution": "取 g=9.8 m/s²，代入得 a≈3.04 m/s²。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -280,7 +267,9 @@ export const problems = [
             "label": "5.2 转动运动学",
             "topicId": "mech-u5:5.2"
           }
-        ]
+        ],
+        "answerLatex": "3.04\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-u5-q003",
@@ -327,8 +316,8 @@ export const problems = [
     "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-mech-u5-2",
     "stimulus": {
-      "title": "转动运动学 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "滑轮系统 · 物理情境",
+      "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
       "diagram": {
         "kind": "pulley",
         "m1": "m₁",
@@ -342,16 +331,16 @@ export const problems = [
         ],
         "rows": [
           [
-            "m",
+            "m₁",
             "2.0 kg"
           ],
           [
-            "μ_k",
-            "0.20"
+            "m₂",
+            "1.0 kg"
           ],
           [
-            "θ",
-            "30°"
+            "g",
+            "9.8 m/s²"
           ]
         ]
       },
@@ -385,15 +374,14 @@ export const problems = [
       },
       {
         "id": "mech-u5-q005",
-        "title": "定量/概念 (2)",
+        "title": "滑轮系统加速度",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "stem": "求两物块加速度大小 a（m/s²）。",
+        "expected": 3.27,
+        "tol": 0.01,
+        "solution": "系统整体受力 m₂g，总质量 m₁+m₂。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -405,7 +393,9 @@ export const problems = [
             "label": "5.2 转动运动学",
             "topicId": "mech-u5:5.2"
           }
-        ]
+        ],
+        "answerLatex": "3.27\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{m_2 g}{m_1+m_2}=\\dfrac{(1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-u5-q006",
@@ -473,8 +463,8 @@ export const problems = [
     "title": "题组 3 · 共享刺激",
     "sharedStimulus": "stim-mech-u5-3",
     "stimulus": {
-      "title": "转动动力学 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "v–t 图像 · 物理情境",
+      "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
       "diagram": {
         "kind": "motionGraph",
         "points": [
@@ -497,26 +487,6 @@ export const problems = [
         ],
         "xLabel": "t",
         "yLabel": "v"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "θ",
-            "30°"
-          ]
-        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -553,8 +523,8 @@ export const problems = [
         "difficulty": "易",
         "type": "frq",
         "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
+        "answerLatex": "a=\\dfrac{\\Delta v}{\\Delta t}",
+        "solution": "v–t 图像斜率即加速度。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -570,15 +540,14 @@ export const problems = [
       },
       {
         "id": "mech-u5-q009",
-        "title": "定量/概念 (2)",
+        "title": "v–t 图像斜率",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
+        "stem": "求 0–1 s 内的加速度 a（m/s²）。",
         "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "tol": 0.01,
+        "solution": "v–t 图斜率即加速度。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -590,7 +559,9 @@ export const problems = [
             "label": "5.3 转动动力学",
             "topicId": "mech-u5:5.3"
           }
-        ]
+        ],
+        "answerLatex": "3.0\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{\\Delta v}{\\Delta t}=\\dfrac{3.0-0}{1.0-0}=3.0\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-u5-q010",
@@ -696,7 +667,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -705,7 +676,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -760,16 +732,16 @@ export const problems = [
   },
   {
     "id": "mech-u5-q013",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -781,7 +753,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q014",
@@ -848,7 +821,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -857,7 +830,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -884,7 +858,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -896,20 +870,21 @@ export const problems = [
         "label": "5.3 转动动力学",
         "topicId": "mech-u5:5.3"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-u5-q016",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -921,7 +896,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q017",
@@ -988,7 +964,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -997,7 +973,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1052,16 +1029,16 @@ export const problems = [
   },
   {
     "id": "mech-u5-q019",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1073,7 +1050,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q020",
@@ -1140,7 +1118,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1149,7 +1127,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1176,7 +1155,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1188,20 +1167,21 @@ export const problems = [
         "label": "5.3 转动动力学",
         "topicId": "mech-u5:5.3"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-u5-q022",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1213,7 +1193,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q023",
@@ -1280,7 +1261,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1289,7 +1270,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1344,16 +1326,16 @@ export const problems = [
   },
   {
     "id": "mech-u5-q025",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1365,7 +1347,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q026",
@@ -1432,7 +1415,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1441,7 +1424,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1468,7 +1452,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1480,20 +1464,21 @@ export const problems = [
         "label": "5.3 转动动力学",
         "topicId": "mech-u5:5.3"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-u5-q028",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1505,7 +1490,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q029",
@@ -1572,7 +1558,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1581,7 +1567,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1636,16 +1623,16 @@ export const problems = [
   },
   {
     "id": "mech-u5-q031",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1657,7 +1644,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q032",
@@ -1724,7 +1712,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1733,7 +1721,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1760,7 +1749,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1772,20 +1761,21 @@ export const problems = [
         "label": "5.3 转动动力学",
         "topicId": "mech-u5:5.3"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-u5-q034",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1797,7 +1787,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q035",
@@ -1864,7 +1855,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1873,7 +1864,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1928,16 +1920,16 @@ export const problems = [
   },
   {
     "id": "mech-u5-q037",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1949,7 +1941,8 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   },
   {
     "id": "mech-u5-q038",
@@ -2016,7 +2009,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -2025,7 +2018,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2052,7 +2046,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2064,20 +2058,21 @@ export const problems = [
         "label": "5.3 转动动力学",
         "topicId": "mech-u5:5.3"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-u5-q040",
-    "title": "5.3 动能",
+    "title": "5.1 力矩",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
+    "stemLatex": "\\text{力 }F=10\\,\\mathrm{N}\\text{ 垂直作用于距转轴 }r=0.50\\,\\mathrm{m}\\text{ 处，求力矩大小 }\\tau",
+    "expected": 5,
     "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "answerLatex": "5.0\\,\\mathrm{N\\,m}",
+    "solution": "由力矩定义得 τ=5.0 N·m。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2089,6 +2084,7 @@ export const problems = [
         "label": "5.1 力矩与静力学",
         "topicId": "mech-u5:5.1"
       }
-    ]
+    ],
+    "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
   }
 ];

@@ -9,8 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-mech-prep-hs-1": {
-    "title": "测量、单位与矢量 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "水平面加速度 · 物理情境",
+    "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
     "diagram": {
       "kind": "fbd",
       "surface": true,
@@ -49,12 +49,16 @@ export const stimuli = {
           "2.0 kg"
         ],
         [
+          "F",
+          "10 N"
+        ],
+        [
           "μ_k",
           "0.20"
         ],
         [
-          "θ",
-          "30°"
+          "g",
+          "9.8 m/s²"
         ]
       ]
     },
@@ -65,8 +69,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-mech-prep-hs-2": {
-    "title": "一维运动学 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "滑轮系统 · 物理情境",
+    "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
     "diagram": {
       "kind": "pulley",
       "m1": "m₁",
@@ -80,16 +84,16 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "m",
+          "m₁",
           "2.0 kg"
         ],
         [
-          "μ_k",
-          "0.20"
+          "m₂",
+          "1.0 kg"
         ],
         [
-          "θ",
-          "30°"
+          "g",
+          "9.8 m/s²"
         ]
       ]
     },
@@ -100,8 +104,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-mech-prep-hs-3": {
-    "title": "二维运动与抛体 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "v–t 图像 · 物理情境",
+    "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
     "diagram": {
       "kind": "motionGraph",
       "points": [
@@ -124,26 +128,6 @@ export const stimuli = {
       ],
       "xLabel": "t",
       "yLabel": "v"
-    },
-    "table": {
-      "headers": [
-        "量",
-        "值"
-      ],
-      "rows": [
-        [
-          "m",
-          "2.0 kg"
-        ],
-        [
-          "μ_k",
-          "0.20"
-        ],
-        [
-          "θ",
-          "30°"
-        ]
-      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -181,8 +165,8 @@ export const problems = [
     "title": "题组 1 · 共享刺激",
     "sharedStimulus": "stim-mech-prep-hs-1",
     "stimulus": {
-      "title": "测量、单位与矢量 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "水平面加速度 · 物理情境",
+      "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
       "diagram": {
         "kind": "fbd",
         "surface": true,
@@ -221,12 +205,16 @@ export const problems = [
             "2.0 kg"
           ],
           [
+            "F",
+            "10 N"
+          ],
+          [
             "μ_k",
             "0.20"
           ],
           [
-            "θ",
-            "30°"
+            "g",
+            "9.8 m/s²"
           ]
         ]
       },
@@ -260,15 +248,14 @@ export const problems = [
       },
       {
         "id": "mech-prep-hs-q002",
-        "title": "定量/概念 (2)",
+        "title": "水平面加速度",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "stem": "求物块加速度 a（m/s²）。",
+        "expected": 3.04,
+        "tol": 0.01,
+        "solution": "取 g=9.8 m/s²，代入得 a≈3.04 m/s²。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -280,7 +267,9 @@ export const problems = [
             "label": "P1.2 一维运动学",
             "topicId": "mech-prep-hs:P1.2"
           }
-        ]
+        ],
+        "answerLatex": "3.04\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-prep-hs-q003",
@@ -327,8 +316,8 @@ export const problems = [
     "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-mech-prep-hs-2",
     "stimulus": {
-      "title": "一维运动学 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "滑轮系统 · 物理情境",
+      "text": "m₁ 置于光滑水平桌面，m₂ 竖直悬挂，轻绳跨过理想定滑轮。求系统加速度。",
       "diagram": {
         "kind": "pulley",
         "m1": "m₁",
@@ -342,16 +331,16 @@ export const problems = [
         ],
         "rows": [
           [
-            "m",
+            "m₁",
             "2.0 kg"
           ],
           [
-            "μ_k",
-            "0.20"
+            "m₂",
+            "1.0 kg"
           ],
           [
-            "θ",
-            "30°"
+            "g",
+            "9.8 m/s²"
           ]
         ]
       },
@@ -385,15 +374,14 @@ export const problems = [
       },
       {
         "id": "mech-prep-hs-q005",
-        "title": "定量/概念 (2)",
+        "title": "滑轮系统加速度",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "stem": "求两物块加速度大小 a（m/s²）。",
+        "expected": 3.27,
+        "tol": 0.01,
+        "solution": "系统整体受力 m₂g，总质量 m₁+m₂。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -405,7 +393,9 @@ export const problems = [
             "label": "P1.5 应用力与摩擦",
             "topicId": "mech-prep-hs:P1.5"
           }
-        ]
+        ],
+        "answerLatex": "3.27\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{m_2 g}{m_1+m_2}=\\dfrac{(1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-prep-hs-q006",
@@ -473,8 +463,8 @@ export const problems = [
     "title": "题组 3 · 共享刺激",
     "sharedStimulus": "stim-mech-prep-hs-3",
     "stimulus": {
-      "title": "二维运动与抛体 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "v–t 图像 · 物理情境",
+      "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
       "diagram": {
         "kind": "motionGraph",
         "points": [
@@ -497,26 +487,6 @@ export const problems = [
         ],
         "xLabel": "t",
         "yLabel": "v"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "θ",
-            "30°"
-          ]
-        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -553,8 +523,8 @@ export const problems = [
         "difficulty": "易",
         "type": "frq",
         "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
+        "answerLatex": "a=\\dfrac{\\Delta v}{\\Delta t}",
+        "solution": "v–t 图像斜率即加速度。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -570,15 +540,14 @@ export const problems = [
       },
       {
         "id": "mech-prep-hs-q009",
-        "title": "定量/概念 (2)",
+        "title": "v–t 图像斜率",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
+        "stem": "求 0–1 s 内的加速度 a（m/s²）。",
         "expected": 3,
-        "tol": 0.15,
-        "answer": "例如水平面 a=(F−μmg)/m ≈ 3 m/s²",
-        "solution": "定量计算并检查单位。",
+        "tol": 0.01,
+        "solution": "v–t 图斜率即加速度。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -590,7 +559,9 @@ export const problems = [
             "label": "P1.9 势能与守恒",
             "topicId": "mech-prep-hs:P1.9"
           }
-        ]
+        ],
+        "answerLatex": "3.0\\,\\mathrm{m\\,s^{-2}}",
+        "solutionLatex": "a=\\dfrac{\\Delta v}{\\Delta t}=\\dfrac{3.0-0}{1.0-0}=3.0\\,\\mathrm{m\\,s^{-2}}."
       },
       {
         "id": "mech-prep-hs-q010",
@@ -696,7 +667,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -705,7 +676,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -769,7 +741,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -781,7 +753,8 @@ export const problems = [
         "label": "P1.13 机械波与声音",
         "topicId": "mech-prep-hs:P1.13"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q014",
@@ -848,7 +821,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -857,7 +830,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -884,7 +858,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -896,7 +870,8 @@ export const problems = [
         "label": "P1.15 直流电路基础",
         "topicId": "mech-prep-hs:P1.15"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-prep-hs-q016",
@@ -909,7 +884,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -921,7 +896,8 @@ export const problems = [
         "label": "P1.16 磁与电磁入门",
         "topicId": "mech-prep-hs:P1.16"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q017",
@@ -988,7 +964,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -997,7 +973,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1061,7 +1038,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1073,7 +1050,8 @@ export const problems = [
         "label": "P1.3 二维运动与抛体",
         "topicId": "mech-prep-hs:P1.3"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q020",
@@ -1140,7 +1118,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1149,7 +1127,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1176,7 +1155,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1188,7 +1167,8 @@ export const problems = [
         "label": "P1.5 应用力与摩擦",
         "topicId": "mech-prep-hs:P1.5"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-prep-hs-q022",
@@ -1201,7 +1181,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1213,7 +1193,8 @@ export const problems = [
         "label": "P1.6 圆周运动",
         "topicId": "mech-prep-hs:P1.6"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q023",
@@ -1280,7 +1261,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1289,7 +1270,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1353,7 +1335,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1365,7 +1347,8 @@ export const problems = [
         "label": "P1.9 势能与守恒",
         "topicId": "mech-prep-hs:P1.9"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q026",
@@ -1432,7 +1415,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1441,7 +1424,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1468,7 +1452,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1480,7 +1464,8 @@ export const problems = [
         "label": "P1.11 转动入门",
         "topicId": "mech-prep-hs:P1.11"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-prep-hs-q028",
@@ -1493,7 +1478,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1505,7 +1490,8 @@ export const problems = [
         "label": "P1.12 简谐运动",
         "topicId": "mech-prep-hs:P1.12"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q029",
@@ -1572,7 +1558,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1581,7 +1567,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1645,7 +1632,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1657,7 +1644,8 @@ export const problems = [
         "label": "P1.15 直流电路基础",
         "topicId": "mech-prep-hs:P1.15"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q032",
@@ -1724,7 +1712,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1733,7 +1721,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1760,7 +1749,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1772,7 +1761,8 @@ export const problems = [
         "label": "P1.1 测量、单位与矢量",
         "topicId": "mech-prep-hs:P1.1"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-prep-hs-q034",
@@ -1785,7 +1775,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1797,7 +1787,8 @@ export const problems = [
         "label": "P1.2 一维运动学",
         "topicId": "mech-prep-hs:P1.2"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q035",
@@ -1864,7 +1855,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -1873,7 +1864,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1937,7 +1929,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1949,7 +1941,8 @@ export const problems = [
         "label": "P1.5 应用力与摩擦",
         "topicId": "mech-prep-hs:P1.5"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-prep-hs-q038",
@@ -2016,7 +2009,7 @@ export const problems = [
         "stem": "沿水平方向写出牛顿第二定律。",
         "type": "frq",
         "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动能摩擦与运动反向。"
+        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
       },
       {
         "stem": "求加速度 a（m/s²）。",
@@ -2025,7 +2018,8 @@ export const problems = [
         "expected": 3.04,
         "tol": 0.02,
         "answerLatex": "3.04",
-        "solution": "a=(F-μ_k mg)/m=(10-0.2*2*9.8)/2=3.0400."
+        "solution": "代入数据得 a≈3.04 m/s²。",
+        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2052,7 +2046,7 @@ export const problems = [
     "expected": 5,
     "tol": 0.01,
     "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "a=F/m=5.0 m/s²。",
+    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2064,7 +2058,8 @@ export const problems = [
         "label": "P1.7 万有引力入门",
         "topicId": "mech-prep-hs:P1.7"
       }
-    ]
+    ],
+    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
   },
   {
     "id": "mech-prep-hs-q040",
@@ -2077,7 +2072,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "K=½·2·16=16 J.",
+    "solution": "代入数据得 K=16 J。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2089,6 +2084,7 @@ export const problems = [
         "label": "P1.8 功与动能",
         "topicId": "mech-prep-hs:P1.8"
       }
-    ]
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   }
 ];
