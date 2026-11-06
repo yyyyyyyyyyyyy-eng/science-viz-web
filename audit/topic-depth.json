@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-06T13:17:05.023Z",
+  "generatedAt": "2026-11-06T15:44:29.317Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 91,
+  "enrichedCount": 103,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -822,7 +822,7 @@
       "titleZh": "主动运输",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.6",
@@ -1292,7 +1292,7 @@
       "titleZh": "孟德尔遗传",
       "layer": "ap",
       "words": 399,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u5/5.6",
@@ -1482,7 +1482,7 @@
       "titleZh": "渗透与水势",
       "layer": "ap",
       "words": 401,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.5",
@@ -1492,7 +1492,7 @@
       "titleZh": "哈代–温伯格",
       "layer": "ap",
       "words": 401,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u0/0.1",
@@ -1672,7 +1672,7 @@
       "titleZh": "DNA 与 RNA 结构",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u9/9.4",
@@ -1842,7 +1842,7 @@
       "titleZh": "环境影响酶",
       "layer": "ap",
       "words": 405,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u10/10.2",
@@ -1952,7 +1952,7 @@
       "titleZh": "非孟德尔遗传",
       "layer": "ap",
       "words": 408,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u8/8.7",
@@ -2132,7 +2132,7 @@
       "titleZh": "信号导引导论",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u4/4.6",
@@ -2162,7 +2162,7 @@
       "titleZh": "转录与 RNA 加工",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u6/6.5",
@@ -2172,7 +2172,7 @@
       "titleZh": "基因表达调控",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u7/7.1",
@@ -2412,7 +2412,7 @@
       "titleZh": "酶结构与功能",
       "layer": "ap",
       "words": 412,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u1/1.12",
@@ -2612,7 +2612,7 @@
       "titleZh": "生物大分子导论",
       "layer": "ap",
       "words": 417,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u2/2.1",
