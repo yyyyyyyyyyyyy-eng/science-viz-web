@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-06T13:05:13.217Z",
+  "generatedAt": "2026-11-06T13:17:05.023Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 79,
+  "enrichedCount": 91,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -862,7 +862,7 @@
       "titleZh": "积商法则",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u3/3.1",
@@ -882,7 +882,7 @@
       "titleZh": "优化求解",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u6/6.12",
@@ -1252,7 +1252,7 @@
       "titleZh": "中值定理",
       "layer": "ap",
       "words": 398,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u6/6.10",
@@ -1262,7 +1262,7 @@
       "titleZh": "分部积分",
       "layer": "ap",
       "words": 398,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u6/6.11",
@@ -1322,7 +1322,7 @@
       "titleZh": "隐函数求导",
       "layer": "ap",
       "words": 399,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u5/5.2",
@@ -1532,7 +1532,7 @@
       "titleZh": "换元积分法",
       "layer": "ap",
       "words": 401,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u7/7.3",
@@ -1712,7 +1712,7 @@
       "titleZh": "相关变化率",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u7/7.4",
@@ -2042,7 +2042,7 @@
       "titleZh": "可分离变量",
       "layer": "ap",
       "words": 409,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/math-prep-alg1/P1.10",
@@ -2482,7 +2482,7 @@
       "titleZh": "参数运动导数",
       "layer": "ap",
       "words": 412,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u9/9.2",
@@ -2542,7 +2542,7 @@
       "titleZh": "洛必达法则",
       "layer": "ap",
       "words": 415,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u8/8.1",
@@ -2562,7 +2562,7 @@
       "titleZh": "曲线间面积",
       "layer": "ap",
       "words": 415,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u8/8.8",
@@ -3012,7 +3012,7 @@
       "titleZh": "泰勒多项式导论",
       "layer": "ap",
       "words": 421,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-prep-found/P1.9",
