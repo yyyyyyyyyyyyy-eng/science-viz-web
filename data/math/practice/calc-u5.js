@@ -1610,5 +1610,60 @@ export const problems = [
     "license": "Project",
     "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u5-frq1",
+    "title": "优化：抛物线下内接矩形",
+    "stimulus": {
+      "title": "内接矩形",
+      "text": "矩形的一边在 x 轴上，另外两个顶点在抛物线 y=12−x² 上，且关于 y 轴对称。设右上顶点横坐标为 x（0<x<√12）。",
+      "textLatex": "y=12-x^{2}",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u5-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "面积函数",
+        "check": "symbolic",
+        "stemLatex": "\\text{用 }x\\text{ 表示矩形面积 }A(x)",
+        "expected": "24*x-2*x^3",
+        "answerLatex": "A(x)=2x\\left(12-x^{2}\\right)=24x-2x^{3}",
+        "solution": "宽为 2x，高为 12−x²，故 A=2x(12−x²)。"
+      },
+      {
+        "id": "calc-u5-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "临界点",
+        "check": "numeric",
+        "stem": "求使面积最大的 x（0<x<√12）。",
+        "expected": 2,
+        "tol": 0.01,
+        "answerLatex": "x=2",
+        "solution": "A′(x)=24−6x²=0 ⇒ x=2（取正根）。"
+      },
+      {
+        "id": "calc-u5-frq1-q3",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "最大面积",
+        "check": "numeric",
+        "stem": "求矩形的最大面积。",
+        "expected": 32,
+        "tol": 0.01,
+        "answerLatex": "32",
+        "solution": "A(2)=2·2·(12−4)=32；A″=−12x<0，故为最大值。"
+      }
+    ]
   }
 ];

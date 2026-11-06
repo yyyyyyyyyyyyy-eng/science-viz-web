@@ -117,3 +117,11 @@ Re-read the current math practice banks after the later math-session commits (`0
 No math practice file was edited (out of scope). No new wrong formula/order-of-magnitude issue was found in the sampled items; the report above remains current.
 
 Base SHA: web `bf2a022`. Self-check report commit: web `8dd08bb`; app sync: `e73b01e`. The final report-only SHA is listed in the session report.
+
+## Fixes applied (2026-11-06, math practice session)
+
+- `calc-u10-q006`: `expected` is now `1/E`, `answerLatex` is \(\dfrac{1}{e}\), and the solution states the ratio limit \(\dfrac{1}{e}<1\), hence absolute convergence.
+- All 198 generic “结合本单元定义与定理作答” FRQ answers were replaced with prompt-specific answers (14 prompt families); the banks contain zero copies of that template.
+- The 7 `x^{1}` occurrences were normalized to `x`; the generator no longer emits exponent 1.
+- 8 original AP Calc BC FRQ sets (24 items) were added in units 2, 4, 5, 6, 7, 8, 9, 10. See `audit/practice-fix-math.md` for verification.
+- Not changed: the generic meta-MCQ pool and the broad symbolic-item duplication noted above remain out of scope for this fix batch.

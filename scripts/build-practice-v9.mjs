@@ -17,6 +17,7 @@ const {
   mathStandalone,
   mathSetCount,
   mathSupplemental,
+  mathOriginalFrqSets,
 } = await import(join(ROOT, 'scripts/math-practice-templates.mjs'));
 
 const SOURCES = {
@@ -123,6 +124,9 @@ function buildBank(subject, unit) {
     standalone++;
     if (standalone > 200) break;
   }
+
+  // Original high-frequency FRQs use stable explicit ids and are appended last.
+  if (subject === 'math') problems.push(...mathOriginalFrqSets(unit.id, srcLine));
 
   return {
     UNIT_REF: {

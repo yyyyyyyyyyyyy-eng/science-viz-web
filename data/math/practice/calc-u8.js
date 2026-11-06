@@ -1745,5 +1745,61 @@ export const problems = [
     "license": "Project",
     "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u8-frq1",
+    "title": "已知截面体积",
+    "stimulus": {
+      "title": "区域与垂直截面",
+      "text": "底面区域由 y=√x、x=4 与 x 轴围成。垂直于 x 轴的截面分别取正方形、等边三角形和半圆。",
+      "textLatex": "0\\le x\\le4,\\qquad 0\\le y\\le\\sqrt{x}",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u8-frq1-q1",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "正方形截面",
+        "check": "numeric",
+        "stem": "若截面是边长为 √x 的正方形，求体积。",
+        "expected": 8,
+        "tol": 0.01,
+        "answerLatex": "8",
+        "solution": "截面面积 (√x)²=x，V=∫₀⁴x dx=[x²÷2]₀⁴=8。"
+      },
+      {
+        "id": "calc-u8-frq1-q2",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "等边三角形截面",
+        "check": "numeric",
+        "stem": "若截面是边长为 √x 的等边三角形，求体积。",
+        "expected": 3.4641016151377544,
+        "tol": 0.01,
+        "answerLatex": "2\\sqrt{3}",
+        "solution": "等边三角形面积 (√3÷4)(√x)²=(√3÷4)x，V=(√3÷4)∫₀⁴x dx=2√3。"
+      },
+      {
+        "id": "calc-u8-frq1-q3",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "半圆截面",
+        "check": "numeric",
+        "stem": "若截面是以 √x 为直径的半圆，求体积。",
+        "expected": 3.141592653589793,
+        "tol": 0.01,
+        "answerLatex": "\\pi",
+        "solution": "半径 √x÷2，半圆面积 (1÷2)π(√x÷2)²=(π÷8)x，V=(π÷8)·8=π。"
+      }
+    ]
   }
 ];

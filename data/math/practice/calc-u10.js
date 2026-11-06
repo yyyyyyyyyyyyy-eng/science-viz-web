@@ -1813,5 +1813,58 @@ export const problems = [
     "license": "CC BY-NC-SA 4.0",
     "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u10-frq1",
+    "title": "ln(1+x) 的级数与收敛区间",
+    "stimulus": {
+      "title": "对数函数的麦克劳林级数",
+      "text": "已知 ln(1+x) 在 |x|<1 上可展开为交错幂级数。",
+      "textLatex": "\\ln(1+x)=\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n+1}x^{n}}{n}\\quad(|x|<1)",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u10-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "前三项",
+        "check": "symbolic",
+        "stem": "写出 ln(1+x) 的麦克劳林级数从 x 的一次项开始的前三项。",
+        "expected": "x-x^2/2+x^3/3",
+        "answerLatex": "x-\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{3}",
+        "solution": "代入 n=1,2,3 得 x−x²÷2+x³÷3。"
+      },
+      {
+        "id": "calc-u10-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "数值估计",
+        "check": "numeric",
+        "stem": "用前三项估计 ln(1.2)（保留四位小数）。",
+        "expected": 0.18266666666666667,
+        "tol": 0.001,
+        "answerLatex": "\\approx0.1827",
+        "solution": "0.2−0.2²÷2+0.2³÷3≈0.1827；下一项 0.2⁴÷4=0.0004，故误差不超过 0.0004。"
+      },
+      {
+        "id": "calc-u10-frq1-q3",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "收敛区间",
+        "stemLatex": "\\text{求 }\\sum_{n=1}^{\\infty}\\dfrac{(x-1)^{n}}{n\\,3^{n}}\\text{ 的收敛区间}",
+        "answerLatex": "x\\in[-2,4)",
+        "answer": "由比值审敛法，|x−1|÷3<1 得 −2<x<4，半径 R=3。端点 x=−2 时为 ∑(−1)ⁿ÷n，条件收敛；x=4 时为 ∑1÷n，发散。故收敛区间为 [−2,4)。",
+        "solution": "先求半径，再分别检验两个端点。"
+      }
+    ]
   }
 ];

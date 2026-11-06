@@ -1739,5 +1739,59 @@ export const problems = [
     "license": "Project",
     "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u6-frq1",
+    "title": "平均值与累积函数",
+    "stimulus": {
+      "title": "f(x)=4−x²",
+      "text": "设 f(x)=4−x²，定义累积函数 g(x)=∫₀ˣ f(t)dt。",
+      "textLatex": "f(x)=4-x^{2},\\qquad g(x)=\\int_0^x f(t)\\,\\mathrm{d}t",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u6-frq1-q1",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "平均值",
+        "check": "numeric",
+        "stem": "求 f 在 [0,2] 上的平均值。",
+        "expected": 2.6666666666666665,
+        "tol": 0.01,
+        "answerLatex": "\\dfrac{8}{3}",
+        "solution": "(1÷2)∫₀²(4−x²)dx=(1÷2)[4x−x³÷3]₀²=(1÷2)(8−8÷3)=8÷3。"
+      },
+      {
+        "id": "calc-u6-frq1-q2",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "积分中值定理",
+        "check": "numeric",
+        "stem": "求 c∈[0,2] 使 f(c) 等于该平均值。",
+        "expected": 1.1547005383792517,
+        "tol": 0.01,
+        "answerLatex": "c=\\dfrac{2}{\\sqrt{3}}",
+        "solution": "4−c²=8÷3 ⇒ c²=4÷3；取 [0,2] 内的 c=2÷√3。"
+      },
+      {
+        "id": "calc-u6-frq1-q3",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "FTC 与二阶导",
+        "stem": "求 g′(1) 与 g″(1)，并说明所用定理。",
+        "answerLatex": "g'(1)=3,\\qquad g''(1)=-2",
+        "answer": "由微积分基本定理，g′(x)=f(x)，所以 g′(1)=4−1=3；再求导得 g″(x)=f′(x)=−2x，故 g″(1)=−2。",
+        "solution": "先用 FTC 把累积函数的导数化为被积函数，再对 f 求导。"
+      }
+    ]
   }
 ];

@@ -1368,5 +1368,58 @@ export const problems = [
     "license": "Project",
     "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u2-frq1",
+    "title": "切线与法线",
+    "stimulus": {
+      "title": "三次函数",
+      "text": "设 f(x)=x³−3x²+2。回答以下问题。",
+      "textLatex": "f(x)=x^{3}-3x^{2}+2",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u2-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "求导函数",
+        "check": "symbolic",
+        "stemLatex": "f'(x)=",
+        "expected": "3*x^2-6*x",
+        "answerLatex": "f'(x)=3x^{2}-6x",
+        "solution": "逐项使用幂法则：3x²−6x。"
+      },
+      {
+        "id": "calc-u2-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "水平切线",
+        "check": "symbolic",
+        "stem": "求曲线 y=f(x) 在 x=2 处的切线方程，写成 y=… 右侧的表达式。",
+        "expected": "-2",
+        "answerLatex": "y=-2",
+        "solution": "f(2)=−2，f′(2)=12−12=0，切线水平，故 y=−2。"
+      },
+      {
+        "id": "calc-u2-frq1-q3",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "平行切线",
+        "check": "symbolic",
+        "stem": "求 f′(x)=6 的较小解 x（此时切线与 y=6x−1 平行）。",
+        "expected": "1-sqrt(3)",
+        "answerLatex": "x=1-\\sqrt{3}",
+        "solution": "3x²−6x=6 ⇒ x²−2x−2=0 ⇒ x=1±√3；较小者为 1−√3。"
+      }
+    ]
   }
 ];

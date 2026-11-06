@@ -1229,5 +1229,78 @@ export const problems = [
     "license": "Project",
     "sourceUrl": "",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u4-frq1",
+    "title": "相关变化率：梯子",
+    "stimulus": {
+      "title": "靠墙的梯子",
+      "text": "长 10 ft 的梯子斜靠在竖直墙面上。梯子底端离墙的距离为 x(t)，顶端离地高度为 y(t)。底端以 2 ft/s 的速度离墙滑动。",
+      "table": {
+        "headers": [
+          "量",
+          "值"
+        ],
+        "rows": [
+          [
+            "梯子长度",
+            "10 ft"
+          ],
+          [
+            "底端速度 dx/dt",
+            "2 ft/s"
+          ],
+          [
+            "目标位置 x",
+            "6 ft"
+          ]
+        ]
+      },
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u4-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "约束等式",
+        "stem": "写出 x 与 y 满足的等式。",
+        "answerLatex": "x^{2}+y^{2}=10^{2}",
+        "answer": "由勾股定理，x²+y²=10²，即 x²+y²=100。",
+        "solution": "梯子、墙与地面构成直角三角形，斜边恒为 10 ft。"
+      },
+      {
+        "id": "calc-u4-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "顶端速度",
+        "check": "numeric",
+        "stem": "当 x=6 ft 时，求 dy/dt（单位：ft/s，带符号）。",
+        "expected": -1.5,
+        "tol": 0.01,
+        "answerLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{3}{2}",
+        "solution": "x²+y²=100 两边对 t 求导：2x·dx/dt+2y·dy/dt=0。x=6 时 y=8，故 dy/dt=−6·2÷8=−3÷2。"
+      },
+      {
+        "id": "calc-u4-frq1-q3",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "面积变化率",
+        "check": "numeric",
+        "stem": "在同一时刻 x=6 ft，求三角形面积 A=xy÷2 的变化率 dA/dt（单位：ft²/s）。",
+        "expected": 3.5,
+        "tol": 0.01,
+        "answerLatex": "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=\\dfrac{7}{2}",
+        "solution": "dA/dt=(x·dy/dt+y·dx/dt)÷2=(6·(−3÷2)+8·2)÷2=7÷2。"
+      }
+    ]
   }
 ];

@@ -1485,5 +1485,56 @@ export const problems = [
     "license": "CC BY-NC-SA 4.0",
     "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u9-frq1",
+    "title": "极坐标面积",
+    "stimulus": {
+      "title": "心脏线",
+      "text": "极坐标曲线 r=1+cos θ（0≤θ≤2π）。",
+      "textLatex": "r=1+\\cos\\theta",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u9-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "曲线特征",
+        "stem": "指出该曲线在极轴上的最远点与在 θ=π 处的位置，并说明它关于哪条轴对称。",
+        "answer": "θ=0 时 r=2，是最远点 (2,0)；θ=π 时 r=0，回到极点。曲线关于极轴（x 轴）对称，因为 cos(−θ)=cos θ。",
+        "solution": "心脏线 r=a(1+cos θ) 关于极轴对称，尖点在极点。"
+      },
+      {
+        "id": "calc-u9-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "面积积分",
+        "stemLatex": "\\text{写出该曲线所围面积的积分表达式}",
+        "answerLatex": "A=\\dfrac{1}{2}\\int_0^{2\\pi}(1+\\cos\\theta)^{2}\\,\\mathrm{d}\\theta",
+        "answer": "面积元为 ½r²dθ，故 A=½∫₀^{2π}(1+cosθ)²dθ。",
+        "solution": "极坐标面积公式 A=½∫r²dθ。"
+      },
+      {
+        "id": "calc-u9-frq1-q3",
+        "type": "frq",
+        "difficulty": "难",
+        "calculator": false,
+        "title": "面积值",
+        "check": "numeric",
+        "stem": "求该曲线所围面积。",
+        "expected": 4.71238898038469,
+        "tol": 0.01,
+        "answerLatex": "\\dfrac{3\\pi}{2}",
+        "solution": "(1+cosθ)²=1+2cosθ+cos²θ；一个周期上 ∫1=2π，∫2cosθ=0，∫cos²θ=π，故 A=½(2π+π)=3π÷2。"
+      }
+    ]
   }
 ];

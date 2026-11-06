@@ -915,8 +915,292 @@ const SUPPLEMENTAL = {
   ],
 };
 
+/**
+ * Original high-frequency AP Calc BC FRQ sets appended after the generated bank.
+ * They use stable, explicit ids so adding them never renumbers existing items.
+ */
+const ORIGINAL_FRQ_SETS = {
+  'calc-u2': [
+    {
+      title: '切线与法线',
+      stimulus: {
+        title: '三次函数',
+        text: '设 f(x)=x³−3x²+2。回答以下问题。',
+        textLatex: String.raw`f(x)=x^{3}-3x^{2}+2`,
+      },
+      questions: [
+        {
+          title: '求导函数', difficulty: '易', check: 'symbolic', calculator: false,
+          stemLatex: String.raw`f'(x)=`,
+          expected: '3*x^2-6*x', answerLatex: String.raw`f'(x)=3x^{2}-6x`,
+          solution: '逐项使用幂法则：3x²−6x。',
+        },
+        {
+          title: '水平切线', difficulty: '中', check: 'symbolic', calculator: false,
+          stem: '求曲线 y=f(x) 在 x=2 处的切线方程，写成 y=… 右侧的表达式。',
+          expected: '-2', answerLatex: String.raw`y=-2`,
+          solution: 'f(2)=−2，f′(2)=12−12=0，切线水平，故 y=−2。',
+        },
+        {
+          title: '平行切线', difficulty: '难', check: 'symbolic', calculator: false,
+          stem: '求 f′(x)=6 的较小解 x（此时切线与 y=6x−1 平行）。',
+          expected: '1-sqrt(3)', answerLatex: String.raw`x=1-\sqrt{3}`,
+          solution: '3x²−6x=6 ⇒ x²−2x−2=0 ⇒ x=1±√3；较小者为 1−√3。',
+        },
+      ],
+    },
+  ],
+  'calc-u4': [
+    {
+      title: '相关变化率：梯子',
+      stimulus: {
+        title: '靠墙的梯子',
+        text: '长 10 ft 的梯子斜靠在竖直墙面上。梯子底端离墙的距离为 x(t)，顶端离地高度为 y(t)。底端以 2 ft/s 的速度离墙滑动。',
+        table: {
+          headers: ['量', '值'],
+          rows: [['梯子长度', '10 ft'], ['底端速度 dx/dt', '2 ft/s'], ['目标位置 x', '6 ft']],
+        },
+      },
+      questions: [
+        {
+          title: '约束等式', difficulty: '易',
+          stem: '写出 x 与 y 满足的等式。',
+          answerLatex: String.raw`x^{2}+y^{2}=10^{2}`,
+          answer: '由勾股定理，x²+y²=10²，即 x²+y²=100。',
+          solution: '梯子、墙与地面构成直角三角形，斜边恒为 10 ft。',
+        },
+        {
+          title: '顶端速度', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '当 x=6 ft 时，求 dy/dt（单位：ft/s，带符号）。',
+          expected: -1.5, tol: 0.01,
+          answerLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}t}=-\dfrac{3}{2}`,
+          solution: 'x²+y²=100 两边对 t 求导：2x·dx/dt+2y·dy/dt=0。x=6 时 y=8，故 dy/dt=−6·2÷8=−3÷2。',
+        },
+        {
+          title: '面积变化率', difficulty: '难', check: 'numeric', calculator: false,
+          stem: '在同一时刻 x=6 ft，求三角形面积 A=xy÷2 的变化率 dA/dt（单位：ft²/s）。',
+          expected: 3.5, tol: 0.01,
+          answerLatex: String.raw`\dfrac{\mathrm{d}A}{\mathrm{d}t}=\dfrac{7}{2}`,
+          solution: 'dA/dt=(x·dy/dt+y·dx/dt)÷2=(6·(−3÷2)+8·2)÷2=7÷2。',
+        },
+      ],
+    },
+  ],
+  'calc-u5': [
+    {
+      title: '优化：抛物线下内接矩形',
+      stimulus: {
+        title: '内接矩形',
+        text: '矩形的一边在 x 轴上，另外两个顶点在抛物线 y=12−x² 上，且关于 y 轴对称。设右上顶点横坐标为 x（0<x<√12）。',
+        textLatex: String.raw`y=12-x^{2}`,
+      },
+      questions: [
+        {
+          title: '面积函数', difficulty: '易', check: 'symbolic', calculator: false,
+          stemLatex: String.raw`\text{用 }x\text{ 表示矩形面积 }A(x)`,
+          expected: '24*x-2*x^3', answerLatex: String.raw`A(x)=2x\left(12-x^{2}\right)=24x-2x^{3}`,
+          solution: '宽为 2x，高为 12−x²，故 A=2x(12−x²)。',
+        },
+        {
+          title: '临界点', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '求使面积最大的 x（0<x<√12）。',
+          expected: 2, tol: 0.01,
+          answerLatex: 'x=2',
+          solution: 'A′(x)=24−6x²=0 ⇒ x=2（取正根）。',
+        },
+        {
+          title: '最大面积', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '求矩形的最大面积。',
+          expected: 32, tol: 0.01,
+          answerLatex: '32',
+          solution: 'A(2)=2·2·(12−4)=32；A″=−12x<0，故为最大值。',
+        },
+      ],
+    },
+  ],
+  'calc-u6': [
+    {
+      title: '平均值与累积函数',
+      stimulus: {
+        title: 'f(x)=4−x²',
+        text: '设 f(x)=4−x²，定义累积函数 g(x)=∫₀ˣ f(t)dt。',
+        textLatex: String.raw`f(x)=4-x^{2},\qquad g(x)=\int_0^x f(t)\,\mathrm{d}t`,
+      },
+      questions: [
+        {
+          title: '平均值', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '求 f 在 [0,2] 上的平均值。',
+          expected: 8 / 3, tol: 0.01,
+          answerLatex: String.raw`\dfrac{8}{3}`,
+          solution: '(1÷2)∫₀²(4−x²)dx=(1÷2)[4x−x³÷3]₀²=(1÷2)(8−8÷3)=8÷3。',
+        },
+        {
+          title: '积分中值定理', difficulty: '难', check: 'numeric', calculator: false,
+          stem: '求 c∈[0,2] 使 f(c) 等于该平均值。',
+          expected: 2 / Math.sqrt(3), tol: 0.01,
+          answerLatex: String.raw`c=\dfrac{2}{\sqrt{3}}`,
+          solution: '4−c²=8÷3 ⇒ c²=4÷3；取 [0,2] 内的 c=2÷√3。',
+        },
+        {
+          title: 'FTC 与二阶导', difficulty: '中',
+          stem: '求 g′(1) 与 g″(1)，并说明所用定理。',
+          answerLatex: String.raw`g'(1)=3,\qquad g''(1)=-2`,
+          answer: '由微积分基本定理，g′(x)=f(x)，所以 g′(1)=4−1=3；再求导得 g″(x)=f′(x)=−2x，故 g″(1)=−2。',
+          solution: '先用 FTC 把累积函数的导数化为被积函数，再对 f 求导。',
+        },
+      ],
+    },
+  ],
+  'calc-u7': [
+    {
+      title: '分离变量：指数增长',
+      stimulus: {
+        title: '种群模型',
+        text: '种群数量 P(t) 满足 dP/dt=0.05P，初始数量 P(0)=200（t 以年计）。',
+        textLatex: String.raw`\dfrac{\mathrm{d}P}{\mathrm{d}t}=0.05P,\qquad P(0)=200`,
+      },
+      questions: [
+        {
+          title: '通解', difficulty: '易', check: 'symbolic', calculator: false,
+          stem: '求微分方程的通解（C 为任意常数）。',
+          expected: 'C*e^(0.05*t)', answerLatex: String.raw`P(t)=Ce^{0.05t}`,
+          solution: '分离变量 dP÷P=0.05dt，积分得 ln P=0.05t+C。',
+        },
+        {
+          title: '特解', difficulty: '中', check: 'symbolic', calculator: false,
+          stem: '利用 P(0)=200 求特解。',
+          expected: '200*e^(0.05*t)', answerLatex: String.raw`P(t)=200e^{0.05t}`,
+          solution: '代入 t=0：200=Ce⁰，故 C=200。',
+        },
+        {
+          title: '倍增时间', difficulty: '中', check: 'numeric', calculator: true,
+          stem: '求种群数量翻倍所需时间（年，保留两位小数）。',
+          expected: 20 * Math.log(2), tol: 0.01,
+          answerLatex: String.raw`t=20\ln 2\approx13.86`,
+          solution: '令 200e^{0.05t}=400，得 e^{0.05t}=2，所以 t=ln2÷0.05=20ln2≈13.86。',
+        },
+      ],
+    },
+  ],
+  'calc-u8': [
+    {
+      title: '已知截面体积',
+      stimulus: {
+        title: '区域与垂直截面',
+        text: '底面区域由 y=√x、x=4 与 x 轴围成。垂直于 x 轴的截面分别取正方形、等边三角形和半圆。',
+        textLatex: String.raw`0\le x\le4,\qquad 0\le y\le\sqrt{x}`,
+      },
+      questions: [
+        {
+          title: '正方形截面', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '若截面是边长为 √x 的正方形，求体积。',
+          expected: 8, tol: 0.01,
+          answerLatex: '8',
+          solution: '截面面积 (√x)²=x，V=∫₀⁴x dx=[x²÷2]₀⁴=8。',
+        },
+        {
+          title: '等边三角形截面', difficulty: '难', check: 'numeric', calculator: false,
+          stem: '若截面是边长为 √x 的等边三角形，求体积。',
+          expected: 2 * Math.sqrt(3), tol: 0.01,
+          answerLatex: String.raw`2\sqrt{3}`,
+          solution: '等边三角形面积 (√3÷4)(√x)²=(√3÷4)x，V=(√3÷4)∫₀⁴x dx=2√3。',
+        },
+        {
+          title: '半圆截面', difficulty: '难', check: 'numeric', calculator: false,
+          stem: '若截面是以 √x 为直径的半圆，求体积。',
+          expected: Math.PI, tol: 0.01,
+          answerLatex: String.raw`\pi`,
+          solution: '半径 √x÷2，半圆面积 (1÷2)π(√x÷2)²=(π÷8)x，V=(π÷8)·8=π。',
+        },
+      ],
+    },
+  ],
+  'calc-u9': [
+    {
+      title: '极坐标面积',
+      stimulus: {
+        title: '心脏线',
+        text: '极坐标曲线 r=1+cos θ（0≤θ≤2π）。',
+        textLatex: String.raw`r=1+\cos\theta`,
+      },
+      questions: [
+        {
+          title: '曲线特征', difficulty: '易',
+          stem: '指出该曲线在极轴上的最远点与在 θ=π 处的位置，并说明它关于哪条轴对称。',
+          answer: 'θ=0 时 r=2，是最远点 (2,0)；θ=π 时 r=0，回到极点。曲线关于极轴（x 轴）对称，因为 cos(−θ)=cos θ。',
+          solution: '心脏线 r=a(1+cos θ) 关于极轴对称，尖点在极点。',
+        },
+        {
+          title: '面积积分', difficulty: '中',
+          stemLatex: String.raw`\text{写出该曲线所围面积的积分表达式}`,
+          answerLatex: String.raw`A=\dfrac{1}{2}\int_0^{2\pi}(1+\cos\theta)^{2}\,\mathrm{d}\theta`,
+          answer: '面积元为 ½r²dθ，故 A=½∫₀^{2π}(1+cosθ)²dθ。',
+          solution: '极坐标面积公式 A=½∫r²dθ。',
+        },
+        {
+          title: '面积值', difficulty: '难', check: 'numeric', calculator: false,
+          stem: '求该曲线所围面积。',
+          expected: 3 * Math.PI / 2, tol: 0.01,
+          answerLatex: String.raw`\dfrac{3\pi}{2}`,
+          solution: '(1+cosθ)²=1+2cosθ+cos²θ；一个周期上 ∫1=2π，∫2cosθ=0，∫cos²θ=π，故 A=½(2π+π)=3π÷2。',
+        },
+      ],
+    },
+  ],
+  'calc-u10': [
+    {
+      title: 'ln(1+x) 的级数与收敛区间',
+      stimulus: {
+        title: '对数函数的麦克劳林级数',
+        text: '已知 ln(1+x) 在 |x|<1 上可展开为交错幂级数。',
+        textLatex: String.raw`\ln(1+x)=\sum_{n=1}^{\infty}\dfrac{(-1)^{n+1}x^{n}}{n}\quad(|x|<1)`,
+      },
+      questions: [
+        {
+          title: '前三项', difficulty: '易', check: 'symbolic', calculator: false,
+          stem: '写出 ln(1+x) 的麦克劳林级数从 x 的一次项开始的前三项。',
+          expected: 'x-x^2/2+x^3/3', answerLatex: String.raw`x-\dfrac{x^{2}}{2}+\dfrac{x^{3}}{3}`,
+          solution: '代入 n=1,2,3 得 x−x²÷2+x³÷3。',
+        },
+        {
+          title: '数值估计', difficulty: '中', check: 'numeric', calculator: false,
+          stem: '用前三项估计 ln(1.2)（保留四位小数）。',
+          expected: 0.2 - 0.2 ** 2 / 2 + 0.2 ** 3 / 3, tol: 0.001,
+          answerLatex: String.raw`\approx0.1827`,
+          solution: '0.2−0.2²÷2+0.2³÷3≈0.1827；下一项 0.2⁴÷4=0.0004，故误差不超过 0.0004。',
+        },
+        {
+          title: '收敛区间', difficulty: '难',
+          stemLatex: String.raw`\text{求 }\sum_{n=1}^{\infty}\dfrac{(x-1)^{n}}{n\,3^{n}}\text{ 的收敛区间}`,
+          answerLatex: String.raw`x\in[-2,4)`,
+          answer: '由比值审敛法，|x−1|÷3<1 得 −2<x<4，半径 R=3。端点 x=−2 时为 ∑(−1)ⁿ÷n，条件收敛；x=4 时为 ∑1÷n，发散。故收敛区间为 [−2,4)。',
+          solution: '先求半径，再分别检验两个端点。',
+        },
+      ],
+    },
+  ],
+};
+
 /** Units whose family-template shared set is already unit-aligned and worth keeping. */
 const KEEP_GENERIC_SET = new Set(['calc-u1', 'calc-u7', 'calc-u9', 'calc-u10']);
+
+export function mathOriginalFrqSets(unitId, srcLine) {
+  const sets = ORIGINAL_FRQ_SETS[unitId] || [];
+  const note = '原创 AP 风格题，非官方 FRQ。';
+  return sets.map((set, si) => ({
+    kind: 'set',
+    id: `${unitId}-frq${si + 1}`,
+    title: set.title,
+    stimulus: { ...set.stimulus, ...srcLine('original', note) },
+    questions: set.questions.map((q, qi) => ({
+      id: `${unitId}-frq${si + 1}-q${qi + 1}`,
+      type: 'frq',
+      difficulty: q.difficulty || '中',
+      calculator: q.calculator ?? (q.check === 'numeric'),
+      ...q,
+    })),
+  }));
+}
 
 export function mathSetCount(unit) {
   if (unit.id === 'calc-u0') return 1;

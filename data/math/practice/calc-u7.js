@@ -1472,5 +1472,59 @@ export const problems = [
     "license": "CC BY-NC-SA 4.0",
     "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
+  },
+  {
+    "kind": "set",
+    "id": "calc-u7-frq1",
+    "title": "分离变量：指数增长",
+    "stimulus": {
+      "title": "种群模型",
+      "text": "种群数量 P(t) 满足 dP/dt=0.05P，初始数量 P(0)=200（t 以年计）。",
+      "textLatex": "\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.05P,\\qquad P(0)=200",
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+    },
+    "questions": [
+      {
+        "id": "calc-u7-frq1-q1",
+        "type": "frq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "通解",
+        "check": "symbolic",
+        "stem": "求微分方程的通解（C 为任意常数）。",
+        "expected": "C*e^(0.05*t)",
+        "answerLatex": "P(t)=Ce^{0.05t}",
+        "solution": "分离变量 dP÷P=0.05dt，积分得 ln P=0.05t+C。"
+      },
+      {
+        "id": "calc-u7-frq1-q2",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": false,
+        "title": "特解",
+        "check": "symbolic",
+        "stem": "利用 P(0)=200 求特解。",
+        "expected": "200*e^(0.05*t)",
+        "answerLatex": "P(t)=200e^{0.05t}",
+        "solution": "代入 t=0：200=Ce⁰，故 C=200。"
+      },
+      {
+        "id": "calc-u7-frq1-q3",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": true,
+        "title": "倍增时间",
+        "check": "numeric",
+        "stem": "求种群数量翻倍所需时间（年，保留两位小数）。",
+        "expected": 13.862943611198906,
+        "tol": 0.01,
+        "answerLatex": "t=20\\ln 2\\approx13.86",
+        "solution": "令 200e^{0.05t}=400，得 e^{0.05t}=2，所以 t=ln2÷0.05=20ln2≈13.86。"
+      }
+    ]
   }
 ];
