@@ -9,8 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-em-u10-1": {
-    "title": "导体静电 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "电容器稳态 · 物理情境",
+    "text": "理想电池、电阻与电容串联，开关闭合足够长时间。求回路稳态电流。",
     "diagram": {
       "kind": "circuit",
       "elements": [
@@ -21,6 +21,10 @@ export const stimuli = {
         {
           "type": "resistor",
           "label": "R"
+        },
+        {
+          "type": "capacitor",
+          "label": "C"
         }
       ],
       "ammeter": true
@@ -38,7 +42,12 @@ export const stimuli = {
         [
           "R",
           "6 Ω"
-        ]]
+        ],
+        [
+          "C",
+          "50 μF"
+        ]
+      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -47,8 +56,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-em-u10-2": {
-    "title": "电荷再分布 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "点电荷电场 · 物理情境",
+    "text": "点电荷位于原点，求距原点 r 处的电场大小。",
     "diagram": {
       "kind": "field",
       "charges": [
@@ -75,13 +84,18 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "ε",
-          "12 V"
+          "q",
+          "2.0 μC"
         ],
         [
-          "R",
-          "6 Ω"
-        ]]
+          "r",
+          "0.10 m"
+        ],
+        [
+          "k",
+          "9.0×10⁹ N·m²/C²"
+        ]
+      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -90,8 +104,8 @@ export const stimuli = {
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
   },
   "stim-em-u10-3": {
-    "title": "电容器 · 物理情境",
-    "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+    "title": "球形高斯面 · 物理情境",
+    "text": "均匀球对称电荷 Q 外包半径 r 的高斯球面。求球面外电场大小。",
     "diagram": {
       "kind": "gauss",
       "kindSurface": "sphere"
@@ -103,13 +117,14 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "ε",
-          "12 V"
+          "Q",
+          "1.0 μC"
         ],
         [
-          "R",
-          "6 Ω"
-        ]]
+          "r",
+          "0.10 m"
+        ]
+      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
@@ -125,8 +140,8 @@ export const problems = [
     "title": "题组 1 · 共享刺激",
     "sharedStimulus": "stim-em-u10-1",
     "stimulus": {
-      "title": "导体静电 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "电容器稳态 · 物理情境",
+      "text": "理想电池、电阻与电容串联，开关闭合足够长时间。求回路稳态电流。",
       "diagram": {
         "kind": "circuit",
         "elements": [
@@ -137,6 +152,10 @@ export const problems = [
           {
             "type": "resistor",
             "label": "R"
+          },
+          {
+            "type": "capacitor",
+            "label": "C"
           }
         ],
         "ammeter": true
@@ -154,7 +173,12 @@ export const problems = [
           [
             "R",
             "6 Ω"
-          ]]
+          ],
+          [
+            "C",
+            "50 μF"
+          ]
+        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -169,8 +193,8 @@ export const problems = [
         "difficulty": "易",
         "type": "frq",
         "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum I=0,\\ \\sum \\Delta V=0",
-        "solution": "先定律、后代数。",
+        "answerLatex": "\\varepsilon=IR+\\dfrac{Q}{C},\\quad I=\\dfrac{dQ}{dt}",
+        "solution": "基尔霍夫电压定律与电容定义；稳态时 I=0。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -186,15 +210,14 @@ export const problems = [
       },
       {
         "id": "em-u10-q002",
-        "title": "定量/概念 (2)",
+        "title": "电容器稳态电流",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 2,
-        "tol": 0.15,
-        "answer": "例如 I=ε/R=2 A（串联电阻情形）",
-        "solution": "定量计算并检查单位。",
+        "stem": "开关闭合足够长时间后，求回路稳态电流 I（A）。",
+        "expected": 0,
+        "tol": 0.01,
+        "solution": "直流稳态下电容器相当于开路。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -206,7 +229,9 @@ export const problems = [
             "label": "10.2 电荷再分布",
             "topicId": "em-u10:10.2"
           }
-        ]
+        ],
+        "answerLatex": "0\\,\\mathrm{A}",
+        "solutionLatex": "I_{\\infty}=0\\ \\text{（电容器相当于开路）}."
       },
       {
         "id": "em-u10-q003",
@@ -253,8 +278,8 @@ export const problems = [
     "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-em-u10-2",
     "stimulus": {
-      "title": "电荷再分布 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "点电荷电场 · 物理情境",
+      "text": "点电荷位于原点，求距原点 r 处的电场大小。",
       "diagram": {
         "kind": "field",
         "charges": [
@@ -281,13 +306,18 @@ export const problems = [
         ],
         "rows": [
           [
-            "ε",
-            "12 V"
+            "q",
+            "2.0 μC"
           ],
           [
-            "R",
-            "6 Ω"
-          ]]
+            "r",
+            "0.10 m"
+          ],
+          [
+            "k",
+            "9.0×10⁹ N·m²/C²"
+          ]
+        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -302,8 +332,8 @@ export const problems = [
         "difficulty": "易",
         "type": "frq",
         "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum I=0,\\ \\sum \\Delta V=0",
-        "solution": "先定律、后代数。",
+        "answerLatex": "\\vec E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q}{r^{2}}\\hat r",
+        "solution": "点电荷场强由库仑定律定义。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -319,15 +349,14 @@ export const problems = [
       },
       {
         "id": "em-u10-q005",
-        "title": "定量/概念 (2)",
+        "title": "点电荷电场大小",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 2,
-        "tol": 0.15,
-        "answer": "例如 I=ε/R=2 A（串联电阻情形）",
-        "solution": "定量计算并检查单位。",
+        "stem": "求距点电荷 0.10 m 处的电场大小 E（N/C）。",
+        "expected": 1800000,
+        "tol": 0.01,
+        "solution": "代入库仑常量与数据，得 E=1.8×10⁶ N/C。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -339,7 +368,9 @@ export const problems = [
             "label": "10.1 导体静电",
             "topicId": "em-u10:10.1"
           }
-        ]
+        ],
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       },
       {
         "id": "em-u10-q006",
@@ -407,8 +438,8 @@ export const problems = [
     "title": "题组 3 · 共享刺激",
     "sharedStimulus": "stim-em-u10-3",
     "stimulus": {
-      "title": "电容器 · 物理情境",
-      "text": "结合图示与数据回答。数值已取整以便演算（改编自公开教材风格，非照抄）。",
+      "title": "球形高斯面 · 物理情境",
+      "text": "均匀球对称电荷 Q 外包半径 r 的高斯球面。求球面外电场大小。",
       "diagram": {
         "kind": "gauss",
         "kindSurface": "sphere"
@@ -420,13 +451,14 @@ export const problems = [
         ],
         "rows": [
           [
-            "ε",
-            "12 V"
+            "Q",
+            "1.0 μC"
           ],
           [
-            "R",
-            "6 Ω"
-          ]]
+            "r",
+            "0.10 m"
+          ]
+        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
@@ -441,8 +473,8 @@ export const problems = [
         "difficulty": "易",
         "type": "frq",
         "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum I=0,\\ \\sum \\Delta V=0",
-        "solution": "先定律、后代数。",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
+        "solution": "取球对称高斯面，E 在面上为常量。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -458,15 +490,14 @@ export const problems = [
       },
       {
         "id": "em-u10-q009",
-        "title": "定量/概念 (2)",
+        "title": "球面外电场大小",
         "difficulty": "中",
         "type": "frq",
         "check": "numeric",
-        "stem": "代入表中数据求一个目标量（取合理目标）。",
-        "expected": 2,
-        "tol": 0.15,
-        "answer": "例如 I=ε/R=2 A（串联电阻情形）",
-        "solution": "定量计算并检查单位。",
+        "stem": "求球面外电场大小 E（N/C）。",
+        "expected": 900000,
+        "tol": 0.01,
+        "solution": "球外场等效于全部电荷集中于球心。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
@@ -478,7 +509,9 @@ export const problems = [
             "label": "10.1 导体静电",
             "topicId": "em-u10:10.1"
           }
-        ]
+        ],
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       },
       {
         "id": "em-u10-q010",
@@ -573,10 +606,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -672,7 +706,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -682,7 +716,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -752,10 +787,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -804,17 +840,18 @@ export const problems = [
       {
         "stem": "写出高斯定律。",
         "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{enc}}/\\varepsilon_0",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
         "solution": "对称性 ⇒ E 常量。"
       },
       {
         "stem": "求球面外 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 899999.9999999998,
+        "expected": 900000,
         "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}",
-        "solution": "E=kQ/r²=899999.9999999998."
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=9.0×10⁵ N/C。",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -873,7 +910,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -883,7 +920,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -953,10 +991,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1052,7 +1091,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -1062,7 +1101,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1132,10 +1172,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1184,17 +1225,18 @@ export const problems = [
       {
         "stem": "写出高斯定律。",
         "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{enc}}/\\varepsilon_0",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
         "solution": "对称性 ⇒ E 常量。"
       },
       {
         "stem": "求球面外 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 899999.9999999998,
+        "expected": 900000,
         "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}",
-        "solution": "E=kQ/r²=899999.9999999998."
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=9.0×10⁵ N/C。",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1253,7 +1295,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -1263,7 +1305,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1333,10 +1376,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1432,7 +1476,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -1442,7 +1486,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1512,10 +1557,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1564,17 +1610,18 @@ export const problems = [
       {
         "stem": "写出高斯定律。",
         "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{enc}}/\\varepsilon_0",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
         "solution": "对称性 ⇒ E 常量。"
       },
       {
         "stem": "求球面外 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 899999.9999999998,
+        "expected": 900000,
         "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}",
-        "solution": "E=kQ/r²=899999.9999999998."
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=9.0×10⁵ N/C。",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1633,7 +1680,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -1643,7 +1690,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1713,10 +1761,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1812,7 +1861,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -1822,7 +1871,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1892,10 +1942,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -1944,17 +1995,18 @@ export const problems = [
       {
         "stem": "写出高斯定律。",
         "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{enc}}/\\varepsilon_0",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
         "solution": "对称性 ⇒ E 常量。"
       },
       {
         "stem": "求球面外 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 899999.9999999998,
+        "expected": 900000,
         "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}",
-        "solution": "E=kQ/r²=899999.9999999998."
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=9.0×10⁵ N/C。",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2013,7 +2065,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -2023,7 +2075,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2093,10 +2146,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2192,7 +2246,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -2202,7 +2256,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2272,10 +2327,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2324,17 +2380,18 @@ export const problems = [
       {
         "stem": "写出高斯定律。",
         "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{enc}}/\\varepsilon_0",
+        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
         "solution": "对称性 ⇒ E 常量。"
       },
       {
         "stem": "求球面外 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 899999.9999999998,
+        "expected": 900000,
         "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}",
-        "solution": "E=kQ/r²=899999.9999999998."
+        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=9.0×10⁵ N/C。",
+        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2393,7 +2450,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -2403,7 +2460,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2473,10 +2531,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2572,7 +2631,7 @@ export const problems = [
       {
         "stem": "写出欧姆定律。",
         "type": "frq",
-        "answerLatex": "I=\\varepsilon/R",
+        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
         "solution": "理想串联。"
       },
       {
@@ -2582,7 +2641,8 @@ export const problems = [
         "expected": 2,
         "tol": 0.01,
         "answerLatex": "2",
-        "solution": "I=12/6=2 A."
+        "solution": "代入数据得 I=2.00 A。",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
       }
     ],
     "sourceId": "openstax-university-physics",
@@ -2652,10 +2712,11 @@ export const problems = [
         "stem": "代入表中数据求 E（N/C）。",
         "type": "frq",
         "check": "numeric",
-        "expected": 1799999.9999999995,
+        "expected": 1800000,
         "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}",
-        "solution": "E=kq/r^2=9e9*2e-6/0.01=1799999.9999999995."
+        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
+        "solution": "代入数据得 E=1.8×10⁶ N/C。",
+        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
       }
     ],
     "sourceId": "openstax-university-physics",
