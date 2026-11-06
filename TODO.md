@@ -48,10 +48,10 @@
 | 仓库 | SHA | 说明 |
 |------|-----|------|
 | science-viz（本地） | `ba3a3d2` | 含 figures 接线 + math practice |
-| science-viz-web `main` | `7d1eec5` | 含 bio/math round2 第二变体；见下方 §4 |
-| science-viz-app `main` | `PENDING_APP_SHA` | sync 自 web；见下方 §4 |
+| science-viz-web `main` | `05e3672` | 含 bio/math round2 第二变体；见下方 §4 |
+| science-viz-app `main` | `02f7fba` | sync 自 web；见下方 §4 |
 
-（提交并 push 后把 `PENDING_*` 换成实际 short SHA。）
+（web `05e3672` / app `02f7fba`：bio/math round2 第二变体。）
 
 ---
 
