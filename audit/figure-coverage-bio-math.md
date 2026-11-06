@@ -30,12 +30,12 @@ Added 11 original programmatic figures and one public-domain image, then expande
 - **Other bio cross-mounts:** membranes/transport (2.2–2.4), signal transduction (4.1–4.2), nucleic acids/replication/translation/mutation (6.1–6.7), continuing evolution (7.8), origins of life (7.13), and cell structure (P2.3).
 - **Math:** added `derivative-limit` (secant slopes → derivative) and cross-mounted existing variants across calculus limits, continuity, derivatives, MVT/extrema, FTC/integrals, area/volume methods, parametric/polar, and series/Taylor topics. Math single-variant topics dropped from 106 to 27.
 - **Public media:** `data/bio/media/leaf-anatomy.png`, public domain, Agnieszka Kwiecień (Nova), Wikimedia Commons; attribution in `data/bio/media/ATTRIBUTION.md`. Caption carries the credit.
-- **Gap table:** now 38 single-variant topics (11 bio, 27 math), down from 130. No topic has zero figures.
+- **Gap table (at the end of this pass):** 38 single-variant topics (11 bio, 27 math), down from 130; all were cleared in the 2026-11-06 round-2 pass. No topic has zero figures.
 
 ### Self-check — enrichment pass
 
 - Re-read all new figure functions, the updated mappings, the media attribution, and the rebuilt checklist/gap table.
-- Re-ran the build audit (311 unique figures, 520 placements, 0 unused/missing IDs), the 494-load mount scan (0 issues), the shape-aware contrast scan (7,498 text nodes, 0 AA failures light/dark), the notation check (`MATH_NOTATION_OK`), the preview at 380/1280 px, and a text-bbox sweep over the new figures.
+- At the end of that pass, re-ran the build audit (311 unique figures, 520 placements at the time; current counts are 349 unique / 558 placements), the 494-load mount scan (0 issues), the shape-aware contrast scan (7,498 text nodes, 0 AA failures light/dark), the notation check (`MATH_NOTATION_OK`), the preview at 380/1280 px, and a text-bbox sweep over the new figures.
 - Fixed during self-check: `chloroplast-sites` double-membrane label vs CO₂ label; `psii-photolysis` lumen label vs product text; `atp-synthase` overlapping H⁺-flow/CF labels; `calvin-reduction-regeneration` export arrow now points to a sugar box rather than regeneration; leaf image path made module-relative so it works from both the app and the audit preview.
 - Public media: `data/bio/media/leaf-anatomy.png` is public domain; credit is visible in the figure caption and recorded in `data/bio/media/ATTRIBUTION.md`.
 - Starting point for this batch: web `f839d73`, app `2b82208`. The final enrichment commit/app sync SHAs are in the conversation report.
