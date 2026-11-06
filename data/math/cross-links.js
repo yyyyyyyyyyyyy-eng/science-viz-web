@@ -99,6 +99,106 @@ export const CROSS_EDGES = [
     "source": "calc-u8:8.9",
     "target": "calc-u6:6.3",
     "type": "connects"
+  },
+  {
+    "source": "math-prep-precalc:P4.3",
+    "target": "calc-u0:0.2",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-precalc:P4.5",
+    "target": "calc-u9:9.7",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-precalc:P4.6",
+    "target": "calc-u9:9.1",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-precalc:P4.7",
+    "target": "calc-u9:9.4",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-alg2:P3.8",
+    "target": "calc-u10:10.1",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-alg2:P3.7",
+    "target": "calc-u2:2.7",
+    "type": "connects"
+  },
+  {
+    "source": "math-prep-geo:P2.8",
+    "target": "calc-u8:8.7",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u1:1.16",
+    "target": "calc-u5:5.2",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u1:1.11",
+    "target": "calc-u2:2.4",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u1:1.15",
+    "target": "calc-u4:4.7",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u3:3.1",
+    "target": "calc-u4:4.4",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u3:3.2",
+    "target": "calc-u5:5.12",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u3:3.6",
+    "target": "calc-u5:5.6",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u4:4.3",
+    "target": "calc-u7:7.1",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u5:5.1",
+    "target": "calc-u8:8.1",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u8:8.4",
+    "target": "calc-u9:9.8",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u8:8.13",
+    "target": "calc-u9:9.3",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u9:9.6",
+    "target": "calc-u8:8.2",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u2:2.7",
+    "target": "calc-u7:7.8",
+    "type": "connects"
+  },
+  {
+    "source": "calc-u10:10.5",
+    "target": "calc-u6:6.12",
+    "type": "connects"
   }
 ];
 export const CROSS_RELATIONS = {
@@ -579,6 +679,486 @@ export const CROSS_RELATIONS = {
     "steps": [
       "复习 8.9 的核心定义/定律",
       "指出它如何进入 6.3 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-precalc:P4.3=>calc-u0:0.2": {
+    "id": "math-prep-precalc:P4.3=>calc-u0:0.2",
+    "source": "math-prep-precalc:P4.3",
+    "target": "calc-u0:0.2",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P4.3",
+    "targetCode": "0.2",
+    "sourceHref": "#/t/math/math-prep-precalc/P4.3",
+    "targetHref": "#/t/math/calc-u0/0.2",
+    "titleZh": "单位圆与三角函数 → 单位圆与三角",
+    "summary": "单位圆上的角度、坐标与正弦余弦定义在微积分预备单元中再次使用。",
+    "why": "微积分中的三角极限与导数都依赖单位圆定义。",
+    "shared": [
+      "单位圆",
+      "正弦余弦"
+    ],
+    "example": "由单位圆读出 sin 与 cos 的符号和周期。",
+    "steps": [
+      "复习 P4.3 的核心定义/定律",
+      "指出它如何进入 0.2 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-precalc:P4.5=>calc-u9:9.7": {
+    "id": "math-prep-precalc:P4.5=>calc-u9:9.7",
+    "source": "math-prep-precalc:P4.5",
+    "target": "calc-u9:9.7",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P4.5",
+    "targetCode": "9.7",
+    "sourceHref": "#/t/math/math-prep-precalc/P4.5",
+    "targetHref": "#/t/math/calc-u9/9.7",
+    "titleZh": "极坐标入门 → 极坐标导数",
+    "summary": "极坐标与直角坐标的转换是极坐标求导与切线问题的基础。",
+    "why": "先会画极坐标曲线，再讨论其导数。",
+    "shared": [
+      "极坐标",
+      "坐标转换"
+    ],
+    "example": "心形线在极坐标中表示为 r 关于 θ 的函数。",
+    "steps": [
+      "复习 P4.5 的核心定义/定律",
+      "指出它如何进入 9.7 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-precalc:P4.6=>calc-u9:9.1": {
+    "id": "math-prep-precalc:P4.6=>calc-u9:9.1",
+    "source": "math-prep-precalc:P4.6",
+    "target": "calc-u9:9.1",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P4.6",
+    "targetCode": "9.1",
+    "sourceHref": "#/t/math/math-prep-precalc/P4.6",
+    "targetHref": "#/t/math/calc-u9/9.1",
+    "titleZh": "参数方程入门 → 参数运动导数",
+    "summary": "参数方程把 x 与 y 都写成参数的函数，参数求导给出速度分量。",
+    "why": "平面曲线的参数化直接用于运动学。",
+    "shared": [
+      "参数方程",
+      "速度分量"
+    ],
+    "example": "圆周运动可用 x=cos t、y=sin t 表示。",
+    "steps": [
+      "复习 P4.6 的核心定义/定律",
+      "指出它如何进入 9.1 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-precalc:P4.7=>calc-u9:9.4": {
+    "id": "math-prep-precalc:P4.7=>calc-u9:9.4",
+    "source": "math-prep-precalc:P4.7",
+    "target": "calc-u9:9.4",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P4.7",
+    "targetCode": "9.4",
+    "sourceHref": "#/t/math/math-prep-precalc/P4.7",
+    "targetHref": "#/t/math/calc-u9/9.4",
+    "titleZh": "向量入门 → 向量值函数",
+    "summary": "向量分量、加法与长度在向量值函数中逐分量求导和积分。",
+    "why": "向量语言把二维运动写成单个函数。",
+    "shared": [
+      "向量分量",
+      "向量值函数"
+    ],
+    "example": "位置向量对时间求导得到速度向量。",
+    "steps": [
+      "复习 P4.7 的核心定义/定律",
+      "指出它如何进入 9.4 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-alg2:P3.8=>calc-u10:10.1": {
+    "id": "math-prep-alg2:P3.8=>calc-u10:10.1",
+    "source": "math-prep-alg2:P3.8",
+    "target": "calc-u10:10.1",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P3.8",
+    "targetCode": "10.1",
+    "sourceHref": "#/t/math/math-prep-alg2/P3.8",
+    "targetHref": "#/t/math/calc-u10/10.1",
+    "titleZh": "数列与级数入门 → 序列收敛",
+    "summary": "数列极限与部分和是无穷级数收敛判定的起点。",
+    "why": "无穷级数就是部分和数列的极限。",
+    "shared": [
+      "数列极限",
+      "部分和"
+    ],
+    "example": "几何级数在公比绝对值小于 1 时收敛。",
+    "steps": [
+      "复习 P3.8 的核心定义/定律",
+      "指出它如何进入 10.1 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-alg2:P3.7=>calc-u2:2.7": {
+    "id": "math-prep-alg2:P3.7=>calc-u2:2.7",
+    "source": "math-prep-alg2:P3.7",
+    "target": "calc-u2:2.7",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P3.7",
+    "targetCode": "2.7",
+    "sourceHref": "#/t/math/math-prep-alg2/P3.7",
+    "targetHref": "#/t/math/calc-u2/2.7",
+    "titleZh": "对数函数 → 指数与对数函数导数",
+    "summary": "自然对数函数是 eˣ 的反函数，其导数来自反函数求导。",
+    "why": "先掌握对数运算与图像，再推导 ln x 的导数。",
+    "shared": [
+      "自然对数",
+      "反函数"
+    ],
+    "example": "ln x 的导数为 1 与 x 之比。",
+    "steps": [
+      "复习 P3.7 的核心定义/定律",
+      "指出它如何进入 2.7 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "math-prep-geo:P2.8=>calc-u8:8.7": {
+    "id": "math-prep-geo:P2.8=>calc-u8:8.7",
+    "source": "math-prep-geo:P2.8",
+    "target": "calc-u8:8.7",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "P2.8",
+    "targetCode": "8.7",
+    "sourceHref": "#/t/math/math-prep-geo/P2.8",
+    "targetHref": "#/t/math/calc-u8/8.7",
+    "titleZh": "表面积与体积 → 旋转体体积",
+    "summary": "已知截面面积求体积的思想从几何度量延伸到定积分。",
+    "why": "积分把无数薄截面的体积累加。",
+    "shared": [
+      "截面面积",
+      "体积累加"
+    ],
+    "example": "把旋转体切成薄圆盘再求和。",
+    "steps": [
+      "复习 P2.8 的核心定义/定律",
+      "指出它如何进入 8.7 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u1:1.16=>calc-u5:5.2": {
+    "id": "calc-u1:1.16=>calc-u5:5.2",
+    "source": "calc-u1:1.16",
+    "target": "calc-u5:5.2",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "1.16",
+    "targetCode": "5.2",
+    "sourceHref": "#/t/math/calc-u1/1.16",
+    "targetHref": "#/t/math/calc-u5/5.2",
+    "titleZh": "中间值定理 → 极值定理",
+    "summary": "IVT 与 EVT 都是连续函数的存在性定理，但结论不同。",
+    "why": "对比存在某个中间值、存在最大最小值两种保证。",
+    "shared": [
+      "连续性",
+      "存在性"
+    ],
+    "example": "闭区间连续函数必有最大值和最小值。",
+    "steps": [
+      "复习 1.16 的核心定义/定律",
+      "指出它如何进入 5.2 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u1:1.11=>calc-u2:2.4": {
+    "id": "calc-u1:1.11=>calc-u2:2.4",
+    "source": "calc-u1:1.11",
+    "target": "calc-u2:2.4",
+    "type": "connects",
+    "typeZh": "先修",
+    "sourceCode": "1.11",
+    "targetCode": "2.4",
+    "sourceHref": "#/t/math/calc-u1/1.11",
+    "targetHref": "#/t/math/calc-u2/2.4",
+    "titleZh": "定义连续性 → 导数与连续",
+    "summary": "可微必连续，连续不一定可微；连续性是导数定义的前提。",
+    "why": "差商极限存在要求函数在该点连续。",
+    "shared": [
+      "连续",
+      "可微"
+    ],
+    "example": "绝对值函数在 0 点连续但不可微。",
+    "steps": [
+      "复习 1.11 的核心定义/定律",
+      "指出它如何进入 2.4 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u1:1.15=>calc-u4:4.7": {
+    "id": "calc-u1:1.15=>calc-u4:4.7",
+    "source": "calc-u1:1.15",
+    "target": "calc-u4:4.7",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "1.15",
+    "targetCode": "4.7",
+    "sourceHref": "#/t/math/calc-u1/1.15",
+    "targetHref": "#/t/math/calc-u4/4.7",
+    "titleZh": "无穷远处极限 → 洛必达法则",
+    "summary": "洛必达法则可处理无穷比无穷等未定式，并常用于求水平渐近线。",
+    "why": "先识别未定式，再用导数比较增长速率。",
+    "shared": [
+      "未定式",
+      "水平渐近线"
+    ],
+    "example": "比较 eˣ 与 x 的增长可得极限为无穷。",
+    "steps": [
+      "复习 1.15 的核心定义/定律",
+      "指出它如何进入 4.7 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u3:3.1=>calc-u4:4.4": {
+    "id": "calc-u3:3.1=>calc-u4:4.4",
+    "source": "calc-u3:3.1",
+    "target": "calc-u4:4.4",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "3.1",
+    "targetCode": "4.4",
+    "sourceHref": "#/t/math/calc-u3/3.1",
+    "targetHref": "#/t/math/calc-u4/4.4",
+    "titleZh": "链式法则 → 相关变化率",
+    "summary": "相关变化率对时间求导时，复合量之间通过链式法则联系。",
+    "why": "把所有变量写成时间的函数后整体求导。",
+    "shared": [
+      "链式法则",
+      "相关变化率"
+    ],
+    "example": "圆的面积随半径变化时对时间求导。",
+    "steps": [
+      "复习 3.1 的核心定义/定律",
+      "指出它如何进入 4.4 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u3:3.2=>calc-u5:5.12": {
+    "id": "calc-u3:3.2=>calc-u5:5.12",
+    "source": "calc-u3:3.2",
+    "target": "calc-u5:5.12",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "3.2",
+    "targetCode": "5.12",
+    "sourceHref": "#/t/math/calc-u3/3.2",
+    "targetHref": "#/t/math/calc-u5/5.12",
+    "titleZh": "隐函数求导 → 隐式关系行为",
+    "summary": "隐函数求导用于分析不能用显式函数表示的曲线斜率与极值。",
+    "why": "对隐式关系两边求导后可解出切线斜率。",
+    "shared": [
+      "隐函数",
+      "隐式求导"
+    ],
+    "example": "对 x²+y²=1 求导得切线斜率。",
+    "steps": [
+      "复习 3.2 的核心定义/定律",
+      "指出它如何进入 5.12 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u3:3.6=>calc-u5:5.6": {
+    "id": "calc-u3:3.6=>calc-u5:5.6",
+    "source": "calc-u3:3.6",
+    "target": "calc-u5:5.6",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "3.6",
+    "targetCode": "5.6",
+    "sourceHref": "#/t/math/calc-u3/3.6",
+    "targetHref": "#/t/math/calc-u5/5.6",
+    "titleZh": "高阶导数 → 凹性与拐点",
+    "summary": "二阶导数符号决定凹凸性，符号改变处可能是拐点。",
+    "why": "从一阶导数到二阶导数，信息从增减转向弯曲方向。",
+    "shared": [
+      "二阶导数",
+      "拐点"
+    ],
+    "example": "二阶导数由负变正处出现拐点。",
+    "steps": [
+      "复习 3.6 的核心定义/定律",
+      "指出它如何进入 5.6 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u4:4.3=>calc-u7:7.1": {
+    "id": "calc-u4:4.3=>calc-u7:7.1",
+    "source": "calc-u4:4.3",
+    "target": "calc-u7:7.1",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "4.3",
+    "targetCode": "7.1",
+    "sourceHref": "#/t/math/calc-u4/4.3",
+    "targetHref": "#/t/math/calc-u7/7.1",
+    "titleZh": "变化率与单位 → 微分方程建模",
+    "summary": "把变化率写成未知函数及其导数的方程，就得到微分方程模型。",
+    "why": "应用语境先确定变化率，再建立微分方程。",
+    "shared": [
+      "变化率",
+      "微分方程"
+    ],
+    "example": "人口增长率与当前人口成正比可写成微分方程。",
+    "steps": [
+      "复习 4.3 的核心定义/定律",
+      "指出它如何进入 7.1 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u5:5.1=>calc-u8:8.1": {
+    "id": "calc-u5:5.1=>calc-u8:8.1",
+    "source": "calc-u5:5.1",
+    "target": "calc-u8:8.1",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "5.1",
+    "targetCode": "8.1",
+    "sourceHref": "#/t/math/calc-u5/5.1",
+    "targetHref": "#/t/math/calc-u8/8.1",
+    "titleZh": "中值定理 → 积分求平均",
+    "summary": "积分平均值的结论与 MVT 都断言某个中间点取得平均变化或平均值。",
+    "why": "平均值定理把区间上的整体平均与某点函数值联系起来。",
+    "shared": [
+      "平均变化率",
+      "平均值"
+    ],
+    "example": "连续函数的积分平均值介于最小值和最大值之间。",
+    "steps": [
+      "复习 5.1 的核心定义/定律",
+      "指出它如何进入 8.1 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u8:8.4=>calc-u9:9.8": {
+    "id": "calc-u8:8.4=>calc-u9:9.8",
+    "source": "calc-u8:8.4",
+    "target": "calc-u9:9.8",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "8.4",
+    "targetCode": "9.8",
+    "sourceHref": "#/t/math/calc-u8/8.4",
+    "targetHref": "#/t/math/calc-u9/9.8",
+    "titleZh": "曲线间面积 → 极坐标面积",
+    "summary": "极坐标面积用扇形微元累加，思想与直角坐标下曲线间面积一致。",
+    "why": "先确定极角范围与内外曲线，再积分。",
+    "shared": [
+      "面积微元",
+      "极角范围"
+    ],
+    "example": "两片花瓣之间的面积用极坐标积分。",
+    "steps": [
+      "复习 8.4 的核心定义/定律",
+      "指出它如何进入 9.8 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u8:8.13=>calc-u9:9.3": {
+    "id": "calc-u8:8.13=>calc-u9:9.3",
+    "source": "calc-u8:8.13",
+    "target": "calc-u9:9.3",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "8.13",
+    "targetCode": "9.3",
+    "sourceHref": "#/t/math/calc-u8/8.13",
+    "targetHref": "#/t/math/calc-u9/9.3",
+    "titleZh": "弧长 → 参数弧长",
+    "summary": "参数曲线的弧长把直角坐标弧长公式推广到 x(t)、y(t)。",
+    "why": "用速度向量的长度对参数积分。",
+    "shared": [
+      "弧长微元",
+      "参数速度"
+    ],
+    "example": "圆周的参数弧长等于半径乘转角。",
+    "steps": [
+      "复习 8.13 的核心定义/定律",
+      "指出它如何进入 9.3 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u9:9.6=>calc-u8:8.2": {
+    "id": "calc-u9:9.6=>calc-u8:8.2",
+    "source": "calc-u9:9.6",
+    "target": "calc-u8:8.2",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "9.6",
+    "targetCode": "8.2",
+    "sourceHref": "#/t/math/calc-u9/9.6",
+    "targetHref": "#/t/math/calc-u8/8.2",
+    "titleZh": "向量运动 → 位置速度加速度",
+    "summary": "向量值函数的导数与积分逐分量对应位置、速度和加速度。",
+    "why": "一维运动学结论可逐分量推广到平面运动。",
+    "shared": [
+      "向量运动",
+      "逐分量积分"
+    ],
+    "example": "对加速度向量积分得到速度向量。",
+    "steps": [
+      "复习 9.6 的核心定义/定律",
+      "指出它如何进入 8.2 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u2:2.7=>calc-u7:7.8": {
+    "id": "calc-u2:2.7=>calc-u7:7.8",
+    "source": "calc-u2:2.7",
+    "target": "calc-u7:7.8",
+    "type": "connects",
+    "typeZh": "考点联结",
+    "sourceCode": "2.7",
+    "targetCode": "7.8",
+    "sourceHref": "#/t/math/calc-u2/2.7",
+    "targetHref": "#/t/math/calc-u7/7.8",
+    "titleZh": "指数函数导数 → 指数模型",
+    "summary": "指数增长模型的解是 e 的指数函数，其导数与函数值成正比。",
+    "why": "微分方程中变化率与当前量成正比时得到指数解。",
+    "shared": [
+      "指数增长",
+      "比例常数"
+    ],
+    "example": "细菌在资源充足时近似指数增长。",
+    "steps": [
+      "复习 2.7 的核心定义/定律",
+      "指出它如何进入 7.8 的推导或模型",
+      "完成一道同时用到二者的小题并自检"
+    ]
+  },
+  "calc-u10:10.5=>calc-u6:6.12": {
+    "id": "calc-u10:10.5=>calc-u6:6.12",
+    "source": "calc-u10:10.5",
+    "target": "calc-u6:6.12",
+    "type": "connects",
+    "typeZh": "同概念",
+    "sourceCode": "10.5",
+    "targetCode": "6.12",
+    "sourceHref": "#/t/math/calc-u10/10.5",
+    "targetHref": "#/t/math/calc-u6/6.12",
+    "titleZh": "调和级数与 p 级数 → 反常积分",
+    "summary": "p 级数与 p 反常积分使用相同的收敛判据。",
+    "why": "积分检验把级数收敛转化为反常积分收敛。",
+    "shared": [
+      "p 级数",
+      "积分检验"
+    ],
+    "example": "p 大于 1 时级数与反常积分都收敛。",
+    "steps": [
+      "复习 10.5 的核心定义/定律",
+      "指出它如何进入 6.12 的推导或模型",
       "完成一道同时用到二者的小题并自检"
     ]
   }
