@@ -37,10 +37,10 @@ import { SUBJECT_LABEL } from './ui-shared.js';
 initTheme();
 
 const main = document.getElementById('main');
-const searchInput = document.getElementById('search-input');
+const searchTrigger = document.getElementById('search-trigger');
 const themeToggle = document.getElementById('theme-toggle');
 
-let currentSubject = 'all';
+let pageSeq = 0;
 let currentDispose = null;
 let pageDispose = null;
 let activeModuleId = null;
@@ -49,6 +49,13 @@ let completeTimer = null;
 
 initNav();
 themeToggle?.addEventListener('click', () => toggleTheme());
+searchTrigger?.addEventListener('click', () => {
+  closeMenus();
+  openPalette();
+});
+searchTrigger?.setAttribute('aria-expanded', 'false');
+const searchKbd = document.querySelector('.search-kbd');
+if (searchKbd && /Mac|iPhone|iPad/.test(navigator.platform || '')) searchKbd.textContent = '⌘K';
 
 function disposeCurrent() {
   if (completeTimer) {
@@ -67,81 +74,99 @@ function disposeCurrent() {
   pageDispose = null;
 }
 
-function showSearch(show) {
-  const wrap = searchInput?.closest('.search-wrap');
-  if (wrap) wrap.style.display = show ? '' : 'none';
+function scrollTop() {
+  try {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  } catch (_) {
+    window.scrollTo(0, 0);
+  }
+}
+
+function setRouteChrome(name) {
+  document.documentElement.dataset.route = name;
+}
+
+function beginRoute(name) {
+  pageSeq += 1;
+  disposeCurrent();
+  closeMenus();
+  closePalette();
+  if (document.activeElement && document.activeElement !== document.body) {
+    try { document.activeElement.blur(); } catch (_) {}
+  }
+  setRouteChrome(name);
+  scrollTop();
+  return pageSeq;
+}
+
+function mountDispose(handle) {
+  pageDispose = typeof handle === 'function' ? handle : handle?.destroy || null;
 }
 
 function showStart() {
-  disposeCurrent();
-  currentSubject = 'all';
+  const token = beginRoute('start');
+  if (token !== pageSeq) return;
   setActiveNav('start');
   renderStart(main);
-  showSearch(true);
-  document.title = '科学可视化平台';
 }
 
 function showCatalog() {
-  disposeCurrent();
-  currentSubject = 'all';
+  const token = beginRoute('catalog');
+  if (token !== pageSeq) return;
   setActiveNav('all');
-  const q = searchInput?.value || '';
-  renderCatalog(main, { modules: searchModules(q, 'all'), query: q });
-  showSearch(true);
+  renderCatalog(main, { modules: searchModules('', 'all') });
   document.title = '全部模块 · 科学可视化';
 }
 
 function showSubject(subject) {
-  disposeCurrent();
-  currentSubject = subject;
+  const token = beginRoute('subject');
+  if (token !== pageSeq) return;
   setActiveNav(subject);
   renderSubjectLanding(main, subject);
-  showSearch(true);
-  document.title = `${SUBJECT_LABEL[subject] || subject} · 科学可视化`;
 }
 
 function showChapter(subject, chapterId) {
-  disposeCurrent();
-  currentSubject = subject;
+  const token = beginRoute('chapter');
+  if (token !== pageSeq) return;
   setActiveNav(subject);
   renderChapterPage(main, subject, chapterId);
-  showSearch(true);
-  document.title = `章节 · 科学可视化`;
 }
 
 function showPaths() {
-  disposeCurrent();
-  currentSubject = 'all';
+  const token = beginRoute('paths');
+  if (token !== pageSeq) return;
   setActiveNav('paths');
   renderPaths(main);
-  showSearch(true);
-  document.title = '学习路径 · 科学可视化';
 }
 
 async function showTopic(subject, chapterId, code) {
-  disposeCurrent();
-  currentSubject = subject;
+  const token = beginRoute('topic');
   setActiveNav(subject);
-  showSearch(false);
-  await renderTopicPage(main, { subject, chapterId, code });
-  document.title = `${code} · 科学可视化`;
+  const handle = await renderTopicPage(main, {
+    subject,
+    chapterId,
+    code,
+    isCurrent: () => token === pageSeq,
+  });
+  if (token !== pageSeq) return;
+  mountDispose(handle);
 }
 
 async function showMap(subject) {
-  disposeCurrent();
-  currentSubject = subject;
+  const token = beginRoute('map');
   setActiveNav(subject);
-  showSearch(false);
-  const handle = await renderMindMap(main, subject);
-  pageDispose = handle?.destroy || null;
-  document.title = `知识图谱 · ${SUBJECT_LABEL[subject] || subject}`;
+  const handle = await renderMindMap(main, subject, { isCurrent: () => token === pageSeq });
+  if (token !== pageSeq) return;
+  mountDispose(handle);
+  document.title = `知识图谱 · ${SUBJECT_LABEL[subject] || subject} · 科学可视化`;
 }
 
 async function showModule(id) {
   const mod = getModule(id);
   if (!mod) { showStart(); return; }
 
-  disposeCurrent();
+  const token = beginRoute('module');
+  if (token !== pageSeq) return;
   activeModuleId = id;
   markVisited(id);
   setLastModuleId(id);
@@ -150,7 +175,6 @@ async function showModule(id) {
   }, 4000);
 
   setActiveNav(mod.subject);
-  showSearch(false);
 
   const shell = renderModuleShell(main, mod);
   const { viz, controls, prev, next } = shell;
@@ -159,11 +183,12 @@ async function showModule(id) {
 
   try {
     const imported = await mod.load();
-    if (activeModuleId !== id) return;
+    if (activeModuleId !== id || token !== pageSeq) return;
     if (typeof imported.create !== 'function') throw new Error(`模块 ${id} 未导出 create()`);
     currentDispose = imported.create(viz, controls, { module: mod }) || null;
     ensureReset(controls);
   } catch (err) {
+    if (token !== pageSeq) return;
     console.error(err);
     clear(viz);
     viz.appendChild(Object.assign(document.createElement('p'), {
@@ -189,73 +214,88 @@ function ensureReset(controls) {
   controls.appendChild(row);
 }
 
-
 async function showFormulas(kind) {
-  disposeCurrent();
-  showSearch(false);
+  const token = beginRoute('formulas');
   if (kind === 'math') {
     setActiveNav('math');
     const { MATH_FORMULA_GROUPS } = await import('../data/math/formulas.js');
-    renderFormulasPage(main, {
+    if (token !== pageSeq) return;
+    const handle = renderFormulasPage(main, {
       subject: 'math',
       groups: MATH_FORMULA_GROUPS,
       title: '微积分公式表',
       subtitle: '导数 · 积分 · 级数 · 参数/极坐标',
     });
+    mountDispose(handle);
     document.title = '微积分公式表 · 科学可视化';
   } else {
     setActiveNav(kind === 'em' ? 'em' : 'mech');
     const { PHYSICS_FORMULA_GROUPS } = await import('../data/physics/formulas.js');
-    renderFormulasPage(main, {
-      subject: 'physics',
+    if (token !== pageSeq) return;
+    const handle = renderFormulasPage(main, {
+      subject: kind,
       groups: PHYSICS_FORMULA_GROUPS,
       title: 'AP Physics C 公式表',
       subtitle: '力学与电磁（College Board 结构）',
     });
-    document.title = '物理公式表 · 科学可视化';
+    mountDispose(handle);
+    document.title = `${kind === 'em' ? '电磁' : kind === 'mech' ? '力学' : '物理'}公式表 · 科学可视化`;
   }
 }
 
 async function showPractice(subject, chapterId) {
-  disposeCurrent();
-  currentSubject = subject;
+  const token = beginRoute('practice');
   setActiveNav(subject);
-  showSearch(false);
   const bank = await loadPracticeBank(subject, chapterId);
+  if (token !== pageSeq) return;
   const unit = getChapter(subject, chapterId) || { id: chapterId, titleZh: chapterId, name: chapterId };
   if (!bank) {
     clear(main);
-    main.appendChild(Object.assign(document.createElement('p'), { textContent: '练习尚未就绪' }));
+    main.appendChild(
+      Object.assign(document.createElement('p'), {
+        className: 'empty-state',
+        textContent: '练习尚未就绪。',
+      }),
+    );
+    document.title = '练习 · 科学可视化';
     return;
   }
-  renderPracticeUnit(main, { subject, unit: { ...unit, titleZh: unit.titleZh || unit.name }, bank });
-  document.title = `练习 · 科学可视化`;
+  const handle = renderPracticeUnit(main, {
+    subject,
+    unit: { ...unit, titleZh: unit.titleZh || unit.name },
+    bank,
+  });
+  mountDispose(handle);
+  document.title = `练习 · ${unit.titleZh || unit.name} · 科学可视化`;
 }
 
-onRoute((route) => {
-  closeMenus();
-  closePalette();
-  if (document.activeElement && document.activeElement !== document.body) {
-    try { document.activeElement.blur(); } catch (_) {}
+onRoute(async (route) => {
+  if (route.name === 'module') { await showModule(route.id); return; }
+  if (route.name === 'formulas') { await showFormulas(route.kind); return; }
+  if (route.name === 'practice') { await showPractice(route.subject, route.chapterId); return; }
+  if (route.name === 'credits') {
+    const token = beginRoute('credits');
+    setActiveNav('');
+    await renderCredits(main, { isCurrent: () => token === pageSeq });
+    return;
   }
-  if (route.name === 'module') showModule(route.id);
-  else if (route.name === 'formulas') showFormulas(route.kind);
-  else if (route.name === 'practice') showPractice(route.subject, route.chapterId);
-  else if (route.name === 'credits') renderCredits(main);
-  else if (route.name === 'pastpapers') renderPastPapers(main, { subject: route.subject, year: route.year });
-  else if (route.name === 'topic') showTopic(route.subject, route.chapterId, route.code);
-  else if (route.name === 'map') showMap(route.subject);
-  else if (route.name === 'subject') showSubject(route.subject);
-  else if (route.name === 'chapter') showChapter(route.subject, route.chapterId);
-  else if (route.name === 'catalog') showCatalog();
-  else if (route.name === 'paths') showPaths();
-  else showStart();
-});
-
-searchInput?.addEventListener('input', () => {
-  if (activeModuleId) return;
-  const hash = location.hash || '#/';
-  if (hash.startsWith('#/all')) showCatalog();
+  if (route.name === 'pastpapers') {
+    const token = beginRoute('pastpapers');
+    setActiveNav(route.subject || '');
+    await renderPastPapers(main, {
+      subject: route.subject,
+      year: route.year,
+      isCurrent: () => token === pageSeq,
+    });
+    return;
+  }
+  if (route.name === 'topic') { await showTopic(route.subject, route.chapterId, route.code); return; }
+  if (route.name === 'map') { await showMap(route.subject); return; }
+  if (route.name === 'subject') { showSubject(route.subject); return; }
+  if (route.name === 'chapter') { showChapter(route.subject, route.chapterId); return; }
+  if (route.name === 'catalog') { showCatalog(); return; }
+  if (route.name === 'paths') { showPaths(); return; }
+  showStart();
 });
 
 document.addEventListener('keydown', (e) => {
@@ -264,26 +304,29 @@ document.addEventListener('keydown', (e) => {
 
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
     e.preventDefault();
-    togglePalette();
+    if (isPaletteOpen()) closePalette();
+    else {
+      closeMenus();
+      openPalette();
+    }
     return;
   }
   if (e.key === 'Escape') {
     if (isPaletteOpen()) { closePalette(); return; }
-    if (isMenuOpen()) { closeMenus(); return; }
+    if (isMenuOpen()) { closeMenus({ focus: true }); return; }
   }
   if (editing) return;
   if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
-    if (searchInput && searchInput.offsetParent !== null) {
-      searchInput.focus(); searchInput.select();
-    } else openPalette();
+    closeMenus();
+    openPalette();
     return;
   }
   if (activeModuleId && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
-    if (e.key === 'ArrowLeft' && currentPrevNext.prev) location.hash = `#/m/${currentPrevNext.prev.id}`;
-    if (e.key === 'ArrowRight' && currentPrevNext.next) location.hash = `#/m/${currentPrevNext.next.id}`;
+    if (e.key === 'ArrowLeft' && currentPrevNext.prev) navigate(`#/m/${currentPrevNext.prev.id}`);
+    if (e.key === 'ArrowRight' && currentPrevNext.next) navigate(`#/m/${currentPrevNext.next.id}`);
   }
 });
 

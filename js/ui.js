@@ -6,7 +6,7 @@ import {
   getNextInChapter,
   getNextInPath,
 } from '../modules/registry.js';
-import { el, clear, rowLink, SUBJECT_LABEL } from './ui-shared.js';
+import { el, clear, rowLink, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
 import { isCompleted } from './progress.js';
 
 export { el, clear, rowLink, SUBJECT_LABEL };
@@ -60,14 +60,11 @@ export function renderModuleShell(main, mod) {
 
   const root = el('div', { className: 'module-view' });
 
-  const crumb = el('nav', { className: 'breadcrumb', 'aria-label': '面包屑' }, [
-    el('a', { className: 'hit-target', href: '#/', text: '首页' }),
-    el('span', { className: 'crumb-sep', text: '/' }),
-    el('a', { className: 'hit-target', href: `#/${mod.subject}`, text: SUBJECT_LABEL[mod.subject] || mod.subject }),
-    el('span', { className: 'crumb-sep', text: '/' }),
-    el('a', { className: 'hit-target', href: `#/${mod.subject}/${mod.chapterId}`, text: chapterName }),
-    el('span', { className: 'crumb-sep', text: '/' }),
-    el('span', { className: 'crumb-current', text: mod.title }),
+  const crumbs = breadcrumb([
+    { href: '#/', label: '首页' },
+    { href: `#/${mod.subject}`, label: SUBJECT_LABEL[mod.subject] || mod.subject },
+    { href: `#/${mod.subject}/${mod.chapterId}`, label: chapterName },
+    { label: mod.title, current: true },
   ]);
 
   const shell = el('div', { className: 'module-shell' });
@@ -78,10 +75,14 @@ export function renderModuleShell(main, mod) {
   ]);
 
   const body = el('div', { className: 'module-body' });
-  body.appendChild(crumb);
+  body.appendChild(crumbs);
+  const kickerClass = mod.subject === 'mech' || mod.subject === 'em'
+    ? 'module-kicker physics'
+    : `module-kicker ${mod.subject}`;
   body.appendChild(
     el('div', { className: 'module-header' }, [
       el('div', { className: 'module-header-text' }, [
+        el('p', { className: kickerClass, text: `${SUBJECT_LABEL[mod.subject] || mod.subject} / ${chapterName}` }),
         el('h1', { text: mod.title }),
         el('p', { className: 'explain', text: mod.explanation }),
       ]),

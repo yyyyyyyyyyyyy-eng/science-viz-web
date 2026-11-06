@@ -32,6 +32,19 @@ export function clear(node) {
   while (node.firstChild) node.removeChild(node.firstChild);
 }
 
+export function breadcrumb(parts, label = '面包屑') {
+  const nav = el('nav', { className: 'breadcrumb', 'aria-label': label });
+  parts.forEach((p, i) => {
+    if (i) nav.appendChild(el('span', { className: 'crumb-sep', 'aria-hidden': 'true', text: '/' }));
+    if (p.href && !p.current) {
+      nav.appendChild(el('a', { className: 'hit-target', href: p.href, text: p.label }));
+    } else {
+      nav.appendChild(el('span', { className: p.current ? 'crumb-current' : '', 'aria-current': p.current ? 'page' : null, text: p.label }));
+    }
+  });
+  return nav;
+}
+
 export function rowLink(m, i) {
   const num = String(i + 1).padStart(2, '0');
   return el('a', { className: 'module-row hit-target', href: `#/m/${m.id}`, role: 'listitem' }, [

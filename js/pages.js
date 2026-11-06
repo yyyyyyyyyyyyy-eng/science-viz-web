@@ -1,5 +1,5 @@
 /**
- * Start / catalog / subject / chapter / paths — minimal chrome, detailed topic links.
+ * Start / catalog / subject / chapter / paths — one editorial page system.
  */
 import {
   SUBJECTS,
@@ -9,13 +9,11 @@ import {
   getModulesBySubject,
   getModulesByChapter,
   getChapterBySubjectAndId,
-  getFirstModuleOfSubject,
-  getFirstModuleOfChapter,
   getPathModules,
   getModule,
   getChapterTopicRows,
 } from '../modules/registry.js';
-import { el, clear, rowLink, SUBJECT_LABEL } from './ui-shared.js';
+import { el, clear, rowLink, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
 import {
   getLastModuleId,
   progressForIds,
@@ -23,25 +21,13 @@ import {
   isCompleted,
 } from './progress.js';
 
-function crumb(parts) {
-  const nav = el('nav', { className: 'breadcrumb', 'aria-label': '面包屑' });
-  parts.forEach((p, i) => {
-    if (i) nav.appendChild(el('span', { className: 'crumb-sep', text: '/' }));
-    if (p.href && !p.current) nav.appendChild(el('a', { className: 'hit-target', href: p.href, text: p.label }));
-    else nav.appendChild(el('span', { className: p.current ? 'crumb-current' : '', text: p.label }));
-  });
-  return nav;
+function topicsOfChapter(chapter) {
+  return (chapter?.topics || []).map((t) => t);
 }
 
-function progressBar(prog) {
-  const wrap = el('div', { className: 'progress-block' });
-  wrap.appendChild(el('div', { className: 'progress-meta', text: prog.label }));
-  const track = el('div', { className: 'progress-track' });
-  const fill = el('div', { className: 'progress-fill' });
-  fill.style.width = `${Math.round(prog.ratio * 100)}%`;
-  track.appendChild(fill);
-  wrap.appendChild(track);
-  return wrap;
+function topicProgress(subject, chapter) {
+  const ids = topicsOfChapter(chapter).map((t) => `topic:${subject}/${chapter.id}/${t.code}`);
+  return progressForIds(ids);
 }
 
 function statusMark(id) {
@@ -50,77 +36,118 @@ function statusMark(id) {
   return null;
 }
 
+function progressBar(prog, className = '') {
+  const wrap = el('div', { className: `progress-block ${className}`.trim() });
+  wrap.appendChild(el('div', { className: 'progress-meta', text: `完成 ${prog.label}` }));
+  const track = el('div', { className: 'progress-track' });
+  const fill = el('div', { className: 'progress-fill' });
+  fill.style.width = `${Math.round(prog.ratio * 100)}%`;
+  track.appendChild(fill);
+  wrap.appendChild(track);
+  return wrap;
+}
+
 export function renderStart(main) {
   clear(main);
   const lastId = getLastModuleId();
   const last = lastId ? getModule(lastId) : null;
 
-  main.appendChild(
-    el('section', { className: 'start-hero' }, [
-      el('h1', { text: '科学可视化' }),
-      el('p', { className: 'lead', text: 'AP 生物 / 微积分 BC / 物理 C 力学与电磁 · 含预备课程' }),
+  const hero = el('section', { className: 'home-hero' }, [
+    el('p', { className: 'home-kicker', text: 'AP Biology · Calculus BC · Physics C' }),
+    el('h1', { text: '科学可视化' }),
+    el('p', {
+      className: 'home-lede',
+      text: '从交互实验进入知识点，再用练习和知识图谱把一整个单元连起来。',
+    }),
+    el('div', { className: 'hero-actions' }, [
+      el('a', {
+        className: 'btn primary hit-target',
+        href: last ? `#/m/${last.id}` : '#/bio',
+        text: last ? '继续上次的实验' : '从生物开始',
+      }),
+      el('a', { className: 'btn hit-target', href: '#/all', text: '全部模块' }),
     ]),
-  );
+  ]);
+  main.appendChild(hero);
 
-  const steps = el('ol', { className: 'step-list compact' });
-  ['选入口', '调参数', '看下一步'].forEach((t, i) => {
-    steps.appendChild(
-      el('li', { className: 'step-item' }, [
-        el('span', { className: 'step-num', text: String(i + 1).padStart(2, '0') }),
-        el('h3', { text: t }),
+  if (last) {
+    main.appendChild(
+      el('a', { className: 'continue-row hit-target', href: `#/m/${last.id}` }, [
+        el('span', { className: 'continue-label', text: '继续' }),
+        el('span', { className: 'continue-title', text: last.title }),
+        el('span', { className: 'continue-meta', text: SUBJECT_LABEL[last.subject] || '' }),
+        el('span', { className: 'row-arrow', 'aria-hidden': 'true', text: '→' }),
+      ]),
+    );
+  }
+
+  const list = el('section', { className: 'subject-index', 'aria-label': '学科' });
+  SUBJECT_ORDER.forEach((sid, i) => {
+    const sub = SUBJECTS[sid];
+    const tree = getSubjectTree(sid);
+    const topicCount = tree.reduce((n, c) => n + (c.topics || []).length, 0);
+    const moduleCount = getModulesBySubject(sid).length;
+    list.appendChild(
+      el('a', { className: `subject-row hit-target ${sid}`, href: `#/${sid}` }, [
+        el('span', { className: 'subject-num', text: String(i + 1).padStart(2, '0') }),
+        el('div', { className: 'subject-body' }, [
+          el('div', { className: 'subject-name-row' }, [
+            el('span', { className: 'subject-dot', 'aria-hidden': 'true' }),
+            el('h2', { className: 'subject-name', text: sub.name }),
+            el('span', { className: 'subject-en', text: sub.en || '' }),
+          ]),
+          el('span', { className: 'subject-meta', text: `${tree.length} 单元 · ${topicCount} 知识点 · ${moduleCount} 实验` }),
+        ]),
+        el('span', { className: 'subject-go', 'aria-hidden': 'true', text: '→' }),
       ]),
     );
   });
-  main.appendChild(el('section', { className: 'start-steps' }, [steps]));
-  main.appendChild(el('p', {}, [
-    el('a', { className: 'hit-target', href: '#/credits', text: '来源与许可 / College Board 索引' }),
-    el('span', { text: ' · ' }),
-    el('a', { className: 'hit-target', href: '#/pastpapers', text: '历年真题' }),
-  ]));
+  main.appendChild(list);
 
-  const grid = el('div', { className: 'entry-list' });
+  const secondary = el('nav', { className: 'home-secondary', 'aria-label': '更多' });
   [
-    { href: '#/bio', title: '生物' },
-    { href: '#/math', title: '微积分' },
-    { href: '#/mech', title: '力学' },
-    { href: '#/em', title: '电磁' },
-    { href: '#/paths', title: '学习路径' },
-    { href: last ? `#/m/${last.id}` : '#/all', title: last ? `继续：${last.title}` : '全部模块' },
-  ].forEach((it) => {
-    grid.appendChild(el('a', { className: 'entry-row hit-target', href: it.href }, [el('h3', { text: it.title })]));
+    ['#/paths', '学习路径'],
+    ['#/math/formulas', '公式表'],
+    ['#/pastpapers', '历年真题'],
+    ['#/credits', '来源与许可'],
+  ].forEach(([href, label]) => {
+    secondary.appendChild(el('a', { className: 'hit-target', href, text: label }));
   });
-  main.appendChild(el('section', { className: 'start-entries' }, [grid]));
-  main.appendChild(el('p', { className: 'tiny-hint', text: 'Ctrl/Cmd+K 搜索 · ← → 切换模块' }));
+  main.appendChild(secondary);
+
+  main.appendChild(el('p', { className: 'home-hint', text: 'Ctrl / Cmd + K 搜索知识点与模块' }));
+  document.title = '科学可视化平台';
 }
 
-export function renderCatalog(main, { modules, query }) {
+export function renderCatalog(main, { modules, query = '' } = {}) {
   clear(main);
-  main.appendChild(crumb([{ href: '#/', label: '首页' }, { label: '索引', current: true }]));
+  const list = modules || getModulesBySubjectAll();
+  main.appendChild(breadcrumb([{ href: '#/', label: '首页' }, { label: '索引', current: true }]));
   main.appendChild(
     el('header', { className: 'page-hero compact' }, [
+      el('p', { className: 'page-kicker', text: '索引' }),
       el('h1', { text: '全部模块' }),
-      query ? el('p', { className: 'lead', text: `「${query}」 ${modules.length} 项` }) : null,
+      el('p', {
+        className: 'lead',
+        text: query ? `「${query}」 ${list.length} 项` : `${list.length} 个交互实验 · 按学科分组`,
+      }),
     ]),
   );
-  if (!modules.length) {
-    main.appendChild(el('div', { className: 'empty-state', text: '无匹配' }));
+  if (!list.length) {
+    main.appendChild(el('div', { className: 'empty-state', text: '没有匹配的模块。' }));
     return;
   }
   const grid = el('div', { className: 'catalog-grid' });
   for (const sid of SUBJECT_ORDER) {
-    const list = modules.filter((m) => m.subject === sid);
-    if (!list.length) continue;
+    const items = list.filter((m) => m.subject === sid);
+    if (!items.length) continue;
     const section = el('section', { className: 'section-block', id: `cat-${sid}` });
     section.appendChild(
-      el('h2', { className: 'section-title' }, [
-        el('span', { className: `section-dot ${sid}` }),
-        el('a', { href: `#/${sid}`, className: 'section-title-link hit-target', text: SUBJECT_LABEL[sid] }),
-      ]),
+      sectionLabelEl(sid, `${SUBJECT_LABEL[sid]} · ${items.length}`),
     );
     const index = el('div', { className: 'module-index', role: 'list' });
-    list.forEach((m, i) => {
+    items.forEach((m, i) => {
       const row = rowLink(m, i);
-      row.querySelector('.row-desc')?.remove();
       const mark = statusMark(m.id);
       if (mark) row.querySelector('.row-body')?.appendChild(mark);
       index.appendChild(row);
@@ -131,6 +158,17 @@ export function renderCatalog(main, { modules, query }) {
   main.appendChild(grid);
 }
 
+function getModulesBySubjectAll() {
+  return SUBJECT_ORDER.flatMap((sid) => getModulesBySubject(sid));
+}
+
+function sectionLabelEl(subject, text) {
+  return el('h2', { className: 'section-label' }, [
+    el('span', { className: `subject-dot ${subject}`, 'aria-hidden': 'true' }),
+    el('span', { text }),
+  ]);
+}
+
 export function renderSubjectLanding(main, subject) {
   clear(main);
   const sub = SUBJECTS[subject];
@@ -139,48 +177,78 @@ export function renderSubjectLanding(main, subject) {
     return;
   }
   const tree = getSubjectTree(subject);
-  const allIds = getModulesBySubject(subject).map((m) => m.id);
-  const prog = progressForIds(allIds);
-  const first = getFirstModuleOfSubject(subject);
+  const allTopicIds = tree.flatMap((c) =>
+    (c.topics || []).map((t) => `topic:${subject}/${c.id}/${t.code}`),
+  );
+  const prog = progressForIds(allTopicIds);
+  const first = tree[0];
+  const prepCount = tree.filter((c) => c.layer === 'prep').length;
+  const apCount = tree.length - prepCount;
+  const unitLead = `${sub.en || sub.name} · ${prepCount ? `${prepCount} 预备 + ` : ''}${apCount} AP 单元 · ${allTopicIds.length} 知识点`;
 
-  main.appendChild(crumb([{ href: '#/', label: '首页' }, { label: sub.name, current: true }]));
+  main.appendChild(breadcrumb([{ href: '#/', label: '首页' }, { label: sub.name, current: true }]));
   main.appendChild(
-    el('header', { className: 'page-hero compact' }, [
+    el('header', { className: `page-hero subject-hero ${subject}` }, [
+      el('p', { className: 'page-kicker', text: sub.en || '' }),
       el('h1', { text: sub.name }),
-      el('p', { className: 'lead', text: sub.overview || sub.en }),
+      el('p', { className: 'lead', text: unitLead }),
       progressBar(prog),
-      el('div', { className: 'btn-row' }, [
-        first ? el('a', { className: 'btn primary hit-target', href: `#/m/${first.id}`, text: '开始实验' }) : null,
+      el('div', { className: 'hero-actions' }, [
+        first
+          ? el('a', { className: 'btn primary hit-target', href: `#/${subject}/${first.id}`, text: '开始学习' })
+          : null,
         el('a', { className: 'btn hit-target', href: `#/${subject}/map`, text: '知识图谱' }),
-        subject === 'math'
-          ? el('a', { className: 'btn hit-target', href: '#/math/formulas', text: '公式表' })
-          : (subject === 'mech' || subject === 'em')
-            ? el('a', { className: 'btn hit-target', href: '#/physics/formulas', text: '公式表' })
-            : null,
+        subject === 'math' || subject === 'mech' || subject === 'em'
+          ? el('a', { className: 'btn hit-target', href: `#/${subject}/formulas`, text: '公式表' })
+          : null,
+        el('a', { className: 'btn hit-target', href: `#/pastpapers/${subject}`, text: '历年真题' }),
       ]),
     ]),
   );
 
-  const list = el('section', { className: 'chapter-cards subject-chapter-grid' });
-  tree.forEach((chapter) => {
-    const modules = chapter.modules || [];
-    const cp = progressForIds(modules.map((m) => m.id));
-    const layer = chapter.layer === 'prep' ? '预备' : 'AP';
-    list.appendChild(
-      el('a', { className: 'chapter-row hit-target', href: `#/${subject}/${chapter.id}` }, [
-        el('div', { className: 'chapter-row-main' }, [
-          el('h3', { text: chapter.name }),
-          el('p', { className: 'muted', text: layer }),
-        ]),
-        el('div', { className: 'chapter-row-meta' }, [
-          el('span', { text: `${(chapter.topics || []).length} 点` }),
-          el('span', { text: `${modules.length} 实验` }),
-          el('span', { text: cp.label }),
-        ]),
+  const groups = [
+    { key: 'prep', label: '预备课程', chapters: tree.filter((c) => c.layer === 'prep') },
+    { key: 'ap', label: 'AP 单元', chapters: tree.filter((c) => c.layer !== 'prep') },
+  ].filter((g) => g.chapters.length);
+
+  groups.forEach((group) => {
+    const section = el('section', { className: 'unit-section' });
+    section.appendChild(
+      el('div', { className: 'section-head' }, [
+        el('h2', { className: 'section-label', text: group.label }),
+        el('span', { className: 'section-count', text: `${group.chapters.length} 个单元` }),
       ]),
     );
+    const list = el('div', { className: 'unit-list' });
+    group.chapters.forEach((ch) => {
+      const tp = topicProgress(subject, ch);
+      const modules = getModulesByChapter(subject, ch.id);
+      const meta = [
+        `${(ch.topics || []).length} 知识点`,
+        modules.length ? `${modules.length} 实验` : '实验待上线',
+      ].join(' · ');
+      list.appendChild(
+        el('a', { className: 'unit-row hit-target', href: `#/${subject}/${ch.id}` }, [
+          el('span', { className: 'unit-code', text: ch.unitCode || '' }),
+          el('div', { className: 'unit-main' }, [
+            el('h3', { text: ch.titleZh || chapterTitle(ch) }),
+            el('p', { className: 'unit-meta', text: meta }),
+          ]),
+          el('span', { className: 'unit-progress' }, [
+            el('span', { className: 'unit-progress-label', text: tp.label }),
+            el('span', { className: 'unit-bar', 'aria-hidden': 'true' }, [
+              el('span', { className: 'unit-bar-fill', style: `width:${Math.round(tp.ratio * 100)}%` }),
+            ]),
+          ]),
+          el('span', { className: 'row-arrow', 'aria-hidden': 'true', text: '→' }),
+        ]),
+      );
+    });
+    section.appendChild(list);
+    main.appendChild(section);
   });
-  main.appendChild(list);
+
+  document.title = `${sub.name} · 科学可视化`;
 }
 
 export function renderChapterPage(main, subject, chapterId) {
@@ -192,63 +260,118 @@ export function renderChapterPage(main, subject, chapterId) {
     return;
   }
   const modules = getModulesByChapter(subject, chapterId);
-  const first = getFirstModuleOfChapter(subject, chapterId);
   const rows = getChapterTopicRows(subject, chapterId);
+  const tree = getSubjectTree(subject);
+  const chIndex = tree.findIndex((c) => c.id === chapterId);
+  const prev = chIndex > 0 ? tree[chIndex - 1] : null;
+  const next = chIndex >= 0 && chIndex < tree.length - 1 ? tree[chIndex + 1] : null;
+  const tp = topicProgress(subject, { ...chapter, topics: rows });
 
   main.appendChild(
-    crumb([
+    breadcrumb([
       { href: '#/', label: '首页' },
       { href: `#/${subject}`, label: sub.name },
-      { label: chapter.name, current: true },
+      { label: chapter.titleZh || chapterTitle(chapter), current: true },
     ]),
   );
   main.appendChild(
-    el('header', { className: 'page-hero compact' }, [
-      el('h1', { text: chapter.name }),
-      el('p', { className: 'lead', text: chapter.titleEn || chapter.overview || '' }),
-      first
-        ? el('a', { className: 'btn primary hit-target', href: `#/m/${first.id}`, text: '从实验开始' })
-        : null,
-      el('a', { className: 'btn hit-target', href: `#/${subject}/practice/${chapterId}`, text: '单元练习' }),
-      el('a', { className: 'btn hit-target', href: `#/pastpapers/${subject}`, text: '历年真题' }),
+    el('header', { className: `page-hero chapter-hero ${subject}` }, [
+      el('p', { className: 'page-kicker', text: `${chapter.layer === 'prep' ? '预备' : 'AP'} · Unit ${chapter.unitCode}` }),
+      el('h1', { text: chapter.titleZh || chapterTitle(chapter) }),
+      el('p', { className: 'lead', text: chapter.titleEn || chapter.summary || '' }),
+      progressBar(tp),
+      el('div', { className: 'hero-actions' }, [
+        rows[0]
+          ? el('a', {
+            className: 'btn primary hit-target',
+            href: `#/t/${subject}/${chapterId}/${rows[0].code}`,
+            text: '开始知识点',
+          })
+          : modules[0]
+            ? el('a', { className: 'btn primary hit-target', href: `#/m/${modules[0].id}`, text: '开始实验' })
+            : null,
+        el('a', { className: 'btn hit-target', href: `#/${subject}/practice/${chapterId}`, text: '单元练习' }),
+        el('a', { className: 'btn hit-target', href: `#/${subject}/map`, text: '知识图谱' }),
+      ]),
     ]),
   );
 
-  const topicList = el('section', { className: 'topic-index' }, [el('h2', { text: '知识点' })]);
+  const topicSection = el('section', { className: 'topic-index' });
+  topicSection.appendChild(
+    el('div', { className: 'section-head' }, [
+      el('h2', { className: 'section-label', text: '知识点' }),
+      el('span', { className: 'section-count', text: `${rows.length} 个` }),
+    ]),
+  );
   rows.forEach((t) => {
-    const href = t.modules.length
-      ? `#/t/${subject}/${chapterId}/${t.code}`
-      : `#/t/${subject}/${chapterId}/${t.code}`;
+    const href = `#/t/${subject}/${chapterId}/${t.code}`;
     const row = el('a', { className: 'topic-row hit-target', href }, [
       el('span', { className: 'topic-code', text: t.code }),
       el('span', { className: 'topic-title', text: t.titleZh }),
+      el('span', { className: 'row-arrow', 'aria-hidden': 'true', text: '→' }),
     ]);
-    const tid = `topic:${subject}/${chapterId}/${t.code}`;
-    const mark = statusMark(tid);
-    if (mark) row.appendChild(mark);
-    topicList.appendChild(row);
+    const mark = statusMark(`topic:${subject}/${chapterId}/${t.code}`);
+    if (mark) row.insertBefore(mark, row.lastChild);
+    topicSection.appendChild(row);
   });
-  main.appendChild(topicList);
+  main.appendChild(topicSection);
 
   if (modules.length) {
-    const sec = el('section', { className: 'section-block' }, [el('h2', { text: '交互实验' })]);
+    const sec = el('section', { className: 'section-block experiment-section' });
+    sec.appendChild(
+      el('div', { className: 'section-head' }, [
+        el('h2', { className: 'section-label', text: '交互实验' }),
+        el('span', { className: 'section-count', text: `${modules.length} 个` }),
+      ]),
+    );
     const index = el('div', { className: 'module-index', role: 'list' });
     modules.forEach((m, i) => index.appendChild(rowLink(m, i)));
     sec.appendChild(index);
     main.appendChild(sec);
   }
+
+  const pager = el('nav', { className: 'page-pager', 'aria-label': '单元导航' }, [
+    prev
+      ? el('a', { className: 'pager-link prev hit-target', href: `#/${subject}/${prev.id}` }, [
+          el('span', { className: 'pager-label', text: '上一单元' }),
+          el('span', { className: 'pager-title', text: prev.titleZh || chapterTitle(prev) }),
+        ])
+      : el('span', { className: 'pager-link prev disabled' }),
+    next
+      ? el('a', { className: 'pager-link next hit-target', href: `#/${subject}/${next.id}` }, [
+          el('span', { className: 'pager-label', text: '下一单元' }),
+          el('span', { className: 'pager-title', text: next.titleZh || chapterTitle(next) }),
+        ])
+      : el('span', { className: 'pager-link next disabled' }),
+  ]);
+  main.appendChild(pager);
+
+  document.title = `${chapter.titleZh || chapterTitle(chapter)} · ${sub.name} · 科学可视化`;
+}
+
+function chapterTitle(ch) {
+  return String(ch?.name || '').replace(/^Unit\s+\S+\s*·\s*/, '') || ch?.id || '';
 }
 
 export function renderPaths(main) {
   clear(main);
-  main.appendChild(crumb([{ href: '#/', label: '首页' }, { label: '路径', current: true }]));
-  main.appendChild(el('header', { className: 'page-hero compact' }, [el('h1', { text: '学习路径' })]));
+  main.appendChild(breadcrumb([{ href: '#/', label: '首页' }, { label: '学习路径', current: true }]));
+  main.appendChild(
+    el('header', { className: 'page-hero compact' }, [
+      el('p', { className: 'page-kicker', text: '路径' }),
+      el('h1', { text: '学习路径' }),
+      el('p', { className: 'lead', text: '按课程主线串联实验，适合从零开始或系统复习。' }),
+    ]),
+  );
   PATHS.forEach((p) => {
     const mods = getPathModules(p);
     const prog = progressForIds(mods.map((m) => m.id));
     const block = el('section', { className: 'path-block' }, [
-      el('h2', { text: p.title }),
-      el('p', { className: 'lead', text: p.summary }),
+      el('div', { className: 'section-head' }, [
+        el('h2', { className: 'section-label', text: p.title }),
+        el('span', { className: 'section-count', text: `${mods.length} 步` }),
+      ]),
+      el('p', { className: 'lead path-summary', text: p.summary }),
       progressBar(prog),
     ]);
     const steps = el('ol', { className: 'path-steps' });
@@ -258,6 +381,7 @@ export function renderPaths(main) {
           el('a', { className: 'hit-target', href: `#/m/${m.id}` }, [
             el('span', { className: 'path-step-num', text: String(i + 1).padStart(2, '0') }),
             el('span', { className: 'path-step-title', text: m.title }),
+            el('span', { className: 'row-arrow', 'aria-hidden': 'true', text: '→' }),
           ]),
         ]),
       );
@@ -265,60 +389,89 @@ export function renderPaths(main) {
     block.appendChild(steps);
     main.appendChild(block);
   });
+  document.title = '学习路径 · 科学可视化';
 }
 
-
-export function renderCredits(main) {
+export async function renderCredits(main, { isCurrent = () => true } = {}) {
+  const { CREDITS, COLLEGE_BOARD_INDEX } = await import('../data/shared/credits.js');
+  if (!isCurrent()) return null;
   clear(main);
-  import('../data/shared/credits.js').then(({ CREDITS, COLLEGE_BOARD_INDEX }) => {
-    clear(main);
-    const root = el('article', { className: 'topic-page credits-page' });
-    root.appendChild(el('h1', { text: CREDITS.titleZh }));
-    root.appendChild(el('p', { className: 'lead', text: CREDITS.titleEn }));
-    root.appendChild(el('p', { text: CREDITS.intro }));
-    CREDITS.sources.forEach((s) => {
-      const sec = el('section', { className: 'topic-block' });
-      sec.appendChild(el('h2', { text: s.title }));
-      sec.appendChild(el('p', { className: 'muted', text: `${s.license}${s.url ? ' · ' + s.url : ''}` }));
-      sec.appendChild(el('p', { text: s.note }));
-      if (s.url) sec.appendChild(el('a', { className: 'hit-target', href: s.url, target: '_blank', rel: 'noopener', text: '打开来源' }));
-      root.appendChild(sec);
-    });
-    root.appendChild(el('h1', { text: COLLEGE_BOARD_INDEX.titleZh }));
-    root.appendChild(el('p', { className: 'muted', text: COLLEGE_BOARD_INDEX.disclaimer }));
-    COLLEGE_BOARD_INDEX.courses.forEach((c) => {
-      const sec = el('section', { className: 'topic-block' });
-      sec.appendChild(el('h2', { text: c.label }));
-      sec.appendChild(el('a', { className: 'entry-row hit-target', href: c.ced, target: '_blank', rel: 'noopener', text: '课程与 CED' }));
-      if (c.freeResponse) sec.appendChild(el('a', { className: 'entry-row hit-target', href: c.freeResponse, target: '_blank', rel: 'noopener', text: '历年 FRQ 官方页（外链）' }));
-      c.units.forEach((u) => {
-        sec.appendChild(el('p', { className: 'muted', text: `Unit ${u.code} · ${u.title}${u.hint ? ' — ' + u.hint : ''}` }));
-      });
-      root.appendChild(sec);
-    });
-    main.appendChild(root);
+  const root = el('article', { className: 'topic-page reading-page credits-page' });
+  main.appendChild(breadcrumb([{ href: '#/', label: '首页' }, { label: '来源与许可', current: true }]));
+  root.appendChild(el('header', { className: 'page-hero compact' }, [
+    el('p', { className: 'page-kicker', text: '来源' }),
+    el('h1', { text: CREDITS.titleZh }),
+    el('p', { className: 'lead', text: CREDITS.titleEn }),
+  ]));
+  const content = el('div', { className: 'reading-column' });
+  content.appendChild(el('p', { text: CREDITS.intro }));
+  CREDITS.sources.forEach((s) => {
+    const sec = el('section', { className: 'topic-block' });
+    sec.appendChild(el('h2', { text: s.title }));
+    sec.appendChild(el('p', { className: 'muted', text: `${s.license}${s.url ? ' · ' + s.url : ''}` }));
+    sec.appendChild(el('p', { text: s.note }));
+    if (s.url) sec.appendChild(el('a', { className: 'hit-target text-link', href: s.url, target: '_blank', rel: 'noopener', text: '打开来源' }));
+    content.appendChild(sec);
   });
+  content.appendChild(el('h2', { className: 'section-label', text: COLLEGE_BOARD_INDEX.titleZh }));
+  content.appendChild(el('p', { className: 'muted', text: COLLEGE_BOARD_INDEX.disclaimer }));
+  COLLEGE_BOARD_INDEX.courses.forEach((c) => {
+    const sec = el('section', { className: 'topic-block' });
+    sec.appendChild(el('h2', { text: c.label }));
+    sec.appendChild(el('a', { className: 'entry-row hit-target', href: c.ced, target: '_blank', rel: 'noopener', text: '课程与 CED' }));
+    if (c.freeResponse) sec.appendChild(el('a', { className: 'entry-row hit-target', href: c.freeResponse, target: '_blank', rel: 'noopener', text: '历年 FRQ 官方页（外链）' }));
+    c.units.forEach((u) => {
+      sec.appendChild(el('p', { className: 'muted', text: `Unit ${u.code} · ${u.title}${u.hint ? ' — ' + u.hint : ''}` }));
+    });
+    content.appendChild(sec);
+  });
+  root.appendChild(content);
+  main.appendChild(root);
+  document.title = '来源与许可 · 科学可视化';
+  return null;
 }
 
-export async function renderPastPapers(main, { subject = null, year = null } = {}) {
-  clear(main);
+export async function renderPastPapers(main, { subject = null, year = null, isCurrent = () => true } = {}) {
   const { PAST_PAPERS } = await import('../data/shared/pastpapers.js');
-  const root = el('article', { className: 'topic-page pastpapers-page' });
-  root.appendChild(el('h1', { text: '历年真题索引' }));
-  root.appendChild(el('p', { className: 'lead', text: 'College Board 已发布 FRQ · 仅外链与原创复述' }));
-  root.appendChild(el('p', { className: 'muted', text: PAST_PAPERS.disclaimer }));
+  if (!isCurrent()) return null;
+  clear(main);
+  main.appendChild(
+    breadcrumb([
+      { href: '#/', label: '首页' },
+      ...(subject ? [{ href: `#/${subject}`, label: SUBJECT_LABEL[subject] || subject }] : []),
+      { label: '历年真题', current: true },
+    ]),
+  );
+  main.appendChild(el('header', { className: 'page-hero compact' }, [
+    el('p', { className: 'page-kicker', text: '真题' }),
+    el('h1', { text: '历年真题索引' }),
+    el('p', { className: 'lead', text: 'College Board 已发布 FRQ · 仅外链与原创复述' }),
+    el('p', { className: 'muted', text: PAST_PAPERS.disclaimer }),
+  ]));
 
-  const filters = el('div', { className: 'practice-filters' });
-  const courses = [
-    { id: null, lab: '全部' },
-    { id: 'bio', lab: '生物' },
-    { id: 'math', lab: '微积分' },
-    { id: 'mech', lab: '力学' },
-    { id: 'em', lab: '电磁' },
-  ];
   let curSub = subject;
   let curYear = year ? Number(year) : null;
-  const list = el('div', { className: 'practice-list' });
+
+  const filterWrap = el('div', { className: 'filter-block' });
+  const courseFilters = el('div', { className: 'practice-filters', role: 'group', 'aria-label': '学科筛选' });
+  const yearFilters = el('div', { className: 'practice-filters', role: 'group', 'aria-label': '年份筛选' });
+  const list = el('div', { className: 'paper-list' });
+  const countEl = el('p', { className: 'filter-count muted', 'aria-live': 'polite' });
+  const courseButtons = [];
+  const yearButtons = [];
+
+  function paintFilters() {
+    courseButtons.forEach((b, i) => {
+      const on = [null, 'bio', 'math', 'mech', 'em'][i] === curSub;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    yearButtons.forEach((b, i) => {
+      const on = [null, 2026, 2025, 2024, 2023, 2020][i] === curYear;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
 
   function redraw() {
     clear(list);
@@ -326,11 +479,11 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
     if (curSub) items = items.filter((e) => e.course === curSub);
     if (curYear) items = items.filter((e) => e.year === curYear);
     items = items.slice().sort((a, b) => b.year - a.year || a.examLabel.localeCompare(b.examLabel) || a.question - b.question);
-    list.appendChild(el('p', { className: 'muted', text: `共 ${items.length} 条` }));
+    countEl.textContent = `${items.length} 条`;
     for (const e of items) {
-      const card = el('article', { className: 'practice-card' });
+      const card = el('article', { className: 'pastpaper-entry' });
       card.appendChild(el('div', { className: 'practice-tags' }, [
-        el('span', { className: 'tag', text: String(e.year) }),
+        el('span', { className: 'tag tag-year', text: String(e.year) }),
         el('span', { className: 'tag', text: e.examLabel }),
         el('span', { className: 'tag', text: `Q${e.question}` }),
         e.set ? el('span', { className: 'tag', text: `Set ${e.set}` }) : null,
@@ -342,7 +495,7 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
       card.appendChild(el('h2', { text: `${e.year} ${e.examLabel} ${titleQ}` }));
       card.appendChild(el('p', { text: e.paraphrase }));
       card.appendChild(el('p', { className: 'practice-source muted', text: e.copyrightNote }));
-      const links = el('div', { className: 'practice-filters' });
+      const links = el('div', { className: 'practice-filters paper-links' });
       if (e.pdfQuestions) links.appendChild(el('a', { className: 'btn hit-target', href: e.pdfQuestions, target: '_blank', rel: 'noopener', text: '试题 PDF' }));
       if (e.pdfScoring) links.appendChild(el('a', { className: 'btn hit-target', href: e.pdfScoring, target: '_blank', rel: 'noopener', text: '评分指南' }));
       links.appendChild(el('a', { className: 'btn hit-target', href: e.hub, target: '_blank', rel: 'noopener', text: '官方历年页' }));
@@ -351,8 +504,7 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
         const sol = el('details', { className: 'practice-sol' });
         sol.appendChild(el('summary', { className: 'hit-target', text: '原创解题提纲（含知识点链接）' }));
         e.solutionOutline.steps.forEach((st) => {
-          const row = el('p', { text: typeof st === 'string' ? st : st.text });
-          sol.appendChild(row);
+          sol.appendChild(el('p', { text: typeof st === 'string' ? st : st.text }));
           const linksArr = (typeof st === 'object' && st.links) || e.solutionOutline.topicLinks || [];
           linksArr.forEach((lk) => {
             sol.appendChild(el('a', { className: 'entry-row hit-target', href: lk.href, text: lk.label || lk.topicId }));
@@ -361,16 +513,16 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
         card.appendChild(sol);
       }
       if (e.topics?.length) {
-        const tops = el('p', { className: 'muted' });
-        tops.appendChild(document.createTextNode('主题：'));
+        const tops = el('p', { className: 'muted paper-topics' });
+        tops.appendChild(document.createTextNode('知识点：'));
         e.topics.forEach((tid) => {
           const [ch, code] = tid.split(':');
-          tops.appendChild(el('a', { className: 'hit-target', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${tid} ` }));
+          tops.appendChild(el('a', { className: 'hit-target text-link', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${tid} ` }));
         });
         card.appendChild(tops);
       }
       if (e.hubLinks) {
-        const hubs = el('div', { className: 'practice-filters' });
+        const hubs = el('div', { className: 'practice-filters paper-links' });
         Object.entries(e.hubLinks).forEach(([k, url]) => {
           if (k === 'mathAb') return;
           hubs.appendChild(el('a', { className: 'btn hit-target', href: url, target: '_blank', rel: 'noopener', text: `${k} 历年页` }));
@@ -379,19 +531,31 @@ export async function renderPastPapers(main, { subject = null, year = null } = {
       }
       list.appendChild(card);
     }
+    if (!items.length) list.appendChild(el('div', { className: 'empty-state', text: '该筛选下暂无条目。' }));
   }
 
-  courses.forEach((c) => {
-    const b = el('button', { type: 'button', className: 'btn hit-target', text: c.lab });
-    b.addEventListener('click', () => { curSub = c.id; redraw(); });
-    filters.appendChild(b);
+  [
+    { id: null, lab: '全部' },
+    { id: 'bio', lab: '生物' },
+    { id: 'math', lab: '微积分' },
+    { id: 'mech', lab: '力学' },
+    { id: 'em', lab: '电磁' },
+  ].forEach((c) => {
+    const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: c.lab });
+    b.addEventListener('click', () => { curSub = c.id; paintFilters(); redraw(); });
+    courseButtons.push(b);
+    courseFilters.appendChild(b);
   });
   [null, 2026, 2025, 2024, 2023, 2020].forEach((y) => {
-    const b = el('button', { type: 'button', className: 'btn hit-target', text: y ? String(y) : '各年' });
-    b.addEventListener('click', () => { curYear = y; redraw(); });
-    filters.appendChild(b);
+    const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: y ? String(y) : '各年' });
+    b.addEventListener('click', () => { curYear = y; paintFilters(); redraw(); });
+    yearButtons.push(b);
+    yearFilters.appendChild(b);
   });
-  root.append(filters, list);
-  main.appendChild(root);
+  filterWrap.append(courseFilters, yearFilters, countEl);
+  main.append(filterWrap, list);
+  paintFilters();
   redraw();
+  document.title = '历年真题索引 · 科学可视化';
+  return null;
 }

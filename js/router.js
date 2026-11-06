@@ -28,7 +28,10 @@ export function parseHash() {
   }
   if (SUBJECT_IDS.includes(parts[0])) {
     if (parts[1] === 'map') return { name: 'map', subject: parts[0] };
-    if (parts[1] === 'formulas') return { name: 'formulas', kind: parts[0] === 'math' ? 'math' : parts[0] };
+    if (parts[1] === 'formulas') {
+      if (parts[0] === 'bio') return { name: 'subject', subject: 'bio' };
+      return { name: 'formulas', kind: parts[0] === 'math' ? 'math' : parts[0] };
+    }
     if (parts[1] === 'practice' && parts[2]) {
       return { name: 'practice', subject: parts[0], chapterId: parts[2] };
     }

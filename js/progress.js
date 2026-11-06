@@ -40,7 +40,9 @@ export function markVisited(id) {
   const s = readSet(VISIT_KEY);
   s.add(id);
   writeSet(VISIT_KEY, s);
-  setLastModuleId(id);
+  // Topic / practice progress IDs use ':', module IDs do not. Only modules
+  // belong in the “continue last experiment” slot on the home page.
+  if (!String(id).includes(':')) setLastModuleId(id);
   return s;
 }
 

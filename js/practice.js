@@ -1,5 +1,4 @@
-import { el, clear } from './ui-shared.js';
-import { SUBJECT_LABEL } from './ui-shared.js';
+import { el, clear, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
 import { markVisited, markCompleted, isCompleted, progressForIds } from './progress.js';
 import { renderDiagram } from './diagrams.js';
 
@@ -26,18 +25,13 @@ export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
   const expected = String(expectedRaw || '').trim();
   if (!user || !expected) return false;
   if (user.replace(/\s+/g, '') === expected.replace(/\s+/g, '')) return true;
-  if (!m) {
-    // fallback: numeric if both parse as numbers
-    return checkNumeric(user, expected, opts.tol ?? 0.02);
-  }
+  if (!m) return checkNumeric(user, expected, opts.tol ?? 0.02);
   try {
     const su = m.simplify(user).toString();
     const se = m.simplify(expected).toString();
     if (su === se) return true;
-    // difference simplify to 0
     const diff = m.simplify(`(${user})-(${expected})`).toString();
     if (diff === '0' || diff === '0.0') return true;
-    // random-point test for free symbols
     const vars = new Set();
     try {
       m.parse(user).traverse((n) => {
@@ -130,7 +124,6 @@ function drawGraph(canvas, g) {
   const bh = Math.floor(h * dpr);
   if (canvas.width !== bw) canvas.width = bw;
   if (canvas.height !== bh) canvas.height = bh;
-  // CSS owns layout (.stim-graph); do not write style width/height from measurements.
   canvas.style.width = '';
   canvas.style.height = '';
   const ctx = canvas.getContext('2d');
@@ -171,133 +164,301 @@ function drawGraph(canvas, g) {
   }
 }
 
+function typeLabel(prob) {
+  if (prob.type === 'mcq') return 'MCQ';
+  if (prob.generator) return 'GEN';
+  return 'FRQ';
+}
+
+function cardState(card, done) {
+  const state = card.querySelector('.practice-state');
+  card.dataset.done = done ? 'true' : 'false';
+  if (state) {
+    state.textContent = done ? '完成' : '';
+    state.classList.toggle('done', !!done);
+  }
+}
+
 export function renderPracticeUnit(main, { subject, unit, bank }) {
   clear(main);
-  const pid = (id) => `practice:${subject}/${unit.id}/${id}`;
-  main.appendChild(
-    el('nav', { className: 'breadcrumb' }, [
-      el('a', { className: 'hit-target', href: '#/', text: '首页' }),
-      el('span', { className: 'crumb-sep', text: '/' }),
-      el('a', { className: 'hit-target', href: `#/${subject}`, text: SUBJECT_LABEL[subject] }),
-      el('span', { className: 'crumb-sep', text: '/' }),
-      el('a', { className: 'hit-target', href: `#/${subject}/${unit.id}`, text: unit.name || unit.titleZh }),
-      el('span', { className: 'crumb-sep', text: '/' }),
-      el('span', { className: 'crumb-current', text: '练习' }),
-    ]),
-  );
-
   const flatIds = [];
+  const setsCount = bank.problems.filter((p) => p.kind === 'set').length;
   for (const item of bank.problems) {
-    if (item.kind === 'set') item.questions.forEach((q) => flatIds.push(pid(q.id)));
-    else flatIds.push(pid(item.id));
+    if (item.kind === 'set') item.questions.forEach((q) => flatIds.push(`practice:${subject}/${unit.id}/${q.id}`));
+    else flatIds.push(`practice:${subject}/${unit.id}/${item.id}`);
   }
   const prog = progressForIds(flatIds);
-  main.appendChild(
-    el('header', { className: 'page-hero compact' }, [
-      el('h1', { text: `练习 · ${unit.titleZh || unit.name}` }),
-      el('p', {
-        className: 'lead',
-        text: `${flatIds.length} 题 · ${bank.problems.filter((p) => p.kind === 'set').length} 组共享刺激 · 完成 ${prog.label}`,
-      }),
+
+  const page = el('div', { className: 'practice-page' });
+  main.appendChild(page);
+  page.appendChild(
+    breadcrumb([
+      { href: '#/', label: '首页' },
+      { href: `#/${subject}`, label: SUBJECT_LABEL[subject] },
+      { href: `#/${subject}/${unit.id}`, label: unit.titleZh || unit.name },
+      { label: '练习', current: true },
     ]),
   );
 
-  const filters = el('div', { className: 'practice-filters' });
-  ['全部', 'MCQ', 'FRQ', 'GEN', '易', '中', '难'].forEach((lab) => {
-    const b = el('button', { type: 'button', className: 'btn hit-target', text: lab });
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.practice-card, .practice-set').forEach((card) => {
-        const t = card.dataset.type || '';
-        const d = card.dataset.diff || '';
-        let show = true;
-        if (lab === 'MCQ') show = t.includes('mcq');
-        else if (lab === 'FRQ') show = t.includes('frq');
-        else if (lab === 'GEN') show = t.includes('gen');
-        else if (lab === '易' || lab === '中' || lab === '难') show = d === lab || d.includes(lab);
-        card.hidden = !show;
-      });
-    });
-    filters.appendChild(b);
-  });
-  main.appendChild(filters);
+  const heroProgress = el('span', { className: 'practice-hero-progress', text: `完成 ${prog.label}` });
+  page.appendChild(
+    el('header', { className: `page-hero compact practice-hero ${subject}` }, [
+      el('p', { className: 'page-kicker', text: `Unit ${unit.unitCode || ''} · 练习` }),
+      el('h1', { text: unit.titleZh || unit.name }),
+      el('p', { className: 'lead' }, [`${flatIds.length} 题 · ${setsCount} 组共享刺激 · `, heroProgress]),
+      el('div', { className: 'hero-actions' }, [
+        el('a', { className: 'btn hit-target', href: `#/${subject}/${unit.id}`, text: '返回单元' }),
+        el('a', { className: 'btn hit-target', href: `#/${subject}/map`, text: '知识图谱' }),
+      ]),
+    ]),
+  );
+
+  const layout = el('div', { className: 'practice-layout' });
+  const rail = el('aside', { className: 'practice-rail', 'aria-label': '题目导航' });
+  const mainCol = el('div', { className: 'practice-main' });
+  layout.append(rail, mainCol);
+  page.appendChild(layout);
+
+  const filterWrap = el('div', { className: 'practice-toolbar' });
+  const filters = el('div', { className: 'practice-filters', role: 'group', 'aria-label': '筛选题目' });
+  const countEl = el('span', { className: 'filter-count', 'aria-live': 'polite' });
+  filterWrap.append(filters, countEl);
+  mainCol.appendChild(filterWrap);
 
   const list = el('div', { className: 'practice-list' });
+  mainCol.appendChild(list);
+  const empty = el('div', { className: 'empty-state', hidden: true, text: '该筛选下没有题目。' });
+  mainCol.appendChild(empty);
+
+  const ctx = {
+    cards: [],
+    sets: [],
+    onDone: null,
+  };
   let idx = 0;
   bank.problems.forEach((item) => {
     if (item.kind === 'set') {
-      list.appendChild(renderSharedSet(item, idx, subject, unit, pid));
+      list.appendChild(renderSharedSet(item, idx, subject, unit, (id) => `practice:${subject}/${unit.id}/${id}`, ctx));
       idx += item.questions.length;
     } else {
-      list.appendChild(renderProblemCard(item, idx, subject, unit, pid));
+      list.appendChild(renderProblemCard(item, idx, subject, unit, (id) => `practice:${subject}/${unit.id}/${id}`, ctx));
       idx += 1;
     }
   });
-  main.appendChild(list);
-}
 
-function resolveStimulus(item, bank) {
-  if (item.stimulus) return item.stimulus;
-  if (item.sharedStimulus && bank?.stimuli?.[item.sharedStimulus]) {
-    return bank.stimuli[item.sharedStimulus];
-  }
-  return null;
-}
-
-function renderSharedSet(set, startIdx, subject, unit, pidFn) {
-  const wrap = el('section', {
-    className: 'practice-set',
-    'data-type': set.questions.map((q) => q.type || (q.generator ? 'gen' : 'frq')).join(' '),
-    'data-diff': set.questions.map((q) => q.difficulty || '中').join(' '),
+  // Build the rail after cards so numbers, types and states are known.
+  const railInner = el('div', { className: 'practice-rail-inner' });
+  railInner.appendChild(el('p', { className: 'rail-kicker', text: '题目' }));
+  const railProgressText = el('p', { className: 'rail-progress-text' });
+  const railTrack = el('div', { className: 'rail-track' });
+  const railFill = el('div', { className: 'rail-fill' });
+  railTrack.appendChild(railFill);
+  const jumpGrid = el('div', { className: 'practice-jump-grid' });
+  ctx.cards.forEach((item) => {
+    const b = el('button', {
+      type: 'button',
+      className: 'practice-jump hit-target',
+      text: String(item.number + 1).padStart(2, '0'),
+      'aria-label': `第 ${item.number + 1} 题`,
+      'data-qid': item.progressId,
+      'data-index': String(item.number),
+    });
+    b.addEventListener('click', () => jumpTo(item));
+    if (isCompleted(item.progressId)) b.classList.add('is-done');
+    jumpGrid.appendChild(b);
   });
-  wrap.appendChild(el('h2', { text: set.title || '共享刺激题组' }));
-  const stim = set.stimulus || (set.sharedStimulus ? null : null);
-  // stimulus embedded on set
-  let stimObj = set.stimulus;
-  if (!stimObj && set.sharedStimulus) {
-    // resolved at load into set.stimulus
-    stimObj = set._stimulus;
+  railInner.append(railProgressText, railTrack, jumpGrid);
+  rail.appendChild(railInner);
+
+  function updateProgress() {
+    const done = ctx.cards.filter((item) => item.card.dataset.done === 'true').length;
+    railProgressText.textContent = `完成 ${done} / ${ctx.cards.length}`;
+    heroProgress.textContent = `完成 ${done} / ${ctx.cards.length}`;
+    railFill.style.width = `${ctx.cards.length ? Math.round((done / ctx.cards.length) * 100) : 0}%`;
+    ctx.cards.forEach((item) => {
+      const jump = jumpGrid.querySelector(`[data-index="${item.number}"]`);
+      jump?.classList.toggle('is-done', item.card.dataset.done === 'true');
+    });
   }
+  updateProgress();
+
+  ctx.onDone = (card) => {
+    updateProgress();
+  };
+
+  // Add previous / next movement at the end of every card (used on narrow screens).
+  ctx.cards.forEach((item, i) => {
+    const foot = el('div', { className: 'practice-card-foot' });
+    if (i > 0) {
+      const prevBtn = el('button', { type: 'button', className: 'btn hit-target', text: '上一题' });
+      prevBtn.addEventListener('click', () => jumpTo(ctx.cards[i - 1]));
+      foot.appendChild(prevBtn);
+    }
+    if (i < ctx.cards.length - 1) {
+      const nextBtn = el('button', { type: 'button', className: 'btn hit-target', text: '下一题' });
+      nextBtn.addEventListener('click', () => jumpTo(ctx.cards[i + 1]));
+      foot.appendChild(nextBtn);
+    }
+    item.card.appendChild(foot);
+  });
+
+  function jumpTo(item) {
+    if (item.card.hidden) setFilter('all');
+    const top = item.card.getBoundingClientRect().top + window.scrollY - 84;
+    window.scrollTo({ top, behavior: 'smooth' });
+    setTimeout(() => item.card.querySelector('.practice-stem, h2')?.focus?.({ preventScroll: true }), 420);
+  }
+
+  const filterDefs = [
+    ['all', '全部'],
+    ['mcq', 'MCQ'],
+    ['frq', 'FRQ'],
+    ['gen', 'GEN'],
+    ['易', '易'],
+    ['中', '中'],
+    ['难', '难'],
+  ];
+  const filterButtons = new Map();
+  let activeFilter = 'all';
+  function setFilter(key) {
+    activeFilter = key;
+    filterButtons.forEach((b, k) => {
+      const on = k === key;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    ctx.cards.forEach((item) => {
+      const card = item.card;
+      const type = card.dataset.type || '';
+      const diff = card.dataset.diff || '';
+      let show = true;
+      if (key !== 'all') show = type === key || diff === key;
+      card.hidden = !show;
+    });
+    ctx.sets.forEach((set) => {
+      const any = [...set.querySelectorAll('.practice-card')].some((c) => !c.hidden);
+      set.hidden = !any;
+    });
+    const visible = ctx.cards.filter((item) => !item.card.hidden).length;
+    countEl.textContent = `${visible} / ${ctx.cards.length} 题`;
+    empty.hidden = visible !== 0;
+    ctx.cards.forEach((item) => {
+      jumpGrid.querySelector(`[data-index="${item.number}"]`)?.classList.toggle('is-hidden', item.card.hidden);
+    });
+  }
+  filterDefs.forEach(([key, label]) => {
+    const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: label });
+    b.setAttribute('aria-pressed', key === 'all' ? 'true' : 'false');
+    b.addEventListener('click', () => setFilter(key));
+    filterButtons.set(key, b);
+    filters.appendChild(b);
+  });
+  setFilter('all');
+
+  // Keep the rail question highlighted while scrolling.
+  let activeIndex = -1;
+  let raf = 0;
+  function paintActive() {
+    let current = 0;
+    for (let i = 0; i < ctx.cards.length; i++) {
+      if (ctx.cards[i].card.hidden) continue;
+      const top = ctx.cards[i].card.getBoundingClientRect().top;
+      if (top <= 140) current = i;
+      else break;
+    }
+    if (current === activeIndex) return;
+    activeIndex = current;
+    jumpGrid.querySelectorAll('.practice-jump').forEach((b, i) => {
+      b.classList.toggle('active', i === current);
+    });
+  }
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      paintActive();
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  paintActive();
+
+  return () => {
+    window.removeEventListener('scroll', onScroll);
+    if (raf) cancelAnimationFrame(raf);
+  };
+}
+
+function renderSharedSet(set, startIdx, subject, unit, pidFn, ctx) {
+  const wrap = el('section', { className: 'practice-set' });
+  const head = el('div', { className: 'practice-set-head' }, [
+    el('h2', { text: set.title || '共享刺激题组' }),
+    el('span', { className: 'section-count', text: `${set.questions.length} 题` }),
+  ]);
+  wrap.appendChild(head);
+  let stimObj = set.stimulus;
+  if (!stimObj && set.sharedStimulus) stimObj = set._stimulus;
   if (stimObj) wrap.appendChild(renderStimulus(stimObj));
   set.questions.forEach((q, i) => {
-    const card = renderProblemCard({ ...q, stimulus: null }, startIdx + i, subject, unit, pidFn);
+    const card = renderProblemCard({ ...q, stimulus: null }, startIdx + i, subject, unit, pidFn, ctx);
     card.classList.add('practice-card-nested');
     wrap.appendChild(card);
   });
+  ctx.sets.push(wrap);
   return wrap;
 }
 
-function renderProblemCard(prob, idx, subject, unit, pidFn) {
-  const id = pidFn(prob.id);
-  markVisited(id);
+function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
+  const progressId = pidFn(prob.id);
+  markVisited(progressId);
+  const type = prob.type || (prob.generator ? 'gen' : 'frq');
   const card = el('article', {
     className: 'practice-card',
-    'data-type': prob.type || (prob.generator ? 'gen' : 'frq'),
+    id: `practice-q-${idx + 1}`,
+    'data-type': type,
     'data-diff': prob.difficulty || '中',
+    'data-qid': progressId,
   });
-  const tags = el('div', { className: 'practice-tags' }, [
-    el('span', { className: 'tag', text: (prob.type || (prob.generator ? 'GEN' : 'FRQ')).toString().toUpperCase() }),
-    el('span', { className: 'tag', text: prob.difficulty || '中' }),
-    prob.calculator === false ? el('span', { className: 'tag', text: '无计算器' }) : null,
-    prob.calculator === true ? el('span', { className: 'tag', text: '可用计算器' }) : null,
-    isCompleted(id) ? el('span', { className: 'status-pill done', text: '完成' }) : null,
+  const done = isCompleted(progressId);
+  card.dataset.done = done ? 'true' : 'false';
+  const stateEl = el('span', { className: 'practice-state' + (done ? ' done' : ''), text: done ? '完成' : '' });
+
+  const head = el('header', { className: 'practice-card-head' }, [
+    el('span', { className: 'practice-number', text: String(idx + 1).padStart(2, '0') }),
+    el('div', { className: 'practice-card-title' }, [
+      el('h2', { text: prob.title || '题目', tabindex: '-1' }),
+      el('div', { className: 'practice-tags' }, [
+        el('span', { className: 'tag', text: typeLabel(prob) }),
+        el('span', { className: 'tag', text: prob.difficulty || '中' }),
+        prob.calculator === false ? el('span', { className: 'tag', text: '无计算器' }) : null,
+        prob.calculator === true ? el('span', { className: 'tag', text: '可用计算器' }) : null,
+      ]),
+    ]),
+    stateEl,
   ]);
-  card.append(tags, el('h2', { text: `${idx + 1}. ${prob.title || '题目'}` }));
+  card.appendChild(head);
+
+  const body = el('div', { className: 'practice-card-body' });
   if (prob.source) {
-    card.appendChild(
+    body.appendChild(
       el('p', {
         className: 'practice-source muted',
         text: `来源：${prob.source}${prob.license ? ' · ' + prob.license : ''}`,
       }),
     );
   }
-
-  if (prob.stimulus) card.appendChild(renderStimulus(prob.stimulus));
+  if (prob.stimulus) body.appendChild(renderStimulus(prob.stimulus));
   if (prob.stem || prob.stemLatex) {
     const stem = el('div', { className: 'practice-stem' });
     if (prob.stemLatex) stem.appendChild(tex(prob.stemLatex, true));
     if (prob.stem) stem.appendChild(el('p', { text: prob.stem }));
-    card.appendChild(stem);
+    body.appendChild(stem);
   }
+
+  const markDone = () => {
+    markCompleted(progressId);
+    cardState(card, true);
+    ctx.onDone?.(card);
+  };
 
   if (typeof prob.generate === 'function') {
     let instance = prob.generate();
@@ -306,90 +467,172 @@ function renderProblemCard(prob, idx, subject, unit, pidFn) {
     const redraw = () => {
       clear(mount);
       instance = prob.generate();
-      mount.appendChild(renderInstanceBody(instance, id));
+      cardState(card, false);
+      mount.appendChild(renderInstanceBody(instance, progressId, markDone));
     };
     regen.addEventListener('click', redraw);
-    card.append(regen, mount);
-    mount.appendChild(renderInstanceBody(instance, id));
+    body.append(regen, mount);
+    mount.appendChild(renderInstanceBody(instance, progressId, markDone));
   } else {
-    card.appendChild(renderInstanceBody(prob, id));
+    body.appendChild(renderInstanceBody(prob, progressId, markDone));
   }
+  card.appendChild(body);
+
+  ctx.cards.push({ card, number: idx, progressId });
   return card;
 }
 
-function renderInstanceBody(prob, progressId) {
-  const wrap = el('div');
+function renderInstanceBody(prob, progressId, onDone) {
+  const wrap = el('div', { className: 'practice-instance' });
   if (prob.parts) {
     prob.parts.forEach((part, i) => {
-      wrap.appendChild(el('h3', { text: `(${String.fromCharCode(97 + i)})` }));
-      if (part.stem) wrap.appendChild(el('p', { text: part.stem }));
-      if (part.stemLatex) wrap.appendChild(tex(part.stemLatex, true));
-      wrap.appendChild(renderAnswerUI({ ...prob, ...part, type: part.type || prob.type, parts: undefined }, progressId + ':' + i));
+      const partWrap = el('div', { className: 'practice-part' });
+      partWrap.appendChild(el('h3', { text: `(${String.fromCharCode(97 + i)})` }));
+      if (part.stem) partWrap.appendChild(el('p', { text: part.stem }));
+      if (part.stemLatex) partWrap.appendChild(tex(part.stemLatex, true));
+      partWrap.appendChild(
+        renderAnswerUI(
+          { ...prob, ...part, type: part.type || prob.type, parts: undefined },
+          progressId + ':' + i,
+          onDone,
+        ),
+      );
+      wrap.appendChild(partWrap);
     });
     return wrap;
   }
-  wrap.appendChild(renderAnswerUI(prob, progressId));
+  wrap.appendChild(renderAnswerUI(prob, progressId, onDone));
   return wrap;
 }
 
-function renderAnswerUI(prob, progressId) {
+function renderAnswerUI(prob, progressId, onDone) {
   const box = el('div', { className: 'practice-answer-ui' });
+
   if (prob.type === 'mcq' && prob.choices) {
-    const group = el('div', { className: 'mcq-group', role: 'radiogroup' });
-    const fb = el('p', { className: 'practice-feedback muted', text: '' });
+    const group = el('div', { className: 'mcq-group', role: 'radiogroup', 'aria-label': '选项' });
+    const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
+    let selected = -1;
+    const buttons = [];
     prob.choices.forEach((c, i) => {
       const btn = el('button', {
         type: 'button',
         className: 'mcq-choice hit-target',
-        text: `${String.fromCharCode(65 + i)}. ${c.text}`,
-      });
+        role: 'radio',
+        'aria-checked': 'false',
+        tabIndex: i === 0 ? 0 : -1,
+      }, [
+        el('span', { className: 'mcq-letter', text: String.fromCharCode(65 + i) }),
+        el('span', { className: 'mcq-text', text: c.text }),
+      ]);
       btn.addEventListener('click', () => {
-        group.querySelectorAll('.mcq-choice').forEach((b) => b.classList.remove('correct', 'wrong'));
-        const ok = c.correct || i === prob.answerIndex;
-        btn.classList.add(ok ? 'correct' : 'wrong');
-        if (ok) markCompleted(progressId);
-        fb.textContent = ok ? '正确' : '再试';
+        if (group.dataset.locked === 'true') return;
+        selected = i;
+        buttons.forEach((b, j) => {
+          b.classList.toggle('is-selected', j === i);
+          b.classList.remove('is-wrong');
+          b.setAttribute('aria-checked', j === i ? 'true' : 'false');
+          b.tabIndex = j === i ? 0 : -1;
+        });
+        fb.textContent = '';
+        fb.className = 'practice-feedback';
+        checkBtn.disabled = false;
       });
+      btn.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        const next = e.key === 'ArrowDown'
+          ? (i + 1) % buttons.length
+          : (i - 1 + buttons.length) % buttons.length;
+        buttons[next].focus();
+        buttons[next].click();
+      });
+      buttons.push(btn);
       group.appendChild(btn);
     });
-    box.append(group, fb);
+    const checkBtn = el('button', { type: 'button', className: 'btn hit-target', text: '检查答案', disabled: true });
+    checkBtn.addEventListener('click', () => {
+      if (selected < 0) return;
+      const ok = prob.choices[selected].correct || selected === prob.answerIndex;
+      buttons.forEach((b) => b.classList.remove('is-correct', 'is-wrong'));
+      if (ok) {
+        buttons[selected].classList.add('is-correct');
+        group.dataset.locked = 'true';
+        buttons.forEach((b) => { b.disabled = true; });
+        checkBtn.disabled = true;
+        checkBtn.textContent = '已答对';
+        fb.textContent = '正确';
+        fb.className = 'practice-feedback ok';
+        onDone?.();
+      } else {
+        buttons[selected].classList.add('is-wrong');
+        fb.textContent = '再试一次';
+        fb.className = 'practice-feedback bad';
+        checkBtn.disabled = false;
+      }
+    });
+    box.append(group, el('div', { className: 'answer-actions' }, [checkBtn]), fb);
   } else if (prob.check === 'symbolic') {
+    const form = el('form', { className: 'answer-form', novalidate: true });
     const input = el('input', {
       className: 'hit-target value-edit',
       type: 'text',
       placeholder: '符号答案，如 2*x 或 (x^2-1)/(x-1)',
       'aria-label': '符号答案',
+      autocomplete: 'off',
     });
-    const btn = el('button', { type: 'button', className: 'btn hit-target', text: '检查等价' });
-    const fb = el('p', { className: 'practice-feedback muted' });
-    btn.addEventListener('click', () => {
+    const btn = el('button', { type: 'submit', className: 'btn hit-target', text: '检查等价' });
+    const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
       const ok = checkSymbolic(input.value, prob.expected || prob.answerLatex || prob.answer, { tol: prob.tol });
       fb.textContent = ok ? '等价正确' : '与标准形式不等价，请化简后再试';
-      if (ok) markCompleted(progressId);
+      fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
+      form.dataset.state = ok ? 'ok' : 'bad';
+      if (ok) {
+        input.disabled = true;
+        btn.disabled = true;
+        onDone?.();
+      }
     });
-    box.append(input, btn, fb);
+    form.append(input, btn);
+    box.append(form, fb);
   } else if (prob.check === 'numeric') {
-    const input = el('input', { className: 'hit-target value-edit', type: 'text', placeholder: '数值答案' });
-    const btn = el('button', { type: 'button', className: 'btn hit-target', text: '检查' });
-    const fb = el('p', { className: 'practice-feedback muted' });
-    btn.addEventListener('click', () => {
+    const form = el('form', { className: 'answer-form', novalidate: true });
+    const input = el('input', {
+      className: 'hit-target value-edit',
+      type: 'text',
+      placeholder: '数值答案',
+      'aria-label': '数值答案',
+      autocomplete: 'off',
+    });
+    const btn = el('button', { type: 'submit', className: 'btn hit-target', text: '检查' });
+    const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
       const ok = checkNumeric(input.value, prob.expected, prob.tol ?? 0.02);
       fb.textContent = ok ? '正确' : '不在容差内';
-      if (ok) markCompleted(progressId);
+      fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
+      form.dataset.state = ok ? 'ok' : 'bad';
+      if (ok) {
+        input.disabled = true;
+        btn.disabled = true;
+        onDone?.();
+      }
     });
-    box.append(input, btn, fb);
+    form.append(input, btn);
+    box.append(form, fb);
   }
 
   const sol = el('details', { className: 'practice-sol' });
-  sol.appendChild(el('summary', { className: 'hit-target', text: '显示答案与解析' }));
-  const body = el('div');
-  if (prob.answerLatex) body.appendChild(tex(prob.answerLatex, true));
-  if (prob.answer) body.appendChild(el('p', { text: prob.answer }));
-  if (prob.solution) body.appendChild(el('p', { text: prob.solution }));
-  if (prob.solutionLatex) body.appendChild(tex(prob.solutionLatex, true));
-  sol.appendChild(body);
+  sol.appendChild(el('summary', { className: 'hit-target', text: '答案与解析' }));
+  const solBody = el('div');
+  if (prob.answerLatex) solBody.appendChild(tex(prob.answerLatex, true));
+  if (prob.answer) solBody.appendChild(el('p', { text: prob.answer }));
+  if (prob.solution) solBody.appendChild(el('p', { text: prob.solution }));
+  if (prob.solutionLatex) solBody.appendChild(tex(prob.solutionLatex, true));
+  sol.appendChild(solBody);
   sol.addEventListener('toggle', () => {
-    if (sol.open) markCompleted(progressId);
+    if (sol.open) onDone?.();
   });
   box.appendChild(sol);
   return box;

@@ -66,12 +66,29 @@ export function rgba(hex, alpha) {
 
 const STORAGE_KEY = 'science-viz-theme';
 
+function systemTheme() {
+  try {
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } catch (_) {
+    return 'light';
+  }
+}
+
+function syncThemeToggle(theme) {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const next = theme === 'dark' ? '浅色' : '深色';
+  btn.setAttribute('aria-label', `切换到${next}主题`);
+  btn.setAttribute('title', `切换到${next}主题`);
+  btn.setAttribute('data-current-theme', theme);
+}
+
 export function getStoredTheme() {
   try {
     const t = localStorage.getItem(STORAGE_KEY);
     if (t === 'light' || t === 'dark') return t;
   } catch (_) { /* ignore */ }
-  return 'light';
+  return systemTheme();
 }
 
 export function applyTheme(theme) {
@@ -80,6 +97,7 @@ export function applyTheme(theme) {
   try {
     localStorage.setItem(STORAGE_KEY, next);
   } catch (_) { /* ignore */ }
+  syncThemeToggle(next);
   window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
   return next;
 }

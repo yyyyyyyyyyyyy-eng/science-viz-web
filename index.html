@@ -2,7 +2,7 @@
 <html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -14,7 +14,10 @@
   <script>
     try {
       var t = localStorage.getItem('science-viz-theme');
-      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      if (t !== 'dark' && t !== 'light') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
     } catch (e) {}
   </script>
 </head>
@@ -23,7 +26,7 @@
     <header class="site-header">
       <div class="header-inner">
         <button type="button" class="nav-mobile-toggle hit-target" id="nav-mobile-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobile-nav">菜单</button>
-        <a href="#/" class="brand hit-target" id="brand-link">
+        <a href="#/" class="brand hit-target" id="brand-link" aria-label="科学可视化首页">
           <span class="brand-mark" aria-hidden="true"></span>
           <span class="brand-text">科学可视化</span>
         </a>
@@ -31,20 +34,30 @@
           <!-- filled by js/nav.js -->
         </nav>
         <div class="header-actions">
-          <div class="search-wrap">
-            <input type="search" id="search-input" placeholder="搜索 / 或 Ctrl+K" autocomplete="off" aria-label="搜索模块" />
-          </div>
-          <button type="button" class="theme-toggle hit-target" id="theme-toggle" aria-label="切换深浅色主题" title="切换主题">
+          <button type="button" class="search-trigger hit-target" id="search-trigger" aria-label="搜索知识点、模块与页面" aria-haspopup="dialog">
+            <span class="search-trigger-label">搜索</span>
+            <kbd class="search-kbd" aria-hidden="true">Ctrl K</kbd>
+          </button>
+          <button type="button" class="theme-toggle hit-target" id="theme-toggle" aria-label="切换到深色主题" title="切换颜色主题">
             <span class="label-light">深色</span>
             <span class="label-dark">浅色</span>
           </button>
         </div>
       </div>
-      <div class="mobile-nav" id="mobile-nav" hidden></div>
     </header>
+    <div class="mobile-nav" id="mobile-nav" hidden></div>
 
     <main id="main" class="main"></main>
 
+    <footer class="site-footer">
+      <span class="footer-brand">科学可视化</span>
+      <nav aria-label="页脚">
+        <a class="hit-target" href="#/all">索引</a>
+        <a class="hit-target" href="#/paths">路径</a>
+        <a class="hit-target" href="#/pastpapers">历年真题</a>
+        <a class="hit-target" href="#/credits">来源与许可</a>
+      </nav>
+    </footer>
   </div>
   <script type="module" src="js/app.js"></script>
 </body>

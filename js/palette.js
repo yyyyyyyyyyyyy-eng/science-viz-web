@@ -1,42 +1,99 @@
 /**
- * Cmd/Ctrl+K command palette — results grouped by subject.
+ * Command palette — one search surface for pages, chapters, topics and modules.
+ * Opened from the header trigger, Ctrl/Cmd+K, or “/”.
  */
-import { searchGrouped, SUBJECTS, SUBJECT_ORDER, PATHS, CHAPTERS, getModulesByChapter } from '../modules/registry.js';
-import { el, clear } from './ui.js';
+import {
+  searchGrouped,
+  SUBJECTS,
+  SUBJECT_ORDER,
+  PATHS,
+  CHAPTERS,
+} from '../modules/registry.js';
+import { el, clear } from './ui-shared.js';
+import { navigate } from './router.js';
 
 let open = false;
 let activeIndex = 0;
 let flatResults = [];
 let root = null;
+let panel = null;
 let input = null;
 let listEl = null;
+let lastFocus = null;
+let topicCache = null;
+let topicLoad = null;
+
+const chapterTitle = (ch) => ch.titleZh || String(ch.name || '').replace(/^Unit\s+\S+\s*·\s*/, '');
+const normalized = (s) => String(s || '').toLowerCase();
+
+function loadTopics() {
+  if (topicCache) return Promise.resolve(topicCache);
+  if (topicLoad) return topicLoad;
+  topicLoad = Promise.all(
+    SUBJECT_ORDER.map(async (sid) => {
+      try {
+        const mod = await import(`../data/${sid}/index.js`);
+        return (mod.allTopics ? mod.allTopics() : []).map((t) => ({ ...t, subject: sid }));
+      } catch (_) {
+        return [];
+      }
+    }),
+  ).then((groups) => {
+    topicCache = groups.flat();
+    return topicCache;
+  });
+  return topicLoad;
+}
 
 function ensureDom() {
   if (root) return;
-  root = el('div', { className: 'palette', id: 'command-palette', hidden: true, role: 'dialog', 'aria-modal': 'true', 'aria-label': '搜索模块' });
-  const backdrop = el('div', { className: 'palette-backdrop', onClick: closePalette });
-  const panel = el('div', { className: 'palette-panel' });
-  input = el('input', {
-    type: 'search',
-    className: 'palette-input hit-target',
-    placeholder: '搜索模块、章节、标签…',
-    autocomplete: 'off',
-    'aria-label': '命令面板搜索',
+  root = el('div', {
+    className: 'palette',
+    id: 'command-palette',
+    hidden: true,
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': '搜索',
   });
-  listEl = el('div', { className: 'palette-list', role: 'listbox' });
-  const hint = el('div', { className: 'palette-hint', text: 'Enter 打开 · Esc 关闭' });
-  panel.append(input, listEl, hint);
+  const backdrop = el('div', { className: 'palette-backdrop', onClick: () => closePalette() });
+  panel = el('div', { className: 'palette-panel' });
+
+  const head = el('div', { className: 'palette-head' }, [
+    el('span', { className: 'palette-mark', 'aria-hidden': 'true' }),
+    input = el('input', {
+      type: 'search',
+      className: 'palette-input',
+      placeholder: '搜索知识点、模块或页面',
+      autocomplete: 'off',
+      spellcheck: 'false',
+      'aria-label': '搜索知识点、模块或页面',
+      'aria-controls': 'palette-results',
+    }),
+    el('kbd', { className: 'palette-kbd', 'aria-hidden': 'true', text: 'Esc' }),
+  ]);
+  listEl = el('div', { className: 'palette-list', id: 'palette-results', role: 'listbox', 'aria-label': '结果' });
+  const hint = el('div', { className: 'palette-hint' }, [
+    el('span', { text: '↑↓ 选择' }),
+    el('span', { text: 'Enter 打开' }),
+    el('span', { text: 'Esc 关闭' }),
+  ]);
+  panel.append(head, listEl, hint);
   root.append(backdrop, panel);
   document.body.appendChild(root);
 
   input.addEventListener('input', () => {
     activeIndex = 0;
     renderResults(input.value);
+    if (input.value.trim() && !topicCache) {
+      loadTopics().then(() => {
+        if (open && input.value === root.dataset.query) renderResults(input.value);
+      });
+    }
   });
   input.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      activeIndex = Math.min(activeIndex + 1, flatResults.length - 1);
+      activeIndex = Math.min(activeIndex + 1, Math.max(0, flatResults.length - 1));
       paintActive();
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -47,125 +104,201 @@ function ensureDom() {
       const hit = flatResults[activeIndex];
       if (hit) {
         closePalette();
-        location.hash = hit.href || `#/m/${hit.id}`;
+        navigate(hit.href);
       }
     } else if (e.key === 'Escape') {
       e.preventDefault();
       closePalette();
     }
   });
+  root.addEventListener('pointerdown', (e) => {
+    if (e.target === root) closePalette();
+  });
 }
 
 function paintActive() {
   listEl.querySelectorAll('.palette-item').forEach((node, i) => {
     node.classList.toggle('active', i === activeIndex);
+    node.tabIndex = i === activeIndex ? 0 : -1;
     if (i === activeIndex) node.setAttribute('aria-selected', 'true');
     else node.removeAttribute('aria-selected');
   });
-  const active = listEl.querySelector('.palette-item.active');
-  active?.scrollIntoView({ block: 'nearest' });
+  listEl.querySelector('.palette-item.active')?.scrollIntoView({ block: 'nearest' });
+}
+
+function addGroup(label, count) {
+  const group = el('div', { className: 'palette-group' }, [
+    el('span', { text: label }),
+    count != null ? el('span', { className: 'palette-group-count', text: String(count) }) : null,
+  ]);
+  listEl.appendChild(group);
+}
+
+function addItem(hit) {
+  const i = flatResults.length;
+  flatResults.push(hit);
+  const item = el('a', {
+    className: 'palette-item hit-target' + (i === activeIndex ? ' active' : ''),
+    href: hit.href,
+    role: 'option',
+    tabIndex: i === activeIndex ? 0 : -1,
+    onClick: (e) => {
+      e.preventDefault();
+      closePalette();
+      navigate(hit.href);
+    },
+  }, [
+    el('span', { className: 'palette-item-main' }, [
+      el('span', { className: 'palette-item-title', text: hit.title }),
+      hit.code ? el('span', { className: 'palette-item-code', text: hit.code }) : null,
+    ]),
+    el('span', { className: 'palette-item-meta', text: hit.meta || '' }),
+  ]);
+  listEl.appendChild(item);
+  return item;
+}
+
+function pageHits(q) {
+  const needle = normalized(q).trim();
+  const hits = [];
+  const add = (title, meta, href, aliases = []) => {
+    if (needle && !normalized(title).includes(needle) && !aliases.some((x) => normalized(x).includes(needle))) return;
+    hits.push({ title, meta, href });
+  };
+  add('首页', '起始页', '#/', ['start', 'home', '起始']);
+  add('全部模块', '按学科浏览交互实验', '#/all', ['index', '索引', 'catalog']);
+  add('学习路径', '跨学科学习序列', '#/paths', ['path']);
+  add('历年真题', 'College Board FRQ 索引', '#/pastpapers', ['past papers', 'frq']);
+  add('来源与许可', '数据来源与许可', '#/credits', ['sources', 'license']);
+  for (const sid of SUBJECT_ORDER) {
+    const sub = SUBJECTS[sid];
+    add(sub.name, sub.en || '学科', `#/${sid}`, [sub.en, sid]);
+    add(`${sub.name}知识图谱`, '单元与知识点关系', `#/${sid}/map`, ['map', '图谱', 'mindmap', `${sid} map`]);
+    if (sid === 'math') add('微积分公式表', '导数 · 积分 · 级数', '#/math/formulas', ['formula', '公式']);
+    if (sid === 'mech') add('力学公式表', 'AP Physics C', '#/mech/formulas', ['formula', '公式']);
+    if (sid === 'em') add('电磁公式表', 'AP Physics C', '#/em/formulas', ['formula', '公式']);
+  }
+  return hits;
 }
 
 function renderResults(q) {
+  if (!listEl) return;
+  root.dataset.query = q;
   clear(listEl);
   flatResults = [];
-  const groups = searchGrouped(q);
-  let idx = 0;
-  // Pages / paths
-  const qn = (q || '').trim().toLowerCase();
-  const pageHits = [];
-  if (!qn || '起始'.includes(qn) || 'welcome'.includes(qn) || '首页'.includes(qn)) {
-    pageHits.push({ id: '__start', title: '起始页', meta: '平台介绍与入口', href: '#/' });
+  activeIndex = 0;
+  const needle = normalized(q).trim();
+
+  const pages = pageHits(q);
+  if (pages.length) {
+    addGroup('页面', pages.length);
+    pages.forEach(addItem);
   }
-  if (!qn || '索引'.includes(qn) || '全部'.includes(qn) || 'catalog'.includes(qn)) {
-    pageHits.push({ id: '__all', title: '全部模块索引', meta: '按学科浏览', href: '#/all' });
-  }
-  if (!qn || '路径'.includes(qn) || 'path'.includes(qn) || PATHS.some(p => p.title.includes(qn) || (qn && p.summary.includes(qn)))) {
-    pageHits.push({ id: '__paths', title: '学习路径', meta: '跨学科序列', href: '#/paths' });
-    for (const path of PATHS) {
-      if (!qn || path.title.toLowerCase().includes(qn) || path.summary.toLowerCase().includes(qn)) {
-        pageHits.push({ id: `__path_${path.id}`, title: path.title, meta: '学习路径', href: '#/paths' });
+
+  if (needle) {
+    const chapterHits = [];
+    for (const sid of SUBJECT_ORDER) {
+      for (const ch of CHAPTERS[sid] || []) {
+        const blob = `${ch.titleZh} ${ch.titleEn} ${ch.name} ${ch.unitCode} ${sid}`;
+        if (normalized(blob).includes(needle)) {
+          chapterHits.push({ title: chapterTitle(ch), meta: `${SUBJECTS[sid].name} · Unit ${ch.unitCode}`, href: `#/${sid}/${ch.id}` });
+        }
       }
     }
-  }
-  for (const sid of SUBJECT_ORDER) {
-    const sub = SUBJECTS[sid];
-    if (!qn || sub.name.includes(qn) || (sub.overview || '').includes(qn)) {
-      pageHits.push({ id: `__sub_${sid}`, title: `${sub.name}起始页`, meta: '学科', href: `#/${sid}` });
-      if (!qn || '图谱'.includes(qn) || 'map'.includes(qn) || 'mind'.includes(qn)) {
-        pageHits.push({ id: `__map_${sid}`, title: `${sub.name}知识图谱`, meta: '3D 图谱', href: `#/${sid}/map` });
-      }
-    }
-    for (const ch of (CHAPTERS[sid] || [])) {
-      if (!qn || ch.name.includes(qn) || (ch.summary || '').includes(qn)) {
-        pageHits.push({ id: `__ch_${ch.id}`, title: ch.name, meta: `${sub.name} / 章节`, href: `#/${sid}/${ch.id}` });
-      }
-    }
-  }
-  if (pageHits.length) {
-    listEl.appendChild(el('div', { className: 'palette-group', text: '页面' }));
-    for (const hit of pageHits) {
-      const i = idx++;
-      flatResults.push({ id: hit.id, href: hit.href });
-      listEl.appendChild(el('a', {
-        className: 'palette-item hit-target' + (i === activeIndex ? ' active' : ''),
-        href: hit.href,
-        role: 'option',
-        onClick: (e) => {
-          e.preventDefault();
-          closePalette();
-          location.hash = hit.href;
-        },
-      }, [
-        el('span', { className: 'palette-item-title', text: hit.title }),
-        el('span', { className: 'palette-item-meta', text: hit.meta }),
-      ]));
+    if (chapterHits.length) {
+      addGroup('章节', chapterHits.length);
+      chapterHits.slice(0, 12).forEach(addItem);
     }
   }
 
-  for (const g of groups) {
-    listEl.appendChild(el('div', { className: 'palette-group', text: g.subject.name }));
-    for (const m of g.modules) {
-      const i = idx++;
-      flatResults.push({ id: m.id, href: `#/m/${m.id}` });
-      const item = el('a', {
-        className: 'palette-item hit-target' + (i === activeIndex ? ' active' : ''),
-        href: `#/m/${m.id}`,
-        role: 'option',
-        onClick: (e) => {
-          e.preventDefault();
-          closePalette();
-          location.hash = `#/m/${m.id}`;
-        },
-      }, [
-        el('span', { className: 'palette-item-title', text: m.title }),
-        el('span', { className: 'palette-item-meta', text: `${g.subject.name} / ${m.chapter}` }),
-      ]);
-      listEl.appendChild(item);
+  if (needle) {
+    const groups = searchGrouped(q);
+    const total = groups.reduce((n, g) => n + g.modules.length, 0);
+    if (total) {
+      addGroup('交互实验', total);
+      let shown = 0;
+      for (const g of groups) {
+        for (const m of g.modules) {
+          if (shown >= 20) break;
+          addItem({
+            title: m.title,
+            meta: `${g.name} / ${m.chapter || ''}`,
+            href: `#/m/${m.id}`,
+          });
+          shown++;
+        }
+        if (shown >= 20) break;
+      }
     }
   }
+
+  if (needle && topicCache) {
+    const hits = [];
+    for (const t of topicCache) {
+      const blob = `${t.code} ${t.titleZh} ${t.titleEn} ${t.id}`;
+      if (!normalized(blob).includes(needle)) continue;
+      const sub = SUBJECTS[t.subject];
+      const ch = (CHAPTERS[t.subject] || []).find((c) => c.id === t.chapterId);
+      hits.push({
+        title: t.titleZh,
+        code: t.code,
+        meta: `${sub?.name || ''} / ${ch ? chapterTitle(ch) : t.chapterId}`,
+        href: `#/t/${t.subject}/${t.chapterId}/${t.code}`,
+      });
+      if (hits.length >= 30) break;
+    }
+    if (hits.length) {
+      addGroup('知识点', hits.length);
+      hits.forEach(addItem);
+    }
+  } else if (needle && !topicCache) {
+    listEl.appendChild(el('div', { className: 'palette-loading', text: '载入知识点…' }));
+  }
+
   if (!flatResults.length) {
-    listEl.appendChild(el('div', { className: 'palette-empty', text: '无匹配结果' }));
+    listEl.appendChild(el('div', { className: 'palette-empty', text: '没有匹配结果。' }));
   }
   paintActive();
 }
 
 export function openPalette() {
   ensureDom();
+  if (open) {
+    input?.focus();
+    return;
+  }
+  lastFocus = document.activeElement;
   open = true;
   root.hidden = false;
   document.documentElement.classList.add('palette-open');
+  const app = document.getElementById('app');
+  if (app) {
+    try { app.inert = true; } catch (_) {}
+    app.setAttribute('inert', '');
+  }
+  document.getElementById('search-trigger')?.setAttribute('aria-expanded', 'true');
   input.value = '';
   activeIndex = 0;
   renderResults('');
+  loadTopics();
   requestAnimationFrame(() => input.focus());
 }
 
 export function closePalette() {
-  if (!root) return;
+  if (!root || !open) return;
   open = false;
   root.hidden = true;
+  delete root.dataset.query;
   document.documentElement.classList.remove('palette-open');
+  const app = document.getElementById('app');
+  if (app) {
+    try { app.inert = false; } catch (_) {}
+    app.removeAttribute('inert');
+  }
+  document.getElementById('search-trigger')?.setAttribute('aria-expanded', 'false');
+  if (lastFocus && lastFocus !== document.body && typeof lastFocus.focus === 'function' && lastFocus.isConnected) {
+    lastFocus.focus();
+  }
 }
 
 export function togglePalette() {
