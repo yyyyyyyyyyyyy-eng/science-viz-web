@@ -144,3 +144,12 @@ E&M status: **23/40 enriched** (AP E&M **23/31**). Leftover AP E&M (8): `8.1`, `
   - 0 hits for generic template phrases (`准确陈述定义`, `适用范围与符号约定`, `四种表征`, `定义/公理/实验事实`, `上游：本单元前置主题`, etc.)
   - all 31 pages render the essential-knowledge, derivation, and connections blocks from the overlay.
 - Screenshots: `screenshots/enrichment-next/<subject>-<chapter>-<code>.png` and `...-mobile.png` for all 31 pages.
+
+## Final session-B self-check (2026-11-07)
+
+- Added topic-specific `learningObjectives`, `essentialKnowledge`, and `connections` to the 23 Mechanics/Calculus overlays that still lacked them, so their pages no longer show the generic “准确陈述定义 / 四种表征 / 上游—下游” teaching block. Content is derived from each entry’s own key points, formula notes, misconceptions, and related links.
+- Re-ran the all-field KaTeX scan (not just formula/solutionLatex): **3,280 math snippets, 0 errors**. This caught and fixed single-backslash LaTeX in inherited entries (`\vec`, `\varepsilon`, `\%`, `\sumdfrac`), plus escaped-prime issues in transcription notation.
+- Fixed a numeric error in `math/calc-u5/5.11` example 2: the minimum open-box surface area is \(48\,\mathrm{cm^{2}}\), not 80.
+- Re-ran `node --check`, key/related resolution (106 batch2 keys, 120 merged, 0 bad), `check-math-notation.mjs` (`MATH_NOTATION_OK`), and `build-topic-depth.mjs` (**120/340**).
+- Re-ran Playwright on the 10 E&M pages plus a 13-page cross-subject sample (Mechanics, Calculus, Biology, E&M; desktop 1280 + mobile 390): 0 console errors, 0 page errors, 0 `.katex-error`, 0 horizontal overflow, 0 generic-template hits.
+- Screenshots refreshed for the rechecked pages under `screenshots/enrichment-next/`.

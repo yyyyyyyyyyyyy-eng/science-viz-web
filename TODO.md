@@ -67,9 +67,11 @@
 - **注意**：不要用默认 `python3 -m http.server` 跑高并发 sweep，其 backlog=5 会导致 `ERR_CONNECTION_RESET` 假阳性。
 
 ### 2. 内容 enrichment（batch 续写）
-- **状态**：batch1 已修正 7 处 key 错位（bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1），电容器 10.3 重写；batch2 已写 27 条（P2.5 酶、4.4 反馈、6.4 翻译、2.3 质膜、6.7 突变、7.11 灭绝、1.5 核酸、2.5 膜运输、3.4 光合作用、3.5 细胞呼吸、4.7 有丝分裂、7.10 物种形成、2.9 区隔化、8.2 能量流、6.8 生物技术、7.9 系统发生、2.2 细胞大小、2.4 膜通透性、2.6 促进扩散、3.3 细胞能量、4.1 细胞通讯、4.3 信号转导、4.5 细胞周期、7.2 自然选择、7.3 人工选择、7.4 群体遗传、7.7 共同祖先）。
-- **下一步**：按 `audit/topic-depth.json` 的 `rows` 以 `words` 升序继续写 batch2（当前 41/340 已 enrichment），经 `wrapCourseData` 挂载；每批后抽检 topic 页 KaTeX。
-- **注意**：`audit/topic-depth.json` 已由 `scripts/build-topic-depth.mjs` 重新生成（340 topics，含 enriched 标记）。
+- **状态**：batch1 14 条（已修正 7 处 key 错位：bio 3.1 / 1.1 / 4.6、mech 3.1 / 2.5、em 11.1；电容器 10.3 重写）；batch2 106 条，合计 **120/340** topics 已 enrichment。
+- **本轮新增**：AP Physics C Mechanics 补齐剩余 13 个 AP 核心 topic（24/24 全覆盖）；AP Calculus BC 12 个核心 topic（积商、隐函数、相关变化率、洛必达、MVT、优化、换元、分部、可分离变量、曲线间面积、参数导数、泰勒）；AP Biology 12 个核心 topic（大分子、酶、水势、主动运输、环境对酶、信号导引、孟德尔/非孟德尔、DNA/RNA、转录、表达调控、哈代–温伯格）；AP E&M 10 个 topic（高斯、电势与场、导体、电阻、基尔霍夫环路/结点、安培、电磁感应、LR、LC）。另有 7 条同文件补充条目（bio 1.4 / 2.1 / 7.1 / 8.4，calc 3.1 / 8.9 / 10.12）已复核保留。
+- **验证**：batch2 106 keys、合并 120 keys 全部命中真实 topic；所有 `related` 链接 0 bad；全字段 KaTeX 扫描 3,280 条数学片段 0 error；`check-math-notation.mjs` → `MATH_NOTATION_OK`；31 个新/改 topic 页 × 桌面/移动 0 console error、0 KaTeX error、0 横向 overflow、0 模板短语。
+- **下一步**：继续按 `audit/topic-depth.json` 的 `words` 升序补剩余 E&M（8.1、8.3、9.4、10.2、11.5、12.2、12.3、13.3）与 bio/math prep；每批后重跑 `scripts/build-topic-depth.mjs` 并抽检 topic 页。
+- **注意**：`audit/topic-depth.json` 已由 `scripts/build-topic-depth.mjs` 重新生成（340 topics，120 enriched）；详细工作记录见 `audit/enrichment-next.md`。
 
 ### 3. 数学练习（可选加深）
 - **状态**：已修复 `calc-u10-q006` 比值极限（`1/e`）与 198 条泛化 FRQ 答案；`x^{1}` 已归一。新增 8 组原创 AP Calc BC FRQ（24 题）：切线、相关变化率、优化、平均值/FTC、分离变量、截面体积、极坐标面积、级数收敛区间。
