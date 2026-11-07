@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-06T15:44:29.317Z",
+  "generatedAt": "2026-11-07T00:29:29.619Z",
   "method": "Chinese chars + English word tokens in definition/intuition/intuitionDetailed/summary/keyPoints/development/checks",
   "total": 340,
-  "enrichedCount": 103,
+  "enrichedCount": 120,
   "rows": [
     {
       "id": "bio/bio-prep-hs/P2.5",
@@ -592,7 +592,7 @@
       "titleZh": "电磁感应",
       "layer": "ap",
       "words": 392,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u1/1.13",
@@ -842,7 +842,7 @@
       "titleZh": "导体静电",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u8/8.5",
@@ -852,7 +852,7 @@
       "titleZh": "高斯定律",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u2/2.8",
@@ -872,7 +872,7 @@
       "titleZh": "链式法则",
       "layer": "ap",
       "words": 394,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u5/5.11",
@@ -952,7 +952,7 @@
       "titleZh": "LR 电路",
       "layer": "ap",
       "words": 395,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u13/13.6",
@@ -962,7 +962,7 @@
       "titleZh": "LC 电路",
       "layer": "ap",
       "words": 395,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/math-prep-geo/P2.11",
@@ -1042,7 +1042,7 @@
       "titleZh": "安培定律",
       "layer": "ap",
       "words": 396,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u8/8.1",
@@ -1222,7 +1222,7 @@
       "titleZh": "密度效应",
       "layer": "ap",
       "words": 398,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u8/8.3",
@@ -1382,7 +1382,7 @@
       "titleZh": "电势与场",
       "layer": "ap",
       "words": 400,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u1/1.8",
@@ -1662,7 +1662,7 @@
       "titleZh": "蛋白质性质",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "bio/bio-u6/6.1",
@@ -1742,7 +1742,7 @@
       "titleZh": "圆盘法",
       "layer": "ap",
       "words": 403,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "mech/mech-u1/1.1",
@@ -2182,7 +2182,7 @@
       "titleZh": "自然选择导论",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u11/11.5",
@@ -2202,7 +2202,7 @@
       "titleZh": "基尔霍夫环路",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u11/11.7",
@@ -2212,7 +2212,7 @@
       "titleZh": "基尔霍夫结点",
       "layer": "ap",
       "words": 410,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u0/0.2",
@@ -2522,7 +2522,7 @@
       "titleZh": "拉格朗日误差界",
       "layer": "ap",
       "words": 415,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u2/2.7",
@@ -2622,7 +2622,7 @@
       "titleZh": "细胞器与区隔化",
       "layer": "ap",
       "words": 417,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "em/em-u12/12.2",
@@ -2992,7 +2992,7 @@
       "titleZh": "电阻与欧姆定律",
       "layer": "ap",
       "words": 421,
-      "enriched": false
+      "enriched": true
     },
     {
       "id": "math/calc-u1/1.2",

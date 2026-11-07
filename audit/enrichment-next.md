@@ -90,6 +90,57 @@ Each has definition, intuition, formulas, conditions, key points, misconceptions
 - Playwright on 12 new topic pages × desktop 1280 / mobile 390 (24 loads): 0 console errors, 0 page errors, 0 `.katex-error`, 0 horizontal overflow, 0 template-phrase hits.
 - Screenshots: `screenshots/enrichment-next/bio-*.png`.
 
-## Batch 4 — AP Physics C E&M
+## Batch 3b — AP Biology completion (2026-11-07)
 
-Pending.
+The parallel Bio pass above added the 12 core Bio entries. This session added four more Bio overlays and completed the teaching blocks of all 12 existing Bio entries.
+
+New Bio overlays:
+
+- `bio/bio-u1/1.4` 蛋白质性质
+- `bio/bio-u2/2.1` 细胞器与区隔化
+- `bio/bio-u7/7.1` 自然选择导论
+- `bio/bio-u8/8.4` 密度效应
+
+Completed the 12 parallel Bio entries (`1.3`, `1.6`, `2.7`, `2.8`, `3.2`, `4.2`, `5.3`, `5.4`, `6.1`, `6.3`, `6.5`, `7.5`) by adding topic-specific `learningObjectives`, `essentialKnowledge`, `derivationNotes`, and `connections`. The generic “准确陈述定义、适用范围与符号约定” blocks are now replaced on every one of these pages with topic-specific teaching points (monomers/peptide bonds, water potential, Na⁺/K⁺ stoichiometry, inhibitor kinetics, cAMP amplification, Mendelian ratios/chi-square, base pairing, transcription direction, operons, selection, Hardy–Weinberg, logistic growth).
+
+Bio status: **50/89 enriched** (AP Bio **49/63**; 1 prep topic).
+
+Leftover AP Bio (14): `1.2`, `2.10`, `3.6`, `5.2`, `5.5`, `5.6`, `6.6`, `7.6`, `7.8`, `7.12`, `7.13`, `8.1`, `8.6`, `8.7`.
+
+## Batch 4 — AP Calculus BC continuation
+
+Added three CED-aligned Calc BC overlays:
+
+- `math/calc-u3/3.1` 链式法则
+- `math/calc-u8/8.9` 圆盘法
+- `math/calc-u10/10.12` 拉格朗日误差界
+
+Also fixed the named `math/calc-u10/10.11` page by replacing its generic teaching block with Taylor-specific objectives, essential knowledge, derivation notes, and connections. Same fix applied to `mech/mech-u5/5.3`.
+
+Calc status: **23/158 enriched** (AP Calc **21/113**; 92 AP Calc topics still lack overlays). Largest remaining clusters: Unit 1 limits/continuity, Unit 2 derivative rules, Unit 5 curve analysis, Unit 6 integration techniques, Unit 8 volumes, Unit 9 polar/parametric, Unit 10 series tests.
+
+## Batch 5 — AP Physics C E&M
+
+Added two E&M overlays:
+
+- `em/em-u8/8.5` 高斯定律
+- `em/em-u11/11.6` 基尔霍夫环路
+
+A parallel E&M pass had already placed eight entries in `batch2.js` (`9.3`, `10.1`, `11.3`, `11.7`, `12.4`, `13.2`, `13.5`, `13.6`). This session added their missing `derivationNotes` and `connections` so their pages no longer show generic “上游/下游/跨学科” template text, and included them in the targeted Playwright check.
+
+E&M status: **23/40 enriched** (AP E&M **23/31**). Leftover AP E&M (8): `8.1`, `8.3`, `9.4`, `10.2`, `11.5`, `12.2`, `12.3`, `13.3`.
+
+## Verification (this round)
+
+- `node --check data/enrichments/batch2.js` → OK.
+- `batch2.js`: 106 keys, 0 duplicate keys; merged batch1+batch2: 120 keys, all resolve to real topics; all `related` links resolve (0 bad).
+- KaTeX render of 506 `formula` / `solutionLatex` strings → 0 errors.
+- `node scripts/check-math-notation.mjs` → `MATH_NOTATION_OK`.
+- `node scripts/build-topic-depth.mjs` → **120/340 enriched**.
+- Targeted Playwright on 31 new/changed topic pages × desktop 1280 / mobile 390 = **62 loads**:
+  - 0 console errors, 0 page errors, 0 HTTP ≥ 400
+  - 0 `.katex-error`
+  - 0 horizontal overflow
+  - 0 hits for generic template phrases (`准确陈述定义`, `适用范围与符号约定`, `四种表征`, `定义/公理/实验事实`, `上游：本单元前置主题`, etc.)
+  - all 31 pages render the essential-knowledge, derivation, and connections blocks from the overlay.
+- Screenshots: `screenshots/enrichment-next/<subject>-<chapter>-<code>.png` and `...-mobile.png` for all 31 pages.
