@@ -153,3 +153,5 @@ E&M status: **23/40 enriched** (AP E&M **23/31**). Leftover AP E&M (8): `8.1`, `
 - Re-ran `node --check`, key/related resolution (106 batch2 keys, 120 merged, 0 bad), `check-math-notation.mjs` (`MATH_NOTATION_OK`), and `build-topic-depth.mjs` (**120/340**).
 - Re-ran Playwright on the 10 E&M pages plus a 13-page cross-subject sample (Mechanics, Calculus, Biology, E&M; desktop 1280 + mobile 390): 0 console errors, 0 page errors, 0 `.katex-error`, 0 horizontal overflow, 0 generic-template hits.
 - Screenshots refreshed for the rechecked pages under `screenshots/enrichment-next/`.
+- Final committed-state Playwright sample: 8 topic pages × desktop 1280 / mobile 390 (16 loads) → 0 console errors, 0 page errors, 0 `.katex-error`, 0 horizontal overflow. Contrast spot-check on Mechanics/Calculus/E&M pages: minimum ratio 5.06 (light) and 5.60 (dark), both above 4.5.
+- No remaining template formulas or “本单元的核心知识点 / 定性关系 / 核心关系见定义” strings in any enrichment; 0 duplicate batch2 keys.
