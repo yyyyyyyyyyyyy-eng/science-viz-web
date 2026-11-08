@@ -7,7 +7,7 @@ export const PHYSICS_FORMULA_GROUPS = [
     rows: [
       { id: 'c-g', latex: 'g=9.8\\,\\mathrm{m\\,s^{-2}}', symbols: [{ s: 'g', m: '重力加速度（近地）' }], conditions: '地球表面近似', derivation: '经验/测量值。', example: { q: '自由落体 2 s 的速度', a: 'v=gt=19.6\\,\\mathrm{m\\,s^{-1}}' }, related: ['#/t/mech/mech-u1/1.1'] },
       { id: 'c-G', latex: 'G=6.67\\times 10^{-11}\\,\\mathrm{N\\,m^{2}\\,kg^{-2}}', symbols: [{ s: 'G', m: '万有引力常量' }], conditions: 'SI', derivation: '实验测定。', example: { q: '两 1 kg 相距 1 m 的引力', a: '6.67\\times 10^{-11}\\,\\mathrm{N}' }, related: ['#/t/mech/mech-u2/2.6'] },
-      { id: 'c-k', latex: 'k=\\dfrac{1}{4\\pi\\varepsilon_0}=9.0\\times 10^{9}\\,\\mathrm{N\\,m^{2}\\,C^{-2}}', symbols: [{ s: 'k', m: '库仑常量' }], conditions: '真空', derivation: '由 \\(\\varepsilon_0\\) 定义。', example: { q: '两 1 C 相距 1 m 的力', a: '9.0\\times 10^{9}\\,\\mathrm{N}' }, related: ['#/t/em/em-u8/8.1'] },
+      { id: 'c-k', latex: 'k=\\dfrac{1}{4\\pi\\varepsilon_0}=9.0\\times 10^{9}\\,\\mathrm{N\\,m^{2}\\,C^{-2}}', symbols: [{ s: 'k', m: '库仑常量' }], conditions: '真空', derivation: '由真空介电常量 ε₀ 定义。', example: { q: '两 1 C 相距 1 m 的力', a: '9.0\\times 10^{9}\\,\\mathrm{N}' }, related: ['#/t/em/em-u8/8.1'] },
       { id: 'c-e0', latex: '\\varepsilon_0=8.85\\times 10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}', symbols: [{ s: '\\varepsilon_0', m: '真空介电常量' }], conditions: '真空', derivation: '定义。', example: { q: '平行板 C 公式中的角色', a: 'C=\\varepsilon_0 A/d' }, related: ['#/t/em/em-u10/10.3'] },
       { id: 'c-mu', latex: '\\mu_0=4\\pi\\times 10^{-7}\\,\\mathrm{T\\,m\\,A^{-1}}', symbols: [{ s: '\\mu_0', m: '真空磁导率' }], conditions: '真空', derivation: '定义。', example: { q: '长直导线 B', a: 'B=\\dfrac{\\mu_0 I}{2\\pi r}' }, related: ['#/t/em/em-u12/12.3'] },
       { id: 'c-e', latex: 'e=1.60\\times 10^{-19}\\,\\mathrm{C}', symbols: [{ s: 'e', m: '元电荷' }], conditions: '', derivation: '实验。', example: { q: '电子电荷', a: '-e' }, related: ['#/t/em/em-u8/8.1'] },
@@ -18,7 +18,7 @@ export const PHYSICS_FORMULA_GROUPS = [
     title: '力学 · 运动学',
     titleEn: 'Mechanics · Kinematics',
     rows: [
-      { id: 'm-v', latex: 'v=v_0+at', symbols: [{ s: 'a', m: '恒加速度' }], conditions: '匀加速直线', derivation: 'a=\\dfrac{\\mathrm{d}v}{\\mathrm{d}t} 积分。', example: { q: 'v_0=0,a=2,t=3', a: 'v=6' }, related: ['#/t/mech/mech-u1/1.1'] },
+      { id: 'm-v', latex: 'v=v_0+at', symbols: [{ s: 'a', m: '恒加速度' }], conditions: '匀加速直线', derivation: '加速度对时间积分。', example: { q: 'v_0=0,a=2,t=3', a: 'v=6' }, related: ['#/t/mech/mech-u1/1.1'] },
       { id: 'm-x', latex: 'x=x_0+v_0 t+\\dfrac{1}{2}at^2', symbols: [], conditions: '匀加速', derivation: 'v 再积分。', example: { q: '自由落体 h', a: 'h=\\dfrac{1}{2}gt^2' }, related: ['#/t/mech/mech-u1/1.1'] },
       { id: 'm-v2', latex: 'v^2=v_0^2+2a(x-x_0)', symbols: [], conditions: '匀加速', derivation: '消去 t。', example: { q: '刹停距离', a: 'x=\\dfrac{v_0^2}{2|a|}' }, related: ['#/t/mech/mech-u1/1.1'] },
       { id: 'm-R', latex: 'R=\\dfrac{v_0^2\\sin 2\\theta}{g}', symbols: [{ s: 'R', m: '水平射程' }], conditions: '无阻力、平地', derivation: '飞行时间与水平速度。', example: { q: '\\theta=45^\\circ', a: 'R=\\dfrac{v_0^2}{g}' }, related: ['#/t/mech/mech-u1/1.2'] },
@@ -53,8 +53,8 @@ export const PHYSICS_FORMULA_GROUPS = [
     rows: [
       { id: 'm-tau', latex: '\\sum \\tau=I\\alpha', symbols: [{ s: 'I', m: '转动惯量' }], conditions: '定轴', derivation: '转动牛顿第二定律。', example: { q: '圆盘 I', a: 'I=\\dfrac{1}{2}mR^2' }, related: ['#/t/mech/mech-u5/5.3'] },
       { id: 'm-L', latex: 'L=I\\omega', symbols: [{ s: 'L', m: '角动量' }], conditions: '定轴', derivation: '定义。', example: { q: '无外力矩', a: 'L 守恒' }, related: ['#/t/mech/mech-u6/6.2'] },
-      { id: 'm-shm', latex: 'T=2\\pi\\sqrt{\\dfrac{m}{k}},\\quad \\omega=\\sqrt{\\dfrac{k}{m}}', symbols: [], conditions: '简谐（线性恢复力）', derivation: '解微分方程 \\(\\ddot x=-\\omega^2 x\\)。', example: { q: 'k=4,m=1', a: 'T=\\pi' }, related: ['#/t/mech/mech-u7/7.1'] },
-      { id: 'm-pend', latex: 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', symbols: [{ s: 'L', m: '摆长' }], conditions: '小角近似', derivation: '\\(\\sin\\theta\\approx\\theta\\)。', example: { q: 'L=1\\,\\mathrm{m}', a: 'T\\approx 2.0\\,\\mathrm{s}' }, related: ['#/t/mech/mech-u7/7.2'] },
+      { id: 'm-shm', latex: 'T=2\\pi\\sqrt{\\dfrac{m}{k}},\\quad \\omega=\\sqrt{\\dfrac{k}{m}}', symbols: [], conditions: '简谐（线性恢复力）', derivation: '解微分方程 x″ = −ω²x。', example: { q: 'k=4,m=1', a: 'T=\\pi' }, related: ['#/t/mech/mech-u7/7.1'] },
+      { id: 'm-pend', latex: 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', symbols: [{ s: 'L', m: '摆长' }], conditions: '小角近似', derivation: '小角近似 sin θ ≈ θ。', example: { q: 'L=1\\,\\mathrm{m}', a: 'T\\approx 2.0\\,\\mathrm{s}' }, related: ['#/t/mech/mech-u7/7.2'] },
     ],
   },
   {
