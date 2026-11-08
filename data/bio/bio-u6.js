@@ -670,7 +670,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u6",
         "code": "6.6",
-        "title": "基因表达与细胞特化",
+        "title": "基因表达与细胞特化 · Gene Expression and Cell Specialization",
         "relation": "related"
       }
     ],
@@ -937,7 +937,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u6",
         "code": "6.6",
-        "title": "基因表达与细胞特化",
+        "title": "基因表达与细胞特化 · Gene Expression and Cell Specialization",
         "relation": "prerequisite"
       },
       {

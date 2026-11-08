@@ -1499,7 +1499,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u7",
         "code": "7.12",
-        "title": "种群变异",
+        "title": "种群变异 · Variations in Populations",
         "relation": "related"
       }
     ],
@@ -1766,7 +1766,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u7",
         "code": "7.12",
-        "title": "种群变异",
+        "title": "种群变异 · Variations in Populations",
         "relation": "prerequisite"
       }
     ],
