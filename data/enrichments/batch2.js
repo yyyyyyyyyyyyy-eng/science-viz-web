@@ -260,130 +260,140 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分替换、插入、缺失与染色体变异。',
-      '能判断沉默、错义、无义与移码突变的后果。',
-      '能解释突变随机性及其与自然选择的关系。'
+      '能区分替换、插入、缺失与染色体变异。 · Distinguish substitutions, insertions, deletions, and chromosomal mutations.',
+      '能判断沉默、错义、无义与移码突变的后果。 · Predict the consequences of silent, missense, nonsense, and frameshift mutations.',
+      '能解释突变随机性及其与自然选择的关系。 · Explain the randomness of mutation and its relationship to natural selection.'
     ],
     essentialKnowledge: [
-      '突变是 DNA 序列的可遗传改变，包括碱基替换、插入、缺失与染色体变异。',
-      '沉默突变不改变氨基酸；错义突变改变一个氨基酸；无义突变产生提前终止。',
-      '插入或缺失非 3 倍数碱基通常造成移码，影响下游全部密码子。',
-      '突变随机发生，不因需求而定向；诱变剂可提高突变率。',
-      '生殖细胞突变可遗传，体细胞突变通常不传给后代。'
+      '突变是 DNA 序列的可遗传改变，包括碱基替换、插入、缺失与染色体变异。 · A mutation is a heritable change in DNA sequence, including base substitutions, insertions, deletions, and chromosomal mutations.',
+      '沉默突变不改变氨基酸；错义突变改变一个氨基酸；无义突变产生提前终止。 · Silent mutations do not change the amino acid; missense mutations change one amino acid; nonsense mutations create a premature stop.',
+      '插入或缺失非 3 倍数碱基通常造成移码，影响下游全部密码子。 · Insertions or deletions of a number of bases not divisible by 3 usually cause a frameshift that affects every downstream codon.',
+      '突变随机发生，不因需求而定向；诱变剂可提高突变率。 · Mutations occur randomly rather than being directed by need; mutagens can increase the mutation rate.',
+      '生殖细胞突变可遗传，体细胞突变通常不传给后代。 · Germline mutations are heritable, whereas somatic mutations are usually not passed to offspring.'
     ],
-    definition: '突变是 DNA 序列的可遗传改变。点突变包括碱基替换、插入与缺失；染色体突变包括结构变异与数目变异。按对蛋白质的影响，点突变可分为沉默、错义、无义与移码突变。',
-    intuition: '突变像抄写时写错字母：换一个字母可能无影响，也可能让整句话读不通；多写或少写一个字母，后面的读法会全部错位。',
-    intuitionDetailed: '替换若发生在密码子第三位，常因简并性成为沉默突变；插入或缺失不是 3 的倍数时会造成移码，下游氨基酸序列大面积改变并常提前终止。',
+    definition: '突变是 DNA 序列的可遗传改变。点突变包括碱基替换、插入与缺失；染色体突变包括结构变异与数目变异。按对蛋白质的影响，点突变可分为沉默、错义、无义与移码突变。 · A mutation is a heritable change in DNA sequence. Point mutations include base substitutions, insertions, and deletions; chromosomal mutations include structural and numerical changes. By their effect on protein, point mutations are classified as silent, missense, nonsense, and frameshift.',
+    intuition: '突变像抄写时写错字母：换一个字母可能无影响，也可能让整句话读不通；多写或少写一个字母，后面的读法会全部错位。 · Mutation is like a typo while copying text: changing one letter may have no effect or may make the whole sentence unreadable, while adding or losing a letter shifts how everything after it is read.',
+    intuitionDetailed: '替换若发生在密码子第三位，常因简并性成为沉默突变；插入或缺失不是 3 的倍数时会造成移码，下游氨基酸序列大面积改变并常提前终止。 · A substitution at the third codon position is often silent because of degeneracy; an insertion or deletion that is not a multiple of three causes a frameshift, broadly changing the downstream amino acid sequence and often producing a premature stop.',
     formulas: [
-      { latex: '\\text{替换}\\;\\text{/}\\;\\text{插入}\\;\\text{/}\\;\\text{缺失}', note: '三类点突变。' },
+      { latex: '\\text{替换}\\;\\text{/}\\;\\text{插入}\\;\\text{/}\\;\\text{缺失}', note: '三类点突变。 · The three classes of point mutation.' },
     ],
-    conditions: ['生殖细胞突变可遗传给后代；体细胞突变一般不遗传', '表型效应取决于突变位置、密码子与蛋白质功能', '突变是随机的，不因需求而定向发生'],
-    keyPoints: ['突变是遗传变异的根本来源', '沉默突变不改变氨基酸序列', '错义突变改变一个氨基酸；无义突变产生提前终止', '移码突变通常影响最大', '突变可自发，也可由诱变剂诱发'],
+    conditions: ['生殖细胞突变可遗传给后代；体细胞突变一般不遗传 · Germline mutations can be inherited by offspring; somatic mutations are generally not inherited', '表型效应取决于突变位置、密码子与蛋白质功能 · The phenotypic effect depends on the mutation site, the codon involved, and protein function', '突变是随机的，不因需求而定向发生 · Mutations are random and do not occur in a direction dictated by need'],
+    keyPoints: ['突变是遗传变异的根本来源 · Mutation is the ultimate source of genetic variation', '沉默突变不改变氨基酸序列 · Silent mutations do not change the amino acid sequence', '错义突变改变一个氨基酸；无义突变产生提前终止 · Missense mutations change one amino acid; nonsense mutations create a premature stop', '移码突变通常影响最大 · Frameshift mutations usually have the largest impact', '突变可自发，也可由诱变剂诱发 · Mutations can arise spontaneously or be induced by mutagens'],
     misconceptions: [
-      '认为突变总是有害或总是导致疾病',
-      '认为生物“为了适应”而主动突变',
-      '把体细胞突变与可遗传突变混淆',
-      '认为所有替换都会改变氨基酸',
+      '认为突变总是有害或总是导致疾病 · Assuming mutations are always harmful or always cause disease',
+      '认为生物“为了适应”而主动突变 · Assuming organisms mutate on purpose “in order to adapt”',
+      '把体细胞突变与可遗传突变混淆 · Confusing somatic mutations with heritable mutations',
+      '认为所有替换都会改变氨基酸 · Assuming every substitution changes the amino acid',
     ],
     examples: [
       {
-        title: '例 1 · 镰状细胞',
-        prompt: 'HbS 的 β 珠蛋白基因发生哪种突变？',
-        steps: ['编码第 6 位谷氨酸的密码子 GAG 变为 GTG。', '替换导致谷氨酸 → 缬氨酸（错义突变）。'],
-        solution: '单碱基替换引起的错义突变。',
+        title: '例 1 · 镰状细胞 · Example 1 · Sickle Cell',
+        prompt: 'HbS 的 β 珠蛋白基因发生哪种突变？ · What type of mutation occurs in the β-globin gene of HbS?',
+        steps: ['编码第 6 位谷氨酸的密码子 GAG 变为 GTG。 · The codon GAG, which encodes the sixth amino acid glutamate, changes to GTG.', '替换导致谷氨酸 → 缬氨酸（错义突变）。 · The substitution changes glutamate to valine (a missense mutation).'],
+        solution: '单碱基替换引起的错义突变。 · A missense mutation caused by a single-base substitution.',
       },
       {
-        title: '例 2 · 移码',
-        prompt: '在编码区插入一个碱基，为什么后果通常比替换严重？',
-        steps: ['插入使阅读框移动一位。', '下游密码子全部重新分组，氨基酸序列大面积改变。', '常提前遇到终止密码子，产生截短蛋白。'],
-        solution: '移码改变下游整个阅读框。',
+        title: '例 2 · 移码 · Example 2 · Frameshift',
+        prompt: '在编码区插入一个碱基，为什么后果通常比替换严重？ · Why is inserting one base in a coding region usually more serious than a substitution?',
+        steps: ['插入使阅读框移动一位。 · The insertion shifts the reading frame by one base.', '下游密码子全部重新分组，氨基酸序列大面积改变。 · All downstream codons are regrouped, broadly changing the amino acid sequence.', '常提前遇到终止密码子，产生截短蛋白。 · A stop codon is often encountered prematurely, producing a truncated protein.'],
+        solution: '移码改变下游整个阅读框。 · The frameshift changes the entire downstream reading frame.',
       },
       {
-        title: '例 3 · 沉默',
-        prompt: '为什么同义突变不改变蛋白质？',
-        steps: ['遗传密码具有简并性，多个密码子编码同一氨基酸。', '替换后仍编码同一氨基酸。'],
-        solution: '密码子改变但氨基酸不变。',
+        title: '例 3 · 沉默 · Example 3 · Silent Mutation',
+        prompt: '为什么同义突变不改变蛋白质？ · Why does a synonymous mutation not change the protein?',
+        steps: ['遗传密码具有简并性，多个密码子编码同一氨基酸。 · The genetic code is degenerate, so several codons can encode the same amino acid.', '替换后仍编码同一氨基酸。 · After the substitution, the codon still encodes the same amino acid.'],
+        solution: '密码子改变但氨基酸不变。 · The codon changes, but the amino acid does not.',
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达与调控',
-      '给出 DNA/mRNA 序列时先确定阅读框，再判断突变类型',
-      'FRQ 常考：解释突变如何产生新等位基因与表型变异',
+      'CED Unit 6：基因表达与调控 · CED Unit 6: Gene expression and regulation',
+      '给出 DNA/mRNA 序列时先确定阅读框，再判断突变类型 · When given a DNA or mRNA sequence, establish the reading frame first, then classify the mutation.',
+      'FRQ 常考：解释突变如何产生新等位基因与表型变异 · FRQs often ask you to explain how mutation creates new alleles and phenotypic variation.',
+    ],
+    connections: [
+      '先修：6.2 DNA 复制与 6.4 翻译，理解突变如何在复制与蛋白合成中产生后果。 · Prerequisite: DNA replication in 6.2 and translation in 6.4 explain how mutations produce consequences during replication and protein synthesis.',
+      '后续：7.2 自然选择与 7.4 群体遗传，把突变提供的新等位基因转化为种群频率变化。 · Follow-up: natural selection in 7.2 and population genetics in 7.4 turn new alleles from mutation into changes in population frequency.',
+      '相关：6.8 生物技术利用诱变与测序检测突变；医学中的镰状细胞病与致癌突变是直接应用。 · Related: biotechnology in 6.8 uses mutagenesis and sequencing to detect mutations; sickle cell disease and cancer-causing mutations are direct medical applications.',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.6', title: '基因表达与细胞特化 · Gene Expression and Cell Specialization', relation: '先修 · Prerequisite' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.2', title: '复制', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.4', title: '翻译', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.2', title: '复制 · DNA Replication', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.4', title: '翻译 · Translation', relation: '先修 · Prerequisite' },
       { subject: 'bio', chapterId: 'bio-u6', code: '6.8', title: '生物技术 · Biotechnology', relation: '相关 · Related' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论', relation: '应用' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论 · Introduction to Natural Selection', relation: '应用 · Application' },
     ],
-    development: ['点突变类型', '移码与阅读框', '染色体变异', '突变与变异来源'],
-    checks: ['替换、插入、缺失分别可能造成哪些后果？', '为什么突变是随机的，而不是定向的？'],
-    summary: '突变是随机的 DNA 序列改变，为进化提供遗传变异；其表型效应取决于类型与位置。',
+    development: ['点突变类型 · Types of point mutation', '移码与阅读框 · Frameshifts and reading frames', '染色体变异 · Chromosomal mutations', '突变与变异来源 · Mutation as a source of variation'],
+    checks: ['替换、插入、缺失分别可能造成哪些后果？ · What consequences can substitutions, insertions, and deletions each produce?', '为什么突变是随机的，而不是定向的？ · Why are mutations random rather than directed?'],
+    summary: '突变是随机的 DNA 序列改变，为进化提供遗传变异；其表型效应取决于类型与位置。 · Mutation is a random change in DNA sequence that supplies genetic variation for evolution; its phenotypic effect depends on type and location.',
   },
 
   'bio/bio-u7/7.11': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分背景灭绝与大规模灭绝。',
-      '能说明灭绝率、局域消失与全球灭绝的含义。',
-      '能用化石与分子证据评价灭绝事件。'
+      '能区分背景灭绝与大规模灭绝。 · Distinguish background extinction from mass extinction.',
+      '能说明灭绝率、局域消失与全球灭绝的含义。 · Explain extinction rate, local extirpation, and global extinction.',
+      '能用化石与分子证据评价灭绝事件。 · Evaluate extinction events using fossil and molecular evidence.'
     ],
     essentialKnowledge: [
-      '灭绝是物种全部个体消失且不再留下可繁殖后代。',
-      '背景灭绝是常态低速率；大规模灭绝是在较短地质时间内大量物种消失。',
-      '灭绝率可用单位时间灭绝物种数除以物种总数粗略衡量。',
-      '局域消失不等于全球灭绝；物种一旦全球灭绝不可逆。',
-      '化石记录与分子数据各有偏差，需交叉验证灭绝时间与速率。'
+      '灭绝是物种全部个体消失且不再留下可繁殖后代。 · Extinction is the loss of all individuals of a species with no remaining reproductively viable descendants.',
+      '背景灭绝是常态低速率；大规模灭绝是在较短地质时间内大量物种消失。 · Background extinction is the normal low rate; mass extinction is the loss of many species within a short geological interval.',
+      '灭绝率可用单位时间灭绝物种数除以物种总数粗略衡量。 · Extinction rate can be roughly measured as the number of species lost per unit time divided by the total number of species.',
+      '局域消失不等于全球灭绝；物种一旦全球灭绝不可逆。 · Local extirpation is not the same as global extinction; once a species is globally extinct, the loss is irreversible.',
+      '化石记录与分子数据各有偏差，需交叉验证灭绝时间与速率。 · Fossil records and molecular data each have biases, so extinction timing and rates need cross-validation.'
     ],
-    definition: '灭绝是一个物种的全部个体消失、不再留下可繁殖后代的过程。背景灭绝是常态下的低速率消失；大规模灭绝是在较短地质时间内大量物种消失的事件。',
-    intuition: '物种像一家公司：经营不善会慢慢倒闭（背景灭绝），而金融危机可能让大量公司同时倒闭（大规模灭绝）。',
-    intuitionDetailed: '灭绝可由栖息地丧失、外来物种、过度捕猎、污染、气候变化等因素驱动。灭绝释放生态位，常随后出现适应辐射。',
+    definition: '灭绝是一个物种的全部个体消失、不再留下可繁殖后代的过程。背景灭绝是常态下的低速率消失；大规模灭绝是在较短地质时间内大量物种消失的事件。 · Extinction is the loss of all individuals of a species, leaving no reproductively viable descendants. Background extinction is the normal low-rate loss; mass extinction is the disappearance of many species within a short geological interval.',
+    intuition: '物种像一家公司：经营不善会慢慢倒闭（背景灭绝），而金融危机可能让大量公司同时倒闭（大规模灭绝）。 · A species is like a company: poor performance can lead to slow failure (background extinction), while a financial crisis can bring down many companies at once (mass extinction).',
+    intuitionDetailed: '灭绝可由栖息地丧失、外来物种、过度捕猎、污染、气候变化等因素驱动。灭绝释放生态位，常随后出现适应辐射。 · Extinction can be driven by habitat loss, invasive species, overhunting, pollution, and climate change. Extinction frees ecological niches and is often followed by adaptive radiation.',
     formulas: [
-      { latex: '\\text{灭绝率}=\\dfrac{\\text{单位时间灭绝物种数}}{\\text{物种总数}}', note: '比较背景灭绝与大规模灭绝的粗略指标。' },
+      { latex: '\\text{灭绝率}=\\dfrac{\\text{单位时间灭绝物种数}}{\\text{物种总数}}', note: '比较背景灭绝与大规模灭绝的粗略指标。 · A rough metric for comparing background and mass extinction.' },
     ],
-    conditions: ['物种灭绝是不可逆的（在当前时间尺度上）', '局域消失不等于全球灭绝', '化石记录与分子数据各有偏差'],
-    keyPoints: ['背景灭绝 vs 大规模灭绝', '五次大灭绝，K–Pg 最著名', '人类活动正在提高灭绝速率', '灭绝与适应辐射常交替出现'],
+    conditions: ['物种灭绝是不可逆的（在当前时间尺度上） · Species extinction is irreversible on current time scales', '局域消失不等于全球灭绝 · Local extirpation is not global extinction', '化石记录与分子数据各有偏差 · Fossil records and molecular data each have biases'],
+    keyPoints: ['背景灭绝 vs 大规模灭绝 · Background extinction vs mass extinction', '五次大灭绝，K–Pg 最著名 · Five major mass extinctions, with the K–Pg event the most famous', '人类活动正在提高灭绝速率 · Human activity is raising extinction rates', '灭绝与适应辐射常交替出现 · Extinction and adaptive radiation often alternate'],
     misconceptions: [
-      '把个体死亡或局域消失当作物种灭绝',
-      '认为灭绝总是“进化失败”',
-      '认为所有灭绝都由灾难造成',
-      '忽略人类活动导致的第六次灭绝风险',
+      '把个体死亡或局域消失当作物种灭绝 · Treating the death of an individual or local extirpation as species extinction',
+      '认为灭绝总是“进化失败” · Assuming extinction always represents “evolutionary failure”',
+      '认为所有灭绝都由灾难造成 · Assuming all extinctions are caused by catastrophes',
+      '忽略人类活动导致的第六次灭绝风险 · Ignoring the risk of a sixth extinction driven by human activity',
     ],
     examples: [
       {
-        title: '例 1 · K–Pg',
-        prompt: '白垩纪–古近纪大灭绝的常见解释是什么？',
-        steps: ['小行星撞击形成全球尘埃与气候剧变。', '食物链崩溃，非鸟恐龙与大量海洋物种灭绝。', '哺乳动物随后适应辐射。'],
-        solution: '小行星撞击 + 环境连锁效应；随后适应辐射。',
+        title: '例 1 · K–Pg · Example 1 · K–Pg',
+        prompt: '白垩纪–古近纪大灭绝的常见解释是什么？ · What is the common explanation for the Cretaceous–Paleogene mass extinction?',
+        steps: ['小行星撞击形成全球尘埃与气候剧变。 · An asteroid impact created global dust and abrupt climate change.', '食物链崩溃，非鸟恐龙与大量海洋物种灭绝。 · Food chains collapsed, and non-avian dinosaurs and many marine species went extinct.', '哺乳动物随后适应辐射。 · Mammals then underwent adaptive radiation.'],
+        solution: '小行星撞击 + 环境连锁效应；随后适应辐射。 · Asteroid impact plus cascading environmental effects, followed by adaptive radiation.',
       },
       {
-        title: '例 2 · 背景 vs 大规模',
-        prompt: '如何区分背景灭绝与大规模灭绝？',
-        steps: ['背景灭绝速率低、持续存在。', '大规模灭绝在短时间窗内速率显著升高，影响多个类群。'],
-        solution: '看灭绝速率与时间尺度、受影响类群范围。',
+        title: '例 2 · 背景 vs 大规模 · Example 2 · Background vs Mass Extinction',
+        prompt: '如何区分背景灭绝与大规模灭绝？ · How can background extinction and mass extinction be distinguished?',
+        steps: ['背景灭绝速率低、持续存在。 · Background extinction is low and continuous.', '大规模灭绝在短时间窗内速率显著升高，影响多个类群。 · Mass extinction shows a marked rise in rate within a short window and affects many groups.'],
+        solution: '看灭绝速率与时间尺度、受影响类群范围。 · Compare the extinction rate, time scale, and range of affected groups.',
       },
       {
-        title: '例 3 · 保护',
-        prompt: '为什么保护栖息地对降低灭绝风险关键？',
-        steps: ['栖息地丧失是主要威胁之一。', '保护栖息地维持种群规模与遗传多样性。', '小种群更易受随机事件与近交衰退影响。'],
-        solution: '栖息地保护直接降低主要灭绝驱动因素。',
+        title: '例 3 · 保护 · Example 3 · Conservation',
+        prompt: '为什么保护栖息地对降低灭绝风险关键？ · Why is habitat protection crucial for reducing extinction risk?',
+        steps: ['栖息地丧失是主要威胁之一。 · Habitat loss is one of the main threats.', '保护栖息地维持种群规模与遗传多样性。 · Protecting habitat maintains population size and genetic diversity.', '小种群更易受随机事件与近交衰退影响。 · Small populations are more vulnerable to random events and inbreeding depression.'],
+        solution: '栖息地保护直接降低主要灭绝驱动因素。 · Habitat protection directly reduces a major driver of extinction.',
       },
     ],
     examTips: [
-      'CED Unit 7：自然选择与进化',
-      '读图：物种多样性曲线、灭绝速率峰',
-      'FRQ 常要求区分背景灭绝/大规模灭绝并解释证据',
+      'CED Unit 7：自然选择与进化 · CED Unit 7: Natural selection and evolution',
+      '读图：物种多样性曲线、灭绝速率峰 · Read graphs of species diversity curves and extinction-rate peaks.',
+      'FRQ 常要求区分背景灭绝/大规模灭绝并解释证据 · FRQs often ask you to distinguish background from mass extinction and explain the evidence.',
+    ],
+    connections: [
+      '先修：7.9 系统发生与 7.10 物种形成，帮助确定灭绝事件的类群与时间。 · Prerequisite: phylogeny in 7.9 and speciation in 7.10 help place extinction events in the right lineages and time frames.',
+      '后续：8.6 生物多样性把灭绝速率与物种丰富度、生态系统服务联系起来。 · Follow-up: biodiversity in 8.6 connects extinction rates to species richness and ecosystem services.',
+      '应用：保护生物学用灭绝风险、种群大小与栖息地质量制定保护优先级。 · Application: conservation biology uses extinction risk, population size, and habitat quality to set protection priorities.',
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.10', title: '物种形成', relation: '相关' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生 · Phylogeny', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.10', title: '物种形成 · Speciation', relation: '相关 · Related' },
       { subject: 'bio', chapterId: 'bio-u7', code: '7.12', title: '种群变异 · Variations in Populations', relation: '相关 · Related' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '应用' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '应用 · Application' },
     ],
-    development: ['灭绝定义', '背景与大规模灭绝', '驱动因素', '灭绝后的适应辐射'],
-    checks: ['局域消失与全球灭绝有何区别？', '为什么小种群更容易灭绝？'],
-    summary: '灭绝是物种的永久消失；背景灭绝与大规模灭绝共同塑造生物多样性，人类活动正在加速这一过程。',
+    development: ['灭绝定义 · Defining extinction', '背景与大规模灭绝 · Background and mass extinction', '驱动因素 · Drivers', '灭绝后的适应辐射 · Adaptive radiation after extinction'],
+    checks: ['局域消失与全球灭绝有何区别？ · What is the difference between local extirpation and global extinction?', '为什么小种群更容易灭绝？ · Why are small populations more likely to go extinct?'],
+    summary: '灭绝是物种的永久消失；背景灭绝与大规模灭绝共同塑造生物多样性，人类活动正在加速这一过程。 · Extinction is the permanent loss of a species; background and mass extinction together shape biodiversity, and human activity is accelerating the process.',
   },
 
   'bio/bio-u1/1.5': {
@@ -9322,524 +9332,524 @@ export const ENRICHMENTS = {
   'bio/bio-u1/1.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能列举生命体最主要的元素（CHNOPS），并说明碳的四价成键能力为何适合做生物分子骨架。',
-      '能区分单体与聚合物，写出脱水缩合与水解的方向和产物。',
-      '能由官能团与分子结构推断糖类、脂质、蛋白质与核酸的性质与功能。'
+      '能列举生命体最主要的元素（CHNOPS），并说明碳的四价成键能力为何适合做生物分子骨架。 · List the main elements of life (CHNOPS) and explain why carbon’s tetravalent bonding makes it suited to be the backbone of biological molecules.',
+      '能区分单体与聚合物，写出脱水缩合与水解的方向和产物。 · Distinguish monomers from polymers and write the direction and products of dehydration synthesis and hydrolysis.',
+      '能由官能团与分子结构推断糖类、脂质、蛋白质与核酸的性质与功能。 · Infer the properties and functions of carbohydrates, lipids, proteins, and nucleic acids from functional groups and molecular structure.'
     ],
     essentialKnowledge: [
-      '生命物质由元素组成；C、H、N、O、P、S 占生物体质量的大部分，Ca、K、Na、Mg、Fe、I 等也是必需元素，其中一些只需痕量。',
-      '碳原子有 4 个价电子，能形成 4 条共价键，并与自身形成单键、双键或环状与支链骨架。',
-      '糖类、蛋白质与核酸可由单体聚合；脂质通常不以单体聚合，而由甘油、脂肪酸与磷酸基等组装。',
-      '单体通过脱水缩合连接成聚合物并释放水；聚合物通过水解断键并消耗水，二者都由酶催化且方向可逆。',
-      '官能团决定分子的极性、溶解性、酸碱性、反应性与相互作用；例如羟基亲水、羧基酸性、氨基碱性、磷酸基带负电、巯基可形成二硫键。',
-      '元素组成与结构决定功能：磷脂的两亲性来自亲水头部与疏水尾部，血红蛋白含铁，核酸含磷，蛋白质常含硫。'
+      '生命物质由元素组成；C、H、N、O、P、S 占生物体质量的大部分，Ca、K、Na、Mg、Fe、I 等也是必需元素，其中一些只需痕量。 · Living matter is composed of elements; C, H, N, O, P, and S make up most of an organism’s mass, while Ca, K, Na, Mg, Fe, and I are also essential, some only in trace amounts.',
+      '碳原子有 4 个价电子，能形成 4 条共价键，并与自身形成单键、双键或环状与支链骨架。 · A carbon atom has four valence electrons and can form four covalent bonds, including single bonds, double bonds, rings, and branched backbones with other carbon atoms.',
+      '糖类、蛋白质与核酸可由单体聚合；脂质通常不以单体聚合，而由甘油、脂肪酸与磷酸基等组装。 · Carbohydrates, proteins, and nucleic acids can be built by polymerizing monomers; lipids are usually not monomer polymers but are assembled from glycerol, fatty acids, phosphate groups, and related components.',
+      '单体通过脱水缩合连接成聚合物并释放水；聚合物通过水解断键并消耗水，二者都由酶催化且方向可逆。 · Monomers join into polymers by dehydration synthesis, releasing water; polymers are broken down by hydrolysis, consuming water; both are enzyme-catalyzed and reversible in direction.',
+      '官能团决定分子的极性、溶解性、酸碱性、反应性与相互作用；例如羟基亲水、羧基酸性、氨基碱性、磷酸基带负电、巯基可形成二硫键。 · Functional groups determine polarity, solubility, acid–base behavior, reactivity, and interactions; for example, hydroxyl is hydrophilic, carboxyl is acidic, amino is basic, phosphate is negatively charged, and sulfhydryl can form disulfide bonds.',
+      '元素组成与结构决定功能：磷脂的两亲性来自亲水头部与疏水尾部，血红蛋白含铁，核酸含磷，蛋白质常含硫。 · Elemental composition and structure determine function: phospholipid amphipathicity comes from hydrophilic heads and hydrophobic tails, hemoglobin contains iron, nucleic acids contain phosphorus, and proteins often contain sulfur.'
     ],
-    definition: '元素是不能再通过化学方法分解成更简单物质的纯物质。生命主要由 C、H、N、O、P、S 六种元素构成，它们以共价键组装成糖类、脂质、蛋白质与核酸等生物大分子。生物大分子由较小的单体通过脱水缩合连接，水解则把聚合物拆回单体。',
-    intuition: '把生物分子想成乐高：碳是带四个接口的积木，官能团是不同颜色的接口，单体是标准零件，聚合物是由许多零件拼成的结构。',
-    intuitionDetailed: '碳的四价性让同一元素能组成直链、支链、环与双键，从而产生近乎无限的骨架多样性。单体之间的连接通常伴随水的移出：一个单体的羟基与另一个单体的氢或羟基反应，形成新的共价键并释放 \\(\\mathrm{H_2O}\\)。消化与细胞内的降解则相反，水解酶把水加回去，把聚合物拆成可吸收或可再利用的单体。',
+    definition: '元素是不能再通过化学方法分解成更简单物质的纯物质。生命主要由 C、H、N、O、P、S 六种元素构成，它们以共价键组装成糖类、脂质、蛋白质与核酸等生物大分子。生物大分子由较小的单体通过脱水缩合连接，水解则把聚合物拆回单体。 · An element is a pure substance that cannot be broken down into simpler substances by chemical means. Life is built mainly from six elements—C, H, N, O, P, and S—which form covalent bonds to assemble biological macromolecules such as carbohydrates, lipids, proteins, and nucleic acids. Macromolecules are built from smaller monomers by dehydration synthesis, while hydrolysis breaks polymers back into monomers.',
+    intuition: '把生物分子想成乐高：碳是带四个接口的积木，官能团是不同颜色的接口，单体是标准零件，聚合物是由许多零件拼成的结构。 · Think of biological molecules as LEGO: carbon is a brick with four connection points, functional groups are connectors of different colors, monomers are standard parts, and polymers are structures assembled from many parts.',
+    intuitionDetailed: '碳的四价性让同一元素能组成直链、支链、环与双键，从而产生近乎无限的骨架多样性。单体之间的连接通常伴随水的移出：一个单体的羟基与另一个单体的氢或羟基反应，形成新的共价键并释放 \\(\\mathrm{H_2O}\\)。消化与细胞内的降解则相反，水解酶把水加回去，把聚合物拆成可吸收或可再利用的单体。 · Carbon’s tetravalence lets one element form straight chains, branches, rings, and double bonds, producing almost unlimited backbone diversity. Joining monomers usually removes water: a hydroxyl group on one monomer reacts with a hydrogen or hydroxyl on another, forming a new covalent bond and releasing \\(\\mathrm{H_2O}\\). Digestion and intracellular breakdown run in reverse: hydrolytic enzymes add water back and split polymers into absorbable or reusable monomers.',
     formulas: [
-      { latex: '\\mathrm{C,H,N,O,P,S}', note: '生命体最主要的六种元素（CHNOPS）。' },
-      { latex: '\\text{单体}\\xrightarrow{\\text{脱水缩合}}\\text{聚合物}+\\mathrm{H_2O}', note: '合成方向：形成共价键并释放水。' },
-      { latex: '\\text{聚合物}+\\mathrm{H_2O}\\xrightarrow{\\text{水解}}\\text{单体}', note: '降解方向：断键并消耗水。' }
+      { latex: '\\mathrm{C,H,N,O,P,S}', note: '生命体最主要的六种元素（CHNOPS）。 · The six main elements of life (CHNOPS).' },
+      { latex: '\\text{单体}\\xrightarrow{\\text{脱水缩合}}\\text{聚合物}+\\mathrm{H_2O}', note: '合成方向：形成共价键并释放水。 · Synthesis direction: a covalent bond forms and water is released.' },
+      { latex: '\\text{聚合物}+\\mathrm{H_2O}\\xrightarrow{\\text{水解}}\\text{单体}', note: '降解方向：断键并消耗水。 · Breakdown direction: a bond breaks and water is consumed.' }
     ],
     derivationNotes: [
-      { from: '元素组成', to: '单体结构', note: 'C、H、O 等元素通过共价键组成单体的碳骨架与官能团。' },
-      { from: '单体', to: '聚合物', note: '脱水缩合把单体连接成长链，重复单元决定大分子类别。' },
-      { from: '官能团与序列', to: '功能', note: '极性、电荷、氢键与折叠方式决定溶解性、识别与催化功能。' },
+      { from: '元素组成 · Elemental composition', to: '单体结构 · Monomer structure', note: 'C、H、O 等元素通过共价键组成单体的碳骨架与官能团。 · Elements such as C, H, and O form monomers’ carbon backbones and functional groups through covalent bonds.' },
+      { from: '单体 · Monomer', to: '聚合物 · Polymer', note: '脱水缩合把单体连接成长链，重复单元决定大分子类别。 · Dehydration synthesis links monomers into long chains, and the repeating unit determines the class of macromolecule.' },
+      { from: '官能团与序列 · Functional groups and sequence', to: '功能 · Function', note: '极性、电荷、氢键与折叠方式决定溶解性、识别与催化功能。 · Polarity, charge, hydrogen bonding, and folding determine solubility, recognition, and catalysis.' },
     ],
     connections: [
-      '先修：1.1 水的极性与氢键，为官能团相互作用提供溶剂环境。',
-      '后续：1.3–1.5 分别展开糖类、脂质、蛋白质与核酸的结构与功能。',
-      '应用：P2.2 生物大分子与营养、酶、遗传物质的学习。',
+      '先修：1.1 水的极性与氢键，为官能团相互作用提供溶剂环境。 · Prerequisite: water polarity and hydrogen bonding in 1.1 provide the solvent environment for functional-group interactions.',
+      '后续：1.3–1.5 分别展开糖类、脂质、蛋白质与核酸的结构与功能。 · Follow-up: 1.3–1.5 develop the structure and function of carbohydrates, lipids, proteins, and nucleic acids.',
+      '应用：P2.2 生物大分子与营养、酶、遗传物质的学习。 · Application: P2.2 applies macromolecules to nutrition, enzymes, and genetic material.',
     ],
     conditions: [
-      '细胞内的脱水缩合与水解通常由特定酶催化，并需适宜的温度与 pH',
-      '碳骨架的稳定性来自共价键；氢键、疏水作用与离子键更多参与折叠与识别',
-      '痕量元素需求量小但不可缺，例如碘参与甲状腺激素、铁参与血红蛋白',
-      '并非所有脂质都是聚合物；类固醇与部分脂质由较小的前体组装而非单体链'
+      '细胞内的脱水缩合与水解通常由特定酶催化，并需适宜的温度与 pH · Intracellular dehydration synthesis and hydrolysis are usually catalyzed by specific enzymes and require suitable temperature and pH',
+      '碳骨架的稳定性来自共价键；氢键、疏水作用与离子键更多参与折叠与识别 · Carbon-backbone stability comes from covalent bonds, while hydrogen bonds, hydrophobic interactions, and ionic bonds mainly contribute to folding and recognition',
+      '痕量元素需求量小但不可缺，例如碘参与甲状腺激素、铁参与血红蛋白 · Trace elements are needed in small amounts but are indispensable; for example, iodine is part of thyroid hormones and iron is part of hemoglobin',
+      '并非所有脂质都是聚合物；类固醇与部分脂质由较小的前体组装而非单体链 · Not all lipids are polymers; steroids and some lipids are assembled from smaller precursors rather than monomer chains'
     ],
     keyPoints: [
-      'CHNOPS 是生命的主要元素，碳是骨架核心',
-      '碳四价：可形成四条共价键与多样骨架',
-      '脱水缩合建键、水解断键，二者方向相反',
-      '官能团决定分子性质与反应性',
-      '结构决定功能：单体组成、序列与折叠共同决定大分子功能'
+      'CHNOPS 是生命的主要元素，碳是骨架核心 · CHNOPS are the main elements of life, and carbon is the core of the backbone',
+      '碳四价：可形成四条共价键与多样骨架 · Carbon is tetravalent: it forms four covalent bonds and diverse backbones',
+      '脱水缩合建键、水解断键，二者方向相反 · Dehydration synthesis forms bonds and hydrolysis breaks them, in opposite directions',
+      '官能团决定分子性质与反应性 · Functional groups determine molecular properties and reactivity',
+      '结构决定功能：单体组成、序列与折叠共同决定大分子功能 · Structure determines function: monomer composition, sequence, and folding together determine macromolecular function'
     ],
     misconceptions: [
-      '把元素与化合物混为一谈，认为“碳元素”就是“碳水化合物”',
-      '认为脱水缩合是加水反应（实际是移出水）',
-      '认为所有生物大分子都是单体聚合而成（脂质多为例外）',
-      '认为痕量元素不重要，因为它们含量少',
-      '认为只要元素相同，分子功能就一定相同（结构排列同样关键）'
+      '把元素与化合物混为一谈，认为“碳元素”就是“碳水化合物” · Confusing elements with compounds and thinking “the element carbon” is “carbohydrate”',
+      '认为脱水缩合是加水反应（实际是移出水） · Thinking dehydration synthesis adds water (it actually removes water)',
+      '认为所有生物大分子都是单体聚合而成（脂质多为例外） · Assuming all macromolecules are monomer polymers (many lipids are exceptions)',
+      '认为痕量元素不重要，因为它们含量少 · Assuming trace elements are unimportant because they are scarce',
+      '认为只要元素相同，分子功能就一定相同（结构排列同样关键） · Assuming molecules with the same elements must have the same function (structural arrangement matters too)'
     ],
     examples: [
       {
-        title: '例 1 · 元素组成',
-        prompt: '分别写出葡萄糖、典型蛋白质与 DNA 中最具特征的元素组成差异。',
+        title: '例 1 · 元素组成 · Example 1 · Elemental Composition',
+        prompt: '分别写出葡萄糖、典型蛋白质与 DNA 中最具特征的元素组成差异。 · Describe the most characteristic differences in elemental composition among glucose, a typical protein, and DNA.',
         steps: [
-          '葡萄糖 \\(\\mathrm{C_6H_{12}O_6}\\) 只含 C、H、O。',
-          '蛋白质由氨基酸组成，除 C、H、O 外还含 N，许多还含 S。',
-          'DNA 由核苷酸组成，含 C、H、O、N、P。'
+          '葡萄糖 \\(\\mathrm{C_6H_{12}O_6}\\) 只含 C、H、O。 · Glucose, \\(\\mathrm{C_6H_{12}O_6}\\), contains only C, H, and O.',
+          '蛋白质由氨基酸组成，除 C、H、O 外还含 N，许多还含 S。 · Proteins are made of amino acids and contain N in addition to C, H, and O; many also contain S.',
+          'DNA 由核苷酸组成，含 C、H、O、N、P。 · DNA is made of nucleotides and contains C, H, O, N, and P.'
         ],
-        solution: '糖类以 C、H、O 为主；蛋白质特征元素是 N（常含 S）；核酸特征元素是 P。',
+        solution: '糖类以 C、H、O 为主；蛋白质特征元素是 N（常含 S）；核酸特征元素是 P。 · Carbohydrates are mainly C, H, and O; the characteristic element of proteins is N (often with S); the characteristic element of nucleic acids is P.',
         solutionLatex: '\\text{糖}:\\mathrm{CHO};\\;\\text{蛋白质}:\\mathrm{CHONS};\\;\\text{核酸}:\\mathrm{CHONP}'
       },
       {
-        title: '例 2 · 脱水缩合',
-        prompt: '两个葡萄糖分子结合成麦芽糖时，原子如何变化？写出反应式。',
+        title: '例 2 · 脱水缩合 · Example 2 · Dehydration Synthesis',
+        prompt: '两个葡萄糖分子结合成麦芽糖时，原子如何变化？写出反应式。 · How do the atoms change when two glucose molecules join to form maltose? Write the reaction.',
         steps: [
-          '一个葡萄糖的羟基与另一个葡萄糖的羟基反应。',
-          '形成糖苷键，同时移出一个水分子。',
-          '产物为麦芽糖与水。'
+          '一个葡萄糖的羟基与另一个葡萄糖的羟基反应。 · The hydroxyl group of one glucose reacts with the hydroxyl group of the other.',
+          '形成糖苷键，同时移出一个水分子。 · A glycosidic bond forms and one water molecule is removed.',
+          '产物为麦芽糖与水。 · The products are maltose and water.'
         ],
-        solution: '\\(\\mathrm{C_6H_{12}O_6}+\\mathrm{C_6H_{12}O_6}\\to\\mathrm{C_{12}H_{22}O_{11}}+\\mathrm{H_2O}\\)。',
+        solution: '\\(\\mathrm{C_6H_{12}O_6}+\\mathrm{C_6H_{12}O_6}\\to\\mathrm{C_{12}H_{22}O_{11}}+\\mathrm{H_2O}\\)，即两个葡萄糖缩合生成麦芽糖和水。 · Two glucose molecules condense to form maltose and water.',
         solutionLatex: '\\mathrm{C_6H_{12}O_6}+\\mathrm{C_6H_{12}O_6}\\to\\mathrm{C_{12}H_{22}O_{11}}+\\mathrm{H_2O}'
       },
       {
-        title: '例 3 · 结构决定功能',
-        prompt: '磷脂为什么能在水中自发形成双分子层？',
+        title: '例 3 · 结构决定功能 · Example 3 · Structure Determines Function',
+        prompt: '磷脂为什么能在水中自发形成双分子层？ · Why do phospholipids spontaneously form a bilayer in water?',
         steps: [
-          '磷脂有亲水的磷酸头部与两条疏水的脂肪酸尾部。',
-          '在水环境中，疏水尾部避开水、彼此聚集。',
-          '两层磷脂的尾部相对，形成稳定的双分子层。'
+          '磷脂有亲水的磷酸头部与两条疏水的脂肪酸尾部。 · A phospholipid has a hydrophilic phosphate head and two hydrophobic fatty acid tails.',
+          '在水环境中，疏水尾部避开水、彼此聚集。 · In water, the hydrophobic tails avoid water and cluster together.',
+          '两层磷脂的尾部相对，形成稳定的双分子层。 · The tails of two phospholipid layers face each other, forming a stable bilayer.'
         ],
-        solution: '两亲性使磷脂在水中有序排列，形成膜的骨架。'
+        solution: '两亲性使磷脂在水中有序排列，形成膜的骨架。 · Amphipathicity makes phospholipids arrange in an ordered way in water, forming the membrane backbone.'
       }
     ],
     examTips: [
-      'CED Unit 1：生命化学',
-      '看到“元素组成”先分辨糖类、蛋白质与核酸的特征元素',
-      '脱水缩合与水解的方向不要写反',
-      '官能团题用“极性/电荷/氢键”解释溶解性与相互作用',
-      'FRQ 用“单体—键—聚合物—功能”链条作答'
+      'CED Unit 1：生命化学 · CED Unit 1: Chemistry of life',
+      '看到“元素组成”先分辨糖类、蛋白质与核酸的特征元素 · When you see “elemental composition,” first distinguish the characteristic elements of carbohydrates, proteins, and nucleic acids.',
+      '脱水缩合与水解的方向不要写反 · Do not reverse the directions of dehydration synthesis and hydrolysis.',
+      '官能团题用“极性/电荷/氢键”解释溶解性与相互作用 · For functional-group questions, use polarity, charge, and hydrogen bonding to explain solubility and interactions.',
+      'FRQ 用“单体—键—聚合物—功能”链条作答 · In FRQs, answer with the chain “monomer—bond—polymer—function.”'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.1', title: '水与生命', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.4', title: '蛋白质性质', relation: '应用' },
-      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.2', title: '生物大分子', relation: '先修' }
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.1', title: '水与生命 · Water and Life', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论 · Introduction to Biological Macromolecules', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u1', code: '1.4', title: '蛋白质性质 · Protein Properties', relation: '应用 · Application' },
+      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.2', title: '生物大分子 · Biological Macromolecules', relation: '先修 · Prerequisite' }
     ],
-    development: ['元素与生命', '碳的四价性与骨架', '单体与聚合物', '脱水缩合与水解', '官能团与结构功能'],
-    checks: ['CHNOPS 分别代表哪些元素？', '脱水缩合与水解在原子层面有何区别？', '为什么磷脂能形成膜而葡萄糖不能？'],
-    summary: '生命以 CHNOPS 为主要元素，碳的四价性提供骨架多样性；单体通过脱水缩合形成聚合物，水解反向拆解，官能团与结构共同决定功能。'
+    development: ['元素与生命 · Elements and life', '碳的四价性与骨架 · Carbon tetravalence and backbones', '单体与聚合物 · Monomers and polymers', '脱水缩合与水解 · Dehydration synthesis and hydrolysis', '官能团与结构功能 · Functional groups and structure–function relationships'],
+    checks: ['CHNOPS 分别代表哪些元素？ · Which elements do the letters in CHNOPS represent?', '脱水缩合与水解在原子层面有何区别？ · How do dehydration synthesis and hydrolysis differ at the atomic level?', '为什么磷脂能形成膜而葡萄糖不能？ · Why can phospholipids form membranes while glucose cannot?'],
+    summary: '生命以 CHNOPS 为主要元素，碳的四价性提供骨架多样性；单体通过脱水缩合形成聚合物，水解反向拆解，官能团与结构共同决定功能。 · Life uses CHNOPS as its main elements, and carbon’s tetravalence provides backbone diversity; monomers form polymers by dehydration synthesis, hydrolysis reverses the process, and functional groups together with structure determine function.'
   },
 
   'bio/bio-u2/2.10': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分膜内陷起源与内共生起源，并说明它们分别解释哪些细胞器。',
-      '能列举支持线粒体与叶绿体内共生起源的结构与分子证据。',
-      '能解释区隔化如何提高真核细胞的代谢效率与调控精度。'
+      '能区分膜内陷起源与内共生起源，并说明它们分别解释哪些细胞器。 · Distinguish invagination origins from endosymbiotic origins and explain which organelles each explains.',
+      '能列举支持线粒体与叶绿体内共生起源的结构与分子证据。 · List structural and molecular evidence supporting the endosymbiotic origin of mitochondria and chloroplasts.',
+      '能解释区隔化如何提高真核细胞的代谢效率与调控精度。 · Explain how compartmentalization improves metabolic efficiency and regulatory precision in eukaryotic cells.'
     ],
     essentialKnowledge: [
-      '真核细胞的内膜系统可能由质膜内陷形成：内陷的膜可形成核膜、内质网、高尔基体与溶酶体等，增加膜面积并把反应分隔开。',
-      '内共生学说认为线粒体与叶绿体起源于被宿主细胞吞噬后未被消化的自由生活原核生物，双方形成稳定的互利共生。',
-      '内共生证据包括双层膜、自身环状 DNA、70S 核糖体、独立分裂、膜脂与细菌相似，以及部分基因已转移到宿主细胞核。',
-      '内共生是深度整合：现代线粒体与叶绿体保留部分遗传自主性，但不能独立生活；宿主依赖它们提供 ATP 或光合产物。',
-      '区隔化让互不相容的反应同时进行：溶酶体的酸性水解、线粒体内膜的质子梯度、叶绿体类囊体膜的光反应都依赖局部环境。',
-      '膜内陷与内共生并不互斥；不同细胞器有不同起源，不能把所有膜性细胞器都归因于同一种机制。'
+      '真核细胞的内膜系统可能由质膜内陷形成：内陷的膜可形成核膜、内质网、高尔基体与溶酶体等，增加膜面积并把反应分隔开。 · The eukaryotic endomembrane system may have arisen by plasma membrane invagination: infolded membrane could form the nuclear envelope, ER, Golgi, and lysosomes, increasing membrane area and separating reactions.',
+      '内共生学说认为线粒体与叶绿体起源于被宿主细胞吞噬后未被消化的自由生活原核生物，双方形成稳定的互利共生。 · The endosymbiotic theory holds that mitochondria and chloroplasts originated from free-living prokaryotes that were engulfed but not digested by a host cell, establishing a stable mutualism.',
+      '内共生证据包括双层膜、自身环状 DNA、70S 核糖体、独立分裂、膜脂与细菌相似，以及部分基因已转移到宿主细胞核。 · Evidence for endosymbiosis includes a double membrane, their own circular DNA, 70S ribosomes, independent division, bacterial-like membrane lipids, and the transfer of some genes to the host nucleus.',
+      '内共生是深度整合：现代线粒体与叶绿体保留部分遗传自主性，但不能独立生活；宿主依赖它们提供 ATP 或光合产物。 · Endosymbiosis is deep integration: modern mitochondria and chloroplasts retain partial genetic autonomy but cannot live independently, while the host depends on them for ATP or photosynthetic products.',
+      '区隔化让互不相容的反应同时进行：溶酶体的酸性水解、线粒体内膜的质子梯度、叶绿体类囊体膜的光反应都依赖局部环境。 · Compartmentalization lets incompatible reactions proceed simultaneously: acid hydrolysis in lysosomes, the proton gradient across the inner mitochondrial membrane, and the light reactions on thylakoid membranes all depend on local environments.',
+      '膜内陷与内共生并不互斥；不同细胞器有不同起源，不能把所有膜性细胞器都归因于同一种机制。 · Invagination and endosymbiosis are not mutually exclusive; different organelles have different origins, and not all membrane-bound organelles should be attributed to one mechanism.'
     ],
-    definition: '细胞区隔起源研究真核细胞如何获得膜性区室。主流解释有两条：质膜内陷形成核膜、内质网、高尔基体与溶酶体等内膜系统；内共生学说则认为线粒体与叶绿体来自被宿主吞噬的自由生活原核生物。',
-    intuition: '真核细胞像从小作坊发展成的工厂：先把外墙折进去隔出车间，再把擅长发电或光合作用的外来细菌收编成专用部门。',
-    intuitionDetailed: '内陷模型能解释内膜系统的连续性：核膜与内质网相通，高尔基体与囊泡运输相连。内共生模型能解释线粒体与叶绿体的“细菌特征”：它们有双层膜、环状 DNA、70S 核糖体，并按类似二分裂的方式增殖。两层膜的来源通常解释为宿主吞噬膜加共生体自身膜。',
+    definition: '细胞区隔起源研究真核细胞如何获得膜性区室。主流解释有两条：质膜内陷形成核膜、内质网、高尔基体与溶酶体等内膜系统；内共生学说则认为线粒体与叶绿体来自被宿主吞噬的自由生活原核生物。 · The origins of cellular compartments concern how eukaryotic cells acquired membrane-bound spaces. There are two main explanations: plasma membrane invagination formed the endomembrane system, including the nuclear envelope, ER, Golgi, and lysosomes; the endosymbiotic theory holds that mitochondria and chloroplasts came from free-living prokaryotes engulfed by a host.',
+    intuition: '真核细胞像从小作坊发展成的工厂：先把外墙折进去隔出车间，再把擅长发电或光合作用的外来细菌收编成专用部门。 · A eukaryotic cell is like a workshop that grew into a factory: first the outer wall folds inward to create rooms, then foreign bacteria good at generating power or photosynthesis are incorporated as specialized departments.',
+    intuitionDetailed: '内陷模型能解释内膜系统的连续性：核膜与内质网相通，高尔基体与囊泡运输相连。内共生模型能解释线粒体与叶绿体的“细菌特征”：它们有双层膜、环状 DNA、70S 核糖体，并按类似二分裂的方式增殖。两层膜的来源通常解释为宿主吞噬膜加共生体自身膜。 · The invagination model explains the continuity of the endomembrane system: the nuclear envelope is continuous with the ER, and the Golgi is connected through vesicle traffic. The endosymbiotic model explains the “bacterial features” of mitochondria and chloroplasts: a double membrane, circular DNA, 70S ribosomes, and proliferation by binary fission–like division. The two membranes are usually explained as the host’s engulfing membrane plus the symbiont’s own membrane.',
     formulas: [
-      { latex: '\\text{质膜内陷}\\to\\text{核膜/内质网/高尔基体/溶酶体}', note: '内膜系统起源的简化路径。' },
-      { latex: '\\text{宿主细胞}+\\text{原核共生体}\\to\\text{线粒体或叶绿体}', note: '内共生起源的简化路径。' },
-      { latex: '\\text{双层膜}+\\text{环状 DNA}+70S\\text{ 核糖体}\\Rightarrow\\text{内共生证据}', note: '多项证据汇聚，而非单一线索。' }
+      { latex: '\\text{质膜内陷}\\to\\text{核膜/内质网/高尔基体/溶酶体}', note: '内膜系统起源的简化路径。 · Simplified path for the origin of the endomembrane system.' },
+      { latex: '\\text{宿主细胞}+\\text{原核共生体}\\to\\text{线粒体或叶绿体}', note: '内共生起源的简化路径。 · Simplified path for endosymbiotic origin.' },
+      { latex: '\\text{双层膜}+\\text{环状 DNA}+70S\\text{ 核糖体}\\Rightarrow\\text{内共生证据}', note: '多项证据汇聚，而非单一线索。 · Multiple lines of evidence converge rather than a single clue.' }
     ],
     derivationNotes: [
-      { from: '质膜', to: '内膜系统', note: '质膜内陷可形成核膜、内质网与囊泡，增加膜面积并分隔反应。' },
-      { from: '自由生活原核生物', to: '线粒体或叶绿体', note: '被宿主吞噬后未被消化，逐步失去独立生活能力并转移部分基因。' },
-      { from: '互利共生', to: '细胞器', note: '宿主提供稳定环境与营养，共生体提供 ATP 或光合产物，形成稳定整合。' },
+      { from: '质膜 · Plasma membrane', to: '内膜系统 · Endomembrane system', note: '质膜内陷可形成核膜、内质网与囊泡，增加膜面积并分隔反应。 · Plasma membrane invagination can form the nuclear envelope, ER, and vesicles, increasing membrane area and separating reactions.' },
+      { from: '自由生活原核生物 · Free-living prokaryote', to: '线粒体或叶绿体 · Mitochondrion or chloroplast', note: '被宿主吞噬后未被消化，逐步失去独立生活能力并转移部分基因。 · After being engulfed but not digested, it gradually lost independent viability and transferred some genes.' },
+      { from: '互利共生 · Mutualism', to: '细胞器 · Organelle', note: '宿主提供稳定环境与营养，共生体提供 ATP 或光合产物，形成稳定整合。 · The host provides a stable environment and nutrients, while the symbiont provides ATP or photosynthetic products, forming a stable integration.' },
     ],
     connections: [
-      '先修：2.1 细胞器与 2.9 区隔化，理解膜性区室的功能。',
-      '后续：3.3–3.5 的细胞呼吸与光合作用依赖线粒体、叶绿体的区隔化。',
-      '相关：7.13 生命起源讨论最早细胞与原核生物的演化。',
+      '先修：2.1 细胞器与 2.9 区隔化，理解膜性区室的功能。 · Prerequisite: organelles in 2.1 and compartmentalization in 2.9 explain the functions of membrane-bound compartments.',
+      '后续：3.3–3.5 的细胞呼吸与光合作用依赖线粒体、叶绿体的区隔化。 · Follow-up: cellular respiration and photosynthesis in 3.3–3.5 depend on compartmentalization in mitochondria and chloroplasts.',
+      '相关：7.13 生命起源讨论最早细胞与原核生物的演化。 · Related: the origin of life in 7.13 discusses the earliest cells and the evolution of prokaryotes.',
     ],
     conditions: [
-      '内共生要求宿主能吞噬共生体而不将其消化，并能把共生体传给后代',
-      '膜内陷模型主要解释内膜系统，不解释线粒体与叶绿体的细菌样特征',
-      '区隔化依赖选择透过性膜与运输蛋白，否则区室无法维持身份',
-      '内共生证据是推断性的，需要多类独立证据汇聚'
+      '内共生要求宿主能吞噬共生体而不将其消化，并能把共生体传给后代 · Endosymbiosis requires the host to engulf the symbiont without digesting it and to transmit it to offspring',
+      '膜内陷模型主要解释内膜系统，不解释线粒体与叶绿体的细菌样特征 · The invagination model mainly explains the endomembrane system, not the bacterium-like features of mitochondria and chloroplasts',
+      '区隔化依赖选择透过性膜与运输蛋白，否则区室无法维持身份 · Compartmentalization depends on selectively permeable membranes and transport proteins; otherwise a compartment cannot maintain its identity',
+      '内共生证据是推断性的，需要多类独立证据汇聚 · Endosymbiotic evidence is inferential and requires multiple independent lines of evidence to converge'
     ],
     keyPoints: [
-      '内膜系统可能来自质膜内陷',
-      '线粒体与叶绿体来自内共生',
-      '内共生证据：双层膜、环状 DNA、70S 核糖体、独立分裂',
-      '区隔化提高反应效率与调控精度',
-      '不同细胞器起源不同，不能一概而论'
+      '内膜系统可能来自质膜内陷 · The endomembrane system may come from plasma membrane invagination',
+      '线粒体与叶绿体来自内共生 · Mitochondria and chloroplasts originated by endosymbiosis',
+      '内共生证据：双层膜、环状 DNA、70S 核糖体、独立分裂 · Endosymbiotic evidence: double membrane, circular DNA, 70S ribosomes, independent division',
+      '区隔化提高反应效率与调控精度 · Compartmentalization improves reaction efficiency and regulatory precision',
+      '不同细胞器起源不同，不能一概而论 · Different organelles have different origins and cannot be lumped together'
     ],
     misconceptions: [
-      '认为线粒体由质膜内陷直接形成（内共生证据更强）',
-      '认为线粒体与叶绿体完全没有 DNA（它们有自身的环状 DNA）',
-      '认为内共生学说已经被单一实验“证明”（它是多证据支持的模型）',
-      '认为所有具双层膜的细胞器都来自内共生（核膜是反例）',
-      '把区隔化理解为“把反应隔离起来不让它们发生”'
+      '认为线粒体由质膜内陷直接形成（内共生证据更强） · Assuming mitochondria formed directly by plasma membrane invagination (endosymbiotic evidence is stronger)',
+      '认为线粒体与叶绿体完全没有 DNA（它们有自身的环状 DNA） · Assuming mitochondria and chloroplasts have no DNA (they have their own circular DNA)',
+      '认为内共生学说已经被单一实验“证明”（它是多证据支持的模型） · Assuming the endosymbiotic theory has been “proved” by a single experiment (it is a model supported by multiple lines of evidence)',
+      '认为所有具双层膜的细胞器都来自内共生（核膜是反例） · Assuming every double-membrane organelle came from endosymbiosis (the nuclear envelope is a counterexample)',
+      '把区隔化理解为“把反应隔离起来不让它们发生” · Misunderstanding compartmentalization as “isolating reactions so they cannot occur”'
     ],
     examples: [
       {
-        title: '例 1 · 内共生证据',
-        prompt: '为什么线粒体拥有自己的环状 DNA 与 70S 核糖体支持内共生起源？',
+        title: '例 1 · 内共生证据 · Example 1 · Endosymbiotic Evidence',
+        prompt: '为什么线粒体拥有自己的环状 DNA 与 70S 核糖体支持内共生起源？ · Why does the presence of its own circular DNA and 70S ribosomes support an endosymbiotic origin for mitochondria?',
         steps: [
-          '环状 DNA 与 70S 核糖体是细菌的典型特征，真核细胞质核糖体为 80S。',
-          '线粒体按类似二分裂的方式增殖，不依赖细胞有丝分裂。',
-          '其双层膜可解释为宿主吞噬膜与共生体膜。'
+          '环状 DNA 与 70S 核糖体是细菌的典型特征，真核细胞质核糖体为 80S。 · Circular DNA and 70S ribosomes are typical bacterial features, whereas eukaryotic cytoplasmic ribosomes are 80S.',
+          '线粒体按类似二分裂的方式增殖，不依赖细胞有丝分裂。 · Mitochondria proliferate by binary fission–like division, independent of mitosis.',
+          '其双层膜可解释为宿主吞噬膜与共生体膜。 · Their double membrane can be explained as the host’s engulfing membrane plus the symbiont’s membrane.'
         ],
-        solution: '这些特征指向线粒体源自被吞噬的细菌，而非宿主内膜的简单折叠。'
+        solution: '这些特征指向线粒体源自被吞噬的细菌，而非宿主内膜的简单折叠。 · These features point to mitochondria originating from engulfed bacteria rather than simple folding of the host’s inner membranes.'
       },
       {
-        title: '例 2 · 膜内陷',
-        prompt: '内质网与核膜为什么被认为可能来自质膜内陷？',
+        title: '例 2 · 膜内陷 · Example 2 · Membrane Invagination',
+        prompt: '内质网与核膜为什么被认为可能来自质膜内陷？ · Why are the ER and nuclear envelope thought to possibly originate from plasma membrane invagination?',
         steps: [
-          '核膜与内质网在结构上连续，外核膜与内质网相通。',
-          '内陷可以在不破坏细胞边界的情况下增加膜面积。',
-          '内陷形成的区室可分别维持不同的离子与酶环境。'
+          '核膜与内质网在结构上连续，外核膜与内质网相通。 · The nuclear envelope is structurally continuous with the ER, and the outer nuclear membrane is continuous with the ER.',
+          '内陷可以在不破坏细胞边界的情况下增加膜面积。 · Invagination can increase membrane area without breaking the cell boundary.',
+          '内陷形成的区室可分别维持不同的离子与酶环境。 · Compartments formed by invagination can maintain different ionic and enzymatic environments.'
         ],
-        solution: '连续性、膜面积增加与局部环境控制共同支持内陷模型。'
+        solution: '连续性、膜面积增加与局部环境控制共同支持内陷模型。 · Continuity, increased membrane area, and local environmental control together support the invagination model.'
       },
       {
-        title: '例 3 · 比较起源',
-        prompt: '溶酶体与线粒体的起源机制有何不同？',
+        title: '例 3 · 比较起源 · Example 3 · Comparing Origins',
+        prompt: '溶酶体与线粒体的起源机制有何不同？ · How do the origins of lysosomes and mitochondria differ?',
         steps: [
-          '溶酶体来自高尔基体/内质网的膜与囊泡，没有自身 DNA。',
-          '线粒体有双层膜、环状 DNA 与 70S 核糖体，符合内共生。',
-          '因此不能用同一机制解释两者。'
+          '溶酶体来自高尔基体/内质网的膜与囊泡，没有自身 DNA。 · Lysosomes come from Golgi/ER membranes and vesicles and have no DNA of their own.',
+          '线粒体有双层膜、环状 DNA 与 70S 核糖体，符合内共生。 · Mitochondria have a double membrane, circular DNA, and 70S ribosomes, consistent with endosymbiosis.',
+          '因此不能用同一机制解释两者。 · Therefore the same mechanism cannot explain both.'
         ],
-        solution: '溶酶体属于内膜系统；线粒体属于内共生起源。'
+        solution: '溶酶体属于内膜系统；线粒体属于内共生起源。 · Lysosomes belong to the endomembrane system; mitochondria have an endosymbiotic origin.'
       }
     ],
     examTips: [
-      'CED Unit 2：细胞结构与功能',
-      '先判断题目问的是内膜系统还是线粒体/叶绿体',
-      '内共生证据要写“双层膜、环状 DNA、70S 核糖体、独立分裂”中的多项',
-      '区隔化题从“局部 pH、酶、底物、膜面积、运输”展开',
-      'FRQ 用“证据—推断—结论”结构，避免把模型说成事实'
+      'CED Unit 2：细胞结构与功能 · CED Unit 2: Cell structure and function',
+      '先判断题目问的是内膜系统还是线粒体/叶绿体 · First decide whether the question asks about the endomembrane system or mitochondria/chloroplasts.',
+      '内共生证据要写“双层膜、环状 DNA、70S 核糖体、独立分裂”中的多项 · For endosymbiotic evidence, include several of “double membrane, circular DNA, 70S ribosomes, independent division.”',
+      '区隔化题从“局部 pH、酶、底物、膜面积、运输”展开 · For compartmentalization questions, discuss local pH, enzymes, substrates, membrane area, and transport.',
+      'FRQ 用“证据—推断—结论”结构，避免把模型说成事实 · In FRQs, use an “evidence—inference—conclusion” structure and avoid presenting a model as fact.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞器与区隔化', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.9', title: '区隔化', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.3', title: '质膜', relation: '基础' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.13', title: '生命起源', relation: '相关' }
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞器与区隔化 · Organelles and Compartmentalization', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.9', title: '区隔化 · Compartmentalization', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.3', title: '质膜 · Plasma Membrane', relation: '基础 · Foundation' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.13', title: '生命起源 · Origins of Life', relation: '相关 · Related' }
     ],
-    development: ['内膜系统与内陷', '内共生学说', '证据链', '区隔化的收益', '不同细胞器的起源'],
-    checks: ['内共生学说能解释哪些细胞器？', '为什么核膜不被归为内共生起源？', '区隔化如何让互不相容的反应同时进行？'],
-    summary: '真核区隔化有两条主要起源路径：质膜内陷形成内膜系统，内共生形成线粒体与叶绿体；区隔化通过局部环境与膜面积提升代谢效率。'
+    development: ['内膜系统与内陷 · Endomembrane system and invagination', '内共生学说 · Endosymbiotic theory', '证据链 · Evidence chain', '区隔化的收益 · Benefits of compartmentalization', '不同细胞器的起源 · Origins of different organelles'],
+    checks: ['内共生学说能解释哪些细胞器？ · Which organelles does the endosymbiotic theory explain?', '为什么核膜不被归为内共生起源？ · Why is the nuclear envelope not classified as endosymbiotic in origin?', '区隔化如何让互不相容的反应同时进行？ · How does compartmentalization allow incompatible reactions to occur simultaneously?'],
+    summary: '真核区隔化有两条主要起源路径：质膜内陷形成内膜系统，内共生形成线粒体与叶绿体；区隔化通过局部环境与膜面积提升代谢效率。 · Eukaryotic compartmentalization has two main origins: plasma membrane invagination formed the endomembrane system, and endosymbiosis formed mitochondria and chloroplasts; compartmentalization raises metabolic efficiency through local environments and membrane area.'
   },
 
   'bio/bio-u3/3.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能定义绝对适合度与相对适合度，并用繁殖贡献比较基因型或表型。',
-      '能解释能量获取、能量分配与适合度之间的权衡。',
-      '能分析环境变化如何改变同一性状的适合度。'
+      '能定义绝对适合度与相对适合度，并用繁殖贡献比较基因型或表型。 · Define absolute and relative fitness and compare genotypes or phenotypes using reproductive contribution.',
+      '能解释能量获取、能量分配与适合度之间的权衡。 · Explain the trade-offs among energy acquisition, energy allocation, and fitness.',
+      '能分析环境变化如何改变同一性状的适合度。 · Analyze how environmental change alters the fitness of the same trait.'
     ],
     essentialKnowledge: [
-      '适合度是某个基因型或表型个体对下一代基因库的相对繁殖贡献，通常用存活到繁殖的后代数量衡量。',
-      '绝对适合度可直接数后代数；相对适合度以参考基因型为 1，选择系数 \\(s=1-w\\) 表示适合度下降的比例。',
-      '生物把能量分配给维持、生长、储存与繁殖；增加一项通常要减少另一项，形成生活史权衡。',
-      '环境决定适合度：同一性状在一种环境中可能有利，在另一种环境中可能中性或有害。',
-      '适合度是相对、动态且情境依赖的，不等于“最强壮”或“最大”；只有可遗传的适合度差异才能引起进化响应。',
-      '能量获取效率、代谢率、觅食策略与繁殖投入都会影响适合度，因此能量学与自然选择直接相连。'
+      '适合度是某个基因型或表型个体对下一代基因库的相对繁殖贡献，通常用存活到繁殖的后代数量衡量。 · Fitness is the relative reproductive contribution of individuals of a genotype or phenotype to the next generation’s gene pool, usually measured by the number of offspring that survive to reproduce.',
+      '绝对适合度可直接数后代数；相对适合度以参考基因型为 1，选择系数 \\(s=1-w\\) 表示适合度下降的比例。 · Absolute fitness can be counted directly as offspring number; relative fitness sets a reference genotype to 1, and the selection coefficient \\(s=1-w\\) represents the proportional reduction in fitness.',
+      '生物把能量分配给维持、生长、储存与繁殖；增加一项通常要减少另一项，形成生活史权衡。 · Organisms allocate energy to maintenance, growth, storage, and reproduction; increasing one usually means decreasing another, creating life-history trade-offs.',
+      '环境决定适合度：同一性状在一种环境中可能有利，在另一种环境中可能中性或有害。 · Environment determines fitness: the same trait may be advantageous in one environment and neutral or harmful in another.',
+      '适合度是相对、动态且情境依赖的，不等于“最强壮”或“最大”；只有可遗传的适合度差异才能引起进化响应。 · Fitness is relative, dynamic, and context-dependent; it is not “strongest” or “largest,” and only heritable fitness differences can drive an evolutionary response.',
+      '能量获取效率、代谢率、觅食策略与繁殖投入都会影响适合度，因此能量学与自然选择直接相连。 · Energy-acquisition efficiency, metabolic rate, foraging strategy, and reproductive investment all affect fitness, directly linking energetics to natural selection.'
     ],
-    definition: '适合度是某个基因型或表型个体相对于同种群其他个体，对下一代基因库的繁殖贡献。它通常用存活到繁殖的后代数量衡量；相对适合度以参考基因型为 1，选择系数 \\(s=1-w\\) 描述适合度的相对下降。',
-    intuition: '适合度不是“谁最强”，而是“谁留下的可繁殖后代最多”。能量像一份预算，花在维持、生长或繁殖上的比例会改变最终的繁殖收益。',
-    intuitionDetailed: '一个个体可能存活很久却不繁殖，适合度仍可能很低；另一个个体寿命较短但留下许多可育后代，适合度更高。相对适合度只在同一环境、同一时间窗内比较才有意义。能量分配存在权衡：更多卵意味着更少亲代照料，更高代谢率意味着更多觅食需求，这些都会通过繁殖成功率影响适合度。',
+    definition: '适合度是某个基因型或表型个体相对于同种群其他个体，对下一代基因库的繁殖贡献。它通常用存活到繁殖的后代数量衡量；相对适合度以参考基因型为 1，选择系数 \\(s=1-w\\) 描述适合度的相对下降。 · Fitness is the reproductive contribution of individuals of a genotype or phenotype to the next generation’s gene pool relative to other individuals in the same population. It is usually measured by the number of offspring that survive to reproduce; relative fitness sets a reference genotype to 1, and the selection coefficient \\(s=1-w\\) describes the relative reduction in fitness.',
+    intuition: '适合度不是“谁最强”，而是“谁留下的可繁殖后代最多”。能量像一份预算，花在维持、生长或繁殖上的比例会改变最终的繁殖收益。 · Fitness is not “who is strongest” but “who leaves the most offspring that can reproduce.” Energy is like a budget: the share spent on maintenance, growth, or reproduction changes the final reproductive payoff.',
+    intuitionDetailed: '一个个体可能存活很久却不繁殖，适合度仍可能很低；另一个个体寿命较短但留下许多可育后代，适合度更高。相对适合度只在同一环境、同一时间窗内比较才有意义。能量分配存在权衡：更多卵意味着更少亲代照料，更高代谢率意味着更多觅食需求，这些都会通过繁殖成功率影响适合度。 · An individual may live a long time without reproducing and still have low fitness; another may have a shorter life but leave many fertile offspring and thus have higher fitness. Relative fitness is meaningful only when compared in the same environment and time window. Energy allocation involves trade-offs: more eggs mean less parental care, and a higher metabolic rate means greater foraging demands; both affect fitness through reproductive success.',
     formulas: [
-      { latex: 'w=\\dfrac{\\text{某基因型的繁殖贡献}}{\\text{参考基因型的繁殖贡献}}', note: '相对适合度；参考基因型 \\(w=1\\)。' },
-      { latex: 's=1-w', note: '选择系数；\\(s\\) 越大，适合度越低。' },
-      { latex: '\\text{能量收入}=\\text{维持}+\\text{生长}+\\text{储存}+\\text{繁殖}', note: '能量分配的简化预算。' }
+      { latex: 'w=\\dfrac{\\text{某基因型的繁殖贡献}}{\\text{参考基因型的繁殖贡献}}', note: '相对适合度；参考基因型 \\(w=1\\)。 · Relative fitness; the reference genotype has \\(w=1\\).' },
+      { latex: 's=1-w', note: '选择系数；\\(s\\) 越大，适合度越低。 · Selection coefficient; a larger \\(s\\) means lower fitness.' },
+      { latex: '\\text{能量收入}=\\text{维持}+\\text{生长}+\\text{储存}+\\text{繁殖}', note: '能量分配的简化预算。 · A simplified energy-allocation budget.' }
     ],
     derivationNotes: [
-      { from: '繁殖贡献', to: '绝对适合度', note: '直接统计存活到繁殖的后代数。' },
-      { from: '绝对适合度', to: '相对适合度', note: '除以参考基因型的繁殖贡献，使比较不受绝对数量影响。' },
-      { from: '能量预算', to: '生活史权衡', note: '维持、生长、储存与繁殖竞争同一能量池，分配改变适合度。' },
+      { from: '繁殖贡献 · Reproductive contribution', to: '绝对适合度 · Absolute fitness', note: '直接统计存活到繁殖的后代数。 · Directly count offspring that survive to reproduce.' },
+      { from: '绝对适合度 · Absolute fitness', to: '相对适合度 · Relative fitness', note: '除以参考基因型的繁殖贡献，使比较不受绝对数量影响。 · Divide by the reference genotype’s reproductive contribution so comparisons do not depend on absolute numbers.' },
+      { from: '能量预算 · Energy budget', to: '生活史权衡 · Life-history trade-off', note: '维持、生长、储存与繁殖竞争同一能量池，分配改变适合度。 · Maintenance, growth, storage, and reproduction compete for the same energy pool, and allocation changes fitness.' },
     ],
     connections: [
-      '先修：3.3–3.5 的细胞能量与代谢，提供能量收支基础。',
-      '后续：7.2 自然选择与 7.4 群体遗传，把适合度差异转化为频率变化。',
-      '应用：生活史策略、繁殖投入与保护生物学中的适合度评估。',
+      '先修：3.3–3.5 的细胞能量与代谢，提供能量收支基础。 · Prerequisite: cellular energy and metabolism in 3.3–3.5 provide the energy-balance foundation.',
+      '后续：7.2 自然选择与 7.4 群体遗传，把适合度差异转化为频率变化。 · Follow-up: natural selection in 7.2 and population genetics in 7.4 turn fitness differences into frequency changes.',
+      '应用：生活史策略、繁殖投入与保护生物学中的适合度评估。 · Application: life-history strategies, reproductive investment, and fitness assessment in conservation biology.',
     ],
     conditions: [
-      '适合度必须在同一环境、同一时间窗和同一参考群体内比较',
-      '存活是适合度的一部分，但最终要看存活到繁殖的后代',
-      '只有可遗传的适合度差异才能引起进化响应',
-      '性状的适合度随环境、频率与种群密度变化',
-      '能量分配的权衡受生活史、体型与生态位约束'
+      '适合度必须在同一环境、同一时间窗和同一参考群体内比较 · Fitness must be compared within the same environment, time window, and reference population',
+      '存活是适合度的一部分，但最终要看存活到繁殖的后代 · Survival is part of fitness, but what ultimately counts is offspring that survive to reproduce',
+      '只有可遗传的适合度差异才能引起进化响应 · Only heritable fitness differences can produce an evolutionary response',
+      '性状的适合度随环境、频率与种群密度变化 · A trait’s fitness changes with environment, frequency, and population density',
+      '能量分配的权衡受生活史、体型与生态位约束 · Energy-allocation trade-offs are constrained by life history, body size, and ecological niche'
     ],
     keyPoints: [
-      '适合度是相对繁殖贡献，不是绝对强弱',
-      '相对适合度与选择系数 \\(w\\)、\\(s\\) 可互换',
-      '能量分配存在维持—生长—繁殖权衡',
-      '环境改变会翻转性状的适合度',
-      '适合度差异必须可遗传才能驱动进化'
+      '适合度是相对繁殖贡献，不是绝对强弱 · Fitness is relative reproductive contribution, not absolute strength',
+      '相对适合度与选择系数 \\(w\\)、\\(s\\) 可互换 · Relative fitness and the selection coefficient can be converted between \\(w\\) and \\(s\\)',
+      '能量分配存在维持—生长—繁殖权衡 · Energy allocation involves maintenance–growth–reproduction trade-offs',
+      '环境改变会翻转性状的适合度 · Environmental change can reverse a trait’s fitness',
+      '适合度差异必须可遗传才能驱动进化 · Fitness differences must be heritable to drive evolution'
     ],
     misconceptions: [
-      '认为“最适者”就是最强壮、最大或最长寿的个体',
-      '把生存本身当作适合度，忽略繁殖',
-      '认为适合度是性状的固定属性，不随环境变化',
-      '认为个体在生命过程中“为了适应而改变基因”',
-      '认为高能量摄入一定带来高适合度（还要看分配与代价）'
+      '认为“最适者”就是最强壮、最大或最长寿的个体 · Assuming the “fittest” are the strongest, largest, or longest-lived individuals',
+      '把生存本身当作适合度，忽略繁殖 · Treating survival itself as fitness and ignoring reproduction',
+      '认为适合度是性状的固定属性，不随环境变化 · Assuming fitness is a fixed property of a trait that does not change with environment',
+      '认为个体在生命过程中“为了适应而改变基因” · Assuming individuals “change their genes to adapt” during their lifetime',
+      '认为高能量摄入一定带来高适合度（还要看分配与代价） · Assuming high energy intake always brings high fitness (allocation and costs also matter)'
     ],
     examples: [
       {
-        title: '例 1 · 相对适合度',
-        prompt: '某基因型个体平均留下 40 个存活后代，参考基因型留下 40 个，另一基因型留下 10 个。求相对适合度与选择系数。',
+        title: '例 1 · 相对适合度 · Example 1 · Relative Fitness',
+        prompt: '某基因型个体平均留下 40 个存活后代，参考基因型留下 40 个，另一基因型留下 10 个。求相对适合度与选择系数。 · One genotype leaves an average of 40 surviving offspring, the reference genotype leaves 40, and another genotype leaves 10. Find the relative fitness values and selection coefficients.',
         steps: [
-          '以 40 为参考，参考基因型 \\(w=1\\)。',
-          '第一基因型 \\(w=\\dfrac{40}{40}=1\\)，\\(s=0\\)。',
-          '第二基因型 \\(w=\\dfrac{10}{40}=0.25\\)，\\(s=0.75\\)。'
+          '以 40 为参考，参考基因型 \\(w=1\\)。 · With 40 as the reference, the reference genotype has \\(w=1\\).',
+          '第一基因型 \\(w=\\dfrac{40}{40}=1\\)，\\(s=0\\)。 · The first genotype has \\(w=\\dfrac{40}{40}=1\\) and \\(s=0\\).',
+          '第二基因型 \\(w=\\dfrac{10}{40}=0.25\\)，\\(s=0.75\\)。 · The second genotype has \\(w=\\dfrac{10}{40}=0.25\\) and \\(s=0.75\\).'
         ],
-        solution: '\\(w=1\\) 与 \\(w=0.25\\)；后者选择系数 \\(s=0.75\\)。',
+        solution: '\\(w=1\\) 与 \\(w=0.25\\)；后者选择系数 \\(s=0.75\\)。 · The relative fitness values are \\(w=1\\) and \\(w=0.25\\); the latter has selection coefficient \\(s=0.75\\).',
         solutionLatex: 'w_1=1,\\;w_2=0.25,\\;s_2=0.75'
       },
       {
-        title: '例 2 · 能量权衡',
-        prompt: '为什么鸟类不是产卵越多越好？',
+        title: '例 2 · 能量权衡 · Example 2 · Energy Trade-off',
+        prompt: '为什么鸟类不是产卵越多越好？ · Why is laying more eggs not always better for birds?',
         steps: [
-          '每枚卵都需要能量与营养物质。',
-          '卵越多，亲代能用于孵化和育雏的能量越少。',
-          '后代存活率可能随窝卵数增加而下降，存在最适窝卵数。'
+          '每枚卵都需要能量与营养物质。 · Each egg requires energy and nutrients.',
+          '卵越多，亲代能用于孵化和育雏的能量越少。 · More eggs leave less energy for incubation and chick rearing.',
+          '后代存活率可能随窝卵数增加而下降，存在最适窝卵数。 · Offspring survival may decline as clutch size increases, so an optimal clutch size exists.'
         ],
-        solution: '产卵数与后代存活率之间存在权衡，适合度在最适窝卵数附近最高。'
+        solution: '产卵数与后代存活率之间存在权衡，适合度在最适窝卵数附近最高。 · There is a trade-off between clutch size and offspring survival, and fitness is highest near the optimal clutch size.'
       },
       {
-        title: '例 3 · 环境翻转',
-        prompt: '桦尺蛾的深色型在工业区更常见，在清洁林区却更少。用适合度解释。',
+        title: '例 3 · 环境翻转 · Example 3 · Environmental Reversal',
+        prompt: '桦尺蛾的深色型在工业区更常见，在清洁林区却更少。用适合度解释。 · The dark form of the peppered moth is more common in industrial areas but rarer in clean forests. Explain this using fitness.',
         steps: [
-          '工业区树皮被煤烟熏黑，深色蛾更不易被鸟发现。',
-          '清洁林区树皮浅色，深色蛾更显眼。',
-          '同一性状在不同环境中的相对适合度发生翻转。'
+          '工业区树皮被煤烟熏黑，深色蛾更不易被鸟发现。 · In industrial areas, bark is darkened by soot, so dark moths are less easily seen by birds.',
+          '清洁林区树皮浅色，深色蛾更显眼。 · In clean forests, bark is light, so dark moths are more conspicuous.',
+          '同一性状在不同环境中的相对适合度发生翻转。 · The relative fitness of the same trait reverses between environments.'
         ],
-        solution: '捕食选择使深色型的适合度随背景颜色改变。'
+        solution: '捕食选择使深色型的适合度随背景颜色改变。 · Predation selection makes the fitness of the dark form change with background color.'
       }
     ],
     examTips: [
-      'CED Unit 3：细胞能量学中的适合度',
-      '计算题先找参考基因型，再算 \\(w\\) 与 \\(s\\)',
-      '解释能量分配时写“权衡”而不是“越多越好”',
-      '环境变化题要说明选择压力如何改变相对适合度',
-      '不要把适合度与个体健康、体型或寿命直接等同'
+      'CED Unit 3：细胞能量学中的适合度 · CED Unit 3: Fitness in cellular energetics',
+      '计算题先找参考基因型，再算 \\(w\\) 与 \\(s\\) · In calculation problems, identify the reference genotype first, then compute \\(w\\) and \\(s\\).',
+      '解释能量分配时写“权衡”而不是“越多越好” · When explaining energy allocation, write “trade-off,” not “more is always better.”',
+      '环境变化题要说明选择压力如何改变相对适合度 · For environmental-change questions, explain how selection pressure changes relative fitness.',
+      '不要把适合度与个体健康、体型或寿命直接等同 · Do not equate fitness directly with individual health, body size, or lifespan.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.3', title: '细胞能量', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '细胞呼吸', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传', relation: '应用' }
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.3', title: '细胞能量 · Cellular Energy', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u3', code: '3.5', title: '细胞呼吸 · Cellular Respiration', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择 · Natural Selection', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传 · Population Genetics', relation: '应用 · Application' }
     ],
-    development: ['适合度的定义', '绝对与相对适合度', '能量分配权衡', '环境依赖', '适合度与自然选择'],
-    checks: ['相对适合度与绝对适合度有何区别？', '为什么适合度不是“最强壮”？', '能量分配如何影响繁殖成功？'],
-    summary: '适合度是相对繁殖贡献；能量在维持、生长与繁殖间的分配形成权衡，环境变化会改变性状的相对适合度。'
+    development: ['适合度的定义 · Defining fitness', '绝对与相对适合度 · Absolute and relative fitness', '能量分配权衡 · Energy-allocation trade-offs', '环境依赖 · Environmental dependence', '适合度与自然选择 · Fitness and natural selection'],
+    checks: ['相对适合度与绝对适合度有何区别？ · What is the difference between relative and absolute fitness?', '为什么适合度不是“最强壮”？ · Why is fitness not “strongest”?', '能量分配如何影响繁殖成功？ · How does energy allocation affect reproductive success?'],
+    summary: '适合度是相对繁殖贡献；能量在维持、生长与繁殖间的分配形成权衡，环境变化会改变性状的相对适合度。 · Fitness is relative reproductive contribution; allocating energy among maintenance, growth, and reproduction creates trade-offs, and environmental change alters a trait’s relative fitness.'
   },
 
   'bio/bio-u5/5.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能描述减数分裂 I 与 II 中同源染色体和姐妹染色单体的行为。',
-      '能列举交叉互换、自由组合与随机受精三个主要遗传多样性来源。',
-      '能计算独立分配产生的配子组合数，并解释其与遗传多样性的关系。'
+      '能描述减数分裂 I 与 II 中同源染色体和姐妹染色单体的行为。 · Describe the behavior of homologous chromosomes and sister chromatids in meiosis I and II.',
+      '能列举交叉互换、自由组合与随机受精三个主要遗传多样性来源。 · List crossing over, independent assortment, and random fertilization as three main sources of genetic diversity.',
+      '能计算独立分配产生的配子组合数，并解释其与遗传多样性的关系。 · Calculate the number of gamete combinations produced by independent assortment and explain its relationship to genetic diversity.'
     ],
     essentialKnowledge: [
-      '减数分裂进行一次 DNA 复制、两次细胞分裂，最终产生四个单倍体细胞。',
-      '减数第一次分裂中同源染色体配对并在后期 I 分离；减数第二次分裂中姐妹染色单体分离，类似有丝分裂。',
-      '前期 I 的同源染色体配对形成四分体，非姐妹染色单体之间发生交叉互换，产生重组染色体。',
-      '中期 I 同源染色体随机朝向两极，非同源染色体自由组合；\\(n\\) 对染色体可产生 \\(2^{n}\\) 种配子组合。',
-      '受精时雌雄配子随机结合，进一步增加后代的遗传多样性；突变是全新等位基因的最终来源。',
-      '减数分裂错误（不分离）会产生染色体数目异常的配子，导致非整倍体后代。'
+      '减数分裂进行一次 DNA 复制、两次细胞分裂，最终产生四个单倍体细胞。 · Meiosis carries out one DNA replication and two cell divisions, ultimately producing four haploid cells.',
+      '减数第一次分裂中同源染色体配对并在后期 I 分离；减数第二次分裂中姐妹染色单体分离，类似有丝分裂。 · In meiosis I, homologous chromosomes pair and separate in anaphase I; in meiosis II, sister chromatids separate, similar to mitosis.',
+      '前期 I 的同源染色体配对形成四分体，非姐妹染色单体之间发生交叉互换，产生重组染色体。 · In prophase I, homologous chromosomes pair to form tetrads, and crossing over between nonsister chromatids produces recombinant chromosomes.',
+      '中期 I 同源染色体随机朝向两极，非同源染色体自由组合；\\(n\\) 对染色体可产生 \\(2^{n}\\) 种配子组合。 · In metaphase I, homologous pairs orient randomly toward the poles and nonhomologous chromosomes assort independently; \\(n\\) pairs of chromosomes can produce \\(2^{n}\\) gamete combinations.',
+      '受精时雌雄配子随机结合，进一步增加后代的遗传多样性；突变是全新等位基因的最终来源。 · Random union of male and female gametes at fertilization further increases offspring genetic diversity; mutation is the ultimate source of new alleles.',
+      '减数分裂错误（不分离）会产生染色体数目异常的配子，导致非整倍体后代。 · Meiotic errors (nondisjunction) produce gametes with abnormal chromosome numbers, leading to aneuploid offspring.'
     ],
-    definition: '减数分裂是产生单倍体配子的特殊细胞分裂：DNA 复制一次，细胞连续分裂两次，同源染色体在减数第一次分裂分离，姐妹染色单体在减数第二次分裂分离。交叉互换、非同源染色体自由组合与随机受精共同产生遗传多样性。',
-    intuition: '减数分裂像洗牌与发牌：交叉互换把同源染色体上的牌交换，自由组合决定每个配子拿到哪些染色体，受精再把两副牌随机配成新组合。',
-    intuitionDetailed: '前期 I 同源染色体配对，非姐妹染色单体交叉并交换片段，形成重组染色体。中期 I 每对同源染色体的朝向是随机的，因此母源与父源染色体可以独立分配。后期 I 同源染色体分开，后期 II 姐妹染色单体分开。一个二倍体细胞最终形成四个单倍体产物，每个产物只含每对同源染色体中的一条。',
+    definition: '减数分裂是产生单倍体配子的特殊细胞分裂：DNA 复制一次，细胞连续分裂两次，同源染色体在减数第一次分裂分离，姐妹染色单体在减数第二次分裂分离。交叉互换、非同源染色体自由组合与随机受精共同产生遗传多样性。 · Meiosis is a specialized cell division that produces haploid gametes: DNA replicates once and the cell divides twice, with homologous chromosomes separating in meiosis I and sister chromatids separating in meiosis II. Crossing over, independent assortment of nonhomologous chromosomes, and random fertilization together generate genetic diversity.',
+    intuition: '减数分裂像洗牌与发牌：交叉互换把同源染色体上的牌交换，自由组合决定每个配子拿到哪些染色体，受精再把两副牌随机配成新组合。 · Meiosis is like shuffling and dealing cards: crossing over swaps cards between homologous chromosomes, independent assortment determines which chromosomes each gamete receives, and fertilization randomly combines two hands into a new set.',
+    intuitionDetailed: '前期 I 同源染色体配对，非姐妹染色单体交叉并交换片段，形成重组染色体。中期 I 每对同源染色体的朝向是随机的，因此母源与父源染色体可以独立分配。后期 I 同源染色体分开，后期 II 姐妹染色单体分开。一个二倍体细胞最终形成四个单倍体产物，每个产物只含每对同源染色体中的一条。 · In prophase I, homologous chromosomes pair and nonsister chromatids cross over and exchange segments, forming recombinant chromosomes. In metaphase I, each homologous pair orients randomly, so maternal and paternal chromosomes assort independently. Homologs separate in anaphase I, and sister chromatids separate in anaphase II. One diploid cell ultimately forms four haploid products, each containing only one chromosome from each homologous pair.',
     formulas: [
-      { latex: '\\text{配子组合数}=2^{n}', note: '\\(n\\) 为单倍体染色体数；人类 \\(n=23\\)。' },
-      { latex: '2^{23}\\approx8.4\\times10^{6}', note: '人类仅靠自由组合即可产生约 840 万种配子染色体组合。' },
-      { latex: '\\text{受精组合}=2^{n}\\times2^{n}=2^{2n}', note: '雌雄配子随机结合的简化计数。' }
+      { latex: '\\text{配子组合数}=2^{n}', note: '\\(n\\) 为单倍体染色体数；人类 \\(n=23\\)。 · \\(n\\) is the haploid chromosome number; for humans, \\(n=23\\).' },
+      { latex: '2^{23}\\approx8.4\\times10^{6}', note: '人类仅靠自由组合即可产生约 840 万种配子染色体组合。 · In humans, independent assortment alone can produce about 8.4 million gamete chromosome combinations.' },
+      { latex: '\\text{受精组合}=2^{n}\\times2^{n}=2^{2n}', note: '雌雄配子随机结合的简化计数。 · A simplified count of random union of male and female gametes.' }
     ],
     derivationNotes: [
-      { from: 'DNA 复制一次', to: '两次分裂', note: '复制后同源染色体配对，减数 I 分离同源染色体，减数 II 分离姐妹染色单体。' },
-      { from: '四分体', to: '重组染色体', note: '非姐妹染色单体交叉互换，交换片段后形成新的等位基因组合。' },
-      { from: '中期 I 随机取向', to: '2^n 种配子', note: '每对同源染色体独立朝向两极，n 对产生 \\(2^{n}\\) 种组合。' },
+      { from: 'DNA 复制一次 · One DNA replication', to: '两次分裂 · Two divisions', note: '复制后同源染色体配对，减数 I 分离同源染色体，减数 II 分离姐妹染色单体。 · After replication, homologous chromosomes pair; meiosis I separates homologs, and meiosis II separates sister chromatids.' },
+      { from: '四分体 · Tetrad', to: '重组染色体 · Recombinant chromosome', note: '非姐妹染色单体交叉互换，交换片段后形成新的等位基因组合。 · Nonsister chromatids cross over and exchange segments, forming new allele combinations.' },
+      { from: '中期 I 随机取向 · Random orientation in metaphase I', to: '\\(2^{n}\\) 种配子 · \\(2^{n}\\) gamete types', note: '每对同源染色体独立朝向两极，n 对产生 \\(2^{n}\\) 种组合。 · Each homologous pair orients independently toward the poles, and n pairs produce \\(2^{n}\\) combinations.' },
     ],
     connections: [
-      '先修：5.1 减数分裂的时期与染色体行为。',
-      '后续：5.3 孟德尔分离与自由组合的细胞学基础。',
-      '应用：5.6 连锁、重组与染色体数目异常。',
+      '先修：5.1 减数分裂的时期与染色体行为。 · Prerequisite: the stages and chromosome behavior of meiosis in 5.1.',
+      '后续：5.3 孟德尔分离与自由组合的细胞学基础。 · Follow-up: the cytological basis of Mendelian segregation and independent assortment in 5.3.',
+      '应用：5.6 连锁、重组与染色体数目异常。 · Application: linkage, recombination, and numerical chromosome abnormalities in 5.6.',
     ],
     conditions: [
-      '自由组合要求基因位于非同源染色体上；连锁基因需考虑交叉互换',
-      '交叉互换发生在同源染色体的非姐妹染色单体之间',
-      '随机受精要求配子活力与受精机会大致相当',
-      '\\(2^{n}\\) 只计算染色体组合，不包含交叉互换产生的额外变异',
-      '减数分裂正常进行才能保证染色体数目稳定'
+      '自由组合要求基因位于非同源染色体上；连锁基因需考虑交叉互换 · Independent assortment requires genes on nonhomologous chromosomes; linked genes require consideration of crossing over',
+      '交叉互换发生在同源染色体的非姐妹染色单体之间 · Crossing over occurs between nonsister chromatids of homologous chromosomes',
+      '随机受精要求配子活力与受精机会大致相当 · Random fertilization requires roughly comparable gamete viability and fertilization opportunity',
+      '\\(2^{n}\\) 只计算染色体组合，不包含交叉互换产生的额外变异 · \\(2^{n}\\) counts only chromosome combinations and does not include extra variation from crossing over',
+      '减数分裂正常进行才能保证染色体数目稳定 · Meiosis must proceed normally to keep chromosome number stable'
     ],
     keyPoints: [
-      '一次复制、两次分裂，产生四个单倍体细胞',
-      '同源染色体在减数 I 分离，姐妹染色单体在减数 II 分离',
-      '交叉互换产生重组染色体',
-      '非同源染色体自由组合产生 \\(2^{n}\\) 种配子',
-      '随机受精进一步增加后代多样性',
-      '不分离导致非整倍体'
+      '一次复制、两次分裂，产生四个单倍体细胞 · One replication and two divisions produce four haploid cells',
+      '同源染色体在减数 I 分离，姐妹染色单体在减数 II 分离 · Homologs separate in meiosis I; sister chromatids separate in meiosis II',
+      '交叉互换产生重组染色体 · Crossing over produces recombinant chromosomes',
+      '非同源染色体自由组合产生 \\(2^{n}\\) 种配子 · Independent assortment of nonhomologous chromosomes produces \\(2^{n}\\) gamete types',
+      '随机受精进一步增加后代多样性 · Random fertilization further increases offspring diversity',
+      '不分离导致非整倍体 · Nondisjunction causes aneuploidy'
     ],
     misconceptions: [
-      '认为减数分裂产生两个与亲本相同的二倍体细胞',
-      '认为同源染色体在减数第二次分裂才分离',
-      '认为交叉互换发生在姐妹染色单体之间（实际是非姐妹染色单体）',
-      '认为自由组合适用于所有基因，包括紧密连锁的基因',
-      '认为遗传多样性只来自突变，忽略重组与随机受精'
+      '认为减数分裂产生两个与亲本相同的二倍体细胞 · Assuming meiosis produces two diploid cells identical to the parent',
+      '认为同源染色体在减数第二次分裂才分离 · Assuming homologous chromosomes separate only in meiosis II',
+      '认为交叉互换发生在姐妹染色单体之间（实际是非姐妹染色单体） · Assuming crossing over occurs between sister chromatids (it occurs between nonsister chromatids)',
+      '认为自由组合适用于所有基因，包括紧密连锁的基因 · Assuming independent assortment applies to all genes, including tightly linked ones',
+      '认为遗传多样性只来自突变，忽略重组与随机受精 · Assuming genetic diversity comes only from mutation and ignoring recombination and random fertilization'
     ],
     examples: [
       {
-        title: '例 1 · 人类配子组合',
-        prompt: '人类体细胞有 23 对染色体，仅考虑自由组合，一个个体可产生多少种配子染色体组合？',
+        title: '例 1 · 人类配子组合 · Example 1 · Human Gamete Combinations',
+        prompt: '人类体细胞有 23 对染色体，仅考虑自由组合，一个个体可产生多少种配子染色体组合？ · Human somatic cells have 23 pairs of chromosomes. Considering independent assortment alone, how many gamete chromosome combinations can one individual produce?',
         steps: [
-          '单倍体染色体数 \\(n=23\\)。',
-          '每对同源染色体有 2 种走向，组合数为 \\(2^{23}\\)。',
-          '\\(2^{23}\\approx8.4\\times10^{6}\\)。'
+          '单倍体染色体数 \\(n=23\\)。 · The haploid chromosome number is \\(n=23\\).',
+          '每对同源染色体有 2 种走向，组合数为 \\(2^{23}\\)。 · Each homologous pair has two possible orientations, so the number of combinations is \\(2^{23}\\).',
+          '\\(2^{23}\\approx8.4\\times10^{6}\\)，约 840 万种。 · \\(2^{23}\\approx8.4\\times10^{6}\\), about 8.4 million.'
         ],
-        solution: '约 \\(8.4\\times10^{6}\\) 种组合；交叉互换还会进一步增加多样性。',
+        solution: '约 \\(8.4\\times10^{6}\\) 种组合；交叉互换还会进一步增加多样性。 · About \\(8.4\\times10^{6}\\) combinations; crossing over would increase diversity further.',
         solutionLatex: '2^{23}\\approx8.4\\times10^{6}'
       },
       {
-        title: '例 2 · 交叉互换',
-        prompt: '基因 A/a 与 B/b 位于同一对同源染色体上。没有交叉互换时配子主要有哪些？交叉互换后呢？',
+        title: '例 2 · 交叉互换 · Example 2 · Crossing Over',
+        prompt: '基因 A/a 与 B/b 位于同一对同源染色体上。没有交叉互换时配子主要有哪些？交叉互换后呢？ · Genes A/a and B/b are on the same homologous pair. Which gametes predominate without crossing over, and what appears after crossing over?',
         steps: [
-          '没有交叉互换时，同一条染色体上的等位基因连锁，主要产生亲本型配子。',
-          '交叉互换发生在非姐妹染色单体之间，交换片段后可产生重组型配子。',
-          '重组频率取决于基因间距离。'
+          '没有交叉互换时，同一条染色体上的等位基因连锁，主要产生亲本型配子。 · Without crossing over, alleles on the same chromosome are linked, so parental gametes predominate.',
+          '交叉互换发生在非姐妹染色单体之间，交换片段后可产生重组型配子。 · Crossing over between nonsister chromatids exchanges segments and can produce recombinant gametes.',
+          '重组频率取决于基因间距离。 · Recombination frequency depends on the distance between genes.'
         ],
-        solution: '无交叉互换以亲本型为主；交叉互换后出现重组型。'
+        solution: '无交叉互换以亲本型为主；交叉互换后出现重组型。 · Without crossing over, parental types dominate; after crossing over, recombinant types appear.'
       },
       {
-        title: '例 3 · 不分离',
-        prompt: '21 号染色体在减数第一次分裂不分离，可能产生什么配子？',
+        title: '例 3 · 不分离 · Example 3 · Nondisjunction',
+        prompt: '21 号染色体在减数第一次分裂不分离，可能产生什么配子？ · What gametes can result if chromosome 21 undergoes nondisjunction in meiosis I?',
         steps: [
-          '同源染色体未分开，一个子细胞得到两条 21 号染色体，另一个没有。',
-          '形成的配子为 \\(n+1\\) 与 \\(n-1\\)。',
-          '\\(n+1\\) 配子受精后可形成 21 三体。'
+          '同源染色体未分开，一个子细胞得到两条 21 号染色体，另一个没有。 · Homologs fail to separate, so one daughter cell receives two copies of chromosome 21 and the other receives none.',
+          '形成的配子为 \\(n+1\\) 与 \\(n-1\\)。 · The resulting gametes are \\(n+1\\) and \\(n-1\\).',
+          '\\(n+1\\) 配子受精后可形成 21 三体。 · Fertilization by an \\(n+1\\) gamete can produce trisomy 21.'
         ],
-        solution: '产生多一条或少一条 21 号染色体的配子，可能导致三体或单体。'
+        solution: '产生多一条或少一条 21 号染色体的配子，可能导致三体或单体。 · Gametes with one extra or one missing chromosome 21 are produced, potentially leading to trisomy or monosomy.'
       }
     ],
     examTips: [
-      'CED Unit 5：减数分裂与遗传多样性',
-      '画图时标清同源染色体、姐妹染色单体与交叉互换位置',
-      '计数题先确定 \\(n\\)，再用 \\(2^{n}\\)',
-      '区分自由组合（非同源染色体）与交叉互换（同源染色体非姐妹染色单体）',
-      '不分离题要说明发生在减数 I 还是 II，结果不同'
+      'CED Unit 5：减数分裂与遗传多样性 · CED Unit 5: Meiosis and genetic diversity',
+      '画图时标清同源染色体、姐妹染色单体与交叉互换位置 · When drawing, label homologous chromosomes, sister chromatids, and crossover points clearly.',
+      '计数题先确定 \\(n\\)，再用 \\(2^{n}\\) · For counting problems, determine \\(n\\) first, then use \\(2^{n}\\).',
+      '区分自由组合（非同源染色体）与交叉互换（同源染色体非姐妹染色单体） · Distinguish independent assortment (nonhomologous chromosomes) from crossing over (nonsister chromatids of homologs).',
+      '不分离题要说明发生在减数 I 还是 II，结果不同 · For nondisjunction problems, state whether it occurs in meiosis I or II, because the outcomes differ.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.6', title: '染色体遗传', relation: '应用' },
-      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.8', title: '有丝分裂与减数分裂', relation: '先修' }
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂 · Meiosis', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传 · Mendelian Genetics', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.6', title: '染色体遗传 · Chromosomal Inheritance', relation: '应用 · Application' },
+      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.8', title: '有丝分裂与减数分裂 · Mitosis and Meiosis', relation: '先修 · Prerequisite' }
     ],
-    development: ['减数分裂 I 与 II', '交叉互换', '自由组合', '随机受精', '不分离与数目异常'],
-    checks: ['同源染色体与姐妹染色单体分别在何时分离？', '为什么交叉互换能产生重组配子？', '\\(2^{n}\\) 中的 \\(n\\) 指什么？'],
-    summary: '减数分裂通过一次复制、两次分裂产生单倍体配子；交叉互换、自由组合与随机受精共同产生遗传多样性。'
+    development: ['减数分裂 I 与 II · Meiosis I and II', '交叉互换 · Crossing over', '自由组合 · Independent assortment', '随机受精 · Random fertilization', '不分离与数目异常 · Nondisjunction and numerical abnormalities'],
+    checks: ['同源染色体与姐妹染色单体分别在何时分离？ · When do homologous chromosomes and sister chromatids separate, respectively?', '为什么交叉互换能产生重组配子？ · Why can crossing over produce recombinant gametes?', '\\(2^{n}\\) 中的 \\(n\\) 指什么？ · What does \\(n\\) in \\(2^{n}\\) represent?'],
+    summary: '减数分裂通过一次复制、两次分裂产生单倍体配子；交叉互换、自由组合与随机受精共同产生遗传多样性。 · Meiosis produces haploid gametes through one replication and two divisions; crossing over, independent assortment, and random fertilization together generate genetic diversity.'
   },
 
   'bio/bio-u5/5.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明表型由基因型与环境共同决定，并区分遗传变异与环境变异。',
-      '能解释反应规范与表型可塑性，并读懂基因型—环境互作。',
-      '能区分环境引起的表型改变、表观遗传修饰与可遗传的 DNA 序列变化。'
+      '能说明表型由基因型与环境共同决定，并区分遗传变异与环境变异。 · Explain that phenotype is determined jointly by genotype and environment, and distinguish genetic variation from environmental variation.',
+      '能解释反应规范与表型可塑性，并读懂基因型—环境互作。 · Explain reaction norms and phenotypic plasticity and interpret genotype–environment interactions.',
+      '能区分环境引起的表型改变、表观遗传修饰与可遗传的 DNA 序列变化。 · Distinguish environmentally induced phenotypic change, epigenetic modification, and heritable changes in DNA sequence.'
     ],
     essentialKnowledge: [
-      '表型是基因型与环境共同作用的结果；同一基因型在不同环境中可产生不同表型。',
-      '反应规范描述一个基因型在环境梯度下可表现出的表型范围；表型可塑性是环境诱导的可逆或发育性表型改变。',
-      '环境因素包括温度、光照、营养、pH、毒素、寄主、社会压力等；例子有喜马拉雅兔的毛色、绣球花色、温度依赖性别决定与人类身高。',
-      '表观遗传修饰（DNA 甲基化、组蛋白修饰、非编码 RNA）可改变基因表达而不改变 DNA 序列，部分修饰可跨代传递。',
-      '环境引起的体细胞改变通常不遗传；只有生殖细胞中的可遗传改变才能影响后代。',
-      '多基因性状常呈连续分布，环境使分布更平滑；基因型—环境互作意味着不同基因型对环境变化的响应可能不同。'
+      '表型是基因型与环境共同作用的结果；同一基因型在不同环境中可产生不同表型。 · Phenotype results from the interaction of genotype and environment; the same genotype can produce different phenotypes in different environments.',
+      '反应规范描述一个基因型在环境梯度下可表现出的表型范围；表型可塑性是环境诱导的可逆或发育性表型改变。 · A reaction norm describes the range of phenotypes a genotype can express across an environmental gradient; phenotypic plasticity is environmentally induced reversible or developmental phenotypic change.',
+      '环境因素包括温度、光照、营养、pH、毒素、寄主、社会压力等；例子有喜马拉雅兔的毛色、绣球花色、温度依赖性别决定与人类身高。 · Environmental factors include temperature, light, nutrition, pH, toxins, hosts, and social stress; examples include Himalayan rabbit coat color, hydrangea flower color, temperature-dependent sex determination, and human height.',
+      '表观遗传修饰（DNA 甲基化、组蛋白修饰、非编码 RNA）可改变基因表达而不改变 DNA 序列，部分修饰可跨代传递。 · Epigenetic modifications (DNA methylation, histone modification, noncoding RNA) can change gene expression without changing DNA sequence, and some can be transmitted across generations.',
+      '环境引起的体细胞改变通常不遗传；只有生殖细胞中的可遗传改变才能影响后代。 · Environmentally induced somatic changes are usually not inherited; only heritable changes in germ cells can affect offspring.',
+      '多基因性状常呈连续分布，环境使分布更平滑；基因型—环境互作意味着不同基因型对环境变化的响应可能不同。 · Polygenic traits often show continuous distributions, and the environment smooths them further; genotype–environment interaction means different genotypes may respond differently to environmental change.'
     ],
-    definition: '环境影响表型指基因型相同或不同的个体，在不同环境条件下表现出不同性状。表型由基因型与环境共同决定，环境可以通过改变基因表达、发育过程或生理状态影响性状；表观遗传修饰可在不改变 DNA 序列的情况下稳定表达状态。',
-    intuition: '基因是菜谱，环境是厨房：同一份菜谱在不同火候、食材和温度下会做出不同成品；菜谱没变，成品却变了。',
-    intuitionDetailed: '反应规范把“同一基因型在不同环境中的表型”画成一条曲线或一组点。表型可塑性可以是短期的生理调整（如高海拔下红细胞增多），也可以是发育中的结构改变（如某些植物在水下长出不同叶形）。表观遗传修饰像在菜谱上贴便签：不修改文字，却决定哪些页被翻开。便签有时能传给下一代，有时会在配子形成或早期发育中被清除。',
+    definition: '环境影响表型指基因型相同或不同的个体，在不同环境条件下表现出不同性状。表型由基因型与环境共同决定，环境可以通过改变基因表达、发育过程或生理状态影响性状；表观遗传修饰可在不改变 DNA 序列的情况下稳定表达状态。 · Environmental effects on phenotype occur when individuals with the same or different genotypes express different traits under different environmental conditions. Phenotype is determined jointly by genotype and environment; the environment can affect traits by changing gene expression, development, or physiological state, and epigenetic modifications can stabilize expression states without changing DNA sequence.',
+    intuition: '基因是菜谱，环境是厨房：同一份菜谱在不同火候、食材和温度下会做出不同成品；菜谱没变，成品却变了。 · Genes are the recipe and the environment is the kitchen: the same recipe produces different results under different heat, ingredients, and temperatures; the recipe is unchanged, but the product differs.',
+    intuitionDetailed: '反应规范把“同一基因型在不同环境中的表型”画成一条曲线或一组点。表型可塑性可以是短期的生理调整（如高海拔下红细胞增多），也可以是发育中的结构改变（如某些植物在水下长出不同叶形）。表观遗传修饰像在菜谱上贴便签：不修改文字，却决定哪些页被翻开。便签有时能传给下一代，有时会在配子形成或早期发育中被清除。 · A reaction norm plots the phenotypes of one genotype across environments as a curve or set of points. Phenotypic plasticity can be a short-term physiological adjustment (such as more red blood cells at high altitude) or a developmental structural change (such as different leaf shapes in some plants underwater). Epigenetic modifications are like sticky notes on the recipe: they do not change the text but determine which pages are opened. The notes are sometimes passed to the next generation and sometimes erased during gamete formation or early development.',
     formulas: [
-      { latex: '\\text{表型}=G+E+G\\times E', note: '概念式：基因型、环境与二者互作。' },
-      { latex: 'P=f(E)\\quad(\\text{基因型固定})', note: '反应规范：固定基因型下，表型随环境变化。' }
+      { latex: '\\text{表型}=G+E+G\\times E', note: '概念式：基因型、环境与二者互作。 · Conceptual form: genotype, environment, and their interaction.' },
+      { latex: 'P=f(E)\\quad(\\text{基因型固定})', note: '反应规范：固定基因型下，表型随环境变化。 · Reaction norm: phenotype varies with environment for a fixed genotype.' }
     ],
     derivationNotes: [
-      { from: '基因型', to: '反应规范', note: '固定基因型，改变环境，记录表型范围。' },
-      { from: '环境信号', to: '基因表达', note: '信号通路改变转录因子活性或表观遗传标记，进而改变表型。' },
-      { from: '表观遗传修饰', to: '可遗传性', note: '部分修饰可跨代传递，部分在配子形成或早期发育中被重置。' },
+      { from: '基因型 · Genotype', to: '反应规范 · Reaction norm', note: '固定基因型，改变环境，记录表型范围。 · Hold the genotype fixed, vary the environment, and record the range of phenotypes.' },
+      { from: '环境信号 · Environmental signal', to: '基因表达 · Gene expression', note: '信号通路改变转录因子活性或表观遗传标记，进而改变表型。 · Signaling pathways change transcription-factor activity or epigenetic marks, thereby changing phenotype.' },
+      { from: '表观遗传修饰 · Epigenetic modification', to: '可遗传性 · Heritability', note: '部分修饰可跨代传递，部分在配子形成或早期发育中被重置。 · Some modifications can be transmitted across generations, while others are reset during gamete formation or early development.' },
     ],
     connections: [
-      '先修：5.3–5.4 的基因型、显性与非孟德尔遗传。',
-      '后续：6.5–6.6 的基因表达调控与细胞特化。',
-      '应用：医学中的环境—基因互作、发育可塑性与表观遗传学。',
+      '先修：5.3–5.4 的基因型、显性与非孟德尔遗传。 · Prerequisite: genotype, dominance, and non-Mendelian inheritance in 5.3–5.4.',
+      '后续：6.5–6.6 的基因表达调控与细胞特化。 · Follow-up: gene expression regulation and cell specialization in 6.5–6.6.',
+      '应用：医学中的环境—基因互作、发育可塑性与表观遗传学。 · Application: gene–environment interactions, developmental plasticity, and epigenetics in medicine.',
     ],
     conditions: [
-      '环境效应取决于基因型、发育阶段与暴露时长',
-      '表型可塑性不一定具有适应性，也可能是胁迫后果',
-      '表观遗传修饰可稳定表达，但不等于 DNA 序列突变',
-      '体细胞中获得的环境改变通常不传给后代',
-      '多基因性状的连续分布需要足够大的样本才能看清'
+      '环境效应取决于基因型、发育阶段与暴露时长 · Environmental effects depend on genotype, developmental stage, and duration of exposure',
+      '表型可塑性不一定具有适应性，也可能是胁迫后果 · Phenotypic plasticity is not necessarily adaptive and may be a consequence of stress',
+      '表观遗传修饰可稳定表达，但不等于 DNA 序列突变 · Epigenetic modifications can stabilize expression but are not DNA sequence mutations',
+      '体细胞中获得的环境改变通常不传给后代 · Environmental changes acquired in somatic cells are usually not passed to offspring',
+      '多基因性状的连续分布需要足够大的样本才能看清 · Continuous distributions of polygenic traits require a sufficiently large sample to see clearly'
     ],
     keyPoints: [
-      '表型 = 基因型 + 环境 + 互作',
-      '反应规范描述同一基因型的环境响应范围',
-      '表型可塑性是环境诱导的表型改变',
-      '表观遗传改变表达而不改变 DNA 序列',
-      '获得性体细胞改变通常不遗传',
-      '基因型不同，对环境变化的响应也可能不同'
+      '表型 = 基因型 + 环境 + 互作 · Phenotype = genotype + environment + interaction',
+      '反应规范描述同一基因型的环境响应范围 · A reaction norm describes the range of environmental responses of one genotype',
+      '表型可塑性是环境诱导的表型改变 · Phenotypic plasticity is environmentally induced phenotypic change',
+      '表观遗传改变表达而不改变 DNA 序列 · Epigenetics changes expression without changing DNA sequence',
+      '获得性体细胞改变通常不遗传 · Acquired somatic changes are usually not inherited',
+      '基因型不同，对环境变化的响应也可能不同 · Different genotypes may respond differently to environmental change'
     ],
     misconceptions: [
-      '认为表型完全由基因型决定',
-      '认为所有环境引起的改变都会遗传给后代',
-      '把表观遗传修饰等同于 DNA 突变',
-      '认为同卵双胞胎的基因组相同就一定表型完全相同',
-      '认为环境只影响外表，不影响生理与行为'
+      '认为表型完全由基因型决定 · Assuming phenotype is determined entirely by genotype',
+      '认为所有环境引起的改变都会遗传给后代 · Assuming all environmentally induced changes are inherited by offspring',
+      '把表观遗传修饰等同于 DNA 突变 · Equating epigenetic modification with DNA mutation',
+      '认为同卵双胞胎的基因组相同就一定表型完全相同 · Assuming identical twins with the same genome must have identical phenotypes',
+      '认为环境只影响外表，不影响生理与行为 · Assuming the environment affects only appearance, not physiology or behavior'
     ],
     examples: [
       {
-        title: '例 1 · 喜马拉雅兔',
-        prompt: '喜马拉雅兔的耳朵、鼻端和四肢在低温下变黑，在温暖环境下变浅。如何解释？',
+        title: '例 1 · 喜马拉雅兔 · Example 1 · Himalayan Rabbit',
+        prompt: '喜马拉雅兔的耳朵、鼻端和四肢在低温下变黑，在温暖环境下变浅。如何解释？ · The ears, nose, and limbs of Himalayan rabbits darken in the cold and lighten in warmth. How can this be explained?',
         steps: [
-          '毛色由温度敏感的酶控制，低温下色素合成更活跃。',
-          '身体末端温度较低，因此颜色更深。',
-          '基因型相同，环境温度不同导致表型不同。'
+          '毛色由温度敏感的酶控制，低温下色素合成更活跃。 · Coat color is controlled by a temperature-sensitive enzyme, and pigment synthesis is more active at low temperatures.',
+          '身体末端温度较低，因此颜色更深。 · Body extremities are cooler, so they become darker.',
+          '基因型相同，环境温度不同导致表型不同。 · The genotype is the same, but different environmental temperatures produce different phenotypes.'
         ],
-        solution: '温度通过影响酶活性改变色素沉积，属于环境对表型的调节。'
+        solution: '温度通过影响酶活性改变色素沉积，属于环境对表型的调节。 · Temperature changes pigment deposition by affecting enzyme activity, which is environmental regulation of phenotype.'
       },
       {
-        title: '例 2 · 绣球花色',
-        prompt: '同一株绣球在酸性土壤中开蓝花，在碱性土壤中开粉花。这是基因突变吗？',
+        title: '例 2 · 绣球花色 · Example 2 · Hydrangea Flower Color',
+        prompt: '同一株绣球在酸性土壤中开蓝花，在碱性土壤中开粉花。这是基因突变吗？ · The same hydrangea produces blue flowers in acidic soil and pink flowers in alkaline soil. Is this a gene mutation?',
         steps: [
-          '土壤 pH 改变铝离子的可利用性。',
-          '铝离子被根系吸收后影响花青素显色。',
-          '植物基因型未变，只是环境改变了色素表现。'
+          '土壤 pH 改变铝离子的可利用性。 · Soil pH changes the availability of aluminum ions.',
+          '铝离子被根系吸收后影响花青素显色。 · Aluminum ions taken up by the roots affect anthocyanin coloration.',
+          '植物基因型未变，只是环境改变了色素表现。 · The plant’s genotype is unchanged; only the environment alters pigment expression.'
         ],
-        solution: '不是突变，是环境（土壤 pH 与铝离子）对花色的影响。'
+        solution: '不是突变，是环境（土壤 pH 与铝离子）对花色的影响。 · It is not a mutation but an environmental effect (soil pH and aluminum ions) on flower color.'
       },
       {
-        title: '例 3 · 同卵双胞胎',
-        prompt: '同卵双胞胎基因组相同，为什么成年后身高与疾病风险可能不同？',
+        title: '例 3 · 同卵双胞胎 · Example 3 · Identical Twins',
+        prompt: '同卵双胞胎基因组相同，为什么成年后身高与疾病风险可能不同？ · Identical twins share the same genome, so why can their adult height and disease risks differ?',
         steps: [
-          '宫内环境、营养、生活方式与随机发育差异不同。',
-          '表观遗传修饰可随环境改变并影响基因表达。',
-          '基因型相同不代表环境暴露与表达状态相同。'
+          '宫内环境、营养、生活方式与随机发育差异不同。 · Their prenatal environments, nutrition, lifestyles, and random developmental differences vary.',
+          '表观遗传修饰可随环境改变并影响基因表达。 · Epigenetic modifications can change with the environment and affect gene expression.',
+          '基因型相同不代表环境暴露与表达状态相同。 · Sharing a genotype does not mean sharing environmental exposures or expression states.'
         ],
-        solution: '环境与表观遗传差异使相同基因组产生不同表型。'
+        solution: '环境与表观遗传差异使相同基因组产生不同表型。 · Environmental and epigenetic differences make the same genome produce different phenotypes.'
       }
     ],
     examTips: [
-      'CED Unit 5：环境影响表型',
-      '先判断差异是基因型不同还是环境不同',
-      '反应规范题看“同一基因型、不同环境”的曲线',
-      '表观遗传题强调“不改变 DNA 序列、改变表达”',
-      '不要把获得性体细胞改变说成可遗传'
+      'CED Unit 5：环境影响表型 · CED Unit 5: Environmental effects on phenotype',
+      '先判断差异是基因型不同还是环境不同 · First decide whether a difference comes from genotype or environment.',
+      '反应规范题看“同一基因型、不同环境”的曲线 · For reaction-norm questions, read the curve for “same genotype, different environments.”',
+      '表观遗传题强调“不改变 DNA 序列、改变表达” · For epigenetics questions, emphasize “no change in DNA sequence, but a change in expression.”',
+      '不要把获得性体细胞改变说成可遗传 · Do not describe acquired somatic changes as heritable.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.4', title: '非孟德尔遗传', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.5', title: '基因表达调控', relation: '机制' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.6', title: '基因表达与细胞特化 · Gene Expression and Cell Specialization', relation: '应用' }
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传 · Mendelian Genetics', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.4', title: '非孟德尔遗传 · Non-Mendelian Inheritance', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.5', title: '基因表达调控 · Regulation of Gene Expression', relation: '机制 · Mechanism' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.6', title: '基因表达与细胞特化 · Gene Expression and Cell Specialization', relation: '应用 · Application' }
     ],
-    development: ['基因型与环境', '反应规范', '表型可塑性', '表观遗传', '可遗传与不可遗传'],
-    checks: ['反应规范与表型可塑性有何区别？', '表观遗传修饰为什么不算 DNA 突变？', '同卵双胞胎为什么可能表型不同？'],
-    summary: '表型由基因型与环境共同决定；反应规范与可塑性描述环境响应，表观遗传修饰改变表达而不改变 DNA 序列。'
+    development: ['基因型与环境 · Genotype and environment', '反应规范 · Reaction norms', '表型可塑性 · Phenotypic plasticity', '表观遗传 · Epigenetics', '可遗传与不可遗传 · Heritable vs nonheritable'],
+    checks: ['反应规范与表型可塑性有何区别？ · What is the difference between a reaction norm and phenotypic plasticity?', '表观遗传修饰为什么不算 DNA 突变？ · Why are epigenetic modifications not considered DNA mutations?', '同卵双胞胎为什么可能表型不同？ · Why can identical twins have different phenotypes?'],
+    summary: '表型由基因型与环境共同决定；反应规范与可塑性描述环境响应，表观遗传修饰改变表达而不改变 DNA 序列。 · Phenotype is determined jointly by genotype and environment; reaction norms and plasticity describe environmental responses, and epigenetic modifications change expression without changing DNA sequence.'
   },
 
   'bio/bio-u5/5.6': {
@@ -10009,321 +10019,321 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能解释同一基因组如何通过差异基因表达产生不同细胞类型。',
-      '能说明转录因子、增强子与信号通路在细胞分化中的作用。',
-      '能区分细胞分化、形态发生与凋亡，并举例说明干细胞与多能性。'
+      '能解释同一基因组如何通过差异基因表达产生不同细胞类型。 · Explain how the same genome produces different cell types through differential gene expression.',
+      '能说明转录因子、增强子与信号通路在细胞分化中的作用。 · Describe the roles of transcription factors, enhancers, and signaling pathways in cell differentiation.',
+      '能区分细胞分化、形态发生与凋亡，并举例说明干细胞与多能性。 · Distinguish differentiation, morphogenesis, and apoptosis, and give examples of stem cells and pluripotency.'
     ],
     essentialKnowledge: [
-      '多细胞生物几乎所有体细胞含相同的 DNA，但不同细胞表达不同基因；差异基因表达导致细胞特化。',
-      '转录因子结合启动子、增强子或沉默子，激活或抑制基因；多个转录因子的组合产生细胞类型特异性表达。',
-      '细胞信号（旁分泌、内分泌、接触依赖）可改变转录因子活性，指导分化；形态发生素浓度梯度提供位置信息。',
-      '干细胞具有自我更新与分化潜能；诱导多能干细胞可通过表达特定转录因子重编程。',
-      '分化通常伴随 DNA 甲基化与组蛋白修饰等表观遗传改变，使表达模式稳定；分化不是基因组丢失。',
-      '凋亡是程序性细胞死亡，塑造组织与器官；它与意外坏死不同，受基因调控。',
-      '细胞特化是基因表达调控的结果，不是突变积累的结果；突变可能破坏发育，但不是正常分化的机制。'
+      '多细胞生物几乎所有体细胞含相同的 DNA，但不同细胞表达不同基因；差异基因表达导致细胞特化。 · Nearly all somatic cells in a multicellular organism contain the same DNA, but different cells express different genes; differential gene expression causes cell specialization.',
+      '转录因子结合启动子、增强子或沉默子，激活或抑制基因；多个转录因子的组合产生细胞类型特异性表达。 · Transcription factors bind promoters, enhancers, or silencers to activate or repress genes; combinations of transcription factors produce cell-type-specific expression.',
+      '细胞信号（旁分泌、内分泌、接触依赖）可改变转录因子活性，指导分化；形态发生素浓度梯度提供位置信息。 · Cell signals (paracrine, endocrine, contact-dependent) can alter transcription-factor activity and guide differentiation; morphogen concentration gradients provide positional information.',
+      '干细胞具有自我更新与分化潜能；诱导多能干细胞可通过表达特定转录因子重编程。 · Stem cells have self-renewal and differentiation potential; induced pluripotent stem cells can be reprogrammed by expressing specific transcription factors.',
+      '分化通常伴随 DNA 甲基化与组蛋白修饰等表观遗传改变，使表达模式稳定；分化不是基因组丢失。 · Differentiation is usually accompanied by epigenetic changes such as DNA methylation and histone modification that stabilize expression patterns; differentiation is not loss of the genome.',
+      '凋亡是程序性细胞死亡，塑造组织与器官；它与意外坏死不同，受基因调控。 · Apoptosis is programmed cell death that shapes tissues and organs; unlike accidental necrosis, it is genetically regulated.',
+      '细胞特化是基因表达调控的结果，不是突变积累的结果；突变可能破坏发育，但不是正常分化的机制。 · Cell specialization results from gene-expression regulation, not accumulated mutation; mutations can disrupt development but are not the mechanism of normal differentiation.'
     ],
-    definition: '基因表达与细胞特化指多细胞生物在基因组基本相同的情况下，通过差异基因表达产生不同结构与功能的细胞类型。转录因子与信号通路决定哪些基因被开启或关闭，表观遗传修饰稳定表达状态，干细胞则提供分化与组织修复的来源。',
-    intuition: '同一本说明书在每个细胞里都有，但每种细胞只高亮自己需要的章节；转录因子是书签，信号决定翻到哪一页。',
-    intuitionDetailed: '细胞分化不是“丢掉不需要的基因”，而是“把不需要的基因关掉、把需要的基因打开”。例如肌肉细胞表达肌动蛋白与肌球蛋白基因，胰岛 β 细胞表达胰岛素基因，神经元表达神经递质合成酶基因。转录因子组合与增强子网络维持细胞身份；表观遗传标记让这些表达模式在分裂后保持。诱导多能干细胞实验证明，已分化的细胞可以被重编程回多能状态。',
+    definition: '基因表达与细胞特化指多细胞生物在基因组基本相同的情况下，通过差异基因表达产生不同结构与功能的细胞类型。转录因子与信号通路决定哪些基因被开启或关闭，表观遗传修饰稳定表达状态，干细胞则提供分化与组织修复的来源。 · Gene expression and cell specialization describe how multicellular organisms with essentially the same genome produce cell types with different structures and functions through differential gene expression. Transcription factors and signaling pathways determine which genes are turned on or off, epigenetic modifications stabilize expression states, and stem cells provide a source for differentiation and tissue repair.',
+    intuition: '同一本说明书在每个细胞里都有，但每种细胞只高亮自己需要的章节；转录因子是书签，信号决定翻到哪一页。 · The same instruction manual exists in every cell, but each cell highlights only the chapters it needs; transcription factors are bookmarks, and signals decide which page to open.',
+    intuitionDetailed: '细胞分化不是“丢掉不需要的基因”，而是“把不需要的基因关掉、把需要的基因打开”。例如肌肉细胞表达肌动蛋白与肌球蛋白基因，胰岛 β 细胞表达胰岛素基因，神经元表达神经递质合成酶基因。转录因子组合与增强子网络维持细胞身份；表观遗传标记让这些表达模式在分裂后保持。诱导多能干细胞实验证明，已分化的细胞可以被重编程回多能状态。 · Cell differentiation is not “throwing away unneeded genes” but “turning off unneeded genes and turning on needed ones.” For example, muscle cells express actin and myosin genes, pancreatic β cells express the insulin gene, and neurons express neurotransmitter-synthesizing enzyme genes. Combinations of transcription factors and enhancer networks maintain cell identity; epigenetic marks keep these expression patterns through cell division. Induced pluripotent stem cell experiments show that differentiated cells can be reprogrammed back to a pluripotent state.',
     formulas: [
-      { latex: '\\text{同一基因组}+\\text{差异表达}\\to\\text{不同细胞类型}', note: '细胞特化的核心逻辑。' },
-      { latex: '\\text{转录因子}+\\text{增强子}\\Rightarrow\\text{基因开启或关闭}', note: '组合式调控。' }
+      { latex: '\\text{同一基因组}+\\text{差异表达}\\to\\text{不同细胞类型}', note: '细胞特化的核心逻辑。 · The core logic of cell specialization.' },
+      { latex: '\\text{转录因子}+\\text{增强子}\\Rightarrow\\text{基因开启或关闭}', note: '组合式调控。 · Combinatorial regulation.' }
     ],
     derivationNotes: [
-      { from: '同一基因组', to: '不同转录组', note: '不同细胞表达不同基因组合，而不是丢失基因。' },
-      { from: '信号', to: '转录因子活性', note: '信号通路改变转录因子的定位、活性或表达，进而改变靶基因。' },
-      { from: '转录因子组合', to: '细胞身份', note: '增强子网络与表观遗传修饰稳定细胞类型特异性表达。' },
+      { from: '同一基因组 · Same genome', to: '不同转录组 · Different transcriptomes', note: '不同细胞表达不同基因组合，而不是丢失基因。 · Different cells express different gene combinations rather than losing genes.' },
+      { from: '信号 · Signal', to: '转录因子活性 · Transcription-factor activity', note: '信号通路改变转录因子的定位、活性或表达，进而改变靶基因。 · Signaling pathways change transcription-factor localization, activity, or expression, thereby changing target genes.' },
+      { from: '转录因子组合 · Transcription-factor combination', to: '细胞身份 · Cell identity', note: '增强子网络与表观遗传修饰稳定细胞类型特异性表达。 · Enhancer networks and epigenetic modifications stabilize cell-type-specific expression.' },
     ],
     connections: [
-      '先修：6.3 转录与 6.5 基因表达调控。',
-      '后续：6.7 突变可能破坏发育调控，6.8 生物技术利用重编程与干细胞。',
-      '应用：发育生物学、再生医学与癌症中的分化异常。',
+      '先修：6.3 转录与 6.5 基因表达调控。 · Prerequisite: transcription in 6.3 and regulation of gene expression in 6.5.',
+      '后续：6.7 突变可能破坏发育调控，6.8 生物技术利用重编程与干细胞。 · Follow-up: mutations in 6.7 can disrupt developmental regulation, and biotechnology in 6.8 uses reprogramming and stem cells.',
+      '应用：发育生物学、再生医学与癌症中的分化异常。 · Application: developmental biology, regenerative medicine, and differentiation defects in cancer.',
     ],
     conditions: [
-      '差异表达发生在转录、RNA 加工、翻译与翻译后多个层次，转录调控通常最关键',
-      '细胞身份需要信号与表观遗传网络共同维持',
-      '干细胞的多能性程度不同：全能、多能、专能',
-      '凋亡受程序性信号控制，不是被动坏死',
-      '环境信号可影响分化方向，但不能把所有分化都归因于环境'
+      '差异表达发生在转录、RNA 加工、翻译与翻译后多个层次，转录调控通常最关键 · Differential expression occurs at transcription, RNA processing, translation, and post-translational levels, with transcriptional regulation usually most critical',
+      '细胞身份需要信号与表观遗传网络共同维持 · Cell identity requires both signaling and epigenetic networks for maintenance',
+      '干细胞的多能性程度不同：全能、多能、专能 · Stem cells differ in potency: totipotent, pluripotent, and multipotent',
+      '凋亡受程序性信号控制，不是被动坏死 · Apoptosis is controlled by programmed signals and is not passive necrosis',
+      '环境信号可影响分化方向，但不能把所有分化都归因于环境 · Environmental signals can influence differentiation direction, but not all differentiation should be attributed to environment'
     ],
     keyPoints: [
-      '所有体细胞通常含相同基因组',
-      '差异基因表达产生细胞特化',
-      '转录因子与增强子组合决定表达',
-      '信号通路与形态发生素指导分化',
-      '表观遗传修饰稳定细胞身份',
-      '干细胞可自我更新与分化',
-      '凋亡塑造组织',
-      '特化不是突变积累'
+      '所有体细胞通常含相同基因组 · All somatic cells usually contain the same genome',
+      '差异基因表达产生细胞特化 · Differential gene expression produces cell specialization',
+      '转录因子与增强子组合决定表达 · Combinations of transcription factors and enhancers determine expression',
+      '信号通路与形态发生素指导分化 · Signaling pathways and morphogens guide differentiation',
+      '表观遗传修饰稳定细胞身份 · Epigenetic modifications stabilize cell identity',
+      '干细胞可自我更新与分化 · Stem cells can self-renew and differentiate',
+      '凋亡塑造组织 · Apoptosis shapes tissues',
+      '特化不是突变积累 · Specialization is not accumulated mutation'
     ],
     misconceptions: [
-      '认为不同细胞含不同基因（实际基因组通常相同）',
-      '认为细胞特化需要大量突变',
-      '认为所有基因在所有细胞中都表达',
-      '认为分化完全不可逆（可以被重编程）',
-      '把凋亡与坏死混为一谈'
+      '认为不同细胞含不同基因（实际基因组通常相同） · Assuming different cells contain different genes (their genomes are usually the same)',
+      '认为细胞特化需要大量突变 · Assuming cell specialization requires many mutations',
+      '认为所有基因在所有细胞中都表达 · Assuming all genes are expressed in all cells',
+      '认为分化完全不可逆（可以被重编程） · Assuming differentiation is completely irreversible (cells can be reprogrammed)',
+      '把凋亡与坏死混为一谈 · Confusing apoptosis with necrosis'
     ],
     examples: [
       {
-        title: '例 1 · 肌肉与神经元',
-        prompt: '肌肉细胞与神经元基因组相同，为什么形态与功能差异巨大？',
+        title: '例 1 · 肌肉与神经元 · Example 1 · Muscle and Neuron',
+        prompt: '肌肉细胞与神经元基因组相同，为什么形态与功能差异巨大？ · Muscle cells and neurons share the same genome, so why do their shapes and functions differ so greatly?',
         steps: [
-          '两者都含完整基因组，但表达不同基因。',
-          '肌肉细胞高表达肌动蛋白、肌球蛋白与肌肉转录因子。',
-          '神经元高表达神经递质合成酶、受体与突触蛋白。'
+          '两者都含完整基因组，但表达不同基因。 · Both contain the complete genome but express different genes.',
+          '肌肉细胞高表达肌动蛋白、肌球蛋白与肌肉转录因子。 · Muscle cells highly express actin, myosin, and muscle transcription factors.',
+          '神经元高表达神经递质合成酶、受体与突触蛋白。 · Neurons highly express neurotransmitter-synthesizing enzymes, receptors, and synaptic proteins.'
         ],
-        solution: '差异基因表达，而不是基因组差异，导致细胞特化。'
+        solution: '差异基因表达，而不是基因组差异，导致细胞特化。 · Cell specialization results from differential gene expression, not genomic differences.'
       },
       {
-        title: '例 2 · 干细胞分化',
-        prompt: '造血干细胞如何产生红细胞与淋巴细胞？',
+        title: '例 2 · 干细胞分化 · Example 2 · Stem Cell Differentiation',
+        prompt: '造血干细胞如何产生红细胞与淋巴细胞？ · How do hematopoietic stem cells produce red blood cells and lymphocytes?',
         steps: [
-          '造血干细胞自我更新并接收不同信号。',
-          '红细胞谱系表达血红蛋白基因，淋巴细胞表达免疫受体基因。',
-          '转录因子网络与表观遗传改变稳定各自身份。'
+          '造血干细胞自我更新并接收不同信号。 · Hematopoietic stem cells self-renew and receive different signals.',
+          '红细胞谱系表达血红蛋白基因，淋巴细胞表达免疫受体基因。 · The red blood cell lineage expresses hemoglobin genes, while lymphocytes express immune receptor genes.',
+          '转录因子网络与表观遗传改变稳定各自身份。 · Transcription-factor networks and epigenetic changes stabilize each identity.'
         ],
-        solution: '信号引导的差异基因表达使同一干细胞产生不同血细胞。'
+        solution: '信号引导的差异基因表达使同一干细胞产生不同血细胞。 · Signal-guided differential gene expression enables one stem cell type to produce different blood cells.'
       },
       {
-        title: '例 3 · 重编程',
-        prompt: '诱导多能干细胞实验为什么能说明分化不是基因组丢失？',
+        title: '例 3 · 重编程 · Example 3 · Reprogramming',
+        prompt: '诱导多能干细胞实验为什么能说明分化不是基因组丢失？ · Why do induced pluripotent stem cell experiments show that differentiation is not genome loss?',
         steps: [
-          '已分化的成纤维细胞被导入特定转录因子。',
-          '细胞恢复多能性，并能分化为多种细胞类型。',
-          '这说明原基因组仍完整，只是表达程序被改变。'
+          '已分化的成纤维细胞被导入特定转录因子。 · Differentiated fibroblasts are introduced with specific transcription factors.',
+          '细胞恢复多能性，并能分化为多种细胞类型。 · The cells regain pluripotency and can differentiate into multiple cell types.',
+          '这说明原基因组仍完整，只是表达程序被改变。 · This shows that the original genome remains intact and only the expression program has been changed.'
         ],
-        solution: '重编程证明分化状态由表达调控维持，而非 DNA 序列丢失。'
+        solution: '重编程证明分化状态由表达调控维持，而非 DNA 序列丢失。 · Reprogramming shows that the differentiated state is maintained by expression regulation, not by loss of DNA sequence.'
       }
     ],
     examTips: [
-      'CED Unit 6：基因表达与细胞特化',
-      '看到“同一基因组不同细胞”先写差异基因表达',
-      '不要写成突变导致特化；突变是 6.7 的内容',
-      '转录因子、增强子、信号通路是三个关键词',
-      '干细胞题区分全能、多能与专能',
-      '凋亡是程序性死亡，不是坏死'
+      'CED Unit 6：基因表达与细胞特化 · CED Unit 6: Gene expression and cell specialization',
+      '看到“同一基因组不同细胞”先写差异基因表达 · When you see “same genome, different cells,” start with differential gene expression.',
+      '不要写成突变导致特化；突变是 6.7 的内容 · Do not write that mutation causes specialization; mutation is covered in 6.7.',
+      '转录因子、增强子、信号通路是三个关键词 · Transcription factors, enhancers, and signaling pathways are the three key terms.',
+      '干细胞题区分全能、多能与专能 · For stem cell questions, distinguish totipotent, pluripotent, and multipotent.',
+      '凋亡是程序性死亡，不是坏死 · Apoptosis is programmed death, not necrosis.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.3', title: '转录与 RNA 加工', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.5', title: '基因表达调控', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u6', code: '6.7', title: '突变', relation: '对比' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.5', title: '环境影响表型', relation: '相关' }
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.3', title: '转录与 RNA 加工 · Transcription and RNA Processing', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.5', title: '基因表达调控 · Regulation of Gene Expression', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.7', title: '突变 · Mutations', relation: '对比 · Contrast' },
+      { subject: 'bio', chapterId: 'bio-u5', code: '5.5', title: '环境影响表型 · Environmental Effects on Phenotype', relation: '相关 · Related' }
     ],
-    development: ['同一基因组', '差异基因表达', '转录因子与增强子', '信号与形态发生素', '表观遗传稳定', '干细胞与凋亡'],
-    checks: ['为什么同一基因组能产生不同细胞类型？', '转录因子与增强子如何组合调控基因？', '细胞特化为什么不是突变积累？'],
-    summary: '细胞特化由差异基因表达驱动：转录因子、增强子、信号通路与表观遗传共同决定并维持细胞身份，而非改变基因组。'
+    development: ['同一基因组 · Same genome', '差异基因表达 · Differential gene expression', '转录因子与增强子 · Transcription factors and enhancers', '信号与形态发生素 · Signals and morphogens', '表观遗传稳定 · Epigenetic stabilization', '干细胞与凋亡 · Stem cells and apoptosis'],
+    checks: ['为什么同一基因组能产生不同细胞类型？ · Why can the same genome produce different cell types?', '转录因子与增强子如何组合调控基因？ · How do transcription factors and enhancers regulate genes combinatorially?', '细胞特化为什么不是突变积累？ · Why is cell specialization not accumulated mutation?'],
+    summary: '细胞特化由差异基因表达驱动：转录因子、增强子、信号通路与表观遗传共同决定并维持细胞身份，而非改变基因组。 · Cell specialization is driven by differential gene expression: transcription factors, enhancers, signaling pathways, and epigenetics together determine and maintain cell identity rather than changing the genome.'
   },
 
   'bio/bio-u7/7.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能分类并评价化石、比较解剖、胚胎发育、生物地理与分子证据。',
-      '能区分同源结构、趋同结构与痕迹结构，并说明它们对进化的意义。',
-      '能用多类独立证据构建或检验系统发育假说。'
+      '能分类并评价化石、比较解剖、胚胎发育、生物地理与分子证据。 · Classify and evaluate fossil, comparative anatomy, embryological, biogeographic, and molecular evidence.',
+      '能区分同源结构、趋同结构与痕迹结构，并说明它们对进化的意义。 · Distinguish homologous, analogous, and vestigial structures and explain their significance for evolution.',
+      '能用多类独立证据构建或检验系统发育假说。 · Use multiple independent lines of evidence to build or test phylogenetic hypotheses.'
     ],
     essentialKnowledge: [
-      '化石记录提供已灭绝物种、过渡形态与相对年代；地层顺序与放射性定年提供时间框架。',
-      '比较解剖区分同源结构（共同起源、功能可不同）、痕迹结构（退化但仍保留）与趋同结构（功能相似、独立起源）。',
-      '胚胎发育与发育调控基因（如 Hox 基因）显示深层同源性；胚胎相似不等于“重演祖先成体”。',
-      '生物地理分布（岛屿特有种、大陆漂移、隔离与扩散）支持共同祖先与地理隔离下的分化。',
-      '分子证据包括 DNA 与蛋白质序列相似度、通用遗传密码、假基因与基因重复；差异越小通常亲缘越近。',
-      '直接观察可记录当代进化：抗生素耐药、杀虫剂抗性、驯化与野外种群性状变化。',
-      '证据相互独立但可汇聚；进化理论由多重证据支持，不依赖单一“缺环”或单个化石。'
+      '化石记录提供已灭绝物种、过渡形态与相对年代；地层顺序与放射性定年提供时间框架。 · The fossil record provides extinct species, transitional forms, and relative ages; stratigraphic order and radiometric dating provide the time frame.',
+      '比较解剖区分同源结构（共同起源、功能可不同）、痕迹结构（退化但仍保留）与趋同结构（功能相似、独立起源）。 · Comparative anatomy distinguishes homologous structures (common origin, functions may differ), vestigial structures (reduced but retained), and analogous structures (similar function, independent origin).',
+      '胚胎发育与发育调控基因（如 Hox 基因）显示深层同源性；胚胎相似不等于“重演祖先成体”。 · Embryonic development and developmental regulatory genes (such as Hox genes) reveal deep homology; embryonic similarity does not mean “recapitulating ancestral adults.”',
+      '生物地理分布（岛屿特有种、大陆漂移、隔离与扩散）支持共同祖先与地理隔离下的分化。 · Biogeographic patterns (island endemics, continental drift, isolation, and dispersal) support common ancestry and divergence under geographic isolation.',
+      '分子证据包括 DNA 与蛋白质序列相似度、通用遗传密码、假基因与基因重复；差异越小通常亲缘越近。 · Molecular evidence includes DNA and protein sequence similarity, the universal genetic code, pseudogenes, and gene duplication; smaller differences usually indicate closer relatedness.',
+      '直接观察可记录当代进化：抗生素耐药、杀虫剂抗性、驯化与野外种群性状变化。 · Direct observation can document contemporary evolution: antibiotic resistance, pesticide resistance, domestication, and trait changes in wild populations.',
+      '证据相互独立但可汇聚；进化理论由多重证据支持，不依赖单一“缺环”或单个化石。 · Lines of evidence are independent but can converge; evolutionary theory is supported by multiple lines of evidence and does not depend on a single “missing link” or fossil.'
     ],
-    definition: '进化证据是支持生物共同祖先与自然选择过程的观察与数据，包括化石、比较解剖、胚胎发育、生物地理、分子序列与直接观察。不同证据回答不同问题：化石给时间与形态，解剖给结构同源性，分子给序列差异，地理给分布格局。',
-    intuition: '进化证据像法庭上的多类证词：化石说明“何时与什么样”，解剖说明“结构像谁”，分子说明“序列差多少”，地理说明“为什么分布在这里”，彼此独立却能拼成同一个故事。',
-    intuitionDetailed: '同源结构来自共同祖先，即使功能已经改变（如脊椎动物前肢）；趋同结构来自相似选择压力但不同祖先（如鸟翼与昆虫翅）；痕迹结构是退化但仍存在的同源结构（如人的尾骨）。分子钟用序列差异估算分化时间，但需要化石或已知事件校准。化石记录不完整，缺失过渡类型并不否定进化，只是采样与保存偏差。',
+    definition: '进化证据是支持生物共同祖先与自然选择过程的观察与数据，包括化石、比较解剖、胚胎发育、生物地理、分子序列与直接观察。不同证据回答不同问题：化石给时间与形态，解剖给结构同源性，分子给序列差异，地理给分布格局。 · Evidence for evolution is observations and data supporting common ancestry and natural selection, including fossils, comparative anatomy, embryology, biogeography, molecular sequences, and direct observation. Different evidence answers different questions: fossils give time and form, anatomy gives structural homology, molecules give sequence differences, and geography gives distribution patterns.',
+    intuition: '进化证据像法庭上的多类证词：化石说明“何时与什么样”，解剖说明“结构像谁”，分子说明“序列差多少”，地理说明“为什么分布在这里”，彼此独立却能拼成同一个故事。 · Evolutionary evidence is like multiple kinds of testimony in court: fossils say “when and what it looked like,” anatomy says “whose structure it resembles,” molecules say “how much the sequences differ,” and geography says “why it lives here”; these independent lines can fit into one story.',
+    intuitionDetailed: '同源结构来自共同祖先，即使功能已经改变（如脊椎动物前肢）；趋同结构来自相似选择压力但不同祖先（如鸟翼与昆虫翅）；痕迹结构是退化但仍存在的同源结构（如人的尾骨）。分子钟用序列差异估算分化时间，但需要化石或已知事件校准。化石记录不完整，缺失过渡类型并不否定进化，只是采样与保存偏差。 · Homologous structures come from a common ancestor even if functions have changed (such as vertebrate forelimbs); analogous structures arise from similar selection pressures in different ancestors (such as bird wings and insect wings); vestigial structures are reduced but still present homologous structures (such as the human coccyx). Molecular clocks use sequence differences to estimate divergence times but require calibration with fossils or known events. The fossil record is incomplete, and missing transitional forms do not refute evolution; they reflect sampling and preservation biases.',
     formulas: [
-      { latex: '\\text{同源结构}\\Rightarrow\\text{共同祖先}', note: '结构同源需要发育与解剖证据。' },
-      { latex: '\\text{序列差异}\\uparrow\\;\\Rightarrow\\;\\text{分化时间}\\uparrow', note: '分子钟的简化逻辑，需要校准。' },
-      { latex: '\\text{化石}+\\text{解剖}+\\text{分子}+\\text{地理}\\Rightarrow\\text{汇聚证据}', note: '多类独立证据共同支持结论。' }
+      { latex: '\\text{同源结构}\\Rightarrow\\text{共同祖先}', note: '结构同源需要发育与解剖证据。 · Structural homology requires developmental and anatomical evidence.' },
+      { latex: '\\text{序列差异}\\uparrow\\;\\Rightarrow\\;\\text{分化时间}\\uparrow', note: '分子钟的简化逻辑，需要校准。 · Simplified molecular-clock logic, which requires calibration.' },
+      { latex: '\\text{化石}+\\text{解剖}+\\text{分子}+\\text{地理}\\Rightarrow\\text{汇聚证据}', note: '多类独立证据共同支持结论。 · Multiple independent lines of evidence jointly support a conclusion.' }
     ],
     derivationNotes: [
-      { from: '化石与地层', to: '时间与形态序列', note: '地层顺序与放射性定年给出相对与绝对年代。' },
-      { from: '比较解剖', to: '同源性推断', note: '结构、发育与化石证据共同判断共同祖先。' },
-      { from: '分子序列', to: '亲缘关系', note: '序列差异经分子钟校准后可估算分化时间。' },
+      { from: '化石与地层 · Fossils and strata', to: '时间与形态序列 · Time and morphological series', note: '地层顺序与放射性定年给出相对与绝对年代。 · Stratigraphic order and radiometric dating give relative and absolute ages.' },
+      { from: '比较解剖 · Comparative anatomy', to: '同源性推断 · Homology inference', note: '结构、发育与化石证据共同判断共同祖先。 · Structural, developmental, and fossil evidence together identify common ancestry.' },
+      { from: '分子序列 · Molecular sequences', to: '亲缘关系 · Relatedness', note: '序列差异经分子钟校准后可估算分化时间。 · After molecular-clock calibration, sequence differences can estimate divergence times.' },
     ],
     connections: [
-      '先修：7.1–7.5 的自然选择与群体遗传。',
-      '后续：7.7 共同祖先与 7.9 系统发生把证据组织成树。',
-      '应用：保护生物学、疾病溯源与生物分类。',
+      '先修：7.1–7.5 的自然选择与群体遗传。 · Prerequisite: natural selection and population genetics in 7.1–7.5.',
+      '后续：7.7 共同祖先与 7.9 系统发生把证据组织成树。 · Follow-up: common ancestry in 7.7 and phylogeny in 7.9 organize the evidence into trees.',
+      '应用：保护生物学、疾病溯源与生物分类。 · Application: conservation biology, disease tracing, and biological classification.',
     ],
     conditions: [
-      '化石记录存在保存偏差，缺失不等于不存在',
-      '分子钟需要化石或地质事件校准，不同基因速率不同',
-      '同源与趋同的区分需要发育、结构或化石证据',
-      '生物地理格局需考虑大陆漂移、扩散与灭绝',
-      '单个证据通常不足以确定整棵系统发育树'
+      '化石记录存在保存偏差，缺失不等于不存在 · The fossil record has preservation biases; absence is not evidence of nonexistence',
+      '分子钟需要化石或地质事件校准，不同基因速率不同 · Molecular clocks require calibration with fossils or geological events, and different genes evolve at different rates',
+      '同源与趋同的区分需要发育、结构或化石证据 · Distinguishing homology from convergence requires developmental, structural, or fossil evidence',
+      '生物地理格局需考虑大陆漂移、扩散与灭绝 · Biogeographic patterns must consider continental drift, dispersal, and extinction',
+      '单个证据通常不足以确定整棵系统发育树 · A single line of evidence is usually insufficient to determine an entire phylogenetic tree'
     ],
     keyPoints: [
-      '化石提供时间与过渡形态',
-      '同源、趋同与痕迹结构意义不同',
-      '胚胎与发育基因显示深层同源',
-      '生物地理支持共同祖先与隔离',
-      '分子序列差异可推断亲缘',
-      '直接观察记录当代进化',
-      '多类独立证据汇聚'
+      '化石提供时间与过渡形态 · Fossils provide time and transitional forms',
+      '同源、趋同与痕迹结构意义不同 · Homologous, analogous, and vestigial structures have different meanings',
+      '胚胎与发育基因显示深层同源 · Embryos and developmental genes reveal deep homology',
+      '生物地理支持共同祖先与隔离 · Biogeography supports common ancestry and isolation',
+      '分子序列差异可推断亲缘 · Molecular sequence differences can infer relatedness',
+      '直接观察记录当代进化 · Direct observation documents contemporary evolution',
+      '多类独立证据汇聚 · Multiple independent lines of evidence converge'
     ],
     misconceptions: [
-      '认为“理论”只是猜测，忽略多重证据支持',
-      '认为缺少某个过渡化石就否定进化',
-      '把功能相似的结构都当作同源',
-      '认为胚胎早期相似等于重演祖先成体',
-      '认为分子差异越大亲缘一定越远（需考虑基因速率与水平转移）',
-      '认为一棵树只靠一个基因就能确定'
+      '认为“理论”只是猜测，忽略多重证据支持 · Treating a “theory” as mere guesswork and ignoring multiple lines of supporting evidence',
+      '认为缺少某个过渡化石就否定进化 · Assuming a missing transitional fossil refutes evolution',
+      '把功能相似的结构都当作同源 · Treating all functionally similar structures as homologous',
+      '认为胚胎早期相似等于重演祖先成体 · Assuming early embryonic similarity means recapitulating ancestral adults',
+      '认为分子差异越大亲缘一定越远（需考虑基因速率与水平转移） · Assuming greater molecular difference always means more distant relatedness (gene-specific rates and horizontal transfer must be considered)',
+      '认为一棵树只靠一个基因就能确定 · Assuming a tree can be determined from a single gene'
     ],
     examples: [
       {
-        title: '例 1 · 鲸的过渡化石',
-        prompt: '古鲸化石显示后肢逐渐缩小、耳部结构变化。这些证据支持什么？',
+        title: '例 1 · 鲸的过渡化石 · Example 1 · Whale Transitional Fossils',
+        prompt: '古鲸化石显示后肢逐渐缩小、耳部结构变化。这些证据支持什么？ · Fossil whales show progressively reduced hind limbs and changing ear structure. What do these observations support?',
         steps: [
-          '化石按地层年代排列，显示从陆生到水生的形态过渡。',
-          '后肢缩小与耳部变化是逐步累积的，而非突然出现。',
-          '分子数据把鲸归入偶蹄类，与化石证据一致。'
+          '化石按地层年代排列，显示从陆生到水生的形态过渡。 · Fossils arranged by stratigraphic age show a morphological transition from terrestrial to aquatic life.',
+          '后肢缩小与耳部变化是逐步累积的，而非突然出现。 · Hind-limb reduction and ear changes accumulated gradually rather than appearing suddenly.',
+          '分子数据把鲸归入偶蹄类，与化石证据一致。 · Molecular data place whales within artiodactyls, consistent with the fossil evidence.'
         ],
-        solution: '化石与分子证据共同支持鲸从陆生祖先逐步适应水生。'
+        solution: '化石与分子证据共同支持鲸从陆生祖先逐步适应水生。 · Fossil and molecular evidence together support a gradual transition of whales from terrestrial ancestors to aquatic life.'
       },
       {
-        title: '例 2 · 同源还是趋同',
-        prompt: '蝙蝠翼、鸟翼与昆虫翅在功能上都用于飞行，如何判断哪些是同源？',
+        title: '例 2 · 同源还是趋同 · Example 2 · Homology or Convergence',
+        prompt: '蝙蝠翼、鸟翼与昆虫翅在功能上都用于飞行，如何判断哪些是同源？ · Bat wings, bird wings, and insect wings all function in flight. How can we determine which are homologous?',
         steps: [
-          '蝙蝠翼与鸟翼的骨骼排列相似，作为脊椎动物前肢来自共同祖先，因此在这一层次上同源。',
-          '但两者作为飞行翼面是独立演化的，功能相似而起源不同，属于趋同（类比）。',
-          '昆虫翅由外骨骼形成，胚胎来源与脊椎动物前肢不同，与蝙蝠翼、鸟翼都不同源。'
+          '蝙蝠翼与鸟翼的骨骼排列相似，作为脊椎动物前肢来自共同祖先，因此在这一层次上同源。 · Bat and bird wings have similar bone arrangements and, as vertebrate forelimbs, share a common ancestor, so they are homologous at that level.',
+          '但两者作为飞行翼面是独立演化的，功能相似而起源不同，属于趋同（类比）。 · However, as flight surfaces they evolved independently, with similar function but different origins, so they are analogous.',
+          '昆虫翅由外骨骼形成，胚胎来源与脊椎动物前肢不同，与蝙蝠翼、鸟翼都不同源。 · Insect wings form from the exoskeleton and have a different embryonic origin from vertebrate forelimbs, so they are not homologous to bat or bird wings.'
         ],
-        solution: '作为前肢骨骼，蝙蝠翼与鸟翼同源；作为飞行翼面，二者与昆虫翅都是趋同。区分要看比较的层次。'
+        solution: '作为前肢骨骼，蝙蝠翼与鸟翼同源；作为飞行翼面，二者与昆虫翅都是趋同。区分要看比较的层次。 · As forelimb bones, bat and bird wings are homologous; as flight surfaces, both are analogous to insect wings. The distinction depends on the level of comparison.'
       },
       {
-        title: '例 3 · 分子证据',
-        prompt: '为什么核糖体 RNA 序列适合比较远缘物种的亲缘关系？',
+        title: '例 3 · 分子证据 · Example 3 · Molecular Evidence',
+        prompt: '为什么核糖体 RNA 序列适合比较远缘物种的亲缘关系？ · Why are ribosomal RNA sequences useful for comparing relatedness among distantly related species?',
         steps: [
-          'rRNA 在所有生物中都存在且功能保守。',
-          '保守区域变化慢，可保留深层分化信号。',
-          '差异大小可与化石校准后估算分化时间。'
+          'rRNA 在所有生物中都存在且功能保守。 · rRNA is present in all organisms and its function is conserved.',
+          '保守区域变化慢，可保留深层分化信号。 · Conserved regions change slowly and retain signals of deep divergence.',
+          '差异大小可与化石校准后估算分化时间。 · The amount of difference can be calibrated with fossils to estimate divergence time.'
         ],
-        solution: 'rRNA 通用且保守，适合推断远缘类群的亲缘关系。'
+        solution: 'rRNA 通用且保守，适合推断远缘类群的亲缘关系。 · rRNA is universal and conserved, making it suitable for inferring relationships among distantly related groups.'
       }
     ],
     examTips: [
-      'CED Unit 7：进化证据',
-      '先判断题目问的是哪一类证据，再写它能回答什么问题',
-      '同源、趋同、痕迹结构用“起源/功能/发育”区分',
-      '分子钟题强调“需要校准”',
-      'FRQ 用多类证据汇聚，不要只写一个化石'
+      'CED Unit 7：进化证据 · CED Unit 7: Evidence of evolution',
+      '先判断题目问的是哪一类证据，再写它能回答什么问题 · First identify which type of evidence the question asks about, then state what it can answer.',
+      '同源、趋同、痕迹结构用“起源/功能/发育”区分 · Distinguish homologous, analogous, and vestigial structures using origin, function, and development.',
+      '分子钟题强调“需要校准” · For molecular-clock questions, emphasize the need for calibration.',
+      'FRQ 用多类证据汇聚，不要只写一个化石 · In FRQs, use multiple converging lines of evidence, not just one fossil.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.7', title: '共同祖先', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生', relation: '应用' },
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.10', title: '细胞区隔起源', relation: '相关' }
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论 · Introduction to Natural Selection', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.7', title: '共同祖先 · Common Ancestry', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生 · Phylogeny', relation: '应用 · Application' },
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.10', title: '细胞区隔起源 · Origins of Cellular Compartments', relation: '相关 · Related' }
     ],
-    development: ['化石记录', '比较解剖', '胚胎与发育', '生物地理', '分子证据', '直接观察与证据汇聚'],
-    checks: ['同源结构与趋同结构如何区分？', '为什么化石记录不完整仍能支持进化？', '分子钟为什么需要校准？'],
-    summary: '进化证据来自化石、解剖、胚胎、地理、分子与直接观察；多类独立证据汇聚，支持共同祖先与自然选择。'
+    development: ['化石记录 · Fossil record', '比较解剖 · Comparative anatomy', '胚胎与发育 · Embryos and development', '生物地理 · Biogeography', '分子证据 · Molecular evidence', '直接观察与证据汇聚 · Direct observation and converging evidence'],
+    checks: ['同源结构与趋同结构如何区分？ · How are homologous and analogous structures distinguished?', '为什么化石记录不完整仍能支持进化？ · Why can an incomplete fossil record still support evolution?', '分子钟为什么需要校准？ · Why do molecular clocks require calibration?'],
+    summary: '进化证据来自化石、解剖、胚胎、地理、分子与直接观察；多类独立证据汇聚，支持共同祖先与自然选择。 · Evidence for evolution comes from fossils, anatomy, embryos, biogeography, molecules, and direct observation; multiple independent lines of evidence converge to support common ancestry and natural selection.'
   },
 
   'bio/bio-u7/7.8': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明进化在可观察的时间尺度上持续发生，并给出直接证据。',
-      '能分析选择、基因流、遗传漂变与突变如何驱动当代种群变化。',
-      '能区分微进化与物种形成，并解释进化不是定向进步。'
+      '能说明进化在可观察的时间尺度上持续发生，并给出直接证据。 · Explain that evolution continues on observable time scales and give direct evidence.',
+      '能分析选择、基因流、遗传漂变与突变如何驱动当代种群变化。 · Analyze how selection, gene flow, genetic drift, and mutation drive contemporary population change.',
+      '能区分微进化与物种形成，并解释进化不是定向进步。 · Distinguish microevolution from speciation and explain that evolution is not directed progress.'
     ],
     essentialKnowledge: [
-      '进化是种群等位基因频率随世代变化；只要可遗传变异被选择、漂变或基因流改变，进化就会继续。',
-      '直接观察包括抗生素耐药、杀虫剂抗性、HIV 抗药性、达尔文雀喙形变化、桦尺蛾黑化与捕捞导致的鱼类生活史变化。',
-      '人类活动是强选择压力：捕捞、狩猎、土地利用、气候变化与药物使用都能改变性状与生活史。',
-      '基因流可引入新等位基因或抵消局部选择；遗传漂变在小种群中更强，可随机固定或丢失等位基因。',
-      '当代进化不一定形成新物种；微进化是物种形成的基础，但生殖隔离还需要额外条件。',
-      '进化没有预定方向或终点；适应是局部、相对的，环境改变可能使原有适应变成负担。'
+      '进化是种群等位基因频率随世代变化；只要可遗传变异被选择、漂变或基因流改变，进化就会继续。 · Evolution is change in allele frequencies in a population across generations; whenever heritable variation is altered by selection, drift, or gene flow, evolution continues.',
+      '直接观察包括抗生素耐药、杀虫剂抗性、HIV 抗药性、达尔文雀喙形变化、桦尺蛾黑化与捕捞导致的鱼类生活史变化。 · Direct observations include antibiotic resistance, pesticide resistance, HIV drug resistance, changes in Darwin’s finch beak shape, industrial melanism in peppered moths, and fishing-induced changes in fish life history.',
+      '人类活动是强选择压力：捕捞、狩猎、土地利用、气候变化与药物使用都能改变性状与生活史。 · Human activities are strong selective pressures: fishing, hunting, land use, climate change, and drug use can all alter traits and life histories.',
+      '基因流可引入新等位基因或抵消局部选择；遗传漂变在小种群中更强，可随机固定或丢失等位基因。 · Gene flow can introduce new alleles or counteract local selection; genetic drift is stronger in small populations and can randomly fix or lose alleles.',
+      '当代进化不一定形成新物种；微进化是物种形成的基础，但生殖隔离还需要额外条件。 · Contemporary evolution does not necessarily produce new species; microevolution is the foundation of speciation, but reproductive isolation requires additional conditions.',
+      '进化没有预定方向或终点；适应是局部、相对的，环境改变可能使原有适应变成负担。 · Evolution has no predetermined direction or endpoint; adaptation is local and relative, and environmental change can turn a former adaptation into a burden.'
     ],
-    definition: '延续与变化指进化在当代种群中仍在发生。种群内可遗传的变异经过选择、漂变、基因流与突变，使等位基因频率随世代改变；抗生素耐药与捕捞诱导的性状变化就是可观察的当代进化。',
-    intuition: '进化不是博物馆里的过去时；它正在抗生素、渔网、药物与温度计下发生。每一代都可能改变种群的遗传组成。',
-    intuitionDetailed: '当一个种群中出现可遗传的抗药变异，药物使用会杀死敏感个体，耐药个体留下更多后代，耐药等位基因频率上升。类似地，捕捞大型个体可能选择体型较小、较早繁殖的个体；气候变化可改变物候与分布。观察当代进化需要基线数据、时间序列与对照，以区分个体 acclimation 与种群遗传变化。',
+    definition: '延续与变化指进化在当代种群中仍在发生。种群内可遗传的变异经过选择、漂变、基因流与突变，使等位基因频率随世代改变；抗生素耐药与捕捞诱导的性状变化就是可观察的当代进化。 · Continuity and change means evolution is still occurring in contemporary populations. Heritable variation within a population is altered by selection, drift, gene flow, and mutation, changing allele frequencies across generations; antibiotic resistance and fishing-induced trait changes are observable examples of contemporary evolution.',
+    intuition: '进化不是博物馆里的过去时；它正在抗生素、渔网、药物与温度计下发生。每一代都可能改变种群的遗传组成。 · Evolution is not a past tense confined to museums; it is happening under antibiotics, fishing nets, drugs, and thermometers. Every generation can change a population’s genetic composition.',
+    intuitionDetailed: '当一个种群中出现可遗传的抗药变异，药物使用会杀死敏感个体，耐药个体留下更多后代，耐药等位基因频率上升。类似地，捕捞大型个体可能选择体型较小、较早繁殖的个体；气候变化可改变物候与分布。观察当代进化需要基线数据、时间序列与对照，以区分个体 acclimation 与种群遗传变化。 · When a heritable resistance variant appears in a population, drug use kills susceptible individuals, resistant individuals leave more offspring, and the frequency of the resistance allele rises. Similarly, harvesting large individuals can select for smaller, earlier-reproducing fish, and climate change can alter phenology and distribution. Observing contemporary evolution requires baseline data, time series, and controls to distinguish individual acclimation from population genetic change.',
     formulas: [
-      { latex: '\\Delta p=p_{t+1}-p_{t}', note: '等位基因频率的世代变化；\\(\\Delta p\\neq0\\) 表示微进化。' },
-      { latex: '\\text{进化}=\\text{种群等位基因频率改变}', note: '不是个体在生命周期内改变基因。' }
+      { latex: '\\Delta p=p_{t+1}-p_{t}', note: '等位基因频率的世代变化；\\(\\Delta p\\neq0\\) 表示微进化。 · Change in allele frequency across generations; \\(\\Delta p\\neq0\\) indicates microevolution.' },
+      { latex: '\\text{进化}=\\text{种群等位基因频率改变}', note: '不是个体在生命周期内改变基因。 · This is not an individual changing its genes during its lifetime.' }
     ],
     derivationNotes: [
-      { from: '可遗传变异', to: '选择响应', note: '差异繁殖使有利等位基因频率升高。' },
-      { from: '环境变化', to: '适合度改变', note: '同一性状在新环境中的相对适合度可能翻转。' },
-      { from: '频率变化', to: '微进化', note: '等位基因频率的世代变化就是微进化，不必然形成新物种。' },
+      { from: '可遗传变异 · Heritable variation', to: '选择响应 · Selection response', note: '差异繁殖使有利等位基因频率升高。 · Differential reproduction raises the frequency of advantageous alleles.' },
+      { from: '环境变化 · Environmental change', to: '适合度改变 · Fitness change', note: '同一性状在新环境中的相对适合度可能翻转。 · The relative fitness of the same trait may reverse in a new environment.' },
+      { from: '频率变化 · Frequency change', to: '微进化 · Microevolution', note: '等位基因频率的世代变化就是微进化，不必然形成新物种。 · Change in allele frequencies across generations is microevolution and does not necessarily produce a new species.' },
     ],
     connections: [
-      '先修：7.2 自然选择与 7.4 群体遗传。',
-      '后续：7.10 物种形成与 7.12 种群变异。',
-      '应用：抗药性管理、渔业与保护政策。',
+      '先修：7.2 自然选择与 7.4 群体遗传。 · Prerequisite: natural selection in 7.2 and population genetics in 7.4.',
+      '后续：7.10 物种形成与 7.12 种群变异。 · Follow-up: speciation in 7.10 and population variation in 7.12.',
+      '应用：抗药性管理、渔业与保护政策。 · Application: resistance management, fisheries, and conservation policy.',
     ],
     conditions: [
-      '需要可遗传的变异与差异繁殖成功率',
-      '观察当代进化需要基线、时间序列与适当对照',
-      '个体 acclimation 不是进化；只有种群遗传组成改变才是',
-      '小种群中遗传漂变可能掩盖或加速选择',
-      '当代微进化不必然导致生殖隔离'
+      '需要可遗传的变异与差异繁殖成功率 · Heritable variation and differential reproductive success are required',
+      '观察当代进化需要基线、时间序列与适当对照 · Observing contemporary evolution requires baselines, time series, and appropriate controls',
+      '个体 acclimation 不是进化；只有种群遗传组成改变才是 · Individual acclimation is not evolution; only changes in a population’s genetic composition count',
+      '小种群中遗传漂变可能掩盖或加速选择 · In small populations, genetic drift can mask or accelerate selection',
+      '当代微进化不必然导致生殖隔离 · Contemporary microevolution does not necessarily lead to reproductive isolation'
     ],
     keyPoints: [
-      '进化是种群频率变化',
-      '抗生素与杀虫剂耐药是直接证据',
-      '人类活动是强选择压力',
-      '基因流与漂变可增强或抵消选择',
-      '微进化不等于物种形成',
-      '进化没有预定方向'
+      '进化是种群频率变化 · Evolution is change in population frequencies',
+      '抗生素与杀虫剂耐药是直接证据 · Antibiotic and pesticide resistance are direct evidence',
+      '人类活动是强选择压力 · Human activity is a strong selective pressure',
+      '基因流与漂变可增强或抵消选择 · Gene flow and drift can reinforce or counteract selection',
+      '微进化不等于物种形成 · Microevolution is not speciation',
+      '进化没有预定方向 · Evolution has no predetermined direction'
     ],
     misconceptions: [
-      '认为进化太慢，无法在人类时间尺度观察',
-      '认为进化总是让生物“更好”或更复杂',
-      '认为个体在一生中为了适应而改变基因',
-      '认为只要发生进化就会形成新物种',
-      '认为人类已经停止进化'
+      '认为进化太慢，无法在人类时间尺度观察 · Assuming evolution is too slow to observe on human time scales',
+      '认为进化总是让生物“更好”或更复杂 · Assuming evolution always makes organisms “better” or more complex',
+      '认为个体在一生中为了适应而改变基因 · Assuming individuals change their genes to adapt during their lifetime',
+      '认为只要发生进化就会形成新物种 · Assuming any evolution produces a new species',
+      '认为人类已经停止进化 · Assuming humans have stopped evolving'
     ],
     examples: [
       {
-        title: '例 1 · 抗生素耐药',
-        prompt: '为什么抗生素滥用会加速耐药菌种群的形成？',
+        title: '例 1 · 抗生素耐药 · Example 1 · Antibiotic Resistance',
+        prompt: '为什么抗生素滥用会加速耐药菌种群的形成？ · Why does antibiotic misuse accelerate the emergence of resistant bacterial populations?',
         steps: [
-          '细菌种群中原本存在随机抗药变异。',
-          '抗生素杀死敏感菌，耐药菌存活并繁殖。',
-          '耐药等位基因频率逐代升高。'
+          '细菌种群中原本存在随机抗药变异。 · Random resistance variants already exist in the bacterial population.',
+          '抗生素杀死敏感菌，耐药菌存活并繁殖。 · Antibiotics kill susceptible bacteria, while resistant bacteria survive and reproduce.',
+          '耐药等位基因频率逐代升高。 · The frequency of resistance alleles rises across generations.'
         ],
-        solution: '抗生素作为选择压力筛选已有抗药变异，使耐药菌比例上升。'
+        solution: '抗生素作为选择压力筛选已有抗药变异，使耐药菌比例上升。 · Antibiotics act as a selective pressure that screens existing resistance variants, increasing the proportion of resistant bacteria.'
       },
       {
-        title: '例 2 · 达尔文雀',
-        prompt: '干旱年份坚果变大变硬，雀鸟喙形如何响应？',
+        title: '例 2 · 达尔文雀 · Example 2 · Darwin’s Finches',
+        prompt: '干旱年份坚果变大变硬，雀鸟喙形如何响应？ · In drought years, seeds become larger and harder. How does finch beak shape respond?',
         steps: [
-          '喙更大更深的个体更能打开硬壳种子。',
-          '干旱时小种子减少，大喙个体存活与繁殖更好。',
-          '种群平均喙深增加，这是方向性选择。'
+          '喙更大更深的个体更能打开硬壳种子。 · Individuals with larger, deeper beaks are better at opening hard-shelled seeds.',
+          '干旱时小种子减少，大喙个体存活与繁殖更好。 · During drought, small seeds become scarce, so large-beaked individuals survive and reproduce better.',
+          '种群平均喙深增加，这是方向性选择。 · Average beak depth in the population increases, which is directional selection.'
         ],
-        solution: '食物变化改变适合度，使喙形分布向更大更深移动。'
+        solution: '食物变化改变适合度，使喙形分布向更大更深移动。 · The food change alters fitness and shifts the beak-shape distribution toward larger and deeper beaks.'
       },
       {
-        title: '例 3 · 捕捞选择',
-        prompt: '长期捕捞大型鱼为什么可能导致鱼群体型变小、性成熟提前？',
+        title: '例 3 · 捕捞选择 · Example 3 · Fishing Selection',
+        prompt: '长期捕捞大型鱼为什么可能导致鱼群体型变小、性成熟提前？ · Why can long-term harvesting of large fish lead to smaller body size and earlier sexual maturity in fish populations?',
         steps: [
-          '捕捞偏好大型个体，大型基因型繁殖机会减少。',
-          '体型较小、较早成熟的个体更可能存活并繁殖。',
-          '生活史性状在种群中发生遗传改变。'
+          '捕捞偏好大型个体，大型基因型繁殖机会减少。 · Fishing favors large individuals, reducing the reproductive opportunities of large genotypes.',
+          '体型较小、较早成熟的个体更可能存活并繁殖。 · Smaller, earlier-maturing individuals are more likely to survive and reproduce.',
+          '生活史性状在种群中发生遗传改变。 · Life-history traits undergo genetic change in the population.'
         ],
-        solution: '捕捞作为选择压力改变生活史，属于当代进化。'
+        solution: '捕捞作为选择压力改变生活史，属于当代进化。 · Fishing acts as a selective pressure that changes life history, which is contemporary evolution.'
       }
     ],
     examTips: [
-      'CED Unit 7：延续与变化',
-      '区分个体 acclimation 与种群进化',
-      '直接观察题写“基线—选择—频率变化”',
-      '不要把微进化直接等同于新物种形成',
-      '强调进化无预定方向，适应是相对的'
+      'CED Unit 7：延续与变化 · CED Unit 7: Continuity and change',
+      '区分个体 acclimation 与种群进化 · Distinguish individual acclimation from population evolution.',
+      '直接观察题写“基线—选择—频率变化” · For direct-observation questions, write “baseline—selection—frequency change.”',
+      '不要把微进化直接等同于新物种形成 · Do not equate microevolution directly with speciation.',
+      '强调进化无预定方向，适应是相对的 · Emphasize that evolution has no predetermined direction and that adaptation is relative.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.6', title: '进化证据', relation: '证据' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.10', title: '物种形成', relation: '后续' }
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择 · Natural Selection', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传 · Population Genetics', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.6', title: '进化证据 · Evidence for Evolution', relation: '证据 · Evidence' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.10', title: '物种形成 · Speciation', relation: '后续 · Follow-up' }
     ],
-    development: ['当代进化的定义', '直接观察案例', '人类选择压力', '漂变与基因流', '微进化与物种形成'],
-    checks: ['为什么抗生素耐药是当代进化的证据？', '个体 acclimation 与种群进化有何区别？', '微进化一定导致新物种吗？'],
-    summary: '进化在当代持续发生；选择、漂变、基因流与突变改变种群频率，但微进化不必然形成新物种，也没有预定方向。'
+    development: ['当代进化的定义 · Defining contemporary evolution', '直接观察案例 · Direct-observation cases', '人类选择压力 · Human selective pressures', '漂变与基因流 · Drift and gene flow', '微进化与物种形成 · Microevolution and speciation'],
+    checks: ['为什么抗生素耐药是当代进化的证据？ · Why is antibiotic resistance evidence of contemporary evolution?', '个体 acclimation 与种群进化有何区别？ · What is the difference between individual acclimation and population evolution?', '微进化一定导致新物种吗？ · Does microevolution always lead to a new species?'],
+    summary: '进化在当代持续发生；选择、漂变、基因流与突变改变种群频率，但微进化不必然形成新物种，也没有预定方向。 · Evolution continues in the present; selection, drift, gene flow, and mutation change population frequencies, but microevolution does not necessarily produce new species and has no predetermined direction.'
   },
 
   'bio/bio-u7/7.12': {
@@ -10494,432 +10504,432 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.13': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分生命起源的化学进化与生物进化，并说明各自的时间尺度。',
-      '能评价原始汤、RNA 世界、热液喷口与原始细胞假说的证据与局限。',
-      '能解释最早细胞、代谢与遗传系统的早期演化顺序。'
+      '能区分生命起源的化学进化与生物进化，并说明各自的时间尺度。 · Distinguish chemical evolution from biological evolution in the origin of life and explain their time scales.',
+      '能评价原始汤、RNA 世界、热液喷口与原始细胞假说的证据与局限。 · Evaluate the evidence and limitations of the primordial soup, RNA world, hydrothermal vent, and protocell hypotheses.',
+      '能解释最早细胞、代谢与遗传系统的早期演化顺序。 · Explain the early sequence of the first cells, metabolism, and genetic systems.'
     ],
     essentialKnowledge: [
-      '地球约 46 亿年，最早生命证据约 35 至 38 亿年前；生命起源研究非生命物质如何形成可自我复制、可进化的系统。',
-      '早期地球缺氧，火山活动、紫外线、闪电、热液与潮汐提供能量；有机分子可由无机物合成，Miller–Urey 实验证明氨基酸等可非生物生成。',
-      'RNA 世界假说认为 RNA 既能储存遗传信息又能催化反应（核酶），可先于 DNA 与蛋白质出现；随后 DNA 更稳定，蛋白质催化更多样。',
-      '原始细胞假说认为脂质囊泡包裹核酸与代谢物，形成内外分隔；膜的选择透过性让包含有利分子的囊泡生长、分裂并被选择。',
-      '热液喷口、黏土表面与潮间带可提供浓缩、催化表面与能量梯度；具体起源地点仍是活跃研究领域。',
-      '最早细胞为原核生物；光合作用释放 O₂ 改变大气，随后真核细胞与内共生出现。',
-      '生命起源假说必须可检验；化学进化解释生命从何而来，生物进化解释生命出现后如何多样化，两者不能混为一谈。'
+      '地球约 46 亿年，最早生命证据约 35 至 38 亿年前；生命起源研究非生命物质如何形成可自我复制、可进化的系统。 · Earth is about 4.6 billion years old, and the earliest evidence of life dates to about 3.5–3.8 billion years ago; the origin of life studies how nonliving matter formed systems capable of self-replication and evolution.',
+      '早期地球缺氧，火山活动、紫外线、闪电、热液与潮汐提供能量；有机分子可由无机物合成，Miller–Urey 实验证明氨基酸等可非生物生成。 · Early Earth was anoxic, and volcanic activity, ultraviolet light, lightning, hydrothermal vents, and tides supplied energy; organic molecules can be synthesized from inorganic substances, and the Miller–Urey experiment showed that amino acids and other molecules can form abiotically.',
+      'RNA 世界假说认为 RNA 既能储存遗传信息又能催化反应（核酶），可先于 DNA 与蛋白质出现；随后 DNA 更稳定，蛋白质催化更多样。 · The RNA world hypothesis proposes that RNA can both store genetic information and catalyze reactions (ribozymes), so it may have preceded DNA and proteins; later, DNA became more stable and proteins became more versatile catalysts.',
+      '原始细胞假说认为脂质囊泡包裹核酸与代谢物，形成内外分隔；膜的选择透过性让包含有利分子的囊泡生长、分裂并被选择。 · The protocell hypothesis proposes that lipid vesicles enclosed nucleic acids and metabolites, creating an inside–outside boundary; membrane selective permeability allowed vesicles containing advantageous molecules to grow, divide, and be selected.',
+      '热液喷口、黏土表面与潮间带可提供浓缩、催化表面与能量梯度；具体起源地点仍是活跃研究领域。 · Hydrothermal vents, clay surfaces, and intertidal zones can provide concentration, catalytic surfaces, and energy gradients; the exact site of origin remains an active research area.',
+      '最早细胞为原核生物；光合作用释放 O₂ 改变大气，随后真核细胞与内共生出现。 · The earliest cells were prokaryotes; photosynthesis released O₂ and changed the atmosphere, after which eukaryotic cells and endosymbiosis appeared.',
+      '生命起源假说必须可检验；化学进化解释生命从何而来，生物进化解释生命出现后如何多样化，两者不能混为一谈。 · Hypotheses about the origin of life must be testable; chemical evolution explains where life came from, while biological evolution explains how life diversified after it appeared, and the two should not be conflated.'
     ],
-    definition: '生命起源研究非生命物质如何通过化学进化形成可自我复制、可代谢并可进化的早期生命系统。主要假说包括原始汤、RNA 世界、热液喷口与原始细胞；最早生命证据约 35 至 38 亿年前，最早细胞为原核生物。',
-    intuition: '生命起源像从散落的零件到能自我复制、能进化的小机器：先有可复制的化学，再有膜把反应包起来，最后选择让更会复制和维持自己的系统留下来。',
-    intuitionDetailed: '化学进化需要构建块、能量、浓缩与模板。原始汤假说强调大气与能量驱动的有机合成；RNA 世界假说解决“先有核酸还是先有蛋白质”的循环问题；原始细胞假说解决“反应如何不被稀释”的问题。脂质囊泡可以自发生长、在机械扰动下分裂，并把内部核酸与外界分隔。一旦囊泡内的分子能自我复制并影响囊泡繁殖，自然选择就开始作用于化学系统。',
+    definition: '生命起源研究非生命物质如何通过化学进化形成可自我复制、可代谢并可进化的早期生命系统。主要假说包括原始汤、RNA 世界、热液喷口与原始细胞；最早生命证据约 35 至 38 亿年前，最早细胞为原核生物。 · The origin of life studies how nonliving matter formed early living systems capable of self-replication, metabolism, and evolution through chemical evolution. Major hypotheses include the primordial soup, RNA world, hydrothermal vents, and protocells; the earliest evidence of life dates to about 3.5–3.8 billion years ago, and the earliest cells were prokaryotes.',
+    intuition: '生命起源像从散落的零件到能自我复制、能进化的小机器：先有可复制的化学，再有膜把反应包起来，最后选择让更会复制和维持自己的系统留下来。 · The origin of life is like going from scattered parts to a small machine that can self-replicate and evolve: first comes replicating chemistry, then a membrane that encloses the reactions, and finally selection retains systems that are better at copying and maintaining themselves.',
+    intuitionDetailed: '化学进化需要构建块、能量、浓缩与模板。原始汤假说强调大气与能量驱动的有机合成；RNA 世界假说解决“先有核酸还是先有蛋白质”的循环问题；原始细胞假说解决“反应如何不被稀释”的问题。脂质囊泡可以自发生长、在机械扰动下分裂，并把内部核酸与外界分隔。一旦囊泡内的分子能自我复制并影响囊泡繁殖，自然选择就开始作用于化学系统。 · Chemical evolution requires building blocks, energy, concentration, and templates. The primordial soup hypothesis emphasizes atmosphere- and energy-driven organic synthesis; the RNA world hypothesis solves the circular “nucleic acid first or protein first” problem; the protocell hypothesis solves the problem of reactions being diluted away. Lipid vesicles can grow spontaneously, divide under mechanical disturbance, and separate internal nucleic acids from the outside. Once molecules inside a vesicle can self-replicate and affect vesicle reproduction, natural selection begins to act on chemical systems.',
     formulas: [
-      { latex: '\\text{无机物}\\to\\text{有机单体}\\to\\text{聚合物}\\to\\text{原始细胞}\\to\\text{细胞}', note: '化学进化的简化顺序。' },
-      { latex: '\\text{RNA}\\Rightarrow\\text{信息储存}+\\text{催化}', note: 'RNA 世界假说的核心。' },
-      { latex: '\\text{囊泡}+\\text{自我复制分子}\\Rightarrow\\text{可被选择的原始细胞}', note: '区隔化与复制结合。' }
+      { latex: '\\text{无机物}\\to\\text{有机单体}\\to\\text{聚合物}\\to\\text{原始细胞}\\to\\text{细胞}', note: '化学进化的简化顺序。 · Simplified sequence of chemical evolution.' },
+      { latex: '\\text{RNA}\\Rightarrow\\text{信息储存}+\\text{催化}', note: 'RNA 世界假说的核心。 · The core of the RNA world hypothesis.' },
+      { latex: '\\text{囊泡}+\\text{自我复制分子}\\Rightarrow\\text{可被选择的原始细胞}', note: '区隔化与复制结合。 · Compartmentalization combined with replication.' }
     ],
     derivationNotes: [
-      { from: '无机分子', to: '有机单体', note: '早期地球能量源驱动非生物合成，实验可产生氨基酸等。' },
-      { from: '有机单体', to: '可复制聚合物', note: '浓缩、催化表面与模板促进聚合与复制。' },
-      { from: 'RNA 或类似分子', to: '原始细胞', note: '膜包裹复制系统，形成可被选择的单位。' },
+      { from: '无机分子 · Inorganic molecules', to: '有机单体 · Organic monomers', note: '早期地球能量源驱动非生物合成，实验可产生氨基酸等。 · Early-Earth energy sources drove abiotic synthesis, and experiments can produce amino acids and other molecules.' },
+      { from: '有机单体 · Organic monomers', to: '可复制聚合物 · Replicating polymers', note: '浓缩、催化表面与模板促进聚合与复制。 · Concentration, catalytic surfaces, and templates promote polymerization and replication.' },
+      { from: 'RNA 或类似分子 · RNA or similar molecules', to: '原始细胞 · Protocell', note: '膜包裹复制系统，形成可被选择的单位。 · A membrane encloses the replication system, forming a unit that can be selected.' },
     ],
     connections: [
-      '先修：1.2 元素与大分子，理解生命化学基础。',
-      '后续：2.10 细胞区隔起源与 7.6 进化证据。',
-      '应用：天体生物学与生命探测。',
+      '先修：1.2 元素与大分子，理解生命化学基础。 · Prerequisite: elements and macromolecules in 1.2 provide the chemical foundation of life.',
+      '后续：2.10 细胞区隔起源与 7.6 进化证据。 · Follow-up: the origins of cellular compartments in 2.10 and evidence for evolution in 7.6.',
+      '应用：天体生物学与生命探测。 · Application: astrobiology and the search for life.',
     ],
     conditions: [
-      '需要能量源、构建块、浓缩机制与可催化表面',
-      'RNA 世界需要 RNA 自复制与催化活性，实验室已发现多种核酶',
-      '原始细胞需要膜的生长与分裂，且内部反应能影响繁殖',
-      '早期地球大气成分与温度仍有不确定性，实验模拟不能完全代表当时环境',
-      '生命起源假说需要可检验的化学与地质证据'
+      '需要能量源、构建块、浓缩机制与可催化表面 · Energy sources, building blocks, concentration mechanisms, and catalytic surfaces are required',
+      'RNA 世界需要 RNA 自复制与催化活性，实验室已发现多种核酶 · The RNA world requires RNA self-replication and catalytic activity; many ribozymes have been found in the laboratory',
+      '原始细胞需要膜的生长与分裂，且内部反应能影响繁殖 · Protocells require membrane growth and division, and internal reactions must affect reproduction',
+      '早期地球大气成分与温度仍有不确定性，实验模拟不能完全代表当时环境 · The composition and temperature of the early atmosphere remain uncertain, and experimental simulations cannot fully represent the ancient environment',
+      '生命起源假说需要可检验的化学与地质证据 · Origin-of-life hypotheses require testable chemical and geological evidence'
     ],
     keyPoints: [
-      '生命起源与生物进化不同',
-      '最早生命证据约 35 至 38 亿年前',
-      'Miller–Urey 证明有机分子可非生物合成',
-      'RNA 世界：信息 + 催化',
-      '原始细胞：膜包裹反应',
-      '热液喷口与黏土提供能量与表面',
-      '最早细胞为原核生物',
-      '光合作用改变大气'
+      '生命起源与生物进化不同 · The origin of life differs from biological evolution',
+      '最早生命证据约 35 至 38 亿年前 · The earliest evidence of life dates to about 3.5–3.8 billion years ago',
+      'Miller–Urey 证明有机分子可非生物合成 · Miller–Urey demonstrated abiotic synthesis of organic molecules',
+      'RNA 世界：信息 + 催化 · RNA world: information plus catalysis',
+      '原始细胞：膜包裹反应 · Protocells: membranes enclosing reactions',
+      '热液喷口与黏土提供能量与表面 · Hydrothermal vents and clay provide energy and surfaces',
+      '最早细胞为原核生物 · The earliest cells were prokaryotes',
+      '光合作用改变大气 · Photosynthesis changed the atmosphere'
     ],
     misconceptions: [
-      '认为生命起源是一步完成的事件',
-      '认为 Miller–Urey 实验直接证明了生命起源',
-      '把 RNA 世界假说当作已完全证实的定论',
-      '认为生命起源与进化论是同一问题',
-      '认为最早细胞已经是真核细胞',
-      '认为外太空来源假说可以替代地球化学进化研究'
+      '认为生命起源是一步完成的事件 · Assuming the origin of life was a single-step event',
+      '认为 Miller–Urey 实验直接证明了生命起源 · Assuming the Miller–Urey experiment directly proved the origin of life',
+      '把 RNA 世界假说当作已完全证实的定论 · Treating the RNA world hypothesis as a fully confirmed fact',
+      '认为生命起源与进化论是同一问题 · Assuming the origin of life and evolutionary theory are the same question',
+      '认为最早细胞已经是真核细胞 · Assuming the earliest cells were already eukaryotic',
+      '认为外太空来源假说可以替代地球化学进化研究 · Assuming an extraterrestrial-origin hypothesis can replace research on terrestrial chemical evolution'
     ],
     examples: [
       {
-        title: '例 1 · Miller–Urey',
-        prompt: 'Miller–Urey 实验用 \\(\\mathrm{CH_4}\\)、\\(\\mathrm{NH_3}\\)、\\(\\mathrm{H_2}\\) 与水在电火花下反应，得到了什么？说明了什么？',
+        title: '例 1 · Miller–Urey · Example 1 · Miller–Urey',
+        prompt: 'Miller–Urey 实验用 \\(\\mathrm{CH_4}\\)、\\(\\mathrm{NH_3}\\)、\\(\\mathrm{H_2}\\) 与水在电火花下反应，得到了什么？说明了什么？ · The Miller–Urey experiment reacted \\(\\mathrm{CH_4}\\), \\(\\mathrm{NH_3}\\), \\(\\mathrm{H_2}\\), and water with electric sparks. What did it produce, and what did it show?',
         steps: [
-          '实验检测到多种氨基酸等有机分子。',
-          '说明早期地球条件下无机物可形成有机单体。',
-          '但它没有证明这些单体如何聚合并形成可复制系统。'
+          '实验检测到多种氨基酸等有机分子。 · The experiment detected various organic molecules, including amino acids.',
+          '说明早期地球条件下无机物可形成有机单体。 · It showed that inorganic substances could form organic monomers under early-Earth conditions.',
+          '但它没有证明这些单体如何聚合并形成可复制系统。 · However, it did not show how these monomers polymerized into a replicating system.'
         ],
-        solution: '证明有机单体可非生物合成，但不能单独解释生命起源全过程。'
+        solution: '证明有机单体可非生物合成，但不能单独解释生命起源全过程。 · It demonstrated abiotic synthesis of organic monomers but cannot alone explain the entire origin of life.'
       },
       {
-        title: '例 2 · RNA 世界',
-        prompt: '为什么 RNA 世界假说能缓解“先有 DNA 还是先有蛋白质”的循环问题？',
+        title: '例 2 · RNA 世界 · Example 2 · RNA World',
+        prompt: '为什么 RNA 世界假说能缓解“先有 DNA 还是先有蛋白质”的循环问题？ · Why does the RNA world hypothesis ease the circular “DNA first or protein first” problem?',
         steps: [
-          'RNA 可以像 DNA 一样储存序列信息。',
-          '某些 RNA（核酶）可以催化切割、连接等反应。',
-          '因此 RNA 可能同时承担遗传与催化功能，之后再演化出 DNA 与蛋白质。'
+          'RNA 可以像 DNA 一样储存序列信息。 · RNA can store sequence information like DNA.',
+          '某些 RNA（核酶）可以催化切割、连接等反应。 · Some RNAs (ribozymes) can catalyze cleavage, ligation, and other reactions.',
+          '因此 RNA 可能同时承担遗传与催化功能，之后再演化出 DNA 与蛋白质。 · Thus RNA could have carried both genetic and catalytic functions, with DNA and proteins evolving later.'
         ],
-        solution: 'RNA 兼具信息与催化潜力，可作为早期分子系统的核心。'
+        solution: 'RNA 兼具信息与催化潜力，可作为早期分子系统的核心。 · RNA has both informational and catalytic potential, so it could have been the core of an early molecular system.'
       },
       {
-        title: '例 3 · 原始细胞',
-        prompt: '脂肪酸囊泡为什么被认为是原始细胞的有力候选？',
+        title: '例 3 · 原始细胞 · Example 3 · Protocells',
+        prompt: '脂肪酸囊泡为什么被认为是原始细胞的有力候选？ · Why are fatty acid vesicles considered strong candidates for protocells?',
         steps: [
-          '脂肪酸在水中可自发形成囊泡，包裹内部溶液。',
-          '囊泡可生长，并在扰动下分裂。',
-          '膜的选择透过性让内部反应与外界环境分隔，形成选择单位。'
+          '脂肪酸在水中可自发形成囊泡，包裹内部溶液。 · Fatty acids can spontaneously form vesicles in water that enclose an internal solution.',
+          '囊泡可生长，并在扰动下分裂。 · Vesicles can grow and divide under disturbance.',
+          '膜的选择透过性让内部反应与外界环境分隔，形成选择单位。 · Membrane selective permeability separates internal reactions from the external environment, forming a unit of selection.'
         ],
-        solution: '囊泡提供区隔化与繁殖基础，使内部可复制分子能被选择。'
+        solution: '囊泡提供区隔化与繁殖基础，使内部可复制分子能被选择。 · Vesicles provide the basis for compartmentalization and reproduction, allowing internal replicating molecules to be selected.'
       }
     ],
     examTips: [
-      'CED Unit 7：生命起源',
-      '先区分“生命起源”与“生物进化”',
-      'RNA 世界题写“信息储存 + 催化”',
-      '原始细胞题写“膜、区隔、生长、分裂、选择”',
-      '实验题说明证据支持什么、不能支持什么',
-      '时间尺度：地球 46 亿年，最早生命约 35 至 38 亿年前'
+      'CED Unit 7：生命起源 · CED Unit 7: Origins of life',
+      '先区分“生命起源”与“生物进化” · First distinguish “the origin of life” from “biological evolution.”',
+      'RNA 世界题写“信息储存 + 催化” · For RNA world questions, write “information storage plus catalysis.”',
+      '原始细胞题写“膜、区隔、生长、分裂、选择” · For protocell questions, write “membrane, compartment, growth, division, selection.”',
+      '实验题说明证据支持什么、不能支持什么 · For experiment questions, state what the evidence supports and what it does not support.',
+      '时间尺度：地球 46 亿年，最早生命约 35 至 38 亿年前 · Time scale: Earth is 4.6 billion years old, and the earliest life dates to about 3.5–3.8 billion years ago.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u2', code: '2.10', title: '细胞区隔起源', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.6', title: '进化证据', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.7', title: '共同祖先', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.12', title: '种群变异 · Variations in Populations', relation: '先修' }
+      { subject: 'bio', chapterId: 'bio-u2', code: '2.10', title: '细胞区隔起源 · Origins of Cellular Compartments', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.6', title: '进化证据 · Evidence for Evolution', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.7', title: '共同祖先 · Common Ancestry', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.12', title: '种群变异 · Variations in Populations', relation: '先修 · Prerequisite' }
     ],
-    development: ['生命起源与进化', '早期地球条件', '有机分子合成', 'RNA 世界', '原始细胞', '最早细胞与氧化大气'],
-    checks: ['生命起源与生物进化有什么区别？', 'RNA 世界假说解决了什么问题？', '原始细胞为什么需要膜？'],
-    summary: '生命起源研究化学进化如何产生可复制、可被选择的系统；RNA 世界与原始细胞假说分别解决信息与区隔化问题。'
+    development: ['生命起源与进化 · Origin of life and evolution', '早期地球条件 · Early Earth conditions', '有机分子合成 · Organic molecule synthesis', 'RNA 世界 · RNA world', '原始细胞 · Protocells', '最早细胞与氧化大气 · Earliest cells and the oxygenated atmosphere'],
+    checks: ['生命起源与生物进化有什么区别？ · What is the difference between the origin of life and biological evolution?', 'RNA 世界假说解决了什么问题？ · What problem does the RNA world hypothesis solve?', '原始细胞为什么需要膜？ · Why do protocells need membranes?'],
+    summary: '生命起源研究化学进化如何产生可复制、可被选择的系统；RNA 世界与原始细胞假说分别解决信息与区隔化问题。 · The origin of life studies how chemical evolution produced systems that can replicate and be selected; the RNA world and protocell hypotheses address information and compartmentalization, respectively.'
   },
 
   'bio/bio-u8/8.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分行为响应与生理响应，并说明各自的代价与收益。',
-      '能解释趋性、动性、生物钟、光周期与迁徙滞育的适应意义。',
-      '能分析植物向性、光周期与春化对环境的响应。'
+      '能区分行为响应与生理响应，并说明各自的代价与收益。 · Distinguish behavioral responses from physiological responses and explain their costs and benefits.',
+      '能解释趋性、动性、生物钟、光周期与迁徙滞育的适应意义。 · Explain the adaptive significance of taxis, kinesis, circadian rhythms, photoperiod, migration, and diapause.',
+      '能分析植物向性、光周期与春化对环境的响应。 · Analyze plant responses to the environment through tropisms, photoperiod, and vernalization.'
     ],
     essentialKnowledge: [
-      '生物通过行为与生理机制响应环境变化，以维持稳态、获取资源与提高繁殖成功。',
-      '行为响应包括趋性（定向移动）、动性（非定向活动速率变化）、迁徙、集群、领域行为、学习与通讯。',
-      '生理响应包括 acclimation（个体可逆调整）、休眠与滞育、冬眠、渗透调节、体温调节与酶活性调整。',
-      '生物钟与光周期让生物预测昼夜与季节变化；光照、温度与褪黑素等信号参与节律与繁殖时机。',
-      '植物响应包括向光性、向地性、向触性、光周期、春化与气孔开闭，通常由激素与信号转导介导。',
-      '响应可以是先天或学习获得；环境线索必须被感受器检测并转化为神经、内分泌或细胞信号。',
-      '响应有能量与风险代价，权衡决定最优策略；acclimation 是可逆的个体调整，adaptation 是可遗传的种群变化。'
+      '生物通过行为与生理机制响应环境变化，以维持稳态、获取资源与提高繁殖成功。 · Organisms respond to environmental change through behavioral and physiological mechanisms to maintain homeostasis, acquire resources, and increase reproductive success.',
+      '行为响应包括趋性（定向移动）、动性（非定向活动速率变化）、迁徙、集群、领域行为、学习与通讯。 · Behavioral responses include taxis (directed movement), kinesis (nondirected change in activity rate), migration, grouping, territorial behavior, learning, and communication.',
+      '生理响应包括 acclimation（个体可逆调整）、休眠与滞育、冬眠、渗透调节、体温调节与酶活性调整。 · Physiological responses include acclimation (reversible individual adjustment), dormancy and diapause, hibernation, osmoregulation, thermoregulation, and adjustment of enzyme activity.',
+      '生物钟与光周期让生物预测昼夜与季节变化；光照、温度与褪黑素等信号参与节律与繁殖时机。 · Circadian clocks and photoperiod let organisms anticipate daily and seasonal change; light, temperature, and melatonin are signals involved in rhythms and reproductive timing.',
+      '植物响应包括向光性、向地性、向触性、光周期、春化与气孔开闭，通常由激素与信号转导介导。 · Plant responses include phototropism, gravitropism, thigmotropism, photoperiodism, vernalization, and stomatal opening and closing, usually mediated by hormones and signal transduction.',
+      '响应可以是先天或学习获得；环境线索必须被感受器检测并转化为神经、内分泌或细胞信号。 · Responses can be innate or learned; environmental cues must be detected by receptors and converted into neural, endocrine, or cellular signals.',
+      '响应有能量与风险代价，权衡决定最优策略；acclimation 是可逆的个体调整，adaptation 是可遗传的种群变化。 · Responses carry energy and risk costs, and trade-offs determine the optimal strategy; acclimation is reversible individual adjustment, whereas adaptation is heritable population change.'
     ],
-    definition: '环境响应是生物检测环境变化并作出行为或生理调整的过程。动物可移动、迁徙或改变代谢，植物通过向性、光周期与春化调整生长与开花；响应的收益必须超过能量与风险代价。',
-    intuition: '环境变化像天气预报：动物可以搬家、换衣服或调空调，植物不能移动，只能通过生长方向和开花时间来应对。',
-    intuitionDetailed: '趋性是朝向或远离刺激的定向运动（如趋光）；动性不定向，只改变活动速率（如湿度低时活动增加）。生物钟是内源节律，即使没有外部线索仍近似 24 小时运行，光周期则把昼夜长度转化为季节信息。植物向光性由生长素分布不均造成，向地性由重力感知与生长素重新分布造成。迁徙与滞育让动物避开不利季节，但需要能量储备与导航能力。',
+    definition: '环境响应是生物检测环境变化并作出行为或生理调整的过程。动物可移动、迁徙或改变代谢，植物通过向性、光周期与春化调整生长与开花；响应的收益必须超过能量与风险代价。 · Environmental response is the process by which organisms detect environmental change and make behavioral or physiological adjustments. Animals can move, migrate, or alter metabolism, while plants adjust growth and flowering through tropisms, photoperiod, and vernalization; the benefits of a response must exceed its energy and risk costs.',
+    intuition: '环境变化像天气预报：动物可以搬家、换衣服或调空调，植物不能移动，只能通过生长方向和开花时间来应对。 · Environmental change is like a weather forecast: animals can move house, change clothes, or turn on the air conditioner, while plants cannot move and must respond through growth direction and flowering time.',
+    intuitionDetailed: '趋性是朝向或远离刺激的定向运动（如趋光）；动性不定向，只改变活动速率（如湿度低时活动增加）。生物钟是内源节律，即使没有外部线索仍近似 24 小时运行，光周期则把昼夜长度转化为季节信息。植物向光性由生长素分布不均造成，向地性由重力感知与生长素重新分布造成。迁徙与滞育让动物避开不利季节，但需要能量储备与导航能力。 · Taxis is directed movement toward or away from a stimulus (such as phototaxis); kinesis is nondirected and only changes activity rate (such as increased activity when humidity is low). Circadian clocks are endogenous rhythms that run near 24 hours even without external cues, while photoperiod converts day length into seasonal information. Plant phototropism results from unequal auxin distribution, and gravitropism from gravity sensing and auxin redistribution. Migration and diapause let animals avoid unfavorable seasons but require energy reserves and navigation ability.',
     formulas: [
-      { latex: '\\text{刺激}\\to\\text{感受器}\\to\\text{信号}\\to\\text{响应}', note: '环境响应的一般路径。' },
-      { latex: '\\text{响应收益}>\\text{响应代价}', note: '行为或生理响应的简化选择条件。' }
+      { latex: '\\text{刺激}\\to\\text{感受器}\\to\\text{信号}\\to\\text{响应}', note: '环境响应的一般路径。 · General pathway of an environmental response.' },
+      { latex: '\\text{响应收益}>\\text{响应代价}', note: '行为或生理响应的简化选择条件。 · Simplified condition for a behavioral or physiological response.' }
     ],
     derivationNotes: [
-      { from: '环境刺激', to: '感受器信号', note: '光、温度、化学物质等被感受器检测并转换为电化学信号。' },
-      { from: '信号', to: '行为或生理响应', note: '神经与内分泌系统协调肌肉、腺体与代谢。' },
-      { from: '响应代价', to: '适合度', note: '响应的能量与风险成本影响最终适合度。' },
+      { from: '环境刺激 · Environmental stimulus', to: '感受器信号 · Receptor signal', note: '光、温度、化学物质等被感受器检测并转换为电化学信号。 · Light, temperature, chemicals, and other cues are detected by receptors and converted into electrochemical signals.' },
+      { from: '信号 · Signal', to: '行为或生理响应 · Behavioral or physiological response', note: '神经与内分泌系统协调肌肉、腺体与代谢。 · The nervous and endocrine systems coordinate muscles, glands, and metabolism.' },
+      { from: '响应代价 · Response cost', to: '适合度 · Fitness', note: '响应的能量与风险成本影响最终适合度。 · The energy and risk costs of a response affect final fitness.' },
     ],
     connections: [
-      '先修：4.4 反馈与稳态。',
-      '后续：8.2–8.5 的种群、群落与生态系统过程。',
-      '应用：保护行为学、农业光周期管理与气候变化响应。',
+      '先修：4.4 反馈与稳态。 · Prerequisite: feedback and homeostasis in 4.4.',
+      '后续：8.2–8.5 的种群、群落与生态系统过程。 · Follow-up: population, community, and ecosystem processes in 8.2–8.5.',
+      '应用：保护行为学、农业光周期管理与气候变化响应。 · Application: conservation behavior, agricultural photoperiod management, and climate-change responses.',
     ],
     conditions: [
-      '响应依赖感受器的敏感范围与生物的生活史阶段',
-      'acclimation 是可逆的个体调整，不是可遗传的适应',
-      '光周期作为季节线索需要稳定的昼夜节律',
-      '植物响应通常由激素与细胞信号介导，不能简单归因于“植物意志”',
-      '响应有能量、时间与捕食风险等代价'
+      '响应依赖感受器的敏感范围与生物的生活史阶段 · Responses depend on the receptor’s sensitivity range and the organism’s life-history stage',
+      'acclimation 是可逆的个体调整，不是可遗传的适应 · Acclimation is reversible individual adjustment, not heritable adaptation',
+      '光周期作为季节线索需要稳定的昼夜节律 · Photoperiod as a seasonal cue requires a stable circadian rhythm',
+      '植物响应通常由激素与细胞信号介导，不能简单归因于“植物意志” · Plant responses are usually mediated by hormones and cellular signals and cannot simply be attributed to “plant will”',
+      '响应有能量、时间与捕食风险等代价 · Responses carry costs in energy, time, and predation risk'
     ],
     keyPoints: [
-      '行为响应 vs 生理响应',
-      '趋性定向，动性不定向',
-      '生物钟与光周期预测环境变化',
-      '迁徙、滞育与冬眠是季节性策略',
-      '植物向性、光周期与春化',
-      'acclimation 与 adaptation 不同',
-      '响应存在代价与权衡'
+      '行为响应 vs 生理响应 · Behavioral vs physiological responses',
+      '趋性定向，动性不定向 · Taxis is directed; kinesis is nondirected',
+      '生物钟与光周期预测环境变化 · Circadian clocks and photoperiod predict environmental change',
+      '迁徙、滞育与冬眠是季节性策略 · Migration, diapause, and hibernation are seasonal strategies',
+      '植物向性、光周期与春化 · Plant tropisms, photoperiod, and vernalization',
+      'acclimation 与 adaptation 不同 · Acclimation differs from adaptation',
+      '响应存在代价与权衡 · Responses involve costs and trade-offs'
     ],
     misconceptions: [
-      '认为所有行为都是学习获得的',
-      '把趋性与动性混为一谈',
-      '认为植物不会响应环境',
-      '把 acclimation 当作进化适应',
-      '认为迁徙是随机移动',
-      '认为响应越大越好，忽略能量代价'
+      '认为所有行为都是学习获得的 · Assuming all behavior is learned',
+      '把趋性与动性混为一谈 · Confusing taxis with kinesis',
+      '认为植物不会响应环境 · Assuming plants do not respond to the environment',
+      '把 acclimation 当作进化适应 · Treating acclimation as evolutionary adaptation',
+      '认为迁徙是随机移动 · Assuming migration is random movement',
+      '认为响应越大越好，忽略能量代价 · Assuming stronger responses are always better and ignoring energy costs'
     ],
     examples: [
       {
-        title: '例 1 · 趋性与动性',
-        prompt: '眼虫向光游动与潮虫在干燥时活动增加，分别属于什么响应？',
+        title: '例 1 · 趋性与动性 · Example 1 · Taxis and Kinesis',
+        prompt: '眼虫向光游动与潮虫在干燥时活动增加，分别属于什么响应？ · Euglena swimming toward light and woodlice increasing activity when dry are examples of which responses?',
         steps: [
-          '眼虫朝光源定向移动，属于趋光性。',
-          '潮虫不朝特定方向，只改变活动速率以寻找湿度，属于动性。',
-          '两者都是行为响应，但定向性不同。'
+          '眼虫朝光源定向移动，属于趋光性。 · Euglena moves directionally toward a light source, which is positive phototaxis.',
+          '潮虫不朝特定方向，只改变活动速率以寻找湿度，属于动性。 · Woodlice do not move in a specific direction but change activity rate to find humidity, which is kinesis.',
+          '两者都是行为响应，但定向性不同。 · Both are behavioral responses, but their directionality differs.'
         ],
-        solution: '眼虫为趋性；潮虫为动性。'
+        solution: '眼虫为趋性；潮虫为动性。 · Euglena shows taxis; woodlice show kinesis.'
       },
       {
-        title: '例 2 · 光周期',
-        prompt: '短日植物为什么在秋季开花？',
+        title: '例 2 · 光周期 · Example 2 · Photoperiod',
+        prompt: '短日植物为什么在秋季开花？ · Why do short-day plants flower in autumn?',
         steps: [
-          '短日植物需要夜长超过临界值。',
-          '秋季夜长增加，达到阈值。',
-          '光周期信号触发开花基因表达。'
+          '短日植物需要夜长超过临界值。 · Short-day plants require night length to exceed a critical value.',
+          '秋季夜长增加，达到阈值。 · Autumn nights lengthen and reach the threshold.',
+          '光周期信号触发开花基因表达。 · The photoperiod signal triggers expression of flowering genes.'
         ],
-        solution: '夜长超过临界值触发短日植物开花。'
+        solution: '夜长超过临界值触发短日植物开花。 · Night length exceeding the critical value triggers flowering in short-day plants.'
       },
       {
-        title: '例 3 · acclimation',
-        prompt: '人从平原到高海拔后红细胞增多，这是进化适应吗？',
+        title: '例 3 · acclimation · Example 3 · Acclimation',
+        prompt: '人从平原到高海拔后红细胞增多，这是进化适应吗？ · When people move from lowlands to high altitude, their red blood cell count increases. Is this evolutionary adaptation?',
         steps: [
-          '高海拔氧分压低，身体增加红细胞以提高携氧能力。',
-          '这是个体在生命周期内的可逆生理调整。',
-          '可遗传的种群适应需要多代选择。'
+          '高海拔氧分压低，身体增加红细胞以提高携氧能力。 · At high altitude, oxygen partial pressure is lower, so the body increases red blood cells to improve oxygen carrying.',
+          '这是个体在生命周期内的可逆生理调整。 · This is a reversible physiological adjustment within an individual’s lifetime.',
+          '可遗传的种群适应需要多代选择。 · Heritable population adaptation requires selection across many generations.'
         ],
-        solution: '属于 acclimation，不是可遗传的 adaptation。'
+        solution: '属于 acclimation，不是可遗传的 adaptation。 · It is acclimation, not heritable adaptation.'
       }
     ],
     examTips: [
-      'CED Unit 8：环境响应',
-      '先分类：行为还是生理，定向还是非定向',
-      '植物题写向性、光周期、春化与激素',
-      'acclimation 与 adaptation 要区分',
-      'FRQ 用“刺激—感受—信号—响应—代价”链条'
+      'CED Unit 8：环境响应 · CED Unit 8: Responses to the environment',
+      '先分类：行为还是生理，定向还是非定向 · Classify first: behavioral or physiological, directed or nondirected.',
+      '植物题写向性、光周期、春化与激素 · For plant questions, write tropisms, photoperiod, vernalization, and hormones.',
+      'acclimation 与 adaptation 要区分 · Distinguish acclimation from adaptation.',
+      'FRQ 用“刺激—感受—信号—响应—代价”链条 · In FRQs, use the chain “stimulus—reception—signal—response—cost.”'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.3', title: '种群生态', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '应用' }
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈 · Feedback', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流 · Energy Flow', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.3', title: '种群生态 · Population Ecology', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择 · Natural Selection', relation: '应用 · Application' }
     ],
-    development: ['行为与生理响应', '趋性与动性', '生物钟与光周期', '迁徙与滞育', '植物响应', '代价与权衡'],
-    checks: ['趋性与动性有何区别？', 'acclimation 与 adaptation 有何不同？', '短日植物如何利用光周期开花？'],
-    summary: '生物用行为与生理响应应对环境变化；趋性、动性、生物钟、光周期与植物向性各有适应意义，且都受代价约束。'
+    development: ['行为与生理响应 · Behavioral and physiological responses', '趋性与动性 · Taxis and kinesis', '生物钟与光周期 · Circadian clocks and photoperiod', '迁徙与滞育 · Migration and diapause', '植物响应 · Plant responses', '代价与权衡 · Costs and trade-offs'],
+    checks: ['趋性与动性有何区别？ · What is the difference between taxis and kinesis?', 'acclimation 与 adaptation 有何不同？ · How do acclimation and adaptation differ?', '短日植物如何利用光周期开花？ · How do short-day plants use photoperiod to flower?'],
+    summary: '生物用行为与生理响应应对环境变化；趋性、动性、生物钟、光周期与植物向性各有适应意义，且都受代价约束。 · Organisms use behavioral and physiological responses to cope with environmental change; taxis, kinesis, circadian clocks, photoperiod, and plant tropisms each have adaptive significance and are constrained by costs.'
   },
 
   'bio/bio-u8/8.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分遗传多样性、物种多样性与生态系统多样性。',
-      '能用物种丰富度、均匀度与多样性指数比较群落。',
-      '能解释生物多样性对生态系统稳定性与人类福祉的意义。'
+      '能区分遗传多样性、物种多样性与生态系统多样性。 · Distinguish genetic diversity, species diversity, and ecosystem diversity.',
+      '能用物种丰富度、均匀度与多样性指数比较群落。 · Use species richness, evenness, and diversity indices to compare communities.',
+      '能解释生物多样性对生态系统稳定性与人类福祉的意义。 · Explain the significance of biodiversity for ecosystem stability and human well-being.'
     ],
     essentialKnowledge: [
-      '生物多样性是生命在基因、物种与生态系统层次的多样性，包括遗传变异、物种数、群落与生态系统类型。',
-      '物种丰富度是物种数；均匀度描述各物种个体数分布的均匀程度；Shannon 指数综合丰富度与均匀度。',
-      '生物多样性高的生态系统通常具有更高抵抗力与恢复力，但多样性—稳定性关系受环境、尺度与扰动类型影响，并非绝对。',
-      '生物多样性提供生态系统服务：食物、药物、授粉、水质净化、气候调节、土壤保持与文化价值。',
-      '生物多样性热点地区物种特有性高、受威胁严重；岛屿与破碎化栖息地更易失去多样性。',
-      '遗传多样性是物种适应环境变化的基础；物种多样性是群落结构的基础；生态系统多样性提供多种生境与生态过程。'
+      '生物多样性是生命在基因、物种与生态系统层次的多样性，包括遗传变异、物种数、群落与生态系统类型。 · Biodiversity is the diversity of life at genetic, species, and ecosystem levels, including genetic variation, species number, and the variety of communities and ecosystem types.',
+      '物种丰富度是物种数；均匀度描述各物种个体数分布的均匀程度；Shannon 指数综合丰富度与均匀度。 · Species richness is the number of species; evenness describes how evenly individuals are distributed among species; the Shannon index combines richness and evenness.',
+      '生物多样性高的生态系统通常具有更高抵抗力与恢复力，但多样性—稳定性关系受环境、尺度与扰动类型影响，并非绝对。 · Ecosystems with high biodiversity usually have greater resistance and resilience, but the diversity–stability relationship depends on environment, scale, and disturbance type and is not absolute.',
+      '生物多样性提供生态系统服务：食物、药物、授粉、水质净化、气候调节、土壤保持与文化价值。 · Biodiversity provides ecosystem services: food, medicine, pollination, water purification, climate regulation, soil retention, and cultural value.',
+      '生物多样性热点地区物种特有性高、受威胁严重；岛屿与破碎化栖息地更易失去多样性。 · Biodiversity hotspots have high endemism and severe threats; islands and fragmented habitats are more prone to biodiversity loss.',
+      '遗传多样性是物种适应环境变化的基础；物种多样性是群落结构的基础；生态系统多样性提供多种生境与生态过程。 · Genetic diversity is the basis for species to adapt to environmental change; species diversity is the basis of community structure; ecosystem diversity provides a variety of habitats and ecological processes.'
     ],
-    definition: '生物多样性是生命在遗传、物种与生态系统三个层次的多样性。遗传多样性指种群内与种群间的等位基因差异；物种多样性指群落中物种的丰富度与均匀度；生态系统多样性指不同生境、群落与生态过程的多样性。',
-    intuition: '生物多样性像投资组合：基因、物种、生态系统三种资产越多样，面对环境波动时越不容易全军覆没；但组合的收益也取决于资产之间如何关联。',
-    intuitionDetailed: '物种丰富度只数物种个数，不考虑每个物种有多少个体；两个物种数相同的群落，如果一个个体的数量极不均匀，均匀度就低，Shannon 指数也低。遗传多样性让种群在病害或气候改变时有更多可能存活的等位基因组合。生态系统多样性提供不同生境，使物种能在扰动后迁移与重建。生物多样性高的系统通常更稳定，但稳定性还取决于物种功能冗余、连通性与扰动强度。',
+    definition: '生物多样性是生命在遗传、物种与生态系统三个层次的多样性。遗传多样性指种群内与种群间的等位基因差异；物种多样性指群落中物种的丰富度与均匀度；生态系统多样性指不同生境、群落与生态过程的多样性。 · Biodiversity is the diversity of life at three levels: genetic, species, and ecosystem. Genetic diversity refers to allele differences within and among populations; species diversity refers to the richness and evenness of species in a community; ecosystem diversity refers to the variety of habitats, communities, and ecological processes.',
+    intuition: '生物多样性像投资组合：基因、物种、生态系统三种资产越多样，面对环境波动时越不容易全军覆没；但组合的收益也取决于资产之间如何关联。 · Biodiversity is like an investment portfolio: the more diverse the genetic, species, and ecosystem assets, the less likely the whole portfolio will collapse under environmental fluctuation; but returns also depend on how the assets are correlated.',
+    intuitionDetailed: '物种丰富度只数物种个数，不考虑每个物种有多少个体；两个物种数相同的群落，如果一个个体的数量极不均匀，均匀度就低，Shannon 指数也低。遗传多样性让种群在病害或气候改变时有更多可能存活的等位基因组合。生态系统多样性提供不同生境，使物种能在扰动后迁移与重建。生物多样性高的系统通常更稳定，但稳定性还取决于物种功能冗余、连通性与扰动强度。 · Species richness counts species without considering how many individuals each has; of two communities with the same number of species, the one with highly uneven individual counts has lower evenness and a lower Shannon index. Genetic diversity gives a population more allele combinations that might survive disease or climate change. Ecosystem diversity provides different habitats that allow species to move and recolonize after disturbance. Systems with high biodiversity are usually more stable, but stability also depends on functional redundancy, connectivity, and disturbance intensity.',
     formulas: [
-      { latex: 'H_{\\mathrm{Sh}}=-\\sum_{i=1}^{S}p_i\\ln p_i', note: 'Shannon 多样性指数；\\(p_i\\) 为第 \\(i\\) 个物种的个体比例。' },
-      { latex: 'D=1-\\sum_{i=1}^{S}p_i^{2}', note: 'Simpson 多样性指数；数值越大越多样。' },
-      { latex: 'E=\\dfrac{H_{\\mathrm{Sh}}}{\\ln S}', note: '均匀度；\\(S\\) 为物种数。' }
+      { latex: 'H_{\\mathrm{Sh}}=-\\sum_{i=1}^{S}p_i\\ln p_i', note: 'Shannon 多样性指数；\\(p_i\\) 为第 \\(i\\) 个物种的个体比例。 · Shannon diversity index; \\(p_i\\) is the proportional abundance of species \\(i\\).' },
+      { latex: 'D=1-\\sum_{i=1}^{S}p_i^{2}', note: 'Simpson 多样性指数；数值越大越多样。 · Simpson diversity index; larger values indicate greater diversity.' },
+      { latex: 'E=\\dfrac{H_{\\mathrm{Sh}}}{\\ln S}', note: '均匀度；\\(S\\) 为物种数。 · Evenness; \\(S\\) is the number of species.' }
     ],
     derivationNotes: [
-      { from: '物种个体数', to: '相对多度', note: '把每个物种的个体数除以总个体数。' },
-      { from: '相对多度', to: 'Shannon 指数', note: '对每个物种的 \\(p_i\\ln p_i\\) 求和并取负。' },
-      { from: '丰富度与均匀度', to: '多样性', note: '物种越多、分布越均匀，多样性指数越高。' },
+      { from: '物种个体数 · Species abundances', to: '相对多度 · Relative abundance', note: '把每个物种的个体数除以总个体数。 · Divide each species’ abundance by the total number of individuals.' },
+      { from: '相对多度 · Relative abundance', to: 'Shannon 指数 · Shannon index', note: '对每个物种的 \\(p_i\\ln p_i\\) 求和并取负。 · Sum \\(p_i\\ln p_i\\) over species and take the negative.' },
+      { from: '丰富度与均匀度 · Richness and evenness', to: '多样性 · Diversity', note: '物种越多、分布越均匀，多样性指数越高。 · More species and more even distributions produce higher diversity indices.' },
     ],
     connections: [
-      '先修：8.5 群落生态中的物种相互作用。',
-      '后续：8.7 生态系统扰动与保护。',
-      '应用：保护规划、生态系统服务评估与可持续管理。',
+      '先修：8.5 群落生态中的物种相互作用。 · Prerequisite: species interactions in community ecology in 8.5.',
+      '后续：8.7 生态系统扰动与保护。 · Follow-up: ecosystem disturbance and conservation in 8.7.',
+      '应用：保护规划、生态系统服务评估与可持续管理。 · Application: conservation planning, ecosystem-service assessment, and sustainable management.',
     ],
     conditions: [
-      '多样性指数依赖采样努力与样本量，比较时需相同采样方法',
-      '丰富度不包含均匀度信息',
-      '多样性—稳定性关系受尺度、环境与扰动类型影响',
-      '遗传多样性、物种多样性与生态系统多样性不能互相替代',
-      '热点地区通常同时具有高特有性与高威胁'
+      '多样性指数依赖采样努力与样本量，比较时需相同采样方法 · Diversity indices depend on sampling effort and sample size, so comparisons require the same sampling method',
+      '丰富度不包含均匀度信息 · Richness does not contain evenness information',
+      '多样性—稳定性关系受尺度、环境与扰动类型影响 · The diversity–stability relationship depends on scale, environment, and disturbance type',
+      '遗传多样性、物种多样性与生态系统多样性不能互相替代 · Genetic, species, and ecosystem diversity cannot substitute for one another',
+      '热点地区通常同时具有高特有性与高威胁 · Hotspots typically have both high endemism and high threat'
     ],
     keyPoints: [
-      '三个层次：遗传、物种、生态系统',
-      '丰富度 vs 均匀度',
-      'Shannon 与 Simpson 指数综合丰富度与均匀度',
-      '生物多样性提供生态系统服务',
-      '遗传多样性是适应变化的基础',
-      '多样性—稳定性不是绝对定律'
+      '三个层次：遗传、物种、生态系统 · Three levels: genetic, species, ecosystem',
+      '丰富度 vs 均匀度 · Richness vs evenness',
+      'Shannon 与 Simpson 指数综合丰富度与均匀度 · Shannon and Simpson indices combine richness and evenness',
+      '生物多样性提供生态系统服务 · Biodiversity provides ecosystem services',
+      '遗传多样性是适应变化的基础 · Genetic diversity is the basis for adapting to change',
+      '多样性—稳定性不是绝对定律 · Diversity–stability is not an absolute law'
     ],
     misconceptions: [
-      '认为生物多样性只等于物种数',
-      '认为物种数相同的群落多样性一定相同',
-      '认为生物多样性越高就越稳定，忽略环境与尺度',
-      '认为遗传多样性不属于生物多样性',
-      '认为稀有物种对生态系统没有作用'
+      '认为生物多样性只等于物种数 · Assuming biodiversity equals species number alone',
+      '认为物种数相同的群落多样性一定相同 · Assuming communities with the same species number always have the same diversity',
+      '认为生物多样性越高就越稳定，忽略环境与尺度 · Assuming higher biodiversity always means greater stability and ignoring environment and scale',
+      '认为遗传多样性不属于生物多样性 · Assuming genetic diversity is not part of biodiversity',
+      '认为稀有物种对生态系统没有作用 · Assuming rare species have no role in ecosystems'
     ],
     examples: [
       {
-        title: '例 1 · 丰富度与均匀度',
-        prompt: '群落 A 的物种个体数为 90、5、5，群落 B 为 33、33、34。两者的丰富度与均匀度如何比较？',
+        title: '例 1 · 丰富度与均匀度 · Example 1 · Richness and Evenness',
+        prompt: '群落 A 的物种个体数为 90、5、5，群落 B 为 33、33、34。两者的丰富度与均匀度如何比较？ · Community A has species abundances of 90, 5, and 5; community B has 33, 33, and 34. How do their richness and evenness compare?',
         steps: [
-          '两个群落都有 3 个物种，丰富度相同。',
-          '群落 A 的个体数极不均匀，均匀度低。',
-          '群落 B 接近均匀，Shannon 指数更高。'
+          '两个群落都有 3 个物种，丰富度相同。 · Both communities have three species, so their richness is the same.',
+          '群落 A 的个体数极不均匀，均匀度低。 · Community A has highly uneven abundances and low evenness.',
+          '群落 B 接近均匀，Shannon 指数更高。 · Community B is nearly even and has a higher Shannon index.'
         ],
-        solution: '丰富度相同，但 B 的均匀度与多样性更高。'
+        solution: '丰富度相同，但 B 的均匀度与多样性更高。 · Richness is the same, but B has higher evenness and diversity.'
       },
       {
-        title: '例 2 · 遗传多样性',
-        prompt: '猎豹种群曾经历严重瓶颈，遗传多样性很低。这对种群有什么风险？',
+        title: '例 2 · 遗传多样性 · Example 2 · Genetic Diversity',
+        prompt: '猎豹种群曾经历严重瓶颈，遗传多样性很低。这对种群有什么风险？ · Cheetah populations went through a severe bottleneck and have low genetic diversity. What risks does this pose?',
         steps: [
-          '瓶颈使许多等位基因随机丢失。',
-          '低遗传多样性降低对疾病、气候变化的适应潜力。',
-          '小种群还易发生近交衰退与漂变。'
+          '瓶颈使许多等位基因随机丢失。 · The bottleneck randomly lost many alleles.',
+          '低遗传多样性降低对疾病、气候变化的适应潜力。 · Low genetic diversity reduces the potential to adapt to disease and climate change.',
+          '小种群还易发生近交衰退与漂变。 · Small populations are also prone to inbreeding depression and drift.'
         ],
-        solution: '遗传多样性低使种群更脆弱，恢复力下降。'
+        solution: '遗传多样性低使种群更脆弱，恢复力下降。 · Low genetic diversity makes the population more vulnerable and reduces resilience.'
       },
       {
-        title: '例 3 · 生态系统服务',
-        prompt: '传粉昆虫减少为什么会威胁农业？',
+        title: '例 3 · 生态系统服务 · Example 3 · Ecosystem Services',
+        prompt: '传粉昆虫减少为什么会威胁农业？ · Why does a decline in pollinating insects threaten agriculture?',
         steps: [
-          '许多作物依赖动物传粉。',
-          '传粉者减少会降低坐果率与产量。',
-          '这是生物多样性提供的调节服务。'
+          '许多作物依赖动物传粉。 · Many crops depend on animal pollination.',
+          '传粉者减少会降低坐果率与产量。 · Fewer pollinators reduce fruit set and yield.',
+          '这是生物多样性提供的调节服务。 · This is a regulating service provided by biodiversity.'
         ],
-        solution: '传粉是关键的生态系统服务，生物多样性下降会影响农业产出。'
+        solution: '传粉是关键的生态系统服务，生物多样性下降会影响农业产出。 · Pollination is a key ecosystem service, and biodiversity loss can reduce agricultural output.'
       }
     ],
     examTips: [
-      'CED Unit 8：生物多样性',
-      '先分清遗传、物种、生态系统三个层次',
-      '丰富度与均匀度要分开写',
-      '多样性指数题注意样本量与采样方法',
-      '生态系统服务用“供给、调节、支持、文化”分类',
-      '不要绝对化“多样性越高越稳定”'
+      'CED Unit 8：生物多样性 · CED Unit 8: Biodiversity',
+      '先分清遗传、物种、生态系统三个层次 · First distinguish the genetic, species, and ecosystem levels.',
+      '丰富度与均匀度要分开写 · Write richness and evenness separately.',
+      '多样性指数题注意样本量与采样方法 · For diversity-index questions, pay attention to sample size and sampling method.',
+      '生态系统服务用“供给、调节、支持、文化”分类 · Classify ecosystem services as provisioning, regulating, supporting, and cultural.',
+      '不要绝对化“多样性越高越稳定” · Do not state “higher diversity is always more stable” as an absolute.'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.5', title: '群落生态', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.7', title: '生态系统扰动', relation: '后续' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.11', title: '灭绝', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.14', title: '生物多样性', relation: '先修' }
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.5', title: '群落生态 · Community Ecology', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.7', title: '生态系统扰动 · Ecosystem Disturbance', relation: '后续 · Follow-up' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.11', title: '灭绝 · Extinction', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.14', title: '生物多样性 · Biodiversity', relation: '先修 · Prerequisite' }
     ],
-    development: ['三个层次', '丰富度与均匀度', '多样性指数', '生态系统服务', '热点与威胁', '多样性与稳定性'],
-    checks: ['遗传多样性、物种多样性与生态系统多样性有何区别？', '为什么丰富度相同不代表多样性相同？', '生物多样性为什么影响生态系统服务？'],
-    summary: '生物多样性包括遗传、物种与生态系统三个层次；丰富度、均匀度与多样性指数描述群落，多样性支撑生态系统服务与恢复力。'
+    development: ['三个层次 · Three levels', '丰富度与均匀度 · Richness and evenness', '多样性指数 · Diversity indices', '生态系统服务 · Ecosystem services', '热点与威胁 · Hotspots and threats', '多样性与稳定性 · Diversity and stability'],
+    checks: ['遗传多样性、物种多样性与生态系统多样性有何区别？ · What is the difference among genetic, species, and ecosystem diversity?', '为什么丰富度相同不代表多样性相同？ · Why does equal richness not imply equal diversity?', '生物多样性为什么影响生态系统服务？ · Why does biodiversity affect ecosystem services?'],
+    summary: '生物多样性包括遗传、物种与生态系统三个层次；丰富度、均匀度与多样性指数描述群落，多样性支撑生态系统服务与恢复力。 · Biodiversity includes genetic, species, and ecosystem levels; richness, evenness, and diversity indices describe communities, and biodiversity supports ecosystem services and resilience.'
   },
 
   'bio/bio-u8/8.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分自然扰动与人为扰动，并说明生态系统的抵抗力与恢复力。',
-      '能分析入侵种、污染、富营养化、栖息地破碎化与气候变化的连锁效应。',
-      '能提出基于生态学原理的修复与减缓策略。'
+      '能区分自然扰动与人为扰动，并说明生态系统的抵抗力与恢复力。 · Distinguish natural from anthropogenic disturbance and explain ecosystem resistance and resilience.',
+      '能分析入侵种、污染、富营养化、栖息地破碎化与气候变化的连锁效应。 · Analyze the cascading effects of invasive species, pollution, eutrophication, habitat fragmentation, and climate change.',
+      '能提出基于生态学原理的修复与减缓策略。 · Propose restoration and mitigation strategies based on ecological principles.'
     ],
     essentialKnowledge: [
-      '扰动是改变群落结构与生态系统功能的事件；自然扰动包括火灾、风暴、火山与洪水，人为扰动包括污染、土地开发、过度捕捞、外来种与气候变化。',
-      '抵抗力是生态系统抵抗变化的能力；恢复力是受扰后恢复的能力；二者不总是一致，且随尺度与扰动类型变化。',
-      '入侵种缺少天敌与竞争限制，可通过竞争、捕食、杂交或改变火与水文状况导致本地种下降甚至灭绝。',
-      '富营养化由氮磷输入引起：藻华暴发、死亡分解耗氧、缺氧形成死区，影响淡水与沿海生态系统。',
-      '生物放大使脂溶性污染物沿食物链浓度升高，顶级捕食者风险最高；持久性污染物可在环境中长期存在。',
-      '栖息地破碎化减少连通性、增加边缘效应与小种群风险；气候变化改变物候、分布与物种相互作用。',
-      '修复策略包括减少污染源、控制入侵种、恢复连通性、再引入关键种与保护关键栖息地，并需要长期监测与适应管理。'
+      '扰动是改变群落结构与生态系统功能的事件；自然扰动包括火灾、风暴、火山与洪水，人为扰动包括污染、土地开发、过度捕捞、外来种与气候变化。 · Disturbance is an event that alters community structure and ecosystem function; natural disturbances include fire, storms, volcanoes, and floods, while anthropogenic disturbances include pollution, land development, overfishing, invasive species, and climate change.',
+      '抵抗力是生态系统抵抗变化的能力；恢复力是受扰后恢复的能力；二者不总是一致，且随尺度与扰动类型变化。 · Resistance is an ecosystem’s ability to withstand change; resilience is its ability to recover after disturbance; the two do not always coincide and vary with scale and disturbance type.',
+      '入侵种缺少天敌与竞争限制，可通过竞争、捕食、杂交或改变火与水文状况导致本地种下降甚至灭绝。 · Invasive species lack natural enemies and competitive limits and can reduce or even extirpate native species through competition, predation, hybridization, or altered fire and hydrological regimes.',
+      '富营养化由氮磷输入引起：藻华暴发、死亡分解耗氧、缺氧形成死区，影响淡水与沿海生态系统。 · Eutrophication is caused by nitrogen and phosphorus inputs: algal blooms, oxygen consumption during decomposition, and hypoxia create dead zones that affect freshwater and coastal ecosystems.',
+      '生物放大使脂溶性污染物沿食物链浓度升高，顶级捕食者风险最高；持久性污染物可在环境中长期存在。 · Biomagnification causes lipid-soluble pollutants to increase in concentration along food chains, putting top predators at highest risk; persistent pollutants can remain in the environment for a long time.',
+      '栖息地破碎化减少连通性、增加边缘效应与小种群风险；气候变化改变物候、分布与物种相互作用。 · Habitat fragmentation reduces connectivity, increases edge effects, and raises risks for small populations; climate change alters phenology, distribution, and species interactions.',
+      '修复策略包括减少污染源、控制入侵种、恢复连通性、再引入关键种与保护关键栖息地，并需要长期监测与适应管理。 · Restoration strategies include reducing pollution sources, controlling invasive species, restoring connectivity, reintroducing keystone species, and protecting critical habitat, along with long-term monitoring and adaptive management.'
     ],
-    definition: '生态系统扰动是改变群落结构与生态系统功能的事件，可分为自然扰动与人为扰动。扰动的后果取决于强度、频率、尺度与生态系统本身的抵抗力与恢复力；富营养化、入侵种、破碎化与气候变化常通过连锁效应放大影响。',
-    intuition: '生态系统像一张网：拉断一根线可能没事，但拉断关键的几根，整张网会变形甚至崩塌；修复要把断线接回去，而不是只换一根新线。',
-    intuitionDetailed: '抵抗力强的系统能在扰动中保持结构与功能，恢复力强的系统能在扰动后较快回到原状态。富营养化的链条是“养分输入→藻华→死亡→分解耗氧→缺氧→鱼类死亡”，每个环节都可能被其他因素放大。入侵种可能改变整个食物网或火 regime；破碎化让种群变小、迁移受阻，漂变与近交风险上升。修复不总是回到原状，也可能进入新的稳定状态。',
+    definition: '生态系统扰动是改变群落结构与生态系统功能的事件，可分为自然扰动与人为扰动。扰动的后果取决于强度、频率、尺度与生态系统本身的抵抗力与恢复力；富营养化、入侵种、破碎化与气候变化常通过连锁效应放大影响。 · Ecosystem disturbance is an event that alters community structure and ecosystem function and can be natural or anthropogenic. The consequences depend on intensity, frequency, scale, and the ecosystem’s own resistance and resilience; eutrophication, invasive species, fragmentation, and climate change often amplify their effects through cascades.',
+    intuition: '生态系统像一张网：拉断一根线可能没事，但拉断关键的几根，整张网会变形甚至崩塌；修复要把断线接回去，而不是只换一根新线。 · An ecosystem is like a net: breaking one thread may do no harm, but breaking a few key threads can deform or even collapse the whole net; restoration means reconnecting the broken threads, not just replacing one with a new thread.',
+    intuitionDetailed: '抵抗力强的系统能在扰动中保持结构与功能，恢复力强的系统能在扰动后较快回到原状态。富营养化的链条是“养分输入→藻华→死亡→分解耗氧→缺氧→鱼类死亡”，每个环节都可能被其他因素放大。入侵种可能改变整个食物网或火 regime；破碎化让种群变小、迁移受阻，漂变与近交风险上升。修复不总是回到原状，也可能进入新的稳定状态。 · A resistant system can maintain structure and function during disturbance, while a resilient system can return to its original state relatively quickly afterward. The eutrophication chain is “nutrient input → algal bloom → death → decomposition consumes oxygen → hypoxia → fish kills,” and each step can be amplified by other factors. Invasive species can alter entire food webs or fire regimes; fragmentation makes populations smaller and dispersal harder, raising drift and inbreeding risks. Restoration does not always return to the original state and may instead produce a new stable state.',
     formulas: [
-      { latex: '\\text{抵抗力}\\neq\\text{恢复力}', note: '一个系统可能抗扰动强但恢复慢，或相反。' },
-      { latex: '\\mathrm{TMF}=\\dfrac{C_{\\text{高营养级}}}{C_{\\text{低营养级}}}', note: '生物放大因子；\\(\\mathrm{TMF}>1\\) 表示沿食物链浓度升高。' }
+      { latex: '\\text{抵抗力}\\neq\\text{恢复力}', note: '一个系统可能抗扰动强但恢复慢，或相反。 · A system may be highly resistant but slow to recover, or vice versa.' },
+      { latex: '\\mathrm{TMF}=\\dfrac{C_{\\text{高营养级}}}{C_{\\text{低营养级}}}', note: '生物放大因子；\\(\\mathrm{TMF}>1\\) 表示沿食物链浓度升高。 · Biomagnification factor; \\(\\mathrm{TMF}>1\\) indicates increasing concentration along the food chain.' }
     ],
     derivationNotes: [
-      { from: '扰动', to: '群落结构改变', note: '扰动改变资源、光照、养分与物种相互作用。' },
-      { from: '养分输入', to: '缺氧', note: '藻华死亡后分解耗氧，导致溶解氧下降。' },
-      { from: '污染物', to: '生物放大', note: '脂溶性污染物在食物链中逐级富集。' },
+      { from: '扰动 · Disturbance', to: '群落结构改变 · Change in community structure', note: '扰动改变资源、光照、养分与物种相互作用。 · Disturbance changes resources, light, nutrients, and species interactions.' },
+      { from: '养分输入 · Nutrient input', to: '缺氧 · Hypoxia', note: '藻华死亡后分解耗氧，导致溶解氧下降。 · Decomposition after algal death consumes oxygen, lowering dissolved oxygen.' },
+      { from: '污染物 · Pollutant', to: '生物放大 · Biomagnification', note: '脂溶性污染物在食物链中逐级富集。 · Lipid-soluble pollutants accumulate at each trophic level.' },
     ],
     connections: [
-      '先修：8.5 群落生态与 8.6 生物多样性。',
-      '后续：保护生物学与生态系统修复。',
-      '应用：水质管理、入侵种控制与气候适应政策。',
+      '先修：8.5 群落生态与 8.6 生物多样性。 · Prerequisite: community ecology in 8.5 and biodiversity in 8.6.',
+      '后续：保护生物学与生态系统修复。 · Follow-up: conservation biology and ecosystem restoration.',
+      '应用：水质管理、入侵种控制与气候适应政策。 · Application: water-quality management, invasive-species control, and climate-adaptation policy.',
     ],
     conditions: [
-      '扰动的影响取决于强度、频率、持续时间与空间尺度',
-      '生态系统可能跨越阈值进入替代稳定状态，恢复不一定可逆',
-      '入侵种的影响取决于资源、天敌与竞争环境',
-      '污染物效应可局部、区域或全球尺度发生',
-      '修复需要针对具体驱动因素并长期监测'
+      '扰动的影响取决于强度、频率、持续时间与空间尺度 · Disturbance impacts depend on intensity, frequency, duration, and spatial scale',
+      '生态系统可能跨越阈值进入替代稳定状态，恢复不一定可逆 · Ecosystems can cross thresholds into alternative stable states, and recovery is not always reversible',
+      '入侵种的影响取决于资源、天敌与竞争环境 · The impact of invasive species depends on resources, natural enemies, and the competitive environment',
+      '污染物效应可局部、区域或全球尺度发生 · Pollutant effects can occur at local, regional, or global scales',
+      '修复需要针对具体驱动因素并长期监测 · Restoration must target specific drivers and include long-term monitoring'
     ],
     keyPoints: [
-      '自然扰动 vs 人为扰动',
-      '抵抗力与恢复力不同',
-      '入侵种可改变竞争、捕食与扰动 regime',
-      '富营养化导致缺氧死区',
-      '生物放大使顶级捕食者风险最高',
-      '破碎化与气候变化改变相互作用',
-      '修复需针对驱动因素并监测'
+      '自然扰动 vs 人为扰动 · Natural vs anthropogenic disturbance',
+      '抵抗力与恢复力不同 · Resistance and resilience are different',
+      '入侵种可改变竞争、捕食与扰动 regime · Invasive species can alter competition, predation, and disturbance regimes',
+      '富营养化导致缺氧死区 · Eutrophication causes hypoxic dead zones',
+      '生物放大使顶级捕食者风险最高 · Biomagnification puts top predators at highest risk',
+      '破碎化与气候变化改变相互作用 · Fragmentation and climate change alter interactions',
+      '修复需针对驱动因素并监测 · Restoration must target drivers and include monitoring'
     ],
     misconceptions: [
-      '认为所有扰动都是坏事（有些生态系统依赖火灾或洪水）',
-      '认为生态系统总能完全恢复',
-      '认为一种入侵种一定会导致整个系统崩溃',
-      '认为污染影响只停留在局部',
-      '认为植树造林一定能恢复原有生态系统',
-      '把抵抗力与恢复力混为一谈'
+      '认为所有扰动都是坏事（有些生态系统依赖火灾或洪水） · Assuming all disturbance is bad (some ecosystems depend on fire or flooding)',
+      '认为生态系统总能完全恢复 · Assuming ecosystems can always recover completely',
+      '认为一种入侵种一定会导致整个系统崩溃 · Assuming one invasive species will necessarily collapse an entire system',
+      '认为污染影响只停留在局部 · Assuming pollution effects remain only local',
+      '认为植树造林一定能恢复原有生态系统 · Assuming tree planting always restores the original ecosystem',
+      '把抵抗力与恢复力混为一谈 · Confusing resistance with resilience'
     ],
     examples: [
       {
-        title: '例 1 · 富营养化',
-        prompt: '农田氮磷流入湖泊后，为什么会出现鱼类死亡？',
+        title: '例 1 · 富营养化 · Example 1 · Eutrophication',
+        prompt: '农田氮磷流入湖泊后，为什么会出现鱼类死亡？ · Why can fish die after nitrogen and phosphorus from farmland flow into a lake?',
         steps: [
-          '氮磷促进藻类快速繁殖，形成藻华。',
-          '藻类死亡后被分解者分解，分解过程消耗水中氧气。',
-          '溶解氧下降形成缺氧区，鱼类与底栖动物死亡。'
+          '氮磷促进藻类快速繁殖，形成藻华。 · Nitrogen and phosphorus promote rapid algal growth, forming blooms.',
+          '藻类死亡后被分解者分解，分解过程消耗水中氧气。 · Dead algae are decomposed by decomposers, a process that consumes oxygen in the water.',
+          '溶解氧下降形成缺氧区，鱼类与底栖动物死亡。 · Dissolved oxygen falls, creating hypoxic zones where fish and benthic animals die.'
         ],
-        solution: '富营养化通过“藻华—分解耗氧—缺氧”链条造成死区。'
+        solution: '富营养化通过“藻华—分解耗氧—缺氧”链条造成死区。 · Eutrophication creates dead zones through the chain “algal bloom—decomposition consumes oxygen—hypoxia.”'
       },
       {
-        title: '例 2 · 入侵种',
-        prompt: '外来植物在没有天敌的新环境中为什么可能迅速扩散？',
+        title: '例 2 · 入侵种 · Example 2 · Invasive Species',
+        prompt: '外来植物在没有天敌的新环境中为什么可能迅速扩散？ · Why can an exotic plant spread rapidly in a new environment without natural enemies?',
         steps: [
-          '缺少专食性天敌与病原体，存活率提高。',
-          '可能与本地种竞争光照、水分与养分。',
-          '若改变火 regime 或土壤条件，影响会进一步放大。'
+          '缺少专食性天敌与病原体，存活率提高。 · The absence of specialized herbivores and pathogens increases survival.',
+          '可能与本地种竞争光照、水分与养分。 · It may compete with native species for light, water, and nutrients.',
+          '若改变火 regime 或土壤条件，影响会进一步放大。 · If it alters fire regimes or soil conditions, its impact can be further amplified.'
         ],
-        solution: '入侵种失去天敌控制并获得竞争优势，可能改变群落结构。'
+        solution: '入侵种失去天敌控制并获得竞争优势，可能改变群落结构。 · Invasive species escape natural-enemy control and gain a competitive advantage, potentially changing community structure.'
       },
       {
-        title: '例 3 · 营养级联',
-        prompt: '海獭消失后，海胆与海藻群落可能如何变化？',
+        title: '例 3 · 营养级联 · Example 3 · Trophic Cascade',
+        prompt: '海獭消失后，海胆与海藻群落可能如何变化？ · How might sea urchin and kelp communities change after sea otters disappear?',
         steps: [
-          '海獭捕食海胆，控制海胆数量。',
-          '海獭消失后海胆数量增加，过度啃食海藻。',
-          '海藻林退化为海胆 barren，依赖海藻的物种减少。'
+          '海獭捕食海胆，控制海胆数量。 · Sea otters prey on sea urchins and control their numbers.',
+          '海獭消失后海胆数量增加，过度啃食海藻。 · Without sea otters, urchin numbers increase and they overgraze kelp.',
+          '海藻林退化为海胆 barren，依赖海藻的物种减少。 · Kelp forests degrade into urchin barrens, and species that depend on kelp decline.'
         ],
-        solution: '顶级捕食者消失触发营养级联，改变整个群落。'
+        solution: '顶级捕食者消失触发营养级联，改变整个群落。 · Loss of a top predator triggers a trophic cascade that changes the entire community.'
       }
     ],
     examTips: [
-      'CED Unit 8：生态系统扰动',
-      '先判断扰动类型与尺度，再写连锁效应',
-      '抵抗力与恢复力分开定义',
-      '富营养化题按“养分—藻—分解—氧—生物”链条作答',
-      '生物放大题注意脂溶性、持久性与营养级',
-      '修复题写具体措施与监测，不要只写“保护环境”'
+      'CED Unit 8：生态系统扰动 · CED Unit 8: Ecosystem disturbance',
+      '先判断扰动类型与尺度，再写连锁效应 · First identify the disturbance type and scale, then describe cascading effects.',
+      '抵抗力与恢复力分开定义 · Define resistance and resilience separately.',
+      '富营养化题按“养分—藻—分解—氧—生物”链条作答 · For eutrophication questions, answer with the chain “nutrients—algae—decomposition—oxygen—organisms.”',
+      '生物放大题注意脂溶性、持久性与营养级 · For biomagnification questions, consider lipid solubility, persistence, and trophic level.',
+      '修复题写具体措施与监测，不要只写“保护环境” · For restoration questions, give specific measures and monitoring rather than just “protect the environment.”'
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.5', title: '群落生态', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.11', title: '灭绝', relation: '相关' }
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.5', title: '群落生态 · Community Ecology', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '先修 · Prerequisite' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流 · Energy Flow', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.11', title: '灭绝 · Extinction', relation: '相关 · Related' }
     ],
-    development: ['扰动类型', '抵抗力与恢复力', '入侵种', '富营养化与污染', '破碎化与气候变化', '修复与监测'],
-    checks: ['抵抗力与恢复力有何区别？', '富营养化为什么会导致缺氧？', '营养级联如何放大顶级捕食者消失的影响？'],
-    summary: '生态系统扰动有自然与人为来源；入侵种、富营养化、污染、破碎化与气候变化通过连锁效应改变群落，修复需针对驱动因素并长期监测。'
+    development: ['扰动类型 · Disturbance types', '抵抗力与恢复力 · Resistance and resilience', '入侵种 · Invasive species', '富营养化与污染 · Eutrophication and pollution', '破碎化与气候变化 · Fragmentation and climate change', '修复与监测 · Restoration and monitoring'],
+    checks: ['抵抗力与恢复力有何区别？ · What is the difference between resistance and resilience?', '富营养化为什么会导致缺氧？ · Why does eutrophication lead to hypoxia?', '营养级联如何放大顶级捕食者消失的影响？ · How does a trophic cascade amplify the effects of losing a top predator?'],
+    summary: '生态系统扰动有自然与人为来源；入侵种、富营养化、污染、破碎化与气候变化通过连锁效应改变群落，修复需针对驱动因素并长期监测。 · Ecosystem disturbances have natural and anthropogenic sources; invasive species, eutrophication, pollution, fragmentation, and climate change alter communities through cascading effects, and restoration must target drivers with long-term monitoring.'
   },
 
   'math/calc-u10/10.2': {
