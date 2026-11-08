@@ -1499,7 +1499,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u7",
         "code": "7.12",
-        "title": "生命起源多样性",
+        "title": "种群变异",
         "relation": "related"
       }
     ],
@@ -1532,10 +1532,10 @@ export const TOPICS = {
     "unitTitleZh": "自然选择",
     "unitTitleEn": "Natural Selection",
     "code": "7.12",
-    "titleZh": "生命起源多样性",
+    "titleZh": "种群变异",
     "titleEn": "Variations in Populations",
     "layer": "ap",
-    "summary": "生命起源多样性 · Variations in Populations",
+    "summary": "种群变异 · Variations in Populations",
     "learningObjectives": [
       "能陈述「生命起源多样性」的准确定义与适用对象",
       "能在符号、图像、数值三种表征间转换",
@@ -1766,7 +1766,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u7",
         "code": "7.12",
-        "title": "生命起源多样性",
+        "title": "种群变异",
         "relation": "prerequisite"
       }
     ],

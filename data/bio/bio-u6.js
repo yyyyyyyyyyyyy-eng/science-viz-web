@@ -670,7 +670,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u6",
         "code": "6.6",
-        "title": "基因突变",
+        "title": "基因表达与细胞特化",
         "relation": "related"
       }
     ],
@@ -703,10 +703,10 @@ export const TOPICS = {
     "unitTitleZh": "基因表达与调控",
     "unitTitleEn": "Gene Expression and Regulation",
     "code": "6.6",
-    "titleZh": "基因突变",
+    "titleZh": "基因表达与细胞特化",
     "titleEn": "Gene Expression and Cell Specialization",
     "layer": "ap",
-    "summary": "基因突变 · Gene Expression and Cell Specialization",
+    "summary": "基因表达与细胞特化 · Gene Expression and Cell Specialization",
     "learningObjectives": [
       "能陈述「基因突变」的准确定义与适用对象",
       "能在符号、图像、数值三种表征间转换",
@@ -937,7 +937,7 @@ export const TOPICS = {
         "subject": "bio",
         "chapterId": "bio-u6",
         "code": "6.6",
-        "title": "基因突变",
+        "title": "基因表达与细胞特化",
         "relation": "prerequisite"
       },
       {
