@@ -311,8 +311,10 @@ export const ENRICHMENTS = {
       'FRQ 常考：解释突变如何产生新等位基因与表型变异',
     ],
     related: [
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.6', title: '基因表达与细胞特化 · Gene Expression and Cell Specialization', relation: '先修 · Prerequisite' },
       { subject: 'bio', chapterId: 'bio-u6', code: '6.2', title: '复制', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u6', code: '6.4', title: '翻译', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u6', code: '6.8', title: '生物技术 · Biotechnology', relation: '相关 · Related' },
       { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论', relation: '应用' },
     ],
     development: ['点突变类型', '移码与阅读框', '染色体变异', '突变与变异来源'],
@@ -376,7 +378,8 @@ export const ENRICHMENTS = {
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u7', code: '7.10', title: '物种形成', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性', relation: '应用' },
+      { subject: 'bio', chapterId: 'bio-u7', code: '7.12', title: '种群变异 · Variations in Populations', relation: '相关 · Related' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '应用' },
     ],
     development: ['灭绝定义', '背景与大规模灭绝', '驱动因素', '灭绝后的适应辐射'],
     checks: ['局域消失与全球灭绝有何区别？', '为什么小种群更容易灭绝？'],
@@ -2240,91 +2243,159 @@ export const ENRICHMENTS = {
   },
 
   'math/math-prep-geo/P2.10': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能识别平移、旋转、反射与位似变换。',
-      '能写出变换的坐标表达式并判断保距性。',
-      '能分析复合变换的顺序与面积缩放。'
+      "能识别平移、旋转、反射与位似变换。 · Identify translations, rotations, reflections, and dilations.",
+      "能写出变换的坐标表达式并判断保距性。 · Write coordinate rules for transformations and determine whether they preserve distance.",
+      "能分析复合变换的顺序与面积缩放。 · Analyze the order of composite transformations and the scaling of area."
     ],
     essentialKnowledge: [
-      '平移、旋转、反射保持长度与角度，是保距变换，得到全等图形。',
-      '位似以某点为中心按比例 \\(k\\) 缩放，保持角度、把长度按 \\(|k|\\) 缩放，得到相似图形。',
-      '反射改变手性；旋转与平移不改变手性。',
-      '变换复合按“先做 \\(T_1\\) 再做 \\(T_2\\)”记为 \\(T_2\\circ T_1\\)，一般不可交换。',
-      '位似把面积按 \\(k^{2}\\) 缩放。'
+      "平移、旋转、反射保持长度与角度，是保距变换，得到全等图形。 · Translations, rotations, and reflections preserve lengths and angles, are distance-preserving transformations, and produce congruent figures.",
+      "位似以某点为中心按比例 \\(k\\) 缩放，保持角度、把长度按 \\(|k|\\) 缩放，得到相似图形。 · A dilation centered at a point scales by a factor \\(k\\); it preserves angles and scales lengths by \\(|k|\\), producing similar figures.",
+      "反射改变手性；旋转与平移不改变手性。 · Reflections reverse orientation; rotations and translations do not.",
+      "变换复合按“先做 \\(T_1\\) 再做 \\(T_2\\)”记为 \\(T_2\\circ T_1\\)，一般不可交换。 · For a composition, “do \\(T_1\\) first, then \\(T_2\\)” is written \\(T_2\\circ T_1\\); compositions generally do not commute.",
+      "位似把面积按 \\(k^{2}\\) 缩放。 · A dilation scales area by \\(k^{2}\\)."
     ],
-    definition: '平面变换把平面上的点按规则映射到新的点。平移、旋转、反射保持长度与角度，称为保距变换，得到全等图形；位似（以某点为中心按比例 \\(k\\) 缩放）保持角度、把长度按 \\(|k|\\) 缩放，得到相似图形。变换可以复合：先做 \\(T_1\\) 再做 \\(T_2\\)，记作 \\(T_2\\circ T_1\\)。',
-    intuition: '平移是滑动，旋转是转动，反射是翻面，位似是放大或缩小。前三种不改变图形的大小和形状，位似只改变大小、不改变形状。',
-    intuitionDetailed: '坐标规则：平移 \\((x,y)\\mapsto(x+a,y+b)\\)；关于 \\(x\\) 轴反射 \\((x,y)\\mapsto(x,-y)\\)；关于 \\(y\\) 轴反射 \\((-x,y)\\)；关于原点 \\((-x,-y)\\)；以原点为中心、比例 \\(k\\) 的位似 \\((x,y)\\mapsto(kx,ky)\\)；逆时针旋转 \\(90^\\circ\\)：\\((-y,x)\\)。',
+    definition: "平面变换把平面上的点按规则映射到新的点。平移、旋转、反射保持长度与角度，称为保距变换，得到全等图形；位似（以某点为中心按比例 \\(k\\) 缩放）保持角度、把长度按 \\(|k|\\) 缩放，得到相似图形。变换可以复合：先做 \\(T_1\\) 再做 \\(T_2\\)，记作 \\(T_2\\circ T_1\\)。 · A plane transformation maps points of the plane to new points according to a rule. Translations, rotations, and reflections preserve lengths and angles, are called distance-preserving transformations, and produce congruent figures; a dilation centered at a point scales by a factor \\(k\\), preserves angles, and scales lengths by \\(|k|\\), producing similar figures. Transformations can be composed: doing \\(T_1\\) first and then \\(T_2\\) is written \\(T_2\\circ T_1\\).",
+    intuition: "平移是滑动，旋转是转动，反射是翻面，位似是放大或缩小。前三种不改变图形的大小和形状，位似只改变大小、不改变形状。 · A translation slides, a rotation turns, a reflection flips, and a dilation enlarges or shrinks. The first three do not change size or shape; a dilation changes only size, not shape.",
+    intuitionDetailed: "坐标规则：平移 \\((x,y)\\mapsto(x+a,y+b)\\)；关于 \\(x\\) 轴反射 \\((x,y)\\mapsto(x,-y)\\)；关于 \\(y\\) 轴反射 \\((-x,y)\\)；关于原点 \\((-x,-y)\\)；以原点为中心、比例 \\(k\\) 的位似 \\((x,y)\\mapsto(kx,ky)\\)；逆时针旋转 \\(90^\\circ\\)：\\((-y,x)\\)。 · Coordinate rules: translation \\((x,y)\\mapsto(x+a,y+b)\\); reflection across the \\(x\\)-axis \\((x,y)\\mapsto(x,-y)\\); reflection across the \\(y\\)-axis \\((-x,y)\\); reflection across the origin \\((-x,-y)\\); dilation centered at the origin with factor \\(k\\), \\((x,y)\\mapsto(kx,ky)\\); counterclockwise rotation by \\(90^\\circ\\), \\((-y,x)\\).",
     formulas: [
-      { latex: '(x,y)\\mapsto(x+a,\\,y+b)', note: '平移 \\((a,b)\\)。' },
-      { latex: '(x,y)\\mapsto(-y,\\,x)', note: '绕原点逆时针旋转 \\(90^\\circ\\)。' },
-      { latex: '(x,y)\\mapsto(x,\\,-y)', note: '关于 \\(x\\) 轴反射。' },
-      { latex: '(x,y)\\mapsto(kx,\\,ky)', note: '以原点为中心的位似，比例 \\(k\\)。' },
+      {
+        latex: "(x,y)\\mapsto(x+a,\\,y+b)",
+        note: "平移 \\((a,b)\\)。 · Translation by \\((a,b)\\)."
+      },
+      {
+        latex: "(x,y)\\mapsto(-y,\\,x)",
+        note: "绕原点逆时针旋转 \\(90^\\circ\\)。 · Counterclockwise rotation by \\(90^\\circ\\) about the origin."
+      },
+      {
+        latex: "(x,y)\\mapsto(x,\\,-y)",
+        note: "关于 \\(x\\) 轴反射。 · Reflection across the \\(x\\)-axis."
+      },
+      {
+        latex: "(x,y)\\mapsto(kx,\\,ky)",
+        note: "以原点为中心的位似，比例 \\(k\\)。 · Dilation centered at the origin with factor \\(k\\)."
+      }
     ],
     derivationNotes: [
-      { from: '坐标定义', to: '平移、反射、旋转规则', note: '把每个点的坐标按几何方向改写。' },
-      { from: '保距变换', to: '全等', note: '长度与角度不变，因此对应边、对应角相等。' },
-      { from: '保距 + 位似', to: '相似', note: '角度不变、边长按同一比例缩放。' },
+      {
+        from: "坐标定义 · Coordinate definitions",
+        to: "平移、反射、旋转规则 · Rules for translation, reflection, and rotation",
+        note: "把每个点的坐标按几何方向改写。 · Rewrite the coordinates of each point according to the geometric direction."
+      },
+      {
+        from: "保距变换 · Distance-preserving transformations",
+        to: "全等 · Congruence",
+        note: "长度与角度不变，因此对应边、对应角相等。 · Lengths and angles do not change, so corresponding sides and angles are equal."
+      },
+      {
+        from: "保距 + 位似 · Distance preservation + dilation",
+        to: "相似 · Similarity",
+        note: "角度不变、边长按同一比例缩放。 · Angles stay the same and all side lengths scale by the same factor."
+      }
     ],
-    conditions: ['保距变换保持长度与角度；反射会反转定向', '位似比例 \\(k\\neq0\\)；\\(k>0\\) 同向，\\(k<0\\) 反向，\\(|k|=1\\) 时保距', '复合变换一般不可交换，顺序不同结果可能不同', '旋转要明确旋转中心、方向与角度'],
-    keyPoints: ['平移、旋转、反射是保距变换；位似不是保距', '全等 = 保距变换；相似 = 保距 + 位似', '反射改变手性，旋转与平移不改变', '复合变换按“先做…后做…”的顺序进行', '位似把面积按 \\(k^{2}\\) 缩放'],
+    conditions: [
+      "保距变换保持长度与角度；反射会反转定向 · Distance-preserving transformations preserve lengths and angles; reflections reverse orientation.",
+      "位似比例 \\(k\\neq0\\)；\\(k>0\\) 同向，\\(k<0\\) 反向，\\(|k|=1\\) 时保距 · A dilation factor satisfies \\(k\\neq0\\); \\(k>0\\) keeps orientation, \\(k<0\\) reverses it, and \\(|k|=1\\) preserves distance.",
+      "复合变换一般不可交换，顺序不同结果可能不同 · Composite transformations generally do not commute; a different order may give a different result.",
+      "旋转要明确旋转中心、方向与角度 · A rotation must specify its center, direction, and angle."
+    ],
+    keyPoints: [
+      "平移、旋转、反射是保距变换；位似不是保距 · Translations, rotations, and reflections preserve distance; dilations do not.",
+      "全等 = 保距变换；相似 = 保距 + 位似 · Congruence comes from distance-preserving transformations; similarity comes from distance preservation plus dilation.",
+      "反射改变手性，旋转与平移不改变 · Reflections reverse orientation; rotations and translations do not.",
+      "复合变换按“先做…后做…”的顺序进行 · Compose transformations in the order “first… then…”.",
+      "位似把面积按 \\(k^{2}\\) 缩放 · A dilation scales area by \\(k^{2}\\)."
+    ],
     misconceptions: [
-      '认为位似保持长度不变',
-      '认为所有变换都可以交换顺序',
-      '把旋转方向（顺时针与逆时针）弄反',
-      '认为反射后图形与原图形定向相同（实际相反）',
-      '把位似的面积比当成 \\(k\\) 而不是 \\(k^{2}\\)',
+      "认为位似保持长度不变 · Assuming a dilation preserves length.",
+      "认为所有变换都可以交换顺序 · Assuming all transformations can be applied in any order.",
+      "把旋转方向（顺时针与逆时针）弄反 · Reversing clockwise and counterclockwise rotations.",
+      "认为反射后图形与原图形定向相同（实际相反） · Assuming a reflection gives the same orientation as the original (it is opposite).",
+      "把位似的面积比当成 \\(k\\) 而不是 \\(k^{2}\\) · Using \\(k\\) rather than \\(k^{2}\\) for the area ratio of a dilation."
     ],
     examples: [
       {
-        title: '例 1 · 平移',
-        prompt: '把点 \\(A(2,-1)\\) 按向量 \\((-3,4)\\) 平移，求像点坐标。',
+        title: "例 1 · 平移 · Translation",
+        prompt: "把点 \\(A(2,-1)\\) 按向量 \\((-3,4)\\) 平移，求像点坐标。 · Translate \\(A(2,-1)\\) by the vector \\((-3,4)\\) and find the image coordinates.",
         steps: [
-          '平移规则：\\((x,y)\\mapsto(x+a,y+b)\\)。',
-          '\\(A(2,-1)\\mapsto(2-3,\\,-1+4)=(-1,3)\\)。',
+          "平移规则：\\((x,y)\\mapsto(x+a,y+b)\\)。 · Translation rule: \\((x,y)\\mapsto(x+a,y+b)\\).",
+          "\\(A(2,-1)\\mapsto(2-3,\\,-1+4)=(-1,3)\\)。 · Apply the rule: \\(A(2,-1)\\mapsto(2-3,\\,-1+4)=(-1,3)\\)."
         ],
-        solution: '\\(A\'(-1,3)\\)。',
-        solutionLatex: "A'(-1,3)",
+        solution: "\\(A'(-1,3)\\)。 · The image is \\(A'(-1,3)\\).",
+        solutionLatex: "A'(-1,3)"
       },
       {
-        title: '例 2 · 反射',
-        prompt: '求点 \\((3,2)\\) 关于 \\(x\\) 轴、\\(y\\) 轴、原点的对称点。',
+        title: "例 2 · 反射 · Reflection",
+        prompt: "求点 \\((3,2)\\) 关于 \\(x\\) 轴、\\(y\\) 轴、原点的对称点。 · Find the images of \\((3,2)\\) under reflection across the \\(x\\)-axis, the \\(y\\)-axis, and the origin.",
         steps: [
-          '关于 \\(x\\) 轴：\\((x,y)\\mapsto(x,-y)\\)，得 \\((3,-2)\\)。',
-          '关于 \\(y\\) 轴：\\((x,y)\\mapsto(-x,y)\\)，得 \\((-3,2)\\)。',
-          '关于原点：\\((x,y)\\mapsto(-x,-y)\\)，得 \\((-3,-2)\\)。',
+          "关于 \\(x\\) 轴：\\((x,y)\\mapsto(x,-y)\\)，得 \\((3,-2)\\)。 · Across the \\(x\\)-axis: \\((x,y)\\mapsto(x,-y)\\), giving \\((3,-2)\\).",
+          "关于 \\(y\\) 轴：\\((x,y)\\mapsto(-x,y)\\)，得 \\((-3,2)\\)。 · Across the \\(y\\)-axis: \\((x,y)\\mapsto(-x,y)\\), giving \\((-3,2)\\).",
+          "关于原点：\\((x,y)\\mapsto(-x,-y)\\)，得 \\((-3,-2)\\)。 · Across the origin: \\((x,y)\\mapsto(-x,-y)\\), giving \\((-3,-2)\\)."
         ],
-        solution: '\\((3,-2)\\)、\\((-3,2)\\)、\\((-3,-2)\\)。',
+        solution: "\\((3,-2)\\)、\\((-3,2)\\)、\\((-3,-2)\\)。 · The images are \\((3,-2)\\), \\((-3,2)\\), and \\((-3,-2)\\)."
       },
       {
-        title: '例 3 · 旋转与位似',
-        prompt: '把点 \\((1,0)\\) 绕原点逆时针旋转 \\(90^\\circ\\)，再以原点为中心、比例 \\(k=2\\) 位似。求最终坐标。',
+        title: "例 3 · 旋转与位似 · Rotation and Dilation",
+        prompt: "把点 \\((1,0)\\) 绕原点逆时针旋转 \\(90^\\circ\\)，再以原点为中心、比例 \\(k=2\\) 位似。求最终坐标。 · Rotate \\((1,0)\\) counterclockwise by \\(90^\\circ\\) about the origin, then dilate by a factor \\(k=2\\) centered at the origin. Find the final coordinates.",
         steps: [
-          '逆时针 \\(90^\\circ\\)：\\((x,y)\\mapsto(-y,x)\\)，\\((1,0)\\mapsto(0,1)\\)。',
-          '位似：\\((x,y)\\mapsto(2x,2y)\\)，\\((0,1)\\mapsto(0,2)\\)。',
+          "逆时针 \\(90^\\circ\\)：\\((x,y)\\mapsto(-y,x)\\)，\\((1,0)\\mapsto(0,1)\\)。 · Counterclockwise \\(90^\\circ\\): \\((x,y)\\mapsto(-y,x)\\), so \\((1,0)\\mapsto(0,1)\\).",
+          "位似：\\((x,y)\\mapsto(2x,2y)\\)，\\((0,1)\\mapsto(0,2)\\)。 · Dilation: \\((x,y)\\mapsto(2x,2y)\\), so \\((0,1)\\mapsto(0,2)\\)."
         ],
-        solution: '最终为 \\((0,2)\\)。',
-        solutionLatex: '(0,2)',
-      },
+        solution: "最终为 \\((0,2)\\)。 · The final point is \\((0,2)\\).",
+        solutionLatex: "(0,2)"
+      }
     ],
     examTips: [
-      '先把坐标规则写出来，再代入数值',
-      '判断全等还是相似，看变换是否保距',
-      '复合变换画图检查顺序；先旋转后平移与先平移后旋转通常不同',
-      '位似的面积比是比例因子的平方',
+      "先把坐标规则写出来，再代入数值 · Write the coordinate rule first, then substitute the numbers.",
+      "判断全等还是相似，看变换是否保距 · To decide between congruence and similarity, check whether the transformation preserves distance.",
+      "复合变换画图检查顺序；先旋转后平移与先平移后旋转通常不同 · For composite transformations, sketch the order; rotating then translating is usually different from translating then rotating.",
+      "位似的面积比是比例因子的平方 · The area ratio of a dilation is the square of the scale factor."
     ],
     related: [
-      { subject: 'math', chapterId: 'math-prep-geo', code: 'P2.2', title: '平行与三角形全等', relation: '先修' },
-      { subject: 'math', chapterId: 'math-prep-geo', code: 'P2.3', title: '相似三角形', relation: '相关' },
-      { subject: 'math', chapterId: 'math-prep-geo', code: 'P2.9', title: '坐标几何', relation: '先修' },
-      { subject: 'math', chapterId: 'math-prep-precalc', code: 'P4.8', title: '矩阵与变换', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "math-prep-geo",
+        code: "P2.2",
+        title: "平行与三角形全等 · Parallel Lines and Triangle Congruence",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "math-prep-geo",
+        code: "P2.3",
+        title: "相似三角形 · Similar Triangles",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "math",
+        chapterId: "math-prep-geo",
+        code: "P2.9",
+        title: "坐标几何 · Coordinate Geometry",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "math-prep-precalc",
+        code: "P4.8",
+        title: "矩阵与变换 · Matrices and Transformations",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['平移的坐标规则', '反射与旋转', '保距与全等', '位似与相似', '复合变换与矩阵表示'],
-    checks: ['平移、旋转、反射中哪些保持定向？', '位似比例为 \\(-2\\) 时图形如何变化？', '复合变换的顺序会影响结果吗？'],
-    summary: '变换用坐标规则描述图形的位置与形状变化；保距变换给全等，位似给相似，复合要注意顺序。',
+    development: [
+      "平移的坐标规则 · Coordinate rule for translation",
+      "反射与旋转 · Reflections and rotations",
+      "保距与全等 · Distance preservation and congruence",
+      "位似与相似 · Dilations and similarity",
+      "复合变换与矩阵表示 · Composite transformations and matrix representations"
+    ],
+    checks: [
+      "平移、旋转、反射中哪些保持定向？ · Which of translations, rotations, and reflections preserve orientation?",
+      "位似比例为 \\(-2\\) 时图形如何变化？ · What happens to a figure under a dilation factor of \\(-2\\)?",
+      "复合变换的顺序会影响结果吗？ · Does the order of composite transformations affect the result?"
+    ],
+    summary: "变换用坐标规则描述图形的位置与形状变化；保距变换给全等，位似给相似，复合要注意顺序。 · Transformations describe changes in position and shape with coordinate rules; distance-preserving transformations give congruence, dilations give similarity, and composition order matters."
   },
-
   'em/em-u12/12.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -3456,182 +3527,319 @@ export const ENRICHMENTS = {
   },
 
   'math/calc-u7/7.2': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能由微分方程画出斜率场草图。',
-      '能利用等斜线判断平衡解与稳定性。',
-      '能沿斜率场勾画特解曲线。'
+      "能由微分方程画出斜率场草图。 · Sketch a slope field from a differential equation.",
+      "能利用等斜线判断平衡解与稳定性。 · Use isoclines to identify equilibrium solutions and their stability.",
+      "能沿斜率场勾画特解曲线。 · Sketch particular solution curves along a slope field."
     ],
     essentialKnowledge: [
-      '斜率场在网格每点画斜率 \\(f(x,y)\\) 的小线段，解曲线处处与线段相切。',
-      '线段斜率等于该点的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)；水平线段处斜率为零。',
-      '解曲线在唯一性成立时不相交；每条解曲线对应一个初始点。',
-      '等斜线 \\(f(x,y)=c\\) 上所有点斜率相同，可用于勾画场。',
-      '线段只表示局部斜率，不是解曲线本身；网格越密草图越准确。'
+      "斜率场在网格每点画斜率 \\(f(x,y)\\) 的小线段，解曲线处处与线段相切。 · A slope field draws a short segment of slope \\(f(x,y)\\) at each grid point, and solution curves are tangent to the segments everywhere.",
+      "线段斜率等于该点的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)；水平线段处斜率为零。 · The segment slope equals \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) at that point; segments are horizontal where the slope is zero.",
+      "解曲线在唯一性成立时不相交；每条解曲线对应一个初始点。 · Solution curves do not intersect when uniqueness holds; each solution curve corresponds to one initial point.",
+      "等斜线 \\(f(x,y)=c\\) 上所有点斜率相同，可用于勾画场。 · All points on an isocline \\(f(x,y)=c\\) have the same slope, which helps sketch the field.",
+      "线段只表示局部斜率，不是解曲线本身；网格越密草图越准确。 · Segments show only local slopes, not solution curves themselves; a denser grid gives a more accurate sketch."
     ],
-    definition: '一阶微分方程 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)\\) 的斜率场：在平面网格的每一点 \\((x,y)\\) 画一小段斜率为 \\(f(x,y)\\) 的线段。解曲线在每一点与线段相切；斜率场用图形定性展示所有解的行为。',
-    intuition: '斜率场是“方向地图”：每一点告诉你解曲线该往哪个方向走，沿着小线段走就得到解曲线。',
-    intuitionDetailed: '等斜线 \\(f(x,y)=c\\) 上所有线段平行，先画等斜线有助于草图。平衡解满足 \\(f(x,y)=0\\)，其解曲线为水平线；解曲线一般不相交（存在唯一性成立时）。',
+    definition: "一阶微分方程 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)\\) 的斜率场：在平面网格的每一点 \\((x,y)\\) 画一小段斜率为 \\(f(x,y)\\) 的线段。解曲线在每一点与线段相切；斜率场用图形定性展示所有解的行为。 · For the first-order differential equation \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)\\), the slope field draws a short segment of slope \\(f(x,y)\\) at each point \\((x,y)\\) of a grid in the plane. A solution curve is tangent to the segment at every point; the slope field displays the qualitative behavior of all solutions graphically.",
+    intuition: "斜率场是“方向地图”：每一点告诉你解曲线该往哪个方向走，沿着小线段走就得到解曲线。 · A slope field is a direction map: each point tells you which way the solution curve should go, and following the short segments traces out a solution curve.",
+    intuitionDetailed: "等斜线 \\(f(x,y)=c\\) 上所有线段平行，先画等斜线有助于草图。平衡解满足 \\(f(x,y)=0\\)，其解曲线为水平线；解曲线一般不相交（存在唯一性成立时）。 · On an isocline \\(f(x,y)=c\\), all segments are parallel; sketching isoclines first helps draw the field. Equilibrium solutions satisfy \\(f(x,y)=0\\), and their solution curves are horizontal lines; solution curves generally do not intersect when existence and uniqueness hold.",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)', note: '一阶微分方程。' },
-      { latex: 'f(x,y)=c', note: '等斜线：斜率相同的点集。' },
-      { latex: 'f(x,y)=0', note: '平衡解（水平线段）。' },
-      { latex: 'y_{n+1}=y_n+f(x_n,y_n)\\Delta x', note: '欧拉法（预告）。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)",
+        note: "一阶微分方程。 · First-order differential equation."
+      },
+      {
+        latex: "f(x,y)=c",
+        note: "等斜线：斜率相同的点集。 · Isocline: the set of points with the same slope."
+      },
+      {
+        latex: "f(x,y)=0",
+        note: "平衡解（水平线段）。 · Equilibrium solutions (horizontal segments)."
+      },
+      {
+        latex: "y_{n+1}=y_n+f(x_n,y_n)\\Delta x",
+        note: "欧拉法（预告）。 · Euler’s method (preview)."
+      }
     ],
     derivationNotes: [
-      { from: '导数定义', to: '斜率场', note: '把每点的导数值画成短线段，斜率即 \\(f(x,y)\\)。' },
-      { from: '等斜线', to: '草图', note: '先画 \\(f(x,y)=c\\) 的曲线，再在曲线上画平行短线段。' },
-      { from: '斜率场', to: '解曲线', note: '从初始点出发，沿线段方向积分即得解曲线。' },
+      {
+        from: "导数定义 · Definition of the derivative",
+        to: "斜率场 · Slope field",
+        note: "把每点的导数值画成短线段，斜率即 \\(f(x,y)\\)。 · Draw the derivative at each point as a short segment whose slope is \\(f(x,y)\\)."
+      },
+      {
+        from: "等斜线 · Isoclines",
+        to: "草图 · Sketch",
+        note: "先画 \\(f(x,y)=c\\) 的曲线，再在曲线上画平行短线段。 · First draw the curves \\(f(x,y)=c\\), then draw parallel short segments on them."
+      },
+      {
+        from: "斜率场 · Slope field",
+        to: "解曲线 · Solution curves",
+        note: "从初始点出发，沿线段方向积分即得解曲线。 · Starting from an initial point, integrate along the segment directions to obtain a solution curve."
+      }
     ],
-    conditions: ['\\(f\\) 在区域内连续，通常还满足利普希茨条件以保证唯一性', '斜率场不依赖初始条件；每条解曲线对应一个初始点', '网格越密，草图越准确', '线段只表示局部斜率，不是解曲线本身'],
-    keyPoints: ['线段斜率等于该点的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)', '解曲线不相交（唯一性成立时）', '水平线段处 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\)', '\\(|f|\\) 很大时线段接近竖直', '可据场判断长期行为与平衡稳定性'],
+    conditions: [
+      "\\(f\\) 在区域内连续，通常还满足利普希茨条件以保证唯一性 · \\(f\\) is continuous on the region and usually satisfies a Lipschitz condition to guarantee uniqueness.",
+      "斜率场不依赖初始条件；每条解曲线对应一个初始点 · The slope field does not depend on an initial condition; each solution curve corresponds to one initial point.",
+      "网格越密，草图越准确 · A denser grid gives a more accurate sketch.",
+      "线段只表示局部斜率，不是解曲线本身 · Segments show only local slopes, not the solution curve itself."
+    ],
+    keyPoints: [
+      "线段斜率等于该点的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) · Segment slope equals \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) at that point.",
+      "解曲线不相交（唯一性成立时） · Solution curves do not intersect when uniqueness holds.",
+      "水平线段处 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\) · Where segments are horizontal, \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\).",
+      "\\(|f|\\) 很大时线段接近竖直 · When \\(|f|\\) is large, segments are nearly vertical.",
+      "可据场判断长期行为与平衡稳定性 · The field can reveal long-term behavior and equilibrium stability."
+    ],
     misconceptions: [
-      '把线段当成解曲线本身',
-      '认为斜率场给出唯一解（还需要初始条件）',
-      '在 \\(f\\) 无定义处仍画斜率',
-      '把 \\(x\\)、\\(y\\) 的自变量与因变量角色弄反',
-      '认为所有平衡解都稳定',
+      "把线段当成解曲线本身 · Treating the segments as the solution curves themselves.",
+      "认为斜率场给出唯一解（还需要初始条件） · Assuming the slope field determines a unique solution (an initial condition is still needed).",
+      "在 \\(f\\) 无定义处仍画斜率 · Drawing slopes where \\(f\\) is undefined.",
+      "把 \\(x\\)、\\(y\\) 的自变量与因变量角色弄反 · Swapping the roles of the independent and dependent variables.",
+      "认为所有平衡解都稳定 · Assuming every equilibrium solution is stable."
     ],
     examples: [
       {
-        title: '例 1 · 斜率为 x',
-        prompt: '描述斜率场，并写出通解。',
+        title: "例 1 · 斜率为 x · Slope Equal to x",
+        prompt: "描述斜率场，并写出通解。 · Describe the slope field and write the general solution.",
         steps: [
-          '斜率只依赖 \\(x\\)：\\(x=0\\) 处水平，\\(x>0\\) 处为正，\\(x<0\\) 处为负。',
-          '等斜线是竖直线 \\(x=c\\)。',
-          '积分得 \\(y=\\dfrac{x^{2}}{2}+C\\)。',
+          "斜率只依赖 \\(x\\)：\\(x=0\\) 处水平，\\(x>0\\) 处为正，\\(x<0\\) 处为负。 · The slope depends only on \\(x\\): horizontal at \\(x=0\\), positive for \\(x>0\\), and negative for \\(x<0\\).",
+          "等斜线是竖直线 \\(x=c\\)。 · The isoclines are vertical lines \\(x=c\\).",
+          "积分得 \\(y=\\dfrac{x^{2}}{2}+C\\)。 · Integrating gives \\(y=\\dfrac{x^{2}}{2}+C\\)."
         ],
-        solution: '解为开口向上的抛物线族 \\(y=\\dfrac{x^{2}}{2}+C\\)。',
-        solutionLatex: 'y=\\dfrac{x^{2}}{2}+C',
+        solution: "解为开口向上的抛物线族 \\(y=\\dfrac{x^{2}}{2}+C\\)。 · The solutions form the upward-opening parabola family \\(y=\\dfrac{x^{2}}{2}+C\\).",
+        solutionLatex: "y=\\dfrac{x^{2}}{2}+C"
       },
       {
-        title: '例 2 · 斜率为 y',
-        prompt: '描述斜率场与平衡解的稳定性。',
+        title: "例 2 · 斜率为 y · Slope Equal to y",
+        prompt: "描述斜率场与平衡解的稳定性。 · Describe the slope field and the stability of the equilibrium solution.",
         steps: [
-          '\\(y=0\\) 处斜率为零，是平衡解。',
-          '\\(y>0\\) 时斜率为正，解随 \\(x\\) 增大而增大；\\(y<0\\) 时斜率为负，解远离 \\(0\\)。',
-          '通解 \\(y=Ce^{x}\\)，故 \\(y=0\\) 不稳定。',
+          "\\(y=0\\) 处斜率为零，是平衡解。 · The slope is zero at \\(y=0\\), which is an equilibrium solution.",
+          "\\(y>0\\) 时斜率为正，解随 \\(x\\) 增大而增大；\\(y<0\\) 时斜率为负，解远离 \\(0\\)。 · For \\(y>0\\), the slope is positive and solutions increase with \\(x\\); for \\(y<0\\), the slope is negative and solutions move away from \\(0\\).",
+          "通解 \\(y=Ce^{x}\\)，故 \\(y=0\\) 不稳定。 · The general solution is \\(y=Ce^{x}\\), so \\(y=0\\) is unstable."
         ],
-        solution: '\\(y=0\\) 是不稳定平衡；非零解为 \\(y=Ce^{x}\\)。',
-        solutionLatex: 'y=Ce^{x}',
+        solution: "\\(y=0\\) 是不稳定平衡；非零解为 \\(y=Ce^{x}\\)。 · \\(y=0\\) is an unstable equilibrium; nonzero solutions are \\(y=Ce^{x}\\).",
+        solutionLatex: "y=Ce^{x}"
       },
       {
-        title: '例 3 · 匹配斜率场',
-        prompt: '斜率场在 \\(y=0\\) 处水平，且 \\(y>0\\) 时斜率为负、\\(y<0\\) 时斜率为正。写出一个可能的方程。',
+        title: "例 3 · 匹配斜率场 · Matching a Slope Field",
+        prompt: "斜率场在 \\(y=0\\) 处水平，且 \\(y>0\\) 时斜率为负、\\(y<0\\) 时斜率为正。写出一个可能的方程。 · A slope field is horizontal at \\(y=0\\), negative for \\(y>0\\), and positive for \\(y<0\\). Write a possible differential equation.",
         steps: [
-          '斜率符号与 \\(y\\) 相反，可令 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\)。',
-          '\\(y=0\\) 时斜率为零，符合。',
-          '通解 \\(y=Ce^{-x}\\)，所有解趋向 \\(0\\)，平衡稳定。',
+          "斜率符号与 \\(y\\) 相反，可令 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\)。 · The sign of the slope is opposite to the sign of \\(y\\), so take \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\).",
+          "\\(y=0\\) 时斜率为零，符合。 · At \\(y=0\\), the slope is zero, as required.",
+          "通解 \\(y=Ce^{-x}\\)，所有解趋向 \\(0\\)，平衡稳定。 · The general solution \\(y=Ce^{-x}\\) approaches \\(0\\), so the equilibrium is stable."
         ],
-        solution: '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y',
-      },
+        solution: "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\)。 · A possible equation is \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-y"
+      }
     ],
     examTips: [
-      'AP Calculus BC Unit 7：微分方程与斜率场',
-      '先画等斜线，再在网格上画短线段',
-      '解曲线与线段相切，不要穿过线段',
-      '选择题常考“场与方程匹配”和“平衡稳定性”',
+      "AP Calculus BC Unit 7：微分方程与斜率场 · AP Calculus BC Unit 7: Differential equations and slope fields",
+      "先画等斜线，再在网格上画短线段 · Draw isoclines first, then draw short segments on the grid.",
+      "解曲线与线段相切，不要穿过线段 · Solution curves are tangent to the segments; they do not cross them.",
+      "选择题常考“场与方程匹配”和“平衡稳定性” · Multiple-choice questions often test matching a field to an equation and equilibrium stability."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u7', code: '7.1', title: '微分方程建模', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.3', title: '斜率场草图', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.4', title: '斜率场推理', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.6', title: '可分离变量', relation: '相关' },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.1",
+        title: "微分方程建模 · Modeling with Differential Equations",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.3",
+        title: "斜率场草图 · Sketching Slope Fields",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.4",
+        title: "斜率场推理 · Reasoning with Slope Fields",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.6",
+        title: "可分离变量 · Separable Equations",
+        relation: "相关 · Related"
+      }
     ],
-    development: ['微分方程与斜率', '斜率场绘制', '等斜线', '解曲线与平衡解', '稳定性判断'],
-    checks: ['斜率场中的线段代表什么？', '为什么解曲线一般不相交？', '如何从斜率场判断平衡解的稳定性？'],
-    summary: '斜率场把微分方程变成方向地图；解曲线沿线段的切线方向延伸，等斜线与平衡解帮助快速草图。',
+    development: [
+      "微分方程与斜率 · Differential equations and slope",
+      "斜率场绘制 · Drawing slope fields",
+      "等斜线 · Isoclines",
+      "解曲线与平衡解 · Solution curves and equilibrium solutions",
+      "稳定性判断 · Determining stability"
+    ],
+    checks: [
+      "斜率场中的线段代表什么？ · What do the segments in a slope field represent?",
+      "为什么解曲线一般不相交？ · Why do solution curves generally not intersect?",
+      "如何从斜率场判断平衡解的稳定性？ · How can equilibrium stability be read from a slope field?"
+    ],
+    summary: "斜率场把微分方程变成方向地图；解曲线沿线段的切线方向延伸，等斜线与平衡解帮助快速草图。 · A slope field turns a differential equation into a direction map; solution curves follow the tangent directions of the segments, and isoclines and equilibrium solutions help sketch the field quickly."
   },
-
   'math/calc-u7/7.9': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能识别 Logistic 方程与参数含义。',
-      '能求平衡解、拐点与最大增长速率。',
-      '能分析初始值对解曲线的影响。'
+      "能识别 Logistic 方程与参数含义。 · Recognize the logistic equation and the meaning of its parameters.",
+      "能求平衡解、拐点与最大增长速率。 · Find equilibrium solutions, the inflection point, and the maximum growth rate.",
+      "能分析初始值对解曲线的影响。 · Analyze how the initial value affects the solution curve."
     ],
     essentialKnowledge: [
-      'Logistic 方程 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，\\(L\\) 为环境容纳量。',
-      '解 \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\)，\\(A=\\dfrac{L-P_0}{P_0}\\)。',
-      '平衡解 \\(P=0\\)（不稳定）与 \\(P=L\\)（稳定）；拐点在 \\(P=\\dfrac{L}{2}\\)。',
-      '最大增长速率 \\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}\\)。',
-      '\\(P\\ll L\\) 时近似指数增长；\\(P\\to L\\) 时增长趋零，曲线呈 S 形。'
+      "Logistic 方程 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，\\(L\\) 为环境容纳量。 · The logistic equation is \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\), where \\(L\\) is the carrying capacity.",
+      "解 \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\)，\\(A=\\dfrac{L-P_0}{P_0}\\)。 · The solution is \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\), with \\(A=\\dfrac{L-P_0}{P_0}\\).",
+      "平衡解 \\(P=0\\)（不稳定）与 \\(P=L\\)（稳定）；拐点在 \\(P=\\dfrac{L}{2}\\)。 · The equilibrium solutions are \\(P=0\\) (unstable) and \\(P=L\\) (stable); the inflection point is at \\(P=\\dfrac{L}{2}\\).",
+      "最大增长速率 \\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}\\)。 · The maximum growth rate is \\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}\\).",
+      "\\(P\\ll L\\) 时近似指数增长；\\(P\\to L\\) 时增长趋零，曲线呈 S 形。 · For \\(P\\ll L\\), growth is approximately exponential; as \\(P\\to L\\), growth approaches zero and the curve becomes S-shaped."
     ],
-    definition: 'Logistic 微分方程 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，其中 \\(L\\) 为环境容纳量。解为 \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\)，\\(A=\\dfrac{L-P_0}{P_0}\\)。当 \\(P\\ll L\\) 时近似指数增长；\\(P\\to L\\) 时增长趋零。',
-    intuition: '开始时资源充足，种群近似指数增长；接近容纳量时资源紧张，增长放缓并趋于平台。',
-    intuitionDetailed: '增长率 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\) 是开口向下的抛物线，在 \\(P=\\dfrac{L}{2}\\) 处最大；解曲线在 \\(P=\\dfrac{L}{2}\\) 处有拐点（由加速转为减速）。',
+    definition: "Logistic 微分方程 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，其中 \\(L\\) 为环境容纳量。解为 \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\)，\\(A=\\dfrac{L-P_0}{P_0}\\)。当 \\(P\\ll L\\) 时近似指数增长；\\(P\\to L\\) 时增长趋零。 · The logistic differential equation is \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\), where \\(L\\) is the carrying capacity. Its solution is \\(P(t)=\\dfrac{L}{1+Ae^{-kt}}\\), with \\(A=\\dfrac{L-P_0}{P_0}\\). When \\(P\\ll L\\), growth is approximately exponential; as \\(P\\to L\\), growth approaches zero.",
+    intuition: "开始时资源充足，种群近似指数增长；接近容纳量时资源紧张，增长放缓并趋于平台。 · At first resources are plentiful, so the population grows nearly exponentially; near the carrying capacity resources become limiting, growth slows, and the population levels off.",
+    intuitionDetailed: "增长率 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\) 是开口向下的抛物线，在 \\(P=\\dfrac{L}{2}\\) 处最大；解曲线在 \\(P=\\dfrac{L}{2}\\) 处有拐点（由加速转为减速）。 · The growth rate \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\) is a downward-opening parabola in \\(P\\), with its maximum at \\(P=\\dfrac{L}{2}\\); the solution curve has an inflection point at \\(P=\\dfrac{L}{2}\\), where growth changes from accelerating to decelerating.",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)', note: 'Logistic 方程。' },
-      { latex: 'P(t)=\\dfrac{L}{1+Ae^{-kt}}', note: '解；\\(A=\\dfrac{L-P_0}{P_0}\\)。' },
-      { latex: '\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}', note: '最大增长速率，出现在 \\(P=\\dfrac{L}{2}\\)。' },
-      { latex: 'P=\\dfrac{L}{2}', note: '拐点位置。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)",
+        note: "Logistic 方程。 · Logistic equation."
+      },
+      {
+        latex: "P(t)=\\dfrac{L}{1+Ae^{-kt}}",
+        note: "解；\\(A=\\dfrac{L-P_0}{P_0}\\)。 · Solution; \\(A=\\dfrac{L-P_0}{P_0}\\)."
+      },
+      {
+        latex: "\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}",
+        note: "最大增长速率，出现在 \\(P=\\dfrac{L}{2}\\)。 · Maximum growth rate, attained at \\(P=\\dfrac{L}{2}\\)."
+      },
+      {
+        latex: "P=\\dfrac{L}{2}",
+        note: "拐点位置。 · Inflection point."
+      }
     ],
     derivationNotes: [
-      { from: 'Logistic 方程', to: '分离变量', note: '\\(\\dfrac{\\mathrm{d}P}{P\\left(1-\\dfrac{P}{L}\\right)}=k\\,\\mathrm{d}t\\)。' },
-      { from: '部分分式', to: '积分', note: '\\(\\dfrac{1}{P}+\\dfrac{1}{L-P}\\) 积分得 \\(\\ln\\dfrac{P}{L-P}=kt+C\\)。' },
-      { from: '初值', to: '特解', note: '代入 \\(P(0)=P_0\\) 得 \\(A=\\dfrac{L-P_0}{P_0}\\)。' },
+      {
+        from: "Logistic 方程 · Logistic equation",
+        to: "分离变量 · Separation of variables",
+        note: "\\(\\dfrac{\\mathrm{d}P}{P\\left(1-\\dfrac{P}{L}\\right)}=k\\,\\mathrm{d}t\\)。 · Separate the variables: \\(\\dfrac{\\mathrm{d}P}{P\\left(1-\\dfrac{P}{L}\\right)}=k\\,\\mathrm{d}t\\)."
+      },
+      {
+        from: "部分分式 · Partial fractions",
+        to: "积分 · Integration",
+        note: "\\(\\dfrac{1}{P}+\\dfrac{1}{L-P}\\) 积分得 \\(\\ln\\dfrac{P}{L-P}=kt+C\\)。 · Integrating \\(\\dfrac{1}{P}+\\dfrac{1}{L-P}\\) gives \\(\\ln\\dfrac{P}{L-P}=kt+C\\)."
+      },
+      {
+        from: "初值 · Initial value",
+        to: "特解 · Particular solution",
+        note: "代入 \\(P(0)=P_0\\) 得 \\(A=\\dfrac{L-P_0}{P_0}\\)。 · Substituting \\(P(0)=P_0\\) gives \\(A=\\dfrac{L-P_0}{P_0}\\)."
+      }
     ],
-    conditions: ['环境容纳量 \\(L\\) 恒定，\\(k>0\\)', '种群封闭、无时滞、无 Allee 效应', '适用于资源受限的单种群', '\\(P_0>0\\)；若 \\(P_0=0\\) 则种群始终为零'],
-    keyPoints: ['两个平衡解：\\(P=0\\)（不稳定）与 \\(P=L\\)（稳定）', '拐点在 \\(P=\\dfrac{L}{2}\\)', '初始增长近似指数', '解曲线呈 S 形（sigmoid）', '\\(k\\) 控制接近 \\(L\\) 的快慢', '\\(P\\) 不会超过 \\(L\\)（理想模型）'],
+    conditions: [
+      "环境容纳量 \\(L\\) 恒定，\\(k>0\\) · The carrying capacity \\(L\\) is constant and \\(k>0\\).",
+      "种群封闭、无时滞、无 Allee 效应 · The population is closed, with no time lag and no Allee effect.",
+      "适用于资源受限的单种群 · The model applies to a single population limited by resources.",
+      "\\(P_0>0\\)；若 \\(P_0=0\\) 则种群始终为零 · \\(P_0>0\\); if \\(P_0=0\\), the population remains zero forever."
+    ],
+    keyPoints: [
+      "两个平衡解：\\(P=0\\)（不稳定）与 \\(P=L\\)（稳定） · Two equilibrium solutions: \\(P=0\\) (unstable) and \\(P=L\\) (stable).",
+      "拐点在 \\(P=\\dfrac{L}{2}\\) · The inflection point is at \\(P=\\dfrac{L}{2}\\).",
+      "初始增长近似指数 · Initial growth is approximately exponential.",
+      "解曲线呈 S 形（sigmoid） · The solution curve is S-shaped (sigmoid).",
+      "\\(k\\) 控制接近 \\(L\\) 的快慢 · \\(k\\) controls how quickly the population approaches \\(L\\).",
+      "\\(P\\) 不会超过 \\(L\\)（理想模型） · \\(P\\) does not exceed \\(L\\) in the ideal model."
+    ],
     misconceptions: [
-      '认为 logistic 一直指数增长',
-      '认为 \\(P\\) 会超过 \\(L\\)',
-      '把 \\(L\\) 当作初始值',
-      '认为增长率在 \\(P=L\\) 最大（实际为零）',
-      '把 \\(k\\) 与 \\(r\\) 混为一谈而不看模型定义',
+      "认为 logistic 一直指数增长 · Assuming logistic growth remains exponential forever.",
+      "认为 \\(P\\) 会超过 \\(L\\) · Assuming \\(P\\) can exceed \\(L\\).",
+      "把 \\(L\\) 当作初始值 · Treating \\(L\\) as the initial value.",
+      "认为增长率在 \\(P=L\\) 最大（实际为零） · Assuming the growth rate is largest at \\(P=L\\) (it is zero there).",
+      "把 \\(k\\) 与 \\(r\\) 混为一谈而不看模型定义 · Confusing \\(k\\) with another growth parameter without checking the model definition."
     ],
     examples: [
       {
-        title: '例 1 · 求特解',
-        prompt: '\\(L=1000\\)，\\(k=0.50\\)，\\(P_0=100\\)。写出 \\(P(t)\\) 并求 \\(P(10)\\)。',
+        title: "例 1 · 求特解 · Particular Solution",
+        prompt: "\\(L=1000\\)，\\(k=0.50\\)，\\(P_0=100\\)。写出 \\(P(t)\\) 并求 \\(P(10)\\)。 · Let \\(L=1000\\), \\(k=0.50\\), and \\(P_0=100\\). Write \\(P(t)\\) and find \\(P(10)\\).",
         steps: [
-          '\\(A=\\dfrac{L-P_0}{P_0}=\\dfrac{900}{100}=9\\)。',
-          '\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)。',
-          '\\(P(10)=\\dfrac{1000}{1+9e^{-5}}\\approx943\\)。',
+          "\\(A=\\dfrac{L-P_0}{P_0}=\\dfrac{900}{100}=9\\)。 · Find the constant: \\(A=\\dfrac{L-P_0}{P_0}=\\dfrac{900}{100}=9\\).",
+          "\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)。 · Write the solution: \\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\).",
+          "\\(P(10)=\\dfrac{1000}{1+9e^{-5}}\\approx943\\)。 · Evaluate: \\(P(10)=\\dfrac{1000}{1+9e^{-5}}\\approx943\\)."
         ],
-        solution: '\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)，\\(P(10)\\approx943\\)。',
-        solutionLatex: 'P(t)=\\dfrac{1000}{1+9e^{-0.50t}},\\;P(10)\\approx943',
+        solution: "\\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\)，\\(P(10)\\approx943\\)。 · \\(P(t)=\\dfrac{1000}{1+9e^{-0.50t}}\\), and \\(P(10)\\approx943\\).",
+        solutionLatex: "P(t)=\\dfrac{1000}{1+9e^{-0.50t}},\\;P(10)\\approx943"
       },
       {
-        title: '例 2 · 最大增长速率',
-        prompt: '\\(L=1000\\)，\\(k=0.50\\)。求最大增长速率及对应种群大小。',
+        title: "例 2 · 最大增长速率 · Maximum Growth Rate",
+        prompt: "\\(L=1000\\)，\\(k=0.50\\)。求最大增长速率及对应种群大小。 · Let \\(L=1000\\) and \\(k=0.50\\). Find the maximum growth rate and the corresponding population size.",
         steps: [
-          '最大增长出现在 \\(P=\\dfrac{L}{2}=500\\)。',
-          '\\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}=\\dfrac{0.50(1000)}{4}=125\\)。',
+          "最大增长出现在 \\(P=\\dfrac{L}{2}=500\\)。 · Maximum growth occurs at \\(P=\\dfrac{L}{2}=500\\).",
+          "\\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}=\\dfrac{0.50(1000)}{4}=125\\)。 · The maximum rate is \\(\\left.\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\right|_{\\max}=\\dfrac{kL}{4}=\\dfrac{0.50(1000)}{4}=125\\)."
         ],
-        solution: '\\(P=500\\) 时增长最快，速率为 \\(125\\) 个每单位时间。',
-        solutionLatex: 'P=500,\\;\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=125',
+        solution: "\\(P=500\\) 时增长最快，速率为 \\(125\\) 个每单位时间。 · Growth is fastest at \\(P=500\\), with a rate of \\(125\\) individuals per unit time.",
+        solutionLatex: "P=500,\\;\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=125"
       },
       {
-        title: '例 3 · 从数据估 L',
-        prompt: '某种群数量最终稳定在 \\(800\\) 左右。若初期每单位时间增长约 \\(12\\%\\)，写出近似 logistic 方程。',
+        title: "例 3 · 从数据估 L · Estimating L from Data",
+        prompt: "某种群数量最终稳定在 \\(800\\) 左右。若初期每单位时间增长约 \\(12\\%\\)，写出近似 logistic 方程。 · A population eventually levels off near \\(800\\). If its early growth is about \\(12\\%\\) per unit time, write an approximate logistic equation.",
         steps: [
-          '稳定值即 \\(L\\approx800\\)。',
-          '初期 \\(P\\ll L\\)，\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\approx kP\\)，故 \\(k\\approx0.12\\)。',
-          '方程为 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\)。',
+          "稳定值即 \\(L\\approx800\\)。 · The stable value is \\(L\\approx800\\).",
+          "初期 \\(P\\ll L\\)，\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\approx kP\\)，故 \\(k\\approx0.12\\)。 · Initially \\(P\\ll L\\), so \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}\\approx kP\\), giving \\(k\\approx0.12\\).",
+          "方程为 \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\)。 · The equation is \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\)."
         ],
-        solution: '\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)',
-      },
+        solution: "\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\)。 · The approximate equation is \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=0.12P\\left(1-\\dfrac{P}{800}\\right)"
+      }
     ],
     examTips: [
-      'AP Calculus BC Unit 7：Logistic 模型',
-      '记住解的形式与 \\(A=\\dfrac{L-P_0}{P_0}\\)',
-      '拐点在 \\(\\dfrac{L}{2}\\)，最大增长率 \\(\\dfrac{kL}{4}\\)',
-      '与指数模型对比：logistic 有上限、呈 S 形',
+      "AP Calculus BC Unit 7：Logistic 模型 · AP Calculus BC Unit 7: Logistic models",
+      "记住解的形式与 \\(A=\\dfrac{L-P_0}{P_0}\\) · Remember the solution form and \\(A=\\dfrac{L-P_0}{P_0}\\).",
+      "拐点在 \\(\\dfrac{L}{2}\\)，最大增长率 \\(\\dfrac{kL}{4}\\) · The inflection point is at \\(\\dfrac{L}{2}\\), and the maximum growth rate is \\(\\dfrac{kL}{4}\\).",
+      "与指数模型对比：logistic 有上限、呈 S 形 · Compare with the exponential model: logistic growth has a ceiling and is S-shaped."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u7', code: '7.8', title: '指数模型', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.6', title: '可分离变量', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.7', title: '特解', relation: '相关' },
-      { subject: 'math', chapterId: 'calc-u5', code: '5.6', title: '凹性与拐点', relation: '相关' },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.8",
+        title: "指数模型 · Exponential Models",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.6",
+        title: "可分离变量 · Separable Equations",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.7",
+        title: "特解 · Particular Solutions",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.6",
+        title: "凹性与拐点 · Concavity and Inflection Points",
+        relation: "相关 · Related"
+      }
     ],
-    development: ['指数模型的局限', 'Logistic 方程', '分离变量求解', '拐点与最大增长', '与生态学的联系'],
-    checks: ['Logistic 解的拐点在哪里？', '为什么 \\(P=L\\) 是稳定平衡？', '\\(k\\) 与 \\(L\\) 分别控制什么？'],
-    summary: 'Logistic 模型描述资源受限的增长：\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，解呈 S 形，拐点在 \\(\\dfrac{L}{2}\\)。',
+    development: [
+      "指数模型的局限 · Limits of the exponential model",
+      "Logistic 方程 · The logistic equation",
+      "分离变量求解 · Solving by separation of variables",
+      "拐点与最大增长 · Inflection point and maximum growth",
+      "与生态学的联系 · Connections to ecology"
+    ],
+    checks: [
+      "Logistic 解的拐点在哪里？ · Where is the inflection point of a logistic solution?",
+      "为什么 \\(P=L\\) 是稳定平衡？ · Why is \\(P=L\\) a stable equilibrium?",
+      "\\(k\\) 与 \\(L\\) 分别控制什么？ · What do \\(k\\) and \\(L\\) each control?"
+    ],
+    summary: "Logistic 模型描述资源受限的增长：\\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\)，解呈 S 形，拐点在 \\(\\dfrac{L}{2}\\)。 · The logistic model describes resource-limited growth: \\(\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP\\left(1-\\dfrac{P}{L}\\right)\\); the solution is S-shaped with an inflection point at \\(\\dfrac{L}{2}\\)."
   },
-
   'bio/bio-u8/8.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -3796,7 +4004,7 @@ export const ENRICHMENTS = {
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.3', title: '种群生态', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '后续' },
       { subject: 'bio', chapterId: 'bio-u8', code: '8.7', title: '生态系统扰动', relation: '相关' },
       { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流', relation: '相关' },
     ],
@@ -4886,922 +5094,1662 @@ export const ENRICHMENTS = {
   },
 
   'math/calc-u2/2.8': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「积商法则」的核心定义与适用条件。",
-      "能用积法则分析并解决基础问题。",
-      "能识别“写成 \\((uv)'=u'v'”等常见误用并纠正。"
+      "能写出积法则与商法则，并说明各自适用的条件。 · State the product and quotient rules and explain when each applies.",
+      "能用积法则与商法则求多项式、指数、三角与有理函数的导数。 · Use the product and quotient rules to differentiate polynomial, exponential, trigonometric, and rational functions.",
+      "能识别并纠正 ((uv)'=u'v') 等常见误用。 · Identify and correct common errors such as writing ((uv)'=u'v')."
     ],
     essentialKnowledge: [
-      "积法则两项都含一个原函数",
-      "商法则分母平方、分子交叉相减",
-      "常数倍可以提到导数外面",
-      "有理函数求导后常需通分与约分",
-      "复杂乘积可先取对数再求导"
+      "积法则两项都含一个原函数 · Both terms in the product rule contain one original factor.",
+      "商法则分母平方、分子交叉相减 · The quotient rule has a squared denominator and a cross-subtracted numerator.",
+      "常数倍可以提到导数外面 · Constant multiples can be pulled outside the derivative.",
+      "有理函数求导后常需通分与约分 · Derivatives of rational functions often need a common denominator and simplification.",
+      "复杂乘积可先取对数再求导 · For complicated products, logarithmic differentiation can help."
     ],
     connections: [
-      "先修：2.5 幂函数导数",
-      "先修：2.6 常数倍与和差",
-      "后续：2.9 积商法则续",
-      "后续：3.1 链式法则"
+      "先修：2.5 幂函数导数 · Prerequisite: 2.5 Derivatives of power functions.",
+      "先修：2.6 常数倍与和差 · Prerequisite: 2.6 Constant multiples and sums/differences.",
+      "后续：2.9 积商法则续 · Follow-up: 2.9 Further product and quotient rules.",
+      "后续：3.1 链式法则 · Follow-up: 3.1 The chain rule."
     ],
-    definition: '积法则把两个可导函数乘积的导数写成 \\((uv)\'=u\'v+uv\'\\)；商法则把商的导数写成 \\(\\left(\\dfrac{u}{v}\\right)\'=\\dfrac{u\'v-uv\'}{v^{2}}\\)（\\(v\\neq0\\)）。两者都可由导数定义或对数求导推出，是多项式、指数、三角与有理函数求导的基本工具。',
-    intuition: '乘积的导数不是“导数乘导数”：第一项变、第二项不变，加上第一项不变、第二项变；商的导数还要除以分母的平方。',
-    intuitionDetailed: '积法则可理解为“两个变化来源之和”：\\(u\\) 变化贡献 \\(u\'v\\)，\\(v\\) 变化贡献 \\(uv\'\\)。商法则可由积法则与链式法则推出：把 \\(u/v\\) 写成 \\(u\\cdot v^{-1}\\)。求导后先保留因式，再代数化简，能减少错误。',
+    definition: "积法则把两个可导函数乘积的导数写成 \\((uv)'=u'v+uv'\\)；商法则把商的导数写成 \\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\)（\\(v\\neq0\\)）。两者都可由导数定义或对数求导推出，是多项式、指数、三角与有理函数求导的基本工具。 · The product rule writes the derivative of a product of two differentiable functions as ((uv)'=u'v+uv'); the quotient rule writes the derivative of a quotient as \\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\) for \\(v\\neq0\\). Both follow from the limit definition or logarithmic differentiation and are basic tools for differentiating polynomial, exponential, trigonometric, and rational functions.",
+    intuition: "乘积的导数不是“导数乘导数”：第一项变、第二项不变，加上第一项不变、第二项变；商的导数还要除以分母的平方。 · The derivative of a product is not the product of the derivatives: let the first factor change while the second stays fixed, then add the first fixed and the second changing; the quotient derivative also divides by the square of the denominator.",
+    intuitionDetailed: "积法则可理解为“两个变化来源之和”：\\(u\\) 变化贡献 \\(u'v\\)，\\(v\\) 变化贡献 \\(uv'\\)。商法则可由积法则与链式法则推出：把 \\(\\dfrac{u}{v}\\) 写成 \\(u\\cdot v^{-1}\\)。求导后先保留因式，再代数化简，能减少错误。 · The product rule can be read as the sum of two sources of change: a change in \\(u\\) contributes \\(u'v\\), and a change in \\(v\\) contributes \\(uv'\\). The quotient rule follows from the product rule and the chain rule by writing \\(\\dfrac{u}{v}\\) as \\(u\\cdot v^{-1}\\). Keep the factors in place before simplifying algebraically; this reduces errors.",
     formulas: [
-      { latex: "(uv)'=u'v+uv'", note: '积法则。' },
-      { latex: "\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}", note: '商法则；分子顺序不能反。' },
-      { latex: "(cu)'=cu'", note: '常数倍法则，可由积法则令 \\(u\\) 为常数得到。' },
+      {
+        latex: "(uv)'=u'v+uv'",
+        note: "积法则。 · Product rule."
+      },
+      {
+        latex: "\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}",
+        note: "商法则；分子顺序不能反。 · Quotient rule; the order in the numerator cannot be reversed."
+      },
+      {
+        latex: "(cu)'=cu'",
+        note: "常数倍法则，可由积法则令 \\(u\\) 为常数得到。 · Constant-multiple rule, obtained from the product rule by taking \\(u\\) constant."
+      }
     ],
-    conditions: ['\\(u,v\\) 在讨论点可导', '商法则要求 \\(v\\neq0\\)', '商法则分子是“分母乘分子导数 − 分子乘分母导数”', '求导后先保留结构再化简，避免展开错误'],
-    keyPoints: ['积法则两项都含一个原函数', '商法则分母平方、分子交叉相减', '常数倍可以提到导数外面', '有理函数求导后常需通分与约分', '复杂乘积可先取对数再求导'],
+    conditions: [
+      "\\(u,v\\) 在讨论点可导 · \\(u\\) and \\(v\\) are differentiable at the point in question.",
+      "商法则要求 \\(v\\neq0\\) · The quotient rule requires \\(v\\neq0\\).",
+      "商法则分子是“分母乘分子导数 − 分子乘分母导数” · The quotient numerator is “denominator times derivative of numerator minus numerator times derivative of denominator.”",
+      "求导后先保留结构再化简，避免展开错误 · Keep the structure before simplifying to avoid expansion errors."
+    ],
+    keyPoints: [
+      "积法则两项都含一个原函数 · Both terms in the product rule contain one original factor.",
+      "商法则分母平方、分子交叉相减 · The quotient rule has a squared denominator and cross-subtracted numerator.",
+      "常数倍可以提到导数外面 · Constant multiples can be pulled outside the derivative.",
+      "有理函数求导后常需通分与约分 · Rational derivatives often need a common denominator and simplification.",
+      "复杂乘积可先取对数再求导 · Logarithmic differentiation can help with complicated products."
+    ],
     misconceptions: [
-      '写成 \\((uv)\'=u\'v\'',
-      '商法则分子写成 \\(u\'v+uv\'\\) 或把顺序颠倒',
-      '忘记分母平方',
-      '把 \\(\\dfrac{u\'}{v\'}\\) 当作商的导数',
-      '求导后不化简，导致符号或因式错误',
+      "写成 \\((uv)'=u'v' · Writing ((uv)'=u'v').",
+      "商法则分子写成 \\(u'v+uv'\\) 或把顺序颠倒 · Writing the quotient numerator as \\(u'v+uv'\\) or reversing the order.",
+      "忘记分母平方 · Forgetting to square the denominator.",
+      "把 \\(\\dfrac{u'}{v'}\\) 当作商的导数 · Treating \\(\\dfrac{u'}{v'}\\) as the derivative of the quotient.",
+      "求导后不化简，导致符号或因式错误 · Not simplifying after differentiating, leading to sign or factor errors."
     ],
     examples: [
       {
-        title: '例 1 · 积法则',
-        prompt: '求 \\(f(x)=x^{2}e^{x}\\) 的导数。',
-        steps: ['取 \\(u=x^{2}\\)，\\(v=e^{x}\\)。', '\\(f\'=2xe^{x}+x^{2}e^{x}\\)。', '提取公因式：\\(f\'=e^{x}(x^{2}+2x)\\)。'],
-        solution: '\\(f\'(x)=e^{x}(x^{2}+2x)\\)。',
-        solutionLatex: "f'(x)=e^{x}(x^{2}+2x)",
+        title: "例 1 · 积法则 · Product Rule",
+        prompt: "求 \\(f(x)=x^{2}e^{x}\\) 的导数。 · Find the derivative of \\(f(x)=x^{2}e^{x}\\).",
+        steps: [
+          "取 \\(u=x^{2}\\)，\\(v=e^{x}\\)。 · Let \\(u=x^{2}\\) and \\(v=e^{x}\\).",
+          "\\(f'=2xe^{x}+x^{2}e^{x}\\)。 · Apply the product rule: \\(f'=2xe^{x}+x^{2}e^{x}\\).",
+          "提取公因式：\\(f'=e^{x}(x^{2}+2x)\\)。 · Factor: \\(f'=e^{x}(x^{2}+2x)\\)."
+        ],
+        solution: "\\(f'(x)=e^{x}(x^{2}+2x)\\)。 · Thus \\(f'(x)=e^{x}(x^{2}+2x)\\).",
+        solutionLatex: "f'(x)=e^{x}(x^{2}+2x)"
       },
       {
-        title: '例 2 · 商法则',
-        prompt: '求 \\(f(x)=\\dfrac{x^{2}+1}{x-1}\\) 的导数。',
-        steps: ['\\(u=x^{2}+1\\)，\\(u\'=2x\\)；\\(v=x-1\\)，\\(v\'=1\\)。', '\\(f\'=\\dfrac{2x(x-1)-(x^{2}+1)}{(x-1)^{2}}\\)。', '化简分子：\\(2x^{2}-2x-x^{2}-1=x^{2}-2x-1\\)。'],
-        solution: '\\(f\'(x)=\\dfrac{x^{2}-2x-1}{(x-1)^{2}}\\)。',
-        solutionLatex: "f'(x)=\\dfrac{x^{2}-2x-1}{(x-1)^{2}}",
+        title: "例 2 · 商法则 · Quotient Rule",
+        prompt: "求 \\(f(x)=\\dfrac{x^{2}+1}{x-1}\\) 的导数。 · Find the derivative of \\(f(x)=\\dfrac{x^{2}+1}{x-1}\\).",
+        steps: [
+          "\\(u=x^{2}+1\\)，\\(u'=2x\\)；\\(v=x-1\\)，\\(v'=1\\)。 · Let \\(u=x^{2}+1\\), so \\(u'=2x\\); let \\(v=x-1\\), so \\(v'=1\\).",
+          "\\(f'=\\dfrac{2x(x-1)-(x^{2}+1)}{(x-1)^{2}}\\)。 · Apply the quotient rule: \\(f'=\\dfrac{2x(x-1)-(x^{2}+1)}{(x-1)^{2}}\\).",
+          "化简分子：\\(2x^{2}-2x-x^{2}-1=x^{2}-2x-1\\)。 · Simplify the numerator: \\(2x^{2}-2x-x^{2}-1=x^{2}-2x-1\\)."
+        ],
+        solution: "\\(f'(x)=\\dfrac{x^{2}-2x-1}{(x-1)^{2}}\\)。 · Thus \\(f'(x)=\\dfrac{x^{2}-2x-1}{(x-1)^{2}}\\).",
+        solutionLatex: "f'(x)=\\dfrac{x^{2}-2x-1}{(x-1)^{2}}"
       },
       {
-        title: '例 3 · 三角乘积',
-        prompt: '设 \\(f(x)=x\\sin x\\)，求 \\(f\'\\left(\\dfrac{\\pi}{2}\\right)\\)。',
-        steps: ['\\(f\'=\\sin x+x\\cos x\\)。', '代入 \\(x=\\dfrac{\\pi}{2}\\)：\\(\\sin\\dfrac{\\pi}{2}+\\dfrac{\\pi}{2}\\cos\\dfrac{\\pi}{2}=1+0\\)。'],
-        solution: '\\(f\'\\left(\\dfrac{\\pi}{2}\\right)=1\\)。',
-        solutionLatex: "f'\\left(\\dfrac{\\pi}{2}\\right)=1",
-      },
+        title: "例 3 · 三角乘积 · Trigonometric Product",
+        prompt: "设 \\(f(x)=x\\sin x\\)，求 \\(f'\\left(\\dfrac{\\pi}{2}\\right)\\)。 · Let \\(f(x)=x\\sin x\\). Find \\(f'\\left(\\dfrac{\\pi}{2}\\right)\\).",
+        steps: [
+          "\\(f'=\\sin x+x\\cos x\\)。 · Differentiate the product: \\(f'=\\sin x+x\\cos x\\).",
+          "代入 \\(x=\\dfrac{\\pi}{2}\\)：\\(\\sin\\dfrac{\\pi}{2}+\\dfrac{\\pi}{2}\\cos\\dfrac{\\pi}{2}=1+0\\)。 · Substitute \\(x=\\dfrac{\\pi}{2}\\): \\(\\sin\\dfrac{\\pi}{2}+\\dfrac{\\pi}{2}\\cos\\dfrac{\\pi}{2}=1+0\\)."
+        ],
+        solution: "\\(f'\\left(\\dfrac{\\pi}{2}\\right)=1\\)。 · Therefore \\(f'\\left(\\dfrac{\\pi}{2}\\right)=1\\).",
+        solutionLatex: "f'\\left(\\dfrac{\\pi}{2}\\right)=1"
+      }
     ],
     examTips: [
-      'CED Unit 2：导数法则',
-      '先识别“乘积/商”结构，再套法则',
-      '商法则分子顺序用口诀“下乘上导 − 上乘下导”',
-      '求导后检查能否因式分解或约分',
+      "CED Unit 2：导数法则 · CED Unit 2: Derivative rules",
+      "先识别“乘积/商”结构，再套法则 · First identify the product or quotient structure, then apply the rule.",
+      "商法则分子顺序用口诀“下乘上导 − 上乘下导” · For the quotient numerator, use “low d-high minus high d-low.”",
+      "求导后检查能否因式分解或约分 · After differentiating, check whether the result factors or simplifies."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u2', code: '2.5', title: '幂函数导数', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u2', code: '2.6', title: '常数倍与和差', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u2', code: '2.9', title: '积商法则续', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u3', code: '3.1', title: '链式法则', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.5",
+        title: "幂函数导数 · Derivatives of Power Functions",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.6",
+        title: "常数倍与和差 · Constant Multiples and Sums/Differences",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.9",
+        title: "积商法则续 · Further Product and Quotient Rules",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u3",
+        code: "3.1",
+        title: "链式法则 · The Chain Rule",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['积法则的直观', '商法则的推导', '常数倍与和差', '有理函数求导', '与其他法则组合'],
-    checks: ['为什么 \\((uv)\'\\neq u\'v\'\\)？', '商法则的分母为什么是平方？', '如何用积法则推出商法则？'],
-    summary: '积法则两项相加，商法则分母平方、分子交叉相减；先识别结构再求导，最后化简。',
+    development: [
+      "积法则的直观 · Intuition for the product rule",
+      "商法则的推导 · Deriving the quotient rule",
+      "常数倍与和差 · Constant multiples and sums/differences",
+      "有理函数求导 · Differentiating rational functions",
+      "与其他法则组合 · Combining with other rules"
+    ],
+    checks: [
+      "为什么 \\((uv)'\\neq u'v'\\)？ · 为什么 ((uv)'\\neq u'v')？ · Why is ((uv)'\\neq u'v')?",
+      "商法则的分母为什么是平方？ · Why is the denominator in the quotient rule squared?",
+      "如何用积法则推出商法则？ · How can the quotient rule be derived from the product rule?"
+    ],
+    summary: "积法则两项相加，商法则分母平方、分子交叉相减；先识别结构再求导，最后化简。 · The product rule adds two terms, while the quotient rule has a squared denominator and a cross-subtracted numerator; identify the structure first, differentiate, then simplify."
   },
-
   'math/calc-u3/3.2': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「隐函数求导」的核心定义与适用条件。",
-      "能用对 \\(y\\) 的幂用链式法则分析并解决基础问题。",
-      "能识别“把 \\(y\\) 当常数，导致 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=0\\)”等常见误用并纠正。"
+      "能对隐式方程逐项求导，并把 \\(y\\) 看作 \\(x\\) 的函数。 · Differentiate an implicit equation term by term while treating \\(y\\) as a function of \\(x\\).",
+      "能解出 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，并求隐曲线在给定点的切线。 · Solve for \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) and find the tangent line to an implicit curve at a given point.",
+      "能识别把 \\(y\\) 当常数等常见误用并纠正。 · Identify and correct common errors such as treating \\(y\\) as a constant."
     ],
     essentialKnowledge: [
-      "\\(y\\) 是 \\(x\\) 的函数，不是常数",
-      "每一项都要对 \\(x\\) 求导",
-      "把 \\(y'\\) 当作未知量解方程",
-      "圆/椭圆/双曲线的切线常用隐函数求导",
-      "竖直切线对应 \\(F_y=0\\)"
+      "\\(y\\) 是 \\(x\\) 的函数，不是常数 · \\(y\\) is a function of \\(x\\), not a constant.",
+      "每一项都要对 \\(x\\) 求导 · Differentiate every term with respect to \\(x\\).",
+      "把 \\(y'\\) 当作未知量解方程 · Treat \\(y'\\) as an unknown and solve the resulting equation.",
+      "圆/椭圆/双曲线的切线常用隐函数求导 · Tangents to circles, ellipses, and hyperbolas are often found by implicit differentiation.",
+      "竖直切线对应 \\(F_y=0\\) · A vertical tangent corresponds to \\(F_y=0\\)."
     ],
     connections: [
-      "先修：3.1 链式法则",
-      "相关：3.3 反函数导数",
-      "应用：4.4 相关变化率"
+      "先修：3.1 链式法则 · Prerequisite: 3.1 The chain rule.",
+      "相关：3.3 反函数导数 · Related: 3.3 Derivatives of inverse functions.",
+      "应用：4.4 相关变化率 · Application: 4.4 Related rates."
     ],
-    definition: '隐函数求导用于方程 \\(F(x,y)=0\\) 没有显式解出 \\(y\\) 的情形。把 \\(y\\) 看作 \\(x\\) 的可导函数，对方程两边关于 \\(x\\) 求导（遇到 \\(y\\) 时用链式法则乘 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)），再解出 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。若 \\(F_y\\neq0\\)，也可写 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}\\)。',
-    intuition: '隐函数求导不要求先解出 \\(y\\)：把 \\(y\\) 当作 \\(x\\) 的函数，边求导边记录 \\(y\'\\)，最后把 \\(y\'\\) 解出来。',
-    intuitionDetailed: '圆 \\(x^{2}+y^{2}=25\\) 的切线斜率随点变化：\\(y\'=-x/y\\)。在 \\((3,4)\\) 处斜率为 \\(-3/4\\)，在 \\((3,-4)\\) 处为 \\(+3/4\\)。求导后要把点的坐标代入，而不是先代入再求导。',
+    definition: "隐函数求导用于方程 \\(F(x,y)=0\\) 没有显式解出 \\(y\\) 的情形。把 \\(y\\) 看作 \\(x\\) 的可导函数，对方程两边关于 \\(x\\) 求导（遇到 \\(y\\) 时用链式法则乘 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)），再解出 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。若 \\(F_y\\neq0\\)，也可写 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}\\)。 · Implicit differentiation applies when an equation \\(F(x,y)=0\\) does not explicitly solve for \\(y\\). Treat \\(y\\) as a differentiable function of \\(x\\), differentiate both sides with respect to \\(x\\) (multiplying by \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) whenever a \\(y\\) term is differentiated), then solve for \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\). If \\(F_y\\neq0\\), one may also write \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}\\).",
+    intuition: "隐函数求导不要求先解出 \\(y\\)：把 \\(y\\) 当作 \\(x\\) 的函数，边求导边记录 \\(y'\\)，最后把 \\(y'\\) 解出来。 · Implicit differentiation does not require solving for \\(y\\) first: treat \\(y\\) as a function of \\(x\\), differentiate while recording \\(y'\\), then solve for \\(y'\\).",
+    intuitionDetailed: "圆 \\(x^{2}+y^{2}=25\\) 的切线斜率随点变化：\\(y'=-\\dfrac{x}{y}\\)。在 \\((3,4)\\) 处斜率为 \\(-\\dfrac{3}{4}\\)，在 \\((3,-4)\\) 处为 \\(+\\dfrac{3}{4}\\)。求导后要把点的坐标代入，而不是先代入再求导。 · The tangent slope of the circle \\(x^{2}+y^{2}=25\\) varies from point to point: \\(y'=-\\dfrac{x}{y}\\). At \\((3,4)\\) the slope is \\(-\\dfrac{3}{4}\\), and at \\((3,-4)\\) it is \\(+\\dfrac{3}{4}\\). Substitute the point coordinates after differentiating, not before.",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[y^{n}\\right]=ny^{n-1}\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}', note: '对 \\(y\\) 的幂用链式法则。' },
-      { latex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}', note: '隐函数定理形式（\\(F_y\\neq0\\)）。' },
-      { latex: "y-y_0=y'(x_0)(x-x_0)", note: '隐曲线在点 \\((x_0,y_0)\\) 的切线。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[y^{n}\\right]=ny^{n-1}\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}",
+        note: "对 \\(y\\) 的幂用链式法则。 · Use the chain rule for powers of \\(y\\)."
+      },
+      {
+        latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}",
+        note: "隐函数定理形式（\\(F_y\\neq0\\)）。 · Implicit-function theorem form (\\(F_y\\neq0\\))."
+      },
+      {
+        latex: "y-y_0=y'(x_0)(x-x_0)",
+        note: "隐曲线在点 \\((x_0,y_0)\\) 的切线。 · Tangent to an implicit curve at \\((x_0,y_0)\\)."
+      }
     ],
-    conditions: ['\\(y\\) 在讨论点附近是 \\(x\\) 的可导函数', '方程两边对同一变量求导，遇到 \\(y\\) 要乘 \\(y\'\\)', '隐函数定理形式要求 \\(F_y\\neq0\\)', '先求导再代入点的坐标', '切线斜率可能不存在（竖直切线，\\(F_y=0\\)）'],
-    keyPoints: ['\\(y\\) 是 \\(x\\) 的函数，不是常数', '每一项都要对 \\(x\\) 求导', '把 \\(y\'\\) 当作未知量解方程', '圆/椭圆/双曲线的切线常用隐函数求导', '竖直切线对应 \\(F_y=0\\)'],
+    conditions: [
+      "\\(y\\) 在讨论点附近是 \\(x\\) 的可导函数 · \\(y\\) is a differentiable function of \\(x\\) near the point in question.",
+      "方程两边对同一变量求导，遇到 \\(y\\) 要乘 \\(y'\\) · Differentiate both sides with respect to the same variable; each \\(y\\) term produces a factor of \\(y'\\).",
+      "隐函数定理形式要求 \\(F_y\\neq0\\) · The implicit-function theorem form requires \\(F_y\\neq0\\).",
+      "先求导再代入点的坐标 · Differentiate first, then substitute the point coordinates.",
+      "切线斜率可能不存在（竖直切线，\\(F_y=0\\)） · The tangent slope may fail to exist (vertical tangent, \\(F_y=0\\))."
+    ],
+    keyPoints: [
+      "\\(y\\) 是 \\(x\\) 的函数，不是常数 · \\(y\\) is a function of \\(x\\), not a constant.",
+      "每一项都要对 \\(x\\) 求导 · Differentiate every term with respect to \\(x\\).",
+      "把 \\(y'\\) 当作未知量解方程 · Treat \\(y'\\) as an unknown and solve the equation.",
+      "圆/椭圆/双曲线的切线常用隐函数求导 · Tangents to circles, ellipses, and hyperbolas are often found by implicit differentiation.",
+      "竖直切线对应 \\(F_y=0\\) · A vertical tangent corresponds to \\(F_y=0\\)."
+    ],
     misconceptions: [
-      '把 \\(y\\) 当常数，导致 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=0\\)',
-      '漏掉 \\(y\\) 项后面的 \\(y\'\\)',
-      '先代入点坐标再求导（应先求导）',
-      '解 \\(y\'\\) 时符号或代数出错',
-      '在 \\(F_y=0\\) 处仍强行写 \\(y\'=-F_x/F_y\\)',
+      "把 \\(y\\) 当常数，导致 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=0\\) · Treating \\(y\\) as a constant, so that \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=0\\).",
+      "漏掉 \\(y\\) 项后面的 \\(y'\\) · Omitting the factor \\(y'\\) after differentiating a \\(y\\) term.",
+      "先代入点坐标再求导（应先求导） · Substituting the point coordinates before differentiating (differentiate first).",
+      "解 \\(y'\\) 时符号或代数出错 · Making a sign or algebra error when solving for \\(y'\\).",
+      "在 \\(F_y=0\\) 处仍强行写 \\(y'=-\\dfrac{F_x}{F_y}\\) · Forcing \\(y'=-\\dfrac{F_x}{F_y}\\) at a point where \\(F_y=0\\)."
     ],
     examples: [
       {
-        title: '例 1 · 圆',
-        prompt: '曲线 \\(x^{2}+y^{2}=25\\)。求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 及在 \\((3,4)\\) 处的切线方程。',
-        steps: ['两边对 \\(x\\) 求导：\\(2x+2yy\'=0\\)。', '\\(y\'=-\\dfrac{x}{y}\\)；在 \\((3,4)\\) 处 \\(y\'=-\\dfrac{3}{4}\\)。', '切线：\\(y-4=-\\dfrac{3}{4}(x-3)\\)。'],
-        solution: '\\(y\'=-\\dfrac{x}{y}\\)；切线 \\(y-4=-\\dfrac{3}{4}(x-3)\\)。',
-        solutionLatex: "y'=-\\dfrac{x}{y}",
+        title: "例 1 · 圆 · Circle",
+        prompt: "曲线 \\(x^{2}+y^{2}=25\\)。求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 及在 \\((3,4)\\) 处的切线方程。 · For the curve \\(x^{2}+y^{2}=25\\), find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) and the tangent line at \\((3,4)\\).",
+        steps: [
+          "两边对 \\(x\\) 求导：\\(2x+2yy'=0\\)。 · Differentiate both sides with respect to \\(x\\): \\(2x+2yy'=0\\).",
+          "\\(y'=-\\dfrac{x}{y}\\)；在 \\((3,4)\\) 处 \\(y'=-\\dfrac{3}{4}\\)。 · \\(y'=-\\dfrac{x}{y}\\); at \\((3,4)\\), \\(y'=-\\dfrac{3}{4}\\).",
+          "切线：\\(y-4=-\\dfrac{3}{4}(x-3)\\)。 · Tangent: \\(y-4=-\\dfrac{3}{4}(x-3)\\)."
+        ],
+        solution: "\\(y'=-\\dfrac{x}{y}\\)；切线 \\(y-4=-\\dfrac{3}{4}(x-3)\\)。 · \\(y'=-\\dfrac{x}{y}\\); the tangent is \\(y-4=-\\dfrac{3}{4}(x-3)\\).",
+        solutionLatex: "y'=-\\dfrac{x}{y}"
       },
       {
-        title: '例 2 · 三次曲线',
-        prompt: '曲线 \\(x^{3}+y^{3}=6xy\\)。求在 \\((3,3)\\) 处的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。',
-        steps: ['求导：\\(3x^{2}+3y^{2}y\'=6y+6xy\\)。', '整理：\\((3y^{2}-6x)y\'=6y-3x^{2}\\)。', '代入 \\((3,3)\\)：\\((27-18)y\'=18-27\\Rightarrow y\'=-1\\)。'],
-        solution: '\\(y\'=-1\\)。',
-        solutionLatex: "y'=-1",
+        title: "例 2 · 三次曲线 · Cubic Curve",
+        prompt: "曲线 \\(x^{3}+y^{3}=6xy\\)。求在 \\((3,3)\\) 处的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。 · For the curve \\(x^{3}+y^{3}=6xy\\), find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) at \\((3,3)\\).",
+        steps: [
+          "求导：\\(3x^{2}+3y^{2}y'=6y+6xy\\)。 · Differentiate: \\(3x^{2}+3y^{2}y'=6y+6xy'\\).",
+          "整理：\\((3y^{2}-6x)y'=6y-3x^{2}\\)。 · Rearrange: \\((3y^{2}-6x)y'=6y-3x^{2}\\).",
+          "代入 \\((3,3)\\)：\\((27-18)y'=18-27\\Rightarrow y'=-1\\)。 · Substitute \\((3,3)\\): \\((27-18)y'=18-27\\), so \\(y'=-1\\)."
+        ],
+        solution: "\\(y'=-1\\)。 · The slope is \\(y'=-1\\).",
+        solutionLatex: "y'=-1"
       },
       {
-        title: '例 3 · 混合项',
-        prompt: '曲线 \\(x^{2}+xy+y^{2}=7\\)。求在 \\((1,2)\\) 处的切线斜率。',
-        steps: ['求导：\\(2x+y+xy\'+2yy\'=0\\)。', '\\(y\'=-\\dfrac{2x+y}{x+2y}\\)。', '代入 \\((1,2)\\)：\\(y\'=-\\dfrac{4}{5}\\)。'],
-        solution: '\\(y\'=-\\dfrac{4}{5}\\)。',
-        solutionLatex: "y'=-\\dfrac{4}{5}",
-      },
+        title: "例 3 · 混合项 · Mixed Term",
+        prompt: "曲线 \\(x^{2}+xy+y^{2}=7\\)。求在 \\((1,2)\\) 处的切线斜率。 · For the curve \\(x^{2}+xy+y^{2}=7\\), find the tangent slope at \\((1,2)\\).",
+        steps: [
+          "求导：\\(2x+y+xy'+2yy'=0\\)。 · Differentiate: \\(2x+y+xy'+2yy'=0\\).",
+          "\\(y'=-\\dfrac{2x+y}{x+2y}\\)。 · Solve for the slope: \\(y'=-\\dfrac{2x+y}{x+2y}\\).",
+          "代入 \\((1,2)\\)：\\(y'=-\\dfrac{4}{5}\\)。 · Substitute \\((1,2)\\): \\(y'=-\\dfrac{4}{5}\\)."
+        ],
+        solution: "\\(y'=-\\dfrac{4}{5}\\)。 · The tangent slope is \\(y'=-\\dfrac{4}{5}\\).",
+        solutionLatex: "y'=-\\dfrac{4}{5}"
+      }
     ],
     examTips: [
-      'CED Unit 3：复合、隐函数与反函数',
-      '每一项都写 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\)，遇到 \\(y\\) 补 \\(y\'\\)',
-      '先求导，再代入点；最后解出 \\(y\'\\)',
-      '切线题用点斜式，斜率由隐函数求导给出',
+      "CED Unit 3：复合、隐函数与反函数 · CED Unit 3: Composite, implicit, and inverse functions",
+      "每一项都写 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\)，遇到 \\(y\\) 补 \\(y'\\) · Apply \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\) to every term and add a factor of \\(y'\\) whenever a \\(y\\) is differentiated.",
+      "先求导，再代入点；最后解出 \\(y'\\) · Differentiate first, then substitute the point; finally solve for \\(y'\\).",
+      "切线题用点斜式，斜率由隐函数求导给出 · For tangent-line problems, use point-slope form with the slope from implicit differentiation."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u3', code: '3.1', title: '链式法则', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u3', code: '3.3', title: '反函数导数', relation: '相关' },
-      { subject: 'math', chapterId: 'calc-u4', code: '4.4', title: '相关变化率', relation: '应用' },
+      {
+        subject: "math",
+        chapterId: "calc-u3",
+        code: "3.1",
+        title: "链式法则 · The Chain Rule",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u3",
+        code: "3.3",
+        title: "反函数导数 · Derivatives of Inverse Functions",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u4",
+        code: "4.4",
+        title: "相关变化率 · Related Rates",
+        relation: "应用 · Application"
+      }
     ],
-    development: ['把 \\(y\\) 看作函数', '逐项求导', '解出 \\(y\'\\)', '切线方程', '隐函数定理形式'],
-    checks: ['为什么 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=2yy\'\\)？', '隐函数求导为什么要先求导再代点？', '竖直切线对应什么条件？'],
-    summary: '隐函数求导把 \\(y\\) 当作 \\(x\\) 的函数，逐项求导后解出 \\(y\'\\)；切线斜率与 \\(-F_x/F_y\\) 等价。',
+    development: [
+      "把 \\(y\\) 看作函数 · Treating \\(y\\) as a function",
+      "逐项求导 · Differentiating term by term",
+      "解出 \\(y'\\) · Solving for \\(y'\\)",
+      "切线方程 · Tangent-line equations",
+      "隐函数定理形式 · Implicit-function theorem form"
+    ],
+    checks: [
+      "为什么 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=2yy'\\)？ · Why is \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(y^{2})=2yy'\\)?",
+      "隐函数求导为什么要先求导再代点？ · Why differentiate before substituting the point in implicit differentiation?",
+      "竖直切线对应什么条件？ · What condition corresponds to a vertical tangent?"
+    ],
+    summary: "隐函数求导把 \\(y\\) 当作 \\(x\\) 的函数，逐项求导后解出 \\(y'\\)；切线斜率与 \\(-\\dfrac{F_x}{F_y}\\) 等价。 · Implicit differentiation treats \\(y\\) as a function of \\(x\\), differentiates term by term, and solves for \\(y'\\); the tangent slope is equivalent to \\(-\\dfrac{F_x}{F_y}\\)."
   },
-
   'math/calc-u4/4.4': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「相关变化率」的核心定义与适用条件。",
-      "能用圆面积与半径的变化率分析并解决基础问题。",
-      "能识别“先代入瞬时半径再求导，得到零”等常见误用并纠正。"
+      "能建立两个或多个随时间变化的量之间的关系，并对时间求导。 · Set up relationships among two or more quantities that change with time and differentiate with respect to time.",
+      "能用链式法则求解膨胀圆、滑梯与注水容器等模型。 · Use the chain rule to solve models such as an expanding circle, a sliding ladder, and a filling tank.",
+      "能识别“先代入瞬时值再求导”等常见误用并纠正。 · Identify and correct common errors such as substituting instantaneous values before differentiating."
     ],
     essentialKnowledge: [
-      "先写关系式，再对 \\(t\\) 求导",
-      "不要把瞬时值先代入",
-      "负变化率表示减小，不是错误",
-      "注水问题常先消去半径，写成 \\(V(h)\\)",
-      "答案要带单位并说明方向"
+      "先写关系式，再对 \\(t\\) 求导 · Write the relationship first, then differentiate with respect to \\(t\\).",
+      "不要把瞬时值先代入 · Do not substitute instantaneous values first.",
+      "负变化率表示减小，不是错误 · A negative rate means the quantity is decreasing, not that the answer is wrong.",
+      "注水问题常先消去半径，写成 \\(V(h)\\) · In filling problems, eliminate the radius first and write \\(V(h)\\).",
+      "答案要带单位并说明方向 · Include units in the answer and state the direction of change."
     ],
     connections: [
-      "先修：4.3 变化率与单位",
-      "后续：4.5 相关变化率求解",
-      "先修：3.1 链式法则"
+      "先修：4.3 变化率与单位 · Prerequisite: 4.3 Rates of change and units.",
+      "后续：4.5 相关变化率求解 · Follow-up: 4.5 Solving related-rate problems.",
+      "先修：3.1 链式法则 · Prerequisite: 3.1 The chain rule."
     ],
-    definition: '相关变化率研究两个或多个随时间变化的量之间的变化率关系。先用几何/物理关系把量联系起来，再对时间 \\(t\\) 求导（链式法则），最后代入某一瞬间的数值。典型模型：膨胀圆、滑梯、注水锥、气球、影子。',
-    intuition: '量之间的关系是“静态”的，变化率之间的关系是“动态”的；对时间求导把两者连接起来。',
-    intuitionDetailed: '关键是“先关系、后求导、再代值”：如果先代入瞬时数值再求导，所有导数都会变成零。变化率可正可负，负号表示该量在减小；单位要跟随变量（如 \\(\\mathrm{cm^{2}/s}\\)）。',
+    definition: "相关变化率研究两个或多个随时间变化的量之间的变化率关系。先用几何/物理关系把量联系起来，再对时间 \\(t\\) 求导（链式法则），最后代入某一瞬间的数值。典型模型：膨胀圆、滑梯、注水锥、气球、影子。 · Related rates study how the rates of change of two or more quantities that vary with time are related. First relate the quantities with a geometric or physical equation, then differentiate with respect to time \\(t\\) using the chain rule, and finally substitute the instantaneous values. Typical models include an expanding circle, a sliding ladder, a filling cone, a balloon, and a shadow.",
+    intuition: "量之间的关系是“静态”的，变化率之间的关系是“动态”的；对时间求导把两者连接起来。 · The relationship among the quantities is static, while the relationship among their rates is dynamic; differentiating with respect to time connects the two.",
+    intuitionDetailed: "关键是“先关系、后求导、再代值”：如果先代入瞬时数值再求导，所有导数都会变成零。变化率可正可负，负号表示该量在减小；单位要跟随变量（如 \\(\\mathrm{cm^{2}/s}\\)）。 · The key order is “relationship, then derivative, then values”: if instantaneous values are substituted before differentiating, every derivative becomes zero. A rate may be positive or negative; a negative sign means the quantity is decreasing. Units must follow the variables (for example, \\(\\mathrm{cm^{2}/s}\\)).",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=2\\pi r\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}', note: '圆面积与半径的变化率。' },
-      { latex: '\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=4\\pi r^{2}\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}', note: '球体积与半径的变化率。' },
-      { latex: 'x^{2}+y^{2}=L^{2}\\Rightarrow x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0', note: '滑梯模型（\\(L\\) 恒定）。' },
-      { latex: '\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\mathrm{d}V}{\\mathrm{d}h}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}', note: '注水容器：先写 \\(V(h)\\)，再对时间求导。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=2\\pi r\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}",
+        note: "圆面积与半径的变化率。 · Related rates for the area and radius of a circle."
+      },
+      {
+        latex: "\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=4\\pi r^{2}\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}",
+        note: "球体积与半径的变化率。 · Related rates for the volume and radius of a sphere."
+      },
+      {
+        latex: "x^{2}+y^{2}=L^{2}\\Rightarrow x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0",
+        note: "滑梯模型（\\(L\\) 恒定）。 · Sliding-ladder model (\\(L\\) constant)."
+      },
+      {
+        latex: "\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\mathrm{d}V}{\\mathrm{d}h}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}",
+        note: "注水容器：先写 \\(V(h)\\)，再对时间求导。 · Filling a container: write \\(V(h)\\) first, then differentiate with respect to time."
+      }
     ],
-    conditions: ['几何/物理关系在讨论瞬间成立', '先对时间求导，再代入瞬时数值', '所有长度、面积、体积单位一致', '变化率的正负号要结合“增大/减小”解释', '相似三角形或体积公式中的比例关系要先化简'],
-    keyPoints: ['先写关系式，再对 \\(t\\) 求导', '不要把瞬时值先代入', '负变化率表示减小，不是错误', '注水问题常先消去半径，写成 \\(V(h)\\)', '答案要带单位并说明方向'],
+    conditions: [
+      "几何/物理关系在讨论瞬间成立 · The geometric or physical relationship holds at the instant in question.",
+      "先对时间求导，再代入瞬时数值 · Differentiate with respect to time before substituting instantaneous values.",
+      "所有长度、面积、体积单位一致 · All length, area, and volume units must be consistent.",
+      "变化率的正负号要结合“增大/减小”解释 · Interpret the sign of a rate in terms of increasing or decreasing.",
+      "相似三角形或体积公式中的比例关系要先化简 · Simplify proportional relationships from similar triangles or volume formulas first."
+    ],
+    keyPoints: [
+      "先写关系式，再对 \\(t\\) 求导 · Write the relationship first, then differentiate with respect to \\(t\\).",
+      "不要把瞬时值先代入 · Do not substitute instantaneous values first.",
+      "负变化率表示减小，不是错误 · A negative rate means the quantity is decreasing, not that the answer is wrong.",
+      "注水问题常先消去半径，写成 \\(V(h)\\) · In filling problems, eliminate the radius first and write \\(V(h)\\).",
+      "答案要带单位并说明方向 · Include units in the answer and state the direction of change."
+    ],
     misconceptions: [
-      '先代入瞬时半径再求导，得到零',
-      '漏掉链式法则中的 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\)',
-      '把“半径增加”与“面积增加”混为一谈',
-      '注水锥问题不消去半径，导致两个未知变化率',
-      '忽略负号或单位',
+      "先代入瞬时半径再求导，得到零 · Substituting the instantaneous radius before differentiating, which gives zero.",
+      "漏掉链式法则中的 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\) · Omitting the chain-rule factor \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\).",
+      "把“半径增加”与“面积增加”混为一谈 · Confusing an increasing radius with an increasing area.",
+      "注水锥问题不消去半径，导致两个未知变化率 · Not eliminating the radius in a filling-cone problem, leaving two unknown rates.",
+      "忽略负号或单位 · Ignoring negative signs or units."
     ],
     examples: [
       {
-        title: '例 1 · 膨胀圆',
-        prompt: '圆的半径以 \\(2.0\\,\\mathrm{cm/s}\\) 增大。当 \\(r=5.0\\,\\mathrm{cm}\\) 时，面积变化率是多少？',
-        steps: ['\\(A=\\pi r^{2}\\)。', '对 \\(t\\) 求导：\\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=2\\pi r\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\)。', '代入：\\(2\\pi(5.0)(2.0)=20\\pi\\,\\mathrm{cm^{2}/s}\\)。'],
-        solution: '\\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=20\\pi\\approx 62.8\\,\\mathrm{cm^{2}/s}\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=20\\pi\\,\\mathrm{cm^{2}/s}',
+        title: "例 1 · 膨胀圆 · Expanding Circle",
+        prompt: "圆的半径以 \\(2.0\\,\\mathrm{cm/s}\\) 增大。当 \\(r=5.0\\,\\mathrm{cm}\\) 时，面积变化率是多少？ · The radius of a circle increases at \\(2.0\\,\\mathrm{cm/s}\\). At what rate is the area changing when \\(r=5.0\\,\\mathrm{cm}\\)?",
+        steps: [
+          "\\(A=\\pi r^{2}\\)。 · The area of a circle is \\(A=\\pi r^{2}\\).",
+          "对 \\(t\\) 求导：\\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=2\\pi r\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\)。 · Differentiate with respect to \\(t\\): \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=2\\pi r\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\).",
+          "代入：\\(2\\pi(5.0)(2.0)=20\\pi\\,\\mathrm{cm^{2}/s}\\)。 · Substitute: \\(2\\pi(5.0)(2.0)=20\\pi\\,\\mathrm{cm^{2}/s}\\)."
+        ],
+        solution: "\\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=20\\pi\\approx 62.8\\,\\mathrm{cm^{2}/s}\\)。 · The area is increasing at \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=20\\pi\\approx62.8\\,\\mathrm{cm^{2}/s}\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=20\\pi\\,\\mathrm{cm^{2}/s}"
       },
       {
-        title: '例 2 · 滑梯',
-        prompt: '\\(10\\,\\mathrm{ft}\\) 长的梯子靠在竖直墙上，底端以 \\(1.0\\,\\mathrm{ft/s}\\) 离墙滑动。当底端距墙 \\(6.0\\,\\mathrm{ft}\\) 时，顶端下滑多快？',
-        steps: ['\\(x^{2}+y^{2}=100\\)。', '当 \\(x=6\\) 时 \\(y=8\\)；求导：\\(2x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+2y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\)。', '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{x}{y}\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\dfrac{6}{8}(1.0)=-0.75\\,\\mathrm{ft/s}\\)。'],
-        solution: '顶端以 \\(0.75\\,\\mathrm{ft/s}\\) 下滑（负号表示 \\(y\\) 减小）。',
-        solutionLatex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-0.75\\,\\mathrm{ft/s}',
+        title: "例 2 · 滑梯 · Sliding Ladder",
+        prompt: "\\(10\\,\\mathrm{ft}\\) 长的梯子靠在竖直墙上，底端以 \\(1.0\\,\\mathrm{ft/s}\\) 离墙滑动。当底端距墙 \\(6.0\\,\\mathrm{ft}\\) 时，顶端下滑多快？ · A \\(10\\,\\mathrm{ft}\\) ladder leans against a vertical wall, and its base slides away from the wall at \\(1.0\\,\\mathrm{ft/s}\\). How fast is the top sliding down when the base is \\(6.0\\,\\mathrm{ft}\\) from the wall?",
+        steps: [
+          "\\(x^{2}+y^{2}=100\\)。 · By the Pythagorean theorem, \\(x^{2}+y^{2}=100\\).",
+          "当 \\(x=6\\) 时 \\(y=8\\)；求导：\\(2x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+2y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\)。 · When \\(x=6\\), \\(y=8\\); differentiate: \\(2x\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}+2y\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\).",
+          "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{x}{y}\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\dfrac{6}{8}(1.0)=-0.75\\,\\mathrm{ft/s}\\)。 · Substitute and solve: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-\\dfrac{x}{y}\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\dfrac{6}{8}(1.0)=-0.75\\,\\mathrm{ft/s}\\)."
+        ],
+        solution: "顶端以 \\(0.75\\,\\mathrm{ft/s}\\) 下滑（负号表示 \\(y\\) 减小）。 · The top slides down at \\(0.75\\,\\mathrm{ft/s}\\) (the negative sign means \\(y\\) is decreasing).",
+        solutionLatex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=-0.75\\,\\mathrm{ft/s}"
       },
       {
-        title: '例 3 · 注水锥',
-        prompt: '倒置圆锥形容器顶部半径 \\(4.0\\,\\mathrm{m}\\)、高 \\(8.0\\,\\mathrm{m}\\)，以 \\(2.0\\,\\mathrm{m^{3}/min}\\) 注水。当水深 \\(3.0\\,\\mathrm{m}\\) 时，水面上升多快？',
-        steps: ['相似三角形：\\(\\dfrac{r}{h}=\\dfrac{4}{8}=\\dfrac{1}{2}\\Rightarrow r=\\dfrac{h}{2}\\)。', '\\(V=\\dfrac{1}{3}\\pi r^{2}h=\\dfrac{\\pi h^{3}}{12}\\)。', '\\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\pi h^{2}}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\Rightarrow 2.0=\\dfrac{9\\pi}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\)。'],
-        solution: '\\(\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{8}{9\\pi}\\approx 0.283\\,\\mathrm{m/min}\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{8}{9\\pi}\\,\\mathrm{m/min}',
-      },
+        title: "例 3 · 注水锥 · Filling Cone",
+        prompt: "倒置圆锥形容器顶部半径 \\(4.0\\,\\mathrm{m}\\)、高 \\(8.0\\,\\mathrm{m}\\)，以 \\(2.0\\,\\mathrm{m^{3}/min}\\) 注水。当水深 \\(3.0\\,\\mathrm{m}\\) 时，水面上升多快？ · An inverted conical tank has top radius \\(4.0\\,\\mathrm{m}\\) and height \\(8.0\\,\\mathrm{m}\\), and water enters at \\(2.0\\,\\mathrm{m^{3}/min}\\). How fast is the water level rising when the depth is \\(3.0\\,\\mathrm{m}\\)?",
+        steps: [
+          "相似三角形：\\(\\dfrac{r}{h}=\\dfrac{4}{8}=\\dfrac{1}{2}\\Rightarrow r=\\dfrac{h}{2}\\)。 · Similar triangles: \\(\\dfrac{r}{h}=\\dfrac{4}{8}=\\dfrac{1}{2}\\), so \\(r=\\dfrac{h}{2}\\).",
+          "\\(V=\\dfrac{1}{3}\\pi r^{2}h=\\dfrac{\\pi h^{3}}{12}\\)。 · Express the volume in terms of \\(h\\): \\(V=\\dfrac{1}{3}\\pi r^{2}h=\\dfrac{\\pi h^{3}}{12}\\).",
+          "\\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\pi h^{2}}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\Rightarrow 2.0=\\dfrac{9\\pi}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\)。 · Differentiate: \\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}=\\dfrac{\\pi h^{2}}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\), so \\(2.0=\\dfrac{9\\pi}{4}\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}\\)."
+        ],
+        solution: "\\(\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{8}{9\\pi}\\approx 0.283\\,\\mathrm{m/min}\\)。 · The water level rises at \\(\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{8}{9\\pi}\\approx0.283\\,\\mathrm{m/min}\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}h}{\\mathrm{d}t}=\\dfrac{8}{9\\pi}\\,\\mathrm{m/min}"
+      }
     ],
     examTips: [
-      'CED Unit 4：情境应用',
-      '先画图并标出变量，写关系式',
-      '对时间求导后再代入瞬时值',
-      '注水/气球问题先消去多余变量',
-      '答案写单位，并解释负号',
+      "CED Unit 4：情境应用 · CED Unit 4: Contextual applications",
+      "先画图并标出变量，写关系式 · Draw a diagram, label the variables, and write the relationship first.",
+      "对时间求导后再代入瞬时值 · Differentiate with respect to time before substituting instantaneous values.",
+      "注水/气球问题先消去多余变量 · For filling or balloon problems, eliminate extra variables first.",
+      "答案写单位，并解释负号 · Include units and explain the meaning of any negative sign."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u4', code: '4.3', title: '变化率与单位', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u4', code: '4.5', title: '相关变化率求解', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u3', code: '3.1', title: '链式法则', relation: '先修' },
+      {
+        subject: "math",
+        chapterId: "calc-u4",
+        code: "4.3",
+        title: "变化率与单位 · Rates of Change and Units",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u4",
+        code: "4.5",
+        title: "相关变化率求解 · Solving Related-Rate Problems",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u3",
+        code: "3.1",
+        title: "链式法则 · The Chain Rule",
+        relation: "先修 · Prerequisite"
+      }
     ],
-    development: ['变量与关系式', '对时间求导', '代入瞬时值', '相似三角形模型', '注水与气球模型'],
-    checks: ['为什么不能先代入瞬时值再求导？', '滑梯问题中负号代表什么？', '注水锥问题如何消去半径？'],
-    summary: '相关变化率先写静态关系，再对时间求导，最后代入瞬时值；负号表示减小，单位要跟随变量。',
+    development: [
+      "变量与关系式 · Variables and relationships",
+      "对时间求导 · Differentiating with respect to time",
+      "代入瞬时值 · Substituting instantaneous values",
+      "相似三角形模型 · Similar-triangle models",
+      "注水与气球模型 · Filling and balloon models"
+    ],
+    checks: [
+      "为什么不能先代入瞬时值再求导？ · Why can you not substitute instantaneous values before differentiating?",
+      "滑梯问题中负号代表什么？ · What does the negative sign mean in the sliding-ladder problem?",
+      "注水锥问题如何消去半径？ · How is the radius eliminated in the filling-cone problem?"
+    ],
+    summary: "相关变化率先写静态关系，再对时间求导，最后代入瞬时值；负号表示减小，单位要跟随变量。 · Related rates first write a static relationship, then differentiate with respect to time, and finally substitute instantaneous values; a negative sign means decrease, and units follow the variables."
   },
-
   'math/calc-u4/4.7': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「洛必达法则」的核心定义与适用条件。",
-      "能用仅适用于 \\(0/0\\) 或 \\(\\infty/\\infty\\)分析并解决基础问题。",
-      "能识别“对 \\(\\dfrac{2}{0}\\) 或 \\(\\dfrac{1}{0}\\) 使用洛必达”等常见误用并纠正。"
+      "能判断极限是否为洛必达法则适用的未定式。 · Determine whether a limit is an indeterminate form to which L’Hôpital’s rule applies.",
+      "能对 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\) 型使用洛必达法则并化简。 · Apply L’Hôpital’s rule to \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\) forms and simplify.",
+      "能识别并纠正对非未定式使用洛必达等常见误用。 · Identify and correct common errors such as applying L’Hôpital’s rule to a non-indeterminate form."
     ],
     essentialKnowledge: [
-      "先代入判断型，再决定是否用",
-      "不是所有极限都能用洛必达",
-      "\\(0\\cdot\\infty\\) 可改写为 \\(0/(1/\\infty)\\)",
-      "幂指型取对数",
-      "分母趋于 0 而分子不趋于 0 时不是未定式"
+      "先代入判断型，再决定是否用 · Substitute first to identify the form, then decide whether to use the rule.",
+      "不是所有极限都能用洛必达 · Not every limit can be solved by L’Hôpital’s rule.",
+      "\\(0\\cdot\\infty\\) 可改写为 \\(\\dfrac{0}{\\infty^{-1}}\\) · Rewrite a \\(0\\cdot\\infty\\) product as a quotient so the rule can apply.",
+      "幂指型取对数 · For power-exponential forms, take logarithms.",
+      "分母趋于 0 而分子不趋于 0 时不是未定式 · If the denominator approaches 0 while the numerator does not, the limit is not an indeterminate form."
     ],
     connections: [
-      "先修：1.2 极限定义与记号",
-      "先修：2.2 导数定义",
-      "相关：5.1 中值定理"
+      "先修：1.2 极限定义与记号 · Prerequisite: 1.2 Limit definition and notation.",
+      "先修：2.2 导数定义 · Prerequisite: 2.2 Definition of the derivative.",
+      "相关：5.1 中值定理 · Related: 5.1 Mean value theorem."
     ],
-    definition: '洛必达法则处理 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\) 型未定式：若 \\(f,g\\) 在 \\(a\\) 附近可导、\\(g\'(x)\\neq0\\)，且 \\(\\lim\\dfrac{f\'}{g\'}\\) 存在（或为 \\(\\pm\\infty\\)），则 \\(\\lim_{x\\to a}\\dfrac{f(x)}{g(x)}=\\lim_{x\\to a}\\dfrac{f\'(x)}{g\'(x)}\\)。其他未定式（\\(0\\cdot\\infty\\)、\\(\\infty-\\infty\\)、\\(1^{\\infty}\\)、\\(0^{0}\\)、\\(\\infty^{0}\\)）要先变形或取对数。',
-    intuition: '在未定式里，分子分母都趋向 0 或无穷，比较它们的“变化速度”就能决定比值；洛必达法则比较的正是导数。',
-    intuitionDetailed: '每次使用前都要重新检查是否为 \\(0/0\\) 或 \\(\\infty/\\infty\\)。若 \\(f\'/g\'\\) 的极限不存在但振荡（如 \\(\\dfrac{x+\\sin x}{x}\\) 当 \\(x\\to\\infty\\)），不能反推原极限不存在，只能换方法。',
+    definition: "洛必达法则处理 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\) 型未定式：若 \\(f,g\\) 在 \\(a\\) 附近可导、\\(g'(x)\\neq0\\)，且 \\(\\lim\\dfrac{f'}{g'}\\) 存在（或为 \\(\\pm\\infty\\)），则 \\(\\lim_{x\\to a}\\dfrac{f(x)}{g(x)}=\\lim_{x\\to a}\\dfrac{f'(x)}{g'(x)}\\)。其他未定式（\\(0\\cdot\\infty\\)、\\(\\infty-\\infty\\)、\\(1^{\\infty}\\)、\\(0^{0}\\)、\\(\\infty^{0}\\)）要先变形或取对数。 · L’Hôpital’s rule handles indeterminate forms \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\): if \\(f\\) and \\(g\\) are differentiable near \\(a\\), \\(g'(x)\\neq0\\), and \\(\\lim\\dfrac{f'}{g'}\\) exists (or is \\(\\pm\\infty\\)), then \\(\\lim_{x\\to a}\\dfrac{f(x)}{g(x)}=\\lim_{x\\to a}\\dfrac{f'(x)}{g'(x)}\\). Other indeterminate forms (\\(0\\cdot\\infty\\), \\(\\infty-\\infty\\), \\(1^{\\infty}\\), \\(0^{0}\\), \\(\\infty^{0}\\)) must first be rewritten or logged.",
+    intuition: "在未定式里，分子分母都趋向 0 或无穷，比较它们的“变化速度”就能决定比值；洛必达法则比较的正是导数。 · In an indeterminate form, both numerator and denominator approach 0 or infinity; comparing their rates of change determines the ratio, and L’Hôpital’s rule compares derivatives.",
+    intuitionDetailed: "每次使用前都要重新检查是否为 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\)。若 \\(\\dfrac{f'}{g'}\\) 的极限不存在但振荡（如 \\(\\dfrac{x+\\sin x}{x}\\) 当 \\(x\\to\\infty\\)），不能反推原极限不存在，只能换方法。 · Recheck whether the form is \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\) before each use. If the limit of \\(\\dfrac{f'}{g'}\\) does not exist because it oscillates (for example, \\(\\dfrac{x+\\sin x}{x}\\) as \\(x\\to\\infty\\)), you cannot conclude that the original limit does not exist; use another method.",
     formulas: [
-      { latex: '\\lim_{x\\to a}\\dfrac{f(x)}{g(x)}=\\lim_{x\\to a}\\dfrac{f\'(x)}{g\'(x)}', note: '仅适用于 \\(0/0\\) 或 \\(\\infty/\\infty\\)。' },
-      { latex: '\\lim_{x\\to0}\\dfrac{\\sin x}{x}=1', note: '经典应用。' },
-      { latex: '\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}=0', note: '对数增长慢于幂函数。' },
+      {
+        latex: "\\lim_{x\\to a}\\dfrac{f(x)}{g(x)}=\\lim_{x\\to a}\\dfrac{f'(x)}{g'(x)}",
+        note: "仅适用于 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\)。 · Only applies to \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\)."
+      },
+      {
+        latex: "\\lim_{x\\to0}\\dfrac{\\sin x}{x}=1",
+        note: "经典应用。 · Classic application."
+      },
+      {
+        latex: "\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}=0",
+        note: "对数增长慢于幂函数。 · Logarithmic growth is slower than power growth."
+      }
     ],
-    conditions: ['原极限必须是 \\(0/0\\) 或 \\(\\infty/\\infty\\) 型', '\\(f,g\\) 在去心邻域可导，且 \\(g\'(x)\\neq0\\)', '\\(\\lim f\'/g\'\\) 存在或为 \\(\\pm\\infty\\)', '每用一次都要重新检查型', '其他未定式先改写为分数或取对数'],
-    keyPoints: ['先代入判断型，再决定是否用', '不是所有极限都能用洛必达', '\\(0\\cdot\\infty\\) 可改写为 \\(0/(1/\\infty)\\)', '幂指型取对数', '分母趋于 0 而分子不趋于 0 时不是未定式'],
+    conditions: [
+      "原极限必须是 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\) 型 · The original limit must be of the form \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\).",
+      "\\(f,g\\) 在去心邻域可导，且 \\(g'(x)\\neq0\\) · \\(f\\) and \\(g\\) are differentiable on a punctured neighborhood, and \\(g'(x)\\neq0\\).",
+      "\\(\\lim\\dfrac{f'}{g'}\\) 存在或为 \\(\\pm\\infty\\)。 · \\(\\lim\\dfrac{f'}{g'}\\) exists or is \\(\\pm\\infty\\).",
+      "每用一次都要重新检查型 · Recheck the form after each application.",
+      "其他未定式先改写为分数或取对数 · Rewrite other indeterminate forms as quotients or take logarithms first."
+    ],
+    keyPoints: [
+      "先代入判断型，再决定是否用 · Substitute first to identify the form, then decide whether to use the rule.",
+      "不是所有极限都能用洛必达 · Not every limit can be solved by L’Hôpital’s rule.",
+      "\\(0\\cdot\\infty\\) 可改写为 \\(\\dfrac{0}{\\infty^{-1}}\\) · A \\(0\\cdot\\infty\\) product can be rewritten as a quotient.",
+      "幂指型取对数 · For power-exponential forms, take logarithms.",
+      "分母趋于 0 而分子不趋于 0 时不是未定式 · If the denominator approaches 0 while the numerator does not, the limit is not indeterminate."
+    ],
     misconceptions: [
-      '对 \\(\\dfrac{2}{0}\\) 或 \\(\\dfrac{1}{0}\\) 使用洛必达',
-      '忘记每次使用前重新检查型',
-      '把 \\(\\lim f\'/g\'\\) 不存在直接当作原极限不存在',
-      '对 \\(0\\cdot\\infty\\) 直接求导',
-      '幂指型不取对数就套用',
+      "对 \\(\\dfrac{2}{0}\\) 或 \\(\\dfrac{1}{0}\\) 使用洛必达 · Applying L’Hôpital’s rule to \\(\\dfrac{2}{0}\\) or \\(\\dfrac{1}{0}\\).",
+      "忘记每次使用前重新检查型 · Forgetting to recheck the form before each use.",
+      "把 \\(\\lim\\dfrac{f'}{g'}\\) 不存在直接当作原极限不存在 · Treating a nonexistent \\(\\lim\\dfrac{f'}{g'}\\) as proof that the original limit does not exist.",
+      "对 \\(0\\cdot\\infty\\) 直接求导 · Differentiating a \\(0\\cdot\\infty\\) product directly.",
+      "幂指型不取对数就套用 · Applying the rule to a power-exponential form without taking logarithms."
     ],
     examples: [
       {
-        title: '例 1 · 基本型',
-        prompt: '求 \\(\\lim_{x\\to0}\\dfrac{\\sin x}{x}\\)。',
-        steps: ['代入得 \\(0/0\\)，可用洛必达。', '\\(\\lim\\dfrac{\\cos x}{1}=\\cos0=1\\)。'],
-        solution: '极限为 \\(1\\)。',
-        solutionLatex: '\\lim_{x\\to0}\\dfrac{\\sin x}{x}=1',
+        title: "例 1 · 基本型 · Basic Form",
+        prompt: "求 \\(\\lim_{x\\to0}\\dfrac{\\sin x}{x}\\)。 · Find \\(\\lim_{x\\to0}\\dfrac{\\sin x}{x}\\).",
+        steps: [
+          "代入得 \\(\\dfrac{0}{0}\\)，可用洛必达。 · Substitution gives \\(\\dfrac{0}{0}\\), so L’Hôpital’s rule applies.",
+          "\\(\\lim\\dfrac{\\cos x}{1}=\\cos0=1\\)。 · Differentiate numerator and denominator: \\(\\lim\\dfrac{\\cos x}{1}=\\cos0=1\\)."
+        ],
+        solution: "极限为 \\(1\\)。 · The limit is \\(1\\).",
+        solutionLatex: "\\lim_{x\\to0}\\dfrac{\\sin x}{x}=1"
       },
       {
-        title: '例 2 · 无穷比无穷',
-        prompt: '求 \\(\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}\\)。',
-        steps: ['代入得 \\(\\infty/\\infty\\)。', '求导：\\(\\dfrac{1/x}{1}=\\dfrac{1}{x}\\)。', '\\(x\\to\\infty\\) 时 \\(\\dfrac{1}{x}\\to0\\)。'],
-        solution: '极限为 \\(0\\)。',
-        solutionLatex: '\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}=0',
+        title: "例 2 · 无穷比无穷 · Infinity over Infinity",
+        prompt: "求 \\(\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}\\)。 · Find \\(\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}\\).",
+        steps: [
+          "代入得 \\(\\dfrac{\\infty}{\\infty}\\)。 · Substitution gives \\(\\dfrac{\\infty}{\\infty}\\).",
+          "求导：\\(\\dfrac{\\dfrac{1}{x}}{1}=\\dfrac{1}{x}\\)。 · Differentiate: \\(\\dfrac{\\dfrac{1}{x}}{1}=\\dfrac{1}{x}\\).",
+          "\\(x\\to\\infty\\) 时 \\(\\dfrac{1}{x}\\to0\\)。 · As \\(x\\to\\infty\\), \\(\\dfrac{1}{x}\\to0\\)."
+        ],
+        solution: "极限为 \\(0\\)。 · The limit is \\(0\\).",
+        solutionLatex: "\\lim_{x\\to\\infty}\\dfrac{\\ln x}{x}=0"
       },
       {
-        title: '例 3 · 乘积转商',
-        prompt: '求 \\(\\lim_{x\\to0^{+}}x\\ln x\\)。',
-        steps: ['这是 \\(0\\cdot(-\\infty)\\) 型，改写为 \\(\\dfrac{\\ln x}{1/x}\\)。', '现为 \\(-\\infty/\\infty\\)，求导：\\(\\dfrac{1/x}{-1/x^{2}}=-x\\)。', '\\(x\\to0^{+}\\) 时 \\(-x\\to0\\)。'],
-        solution: '极限为 \\(0\\)。',
-        solutionLatex: '\\lim_{x\\to0^{+}}x\\ln x=0',
-      },
+        title: "例 3 · 乘积转商 · Product to Quotient",
+        prompt: "求 \\(\\lim_{x\\to0^{+}}x\\ln x\\)。 · Find \\(\\lim_{x\\to0^{+}}x\\ln x\\).",
+        steps: [
+          "这是 \\(0\\cdot(-\\infty)\\) 型，改写为 \\(\\dfrac{\\ln x}{\\dfrac{1}{x}}\\)。 · This is a \\(0\\cdot(-\\infty)\\) form; rewrite it as \\(\\dfrac{\\ln x}{\\dfrac{1}{x}}\\).",
+          "现为 \\(\\dfrac{-\\infty}{\\infty}\\)，求导：\\(\\dfrac{\\dfrac{1}{x}}{-\\dfrac{1}{x^{2}}}=-x\\)。 · Now it is \\(\\dfrac{-\\infty}{\\infty}\\); differentiate: \\(\\dfrac{\\dfrac{1}{x}}{-\\dfrac{1}{x^{2}}}=-x\\).",
+          "\\(x\\to0^{+}\\) 时 \\(-x\\to0\\)。 · As \\(x\\to0^{+}\\), \\(-x\\to0\\)."
+        ],
+        solution: "极限为 \\(0\\)。 · The limit is \\(0\\).",
+        solutionLatex: "\\lim_{x\\to0^{+}}x\\ln x=0"
+      }
     ],
     examTips: [
-      'CED Unit 4：洛必达法则',
-      '先代入判断型，再决定是否使用',
-      '每步都检查是否仍为未定式',
-      '幂指型先取对数，再求极限',
-      '分母为 0、分子非 0 时直接判断无穷极限',
+      "CED Unit 4：洛必达法则 · CED Unit 4: L’Hôpital’s rule",
+      "先代入判断型，再决定是否使用 · Substitute first to identify the form, then decide whether to use the rule.",
+      "每步都检查是否仍为未定式 · Check after every step whether the form is still indeterminate.",
+      "幂指型先取对数，再求极限 · For power-exponential forms, take logarithms first, then find the limit.",
+      "分母为 0、分子非 0 时直接判断无穷极限 · When the denominator is 0 and the numerator is not, determine the infinite limit directly."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u1', code: '1.2', title: '极限定义与记号', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u2', code: '2.2', title: '导数定义', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u5', code: '5.1', title: '中值定理', relation: '相关' },
+      {
+        subject: "math",
+        chapterId: "calc-u1",
+        code: "1.2",
+        title: "极限定义与记号 · Limit Definition and Notation",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.2",
+        title: "导数定义 · Definition of the Derivative",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.1",
+        title: "中值定理 · Mean Value Theorem",
+        relation: "相关 · Related"
+      }
     ],
-    development: ['未定式的类型', '洛必达法则的条件', '重复使用', '乘积/差/幂指型变形', '失效情形'],
-    checks: ['洛必达法则适用于哪些型？', '为什么每步都要重新检查型？', '\\(0\\cdot\\infty\\) 如何改写？'],
-    summary: '洛必达法则只处理 \\(0/0\\) 与 \\(\\infty/\\infty\\)，通过比较导数极限求比值；其他未定式先变形。',
+    development: [
+      "未定式的类型 · Types of indeterminate forms",
+      "洛必达法则的条件 · Conditions for L’Hôpital’s rule",
+      "重复使用 · Repeated use",
+      "乘积/差/幂指型变形 · Rewriting products, differences, and power-exponential forms",
+      "失效情形 · When the rule fails"
+    ],
+    checks: [
+      "洛必达法则适用于哪些型？ · Which indeterminate forms does L’Hôpital’s rule apply to?",
+      "为什么每步都要重新检查型？ · Why recheck the form after every step?",
+      "\\(0\\cdot\\infty\\) 如何改写？ · 如何改写 \\(0\\cdot\\infty\\) 型？ · How can a \\(0\\cdot\\infty\\) form be rewritten?"
+    ],
+    summary: "洛必达法则只处理 \\(\\dfrac{0}{0}\\) 与 \\(\\dfrac{\\infty}{\\infty}\\)，通过比较导数极限求比值；其他未定式先变形。 · L’Hôpital’s rule applies only to \\(\\dfrac{0}{0}\\) and \\(\\dfrac{\\infty}{\\infty}\\), comparing derivative limits to find the ratio; rewrite other indeterminate forms first."
   },
-
   'math/calc-u5/5.1': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「中值定理」的核心定义与适用条件。",
-      "能用中值定理分析并解决基础问题。",
-      "能识别“把中值定理当作“平均速度等于瞬时速度”的恒等式（只保证存在某个 \\(c\\)）”等常见误用并纠正。"
+      "能写出罗尔定理与中值定理，并说明各自的条件。 · State Rolle’s theorem and the mean value theorem and explain their conditions.",
+      "能验证定理条件并求出满足结论的 \\(c\\)。 · Verify the hypotheses and find the value(s) of \\(c\\) guaranteed by the conclusion.",
+      "能识别忽略连续性或可导性等常见误用并纠正。 · Identify and correct common errors such as ignoring continuity or differentiability."
     ],
     essentialKnowledge: [
-      "中值定理的几何意义：割线斜率 = 某点切线斜率",
-      "罗尔定理是中值定理的特例",
-      "存在性定理，\\(c\\) 可能不唯一",
-      "可导性在开区间、连续性在闭区间",
-      "常用于证明不等式与函数单调性"
+      "中值定理的几何意义：割线斜率 = 某点切线斜率 · Geometric meaning of the mean value theorem: the secant slope equals the tangent slope at some point.",
+      "罗尔定理是中值定理的特例 · Rolle’s theorem is a special case of the mean value theorem.",
+      "存在性定理，\\(c\\) 可能不唯一 · It is an existence theorem; \\(c\\) need not be unique.",
+      "可导性在开区间、连续性在闭区间 · Differentiability on the open interval and continuity on the closed interval.",
+      "常用于证明不等式与函数单调性 · Often used to prove inequalities and monotonicity."
     ],
     connections: [
-      "相关：5.2 极值定理",
-      "后续：5.3 增减性",
-      "后续：5.4 一阶导数检验"
+      "相关：5.2 极值定理 · Related: 5.2 Extreme value theorem.",
+      "后续：5.3 增减性 · Follow-up: 5.3 Increasing and decreasing behavior.",
+      "后续：5.4 一阶导数检验 · Follow-up: 5.4 First-derivative test."
     ],
-    definition: '罗尔定理：若 \\(f\\) 在 \\([a,b]\\) 连续、在 \\((a,b)\\) 可导，且 \\(f(a)=f(b)\\)，则存在 \\(c\\in(a,b)\\) 使 \\(f\'(c)=0\\)。中值定理（MVT）：在连续与可导条件下，存在 \\(c\\in(a,b)\\) 使 \\(f\'(c)=\\dfrac{f(b)-f(a)}{b-a}\\)，即某点切线平行于割线。',
-    intuition: '中值定理说：一段路程的平均速度，必然在某个瞬间被瞬时速度精确复现。',
-    intuitionDetailed: '罗尔定理是中值定理的特例（割线水平）。中值定理是“存在性”定理，不给出 \\(c\\) 的公式；它可用来证明 \\(f\'>0\\Rightarrow f\\) 递增、\\(f\'=0\\Rightarrow f\\) 为常数，以及比较函数值。',
+    definition: "罗尔定理：若 \\(f\\) 在 \\([a,b]\\) 连续、在 \\((a,b)\\) 可导，且 \\(f(a)=f(b)\\)，则存在 \\(c\\in(a,b)\\) 使 \\(f'(c)=0\\)。中值定理（MVT）：在连续与可导条件下，存在 \\(c\\in(a,b)\\) 使 \\(f'(c)=\\dfrac{f(b)-f(a)}{b-a}\\)，即某点切线平行于割线。 · Rolle’s theorem: if \\(f\\) is continuous on \\([a,b]\\), differentiable on \\((a,b)\\), and \\(f(a)=f(b)\\), then there exists \\(c\\in(a,b)\\) such that \\(f'(c)=0\\). Mean value theorem (MVT): under continuity and differentiability conditions, there exists \\(c\\in(a,b)\\) such that \\(f'(c)=\\dfrac{f(b)-f(a)}{b-a}\\), meaning the tangent at some point is parallel to the secant line.",
+    intuition: "中值定理说：一段路程的平均速度，必然在某个瞬间被瞬时速度精确复现。 · The mean value theorem says that the average speed over a trip is exactly reproduced by the instantaneous speed at some moment.",
+    intuitionDetailed: "罗尔定理是中值定理的特例（割线水平）。中值定理是“存在性”定理，不给出 \\(c\\) 的公式；它可用来证明 \\(f'>0\\Rightarrow f\\) 递增、\\(f'=0\\Rightarrow f\\) 为常数，以及比较函数值。 · Rolle’s theorem is the special case of the mean value theorem with a horizontal secant. The mean value theorem is an existence theorem and does not give a formula for \\(c\\); it can prove that \\(f'>0\\) implies \\(f\\) is increasing, that \\(f'=0\\) implies \\(f\\) is constant, and can compare function values.",
     formulas: [
-      { latex: "f'(c)=\\dfrac{f(b)-f(a)}{b-a}", note: '中值定理。' },
-      { latex: "f(a)=f(b)\\Rightarrow \\exists c,\\;f'(c)=0", note: '罗尔定理。' },
-      { latex: "f'(x)>0\\text{ on }I\\Rightarrow f\\text{ 在 }I\\text{ 上递增}", note: '中值定理的推论。' },
+      {
+        latex: "f'(c)=\\dfrac{f(b)-f(a)}{b-a}",
+        note: "中值定理。 · Mean value theorem."
+      },
+      {
+        latex: "f(a)=f(b)\\Rightarrow \\exists c,\\;f'(c)=0",
+        note: "罗尔定理。 · Rolle’s theorem."
+      },
+      {
+        latex: "f'(x)>0\\text{ on }I\\Rightarrow f\\text{ 在 }I\\text{ 上递增}",
+        note: "中值定理的推论。 · Corollary of the mean value theorem."
+      }
     ],
-    conditions: ['\\(f\\) 在闭区间 \\([a,b]\\) 连续', '\\(f\\) 在开区间 \\((a,b)\\) 可导', '\\(c\\) 严格位于 \\((a,b)\\) 内', '罗尔定理还需 \\(f(a)=f(b)\\)', '中值定理只保证存在，不保证唯一'],
-    keyPoints: ['中值定理的几何意义：割线斜率 = 某点切线斜率', '罗尔定理是中值定理的特例', '存在性定理，\\(c\\) 可能不唯一', '可导性在开区间、连续性在闭区间', '常用于证明不等式与函数单调性'],
+    conditions: [
+      "\\(f\\) 在闭区间 \\([a,b]\\) 连续 · \\(f\\) is continuous on the closed interval \\([a,b]\\).",
+      "\\(f\\) 在开区间 \\((a,b)\\) 可导 · \\(f\\) is differentiable on the open interval \\((a,b)\\).",
+      "\\(c\\) 严格位于 \\((a,b)\\) 内 · \\(c\\) lies strictly inside \\((a,b)\\).",
+      "罗尔定理还需 \\(f(a)=f(b)\\) · Rolle’s theorem also requires \\(f(a)=f(b)\\).",
+      "中值定理只保证存在，不保证唯一 · The mean value theorem guarantees existence, not uniqueness."
+    ],
+    keyPoints: [
+      "中值定理的几何意义：割线斜率 = 某点切线斜率 · Geometric meaning: the secant slope equals the tangent slope at some point.",
+      "罗尔定理是中值定理的特例 · Rolle’s theorem is a special case of the mean value theorem.",
+      "存在性定理，\\(c\\) 可能不唯一 · It is an existence theorem; \\(c\\) may not be unique.",
+      "可导性在开区间、连续性在闭区间 · Differentiability on the open interval, continuity on the closed interval.",
+      "常用于证明不等式与函数单调性 · Often used to prove inequalities and monotonicity."
+    ],
     misconceptions: [
-      '把中值定理当作“平均速度等于瞬时速度”的恒等式（只保证存在某个 \\(c\\)）',
-      '忽略闭区间连续、开区间可导的条件',
-      '认为 \\(c\\) 一定在端点',
-      '把罗尔定理用于 \\(f(a)\\neq f(b)\\)',
-      '认为 \\(c\\) 唯一',
+      "把中值定理当作“平均速度等于瞬时速度”的恒等式（只保证存在某个 \\(c\\)） · Treating the mean value theorem as the identity “average speed equals instantaneous speed” (it only guarantees some \\(c\\)).",
+      "忽略闭区间连续、开区间可导的条件 · Ignoring the conditions of continuity on the closed interval and differentiability on the open interval.",
+      "认为 \\(c\\) 一定在端点 · Assuming \\(c\\) must be at an endpoint.",
+      "把罗尔定理用于 \\(f(a)\\neq f(b)\\) · Applying Rolle’s theorem when \\(f(a)\\neq f(b)\\).",
+      "认为 \\(c\\) 唯一 · Assuming \\(c\\) is unique."
     ],
     examples: [
       {
-        title: '例 1 · 抛物线',
-        prompt: '对 \\(f(x)=x^{2}\\) 在 \\([1,3]\\) 上验证中值定理，求 \\(c\\)。',
-        steps: ['\\(f\\) 连续且可导。', '割线斜率：\\(\\dfrac{9-1}{3-1}=4\\)。', '\\(f\'(c)=2c=4\\Rightarrow c=2\\)，在 \\((1,3)\\) 内。'],
-        solution: '\\(c=2\\)。',
-        solutionLatex: 'c=2',
+        title: "例 1 · 抛物线 · Parabola",
+        prompt: "对 \\(f(x)=x^{2}\\) 在 \\([1,3]\\) 上验证中值定理，求 \\(c\\)。 · Verify the mean value theorem for \\(f(x)=x^{2}\\) on \\([1,3]\\) and find \\(c\\).",
+        steps: [
+          "\\(f\\) 连续且可导。 · \\(f\\) is continuous and differentiable.",
+          "割线斜率：\\(\\dfrac{9-1}{3-1}=4\\)。 · Secant slope: \\(\\dfrac{9-1}{3-1}=4\\).",
+          "\\(f'(c)=2c=4\\Rightarrow c=2\\)，在 \\((1,3)\\) 内。 · \\(f'(c)=2c=4\\), so \\(c=2\\), which lies in \\((1,3)\\)."
+        ],
+        solution: "\\(c=2\\)。 · Thus \\(c=2\\).",
+        solutionLatex: "c=2"
       },
       {
-        title: '例 2 · 罗尔定理',
-        prompt: '对 \\(f(x)=x^{3}-x\\) 在 \\([-1,1]\\) 上验证罗尔定理，求 \\(c\\)。',
-        steps: ['\\(f(-1)=f(1)=0\\)，连续且可导。', '\\(f\'(x)=3x^{2}-1=0\\Rightarrow x=\\pm\\dfrac{1}{\\sqrt3}\\)。', '两个值都在 \\((-1,1)\\) 内。'],
-        solution: '\\(c=\\pm\\dfrac{1}{\\sqrt3}\\)。',
-        solutionLatex: 'c=\\pm\\dfrac{1}{\\sqrt3}',
+        title: "例 2 · 罗尔定理 · Rolle’s Theorem",
+        prompt: "对 \\(f(x)=x^{3}-x\\) 在 \\([-1,1]\\) 上验证罗尔定理，求 \\(c\\)。 · Verify Rolle’s theorem for \\(f(x)=x^{3}-x\\) on \\([-1,1]\\) and find \\(c\\).",
+        steps: [
+          "\\(f(-1)=f(1)=0\\)，连续且可导。 · \\(f(-1)=f(1)=0\\), and \\(f\\) is continuous and differentiable.",
+          "\\(f'(x)=3x^{2}-1=0\\Rightarrow x=\\pm\\dfrac{1}{\\sqrt3}\\)。 · \\(f'(x)=3x^{2}-1=0\\), so \\(x=\\pm\\dfrac{1}{\\sqrt3}\\).",
+          "两个值都在 \\((-1,1)\\) 内。 · Both values lie in \\((-1,1)\\)."
+        ],
+        solution: "\\(c=\\pm\\dfrac{1}{\\sqrt3}\\)。 · The values are \\(c=\\pm\\dfrac{1}{\\sqrt3}\\).",
+        solutionLatex: "c=\\pm\\dfrac{1}{\\sqrt3}"
       },
       {
-        title: '例 3 · 有理函数',
-        prompt: '对 \\(f(x)=\\dfrac{1}{x}\\) 在 \\([1,4]\\) 上求中值定理中的 \\(c\\)。',
-        steps: ['割线斜率：\\(\\dfrac{1/4-1}{4-1}=-\\dfrac{1}{4}\\)。', '\\(f\'(x)=-\\dfrac{1}{x^{2}}=-\\dfrac{1}{4}\\Rightarrow x=2\\)。', '\\(c=2\\in(1,4)\\)。'],
-        solution: '\\(c=2\\)。',
-        solutionLatex: 'c=2',
-      },
+        title: "例 3 · 有理函数 · Rational Function",
+        prompt: "对 \\(f(x)=\\dfrac{1}{x}\\) 在 \\([1,4]\\) 上求中值定理中的 \\(c\\)。 · Find the value of \\(c\\) from the mean value theorem for \\(f(x)=\\dfrac{1}{x}\\) on \\([1,4]\\).",
+        steps: [
+          "割线斜率：\\(\\dfrac{\\dfrac{1}{4}-1}{4-1}=-\\dfrac{1}{4}\\)。 · Secant slope: \\(\\dfrac{\\dfrac{1}{4}-1}{4-1}=-\\dfrac{1}{4}\\).",
+          "\\(f'(x)=-\\dfrac{1}{x^{2}}=-\\dfrac{1}{4}\\Rightarrow x=2\\)。 · \\(f'(x)=-\\dfrac{1}{x^{2}}=-\\dfrac{1}{4}\\), so \\(x=2\\).",
+          "\\(c=2\\in(1,4)\\)。 · Thus \\(c=2\\), which lies in \\((1,4)\\)."
+        ],
+        solution: "\\(c=2\\)。 · Thus \\(c=2\\).",
+        solutionLatex: "c=2"
+      }
     ],
     examTips: [
-      'CED Unit 5：解析应用',
-      '先检查连续与可导条件，再写方程',
-      '中值定理题常要求解出 \\(c\\) 并验证在区间内',
-      '证明题用“存在 \\(c\\)”而不是“对任意 \\(x\\)”',
+      "CED Unit 5：解析应用 · CED Unit 5: Analytical applications",
+      "先检查连续与可导条件，再写方程 · Check continuity and differentiability first, then write the equation.",
+      "中值定理题常要求解出 \\(c\\) 并验证在区间内 · Mean value theorem problems often ask you to solve for \\(c\\) and verify that it lies in the interval.",
+      "证明题用“存在 \\(c\\)”而不是“对任意 \\(x\\)” · In proofs, use “there exists \\(c\\)” rather than “for all \\(x\\).”"
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u5', code: '5.2', title: '极值定理', relation: '相关' },
-      { subject: 'math', chapterId: 'calc-u5', code: '5.3', title: '增减性', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u5', code: '5.4', title: '一阶导数检验', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.2",
+        title: "极值定理 · Extreme Value Theorem",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.3",
+        title: "增减性 · Increasing and Decreasing Behavior",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.4",
+        title: "一阶导数检验 · First-Derivative Test",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['罗尔定理', '中值定理', '几何意义', '存在性与唯一性', '单调性推论'],
-    checks: ['中值定理需要哪些条件？', '罗尔定理与中值定理的关系是什么？', '为什么中值定理不保证 \\(c\\) 唯一？'],
-    summary: '中值定理把平均变化率与某点瞬时变化率相等起来；罗尔定理是其水平割线特例，二者都是存在性定理。',
+    development: [
+      "罗尔定理 · Rolle’s theorem",
+      "中值定理 · Mean value theorem",
+      "几何意义 · Geometric meaning",
+      "存在性与唯一性 · Existence and uniqueness",
+      "单调性推论 · Monotonicity corollaries"
+    ],
+    checks: [
+      "中值定理需要哪些条件？ · What conditions does the mean value theorem require?",
+      "罗尔定理与中值定理的关系是什么？ · How is Rolle’s theorem related to the mean value theorem?",
+      "为什么中值定理不保证 \\(c\\) 唯一？ · Why does the mean value theorem not guarantee a unique \\(c\\)?"
+    ],
+    summary: "中值定理把平均变化率与某点瞬时变化率相等起来；罗尔定理是其水平割线特例，二者都是存在性定理。 · The mean value theorem equates the average rate of change with the instantaneous rate at some point; Rolle’s theorem is its horizontal-secant special case, and both are existence theorems."
   },
-
   'math/calc-u5/5.11': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「优化求解」的核心定义与适用条件。",
-      "能用候选点分析并解决基础问题。",
-      "能识别“只令导数为零，不检查端点”等常见误用并纠正。"
+      "能建立带约束的优化模型，写出目标函数并消元。 · Build a constrained optimization model, write the objective function, and eliminate extra variables.",
+      "能用临界点与端点求闭区间上的全局极值。 · Use critical points and endpoints to find global extrema on a closed interval.",
+      "能识别只令导数为零而忽略端点等常见误用并纠正。 · Identify and correct common errors such as setting the derivative to zero while ignoring endpoints."
     ],
     essentialKnowledge: [
-      "先写目标函数，再消元",
-      "定义域由实际约束决定",
-      "候选点 = 临界点 + 端点",
-      "二阶导数可判断凹凸与极值类型",
-      "最后要回答题目问的量，并带单位"
+      "先写目标函数，再消元 · Write the objective function first, then eliminate variables.",
+      "定义域由实际约束决定 · The domain is determined by the practical constraints.",
+      "候选点 = 临界点 + 端点 · Candidates are critical points plus endpoints.",
+      "二阶导数可判断凹凸与极值类型 · The second derivative can classify concavity and extrema.",
+      "最后要回答题目问的量，并带单位 · Answer the quantity the problem asks for and include units."
     ],
     connections: [
-      "先修：5.10 优化导论",
-      "先修：5.5 候选绝对极值",
-      "相关：4.7 洛必达法则"
+      "先修：5.10 优化导论 · Prerequisite: 5.10 Introduction to optimization.",
+      "先修：5.5 候选绝对极值 · Prerequisite: 5.5 Candidates for absolute extrema.",
+      "相关：4.7 洛必达法则 · Related: 4.7 L’Hôpital’s rule."
     ],
-    definition: '优化问题要在约束条件下最大化或最小化目标量。步骤：写出目标函数与约束，消去多余变量得到单变量函数，确定定义域，求临界点（\\(f\'=0\\) 或不存在），再用一阶/二阶导数检验或比较端点与临界点，最后回答原问题。',
-    intuition: '优化就是“在允许的范围内找最高点或最低点”：先写函数，再看导数在哪里变号。',
-    intuitionDetailed: '闭区间上连续函数必有全局最大/最小值（极值定理），候选点包括临界点与端点。开区间或实际情境要检查边界行为；若只有一个临界点且二阶导数恒正/恒负，可直接判定全局极值。',
+    definition: "优化问题要在约束条件下最大化或最小化目标量。步骤：写出目标函数与约束，消去多余变量得到单变量函数，确定定义域，求临界点（\\(f'=0\\) 或不存在），再用一阶/二阶导数检验或比较端点与临界点，最后回答原问题。 · Optimization problems maximize or minimize an objective quantity under constraints. The steps are: write the objective function and constraint, eliminate extra variables to obtain a one-variable function, determine the domain, find critical points (\\(f'=0\\) or nonexistent), use the first- or second-derivative test or compare endpoints and critical points, and finally answer the original question.",
+    intuition: "优化就是“在允许的范围内找最高点或最低点”：先写函数，再看导数在哪里变号。 · Optimization means finding the highest or lowest point within the allowed range: write the function first, then see where its derivative changes sign.",
+    intuitionDetailed: "闭区间上连续函数必有全局最大/最小值（极值定理），候选点包括临界点与端点。开区间或实际情境要检查边界行为；若只有一个临界点且二阶导数恒正/恒负，可直接判定全局极值。 · A continuous function on a closed interval attains a global maximum and minimum (extreme value theorem); candidates include critical points and endpoints. For open intervals or practical settings, check boundary behavior. If there is only one critical point and the second derivative is always positive or always negative, it can be classified as a global extremum directly.",
     formulas: [
-      { latex: "f'(x)=0\\;\\text{或不存在}\\Rightarrow x\\text{ 为临界点}", note: '候选点。' },
-      { latex: "f''(x)>0\\Rightarrow\\text{局部最小};\\quad f''(x)<0\\Rightarrow\\text{局部最大}", note: '二阶导数检验。' },
-      { latex: '\\text{闭区间最值}=\\max\\{f(\\text{临界点}),f(\\text{端点})\\}', note: '候选点法。' },
+      {
+        latex: "f'(x)=0\\;\\text{或不存在}\\Rightarrow x\\text{ 为临界点}",
+        note: "候选点。 · Candidates for extrema."
+      },
+      {
+        latex: "f''(x)>0\\Rightarrow\\text{局部最小};\\quad f''(x)<0\\Rightarrow\\text{局部最大}",
+        note: "二阶导数检验。 · Second-derivative test."
+      },
+      {
+        latex: "\\text{闭区间最值}=\\max\\{f(\\text{临界点}),f(\\text{端点})\\}",
+        note: "候选点法。 · Candidate-point method for a closed interval."
+      }
     ],
-    conditions: ['目标函数在定义域内连续', '约束条件必须显式使用', '闭区间用极值定理；开区间检查端点/无穷远行为', '临界点包括导数不存在点', '实际量（长度、面积）必须非负'],
-    keyPoints: ['先写目标函数，再消元', '定义域由实际约束决定', '候选点 = 临界点 + 端点', '二阶导数可判断凹凸与极值类型', '最后要回答题目问的量，并带单位'],
+    conditions: [
+      "目标函数在定义域内连续 · The objective function is continuous on its domain.",
+      "约束条件必须显式使用 · The constraint must be used explicitly.",
+      "闭区间用极值定理；开区间检查端点/无穷远行为 · Use the extreme value theorem on closed intervals; check endpoint and infinity behavior on open intervals.",
+      "临界点包括导数不存在点 · Critical points include points where the derivative does not exist.",
+      "实际量（长度、面积）必须非负 · Practical quantities such as length and area must be nonnegative."
+    ],
+    keyPoints: [
+      "先写目标函数，再消元 · Write the objective function first, then eliminate variables.",
+      "定义域由实际约束决定 · The domain is determined by the practical constraints.",
+      "候选点 = 临界点 + 端点 · Candidates are critical points plus endpoints.",
+      "二阶导数可判断凹凸与极值类型 · The second derivative can classify concavity and extrema.",
+      "最后要回答题目问的量，并带单位 · Answer the quantity the problem asks for and include units."
+    ],
     misconceptions: [
-      '只令导数为零，不检查端点',
-      '忘记约束条件，保留两个变量',
-      '把局部极值当作全局极值',
-      '忽略实际定义域（如长度必须为正）',
-      '求出 \\(x\\) 后忘记求目标量',
+      "只令导数为零，不检查端点 · Setting the derivative to zero without checking endpoints.",
+      "忘记约束条件，保留两个变量 · Forgetting the constraint and keeping two variables.",
+      "把局部极值当作全局极值 · Treating a local extremum as a global extremum.",
+      "忽略实际定义域（如长度必须为正） · Ignoring the practical domain (for example, lengths must be positive).",
+      "求出 \\(x\\) 后忘记求目标量 · Finding \\(x\\) but forgetting to compute the requested quantity."
     ],
     examples: [
       {
-        title: '例 1 · 围栏',
-        prompt: '用 \\(100\\,\\mathrm{m}\\) 的围栏靠墙围一个矩形，墙边不需要围栏。求最大面积。',
-        steps: ['设垂直于墙的边长为 \\(x\\)，平行墙的边长为 \\(100-2x\\)。', '\\(A=x(100-2x)=100x-2x^{2}\\)，\\(0<x<50\\)。', '\\(A\'=100-4x=0\\Rightarrow x=25\\)；\\(A\'\'=-4<0\\)，为最大。', '另一边 \\(100-50=50\\,\\mathrm{m}\\)。'],
-        solution: '尺寸 \\(25\\,\\mathrm{m}\\times50\\,\\mathrm{m}\\)，最大面积 \\(1250\\,\\mathrm{m^{2}}\\)。',
-        solutionLatex: 'A_{\\max}=1250\\,\\mathrm{m^{2}}',
+        title: "例 1 · 围栏 · Fence",
+        prompt: "用 \\(100\\,\\mathrm{m}\\) 的围栏靠墙围一个矩形，墙边不需要围栏。求最大面积。 · A rectangular pen is built against a wall using \\(100\\,\\mathrm{m}\\) of fencing; no fence is needed along the wall. Find the maximum area.",
+        steps: [
+          "设垂直于墙的边长为 \\(x\\)，平行墙的边长为 \\(100-2x\\)。 · Let the side perpendicular to the wall be \\(x\\), so the side parallel to the wall is \\(100-2x\\).",
+          "\\(A=x(100-2x)=100x-2x^{2}\\)，\\(0<x<50\\)。 · \\(A=x(100-2x)=100x-2x^{2}\\), with \\(0<x<50\\).",
+          "\\(A'=100-4x=0\\Rightarrow x=25\\)；\\(A''=-4<0\\)，为最大。 · \\(A'=100-4x=0\\), so \\(x=25\\); \\(A''=-4<0\\), so this is a maximum.",
+          "另一边 \\(100-50=50\\,\\mathrm{m}\\)。 · The other side is \\(100-50=50\\,\\mathrm{m}\\)."
+        ],
+        solution: "尺寸 \\(25\\,\\mathrm{m}\\times50\\,\\mathrm{m}\\)，最大面积 \\(1250\\,\\mathrm{m^{2}}\\)。 · The dimensions are \\(25\\,\\mathrm{m}\\times50\\,\\mathrm{m}\\), and the maximum area is \\(1250\\,\\mathrm{m^{2}}\\).",
+        solutionLatex: "A_{\\max}=1250\\,\\mathrm{m^{2}}"
       },
       {
-        title: '例 2 · 开口盒',
-        prompt: '一个无盖方底盒子体积为 \\(32\\,\\mathrm{cm^{3}}\\)。求使表面积最小的底面边长与高。',
-        steps: ['设底面边长 \\(x\\)，高 \\(h\\)，则 \\(x^{2}h=32\\Rightarrow h=\\dfrac{32}{x^{2}}\\)。', '\\(S=x^{2}+4xh=x^{2}+\\dfrac{128}{x}\\)。', '\\(S\'=2x-\\dfrac{128}{x^{2}}=0\\Rightarrow x^{3}=64\\Rightarrow x=4\\)，\\(h=2\\)。'],
-        solution: '\\(x=4\\,\\mathrm{cm}\\)，\\(h=2\\,\\mathrm{cm}\\)，最小表面积 \\(48\\,\\mathrm{cm^{2}}\\)。',
-        solutionLatex: 'x=4\\,\\mathrm{cm},\\;h=2\\,\\mathrm{cm}',
+        title: "例 2 · 开口盒 · Open-Top Box",
+        prompt: "一个无盖方底盒子体积为 \\(32\\,\\mathrm{cm^{3}}\\)。求使表面积最小的底面边长与高。 · An open-top box with a square base has volume \\(32\\,\\mathrm{cm^{3}}\\). Find the base side length and height that minimize the surface area.",
+        steps: [
+          "设底面边长 \\(x\\)，高 \\(h\\)，则 \\(x^{2}h=32\\Rightarrow h=\\dfrac{32}{x^{2}}\\)。 · Let the base side length be \\(x\\) and the height be \\(h\\); then \\(x^{2}h=32\\), so \\(h=\\dfrac{32}{x^{2}}\\).",
+          "\\(S=x^{2}+4xh=x^{2}+\\dfrac{128}{x}\\)。 · The surface area is \\(S=x^{2}+4xh=x^{2}+\\dfrac{128}{x}\\).",
+          "\\(S'=2x-\\dfrac{128}{x^{2}}=0\\Rightarrow x^{3}=64\\Rightarrow x=4\\)，\\(h=2\\)。 · \\(S'=2x-\\dfrac{128}{x^{2}}=0\\), so \\(x^{3}=64\\), \\(x=4\\), and \\(h=2\\)."
+        ],
+        solution: "\\(x=4\\,\\mathrm{cm}\\)，\\(h=2\\,\\mathrm{cm}\\)，最小表面积 \\(48\\,\\mathrm{cm^{2}}\\)。 · \\(x=4\\,\\mathrm{cm}\\), \\(h=2\\,\\mathrm{cm}\\), and the minimum surface area is \\(48\\,\\mathrm{cm^{2}}\\).",
+        solutionLatex: "x=4\\,\\mathrm{cm},\\;h=2\\,\\mathrm{cm}"
       },
       {
-        title: '例 3 · 最近点',
-        prompt: '求曲线 \\(y=\\sqrt{x}\\) 上到点 \\((3,0)\\) 最近的点。',
-        steps: ['距离平方 \\(D^{2}=(x-3)^{2}+x\\)，\\(x\\ge0\\)。', '\\(\\dfrac{\\mathrm{d}(D^{2})}{\\mathrm{d}x}=2(x-3)+1=2x-5=0\\Rightarrow x=2.5\\)。', '\\(y=\\sqrt{2.5}\\)；\\(D=\\sqrt{0.25+2.5}=\\sqrt{2.75}\\)。'],
-        solution: '最近点 \\(\\left(2.5,\\sqrt{2.5}\\right)\\)，距离约 \\(1.66\\)。',
-        solutionLatex: 'D\\approx1.66',
-      },
+        title: "例 3 · 最近点 · Closest Point",
+        prompt: "求曲线 \\(y=\\sqrt{x}\\) 上到点 \\((3,0)\\) 最近的点。 · Find the point on the curve \\(y=\\sqrt{x}\\) closest to \\((3,0)\\).",
+        steps: [
+          "距离平方 \\(D^{2}=(x-3)^{2}+x\\)，\\(x\\ge0\\)。 · The squared distance is \\(D^{2}=(x-3)^{2}+x\\), with \\(x\\ge0\\).",
+          "\\(\\dfrac{\\mathrm{d}(D^{2})}{\\mathrm{d}x}=2(x-3)+1=2x-5=0\\Rightarrow x=2.5\\)。 · \\(\\dfrac{\\mathrm{d}(D^{2})}{\\mathrm{d}x}=2(x-3)+1=2x-5=0\\), so \\(x=2.5\\).",
+          "\\(y=\\sqrt{2.5}\\)；\\(D=\\sqrt{0.25+2.5}=\\sqrt{2.75}\\)。 · Then \\(y=\\sqrt{2.5}\\), and \\(D=\\sqrt{0.25+2.5}=\\sqrt{2.75}\\)."
+        ],
+        solution: "最近点 \\(\\left(2.5,\\sqrt{2.5}\\right)\\)，距离约 \\(1.66\\)。 · The closest point is \\(\\left(2.5,\\sqrt{2.5}\\right)\\), at a distance of about \\(1.66\\).",
+        solutionLatex: "D\\approx1.66"
+      }
     ],
     examTips: [
-      'CED Unit 5：优化',
-      '先写目标函数与约束，再消元',
-      '列出定义域，检查端点',
-      '用二阶导数或一阶导数变号证明极值类型',
-      '最后回答题目所问，不要停在 \\(x\\)',
+      "CED Unit 5：优化 · CED Unit 5: Optimization",
+      "先写目标函数与约束，再消元 · Write the objective function and constraint first, then eliminate variables.",
+      "列出定义域，检查端点 · State the domain and check endpoints.",
+      "用二阶导数或一阶导数变号证明极值类型 · Use the second derivative or a sign change in the first derivative to classify the extremum.",
+      "最后回答题目所问，不要停在 \\(x\\) · Answer the question asked; do not stop at the value of \\(x\\)."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u5', code: '5.10', title: '优化导论', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u5', code: '5.5', title: '候选绝对极值', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u4', code: '4.7', title: '洛必达法则', relation: '相关' },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.10",
+        title: "优化导论 · Introduction to Optimization",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u5",
+        code: "5.5",
+        title: "候选绝对极值 · Candidates for Absolute Extrema",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u4",
+        code: "4.7",
+        title: "洛必达法则 · L’Hôpital’s Rule",
+        relation: "相关 · Related"
+      }
     ],
-    development: ['目标函数与约束', '消元与定义域', '临界点与端点', '极值检验', '实际情境建模'],
-    checks: ['优化问题为什么要检查端点？', '如何判断临界点是最大还是最小？', '实际定义域如何限制解？'],
-    summary: '优化先建模消元，再找临界点与端点，用导数检验极值，最后回答原问题的量。',
+    development: [
+      "目标函数与约束 · Objective functions and constraints",
+      "消元与定义域 · Elimination and domain",
+      "临界点与端点 · Critical points and endpoints",
+      "极值检验 · Extremum tests",
+      "实际情境建模 · Modeling practical situations"
+    ],
+    checks: [
+      "优化问题为什么要检查端点？ · Why must optimization problems check endpoints?",
+      "如何判断临界点是最大还是最小？ · How can you tell whether a critical point is a maximum or a minimum?",
+      "实际定义域如何限制解？ · How does the practical domain restrict the solution?"
+    ],
+    summary: "优化先建模消元，再找临界点与端点，用导数检验极值，最后回答原问题的量。 · Optimization first builds a model and eliminates variables, then finds critical points and endpoints, uses derivatives to classify extrema, and finally answers the original question with units."
   },
-
   'math/calc-u6/6.9': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「换元积分法」的核心定义与适用条件。",
-      "能用不定积分换元分析并解决基础问题。",
-      "能识别“换元后仍保留 \\(x\\) 与 \\(\\mathrm{d}x\\)”等常见误用并纠正。"
+      "能识别换元积分中的里层函数及其导数。 · Identify the inner function and its derivative in integration by substitution.",
+      "能对不定积分换元并回代，对定积分同步更换上下限。 · Substitute and back-substitute for indefinite integrals, and change the limits for definite integrals.",
+      "能识别换元后仍保留 \\(x\\) 等常见误用并纠正。 · Identify and correct common errors such as leaving \\(x\\) in the integrand after substitution."
     ],
     essentialKnowledge: [
-      "\\(u\\) 选里层函数",
-      "\\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) 要完整替换",
-      "定积分换元后直接用新上下限",
-      "常数倍可以提到积分号外",
-      "最后检查是否还能化简"
+      "\\(u\\) 选里层函数 · Choose the inner function as \\(u\\).",
+      "\\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) 要完整替换 · Replace \\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) completely.",
+      "定积分换元后直接用新上下限 · For a definite integral, use the new limits after substitution.",
+      "常数倍可以提到积分号外 · Constant multiples can be pulled outside the integral.",
+      "最后检查是否还能化简 · Check whether the result can be simplified further."
     ],
     connections: [
-      "先修：6.7 定积分求值",
-      "先修：6.8 求原函数",
-      "后续：6.10 分部积分"
+      "先修：6.7 定积分求值 · Prerequisite: 6.7 Evaluating definite integrals.",
+      "先修：6.8 求原函数 · Prerequisite: 6.8 Finding antiderivatives.",
+      "后续：6.10 分部积分 · Follow-up: 6.10 Integration by parts."
     ],
-    definition: '换元积分法（u-代换）是链式法则的逆运算：若被积函数含 \\(g(x)\\) 与 \\(g\'(x)\\)，令 \\(u=g(x)\\)，则 \\(\\mathrm{d}u=g\'(x)\\,\\mathrm{d}x\\)，积分化为 \\(\\int f(u)\\,\\mathrm{d}u\\)。定积分换元时必须同时把上下限换成 \\(u\\) 的值。',
-    intuition: '换元就是“把复杂的里层整体打包成一个新变量”，让积分回到熟悉的基本形式。',
-    intuitionDetailed: '选择 \\(u\\) 的常见线索：根号内、分母、指数、括号内的线性式。定积分换元后不必回代，直接用新上下限计算；不定积分则要回代 \\(u=g(x)\\)。若 \\(\\mathrm{d}u\\) 只差一个常数倍，可在积分号外补因子。',
+    definition: "换元积分法（u-代换）是链式法则的逆运算：若被积函数含 \\(g(x)\\) 与 \\(g'(x)\\)，令 \\(u=g(x)\\)，则 \\(\\mathrm{d}u=g'(x)\\,\\mathrm{d}x\\)，积分化为 \\(\\int f(u)\\,\\mathrm{d}u\\)。定积分换元时必须同时把上下限换成 \\(u\\) 的值。 · Integration by substitution (u-substitution) is the reverse of the chain rule: if the integrand contains \\(g(x)\\) and \\(g'(x)\\), let \\(u=g(x)\\), so \\(\\mathrm{d}u=g'(x)\\,\\mathrm{d}x\\), and the integral becomes \\(\\int f(u)\\,\\mathrm{d}u\\). For a definite integral, change the limits to the corresponding values of \\(u\\) at the same time.",
+    intuition: "换元就是“把复杂的里层整体打包成一个新变量”，让积分回到熟悉的基本形式。 · Substitution packages the complicated inner expression into a new variable, returning the integral to a familiar basic form.",
+    intuitionDetailed: "选择 \\(u\\) 的常见线索：根号内、分母、指数、括号内的线性式。定积分换元后不必回代，直接用新上下限计算；不定积分则要回代 \\(u=g(x)\\)。若 \\(\\mathrm{d}u\\) 只差一个常数倍，可在积分号外补因子。 · Common clues for choosing \\(u\\): inside a radical, in a denominator, in an exponent, or inside parentheses. After substituting in a definite integral, do not back-substitute; evaluate directly with the new limits. For an indefinite integral, back-substitute \\(u=g(x)\\). If \\(\\mathrm{d}u\\) differs by a constant multiple, adjust the factor outside the integral.",
     formulas: [
-      { latex: '\\int f(g(x))g\'(x)\\,\\mathrm{d}x=\\int f(u)\\,\\mathrm{d}u', note: '不定积分换元。' },
-      { latex: '\\int_{a}^{b}f(g(x))g\'(x)\\,\\mathrm{d}x=\\int_{g(a)}^{g(b)}f(u)\\,\\mathrm{d}u', note: '定积分换元，上下限同步改变。' },
-      { latex: '\\int \\dfrac{g\'(x)}{g(x)}\\,\\mathrm{d}x=\\ln|g(x)|+C', note: '常见对数型换元。' },
+      {
+        latex: "\\int f(g(x))g'(x)\\,\\mathrm{d}x=\\int f(u)\\,\\mathrm{d}u",
+        note: "不定积分换元。 · Indefinite integral by substitution."
+      },
+      {
+        latex: "\\int_{a}^{b}f(g(x))g'(x)\\,\\mathrm{d}x=\\int_{g(a)}^{g(b)}f(u)\\,\\mathrm{d}u",
+        note: "定积分换元，上下限同步改变。 · Definite integral by substitution; change the limits together."
+      },
+      {
+        latex: "\\int \\dfrac{g'(x)}{g(x)}\\,\\mathrm{d}x=\\ln|g(x)|+C",
+        note: "常见对数型换元。 · Common logarithmic substitution."
+      }
     ],
-    conditions: ['\\(g\\) 在积分区间可导，且 \\(g\'\\) 连续', '被积函数中要能识别出 \\(g\'(x)\\)（可差常数倍）', '定积分换元必须换上下限', '不定积分最后回代原变量', '代换在区间上最好一一对应'],
-    keyPoints: ['\\(u\\) 选里层函数', '\\(\\mathrm{d}u=g\'(x)\\mathrm{d}x\\) 要完整替换', '定积分换元后直接用新上下限', '常数倍可以提到积分号外', '最后检查是否还能化简'],
+    conditions: [
+      "\\(g\\) 在积分区间可导，且 \\(g'\\) 连续 · \\(g\\) is differentiable on the interval of integration, and \\(g'\\) is continuous.",
+      "被积函数中要能识别出 \\(g'(x)\\)（可差常数倍） · A factor \\(g'(x)\\) must be identifiable in the integrand (up to a constant multiple).",
+      "定积分换元必须换上下限 · A definite integral by substitution must change its limits.",
+      "不定积分最后回代原变量 · Back-substitute to the original variable for an indefinite integral.",
+      "代换在区间上最好一一对应 · The substitution should preferably be one-to-one on the interval."
+    ],
+    keyPoints: [
+      "\\(u\\) 选里层函数 · Choose the inner function as \\(u\\).",
+      "\\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) 要完整替换 · Replace \\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) completely.",
+      "定积分换元后直接用新上下限 · For a definite integral, use the new limits after substitution.",
+      "常数倍可以提到积分号外 · Constant multiples can be pulled outside the integral.",
+      "最后检查是否还能化简 · Check whether the result can be simplified further."
+    ],
     misconceptions: [
-      '换元后仍保留 \\(x\\) 与 \\(\\mathrm{d}x\\)',
-      '定积分换元忘记换上下限',
-      '把 \\(\\mathrm{d}u\\) 写成 \\(\\mathrm{d}x\\)',
-      '不定积分忘记回代',
-      '选 \\(u\\) 后没有检查 \\(\\mathrm{d}u\\) 是否存在',
+      "换元后仍保留 \\(x\\) 与 \\(\\mathrm{d}x\\) · Leaving both \\(x\\) and \\(\\mathrm{d}x\\) after substituting.",
+      "定积分换元忘记换上下限 · Forgetting to change the limits in a definite integral.",
+      "把 \\(\\mathrm{d}u\\) 写成 \\(\\mathrm{d}x\\) · Writing \\(\\mathrm{d}u\\) as \\(\\mathrm{d}x\\).",
+      "不定积分忘记回代 · Forgetting to back-substitute in an indefinite integral.",
+      "选 \\(u\\) 后没有检查 \\(\\mathrm{d}u\\) 是否存在 · Choosing \\(u\\) without checking that \\(\\mathrm{d}u\\) is present."
     ],
     examples: [
       {
-        title: '例 1 · 多项式',
-        prompt: '求 \\(\\displaystyle\\int 2x(x^{2}+1)^{3}\\,\\mathrm{d}x\\)。',
-        steps: ['令 \\(u=x^{2}+1\\)，则 \\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\)。', '\\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\)。', '回代：\\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\)。'],
-        solution: '\\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\)。',
-        solutionLatex: '\\dfrac{(x^{2}+1)^{4}}{4}+C',
+        title: "例 1 · 多项式 · Polynomial",
+        prompt: "求 \\(\\displaystyle\\int 2x(x^{2}+1)^{3}\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int 2x(x^{2}+1)^{3}\\,\\mathrm{d}x\\).",
+        steps: [
+          "令 \\(u=x^{2}+1\\)，则 \\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\)。 · Let \\(u=x^{2}+1\\); then \\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\).",
+          "\\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\)。 · Integrate: \\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\).",
+          "回代：\\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\)。 · Back-substitute: \\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\)."
+        ],
+        solution: "\\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\)。 · The antiderivative is \\(\\dfrac{(x^{2}+1)^{4}}{4}+C\\).",
+        solutionLatex: "\\dfrac{(x^{2}+1)^{4}}{4}+C"
       },
       {
-        title: '例 2 · 定积分',
-        prompt: '求 \\(\\displaystyle\\int_{0}^{2}xe^{x^{2}}\\,\\mathrm{d}x\\)。',
-        steps: ['令 \\(u=x^{2}\\)，\\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\)。', '上下限：\\(x=0\\Rightarrow u=0\\)；\\(x=2\\Rightarrow u=4\\)。', '\\(\\dfrac{1}{2}\\int_{0}^{4}e^{u}\\,\\mathrm{d}u=\\dfrac{1}{2}(e^{4}-1)\\)。'],
-        solution: '\\(\\dfrac{e^{4}-1}{2}\\)。',
-        solutionLatex: '\\dfrac{e^{4}-1}{2}',
+        title: "例 2 · 定积分 · Definite Integral",
+        prompt: "求 \\(\\displaystyle\\int_{0}^{2}xe^{x^{2}}\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int_{0}^{2}xe^{x^{2}}\\,\\mathrm{d}x\\).",
+        steps: [
+          "令 \\(u=x^{2}\\)，\\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\)。 · Let \\(u=x^{2}\\); then \\(\\mathrm{d}u=2x\\,\\mathrm{d}x\\).",
+          "上下限：\\(x=0\\Rightarrow u=0\\)；\\(x=2\\Rightarrow u=4\\)。 · Limits: when \\(x=0\\), \\(u=0\\); when \\(x=2\\), \\(u=4\\).",
+          "\\(\\dfrac{1}{2}\\int_{0}^{4}e^{u}\\,\\mathrm{d}u=\\dfrac{1}{2}(e^{4}-1)\\)。 · Evaluate: \\(\\dfrac{1}{2}\\int_{0}^{4}e^{u}\\,\\mathrm{d}u=\\dfrac{1}{2}(e^{4}-1)\\)."
+        ],
+        solution: "\\(\\dfrac{e^{4}-1}{2}\\)。 · The value is \\(\\dfrac{e^{4}-1}{2}\\).",
+        solutionLatex: "\\dfrac{e^{4}-1}{2}"
       },
       {
-        title: '例 3 · 三角',
-        prompt: '求 \\(\\displaystyle\\int \\sin^{3}x\\cos x\\,\\mathrm{d}x\\)。',
-        steps: ['令 \\(u=\\sin x\\)，\\(\\mathrm{d}u=\\cos x\\,\\mathrm{d}x\\)。', '\\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\)。', '回代：\\(\\dfrac{\\sin^{4}x}{4}+C\\)。'],
-        solution: '\\(\\dfrac{\\sin^{4}x}{4}+C\\)。',
-        solutionLatex: '\\dfrac{\\sin^{4}x}{4}+C',
-      },
+        title: "例 3 · 三角 · Trigonometric",
+        prompt: "求 \\(\\displaystyle\\int \\sin^{3}x\\cos x\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int \\sin^{3}x\\cos x\\,\\mathrm{d}x\\).",
+        steps: [
+          "令 \\(u=\\sin x\\)，\\(\\mathrm{d}u=\\cos x\\,\\mathrm{d}x\\)。 · Let \\(u=\\sin x\\); then \\(\\mathrm{d}u=\\cos x\\,\\mathrm{d}x\\).",
+          "\\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\)。 · Integrate: \\(\\int u^{3}\\,\\mathrm{d}u=\\dfrac{u^{4}}{4}+C\\).",
+          "回代：\\(\\dfrac{\\sin^{4}x}{4}+C\\)。 · Back-substitute: \\(\\dfrac{\\sin^{4}x}{4}+C\\)."
+        ],
+        solution: "\\(\\dfrac{\\sin^{4}x}{4}+C\\)。 · The antiderivative is \\(\\dfrac{\\sin^{4}x}{4}+C\\).",
+        solutionLatex: "\\dfrac{\\sin^{4}x}{4}+C"
+      }
     ],
     examTips: [
-      'CED Unit 6：积分技巧',
-      '先找“里层函数 + 它的导数”',
-      '定积分换元三件事：换 \\(u\\)、换 \\(\\mathrm{d}u\\)、换上下限',
-      '算完求导验证结果',
+      "CED Unit 6：积分技巧 · CED Unit 6: Integration techniques",
+      "先找“里层函数 + 它的导数” · Look first for “inner function + its derivative.”",
+      "定积分换元三件事：换 \\(u\\)、换 \\(\\mathrm{d}u\\)、换上下限 · For a definite integral by substitution, change three things: \\(u\\), \\(\\mathrm{d}u\\), and the limits.",
+      "算完求导验证结果 · Differentiate the result to verify it."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u6', code: '6.7', title: '定积分求值', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.8', title: '求原函数', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.10', title: '分部积分', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.7",
+        title: "定积分求值 · Evaluating Definite Integrals",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.8",
+        title: "求原函数 · Finding Antiderivatives",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.10",
+        title: "分部积分 · Integration by Parts",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['链式法则的逆', '选择 \\(u\\)', '不定积分回代', '定积分换限', '常见换元类型'],
-    checks: ['换元后为什么不能同时保留 \\(x\\) 和 \\(u\\)？', '定积分换元为什么要换上下限？', '如何验证换元积分的结果？'],
-    summary: '换元积分把里层函数打包成 \\(u\\)，用 \\(\\mathrm{d}u=g\'(x)\\mathrm{d}x\\) 化简；定积分记得换上下限。',
+    development: [
+      "链式法则的逆 · Reverse of the chain rule",
+      "选择 \\(u\\) · Choosing \\(u\\)",
+      "不定积分回代 · Back-substitution for indefinite integrals",
+      "定积分换限 · Changing limits for definite integrals",
+      "常见换元类型 · Common substitution types"
+    ],
+    checks: [
+      "换元后为什么不能同时保留 \\(x\\) 和 \\(u\\)？ · Why can you not keep both \\(x\\) and \\(u\\) after substitution?",
+      "定积分换元为什么要换上下限？ · Why must the limits be changed for a definite integral by substitution?",
+      "如何验证换元积分的结果？ · How can you verify the result of integration by substitution?"
+    ],
+    summary: "换元积分把里层函数打包成 \\(u\\)，用 \\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\) 化简；定积分记得换上下限。 · Integration by substitution packages the inner function as \\(u\\) and simplifies using \\(\\mathrm{d}u=g'(x)\\mathrm{d}x\\); remember to change the limits for a definite integral."
   },
-
   'math/calc-u6/6.10': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「分部积分」的核心定义与适用条件。",
-      "能用不定积分分部积分分析并解决基础问题。",
-      "能识别“把 \\(u\\) 与 \\(\\mathrm{d}v\\) 选反，导致积分更复杂”等常见误用并纠正。"
+      "能写出分部积分公式，并说明它的适用条件。 · State the integration-by-parts formula and explain when it applies.",
+      "能用 LIATE 选择 \\(u\\) 与 \\(\\mathrm{d}v\\)，把积分转化为更简单的形式。 · Use LIATE to choose \\(u\\) and \\(\\mathrm{d}v\\), transforming the integral into a simpler form.",
+      "能识别并纠正 \\(u\\) 与 \\(\\mathrm{d}v\\) 选反等常见误用。 · Identify and correct common errors such as choosing \\(u\\) and \\(\\mathrm{d}v\\) in the wrong order."
     ],
     essentialKnowledge: [
-      "LIATE 帮助选 \\(u\\)",
-      "\\(\\mathrm{d}v\\) 要容易积分",
-      "分部积分可以多次使用",
-      "出现循环时移项解出原积分",
-      "\\(\\ln x\\) 与反三角常选为 \\(u\\)"
+      "LIATE 帮助选 \\(u\\) · LIATE helps choose \\(u\\).",
+      "\\(\\mathrm{d}v\\) 要容易积分 · \\(\\mathrm{d}v\\) should be easy to integrate.",
+      "分部积分可以多次使用 · Integration by parts can be used more than once.",
+      "出现循环时移项解出原积分 · When the original integral reappears, solve for it by rearranging.",
+      "\\(\\ln x\\) 与反三角常选为 \\(u\\) · \\(\\ln x\\) and inverse trigonometric functions are often chosen as \\(u\\)."
     ],
     connections: [
-      "先修：6.9 换元积分法",
-      "后续：6.11 部分分式",
-      "后续：6.13 积分技巧选择"
+      "先修：6.9 换元积分法 · Prerequisite: 6.9 Integration by substitution.",
+      "后续：6.11 部分分式 · Follow-up: 6.11 Partial fractions.",
+      "后续：6.13 积分技巧选择 · Follow-up: 6.13 Choosing integration techniques."
     ],
-    definition: '分部积分由乘积求导法则推出：\\(\\displaystyle\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\)。它把难以直接积分的乘积转化为另一个积分，常用于多项式乘指数/三角/对数、反三角函数的积分。选择 \\(u\\) 的常用优先级为 LIATE（对数、反三角、代数、三角、指数）。',
-    intuition: '分部积分是“把乘积的导数移项”：一个因子求导、另一个因子积分，把问题换成更容易的形式。',
-    intuitionDetailed: '若 \\(u\\) 求导后变简单（如 \\(\\ln x\\)、\\(x^{n}\\)），就选它为 \\(u\\)；剩下的部分要能积分成 \\(v\\)。有时需要连续两次分部积分，或出现原积分后移项求解。定积分版本要同时代入上下限。',
+    definition: "分部积分由乘积求导法则推出：\\(\\displaystyle\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\)。它把难以直接积分的乘积转化为另一个积分，常用于多项式乘指数/三角/对数、反三角函数的积分。选择 \\(u\\) 的常用优先级为 LIATE（对数、反三角、代数、三角、指数）。 · Integration by parts follows from the product rule: \\(\\displaystyle\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\). It turns a product that is hard to integrate directly into another integral and is often used for polynomials multiplied by exponentials, trigonometric functions, or logarithms, and for inverse trigonometric functions. The usual priority for choosing \\(u\\) is LIATE (logarithmic, inverse trigonometric, algebraic, trigonometric, exponential).",
+    intuition: "分部积分是“把乘积的导数移项”：一个因子求导、另一个因子积分，把问题换成更容易的形式。 · Integration by parts rearranges the derivative of a product: differentiate one factor and integrate the other, turning the problem into an easier form.",
+    intuitionDetailed: "若 \\(u\\) 求导后变简单（如 \\(\\ln x\\)、\\(x^{n}\\)），就选它为 \\(u\\)；剩下的部分要能积分成 \\(v\\)。有时需要连续两次分部积分，或出现原积分后移项求解。定积分版本要同时代入上下限。 · If differentiating \\(u\\) makes it simpler (for example, \\(\\ln x\\) or \\(x^{n}\\)), choose it as \\(u\\); the remaining part must integrate to \\(v\\). Sometimes two applications are needed, or the original integral reappears and must be solved by rearranging. For a definite integral, substitute the limits at the end.",
     formulas: [
-      { latex: '\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u', note: '不定积分分部积分。' },
-      { latex: '\\int_{a}^{b}u\\,\\mathrm{d}v=\\left[uv\\right]_{a}^{b}-\\int_{a}^{b}v\\,\\mathrm{d}u', note: '定积分分部积分。' },
-      { latex: '\\int \\ln x\\,\\mathrm{d}x=x\\ln x-x+C', note: '经典结果。' },
+      {
+        latex: "\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u",
+        note: "不定积分分部积分。 · Indefinite integration by parts."
+      },
+      {
+        latex: "\\int_{a}^{b}u\\,\\mathrm{d}v=\\left[uv\\right]_{a}^{b}-\\int_{a}^{b}v\\,\\mathrm{d}u",
+        note: "定积分分部积分。 · Definite integration by parts."
+      },
+      {
+        latex: "\\int \\ln x\\,\\mathrm{d}x=x\\ln x-x+C",
+        note: "经典结果。 · Classic result."
+      }
     ],
-    conditions: ['\\(u,v\\) 可导，且 \\(\\mathrm{d}u,\\mathrm{d}v\\) 存在', '\\(u\\) 的导数应比 \\(u\\) 简单', '剩余积分 \\(\\int v\\,\\mathrm{d}u\\) 要比原积分容易', '可能需要多次分部积分或移项', '定积分记得代入上下限'],
-    keyPoints: ['LIATE 帮助选 \\(u\\)', '\\(\\mathrm{d}v\\) 要容易积分', '分部积分可以多次使用', '出现循环时移项解出原积分', '\\(\\ln x\\) 与反三角常选为 \\(u\\)'],
+    conditions: [
+      "\\(u,v\\) 可导，且 \\(\\mathrm{d}u,\\mathrm{d}v\\) 存在 · \\(u\\) and \\(v\\) are differentiable, and \\(\\mathrm{d}u\\) and \\(\\mathrm{d}v\\) exist.",
+      "\\(u\\) 的导数应比 \\(u\\) 简单 · The derivative of \\(u\\) should be simpler than \\(u\\).",
+      "剩余积分 \\(\\int v\\,\\mathrm{d}u\\) 要比原积分容易 · The remaining integral \\(\\int v\\,\\mathrm{d}u\\) should be easier than the original.",
+      "可能需要多次分部积分或移项 · Several applications or a rearrangement may be needed.",
+      "定积分记得代入上下限 · For a definite integral, remember to substitute the limits."
+    ],
+    keyPoints: [
+      "LIATE 帮助选 \\(u\\) · LIATE helps choose \\(u\\).",
+      "\\(\\mathrm{d}v\\) 要容易积分 · \\(\\mathrm{d}v\\) should be easy to integrate.",
+      "分部积分可以多次使用 · Integration by parts can be used more than once.",
+      "出现循环时移项解出原积分 · When the original integral reappears, solve for it by rearranging.",
+      "\\(\\ln x\\) 与反三角常选为 \\(u\\) · \\(\\ln x\\) and inverse trigonometric functions are often chosen as \\(u\\)."
+    ],
     misconceptions: [
-      '把 \\(u\\) 与 \\(\\mathrm{d}v\\) 选反，导致积分更复杂',
-      '忘记 \\(-\\int v\\,\\mathrm{d}u\\) 的负号',
-      '定积分忘记代入上下限',
-      '循环积分时不会移项',
-      '把 \\(\\int u\\,\\mathrm{d}v\\) 写成 \\(uv+\\int v\\,\\mathrm{d}u\\)',
+      "把 \\(u\\) 与 \\(\\mathrm{d}v\\) 选反，导致积分更复杂 · Choosing \\(u\\) and \\(\\mathrm{d}v\\) in the wrong order, making the integral more complicated.",
+      "忘记 \\(-\\int v\\,\\mathrm{d}u\\) 的负号 · Forgetting the minus sign in \\(-\\int v\\,\\mathrm{d}u\\).",
+      "定积分忘记代入上下限 · Forgetting to substitute the limits in a definite integral.",
+      "循环积分时不会移项 · Not rearranging when the original integral reappears.",
+      "把 \\(\\int u\\,\\mathrm{d}v\\) 写成 \\(uv+\\int v\\,\\mathrm{d}u\\) · Writing \\(\\int u\\,\\mathrm{d}v\\) as \\(uv+\\int v\\,\\mathrm{d}u\\)."
     ],
     examples: [
       {
-        title: '例 1 · 多项式乘指数',
-        prompt: '求 \\(\\displaystyle\\int xe^{x}\\,\\mathrm{d}x\\)。',
-        steps: ['取 \\(u=x\\)，\\(\\mathrm{d}v=e^{x}\\mathrm{d}x\\)，则 \\(\\mathrm{d}u=\\mathrm{d}x\\)，\\(v=e^{x}\\)。', '\\(\\int xe^{x}\\mathrm{d}x=xe^{x}-\\int e^{x}\\mathrm{d}x\\)。', '结果：\\(e^{x}(x-1)+C\\)。'],
-        solution: '\\(e^{x}(x-1)+C\\)。',
-        solutionLatex: 'e^{x}(x-1)+C',
+        title: "例 1 · 多项式乘指数 · Polynomial Times Exponential",
+        prompt: "求 \\(\\displaystyle\\int xe^{x}\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int xe^{x}\\,\\mathrm{d}x\\).",
+        steps: [
+          "取 \\(u=x\\)，\\(\\mathrm{d}v=e^{x}\\mathrm{d}x\\)，则 \\(\\mathrm{d}u=\\mathrm{d}x\\)，\\(v=e^{x}\\)。 · Take \\(u=x\\) and \\(\\mathrm{d}v=e^{x}\\mathrm{d}x\\), so \\(\\mathrm{d}u=\\mathrm{d}x\\) and \\(v=e^{x}\\).",
+          "\\(\\int xe^{x}\\mathrm{d}x=xe^{x}-\\int e^{x}\\mathrm{d}x\\)。 · Apply the formula: \\(\\int xe^{x}\\mathrm{d}x=xe^{x}-\\int e^{x}\\mathrm{d}x\\).",
+          "结果：\\(e^{x}(x-1)+C\\)。 · Result: \\(e^{x}(x-1)+C\\)."
+        ],
+        solution: "\\(e^{x}(x-1)+C\\)。 · Thus the antiderivative is \\(e^{x}(x-1)+C\\).",
+        solutionLatex: "e^{x}(x-1)+C"
       },
       {
-        title: '例 2 · 对数',
-        prompt: '求 \\(\\displaystyle\\int \\ln x\\,\\mathrm{d}x\\)。',
-        steps: ['取 \\(u=\\ln x\\)，\\(\\mathrm{d}v=\\mathrm{d}x\\)，则 \\(\\mathrm{d}u=\\dfrac{1}{x}\\mathrm{d}x\\)，\\(v=x\\)。', '\\(\\int\\ln x\\,\\mathrm{d}x=x\\ln x-\\int x\\cdot\\dfrac{1}{x}\\,\\mathrm{d}x\\)。', '\\(=x\\ln x-x+C\\)。'],
-        solution: '\\(x\\ln x-x+C\\)。',
-        solutionLatex: 'x\\ln x-x+C',
+        title: "例 2 · 对数 · Logarithm",
+        prompt: "求 \\(\\displaystyle\\int \\ln x\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int \\ln x\\,\\mathrm{d}x\\).",
+        steps: [
+          "取 \\(u=\\ln x\\)，\\(\\mathrm{d}v=\\mathrm{d}x\\)，则 \\(\\mathrm{d}u=\\dfrac{1}{x}\\mathrm{d}x\\)，\\(v=x\\)。 · Take \\(u=\\ln x\\) and \\(\\mathrm{d}v=\\mathrm{d}x\\), so \\(\\mathrm{d}u=\\dfrac{1}{x}\\mathrm{d}x\\) and \\(v=x\\).",
+          "\\(\\int\\ln x\\,\\mathrm{d}x=x\\ln x-\\int x\\cdot\\dfrac{1}{x}\\,\\mathrm{d}x\\)。 · Apply the formula: \\(\\int\\ln x\\,\\mathrm{d}x=x\\ln x-\\int x\\cdot\\dfrac{1}{x}\\,\\mathrm{d}x\\).",
+          "\\(=x\\ln x-x+C\\)。 · So the result is \\(x\\ln x-x+C\\)."
+        ],
+        solution: "\\(x\\ln x-x+C\\)。 · Thus the antiderivative is \\(x\\ln x-x+C\\).",
+        solutionLatex: "x\\ln x-x+C"
       },
       {
-        title: '例 3 · 定积分',
-        prompt: '求 \\(\\displaystyle\\int_{0}^{\\pi}x\\sin x\\,\\mathrm{d}x\\)。',
-        steps: ['取 \\(u=x\\)，\\(\\mathrm{d}v=\\sin x\\,\\mathrm{d}x\\)，则 \\(v=-\\cos x\\)。', '\\(\\left[-x\\cos x\\right]_{0}^{\\pi}+\\int_{0}^{\\pi}\\cos x\\,\\mathrm{d}x\\)。', '\\(=\\pi+\\left[\\sin x\\right]_{0}^{\\pi}=\\pi\\)。'],
-        solution: '\\(\\pi\\)。',
-        solutionLatex: '\\pi',
-      },
+        title: "例 3 · 定积分 · Definite Integral",
+        prompt: "求 \\(\\displaystyle\\int_{0}^{\\pi}x\\sin x\\,\\mathrm{d}x\\)。 · Evaluate \\(\\displaystyle\\int_{0}^{\\pi}x\\sin x\\,\\mathrm{d}x\\).",
+        steps: [
+          "取 \\(u=x\\)，\\(\\mathrm{d}v=\\sin x\\,\\mathrm{d}x\\)，则 \\(v=-\\cos x\\)。 · Take \\(u=x\\) and \\(\\mathrm{d}v=\\sin x\\,\\mathrm{d}x\\), so \\(v=-\\cos x\\).",
+          "\\(\\left[-x\\cos x\\right]_{0}^{\\pi}+\\int_{0}^{\\pi}\\cos x\\,\\mathrm{d}x\\)。 · Apply the limits and the remaining integral: \\(\\left[-x\\cos x\\right]_{0}^{\\pi}+\\int_{0}^{\\pi}\\cos x\\,\\mathrm{d}x\\).",
+          "\\(=\\pi+\\left[\\sin x\\right]_{0}^{\\pi}=\\pi\\)。 · So the value is \\(\\pi+\\left[\\sin x\\right]_{0}^{\\pi}=\\pi\\)."
+        ],
+        solution: "\\(\\pi\\)。 · The value is \\(\\pi\\).",
+        solutionLatex: "\\pi"
+      }
     ],
     examTips: [
-      'CED Unit 6：分部积分',
-      '按 LIATE 选 \\(u\\)，剩下的作 \\(\\mathrm{d}v\\)',
-      '写清 \\(\\mathrm{d}u\\) 与 \\(v\\)，再代入公式',
-      '循环积分两次后移项',
-      '定积分先求原函数，再代上下限',
+      "CED Unit 6：分部积分 · CED Unit 6: Integration by parts",
+      "按 LIATE 选 \\(u\\)，剩下的作 \\(\\mathrm{d}v\\) · Choose \\(u\\) by LIATE and let the rest be \\(\\mathrm{d}v\\).",
+      "写清 \\(\\mathrm{d}u\\) 与 \\(v\\)，再代入公式 · Write \\(\\mathrm{d}u\\) and \\(v\\) explicitly before substituting into the formula.",
+      "循环积分两次后移项 · For a repeating integral, apply the rule twice and rearrange.",
+      "定积分先求原函数，再代上下限 · For a definite integral, find the antiderivative first, then substitute the limits."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u6', code: '6.9', title: '换元积分法', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.11', title: '部分分式', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.13', title: '积分技巧选择', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.9",
+        title: "换元积分法 · Integration by Substitution",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.11",
+        title: "部分分式 · Partial Fractions",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.13",
+        title: "积分技巧选择 · Choosing Integration Techniques",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['乘积求导的逆', 'LIATE 选 \\(u\\)', '一次分部积分', '循环与多次', '定积分版本'],
-    checks: ['如何选择 \\(u\\) 与 \\(\\mathrm{d}v\\)？', '分部积分公式的负号从哪里来？', '循环积分如何求解？'],
-    summary: '分部积分把 \\(\\int u\\,\\mathrm{d}v\\) 换成 \\(uv-\\int v\\,\\mathrm{d}u\\)；选 \\(u\\) 让导数更简单，必要时多次或移项。',
+    development: [
+      "乘积求导的逆 · Reverse of the product rule",
+      "LIATE 选 \\(u\\) · Choosing \\(u\\) with LIATE",
+      "一次分部积分 · One application of integration by parts",
+      "循环与多次 · Repeating and cyclic integrals",
+      "定积分版本 · Definite-integral version"
+    ],
+    checks: [
+      "如何选择 \\(u\\) 与 \\(\\mathrm{d}v\\)？ · How should \\(u\\) and \\(\\mathrm{d}v\\) be chosen?",
+      "分部积分公式的负号从哪里来？ · Where does the minus sign in the integration-by-parts formula come from?",
+      "循环积分如何求解？ · How is a cyclic integral solved?"
+    ],
+    summary: "分部积分把 \\(\\int u\\,\\mathrm{d}v\\) 换成 \\(uv-\\int v\\,\\mathrm{d}u\\)；选 \\(u\\) 让导数更简单，必要时多次或移项。 · Integration by parts replaces \\(\\int u\\,\\mathrm{d}v\\) with \\(uv-\\int v\\,\\mathrm{d}u\\); choose \\(u\\) so its derivative is simpler, and repeat or rearrange when necessary."
   },
-
   'math/calc-u7/7.6': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「可分离变量」的核心定义与适用条件。",
-      "能用分离变量形式分析并解决基础问题。",
-      "能识别“把 \\(\\mathrm{d}y\\) 与 \\(\\mathrm{d}x\\) 当作普通代数约分”等常见误用并纠正。"
+      "能识别可分离变量微分方程，并把变量分到两边。 · Identify separable differential equations and separate the variables.",
+      "能两边积分并用初始条件确定常数。 · Integrate both sides and use the initial condition to determine the constant.",
+      "能识别并纠正忽略平衡解等常见误用。 · Identify and correct common errors such as omitting equilibrium solutions."
     ],
     essentialKnowledge: [
-      "分离变量后两边积分",
-      "初始条件定 \\(C\\)",
-      "平衡解可能丢失",
-      "指数模型 \\(y=Ce^{kt}\\)",
-      "逻辑斯蒂模型用部分分式分离"
+      "分离变量后两边积分 · After separating variables, integrate both sides.",
+      "初始条件定 \\(C\\) · The initial condition determines \\(C\\).",
+      "平衡解可能丢失 · Equilibrium solutions may be lost during division.",
+      "指数模型 \\(y=Ce^{kt}\\) · Exponential model: \\(y=Ce^{kt}\\).",
+      "逻辑斯蒂模型用部分分式分离 · The logistic model is separated using partial fractions."
     ],
     connections: [
-      "相关：7.5 欧拉法",
-      "后续：7.7 特解",
-      "后续：7.8 指数模型"
+      "相关：7.5 欧拉法 · Related: 7.5 Euler’s method.",
+      "后续：7.7 特解 · Follow-up: 7.7 Particular solutions.",
+      "后续：7.8 指数模型 · Follow-up: 7.8 Exponential models."
     ],
-    definition: '可分离变量微分方程形如 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x)g(y)\\)。把含 \\(y\\) 的项移到一边、含 \\(x\\) 的项移到另一边：\\(\\dfrac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x\\)，两边积分，再由初始条件定常数。若 \\(g(y_0)=0\\)，则 \\(y=y_0\\) 是常数解，可能不在通解中。',
-    intuition: '把 \\(x\\) 和 \\(y\\) “各回各家”，两边分别积分；初始条件决定积分常数。',
-    intuitionDetailed: '分离变量后得到隐式解，能显式解出 \\(y\\) 时就写成 \\(y=\\dots\\)。指数增长/衰减 \\(y\'=ky\\) 与逻辑斯蒂方程都可由分离变量求解。注意积分常数与定义域；\\(\\ln|y|\\) 的去绝对值由初始条件符号决定。',
+    definition: "可分离变量微分方程形如 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x)g(y)\\)。把含 \\(y\\) 的项移到一边、含 \\(x\\) 的项移到另一边：\\(\\dfrac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x\\)，两边积分，再由初始条件定常数。若 \\(g(y_0)=0\\)，则 \\(y=y_0\\) 是常数解，可能不在通解中。 · A separable differential equation has the form \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x)g(y)\\). Move the \\(y\\)-terms to one side and the \\(x\\)-terms to the other: \\(\\dfrac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x\\), integrate both sides, and use the initial condition to determine the constant. If \\(g(y_0)=0\\), then \\(y=y_0\\) is a constant solution that may not appear in the general solution.",
+    intuition: "把 \\(x\\) 和 \\(y\\) “各回各家”，两边分别积分；初始条件决定积分常数。 · Send \\(x\\) and \\(y\\) to their own sides and integrate each side; the initial condition determines the constant of integration.",
+    intuitionDetailed: "分离变量后得到隐式解，能显式解出 \\(y\\) 时就写成 \\(y=\\dots\\)。指数增长/衰减 \\(y'=ky\\) 与逻辑斯蒂方程都可由分离变量求解。注意积分常数与定义域；\\(\\ln|y|\\) 的去绝对值由初始条件符号决定。 · Separation gives an implicit solution; if \\(y\\) can be solved for explicitly, write it as \\(y=\\dots\\). Exponential growth and decay \\(y'=ky\\) and the logistic equation can both be solved by separation. Pay attention to the constant of integration and the domain; the sign of the initial condition determines how the absolute value in \\(\\ln|y|\\) is removed.",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x', note: '分离变量形式。' },
-      { latex: '\\int\\dfrac{\\mathrm{d}y}{g(y)}=\\int f(x)\\,\\mathrm{d}x', note: '两边积分。' },
-      { latex: "y'=ky\\Rightarrow y=Ce^{kt}", note: '指数模型。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}y}{g(y)}=f(x)\\,\\mathrm{d}x",
+        note: "分离变量形式。 · Separated form."
+      },
+      {
+        latex: "\\int\\dfrac{\\mathrm{d}y}{g(y)}=\\int f(x)\\,\\mathrm{d}x",
+        note: "两边积分。 · Integrate both sides."
+      },
+      {
+        latex: "y'=ky\\Rightarrow y=Ce^{kt}",
+        note: "指数模型。 · Exponential model."
+      }
     ],
-    conditions: ['\\(g(y)\\neq0\\) 才能除以 \\(g(y)\\)', '常数解 \\(g(y)=0\\) 要单独检查', '初始条件用于确定常数', '积分后注意绝对值与定义域', '解曲线不能跨越 \\(g(y)=0\\) 的平衡解'],
-    keyPoints: ['分离变量后两边积分', '初始条件定 \\(C\\)', '平衡解可能丢失', '指数模型 \\(y=Ce^{kt}\\)', '逻辑斯蒂模型用部分分式分离'],
+    conditions: [
+      "\\(g(y)\\neq0\\) 才能除以 \\(g(y)\\) · Divide by \\(g(y)\\) only when \\(g(y)\\neq0\\).",
+      "常数解 \\(g(y)=0\\) 要单独检查 · Check the constant solutions \\(g(y)=0\\) separately.",
+      "初始条件用于确定常数 · Use the initial condition to determine the constant.",
+      "积分后注意绝对值与定义域 · Watch absolute values and the domain after integration.",
+      "解曲线不能跨越 \\(g(y)=0\\) 的平衡解 · A solution curve cannot cross an equilibrium solution where \\(g(y)=0\\)."
+    ],
+    keyPoints: [
+      "分离变量后两边积分 · After separating variables, integrate both sides.",
+      "初始条件定 \\(C\\) · The initial condition determines \\(C\\).",
+      "平衡解可能丢失 · Equilibrium solutions may be lost.",
+      "指数模型 \\(y=Ce^{kt}\\) · Exponential model: \\(y=Ce^{kt}\\).",
+      "逻辑斯蒂模型用部分分式分离 · The logistic model is separated using partial fractions."
+    ],
     misconceptions: [
-      '把 \\(\\mathrm{d}y\\) 与 \\(\\mathrm{d}x\\) 当作普通代数约分',
-      '忘记检查 \\(g(y)=0\\) 的常数解',
-      '积分后漏写常数 \\(C\\)',
-      '初始条件代入太早或太晚',
-      '去绝对值时忽略初始符号',
+      "把 \\(\\mathrm{d}y\\) 与 \\(\\mathrm{d}x\\) 当作普通代数约分 · Treating \\(\\mathrm{d}y\\) and \\(\\mathrm{d}x\\) as ordinary algebraic quantities that can be canceled.",
+      "忘记检查 \\(g(y)=0\\) 的常数解 · Forgetting to check the constant solutions \\(g(y)=0\\).",
+      "积分后漏写常数 \\(C\\) · Omitting the constant \\(C\\) after integration.",
+      "初始条件代入太早或太晚 · Substituting the initial condition too early or too late.",
+      "去绝对值时忽略初始符号 · Ignoring the sign of the initial condition when removing absolute values."
     ],
     examples: [
       {
-        title: '例 1 · 指数型',
-        prompt: '解 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=xy\\)。',
-        steps: ['分离：\\(\\dfrac{\\mathrm{d}y}{y}=x\\,\\mathrm{d}x\\)（\\(y\\neq0\\)）。', '积分：\\(\\ln|y|=\\dfrac{x^{2}}{2}+C\\)。', '取指数：\\(y=Ce^{x^{2}/2}\\)。'],
-        solution: '\\(y=Ce^{x^{2}/2}\\)，另有常数解 \\(y=0\\)。',
-        solutionLatex: 'y=Ce^{x^{2}/2}',
+        title: "例 1 · 指数型 · Exponential Type",
+        prompt: "解 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=xy\\)。 · Solve \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=xy\\).",
+        steps: [
+          "分离：\\(\\dfrac{\\mathrm{d}y}{y}=x\\,\\mathrm{d}x\\)（\\(y\\neq0\\)）。 · Separate: \\(\\dfrac{\\mathrm{d}y}{y}=x\\,\\mathrm{d}x\\) for \\(y\\neq0\\).",
+          "积分：\\(\\ln|y|=\\dfrac{x^{2}}{2}+C\\)。 · Integrate: \\(\\ln|y|=\\dfrac{x^{2}}{2}+C\\).",
+          "取指数：\\(y=Ce^{x^{2}/2}\\)。 · Exponentiate: \\(y=Ce^{x^{2}/2}\\)."
+        ],
+        solution: "\\(y=Ce^{x^{2}/2}\\)，另有常数解 \\(y=0\\)。 · \\(y=Ce^{x^{2}/2}\\), with the additional constant solution \\(y=0\\).",
+        solutionLatex: "y=Ce^{x^{2}/2}"
       },
       {
-        title: '例 2 · 初值问题',
-        prompt: '解 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{2x}{y}\\)，且 \\(y(0)=3\\)。',
-        steps: ['分离：\\(y\\,\\mathrm{d}y=2x\\,\\mathrm{d}x\\)。', '积分：\\(\\dfrac{y^{2}}{2}=x^{2}+C\\Rightarrow y^{2}=2x^{2}+C_1\\)。', '代入 \\(y(0)=3\\)：\\(9=C_1\\)，故 \\(y=\\sqrt{2x^{2}+9}\\)（取正支）。'],
-        solution: '\\(y=\\sqrt{2x^{2}+9}\\)。',
-        solutionLatex: 'y=\\sqrt{2x^{2}+9}',
+        title: "例 2 · 初值问题 · Initial-Value Problem",
+        prompt: "解 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{2x}{y}\\)，且 \\(y(0)=3\\)。 · Solve \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{2x}{y}\\) with \\(y(0)=3\\).",
+        steps: [
+          "分离：\\(y\\,\\mathrm{d}y=2x\\,\\mathrm{d}x\\)。 · Separate: \\(y\\,\\mathrm{d}y=2x\\,\\mathrm{d}x\\).",
+          "积分：\\(\\dfrac{y^{2}}{2}=x^{2}+C\\Rightarrow y^{2}=2x^{2}+C_1\\)。 · Integrate: \\(\\dfrac{y^{2}}{2}=x^{2}+C\\), so \\(y^{2}=2x^{2}+C_1\\).",
+          "代入 \\(y(0)=3\\)：\\(9=C_1\\)，故 \\(y=\\sqrt{2x^{2}+9}\\)（取正支）。 · Use \\(y(0)=3\\): \\(9=C_1\\), so \\(y=\\sqrt{2x^{2}+9}\\) (the positive branch)."
+        ],
+        solution: "\\(y=\\sqrt{2x^{2}+9}\\)。 · Thus \\(y=\\sqrt{2x^{2}+9}\\).",
+        solutionLatex: "y=\\sqrt{2x^{2}+9}"
       },
       {
-        title: '例 3 · 牛顿冷却',
-        prompt: '物体温度 \\(T(t)\\) 满足 \\(\\dfrac{\\mathrm{d}T}{\\mathrm{d}t}=-k(T-20)\\)，初始温度 \\(T(0)=T_0\\)。求 \\(T(t)\\)。',
-        steps: ['令 \\(u=T-20\\)，则 \\(\\dfrac{\\mathrm{d}u}{\\mathrm{d}t}=-ku\\)。', '分离积分：\\(u=Ce^{-kt}\\)。', '初始条件：\\(C=T_0-20\\)。'],
-        solution: '\\(T(t)=20+(T_0-20)e^{-kt}\\)。',
-        solutionLatex: 'T(t)=20+(T_0-20)e^{-kt}',
-      },
+        title: "例 3 · 牛顿冷却 · Newton Cooling",
+        prompt: "物体温度 \\(T(t)\\) 满足 \\(\\dfrac{\\mathrm{d}T}{\\mathrm{d}t}=-k(T-20)\\)，初始温度 \\(T(0)=T_0\\)。求 \\(T(t)\\)。 · An object’s temperature \\(T(t)\\) satisfies \\(\\dfrac{\\mathrm{d}T}{\\mathrm{d}t}=-k(T-20)\\), with initial temperature \\(T(0)=T_0\\). Find \\(T(t)\\).",
+        steps: [
+          "令 \\(u=T-20\\)，则 \\(\\dfrac{\\mathrm{d}u}{\\mathrm{d}t}=-ku\\)。 · Let \\(u=T-20\\); then \\(\\dfrac{\\mathrm{d}u}{\\mathrm{d}t}=-ku\\).",
+          "分离积分：\\(u=Ce^{-kt}\\)。 · Separate and integrate: \\(u=Ce^{-kt}\\).",
+          "初始条件：\\(C=T_0-20\\)。 · Apply the initial condition: \\(C=T_0-20\\)."
+        ],
+        solution: "\\(T(t)=20+(T_0-20)e^{-kt}\\)。 · Thus \\(T(t)=20+(T_0-20)e^{-kt}\\).",
+        solutionLatex: "T(t)=20+(T_0-20)e^{-kt}"
+      }
     ],
     examTips: [
-      'CED Unit 7：微分方程',
-      '先分离，再积分，最后代初值',
-      '别漏平衡解',
-      '解出 \\(y\\) 时注意正负支与定义域',
-      '用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 验证解',
+      "CED Unit 7：微分方程 · CED Unit 7: Differential equations",
+      "先分离，再积分，最后代初值 · Separate first, integrate second, and substitute the initial value last.",
+      "别漏平衡解 · Do not omit equilibrium solutions.",
+      "解出 \\(y\\) 时注意正负支与定义域 · When solving for \\(y\\), pay attention to the positive and negative branches and the domain.",
+      "用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 验证解 · Verify the solution by differentiating it."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u7', code: '7.5', title: '欧拉法', relation: '相关' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.7', title: '特解', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u7', code: '7.8', title: '指数模型', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.5",
+        title: "欧拉法 · Euler’s Method",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.7",
+        title: "特解 · Particular Solutions",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u7",
+        code: "7.8",
+        title: "指数模型 · Exponential Models",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['分离变量', '两边积分', '初始条件', '平衡解', '指数与逻辑斯蒂模型'],
-    checks: ['分离变量时为什么要单独检查 \\(g(y)=0\\)？', '初始条件在哪一步使用？', '如何验证微分方程的解？'],
-    summary: '可分离变量方程把 \\(x\\) 与 \\(y\\) 分到两边积分，初始条件定常数；注意平衡解与定义域。',
+    development: [
+      "分离变量 · Separating variables",
+      "两边积分 · Integrating both sides",
+      "初始条件 · Initial conditions",
+      "平衡解 · Equilibrium solutions",
+      "指数与逻辑斯蒂模型 · Exponential and logistic models"
+    ],
+    checks: [
+      "分离变量时为什么要单独检查 \\(g(y)=0\\)？ · Why check \\(g(y)=0\\) separately when separating variables?",
+      "初始条件在哪一步使用？ · At which step is the initial condition used?",
+      "如何验证微分方程的解？ · How can a solution of a differential equation be verified?"
+    ],
+    summary: "可分离变量方程把 \\(x\\) 与 \\(y\\) 分到两边积分，初始条件定常数；注意平衡解与定义域。 · A separable equation puts \\(x\\) and \\(y\\) on opposite sides, integrates both sides, and uses the initial condition to determine the constant; watch for equilibrium solutions and the domain."
   },
-
   'math/calc-u8/8.4': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「曲线间面积」的核心定义与适用条件。",
-      "能用\\(f\\) 在上、\\(g\\) 在下分析并解决基础问题。",
-      "能识别“不判断上下就直接相减，得到负面积”等常见误用并纠正。"
+      "能建立两曲线间面积的定积分，并正确判断上下曲线。 · Set up a definite integral for the area between two curves and identify the upper and lower curves correctly.",
+      "能在曲线交叉时分段积分，或改用对 \\(y\\) 积分。 · Split the integral where curves cross, or switch to integrating with respect to \\(y\\).",
+      "能识别并纠正上下写反、交点求错等常见误用。 · Identify and correct common errors such as reversing upper and lower curves or finding intersections incorrectly."
     ],
     essentialKnowledge: [
-      "面积 = 上减下",
-      "先求交点",
-      "对 \\(y\\) 积分可简化某些区域",
-      "分段处理交叉",
-      "面积结果应为正"
+      "面积 = 上减下 · Area equals upper minus lower.",
+      "先求交点 · Find the intersection points first.",
+      "对 \\(y\\) 积分可简化某些区域 · Integrating with respect to \\(y\\) can simplify some regions.",
+      "分段处理交叉 · Split the interval where the curves cross.",
+      "面积结果应为正 · The area must be positive."
     ],
     connections: [
-      "先修：6.7 定积分求值",
-      "后续：8.5 曲线间面积 y",
-      "后续：8.7 旋转体体积盘法"
+      "先修：6.7 定积分求值 · Prerequisite: 6.7 Evaluating definite integrals.",
+      "后续：8.5 曲线间面积 y · Follow-up: 8.5 Area between curves as functions of \\(y\\).",
+      "后续：8.7 旋转体体积盘法 · Follow-up: 8.7 Volumes of revolution by the disk method."
     ],
-    definition: '两曲线之间的面积等于上曲线减下曲线在区间上的定积分：\\(A=\\displaystyle\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x\\)（要求 \\(f\\ge g\\)）。若上下关系改变，要分段积分或加绝对值。也可对 \\(y\\) 积分：\\(A=\\displaystyle\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y\\)。',
-    intuition: '把区域切成竖条，每一条的高度是“上减下”，宽度是 \\(\\mathrm{d}x\\)；积分就是把这些竖条面积加起来。',
-    intuitionDetailed: '先求交点确定积分限，再判断哪条曲线在上。若两曲线多次相交，要在每个子区间分别写“上减下”。对 \\(y\\) 积分时，右曲线减左曲线，适合 \\(x\\) 是 \\(y\\) 的函数更简单的情形。',
+    definition: "两曲线之间的面积等于上曲线减下曲线在区间上的定积分：\\(A=\\displaystyle\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x\\)（要求 \\(f\\ge g\\)）。若上下关系改变，要分段积分或加绝对值。也可对 \\(y\\) 积分：\\(A=\\displaystyle\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y\\)。 · The area between two curves equals the definite integral of the upper curve minus the lower curve over the interval: \\(A=\\displaystyle\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x\\), provided \\(f\\ge g\\). If the upper-lower relationship changes, split the integral or use absolute value. One may also integrate with respect to \\(y\\): \\(A=\\displaystyle\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y\\).",
+    intuition: "把区域切成竖条，每一条的高度是“上减下”，宽度是 \\(\\mathrm{d}x\\)；积分就是把这些竖条面积加起来。 · Slice the region into vertical strips whose height is “upper minus lower” and whose width is \\(\\mathrm{d}x\\); the integral adds the areas of these strips.",
+    intuitionDetailed: "先求交点确定积分限，再判断哪条曲线在上。若两曲线多次相交，要在每个子区间分别写“上减下”。对 \\(y\\) 积分时，右曲线减左曲线，适合 \\(x\\) 是 \\(y\\) 的函数更简单的情形。 · First find the intersection points to determine the limits, then decide which curve is on top. If the curves cross several times, write “upper minus lower” separately on each subinterval. When integrating with respect to \\(y\\), subtract the left curve from the right curve; this is convenient when \\(x\\) is a simpler function of \\(y\\).",
     formulas: [
-      { latex: 'A=\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x', note: '\\(f\\) 在上、\\(g\\) 在下。' },
-      { latex: 'A=\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y', note: '对 \\(y\\) 积分。' },
-      { latex: 'A=\\int_{a}^{b}\\left|f(x)-g(x)\\right|\\mathrm{d}x', note: '上下关系变化时的统一写法。' },
+      {
+        latex: "A=\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x",
+        note: "\\(f\\) 在上、\\(g\\) 在下。 · \\(f\\) is above and \\(g\\) is below."
+      },
+      {
+        latex: "A=\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y",
+        note: "对 \\(y\\) 积分。 · Integrating with respect to \\(y\\)."
+      },
+      {
+        latex: "A=\\int_{a}^{b}\\left|f(x)-g(x)\\right|\\mathrm{d}x",
+        note: "上下关系变化时的统一写法。 · Unified form when the upper-lower relationship changes."
+      }
     ],
-    conditions: ['曲线在区间上连续', '积分限由交点或题目给定', '必须先判断上下（或左右）关系', '上下关系改变时分段', '面积非负，定积分可能为负（表示有向面积）'],
-    keyPoints: ['面积 = 上减下', '先求交点', '对 \\(y\\) 积分可简化某些区域', '分段处理交叉', '面积结果应为正'],
+    conditions: [
+      "曲线在区间上连续 · The curves are continuous on the interval.",
+      "积分限由交点或题目给定 · The limits come from intersection points or are given in the problem.",
+      "必须先判断上下（或左右）关系 · Determine which curve is upper or lower (or left or right) first.",
+      "上下关系改变时分段 · Split the interval where the relationship changes.",
+      "面积非负，定积分可能为负（表示有向面积） · Area is nonnegative, but a definite integral can be negative (signed area)."
+    ],
+    keyPoints: [
+      "面积 = 上减下 · Area equals upper minus lower.",
+      "先求交点 · Find the intersection points first.",
+      "对 \\(y\\) 积分可简化某些区域 · Integrating with respect to \\(y\\) can simplify some regions.",
+      "分段处理交叉 · Split the integral where the curves cross.",
+      "面积结果应为正 · The area result should be positive."
+    ],
     misconceptions: [
-      '不判断上下就直接相减，得到负面积',
-      '交点求错导致积分限错误',
-      '两曲线多次相交仍用一个积分',
-      '对 \\(y\\) 积分时把左右弄反',
-      '把定积分的有向面积当作几何面积',
+      "不判断上下就直接相减，得到负面积 · Subtracting without checking which curve is on top, which can give a negative area.",
+      "交点求错导致积分限错误 · Finding intersections incorrectly, leading to wrong limits.",
+      "两曲线多次相交仍用一个积分 · Using one integral when the curves cross several times.",
+      "对 \\(y\\) 积分时把左右弄反 · Reversing left and right when integrating with respect to \\(y\\).",
+      "把定积分的有向面积当作几何面积 · Treating the signed area of a definite integral as geometric area."
     ],
     examples: [
       {
-        title: '例 1 · 抛物线与直线',
-        prompt: '求 \\(y=x\\) 与 \\(y=x^{2}\\) 在 \\([0,1]\\) 之间围成的面积。',
-        steps: ['在 \\((0,1)\\) 上 \\(x\\ge x^{2}\\)。', '\\(A=\\int_{0}^{1}(x-x^{2})\\,\\mathrm{d}x\\)。', '\\(=\\left[\\dfrac{x^{2}}{2}-\\dfrac{x^{3}}{3}\\right]_{0}^{1}=\\dfrac{1}{2}-\\dfrac{1}{3}=\\dfrac{1}{6}\\)。'],
-        solution: '\\(A=\\dfrac{1}{6}\\)。',
-        solutionLatex: 'A=\\dfrac{1}{6}',
+        title: "例 1 · 抛物线与直线 · Parabola and Line",
+        prompt: "求 \\(y=x\\) 与 \\(y=x^{2}\\) 在 \\([0,1]\\) 之间围成的面积。 · Find the area enclosed by \\(y=x\\) and \\(y=x^{2}\\) on \\([0,1]\\).",
+        steps: [
+          "在 \\((0,1)\\) 上 \\(x\\ge x^{2}\\)。 · On \\((0,1)\\), \\(x\\ge x^{2}\\).",
+          "\\(A=\\int_{0}^{1}(x-x^{2})\\,\\mathrm{d}x\\)。 · Set up the integral: \\(A=\\int_{0}^{1}(x-x^{2})\\,\\mathrm{d}x\\).",
+          "\\(=\\left[\\dfrac{x^{2}}{2}-\\dfrac{x^{3}}{3}\\right]_{0}^{1}=\\dfrac{1}{2}-\\dfrac{1}{3}=\\dfrac{1}{6}\\)。 · Evaluate: \\(\\left[\\dfrac{x^{2}}{2}-\\dfrac{x^{3}}{3}\\right]_{0}^{1}=\\dfrac{1}{2}-\\dfrac{1}{3}=\\dfrac{1}{6}\\)."
+        ],
+        solution: "\\(A=\\dfrac{1}{6}\\)。 · Thus \\(A=\\dfrac{1}{6}\\).",
+        solutionLatex: "A=\\dfrac{1}{6}"
       },
       {
-        title: '例 2 · 曲线与 x 轴',
-        prompt: '求 \\(y=x^{2}-4\\) 与 \\(x\\) 轴围成的面积。',
-        steps: ['交点 \\(x=\\pm2\\)；在区间内曲线在 \\(x\\) 轴下方。', '\\(A=\\int_{-2}^{2}\\left[0-(x^{2}-4)\\right]\\mathrm{d}x=\\int_{-2}^{2}(4-x^{2})\\,\\mathrm{d}x\\)。', '\\(=\\left[4x-\\dfrac{x^{3}}{3}\\right]_{-2}^{2}=\\dfrac{32}{3}\\)。'],
-        solution: '\\(A=\\dfrac{32}{3}\\)。',
-        solutionLatex: 'A=\\dfrac{32}{3}',
+        title: "例 2 · 曲线与 x 轴 · Curve and the x-Axis",
+        prompt: "求 \\(y=x^{2}-4\\) 与 \\(x\\) 轴围成的面积。 · Find the area enclosed by \\(y=x^{2}-4\\) and the \\(x\\)-axis.",
+        steps: [
+          "交点 \\(x=\\pm2\\)；在区间内曲线在 \\(x\\) 轴下方。 · The intersections are at \\(x=\\pm2\\); the curve lies below the \\(x\\)-axis on this interval.",
+          "\\(A=\\int_{-2}^{2}\\left[0-(x^{2}-4)\\right]\\mathrm{d}x=\\int_{-2}^{2}(4-x^{2})\\,\\mathrm{d}x\\)。 · Set up the integral: \\(A=\\int_{-2}^{2}\\left[0-(x^{2}-4)\\right]\\mathrm{d}x=\\int_{-2}^{2}(4-x^{2})\\,\\mathrm{d}x\\).",
+          "\\(=\\left[4x-\\dfrac{x^{3}}{3}\\right]_{-2}^{2}=\\dfrac{32}{3}\\)。 · Evaluate: \\(\\left[4x-\\dfrac{x^{3}}{3}\\right]_{-2}^{2}=\\dfrac{32}{3}\\)."
+        ],
+        solution: "\\(A=\\dfrac{32}{3}\\)。 · Thus \\(A=\\dfrac{32}{3}\\).",
+        solutionLatex: "A=\\dfrac{32}{3}"
       },
       {
-        title: '例 3 · 对 y 积分',
-        prompt: '求 \\(x=y^{2}\\) 与 \\(x=y+2\\) 围成的面积。',
-        steps: ['交点：\\(y^{2}=y+2\\Rightarrow y=-1,2\\)。', '右曲线 \\(x=y+2\\)，左曲线 \\(x=y^{2}\\)。', '\\(A=\\int_{-1}^{2}(y+2-y^{2})\\,\\mathrm{d}y=\\dfrac{9}{2}\\)。'],
-        solution: '\\(A=\\dfrac{9}{2}\\)。',
-        solutionLatex: 'A=\\dfrac{9}{2}',
-      },
+        title: "例 3 · 对 y 积分 · Integrating with Respect to y",
+        prompt: "求 \\(x=y^{2}\\) 与 \\(x=y+2\\) 围成的面积。 · Find the area enclosed by \\(x=y^{2}\\) and \\(x=y+2\\).",
+        steps: [
+          "交点：\\(y^{2}=y+2\\Rightarrow y=-1,2\\)。 · Intersections: \\(y^{2}=y+2\\), so \\(y=-1,2\\).",
+          "右曲线 \\(x=y+2\\)，左曲线 \\(x=y^{2}\\)。 · The right curve is \\(x=y+2\\), and the left curve is \\(x=y^{2}\\).",
+          "\\(A=\\int_{-1}^{2}(y+2-y^{2})\\,\\mathrm{d}y=\\dfrac{9}{2}\\)。 · Evaluate the integral: \\(A=\\int_{-1}^{2}(y+2-y^{2})\\,\\mathrm{d}y=\\dfrac{9}{2}\\)."
+        ],
+        solution: "\\(A=\\dfrac{9}{2}\\)。 · Thus \\(A=\\dfrac{9}{2}\\).",
+        solutionLatex: "A=\\dfrac{9}{2}"
+      }
     ],
     examTips: [
-      'CED Unit 8：积分应用',
-      '先求交点，再画草图判断上下',
-      '对 \\(y\\) 积分时用“右减左”',
-      '交叉区域要分段',
-      '答案应为正；负值说明上下写反',
+      "CED Unit 8：积分应用 · CED Unit 8: Applications of integration",
+      "先求交点，再画草图判断上下 · Find the intersections first, then sketch to decide which curve is on top.",
+      "对 \\(y\\) 积分时用“右减左” · When integrating with respect to \\(y\\), use “right minus left.”",
+      "交叉区域要分段 · Split the region where the curves cross.",
+      "答案应为正；负值说明上下写反 · The answer should be positive; a negative value means the order was reversed."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u6', code: '6.7', title: '定积分求值', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u8', code: '8.5', title: '曲线间面积 y', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u8', code: '8.7', title: '旋转体体积盘法', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.7",
+        title: "定积分求值 · Evaluating Definite Integrals",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u8",
+        code: "8.5",
+        title: "曲线间面积 y · Area Between Curves as Functions of y",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u8",
+        code: "8.7",
+        title: "旋转体体积盘法 · Volumes of Revolution by the Disk Method",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['竖条模型', '交点与积分限', '上下关系', '对 \\(y\\) 积分', '分段面积'],
-    checks: ['为什么面积要用“上减下”？', '两曲线交叉时如何处理？', '什么时候对 \\(y\\) 积分更方便？'],
-    summary: '两曲线间面积用上减下（或右减左）积分；先求交点，交叉时分段，结果应为正。',
+    development: [
+      "竖条模型 · Vertical-strip model",
+      "交点与积分限 · Intersections and limits",
+      "上下关系 · Upper-lower relationships",
+      "对 \\(y\\) 积分 · Integrating with respect to \\(y\\)",
+      "分段面积 · Piecewise areas"
+    ],
+    checks: [
+      "为什么面积要用“上减下”？ · Why is area computed as “upper minus lower”?",
+      "两曲线交叉时如何处理？ · What should be done when the curves cross?",
+      "什么时候对 \\(y\\) 积分更方便？ · When is integrating with respect to \\(y\\) more convenient?"
+    ],
+    summary: "两曲线间面积用上减下（或右减左）积分；先求交点，交叉时分段，结果应为正。 · The area between two curves is the integral of upper minus lower (or right minus left); find the intersections first, split where the curves cross, and expect a positive result."
   },
-
   'math/calc-u9/9.1': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      "能陈述「参数运动导数」的核心定义与适用条件。",
-      "能用参数曲线斜率分析并解决基础问题。",
-      "能识别“把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)”等常见误用并纠正。"
+      "能由参数方程求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 与 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)。 · Find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) and \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) from parametric equations.",
+      "能用参数导数求切线、水平切线与竖直切线。 · Use parametric derivatives to find tangent lines, horizontal tangents, and vertical tangents.",
+      "能识别并纠正把二阶导数直接相除等常见误用。 · Identify and correct common errors such as dividing second derivatives directly."
     ],
     essentialKnowledge: [
-      "\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比",
-      "二阶导数不是二阶导数之比",
-      "水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\)",
-      "竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\)",
-      "速率用勾股定理合成"
+      "\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比 · \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of two rates of change.",
+      "二阶导数不是二阶导数之比 · The second derivative is not the ratio of second derivatives.",
+      "水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\) · Horizontal tangent: \\(\\mathrm{d}y/\\mathrm{d}t=0\\).",
+      "竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\) · Vertical tangent: \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "速率用勾股定理合成 · Speed is found from the Pythagorean combination of velocity components."
     ],
     connections: [
-      "后续：9.2 参数二阶导数",
-      "后续：9.3 参数弧长",
-      "先修：2.2 导数定义"
+      "后续：9.2 参数二阶导数 · Follow-up: 9.2 Second derivatives of parametric equations.",
+      "后续：9.3 参数弧长 · Follow-up: 9.3 Arc length of parametric curves.",
+      "先修：2.2 导数定义 · Prerequisite: 2.2 Definition of the derivative."
     ],
-    definition: '参数曲线由 \\(x=x(t)\\)、\\(y=y(t)\\) 给出。若 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\)，则 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}\\)。速度矢量为 \\(\\langle x\'(t),y\'(t)\\rangle\\)，速率为 \\(\\sqrt{[x\'(t)]^{2}+[y\'(t)]^{2}}\\)。',
-    intuition: '参数 \\(t\\) 像时间：\\(x\\) 与 \\(y\\) 各自随时间变化，\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两者变化率之比，也就是轨迹斜率。',
-    intuitionDetailed: '求二阶导数时不能把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作答案；正确做法是先求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，再对 \\(t\\) 求导，最后除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。水平切线对应 \\(\\mathrm{d}y/\\mathrm{d}t=0\\) 且 \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\)；竖直切线对应 \\(\\mathrm{d}x/\\mathrm{d}t=0\\)。',
+    definition: "参数曲线由 \\(x=x(t)\\)、\\(y=y(t)\\) 给出。若 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\)，则 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}\\)。速度矢量为 \\(\\langle x'(t),y'(t)\\rangle\\)，速率为 \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)。 · A parametric curve is given by \\(x=x(t)\\), \\(y=y(t)\\). If \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\), then \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}\\). The velocity vector is \\(\\langle x'(t),y'(t)\\rangle\\), and speed is \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\).",
+    intuition: "参数 \\(t\\) 像时间：\\(x\\) 与 \\(y\\) 各自随时间变化，\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两者变化率之比，也就是轨迹斜率。 · The parameter \\(t\\) is like time: \\(x\\) and \\(y\\) each change with time, and \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of their rates, which is the slope of the path.",
+    intuitionDetailed: "求二阶导数时不能把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作答案；正确做法是先求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，再对 \\(t\\) 求导，最后除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。水平切线对应 \\(\\mathrm{d}y/\\mathrm{d}t=0\\) 且 \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\)；竖直切线对应 \\(\\mathrm{d}x/\\mathrm{d}t=0\\)。 · Do not compute the second derivative as \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\). Instead, first find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\), differentiate it with respect to \\(t\\), and then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\). A horizontal tangent corresponds to \\(\\mathrm{d}y/\\mathrm{d}t=0\\) with \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\); a vertical tangent corresponds to \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
     formulas: [
-      { latex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}', note: '参数曲线斜率。' },
-      { latex: '\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\mathrm{d}x/\\mathrm{d}t}', note: '参数曲线二阶导数。' },
-      { latex: '\\vec v(t)=\\langle x\'(t),y\'(t)\\rangle,\\quad |\\vec v|=\\sqrt{[x\']^{2}+[y\']^{2}}', note: '速度矢量与速率。' },
+      {
+        latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}",
+        note: "参数曲线斜率。 · Slope of a parametric curve."
+      },
+      {
+        latex: "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\mathrm{d}x/\\mathrm{d}t}",
+        note: "参数曲线二阶导数。 · Second derivative of a parametric curve."
+      },
+      {
+        latex: "\\vec v(t)=\\langle x'(t),y'(t)\\rangle,\\quad |\\vec v|=\\sqrt{[x']^{2}+[y']^{2}}",
+        note: "速度矢量与速率。 · Velocity vector and speed."
+      }
     ],
-    conditions: ['\\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\) 才能用斜率公式', '参数区间明确', '二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\)', '水平/竖直切线分别看 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\)', '速率是标量，速度是矢量'],
-    keyPoints: ['\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比', '二阶导数不是二阶导数之比', '水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\)', '竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\)', '速率用勾股定理合成'],
+    conditions: [
+      "\\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\) 才能用斜率公式 · \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\) is required for the slope formula.",
+      "参数区间明确 · The parameter interval must be specified.",
+      "二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\) · For the second derivative, differentiate with respect to \\(t\\) first, then divide by \\(\\mathrm{d}x/\\mathrm{d}t\\).",
+      "水平/竖直切线分别看 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\) · Horizontal and vertical tangents use \\(\\mathrm{d}y/\\mathrm{d}t\\) and \\(\\mathrm{d}x/\\mathrm{d}t\\), respectively.",
+      "速率是标量，速度是矢量 · Speed is a scalar; velocity is a vector."
+    ],
+    keyPoints: [
+      "\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比 · \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of two rates of change.",
+      "二阶导数不是二阶导数之比 · The second derivative is not the ratio of second derivatives.",
+      "水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\) · Horizontal tangent: \\(\\mathrm{d}y/\\mathrm{d}t=0\\).",
+      "竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\) · Vertical tangent: \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "速率用勾股定理合成 · Speed is found from the Pythagorean combination of velocity components."
+    ],
     misconceptions: [
-      '把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)',
-      '忘记除以 \\(\\mathrm{d}x/\\mathrm{d}t\\)',
-      '在 \\(\\mathrm{d}x/\\mathrm{d}t=0\\) 处仍用斜率公式',
-      '把速度矢量与速率混为一谈',
-      '求切线时忘记代回 \\(t\\) 对应的点',
+      "把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) · Treating \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) as \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\).",
+      "忘记除以 \\(\\mathrm{d}x/\\mathrm{d}t\\) · Forgetting to divide by \\(\\mathrm{d}x/\\mathrm{d}t\\).",
+      "在 \\(\\mathrm{d}x/\\mathrm{d}t=0\\) 处仍用斜率公式 · Using the slope formula when \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "把速度矢量与速率混为一谈 · Confusing the velocity vector with speed.",
+      "求切线时忘记代回 \\(t\\) 对应的点 · Forgetting to substitute the parameter value when finding a tangent point."
     ],
     examples: [
       {
-        title: '例 1 · 斜率',
-        prompt: '曲线 \\(x=t^{2}\\)，\\(y=t^{3}\\)。求 \\(t=1\\) 处的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。',
-        steps: ['\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=3t^{2}\\)。', '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t^{2}}{2t}=\\dfrac{3t}{2}\\)。', '代入 \\(t=1\\)：\\(\\dfrac{3}{2}\\)。'],
-        solution: '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3}{2}\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3}{2}',
+        title: "例 1 · 斜率 · Slope",
+        prompt: "曲线 \\(x=t^{2}\\)，\\(y=t^{3}\\)。求 \\(t=1\\) 处的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。 · For the curve \\(x=t^{2}\\), \\(y=t^{3}\\), find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) at \\(t=1\\).",
+        steps: [
+          "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=3t^{2}\\)。 · Differentiate each coordinate: \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\), \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=3t^{2}\\).",
+          "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t^{2}}{2t}=\\dfrac{3t}{2}\\)。 · Divide the derivatives: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t^{2}}{2t}=\\dfrac{3t}{2}\\).",
+          "代入 \\(t=1\\)：\\(\\dfrac{3}{2}\\)。 · At \\(t=1\\): \\(\\dfrac{3}{2}\\)."
+        ],
+        solution: "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3}{2}\\)。 · Thus \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3}{2}\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3}{2}"
       },
       {
-        title: '例 2 · 圆',
-        prompt: '曲线 \\(x=\\cos t\\)，\\(y=\\sin t\\)。求 \\(t=\\dfrac{\\pi}{4}\\) 处的切线斜率。',
-        steps: ['\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\sin t\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=\\cos t\\)。', '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\cot t\\)。', '代入 \\(t=\\dfrac{\\pi}{4}\\)：\\(-1\\)。'],
-        solution: '斜率为 \\(-1\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-1',
+        title: "例 2 · 圆 · Circle",
+        prompt: "曲线 \\(x=\\cos t\\)，\\(y=\\sin t\\)。求 \\(t=\\dfrac{\\pi}{4}\\) 处的切线斜率。 · For the curve \\(x=\\cos t\\), \\(y=\\sin t\\), find the tangent slope at \\(t=\\dfrac{\\pi}{4}\\).",
+        steps: [
+          "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\sin t\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=\\cos t\\)。 · Differentiate each coordinate: \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=-\\sin t\\), \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=\\cos t\\).",
+          "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\cot t\\)。 · Divide the derivatives: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\cot t\\).",
+          "代入 \\(t=\\dfrac{\\pi}{4}\\)：\\(-1\\)。 · At \\(t=\\dfrac{\\pi}{4}\\): \\(-1\\)."
+        ],
+        solution: "斜率为 \\(-1\\)。 · The slope is \\(-1\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-1"
       },
       {
-        title: '例 3 · 二阶导数',
-        prompt: '对 \\(x=t^{2}\\)，\\(y=t^{3}\\) 求 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)。',
-        steps: ['已求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t}{2}\\)。', '对 \\(t\\) 求导：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{3t}{2}\\right)=\\dfrac{3}{2}\\)。', '除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\)：\\(\\dfrac{3}{4t}\\)。'],
-        solution: '\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{4t}\\)。',
-        solutionLatex: '\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{4t}',
-      },
+        title: "例 3 · 二阶导数 · Second Derivative",
+        prompt: "对 \\(x=t^{2}\\)，\\(y=t^{3}\\) 求 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)。 · For \\(x=t^{2}\\), \\(y=t^{3}\\), find \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\).",
+        steps: [
+          "已求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t}{2}\\)。 · We already found \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{3t}{2}\\).",
+          "对 \\(t\\) 求导：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{3t}{2}\\right)=\\dfrac{3}{2}\\)。 · Differentiate with respect to \\(t\\): \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{3t}{2}\\right)=\\dfrac{3}{2}\\).",
+          "除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\)：\\(\\dfrac{3}{4t}\\)。 · Divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=2t\\): \\(\\dfrac{3}{4t}\\)."
+        ],
+        solution: "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{4t}\\)。 · Thus \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{4t}\\).",
+        solutionLatex: "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{4t}"
+      }
     ],
     examTips: [
-      'CED Unit 9：参数、极坐标与向量',
-      '先分别求 \\(x\'(t)\\)、\\(y\'(t)\\)，再写比值',
-      '二阶导数按“先对 \\(t\\) 求导，再除以 \\(x\'(t)\\)”',
-      '切线题先求 \\(t\\) 对应的点',
-      '水平/竖直切线分别令 \\(y\'=0\\)、\\(x\'=0\\)',
+      "CED Unit 9：参数、极坐标与向量 · CED Unit 9: Parametric, polar, and vector-valued functions",
+      "先分别求 \\(x'(t)\\)、\\(y'(t)\\)，再写比值 · Find \\(x'(t)\\) and \\(y'(t)\\) separately, then write their ratio.",
+      "二阶导数按“先对 \\(t\\) 求导，再除以 \\(x'(t)\\)” · For the second derivative, differentiate with respect to \\(t\\) first, then divide by \\(x'(t)\\).",
+      "切线题先求 \\(t\\) 对应的点 · For tangent-line problems, find the point corresponding to the parameter value first.",
+      "水平/竖直切线分别令 \\(y'=0\\)、\\(x'=0\\) · Horizontal and vertical tangents use \\(y'=0\\) and \\(x'=0\\), respectively."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u9', code: '9.2', title: '参数二阶导数', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u9', code: '9.3', title: '参数弧长', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u2', code: '2.2', title: '导数定义', relation: '先修' },
+      {
+        subject: "math",
+        chapterId: "calc-u9",
+        code: "9.2",
+        title: "参数二阶导数 · Second Derivatives of Parametric Equations",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u9",
+        code: "9.3",
+        title: "参数弧长 · Arc Length of Parametric Curves",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.2",
+        title: "导数定义 · Definition of the Derivative",
+        relation: "先修 · Prerequisite"
+      }
     ],
-    development: ['参数曲线', '斜率公式', '速度与速率', '二阶导数', '水平/竖直切线'],
-    checks: ['参数曲线斜率为什么是比值？', '二阶导数为什么不能直接相除？', '水平切线与竖直切线的条件各是什么？'],
-    summary: '参数曲线斜率是 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\) 之比；二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\)。',
+    development: [
+      "参数曲线 · Parametric curves",
+      "斜率公式 · Slope formula",
+      "速度与速率 · Velocity and speed",
+      "二阶导数 · Second derivative",
+      "水平/竖直切线 · Horizontal and vertical tangents"
+    ],
+    checks: [
+      "参数曲线斜率为什么是比值？ · Why is the slope of a parametric curve a ratio?",
+      "二阶导数为什么不能直接相除？ · Why can the second derivative not be computed by direct division?",
+      "水平切线与竖直切线的条件各是什么？ · What are the conditions for horizontal and vertical tangents?"
+    ],
+    summary: "参数曲线斜率是 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\) 之比；二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\)。 · The slope of a parametric curve is the ratio of \\(\\mathrm{d}y/\\mathrm{d}t\\) to \\(\\mathrm{d}x/\\mathrm{d}t\\); the second derivative requires differentiating with respect to \\(t\\) first, then dividing by \\(\\mathrm{d}x/\\mathrm{d}t\\)."
   },
-
   'math/calc-u10/10.11': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能写出函数在 \\(x=a\\) 处的 \\(n\\) 次泰勒多项式，并说明系数 \\(f^{(k)}(a)/k!\\) 的来源。',
-      '能用常见麦克劳林展开近似函数值，并判断展开点与阶数。',
-      '能用拉格朗日余项或下一项估计近似误差。',
+      "能写出函数在 \\(x=a\\) 处的 \\(n\\) 次泰勒多项式，并说明系数 \\(\\dfrac{f^{(k)}(a)}{k!}\\) 的来源。 · Write the \\(n\\)th-degree Taylor polynomial of a function at \\(x=a\\) and explain the origin of the coefficients \\(\\dfrac{f^{(k)}(a)}{k!}\\).",
+      "能用常见麦克劳林展开近似函数值，并判断展开点与阶数。 · Use common Maclaurin expansions to approximate function values and choose the expansion point and degree.",
+      "能用拉格朗日余项或下一项估计近似误差。 · Estimate approximation error using the Lagrange remainder or the next term."
     ],
     essentialKnowledge: [
-      '泰勒多项式的系数为 \\(f^{(k)}(a)/k!\\)；它在 \\(a\\) 处匹配函数值与直到 \\(n\\) 阶的导数。',
-      '麦克劳林多项式是 \\(a=0\\) 的特例；常见展开包括 \\(e^{x}\\)、\\(\\sin x\\)、\\(\\cos x\\) 与 \\(\\dfrac{1}{1-x}\\)。',
-      '泰勒多项式是局部近似；离展开点越远，误差通常越大。',
-      '误差可用拉格朗日余项 \\(\\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}\\) 估计。',
-      '无穷级数展开有收敛半径；泰勒多项式本身只在有限阶近似。',
+      "泰勒多项式的系数为 \\(\\dfrac{f^{(k)}(a)}{k!}\\)；它在 \\(a\\) 处匹配函数值与直到 \\(n\\) 阶的导数。 · The coefficients of a Taylor polynomial are \\(\\dfrac{f^{(k)}(a)}{k!}\\); it matches the function value and derivatives up to order \\(n\\) at \\(a\\).",
+      "麦克劳林多项式是 \\(a=0\\) 的特例；常见展开包括 \\(e^{x}\\)、\\(\\sin x\\)、\\(\\cos x\\) 与 \\(\\dfrac{1}{1-x}\\)。 · A Maclaurin polynomial is the special case \\(a=0\\); common expansions include \\(e^{x}\\), \\(\\sin x\\), \\(\\cos x\\), and \\(\\dfrac{1}{1-x}\\).",
+      "泰勒多项式是局部近似；离展开点越远，误差通常越大。 · A Taylor polynomial is a local approximation; error usually grows farther from the expansion point.",
+      "误差可用拉格朗日余项 \\(\\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}\\) 估计。 · Error can be estimated with the Lagrange remainder \\(\\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}\\).",
+      "无穷级数展开有收敛半径；泰勒多项式本身只在有限阶近似。 · Infinite series expansions have radii of convergence; a Taylor polynomial itself is only a finite-order approximation."
     ],
     derivationNotes: [
-      { from: '泰勒系数', to: '匹配导数', note: '系数 \\(\\dfrac{f^{(k)}(a)}{k!}\\) 使 \\(P_n\\) 在 \\(a\\) 处匹配各阶导数。' },
-      { from: '麦克劳林', to: '\\(a=0\\) 特例', note: '常见展开用于局部近似。' },
-      { from: '余项', to: '误差估计', note: '拉格朗日余项或下一项给出误差上界。' },
+      {
+        from: "泰勒系数 · Taylor coefficients",
+        to: "匹配导数 · Matching derivatives",
+        note: "系数 \\(\\dfrac{f^{(k)}(a)}{k!}\\) 使 \\(P_n\\) 在 \\(a\\) 处匹配各阶导数。 · The coefficient \\(\\dfrac{f^{(k)}(a)}{k!}\\) makes \\(P_n\\) match the derivatives up to order \\(n\\) at \\(a\\)."
+      },
+      {
+        from: "麦克劳林 · Maclaurin",
+        to: "\\(a=0\\) 特例 · Special case \\(a=0\\)",
+        note: "常见展开用于局部近似。 · Common expansions are used for local approximation."
+      },
+      {
+        from: "余项 · Remainder",
+        to: "误差估计 · Error estimate",
+        note: "拉格朗日余项或下一项给出误差上界。 · The Lagrange remainder or the next term gives an error bound."
+      }
     ],
     connections: [
-      '先修：10.10 交替级数误差。',
-      '后续：10.12 拉格朗日误差界与 10.13 收敛半径。',
-      '应用：计算器/物理中的小角近似与数值估算。',
+      "先修：10.10 交替级数误差。 · Prerequisite: 10.10 Alternating-series error.",
+      "后续：10.12 拉格朗日误差界与 10.13 收敛半径。 · Follow-up: 10.12 Lagrange error bounds and 10.13 radius of convergence.",
+      "应用：计算器/物理中的小角近似与数值估算。 · Application: small-angle approximations and numerical estimates in calculators and physics."
     ],
-    definition: '函数 \\(f\\) 在 \\(x=a\\) 处的 \\(n\\) 次泰勒多项式为 \\(P_n(x)=\\displaystyle\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}\\)，它匹配 \\(f\\) 在 \\(a\\) 处的函数值与直到 \\(n\\) 阶的导数。\\(a=0\\) 时称为麦克劳林多项式。泰勒多项式用于局部近似、估计函数值与分析误差。',
-    intuition: '泰勒多项式是“用多项式模仿函数在一点附近的行为”：常数项对齐函数值，一次项对齐斜率，二次项对齐弯曲程度，依此类推。',
-    intuitionDetailed: '常见展开：\\(e^{x}=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}+\\cdots\\)，\\(\\sin x=x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}-\\cdots\\)，\\(\\cos x=1-\\dfrac{x^{2}}{2!}+\\dfrac{x^{4}}{4!}-\\cdots\\)，\\(\\dfrac{1}{1-x}=1+x+x^{2}+\\cdots\\)（\\(|x|<1\\)）。多项式次数越高，通常在展开点附近越精确，但远离展开点可能迅速变差。',
+    definition: "函数 \\(f\\) 在 \\(x=a\\) 处的 \\(n\\) 次泰勒多项式为 \\(P_n(x)=\\displaystyle\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}\\)，它匹配 \\(f\\) 在 \\(a\\) 处的函数值与直到 \\(n\\) 阶的导数。\\(a=0\\) 时称为麦克劳林多项式。泰勒多项式用于局部近似、估计函数值与分析误差。 · The \\(n\\)th-degree Taylor polynomial of \\(f\\) at \\(x=a\\) is \\(P_n(x)=\\displaystyle\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}\\), and it matches the function value and derivatives up to order \\(n\\) at \\(a\\). When \\(a=0\\), it is called a Maclaurin polynomial. Taylor polynomials are used for local approximation, estimating function values, and analyzing error.",
+    intuition: "泰勒多项式是“用多项式模仿函数在一点附近的行为”：常数项对齐函数值，一次项对齐斜率，二次项对齐弯曲程度，依此类推。 · A Taylor polynomial imitates a function near a point using a polynomial: the constant term matches the function value, the linear term matches the slope, the quadratic term matches the curvature, and so on.",
+    intuitionDetailed: "常见展开：\\(e^{x}=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}+\\cdots\\)，\\(\\sin x=x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}-\\cdots\\)，\\(\\cos x=1-\\dfrac{x^{2}}{2!}+\\dfrac{x^{4}}{4!}-\\cdots\\)，\\(\\dfrac{1}{1-x}=1+x+x^{2}+\\cdots\\)（\\(|x|<1\\)）。多项式次数越高，通常在展开点附近越精确，但远离展开点可能迅速变差。 · Common expansions: \\(e^{x}=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}+\\cdots\\), \\(\\sin x=x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}-\\cdots\\), \\(\\cos x=1-\\dfrac{x^{2}}{2!}+\\dfrac{x^{4}}{4!}-\\cdots\\), and \\(\\dfrac{1}{1-x}=1+x+x^{2}+\\cdots\\) for \\(|x|<1\\). Higher-degree polynomials are usually more accurate near the expansion point but may deteriorate rapidly far from it.",
     formulas: [
-      { latex: 'P_n(x)=\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}', note: '泰勒多项式。' },
-      { latex: 'e^{x}\\approx1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}', note: '指数函数的三次麦克劳林多项式。' },
-      { latex: '\\sin x\\approx x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}', note: '正弦函数的五次麦克劳林多项式。' },
-      { latex: 'R_n(x)=\\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}', note: '拉格朗日余项（\\(c\\) 在 \\(a\\) 与 \\(x\\) 之间）。' },
+      {
+        latex: "P_n(x)=\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}",
+        note: "泰勒多项式。 · Taylor polynomial."
+      },
+      {
+        latex: "e^{x}\\approx1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}",
+        note: "指数函数的三次麦克劳林多项式。 · Cubic Maclaurin polynomial for the exponential function."
+      },
+      {
+        latex: "\\sin x\\approx x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}",
+        note: "正弦函数的五次麦克劳林多项式。 · Fifth-degree Maclaurin polynomial for sine."
+      },
+      {
+        latex: "R_n(x)=\\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}",
+        note: "拉格朗日余项（\\(c\\) 在 \\(a\\) 与 \\(x\\) 之间）。 · Lagrange remainder (\\(c\\) lies between \\(a\\) and \\(x\\))."
+      }
     ],
-    conditions: ['\\(f\\) 在 \\(a\\) 处有直到 \\(n\\) 阶的导数', '泰勒多项式是局部近似，离 \\(a\\) 越远误差通常越大', '余项/误差界需要额外估计', '无穷级数展开有收敛半径', '阶乘与符号不要漏'],
-    keyPoints: ['系数是 \\(f^{(k)}(a)/k!\\)', '多项式在 \\(a\\) 处匹配函数值与各阶导数', '麦克劳林是 \\(a=0\\) 的特例', '阶乘增长使高阶项可能很小', '近似精度用余项估计'],
+    conditions: [
+      "\\(f\\) 在 \\(a\\) 处有直到 \\(n\\) 阶的导数 · \\(f\\) has derivatives up to order \\(n\\) at \\(a\\).",
+      "泰勒多项式是局部近似，离 \\(a\\) 越远误差通常越大 · A Taylor polynomial is a local approximation; error usually grows farther from \\(a\\).",
+      "余项/误差界需要额外估计 · The remainder or an error bound requires an additional estimate.",
+      "无穷级数展开有收敛半径 · Infinite series expansions have a radius of convergence.",
+      "阶乘与符号不要漏 · Do not omit factorials or signs."
+    ],
+    keyPoints: [
+      "系数是 \\(\\dfrac{f^{(k)}(a)}{k!}\\) · The coefficients are \\(\\dfrac{f^{(k)}(a)}{k!}\\).",
+      "多项式在 \\(a\\) 处匹配函数值与各阶导数 · The polynomial matches the function value and derivatives at \\(a\\).",
+      "麦克劳林是 \\(a=0\\) 的特例 · Maclaurin is the special case \\(a=0\\).",
+      "阶乘增长使高阶项可能很小 · Factorial growth can make higher-order terms very small.",
+      "近似精度用余项估计 · Approximation accuracy is estimated with the remainder."
+    ],
     misconceptions: [
-      '忘记除以 \\(k!\\)',
-      '把 \\(\\sin x\\) 的展开符号写错（正负交替）',
-      '认为泰勒多项式在整个定义域都精确',
-      '把 \\(P_n\\) 当作无穷级数',
-      '在 \\(a\\) 处没有 \\(n\\) 阶导数仍写 \\(P_n\\)',
+      "忘记除以 \\(k!\\) · Forgetting to divide by \\(k!\\).",
+      "把 \\(\\sin x\\) 的展开符号写错（正负交替） · Writing the signs in the expansion of \\(\\sin x\\) incorrectly (they alternate).",
+      "认为泰勒多项式在整个定义域都精确 · Assuming a Taylor polynomial is exact on the entire domain.",
+      "把 \\(P_n\\) 当作无穷级数 · Treating \\(P_n\\) as an infinite series.",
+      "在 \\(a\\) 处没有 \\(n\\) 阶导数仍写 \\(P_n\\) · Writing \\(P_n\\) when the required derivatives at \\(a\\) do not exist."
     ],
     examples: [
       {
-        title: '例 1 · 指数函数',
-        prompt: '写出 \\(e^{x}\\) 在 \\(a=0\\) 处的三次泰勒多项式。',
-        steps: ['\\(f^{(k)}(0)=1\\) 对所有 \\(k\\)。', '\\(P_3(x)=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}\\)。'],
-        solution: '\\(P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}\\)。',
-        solutionLatex: 'P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}',
+        title: "例 1 · 指数函数 · Exponential Function",
+        prompt: "写出 \\(e^{x}\\) 在 \\(a=0\\) 处的三次泰勒多项式。 · Write the cubic Taylor polynomial of \\(e^{x}\\) at \\(a=0\\).",
+        steps: [
+          "\\(f^{(k)}(0)=1\\) 对所有 \\(k\\)。 · \\(f^{(k)}(0)=1\\) for every \\(k\\).",
+          "\\(P_3(x)=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}\\)。 · Write the polynomial: \\(P_3(x)=1+x+\\dfrac{x^{2}}{2!}+\\dfrac{x^{3}}{3!}\\)."
+        ],
+        solution: "\\(P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}\\)。 · Thus \\(P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}\\).",
+        solutionLatex: "P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}"
       },
       {
-        title: '例 2 · 正弦函数',
-        prompt: '写出 \\(\\sin x\\) 在 \\(a=0\\) 处的五次泰勒多项式。',
-        steps: ['\\(\\sin0=0\\)，\\(\\cos0=1\\)，\\(-\\sin0=0\\)，\\(-\\cos0=-1\\)。', '只保留奇次项：\\(x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}\\)。'],
-        solution: '\\(P_5(x)=x-\\dfrac{x^{3}}{6}+\\dfrac{x^{5}}{120}\\)。',
-        solutionLatex: 'P_5(x)=x-\\dfrac{x^{3}}{6}+\\dfrac{x^{5}}{120}',
+        title: "例 2 · 正弦函数 · Sine Function",
+        prompt: "写出 \\(\\sin x\\) 在 \\(a=0\\) 处的五次泰勒多项式。 · Write the fifth-degree Taylor polynomial of \\(\\sin x\\) at \\(a=0\\).",
+        steps: [
+          "\\(\\sin0=0\\)，\\(\\cos0=1\\)，\\(-\\sin0=0\\)，\\(-\\cos0=-1\\)。 · \\(\\sin0=0\\), \\(\\cos0=1\\), \\(-\\sin0=0\\), and \\(-\\cos0=-1\\).",
+          "只保留奇次项：\\(x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}\\)。 · Keep only the odd-degree terms: \\(x-\\dfrac{x^{3}}{3!}+\\dfrac{x^{5}}{5!}\\)."
+        ],
+        solution: "\\(P_5(x)=x-\\dfrac{x^{3}}{6}+\\dfrac{x^{5}}{120}\\)。 · Thus \\(P_5(x)=x-\\dfrac{x^{3}}{6}+\\dfrac{x^{5}}{120}\\).",
+        solutionLatex: "P_5(x)=x-\\dfrac{x^{3}}{6}+\\dfrac{x^{5}}{120}"
       },
       {
-        title: '例 3 · 近似',
-        prompt: '用 \\(\\sqrt{1+x}\\approx1+\\dfrac{x}{2}-\\dfrac{x^{2}}{8}\\) 近似 \\(\\sqrt{1.1}\\)，并说明误差量级。',
-        steps: ['代入 \\(x=0.1\\)：\\(1+0.05-0.00125=1.04875\\)。', '真实值 \\(\\sqrt{1.1}\\approx1.04881\\)。', '误差约 \\(6\\times10^{-5}\\)，下一项为 \\(\\dfrac{x^{3}}{16}\\approx6.25\\times10^{-5}\\)。'],
-        solution: '近似值 \\(1.04875\\)，与真值相差约 \\(6\\times10^{-5}\\)。',
-        solutionLatex: '\\sqrt{1.1}\\approx1.04875',
-      },
+        title: "例 3 · 近似 · Approximation",
+        prompt: "用 \\(\\sqrt{1+x}\\approx1+\\dfrac{x}{2}-\\dfrac{x^{2}}{8}\\) 近似 \\(\\sqrt{1.1}\\)，并说明误差量级。 · Use \\(\\sqrt{1+x}\\approx1+\\dfrac{x}{2}-\\dfrac{x^{2}}{8}\\) to approximate \\(\\sqrt{1.1}\\), and describe the order of magnitude of the error.",
+        steps: [
+          "代入 \\(x=0.1\\)：\\(1+0.05-0.00125=1.04875\\)。 · Substitute \\(x=0.1\\): \\(1+0.05-0.00125=1.04875\\).",
+          "真实值 \\(\\sqrt{1.1}\\approx1.04881\\)。 · The true value is \\(\\sqrt{1.1}\\approx1.04881\\).",
+          "误差约 \\(6\\times10^{-5}\\)，下一项为 \\(\\dfrac{x^{3}}{16}\\approx6.25\\times10^{-5}\\)。 · The error is about \\(6\\times10^{-5}\\); the next term is \\(\\dfrac{x^{3}}{16}\\approx6.25\\times10^{-5}\\)."
+        ],
+        solution: "近似值 \\(1.04875\\)，与真值相差约 \\(6\\times10^{-5}\\)。 · The approximation is \\(1.04875\\), differing from the true value by about \\(6\\times10^{-5}\\).",
+        solutionLatex: "\\sqrt{1.1}\\approx1.04875"
+      }
     ],
     examTips: [
-      'CED Unit 10：级数',
-      '先列导数表，再代 \\(a\\) 与阶乘',
-      '常见展开背熟 \\(e^{x}\\)、\\(\\sin x\\)、\\(\\cos x\\)、\\(\\dfrac{1}{1-x}\\)',
-      '近似题写清展开点与阶数',
-      '误差题用拉格朗日余项或下一项估计',
+      "CED Unit 10：级数 · CED Unit 10: Series",
+      "先列导数表，再代 \\(a\\) 与阶乘 · List the derivatives first, then substitute \\(a\\) and the factorials.",
+      "常见展开背熟 \\(e^{x}\\)、\\(\\sin x\\)、\\(\\cos x\\)、\\(\\dfrac{1}{1-x}\\) · Memorize the common expansions for \\(e^{x}\\), \\(\\sin x\\), \\(\\cos x\\), and \\(\\dfrac{1}{1-x}\\).",
+      "近似题写清展开点与阶数 · For approximation problems, state the expansion point and degree clearly.",
+      "误差题用拉格朗日余项或下一项估计 · For error problems, use the Lagrange remainder or the next term."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u10', code: '10.10', title: '交替级数误差', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.12', title: '拉格朗日误差界', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.13', title: '半径与区间', relation: '后续' },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.10",
+        title: "交替级数误差 · Alternating-Series Error",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.12",
+        title: "拉格朗日误差界 · Lagrange Error Bound",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.13",
+        title: "半径与区间 · Radius and Interval of Convergence",
+        relation: "后续 · Follow-up"
+      }
     ],
-    development: ['泰勒系数', '麦克劳林多项式', '常见展开', '近似与误差', '收敛半径'],
-    checks: ['泰勒系数为什么要除以 \\(k!\\)？', '麦克劳林多项式与泰勒多项式的关系是什么？', '为什么泰勒多项式只在展开点附近可靠？'],
-    summary: '泰勒多项式用 \\(f^{(k)}(a)/k!\\) 作系数，在 \\(a\\) 处匹配函数与各阶导数；用于局部近似与误差估计。',
+    development: [
+      "泰勒系数 · Taylor coefficients",
+      "麦克劳林多项式 · Maclaurin polynomials",
+      "常见展开 · Common expansions",
+      "近似与误差 · Approximation and error",
+      "收敛半径 · Radius of convergence"
+    ],
+    checks: [
+      "泰勒系数为什么要除以 \\(k!\\)？ · Why are Taylor coefficients divided by \\(k!\\)?",
+      "麦克劳林多项式与泰勒多项式的关系是什么？ · How is a Maclaurin polynomial related to a Taylor polynomial?",
+      "为什么泰勒多项式只在展开点附近可靠？ · Why is a Taylor polynomial reliable only near the expansion point?"
+    ],
+    summary: "泰勒多项式用 \\(\\dfrac{f^{(k)}(a)}{k!}\\) 作系数，在 \\(a\\) 处匹配函数与各阶导数；用于局部近似与误差估计。 · Taylor polynomials use \\(\\dfrac{f^{(k)}(a)}{k!}\\) as coefficients and match the function and its derivatives at \\(a\\); they are used for local approximation and error estimation."
   },
-
   'bio/bio-u1/1.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -7065,254 +8013,500 @@ export const ENRICHMENTS = {
   },
 
   'math/calc-u3/3.1': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能识别复合函数的外层与内层并正确应用链式法则。',
-      '能用莱布尼茨记号处理多层复合函数。',
-      '能在隐函数求导与相关变化率中识别链式法则。',
+      "能识别复合函数的外层与内层并正确应用链式法则。 · Identify the outer and inner functions of a composite function and apply the chain rule correctly.",
+      "能用莱布尼茨记号处理多层复合函数。 · Use Leibniz notation to handle compositions with several layers.",
+      "能在隐函数求导与相关变化率中识别链式法则。 · Recognize the chain rule inside implicit differentiation and related rates."
     ],
     essentialKnowledge: [
-      '链式法则：\\(\\dfrac{d}{dx}f(g(x))=f^{\\prime}(g(x))g^{\\prime}(x)\\)。',
-      '莱布尼茨形式：\\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\)。',
-      '多层复合要逐层相乘，不能漏掉最内层导数。',
-      '链式法则要求外层在内层取值处可导、内层在 \\(x\\) 处可导。',
-      '链式法则不是乘积法则；相乘的函数要用乘积法则。',
+      "链式法则：\\(\\dfrac{d}{dx}f(g(x))=f^{\\prime}(g(x))g^{\\prime}(x)\\)。 · The chain rule states that the derivative of \\(f(g(x))\\) is \\(f^{\\prime}(g(x))g^{\\prime}(x)\\).",
+      "莱布尼茨形式：\\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\)。 · Leibniz form: \\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\).",
+      "多层复合要逐层相乘，不能漏掉最内层导数。 · For several layers, multiply layer by layer and never omit the innermost derivative.",
+      "链式法则要求外层在内层取值处可导、内层在 \\(x\\) 处可导。 · The chain rule requires the outer function to be differentiable at the inner value and the inner function to be differentiable at \\(x\\).",
+      "链式法则不是乘积法则；相乘的函数要用乘积法则。 · The chain rule is not the product rule; functions being multiplied require the product rule."
     ],
     derivationNotes: [
-      { from: '复合结构', to: '外层导数', note: '先对外层求导，保留内层不变。' },
-      { from: '内层变化率', to: '链式乘积', note: '再乘内层导数，多层逐层相乘。' },
-      { from: '莱布尼茨记号', to: '隐函数/相关变化率', note: '\\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\) 把变化率串联。' },
+      {
+        from: "复合结构 · Composite structure",
+        to: "外层导数 · Outer derivative",
+        note: "先对外层求导，保留内层不变。 · Differentiate the outer function first, keeping the inner function unchanged."
+      },
+      {
+        from: "内层变化率 · Inner rate of change",
+        to: "链式乘积 · Chain product",
+        note: "再乘内层导数，多层逐层相乘。 · Then multiply by the inner derivative; for several layers, multiply layer by layer."
+      },
+      {
+        from: "莱布尼茨记号 · Leibniz notation",
+        to: "隐函数/相关变化率 · Implicit differentiation and related rates",
+        note: "\\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\) 把变化率串联。 · \\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\) links the rates of change."
+      }
     ],
     connections: [
-      '先修：2.8 积商法则与基本导数公式。',
-      '后续：3.2 隐函数求导与 4.4 相关变化率。',
-      '应用：6.9 换元积分是链式法则的逆过程。',
+      "先修：2.8 积商法则与基本导数公式。 · Prerequisite: 2.8 product and quotient rules and basic derivative formulas.",
+      "后续：3.2 隐函数求导与 4.4 相关变化率。 · Follow-up: 3.2 implicit differentiation and 4.4 related rates.",
+      "应用：6.9 换元积分是链式法则的逆过程。 · Application: 6.9 integration by substitution is the reverse of the chain rule."
     ],
-    definition: '链式法则用于求复合函数的导数：若 \\(y=f(u)\\) 且 \\(u=g(x)\\)，则 \\(\\dfrac{dy}{dx}=f^{\\prime}(g(x))g^{\\prime}(x)\\)。用莱布尼茨记号写作 \\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\)。它把“外层函数的导数”与“内层函数的导数”相乘，是隐函数求导、相关变化率与换元积分的基础。',
-    intuition: '链式法则像齿轮传动：\\(x\\) 转动内层齿轮 \\(u\\)，\\(u\\) 再转动外层齿轮 \\(y\\)。总传动比等于两级传动比之积。',
-    intuitionDetailed: '复合函数的变化率是“外层对中间变量的敏感度”乘以“中间变量对自变量的变化率”。例如 \\(y=(3x^2+1)^5\\)，外层是五次方，内层是 \\(3x^2+1\\)；先对外层求导得 \\(5(3x^2+1)^4\\)，再乘内层导数 \\(6x\\)。多层复合时逐层相乘，不能漏掉最内层。链式法则要求外层在内层取值处可导、内层在 \\(x\\) 处可导；否则需退回定义或分段讨论。',
+    definition: "链式法则用于求复合函数的导数：若 \\(y=f(u)\\) 且 \\(u=g(x)\\)，则 \\(\\dfrac{dy}{dx}=f^{\\prime}(g(x))g^{\\prime}(x)\\)。用莱布尼茨记号写作 \\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\)。它把“外层函数的导数”与“内层函数的导数”相乘，是隐函数求导、相关变化率与换元积分的基础。 · The chain rule differentiates composite functions: if \\(y=f(u)\\) and \\(u=g(x)\\), then \\(\\dfrac{dy}{dx}=f^{\\prime}(g(x))g^{\\prime}(x)\\). In Leibniz notation, \\(\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}\\). It multiplies the derivative of the outer function by the derivative of the inner function and underpins implicit differentiation, related rates, and integration by substitution.",
+    intuition: "链式法则像齿轮传动：\\(x\\) 转动内层齿轮 \\(u\\)，\\(u\\) 再转动外层齿轮 \\(y\\)。总传动比等于两级传动比之积。 · The chain rule is like a gear train: \\(x\\) turns the inner gear \\(u\\), and \\(u\\) turns the outer gear \\(y\\). The overall ratio is the product of the two gear ratios.",
+    intuitionDetailed: "复合函数的变化率是“外层对中间变量的敏感度”乘以“中间变量对自变量的变化率”。例如 \\(y=(3x^2+1)^5\\)，外层是五次方，内层是 \\(3x^2+1\\)；先对外层求导得 \\(5(3x^2+1)^4\\)，再乘内层导数 \\(6x\\)。多层复合时逐层相乘，不能漏掉最内层。链式法则要求外层在内层取值处可导、内层在 \\(x\\) 处可导；否则需退回定义或分段讨论。 · The rate of change of a composite function is the sensitivity of the outer function to the intermediate variable multiplied by the rate at which the intermediate variable changes with the independent variable. For example, for \\(y=(3x^2+1)^5\\), the outer function is the fifth power and the inner function is \\(3x^2+1\\); differentiating the outer function gives \\(5(3x^2+1)^4\\), then multiply by the inner derivative \\(6x\\). For several layers, multiply layer by layer and do not omit the innermost derivative. The chain rule requires the outer function to be differentiable at the inner value and the inner function to be differentiable at \\(x\\); otherwise return to the definition or split the domain.",
     formulas: [
-      { latex: '\\dfrac{d}{dx}f(g(x))=f^{\\prime}(g(x))g^{\\prime}(x)', note: '链式法则的基本形式。' },
-      { latex: '\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}', note: '莱布尼茨形式；\\(u=g(x)\\)。' },
-      { latex: '\\dfrac{d}{dx}(u^{n})=nu^{n-1}\\dfrac{du}{dx}', note: '幂函数与链式法则结合。' },
-      { latex: '\\dfrac{d}{dx}e^{u}=e^{u}\\dfrac{du}{dx},\\quad\\dfrac{d}{dx}\\sin u=\\cos u\\,\\dfrac{du}{dx}', note: '指数与三角函数的链式法则。' },
+      {
+        latex: "\\dfrac{d}{dx}f(g(x))=f^{\\prime}(g(x))g^{\\prime}(x)",
+        note: "链式法则的基本形式。 · Basic form of the chain rule."
+      },
+      {
+        latex: "\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\dfrac{du}{dx}",
+        note: "莱布尼茨形式；\\(u=g(x)\\)。 · Leibniz form; \\(u=g(x)\\)."
+      },
+      {
+        latex: "\\dfrac{d}{dx}(u^{n})=nu^{n-1}\\dfrac{du}{dx}",
+        note: "幂函数与链式法则结合。 · Power functions combined with the chain rule."
+      },
+      {
+        latex: "\\dfrac{d}{dx}e^{u}=e^{u}\\dfrac{du}{dx},\\quad\\dfrac{d}{dx}\\sin u=\\cos u\\,\\dfrac{du}{dx}",
+        note: "指数与三角函数的链式法则。 · Chain rule for exponential and trigonometric functions."
+      }
     ],
-    conditions: ['外层函数在内层取值处可导', '内层函数在 \\(x\\) 处可导', '多层复合要逐层相乘，不能只求最外层', '分式与根式先改写为幂或商的形式再求导', '链式法则不适用于“函数相乘”；相乘要用乘积法则'],
-    keyPoints: ['先识别外层与内层', '外层求导后保留内层不变，再乘内层导数', '多层复合逐层相乘', '链式法则是隐函数求导与相关变化率的核心工具', '换元积分是链式法则的逆过程', '不要与乘积法则混用'],
+    conditions: [
+      "外层函数在内层取值处可导 · The outer function is differentiable at the inner value.",
+      "内层函数在 \\(x\\) 处可导 · The inner function is differentiable at \\(x\\).",
+      "多层复合要逐层相乘，不能只求最外层 · For several layers, multiply layer by layer; do not differentiate only the outermost function.",
+      "分式与根式先改写为幂或商的形式再求导 · Rewrite fractions and radicals as powers or quotients before differentiating.",
+      "链式法则不适用于“函数相乘”；相乘要用乘积法则 · The chain rule does not apply to a product of functions; use the product rule for products."
+    ],
+    keyPoints: [
+      "先识别外层与内层 · Identify the outer and inner functions first.",
+      "外层求导后保留内层不变，再乘内层导数 · Differentiate the outer function, keep the inner function unchanged, then multiply by the inner derivative.",
+      "多层复合逐层相乘 · For several layers, multiply layer by layer.",
+      "链式法则是隐函数求导与相关变化率的核心工具 · The chain rule is the core tool for implicit differentiation and related rates.",
+      "换元积分是链式法则的逆过程 · Integration by substitution reverses the chain rule.",
+      "不要与乘积法则混用 · Do not confuse it with the product rule."
+    ],
     misconceptions: [
-      '忘记乘内层导数（最常见错误）',
-      '把 \\(f(g(x))\\) 的导数写成 \\(f^{\\prime}(g^{\\prime}(x))\\)',
-      '对 \\(\\sin(2x)\\) 只写 \\(\\cos(2x)\\)，漏掉因子 2',
-      '把乘积法则与链式法则混用',
-      '多层复合只乘一层',
-      '在不可导点机械套用公式',
+      "忘记乘内层导数（最常见错误） · Forgetting to multiply by the inner derivative (the most common error).",
+      "把 \\(f(g(x))\\) 的导数写成 \\(f^{\\prime}(g^{\\prime}(x))\\) · Writing the derivative of \\(f(g(x))\\) as \\(f^{\\prime}(g^{\\prime}(x))\\) instead of \\(f^{\\prime}(g(x))g^{\\prime}(x)\\).",
+      "对 \\(\\sin(2x)\\) 只写 \\(\\cos(2x)\\)，漏掉因子 2 · Writing only \\(\\cos(2x)\\) for the derivative of \\(\\sin(2x)\\) and omitting the factor 2.",
+      "把乘积法则与链式法则混用 · Mixing up the product rule and the chain rule.",
+      "多层复合只乘一层 · Multiplying only one layer of a several-layer composition.",
+      "在不可导点机械套用公式 · Applying the formula mechanically at a point where the function is not differentiable."
     ],
     examples: [
       {
-        title: '例 1 · 幂函数复合',
-        prompt: '求 \\(y=(3x^{2}+1)^{5}\\) 的导数，并求 \\(x=1\\) 处的导数值。',
-        steps: ['外层 \\(u^{5}\\) 的导数为 \\(5u^{4}\\)，内层 \\(u=3x^{2}+1\\) 的导数为 \\(6x\\)。', '\\(\\dfrac{dy}{dx}=5(3x^{2}+1)^{4}\\cdot6x=30x(3x^{2}+1)^{4}\\)。', '\\(x=1\\) 时：\\(30\\times1\\times(4)^{4}=30\\times256=7680\\)。'],
-        solution: '\\(\\dfrac{dy}{dx}=30x(3x^{2}+1)^{4}\\)，\\(x=1\\) 时为 7680。',
-        solutionLatex: '\\dfrac{dy}{dx}=30x(3x^{2}+1)^{4},\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=1}=7680',
+        title: "例 1 · 幂函数复合 · Power-Function Composition",
+        prompt: "求 \\(y=(3x^{2}+1)^{5}\\) 的导数，并求 \\(x=1\\) 处的导数值。 · Find the derivative of \\(y=(3x^{2}+1)^{5}\\) and evaluate it at \\(x=1\\).",
+        steps: [
+          "外层 \\(u^{5}\\) 的导数为 \\(5u^{4}\\)，内层 \\(u=3x^{2}+1\\) 的导数为 \\(6x\\)。 · The outer derivative of \\(u^{5}\\) is \\(5u^{4}\\); the inner derivative of \\(u=3x^{2}+1\\) is \\(6x\\).",
+          "\\(\\dfrac{dy}{dx}=5(3x^{2}+1)^{4}\\cdot6x=30x(3x^{2}+1)^{4}\\)。 · Multiply the outer and inner derivatives: \\(\\dfrac{dy}{dx}=5(3x^{2}+1)^{4}\\cdot6x=30x(3x^{2}+1)^{4}\\).",
+          "\\(x=1\\) 时：\\(30\\times1\\times(4)^{4}=30\\times256=7680\\)。 · At \\(x=1\\): \\(30\\times1\\times(4)^{4}=30\\times256=7680\\)."
+        ],
+        solution: "\\(\\dfrac{dy}{dx}=30x(3x^{2}+1)^{4}\\)，\\(x=1\\) 时为 7680。 · \\(\\dfrac{dy}{dx}=30x(3x^{2}+1)^{4}\\), which equals 7680 at \\(x=1\\).",
+        solutionLatex: "\\dfrac{dy}{dx}=30x(3x^{2}+1)^{4},\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=1}=7680"
       },
       {
-        title: '例 2 · 三角函数复合',
-        prompt: '求 \\(y=\\sin(2x)\\) 的导数，并求 \\(x=0\\) 处的导数值。',
-        steps: ['外层 \\(\\sin u\\) 的导数为 \\(\\cos u\\)，内层 \\(u=2x\\) 的导数为 2。', '\\(\\dfrac{dy}{dx}=2\\cos(2x)\\)。', '\\(x=0\\) 时：\\(2\\cos0=2\\)。'],
-        solution: '\\(\\dfrac{dy}{dx}=2\\cos(2x)\\)，\\(x=0\\) 时为 2。',
-        solutionLatex: '\\dfrac{dy}{dx}=2\\cos(2x),\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=0}=2',
+        title: "例 2 · 三角函数复合 · Trigonometric Composition",
+        prompt: "求 \\(y=\\sin(2x)\\) 的导数，并求 \\(x=0\\) 处的导数值。 · Find the derivative of \\(y=\\sin(2x)\\) and evaluate it at \\(x=0\\).",
+        steps: [
+          "外层 \\(\\sin u\\) 的导数为 \\(\\cos u\\)，内层 \\(u=2x\\) 的导数为 2。 · The outer derivative of \\(\\sin u\\) is \\(\\cos u\\); the inner derivative of \\(u=2x\\) is 2.",
+          "\\(\\dfrac{dy}{dx}=2\\cos(2x)\\)。 · Multiply by the inner derivative: \\(\\dfrac{dy}{dx}=2\\cos(2x)\\).",
+          "\\(x=0\\) 时：\\(2\\cos0=2\\)。 · At \\(x=0\\): \\(2\\cos0=2\\)."
+        ],
+        solution: "\\(\\dfrac{dy}{dx}=2\\cos(2x)\\)，\\(x=0\\) 时为 2。 · \\(\\dfrac{dy}{dx}=2\\cos(2x)\\), which equals 2 at \\(x=0\\).",
+        solutionLatex: "\\dfrac{dy}{dx}=2\\cos(2x),\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=0}=2"
       },
       {
-        title: '例 3 · 指数函数复合',
-        prompt: '求 \\(y=e^{x^{2}}\\) 的导数，并求 \\(x=1\\) 处的导数值。',
-        steps: ['外层 \\(e^{u}\\) 的导数为 \\(e^{u}\\)，内层 \\(u=x^{2}\\) 的导数为 \\(2x\\)。', '\\(\\dfrac{dy}{dx}=e^{x^{2}}\\cdot2x=2xe^{x^{2}}\\)。', '\\(x=1\\) 时：\\(2e\\approx5.436\\)。'],
-        solution: '\\(\\dfrac{dy}{dx}=2xe^{x^{2}}\\)，\\(x=1\\) 时约为 5.436。',
-        solutionLatex: '\\dfrac{dy}{dx}=2xe^{x^{2}},\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=1}=2e\\approx5.436',
-      },
+        title: "例 3 · 指数函数复合 · Exponential Composition",
+        prompt: "求 \\(y=e^{x^{2}}\\) 的导数，并求 \\(x=1\\) 处的导数值。 · Find the derivative of \\(y=e^{x^{2}}\\) and evaluate it at \\(x=1\\).",
+        steps: [
+          "外层 \\(e^{u}\\) 的导数为 \\(e^{u}\\)，内层 \\(u=x^{2}\\) 的导数为 \\(2x\\)。 · The outer derivative of \\(e^{u}\\) is \\(e^{u}\\); the inner derivative of \\(u=x^{2}\\) is \\(2x\\).",
+          "\\(\\dfrac{dy}{dx}=e^{x^{2}}\\cdot2x=2xe^{x^{2}}\\)。 · Multiply by the inner derivative: \\(\\dfrac{dy}{dx}=e^{x^{2}}\\cdot2x=2xe^{x^{2}}\\).",
+          "\\(x=1\\) 时：\\(2e\\approx5.436\\)。 · At \\(x=1\\): \\(2e\\approx5.436\\)."
+        ],
+        solution: "\\(\\dfrac{dy}{dx}=2xe^{x^{2}}\\)，\\(x=1\\) 时约为 5.436。 · \\(\\dfrac{dy}{dx}=2xe^{x^{2}}\\), which is about 5.436 at \\(x=1\\).",
+        solutionLatex: "\\dfrac{dy}{dx}=2xe^{x^{2}},\\quad\\left.\\dfrac{dy}{dx}\\right|_{x=1}=2e\\approx5.436"
+      }
     ],
     examTips: [
-      'CED Unit 3：复合函数、隐函数与反函数求导',
-      '先圈出内层函数，再写“外层导数 × 内层导数”',
-      '多层复合从外到内逐层乘，最后检查是否漏掉常数因子',
-      '隐函数求导时对 \\(y\\) 求导会产生 \\(\\dfrac{dy}{dx}\\)，本质仍是链式法则',
+      "CED Unit 3：复合函数、隐函数与反函数求导 · CED Unit 3: Derivatives of composite, implicit, and inverse functions",
+      "先圈出内层函数，再写“外层导数 × 内层导数” · Circle the inner function first, then write “outer derivative × inner derivative.”",
+      "多层复合从外到内逐层乘，最后检查是否漏掉常数因子 · For several layers, multiply from outside in and check for missing constant factors.",
+      "隐函数求导时对 \\(y\\) 求导会产生 \\(\\dfrac{dy}{dx}\\)，本质仍是链式法则 · When differentiating implicitly, differentiating \\(y\\) produces \\(\\dfrac{dy}{dx}\\); this is still the chain rule."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u3', code: '3.2', title: '隐函数求导', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u2', code: '2.8', title: '积商法则', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.9', title: '换元积分法', relation: '应用' },
-      { subject: 'math', chapterId: 'calc-u4', code: '4.4', title: '相关变化率', relation: '应用' },
+      {
+        subject: "math",
+        chapterId: "calc-u3",
+        code: "3.2",
+        title: "隐函数求导 · Implicit Differentiation",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u2",
+        code: "2.8",
+        title: "积商法则 · Product and Quotient Rules",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.9",
+        title: "换元积分法 · Integration by Substitution",
+        relation: "应用 · Application"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u4",
+        code: "4.4",
+        title: "相关变化率 · Related Rates",
+        relation: "应用 · Application"
+      }
     ],
-    development: ['复合函数结构', '链式法则', '多层复合', '隐函数求导中的应用', '换元积分中的逆用'],
-    checks: ['链式法则为什么要乘内层导数？', '\\(\\sin(2x)\\) 的导数是什么？', '链式法则与乘积法则的区别是什么？'],
-    summary: '链式法则把复合函数的变化率分解为外层导数与内层导数之积，是求导与积分换元的核心工具。',
+    development: [
+      "复合函数结构 · Structure of composite functions",
+      "链式法则 · The chain rule",
+      "多层复合 · Compositions with several layers",
+      "隐函数求导中的应用 · Use in implicit differentiation",
+      "换元积分中的逆用 · Reverse use in integration by substitution"
+    ],
+    checks: [
+      "链式法则为什么要乘内层导数？ · Why does the chain rule multiply by the inner derivative?",
+      "\\(\\sin(2x)\\) 的导数是什么？ · What is the derivative of \\(\\sin(2x)\\)?",
+      "链式法则与乘积法则的区别是什么？ · What is the difference between the chain rule and the product rule?"
+    ],
+    summary: "链式法则把复合函数的变化率分解为外层导数与内层导数之积，是求导与积分换元的核心工具。 · The chain rule decomposes the rate of change of a composite function into the product of the outer and inner derivatives; it is a core tool for differentiation and integration by substitution."
   },
-
   'math/calc-u8/8.9': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能画出旋转体并确定截面半径。',
-      '能根据旋转轴选择 \\(\\mathrm{d}x\\) 或 \\(\\mathrm{d}y\\) 并建立圆盘法积分。',
-      '能判断何时需要改用垫圈法。',
+      "能画出旋转体并确定截面半径。 · Sketch a solid of revolution and determine the cross-sectional radius.",
+      "能根据旋转轴选择 \\(\\mathrm{d}x\\) 或 \\(\\mathrm{d}y\\) 并建立圆盘法积分。 · Choose \\(\\mathrm{d}x\\) or \\(\\mathrm{d}y\\) according to the axis of rotation and set up the disk-method integral.",
+      "能判断何时需要改用垫圈法。 · Decide when the washer method is required."
     ],
     essentialKnowledge: [
-      '圆盘法把旋转体切成薄圆盘，体积微元为 \\(\\mathrm{d}V=\\pi R^{2}\,\\mathrm{d}x\\)。',
-      '绕 \\(x\\) 轴：\\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\,\\mathrm{d}x\\)。',
-      '绕 \\(y\\) 轴：把曲线解成 \\(x=R(y)\\)，\\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\,\\mathrm{d}y\\)。',
-      '半径是曲线到旋转轴的垂直距离，必须平方。',
-      '区域与旋转轴之间有空洞时用垫圈法，不能直接用圆盘法。',
+      "圆盘法把旋转体切成薄圆盘，体积微元为 \\(\\mathrm{d}V=\\pi R^{2},\\mathrm{d}x\\)。 · The disk method slices a solid of revolution into thin disks, with volume element \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\).",
+      "绕 \\(x\\) 轴：\\(V=\\pi\\int_{a}^{b}[R(x)]^{2},\\mathrm{d}x\\)。 · About the \\(x\\)-axis: \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\).",
+      "绕 \\(y\\) 轴：把曲线解成 \\(x=R(y)\\)，\\(V=\\pi\\int_{c}^{d}[R(y)]^{2},\\mathrm{d}y\\)。 · About the \\(y\\)-axis: solve the curve for \\(x=R(y)\\), then \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\).",
+      "半径是曲线到旋转轴的垂直距离，必须平方。 · The radius is the perpendicular distance from the curve to the axis of rotation and must be squared.",
+      "区域与旋转轴之间有空洞时用垫圈法，不能直接用圆盘法。 · If there is a hole between the region and the axis, use the washer method instead of the disk method."
     ],
     derivationNotes: [
-      { from: '旋转体', to: '薄圆盘', note: '垂直旋转轴切片，截面为圆盘。' },
-      { from: '圆盘面积', to: '体积微元', note: '\\(\\mathrm{d}V=\\pi R^{2}\,\\mathrm{d}x\\)。' },
-      { from: '旋转轴', to: '积分变量', note: '绕 \\(x\\) 轴用 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(\\mathrm{d}y\\) 并解出 \\(x=R(y)\\)。' },
+      {
+        from: "旋转体 · Solid of revolution",
+        to: "薄圆盘 · Thin disk",
+        note: "垂直旋转轴切片，截面为圆盘。 · Slice perpendicular to the axis of rotation; each cross section is a disk."
+      },
+      {
+        from: "圆盘面积 · Disk area",
+        to: "体积微元 · Volume element",
+        note: "\\(\\mathrm{d}V=\\pi R^{2},\\mathrm{d}x\\)。 · The volume element is \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\)."
+      },
+      {
+        from: "旋转轴 · Axis of rotation",
+        to: "积分变量 · Integration variable",
+        note: "绕 \\(x\\) 轴用 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(\\mathrm{d}y\\) 并解出 \\(x=R(y)\\)。 · About the \\(x\\)-axis use \\(\\mathrm{d}x\\); about the \\(y\\)-axis use \\(\\mathrm{d}y\\) and solve for \\(x=R(y)\\)."
+      }
     ],
     connections: [
-      '先修：8.8 已知截面体积。',
-      '后续：8.10 其他轴与 8.11 垫圈法。',
-      '应用：工程中的旋转体体积与 3D 打印估算。',
+      "先修：8.8 已知截面体积。 · Prerequisite: 8.8 Volumes with known cross sections.",
+      "后续：8.10 其他轴与 8.11 垫圈法。 · Follow-up: 8.10 Other axes and 8.11 the washer method.",
+      "应用：工程中的旋转体体积与 3D 打印估算。 · Application: volumes of revolution in engineering and estimates for 3D printing."
     ],
-    definition: '圆盘法用垂直于旋转轴的截面把旋转体切成薄圆盘，对圆盘面积 \\(\\pi R^{2}\\) 沿轴积分求体积。绕 \\(x\\) 轴旋转时 \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\)；绕 \\(y\\) 轴旋转时 \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\)。若旋转体中间有空洞，应改用垫圈法。',
-    intuition: '把旋转体想成一摞硬币：每枚硬币是一个薄圆盘，半径由曲线到旋转轴的距离决定；把所有圆盘体积加起来就是积分。',
-    intuitionDetailed: '圆盘法的关键是“半径方向垂直于旋转轴”。绕 \\(x\\) 轴旋转时，截面是半径为 \\(R(x)=f(x)\\) 的圆盘，厚度为 \\(\\mathrm{d}x\\)，体积微元 \\(\\mathrm{d}V=\\pi[f(x)]^{2}\\,\\mathrm{d}x\\)。绕 \\(y\\) 轴旋转时，把曲线写成 \\(x=R(y)\\)，厚度为 \\(\\mathrm{d}y\\)。若区域不紧贴旋转轴，截面是圆环而不是圆盘，需用垫圈法 \\(V=\\pi\\int(R_{\\text{外}}^{2}-R_{\\text{内}}^{2})\\,\\mathrm{d}x\\)。',
+    definition: "圆盘法用垂直于旋转轴的截面把旋转体切成薄圆盘，对圆盘面积 \\(\\pi R^{2}\\) 沿轴积分求体积。绕 \\(x\\) 轴旋转时 \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\)；绕 \\(y\\) 轴旋转时 \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\)。若旋转体中间有空洞，应改用垫圈法。 · The disk method slices a solid of revolution into thin disks perpendicular to the axis of rotation and integrates the disk area \\(\\pi R^{2}\\) along the axis. About the \\(x\\)-axis, \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\); about the \\(y\\)-axis, \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\). If the solid has a hole in the middle, use the washer method instead.",
+    intuition: "把旋转体想成一摞硬币：每枚硬币是一个薄圆盘，半径由曲线到旋转轴的距离决定；把所有圆盘体积加起来就是积分。 · Think of the solid as a stack of coins: each coin is a thin disk whose radius is the distance from the curve to the axis of rotation; adding the disk volumes gives the integral.",
+    intuitionDetailed: "圆盘法的关键是“半径方向垂直于旋转轴”。绕 \\(x\\) 轴旋转时，截面是半径为 \\(R(x)=f(x)\\) 的圆盘，厚度为 \\(\\mathrm{d}x\\)，体积微元 \\(\\mathrm{d}V=\\pi[f(x)]^{2}\\,\\mathrm{d}x\\)。绕 \\(y\\) 轴旋转时，把曲线写成 \\(x=R(y)\\)，厚度为 \\(\\mathrm{d}y\\)。若区域不紧贴旋转轴，截面是圆环而不是圆盘，需用垫圈法 \\(V=\\pi\\int(R_{\\text{外}}^{2}-R_{\\text{内}}^{2})\\,\\mathrm{d}x\\)。 · The key to the disk method is that the radius is perpendicular to the axis of rotation. About the \\(x\\)-axis, the cross section is a disk of radius \\(R(x)=f(x)\\) and thickness \\(\\mathrm{d}x\\), so the volume element is \\(\\mathrm{d}V=\\pi[f(x)]^{2}\\,\\mathrm{d}x\\). About the \\(y\\)-axis, write the curve as \\(x=R(y)\\) and use thickness \\(\\mathrm{d}y\\). If the region does not touch the axis, the cross section is an annulus rather than a disk, so use the washer method \\(V=\\pi\\int(R_{\\text{outer}}^{2}-R_{\\text{inner}}^{2})\\,\\mathrm{d}x\\).",
     formulas: [
-      { latex: 'V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x', note: '绕 \\(x\\) 轴旋转的圆盘法。' },
-      { latex: 'V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y', note: '绕 \\(y\\) 轴旋转的圆盘法。' },
-      { latex: 'V=\\pi\\int_{a}^{b}\\left([R_{\\text{外}}(x)]^{2}-[R_{\\text{内}}(x)]^{2}\\right)\\,\\mathrm{d}x', note: '有空洞时用垫圈法。' },
-      { latex: '\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x', note: '薄圆盘的体积微元。' },
+      {
+        latex: "V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x",
+        note: "绕 \\(x\\) 轴旋转的圆盘法。 · Disk method about the \\(x\\)-axis."
+      },
+      {
+        latex: "V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y",
+        note: "绕 \\(y\\) 轴旋转的圆盘法。 · Disk method about the \\(y\\)-axis."
+      },
+      {
+        latex: "V=\\pi\\int_{a}^{b}\\left([R_{\\text{外}}(x)]^{2}-[R_{\\text{内}}(x)]^{2}\\right)\\,\\mathrm{d}x",
+        note: "有空洞时用垫圈法。 · Washer method when there is a hole."
+      },
+      {
+        latex: "\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x",
+        note: "薄圆盘的体积微元。 · Volume element of a thin disk."
+      }
     ],
-    conditions: ['旋转轴与积分变量对应：绕 \\(x\\) 轴用 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(\\mathrm{d}y\\)', '半径是曲线到旋转轴的垂直距离', '截面为实心圆盘；有空洞时改用垫圈法', '积分上下限是旋转体沿轴方向的起止范围', '曲线在区间内不自交，半径非负'],
-    keyPoints: ['圆盘法本质是“截面面积积分”', '面积因子是 \\(\\pi R^{2}\\)，不要漏掉 \\(\\pi\\)', '半径要平方', '绕 \\(y\\) 轴时把曲线解成 \\(x=R(y)\\)', '有空洞时用外半径平方减内半径平方', '旋转轴不同，半径表达式不同'],
+    conditions: [
+      "旋转轴与积分变量对应：绕 \\(x\\) 轴用 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(\\mathrm{d}y\\) · The axis of rotation determines the integration variable: use \\(\\mathrm{d}x\\) about the \\(x\\)-axis and \\(\\mathrm{d}y\\) about the \\(y\\)-axis.",
+      "半径是曲线到旋转轴的垂直距离 · The radius is the perpendicular distance from the curve to the axis of rotation.",
+      "截面为实心圆盘；有空洞时改用垫圈法 · The cross section must be a solid disk; use the washer method if there is a hole.",
+      "积分上下限是旋转体沿轴方向的起止范围 · The limits are the start and end of the solid along the axis.",
+      "曲线在区间内不自交，半径非负 · The curve does not cross itself and the radius is nonnegative on the interval."
+    ],
+    keyPoints: [
+      "圆盘法本质是“截面面积积分” · The disk method is integration of cross-sectional area.",
+      "面积因子是 \\(\\pi R^{2}\\)，不要漏掉 \\(\\pi\\) · The area factor is \\(\\pi R^{2}\\); do not omit \\(\\pi\\).",
+      "半径要平方 · The radius must be squared.",
+      "绕 \\(y\\) 轴时把曲线解成 \\(x=R(y)\\) · About the \\(y\\)-axis, solve the curve as \\(x=R(y)\\).",
+      "有空洞时用外半径平方减内半径平方 · With a hole, subtract the inner radius squared from the outer radius squared.",
+      "旋转轴不同，半径表达式不同 · Different axes require different radius expressions."
+    ],
     misconceptions: [
-      '忘记乘 \\(\\pi\\)',
-      '把半径写成直径，或忘记平方',
-      '绕 \\(y\\) 轴仍对 \\(x\\) 积分却没有换元',
-      '有空洞仍用圆盘法',
-      '把“曲线到原点的距离”当作半径，而不是到旋转轴的垂直距离',
-      '上下限写成 \\(y\\) 的范围却对 \\(x\\) 积分',
+      "忘记乘 \\(\\pi\\) · Forgetting the factor \\(\\pi\\).",
+      "把半径写成直径，或忘记平方 · Using the diameter as the radius, or forgetting to square the radius.",
+      "绕 \\(y\\) 轴仍对 \\(x\\) 积分却没有换元 · Integrating with respect to \\(x\\) about the \\(y\\)-axis without changing variables.",
+      "有空洞仍用圆盘法 · Using the disk method when there is a hole.",
+      "把“曲线到原点的距离”当作半径，而不是到旋转轴的垂直距离 · Using the distance to the origin rather than the perpendicular distance to the axis as the radius.",
+      "上下限写成 \\(y\\) 的范围却对 \\(x\\) 积分 · Using limits in \\(y\\) while integrating with respect to \\(x\\)."
     ],
     examples: [
       {
-        title: '例 1 · 绕 x 轴',
-        prompt: '曲线 \\(y=\\sqrt{x}\\) 在 \\(0\\le x\\le4\\) 与 \\(x\\) 轴围成的区域绕 \\(x\\) 轴旋转。求体积。',
-        steps: ['半径 \\(R(x)=\\sqrt{x}\\)。', '\\(V=\\pi\\int_{0}^{4}(\\sqrt{x})^{2}\\,\\mathrm{d}x=\\pi\\int_{0}^{4}x\\,\\mathrm{d}x\\)。', '\\(\\int_{0}^{4}x\\,\\mathrm{d}x=\\dfrac{1}{2}(4)^{2}=8\\)，故 \\(V=8\\pi\\approx25.13\\)。'],
-        solution: '\\(V=8\\pi\\approx25.13\\)。',
-        solutionLatex: 'V=\\pi\\int_{0}^{4}x\\,\\mathrm{d}x=8\\pi\\approx25.13',
+        title: "例 1 · 绕 x 轴 · About the x-Axis",
+        prompt: "曲线 \\(y=\\sqrt{x}\\) 在 \\(0\\le x\\le4\\) 与 \\(x\\) 轴围成的区域绕 \\(x\\) 轴旋转。求体积。 · The region bounded by \\(y=\\sqrt{x}\\) and the \\(x\\)-axis on \\(0\\le x\\le4\\) is rotated about the \\(x\\)-axis. Find the volume.",
+        steps: [
+          "半径 \\(R(x)=\\sqrt{x}\\)。 · The radius is \\(R(x)=\\sqrt{x}\\).",
+          "\\(V=\\pi\\int_{0}^{4}(\\sqrt{x})^{2}\\,\\mathrm{d}x=\\pi\\int_{0}^{4}x\\,\\mathrm{d}x\\)。 · Set up the integral: \\(V=\\pi\\int_{0}^{4}(\\sqrt{x})^{2}\\,\\mathrm{d}x=\\pi\\int_{0}^{4}x\\,\\mathrm{d}x\\).",
+          "\\(\\int_{0}^{4}x\\,\\mathrm{d}x=\\dfrac{1}{2}(4)^{2}=8\\)，故 \\(V=8\\pi\\approx25.13\\)。 · \\(\\int_{0}^{4}x\\,\\mathrm{d}x=\\dfrac{1}{2}(4)^{2}=8\\), so \\(V=8\\pi\\approx25.13\\)."
+        ],
+        solution: "\\(V=8\\pi\\approx25.13\\)。 · Thus \\(V=8\\pi\\approx25.13\\).",
+        solutionLatex: "V=\\pi\\int_{0}^{4}x\\,\\mathrm{d}x=8\\pi\\approx25.13"
       },
       {
-        title: '例 2 · 直线旋转',
-        prompt: '曲线 \\(y=x\\) 在 \\(0\\le x\\le2\\) 与 \\(x\\) 轴围成的区域绕 \\(x\\) 轴旋转。求体积。',
-        steps: ['半径 \\(R(x)=x\\)。', '\\(V=\\pi\\int_{0}^{2}x^{2}\\,\\mathrm{d}x\\)。', '\\(\\int_{0}^{2}x^{2}\\,\\mathrm{d}x=\\dfrac{8}{3}\\)，故 \\(V=\\dfrac{8\\pi}{3}\\approx8.38\\)。'],
-        solution: '\\(V=\\dfrac{8\\pi}{3}\\approx8.38\\)。',
-        solutionLatex: 'V=\\pi\\int_{0}^{2}x^{2}\\,\\mathrm{d}x=\\dfrac{8\\pi}{3}\\approx8.38',
+        title: "例 2 · 直线旋转 · Rotating a Line",
+        prompt: "曲线 \\(y=x\\) 在 \\(0\\le x\\le2\\) 与 \\(x\\) 轴围成的区域绕 \\(x\\) 轴旋转。求体积。 · The region bounded by \\(y=x\\) and the \\(x\\)-axis on \\(0\\le x\\le2\\) is rotated about the \\(x\\)-axis. Find the volume.",
+        steps: [
+          "半径 \\(R(x)=x\\)。 · The radius is \\(R(x)=x\\).",
+          "\\(V=\\pi\\int_{0}^{2}x^{2}\\,\\mathrm{d}x\\)。 · Set up the integral: \\(V=\\pi\\int_{0}^{2}x^{2}\\,\\mathrm{d}x\\).",
+          "\\(\\int_{0}^{2}x^{2}\\,\\mathrm{d}x=\\dfrac{8}{3}\\)，故 \\(V=\\dfrac{8\\pi}{3}\\approx8.38\\)。 · \\(\\int_{0}^{2}x^{2}\\,\\mathrm{d}x=\\dfrac{8}{3}\\), so \\(V=\\dfrac{8\\pi}{3}\\approx8.38\\)."
+        ],
+        solution: "\\(V=\\dfrac{8\\pi}{3}\\approx8.38\\)。 · Thus \\(V=\\dfrac{8\\pi}{3}\\approx8.38\\).",
+        solutionLatex: "V=\\pi\\int_{0}^{2}x^{2}\\,\\mathrm{d}x=\\dfrac{8\\pi}{3}\\approx8.38"
       },
       {
-        title: '例 3 · 绕 y 轴',
-        prompt: '曲线 \\(y=x^{2}\\) 在 \\(0\\le x\\le1\\) 与 \\(y\\) 轴围成的区域绕 \\(y\\) 轴旋转。求体积。',
-        steps: ['把曲线解成 \\(x=\\sqrt{y}\\)，\\(0\\le y\\le1\\)。', '半径 \\(R(y)=\\sqrt{y}\\)。', '\\(V=\\pi\\int_{0}^{1}y\\,\\mathrm{d}y=\\dfrac{\\pi}{2}\\approx1.571\\)。'],
-        solution: '\\(V=\\dfrac{\\pi}{2}\\approx1.571\\)。',
-        solutionLatex: 'V=\\pi\\int_{0}^{1}y\\,\\mathrm{d}y=\\dfrac{\\pi}{2}\\approx1.571',
-      },
+        title: "例 3 · 绕 y 轴 · About the y-Axis",
+        prompt: "曲线 \\(y=x^{2}\\) 在 \\(0\\le x\\le1\\) 与 \\(y\\) 轴围成的区域绕 \\(y\\) 轴旋转。求体积。 · The region bounded by \\(y=x^{2}\\) and the \\(y\\)-axis on \\(0\\le x\\le1\\) is rotated about the \\(y\\)-axis. Find the volume.",
+        steps: [
+          "把曲线解成 \\(x=\\sqrt{y}\\)，\\(0\\le y\\le1\\)。 · Solve the curve as \\(x=\\sqrt{y}\\), with \\(0\\le y\\le1\\).",
+          "半径 \\(R(y)=\\sqrt{y}\\)。 · The radius is \\(R(y)=\\sqrt{y}\\).",
+          "\\(V=\\pi\\int_{0}^{1}y\\,\\mathrm{d}y=\\dfrac{\\pi}{2}\\approx1.571\\)。 · Evaluate the integral: \\(V=\\pi\\int_{0}^{1}y\\,\\mathrm{d}y=\\dfrac{\\pi}{2}\\approx1.571\\)."
+        ],
+        solution: "\\(V=\\dfrac{\\pi}{2}\\approx1.571\\)。 · Thus \\(V=\\dfrac{\\pi}{2}\\approx1.571\\).",
+        solutionLatex: "V=\\pi\\int_{0}^{1}y\\,\\mathrm{d}y=\\dfrac{\\pi}{2}\\approx1.571"
+      }
     ],
     examTips: [
-      'CED Unit 8：旋转体体积；先画图确定旋转轴与半径',
-      '绕 \\(x\\) 轴用 \\(R(x)\\) 与 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(R(y)\\) 与 \\(\\mathrm{d}y\\)',
-      '看到区域与轴之间有间隙，立即想到垫圈法',
-      '答案保留 \\(\\pi\\) 或按题目要求取近似值',
+      "CED Unit 8：旋转体体积；先画图确定旋转轴与半径 · CED Unit 8: Volumes of revolution; sketch first to determine the axis and radius.",
+      "绕 \\(x\\) 轴用 \\(R(x)\\) 与 \\(\\mathrm{d}x\\)，绕 \\(y\\) 轴用 \\(R(y)\\) 与 \\(\\mathrm{d}y\\) · About the \\(x\\)-axis use \\(R(x)\\) and \\(\\mathrm{d}x\\); about the \\(y\\)-axis use \\(R(y)\\) and \\(\\mathrm{d}y\\).",
+      "看到区域与轴之间有间隙，立即想到垫圈法 · If there is a gap between the region and the axis, think of the washer method immediately.",
+      "答案保留 \\(\\pi\\) 或按题目要求取近似值 · Keep the answer in terms of \\(\\pi\\) or give a decimal approximation as requested."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u8', code: '8.8', title: '已知截面体积', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u8', code: '8.10', title: '圆盘法其他轴', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u8', code: '8.11', title: '垫圈法', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u6', code: '6.7', title: '定积分求值', relation: '应用' },
+      {
+        subject: "math",
+        chapterId: "calc-u8",
+        code: "8.8",
+        title: "已知截面体积 · Volumes with Known Cross Sections",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u8",
+        code: "8.10",
+        title: "圆盘法其他轴 · Disk Method About Other Axes",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u8",
+        code: "8.11",
+        title: "垫圈法 · The Washer Method",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u6",
+        code: "6.7",
+        title: "定积分求值 · Evaluating Definite Integrals",
+        relation: "应用 · Application"
+      }
     ],
-    development: ['旋转体与截面', '圆盘体积微元', '绕 \\(x\\) 轴与 \\(y\\) 轴', '半径与积分变量', '垫圈法的引入'],
-    checks: ['圆盘法为什么要有 \\(\\pi R^{2}\\)？', '绕 \\(y\\) 轴时为什么要把曲线解成 \\(x=R(y)\\)？', '什么情况下必须改用垫圈法？'],
-    summary: '圆盘法把旋转体切成薄圆盘并积分 \\(\\pi R^{2}\\)；正确选择旋转轴、半径与积分变量是解题关键。',
+    development: [
+      "旋转体与截面 · Solids of revolution and cross sections",
+      "圆盘体积微元 · Disk volume element",
+      "绕 \\(x\\) 轴与 \\(y\\) 轴 · About the \\(x\\)- and \\(y\\)-axes",
+      "半径与积分变量 · Radius and integration variable",
+      "垫圈法的引入 · Introducing the washer method"
+    ],
+    checks: [
+      "圆盘法为什么要有 \\(\\pi R^{2}\\)？ · Why does the disk method use \\(\\pi R^{2}\\)?",
+      "绕 \\(y\\) 轴时为什么要把曲线解成 \\(x=R(y)\\)？ · Why solve the curve as \\(x=R(y)\\) about the \\(y\\)-axis?",
+      "什么情况下必须改用垫圈法？ · When must the washer method be used?"
+    ],
+    summary: "圆盘法把旋转体切成薄圆盘并积分 \\(\\pi R^{2}\\)；正确选择旋转轴、半径与积分变量是解题关键。 · The disk method slices a solid of revolution into thin disks and integrates \\(\\pi R^{2}\\); choosing the axis, radius, and integration variable correctly is the key."
   },
-
   'math/calc-u10/10.12': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能写出拉格朗日余项并说明各因子的含义。',
-      '能在给定区间上估计第 \\(n+1\\) 阶导数的上界 \\(M\\)。',
-      '能用误差界判断近似精度或反推所需阶数。',
+      "能写出拉格朗日余项并说明各因子的含义。 · Write the Lagrange remainder and explain the meaning of each factor.",
+      "能在给定区间上估计第 \\(n+1\\) 阶导数的上界 \\(M\\)。 · Estimate an upper bound \\(M\\) for the \\((n+1)\\)st derivative on a given interval.",
+      "能用误差界判断近似精度或反推所需阶数。 · Use an error bound to judge approximation accuracy or to determine the required degree."
     ],
     essentialKnowledge: [
-      '余项 \\(R_n(x)=f(x)-P_n(x)\\) 表示泰勒多项式与函数之差。',
-      '若 \\(\\left|f^{(n+1)}(t)\\right|\\le M\\)，则 \\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。',
-      '\\(M\\) 是第 \\(n+1\\) 阶导数在 \\(a\\) 与 \\(x\\) 之间区间上的最大绝对值。',
-      '误差界是最坏情况上界，不是实际误差。',
-      '阶乘与 \\(\\left|x-a\\right|^{n+1}\\) 共同决定误差随阶数增加而减小的速度。',
+      "余项 \\(R_n(x)=f(x)-P_n(x)\\) 表示泰勒多项式与函数之差。 · The remainder \\(R_n(x)=f(x)-P_n(x)\\) is the difference between the function and the Taylor polynomial.",
+      "若 \\(\\left|f^{(n+1)}(t)\\right|\\le M\\)，则 \\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。 · If \\(\\left|f^{(n+1)}(t)\\right|\\le M\\), then \\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\).",
+      "\\(M\\) 是第 \\(n+1\\) 阶导数在 \\(a\\) 与 \\(x\\) 之间区间上的最大绝对值。 · \\(M\\) is the maximum absolute value of the \\((n+1)\\)st derivative on the interval between \\(a\\) and \\(x\\).",
+      "误差界是最坏情况上界，不是实际误差。 · An error bound is a worst-case upper bound, not the actual error.",
+      "阶乘与 \\(\\left|x-a\\right|^{n+1}\\) 共同决定误差随阶数增加而减小的速度。 · Factorials and \\(\\left|x-a\\right|^{n+1}\\) together determine how quickly the error decreases as the degree increases."
     ],
     derivationNotes: [
-      { from: '第 n+1 阶导数', to: 'M', note: '在 \\(a\\) 与 \\(x\\) 之间取最大绝对值。' },
-      { from: 'M 与阶乘', to: '误差界', note: '\\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。' },
-      { from: '误差界', to: '阶数选择', note: '反解 \\(n\\) 或缩小 \\(\\left|x-a\\right|\\) 满足精度要求。' },
+      {
+        from: "第 n+1 阶导数 · The (n+1)st derivative",
+        to: "M（第 \\(n+1\\) 阶导数的上界） · M (upper bound on the \\((n+1)\\)st derivative)",
+        note: "在 \\(a\\) 与 \\(x\\) 之间取最大绝对值。 · Take the maximum absolute value on the interval between \\(a\\) and \\(x\\)."
+      },
+      {
+        from: "M 与阶乘 · M and the factorial",
+        to: "误差界 · Error bound",
+        note: "\\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。 · The bound is \\(\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)."
+      },
+      {
+        from: "误差界 · Error bound",
+        to: "阶数选择 · Choosing the degree",
+        note: "反解 \\(n\\) 或缩小 \\(\\left|x-a\\right|\\) 满足精度要求。 · Solve for \\(n\\) or reduce \\(\\left|x-a\\right|\\) to meet the accuracy requirement."
+      }
     ],
     connections: [
-      '先修：10.11 泰勒多项式。',
-      '后续：10.13 收敛半径与 10.14 幂级数表示。',
-      '应用：数值近似、误差控制与科学计算。',
+      "先修：10.11 泰勒多项式。 · Prerequisite: 10.11 Taylor polynomials.",
+      "后续：10.13 收敛半径与 10.14 幂级数表示。 · Follow-up: 10.13 Radius of convergence and 10.14 Power-series representations.",
+      "应用：数值近似、误差控制与科学计算。 · Application: numerical approximation, error control, and scientific computing."
     ],
-    definition: '拉格朗日误差界给出泰勒多项式近似函数时的误差上界：若 \\(f\\) 在包含 \\(a\\) 与 \\(x\\) 的区间上有 \\(n+1\\) 阶导数，且 \\(\\left|f^{(n+1)}(t)\\right|\\le M\\)，则 \\(\\left|R_n(x)\\right|=\\left|f(x)-P_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。它把“近似有多准”转化为求导数的上界。',
-    intuition: '泰勒多项式在展开点附近模仿函数；拉格朗日余项说：下一项被“最大可能的第 \\(n+1\\) 阶导数”控制，离展开点越远、阶数越低，误差越大。',
-    intuitionDetailed: '误差界不是误差的精确值，而是最坏情况的上界。解题时先确定展开点 \\(a\\)、阶数 \\(n\\) 与目标点 \\(x\\)，再找区间上 \\(\\left|f^{(n+1)}(t)\\right|\\) 的最大值 \\(M\\)。常见估计：\\(e^{t}\\) 在 \\(t\\le0.1\\) 时小于 \\(e^{0.1}\\)；\\(\\left|\\sin t\\right|\\le1\\)、\\(\\left|\\cos t\\right|\\le1\\)；\\(\\ln(1+t)\\) 的导数在正区间上递减，可用端点值估计。若题目只要求“误差小于某值”，可反解 \\(n\\) 或缩小 \\(\\left|x-a\\right|\\)。',
+    definition: "拉格朗日误差界给出泰勒多项式近似函数时的误差上界：若 \\(f\\) 在包含 \\(a\\) 与 \\(x\\) 的区间上有 \\(n+1\\) 阶导数，且 \\(\\left|f^{(n+1)}(t)\\right|\\le M\\)，则 \\(\\left|R_n(x)\\right|=\\left|f(x)-P_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)。它把“近似有多准”转化为求导数的上界。 · The Lagrange error bound gives an upper bound on the error when a Taylor polynomial approximates a function: if \\(f\\) has \\(n+1\\) derivatives on an interval containing \\(a\\) and \\(x\\), and \\(\\left|f^{(n+1)}(t)\\right|\\le M\\), then \\(\\left|R_n(x)\\right|=\\left|f(x)-P_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\). It turns “how accurate is the approximation?” into a bound on a derivative.",
+    intuition: "泰勒多项式在展开点附近模仿函数；拉格朗日余项说：下一项被“最大可能的第 \\(n+1\\) 阶导数”控制，离展开点越远、阶数越低，误差越大。 · A Taylor polynomial imitates a function near the expansion point; the Lagrange remainder says the next term is controlled by the largest possible \\((n+1)\\)st derivative, and the error grows with distance from the expansion point and shrinks with higher degree.",
+    intuitionDetailed: "误差界不是误差的精确值，而是最坏情况的上界。解题时先确定展开点 \\(a\\)、阶数 \\(n\\) 与目标点 \\(x\\)，再找区间上 \\(\\left|f^{(n+1)}(t)\\right|\\) 的最大值 \\(M\\)。常见估计：\\(e^{t}\\) 在 \\(t\\le0.1\\) 时小于 \\(e^{0.1}\\)；\\(\\left|\\sin t\\right|\\le1\\)、\\(\\left|\\cos t\\right|\\le1\\)；\\(\\ln(1+t)\\) 的导数在正区间上递减，可用端点值估计。若题目只要求“误差小于某值”，可反解 \\(n\\) 或缩小 \\(\\left|x-a\\right|\\)。 · An error bound is not the exact error but a worst-case upper bound. To solve a problem, first identify the expansion point \\(a\\), the degree \\(n\\), and the target point \\(x\\), then find the maximum \\(M\\) of \\(\\left|f^{(n+1)}(t)\\right|\\) on the interval. Common estimates: \\(e^{t}\\) on \\(t\\le0.1\\) is below \\(e^{0.1}\\); \\(\\left|\\sin t\\right|\\le1\\) and \\(\\left|\\cos t\\right|\\le1\\); derivatives of \\(\\ln(1+t)\\) decrease on a positive interval, so an endpoint value gives an estimate. If the problem asks for an error below a given value, solve for \\(n\\) or reduce \\(\\left|x-a\\right|\\).",
     formulas: [
-      { latex: 'R_n(x)=f(x)-P_n(x)', note: '余项定义。' },
-      { latex: '\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}', note: '拉格朗日误差界；\\(\\left|f^{(n+1)}(t)\\right|\\le M\\)。' },
-      { latex: 'M=\\max_{t\\in I}\\left|f^{(n+1)}(t)\\right|', note: '\\(I\\) 是 \\(a\\) 与 \\(x\\) 之间的区间。' },
-      { latex: '\\left|R_n(x)\\right|\\le\\dfrac{M\\left|x-a\\right|^{n+1}}{(n+1)!}', note: '等价写法，便于计算。' },
+      {
+        latex: "R_n(x)=f(x)-P_n(x)",
+        note: "余项定义。 · Definition of the remainder."
+      },
+      {
+        latex: "\\left|R_n(x)\\right|\\le\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}",
+        note: "拉格朗日误差界；\\(\\left|f^{(n+1)}(t)\\right|\\le M\\)。 · Lagrange error bound; \\(\\left|f^{(n+1)}(t)\\right|\\le M\\)."
+      },
+      {
+        latex: "M=\\max_{t\\in I}\\left|f^{(n+1)}(t)\\right|",
+        note: "\\(I\\) 是 \\(a\\) 与 \\(x\\) 之间的区间。 · \\(I\\) is the interval between \\(a\\) and \\(x\\)."
+      },
+      {
+        latex: "\\left|R_n(x)\\right|\\le\\dfrac{M\\left|x-a\\right|^{n+1}}{(n+1)!}",
+        note: "等价写法，便于计算。 · Equivalent form that is convenient for computation."
+      }
     ],
-    conditions: ['\\(f\\) 在包含 \\(a\\) 与 \\(x\\) 的区间上有直到 \\(n+1\\) 阶的导数', '要能估计 \\(\\left|f^{(n+1)}(t)\\right|\\) 在区间上的上界 \\(M\\)', '\\(x\\) 必须在展开点与估计点之间的区间内', '误差界是最坏情况上界，不是实际误差', '交替级数误差估计适用于满足交替级数条件的级数，不能与拉格朗日界混用'],
-    keyPoints: ['先确定 \\(a\\)、\\(n\\)、\\(x\\)', '找第 \\(n+1\\) 阶导数的最大绝对值 \\(M\\)', '代入 \\(\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\)', '阶乘增长使高阶误差迅速减小', '离展开点越远，误差界通常越大', '误差界可用于反推所需阶数'],
+    conditions: [
+      "\\(f\\) 在包含 \\(a\\) 与 \\(x\\) 的区间上有直到 \\(n+1\\) 阶的导数 · \\(f\\) has derivatives up to order \\(n+1\\) on an interval containing \\(a\\) and \\(x\\).",
+      "要能估计 \\(\\left|f^{(n+1)}(t)\\right|\\) 在区间上的上界 \\(M\\) · An upper bound \\(M\\) for \\(\\left|f^{(n+1)}(t)\\right|\\) on the interval must be estimable.",
+      "\\(x\\) 必须在展开点与估计点之间的区间内 · \\(x\\) must lie in the interval between the expansion point and the estimation point.",
+      "误差界是最坏情况上界，不是实际误差 · An error bound is a worst-case upper bound, not the actual error.",
+      "交替级数误差估计适用于满足交替级数条件的级数，不能与拉格朗日界混用 · Alternating-series error estimation applies only to series satisfying the alternating-series conditions and must not be confused with the Lagrange bound."
+    ],
+    keyPoints: [
+      "先确定 \\(a\\)、\\(n\\)、\\(x\\) · Determine \\(a\\), \\(n\\), and \\(x\\) first.",
+      "找第 \\(n+1\\) 阶导数的最大绝对值 \\(M\\) · Find the maximum absolute value \\(M\\) of the \\((n+1)\\)st derivative.",
+      "代入 \\(\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\) · Substitute into \\(\\dfrac{M}{(n+1)!}\\left|x-a\\right|^{n+1}\\).",
+      "阶乘增长使高阶误差迅速减小 · Factorial growth makes higher-order errors shrink rapidly.",
+      "离展开点越远，误差界通常越大 · The error bound usually grows farther from the expansion point.",
+      "误差界可用于反推所需阶数 · An error bound can be used to determine the required degree."
+    ],
     misconceptions: [
-      '把 \\(M\\) 取成第 \\(n\\) 阶导数的上界（应为第 \\(n+1\\) 阶）',
-      '忘记除以 \\((n+1)!\\)',
-      '把 \\(\\left|x-a\\right|\\) 写成 \\(x\\)（展开点不为 0 时）',
-      '把误差界当作实际误差',
-      '在区间端点外使用 \\(M\\)',
-      '交替级数题误用拉格朗日界而不检查条件',
+      "把 \\(M\\) 取成第 \\(n\\) 阶导数的上界（应为第 \\(n+1\\) 阶） · Using the bound on the \\(n\\)th derivative for \\(M\\) instead of the \\((n+1)\\)st derivative.",
+      "忘记除以 \\((n+1)!\\) · Forgetting to divide by \\((n+1)!\\).",
+      "把 \\(\\left|x-a\\right|\\) 写成 \\(x\\)（展开点不为 0 时） · Writing \\(\\left|x-a\\right|\\) as \\(x\\) when the expansion point is not zero.",
+      "把误差界当作实际误差 · Treating an error bound as the actual error.",
+      "在区间端点外使用 \\(M\\) · Using \\(M\\) outside the relevant interval.",
+      "交替级数题误用拉格朗日界而不检查条件 · Using the Lagrange bound for an alternating-series problem without checking its conditions."
     ],
     examples: [
       {
-        title: '例 1 · 指数函数',
-        prompt: '用 \\(e^{x}\\) 在 \\(a=0\\) 处的三次泰勒多项式近似 \\(e^{0.1}\\)，估计误差上界。',
-        steps: ['\\(n=3\\)，\\(\\left|x-a\\right|=0.1\\)。', '第 4 阶导数仍为 \\(e^{t}\\)，在 \\([0,0.1]\\) 上 \\(M=e^{0.1}<1.11\\)。', '误差界 \\(\\le\\dfrac{1.11}{4!}(0.1)^{4}=\\dfrac{1.11\\times10^{-4}}{24}\\approx4.63\\times10^{-6}\\)。'],
-        solution: '误差上界约 \\(4.63\\times10^{-6}\\)。',
-        solutionLatex: '\\left|R_3(0.1)\\right|\\le\\dfrac{1.11}{24}(0.1)^{4}\\approx4.63\\times10^{-6}',
+        title: "例 1 · 指数函数 · Exponential Function",
+        prompt: "用 \\(e^{x}\\) 在 \\(a=0\\) 处的三次泰勒多项式近似 \\(e^{0.1}\\)，估计误差上界。 · Use the cubic Taylor polynomial of \\(e^{x}\\) at \\(a=0\\) to approximate \\(e^{0.1}\\), and estimate an upper bound for the error.",
+        steps: [
+          "\\(n=3\\)，\\(\\left|x-a\\right|=0.1\\)。 · Here \\(n=3\\) and \\(\\left|x-a\\right|=0.1\\).",
+          "第 4 阶导数仍为 \\(e^{t}\\)，在 \\([0,0.1]\\) 上 \\(M=e^{0.1}<1.11\\)。 · The fourth derivative is still \\(e^{t}\\), and on \\([0,0.1]\\), \\(M=e^{0.1}<1.11\\).",
+          "误差界 \\(\\le\\dfrac{1.11}{4!}(0.1)^{4}=\\dfrac{1.11\\times10^{-4}}{24}\\approx4.63\\times10^{-6}\\)。 · Error bound \\(\\le\\dfrac{1.11}{4!}(0.1)^{4}=\\dfrac{1.11\\times10^{-4}}{24}\\approx4.63\\times10^{-6}\\)."
+        ],
+        solution: "误差上界约 \\(4.63\\times10^{-6}\\)。 · The error bound is about \\(4.63\\times10^{-6}\\).",
+        solutionLatex: "\\left|R_3(0.1)\\right|\\le\\dfrac{1.11}{24}(0.1)^{4}\\approx4.63\\times10^{-6}"
       },
       {
-        title: '例 2 · 正弦函数',
-        prompt: '用 \\(\\sin x\\) 在 \\(a=0\\) 处的三次泰勒多项式近似 \\(\\sin0.2\\)，估计误差上界。',
-        steps: ['\\(n=3\\)，\\(\\left|x-a\\right|=0.2\\)。', '第 4 阶导数为 \\(\\sin t\\)，故 \\(M\\le1\\)。', '误差界 \\(\\le\\dfrac{1}{4!}(0.2)^{4}=\\dfrac{0.0016}{24}\\approx6.67\\times10^{-5}\\)。'],
-        solution: '误差上界约 \\(6.67\\times10^{-5}\\)。',
-        solutionLatex: '\\left|R_3(0.2)\\right|\\le\\dfrac{1}{24}(0.2)^{4}\\approx6.67\\times10^{-5}',
+        title: "例 2 · 正弦函数 · Sine Function",
+        prompt: "用 \\(\\sin x\\) 在 \\(a=0\\) 处的三次泰勒多项式近似 \\(\\sin0.2\\)，估计误差上界。 · Use the cubic Taylor polynomial of \\(\\sin x\\) at \\(a=0\\) to approximate \\(\\sin0.2\\), and estimate an upper bound for the error.",
+        steps: [
+          "\\(n=3\\)，\\(\\left|x-a\\right|=0.2\\)。 · Here \\(n=3\\) and \\(\\left|x-a\\right|=0.2\\).",
+          "第 4 阶导数为 \\(\\sin t\\)，故 \\(M\\le1\\)。 · The fourth derivative is \\(\\sin t\\), so \\(M\\le1\\).",
+          "误差界 \\(\\le\\dfrac{1}{4!}(0.2)^{4}=\\dfrac{0.0016}{24}\\approx6.67\\times10^{-5}\\)。 · Error bound \\(\\le\\dfrac{1}{4!}(0.2)^{4}=\\dfrac{0.0016}{24}\\approx6.67\\times10^{-5}\\)."
+        ],
+        solution: "误差上界约 \\(6.67\\times10^{-5}\\)。 · The error bound is about \\(6.67\\times10^{-5}\\).",
+        solutionLatex: "\\left|R_3(0.2)\\right|\\le\\dfrac{1}{24}(0.2)^{4}\\approx6.67\\times10^{-5}"
       },
       {
-        title: '例 3 · 对数函数',
-        prompt: '用 \\(\\ln(1+x)\\) 在 \\(a=0\\) 处的二次泰勒多项式近似 \\(\\ln1.1\\)，估计误差上界。',
-        steps: ['\\(n=2\\)，\\(\\left|x-a\\right|=0.1\\)。', '\\(f^{\\prime\\prime\\prime}(t)=\\dfrac{2}{(1+t)^{3}}\\)，在 \\([0,0.1]\\) 上最大值为 2。', '误差界 \\(\\le\\dfrac{2}{3!}(0.1)^{3}=\\dfrac{2\\times0.001}{6}\\approx3.33\\times10^{-4}\\)。'],
-        solution: '误差上界约 \\(3.33\\times10^{-4}\\)。',
-        solutionLatex: '\\left|R_2(0.1)\\right|\\le\\dfrac{2}{6}(0.1)^{3}\\approx3.33\\times10^{-4}',
-      },
+        title: "例 3 · 对数函数 · Logarithmic Function",
+        prompt: "用 \\(\\ln(1+x)\\) 在 \\(a=0\\) 处的二次泰勒多项式近似 \\(\\ln1.1\\)，估计误差上界。 · Use the quadratic Taylor polynomial of \\(\\ln(1+x)\\) at \\(a=0\\) to approximate \\(\\ln1.1\\), and estimate an upper bound for the error.",
+        steps: [
+          "\\(n=2\\)，\\(\\left|x-a\\right|=0.1\\)。 · Here \\(n=2\\) and \\(\\left|x-a\\right|=0.1\\).",
+          "\\(f^{\\prime\\prime\\prime}(t)=\\dfrac{2}{(1+t)^{3}}\\)，在 \\([0,0.1]\\) 上最大值为 2。 · \\(f^{\\prime\\prime\\prime}(t)=\\dfrac{2}{(1+t)^{3}}\\), whose maximum on \\([0,0.1]\\) is 2.",
+          "误差界 \\(\\le\\dfrac{2}{3!}(0.1)^{3}=\\dfrac{2\\times0.001}{6}\\approx3.33\\times10^{-4}\\)。 · Error bound \\(\\le\\dfrac{2}{3!}(0.1)^{3}=\\dfrac{2\\times0.001}{6}\\approx3.33\\times10^{-4}\\)."
+        ],
+        solution: "误差上界约 \\(3.33\\times10^{-4}\\)。 · The error bound is about \\(3.33\\times10^{-4}\\).",
+        solutionLatex: "\\left|R_2(0.1)\\right|\\le\\dfrac{2}{6}(0.1)^{3}\\approx3.33\\times10^{-4}"
+      }
     ],
     examTips: [
-      'CED Unit 10：泰勒多项式与误差界；先写 \\(n\\)、\\(a\\)、\\(x\\)',
-      '求 \\(M\\) 时先写第 \\(n+1\\) 阶导数，再在闭区间上找最大绝对值',
-      '答案保留足够有效数字，并注明“上界”',
-      '若要求误差小于给定值，可用误差界反解最小 \\(n\\)',
+      "CED Unit 10：泰勒多项式与误差界；先写 \\(n\\)、\\(a\\)、\\(x\\) · CED Unit 10: Taylor polynomials and error bounds; write \\(n\\), \\(a\\), and \\(x\\) first.",
+      "求 \\(M\\) 时先写第 \\(n+1\\) 阶导数，再在闭区间上找最大绝对值 · To find \\(M\\), write the \\((n+1)\\)st derivative first, then find its maximum absolute value on the closed interval.",
+      "答案保留足够有效数字，并注明“上界” · Keep enough significant digits and label the result as an upper bound.",
+      "若要求误差小于给定值，可用误差界反解最小 \\(n\\) · If an error below a given value is required, use the error bound to solve for the smallest \\(n\\)."
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u10', code: '10.11', title: '泰勒多项式导论', relation: '先修' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.13', title: '半径与区间', relation: '后续' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.10', title: '交替级数误差', relation: '对比' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.14', title: '函数表示为幂级数', relation: '应用' },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.11",
+        title: "泰勒多项式导论 · Introduction to Taylor Polynomials",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.13",
+        title: "半径与区间 · Radius and Interval of Convergence",
+        relation: "后续 · Follow-up"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.10",
+        title: "交替级数误差 · Alternating-Series Error",
+        relation: "对比 · Contrast"
+      },
+      {
+        subject: "math",
+        chapterId: "calc-u10",
+        code: "10.14",
+        title: "函数表示为幂级数 · Representing Functions as Power Series",
+        relation: "应用 · Application"
+      }
     ],
-    development: ['泰勒余项', '拉格朗日误差界', '估计 \\(M\\)', '常见函数的误差界', '反推阶数'],
-    checks: ['拉格朗日误差界中的 \\(M\\) 是哪一阶导数的上界？', '为什么误差界要除以 \\((n+1)!\\)？', '误差界与实际误差有什么区别？'],
-    summary: '拉格朗日误差界用第 \\(n+1\\) 阶导数的上界估计泰勒近似的最大误差，是判断近似精度与选择阶数的工具。',
+    development: [
+      "泰勒余项 · Taylor remainder",
+      "拉格朗日误差界 · Lagrange error bound",
+      "估计 \\(M\\) · Estimating \\(M\\)",
+      "常见函数的误差界 · Error bounds for common functions",
+      "反推阶数 · Determining the required degree"
+    ],
+    checks: [
+      "拉格朗日误差界中的 \\(M\\) 是哪一阶导数的上界？ · The upper bound \\(M\\) in the Lagrange error bound applies to which derivative?",
+      "为什么误差界要除以 \\((n+1)!\\)？ · Why is the error bound divided by \\((n+1)!\\)?",
+      "误差界与实际误差有什么区别？ · What is the difference between an error bound and the actual error?"
+    ],
+    summary: "拉格朗日误差界用第 \\(n+1\\) 阶导数的上界估计泰勒近似的最大误差，是判断近似精度与选择阶数的工具。 · The Lagrange error bound uses an upper bound on the \\((n+1)\\)st derivative to estimate the maximum error of a Taylor approximation, helping judge accuracy and choose the degree."
   },
-
   'em/em-u8/8.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -8649,114 +9843,169 @@ export const ENRICHMENTS = {
   },
 
   'bio/bio-u5/5.6': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能解释连锁基因、交叉互换与重组频率之间的关系。',
-      '能用重组频率估算基因间距离并分析伴 X 隐性遗传。',
-      '能区分染色体数目异常与结构异常，并说明其表型后果。'
+      "能解释连锁基因、交叉互换与重组频率之间的关系。 · Explain how linked genes, crossing over, and recombination frequency are related.",
+      "能用重组频率估算基因间距离并分析伴 X 隐性遗传。 · Use recombination frequency to estimate map distance and analyze X-linked recessive inheritance.",
+      "能区分染色体数目异常与结构异常，并说明其表型后果。 · Distinguish chromosomal number abnormalities from structural abnormalities and describe their phenotypic consequences."
     ],
     essentialKnowledge: [
-      '位于同一染色体上的基因连锁，倾向一起遗传；同源染色体非姐妹染色单体交叉互换可产生重组配子。',
-      '重组频率是重组型后代占后代总数的比例；1% 重组频率定义为 1 个图距单位（cM）。',
-      '基因间距离越大，交叉互换越可能发生，重组频率越高；但两个基因相距很远时重组频率接近 50%，表现为独立分配。',
-      '伴 X 隐性性状中男性为半合子，携带即表现；女性需两条 X 都携带才表现，因此男性患者通常更多。',
-      '染色体数目异常由不分离造成：非整倍体如 21 三体、Turner 综合征与 Klinefelter 综合征；多倍体在植物中常见。',
-      '染色体结构异常包括缺失、重复、倒位与易位，可改变基因剂量、打断基因或改变调控，导致发育异常或肿瘤。',
-      '线粒体与叶绿体基因随母系传递，不符合孟德尔核基因的分离比。'
+      "位于同一染色体上的基因连锁，倾向一起遗传；同源染色体非姐妹染色单体交叉互换可产生重组配子。 · Genes on the same chromosome are linked and tend to be inherited together; crossing over between nonsister chromatids of homologous chromosomes can produce recombinant gametes.",
+      "重组频率是重组型后代占后代总数的比例；1% 重组频率定义为 1 个图距单位（cM）。 · Recombination frequency is the proportion of recombinant offspring among all offspring; 1% recombination is defined as one map unit (cM).",
+      "基因间距离越大，交叉互换越可能发生，重组频率越高；但两个基因相距很远时重组频率接近 50%，表现为独立分配。 · The greater the distance between genes, the more likely crossing over occurs between them and the higher the recombination frequency; however, for genes very far apart, recombination approaches 50% and resembles independent assortment.",
+      "伴 X 隐性性状中男性为半合子，携带即表现；女性需两条 X 都携带才表现，因此男性患者通常更多。 · In X-linked recessive traits, males are hemizygous and express the trait with a single copy; females must carry the allele on both X chromosomes, so affected males are usually more common.",
+      "染色体数目异常由不分离造成：非整倍体如 21 三体、Turner 综合征与 Klinefelter 综合征；多倍体在植物中常见。 · Abnormal chromosome number results from nondisjunction: aneuploidies such as trisomy 21, Turner syndrome, and Klinefelter syndrome; polyploidy is common in plants.",
+      "染色体结构异常包括缺失、重复、倒位与易位，可改变基因剂量、打断基因或改变调控，导致发育异常或肿瘤。 · Structural chromosome abnormalities include deletions, duplications, inversions, and translocations; they can alter gene dosage, disrupt genes, or change regulation, leading to developmental abnormalities or cancer.",
+      "线粒体与叶绿体基因随母系传递，不符合孟德尔核基因的分离比。 · Mitochondrial and chloroplast genes are inherited maternally and do not follow Mendelian segregation ratios for nuclear genes."
     ],
-    definition: '染色体遗传研究基因在染色体上的位置与传递方式，包括连锁、重组、伴性遗传、染色体数目异常与结构异常。位于同一染色体上的基因倾向于一起遗传，交叉互换可产生重组；性染色体上的基因表现性别相关的传递模式。',
-    intuition: '染色体像一串珠子：同一串上的珠子倾向一起传递，交叉互换像交换两串之间的珠段；多一串或少一串会改变整串的剂量。',
-    intuitionDetailed: '连锁基因的距离越远，交叉互换发生在它们之间的概率越大，重组频率越高。重组频率不能超过 50%，因为距离很远时重组与亲本组合各占一半，看起来就像独立分配。伴 X 隐性性状的遗传要看性染色体：父亲把 X 传给所有女儿、把 Y 传给所有儿子；母亲把两条 X 中的任意一条传给子女。',
+    definition: "染色体遗传研究基因在染色体上的位置与传递方式，包括连锁、重组、伴性遗传、染色体数目异常与结构异常。位于同一染色体上的基因倾向于一起遗传，交叉互换可产生重组；性染色体上的基因表现性别相关的传递模式。 · Chromosome genetics studies the location and transmission of genes on chromosomes, including linkage, recombination, sex-linked inheritance, and chromosomal number and structural abnormalities. Genes on the same chromosome tend to be inherited together, crossing over can produce recombinants, and genes on sex chromosomes show sex-related transmission patterns.",
+    intuition: "染色体像一串珠子：同一串上的珠子倾向一起传递，交叉互换像交换两串之间的珠段；多一串或少一串会改变整串的剂量。 · Chromosomes are like strings of beads: beads on the same string tend to be passed on together, crossing over exchanges segments between strings, and an extra or missing chromosome changes the dose of the entire string.",
+    intuitionDetailed: "连锁基因的距离越远，交叉互换发生在它们之间的概率越大，重组频率越高。重组频率不能超过 50%，因为距离很远时重组与亲本组合各占一半，看起来就像独立分配。伴 X 隐性性状的遗传要看性染色体：父亲把 X 传给所有女儿、把 Y 传给所有儿子；母亲把两条 X 中的任意一条传给子女。 · The farther apart two linked genes are, the more likely crossing over occurs between them and the higher the recombination frequency. Recombination frequency cannot exceed 50%, because at very large distances recombinant and parental combinations each account for half, which looks like independent assortment. Inheritance of X-linked recessive traits depends on the sex chromosomes: a father passes his X to all daughters and his Y to all sons; a mother passes either of her two X chromosomes to each child.",
     formulas: [
-      { latex: '\\text{重组频率}=\\dfrac{\\text{重组型后代数}}{\\text{后代总数}}\\times100\\%', note: '重组配子或后代的百分比。' },
-      { latex: '1\\%\\text{ 重组频率}=1\\,\\mathrm{cM}', note: '图距单位；短距离下约等于重组频率。' },
-      { latex: '\\text{图距}\\approx\\text{重组频率}', note: '仅适用于较短距离；远距离需校正。' }
+      {
+        latex: "\\text{重组频率}=\\dfrac{\\text{重组型后代数}}{\\text{后代总数}}\\times100\\%",
+        note: "重组配子或后代的百分比。 · Percentage of recombinant gametes or offspring."
+      },
+      {
+        latex: "1\\%\\text{ 重组频率}=1\\,\\mathrm{cM}",
+        note: "图距单位；短距离下约等于重组频率。 · Map unit; for short distances it is approximately equal to the recombination frequency."
+      },
+      {
+        latex: "\\text{图距}\\approx\\text{重组频率}",
+        note: "仅适用于较短距离；远距离需校正。 · Only valid over short distances; longer distances require correction."
+      }
     ],
     derivationNotes: [
-      { from: '连锁基因', to: '重组频率', note: '交叉互换发生在基因之间时产生重组配子，重组比例反映距离。' },
-      { from: '重组频率', to: '图距', note: '短距离下 1% 重组频率约等于 1 cM。' },
-      { from: '性染色体', to: '伴性比例', note: '男性半合子使 X 隐性性状更易表现，父亲只把 X 传给女儿。' },
+      {
+        from: "连锁基因 · Linked genes",
+        to: "重组频率 · Recombination frequency",
+        note: "交叉互换发生在基因之间时产生重组配子，重组比例反映距离。 · Crossing over between genes produces recombinant gametes, and the recombinant proportion reflects distance."
+      },
+      {
+        from: "重组频率 · Recombination frequency",
+        to: "图距 · Map distance",
+        note: "短距离下 1% 重组频率约等于 1 cM。 · At short distances, 1% recombination is approximately 1 cM."
+      },
+      {
+        from: "性染色体 · Sex chromosomes",
+        to: "伴性比例 · Sex-linked ratios",
+        note: "男性半合子使 X 隐性性状更易表现，父亲只把 X 传给女儿。 · Hemizygosity in males makes X-linked recessive traits easier to express, and fathers pass their X only to daughters."
+      }
     ],
     connections: [
-      '先修：5.1–5.2 的减数分裂、交叉互换与自由组合。',
-      '后续：6.2 DNA 复制与 6.7 突变，解释染色体异常的分子基础。',
-      '应用：遗传咨询、家系分析与染色体疾病诊断。',
+      "先修：5.1–5.2 的减数分裂、交叉互换与自由组合。 · Prerequisite: meiosis, crossing over, and independent assortment in 5.1–5.2.",
+      "后续：6.2 DNA 复制与 6.7 突变，解释染色体异常的分子基础。 · Follow-up: DNA replication in 6.2 and mutation in 6.7 explain the molecular basis of chromosomal abnormalities.",
+      "应用：遗传咨询、家系分析与染色体疾病诊断。 · Application: genetic counseling, pedigree analysis, and diagnosis of chromosomal disorders."
     ],
     conditions: [
-      '重组频率小于 50% 才说明连锁；接近 50% 时与独立分配难以区分',
-      '图距可加性只在短距离内近似成立',
-      '伴性遗传的比例在两性间不同，不能套用常染色体 3:1',
-      '非整倍体的表型取决于涉及哪条染色体与基因剂量',
-      '线粒体与叶绿体基因不遵循核基因的孟德尔比例'
+      "重组频率小于 50% 才说明连锁；接近 50% 时与独立分配难以区分 · Only recombination frequencies below 50% indicate linkage; near 50%, linkage is hard to distinguish from independent assortment.",
+      "图距可加性只在短距离内近似成立 · Additivity of map distances holds only approximately over short distances.",
+      "伴性遗传的比例在两性间不同，不能套用常染色体 3:1 · Sex-linked ratios differ between the sexes and cannot be treated as the autosomal 3:1 ratio.",
+      "非整倍体的表型取决于涉及哪条染色体与基因剂量 · The phenotype of an aneuploidy depends on which chromosome is involved and on gene dosage.",
+      "线粒体与叶绿体基因不遵循核基因的孟德尔比例 · Mitochondrial and chloroplast genes do not follow Mendelian ratios of nuclear genes."
     ],
     keyPoints: [
-      '连锁基因倾向一起遗传',
-      '交叉互换产生重组型',
-      '重组频率反映基因间距离',
-      '伴 X 隐性性状男性更易表现',
-      '不分离导致非整倍体',
-      '缺失、重复、倒位、易位改变结构',
-      '线粒体与叶绿体基因母系传递'
+      "连锁基因倾向一起遗传 · Linked genes tend to be inherited together.",
+      "交叉互换产生重组型 · Crossing over produces recombinant types.",
+      "重组频率反映基因间距离 · Recombination frequency reflects the distance between genes.",
+      "伴 X 隐性性状男性更易表现 · X-linked recessive traits are more readily expressed in males.",
+      "不分离导致非整倍体 · Nondisjunction causes aneuploidy.",
+      "缺失、重复、倒位、易位改变结构 · Deletions, duplications, inversions, and translocations change chromosome structure.",
+      "线粒体与叶绿体基因母系传递 · Mitochondrial and chloroplast genes are inherited maternally."
     ],
     misconceptions: [
-      '认为连锁基因永远不分离（交叉互换可产生重组）',
-      '认为重组频率可以超过 50%',
-      '认为伴性遗传只影响男性（女性也可表现或携带）',
-      '认为所有非整倍体都致死',
-      '认为线粒体基因遵循孟德尔分离比'
+      "认为连锁基因永远不分离（交叉互换可产生重组） · Assuming linked genes never separate (crossing over can produce recombinants).",
+      "认为重组频率可以超过 50% · Assuming recombination frequency can exceed 50%.",
+      "认为伴性遗传只影响男性（女性也可表现或携带） · Assuming sex-linked inheritance affects only males (females can also be affected or be carriers).",
+      "认为所有非整倍体都致死 · Assuming every aneuploidy is lethal.",
+      "认为线粒体基因遵循孟德尔分离比 · Assuming mitochondrial genes follow Mendelian segregation ratios."
     ],
     examples: [
       {
-        title: '例 1 · 重组频率',
-        prompt: '一次测交产生 1000 个后代，其中 80 个为重组型。求重组频率与图距。',
+        title: "例 1 · 重组频率 · Recombination Frequency",
+        prompt: "一次测交产生 1000 个后代，其中 80 个为重组型。求重组频率与图距。 · A testcross produces 1000 offspring, 80 of which are recombinant. Find the recombination frequency and map distance.",
         steps: [
-          '重组频率 \\(=\\dfrac{80}{1000}\\times100\\%=8\\%\\)。',
-          '短距离下 1% 约等于 1 cM。',
-          '图距约为 8 cM。'
+          "重组频率 \\(=\\dfrac{80}{1000}\\times100\\%=8\\%\\)。 · Recombination frequency \\(=\\dfrac{80}{1000}\\times100\\%=8\\%\\).",
+          "短距离下 1% 约等于 1 cM。 · At short distances, 1% is approximately 1 cM.",
+          "图距约为 8 cM。 · The map distance is about 8 cM."
         ],
-        solution: '重组频率 8%，图距约 8 cM。',
-        solutionLatex: '\\text{重组频率}=8\\%,\\;\\text{图距}\\approx8\\,\\mathrm{cM}'
+        solution: "重组频率 8%，图距约 8 cM。 · Recombination frequency 8%; map distance about 8 cM.",
+        solutionLatex: "\\text{重组频率}=8\\%,\\;\\text{图距}\\approx8\\,\\mathrm{cM}"
       },
       {
-        title: '例 2 · 伴 X 隐性',
-        prompt: '携带者母亲 \\(X^C X^c\\) 与正常父亲 \\(X^C Y\\) 婚配，儿子与女儿的色盲风险如何？',
+        title: "例 2 · 伴 X 隐性 · X-Linked Recessive",
+        prompt: "携带者母亲 \\(X^C X^c\\) 与正常父亲 \\(X^C Y\\) 婚配，儿子与女儿的色盲风险如何？ · A carrier mother \\(X^C X^c\\) mates with an unaffected father \\(X^C Y\\). What are the color-blindness risks for their sons and daughters?",
         steps: [
-          '儿子从母亲得到 X、从父亲得到 Y，母亲的 \\(X^c\\) 有 \\(\\dfrac{1}{2}\\) 概率传给儿子。',
-          '女儿从父亲得到 \\(X^C\\)，因此不会表现色盲。',
-          '女儿有 \\(\\dfrac{1}{2}\\) 概率从母亲得到 \\(X^c\\)，成为携带者。'
+          "儿子从母亲得到 X、从父亲得到 Y，母亲的 \\(X^c\\) 有 \\(\\dfrac{1}{2}\\) 概率传给儿子。 · Sons receive an X from the mother and a Y from the father; the mother’s \\(X^c\\) is passed to a son with probability \\(\\dfrac{1}{2}\\).",
+          "女儿从父亲得到 \\(X^C\\)，因此不会表现色盲。 · Daughters receive \\(X^C\\) from the father, so they will not be color-blind.",
+          "女儿有 \\(\\dfrac{1}{2}\\) 概率从母亲得到 \\(X^c\\)，成为携带者。 · A daughter has probability \\(\\dfrac{1}{2}\\) of receiving \\(X^c\\) from the mother and becoming a carrier."
         ],
-        solution: '儿子 \\(\\dfrac{1}{2}\\) 患病；女儿不患病，\\(\\dfrac{1}{2}\\) 为携带者。',
-        solutionLatex: 'P(\\text{儿子患病})=\\dfrac{1}{2},\\;P(\\text{女儿携带})=\\dfrac{1}{2}'
+        solution: "儿子 \\(\\dfrac{1}{2}\\) 患病；女儿不患病，\\(\\dfrac{1}{2}\\) 为携带者。 · Sons have a \\(\\dfrac{1}{2}\\) chance of being affected; daughters are unaffected, and \\(\\dfrac{1}{2}\\) are carriers.",
+        solutionLatex: "P(\\text{儿子患病})=\\dfrac{1}{2},\\;P(\\text{女儿携带})=\\dfrac{1}{2}"
       },
       {
-        title: '例 3 · 不分离时期与异常配子 · Nondisjunction Timing and Abnormal Gametes',
-        prompt: '减数第一次分裂与减数第二次分裂的不分离，产生的异常配子有何不同？',
+        title: "例 3 · 不分离时期与异常配子 · Nondisjunction Timing and Abnormal Gametes",
+        prompt: "减数第一次分裂与减数第二次分裂的不分离，产生的异常配子有何不同？ · How do the abnormal gametes produced by nondisjunction in meiosis I and meiosis II differ?",
         steps: [
-          '减数 I 不分离：同源染色体未分开，配子可能同时得到两条同源染色体。',
-          '减数 II 不分离：姐妹染色单体未分开，配子得到两条相同的染色单体。',
-          '两者都可导致 \\(n+1\\) 或 \\(n-1\\) 配子，但遗传组成不同。'
+          "减数 I 不分离：同源染色体未分开，配子可能同时得到两条同源染色体。 · Meiosis I nondisjunction: homologous chromosomes fail to separate, so a gamete may receive both homologs.",
+          "减数 II 不分离：姐妹染色单体未分开，配子得到两条相同的染色单体。 · Meiosis II nondisjunction: sister chromatids fail to separate, so a gamete receives two identical chromatids.",
+          "两者都可导致 \\(n+1\\) 或 \\(n-1\\) 配子，但遗传组成不同。 · Both can produce \\(n+1\\) or \\(n-1\\) gametes, but their genetic composition differs."
         ],
-        solution: '减数 I 异常配子含一对同源染色体；减数 II 异常配子含两条相同姐妹染色体。'
+        solution: "减数 I 异常配子含一对同源染色体；减数 II 异常配子含两条相同姐妹染色体。 · Meiosis I abnormal gametes contain a homologous pair; meiosis II abnormal gametes contain two identical sister chromosomes."
       }
     ],
     examTips: [
-      'CED Unit 5：染色体遗传',
-      '重组频率题先确认是测交还是自交，再找重组型',
-      '伴性遗传先写亲本性染色体，再分儿子与女儿讨论',
-      '结构异常与数目异常要分开作答',
-      '记住线粒体与叶绿体基因的母系传递'
+      "CED Unit 5：染色体遗传 · CED Unit 5: Chromosomal inheritance",
+      "重组频率题先确认是测交还是自交，再找重组型 · For recombination-frequency problems, first decide whether the cross is a testcross or a self-cross, then identify recombinant types.",
+      "伴性遗传先写亲本性染色体，再分儿子与女儿讨论 · For sex-linked inheritance, write the parental sex chromosomes first, then discuss sons and daughters separately.",
+      "结构异常与数目异常要分开作答 · Answer structural and numerical abnormalities separately.",
+      "记住线粒体与叶绿体基因的母系传递 · Remember the maternal inheritance of mitochondrial and chloroplast genes."
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.2', title: '减数分裂与遗传多样性', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.4', title: '非孟德尔遗传', relation: '相关' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.5', title: '环境影响表型', relation: '相关' }
+      {
+        subject: "bio",
+        chapterId: "bio-u5",
+        code: "5.1",
+        title: "减数分裂 · Meiosis",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u5",
+        code: "5.2",
+        title: "减数分裂与遗传多样性 · Meiosis and Genetic Diversity",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u5",
+        code: "5.4",
+        title: "非孟德尔遗传 · Non-Mendelian Inheritance",
+        relation: "相关 · Related"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u5",
+        code: "5.5",
+        title: "环境影响表型 · Environmental Effects on Phenotype",
+        relation: "相关 · Related"
+      }
     ],
-    development: ['连锁与重组', '重组频率与图距', '伴性遗传', '数目异常', '结构异常', '母系遗传'],
-    checks: ['为什么重组频率不能超过 50%？', '伴 X 隐性性状为什么男性更常见？', '减数 I 与减数 II 不分离的结果有何不同？'],
-    summary: '染色体遗传由基因位置决定：连锁与重组决定组合，性染色体决定伴性比例，数目与结构异常改变剂量与调控。'
+    development: [
+      "连锁与重组 · Linkage and recombination",
+      "重组频率与图距 · Recombination frequency and map distance",
+      "伴性遗传 · Sex-linked inheritance",
+      "数目异常 · Numerical abnormalities",
+      "结构异常 · Structural abnormalities",
+      "母系遗传 · Maternal inheritance"
+    ],
+    checks: [
+      "为什么重组频率不能超过 50%？ · Why can recombination frequency not exceed 50%?",
+      "伴 X 隐性性状为什么男性更常见？ · Why are X-linked recessive traits more common in males?",
+      "减数 I 与减数 II 不分离的结果有何不同？ · How do the outcomes of nondisjunction in meiosis I and meiosis II differ?"
+    ],
+    summary: "染色体遗传由基因位置决定：连锁与重组决定组合，性染色体决定伴性比例，数目与结构异常改变剂量与调控。 · Chromosomal inheritance depends on gene position: linkage and recombination determine combinations, sex chromosomes determine sex-linked ratios, and numerical and structural abnormalities alter dosage and regulation."
   },
-
   'bio/bio-u6/6.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -9078,113 +10327,170 @@ export const ENRICHMENTS = {
   },
 
   'bio/bio-u7/7.12': {
-    enrichedAt: 'batch2',
+    enrichedAt: "batch2",
     learningObjectives: [
-      '能区分遗传变异与环境变异，并说明表型变异的来源。',
-      '能计算等位基因频率与杂合度，并用它们描述种群遗传多样性。',
-      '能解释选择、漂变、基因流与突变如何维持或减少种群内变异。'
+      "能区分遗传变异与环境变异，并说明表型变异的来源。 · Distinguish genetic variation from environmental variation and explain the sources of phenotypic variation.",
+      "能计算等位基因频率与杂合度，并用它们描述种群遗传多样性。 · Calculate allele frequencies and heterozygosity, and use them to describe genetic diversity in populations.",
+      "能解释选择、漂变、基因流与突变如何维持或减少种群内变异。 · Explain how selection, drift, gene flow, and mutation maintain or reduce variation within populations."
     ],
     essentialKnowledge: [
-      '种群内个体在基因型与表型上存在差异；变异是进化的原料，没有变异就没有可选择的对象。',
-      '遗传变异来自突变、减数分裂重组与随机受精、基因流；突变是全新等位基因的最终来源。',
-      '表型变异还受环境影响；离散性状（如血型）由少数基因决定，连续性状（如身高）常由多基因控制并受环境修饰。',
-      '等位基因频率描述种群遗传组成；杂合度与多态性衡量遗传多样性；哈代–温伯格平衡可作为零模型。',
-      '选择通常减少变异，但杂合子优势、频率依赖选择与时空异质性可以维持变异；漂变在小种群中减少变异。',
-      '种群间变异可用地理渐变群、生态型与遗传分化来描述；种群内与种群间变异共同构成生物多样性。'
+      "种群内个体在基因型与表型上存在差异；变异是进化的原料，没有变异就没有可选择的对象。 · Individuals in a population differ in genotype and phenotype; variation is the raw material of evolution, and without variation there is nothing for selection to act on.",
+      "遗传变异来自突变、减数分裂重组与随机受精、基因流；突变是全新等位基因的最终来源。 · Genetic variation comes from mutation, recombination during meiosis, random fertilization, and gene flow; mutation is the ultimate source of new alleles.",
+      "表型变异还受环境影响；离散性状（如血型）由少数基因决定，连续性状（如身高）常由多基因控制并受环境修饰。 · Phenotypic variation is also influenced by the environment; discrete traits (such as blood type) are controlled by a few genes, whereas continuous traits (such as height) are often polygenic and modified by the environment.",
+      "等位基因频率描述种群遗传组成；杂合度与多态性衡量遗传多样性；哈代–温伯格平衡可作为零模型。 · Allele frequencies describe the genetic composition of a population; heterozygosity and polymorphism measure genetic diversity; Hardy–Weinberg equilibrium serves as a null model.",
+      "选择通常减少变异，但杂合子优势、频率依赖选择与时空异质性可以维持变异；漂变在小种群中减少变异。 · Selection usually reduces variation, but heterozygote advantage, frequency-dependent selection, and spatial or temporal heterogeneity can maintain it; drift reduces variation in small populations.",
+      "种群间变异可用地理渐变群、生态型与遗传分化来描述；种群内与种群间变异共同构成生物多样性。 · Variation among populations can be described by geographic clines, ecotypes, and genetic differentiation; within- and among-population variation together make up biodiversity."
     ],
-    definition: '种群变异指同一物种不同个体在基因型与表型上的差异。遗传变异来自突变、重组与基因流，环境也造成表型差异；等位基因频率、杂合度与多态性可量化种群遗传多样性。',
-    intuition: '种群像一副牌：花色和点数是离散差异，体重和身高像连续刻度；洗牌、换牌与丢牌都会改变这副牌的多样性。',
-    intuitionDetailed: '等位基因频率是某个等位基因在种群所有拷贝中所占比例；杂合度是杂合个体比例或期望杂合度。两个等位基因频率为 \\(p\\) 与 \\(q\\) 时，哈代–温伯格期望杂合度为 \\(2pq\\)。选择可以定向清除不利等位基因，但杂合子优势能让隐性等位基因以杂合形式保留；频率依赖选择让常见或稀有类型交替占优，从而维持多态性。Shannon 指数 \\(H_{\\mathrm{Sh}}\\) 属于群落多样性，本节不展开，完整定义、均匀度与计算见 8.6。 · The allele frequency is the proportion of a given allele among all copies in the population; heterozygosity is the fraction of heterozygous individuals or the expected heterozygosity. For two alleles with frequencies \\(p\\) and \\(q\\), the Hardy–Weinberg expected heterozygosity is \\(2pq\\). Selection can directionally remove disadvantageous alleles, but heterozygote advantage can keep a recessive allele in heterozygous form; frequency-dependent selection lets common or rare types alternate in advantage and thus maintains polymorphism. The Shannon index \\(H_{\\mathrm{Sh}}\\) belongs to community diversity; this section does not expand it—see 8.6 for the full definition, evenness, and computation.',
+    definition: "种群变异指同一物种不同个体在基因型与表型上的差异。遗传变异来自突变、重组与基因流，环境也造成表型差异；等位基因频率、杂合度与多态性可量化种群遗传多样性。 · Population variation refers to differences in genotype and phenotype among individuals of the same species. Genetic variation comes from mutation, recombination, and gene flow, while the environment also produces phenotypic differences; allele frequencies, heterozygosity, and polymorphism quantify genetic diversity in populations.",
+    intuition: "种群像一副牌：花色和点数是离散差异，体重和身高像连续刻度；洗牌、换牌与丢牌都会改变这副牌的多样性。 · A population is like a deck of cards: suits and ranks are discrete differences, while weight and height are more like a continuous scale; shuffling, swapping, and losing cards all change the diversity of the deck.",
+    intuitionDetailed: "等位基因频率是某个等位基因在种群所有拷贝中所占比例；杂合度是杂合个体比例或期望杂合度。两个等位基因频率为 \\(p\\) 与 \\(q\\) 时，哈代–温伯格期望杂合度为 \\(2pq\\)。选择可以定向清除不利等位基因，但杂合子优势能让隐性等位基因以杂合形式保留；频率依赖选择让常见或稀有类型交替占优，从而维持多态性。Shannon 指数 \\(H_{\\mathrm{Sh}}\\) 属于群落多样性，本节不展开，完整定义、均匀度与计算见 8.6。 · The allele frequency is the proportion of a given allele among all copies in the population; heterozygosity is the fraction of heterozygous individuals or the expected heterozygosity. For two alleles with frequencies \\(p\\) and \\(q\\), the Hardy–Weinberg expected heterozygosity is \\(2pq\\). Selection can directionally remove disadvantageous alleles, but heterozygote advantage can keep a recessive allele in heterozygous form; frequency-dependent selection lets common or rare types alternate in advantage and thus maintains polymorphism. The Shannon index \\(H_{\\mathrm{Sh}}\\) belongs to community diversity; this section does not expand it—see 8.6 for the full definition, evenness, and computation.",
     formulas: [
-      { latex: 'p=\\dfrac{2N_{AA}+N_{Aa}}{2N}', note: '一对等位基因中 \\(A\\) 的频率；\\(N\\) 为个体总数。' },
-      { latex: 'H=2pq', note: '两个等位基因时的期望杂合度。' }
+      {
+        latex: "p=\\dfrac{2N_{AA}+N_{Aa}}{2N}",
+        note: "一对等位基因中 \\(A\\) 的频率；\\(N\\) 为个体总数。 · Frequency of \\(A\\) among one pair of alleles; \\(N\\) is the total number of individuals."
+      },
+      {
+        latex: "H=2pq",
+        note: "两个等位基因时的期望杂合度。 · Expected heterozygosity for two alleles."
+      }
     ],
     derivationNotes: [
-      { from: '突变与重组', to: '遗传变异', note: '突变产生新等位基因，重组与随机受精重新组合它们。' },
-      { from: '基因型频率', to: '等位基因频率', note: '按拷贝数把基因型频率转换为等位基因频率。' },
-      { from: '选择与漂变', to: '变异维持或丢失', note: '杂合子优势与频率依赖选择可维持变异，漂变在小种群中丢失变异。' },
+      {
+        from: "突变与重组 · Mutation and recombination",
+        to: "遗传变异 · Genetic variation",
+        note: "突变产生新等位基因，重组与随机受精重新组合它们。 · Mutation creates new alleles, and recombination and random fertilization reshuffle them."
+      },
+      {
+        from: "基因型频率 · Genotype frequencies",
+        to: "等位基因频率 · Allele frequencies",
+        note: "按拷贝数把基因型频率转换为等位基因频率。 · Convert genotype frequencies to allele frequencies by counting copies."
+      },
+      {
+        from: "选择与漂变 · Selection and drift",
+        to: "变异维持或丢失 · Maintenance or loss of variation",
+        note: "杂合子优势与频率依赖选择可维持变异，漂变在小种群中丢失变异。 · Heterozygote advantage and frequency-dependent selection can maintain variation, whereas drift loses variation in small populations."
+      }
     ],
     connections: [
-      '先修：5.2 减数分裂与遗传多样性。',
-      '后续：7.13 生命起源之后，变异为自然选择提供原料。',
-      '应用：保护遗传学、作物育种与疾病抗性管理。',
+      "先修：5.2 减数分裂与遗传多样性。 · Prerequisite: meiosis and genetic diversity in 5.2.",
+      "后续：7.13 生命起源之后，变异为自然选择提供原料。 · Follow-up: after the origin of life in 7.13, variation supplies the raw material for natural selection.",
+      "应用：保护遗传学、作物育种与疾病抗性管理。 · Application: conservation genetics, crop breeding, and management of disease resistance."
     ],
     conditions: [
-      '等位基因频率描述种群，不描述单个个体',
-      '期望杂合度 \\(2pq\\) 假设随机交配与哈代–温伯格条件',
-      '连续性状的遗传力估计需要控制环境',
-      '小样本的等位基因频率估计有较大抽样误差',
-      '选择维持变异需要特定机制，如杂合子优势或频率依赖选择'
+      "等位基因频率描述种群，不描述单个个体 · Allele frequencies describe populations, not individuals.",
+      "期望杂合度 \\(2pq\\) 假设随机交配与哈代–温伯格条件 · Expected heterozygosity \\(2pq\\) assumes random mating and Hardy–Weinberg conditions.",
+      "连续性状的遗传力估计需要控制环境 · Estimating heritability of continuous traits requires controlling the environment.",
+      "小样本的等位基因频率估计有较大抽样误差 · Allele-frequency estimates from small samples have substantial sampling error.",
+      "选择维持变异需要特定机制，如杂合子优势或频率依赖选择 · Selection maintains variation only through specific mechanisms, such as heterozygote advantage or frequency-dependent selection."
     ],
     keyPoints: [
-      '变异是进化的原料',
-      '突变是全新等位基因的最终来源',
-      '重组与基因流重新组合变异',
-      '离散性状 vs 连续性状',
-      '等位基因频率、杂合度、多态性量化多样性',
-      '杂合子优势与频率依赖选择维持变异',
-      '漂变在小种群中减少变异'
+      "变异是进化的原料 · Variation is the raw material of evolution.",
+      "突变是全新等位基因的最终来源 · Mutation is the ultimate source of new alleles.",
+      "重组与基因流重新组合变异 · Recombination and gene flow reshuffle variation.",
+      "离散性状 vs 连续性状 · Discrete versus continuous traits.",
+      "等位基因频率、杂合度、多态性量化多样性 · Allele frequencies, heterozygosity, and polymorphism quantify diversity.",
+      "杂合子优势与频率依赖选择维持变异 · Heterozygote advantage and frequency-dependent selection maintain variation.",
+      "漂变在小种群中减少变异 · Drift reduces variation in small populations."
     ],
     misconceptions: [
-      '认为所有表型变异都是遗传的',
-      '认为连续性状没有遗传基础',
-      '认为自然选择总是减少变异',
-      '认为杂合度高的种群一定更适合所有环境',
-      '认为个体可以“进化”出新的等位基因'
+      "认为所有表型变异都是遗传的 · Assuming all phenotypic variation is genetic.",
+      "认为连续性状没有遗传基础 · Assuming continuous traits have no genetic basis.",
+      "认为自然选择总是减少变异 · Assuming natural selection always reduces variation.",
+      "认为杂合度高的种群一定更适合所有环境 · Assuming a population with high heterozygosity is necessarily better adapted to every environment.",
+      "认为个体可以“进化”出新的等位基因 · Assuming an individual can “evolve” a new allele."
     ],
     examples: [
       {
-        title: '例 1 · 离散与连续',
-        prompt: 'ABO 血型与人类身高分别属于哪类性状？',
+        title: "例 1 · 离散与连续 · Discrete and Continuous Traits",
+        prompt: "ABO 血型与人类身高分别属于哪类性状？ · Are ABO blood type and human height discrete or continuous traits?",
         steps: [
-          'ABO 血型由少数等位基因决定，表现为离散类别。',
-          '身高由多基因累加并受营养等环境影响，呈连续分布。',
-          '两类性状都可有遗传基础，但统计与遗传分析方法不同。'
+          "ABO 血型由少数等位基因决定，表现为离散类别。 · ABO blood type is determined by a few alleles and appears as discrete categories.",
+          "身高由多基因累加并受营养等环境影响，呈连续分布。 · Height is polygenic and influenced by nutrition and other environmental factors, producing a continuous distribution.",
+          "两类性状都可有遗传基础，但统计与遗传分析方法不同。 · Both kinds of traits can have a genetic basis, but their statistical and genetic analyses differ."
         ],
-        solution: '血型为离散性状；身高为连续、多基因性状。'
+        solution: "血型为离散性状；身高为连续、多基因性状。 · Blood type is a discrete trait; height is a continuous, polygenic trait."
       },
       {
-        title: '例 2 · 等位基因频率',
-        prompt: '200 个个体中，80 个 \\(AA\\)、100 个 \\(Aa\\)、20 个 \\(aa\\)。求 \\(p\\)、\\(q\\) 与期望杂合度。',
+        title: "例 2 · 等位基因频率 · Allele Frequencies",
+        prompt: "200 个个体中，80 个 \\(AA\\)、100 个 \\(Aa\\)、20 个 \\(aa\\)。求 \\(p\\)、\\(q\\) 与期望杂合度。 · Among 200 individuals, 80 are \\(AA\\), 100 are \\(Aa\\), and 20 are \\(aa\\). Find \\(p\\), \\(q\\), and the expected heterozygosity.",
         steps: [
-          '\\(p=\\dfrac{2(80)+100}{2(200)}=\\dfrac{260}{400}=0.65\\)。',
-          '\\(q=1-p=0.35\\)。',
-          '期望杂合度 \\(H=2pq=2(0.65)(0.35)=0.455\\)。'
+          "\\(p=\\dfrac{2(80)+100}{2(200)}=\\dfrac{260}{400}=0.65\\)。 · Substitute the genotype counts: \\(p=\\dfrac{2(80)+100}{2(200)}=\\dfrac{260}{400}=0.65\\).",
+          "\\(q=1-p=0.35\\)。 · Since \\(q=1-p\\), \\(q=0.35\\).",
+          "期望杂合度 \\(H=2pq=2(0.65)(0.35)=0.455\\)。 · Expected heterozygosity \\(H=2pq=2(0.65)(0.35)=0.455\\)."
         ],
-        solution: '\\(p=0.65\\)，\\(q=0.35\\)，期望杂合度约 \\(0.455\\)。',
-        solutionLatex: 'p=0.65,\\;q=0.35,\\;H=0.455'
+        solution: "\\(p=0.65\\)，\\(q=0.35\\)，期望杂合度约 \\(0.455\\)。 · \\(p=0.65\\), \\(q=0.35\\), and the expected heterozygosity is about \\(0.455\\).",
+        solutionLatex: "p=0.65,\\;q=0.35,\\;H=0.455"
       },
       {
-        title: '例 3 · 杂合子优势',
-        prompt: '为什么镰状细胞等位基因在疟疾流行地区仍以较高频率存在？',
+        title: "例 3 · 杂合子优势 · Heterozygote Advantage",
+        prompt: "为什么镰状细胞等位基因在疟疾流行地区仍以较高频率存在？ · Why does the sickle-cell allele persist at relatively high frequency in regions where malaria is prevalent?",
         steps: [
-          '\\(HbS\\) 纯合子常患严重贫血，适合度低。',
-          '\\(HbA/HbS\\) 杂合子对疟疾有一定抵抗力，适合度较高。',
-          '杂合子优势使 \\(HbS\\) 等位基因在种群中维持。'
+          "\\(HbS\\) 纯合子常患严重贫血，适合度低。 · \\(HbS\\) homozygotes often have severe anemia and low fitness.",
+          "\\(HbA/HbS\\) 杂合子对疟疾有一定抵抗力，适合度较高。 · \\(HbA/HbS\\) heterozygotes have some resistance to malaria and higher fitness.",
+          "杂合子优势使 \\(HbS\\) 等位基因在种群中维持。 · Heterozygote advantage maintains the \\(HbS\\) allele in the population."
         ],
-        solution: '杂合子优势平衡了纯合子的适合度损失，维持遗传变异。'
+        solution: "杂合子优势平衡了纯合子的适合度损失，维持遗传变异。 · Heterozygote advantage balances the fitness loss of homozygotes and maintains genetic variation."
       }
     ],
     examTips: [
-      'CED Unit 7：种群变异',
-      '先判断变异是遗传还是环境造成',
-      '等位基因频率用“拷贝数”计算，不要只数个体',
-      '杂合度 \\(2pq\\) 需要随机交配假设',
-      '维持变异的机制：杂合子优势、频率依赖选择、时空异质性',
-      '漂变与选择都可改变频率，但机制不同'
+      "CED Unit 7：种群变异 · CED Unit 7: Variation in populations",
+      "先判断变异是遗传还是环境造成 · First decide whether variation is genetic or environmental.",
+      "等位基因频率用“拷贝数”计算，不要只数个体 · Calculate allele frequencies from allele copies, not just by counting individuals.",
+      "杂合度 \\(2pq\\) 需要随机交配假设 · Heterozygosity \\(2pq\\) assumes random mating.",
+      "维持变异的机制：杂合子优势、频率依赖选择、时空异质性 · Mechanisms that maintain variation: heterozygote advantage, frequency-dependent selection, and spatial or temporal heterogeneity.",
+      "漂变与选择都可改变频率，但机制不同 · Drift and selection both change allele frequencies, but by different mechanisms."
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u7', code: '7.5', title: '哈代–温伯格', relation: '工具' },
-      { subject: 'bio', chapterId: 'bio-u5', code: '5.2', title: '减数分裂与遗传多样性', relation: '机制' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '延伸' }
+      {
+        subject: "bio",
+        chapterId: "bio-u7",
+        code: "7.2",
+        title: "自然选择 · Natural Selection",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u7",
+        code: "7.4",
+        title: "群体遗传 · Population Genetics",
+        relation: "先修 · Prerequisite"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u7",
+        code: "7.5",
+        title: "哈代–温伯格 · Hardy–Weinberg Equilibrium",
+        relation: "工具 · Tool"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u5",
+        code: "5.2",
+        title: "减数分裂与遗传多样性 · Meiosis and Genetic Diversity",
+        relation: "机制 · Mechanism"
+      },
+      {
+        subject: "bio",
+        chapterId: "bio-u8",
+        code: "8.6",
+        title: "生物多样性 · Biodiversity",
+        relation: "延伸 · Extension"
+      }
     ],
-    development: ['变异的层次', '遗传变异来源', '离散与连续性状', '等位基因频率与杂合度', '维持变异的机制'],
-    checks: ['遗传变异与环境变异如何区分？', '为什么自然选择不总是减少变异？', '等位基因频率与杂合度分别描述什么？'],
-    summary: '种群变异由遗传与环境共同造成；等位基因频率、杂合度与多态性量化多样性，选择、漂变与基因流改变变异。'
+    development: [
+      "变异的层次 · Levels of variation",
+      "遗传变异来源 · Sources of genetic variation",
+      "离散与连续性状 · Discrete and continuous traits",
+      "等位基因频率与杂合度 · Allele frequencies and heterozygosity",
+      "维持变异的机制 · Mechanisms that maintain variation"
+    ],
+    checks: [
+      "遗传变异与环境变异如何区分？ · How can genetic variation be distinguished from environmental variation?",
+      "为什么自然选择不总是减少变异？ · Why does natural selection not always reduce variation?",
+      "等位基因频率与杂合度分别描述什么？ · What do allele frequency and heterozygosity each describe?"
+    ],
+    summary: "种群变异由遗传与环境共同造成；等位基因频率、杂合度与多态性量化多样性，选择、漂变与基因流改变变异。 · Population variation is shaped by both genetics and the environment; allele frequencies, heterozygosity, and polymorphism quantify diversity, while selection, drift, and gene flow change variation."
   },
-
   'bio/bio-u7/7.13': {
     enrichedAt: 'batch2',
     learningObjectives: [
@@ -9607,7 +10913,7 @@ export const ENRICHMENTS = {
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.5', title: '群落生态', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u8', code: '8.6', title: '生物多样性 · Biodiversity', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流', relation: '相关' },
       { subject: 'bio', chapterId: 'bio-u7', code: '7.11', title: '灭绝', relation: '相关' }
     ],
