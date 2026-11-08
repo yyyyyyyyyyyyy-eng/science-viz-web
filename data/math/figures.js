@@ -8,8 +8,19 @@ import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arro
 const { PI, E, sin, cos, tan, exp, log, sqrt, abs, atan, atan2, asin } = Math;
 const F = {};
 const def = (id, title, caption, build) => { F[id] = { id, title, caption, build }; };
+/* Interactive variant: build(values) redraws from the same math; controls declare the sliders/
+   buttons. Defaults are the values that reproduce the old static figure exactly. */
+const idef = (id, title, caption, build, controls, captionFor) => {
+  const defaults = Object.fromEntries(controls.filter((c) => c.key).map((c) => [c.key, c.value]));
+  F[id] = { id, title, caption: captionFor ? captionFor(defaults) : caption, build: () => build(defaults), controls, defaults, rebuild: build, captionFor };
+};
 const setCap = (id, c) => { F[id].caption = c; };
 const fmt = (v, d = 3) => String(Math.round(v * 10 ** d) / 10 ** d);
+const gcd2 = (a, b) => (b ? gcd2(b, a % b) : a);
+const piParts = (deg) => { const n = Math.round(deg / 15), d = 12, g = gcd2(Math.abs(n), d); return [n / g, d / g]; };
+const piPlain = (deg) => { const [n, d] = piParts(deg); return n === 0 ? '0' : d === 1 ? `${n === 1 ? '' : n === -1 ? '−' : n}π` : `${n === 1 ? '' : n === -1 ? '−' : n}π/${d}`; };
+const piTex = (deg) => { const [n, d] = piParts(deg); return n === 0 ? '0' : d === 1 ? `${n === 1 ? '' : n === -1 ? '−' : n}\\pi` : `\\dfrac{${n === 1 ? '' : n === -1 ? '−' : n}\\pi}{${d}}`; };
+const D2R = PI / 180;
 
 /* ---------- Riemann sums (computed) ---------- */
 function riemann(kind, f, a, b, n) {
@@ -25,11 +36,15 @@ function riemann(kind, f, a, b, n) {
 const rf = (x) => 0.25 * x * x + 1; // ∫0^4 = 16/3 + 4 = 28/3
 const RNOTE = { left: 'under-estimate because f is increasing', right: 'over-estimate because f is increasing', mid: 'under-estimate because f is concave up', trap: 'over-estimate because f is concave up' };
 for (const [k, nm] of [['left', 'Left'], ['right', 'Right'], ['mid', 'Midpoint'], ['trap', 'Trapezoidal']]) {
-  def(`riemann-${k}`, `${nm} Riemann sum, n = 4`, '', () => {
-    const r = riemann(k, rf, 0, 4, 4);
-    setCap(`riemann-${k}`, `\\(f(x)=\\tfrac14x^2+1\\) on \\([0,4]\\), \\(\\Delta x=\\dfrac{4-0}{4}=1\\). ${nm} sum \\(=${fmt(r.sum)}\\); exact \\(\\displaystyle\\int_0^4 f\\,dx=\\dfrac{28}{3}\\approx 9.333\\) (${RNOTE[k]}).`);
-    const xs = k === 'trap' ? [0, 1, 2, 3, 4] : [0, 1, 2, 3].map((i) => (k === 'left' ? i : k === 'right' ? i + 1 : i + 0.5));
+  idef(`riemann-${k}`, `${nm} Riemann sum`, '', (v) => {
+    const n = v.n, r = riemann(k, rf, 0, 4, n);
+    const xs = k === 'trap' ? range(0, 4, 4 / n) : range(0, 4, 4 / n).slice(0, n).map((x) => (k === 'left' ? x : k === 'right' ? x + 4 / n : x + 2 / n));
     return plot({ x: [-0.3, 4.5], y: [0, 5.5], rects: r.rects, polys: r.polys, curves: [{ f: rf, label: 'y = f(x)', color: C.ink, labelAt: [3.4, 3.9] }], points: xs.map((x) => ({ x, y: rf(x), color: C.b, r: 3 })), texts: [[1.5, 5, `${nm} sum = ${fmt(r.sum)}`, C.b]], label: `${nm} Riemann sum` });
+  }, [
+    { key: 'n', label: '子区间数 n', min: 1, max: 16, step: 1, value: 4 },
+  ], (v) => {
+    const r = riemann(k, rf, 0, 4, v.n), dx = fmt(4 / v.n, 3);
+    return `\\(f(x)=\\dfrac14x^2+1\\) on \\([0,4]\\), \\(\\Delta x=\\dfrac{4-0}{${fmt(v.n, 0)}}=${dx}\\). ${nm} sum \\(=${fmt(r.sum)}\\); exact \\(\\displaystyle\\int_0^4 f\\,dx=\\dfrac{28}{3}\\approx 9.333\\) (${RNOTE[k]}).`;
   });
 }
 def('riemann-converge', 'Riemann sums converge as n → ∞', '', () => {
@@ -110,8 +125,15 @@ def('derivative-limit', 'Secant slopes approach the derivative', 'For \\(f(x)=x^
 });
 def('avg-inst', 'Average vs instantaneous rate', '\\(f(x)=x^2\\) on \\([1,3]\\): average rate \\(\\dfrac{f(3)-f(1)}{3-1}=4\\); instantaneous rate \\(f\'(2)=4\\) (parallel lines).', () =>
   plot({ x: [-0.5, 4], y: [-2, 12], curves: [{ f: (x) => x * x, color: C.ink }, { f: (x) => 1 + 4 * (x - 1), color: C.b, dash: '5 3', label: 'secant m = 4', labelAt: [3.05, 9.5] }, { f: (x) => 4 + 4 * (x - 2), color: C.a, label: 'tangent at x = 2', labelAt: [1.2, -1.2] }], points: [{ x: 1, y: 1 }, { x: 3, y: 9 }, { x: 2, y: 4, color: C.a }] }));
-def('diff-quotient', 'Difference quotient', 'Secant slope from \\((x,f(x))\\) to \\((x+h,f(x+h))\\) is \\(\\dfrac{f(x+h)-f(x)}{h}\\); \\(f\'(x)=\\displaystyle\\lim_{h\\to0}\\dfrac{f(x+h)-f(x)}{h}\\). Shown for \\(f=\\sqrt{x}\\), \\(x=1\\), \\(h=2\\).', () =>
-  plot({ x: [-0.3, 4], y: [-0.3, 2.3], xstep: 1, ystep: 0.5, curves: [{ f: sqrt, dom: [0, 4], color: C.ink }, { f: (x) => 1 + ((sqrt(3) - 1) / 2) * (x - 1), color: C.b, dash: '5 3' }], segs: [[1, 1, 3, 1, C.a, 1.5, '3 3'], [3, 1, 3, sqrt(3), C.a, 1.5, '3 3']], texts: [[2, 0.86, 'h = 2', C.a], [3.08, 1.36, 'f(x+h) − f(x)', C.a, 'start']], points: [{ x: 1, y: 1, label: '(x, f(x))', dy: -14, anchor: 'end', dx: -6 }, { x: 3, y: sqrt(3), label: '(x+h, f(x+h))', anchor: 'end', dx: -8 }] }));
+idef('diff-quotient', 'Difference quotient', '', (v) => {
+  const h = v.h, x2 = 1 + h, y2 = sqrt(x2), m = (y2 - 1) / h;
+  return plot({ x: [-0.3, 4], y: [-0.3, 2.3], xstep: 1, ystep: 0.5, curves: [{ f: sqrt, dom: [0, 4], color: C.ink }, { f: (x) => 1 + m * (x - 1), color: C.b, dash: '5 3' }], segs: [[1, 1, x2, 1, C.a, 1.5, '3 3'], [x2, 1, x2, y2, C.a, 1.5, '3 3']], texts: [[1 + h / 2, 0.86, `h = ${fmt(h, 1)}`, C.a], [Math.min(x2 + 0.08, 3.25), 1.36, 'f(x+h) − f(x)', C.a, 'start']], points: [{ x: 1, y: 1, label: '(x, f(x))', dy: -14, anchor: 'end', dx: -6 }, { x: x2, y: y2, label: '(x+h, f(x+h))', anchor: 'end', dx: -8 }] });
+}, [
+  { key: 'h', label: '增量 h', min: 0.2, max: 3, step: 0.1, value: 2 },
+], (v) => {
+  const h = v.h, m = (sqrt(1 + h) - 1) / h;
+  return `Secant slope from \\((x,f(x))\\) to \\((x+h,f(x+h))\\) is \\(\\dfrac{f(x+h)-f(x)}{h}\\); \\(f'(x)=\\displaystyle\\lim_{h\\to0}\\dfrac{f(x+h)-f(x)}{h}\\). Shown for \\(f=\\sqrt{x}\\), \\(x=1\\), \\(h=${fmt(h, 1)}\\); the secant slope is ${fmt(m, 3)}.`;
+});
 def('deriv-table', 'Estimating f′ from a table', '', () => {
   const xs = [0, 1, 2, 3, 4], fx = xs.map((x) => 2 ** x), est = (fx[3] - fx[1]) / 2;
   setCap('deriv-table', `\\(f(x)=2^x\\) tabulated: \\(f'(2)\\approx\\dfrac{f(3)-f(1)}{3-1}=${est}\\); exact \\(f'(2)=4\\ln2\\approx${fmt(4 * log(2))}\\).`);
@@ -169,19 +191,38 @@ def('context-rate', 'Derivative in context (units)', '\\(T(t)=20+60e^{-0.1t}\\) 
   plot({ x: [0, 30], y: [0, 85], xlabel: 't (min)', ylabel: 'T (°C)', curves: [{ f: (t) => 20 + 60 * exp(-0.1 * t), color: C.a }, { f: (t) => 20 + 60 * exp(-0.5) - 6 * exp(-0.5) * (t - 5), dom: [0, 14], color: C.b, dash: '5 3', label: 'slope −3.64', labelAt: [11, 40] }], hlines: [{ y: 20, label: 'room 20 °C' }], points: [{ x: 5, y: 20 + 60 * exp(-0.5) }] }));
 def('marginal', 'Rates in applied contexts: marginal cost', '\\(C(x)=0.01x^3-0.6x^2+13x\\); marginal cost \\(C\'(x)=0.03x^2-1.2x+13\\) is minimized at \\(x=20\\), where \\(C\'=1\\).', () =>
   plot({ x: [0, 40], y: [0, 40], xlabel: 'units x', curves: [{ f: (x) => 0.03 * x * x - 1.2 * x + 13, color: C.b, label: 'C′(x)', labelAt: [33, 21] }, { f: (x) => (0.01 * x ** 3 - 0.6 * x * x + 13 * x) / 10, color: C.a, label: 'C(x)/10', labelAt: [31, 34] }], points: [{ x: 20, y: 1, color: C.b, label: 'min (20, 1)', dy: -12 }] }));
-def('ladder', 'Related rates: sliding ladder', 'Ladder length 10: \\(x^2+y^2=100\\Rightarrow x\\dfrac{dx}{dt}+y\\dfrac{dy}{dt}=0\\). With \\(x=6\\), \\(\\dfrac{dx}{dt}=2\\): \\(y=8\\), \\(\\dfrac{dy}{dt}=-\\dfrac{6\\cdot2}{8}=-1.5\\).', () => {
-  const s = line(40, 250, 360, 250, { w: 2 }) + line(40, 250, 40, 20, { w: 2 }) + line(40 + 6 * 24, 250, 40, 250 - 8 * 24, { color: C.a, w: 4 }) + text(122, 140, '10', { size: 14, color: C.a }) + text(112, 266, 'x = 6') + text(22, 160, 'y = 8', { rotate: -90 }) + arrow(190, 238, 236, 238, { color: C.b }) + text(244, 238, 'dx/dt = 2', { color: C.b, anchor: 'start' }) + arrow(54, 62, 54, 100, { color: C.c }) + text(62, 80, 'dy/dt = ?', { color: C.c, anchor: 'start' });
+idef('ladder', 'Related rates: sliding ladder', '', (v) => {
+  const x = v.x, y = sqrt(100 - x * x), dydt = (-x * v.dx) / y;
+  const s = line(40, 250, 360, 250, { w: 2 }) + line(40, 250, 40, 20, { w: 2 }) + line(40 + x * 24, 250, 40, 250 - y * 24, { color: C.a, w: 4 }) + text(40 + x * 12 + 10, 250 - y * 12 - 14, '10', { size: 14, color: C.a }) + text(40 + x * 12, 266, `x = ${fmt(x, 1)}`) + text(22, 250 - y * 12 + 6, `y = ${fmt(y, 1)}`, { rotate: -90 }) + arrow(40 + x * 24 + 6, 238, 40 + x * 24 + 52, 238, { color: C.b }) + text(40 + x * 24 + 60, 238, `dx/dt = ${fmt(v.dx, 1)}`, { color: C.b, anchor: 'start' }) + arrow(54, 62, 54, 100, { color: C.c }) + text(62, 80, `dy/dt = ${v.x === 6 && v.dx === 2 ? '?' : fmt(dydt, 2)}`, { color: C.c, anchor: 'start' });
   return svg(380, 280, s, 'ladder related rates');
+}, [
+  { key: 'x', label: '底端距离 x', min: 2, max: 9, step: 0.5, value: 6, unit: 'm' },
+  { key: 'dx', label: '外拉速度 dx/dt', min: 0.5, max: 3, step: 0.5, value: 2, unit: 'm/s' },
+], (v) => {
+  const x = v.x, y = sqrt(100 - x * x), dydt = (-x * v.dx) / y;
+  return `Ladder length 10: \\(x^2+y^2=100\\Rightarrow x\\dfrac{dx}{dt}+y\\dfrac{dy}{dt}=0\\). With \\(x=${fmt(x, 1)}\\), \\(\\dfrac{dx}{dt}=${fmt(v.dx, 1)}\\): \\(y=${fmt(y, 2)}\\), \\(\\dfrac{dy}{dt}=-\\dfrac{${fmt(x, 1)}\\cdot${fmt(v.dx, 1)}}{${fmt(y, 2)}}=${fmt(dydt, 2)}\\).`;
 });
-def('cone-tank', 'Related rates: conical tank', 'Cone radius 4, height 10, so \\(r=\\dfrac{2}{5}h\\) and \\(V=\\dfrac{\\pi}{3}r^2h=\\dfrac{4\\pi}{75}h^3\\). Filling at 3 m³/min, at \\(h=5\\): \\(\\dfrac{dh}{dt}=\\dfrac{3}{\\frac{4\\pi}{25}\\cdot25}=\\dfrac{3}{4\\pi}\\approx0.239\\) m/min.', () => {
-  const cx = 190, top = 30, ap = 270, sc = 24, hw = 4 * sc, wl = ap - 5 * sc, ww = 2 * sc;
+idef('cone-tank', 'Related rates: conical tank', '', (v) => {
+  const h = v.h, r = 0.4 * h, cx = 190, top = 30, ap = 270, sc = 24, hw = 4 * sc, wl = ap - h * sc, ww = r * sc;
   let s = path(`M${cx - hw},${top} L${cx},${ap} L${cx + hw},${top}`, { w: 2 }) + `<ellipse cx="${cx}" cy="${top}" rx="${hw}" ry="10" fill="none" stroke="${C.ink}"/>`;
   s += path(`M${cx - ww},${wl} L${cx},${ap} L${cx + ww},${wl} Z`, { fill: C.a, op: 0.3, stroke: C.a }) + `<ellipse cx="${cx}" cy="${wl}" rx="${ww}" ry="5" fill="${C.a}" fill-opacity="0.35" stroke="${C.a}"/>`;
-  s += line(cx + hw + 20, top, cx + hw + 20, ap, { color: C.muted }) + text(cx + hw + 28, (top + ap) / 2, 'H = 10', { anchor: 'start' }) + line(cx, top, cx + hw, top, { color: C.muted, dash: '3 3' }) + text(cx + hw / 2, top - 12, 'R = 4') + line(cx - ww - 20, wl, cx - ww - 20, ap, { color: C.a }) + text(cx - ww - 26, (wl + ap) / 2, 'h = 5', { anchor: 'end', color: C.a }) + text(cx + ww / 2, wl - 12, 'r = 2', { color: C.a });
+  s += line(cx + hw + 20, top, cx + hw + 20, ap, { color: C.muted }) + text(cx + hw + 28, (top + ap) / 2, 'H = 10', { anchor: 'start' }) + line(cx, top, cx + hw, top, { color: C.muted, dash: '3 3' }) + text(cx + hw / 2, top - 12, 'R = 4') + line(cx - ww - 20, wl, cx - ww - 20, ap, { color: C.a }) + text(cx - ww - 26, (wl + ap) / 2, `h = ${fmt(h, 1)}`, { anchor: 'end', color: C.a }) + text(cx + ww / 2, wl - 12, `r = ${fmt(r, 1)}`, { color: C.a });
   return svg(380, 290, s, 'conical tank');
+}, [
+  { key: 'h', label: '水深 h', min: 1, max: 10, step: 0.5, value: 5, unit: 'm' },
+], (v) => {
+  const h = v.h, dhdt = 75 / (4 * PI * h * h);
+  return `Cone radius 4, height 10, so \\(r=\\dfrac{2}{5}h\\) and \\(V=\\dfrac{\\pi}{3}r^2h=\\dfrac{4\\pi}{75}h^3\\). Filling at 3 m³/min, at \\(h=${fmt(h, 1)}\\): \\(\\dfrac{dh}{dt}=\\dfrac{3}{\\frac{4\\pi}{25}\\cdot${fmt(h, 1)}^2}=${fmt(dhdt, 3)}\\) m/min.`;
 });
-def('linearization', 'Local linearity / tangent-line approximation', '\\(L(x)=2+\\dfrac{1}{4}(x-4)\\) approximates \\(\\sqrt{x}\\) near 4: \\(L(4.41)=2.1025\\) vs \\(\\sqrt{4.41}=2.1\\) (over-estimate since \\(\\sqrt x\\) is concave down).', () =>
-  plot({ x: [0, 9], y: [0, 3.5], ystep: 0.5, curves: [{ f: sqrt, dom: [0, 9], color: C.a, label: '√x', labelAt: [7.8, 2.55] }, { f: (x) => 2 + (x - 4) / 4, color: C.b, dash: '6 3', label: 'L(x)', labelAt: [7.6, 3.2] }], points: [{ x: 4, y: 2, label: '(4, 2)', dy: 14 }] }));
+idef('linearization', 'Local linearity / tangent-line approximation', '', (v) => {
+  const a = v.a, ya = sqrt(a), m = 1 / (2 * ya), L = (x) => ya + m * (x - a), nz = (x, d) => String(Number(fmt(x, d)));
+  return plot({ x: [0, 9], y: [0, 3.5], ystep: 0.5, curves: [{ f: sqrt, dom: [0, 9], color: C.a, label: '√x', labelAt: [7.8, 2.55] }, { f: L, color: C.b, dash: '6 3', label: 'L(x)', labelAt: [7.6, Math.min(3.2, L(7.6) + 0.3)] }], points: [{ x: a, y: ya, label: `(${nz(a, 1)}, ${nz(ya, 2)})`, dy: 14 }] });
+}, [
+  { key: 'a', label: '切点横坐标 a', min: 0.5, max: 8, step: 0.5, value: 4 },
+], (v) => {
+  const a = v.a, ya = sqrt(a), m = 1 / (2 * ya), xq = a + 0.41, L = ya + m * (xq - a);
+  return `\\(L(x)=${fmt(ya, 3)}+${fmt(m, 3)}(x-${fmt(a, 1)})\\) approximates \\(\\sqrt{x}\\) near ${fmt(a, 1)}: \\(L(${fmt(xq, 2)})=${fmt(L, 4)}\\) vs \\(\\sqrt{${fmt(xq, 2)}}=${fmt(sqrt(xq), 4)}\\) (${L > sqrt(xq) ? 'over' : 'under'}-estimate since \\(\\sqrt x\\) is concave down).`;
+});
 def('lhopital', "L'Hospital's rule (0/0)", "\\(\\dfrac{e^x-1}{x}\\) is \\(\\dfrac00\\) at 0; the ratio of derivatives \\(\\dfrac{e^x}{1}\\to1\\). Near 0, \\(e^x-1\\) and \\(x\\) share the tangent line \\(y=x\\).", () =>
   plot({ x: [-2, 2], y: [-2, 4], curves: [{ f: (x) => exp(x) - 1, color: C.a, label: 'eˣ − 1', labelAt: [1.15, 3.2] }, { f: (x) => x, color: C.b, label: 'x', labelAt: [1.75, 1.35] }, { f: (x) => (abs(x) < 1e-9 ? NaN : (exp(x) - 1) / x), color: C.c, dash: '6 3', label: 'ratio → 1', labelAt: [-1.95, 0.75] }], points: [{ x: 0, y: 1, open: true, color: C.c }] }));
 def('lhopital-inf', "L'Hospital (∞/∞): polynomial vs exponential", "\\(\\displaystyle\\lim_{x\\to\\infty}\\dfrac{x^2}{e^x}=\\lim\\dfrac{2x}{e^x}=\\lim\\dfrac{2}{e^x}=0\\). Maximum of \\(\\dfrac{x^2}{e^x}\\) is \\(\\dfrac{4}{e^2}\\) at \\(x=2\\).", () =>
@@ -209,14 +250,21 @@ def('concavity', 'Concavity and inflection', '\\(f=\\sin x\\) on \\([0,2\\pi]\\)
   plot({ x: [0, 2 * PI], y: [-1.5, 1.5], piX: 0.5, ystep: 0.5, fills: [{ f: () => 1.5, g: () => -1.5, dom: [PI, 2 * PI], color: C.c, op: 0.08 }], curves: [{ f: sin, color: C.a, label: 'f = sin x', labelAt: [0.35, 1.1] }, { f: (x) => -sin(x), color: C.c, dash: '5 3', label: 'f″', labelAt: [4.4, 1.2], labelColor: C.ink }], points: [{ x: PI, y: 0, color: C.b, label: 'inflection' }], texts: [[PI / 2, -1.25, 'concave down', C.ink], [1.5 * PI, -1.25, 'concave up', C.ink]] }));
 def('sdt', 'Second derivative test', '\\(f=x^4-2x^2\\): \\(f\'=4x^3-4x=0\\) at \\(0,\\pm1\\). \\(f\'\'=12x^2-4\\): \\(f\'\'(\\pm1)=8>0\\) (local min), \\(f\'\'(0)=-4<0\\) (local max).', () =>
   plot({ x: [-2, 2], y: [-1.5, 3], ystep: 0.5, curves: [{ f: (x) => x ** 4 - 2 * x * x, color: C.a }], points: [{ x: -1, y: -1, label: 'f″ = 8: min', dy: 14, anchor: 'end', dx: -4 }, { x: 1, y: -1, label: 'f″ = 8: min', dy: 14 }, { x: 0, y: 0, label: 'f″ = −4: max' }] }));
-def('optimization', 'Optimization: open-top box volume', 'Square sheet 12×12, cut squares of side x: \\(V(x)=x(12-2x)^2\\), \\(V\'=(12-2x)(12-6x)=0\\Rightarrow x=2\\), \\(V_{\\max}=128\\).', () =>
-  plot({ x: [0, 6.3], y: [0, 150], xlabel: 'x', ylabel: 'V(x)', curves: [{ f: (x) => x * (12 - 2 * x) ** 2, dom: [0, 6], color: C.a }], points: [{ x: 2, y: 128, color: C.b, label: 'max (2, 128)' }] }));
-def('optimization-diagram', 'Optimization setup: box net', 'Cut \\(x\\times x\\) corners from a 12×12 sheet and fold: base \\((12-2x)^2\\), height \\(x\\). Drawn to scale for \\(x=2\\).', () => {
-  const o = 40, sc = 20; let s = rect(o, o, 12 * sc, 12 * sc, {});
-  for (const [i, j] of [[0, 0], [10, 0], [0, 10], [10, 10]]) s += rect(o + i * sc, o + j * sc, 2 * sc, 2 * sc, { fill: C.e, op: 0.25, stroke: C.e });
-  s += rect(o + 2 * sc, o + 2 * sc, 8 * sc, 8 * sc, { dash: '5 4', stroke: C.a }) + text(o + 6 * sc, o + 6 * sc, '12 − 2x') + text(o + sc, o + sc, 'x', { size: 11 }) + text(o + 6 * sc, o - 12, '12');
+idef('optimization', 'Optimization: open-top box volume', '', (v) => {
+  const V = (x) => x * (12 - 2 * x) ** 2, vol = V(v.x);
+  return plot({ x: [0, 6.3], y: [0, 150], xlabel: 'x', ylabel: 'V(x)', curves: [{ f: V, dom: [0, 6], color: C.a }], points: [{ x: v.x, y: vol, color: C.b, label: v.x === 2 ? 'max (2, 128)' : `(${fmt(v.x, 1)}, ${fmt(vol, 1)})` }] });
+}, [
+  { key: 'x', label: '切角边长 x', min: 0.5, max: 5, step: 0.5, value: 2 },
+], (v) => `Square sheet 12×12, cut squares of side x: \\(V(x)=x(12-2x)^2\\), \\(V'=(12-2x)(12-6x)=0\\Rightarrow x=2\\), \\(V_{\\max}=128\\). At \\(x=${fmt(v.x, 1)}\\), \\(V=${fmt(v.x * (12 - 2 * v.x) ** 2, 2)}\\).`);
+idef('optimization-diagram', 'Optimization setup: box net', '', (v) => {
+  const x = v.x, o = 40, sc = 20, k = x * sc;
+  let s = rect(o, o, 12 * sc, 12 * sc, {});
+  for (const [i, j] of [[0, 0], [1, 0], [0, 1], [1, 1]]) s += rect(o + i * (12 * sc - k), o + j * (12 * sc - k), k, k, { fill: C.e, op: 0.25, stroke: C.e });
+  s += rect(o + k, o + k, 12 * sc - 2 * k, 12 * sc - 2 * k, { dash: '5 4', stroke: C.a }) + text(o + 6 * sc, o + 6 * sc, '12 − 2x') + text(o + k / 2, o + k / 2, 'x', { size: 11 }) + text(o + 6 * sc, o - 12, '12');
   return svg(320, 300, s, 'box net');
-});
+}, [
+  { key: 'x', label: '切角边长 x', min: 0.5, max: 5, step: 0.5, value: 2 },
+], (v) => `Cut \\(x\\times x\\) corners from a 12×12 sheet and fold: base \\((12-2x)^2\\), height \\(x\\). Drawn to scale for \\(x=${fmt(v.x, 1)}\\); the volume is \\(V=${fmt(v.x * (12 - 2 * v.x) ** 2, 2)}\\).`);
 
 /* ---------- integration ---------- */
 def('accum-velocity', 'Accumulation of change: area under v(t)', '', () => {
@@ -276,8 +324,19 @@ def('euler-steps', "Euler's method: two steps on a slope field", 'From \\((1,2)\
   plot({ x: [0.8, 2.2], y: [1, 8.5], xstep: 0.5, field: { dydx: (x, y) => x + y, nx: 7, ny: 7 }, curves: [{ pts: [[1, 2], [1.5, 3.5], [2, 6]], color: C.b }, { f: (x) => 4 * exp(x - 1) - x - 1, dom: [1, 2.2], color: C.a, label: 'exact', labelAt: [1.75, 6.6] }], points: [{ x: 1, y: 2, label: '(1, 2)' }, { x: 1.5, y: 3.5, color: C.b, label: '(1.5, 3.5)', dy: 14 }, { x: 2, y: 6, color: C.b, label: '(2, 6)', dy: 14 }] }));
 def('separable', 'Separation of variables: dy/dx = xy', '\\(\\dfrac{dy}{y}=x\\,dx\\Rightarrow\\ln|y|=\\dfrac{x^2}{2}+C\\Rightarrow y=Ae^{x^2/2}\\). Initial condition \\(y(0)=1\\Rightarrow A=1\\) (bold).', () =>
   plot({ x: [-2, 2], y: [-4, 4], field: { dydx: (x, y) => x * y, nx: 12, ny: 10 }, curves: [-1, -0.5, 0.25, 1].map((A, i) => ({ f: (x) => A * exp(x * x / 2), color: A === 1 ? C.a : PAL[i + 1], w: A === 1 ? 2.6 : 1.4 })), points: [{ x: 0, y: 1, color: C.a, label: '(0, 1)' }] }));
-def('logistic', 'Logistic growth dP/dt = kP(1 − P/M)', '\\(k=0.8\\), \\(M=10\\), \\(P(0)=1\\): \\(P(t)=\\dfrac{10}{1+9e^{-0.8t}}\\). Fastest growth at \\(P=\\dfrac{M}{2}=5\\), \\(t=\\dfrac{\\ln9}{0.8}\\approx2.75\\). From \\(P(0)=12\\) the solution decreases to M.', () =>
-  plot({ x: [0, 10], y: [0, 13], xlabel: 't', ylabel: 'P', hlines: [{ y: 10, label: 'M = 10' }, { y: 5, label: 'M/2' }], curves: [{ f: (t) => 10 / (1 + 9 * exp(-0.8 * t)), color: C.a }, { f: (t) => 10 / (1 - (1 / 6) * exp(-0.8 * t)), color: C.b, dash: '5 3', label: 'P(0) = 12', labelAt: [0.3, 12.5] }], points: [{ x: log(9) / 0.8, y: 5, color: C.b, label: 'inflection', dy: 14 }] }));
+idef('logistic', 'Logistic growth dP/dt = kP(1 − P/M)', '', (v) => {
+  const k = v.k, M = v.M, P0 = v.P0, P0b = 1.2 * M;
+  const f1 = (t) => M / (1 + ((M - P0) / P0) * exp(-k * t));
+  const f2 = (t) => M / (1 - (1 - M / P0b) * exp(-k * t));
+  return plot({ x: [0, 10], y: [0, Math.max(13, P0b + 1)], xlabel: 't', ylabel: 'P', hlines: [{ y: M, label: `M = ${fmt(M, 0)}` }, { y: M / 2, label: 'M/2' }], curves: [{ f: f1, color: C.a }, { f: f2, color: C.b, dash: '5 3', label: `P(0) = ${fmt(P0b, 1)}`, labelAt: [0.3, P0b + 0.5] }], points: [{ x: log((M - P0) / P0) / k, y: M / 2, color: C.b, label: 'inflection', dy: 14 }] });
+}, [
+  { key: 'k', label: '增长率 k', min: 0.2, max: 1.5, step: 0.1, value: 0.8 },
+  { key: 'M', label: '环境容纳量 M', min: 10, max: 20, step: 1, value: 10 },
+  { key: 'P0', label: '初始值 P(0)', min: 1, max: 8, step: 1, value: 1 },
+], (v) => {
+  const k = v.k, M = v.M, P0 = v.P0, t = log((M - P0) / P0) / k;
+  return `\\(k=${fmt(k, 2)}\\), \\(M=${fmt(M, 0)}\\), \\(P(0)=${fmt(P0, 0)}\\): \\(P(t)=\\dfrac{${fmt(M, 0)}}{1+${fmt((M - P0) / P0, 2)}e^{-${fmt(k, 2)}t}}\\). Fastest growth at \\(P=\\dfrac{M}{2}=${fmt(M / 2, 1)}\\), \\(t=${fmt(t, 2)}\\). From \\(P(0)=${fmt(1.2 * M, 1)}\\) the solution decreases to M.`;
+});
 
 /* ---------- applications of integration ---------- */
 def('avg-value', 'Average value of a function', '\\(f_{avg}=\\dfrac{1}{\\pi-0}\\int_0^\\pi\\sin x\\,dx=\\dfrac{2}{\\pi}\\approx0.637\\); the rectangle of height \\(\\dfrac2\\pi\\) has the same area (2).', () =>
@@ -367,9 +426,14 @@ def('cycloid', 'Parametric arc length: cycloid', '', () => {
   setCap('cycloid', `\\(x=t-\\sin t\\), \\(y=1-\\cos t\\), one arch \\(0\\le t\\le2\\pi\\): \\(L=\\int_0^{2\\pi}\\sqrt{\\left(\\dfrac{dx}{dt}\\right)^2+\\left(\\dfrac{dy}{dt}\\right)^2}dt=8\\) (numeric ${fmt(L, 5)}). Dashed: rolling circle at \\(t=\\dfrac{\\pi}{2}\\).`);
   return plot({ W: 520, H: 220, x: [-0.3, 2 * PI + 0.3], y: [-0.3, 2.5], piX: 0.5, ystep: 1, curves: [{ param: (t) => [t - sin(t), 1 - cos(t)], dom: [0, 2 * PI], color: C.a }, { param: (t) => [PI / 2 + cos(t), 1 + sin(t)], dom: [0, 2 * PI], color: C.muted, dash: '3 3' }], points: [{ x: PI / 2 - 1, y: 1, color: C.b, label: 'point on rim', dx: -10, anchor: 'end' }] });
 });
-def('vector-motion', 'Vector-valued motion: position, velocity, acceleration', '\\(\\vec r(t)=\\langle 2\\cos t,\\ \\sin 2t\\rangle\\). At \\(t=\\dfrac{\\pi}{6}\\): \\(\\vec v=\\langle-2\\sin t,\\,2\\cos2t\\rangle=\\langle-1,1\\rangle\\), speed \\(\\sqrt2\\); \\(\\vec a=\\langle-2\\cos t,\\,-4\\sin2t\\rangle=\\langle-\\sqrt3,-2\\sqrt3\\rangle\\). Vectors drawn to scale (v ×0.6, a ×0.25).', () => {
-  const t = PI / 6, x = 2 * cos(t), y = sin(2 * t), vx = -2 * sin(t), vy = 2 * cos(2 * t), ax = -2 * cos(t), ay = -4 * sin(2 * t);
-  return plot({ W: 440, H: 330, x: [-3, 3], y: [-2, 2], curves: [{ param: (s) => [2 * cos(s), sin(2 * s)], dom: [0, 2 * PI], color: C.a }], segs: [[0, 0, x, y, C.muted, 1.4, '4 3', true], [x, y, x + vx * 0.6, y + vy * 0.6, C.b, 2.2, '', true], [x, y, x + ax * 0.25, y + ay * 0.25, C.c, 2.2, '', true]], texts: [[x + vx * 0.6 - 0.15, y + vy * 0.6 + 0.15, 'v', C.b], [x + ax * 0.25 - 0.2, y + ay * 0.25, 'a', C.c], [x / 2 + 0.1, y / 2 + 0.2, 'r', C.muted]], points: [{ x, y, label: 't = π/6' }] });
+idef('vector-motion', 'Vector-valued motion: position, velocity, acceleration', '', (v) => {
+  const t = v.deg * D2R, x = 2 * cos(t), y = sin(2 * t), vx = -2 * sin(t), vy = 2 * cos(2 * t), ax = -2 * cos(t), ay = -4 * sin(2 * t);
+  return plot({ W: 440, H: 330, x: [-3, 3], y: [-2, 2], curves: [{ param: (s) => [2 * cos(s), sin(2 * s)], dom: [0, 2 * PI], color: C.a }], segs: [[0, 0, x, y, C.muted, 1.4, '4 3', true], [x, y, x + vx * 0.6, y + vy * 0.6, C.b, 2.2, '', true], [x, y, x + ax * 0.25, y + ay * 0.25, C.c, 2.2, '', true]], texts: [[x + vx * 0.6 - 0.15, y + vy * 0.6 + 0.15, 'v', C.b], [x + ax * 0.25 - 0.2, y + ay * 0.25, 'a', C.c], [x / 2 + 0.1, y / 2 + 0.2, 'r', C.muted]], points: [{ x, y, label: `t = ${piPlain(v.deg)}` }] });
+}, [
+  { key: 'deg', label: '参数 t', min: 0, max: 360, step: 15, value: 30, unit: '°' },
+], (v) => {
+  const t = v.deg * D2R, vx = -2 * sin(t), vy = 2 * cos(2 * t), ax = -2 * cos(t), ay = -4 * sin(2 * t);
+  return `\\(\\vec r(t)=\\langle 2\\cos t,\\ \\sin 2t\\rangle\\). At \\(t=${piTex(v.deg)}\\): \\(\\vec v=\\langle${fmt(vx, 2)},${fmt(vy, 2)}\\rangle\\), speed \\(${fmt(Math.hypot(vx, vy), 2)}\\); \\(\\vec a=\\langle${fmt(ax, 2)},${fmt(ay, 2)}\\rangle\\). Vectors drawn to scale (v ×0.6, a ×0.25).`;
 });
 def('vector-integral', 'Integrating velocity to get position', '', () => {
   const dist = simpson((t) => sqrt(1 + 4 * t * t), 0, 2);
@@ -388,10 +452,28 @@ function polarPlot(curves, R, marks = [], fills = []) {
   marks.forEach((m) => { const [x, y] = pt(m.th, m.r).split(',').map(Number); s += line(cx, cy, x, y, { color: C.b, dash: '4 3' }) + circle(x, y, 4, { fill: C.b, stroke: C.b }); if (m.label) s += text(x + 8, y - 10, m.label, { size: 10.5, color: C.b, anchor: 'start' }); });
   return svg(W, H, s, 'polar graph');
 }
-def('polar-basic', 'Polar coordinates: cardioid r = 1 + cos θ', '\\(x=r\\cos\\theta\\), \\(y=r\\sin\\theta\\). At \\(\\theta=\\dfrac{\\pi}{3}\\): \\(r=\\dfrac32\\), \\((x,y)=\\left(\\dfrac34,\\dfrac{3\\sqrt3}{4}\\right)\\). Slope \\(\\dfrac{dy}{dx}=\\dfrac{r\'\\sin\\theta+r\\cos\\theta}{r\'\\cos\\theta-r\\sin\\theta}\\).', () => polarPlot([{ polar: (t) => 1 + cos(t), dom: [0, 2 * PI], color: C.a }], 2, [{ th: PI / 3, r: 1.5, label: '(3/2, π/3)' }]));
+idef('polar-basic', 'Polar coordinates: cardioid r = 1 + cos θ', '', (v) => {
+  const th = v.deg * D2R, r = 1 + cos(th), fr = (x) => { const n = Math.round(x * 2); return n % 2 === 0 ? String(n / 2) : `${n}/2`; };
+  return polarPlot([{ polar: (t) => 1 + cos(t), dom: [0, 2 * PI], color: C.a }], 2, [{ th, r, label: `(${fr(r)}, ${piPlain(v.deg)})` }]);
+}, [
+  { key: 'deg', label: '极角 θ', min: 0, max: 360, step: 15, value: 60, unit: '°' },
+], (v) => {
+  const th = v.deg * D2R, r = 1 + cos(th), x = r * cos(th), y = r * sin(th);
+  return `\\(x=r\\cos\\theta\\), \\(y=r\\sin\\theta\\). At \\(\\theta=${piTex(v.deg)}\\): \\(r=${fmt(r, 3)}\\), \\((x,y)=(${fmt(x, 3)},${fmt(y, 3)})\\). Slope \\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\).`;
+});
 def('polar-area', 'Polar area: one petal of r = sin 2θ', '\\(A=\\dfrac12\\int_0^{\\pi/2}\\sin^2 2\\theta\\,d\\theta=\\dfrac{\\pi}{8}\\approx0.3927\\) (shaded petal).', () => polarPlot([{ polar: (t) => sin(2 * t), dom: [0, 2 * PI], color: C.a }], 1, [], [{ outer: (t) => sin(2 * t), dom: [0, PI / 2] }]));
 def('polar-two', 'Area between two polar curves', '\\(r=3\\cos\\theta\\) and \\(r=1+\\cos\\theta\\) meet at \\(\\theta=\\pm\\dfrac{\\pi}{3}\\). Inside the circle, outside the cardioid: \\(A=\\dfrac12\\int_{-\\pi/3}^{\\pi/3}\\big[(3\\cos\\theta)^2-(1+\\cos\\theta)^2\\big]d\\theta=\\pi\\).', () => polarPlot([{ polar: (t) => 3 * cos(t), dom: [-PI / 2, PI / 2], color: C.a, label: 'r = 3cos θ', labelAt: [2.3, 1.75] }, { polar: (t) => 1 + cos(t), dom: [0, 2 * PI], color: C.b, label: 'r = 1 + cos θ', labelAt: [-1.2, 1.35] }], 3, [{ th: PI / 3, r: 1.5 }, { th: -PI / 3, r: 1.5 }], [{ outer: (t) => 3 * cos(t), inner: (t) => 1 + cos(t), dom: [-PI / 3, PI / 3] }]));
-def('polar-limacon', 'Limaçon with inner loop r = 1 + 2cos θ', '\\(r=0\\) at \\(\\theta=\\dfrac{2\\pi}{3},\\dfrac{4\\pi}{3}\\); the inner loop (shaded) is traced for \\(\\dfrac{2\\pi}{3}<\\theta<\\dfrac{4\\pi}{3}\\), where \\(r<0\\).', () => polarPlot([{ polar: (t) => 1 + 2 * cos(t), dom: [0, 2 * PI], color: C.a }], 3, [], [{ outer: (t) => 1 + 2 * cos(t), dom: [2 * PI / 3, 4 * PI / 3], color: C.b }]));
+idef('polar-limacon', 'Limaçon with inner loop', '', (v) => {
+  const a = v.a, t0 = a > 1 ? Math.acos(-1 / a) : PI, R = a + 1;
+  return polarPlot([{ polar: (t) => 1 + a * cos(t), dom: [0, 2 * PI], color: C.a }], R, [], a > 1 ? [{ outer: (t) => 1 + a * cos(t), dom: [t0, 2 * PI - t0], color: C.b }] : []);
+}, [
+  { key: 'a', label: '系数 a（r = 1 + a cos θ）', min: 1, max: 3, step: 0.1, value: 2 },
+], (v) => {
+  const t0 = v.a > 1 ? Math.acos(-1 / v.a) : PI, deg0 = t0 * 180 / PI;
+  return v.a > 1
+    ? `\\(r=0\\) at \\(\\theta=${fmt(deg0, 0)}°,${fmt(360 - deg0, 0)}°\\); the inner loop (shaded) is traced for \\(${fmt(deg0, 0)}°<\\theta<${fmt(360 - deg0, 0)}°\\), where \\(r<0\\).`
+    : `\\(r=1+${fmt(v.a, 1)}\\cos\\theta>0\\) everywhere: the curve is a simple limaçon with no inner loop.`;
+});
 def('polar-points', 'Plotting polar points & conversion', 'Point \\(\\left(2,\\dfrac{2\\pi}{3}\\right)\\) ↔ \\((x,y)=(-1,\\sqrt3)\\); circle \\(r=2\\) and rose \\(r=2\\cos3\\theta\\) (3 petals, traced once on \\([0,\\pi]\\)).', () => polarPlot([{ polar: () => 2, dom: [0, 2 * PI], color: C.muted }, { polar: (t) => 2 * cos(3 * t), dom: [0, PI], color: C.a }], 2, [{ th: 2 * PI / 3, r: 2, label: '(2, 2π/3)' }]));
 
 /* ---------- series ---------- */
@@ -426,11 +508,25 @@ def('abs-cond', 'Absolute vs conditional convergence', '\\(\\sum\\dfrac{(-1)^{n+
   return plot({ x: [0, N + 1], y: [0, 4.3], xlabel: 'n', curves: [{ pts: P((n) => (-1) ** (n + 1) / n), color: C.a, label: 'Σ(−1)ⁿ⁺¹/n', labelAt: [22, 0.45] }, { pts: P((n) => 1 / n), color: C.e, label: 'Σ1/n', labelAt: [24, 3.55] }, { pts: P((n) => (-1) ** (n + 1) / (n * n)), color: C.c, label: 'Σ(−1)ⁿ⁺¹/n²', labelAt: [22, 1.1] }] });
 });
 const taylorSin = (n) => (x) => { let s = 0; for (let k = 0; 2 * k + 1 <= n; k++) s += ((-1) ** k * x ** (2 * k + 1)) / fact(2 * k + 1); return s; };
-def('taylor-sin', 'Taylor polynomials of sin x at 0', '\\(P_1=x\\), \\(P_3=x-\\dfrac{x^3}{3!}\\), \\(P_5=P_3+\\dfrac{x^5}{5!}\\), \\(P_7=P_5-\\dfrac{x^7}{7!}\\): each matches sin x on a wider interval around 0.', () =>
-  plot({ x: [-2 * PI, 2 * PI], y: [-2.5, 2.5], piX: 1, ystep: 1, curves: [{ f: sin, color: C.ink, w: 2.8, label: 'sin x', labelAt: [-5.9, 1.25] }, ...[1, 3, 5, 7].map((n, i) => ({ f: taylorSin(n), color: PAL[i], dash: '6 3', label: `P${n}`, labelAt: [[2.1, 2.25], [3.05, -2.3], [4.1, 2.3], [4.75, -2.3]][i] }))] }));
-def('taylor-exp', 'Taylor polynomials of eˣ at 0', '\\(P_n(x)=\\sum_{k=0}^n\\dfrac{x^k}{k!}\\); \\(P_3(1)=1+1+\\dfrac12+\\dfrac16=\\dfrac{8}{3}\\approx2.667\\) vs \\(e\\approx2.718\\).', () => {
+idef('taylor-sin', 'Taylor polynomials of sin x at 0', '', (v) => {
+  const ns = []; for (let n = 1; n <= v.N; n += 2) ns.push(n);
+  const pos = [[2.1, 2.25], [3.05, -2.3], [4.1, 2.3], [4.75, -2.3], [5.4, 2.3]];
+  return plot({ x: [-2 * PI, 2 * PI], y: [-2.5, 2.5], piX: 1, ystep: 1, curves: [{ f: sin, color: C.ink, w: 2.8, label: 'sin x', labelAt: [-5.9, 1.25] }, ...ns.map((n, i) => ({ f: taylorSin(n), color: PAL[i % 6], dash: '6 3', label: `P${n}`, labelAt: pos[i] || [5.4, 2.3] }))] });
+}, [
+  { key: 'N', label: '最高次数 N', min: 1, max: 9, step: 2, value: 7 },
+], (v) => {
+  const ns = []; for (let n = 1; n <= v.N; n += 2) ns.push(n);
+  const terms = ns.map((n) => `P_${n}`).join(', ');
+  return `${terms}: each Taylor polynomial matches sin x on a wider interval around 0. The highest shown is \\(P_${v.N}\\).`;
+});
+idef('taylor-exp', 'Taylor polynomials of eˣ at 0', '', (v) => {
   const P = (n) => (x) => { let s = 0; for (let k = 0; k <= n; k++) s += x ** k / fact(k); return s; };
-  return plot({ x: [-3, 3], y: [-2, 12], curves: [{ f: exp, color: C.ink, w: 2.8, label: 'eˣ', labelAt: [2.2, 11.2] }, ...[1, 2, 3, 4].map((n, i) => ({ f: P(n), color: PAL[i], dash: '6 3', label: `P${n}`, labelAt: [2.6, P(n)(2.6) - 0.6] }))] });
+  return plot({ x: [-3, 3], y: [-2, 12], curves: [{ f: exp, color: C.ink, w: 2.8, label: 'eˣ', labelAt: [2.2, 11.2] }, ...range(1, v.N, 1).map((n, i) => ({ f: P(n), color: PAL[i % 6], dash: '6 3', label: `P${n}`, labelAt: [2.6, Math.min(11.4, P(n)(2.6) - 0.6)] }))] });
+}, [
+  { key: 'N', label: '最高次数 N', min: 1, max: 6, step: 1, value: 4 },
+], (v) => {
+  const P = (n, x) => { let s = 0; for (let k = 0; k <= n; k++) s += x ** k / fact(k); return s; };
+  return `\\(P_n(x)=\\sum_{k=0}^n\\dfrac{x^k}{k!}\\); \\(P_${v.N}(1)=${fmt(P(v.N, 1), 3)}\\) vs \\(e\\approx2.718\\).`;
 });
 def('lagrange', 'Lagrange error bound', '', () => {
   const err = abs(sin(1) - (1 - 1 / 6));
@@ -441,10 +537,13 @@ def('interval-conv', 'Radius and interval of convergence', '\\(\\ln(1+x)=\\sum_{
   const S = (N) => (x) => { let s = 0; for (let n = 1; n <= N; n++) s += ((-1) ** (n + 1) * x ** n) / n; return s; };
   return plot({ x: [-1.5, 1.5], y: [-3, 2], xstep: 0.5, fills: [{ f: () => 2, g: () => -3, dom: [-1, 1], color: C.c, op: 0.1 }], vlines: [{ x: -1, label: 'x = −1', labelColor: C.ink }, { x: 1, label: 'x = 1', labelColor: C.ink }], curves: [{ f: (x) => log(1 + x), dom: [-0.999, 1.5], color: C.ink, w: 2.6, label: 'ln(1+x)', labelAt: [0.3, 0.75] }, { f: S(10), color: C.a, dash: '6 3', label: 'S₁₀', labelAt: [1.15, -1.8] }, { f: S(20), color: C.b, dash: '3 3', label: 'S₂₀', labelAt: [-1.45, -2.7] }] });
 });
-def('maclaurin-cos', 'Maclaurin series for cos x', '\\(\\cos x=\\sum_{n=0}^\\infty\\dfrac{(-1)^nx^{2n}}{(2n)!}=1-\\dfrac{x^2}{2!}+\\dfrac{x^4}{4!}-\\cdots\\), converges for all real x. Polynomials \\(P_2\\) to \\(P_8\\) shown.', () => {
+idef('maclaurin-cos', 'Maclaurin series for cos x', '', (v) => {
   const P = (n) => (x) => { let s = 0; for (let k = 0; 2 * k <= n; k++) s += ((-1) ** k * x ** (2 * k)) / fact(2 * k); return s; };
-  return plot({ x: [-2 * PI, 2 * PI], y: [-2.5, 2.5], piX: 1, ystep: 1, curves: [{ f: cos, color: C.ink, w: 2.8 }, ...[2, 4, 6, 8].map((n, i) => ({ f: P(n), color: PAL[i], dash: '6 3', label: `P${n}`, labelAt: [[1.85, -2.3], [3.1, 2.3], [3.95, -2.3], [4.85, 2.3]][i] }))] });
-});
+  const pos = [[1.85, -2.3], [3.1, 2.3], [3.95, -2.3], [4.85, 2.3], [5.5, -2.3]];
+  return plot({ x: [-2 * PI, 2 * PI], y: [-2.5, 2.5], piX: 1, ystep: 1, curves: [{ f: cos, color: C.ink, w: 2.8 }, ...range(2, v.N, 2).map((n, i) => ({ f: P(n), color: PAL[i % 6], dash: '6 3', label: `P${n}`, labelAt: pos[i] || [5.5, -2.3] }))] });
+}, [
+  { key: 'N', label: '最高次数 N', min: 2, max: 10, step: 2, value: 8 },
+], (v) => `\\(\\cos x=\\sum_{n=0}^\\infty\\dfrac{(-1)^nx^{2n}}{(2n)!}=1-\\dfrac{x^2}{2!}+\\dfrac{x^4}{4!}-\\cdots\\), converges for all real x. Polynomials \\(P_2\\) to \\(P_${v.N}\\) shown.`);
 def('power-geo', 'Power series from 1/(1 − x)', '\\(\\dfrac{1}{1-x}=\\sum_{n=0}^\\infty x^n\\) for \\(|x|<1\\). Partial sums \\(S_3,S_6,S_{12}\\) approach the function only inside \\((-1,1)\\).', () => {
   const S = (N) => (x) => { let s = 0; for (let n = 0; n <= N; n++) s += x ** n; return s; };
   return plot({ x: [-1.5, 1.5], y: [-1, 8], xstep: 0.5, vlines: [{ x: 1 }, { x: -1 }], curves: [{ f: (x) => 1 / (1 - x), color: C.ink, w: 2.6, n: 800 }, ...[3, 6, 12].map((N, i) => ({ f: S(N), color: PAL[i], dash: '6 3', label: `S${N}`, labelAt: [-1.45, S(N)(-1.45) > 8 ? 7.5 - i : S(N)(-1.45) + 0.3] }))] });
@@ -468,8 +567,15 @@ def('sin-cos-graph', 'Graphs of sin x and cos x', 'Period \\(2\\pi\\), amplitude
   plot({ x: [-2 * PI, 2 * PI], y: [-1.5, 1.5], piX: 0.5, ystep: 0.5, curves: [{ f: sin, color: C.a, label: 'sin x', labelAt: [PI / 2, 1.05] }, { f: cos, color: C.b, dash: '6 3', label: 'cos x', labelAt: [-0.3, 1.3] }] }));
 def('tan-graph', 'Graph of tan x', 'Period \\(\\pi\\); vertical asymptotes at \\(x=\\dfrac{\\pi}{2}+k\\pi\\); zeros at \\(x=k\\pi\\).', () =>
   plot({ x: [-1.5 * PI, 1.5 * PI], y: [-4, 4], piX: 0.5, vlines: [{ x: -PI / 2 }, { x: PI / 2 }], curves: [{ f: tan, n: 2000, color: C.a }] }));
-def('sinusoid', 'Transformed sinusoid y = A sin(B(x − C)) + D', '\\(y=2\\sin\\!\\left(2\\left(x-\\dfrac{\\pi}{4}\\right)\\right)+1\\): amplitude 2, period \\(\\dfrac{2\\pi}{2}=\\pi\\), phase shift \\(\\dfrac{\\pi}{4}\\) right, midline \\(y=1\\). Dotted: parent \\(\\sin x\\).', () =>
-  plot({ x: [-PI / 2, 2 * PI], y: [-2, 4], piX: 0.25, hlines: [{ y: 1, label: 'midline y = 1' }, { y: 3 }, { y: -1 }], curves: [{ f: (x) => 2 * sin(2 * (x - PI / 4)) + 1, color: C.a }, { f: sin, color: C.muted, dash: '3 3' }] }));
+idef('sinusoid', 'Transformed sinusoid y = A sin(B(x − C)) + D', '', (v) => {
+  const A = v.A, B = v.B, phase = v.cu * PI / 4, D = v.D;
+  return plot({ x: [-PI / 2, 2 * PI], y: [Math.min(-2, D - A - 0.5), Math.max(4, D + A + 0.5)], piX: 0.25, hlines: [{ y: D, label: `midline y = ${fmt(D, 1)}` }, { y: D + A }, { y: D - A }], curves: [{ f: (x) => A * sin(B * (x - phase)) + D, color: C.a }, { f: sin, color: C.muted, dash: '3 3' }] });
+}, [
+  { key: 'A', label: '振幅 A', min: 0.5, max: 3, step: 0.5, value: 2 },
+  { key: 'B', label: '角频率 B', min: 0.5, max: 3, step: 0.25, value: 2 },
+  { key: 'cu', label: '相位 C（π/4 的倍数）', min: -2, max: 2, step: 1, value: 1 },
+  { key: 'D', label: '中线 D', min: -2, max: 3, step: 0.5, value: 1 },
+], (v) => `\\(y=${fmt(v.A, 1)}\\sin\\!\\left(${fmt(v.B, 2)}\\left(x-${piTex(v.cu * 45)}\\right)\\right)+${fmt(v.D, 1)}\\): amplitude ${fmt(v.A, 1)}, period \\(\\dfrac{2\\pi}{${fmt(v.B, 2)}}=${fmt(2 * PI / v.B, 2)}\\), phase shift \\(${piTex(v.cu * 45)}\\), midline \\(y=${fmt(v.D, 1)}\\). Dotted: parent \\(\\sin x\\).`);
 def('trig-eq', 'Solving sin x = 1/2 on [0, 2π]', 'Intersections of \\(y=\\sin x\\) with \\(y=\\dfrac12\\): \\(x=\\dfrac{\\pi}{6}\\) and \\(x=\\dfrac{5\\pi}{6}\\).', () =>
   plot({ x: [0, 2 * PI], y: [-1.3, 1.3], piX: 1 / 6, ystep: 0.5, curves: [{ f: sin, color: C.a }], hlines: [{ y: 0.5, label: 'y = 1/2', dash: '', color: C.b }], points: [{ x: PI / 6, y: 0.5, color: C.b }, { x: 5 * PI / 6, y: 0.5, color: C.b }] }));
 def('pythag-id', 'sin²x + cos²x = 1', 'Graphs of \\(\\sin^2x\\) and \\(\\cos^2x\\) sum to the constant 1 at every x (from the unit circle, hypotenuse 1). Also \\(\\sin^2x=\\dfrac{1-\\cos2x}{2}\\).', () =>
@@ -479,11 +585,28 @@ def('param-intro', 'Parametric equations: ellipse', '\\(x=3\\cos t\\), \\(y=2\\s
 def('vectors', 'Vector addition (tip-to-tail / parallelogram)', '\\(\\vec u=\\langle3,1\\rangle\\), \\(\\vec v=\\langle1,2\\rangle\\), \\(\\vec u+\\vec v=\\langle4,3\\rangle\\), \\(|\\vec u+\\vec v|=\\sqrt{16+9}=5\\).', () =>
   plot({ W: 400, H: 340, x: [-0.5, 5], y: [-0.5, 4], segs: [[0, 0, 3, 1, C.a, 2.4, '', true], [0, 0, 1, 2, C.b, 2.4, '', true], [3, 1, 4, 3, C.b, 1.4, '4 3', true], [1, 2, 4, 3, C.a, 1.4, '4 3', true], [0, 0, 4, 3, C.c, 2.6, '', true]], texts: [[1.8, 0.35, 'u', C.a], [0.3, 1.3, 'v', C.b], [2.1, 1.95, 'u + v', C.c]] }));
 function matrixFig(M, lbl) {
-  const T = ([x, y]) => [M[0][0] * x + M[0][1] * y, M[1][0] * x + M[1][1] * y], sq = [[0, 0], [1, 0], [1, 1], [0, 1]], det = M[0][0] * M[1][1] - M[0][1] * M[1][0];
-  return plot({ W: 400, H: 340, x: [-1, 3.5], y: [-0.5, 2.5], ystep: 0.5, polys: [{ pts: sq, close: true, fill: C.muted, color: C.muted, op: 0.2 }, { pts: sq.map(T), close: true, fill: C.a, color: C.a }], segs: [[0, 0, ...T([1, 0]), C.b, 2.2, '', true], [0, 0, ...T([0, 1]), C.c, 2.2, '', true]], texts: [[2.4, 2.25, `det = ${fmt(det, 3)}`, C.a]], label: lbl });
+  const T = ([x, y]) => [M[0][0] * x + M[0][1] * y, M[1][0] * x + M[1][1] * y], sq = [[0, 0], [1, 0], [1, 1], [0, 1]], img = sq.map(T), det = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+  const xs = img.map((p) => p[0]), ys = img.map((p) => p[1]);
+  const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+  const xmin = Math.min(-1, minx < -1 ? minx - 0.5 : 0), xmax = Math.max(3.5, maxx > 3.5 ? maxx + 0.5 : 0);
+  const ymin = Math.min(-0.5, miny < -0.5 ? miny - 0.5 : 0), ymax = Math.max(2.5, maxy > 2.5 ? maxy + 0.5 : 0);
+  return plot({ W: 400, H: 340, x: [xmin, xmax], y: [ymin, ymax], ystep: 0.5, polys: [{ pts: sq, close: true, fill: C.muted, color: C.muted, op: 0.2 }, { pts: img, close: true, fill: C.a, color: C.a }], segs: [[0, 0, ...T([1, 0]), C.b, 2.2, '', true], [0, 0, ...T([0, 1]), C.c, 2.2, '', true]], texts: [[Math.min(xmax - 1, 2.4), Math.min(ymax - 0.25, 2.25), `det = ${fmt(det, 3)}`, C.a]], label: lbl });
 }
-def('matrix-transform', 'Matrix as a linear transformation', '\\(\\begin{bmatrix}2&1\\\\0&1\\end{bmatrix}\\) maps the unit square (grey) to a parallelogram of area \\(|\\det|=2\\); the columns are the images of \\(\\hat\\imath\\) and \\(\\hat\\jmath\\).', () => matrixFig([[2, 1], [0, 1]], 'matrix transform'));
-def('matrix-rot', 'Rotation matrix', 'Rotation by \\(\\dfrac{\\pi}{4}\\): \\(\\begin{bmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{bmatrix}\\), det = 1 (area preserved).', () => matrixFig([[cos(PI / 4), -sin(PI / 4)], [sin(PI / 4), cos(PI / 4)]], 'rotation matrix'));
+idef('matrix-transform', 'Matrix as a linear transformation', '', (v) => matrixFig([[v.a, v.b], [v.c, v.d]], 'matrix transform'), [
+  { key: 'a', label: 'a（左上）', min: -2, max: 3, step: 1, value: 2 },
+  { key: 'b', label: 'b（右上）', min: -2, max: 3, step: 1, value: 1 },
+  { key: 'c', label: 'c（左下）', min: -2, max: 3, step: 1, value: 0 },
+  { key: 'd', label: 'd（右下）', min: -2, max: 3, step: 1, value: 1 },
+], (v) => {
+  const det = v.a * v.d - v.b * v.c;
+  return `\\(\\begin{bmatrix}${fmt(v.a, 0)}&${fmt(v.b, 0)}\\\\${fmt(v.c, 0)}&${fmt(v.d, 0)}\\end{bmatrix}\\) maps the unit square (grey) to a parallelogram of area \\(|\\det|=${fmt(Math.abs(det), 2)}\\); the columns are the images of \\(\\hat\\imath\\) and \\(\\hat\\jmath\\). ${det === 0 ? 'The determinant is zero, so the transformation collapses area and has no inverse.' : ''}`;
+});
+idef('matrix-rot', 'Rotation matrix', '', (v) => {
+  const th = v.deg * D2R;
+  return matrixFig([[cos(th), -sin(th)], [sin(th), cos(th)]], 'rotation matrix');
+}, [
+  { key: 'deg', label: '旋转角 θ', min: 0, max: 180, step: 15, value: 45, unit: '°' },
+], (v) => `Rotation by \\(\\theta=${fmt(v.deg, 0)}°\\): \\(\\begin{bmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{bmatrix}\\), det = 1 (area preserved).`);
 def('rational-analysis', 'Rational function: asymptotes, hole, intercepts', '\\(f(x)=\\dfrac{(x-1)(x+3)}{(x-1)(x-2)}\\): hole at \\((1,-4)\\), vertical asymptote \\(x=2\\), horizontal asymptote \\(y=1\\), x-intercept \\(-3\\), y-intercept \\(f(0)=-\\dfrac32\\).', () =>
   plot({ x: [-6, 7], y: [-8, 8], vlines: [{ x: 2, label: 'x = 2' }], hlines: [{ y: 1, label: 'y = 1' }], curves: [{ f: (x) => (abs(x - 1) < 1e-9 ? NaN : ((x - 1) * (x + 3)) / ((x - 1) * (x - 2))), n: 1300, color: C.a }], points: [{ x: 1, y: -4, open: true, color: C.a, label: 'hole (1, −4)', anchor: 'start', dx: 10, dy: 14 }, { x: -3, y: 0, label: '(−3, 0)', anchor: 'end', dx: -8, dy: -12 }, { x: 0, y: -1.5, label: '(0, −3/2)', anchor: 'start', dx: 10, dy: 14 }] }));
 def('exp-log-model', 'Exponential decay model (half-life)', '\\(A(t)=100\\left(\\tfrac12\\right)^{t/5}\\): half-life 5, so A halves every 5 units. Taking logs, \\(\\ln A=\\ln100-\\dfrac{\\ln2}{5}t\\) is linear in t.', () =>
@@ -529,8 +652,20 @@ def('area-model', 'Polynomial multiplication area model', '\\((x+2)(x+3)=x^2+3x+
 });
 def('factor-roots', 'Factoring ↔ x-intercepts', '\\(x^2-5x+6=(x-2)(x-3)\\): zeros at 2 and 3; vertex \\(\\left(\\dfrac52,-\\dfrac14\\right)\\).', () =>
   plot({ x: [-0.5, 5.5], y: [-1, 6], curves: [{ f: (x) => x * x - 5 * x + 6, color: C.a }], points: [{ x: 2, y: 0, label: '(2, 0)', dy: -12, anchor: 'end', dx: -6 }, { x: 3, y: 0, label: '(3, 0)', dy: -12 }, { x: 2.5, y: -0.25, color: C.b, label: 'vertex', dy: 14 }] }));
-def('quadratic', 'Quadratic: vertex, axis, roots', '\\(y=x^2-2x-3=(x-1)^2-4\\): vertex \\((1,-4)\\), axis \\(x=1\\), roots \\(x=\\dfrac{2\\pm\\sqrt{16}}{2}=-1,3\\), y-intercept \\(-3\\).', () =>
-  plot({ x: [-3, 5], y: [-5, 6], vlines: [{ x: 1, label: 'x = 1' }], curves: [{ f: (x) => x * x - 2 * x - 3, color: C.a }], points: [{ x: 1, y: -4, color: C.b, label: '(1, −4)' }, { x: -1, y: 0, label: '−1', dy: -12, anchor: 'end', dx: -6 }, { x: 3, y: 0, label: '3', dy: -12 }, { x: 0, y: -3, label: '(0, −3)', anchor: 'end', dx: -8 }] }));
+idef('quadratic', 'Quadratic: vertex, axis, roots', '', (v) => {
+  const a = v.a, b = v.b, c = v.c, h = -b / (2 * a), k = c - b * b / (4 * a), disc = b * b - 4 * a * c;
+  const roots = disc >= 0 ? [(-b - sqrt(disc)) / (2 * a), (-b + sqrt(disc)) / (2 * a)] : [];
+  const lab = (x, d) => fmt(x, d).replace(/-/g, '−');
+  return plot({ x: [-3, 5], y: [-5, 6], vlines: [{ x: h, label: `x = ${lab(h, 2)}` }], curves: [{ f: (x) => a * x * x + b * x + c, color: C.a }], points: [{ x: h, y: k, color: C.b, label: `(${lab(h, 2)}, ${lab(k, 2)})` }, ...roots.map((r, i) => ({ x: r, y: 0, label: lab(r, 2), dy: -12, anchor: i ? 'start' : 'end', dx: i ? 8 : -6 })), { x: 0, y: c, label: `(0, ${lab(c, 1)})`, anchor: 'end', dx: -8 }] });
+}, [
+  { key: 'a', label: '二次项系数 a', min: 0.5, max: 2, step: 0.25, value: 1 },
+  { key: 'b', label: '一次项系数 b', min: -4, max: 2, step: 1, value: -2 },
+  { key: 'c', label: '常数项 c', min: -6, max: 2, step: 1, value: -3 },
+], (v) => {
+  const a = v.a, b = v.b, c = v.c, h = -b / (2 * a), k = c - b * b / (4 * a), disc = b * b - 4 * a * c;
+  const roots = disc >= 0 ? [(-b - sqrt(disc)) / (2 * a), (-b + sqrt(disc)) / (2 * a)] : [];
+  return `\\(y=${fmt(a, 2)}x^2${b < 0 ? '−' : '+'}${fmt(Math.abs(b), 1)}x${c < 0 ? '−' : '+'}${fmt(Math.abs(c), 1)}\\): vertex \\((${fmt(h, 2)},${fmt(k, 2)})\\), axis \\(x=${fmt(h, 2)}\\), ${roots.length ? `roots \\(x=${fmt(roots[0], 2)},${fmt(roots[1], 2)}\\)` : 'no real roots'}, y-intercept \\(${fmt(c, 2)}\\).`;
+});
 def('discriminant', 'Discriminant: 2, 1, or 0 real roots', '\\(b^2-4ac>0\\): \\(x^2-4\\) (Δ = 16, two roots); \\(=0\\): \\(x^2\\) (one double root); \\(<0\\): \\(x^2+2\\) (Δ = −8, none).', () =>
   plot({ x: [-3, 3], y: [-5, 7], curves: [{ f: (x) => x * x - 4, color: C.a, label: 'Δ = 16', labelAt: [2.35, 1.6] }, { f: (x) => x * x, color: C.b, label: 'Δ = 0', labelAt: [2.3, 4.6] }, { f: (x) => x * x + 2, color: C.c, label: 'Δ = −8', labelAt: [-2.9, 5.4] }] }));
 def('lin-vs-exp', 'Linear vs exponential growth', '', () => {
@@ -547,23 +682,29 @@ def('scatter-fit', 'Scatter plot with least-squares line', '', () => {
   return plot({ x: [0, 11], y: [0, 20], curves: [{ f: (x) => a + b * x, color: C.b }], points: xs.map((x, i) => ({ x, y: ys[i], r: 3.5, color: C.a })) });
 });
 const geo = (body, W = 400, H = 300, lbl = 'geometry') => svg(W, H, body, lbl);
-def('angles', 'Angle pairs at intersecting lines', 'Vertical angles are equal (\\(50°\\) and \\(50°\\)); adjacent (linear-pair) angles are supplementary: \\(50°+130°=180°\\).', () => {
-  const cx = 200, cy = 150, a = (50 * PI) / 180;
+idef('angles', 'Angle pairs at intersecting lines', '', (v) => {
+  const cx = 200, cy = 150, deg = v.deg, a = (deg * PI) / 180, sup = 180 - deg;
   const s = line(cx - 160, cy, cx + 160, cy, { w: 2 }) + line(cx - 160 * cos(a), cy + 160 * sin(a), cx + 160 * cos(a), cy - 160 * sin(a), { w: 2 })
-    + path(`M${cx + 40},${cy} A40 40 0 0 0 ${cx + 40 * cos(a)},${cy - 40 * sin(a)}`, { stroke: C.a, w: 2 }) + text(cx + 58, cy - 18, '50°', { color: C.a }) + path(`M${cx - 40},${cy} A40 40 0 0 0 ${cx - 40 * cos(a)},${cy + 40 * sin(a)}`, { stroke: C.a, w: 2 }) + text(cx - 58, cy + 18, '50°', { color: C.a }) + text(cx - 18, cy - 40, '130°', { color: C.b }) + text(cx + 18, cy + 40, '130°', { color: C.b });
+    + path(`M${cx + 40},${cy} A40 40 0 0 0 ${cx + 40 * cos(a)},${cy - 40 * sin(a)}`, { stroke: C.a, w: 2 }) + text(cx + 58, cy - 18, `${deg}°`, { color: C.a }) + path(`M${cx - 40},${cy} A40 40 0 0 0 ${cx - 40 * cos(a)},${cy + 40 * sin(a)}`, { stroke: C.a, w: 2 }) + text(cx - 58, cy + 18, `${deg}°`, { color: C.a }) + text(cx - 18, cy - 40, `${sup}°`, { color: C.b }) + text(cx + 18, cy + 40, `${sup}°`, { color: C.b });
   return geo(s);
-});
-def('parallel-transversal', 'Parallel lines cut by a transversal', 'Corresponding angles are equal (\\(65°\\)); alternate interior angles are equal; same-side interior angles are supplementary (\\(65°+115°=180°\\)).', () => {
-  const a = (65 * PI) / 180, k = 1 / tan(a), xi = (y) => 200 + (150 - y) * k; // transversal through (200,150) at 65°
+}, [
+  { key: 'deg', label: '锐角', min: 30, max: 80, step: 5, value: 50, unit: '°' },
+], (v) => `Vertical angles are equal (\\(${fmt(v.deg, 0)}°\\) and \\(${fmt(v.deg, 0)}°\\)); adjacent (linear-pair) angles are supplementary: \\(${fmt(v.deg, 0)}°+${fmt(180 - v.deg, 0)}°=180°\\).`);
+idef('parallel-transversal', 'Parallel lines cut by a transversal', '', (v) => {
+  const deg = v.deg, a = (deg * PI) / 180, sup = 180 - deg, k = 1 / tan(a), xi = (y) => 200 + (150 - y) * k;
   let s = line(20, 90, 380, 90, { w: 2 }) + line(20, 210, 380, 210, { w: 2 }) + line(xi(280), 280, xi(20), 20, { w: 2 });
-  for (const y of [90, 210]) s += path(`M${xi(y) + 30},${y} A30 30 0 0 0 ${xi(y) + 30 * cos(a)},${y - 30 * sin(a)}`, { stroke: C.a, w: 2 }) + text(xi(y) + 46, y - 14, '65°', { color: C.a }) + text(xi(y) - 30, y - 14, '115°', { color: C.b });
+  for (const y of [90, 210]) s += path(`M${xi(y) + 30},${y} A30 30 0 0 0 ${xi(y) + 30 * cos(a)},${y - 30 * sin(a)}`, { stroke: C.a, w: 2 }) + text(xi(y) + 46, y - 14, `${deg}°`, { color: C.a }) + text(xi(y) - 30, y - 14, `${sup}°`, { color: C.b });
   s += text(372, 78, 'ℓ₁') + text(372, 198, 'ℓ₂');
   return geo(s);
-});
-def('similar-tri', 'Similar triangles (scale factor 1.5)', '△ABC ~ △DEF with sides 3-4-5 and 4.5-6-7.5: \\(\\dfrac{4.5}{3}=\\dfrac{6}{4}=\\dfrac{7.5}{5}=1.5\\); areas scale by \\(1.5^2=2.25\\) (6 → 13.5). Drawn to scale.', () => {
-  const sc = 26, tri = (ox, k, lab) => path(`M${ox},250 L${ox + 4 * k * sc},250 L${ox},${250 - 3 * k * sc} Z`, { fill: C.a, op: 0.12, stroke: C.a, w: 2 }) + text(ox - 14, 250 - 1.5 * k * sc, String(3 * k)) + text(ox + 2 * k * sc, 266, String(4 * k)) + text(ox + 2 * k * sc + 14, 250 - 1.5 * k * sc - 8, String(5 * k)) + text(ox + 6, 250 - 3 * k * sc - 14, lab, { bold: true, anchor: 'start' });
-  return geo(tri(30, 1, '△ABC') + tri(190, 1.5, '△DEF'), 400, 290);
-});
+}, [
+  { key: 'deg', label: '同位角', min: 40, max: 80, step: 5, value: 65, unit: '°' },
+], (v) => `Corresponding angles are equal (\\(${fmt(v.deg, 0)}°\\)); alternate interior angles are equal; same-side interior angles are supplementary (\\(${fmt(v.deg, 0)}°+${fmt(180 - v.deg, 0)}°=180°\\)).`);
+idef('similar-tri', 'Similar triangles (scale factor)', '', (v) => {
+  const sc = 26, k = v.k, tri = (ox, kk, lab) => path(`M${ox},250 L${ox + 4 * kk * sc},250 L${ox},${250 - 3 * kk * sc} Z`, { fill: C.a, op: 0.12, stroke: C.a, w: 2 }) + text(ox - 14, 250 - 1.5 * kk * sc, String(fmt(3 * kk, 1))) + text(ox + 2 * kk * sc, 266, String(fmt(4 * kk, 1))) + text(ox + 2 * kk * sc + 14, 250 - 1.5 * kk * sc - 8, String(fmt(5 * kk, 1))) + text(ox + 6, 250 - 3 * kk * sc - 14, lab, { bold: true, anchor: 'start' });
+  return geo(tri(30, 1, '△ABC') + tri(190, k, '△DEF'), Math.max(400, 190 + 4 * k * sc + 40), 290);
+}, [
+  { key: 'k', label: '相似比 k', min: 1, max: 3, step: 0.1, value: 1.5 },
+], (v) => `△ABC ~ △DEF with sides 3-4-5 and ${fmt(3 * v.k, 1)}-${fmt(4 * v.k, 1)}-${fmt(5 * v.k, 1)}: \\(\\dfrac{${fmt(3 * v.k, 1)}}{3}=\\dfrac{${fmt(4 * v.k, 1)}}{4}=\\dfrac{${fmt(5 * v.k, 1)}}{5}=${fmt(v.k, 1)}\\); areas scale by \\(${fmt(v.k, 1)}^2=${fmt(v.k * v.k, 2)}\\) (6 → ${fmt(6 * v.k * v.k, 2)}). Drawn to scale.`);
 def('pythagoras', 'Pythagorean theorem (3-4-5)', 'Squares on the legs have areas 9 and 16; the square on the hypotenuse has area 25 = 9 + 16. Drawn to scale.', () => {
   const sc = 22, A = [140, 200], B = [140 + 4 * sc, 200], Cc = [140, 200 - 3 * sc], dx = B[0] - Cc[0], dy = B[1] - Cc[1], n = [dy, -dx];
   let s = path(`M${A}L${B}L${Cc}Z`, { fill: C.ink, op: 0.08, w: 2 }) + rect(140, 200, 4 * sc, 4 * sc, { fill: C.a, op: 0.2, stroke: C.a }) + rect(140 - 3 * sc, 200 - 3 * sc, 3 * sc, 3 * sc, { fill: C.b, op: 0.2, stroke: C.b });
@@ -610,8 +751,14 @@ def('isosceles-proof', 'Proof figure: isosceles triangle', 'In △ABC with \\(AB
 });
 def('parent-fns', 'Families of parent functions', 'Linear \\(x\\), quadratic \\(x^2\\), cubic \\(x^3\\), absolute value \\(|x|\\), square root \\(\\sqrt x\\), reciprocal \\(\\dfrac1x\\).', () =>
   plot({ x: [-3, 3], y: [-3, 3], curves: [{ f: (x) => x, label: 'x', labelAt: [2.55, 2.2] }, { f: (x) => x * x, label: 'x²', labelAt: [-1.9, 2.7] }, { f: (x) => x ** 3, label: 'x³', labelAt: [1.2, 2.6] }, { f: abs, label: '|x|', labelAt: [-2.95, 2.3] }, { f: sqrt, dom: [0, 3], label: '√x', labelAt: [2.6, 1.3] }, { f: (x) => 1 / x, n: 800, label: '1/x', labelAt: [0.45, -2.6] }] }));
-def('vertex-form', 'Transformations: y = a(x − h)² + k', '\\(y=-\\tfrac12(x-2)^2+3\\): reflect in the x-axis, vertical compression by \\(\\tfrac12\\), shift right 2 and up 3; vertex \\((2,3)\\).', () =>
-  plot({ x: [-3, 6], y: [-4, 6], curves: [{ f: (x) => x * x, color: C.muted, dash: '4 3', label: 'x²', labelAt: [-2.7, 5] }, { f: (x) => -0.5 * (x - 2) ** 2 + 3, color: C.a, label: '−½(x−2)² + 3', labelAt: [3.4, 2.6] }], points: [{ x: 2, y: 3, color: C.b, label: '(2, 3)' }] }));
+idef('vertex-form', 'Transformations: y = a(x − h)² + k', '', (v) => {
+  const coef = (a) => (a === 0.5 ? '½' : a === -0.5 ? '−½' : fmt(a, 1));
+  return plot({ x: [-3, 6], y: [-4, 6], curves: [{ f: (x) => x * x, color: C.muted, dash: '4 3', label: 'x²', labelAt: [-2.7, 5] }, { f: (x) => v.a * (x - v.h) ** 2 + v.k, color: C.a, label: `${coef(v.a)}(x${v.h < 0 ? '+' : '−'}${fmt(Math.abs(v.h), 1)})² + ${fmt(v.k, 1)}`, labelAt: [3.4, 2.6] }], points: [{ x: v.h, y: v.k, color: C.b, label: `(${fmt(v.h, 1).replace('-', '−')}, ${fmt(v.k, 1).replace('-', '−')})` }] });
+}, [
+  { key: 'a', label: '开口系数 a', min: -2, max: 2, step: 0.5, value: -0.5 },
+  { key: 'h', label: '横向平移 h', min: -2, max: 5, step: 0.5, value: 2 },
+  { key: 'k', label: '纵向平移 k', min: -3, max: 5, step: 0.5, value: 3 },
+], (v) => `\\(y=${fmt(v.a, 1)}(x-${fmt(v.h, 1)})^2+${fmt(v.k, 1)}\\): ${v.a < 0 ? 'reflect in the x-axis, ' : ''}vertical ${Math.abs(v.a) < 1 ? 'compression' : Math.abs(v.a) > 1 ? 'stretch' : 'scale'} by \\(${fmt(Math.abs(v.a), 1)}\\), shift right ${fmt(v.h, 1)} and up ${fmt(v.k, 1)}; vertex \\((${fmt(v.h, 1)},${fmt(v.k, 1)})\\).`);
 def('poly-mult', 'Polynomial: zeros, multiplicity, end behavior', '\\(p(x)=(x+2)(x-1)^2(x-3)\\): crosses the axis at −2 and 3, touches (bounces) at 1 (multiplicity 2); degree 4 with positive leading coefficient ⇒ both ends rise.', () =>
   plot({ x: [-3, 4], y: [-14, 12], curves: [{ f: (x) => (x + 2) * (x - 1) ** 2 * (x - 3), color: C.a }], points: [{ x: -2, y: 0, label: '−2', anchor: 'end', dx: -8 }, { x: 1, y: 0, label: '1 (×2)' }, { x: 3, y: 0, label: '3', dy: 14 }] }));
 def('radical-fns', 'Radical functions √x and ∛x', '\\(x^{1/2}=\\sqrt x\\) is defined for \\(x\\ge0\\); \\(x^{1/3}=\\sqrt[3]x\\) for all reals; in general \\(x^{m/n}=\\left(\\sqrt[n]{x}\\right)^m\\).', () =>
@@ -698,17 +845,23 @@ def('factoring-patterns', 'Factoring patterns and the zero-product property', 'A
     ['trinomial, a ≠ 1', '2x² + 7x + 3', '(2x + 1)(x + 3)'],
     ['grouping', 'x³ + 2x² + 3x + 6', '(x + 2)(x² + 3)'],
   ], { headers: ['pattern', 'example', 'factored form'], rowH: 35, size: 9.5 }) + text(310, 300, 'zero-product property: if (x − 2)(x − 3) = 0, then x = 2 or x = 3', { size: 10.5, color: C.muted }), 'factoring patterns'));
-def('compound-interest', 'Compound vs simple interest', 'For \\(P=1000\\) and \\(r=5\\%\\), simple interest adds $50 each year, while compound interest multiplies by 1.05. After 20 years simple interest gives $2000 and annual compounding gives $2653. Doubling time at 5% is \\(\\dfrac{\\ln 2}{\\ln 1.05}\\approx14.2\\) years, not 20.', () => {
-  const p = plot({ W: 400, H: 300, x: [0, 20], y: [1000, 2800], xstep: 5, ystep: 500, xlabel: 'years', ylabel: 'account value ($)', ylabelTop: true, curves: [{ f: (t) => 1000 * (1 + 0.05 * t), color: C.a, label: 'simple', labelAt: [15.5, 1880] }, { f: (t) => 1000 * 1.05 ** t, color: C.b, label: 'compound', labelAt: [12.5, 2250] }], points: [10, 20].flatMap((t) => [{ x: t, y: 1000 * (1 + 0.05 * t), color: C.a, r: 3 }, { x: t, y: 1000 * 1.05 ** t, color: C.b, r: 3 }]) });
+idef('compound-interest', 'Compound vs simple interest', '', (v) => {
+  const P = v.P, r = v.r / 100, T = v.t, ymax = Math.max(2800 * (P / 1000), P * (1 + r) ** T * 1.05);
+  const simple = (t) => P * (1 + r * t), comp = (t) => P * (1 + r) ** t;
+  const p = plot({ W: 400, H: 300, x: [0, T], y: [P, ymax], xstep: 5, ystep: Math.max(500, Math.round(ymax / 6 / 500) * 500), xlabel: 'years', ylabel: 'account value ($)', ylabelTop: true, curves: [{ f: simple, color: C.a, label: 'simple', labelAt: [T * 0.775, simple(T * 0.775) + ymax * 0.0375] }, { f: comp, color: C.b, label: 'compound', labelAt: [T * 0.625, comp(T * 0.625) + ymax * 0.1463553] }], points: [T / 2, T].flatMap((t) => [{ x: t, y: simple(t), color: C.a, r: 3 }, { x: t, y: comp(t), color: C.b, r: 3 }]) });
   const inner = p.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '').replace(/<defs>[\s\S]*?<\/defs>/, '');
-  let s = `<g>${inner}</g>` + text(525, 42, 'value of $1000 at 5%', { size: 11, bold: true });
-  s += table(415, 58, [80, 65, 75], [
-    ['0', '1000', '1000'],
-    ['5', '1250', '1276'],
-    ['10', '1500', '1629'],
-    ['20', '2000', '2653'],
-  ], { headers: ['year', 'simple', 'compound'], rowH: 28, size: 9.5, align: ['middle', 'end', 'end'] });
+  let s = `<g>${inner}</g>` + text(525, 42, `value of $${String(P)} at ${String(Number(fmt(v.r, 1)))}%`, { size: 11, bold: true });
+  const rows = [0, Math.round(T / 4), Math.round(T / 2), T].map((t) => [String(t), fmt(simple(t), 0), fmt(comp(t), 0)]);
+  s += table(415, 58, [80, 65, 75], rows, { headers: ['year', 'simple', 'compound'], rowH: 28, size: 9.5, align: ['middle', 'end', 'end'] });
   return svg(640, 320, s, 'compound interest');
+}, [
+  { key: 'P', label: '本金 P', min: 500, max: 5000, step: 100, value: 1000, unit: '$' },
+  { key: 'r', label: '年利率 r', min: 1, max: 10, step: 0.5, value: 5, unit: '%' },
+  { key: 't', label: '年数', min: 5, max: 30, step: 1, value: 20, unit: '年' },
+], (v) => {
+  const P = v.P, r = v.r / 100, T = v.t;
+  const simple = P * (1 + r * T), comp = P * (1 + r) ** T;
+  return `For \\(P=${P.toLocaleString('en-US')}\\) and \\(r=${fmt(v.r, 1)}\\%\\), simple interest adds $${fmt(P * r, 2)} each year, while compound interest multiplies by ${fmt(1 + r, 3)}. After ${fmt(T, 0)} years simple interest gives $${fmt(simple, 0)} and annual compounding gives $${fmt(comp, 0)}. Doubling time at ${fmt(v.r, 1)}% is \\(\\dfrac{\\ln 2}{\\ln ${fmt(1 + r, 3)}}\\approx${fmt(Math.log(2) / Math.log(1 + r), 2)}\\) years.`;
 });
 def('residual-plot', 'Residual plot for a linear model', 'Residual \\(=y-\\hat y\\) for the same 14 seeded points as the scatter plot. The residuals bounce randomly around zero with no curve or funnel, supporting a linear fit. Here \\(r\\approx0.93\\) and \\(r^2\\approx0.86\\), so about 86% of the variation in \\(y\\) is explained by \\(x\\); correlation still does not prove causation.', () => {
   const rnd = mulberry(7), xs = Array.from({ length: 14 }, (_, i) => 1 + i * 0.7), ys = xs.map((x) => 2 + 1.5 * x + (rnd() - 0.5) * 3);
@@ -721,7 +874,6 @@ def('residual-plot', 'Residual plot for a linear model', 'Residual \\(=y-\\hat y
 
 
 /* ---------- geometry prerequisites (P2) ---------- */
-const D2R = PI / 180;
 function figArc(cx, cy, r, a0, a1, color = C.a, w = 1.6) {
   const norm = (a) => ((a % 360) + 360) % 360;
   const s = norm(a0), d = norm(a1 - a0);
@@ -765,7 +917,7 @@ def('angle-pairs', 'Angle-pair reference: complementary, supplementary, vertical
   s += text(550, 238, 'vertical angles are equal', { size: 10, color: C.muted });
   return svg(660, 260, s, 'angle pairs');
 });
-def('congruence-tests', 'Triangle congruence: SSS, SAS, ASA', 'SSS, SAS and ASA guarantee congruent triangles because the given parts fix the whole triangle. Mark matching sides with tick marks and matching angles with arcs. AAA fixes shape but not size (similar, not congruent), and SSA can produce two different triangles (the ambiguous case).', () => {
+idef('congruence-tests', 'Triangle congruence: SSS, SAS, ASA', 'SSS, SAS and ASA guarantee congruent triangles because the given parts fix the whole triangle. Mark matching sides with tick marks and matching angles with arcs. AAA fixes shape but not size (similar, not congruent), and SSA can produce two different triangles (the ambiguous case).', (v) => {
   let s = '';
   const panel = (cx, label, kind, note) => {
     const A = [cx, 220], B = [cx + 150, 220], Cc = [cx + 55, 80];
@@ -776,10 +928,14 @@ def('congruence-tests', 'Triangle congruence: SSS, SAS, ASA', 'SSS, SAS and ASA 
     t += text(cx + 75, 252, note, { size: 10, color: C.muted });
     return t;
   };
-  s += panel(25, 'SSS', 'SSS', 'three sides') + panel(230, 'SAS', 'SAS', 'two sides + included angle') + panel(435, 'ASA', 'ASA', 'two angles + included side');
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'SSS' ? 1 : 0.22}">${panel(25, 'SSS', 'SSS', 'three sides')}</g>`;
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'SAS' ? 1 : 0.22}">${panel(230, 'SAS', 'SAS', 'two sides + included angle')}</g>`;
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'ASA' ? 1 : 0.22}">${panel(435, 'ASA', 'ASA', 'two angles + included side')}</g>`;
   return svg(610, 275, s, 'congruence tests');
-});
-def('similarity-tests', 'Similarity criteria: AA, SAS, SSS', 'AA similarity needs two pairs of congruent angles; SAS needs two proportional sides with the included angle equal; SSS needs all three side ratios equal. Similar triangles have equal corresponding angles and proportional sides: \\(\\dfrac{DE}{AB}=\\dfrac{EF}{BC}=\\dfrac{DF}{AC}=k\\). Areas scale by \\(k^2\\) and volumes by \\(k^3\\).', () => {
+}, [
+  { key: 'panel', type: 'buttons', label: '聚焦判定（其余变暗）', value: 'all', options: [{ value: 'all', label: '全部' }, { value: 'SSS', label: 'SSS' }, { value: 'SAS', label: 'SAS' }, { value: 'ASA', label: 'ASA' }] },
+]);
+idef('similarity-tests', 'Similarity criteria: AA, SAS, SSS', 'AA similarity needs two pairs of congruent angles; SAS needs two proportional sides with the included angle equal; SSS needs all three side ratios equal. Similar triangles have equal corresponding angles and proportional sides: \\(\\dfrac{DE}{AB}=\\dfrac{EF}{BC}=\\dfrac{DF}{AC}=k\\). Areas scale by \\(k^2\\) and volumes by \\(k^3\\).', (v) => {
   let s = '';
   const panel = (cx, label, kind, note) => {
     const small = [[cx - 105, 230], [cx - 25, 230], [cx - 88, 165]];
@@ -796,27 +952,37 @@ def('similarity-tests', 'Similarity criteria: AA, SAS, SSS', 'AA similarity need
     t += text(cx - 40, 252, 'small', { size: 9, color: C.muted }) + text(cx + 65, 252, 'large', { size: 9, color: C.muted }) + text(cx, 276, note, { size: 9.5, color: C.muted });
     return t;
   };
-  s += panel(125, 'AA', 'AA', 'two equal angles') + panel(370, 'SAS', 'SAS', 'two proportional sides + angle') + panel(610, 'SSS', 'SSS', 'three proportional sides');
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'AA' ? 1 : 0.22}">${panel(125, 'AA', 'AA', 'two equal angles')}</g>`;
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'SAS' ? 1 : 0.22}">${panel(370, 'SAS', 'SAS', 'two proportional sides + angle')}</g>`;
+  s += `<g opacity="${v.panel === 'all' || v.panel === 'SSS' ? 1 : 0.22}">${panel(610, 'SSS', 'SSS', 'three proportional sides')}</g>`;
   return svg(760, 300, s, 'similarity criteria');
-});
-def('special-right-triangles', 'Special right triangles and the converse', '45°-45°-90° triangles have sides in the ratio \\(1:1:\\sqrt2\\); 30°-60°-90° triangles have sides in the ratio \\(1:\\sqrt3:2\\). The converse of the Pythagorean theorem classifies a triangle: if \\(a^2+b^2=c^2\\) it is right, if \\(a^2+b^2>c^2\\) it is acute, and if \\(a^2+b^2<c^2\\) it is obtuse.', () => {
-  let s = text(90, 30, '45°-45°-90°', { bold: true, size: 12 }) + text(440, 30, '30°-60°-90°', { bold: true, size: 12 });
+}, [
+  { key: 'panel', type: 'buttons', label: '聚焦判定（其余变暗）', value: 'all', options: [{ value: 'all', label: '全部' }, { value: 'AA', label: 'AA' }, { value: 'SAS', label: 'SAS' }, { value: 'SSS', label: 'SSS' }] },
+]);
+idef('special-right-triangles', 'Special right triangles and the converse', '45°-45°-90° triangles have sides in the ratio \\(1:1:\\sqrt2\\); 30°-60°-90° triangles have sides in the ratio \\(1:\\sqrt3:2\\). The converse of the Pythagorean theorem classifies a triangle: if \\(a^2+b^2=c^2\\) it is right, if \\(a^2+b^2>c^2\\) it is acute, and if \\(a^2+b^2<c^2\\) it is obtuse.', (v) => {
+  const op45 = v.panel === 'all' || v.panel === '45' ? 1 : 0.22, op30 = v.panel === 'all' || v.panel === '30' ? 1 : 0.22;
+  let l = text(90, 30, '45°-45°-90°', { bold: true, size: 12 });
   const A = [45, 240], B = [205, 240], Cc = [45, 80];
-  s += path(`M${A}L${B}L${Cc}Z`, { fill: C.a, op: 0.1, stroke: C.a, w: 2 }) + rect(45, 228, 12, 12, { w: 1 });
-  s += text(125, 258, '1', { size: 12 }) + text(28, 165, '1', { size: 12, rotate: -90 }) + text(142, 148, '√2', { size: 12, rotate: -45 }) + text(65, 225, '45°', { size: 10, color: C.b }) + text(190, 225, '45°', { size: 10, color: C.b });
+  l += path(`M${A}L${B}L${Cc}Z`, { fill: C.a, op: 0.1, stroke: C.a, w: 2 }) + rect(45, 228, 12, 12, { w: 1 });
+  l += text(125, 258, '1', { size: 12 }) + text(28, 165, '1', { size: 12, rotate: -90 }) + text(142, 148, '√2', { size: 12, rotate: -45 }) + text(65, 225, '45°', { size: 10, color: C.b }) + text(190, 225, '45°', { size: 10, color: C.b });
+  let r = text(440, 30, '30°-60°-90°', { bold: true, size: 12 });
   const A2 = [335, 240], B2 = [540, 240], C2 = [335, 120];
-  s += path(`M${A2}L${B2}L${C2}Z`, { fill: C.c, op: 0.1, stroke: C.c, w: 2 }) + rect(335, 228, 12, 12, { w: 1 });
-  s += text(437, 260, '√3', { size: 12 }) + text(318, 185, '1', { size: 12, rotate: -90 }) + text(450, 165, '2', { size: 12, rotate: -30 }) + text(355, 226, '30°', { size: 10, color: C.b }) + text(520, 226, '60°', { size: 10, color: C.b });
-  s += text(330, 298, 'converse:  a² + b² = c² → right   ·   a² + b² > c² → acute   ·   a² + b² < c² → obtuse', { size: 9.5, color: C.muted });
+  r += path(`M${A2}L${B2}L${C2}Z`, { fill: C.c, op: 0.1, stroke: C.c, w: 2 }) + rect(335, 228, 12, 12, { w: 1 });
+  r += text(437, 260, '√3', { size: 12 }) + text(318, 185, '1', { size: 12, rotate: -90 }) + text(450, 165, '2', { size: 12, rotate: -30 }) + text(355, 226, '30°', { size: 10, color: C.b }) + text(520, 226, '60°', { size: 10, color: C.b });
+  const s = `<g opacity="${op45}">${l}</g><g opacity="${op30}">${r}</g>` + text(330, 298, 'converse:  a² + b² = c² → right   ·   a² + b² > c² → acute   ·   a² + b² < c² → obtuse', { size: 9.5, color: C.muted });
   return svg(620, 315, s, 'special right triangles');
-});
-def('unit-circle-trig', 'Unit-circle definitions of sin, cos and tan', 'On the unit circle, a point at angle \\(\\theta\\) has coordinates \\((\\cos\\theta,\\sin\\theta)\\). Thus \\(\\sin\\theta=y\\), \\(\\cos\\theta=x\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\) (the slope of the terminal ray). The table gives exact values; inverse trig functions recover an angle from a ratio.', () => {
-  const cx = 160, cy = 180, R = 110, th = 35 * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
+}, [
+  { key: 'panel', type: 'buttons', label: '聚焦三角形（其余变暗）', value: 'all', options: [{ value: 'all', label: '全部' }, { value: '45', label: '45°-45°-90°' }, { value: '30', label: '30°-60°-90°' }] },
+]);
+idef('unit-circle-trig', 'Unit-circle definitions of sin, cos and tan', 'On the unit circle, a point at angle \\(\\theta\\) has coordinates \\((\\cos\\theta,\\sin\\theta)\\). Thus \\(\\sin\\theta=y\\), \\(\\cos\\theta=x\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\) (the slope of the terminal ray). The table gives exact values; inverse trig functions recover an angle from a ratio.', (v) => {
+  const cx = 160, cy = 180, R = 110, deg = v.deg, th = deg * D2R, px = cx + R * cos(th), py = cy - R * sin(th), tv = tan(th);
   let s = circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, px, py, { color: C.a, w: 2 }) + line(px, py, px, cy, { color: C.b, dash: '4 3', w: 1.4 }) + line(cx, cy, px, cy, { color: C.b, dash: '4 3', w: 1.4 });
   s += line(cx - 135, cy, cx + 135, cy, { w: 1 }) + line(cx, cy + 125, cx, cy - 125, { w: 1 });
   s += text(px + 8, py - 8, '(cos θ, sin θ)', { anchor: 'start', size: 9.5 }) + text((cx + px) / 2, cy + 16, 'cos θ', { size: 10, color: C.b }) + text(px + 10, (py + cy) / 2, 'sin θ', { size: 10, color: C.b, anchor: 'start' });
-  s += text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, 35, C.a);
-  s += line(cx + R, 60, cx + R, 300, { color: C.muted, dash: '4 3', w: 1 }) + line(px, py, cx + R, cy - R * tan(th), { color: C.a, dash: '2 2', w: 1 }) + text(cx + R + 8, 70, 'tan θ', { anchor: 'start', size: 10, color: C.a });
+  s += text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, deg, C.a);
+  s += line(cx + R, 60, cx + R, 300, { color: C.muted, dash: '4 3', w: 1 });
+  if (Math.abs(tv) < 1.6) s += line(px, py, cx + R, cy - R * tv, { color: C.a, dash: '2 2', w: 1 }) + text(cx + R + 8, 70, 'tan θ', { anchor: 'start', size: 10, color: C.a });
+  else s += text(cx + R + 8, 70, 'tan θ ↗', { anchor: 'start', size: 10, color: C.a });
   s += table(340, 55, [60, 75, 75, 75], [
     ['0°', '0', '1', '0'],
     ['30°', '1/2', '√3/2', '1/√3'],
@@ -826,20 +992,32 @@ def('unit-circle-trig', 'Unit-circle definitions of sin, cos and tan', 'On the u
   ], { headers: ['θ', 'sin θ', 'cos θ', 'tan θ'], rowH: 30, size: 9.5, align: ['middle', 'middle', 'middle', 'middle'] });
   s += text(500, 260, 'exact values on the unit circle', { size: 9.5, color: C.muted });
   return svg(640, 315, s, 'unit circle trig');
+}, [
+  { key: 'deg', label: '角 θ', min: 0, max: 360, step: 5, value: 35, unit: '°' },
+], (v) => {
+  const th = v.deg * D2R, tv = Math.abs(cos(th)) < 1e-9 ? null : tan(th);
+  return `On the unit circle, a point at angle \\(\\theta=${fmt(v.deg, 0)}°\\) has coordinates \\((\\cos\\theta,\\sin\\theta)=(${fmt(cos(th), 3)},${fmt(sin(th), 3)})\\). Thus \\(\\sin\\theta=y\\), \\(\\cos\\theta=x\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\)${tv == null ? ' (undefined here)' : `=${fmt(tv, 3)}`} (the slope of the terminal ray). The table gives exact values; inverse trig functions recover an angle from a ratio.`;
 });
-def('arc-sector', 'Arc length and sector area', 'For a central angle \\(\\theta\\) in radians, arc length is \\(s=r\\theta\\) and sector area is \\(A=\\dfrac12r^2\\theta\\). Convert degrees with \\(\\theta_{rad}=\\theta_{deg}\\dfrac{\\pi}{180}\\). Example: \\(r=6\\), \\(\\theta=120°=\\dfrac{2\\pi}{3}\\) gives \\(s=4\\pi\\approx12.57\\) and \\(A=12\\pi\\approx37.70\\).', () => {
-  const cx = 170, cy = 175, R = 110, a0 = 20, a1 = 140;
+idef('arc-sector', 'Arc length and sector area', '', (v) => {
+  const r = v.r, theta = v.deg, cx = 170, cy = 175, R = 70 + (r / 6) * 40, a0 = 20, a1 = a0 + theta, large = theta > 180 ? 1 : 0;
   const p = (a) => [cx + R * cos(a * D2R), cy - R * sin(a * D2R)];
-  const [x0, y0] = p(a0), [x1, y1] = p(a1);
-  let s = path(`M${cx},${cy} L${x0},${y0} A${R} ${R} 0 0 0 ${x1},${y1} Z`, { fill: C.a, op: 0.16, stroke: 'none' });
-  s += circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, x0, y0, { w: 2 }) + line(cx, cy, x1, y1, { w: 2 }) + path(`M${x0},${y0} A${R} ${R} 0 0 0 ${x1},${y1}`, { stroke: C.b, w: 4 });
-  s += figArc(cx, cy, 38, a0, a1, C.e) + text(cx + 56, cy - 44, 'θ = 120°', { size: 10.5, color: C.e }) + text(cx + 82, cy + 6, 'r', { size: 12, bold: true }) + text(108, 74, 'arc s', { size: 11, color: C.b });
+  const [x0, y0] = p(a0), [x1, y1] = p(a1), mid = (a0 + a1) / 2, rad = theta * D2R;
+  let s = path(`M${cx},${cy} L${x0},${y0} A${R} ${R} 0 ${large} 0 ${x1},${y1} Z`, { fill: C.a, op: 0.16, stroke: 'none' });
+  s += circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, x0, y0, { w: 2 }) + line(cx, cy, x1, y1, { w: 2 }) + path(`M${x0},${y0} A${R} ${R} 0 ${large} 0 ${x1},${y1}`, { stroke: C.b, w: 4 });
+  const isDefault = Math.abs(r - 6) < 1e-9 && theta === 120;
+  s += figArc(cx, cy, 38, a0, a1, C.e) + text(isDefault ? cx + 56 : cx + R * 0.55 * cos(mid * D2R), isDefault ? cy - 44 : cy - R * 0.55 * sin(mid * D2R), `θ = ${fmt(theta, 0)}°`, { size: 10.5, color: C.e }) + text(isDefault ? cx + 82 : cx + 0.47 * R * cos(a0 * D2R) + 14, isDefault ? cy + 6 : cy - 0.47 * R * sin(a0 * D2R) + 10, isDefault ? 'r' : `r = ${fmt(r, 1)}`, { size: isDefault ? 12 : 10.5, bold: true }) + text(isDefault ? 108 : cx + (R + 18) * cos(mid * D2R), isDefault ? 74 : cy - (R + 18) * sin(mid * D2R), 'arc s', { size: 11, color: C.b });
   s += text(340, 52, 'radian measure', { bold: true, size: 12, anchor: 'start' });
   s += text(340, 80, 'arc length:  s = rθ', { size: 11, anchor: 'start' }) + text(340, 104, 'sector area:  A = ½ r²θ', { size: 11, anchor: 'start' });
   s += text(340, 128, 'degrees → radians:  θ × π ÷ 180', { size: 10, anchor: 'start', color: C.muted });
   s += table(340, 150, [85, 105], [['90°', 'π/2'], ['180°', 'π'], ['270°', '3π/2'], ['360°', '2π']], { headers: ['degrees', 'radians'], rowH: 28, size: 10, align: ['middle', 'middle'] });
-  s += text(340, 300, 'r = 6, θ = 2π/3 → s ≈ 12.57, A ≈ 37.70', { size: 9.5, anchor: 'start' });
+  s += text(340, 300, isDefault ? 'r = 6, θ = 2π/3 → s ≈ 12.57, A ≈ 37.70' : `r = ${fmt(r, 1)}, θ = ${fmt(theta, 0)}° → s ≈ ${fmt(r * rad, 2)}, A ≈ ${fmt(0.5 * r * r * rad, 2)}`, { size: 9.5, anchor: 'start' });
   return svg(620, 325, s, 'arc length sector area');
+}, [
+  { key: 'r', label: '半径 r', min: 2, max: 10, step: 0.5, value: 6 },
+  { key: 'deg', label: '圆心角 θ', min: 30, max: 300, step: 5, value: 120, unit: '°' },
+], (v) => {
+  const rad = v.deg * D2R, s = v.r * rad, A = 0.5 * v.r * v.r * rad;
+  return `For a central angle \\(\\theta\\) in radians, arc length is \\(s=r\\theta\\) and sector area is \\(A=\\dfrac12r^2\\theta\\). Convert degrees with \\(\\theta_{rad}=\\theta_{deg}\\dfrac{\\pi}{180}\\). Example: \\(r=${fmt(v.r, 1)}\\), \\(\\theta=${fmt(v.deg, 0)}°=${fmt(rad / PI, 2)}\\pi\\) gives \\(s=${fmt(s, 2)}\\) and \\(A=${fmt(A, 2)}\\).`;
 });
 def('area-decompose', 'Area by decomposition and unit conversion', 'The L-shaped figure splits into an \\(8\\times4\\) rectangle (32 m²) and a \\(5\\times2\\) rectangle (10 m²), for a total area of 42 m². Perimeter follows only the outside boundary: 8 + 4 + 3 + 2 + 5 + 6 = 28 m; the dashed cut is not part of the perimeter. Convert units before computing: \\(1\\text{ m}=100\\text{ cm}\\) and \\(1\\text{ m}^2=10{,}000\\text{ cm}^2\\).', () => {
   const sc = 40, ox = 40, oy = 300;
@@ -852,14 +1030,20 @@ def('area-decompose', 'Area by decomposition and unit conversion', 'The L-shaped
   s += text(430, 250, '2.5 m = 250 cm', { anchor: 'start', size: 10 }) + text(430, 274, '3 m² = 30,000 cm²', { anchor: 'start', size: 10 }) + text(430, 298, 'convert, then add areas', { anchor: 'start', size: 9.5, color: C.muted });
   return svg(660, 360, s, 'area decomposition');
 });
-def('solid-scaling', 'Scaling similar solids: length, area, volume', 'When every length is multiplied by \\(k\\), surface area is multiplied by \\(k^2\\) and volume by \\(k^3\\). The two cylinders are similar with \\(k=2\\): radius 1→2, height 2→4, surface area \\(6\\pi\\to24\\pi\\) (×4), and volume \\(2\\pi\\to8\\pi\\) (×8).', () => {
+idef('solid-scaling', 'Scaling similar solids: length, area, volume', '', (v) => {
+  const k = v.k, nz = (x, d) => String(Number(fmt(x, d)));
   const cyl = (cx, top, bot, rx, ry) => `<ellipse cx="${cx}" cy="${top}" rx="${rx}" ry="${ry}" fill="none" stroke="${C.a}" stroke-width="1.6"/><ellipse cx="${cx}" cy="${bot}" rx="${rx}" ry="${ry}" fill="none" stroke="${C.a}" stroke-width="1.6" stroke-dasharray="4 3"/><line x1="${cx - rx}" y1="${top}" x2="${cx - rx}" y2="${bot}" stroke="${C.a}" stroke-width="1.6"/><line x1="${cx + rx}" y1="${top}" x2="${cx + rx}" y2="${bot}" stroke="${C.a}" stroke-width="1.6"/>`;
-  let s = cyl(100, 80, 200, 34, 9) + cyl(280, 40, 280, 68, 18);
-  s += text(100, 224, 'r = 1, h = 2', { size: 10.5 }) + text(280, 318, 'r = 2, h = 4', { size: 10.5 });
-  s += table(370, 50, [90, 65, 65, 65], [['radius', '1', '2', '×2'], ['height', '2', '4', '×2'], ['surface area', '6π', '24π', '×4'], ['volume', '2π', '8π', '×8']], { headers: ['quantity', 'small', 'large', 'factor'], rowH: 30, size: 9.5, align: ['start', 'middle', 'middle', 'middle'] });
+  let s = cyl(100, 80, 200, 34, 9) + cyl(280, 280 - 120 * k, 280, 34 * k, 9 * k);
+  s += text(100, 224, 'r = 1, h = 2', { size: 10.5 }) + text(280, 318, `r = ${nz(k, 1)}, h = ${nz(2 * k, 1)}`, { size: 10.5 });
+  s += table(370, 50, [90, 70, 70, 60], [['radius', '1', nz(k, 1), `×${nz(k, 1)}`], ['height', '2', nz(2 * k, 1), `×${nz(k, 1)}`], ['surface area', '6π', `${nz(6 * k * k, 2)}π`, `×${nz(k * k, 2)}`], ['volume', '2π', `${nz(2 * k ** 3, 2)}π`, `×${nz(k ** 3, 2)}`]], { headers: ['quantity', 'small', 'large', 'factor'], rowH: 30, size: 9.5, align: ['start', 'middle', 'middle', 'middle'] });
   s += text(370, 225, 'length × k   ·   area × k²   ·   volume × k³', { anchor: 'start', size: 10.5, bold: true });
-  s += text(370, 252, 'k = 2 → 2, 4, 8', { anchor: 'start', size: 10.5, color: C.muted });
+  s += text(370, 252, `k = ${nz(k, 1)} → length ×${nz(k, 1)}, area ×${nz(k * k, 2)}, volume ×${nz(k ** 3, 2)}`, { anchor: 'start', size: 10.5, color: C.muted });
   return svg(660, 330, s, 'similar solid scaling');
+}, [
+  { key: 'k', label: '相似比 k', min: 1.2, max: 2.2, step: 0.1, value: 2 },
+], (v) => {
+  const k = v.k;
+  return `When every length is multiplied by \\(k\\), surface area is multiplied by \\(k^2\\) and volume by \\(k^3\\). The two cylinders are similar with \\(k=${fmt(k, 1)}\\): radius 1→${fmt(k, 1)}, height 2→${fmt(2 * k, 1)}, surface area \\(6\\pi\\to${fmt(6 * k * k, 2)}\\pi\\) (×${fmt(k * k, 2)}), and volume \\(2\\pi\\to${fmt(2 * k ** 3, 2)}\\pi\\) (×${fmt(k ** 3, 2)}).`;
 });
 def('perp-bisector', 'Perpendicular bisector and equidistance', 'The perpendicular bisector of \\(\\overline{AB}\\) is the set of points equidistant from \\(A\\) and \\(B\\). For \\(A(1,1)\\), \\(B(7,9)\\), the midpoint is \\(M(4,5)\\) and \\(m_{AB}=\\dfrac43\\), so the bisector has slope \\(-\\dfrac34\\) and equation \\(3x+4y=32\\). Point \\(P(8,2)\\) satisfies \\(PA=PB=\\sqrt{50}\\).', () =>
   plot({ W: 470, H: 420, x: [-1, 9], y: [-1, 10], segs: [[1, 1, 7, 9, C.a, 2.2], [1, 1, 8, 2, C.muted, 1.2, '4 3'], [7, 9, 8, 2, C.muted, 1.2, '4 3']], curves: [{ f: (x) => 5 - 0.75 * (x - 4), color: C.b, label: 'perpendicular bisector', labelAt: [1.0, 7.7], anchor: 'start', dx: 4, dy: -10 }], points: [{ x: 1, y: 1, label: 'A(1, 1)', dy: 14 }, { x: 7, y: 9, label: 'B(7, 9)', anchor: 'end', dx: -8 }, { x: 4, y: 5, color: C.b, label: 'M(4, 5)', anchor: 'end', dx: -6 }, { x: 8, y: 2, color: C.c, label: 'P(8, 2)', dy: 14 }], texts: [[4.25, 5.45, '⊥', C.b]] }));
@@ -951,11 +1135,11 @@ def('conic-standard', 'Conic standard forms and completing the square', 'Each co
     ['parabola', '(x − h)² = 4p(y − k)', 'vertex, focus, directrix'],
     ['hyperbola', '(x − h)² ÷ a² − (y − k)² ÷ b² = 1', 'asymptotes slope ± b ÷ a'],
   ], { headers: ['conic', 'standard form', 'key features'], rowH: 38, size: 9.5 }) + text(20, 245, 'Complete the square:  x² + 4x + y² − 6y = 3', { anchor: 'start', size: 11, bold: true }) + text(20, 272, '(x² + 4x + 4) + (y² − 6y + 9) = 3 + 4 + 9', { anchor: 'start', size: 10 }) + text(20, 299, '(x + 2)² + (y − 3)² = 16  →  center (−2, 3), radius 4', { anchor: 'start', size: 10.5 }), 'conic standard forms'));
-def('identity-derivation', 'Pythagorean identity from the unit circle', 'A point on the unit circle has coordinates \\((\\cos\\theta,\\sin\\theta)\\), so \\(x^2+y^2=1\\) becomes \\(\\sin^2\\theta+\\cos^2\\theta=1\\). Dividing by \\(\\cos^2\\theta\\) gives \\(1+\\tan^2\\theta=\\sec^2\\theta\\); dividing by \\(\\sin^2\\theta\\) gives \\(1+\\cot^2\\theta=\\csc^2\\theta\\). The double-angle identities follow from the same circle.', () => {
-  const cx = 160, cy = 180, R = 110, th = 35 * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
+idef('identity-derivation', 'Pythagorean identity from the unit circle', 'A point on the unit circle has coordinates \\((\\cos\\theta,\\sin\\theta)\\), so \\(x^2+y^2=1\\) becomes \\(\\sin^2\\theta+\\cos^2\\theta=1\\). Dividing by \\(\\cos^2\\theta\\) gives \\(1+\\tan^2\\theta=\\sec^2\\theta\\); dividing by \\(\\sin^2\\theta\\) gives \\(1+\\cot^2\\theta=\\csc^2\\theta\\). The double-angle identities follow from the same circle.', (v) => {
+  const cx = 160, cy = 180, R = 110, deg = v.deg, th = deg * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
   let s = circle(cx, cy, R, { w: 1.5 }) + line(cx, cy, px, py, { color: C.a, w: 2 }) + line(px, py, px, cy, { color: C.b, dash: '4 3', w: 1.4 }) + line(cx, cy, px, cy, { color: C.b, dash: '4 3', w: 1.4 });
   s += line(cx - 135, cy, cx + 135, cy, { w: 1 }) + line(cx, cy + 125, cx, cy - 125, { w: 1 });
-  s += text(px + 8, py - 8, '(cos θ, sin θ)', { anchor: 'start', size: 9.5 }) + text((cx + px) / 2, cy + 16, 'cos θ', { size: 10, color: C.b }) + text(px + 10, (py + cy) / 2, 'sin θ', { size: 10, color: C.b, anchor: 'start' }) + text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, 35, C.a);
+  s += text(px + 8, py - 8, '(cos θ, sin θ)', { anchor: 'start', size: 9.5 }) + text((cx + px) / 2, cy + 16, 'cos θ', { size: 10, color: C.b }) + text(px + 10, (py + cy) / 2, 'sin θ', { size: 10, color: C.b, anchor: 'start' }) + text(cx + 36, cy - 12, 'θ', { size: 12, color: C.a }) + figArc(cx, cy, 34, 0, deg, C.a);
   s += table(340, 55, [160, 140], [
     ['sin²θ + cos²θ = 1', 'unit circle x² + y² = 1'],
     ['1 + tan²θ = sec²θ', 'divide by cos²θ'],
@@ -965,9 +1149,20 @@ def('identity-derivation', 'Pythagorean identity from the unit circle', 'A point
   ], { headers: ['identity', 'why it holds'], rowH: 34, size: 9.5 });
   s += text(500, 270, 'hypotenuse = 1', { size: 9.5, color: C.muted });
   return svg(640, 300, s, 'pythagorean identity derivation');
+}, [
+  { key: 'deg', label: '角 θ', min: 5, max: 85, step: 5, value: 35, unit: '°' },
+]);
+idef('vector-components', 'Vector components, magnitude, direction and projection', '', (v) => {
+  const ux = v.ux, uy = v.uy, vx = v.vx, mag = Math.hypot(ux, uy), ang = atan2(uy, ux) * 180 / PI, dot = ux * vx;
+  return plot({ W: 540, H: 400, x: [-1, Math.max(6, ux + 1, vx + 1)], y: [-1, Math.max(6, uy + 1)], xstep: 1, ystep: 1, xlabel: 'x', ylabel: 'y', segs: [[0, 0, ux, uy, C.a, 2.6, null, true], [0, 0, vx, 0, C.b, 2.6, null, true], [0, 0, ux, 0, C.c, 4.5], [ux, 0, ux, uy, C.muted, 1.3, '4 3']], points: [{ x: ux, y: uy, color: C.a, r: 3.5 }, { x: vx, y: 0, color: C.b, r: 3.5 }], texts: [[ux + 0.12, uy + 0.22, `u = ⟨${fmt(ux, 0)}, ${fmt(uy, 0)}⟩`, C.a, 'start'], [vx * 0.82, 0.28, `v = ⟨${fmt(vx, 0)}, 0⟩`, C.b, 'start'], [ux / 6, 0.7, `projection ⟨${fmt(ux, 0)}, 0⟩`, C.c, 'start']] });
+}, [
+  { key: 'ux', label: 'u 的水平分量', min: 1, max: 5, step: 1, value: 3 },
+  { key: 'uy', label: 'u 的竖直分量', min: 1, max: 5, step: 1, value: 4 },
+  { key: 'vx', label: 'v 的水平分量', min: 2, max: 6, step: 1, value: 5 },
+], (v) => {
+  const mag = Math.hypot(v.ux, v.uy), ang = atan2(v.uy, v.ux) * 180 / PI, dot = v.ux * v.vx;
+  return `For \\(\\vec u=\\langle${fmt(v.ux, 0)},${fmt(v.uy, 0)}\\rangle\\), the components are ${fmt(v.ux, 0)} (horizontal) and ${fmt(v.uy, 0)} (vertical), so \\(|\\vec u|=\\sqrt{${fmt(v.ux, 0)}^2+${fmt(v.uy, 0)}^2}=${fmt(mag, 2)}\\) and \\(\\theta=\\arctan\\dfrac{${fmt(v.uy, 0)}}{${fmt(v.ux, 0)}}\\approx${fmt(ang, 1)}°\\). With \\(\\vec v=\\langle${fmt(v.vx, 0)},0\\rangle\\), \\(\\vec u\\cdot\\vec v=${fmt(dot, 0)}\\), so the projection of \\(\\vec u\\) onto \\(\\vec v\\) is \\(\\dfrac{\\vec u\\cdot\\vec v}{|\\vec v|^2}\\vec v=\\langle${fmt(v.ux, 0)},0\\rangle\\).`;
 });
-def('vector-components', 'Vector components, magnitude, direction and projection', 'For \\(\\vec u=\\langle3,4\\rangle\\), the components are 3 (horizontal) and 4 (vertical), so \\(|\\vec u|=\\sqrt{3^2+4^2}=5\\) and \\(\\theta=\\arctan\\dfrac43\\approx53.1°\\). With \\(\\vec v=\\langle5,0\\rangle\\), \\(\\vec u\\cdot\\vec v=15\\), so the projection of \\(\\vec u\\) onto \\(\\vec v\\) is \\(\\dfrac{\\vec u\\cdot\\vec v}{|\\vec v|^2}\\vec v=\\langle3,0\\rangle\\).', () =>
-  plot({ W: 540, H: 400, x: [-1, 6], y: [-1, 6], xstep: 1, ystep: 1, xlabel: 'x', ylabel: 'y', segs: [[0, 0, 3, 4, C.a, 2.6, null, true], [0, 0, 5, 0, C.b, 2.6, null, true], [0, 0, 3, 0, C.c, 4.5], [3, 0, 3, 4, C.muted, 1.3, '4 3']], points: [{ x: 3, y: 4, color: C.a, r: 3.5 }, { x: 5, y: 0, color: C.b, r: 3.5 }], texts: [[3.12, 4.22, 'u = ⟨3, 4⟩', C.a, 'start'], [4.1, 0.28, 'v = ⟨5, 0⟩', C.b, 'start'], [0.5, 0.7, 'projection ⟨3, 0⟩', C.c, 'start']] }));
 export const TOPIC_FIGURES = {
   'math-prep-alg1:P1.1': ['numline', 'number-classes'], 'math-prep-alg1:P1.2': ['lin-eq', 'lin-eq-balance'], 'math-prep-alg1:P1.3': ['ineq-1d', 'ineq-2d'], 'math-prep-alg1:P1.4': ['vlt', 'fn-graphs'],
   'math-prep-alg1:P1.5': ['slope', 'slope-forms'], 'math-prep-alg1:P1.6': ['sys-one', 'sys-none', 'sys-inf'], 'math-prep-alg1:P1.7': ['exp-rules', 'exponent-rules'], 'math-prep-alg1:P1.8': ['area-model', 'poly-ops-table'],
@@ -1002,5 +1197,12 @@ export const TOPIC_FIGURES = {
 };
 export const FIGURES = F;
 const cache = {};
-export function buildFigure(id) { if (!cache[id]) { const f = F[id]; if (!f) return null; const s = f.build(); cache[id] = { id, title: f.title, caption: f.caption, svg: s }; } return cache[id]; }
+export function buildFigure(id) {
+  if (!cache[id]) {
+    const f = F[id]; if (!f) return null;
+    const s = f.build();
+    cache[id] = { id, title: f.title, caption: f.caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor: f.captionFor };
+  }
+  return cache[id];
+}
 export function figuresFor(chapterId, code) { return (TOPIC_FIGURES[`${chapterId}:${code}`] || []).map(buildFigure).filter(Boolean); }

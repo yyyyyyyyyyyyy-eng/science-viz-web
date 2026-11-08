@@ -11,6 +11,12 @@ const MEDIA_BASE = new URL('./media/', import.meta.url);
 const { PI, exp, log, sqrt, abs, cos, sin } = Math;
 const F = {};
 const def = (id, title, caption, build) => { F[id] = { id, title, caption, build }; };
+/* Interactive variant: build(values) redraws from the same math; controls declare the sliders/
+   buttons. Defaults are the values that reproduce the old static figure exactly. */
+const idef = (id, title, caption, build, controls, captionFor) => {
+  const defaults = Object.fromEntries(controls.filter((c) => c.key).map((c) => [c.key, c.value]));
+  F[id] = { id, title, caption: captionFor ? captionFor(defaults) : caption, build: () => build(defaults), controls, defaults, rebuild: build, captionFor };
+};
 const setCap = (id, c) => { F[id].caption = c; };
 const fmt = (v, d = 3) => String(Math.round(v * 10 ** d) / 10 ** d);
 const gauss = (x, m, s) => exp(-((x - m) ** 2) / (2 * s * s));
@@ -21,18 +27,36 @@ const arr = (T, Ea = 50e3) => exp((-Ea / 8.314) * (1 / (T + 273.15) - 1 / 310.15
 const native = (T, Tm, dH = 300e3) => 1 / (1 + exp((dH / 8.314) * (1 / (Tm + 273.15) - 1 / (T + 273.15))));
 const enzT = (Tm) => (T) => arr(T) * native(T, Tm);
 function peakOf(f, a, b) { let bx = a, by = -1; for (let x = a; x <= b; x += 0.05) { const y = f(x); if (y > by) { by = y; bx = x; } } return [bx, by]; }
-def('enz-temp', 'Enzyme activity vs temperature', '', () => {
-  const h = enzT(45), t = enzT(85), [ph, py] = peakOf(h, 0, 100), [tp, ty] = peakOf(t, 0, 100), s = 1 / Math.max(py, ty);
-  setCap('enz-temp', `Rate = Arrhenius factor \\(e^{-E_a/RT}\\) (\\(E_a=50\\) kJ/mol) × fraction folded (two-state unfolding). Human enzyme (\\(T_m=45\\)°C) peaks near ${fmt(ph, 0)}°C; thermophile enzyme (\\(T_m=85\\)°C) near ${fmt(tp, 0)}°C. Above the optimum, denaturation causes the steep drop.`);
+idef('enz-temp', 'Enzyme activity vs temperature', '', (v) => {
+  const h = enzT(v.Tm), t = enzT(v.Tt), [ph, py] = peakOf(h, 0, 100), [tp, ty] = peakOf(t, 0, 100), s = 1 / Math.max(py, ty);
   return plot({ x: [0, 100], y: [0, 1.1], ystep: 0.2, xlabel: 'temperature (°C)', ylabel: 'relative rate', curves: [{ f: (T) => h(T) * s, color: C.a, label: 'human enzyme', labelAt: [12, 0.42] }, { f: (T) => t(T) * s, color: C.b, label: 'thermophile (Taq-like)', labelAt: [58, 1.02] }], vlines: [{ x: ph, label: `opt ${fmt(ph, 0)}°C`, color: C.a }] });
+}, [
+  { key: 'Tm', label: '人酶变性温度 Tm', min: 35, max: 60, step: 1, value: 45, unit: '°C' },
+  { key: 'Tt', label: '嗜热菌 Tm', min: 65, max: 95, step: 1, value: 85, unit: '°C' },
+], (v) => {
+  const h = enzT(v.Tm), t = enzT(v.Tt), [ph] = peakOf(h, 0, 100), [tp] = peakOf(t, 0, 100);
+  return `Rate = Arrhenius factor \\(e^{-E_a/RT}\\) (\\(E_a=50\\) kJ/mol) × fraction folded (two-state unfolding). Human enzyme (\\(T_m=${fmt(v.Tm, 0)}\\)°C) peaks near ${fmt(ph, 0)}°C; thermophile enzyme (\\(T_m=${fmt(v.Tt, 0)}\\)°C) near ${fmt(tp, 0)}°C. Above the optimum, denaturation causes the steep drop.`;
 });
-def('enz-ph', 'Enzyme activity vs pH', 'Bell-shaped activity profiles centered on each enzyme\'s optimum: pepsin (stomach) ≈ pH 2, salivary amylase ≈ pH 7, trypsin (small intestine) ≈ pH 8. Away from the optimum, altered ionization of R-groups disrupts the active site.', () =>
-  plot({ x: [0, 14], y: [0, 1.15], ystep: 0.2, xstep: 1, xlabel: 'pH', ylabel: 'relative rate', curves: [{ f: (x) => gauss(x, 2, 0.9), color: C.e, label: 'pepsin', labelAt: [2.3, 1.05] }, { f: (x) => gauss(x, 7, 1.1), color: C.a, label: 'amylase', labelAt: [5.2, 1.05] }, { f: (x) => gauss(x, 8, 1.0), color: C.c, label: 'trypsin', labelAt: [8.3, 1.05] }] }));
+idef('enz-ph', 'Enzyme activity vs pH', '', (v) =>
+  plot({ x: [0, 14], y: [0, 1.15], ystep: 0.2, xstep: 1, xlabel: 'pH', ylabel: 'relative rate', curves: [{ f: (x) => gauss(x, 2, 0.9), color: C.e, label: 'pepsin', labelAt: [2.3, 1.05] }, { f: (x) => gauss(x, v.pH, v.w), color: C.a, label: 'amylase', labelAt: [Math.max(0.6, v.pH - 1.8), 1.05] }, { f: (x) => gauss(x, 8, 1.0), color: C.c, label: 'trypsin', labelAt: [8.3, 1.05] }] }), [
+  { key: 'pH', label: '淀粉酶最适 pH', min: 5, max: 9, step: 1, value: 7 },
+  { key: 'w', label: '淀粉酶曲线宽度', min: 0.6, max: 2, step: 0.1, value: 1.1 },
+], (v) => `Bell-shaped activity profiles centered on each enzyme's optimum: pepsin (stomach) ≈ pH 2, salivary amylase ≈ pH ${fmt(v.pH, 0)}, trypsin (small intestine) ≈ pH 8. Away from the optimum, altered ionization of R-groups disrupts the active site.`);
 const MM = (Vm, Km) => (S) => (Vm * S) / (Km + S);
-def('enz-substrate', 'Reaction rate vs substrate concentration (Michaelis–Menten)', '\\(v=\\dfrac{V_{max}[S]}{K_m+[S]}\\) with \\(V_{max}=10\\), \\(K_m=2\\). At \\([S]=K_m\\), \\(v=\\dfrac{V_{max}}{2}\\). The plateau means all active sites are saturated: adding substrate no longer raises the rate.', () =>
-  plot({ x: [0, 20], y: [0, 12], xlabel: '[S] (mM)', ylabel: 'rate v', hlines: [{ y: 10, label: 'Vmax = 10' }, { y: 5, label: 'Vmax/2' }], vlines: [{ x: 2, label: 'Km' }], curves: [{ f: MM(10, 2), color: C.a }] }));
-def('enz-inhibition', 'Competitive vs noncompetitive inhibition', 'No inhibitor: \\(V_{max}=10,K_m=2\\). Competitive: apparent \\(K_m=2\\left(1+\\dfrac{[I]}{K_i}\\right)=6\\), same \\(V_{max}\\) (overcome by more substrate). Noncompetitive: \\(V_{max}\\) lowered to \\(\\dfrac{10}{1+[I]/K_i}=5\\), same \\(K_m\\).', () =>
-  plot({ x: [0, 40], y: [0, 12], xlabel: '[S] (mM)', ylabel: 'rate v', curves: [{ f: MM(10, 2), color: C.a, label: 'no inhibitor', labelAt: [28, 9.9] }, { f: MM(10, 6), color: C.b, dash: '6 3', label: 'competitive', labelAt: [28, 7.2] }, { f: MM(5, 2), color: C.e, dash: '2 3', label: 'noncompetitive', labelAt: [28, 5.4] }] }));
+idef('enz-substrate', 'Reaction rate vs substrate concentration (Michaelis–Menten)', '', (v) =>
+  plot({ x: [0, 20], y: [0, Math.max(12, v.Vm * 1.2)], xlabel: '[S] (mM)', ylabel: 'rate v', hlines: [{ y: v.Vm, label: `Vmax = ${fmt(v.Vm, 0)}` }, { y: v.Vm / 2, label: 'Vmax/2' }], vlines: [{ x: v.Km, label: 'Km' }], curves: [{ f: MM(v.Vm, v.Km), color: C.a }] }), [
+  { key: 'Km', label: '米氏常数 Km', min: 0.5, max: 8, step: 0.5, value: 2, unit: 'mM' },
+  { key: 'Vm', label: '最大速率 Vmax', min: 4, max: 20, step: 1, value: 10 },
+], (v) => `\\(v=\\dfrac{V_{max}[S]}{K_m+[S]}\\) with \\(V_{max}=${fmt(v.Vm, 0)}\\), \\(K_m=${fmt(v.Km, 1)}\\). At \\([S]=K_m\\), \\(v=\\dfrac{V_{max}}{2}\\). The plateau means all active sites are saturated: adding substrate no longer raises the rate.`);
+idef('enz-inhibition', 'Competitive vs noncompetitive inhibition', '', (v) => {
+  const appKm = 2 * (1 + v.i), vmaxN = 10 / (1 + v.i);
+  return plot({ x: [0, 40], y: [0, 12], xlabel: '[S] (mM)', ylabel: 'rate v', curves: [{ f: MM(10, 2), color: C.a, label: 'no inhibitor', labelAt: [28, 9.9] }, { f: MM(10, appKm), color: C.b, dash: '6 3', label: 'competitive', labelAt: [28, 7.2] }, { f: MM(vmaxN, 2), color: C.e, dash: '2 3', label: 'noncompetitive', labelAt: [28, 5.4] }] });
+}, [
+  { key: 'i', label: '抑制剂浓度 [I]/Kᵢ', min: 0, max: 5, step: 0.5, value: 2 },
+], (v) => {
+  const appKm = 2 * (1 + v.i), vmaxN = 10 / (1 + v.i), n = (x) => fmt(x, 1);
+  return `No inhibitor: \\(V_{max}=10,K_m=2\\). Competitive: apparent \\(K_m=2\\left(1+\\dfrac{[I]}{K_i}\\right)=${n(appKm)}\\), same \\(V_{max}\\) (overcome by more substrate). Noncompetitive: \\(V_{max}\\) lowered to \\(\\dfrac{10}{1+[I]/K_i}=${n(vmaxN)}\\), same \\(K_m\\).`;
+});
 function energyDiagram(o) {
   const W = 480, H = 300, X = (x) => 50 + x * 400, Y = (e) => 260 - e * 2;
   const prof = (Ea) => (x) => o.R * (1 - smooth(x)) + o.P * smooth(x) + Ea * exp(-((x - 0.5) ** 2) / 0.012) * 1;
@@ -48,7 +72,10 @@ function energyDiagram(o) {
   return svg(W, H, s, o.label);
 }
 function peakY(f) { let m = -1e9; for (let i = 0; i <= 400; i++) m = Math.max(m, f(i / 400)); return m; }
-def('activation-energy', 'Activation energy with and without enzyme', 'Exergonic reaction (\\(\\Delta G<0\\)). The enzyme lowers \\(E_a\\) by stabilizing the transition state, but does not change \\(\\Delta G\\) or the equilibrium.', () => energyDiagram({ R: 70, P: 30, Ea: 70, Ea2: 30, label: 'activation energy diagram' }));
+idef('activation-energy', 'Activation energy with and without enzyme', 'Exergonic reaction (\\(\\Delta G<0\\)). The enzyme lowers \\(E_a\\) by stabilizing the transition state, but does not change \\(\\Delta G\\) or the equilibrium.', (v) =>
+  energyDiagram({ R: 70, P: 30, Ea: 70, Ea2: 70 - v.drop, label: 'activation energy diagram' }), [
+  { key: 'drop', label: '酶降低的活化能', min: 5, max: 60, step: 5, value: 40, unit: 'kJ/mol' },
+], (v) => `Exergonic reaction (\\(\\Delta G<0\\)). The uncatalyzed barrier is \\(E_a=70\\) kJ/mol; the enzyme lowers it by ${fmt(v.drop, 0)} kJ/mol to ${fmt(70 - v.drop, 0)} kJ/mol by stabilizing the transition state, but does not change \\(\\Delta G\\) or the equilibrium.`);
 def('exo-endo', 'Exergonic vs endergonic reactions', 'Left: exergonic (products lower in G, \\(\\Delta G<0\\), spontaneous, e.g. ATP hydrolysis \\(\\Delta G\\approx-30.5\\) kJ/mol). Right: endergonic (\\(\\Delta G>0\\), e.g. building glucose); coupled to ATP hydrolysis in cells.', () => {
   const a = energyDiagram({ R: 70, P: 25, Ea: 55, label: 'exergonic' }), b = energyDiagram({ R: 25, P: 70, Ea: 60, label: 'endergonic' });
   const inner = (s) => s.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '').replace(/<defs>[\s\S]*?<\/defs>/, '');
@@ -90,8 +117,10 @@ def('bohr-carbon', 'Atomic structure: carbon-12 (Bohr model)', 'Carbon: 6 proton
 });
 def('isotopes', 'Isotopes of carbon (natural abundance)', '¹²C 98.93%, ¹³C 1.07%, ¹⁴C ≈1×10⁻¹⁰ % (radioactive, half-life 5730 y). Average atomic mass \\(=0.9893(12)+0.0107(13.00335)\\approx12.011\\).', () =>
   bars({ bars: [['¹²C', 98.93], ['¹³C', 1.07], ['¹⁴C', 1e-10]].map(([l, v], i) => ({ label: l, v, color: PAL[i] })), showV: true, ylabel: '% abundance', max: 110 }));
-def('c14-decay', 'Radioactive decay of ¹⁴C', '\\(N(t)=N_0\\left(\\tfrac12\\right)^{t/5730}\\): after 1 half-life 50%, 2 → 25%, 3 → 12.5%. Used to date fossils up to ~50,000 years.', () =>
-  plot({ x: [0, 30000], y: [0, 105], xstep: 5730, xfmt: (v) => String(Math.round(v)), xlabel: 'years', ylabel: '% ¹⁴C remaining', curves: [{ f: (t) => 100 * 0.5 ** (t / 5730), color: C.a }], points: [0, 1, 2, 3, 4, 5].map((k) => ({ x: 5730 * k, y: 100 / 2 ** k, r: 3, label: k ? `${fmt(100 / 2 ** k, 2)}%` : '' })) }));
+idef('c14-decay', 'Radioactive decay of ¹⁴C', '', (v) =>
+  plot({ x: [0, 30000], y: [0, 105], xstep: v.hl, xfmt: (x) => String(Math.round(x)), xlabel: 'years', ylabel: '% ¹⁴C remaining', curves: [{ f: (t) => 100 * 0.5 ** (t / v.hl), color: C.a }], points: [0, 1, 2, 3, 4, 5].map((k) => ({ x: v.hl * k, y: 100 / 2 ** k, r: 3, label: k ? `${fmt(100 / 2 ** k, 2)}%` : '' })) }), [
+  { key: 'hl', label: '半衰期', min: 2000, max: 10000, step: 100, value: 5730, unit: '年' },
+], (v) => `\\(N(t)=N_0\\left(\\dfrac12\\right)^{t/${fmt(v.hl, 0)}}\\): after 1 half-life 50%, 2 → 25%, 3 → 12.5%. Used to date fossils up to ~50,000 years.`);
 const RADIUS = [53, 31, 167, 112, 87, 67, 56, 48, 42, 38, 190, 145, 118, 111, 98, 88, 79, 71, 243, 194]; // calculated atomic radii (pm), Clementi et al.
 def('periodic-radius', 'Periodic trend: atomic radius vs atomic number', 'Calculated atomic radii (pm, Clementi 1967) for Z = 1–20: radius decreases across a period (greater nuclear charge) and jumps at each alkali metal (new shell).', () =>
   plot({ x: [0, 21], y: [0, 260], xstep: 1, xlabel: 'atomic number Z', ylabel: 'radius (pm)', curves: [{ pts: RADIUS.map((r, i) => [i + 1, r]), color: C.a }], points: RADIUS.map((r, i) => ({ x: i + 1, y: r, r: 3, color: [3, 11, 19].includes(i + 1) ? C.e : C.a, label: [3, 11, 19].includes(i + 1) ? ['Li', 'Na', 'K'][[3, 11, 19].indexOf(i + 1)] : '' })) }));
@@ -126,19 +155,29 @@ def('ph-scale', 'The pH scale', '\\(\\mathrm{pH}=-\\log[\\mathrm{H^+}]\\): each 
   s += text(X(2), 140, '← acidic  [H⁺] > 10⁻⁷ M', { size: 10, color: C.e }) + text(X(12), 140, 'basic →', { size: 10, color: C.a });
   return svg(W, H, s, 'pH scale');
 });
-def('titration', 'Titration curve: strong acid with strong base', '', () => {
-  const Ca = 0.1, Va = 25, Cb = 0.1, pH = (Vb) => { const nA = Ca * Va, nB = Cb * Vb, Vt = (Va + Vb) / 1000 * 1000; const ex = (nA - nB) / Vt; const h = ex / 2 + sqrt(ex * ex / 4 + 1e-14); return -Math.log10(h); };
-  setCap('titration', `25.0 mL of 0.100 M HCl titrated with 0.100 M NaOH, pH computed exactly from charge balance (including \\(K_w=10^{-14}\\)). Initial pH ${fmt(pH(0), 2)}; equivalence at 25.0 mL, pH 7.00; at 30 mL, pH ${fmt(pH(30), 2)}.`);
-  return plot({ x: [0, 50], y: [0, 14], ystep: 2, xlabel: 'volume NaOH added (mL)', ylabel: 'pH', curves: [{ f: pH, n: 1000, color: C.a }], points: [{ x: 25, y: 7, color: C.b, label: 'equivalence point' }] });
+idef('titration', 'Titration curve: strong acid with strong base', '', (v) => {
+  const Ca = 0.1, Va = v.Va, Cb = 0.1, pH = (Vb) => { const nA = Ca * Va, nB = Cb * Vb, Vt = Va + Vb; const ex = (nA - nB) / Vt; const h = ex / 2 + sqrt(ex * ex / 4 + 1e-14); return -Math.log10(h); };
+  return plot({ x: [0, 2 * Va], y: [0, 14], ystep: 2, xlabel: 'volume NaOH added (mL)', ylabel: 'pH', curves: [{ f: pH, n: 1000, color: C.a }], points: [{ x: Va, y: 7, color: C.b, label: 'equivalence point' }] });
+}, [
+  { key: 'Va', label: 'HCl 体积', min: 10, max: 40, step: 1, value: 25, unit: 'mL' },
+], (v) => {
+  const Ca = 0.1, Va = v.Va, pH = (Vb) => { const nA = Ca * Va, nB = 0.1 * Vb, Vt = Va + Vb; const ex = (nA - nB) / Vt; const h = ex / 2 + sqrt(ex * ex / 4 + 1e-14); return -Math.log10(h); };
+  return `${fmt(Va, 1)} mL of 0.100 M HCl titrated with 0.100 M NaOH, pH computed exactly from charge balance (including \\(K_w=10^{-14}\\)). Initial pH ${fmt(pH(0), 2)}; equivalence at ${fmt(Va, 1)} mL, pH 7.00; at ${fmt(Va + 5, 0)} mL, pH ${fmt(pH(Va + 5), 2)}.`;
 });
 def('functional-groups', 'Functional groups in biological molecules', 'Hydroxyl –OH (alcohols, sugars; polar), carbonyl C=O (aldehydes/ketones; sugars), carboxyl –COOH (acidic; amino acids, fatty acids), amino –NH₂ (basic; amino acids), phosphate –OPO₃²⁻ (ATP, nucleic acids), sulfhydryl –SH (cysteine disulfide bridges), methyl –CH₃ (DNA methylation; nonpolar).', () => {
   const G = [['hydroxyl', '–OH', 'polar; sugars, alcohols'], ['carbonyl', '>C=O', 'sugars (aldose/ketose)'], ['carboxyl', '–COOH', 'acidic; amino & fatty acids'], ['amino', '–NH₂', 'basic; amino acids'], ['phosphate', '–OPO₃²⁻', 'ATP, DNA backbone'], ['sulfhydryl', '–SH', 'disulfide bridges'], ['methyl', '–CH₃', 'nonpolar; gene regulation']];
   let s = ''; G.forEach(([n, f, u], i) => { const y = 20 + i * 34; s += rect(10, y, 480, 30, { fill: PAL[i % 6], op: 0.1, stroke: PAL[i % 6], rx: 4 }) + text(20, y + 15, n, { anchor: 'start', bold: true }) + text(170, y + 15, f, { anchor: 'start', size: 13 }) + text(270, y + 15, u, { anchor: 'start', size: 11 }); });
   return svg(500, 265, s, 'functional groups');
 });
-def('rate-equilibrium', 'Reaction rate and equilibrium', 'A ⇌ B with \\(k_f=0.3\\), \\(k_r=0.1\\) s⁻¹ (exact solution): [A] falls and [B] rises until forward and reverse rates are equal; \\(K=\\dfrac{[B]_{eq}}{[A]_{eq}}=\\dfrac{k_f}{k_r}=3\\), so \\([A]_{eq}=0.25\\), \\([B]_{eq}=0.75\\) M.', () => {
-  const k = 0.4, A = (t) => 0.25 + 0.75 * exp(-k * t);
-  return plot({ x: [0, 15], y: [0, 1.1], ystep: 0.25, xlabel: 'time (s)', ylabel: 'concentration (M)', hlines: [{ y: 0.75 }, { y: 0.25 }], curves: [{ f: A, color: C.a, label: '[A]', labelAt: [12, 0.33] }, { f: (t) => 1 - A(t), color: C.b, label: '[B]', labelAt: [12, 0.83] }] });
+idef('rate-equilibrium', 'Reaction rate and equilibrium', '', (v) => {
+  const k = v.kf + v.kr, Aeq = v.kr / k, A = (t) => Aeq + (1 - Aeq) * exp(-k * t);
+  return plot({ x: [0, 15], y: [0, 1.1], ystep: 0.25, xlabel: 'time (s)', ylabel: 'concentration (M)', hlines: [{ y: 1 - Aeq }, { y: Aeq }], curves: [{ f: A, color: C.a, label: '[A]', labelAt: [12, 0.33] }, { f: (t) => 1 - A(t), color: C.b, label: '[B]', labelAt: [12, 0.83] }] });
+}, [
+  { key: 'kf', label: '正反应速率常数 kf', min: 0.1, max: 0.8, step: 0.05, value: 0.3, unit: 's⁻¹' },
+  { key: 'kr', label: '逆反应速率常数 kr', min: 0.05, max: 0.5, step: 0.05, value: 0.1, unit: 's⁻¹' },
+], (v) => {
+  const K = v.kf / v.kr, Aeq = v.kr / (v.kf + v.kr);
+  return `A ⇌ B with \\(k_f=${fmt(v.kf, 2)}\\), \\(k_r=${fmt(v.kr, 2)}\\) s⁻¹ (exact solution): [A] falls and [B] rises until forward and reverse rates are equal; \\(K=\\dfrac{[B]_{eq}}{[A]_{eq}}=\\dfrac{k_f}{k_r}=${fmt(K, 2)}\\), so \\([A]_{eq}=${fmt(Aeq, 2)}\\), \\([B]_{eq}=${fmt(1 - Aeq, 2)}\\) M.`;
 });
 
 /* ================= CELLS & MEMBRANES ================= */
@@ -171,8 +210,13 @@ def('transport-types', 'Membrane transport types', 'Passive (down the gradient, 
   let s = ''; [['simple diffusion', 'simple'], ['channel', 'channel'], ['carrier', 'carrier'], ['osmosis', 'osmosis'], ['active transport', 'active']].forEach(([t, k], i) => { s += transportPanel(10 + i * 150, t, k); });
   return svg(760, 255, s, 'membrane transport types');
 });
-def('diffusion-rate', 'Simple vs facilitated diffusion rate', 'Simple diffusion rate is proportional to the concentration gradient (Fick: \\(J=P\\,\\Delta C\\)); facilitated diffusion saturates (\\(J=\\dfrac{J_{max}\\Delta C}{K+\\Delta C}\\), \\(J_{max}=8\\), \\(K=3\\)) because transporters are limited in number.', () =>
-  plot({ x: [0, 20], y: [0, 10], xlabel: 'concentration gradient ΔC', ylabel: 'rate of transport', curves: [{ f: (c) => 0.45 * c, color: C.a, label: 'simple diffusion', labelAt: [12, 6.6] }, { f: (c) => (8 * c) / (3 + c), color: C.b, label: 'facilitated (saturates)', labelAt: [11, 8.0] }], hlines: [{ y: 8, label: 'all carriers busy' }] }));
+idef('diffusion-rate', 'Simple vs facilitated diffusion rate', '', (v) => {
+  const ymax = Math.max(10, v.Jm * 1.2);
+  return plot({ x: [0, 20], y: [0, ymax], xlabel: 'concentration gradient ΔC', ylabel: 'rate of transport', curves: [{ f: (c) => 0.45 * c, color: C.a, label: 'simple diffusion', labelAt: [12, 6.6] }, { f: (c) => (v.Jm * c) / (v.K + c), color: C.b, label: 'facilitated (saturates)', labelAt: [11, Math.min(ymax - 0.6, v.Jm)] }], hlines: [{ y: v.Jm, label: 'all carriers busy' }] });
+}, [
+  { key: 'Jm', label: '最大转运速率 Jmax', min: 4, max: 14, step: 1, value: 8 },
+  { key: 'K', label: '半饱和常数 K', min: 1, max: 8, step: 0.5, value: 3 },
+], (v) => `Simple diffusion rate is proportional to the concentration gradient (Fick: \\(J=P\\,\\Delta C\\)); facilitated diffusion saturates (\\(J=\\dfrac{J_{max}\\Delta C}{K+\\Delta C}\\), \\(J_{max}=${fmt(v.Jm, 0)}\\), \\(K=${fmt(v.K, 1)}\\)) because transporters are limited in number.`);
 def('tonicity', 'Tonicity: animal and plant cells', 'Hypotonic solution: water enters (animal cell lyses; plant cell turgid — preferred). Isotonic: no net movement (ideal for animal cells; plant cell flaccid). Hypertonic: water leaves (animal cell crenates; plant cell plasmolyzes).', () => {
   let s = ''; const cols = ['hypotonic', 'isotonic', 'hypertonic'];
   cols.forEach((c, i) => { const x = 90 + i * 170; s += text(x, 18, c, { bold: true });
@@ -181,9 +225,14 @@ def('tonicity', 'Tonicity: animal and plant cells', 'Hypotonic solution: water e
     s += rect(x - 50, 150, 100, 70, { rx: 4, stroke: C.c, w: 2.5 }) + rect(x - 50 + [3, 6, 20][i], 150 + [3, 6, 14][i], 100 - 2 * [3, 6, 20][i], 70 - 2 * [3, 6, 14][i], { rx: 8, fill: C.c, op: 0.2, stroke: C.c }) + text(x, 236, ['turgid', 'flaccid', 'plasmolyzed'][i], { size: 10 }); });
   return svg(520, 250, s, 'tonicity');
 });
-def('water-potential', 'Water potential Ψ = Ψs + Ψp', 'Solute potential \\(\\Psi_s=-iCRT\\). For 0.2 M sucrose (\\(i=1\\)) at 22 °C: \\(\\Psi_s=-(1)(0.2)(0.0831)(295)\\approx-4.9\\) bar. Water moves from higher Ψ to lower Ψ. Bars computed for 0–1.0 M sucrose and NaCl (\\(i\\approx2\\)).', () => {
-  const Ms = [0, 0.2, 0.4, 0.6, 0.8, 1.0], R = 0.0831, T = 295;
+idef('water-potential', 'Water potential Ψ = Ψs + Ψp', '', (v) => {
+  const Ms = [0, 0.2, 0.4, 0.6, 0.8, 1.0], R = 0.0831, T = 273 + v.Tc;
   return plot({ x: [0, 1.05], y: [-52, 2], xstep: 0.2, ystep: 10, xlabel: 'molar concentration (M)', ylabel: 'Ψs (bar)', curves: [{ f: (c) => -1 * c * R * T, color: C.a, label: 'sucrose (i = 1)', labelAt: [0.62, -12] }, { f: (c) => -2 * c * R * T, color: C.b, label: 'NaCl (i ≈ 2)', labelAt: [0.55, -36] }], points: Ms.flatMap((c) => [{ x: c, y: -c * R * T, color: C.a, r: 3 }, { x: c, y: -2 * c * R * T, color: C.b, r: 3 }]) });
+}, [
+  { key: 'Tc', label: '温度', min: 5, max: 35, step: 1, value: 22, unit: '°C' },
+], (v) => {
+  const T = 273 + v.Tc, psi = -(0.2) * 0.0831 * T;
+  return `Solute potential \\(\\Psi_s=-iCRT\\). For 0.2 M sucrose (\\(i=1\\)) at ${fmt(v.Tc, 0)} °C: \\(\\Psi_s=-(1)(0.2)(0.0831)(${fmt(T, 2)})\\approx${fmt(psi, 1)}\\) bar. Water moves from higher Ψ to lower Ψ. Bars computed for 0–1.0 M sucrose and NaCl (\\(i\\approx2\\)).`;
 });
 def('osmosis-potato', 'Osmosis lab: % mass change vs sucrose molarity', '', () => {
   const M = [0, 0.2, 0.4, 0.6, 0.8, 1.0], pct = [21.5, 8.3, -3.2, -12.6, -19.8, -24.1]; // representative class data
@@ -257,9 +306,15 @@ def('calvin-cycle', 'Calvin cycle (light-independent reactions)', 'Per 3 CO₂: 
   s += text(cx, cy - 4, 'fixation → reduction', { size: 10, color: C.muted }) + text(cx, cy + 12, '→ regeneration', { size: 10, color: C.muted });
   return svg(500, 275, s, 'Calvin cycle');
 });
-def('photo-rate-light', 'Photosynthesis rate vs light intensity and CO₂', 'Rectangular-hyperbola light response \\(P=\\dfrac{P_{max}I}{K+I}-R_d\\) (\\(R_d=2\\)): net rate is negative in the dark, zero at the light compensation point, and saturates where CO₂ (or enzyme) becomes limiting; higher CO₂ raises \\(P_{max}\\) (20 → 30).', () => {
-  const P = (Pm) => (I) => (Pm * I) / (150 + I) - 2, lcp = (2 * 150) / (20 - 2);
-  return plot({ x: [0, 1000], y: [-4, 30], ystep: 5, xlabel: 'light intensity (µmol photons m⁻² s⁻¹)', ylabel: 'net O₂ evolution', curves: [{ f: P(20), color: C.a, label: 'low CO₂', labelAt: [800, 14.2] }, { f: P(30), color: C.c, label: 'high CO₂', labelAt: [800, 23.5] }], points: [{ x: lcp, y: 0, color: C.e, label: `compensation ≈ ${fmt(lcp, 0)}` }] });
+idef('photo-rate-light', 'Photosynthesis rate vs light intensity and CO₂', '', (v) => {
+  const P = (Pm) => (I) => (Pm * I) / (v.K + I) - 2, lcp = (2 * v.K) / (20 - 2);
+  return plot({ x: [0, 1000], y: [-4, Math.max(30, v.Ph)], ystep: 5, xlabel: 'light intensity (µmol photons m⁻² s⁻¹)', ylabel: 'net O₂ evolution', curves: [{ f: P(20), color: C.a, label: 'low CO₂', labelAt: [800, 14.2] }, { f: P(v.Ph), color: C.c, label: 'high CO₂', labelAt: [800, v.Ph === 30 ? 23.5 : P(v.Ph)(800) - 1] }], points: [{ x: lcp, y: 0, color: C.e, label: `compensation ≈ ${fmt(lcp, 0)}` }] });
+}, [
+  { key: 'Ph', label: '高 CO₂ 时 Pmax', min: 20, max: 45, step: 5, value: 30 },
+  { key: 'K', label: '半饱和光强 K', min: 50, max: 300, step: 10, value: 150 },
+], (v) => {
+  const lcp = (2 * v.K) / (20 - 2);
+  return `Rectangular-hyperbola light response \\(P=\\dfrac{P_{max}I}{K+I}-R_d\\) (\\(R_d=2\\), \\(K=${fmt(v.K, 0)}\\)): net rate is negative in the dark, zero at the light compensation point (≈${fmt(lcp, 0)}), and saturates where CO₂ (or enzyme) becomes limiting; higher CO₂ raises \\(P_{max}\\) (20 → ${fmt(v.Ph, 0)}).`;
 });
 
 /* ================= PHOTOSYNTHESIS — STEP FIGURES ================= */
@@ -405,8 +460,10 @@ def('fermentation', 'Fermentation vs aerobic respiration', 'Without O₂, pyruva
   s += text(170, 210, 'NADH → NAD⁺ recycled to glycolysis', { size: 10, color: C.muted });
   return svg(520, 225, s, 'fermentation');
 });
-def('metabolic-temp', 'Fitness & metabolism: endotherm vs ectotherm', 'Ectotherm (lizard) metabolic rate rises with ambient temperature (\\(Q_{10}\\approx2.5\\)); endotherm (mouse) rate is minimal in its thermoneutral zone (≈28–33 °C) and rises below it to generate heat.', () =>
-  plot({ x: [0, 40], y: [0, 10], xlabel: 'ambient temperature (°C)', ylabel: 'metabolic rate (rel.)', curves: [{ f: (T) => 0.6 * 2.5 ** ((T - 10) / 10), color: C.b, label: 'ectotherm', labelAt: [30, 8.5] }, { f: (T) => (T < 28 ? 3 + 0.22 * (28 - T) : T > 33 ? 3 + 0.35 * (T - 33) : 3), color: C.a, label: 'endotherm', labelAt: [3, 9.4] }], fills: [{ f: () => 10, g: () => 0, dom: [28, 33], color: C.c, op: 0.08 }] }));
+idef('metabolic-temp', 'Fitness & metabolism: endotherm vs ectotherm', '', (v) =>
+  plot({ x: [0, 40], y: [0, 10], xlabel: 'ambient temperature (°C)', ylabel: 'metabolic rate (rel.)', curves: [{ f: (T) => 0.6 * v.Q10 ** ((T - 10) / 10), color: C.b, label: 'ectotherm', labelAt: [30, 8.5] }, { f: (T) => (T < 28 ? 3 + 0.22 * (28 - T) : T > 33 ? 3 + 0.35 * (T - 33) : 3), color: C.a, label: 'endotherm', labelAt: [3, 9.4] }], fills: [{ f: () => 10, g: () => 0, dom: [28, 33], color: C.c, op: 0.08 }] }), [
+  { key: 'Q10', label: '温度系数 Q₁₀', min: 1.5, max: 3.5, step: 0.1, value: 2.5 },
+], (v) => `Ectotherm (lizard) metabolic rate rises with ambient temperature (\\(Q_{10}=${fmt(v.Q10, 1)}\\)); endotherm (mouse) rate is minimal in its thermoneutral zone (≈28–33 °C) and rises below it to generate heat.`);
 
 /* ================= CELL COMMUNICATION & CELL CYCLE ================= */
 def('signal-types', 'Types of cell signaling', 'Direct contact (gap junctions / plasmodesmata, cell-surface recognition), paracrine (local regulators, short distance), synaptic (neurotransmitter across a synapse), endocrine (hormone through the bloodstream to distant targets).', () => {
@@ -659,10 +716,12 @@ def('gel-electrophoresis', 'Gel electrophoresis (computed migration)', '', () =>
   lanes.forEach(([n, frs], i) => { const x = 80 + i * 90; s += rect(x - 22, 22, 44, 8, { fill: C.ink, op: 0.6, stroke: 'none' }) + text(x, 312, n, { size: 10 }); frs.forEach((bp) => { s += rect(x - 20, 30 + d(bp), 40, 5, { fill: C.a, op: 0.85, stroke: 'none' }); if (i === 0) s += text(x - 28, 32 + d(bp), String(bp), { size: 8.5, anchor: 'end', color: C.ink }); }); });
   return svg(440, 322, s, 'gel electrophoresis');
 });
-def('pcr', 'PCR amplification', 'Each cycle (denature 95 °C, anneal ~55 °C, extend 72 °C with Taq polymerase) doubles the target: copies \\(=2^n\\) ideally — 30 cycles give \\(2^{30}\\approx1.07\\times10^9\\) copies from one. Real reactions plateau as primers/dNTPs run out (logistic curve, efficiency 95%).', () => {
-  const ideal = (n) => Math.log10(2 ** n), real = (n) => { let x = 1; for (let i = 0; i < n; i++) x += 0.95 * x * (1 - x / 1e11); return Math.log10(x); };
+idef('pcr', 'PCR amplification', '', (v) => {
+  const ideal = (n) => Math.log10(2 ** n), real = (n) => { let x = 1; for (let i = 0; i < n; i++) x += v.eff * x * (1 - x / 1e11); return Math.log10(x); };
   return plot({ x: [0, 40], y: [0, 13], xstep: 5, xlabel: 'cycle number', ylabel: 'log₁₀ copies', curves: [{ f: ideal, n: 400, color: C.a, label: 'ideal 2ⁿ', labelAt: [32, 11.4] }, { pts: range(0, 40, 1).map((n) => [n, real(n)]), color: C.b, label: 'real (plateau)', labelAt: [30, 9.3] }] });
-});
+}, [
+  { key: 'eff', label: '每循环扩增效率', min: 0.7, max: 1, step: 0.01, value: 0.95, unit: '' },
+], (v) => `Each cycle (denature 95 °C, anneal ~55 °C, extend 72 °C with Taq polymerase) doubles the target: copies \\(=2^n\\) ideally — 30 cycles give \\(2^{30}\\approx1.07\\times10^9\\) copies from one. Real reactions plateau as primers/dNTPs run out (logistic curve, efficiency ${fmt(v.eff * 100, 0)}%).`);
 def('biotech-plasmid', 'Recombinant DNA: plasmid cloning', 'The same restriction enzyme (e.g. EcoRI, G^AATTC) cuts the plasmid and donor DNA, leaving complementary sticky ends; DNA ligase seals the insert. Bacteria are transformed and selected on antibiotic (resistance gene on plasmid).', () => {
   let s = circle(110, 110, 70, { stroke: C.a, w: 4 }) + path('M110,40 A70 70 0 0 1 170,75', { stroke: C.e, w: 6 }) + text(170, 50, 'amp^R', { size: 10, color: C.e }) + text(110, 110, 'plasmid', { size: 11 }) + path('M50,80 l10,-6 M44,90 l10,-6', { stroke: C.ink }) + text(30, 70, 'EcoRI site', { size: 9 });
   s += arrow(190, 110, 240, 110) + text(215, 96, 'cut + ligate', { size: 9.5 });
@@ -702,8 +761,15 @@ def('artificial-selection', 'Artificial selection: Brassica oleracea', 'Breeders
   let s = box(190, 10, 120, 36, 'wild mustard', { fill: C.c, bold: true }); v.forEach(([n, p], i) => { const x = 10 + i * 82; s += arrow(250, 46, x + 38, 96, { color: C.muted, w: 1 }) + box(x, 100, 76, 44, `${n}\n${p}`, { fill: PAL[i % 6], size: 8.5 }); });
   return svg(510, 155, s, 'artificial selection');
 });
-def('hw-curves', 'Hardy–Weinberg genotype frequencies vs allele frequency', '\\(p^2+2pq+q^2=1\\) with \\(q=1-p\\). Heterozygote frequency \\(2pq\\) is maximal (0.5) at \\(p=q=0.5\\). Example: if \\(q^2=0.09\\) (recessive phenotype 9%), \\(q=0.3\\), \\(p=0.7\\), carriers \\(2pq=0.42\\).', () =>
-  plot({ x: [0, 1], y: [0, 1.05], xstep: 0.1, ystep: 0.2, xlabel: 'frequency of allele A (p)', ylabel: 'genotype frequency', curves: [{ f: (p) => p * p, color: C.a, label: 'AA = p²', labelAt: [0.8, 0.75] }, { f: (p) => 2 * p * (1 - p), color: C.c, label: 'Aa = 2pq', labelAt: [0.42, 0.56] }, { f: (p) => (1 - p) ** 2, color: C.b, label: 'aa = q²', labelAt: [0.06, 0.95] }], vlines: [{ x: 0.7, label: 'p = 0.7' }], points: [{ x: 0.7, y: 0.49, color: C.a, r: 3 }, { x: 0.7, y: 0.42, color: C.c, r: 3 }, { x: 0.7, y: 0.09, color: C.b, r: 3 }] }));
+idef('hw-curves', 'Hardy–Weinberg genotype frequencies vs allele frequency', '', (v) => {
+  const p = v.p, q = 1 - p;
+  return plot({ x: [0, 1], y: [0, 1.05], xstep: 0.1, ystep: 0.2, xlabel: 'frequency of allele A (p)', ylabel: 'genotype frequency', curves: [{ f: (x) => x * x, color: C.a, label: 'AA = p²', labelAt: [0.8, 0.75] }, { f: (x) => 2 * x * (1 - x), color: C.c, label: 'Aa = 2pq', labelAt: [0.42, 0.56] }, { f: (x) => (1 - x) ** 2, color: C.b, label: 'aa = q²', labelAt: [0.06, 0.95] }], vlines: [{ x: p, label: `p = ${fmt(p, 2)}` }], points: [{ x: p, y: p * p, color: C.a, r: 3 }, { x: p, y: 2 * p * q, color: C.c, r: 3 }, { x: p, y: q * q, color: C.b, r: 3 }] });
+}, [
+  { key: 'p', label: '等位基因 A 频率 p', min: 0.05, max: 0.95, step: 0.01, value: 0.7 },
+], (v) => {
+  const p = v.p, q = 1 - p;
+  return `\\(p^2+2pq+q^2=1\\) with \\(q=1-p\\). Heterozygote frequency \\(2pq\\) is maximal (0.5) at \\(p=q=0.5\\). Example: if \\(q^2=${fmt(q * q, 2)}\\) (recessive phenotype ${fmt(q * q * 100, 0)}%), \\(q=${fmt(q, 2)}\\), \\(p=${fmt(p, 2)}\\), carriers \\(2pq=${fmt(2 * p * q, 2)}\\).`;
+});
 def('hw-data', 'Hardy–Weinberg test on population data', '', () => {
   const obs = { AA: 360, Aa: 480, aa: 160 }, N = 1000, p = (2 * obs.AA + obs.Aa) / (2 * N), q = 1 - p, ex = { AA: p * p * N, Aa: 2 * p * q * N, aa: q * q * N }, chi = Object.keys(obs).reduce((s, k) => s + (obs[k] - ex[k]) ** 2 / ex[k], 0);
   setCap('hw-data', `Counts AA 360, Aa 480, aa 160 (N = 1000) ⇒ \\(p=\\dfrac{2(360)+480}{2000}=${fmt(p, 2)}\\), \\(q=${fmt(q, 2)}\\). Expected ${Object.values(ex).map((v) => fmt(v, 1)).join(', ')}; \\(\\chi^2=${fmt(chi, 3)}\\) (df = 1, critical 3.84) ⇒ consistent with HWE.`);
@@ -766,28 +832,39 @@ def('variation', 'Variation in populations: continuous trait distribution', 'Pol
 });
 
 /* ================= ECOLOGY ================= */
-def('pop-growth', 'Population growth: exponential vs logistic', 'Exponential \\(\\dfrac{dN}{dt}=r_{max}N\\) (J-curve) vs logistic \\(\\dfrac{dN}{dt}=r_{max}N\\dfrac{K-N}{K}\\) (S-curve), \\(r=0.5\\), \\(K=500\\), \\(N_0=10\\). Logistic growth is fastest at \\(N=\\dfrac{K}{2}\\) and levels off at carrying capacity.', () => {
-  const r = 0.5, K = 500, N0 = 10, L = (t) => K / (1 + ((K - N0) / N0) * exp(-r * t));
-  return plot({ x: [0, 20], y: [0, 650], xstep: 5, xlabel: 'time (generations)', ylabel: 'population size N', hlines: [{ y: K, label: 'K = 500' }, { y: K / 2, label: 'K/2' }], curves: [{ f: (t) => N0 * exp(r * t), color: C.e, label: 'exponential', labelAt: [8.7, 610] }, { f: L, color: C.a, label: 'logistic', labelAt: [14, 470] }], points: [{ x: log((K - N0) / N0) / r, y: K / 2, color: C.a, label: 'max growth rate' }] });
-});
-def('pop-oscillation', 'Logistic growth with overshoot (time lag)', 'Discrete logistic \\(N_{t+1}=N_t+rN_t\\left(1-\\dfrac{N_t}{K}\\right)\\) with \\(r=1.9\\), \\(K=500\\): the population overshoots and oscillates around K (damped) — as in reindeer on St. Paul Island or Daphnia cultures.', () => {
-  const pts = [[0, 20]]; let N = 20; for (let t = 1; t <= 30; t++) { N = N + 1.9 * N * (1 - N / 500); pts.push([t, N]); }
+idef('pop-growth', 'Population growth: exponential vs logistic', '', (v) => {
+  const r = v.r, K = v.K, N0 = 10, L = (t) => K / (1 + ((K - N0) / N0) * exp(-r * t));
+  return plot({ x: [0, 20], y: [0, Math.max(650, K * 1.3)], xstep: 5, xlabel: 'time (generations)', ylabel: 'population size N', hlines: [{ y: K, label: `K = ${fmt(K, 0)}` }, { y: K / 2, label: 'K/2' }], curves: [{ f: (t) => N0 * exp(r * t), color: C.e, label: 'exponential', labelAt: [8.7, Math.max(610, K * 1.05)] }, { f: L, color: C.a, label: 'logistic', labelAt: [14, K * 0.94] }], points: [{ x: log((K - N0) / N0) / r, y: K / 2, color: C.a, label: 'max growth rate' }] });
+}, [
+  { key: 'r', label: '内禀增长率 r', min: 0.3, max: 0.8, step: 0.05, value: 0.5 },
+  { key: 'K', label: '环境容纳量 K', min: 300, max: 800, step: 50, value: 500 },
+], (v) => `Exponential \\(\\dfrac{dN}{dt}=r_{max}N\\) (J-curve) vs logistic \\(\\dfrac{dN}{dt}=r_{max}N\\dfrac{K-N}{K}\\) (S-curve), \\(r=${fmt(v.r, 2)}\\), \\(K=${fmt(v.K, 0)}\\), \\(N_0=10\\). Logistic growth is fastest at \\(N=\\dfrac{K}{2}\\) and levels off at carrying capacity.`);
+idef('pop-oscillation', 'Logistic growth with overshoot (time lag)', '', (v) => {
+  const pts = [[0, 20]]; let N = 20; for (let t = 1; t <= 30; t++) { N = Math.max(0, N + v.r * N * (1 - N / 500)); pts.push([t, N]); }
   return plot({ x: [0, 30], y: [0, 700], xstep: 5, xlabel: 'time', ylabel: 'N', hlines: [{ y: 500, label: 'K' }], curves: [{ pts, color: C.a }], points: pts.map(([x, y]) => ({ x, y, r: 2.5, color: C.a })) });
-});
+}, [
+  { key: 'r', label: '离散增长率 r', min: 1.3, max: 2.2, step: 0.1, value: 1.9 },
+], (v) => `Discrete logistic \\(N_{t+1}=N_t+rN_t\\left(1-\\dfrac{N_t}{K}\\right)\\) with \\(r=${fmt(v.r, 1)}\\), \\(K=500\\): the population overshoots and oscillates around K (damped) — as in reindeer on St. Paul Island or Daphnia cultures.`);
 def('survivorship', 'Survivorship curves', 'Log scale of survivors from 1000 newborns. Type I (humans, large mammals): low early mortality, most die old. Type II (many birds, lizards): constant mortality rate → straight line on log scale. Type III (oysters, many fish, plants): very high juvenile mortality.', () =>
   plot({ x: [0, 100], y: [0, 3.2], ystep: 1, xstep: 20, xlabel: 'percentage of maximum life span', ylabel: 'survivors (log₁₀ of 1000)', yfmt: (v) => String(10 ** v), curves: [{ f: (x) => Math.log10(1000 * (1 - (x / 100) ** 6) + 1e-9), dom: [0, 99.9], color: C.a, label: 'Type I', labelAt: [62, 3.1] }, { f: (x) => 3 - 0.028 * x, color: C.b, label: 'Type II', labelAt: [55, 1.6] }, { f: (x) => Math.log10(1000 * exp(-0.35 * x) + 1.2 * (1 - x / 100)), color: C.c, label: 'Type III', labelAt: [20, 0.6] }] }));
 def('density-dependence', 'Density-dependent vs density-independent factors', 'Density-dependent: per-capita birth rate falls and death rate rises with density (competition, disease, predation); they cross at the equilibrium density (≈ K). Density-independent factors (weather, fire) kill a constant fraction regardless of density.', () => {
   const b = (N) => 0.8 - 0.0012 * N, d = (N) => 0.2 + 0.0008 * N, K = 0.6 / 0.002;
   return plot({ x: [0, 600], y: [0, 1], ystep: 0.2, xstep: 100, xlabel: 'population density N', ylabel: 'per-capita rate', curves: [{ f: b, color: C.a, label: 'birth rate', labelAt: [430, 0.36] }, { f: d, color: C.e, label: 'death rate (dens.-dep.)', labelAt: [360, 0.62] }, { f: () => 0.15, color: C.muted, dash: '5 3', label: 'density-independent', labelAt: [380, 0.1] }], points: [{ x: K, y: b(K), color: C.ink, label: `equilibrium N = ${K}` }] });
 });
-def('predator-prey', 'Predator–prey cycles (Lotka–Volterra)', '\\(\\dfrac{dH}{dt}=aH-bHP\\), \\(\\dfrac{dP}{dt}=cbHP-dP\\) with \\(a=1\\), \\(b=0.1\\), \\(cb=0.0075\\), \\(d=0.6\\), solved numerically (RK4). Predator peaks lag prey peaks by about a quarter cycle (cf. lynx–hare data).', () => {
-  const sol = rk4((t, [H, P]) => [1.0 * H - 0.1 * H * P, 0.0075 * H * P - 0.6 * P], 0, [40, 9], 40, 4000);
+idef('predator-prey', 'Predator–prey cycles (Lotka–Volterra)', '', (v) => {
+  const sol = rk4((t, [H, P]) => [v.a * H - 0.1 * H * P, 0.0075 * H * P - v.d * P], 0, [40, 9], 40, 4000);
   return plot({ x: [0, 40], y: [0, 260], xstep: 5, xlabel: 'time', ylabel: 'population', curves: [{ pts: sol.map((p) => [p[0], p[1]]), color: C.c, label: 'prey (hare)', labelAt: [1, 245] }, { pts: sol.map((p) => [p[0], p[2] * 5]), color: C.e, label: 'predator ×5 (lynx)', labelAt: [12, 245] }] });
-});
-def('competition', 'Interspecific competition & competitive exclusion', 'Gause\'s Paramecium: grown separately, both P. aurelia and P. caudatum reach carrying capacity; together (Lotka–Volterra competition, α = 1.5, β = 0.7, RK4), P. aurelia excludes P. caudatum.', () => {
-  const sol = rk4((t, [x, y]) => [0.8 * x * (1 - (x + 0.7 * y) / 200), 0.6 * y * (1 - (y + 1.5 * x) / 150)], 0, [5, 5], 40, 2000);
+}, [
+  { key: 'a', label: '猎物增长率 a', min: 0.8, max: 1.2, step: 0.05, value: 1 },
+  { key: 'd', label: '捕食者死亡率 d', min: 0.4, max: 0.8, step: 0.05, value: 0.6 },
+], (v) => `\\(\\dfrac{dH}{dt}=aH-bHP\\), \\(\\dfrac{dP}{dt}=cbHP-dP\\) with \\(a=${fmt(v.a, 2)}\\), \\(b=0.1\\), \\(cb=0.0075\\), \\(d=${fmt(v.d, 2)}\\), solved numerically (RK4). Predator peaks lag prey peaks by about a quarter cycle (cf. lynx–hare data).`);
+idef('competition', 'Interspecific competition & competitive exclusion', '', (v) => {
+  const sol = rk4((t, [x, y]) => [0.8 * x * (1 - (x + v.beta * y) / 200), 0.6 * y * (1 - (y + v.alpha * x) / 150)], 0, [5, 5], 40, 2000);
   return plot({ x: [0, 40], y: [0, 230], xstep: 5, xlabel: 'days', ylabel: 'density', curves: [{ pts: sol.map((p) => [p[0], p[1]]), color: C.a, label: 'P. aurelia', labelAt: [28, 212] }, { pts: sol.map((p) => [p[0], p[2]]), color: C.b, label: 'P. caudatum', labelAt: [25, 30] }, { f: (t) => 150 / (1 + 29 * exp(-0.6 * t)), color: C.b, dash: '4 3', label: 'caudatum alone', labelAt: [25, 162] }] });
-});
+}, [
+  { key: 'alpha', label: 'α（caudatum 受 aurelia 影响）', min: 0.5, max: 2.5, step: 0.1, value: 1.5 },
+  { key: 'beta', label: 'β（aurelia 受 caudatum 影响）', min: 0.3, max: 2, step: 0.1, value: 0.7 },
+], (v) => `Gause's Paramecium: grown separately, both P. aurelia and P. caudatum reach carrying capacity; together (Lotka–Volterra competition, α = ${fmt(v.alpha, 1)}, β = ${fmt(v.beta, 1)}, RK4), P. aurelia excludes P. caudatum.`);
 def('energy-pyramid', 'Energy pyramid (≈10% transfer)', 'Starting with 10,000 kcal/m²/yr captured by producers, ~10% passes to each level: 1,000 (primary consumers), 100 (secondary), 10 (tertiary). The remaining ~90% is lost as heat from respiration and in undigested waste — limiting food chains to 4–5 levels.', () => {
   const L = [['producers', 10000, C.c], ['primary consumers', 1000, C.d], ['secondary consumers', 100, C.b], ['tertiary consumers', 10, C.e]]; let s = '';
   L.forEach(([n, e, c], i) => { const w = 60 + (4 - Math.log10(e)) * 0 + (Math.log10(e)) * 100, y = 210 - i * 50; s += rect(250 - w / 2, y, w, 44, { fill: c, op: 0.35, stroke: c }) + text(250, y + 14, n, { size: 10.5, bold: true }) + text(250, y + 30, `${e.toLocaleString('en-US')} kcal`, { size: 10 }); if (i) s += text(470, y + 46, '×10%', { size: 10, color: C.muted }); });
@@ -874,8 +951,16 @@ def('polymer-linkages', 'Polymer classes and their linkages', 'Dehydration synth
     ['nucleic acid', 'nucleotide', 'phosphodiester', 'phosphate, –OH'],
     ['lipid', 'glycerol + 3 fatty acids', 'ester', '–COOH, –OH'],
   ], { headers: ['class', 'monomer', 'linkage', 'functional groups'], rowH: 34, size: 10 }), 'polymer linkages'));
-def('error-bars', 'Replication and error-bar interpretation', 'Mean ± 2 SEM, n = 10 plants per group. The control and low-dose error bars overlap, so the apparent difference is not clearly significant; the high-dose mean is separated from both. More replication narrows the error bars; overlapping ±2 SEM is a rough (not exact) significance guide.', () =>
-  bars({ W: 560, H: 310, bars: [{ label: 'control', v: 12.4, err: 0.8, color: C.muted }, { label: 'low dose', v: 13.2, err: 0.9, color: C.d }, { label: 'high dose', v: 18.5, err: 1.1, color: C.c }], showV: true, ylabel: 'mean height (cm)', ylabelTop: true, xlabel: 'fertilizer dose (independent variable)', max: 22 }));
+idef('error-bars', 'Replication and error-bar interpretation', '', (v) => {
+  const k = sqrt(10 / v.n);
+  return bars({ W: 560, H: 310, bars: [{ label: 'control', v: 12.4, err: 0.8 * k, color: C.muted }, { label: 'low dose', v: 13.2, err: 0.9 * k, color: C.d }, { label: 'high dose', v: 18.5, err: 1.1 * k, color: C.c }], showV: true, ylabel: 'mean height (cm)', ylabelTop: true, xlabel: 'fertilizer dose (independent variable)', max: 22 });
+}, [
+  { key: 'n', label: '每组样本量 n', min: 3, max: 50, step: 1, value: 10 },
+], (v) => {
+  const k = sqrt(10 / v.n), e0 = 0.8 * k, e1 = 0.9 * k, e2 = 1.1 * k;
+  const overlap = 0.8 <= e0 + e1;
+  return `Mean ± 2 SEM, n = ${fmt(v.n, 0)} plants per group (error bars scale as \\(\\dfrac{1}{\\sqrt n}\\)). ${overlap ? 'The control and low-dose error bars overlap, so the apparent difference is not clearly significant' : 'The control and low-dose error bars no longer overlap, suggesting a clearer difference'}; the high-dose mean is separated from both. More replication narrows the error bars; overlapping ±2 SEM is a rough (not exact) significance guide.`;
+});
 def('chnops-table', 'CHNOPS and trace elements: where each element is used', 'CHNOPS builds the four macromolecule classes: C is the backbone, H and O dominate water and organic molecules, N is in amino and nitrogenous bases, P in nucleic acids/phospholipids/ATP, and S in cysteine disulfide bridges. Ca and trace metals (Fe, Mg, K) are ions and cofactors, not major structural elements of polymers.', () =>
   svg(620, 275, table(15, 35, [75, 245, 165, 100], [
     ['C', 'backbone of organic molecules', 'all four classes', '18.5%'],
@@ -921,25 +1006,32 @@ def('endosymbiosis-evidence', 'Evidence for endosymbiosis', 'Mitochondria and ch
     ['antibiotics', 'sensitive', 'sensitive', 'sensitive'],
     ['protein import', 'yes (TOM/TIM)', 'yes (TOC/TIC)', 'no'],
   ], { headers: ['feature', 'mitochondrion', 'chloroplast', 'free-living bacterium'], rowH: 34, size: 9.5 }), 'endosymbiosis evidence'));
-def('phenotype-matrix', 'Same genotype, three environments', 'Two genotypes grown across a soil-pH gradient. Genotype A changes strongly (blue index 8 → 2), genotype B changes little (6 → 4): the phenotype is plastic, and the different slopes are a genotype × environment interaction. Phenotype = genotype + environment + G×E; a reaction-norm plot graphs these values as lines.', () => {
+idef('phenotype-matrix', 'Same genotype, three environments', 'Two genotypes grown across a soil-pH gradient. Genotype A changes strongly (blue index 8 → 2), genotype B changes little (6 → 4): the phenotype is plastic, and the different slopes are a genotype × environment interaction. Phenotype = genotype + environment + G×E; a reaction-norm plot graphs these values as lines.', (v) => {
   const cols = ['pH 5.5', 'pH 6.5', 'pH 7.5'], xs = [165, 285, 405];
   let s = text(300, 20, 'flower-color phenotype (blue index)', { bold: true, size: 12 });
-  cols.forEach((c, j) => { s += text(xs[j] + 50, 56, c, { size: 10.5, bold: true }); });
+  cols.forEach((c, j) => { const dim = v.col === 'all' || Number(v.col) === j ? 1 : 0.25; s += `<g opacity="${dim}">${text(xs[j] + 50, 56, c, { size: 10.5, bold: true })}</g>`; });
   const rows = [['genotype A', [8, 5, 2]], ['genotype B', [6, 5, 4]]];
   rows.forEach(([name, vals], i) => {
     const y = 78 + i * 76;
     s += text(20, y + 28, name, { anchor: 'start', size: 10.5, bold: true });
-    vals.forEach((v, j) => {
-      const col = v >= 7 ? C.a : v >= 5 ? C.f : C.b;
-      s += rect(xs[j], y, 100, 56, { fill: col, op: 0.28, stroke: col, w: 1 }) + text(xs[j] + 50, y + 22, `index ${v}`, { size: 11, bold: true }) + text(xs[j] + 50, y + 40, v >= 7 ? 'blue' : v >= 5 ? 'violet' : 'pink', { size: 9.5, color: C.muted });
+    vals.forEach((val, j) => {
+      const dim = v.col === 'all' || Number(v.col) === j ? 1 : 0.25;
+      const col = val >= 7 ? C.a : val >= 5 ? C.f : C.b;
+      s += `<g opacity="${dim}">${rect(xs[j], y, 100, 56, { fill: col, op: 0.28, stroke: col, w: 1 })}${text(xs[j] + 50, y + 22, `index ${val}`, { size: 11, bold: true })}${text(xs[j] + 50, y + 40, val >= 7 ? 'blue' : val >= 5 ? 'violet' : 'pink', { size: 9.5, color: C.muted })}</g>`;
     });
   });
   s += text(300, 245, 'genotype A: steep reaction norm · genotype B: flat reaction norm', { size: 10, color: C.muted });
   s += text(300, 268, 'same genes, different environment → different phenotype', { size: 10.5 });
   return svg(600, 285, s, 'phenotype environment matrix');
-});
-def('selection-response', 'Response to artificial selection over generations', 'Idealized bidirectional selection on corn oil content: the high-oil line rises and the low-oil line falls, while the unselected control stays near 4.7%. The response \\(R\\) depends on the selection differential \\(S\\) and heritability \\(h^2\\): \\(R=h^2S\\), so \\(h^2=\\dfrac{R}{S}\\).', () =>
-  plot({ x: [0, 20], y: [0, 15], xstep: 5, ystep: 3, xlabel: 'generation', ylabel: 'mean oil content (%)', ylabelTop: true, curves: [{ f: (t) => 4.7 + 0.36 * t, color: C.a, label: 'high-oil line', labelAt: [8, 10.4] }, { f: (t) => 4.7 - 0.18 * t, color: C.b, label: 'low-oil line', labelAt: [11, 2.6] }, { f: (t) => 4.7 + 0.01 * t, color: C.muted, dash: '5 3', label: 'control', labelAt: [13, 5.2] }], points: [0, 10, 20].flatMap((t) => [{ x: t, y: 4.7 + 0.36 * t, color: C.a, r: 3 }, { x: t, y: 4.7 - 0.18 * t, color: C.b, r: 3 }, { x: t, y: 4.7 + 0.01 * t, color: C.muted, r: 2.5 }]) }));
+}, [
+  { key: 'col', type: 'buttons', label: '聚焦环境（其余变暗）', value: 'all', options: [{ value: 'all', label: '全部' }, { value: '0', label: 'pH 5.5' }, { value: '1', label: 'pH 6.5' }, { value: '2', label: 'pH 7.5' }] },
+]);
+idef('selection-response', 'Response to artificial selection over generations', '', (v) => {
+  const hi = v.h2 * 0.72, lo = -v.h2 * 0.36, ymax = Math.max(15, 4.7 + hi * 20 + 2);
+  return plot({ x: [0, 20], y: [0, ymax], xstep: 5, ystep: 3, xlabel: 'generation', ylabel: 'mean oil content (%)', ylabelTop: true, curves: [{ f: (t) => 4.7 + hi * t, color: C.a, label: 'high-oil line', labelAt: [8, 4.7 + hi * 8 + 2.82] }, { f: (t) => 4.7 + lo * t, color: C.b, label: 'low-oil line', labelAt: [11, 4.7 + lo * 11 - 0.12] }, { f: (t) => 4.7 + 0.01 * t, color: C.muted, dash: '5 3', label: 'control', labelAt: [13, 5.2] }], points: [0, 10, 20].flatMap((t) => [{ x: t, y: 4.7 + hi * t, color: C.a, r: 3 }, { x: t, y: 4.7 + lo * t, color: C.b, r: 3 }, { x: t, y: 4.7 + 0.01 * t, color: C.muted, r: 2.5 }]) });
+}, [
+  { key: 'h2', label: '遗传力 h²', min: 0.1, max: 0.9, step: 0.05, value: 0.5 },
+], (v) => `Idealized bidirectional selection on corn oil content: the high-oil line rises and the low-oil line falls, while the unselected control stays near 4.7%. With \\(h^2=${fmt(v.h2, 2)}\\) and \\(S=0.72\\) percentage points per generation, \\(R=h^2S=${fmt(v.h2 * 0.72, 2)}\\) in the high line.`);
 def('isolation-barriers', 'Reproductive-isolation mechanisms', 'Prezygotic barriers prevent fertilization (habitat, temporal, behavioral, mechanical, gametic); postzygotic barriers act after fertilization (hybrid inviability, sterility, breakdown). Any one barrier can maintain species boundaries. Allopatric speciation begins with geographic isolation; sympatric speciation can arise through polyploidy or ecological/sexual isolation.', () =>
   svg(640, 355, table(15, 32, [140, 210, 170, 95], [
     ['habitat', 'different habitats; no meeting', 'canyon mice', 'prezygotic'],
@@ -994,5 +1086,12 @@ export const TOPIC_FIGURES = {
 };
 export const FIGURES = F;
 const cache = {};
-export function buildFigure(id) { if (!cache[id]) { const f = F[id]; if (!f) return null; const s = f.build(); cache[id] = { id, title: f.title, caption: f.caption, svg: s }; } return cache[id]; }
+export function buildFigure(id) {
+  if (!cache[id]) {
+    const f = F[id]; if (!f) return null;
+    const s = f.build();
+    cache[id] = { id, title: f.title, caption: f.caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor: f.captionFor };
+  }
+  return cache[id];
+}
 export function figuresFor(chapterId, code) { return (TOPIC_FIGURES[`${chapterId}:${code}`] || []).map(buildFigure).filter(Boolean); }

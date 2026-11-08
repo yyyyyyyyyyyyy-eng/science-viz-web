@@ -249,25 +249,174 @@ export function renderFigures(container, figures, { maxWidth = 560 } = {}) {
     fig.dataset.fig = f.id;
     const box = document.createElement('div');
     box.className = 'exam-figure-box';
-    if (f.maxWidth || maxWidth) box.style.maxWidth = `min(100%, ${f.maxWidth || maxWidth}px)`;
+    const mw = f.maxWidth || maxWidth;
+    if (mw) box.style.maxWidth = `min(100%, ${mw}px)`;
     box.innerHTML = f.svg;
     const cap = document.createElement('figcaption');
     cap.className = 'exam-figure-cap';
     const title = document.createElement('div');
     title.textContent = f.title;
     cap.appendChild(title);
+    let c = null;
     if (f.caption) {
-      const c = document.createElement('div');
+      c = document.createElement('div');
       c.className = 'exam-figure-tex';
       appendTex(c, f.caption);
       cap.appendChild(c);
     }
-    fig.append(box, cap);
+    const controls = mountFigureControls(f, box, c, mw);
+    if (controls) fig.append(box, controls, cap); else fig.append(box, cap);
     grid.appendChild(fig);
   }
   sec.append(h, grid);
   container.appendChild(sec);
   return sec;
+}
+
+/* Inline control bar for figures that declare {controls, defaults, rebuild}. The bar sits
+   between the fixed-size SVG box and the caption, so it can never overlap either one.
+   Square corners, theme tokens only, every hit target at least 44px high. */
+const CTRL_S = {
+  bar: 'display:flex;flex-direction:column;gap:6px;margin-top:6px;width:100%;max-width:min(100%,560px);padding:0 4px;box-sizing:border-box;',
+  row: 'display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 14px;width:100%;min-width:0;',
+  field: 'display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:44px;min-width:0;',
+  head: 'display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:0.78rem;line-height:1.25;color:var(--text-muted);',
+  out: 'font-variant-numeric:tabular-nums;color:var(--text);font-weight:600;white-space:nowrap;',
+  range: 'width:100%;height:44px;margin:0;accent-color:var(--subject-accent,#3346c9);cursor:pointer;',
+  select: 'width:100%;min-height:44px;border:1px solid var(--border);border-radius:0;background:var(--bg-elev);color:var(--text);padding:0 8px;font:inherit;font-size:0.82rem;',
+  btns: 'display:flex;flex-wrap:wrap;gap:6px;min-height:44px;align-items:center;min-width:0;',
+  btn: 'min-height:44px;padding:0 12px;border:1px solid var(--border);border-radius:0;background:var(--bg-elev);color:var(--text);font:inherit;font-size:0.8rem;line-height:1.2;cursor:pointer;',
+  btnOn: 'min-height:44px;padding:0 12px;border:1px solid var(--subject-accent,#3346c9);border-radius:0;background:var(--bg-soft,#f0efea);color:var(--text);font:inherit;font-size:0.8rem;font-weight:600;line-height:1.2;cursor:pointer;',
+};
+
+function ensureControlStyles() {
+  if (document.getElementById('fig-controls-style')) return;
+  const st = document.createElement('style');
+  st.id = 'fig-controls-style';
+  st.textContent = `
+.fig-controls input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:pointer;margin:0}
+.fig-controls input[type="range"]::-webkit-slider-runnable-track{height:6px;background:var(--border);border-radius:0}
+.fig-controls input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:-6px;background:var(--subject-accent,#3346c9);border:0;border-radius:0}
+.fig-controls input[type="range"]::-moz-range-track{height:6px;background:var(--border);border-radius:0}
+.fig-controls input[type="range"]::-moz-range-thumb{width:18px;height:18px;background:var(--subject-accent,#3346c9);border:0;border-radius:0}
+.fig-controls input[type="range"]:focus-visible,.fig-controls button:focus-visible,.fig-controls select:focus-visible{outline:2px solid var(--subject-accent,#3346c9);outline-offset:2px}
+.fig-controls button{background:var(--bg-elev);color:var(--text)}
+.fig-controls button[aria-pressed="true"]{background:var(--bg-soft,#f0efea)}
+`;
+  document.head.appendChild(st);
+}
+
+function controlValueText(c, v) {
+  if (c.display) return c.display(v);
+  const n = Number(v);
+  const d = c.decimals ?? (c.step && c.step < 0.1 ? 2 : c.step && c.step < 1 ? 1 : 0);
+  const shown = Number.isFinite(n) ? String(Number(n.toFixed(d))) : String(v);
+  return `${shown}${c.unit ? ` ${c.unit}` : ''}`;
+}
+
+function mountFigureControls(f, box, capTex, maxWidth) {
+  if (!f.controls?.length || !f.defaults || typeof f.rebuild !== 'function') return null;
+  ensureControlStyles();
+  const values = { ...f.defaults };
+  const bar = document.createElement('div');
+  bar.className = 'fig-controls';
+  bar.style.cssText = CTRL_S.bar;
+  if (maxWidth) bar.style.maxWidth = `min(100%, ${maxWidth}px)`;
+  bar.setAttribute('role', 'group');
+  bar.setAttribute('aria-label', `${f.title}: 参数`);
+  const row = document.createElement('div');
+  row.style.cssText = CTRL_S.row;
+  for (const spec of f.controls) {
+    const field = document.createElement('div');
+    field.style.cssText = CTRL_S.field;
+    if (spec.type === 'buttons') {
+      const head = document.createElement('div');
+      head.style.cssText = CTRL_S.head;
+      head.textContent = spec.label;
+      field.appendChild(head);
+      const wrap = document.createElement('div');
+      wrap.style.cssText = CTRL_S.btns;
+      wrap.setAttribute('role', 'group');
+      wrap.setAttribute('aria-label', spec.label);
+      const buttons = [];
+      const sync = () => buttons.forEach((b) => {
+        const on = String(values[spec.key]) === String(b.dataset.value);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.style.cssText = on ? CTRL_S.btnOn : CTRL_S.btn;
+      });
+      for (const opt of spec.options) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.value = String(opt.value);
+        b.textContent = opt.label;
+        b.title = opt.description || opt.label;
+        b.style.cssText = String(values[spec.key]) === String(opt.value) ? CTRL_S.btnOn : CTRL_S.btn;
+        b.addEventListener('click', () => { values[spec.key] = opt.value; sync(); redraw(); });
+        buttons.push(b);
+        wrap.appendChild(b);
+      }
+      field.appendChild(wrap);
+      row.appendChild(field);
+      continue;
+    }
+    const head = document.createElement('label');
+    head.style.cssText = CTRL_S.head;
+    const name = document.createElement('span');
+    name.textContent = spec.label;
+    const out = document.createElement('output');
+    out.style.cssText = CTRL_S.out;
+    out.textContent = controlValueText(spec, values[spec.key]);
+    head.append(name, out);
+    field.appendChild(head);
+    let input;
+    if (spec.type === 'select') {
+      input = document.createElement('select');
+      input.style.cssText = CTRL_S.select;
+      for (const opt of spec.options) {
+        const o = document.createElement('option');
+        o.value = String(opt.value); o.textContent = opt.label;
+        if (String(values[spec.key]) === String(opt.value)) o.selected = true;
+        input.appendChild(o);
+      }
+      input.addEventListener('change', () => {
+        const opt = spec.options.find((o) => String(o.value) === input.value);
+        values[spec.key] = opt ? opt.value : input.value;
+        out.textContent = controlValueText(spec, values[spec.key]);
+        redraw();
+      });
+    } else {
+      input = document.createElement('input');
+      input.type = 'range';
+      input.min = String(spec.min); input.max = String(spec.max); input.step = String(spec.step ?? 1);
+      input.value = String(values[spec.key]);
+      input.style.cssText = CTRL_S.range;
+      if (spec.aria) input.setAttribute('aria-label', spec.aria);
+      input.addEventListener('input', () => {
+        values[spec.key] = Number(input.value);
+        out.textContent = controlValueText(spec, values[spec.key]);
+        redraw();
+      });
+    }
+    input.id = `fig-${f.id}-${spec.key}`;
+    head.htmlFor = input.id;
+    field.appendChild(input);
+    row.appendChild(field);
+  }
+  const note = document.createElement('div');
+  note.style.cssText = 'font-size:0.72rem;line-height:1.3;color:var(--text-muted);';
+  note.textContent = '拖动或使用方向键改变参数；默认状态与静态图示一致。';
+  bar.append(row, note);
+  function redraw() {
+    try {
+      const svgText = f.rebuild(values);
+      if (svgText) box.innerHTML = svgText;
+      if (capTex && f.captionFor) {
+        capTex.textContent = '';
+        appendTex(capTex, f.captionFor(values));
+      }
+    } catch (_) { /* keep the last valid drawing */ }
+  }
+  return bar;
 }
 function appendTex(parent, s) {
   const re = /\\\(([\s\S]+?)\\\)/g; let last = 0, m;
