@@ -1,5 +1,5 @@
 import { el, clear, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
-import { markVisited, markCompleted, isCompleted, progressForIds } from './progress.js';
+import { markVisited, markCompleted, clearCompleted, isCompleted, progressForIds } from './progress.js';
 import { renderDiagram } from './diagrams.js';
 
 function tex(latex, display = false) {
@@ -66,9 +66,21 @@ export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
 }
 
 function checkNumeric(user, expected, tol = 0.02) {
-  const u = Number(String(user).replace(/[^0-9.+\-eE]/g, ''));
+  const raw = String(user ?? '').trim();
+  if (!raw) return false;
   const e = Number(expected);
-  if (!Number.isFinite(u) || !Number.isFinite(e)) return false;
+  if (!Number.isFinite(e)) return false;
+  let u;
+  const fraction = raw.match(/^([+-]?)(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+  if (fraction) {
+    const den = Number(fraction[3]);
+    if (!Number.isFinite(den) || den === 0) return false;
+    u = (fraction[1] === '-' ? -1 : 1) * (Number(fraction[2]) / den);
+  } else {
+    if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(raw)) return false;
+    u = Number(raw);
+  }
+  if (!Number.isFinite(u)) return false;
   const scale = Math.max(1, Math.abs(e));
   return Math.abs(u - e) <= tol * scale;
 }
@@ -491,15 +503,20 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
     let instance = prob.generate();
     const regen = el('button', { type: 'button', className: 'btn hit-target', text: '换一组数据' });
     const mount = el('div', { className: 'practice-gen-mount' });
+    const resetDone = () => {
+      clearCompleted(progressId);
+      cardState(card, false);
+      ctx.onDone?.(card);
+    };
     const redraw = () => {
       clear(mount);
       instance = prob.generate();
-      cardState(card, false);
-      mount.appendChild(renderInstanceBody(instance, progressId, markDone));
+      resetDone();
+      mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true }));
     };
     regen.addEventListener('click', redraw);
     body.append(regen, mount);
-    mount.appendChild(renderInstanceBody(instance, progressId, markDone));
+    mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true }));
   } else {
     body.appendChild(renderInstanceBody(prob, progressId, markDone));
   }
@@ -509,7 +526,7 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
   return card;
 }
 
-function renderInstanceBody(prob, progressId, onDone) {
+function renderInstanceBody(prob, progressId, onDone, opts = {}) {
   const wrap = el('div', { className: 'practice-instance' });
   if (prob.parts) {
     prob.parts.forEach((part, i) => {
@@ -527,6 +544,12 @@ function renderInstanceBody(prob, progressId, onDone) {
       wrap.appendChild(partWrap);
     });
     return wrap;
+  }
+  if (opts.instanceStem && (prob.stem || prob.stemLatex)) {
+    const stem = el('div', { className: 'practice-stem' });
+    if (prob.stemLatex) stem.appendChild(tex(prob.stemLatex, true));
+    if (prob.stem) stem.appendChild(el('p', { text: prob.stem }));
+    wrap.appendChild(stem);
   }
   wrap.appendChild(renderAnswerUI(prob, progressId, onDone));
   return wrap;
@@ -658,9 +681,6 @@ function renderAnswerUI(prob, progressId, onDone) {
   if (prob.solution) solBody.appendChild(el('p', { text: prob.solution }));
   if (prob.solutionLatex) solBody.appendChild(tex(prob.solutionLatex, true));
   sol.appendChild(solBody);
-  sol.addEventListener('toggle', () => {
-    if (sol.open) onDone?.();
-  });
   box.appendChild(sol);
   return box;
 }

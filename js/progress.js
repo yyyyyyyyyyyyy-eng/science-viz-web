@@ -54,6 +54,12 @@ export function markCompleted(id) {
   return s;
 }
 
+export function clearCompleted(id) {
+  const s = readSet(DONE_KEY);
+  if (s.delete(id)) writeSet(DONE_KEY, s);
+  return s;
+}
+
 export function isVisited(id) {
   return readSet(VISIT_KEY).has(id);
 }
