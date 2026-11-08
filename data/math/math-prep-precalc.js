@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「多项式与有理函数分析」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "R(x)=\\dfrac{P(x)}{Q(x)}",
+        "note": "有理函数；关注零点、渐近线与定义域。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「指数与对数模型」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y=ae^{kt}",
+        "note": "指数模型；k>0 增长，k<0 衰减。"
       }
     ],
     "derivationNotes": [
@@ -442,8 +442,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「三角方程与恒等式」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sin^{2}\\theta+\\cos^{2}\\theta=1",
+        "note": "解三角方程时常用恒等式。"
       }
     ],
     "derivationNotes": [
@@ -579,8 +579,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「极坐标入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "x=r\\cos\\theta,\\quad y=r\\sin\\theta",
+        "note": "极坐标与直角坐标的互化。"
       }
     ],
     "derivationNotes": [
@@ -716,8 +716,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「参数方程入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "x=f(t),\\quad y=g(t)",
+        "note": "参数方程用参数 t 描述曲线。"
       }
     ],
     "derivationNotes": [
@@ -853,8 +853,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「向量入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\vec v=\\langle a,b\\rangle,\\quad |\\vec v|=\\sqrt{a^{2}+b^{2}}",
+        "note": "向量表示与模长。"
       }
     ],
     "derivationNotes": [
@@ -990,8 +990,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「矩阵与变换」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\begin{pmatrix}x'\\\\y'\\end{pmatrix}=\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix}",
+        "note": "矩阵表示线性变换。"
       }
     ],
     "derivationNotes": [

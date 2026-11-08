@@ -445,8 +445,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「曲线间面积」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A=\\int_a^b\\left[f(x)-g(x)\\right]\\mathrm{d}x",
+        "note": "曲线间面积：f 在上、g 在下。"
       }
     ],
     "derivationNotes": [
@@ -582,8 +582,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「曲线间面积 y」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A=\\int_c^d\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y",
+        "note": "对 y 积分求曲线间面积。"
       }
     ],
     "derivationNotes": [
@@ -719,8 +719,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「曲线间面积其他」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A=\\int_a^b\\left|f(x)-g(x)\\right|\\mathrm{d}x",
+        "note": "上下关系变化时取绝对值。"
       }
     ],
     "derivationNotes": [
@@ -856,8 +856,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「旋转体体积盘法」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V=\\pi\\int_a^b[R(x)]^{2}\\,\\mathrm{d}x",
+        "note": "绕 x 轴旋转的圆盘法。"
       }
     ],
     "derivationNotes": [
@@ -1131,8 +1131,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「圆盘法」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V=\\pi\\int_a^b[R(x)]^{2}\\,\\mathrm{d}x",
+        "note": "圆盘法：截面是半径为 R(x) 的圆。"
       }
     ],
     "derivationNotes": [
@@ -1273,8 +1273,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「圆盘法其他轴」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V=\\pi\\int_c^d[R(y)]^{2}\\,\\mathrm{d}y",
+        "note": "绕 y 轴旋转时对 y 积分。"
       }
     ],
     "derivationNotes": [
@@ -1410,8 +1410,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「垫圈法」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V=\\pi\\int_a^b\\left([R_{\\mathrm{out}}(x)]^{2}-[R_{\\mathrm{in}}(x)]^{2}\\right)\\mathrm{d}x",
+        "note": "垫圈法：外半径平方减内半径平方。"
       }
     ],
     "derivationNotes": [
@@ -1552,8 +1552,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「垫圈法其他轴」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V=\\pi\\int_c^d\\left([R_{\\mathrm{out}}(y)]^{2}-[R_{\\mathrm{in}}(y)]^{2}\\right)\\mathrm{d}y",
+        "note": "绕其他轴旋转时对 y 积分并用垫圈法。"
       }
     ],
     "derivationNotes": [

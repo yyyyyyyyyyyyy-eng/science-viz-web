@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「点线面与角」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\alpha+\\beta=180^\\circ",
+        "note": "互补角；对顶角相等。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「平行与三角形全等」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\triangle ABC\\cong\\triangle DEF",
+        "note": "全等判定：SSS、SAS、ASA、AAS。"
       }
     ],
     "derivationNotes": [
@@ -304,8 +304,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「相似三角形」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{a}{a'}=\\dfrac{b}{b'}=\\dfrac{c}{c'}",
+        "note": "相似三角形对应边成比例。"
       }
     ],
     "derivationNotes": [
@@ -441,8 +441,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「直角三角与毕达哥拉斯」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "a^{2}+b^{2}=c^{2}",
+        "note": "勾股定理：直角边 a、b，斜边 c。"
       }
     ],
     "derivationNotes": [
@@ -578,8 +578,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「三角比入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sin\\theta=\\dfrac{\\text{对边}}{\\text{斜边}},\\quad \\cos\\theta=\\dfrac{\\text{邻边}}{\\text{斜边}}",
+        "note": "直角三角形中的基本三角比。"
       }
     ],
     "derivationNotes": [
@@ -861,8 +861,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「面积与周长」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "A_{\\text{矩形}}=bh,\\quad A_{\\text{圆}}=\\pi r^{2}",
+        "note": "常见平面图形的面积公式。"
       }
     ],
     "derivationNotes": [
@@ -998,8 +998,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「表面积与体积」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "V_{\\text{球}}=\\dfrac{4}{3}\\pi r^{3},\\quad S_{\\text{球}}=4\\pi r^{2}",
+        "note": "球的体积与表面积。"
       }
     ],
     "derivationNotes": [
@@ -1135,8 +1135,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「坐标几何」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "d=\\sqrt{(x_2-x_1)^{2}+(y_2-y_1)^{2}}",
+        "note": "两点间距离公式。"
       }
     ],
     "derivationNotes": [
@@ -1272,8 +1272,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「变换」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "(x,y)\\mapsto(x+a,\\,y+b)",
+        "note": "平移变换；旋转、反射与位似见对应坐标式。"
       }
     ],
     "derivationNotes": [
@@ -1409,8 +1409,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「证明基础」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\angle A=\\angle B,\\ \\angle B=\\angle C\\Rightarrow\\angle A=\\angle C",
+        "note": "等量代换是几何证明的基本推理。"
       }
     ],
     "derivationNotes": [

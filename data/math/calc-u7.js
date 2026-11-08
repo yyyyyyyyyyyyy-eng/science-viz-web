@@ -309,8 +309,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「斜率场草图」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)",
+        "note": "斜率场：在每点画斜率为 f(x,y) 的小线段。"
       }
     ],
     "derivationNotes": [
@@ -451,8 +451,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「斜率场推理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f(x,y)",
+        "note": "沿斜率场从初始点勾画解曲线；线段只给出局部斜率。"
       }
     ],
     "derivationNotes": [
@@ -588,8 +588,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「欧拉法」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y_{n+1}=y_n+f(x_n,y_n)\\Delta x",
+        "note": "欧拉法：用当前点斜率作一步线性推进。"
       }
     ],
     "derivationNotes": [
@@ -730,8 +730,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「可分离变量」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{1}{g(y)}\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x",
+        "note": "可分离变量：两边分别积分。"
       }
     ],
     "derivationNotes": [
@@ -867,8 +867,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「特解」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y(x_0)=y_0",
+        "note": "初始条件用于确定通解中的常数 C。"
       }
     ],
     "derivationNotes": [

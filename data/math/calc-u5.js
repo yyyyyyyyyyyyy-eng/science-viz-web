@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「中值定理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f'(c)=\\dfrac{f(b)-f(a)}{b-a}",
+        "note": "中值定理：存在 c 使瞬时变化率等于平均变化率。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「极值定理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f\\text{ 在 }[a,b]\\text{ 连续}\\Rightarrow\\exists c,d,\\ f(c)\\le f(x)\\le f(d)",
+        "note": "极值定理：闭区间连续函数必取得最大值与最小值。"
       }
     ],
     "derivationNotes": [
@@ -304,8 +304,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「增减性」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f'(x)>0\\Rightarrow f\\text{ 递增};\\quad f'(x)<0\\Rightarrow f\\text{ 递减}",
+        "note": "一阶导数符号判断单调性。"
       }
     ],
     "derivationNotes": [
@@ -583,8 +583,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「候选绝对极值」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\text{绝对极值}\\in\\{f(\\text{临界点}),\\ f(a),\\ f(b)\\}",
+        "note": "闭区间最值：比较临界点与端点函数值。"
       }
     ],
     "derivationNotes": [
@@ -720,8 +720,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「凹性与拐点」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f''(x)>0\\Rightarrow\\text{凹向上};\\quad f''(x)<0\\Rightarrow\\text{凹向下}",
+        "note": "二阶导数符号判断凹凸；变号处为拐点。"
       }
     ],
     "derivationNotes": [
@@ -1279,8 +1279,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「优化导论」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f'(x)=0\\text{ 或不存在}\\Rightarrow x\\text{ 为候选极值点}",
+        "note": "优化：先找临界点，再比较目标函数值。"
       }
     ],
     "derivationNotes": [
@@ -1416,8 +1416,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「优化求解」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\max_{x\\in[a,b]}f(x)=\\max\\{f(\\text{临界点}),\\ f(a),\\ f(b)\\}",
+        "note": "闭区间优化：临界点与端点一起比较。"
       }
     ],
     "derivationNotes": [
@@ -1553,8 +1553,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「隐式关系行为」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{F_x}{F_y}",
+        "note": "隐式关系求导：F(x,y)=0 且 F_y≠0。"
       }
     ],
     "derivationNotes": [

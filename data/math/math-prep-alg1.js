@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「表达式与实数性质」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "a(b+c)=ab+ac",
+        "note": "分配律是化简表达式的基础。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「线性方程」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "ax+b=0\\Rightarrow x=-\\dfrac{b}{a}\\quad(a\\ne0)",
+        "note": "一元一次方程的解法。"
       }
     ],
     "derivationNotes": [
@@ -304,8 +304,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「线性不等式」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "ax+b>0\\Rightarrow x>-\\dfrac{b}{a}\\quad(a>0)",
+        "note": "a<0 时不等号方向翻转。"
       }
     ],
     "derivationNotes": [
@@ -579,8 +579,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「斜率与直线方程」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "m=\\dfrac{y_2-y_1}{x_2-x_1},\\quad y-y_1=m(x-x_1)",
+        "note": "斜率公式与点斜式。"
       }
     ],
     "derivationNotes": [
@@ -716,8 +716,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「线性方程组」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\begin{cases}a_1x+b_1y=c_1\\\\a_2x+b_2y=c_2\\end{cases}",
+        "note": "二元一次方程组；可用代入或消元求解。"
       }
     ],
     "derivationNotes": [
@@ -853,8 +853,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「指数运算」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "a^{m}a^{n}=a^{m+n},\\quad (a^{m})^{n}=a^{mn}",
+        "note": "同底数幂相乘与幂的乘方。"
       }
     ],
     "derivationNotes": [
@@ -990,8 +990,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「多项式运算」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "(a+b)^{2}=a^{2}+2ab+b^{2}",
+        "note": "完全平方公式；多项式乘法按分配律展开。"
       }
     ],
     "derivationNotes": [
@@ -1127,8 +1127,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「因式分解」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "x^{2}+(p+q)x+pq=(x+p)(x+q)",
+        "note": "十字相乘/分组分解的基本形式。"
       }
     ],
     "derivationNotes": [
@@ -1264,8 +1264,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「二次方程入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "x=\\dfrac{-b\\pm\\sqrt{b^{2}-4ac}}{2a}",
+        "note": "二次方程求根公式；判别式决定实根个数。"
       }
     ],
     "derivationNotes": [
@@ -1401,8 +1401,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「指数增长入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y=ab^{x}",
+        "note": "指数增长：b>1 增长，0<b<1 衰减。"
       }
     ],
     "derivationNotes": [
@@ -1538,8 +1538,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「数据与线性模型」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y=mx+b",
+        "note": "线性模型：斜率表示变化率，截距表示初值。"
       }
     ],
     "derivationNotes": [

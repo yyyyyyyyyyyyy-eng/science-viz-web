@@ -183,7 +183,7 @@ export const CROSS_RELATIONS = {
       "保守力",
       "机械能"
     ],
-    "example": "自由落体 mgh 转化为 ½mv²。",
+    "example": "自由落体 mgh 转化为动能 0.5mv²。",
     "steps": [
       "复习 3.2 的核心定义/定律",
       "指出它如何进入 P1.9 的推导或模型",
@@ -273,13 +273,13 @@ export const CROSS_RELATIONS = {
     "sourceHref": "#/t/mech/mech-u3/3.1",
     "targetHref": "#/t/mech/mech-u6/6.1",
     "titleZh": "动能定理 → 转动动能",
-    "summary": "平动动能 ½mv²；转动动能 ½Iω²；滚动是二者之和。",
+    "summary": "平动动能 0.5mv²；转动动能 0.5Iω²；滚动是二者之和。",
     "why": "力矩做功改变转动动能。",
     "shared": [
       "I",
       "ω"
     ],
-    "example": "圆盘无滑滚动总动能 ½mv²+½Iω²。",
+    "example": "圆盘无滑滚动总动能 0.5mv²+0.5Iω²。",
     "steps": [
       "复习 3.1 的核心定义/定律",
       "指出它如何进入 6.1 的推导或模型",

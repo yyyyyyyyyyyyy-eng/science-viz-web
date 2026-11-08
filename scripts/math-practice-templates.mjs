@@ -205,13 +205,13 @@ export function mathSetQuestion(unit, topics, qid, j, stim, s, srcLine) {
     integrals: [
       { title: '左黎曼和', type: 'frq', check: 'numeric', stem: '用左端点、Δt=1，估计 ∫₀⁴ v(t) dt。', expected: 14, tol: 0.05, answerLatex: '14', solution: 'v(0)+v(1)+v(2)+v(3)=2+3+5+4=14。' },
       { title: '平均速率', type: 'frq', check: 'numeric', stem: '若位移近似 14，求 [0,4] 上平均速率。', expected: 3.5, tol: 0.05, answerLatex: String.raw`\dfrac{14}{4}=3.5`, solution: '位移/时间。' },
-      { title: '定积分符号', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`\text{写出 }\int_0^4 v(t)\,\mathrm{d}t\text{ 的黎曼和极限定义（符号）}`, expected: 'lim n->inf sum v(t_i*) Delta t', answerLatex: String.raw`\lim_{n\to\infty}\sum_{i=1}^{n}v(t_i^{*})\Delta t`, solution: '定积分定义。' },
+      { title: '定积分符号', type: 'frq', calculator: false, stemLatex: String.raw`\text{写出 }\int_0^4 v(t)\,\mathrm{d}t\text{ 的黎曼和极限定义（符号）}`, answerLatex: String.raw`\lim_{n\to\infty}\sum_{i=1}^{n}v(t_i^{*})\Delta t`, solution: '定积分定义。' },
       { title: '累积解释', type: 'frq', stem: `结合「${t.titleZh}」，说明定积分在本题中的单位与意义。`, answer: '∫v dt 的单位是米，表示净位移（有向）。', solution: '单位分析。' },
     ],
     'diff-eq': [
       { title: '斜率读取', type: 'frq', check: 'numeric', stem: '在点 (1,0) 处 dy/dx = y−x 的斜率是？', expected: -1, tol: 0.01, answerLatex: '-1', solution: '0−1=−1。' },
-      { title: '特解检验', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`\text{验证 }y=x+1\text{ 是否满足 }\dfrac{\mathrm{d}y}{\mathrm{d}x}=y-x`, expected: "y'=1=y-x", answerLatex: String.raw`y'=1=y-x`, solution: '两边同为 1。' },
-      { title: '分离变量', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}x}=ky\text{ 的通解（C 任意）}`, expected: 'y=Ce^{kx}', answerLatex: String.raw`y=Ce^{kx}`, solution: '分离变量。' },
+      { title: '特解检验', type: 'frq', calculator: false, stemLatex: String.raw`\text{验证 }y=x+1\text{ 是否满足 }\dfrac{\mathrm{d}y}{\mathrm{d}x}=y-x`, answerLatex: String.raw`y'=1=y-x`, solution: '两边同为 1。' },
+      { title: '分离变量', type: 'frq', check: 'symbolic', calculator: false, stemLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}x}=ky\text{ 的通解（C 任意）}`, expected: 'C*e^(k*x)', answerLatex: String.raw`y=Ce^{kx}`, solution: '分离变量。' },
       { title: '斜率场叙述', type: 'frq', stem: `就「${t.titleZh}」说明斜率场如何帮助画出特解曲线。`, answer: '沿格点方向作短线，从初值点顺着场画曲线。', solution: '定性解。' },
     ],
     parametric: [
@@ -383,7 +383,7 @@ export function mathStandalone(unit, topic, qid, i, srcLine) {
       derivatives: { stemLatex: String.raw`\dfrac{\mathrm{d}}{\mathrm{d}x}\left(x^{3}e^{x}\right)`, expected: 'e^x(3x^2+x^3)', answerLatex: String.raw`e^{x}(3x^{2}+x^{3})`, solution: '乘积法则。' },
       'deriv-apps': { stemLatex: String.raw`\text{若 }v(t)=3t^{2}\text{，}a(t)=`, expected: '6t', answerLatex: '6t', solution: 'a=v′。' },
       integrals: { stemLatex: String.raw`\int 3x^{2}\,\mathrm{d}x`, expected: 'x^3+C', answerLatex: 'x^{3}+C', solution: '幂法则逆运算。' },
-      'diff-eq': { stemLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}x}=2y\Rightarrow y=`, expected: 'Ce^{2x}', answerLatex: String.raw`Ce^{2x}`, solution: '分离变量。' },
+      'diff-eq': { stemLatex: String.raw`\dfrac{\mathrm{d}y}{\mathrm{d}x}=2y\Rightarrow y=`, expected: 'C*e^(2*x)', answerLatex: String.raw`Ce^{2x}`, solution: '分离变量。' },
       parametric: { stemLatex: String.raw`x=\cos t,\;y=\sin t:\ \dfrac{\mathrm{d}y}{\mathrm{d}x}=`, expected: '-cot t', answerLatex: String.raw`-\cot t`, solution: '参数导数之比为 −cot t。' },
       series: { stemLatex: String.raw`\sum_{n=0}^{\infty}x^{n}\ (|x|<1)`, expected: '1/(1-x)', answerLatex: String.raw`\dfrac{1}{1-x}`, solution: '几何级数。' },
       'prep-alg1': { stemLatex: String.raw`\text{解 }3x-6=0`, expected: '2', answerLatex: '2', solution: 'x=2。' },

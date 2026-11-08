@@ -721,8 +721,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「向量运动解题」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\vec r(t)=\\langle x(t),y(t)\\rangle,\\quad \\vec v=\\vec r'(t),\\quad \\vec a=\\vec r''(t)",
+        "note": "向量运动：逐分量求导得到速度与加速度。"
       }
     ],
     "derivationNotes": [

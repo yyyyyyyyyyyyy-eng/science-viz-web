@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「序列收敛」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\lim_{n\\to\\infty}a_n=L",
+        "note": "序列收敛：当 n 增大时 a_n 无限接近唯一极限 L。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「几何级数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sum_{n=0}^{\\infty}ar^{n}=\\dfrac{a}{1-r}\\quad(|r|<1)",
+        "note": "几何级数在公比绝对值小于 1 时收敛。"
       }
     ],
     "derivationNotes": [
@@ -309,8 +309,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「n 项检验」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sum a_n\\text{ 收敛}\\Rightarrow\\lim_{n\\to\\infty}a_n=0",
+        "note": "n 项检验：通项不趋于零则级数发散。"
       }
     ],
     "derivationNotes": [
@@ -446,8 +446,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积分检验」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\sum_{n=N}^{\\infty}f(n)\\ \\text{与}\\ \\int_N^{\\infty}f(x)\\,\\mathrm{d}x\\ \\text{同敛散}",
+        "note": "积分检验：f 为正、连续、递减。"
       }
     ],
     "derivationNotes": [
@@ -583,8 +583,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「调和级数与 p 级数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sum_{n=1}^{\\infty}\\dfrac{1}{n^{p}}\\ \\text{收敛}\\iff p>1",
+        "note": "p 级数；p=1 时为调和级数，发散。"
       }
     ],
     "derivationNotes": [
@@ -725,8 +725,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「比较检验」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "0\\le a_n\\le b_n,\\ \\sum b_n\\text{ 收敛}\\Rightarrow\\sum a_n\\text{ 收敛}",
+        "note": "比较检验；反向用于发散。"
       }
     ],
     "derivationNotes": [
@@ -862,8 +862,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「交替级数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sum_{n=1}^{\\infty}(-1)^{n-1}b_n,\\ b_n\\downarrow0\\Rightarrow\\text{收敛}",
+        "note": "交替级数检验：b_n 递减且趋于零。"
       }
     ],
     "derivationNotes": [
@@ -999,8 +999,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「比值检验」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "L=\\lim_{n\\to\\infty}\\left|\\dfrac{a_{n+1}}{a_n}\\right|",
+        "note": "比值检验：L<1 绝对收敛，L>1 发散，L=1 失效。"
       }
     ],
     "derivationNotes": [
@@ -1141,8 +1141,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「绝对与条件收敛」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sum|a_n|\\text{ 收敛}\\Rightarrow\\sum a_n\\text{ 收敛}",
+        "note": "绝对收敛；收敛但不绝对收敛称为条件收敛。"
       }
     ],
     "derivationNotes": [
@@ -1278,8 +1278,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「交替级数误差」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "|S-S_N|\\le b_{N+1}",
+        "note": "交替级数误差界：余项不超过第一个被舍去项的绝对值。"
       }
     ],
     "derivationNotes": [
@@ -1415,8 +1415,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「泰勒多项式导论」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "P_n(x)=\\sum_{k=0}^{n}\\dfrac{f^{(k)}(a)}{k!}(x-a)^{k}",
+        "note": "函数在 x=a 处的 n 阶泰勒多项式。"
       }
     ],
     "derivationNotes": [
@@ -1557,8 +1557,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「拉格朗日误差界」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "|R_n(x)|\\le\\dfrac{M}{(n+1)!}|x-a|^{n+1}",
+        "note": "拉格朗日误差界：|f^{(n+1)}|≤M。"
       }
     ],
     "derivationNotes": [
@@ -1694,8 +1694,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「半径与区间」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "R=\\lim_{n\\to\\infty}\\left|\\dfrac{a_n}{a_{n+1}}\\right|",
+        "note": "幂级数收敛半径（比值法）；再检查端点的收敛性。"
       }
     ],
     "derivationNotes": [
@@ -1831,8 +1831,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数表示为幂级数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f(x)=\\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(a)}{n!}(x-a)^{n}",
+        "note": "泰勒级数在收敛区间内表示函数。"
       }
     ],
     "derivationNotes": [
@@ -1973,8 +1973,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「幂级数运算」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\left(\\sum a_nx^{n}\\right)^{\\prime}=\\sum na_nx^{n-1}",
+        "note": "幂级数可逐项求导与积分，收敛半径不变。"
       }
     ],
     "derivationNotes": [

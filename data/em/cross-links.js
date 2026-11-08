@@ -284,7 +284,7 @@ export const CROSS_RELATIONS = {
     "targetHref": "#/t/em/em-u9/9.2",
     "titleZh": "电容器 → 电势",
     "summary": "电容 C=Q/V；储存电能与电势差相关。",
-    "why": "U=½CV²。",
+    "why": "U=0.5CV²。",
     "shared": [
       "电容",
       "电势差"

@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「瞬时变化导论」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}",
+        "note": "导数定义：差商的极限。"
       }
     ],
     "derivationNotes": [
@@ -1279,8 +1279,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「探索间断类型」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\lim_{x\\to a^-}f(x)\\ne\\lim_{x\\to a^+}f(x)\\Rightarrow\\text{跳跃间断}",
+        "note": "间断类型：可去、跳跃、无穷与振荡。"
       }
     ],
     "derivationNotes": [
@@ -1416,8 +1416,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「定义连续性」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\lim_{x\\to a}f(x)=f(a)",
+        "note": "连续的三条件：f(a) 有定义、极限存在、二者相等。"
       }
     ],
     "derivationNotes": [
@@ -1553,8 +1553,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「确认区间连续」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\lim_{x\\to a^+}f(x)=f(a),\\quad \\lim_{x\\to b^-}f(x)=f(b)",
+        "note": "闭区间连续：内部每点连续，端点单侧连续。"
       }
     ],
     "derivationNotes": [
@@ -1690,8 +1690,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「除去间断」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f(a)=\\lim_{x\\to a}f(x)",
+        "note": "可去间断：补充或修改函数值即可连续。"
       }
     ],
     "derivationNotes": [
@@ -2101,8 +2101,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「中间值定理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f(a)<k<f(b)\\Rightarrow\\exists c\\in(a,b),\\ f(c)=k",
+        "note": "中间值定理要求 f 在闭区间连续。"
       }
     ],
     "derivationNotes": [

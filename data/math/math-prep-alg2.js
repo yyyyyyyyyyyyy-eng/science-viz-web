@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数族回顾」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f(x)=a(x-h)^{2}+k",
+        "note": "二次函数的顶点式，顶点为 (h,k)。"
       }
     ],
     "derivationNotes": [
@@ -167,8 +167,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「二次函数深入」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "x=-\\dfrac{b}{2a}",
+        "note": "二次函数对称轴与顶点横坐标。"
       }
     ],
     "derivationNotes": [
@@ -304,8 +304,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「多项式函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "P(x)=a_nx^{n}+\\cdots+a_1x+a_0",
+        "note": "多项式的标准形式，次数为 n。"
       }
     ],
     "derivationNotes": [
@@ -441,8 +441,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「有理函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "R(x)=\\dfrac{P(x)}{Q(x)}",
+        "note": "有理函数；Q(x)=0 处可能出现竖直渐近线。"
       }
     ],
     "derivationNotes": [
@@ -578,8 +578,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「根式与有理指数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "a^{\\dfrac{m}{n}}=\\sqrt[n]{a^{m}}",
+        "note": "有理指数与根式的互化。"
       }
     ],
     "derivationNotes": [
@@ -715,8 +715,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「指数函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "y=ab^{x}",
+        "note": "指数函数：b>0 且 b≠1。"
       }
     ],
     "derivationNotes": [
@@ -852,8 +852,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「对数函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\log_a(xy)=\\log_a x+\\log_a y",
+        "note": "对数乘法法则；底数 a>0 且 a≠1。"
       }
     ],
     "derivationNotes": [
@@ -989,8 +989,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「数列与级数入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "a_n=a_1+(n-1)d,\\quad S_n=\\dfrac{n(a_1+a_n)}{2}",
+        "note": "等差数列通项与前 n 项和。"
       }
     ],
     "derivationNotes": [
@@ -1126,8 +1126,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「概率与计数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "P(A\\cup B)=P(A)+P(B)-P(A\\cap B)",
+        "note": "容斥原理；互斥时交集概率为零。"
       }
     ],
     "derivationNotes": [
@@ -1263,8 +1263,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「矩阵入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "(AB)_{ij}=\\sum_k a_{ik}b_{kj}",
+        "note": "矩阵乘法：行乘列求和。"
       }
     ],
     "derivationNotes": [
@@ -1400,8 +1400,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「圆锥曲线入门」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{x^{2}}{a^{2}}+\\dfrac{y^{2}}{b^{2}}=1",
+        "note": "椭圆的中心标准方程。"
       }
     ],
     "derivationNotes": [
@@ -1537,8 +1537,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「三角恒等式预备」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\sin^{2}\\theta+\\cos^{2}\\theta=1",
+        "note": "毕达哥拉斯恒等式。"
       }
     ],
     "derivationNotes": [

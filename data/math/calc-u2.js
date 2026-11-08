@@ -314,8 +314,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「可微性估计」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "f'(a)\\approx\\dfrac{f(a+h)-f(a)}{h}",
+        "note": "用小时距的差商估计导数。"
       }
     ],
     "derivationNotes": [
@@ -1004,8 +1004,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积商法则」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "(uv)'=u'v+uv',\\quad \\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}",
+        "note": "积法则与商法则；商法则分子顺序不能反。"
       }
     ],
     "derivationNotes": [
@@ -1141,8 +1141,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积商法则续」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[x^{n}\\right]=nx^{n-1}",
+        "note": "幂法则与积商法则结合使用。"
       }
     ],
     "derivationNotes": [

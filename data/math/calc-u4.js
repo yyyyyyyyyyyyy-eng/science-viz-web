@@ -172,8 +172,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「直线运动」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "v(t)=s'(t),\\quad a(t)=v'(t)=s''(t)",
+        "note": "直线运动：速度是位移的导数，加速度是速度的导数。"
       }
     ],
     "derivationNotes": [
@@ -725,8 +725,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「局部线性近似」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)",
-        "note": "优先使用叠式分式表示变化率。"
+        "latex": "L(x)=f(a)+f'(a)(x-a)",
+        "note": "局部线性近似：用切线在 a 附近近似 f。"
       }
     ],
     "derivationNotes": [
