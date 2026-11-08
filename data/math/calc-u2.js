@@ -1567,8 +1567,8 @@ export const TOPICS = {
       {
         "termZh": "商的导数",
         "termEn": "derivative of a quotient",
-        "defZh": "由分子导数乘分母减去分子乘分母导数得到。",
-        "defEn": "Obtained from numerator derivative times denominator minus numerator times denominator derivative."
+        "defZh": "由分子导数乘分母减去分子乘分母导数，再除以分母的平方：\\(\\dfrac{f'(x)g(x)-f(x)g'(x)}{[g(x)]^{2}}\\)。",
+        "defEn": "Obtained from numerator derivative times denominator minus numerator times denominator derivative, then divided by the square of the denominator: \\(\\dfrac{f'(x)g(x)-f(x)g'(x)}{[g(x)]^{2}}\\)."
       },
       {
         "termZh": "化简",
