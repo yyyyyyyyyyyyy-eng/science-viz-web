@@ -135,6 +135,44 @@ export const TOPICS = {
       "不看书能否复述「微分方程建模」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "微分方程",
+        "termEn": "differential equation",
+        "defZh": "含有未知函数及其导数的方程。",
+        "defEn": "An equation involving an unknown function and its derivatives."
+      },
+      {
+        "termZh": "变化率模型",
+        "termEn": "rate model",
+        "defZh": "用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) 与当前量的关系描述变化。",
+        "defEn": "A model describing change through a relation between \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) and the current quantity."
+      },
+      {
+        "termZh": "正比",
+        "termEn": "proportional",
+        "defZh": "一个量等于另一个量乘以常数，如 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\)。",
+        "defEn": "One quantity equals another times a constant, as in \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\)."
+      },
+      {
+        "termZh": "比例常数",
+        "termEn": "proportionality constant",
+        "defZh": "正比关系中的常数 \\(k\\)，决定增长或衰减速度。",
+        "defEn": "The constant \\(k\\) in a proportional relation, setting the growth or decay rate."
+      },
+      {
+        "termZh": "初始条件",
+        "termEn": "initial condition",
+        "defZh": "给定某时刻的函数值，用于确定特解。",
+        "defEn": "A function value at a given time, used to determine a particular solution."
+      },
+      {
+        "termZh": "解",
+        "termEn": "solution",
+        "defZh": "代入微分方程后使方程成立的函数。",
+        "defEn": "A function that satisfies the differential equation when substituted."
+      }
     ]
   },
   "7.2": {
@@ -457,6 +495,38 @@ export const TOPICS = {
       "不看书能否复述「斜率场草图」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "斜率场",
+        "termEn": "slope field",
+        "defZh": "在网格各点画出短线段、斜率等于 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 的图形。",
+        "defEn": "A grid of short segments whose slopes equal \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)."
+      },
+      {
+        "termZh": "线段",
+        "termEn": "segment",
+        "defZh": "斜率场中表示该点导数的小线段。",
+        "defEn": "A small segment in a slope field showing the derivative at that point."
+      },
+      {
+        "termZh": "等倾线",
+        "termEn": "isocline",
+        "defZh": "斜率相同的点连成的曲线，如 \\(f(x,y)=c\\)。",
+        "defEn": "A curve along which the slope is constant, such as \\(f(x,y)=c\\)."
+      },
+      {
+        "termZh": "方向场",
+        "termEn": "direction field",
+        "defZh": "斜率场的另一种称呼，强调解曲线的局部方向。",
+        "defEn": "Another name for a slope field, emphasizing local directions of solution curves."
+      },
+      {
+        "termZh": "网格",
+        "termEn": "grid",
+        "defZh": "均匀取点绘制斜率场的基础。",
+        "defEn": "A uniformly spaced set of points used to draw a slope field."
+      }
     ]
   },
   "7.4": {
@@ -594,6 +664,38 @@ export const TOPICS = {
       "不看书能否复述「斜率场推理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "解曲线",
+        "termEn": "solution curve",
+        "defZh": "与斜率场在各点相切的曲线，代表一个解。",
+        "defEn": "A curve tangent to the slope field at every point, representing a solution."
+      },
+      {
+        "termZh": "初值问题",
+        "termEn": "initial value problem",
+        "defZh": "微分方程连同初始条件一起构成的问题。",
+        "defEn": "A differential equation together with an initial condition."
+      },
+      {
+        "termZh": "平衡解",
+        "termEn": "equilibrium solution",
+        "defZh": "使 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\) 的常数解。",
+        "defEn": "A constant solution for which \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\)."
+      },
+      {
+        "termZh": "稳定性",
+        "termEn": "stability",
+        "defZh": "附近解曲线是否趋近或远离平衡解。",
+        "defEn": "Whether nearby solution curves approach or move away from an equilibrium."
+      },
+      {
+        "termZh": "渐近行为",
+        "termEn": "asymptotic behavior",
+        "defZh": "解在 \\(x\\to\\infty\\) 或 \\(y\\to\\infty\\) 时的趋势。",
+        "defEn": "The trend of a solution as \\(x\\to\\infty\\) or \\(y\\to\\infty\\)."
+      }
     ]
   },
   "7.5": {
@@ -736,6 +838,44 @@ export const TOPICS = {
       "不看书能否复述「欧拉法」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "欧拉法",
+        "termEn": "Euler's method",
+        "defZh": "用切线线性近似逐步推进的数值解法。",
+        "defEn": "A numerical method that advances step by step using tangent-line approximations."
+      },
+      {
+        "termZh": "步长",
+        "termEn": "step size",
+        "defZh": "每次推进的 \\(\\Delta x\\)，决定精度与计算量。",
+        "defEn": "The increment \\(\\Delta x\\), which controls accuracy and effort."
+      },
+      {
+        "termZh": "迭代",
+        "termEn": "iteration",
+        "defZh": "用 \\(y_{n+1}=y_n+f(x_n,y_n)\\Delta x\\) 反复计算下一点。",
+        "defEn": "Repeatedly computing the next value with \\(y_{n+1}=y_n+f(x_n,y_n)\\Delta x\\)."
+      },
+      {
+        "termZh": "线性近似",
+        "termEn": "linear approximation",
+        "defZh": "在每步用当前点的切线代替真实解曲线。",
+        "defEn": "Replacing the true solution curve by its tangent at each step."
+      },
+      {
+        "termZh": "累积误差",
+        "termEn": "accumulated error",
+        "defZh": "多次近似后误差逐步叠加的总偏差。",
+        "defEn": "The total deviation that builds up over repeated approximations."
+      },
+      {
+        "termZh": "数值解",
+        "termEn": "numerical solution",
+        "defZh": "由迭代得到的近似函数值序列。",
+        "defEn": "A sequence of approximate function values produced by iteration."
+      }
     ]
   },
   "7.6": {
@@ -1048,6 +1188,44 @@ export const TOPICS = {
       "不看书能否复述「特解」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "分离变量",
+        "termEn": "separation of variables",
+        "defZh": "把微分方程写成 \\(\\dfrac{1}{g(y)}\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x\\) 后两边积分。",
+        "defEn": "Rewriting a differential equation as \\(\\dfrac{1}{g(y)}\\,\\mathrm{d}y=f(x)\\,\\mathrm{d}x\\) and integrating both sides."
+      },
+      {
+        "termZh": "通解",
+        "termEn": "general solution",
+        "defZh": "含有任意常数 \\(C\\) 的一族解。",
+        "defEn": "A family of solutions containing an arbitrary constant \\(C\\)."
+      },
+      {
+        "termZh": "特解",
+        "termEn": "particular solution",
+        "defZh": "用初始条件确定常数后得到的唯一解。",
+        "defEn": "The unique solution obtained after using an initial condition to fix the constant."
+      },
+      {
+        "termZh": "初始条件",
+        "termEn": "initial condition",
+        "defZh": "如 \\(y(x_0)=y_0\\)，用于确定 \\(C\\)。",
+        "defEn": "A condition such as \\(y(x_0)=y_0\\), used to determine \\(C\\)."
+      },
+      {
+        "termZh": "积分常数",
+        "termEn": "constant of integration",
+        "defZh": "积分过程中产生、由初始条件确定的常数。",
+        "defEn": "A constant produced by integration and determined by the initial condition."
+      },
+      {
+        "termZh": "隐式解",
+        "termEn": "implicit solution",
+        "defZh": "未显式解出 \\(y\\) 的方程形式解。",
+        "defEn": "A solution left as an equation not explicitly solved for \\(y\\)."
+      }
     ]
   },
   "7.8": {
@@ -1185,6 +1363,44 @@ export const TOPICS = {
       "不看书能否复述「指数模型」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "指数增长",
+        "termEn": "exponential growth",
+        "defZh": "变化率与当前量成正比且 \\(k>0\\) 时的增长模型。",
+        "defEn": "Growth with rate proportional to the current amount and \\(k>0\\)."
+      },
+      {
+        "termZh": "指数衰减",
+        "termEn": "exponential decay",
+        "defZh": "变化率与当前量成正比且 \\(k<0\\) 时的衰减模型。",
+        "defEn": "Decay with rate proportional to the current amount and \\(k<0\\)."
+      },
+      {
+        "termZh": "比例常数",
+        "termEn": "proportionality constant",
+        "defZh": "模型 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\) 中的 \\(k\\)。",
+        "defEn": "The constant \\(k\\) in the model \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=ky\\)."
+      },
+      {
+        "termZh": "半衰期",
+        "termEn": "half-life",
+        "defZh": "衰减到原来一半所需的时间。",
+        "defEn": "The time required to decay to half the original amount."
+      },
+      {
+        "termZh": "连续增长",
+        "termEn": "continuous growth",
+        "defZh": "以 \\(y=Ce^{kt}\\) 形式连续建模的增长。",
+        "defEn": "Growth modeled continuously in the form \\(y=Ce^{kt}\\)."
+      },
+      {
+        "termZh": "承载容量",
+        "termEn": "carrying capacity",
+        "defZh": "逻辑斯蒂模型中种群长期趋于的上限。",
+        "defEn": "The long-term upper limit of a population in a logistic model."
+      }
     ]
   },
   "7.9": {

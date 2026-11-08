@@ -315,6 +315,44 @@ export const TOPICS = {
       "不看书能否复述「参数二阶导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "参数方程",
+        "termEn": "parametric equations",
+        "defZh": "用 \\(x(t)\\) 与 \\(y(t)\\) 分别表示坐标的方程。",
+        "defEn": "Equations giving coordinates separately as \\(x(t)\\) and \\(y(t)\\)."
+      },
+      {
+        "termZh": "参数",
+        "termEn": "parameter",
+        "defZh": "同时控制 \\(x\\) 与 \\(y\\) 的自变量 \\(t\\)。",
+        "defEn": "The independent variable \\(t\\) that controls both \\(x\\) and \\(y\\)."
+      },
+      {
+        "termZh": "一阶导数",
+        "termEn": "first derivative",
+        "defZh": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}}\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}}\\)."
+      },
+      {
+        "termZh": "二阶导数",
+        "termEn": "second derivative",
+        "defZh": "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left[\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right]}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}}\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left[\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right]}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}}\\)."
+      },
+      {
+        "termZh": "凹性",
+        "termEn": "concavity",
+        "defZh": "由参数曲线二阶导数的符号判断。",
+        "defEn": "Determined by the sign of the second derivative of a parametric curve."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "把对 \\(t\\) 的导数转换为对 \\(x\\) 的导数。",
+        "defEn": "Converts derivatives with respect to \\(t\\) into derivatives with respect to \\(x\\)."
+      }
     ]
   },
   "9.3": {
@@ -628,6 +666,44 @@ export const TOPICS = {
       "不看书能否复述「向量值函数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "向量值函数",
+        "termEn": "vector-valued function",
+        "defZh": "输出为向量的函数 \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)。",
+        "defEn": "A function with vector outputs, \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)."
+      },
+      {
+        "termZh": "分量",
+        "termEn": "component",
+        "defZh": "向量中的每个坐标函数，如 \\(x(t)\\) 与 \\(y(t)\\)。",
+        "defEn": "Each coordinate function in a vector, such as \\(x(t)\\) and \\(y(t)\\)."
+      },
+      {
+        "termZh": "位置向量",
+        "termEn": "position vector",
+        "defZh": "从原点指向点的向量 \\(\\vec r(t)\\)。",
+        "defEn": "The vector \\(\\vec r(t)\\) from the origin to a point."
+      },
+      {
+        "termZh": "速度向量",
+        "termEn": "velocity vector",
+        "defZh": "\\(\\vec v(t)=\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\)。",
+        "defEn": "\\(\\vec v(t)=\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\)."
+      },
+      {
+        "termZh": "加速度向量",
+        "termEn": "acceleration vector",
+        "defZh": "\\(\\vec a(t)=\\vec v'(t)=\\vec r''(t)\\)。",
+        "defEn": "\\(\\vec a(t)=\\vec v'(t)=\\vec r''(t)\\)."
+      },
+      {
+        "termZh": "逐分量求导",
+        "termEn": "componentwise differentiation",
+        "defZh": "对每个分量分别求导。",
+        "defEn": "Differentiating each component separately."
+      }
     ]
   },
   "9.5": {
@@ -765,6 +841,44 @@ export const TOPICS = {
       "不看书能否复述「向量值函数积分」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "向量值函数积分",
+        "termEn": "integral of a vector-valued function",
+        "defZh": "对每个分量分别积分。",
+        "defEn": "Integrating each component separately."
+      },
+      {
+        "termZh": "逐分量积分",
+        "termEn": "componentwise integration",
+        "defZh": "\\(\\int\\langle x(t),y(t)\\rangle\\,\\mathrm{d}t=\\left\\langle\\int x(t)\\,\\mathrm{d}t,\\int y(t)\\,\\mathrm{d}t\\right\\rangle\\)。",
+        "defEn": "\\(\\int\\langle x(t),y(t)\\rangle\\,\\mathrm{d}t=\\left\\langle\\int x(t)\\,\\mathrm{d}t,\\int y(t)\\,\\mathrm{d}t\\right\\rangle\\)."
+      },
+      {
+        "termZh": "初始位置",
+        "termEn": "initial position",
+        "defZh": "由 \\(\\vec r(0)\\) 给出的积分常数向量。",
+        "defEn": "The constant vector supplied by \\(\\vec r(0)\\)."
+      },
+      {
+        "termZh": "速度向量",
+        "termEn": "velocity vector",
+        "defZh": "积分后得到位置向量。",
+        "defEn": "Its integral gives the position vector."
+      },
+      {
+        "termZh": "定积分",
+        "termEn": "definite integral",
+        "defZh": "对向量函数在区间上逐分量求定积分。",
+        "defEn": "A definite integral of a vector function taken component by component."
+      },
+      {
+        "termZh": "积分常数向量",
+        "termEn": "constant vector of integration",
+        "defZh": "不定积分中每个分量各自的常数组成的向量。",
+        "defEn": "A vector whose components are the separate constants of integration."
+      }
     ]
   },
   "9.6": {
@@ -902,6 +1016,44 @@ export const TOPICS = {
       "不看书能否复述「向量运动解题」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "位置向量",
+        "termEn": "position vector",
+        "defZh": "\\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)，描述运动质点位置。",
+        "defEn": "\\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\), describing a moving particle's position."
+      },
+      {
+        "termZh": "速度向量",
+        "termEn": "velocity vector",
+        "defZh": "\\(\\vec v(t)=\\vec r'(t)\\)，切线方向。",
+        "defEn": "\\(\\vec v(t)=\\vec r'(t)\\), tangent to the path."
+      },
+      {
+        "termZh": "加速度向量",
+        "termEn": "acceleration vector",
+        "defZh": "\\(\\vec a(t)=\\vec v'(t)\\)，速度的变化率。",
+        "defEn": "\\(\\vec a(t)=\\vec v'(t)\\), the rate of change of velocity."
+      },
+      {
+        "termZh": "速率",
+        "termEn": "speed",
+        "defZh": "\\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)。",
+        "defEn": "\\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)."
+      },
+      {
+        "termZh": "位移",
+        "termEn": "displacement",
+        "defZh": "位置向量的改变量 \\(\\vec r(b)-\\vec r(a)\\)。",
+        "defEn": "The change in position vector, \\(\\vec r(b)-\\vec r(a)\\)."
+      },
+      {
+        "termZh": "路程",
+        "termEn": "distance traveled",
+        "defZh": "速率在时间区间上的积分 \\(\\int_a^b\\|\\vec v(t)\\|\\,\\mathrm{d}t\\)。",
+        "defEn": "The integral of speed over a time interval, \\(\\int_a^b\\|\\vec v(t)\\|\\,\\mathrm{d}t\\)."
+      }
     ]
   },
   "9.7": {
@@ -1394,6 +1546,44 @@ export const TOPICS = {
       "不看书能否复述「两极曲线间面积」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极坐标",
+        "termEn": "polar coordinates",
+        "defZh": "用半径 \\(r\\) 与极角 \\(\\theta\\) 表示点的坐标。",
+        "defEn": "Coordinates using radius \\(r\\) and polar angle \\(\\theta\\)."
+      },
+      {
+        "termZh": "极曲线",
+        "termEn": "polar curve",
+        "defZh": "由 \\(r=f(\\theta)\\) 给出的曲线。",
+        "defEn": "A curve given by \\(r=f(\\theta)\\)."
+      },
+      {
+        "termZh": "外曲线",
+        "termEn": "outer curve",
+        "defZh": "在给定角度上 \\(r\\) 较大的边界。",
+        "defEn": "The boundary with the larger \\(r\\) at a given angle."
+      },
+      {
+        "termZh": "内曲线",
+        "termEn": "inner curve",
+        "defZh": "在给定角度上 \\(r\\) 较小的边界。",
+        "defEn": "The boundary with the smaller \\(r\\) at a given angle."
+      },
+      {
+        "termZh": "极角",
+        "termEn": "polar angle",
+        "defZh": "从极轴按逆时针方向量出的角 \\(\\theta\\)。",
+        "defEn": "The angle \\(\\theta\\) measured counterclockwise from the polar axis."
+      },
+      {
+        "termZh": "扇形面积",
+        "termEn": "sector area",
+        "defZh": "极坐标面积元素 \\(\\dfrac{1}{2}r^{2}\\,\\mathrm{d}\\theta\\) 的来源。",
+        "defEn": "The source of the polar area element \\(\\dfrac{1}{2}r^{2}\\,\\mathrm{d}\\theta\\)."
+      }
     ]
   }
 };

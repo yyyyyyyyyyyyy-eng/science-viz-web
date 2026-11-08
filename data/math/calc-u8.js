@@ -135,6 +135,38 @@ export const TOPICS = {
       "不看书能否复述「积分求平均」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "平均值",
+        "termEn": "average value",
+        "defZh": "\\(\\dfrac{1}{b-a}\\int_a^b f(x)\\,\\mathrm{d}x\\)，函数在区间上的平均高度。",
+        "defEn": "\\(\\dfrac{1}{b-a}\\int_a^b f(x)\\,\\mathrm{d}x\\), the average height of a function on an interval."
+      },
+      {
+        "termZh": "积分平均",
+        "termEn": "integral average",
+        "defZh": "用定积分除以区间长度得到的平均量。",
+        "defEn": "An average obtained by dividing a definite integral by the interval length."
+      },
+      {
+        "termZh": "平均高度",
+        "termEn": "average height",
+        "defZh": "与函数图像围成相同面积的矩形高度。",
+        "defEn": "The height of a rectangle having the same area as the region under the graph."
+      },
+      {
+        "termZh": "连续函数",
+        "termEn": "continuous function",
+        "defZh": "在区间上保证平均值定理成立的前提。",
+        "defEn": "The hypothesis on the interval that guarantees the Mean Value Theorem for Integrals."
+      },
+      {
+        "termZh": "区间长度",
+        "termEn": "interval length",
+        "defZh": "\\(b-a\\)，用于把总积累平均化。",
+        "defEn": "The length \\(b-a\\), used to average a total accumulation."
+      }
     ]
   },
   "8.2": {
@@ -272,6 +304,44 @@ export const TOPICS = {
       "不看书能否复述「位置速度加速度」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "位移",
+        "termEn": "displacement",
+        "defZh": "\\(\\int_a^b v(t)\\,\\mathrm{d}t\\)，位置的总改变量。",
+        "defEn": "\\(\\int_a^b v(t)\\,\\mathrm{d}t\\), the total change in position."
+      },
+      {
+        "termZh": "位置",
+        "termEn": "position",
+        "defZh": "\\(s(t)=s(a)+\\int_a^t v(u)\\,\\mathrm{d}u\\)。",
+        "defEn": "\\(s(t)=s(a)+\\int_a^t v(u)\\,\\mathrm{d}u\\)."
+      },
+      {
+        "termZh": "速度",
+        "termEn": "velocity",
+        "defZh": "位置的变化率，可为负。",
+        "defEn": "The rate of change of position, which may be negative."
+      },
+      {
+        "termZh": "加速度",
+        "termEn": "acceleration",
+        "defZh": "速度的变化率，积分后得到速度改变量。",
+        "defEn": "The rate of change of velocity; integrating it gives the change in velocity."
+      },
+      {
+        "termZh": "初速度",
+        "termEn": "initial velocity",
+        "defZh": "\\(t=a\\) 时的速度 \\(v(a)\\)。",
+        "defEn": "The velocity \\(v(a)\\) at time \\(t=a\\)."
+      },
+      {
+        "termZh": "净变化",
+        "termEn": "net change",
+        "defZh": "积分得到的带符号总改变量。",
+        "defEn": "The signed total change obtained by integration."
+      }
     ]
   },
   "8.3": {
@@ -413,6 +483,38 @@ export const TOPICS = {
       "不看书能否复述「累积变化率」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "累积函数",
+        "termEn": "accumulation function",
+        "defZh": "用定积分表示从起点到当前时刻的总量。",
+        "defEn": "A definite integral giving the total accumulated from a starting point to the current time."
+      },
+      {
+        "termZh": "净变化",
+        "termEn": "net change",
+        "defZh": "\\(\\int_a^b f'(x)\\,\\mathrm{d}x=f(b)-f(a)\\)。",
+        "defEn": "\\(\\int_a^b f'(x)\\,\\mathrm{d}x=f(b)-f(a)\\)."
+      },
+      {
+        "termZh": "总变化",
+        "termEn": "total change",
+        "defZh": "把变化率在整个区间上累加得到的量。",
+        "defEn": "The amount obtained by accumulating a rate over the whole interval."
+      },
+      {
+        "termZh": "变化率",
+        "termEn": "rate of change",
+        "defZh": "被积分的瞬时变化速度。",
+        "defEn": "The instantaneous speed of change being integrated."
+      },
+      {
+        "termZh": "实际情境",
+        "termEn": "applied context",
+        "defZh": "用人口、水量、能量等实际量解释积分。",
+        "defEn": "Interpreting an integral with real quantities such as population, water, or energy."
+      }
     ]
   },
   "8.4": {
@@ -725,6 +827,44 @@ export const TOPICS = {
       "不看书能否复述「曲线间面积 y」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "关于 \\(y\\) 的函数",
+        "termEn": "function of \\(y\\)",
+        "defZh": "以 \\(x=g(y)\\) 形式表示的曲线。",
+        "defEn": "A curve expressed in the form \\(x=g(y)\\)."
+      },
+      {
+        "termZh": "右曲线",
+        "termEn": "right curve",
+        "defZh": "在水平条上 \\(x\\) 较大的边界 \\(x_{\\mathrm{right}}(y)\\)。",
+        "defEn": "The boundary \\(x_{\\mathrm{right}}(y)\\) with the larger \\(x\\) on a horizontal strip."
+      },
+      {
+        "termZh": "左曲线",
+        "termEn": "left curve",
+        "defZh": "在水平条上 \\(x\\) 较小的边界 \\(x_{\\mathrm{left}}(y)\\)。",
+        "defEn": "The boundary \\(x_{\\mathrm{left}}(y)\\) with the smaller \\(x\\) on a horizontal strip."
+      },
+      {
+        "termZh": "水平条",
+        "termEn": "horizontal strip",
+        "defZh": "沿 \\(y\\) 方向积分时宽度为 \\(x_{\\mathrm{right}}-x_{\\mathrm{left}}\\) 的条带。",
+        "defEn": "A strip of width \\(x_{\\mathrm{right}}-x_{\\mathrm{left}}\\) used when integrating along \\(y\\)."
+      },
+      {
+        "termZh": "曲线间面积",
+        "termEn": "area between curves",
+        "defZh": "\\(A=\\int_c^d[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)]\\,\\mathrm{d}y\\)。",
+        "defEn": "\\(A=\\int_c^d[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)]\\,\\mathrm{d}y\\)."
+      },
+      {
+        "termZh": "交点",
+        "termEn": "intersection",
+        "defZh": "两曲线相交处，常作为积分限。",
+        "defEn": "A point where two curves meet, often used as a limit of integration."
+      }
     ]
   },
   "8.6": {
@@ -862,6 +1002,38 @@ export const TOPICS = {
       "不看书能否复述「曲线间面积其他」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "交点",
+        "termEn": "intersection point",
+        "defZh": "两曲线相交、上下位置可能交换的点。",
+        "defEn": "A point where two curves meet and their upper-lower order may switch."
+      },
+      {
+        "termZh": "区间划分",
+        "termEn": "partition",
+        "defZh": "按交点把积分区间分成若干段。",
+        "defEn": "Dividing the integration interval into pieces at intersection points."
+      },
+      {
+        "termZh": "上曲线",
+        "termEn": "upper curve",
+        "defZh": "在给定子区间上函数值较大的曲线。",
+        "defEn": "The curve with the larger function value on a given subinterval."
+      },
+      {
+        "termZh": "绝对值积分",
+        "termEn": "absolute value integral",
+        "defZh": "\\(A=\\int_a^b|f(x)-g(x)|\\,\\mathrm{d}x\\)，自动处理上下交换。",
+        "defEn": "\\(A=\\int_a^b|f(x)-g(x)|\\,\\mathrm{d}x\\), automatically handling order changes."
+      },
+      {
+        "termZh": "曲线间面积",
+        "termEn": "area between curves",
+        "defZh": "各子区间上上曲线减下曲线积分之和。",
+        "defEn": "The sum of integrals of upper minus lower curves over the subintervals."
+      }
     ]
   },
   "8.7": {
@@ -999,6 +1171,38 @@ export const TOPICS = {
       "不看书能否复述「旋转体体积盘法」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "截面",
+        "termEn": "cross section",
+        "defZh": "用垂直于某轴的平面截立体所得的平面图形。",
+        "defEn": "The plane figure cut from a solid by a plane perpendicular to an axis."
+      },
+      {
+        "termZh": "正方形截面",
+        "termEn": "square cross section",
+        "defZh": "截面为边长由曲线间距给出的正方形。",
+        "defEn": "A square cross section whose side length is the distance between curves."
+      },
+      {
+        "termZh": "长方形截面",
+        "termEn": "rectangular cross section",
+        "defZh": "截面为矩形，面积等于底乘高。",
+        "defEn": "A rectangular cross section whose area equals base times height."
+      },
+      {
+        "termZh": "截面面积",
+        "termEn": "cross-sectional area",
+        "defZh": "\\(A(x)\\)，随位置 \\(x\\) 变化的截面面积。",
+        "defEn": "The area \\(A(x)\\) of a cross section, varying with position \\(x\\)."
+      },
+      {
+        "termZh": "体积",
+        "termEn": "volume",
+        "defZh": "\\(V=\\int_a^b A(x)\\,\\mathrm{d}x\\)，截面面积沿轴向累积。",
+        "defEn": "\\(V=\\int_a^b A(x)\\,\\mathrm{d}x\\), accumulating cross-sectional area along the axis."
+      }
     ]
   },
   "8.8": {
@@ -1137,6 +1341,44 @@ export const TOPICS = {
       "不看书能否复述「已知截面体积」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "等边三角形截面",
+        "termEn": "equilateral triangle cross section",
+        "defZh": "截面为等边三角形，面积 \\(\\dfrac{\\sqrt{3}}{4}s^{2}\\)。",
+        "defEn": "A cross section that is an equilateral triangle with area \\(\\dfrac{\\sqrt{3}}{4}s^{2}\\)."
+      },
+      {
+        "termZh": "等腰直角三角形截面",
+        "termEn": "isosceles right triangle cross section",
+        "defZh": "截面为等腰直角三角形，面积 \\(\\dfrac{1}{2}s^{2}\\)。",
+        "defEn": "A cross section that is an isosceles right triangle with area \\(\\dfrac{1}{2}s^{2}\\)."
+      },
+      {
+        "termZh": "半圆截面",
+        "termEn": "semicircular cross section",
+        "defZh": "截面为半圆，面积 \\(\\dfrac{\\pi}{8}s^{2}\\)，其中 \\(s\\) 为直径。",
+        "defEn": "A semicircular cross section of area \\(\\dfrac{\\pi}{8}s^{2}\\), where \\(s\\) is the diameter."
+      },
+      {
+        "termZh": "截面面积",
+        "termEn": "cross-sectional area",
+        "defZh": "由底边长度与截面形状公式计算的面积。",
+        "defEn": "The area computed from the base length and the shape's formula."
+      },
+      {
+        "termZh": "相似三角形",
+        "termEn": "similar triangles",
+        "defZh": "用比例关系求截面边长的常用工具。",
+        "defEn": "A common tool for finding side lengths through proportional relationships."
+      },
+      {
+        "termZh": "体积",
+        "termEn": "volume",
+        "defZh": "对截面面积 \\(A(x)\\) 从 \\(a\\) 到 \\(b\\) 积分。",
+        "defEn": "The integral of cross-sectional area \\(A(x)\\) from \\(a\\) to \\(b\\)."
+      }
     ]
   },
   "8.9": {
@@ -1454,6 +1696,44 @@ export const TOPICS = {
       "不看书能否复述「圆盘法其他轴」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "圆盘法",
+        "termEn": "disc method",
+        "defZh": "绕轴旋转时用半径为 \\(R\\) 的圆盘面积 \\(\\pi R^{2}\\) 积分求体积。",
+        "defEn": "Integrating disc areas \\(\\pi R^{2}\\) when a region is revolved about an axis."
+      },
+      {
+        "termZh": "旋转轴",
+        "termEn": "axis of rotation",
+        "defZh": "区域绕其旋转的直线，如 \\(x=2\\) 或 \\(y=-1\\)。",
+        "defEn": "The line about which a region is revolved, such as \\(x=2\\) or \\(y=-1\\)."
+      },
+      {
+        "termZh": "半径",
+        "termEn": "radius",
+        "defZh": "旋转轴到曲线边界的垂直距离 \\(R\\)。",
+        "defEn": "The perpendicular distance \\(R\\) from the axis of rotation to the boundary curve."
+      },
+      {
+        "termZh": "绕 \\(y\\) 轴",
+        "termEn": "around the \\(y\\)-axis",
+        "defZh": "用水平切片、对 \\(y\\) 积分求体积。",
+        "defEn": "Using horizontal slices and integrating with respect to \\(y\\)."
+      },
+      {
+        "termZh": "水平切片",
+        "termEn": "horizontal slice",
+        "defZh": "垂直于 \\(y\\) 轴、厚度为 \\(\\mathrm{d}y\\) 的薄片。",
+        "defEn": "A thin slice perpendicular to the \\(y\\)-axis with thickness \\(\\mathrm{d}y\\)."
+      },
+      {
+        "termZh": "体积",
+        "termEn": "volume",
+        "defZh": "\\(V=\\pi\\int_c^d[R(y)]^{2}\\,\\mathrm{d}y\\)。",
+        "defEn": "\\(V=\\pi\\int_c^d[R(y)]^{2}\\,\\mathrm{d}y\\)."
+      }
     ]
   },
   "8.11": {
@@ -1771,6 +2051,44 @@ export const TOPICS = {
       "不看书能否复述「垫圈法其他轴」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "垫圈法",
+        "termEn": "washer method",
+        "defZh": "旋转区域与轴之间有间隙时，用外圆面积减内圆面积积分。",
+        "defEn": "Integrating outer disc area minus inner disc area when a gap separates the region from the axis."
+      },
+      {
+        "termZh": "外半径",
+        "termEn": "outer radius",
+        "defZh": "旋转轴到外侧边界的距离 \\(R_{\\mathrm{out}}\\)。",
+        "defEn": "The distance \\(R_{\\mathrm{out}}\\) from the axis to the outer boundary."
+      },
+      {
+        "termZh": "内半径",
+        "termEn": "inner radius",
+        "defZh": "旋转轴到内侧边界的距离 \\(R_{\\mathrm{in}}\\)。",
+        "defEn": "The distance \\(R_{\\mathrm{in}}\\) from the axis to the inner boundary."
+      },
+      {
+        "termZh": "旋转轴",
+        "termEn": "axis of rotation",
+        "defZh": "决定内外半径与积分变量的直线。",
+        "defEn": "The line that determines the inner and outer radii and the integration variable."
+      },
+      {
+        "termZh": "空心区域",
+        "termEn": "hollow region",
+        "defZh": "旋转后中间留有空洞的立体。",
+        "defEn": "A solid with a cavity after revolution."
+      },
+      {
+        "termZh": "体积",
+        "termEn": "volume",
+        "defZh": "\\(V=\\pi\\int_c^d\\left([R_{\\mathrm{out}}]^{2}-[R_{\\mathrm{in}}]^{2}\\right)\\mathrm{d}y\\)。",
+        "defEn": "\\(V=\\pi\\int_c^d\\left([R_{\\mathrm{out}}]^{2}-[R_{\\mathrm{in}}]^{2}\\right)\\mathrm{d}y\\)."
+      }
     ]
   },
   "8.13": {

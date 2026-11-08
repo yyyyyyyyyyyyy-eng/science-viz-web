@@ -135,6 +135,44 @@ export const TOPICS = {
       "不看书能否复述「瞬时变化导论」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "瞬时变化率",
+        "termEn": "instantaneous rate of change",
+        "defZh": "函数在某一点处的变化率，等于该点切线的斜率。",
+        "defEn": "The rate at which a function changes at a single instant, equal to the slope of the tangent line there."
+      },
+      {
+        "termZh": "平均变化率",
+        "termEn": "average rate of change",
+        "defZh": "在区间 \\([a,b]\\) 上等于 \\(\\dfrac{f(b)-f(a)}{b-a}\\)。",
+        "defEn": "Over an interval \\([a,b]\\), the quantity \\(\\dfrac{f(b)-f(a)}{b-a}\\)."
+      },
+      {
+        "termZh": "割线",
+        "termEn": "secant line",
+        "defZh": "通过曲线上两点的直线，其斜率为区间上的平均变化率。",
+        "defEn": "A line through two points on a curve, whose slope is the average rate of change over the interval."
+      },
+      {
+        "termZh": "切线",
+        "termEn": "tangent line",
+        "defZh": "在一点处与曲线局部相切、斜率等于该点导数的直线。",
+        "defEn": "A line touching a curve locally at a point, with slope equal to the derivative there."
+      },
+      {
+        "termZh": "差商",
+        "termEn": "difference quotient",
+        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)，用于估计瞬时变化率。",
+        "defEn": "The quotient \\(\\dfrac{f(a+h)-f(a)}{h}\\), used to estimate an instantaneous rate of change."
+      },
+      {
+        "termZh": "极限过程",
+        "termEn": "limiting process",
+        "defZh": "令时间间隔或 \\(h\\) 趋于零，把平均变化率转化为瞬时变化率。",
+        "defEn": "Letting the time interval or \\(h\\) approach zero to turn an average rate into an instantaneous rate."
+      }
     ]
   },
   "1.2": {
@@ -458,6 +496,38 @@ export const TOPICS = {
       "不看书能否复述「由图像估计极限」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极限值",
+        "termEn": "limit value",
+        "defZh": "当 \\(x\\) 趋近 \\(a\\) 时函数所趋近的数 \\(L\\)，与 \\(f(a)\\) 本身无关。",
+        "defEn": "The number \\(L\\) approached by a function as \\(x\\) approaches \\(a\\), independent of \\(f(a)\\) itself."
+      },
+      {
+        "termZh": "图像估计",
+        "termEn": "graphical estimate",
+        "defZh": "沿曲线两侧观察函数值趋势来估计极限。",
+        "defEn": "Estimating a limit by observing the trend of function values along both sides of a graph."
+      },
+      {
+        "termZh": "空心点",
+        "termEn": "hole",
+        "defZh": "图像上表示该点未定义或被重新定义的空缺。",
+        "defEn": "A gap in a graph showing that a point is undefined or has been redefined."
+      },
+      {
+        "termZh": "单侧极限",
+        "termEn": "one-sided limit",
+        "defZh": "只从 \\(a\\) 的一侧趋近时得到的极限。",
+        "defEn": "A limit obtained by approaching \\(a\\) from only one side."
+      },
+      {
+        "termZh": "函数值",
+        "termEn": "function value",
+        "defZh": "\\(f(a)\\)，可能等于极限值，也可能不存在或与之不同。",
+        "defEn": "The value \\(f(a)\\), which may equal the limit, may be undefined, or may differ from it."
+      }
     ]
   },
   "1.4": {
@@ -595,6 +665,38 @@ export const TOPICS = {
       "不看书能否复述「由表估计极限」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "数值表",
+        "termEn": "table of values",
+        "defZh": "列出 \\(x\\) 接近 \\(a\\) 时对应函数值的表格。",
+        "defEn": "A table listing function values for inputs near \\(a\\)."
+      },
+      {
+        "termZh": "左逼近",
+        "termEn": "approach from the left",
+        "defZh": "取小于 \\(a\\) 的 \\(x\\) 值逐步靠近 \\(a\\)。",
+        "defEn": "Using values of \\(x\\) less than \\(a\\) that get progressively closer to \\(a\\)."
+      },
+      {
+        "termZh": "右逼近",
+        "termEn": "approach from the right",
+        "defZh": "取大于 \\(a\\) 的 \\(x\\) 值逐步靠近 \\(a\\)。",
+        "defEn": "Using values of \\(x\\) greater than \\(a\\) that get progressively closer to \\(a\\)."
+      },
+      {
+        "termZh": "极限存在",
+        "termEn": "existence of a limit",
+        "defZh": "左右两侧的数值趋势趋于同一个有限值。",
+        "defEn": "The numerical trends from both sides approach one common finite value."
+      },
+      {
+        "termZh": "舍入误差",
+        "termEn": "rounding error",
+        "defZh": "表格数值经过舍入后造成的偏差，可能掩盖真实极限。",
+        "defEn": "Deviation caused by rounding table entries, which can obscure the true limit."
+      }
     ]
   },
   "1.5": {
@@ -732,6 +834,44 @@ export const TOPICS = {
       "不看书能否复述「极限的代数性质」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "和法则",
+        "termEn": "sum law",
+        "defZh": "若两个极限都存在，则 \\(\\lim_{x\\to a}[f(x)+g(x)]=\\lim f+\\lim g\\)。",
+        "defEn": "If both limits exist, then \\(\\lim_{x\\to a}[f(x)+g(x)]=\\lim f+\\lim g\\)."
+      },
+      {
+        "termZh": "差法则",
+        "termEn": "difference law",
+        "defZh": "若两个极限都存在，则 \\(\\lim_{x\\to a}[f(x)-g(x)]=\\lim f-\\lim g\\)。",
+        "defEn": "If both limits exist, then \\(\\lim_{x\\to a}[f(x)-g(x)]=\\lim f-\\lim g\\)."
+      },
+      {
+        "termZh": "积法则",
+        "termEn": "product law",
+        "defZh": "若两个极限都存在，则 \\(\\lim_{x\\to a}[f(x)g(x)]=(\\lim f)(\\lim g)\\)。",
+        "defEn": "If both limits exist, then \\(\\lim_{x\\to a}[f(x)g(x)]=(\\lim f)(\\lim g)\\)."
+      },
+      {
+        "termZh": "商法则",
+        "termEn": "quotient law",
+        "defZh": "当分母极限不为零时，商的极限等于极限之商。",
+        "defEn": "When the denominator's limit is nonzero, the limit of a quotient is the quotient of the limits."
+      },
+      {
+        "termZh": "常数倍法则",
+        "termEn": "constant multiple law",
+        "defZh": "\\(\\lim_{x\\to a}[c f(x)]=c\\lim_{x\\to a}f(x)\\)。",
+        "defEn": "\\(\\lim_{x\\to a}[c f(x)]=c\\lim_{x\\to a}f(x)\\)."
+      },
+      {
+        "termZh": "复合函数极限",
+        "termEn": "limit of a composite function",
+        "defZh": "在外层函数连续时，\\(\\lim f(g(x))=f(\\lim g(x))\\)。",
+        "defEn": "When the outer function is continuous, \\(\\lim f(g(x))=f(\\lim g(x))\\)."
+      }
     ]
   },
   "1.6": {
@@ -869,6 +1009,44 @@ export const TOPICS = {
       "不看书能否复述「代数操作求极限」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "直接代入",
+        "termEn": "direct substitution",
+        "defZh": "把 \\(x=a\\) 代入函数求极限；若得到有限值即可用。",
+        "defEn": "Substituting \\(x=a\\) into the function; valid when it yields a finite value."
+      },
+      {
+        "termZh": "因式分解",
+        "termEn": "factoring",
+        "defZh": "把分子或分母分解以约去导致零分母的公因子。",
+        "defEn": "Factoring numerator or denominator to cancel the common factor that makes the denominator zero."
+      },
+      {
+        "termZh": "有理化",
+        "termEn": "rationalization",
+        "defZh": "乘以共轭表达式以消除根式造成的不定式。",
+        "defEn": "Multiplying by a conjugate to remove an indeterminate form caused by radicals."
+      },
+      {
+        "termZh": "公因子",
+        "termEn": "common factor",
+        "defZh": "分子分母中相同的因式，可在 \\(x\\ne a\\) 时约去。",
+        "defEn": "A shared factor in numerator and denominator that may be canceled for \\(x\\ne a\\)."
+      },
+      {
+        "termZh": "不定式",
+        "termEn": "indeterminate form",
+        "defZh": "如 \\(\\dfrac{0}{0}\\) 的表达式，需要变形后才能判断极限。",
+        "defEn": "An expression such as \\(\\dfrac{0}{0}\\) that requires rewriting before its limit can be determined."
+      },
+      {
+        "termZh": "等价变形",
+        "termEn": "equivalent transformation",
+        "defZh": "在定义域内保持函数值不变的代数改写。",
+        "defEn": "An algebraic rewrite that preserves function values on the domain."
+      }
     ]
   },
   "1.7": {
@@ -1011,6 +1189,44 @@ export const TOPICS = {
       "不看书能否复述「选择求极限程序」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "求极限程序",
+        "termEn": "limit-finding procedure",
+        "defZh": "按代入、变形、图像或定理等顺序选择方法的流程。",
+        "defEn": "A sequence of methods such as substitution, rewriting, graphs, or theorems for evaluating a limit."
+      },
+      {
+        "termZh": "直接代入",
+        "termEn": "direct substitution",
+        "defZh": "首先尝试把趋近值代入；出现不定式时改用其他方法。",
+        "defEn": "Substituting the approach value first; if an indeterminate form appears, another method is needed."
+      },
+      {
+        "termZh": "代数变形",
+        "termEn": "algebraic manipulation",
+        "defZh": "通过因式分解、有理化或通分消去不定式。",
+        "defEn": "Removing an indeterminate form by factoring, rationalizing, or finding common denominators."
+      },
+      {
+        "termZh": "夹逼定理",
+        "termEn": "squeeze theorem",
+        "defZh": "用两个已知极限相同的函数夹住目标函数。",
+        "defEn": "Bounding a function between two functions whose limits are known and equal."
+      },
+      {
+        "termZh": "无穷极限",
+        "termEn": "infinite limit",
+        "defZh": "函数值无界增长时极限为 \\(\\infty\\) 或 \\(-\\infty\\)。",
+        "defEn": "A limit of \\(\\infty\\) or \\(-\\infty\\) when function values grow without bound."
+      },
+      {
+        "termZh": "分段讨论",
+        "termEn": "case analysis",
+        "defZh": "对左右极限、绝对值或分段定义分别计算。",
+        "defEn": "Evaluating one-sided limits, absolute values, or piecewise definitions separately."
+      }
     ]
   },
   "1.8": {
@@ -1148,6 +1364,38 @@ export const TOPICS = {
       "不看书能否复述「挤压定理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "夹逼定理",
+        "termEn": "squeeze theorem",
+        "defZh": "若 \\(g(x)\\le f(x)\\le h(x)\\) 且两端极限同为 \\(L\\)，则中间函数的极限也为 \\(L\\)。",
+        "defEn": "If \\(g(x)\\le f(x)\\le h(x)\\) and both outer limits equal \\(L\\), then the middle limit also equals \\(L\\)."
+      },
+      {
+        "termZh": "上界",
+        "termEn": "upper bound",
+        "defZh": "函数 \\(h(x)\\)，使 \\(f(x)\\le h(x)\\) 在附近成立。",
+        "defEn": "A function \\(h(x)\\) such that \\(f(x)\\le h(x)\\) near the point."
+      },
+      {
+        "termZh": "下界",
+        "termEn": "lower bound",
+        "defZh": "函数 \\(g(x)\\)，使 \\(g(x)\\le f(x)\\) 在附近成立。",
+        "defEn": "A function \\(g(x)\\) such that \\(g(x)\\le f(x)\\) near the point."
+      },
+      {
+        "termZh": "振荡函数",
+        "termEn": "oscillating function",
+        "defZh": "如 \\(\\sin\\left(\\dfrac{1}{x}\\right)\\)，在一点附近无限次来回取值。",
+        "defEn": "A function such as \\(\\sin\\left(\\dfrac{1}{x}\\right)\\) that oscillates infinitely often near a point."
+      },
+      {
+        "termZh": "有界性",
+        "termEn": "boundedness",
+        "defZh": "函数值被某个常数限制在有限范围内。",
+        "defEn": "The property that function values stay within a finite range bounded by some constant."
+      }
     ]
   },
   "1.9": {
@@ -1285,6 +1533,38 @@ export const TOPICS = {
       "不看书能否复述「连通间断类型」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "多重表征",
+        "termEn": "multiple representations",
+        "defZh": "图像、数值表、代数式与文字描述之间的对应。",
+        "defEn": "Corresponding views of a limit through graphs, tables, algebraic expressions, and words."
+      },
+      {
+        "termZh": "图像",
+        "termEn": "graph",
+        "defZh": "用曲线走势显示左右极限与函数值的关系。",
+        "defEn": "A curve showing the relationship among one-sided limits and the function value."
+      },
+      {
+        "termZh": "数值表",
+        "termEn": "table",
+        "defZh": "用靠近 \\(a\\) 的输入输出数值显示极限趋势。",
+        "defEn": "A table of inputs and outputs near \\(a\\) showing the limiting trend."
+      },
+      {
+        "termZh": "代数式",
+        "termEn": "algebraic expression",
+        "defZh": "通过化简或代入得到极限的解析形式。",
+        "defEn": "An analytic form of the limit obtained by simplification or substitution."
+      },
+      {
+        "termZh": "一致性",
+        "termEn": "consistency",
+        "defZh": "不同表征给出的极限值相同。",
+        "defEn": "The agreement of the limit value across different representations."
+      }
     ]
   },
   "1.10": {
@@ -1422,6 +1702,44 @@ export const TOPICS = {
       "不看书能否复述「探索间断类型」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "间断点",
+        "termEn": "point of discontinuity",
+        "defZh": "函数在 \\(a\\) 处不连续的点。",
+        "defEn": "A point \\(a\\) where a function is not continuous."
+      },
+      {
+        "termZh": "可去间断",
+        "termEn": "removable discontinuity",
+        "defZh": "极限存在但 \\(f(a)\\) 不存在或不等于该极限。",
+        "defEn": "A discontinuity where the limit exists but \\(f(a)\\) is undefined or differs from the limit."
+      },
+      {
+        "termZh": "跳跃间断",
+        "termEn": "jump discontinuity",
+        "defZh": "左右极限都存在但不相等。",
+        "defEn": "A discontinuity where both one-sided limits exist but are unequal."
+      },
+      {
+        "termZh": "无穷间断",
+        "termEn": "infinite discontinuity",
+        "defZh": "至少一侧极限为 \\(\\infty\\) 或 \\(-\\infty\\)。",
+        "defEn": "A discontinuity where at least one one-sided limit is \\(\\infty\\) or \\(-\\infty\\)."
+      },
+      {
+        "termZh": "振荡间断",
+        "termEn": "oscillatory discontinuity",
+        "defZh": "函数在 \\(a\\) 附近无限振荡，极限不存在。",
+        "defEn": "A discontinuity where the function oscillates without settling, so the limit fails to exist."
+      },
+      {
+        "termZh": "左右极限",
+        "termEn": "one-sided limits",
+        "defZh": "分别从左侧和右侧趋近得到的极限值。",
+        "defEn": "Limits obtained by approaching from the left and from the right."
+      }
     ]
   },
   "1.11": {
@@ -1559,6 +1877,38 @@ export const TOPICS = {
       "不看书能否复述「定义连续性」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "点连续",
+        "termEn": "continuity at a point",
+        "defZh": "函数在 \\(a\\) 处连续当且仅当 \\(\\lim_{x\\to a}f(x)=f(a)\\)。",
+        "defEn": "A function is continuous at \\(a\\) exactly when \\(\\lim_{x\\to a}f(x)=f(a)\\)."
+      },
+      {
+        "termZh": "三条件",
+        "termEn": "three conditions",
+        "defZh": "\\(f(a)\\) 有定义、极限存在、二者相等。",
+        "defEn": "\\(f(a)\\) is defined, the limit exists, and the two are equal."
+      },
+      {
+        "termZh": "函数值",
+        "termEn": "function value",
+        "defZh": "函数在 \\(a\\) 处的取值 \\(f(a)\\)。",
+        "defEn": "The value \\(f(a)\\) of the function at \\(a\\)."
+      },
+      {
+        "termZh": "极限值",
+        "termEn": "limit value",
+        "defZh": "当 \\(x\\) 趋近 \\(a\\) 时函数趋近的数。",
+        "defEn": "The number the function approaches as \\(x\\) approaches \\(a\\)."
+      },
+      {
+        "termZh": "连续点",
+        "termEn": "continuity point",
+        "defZh": "满足点连续定义的 \\(a\\)。",
+        "defEn": "A point \\(a\\) satisfying the definition of continuity at a point."
+      }
     ]
   },
   "1.12": {
@@ -1696,6 +2046,38 @@ export const TOPICS = {
       "不看书能否复述「确认区间连续」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "开区间连续",
+        "termEn": "continuity on an open interval",
+        "defZh": "函数在区间内每一点都连续。",
+        "defEn": "The function is continuous at every point of the open interval."
+      },
+      {
+        "termZh": "闭区间连续",
+        "termEn": "continuity on a closed interval",
+        "defZh": "在开区间内连续，且端点处单侧连续。",
+        "defEn": "Continuous inside the interval and one-sided continuous at each endpoint."
+      },
+      {
+        "termZh": "端点连续",
+        "termEn": "endpoint continuity",
+        "defZh": "\\(\\lim_{x\\to a^{+}}f(x)=f(a)\\) 或 \\(\\lim_{x\\to b^{-}}f(x)=f(b)\\)。",
+        "defEn": "\\(\\lim_{x\\to a^{+}}f(x)=f(a)\\) or \\(\\lim_{x\\to b^{-}}f(x)=f(b)\\)."
+      },
+      {
+        "termZh": "初等函数",
+        "termEn": "elementary function",
+        "defZh": "多项式、有理、三角、指数、对数及其复合。",
+        "defEn": "Polynomial, rational, trigonometric, exponential, and logarithmic functions and their compositions."
+      },
+      {
+        "termZh": "连续延拓",
+        "termEn": "continuous extension",
+        "defZh": "通过补充或修改端点值使函数在该点连续。",
+        "defEn": "Making a function continuous at a point by supplying or changing its value there."
+      }
     ]
   },
   "1.13": {
@@ -1833,6 +2215,38 @@ export const TOPICS = {
       "不看书能否复述「除去间断」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "可去间断",
+        "termEn": "removable discontinuity",
+        "defZh": "极限存在但函数值缺失或不匹配的间断。",
+        "defEn": "A discontinuity where the limit exists but the function value is missing or mismatched."
+      },
+      {
+        "termZh": "连续延拓",
+        "termEn": "continuous extension",
+        "defZh": "令 \\(f(a)=\\lim_{x\\to a}f(x)\\) 后得到的连续函数。",
+        "defEn": "The continuous function obtained by setting \\(f(a)=\\lim_{x\\to a}f(x)\\)."
+      },
+      {
+        "termZh": "重新定义函数值",
+        "termEn": "redefining a function value",
+        "defZh": "改变或补充单点的值而不改变极限。",
+        "defEn": "Changing or supplying a single value without changing the limit."
+      },
+      {
+        "termZh": "洞",
+        "termEn": "hole",
+        "defZh": "图像上一点的空缺，可由极限值填补。",
+        "defEn": "A missing point on a graph that can be filled using the limit value."
+      },
+      {
+        "termZh": "极限值",
+        "termEn": "limit value",
+        "defZh": "用来填补可去间断的函数值。",
+        "defEn": "The value used to fill a removable discontinuity."
+      }
     ]
   },
   "1.14": {
@@ -1970,6 +2384,44 @@ export const TOPICS = {
       "不看书能否复述「无限极限与竖直渐近」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "无穷极限",
+        "termEn": "infinite limit",
+        "defZh": "当 \\(x\\) 趋近 \\(a\\) 时函数值无界增长，记作 \\(\\lim_{x\\to a}f(x)=\\infty\\)。",
+        "defEn": "A limit in which function values grow without bound, written \\(\\lim_{x\\to a}f(x)=\\infty\\)."
+      },
+      {
+        "termZh": "竖直渐近线",
+        "termEn": "vertical asymptote",
+        "defZh": "直线 \\(x=a\\)，函数在其一侧或两侧趋于 \\(\\pm\\infty\\)。",
+        "defEn": "The line \\(x=a\\) where the function tends to \\(\\pm\\infty\\) on one or both sides."
+      },
+      {
+        "termZh": "单侧无穷",
+        "termEn": "one-sided infinity",
+        "defZh": "仅从左侧或右侧趋近时函数值趋于无穷。",
+        "defEn": "Function values tending to infinity as the point is approached from only one side."
+      },
+      {
+        "termZh": "分母零点",
+        "termEn": "zero of the denominator",
+        "defZh": "使分母为零的 \\(x\\) 值，可能导致竖直渐近线。",
+        "defEn": "An \\(x\\)-value making the denominator zero, possibly producing a vertical asymptote."
+      },
+      {
+        "termZh": "符号分析",
+        "termEn": "sign analysis",
+        "defZh": "判断分母在 \\(a\\) 两侧的正负以确定趋于 \\(+\\infty\\) 还是 \\(-\\infty\\)。",
+        "defEn": "Determining the sign of the denominator on each side of \\(a\\) to decide between \\(+\\infty\\) and \\(-\\infty\\)."
+      },
+      {
+        "termZh": "无界行为",
+        "termEn": "unbounded behavior",
+        "defZh": "函数值超过任意给定的正数。",
+        "defEn": "Function values exceeding any prescribed positive number."
+      }
     ]
   },
   "1.15": {
@@ -2107,6 +2559,44 @@ export const TOPICS = {
       "不看书能否复述「无穷远处极限与水平渐近」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "无穷远处极限",
+        "termEn": "limit at infinity",
+        "defZh": "\\(\\lim_{x\\to\\infty}f(x)=L\\) 表示 \\(x\\) 增大时函数趋近 \\(L\\)。",
+        "defEn": "\\(\\lim_{x\\to\\infty}f(x)=L\\) means the function approaches \\(L\\) as \\(x\\) grows."
+      },
+      {
+        "termZh": "水平渐近线",
+        "termEn": "horizontal asymptote",
+        "defZh": "直线 \\(y=L\\)，函数在 \\(x\\to\\pm\\infty\\) 时趋近它。",
+        "defEn": "The line \\(y=L\\) approached by the function as \\(x\\to\\pm\\infty\\)."
+      },
+      {
+        "termZh": "末端行为",
+        "termEn": "end behavior",
+        "defZh": "自变量很大或很小时函数的趋势。",
+        "defEn": "The behavior of a function for very large or very small inputs."
+      },
+      {
+        "termZh": "主导项",
+        "termEn": "leading term",
+        "defZh": "多项式中次数最高的项，决定无穷远处的增长。",
+        "defEn": "The highest-degree term of a polynomial, which controls growth at infinity."
+      },
+      {
+        "termZh": "次数比较",
+        "termEn": "degree comparison",
+        "defZh": "比较分子分母最高次数以确定有理函数的极限。",
+        "defEn": "Comparing the highest degrees of numerator and denominator to find a rational function's limit."
+      },
+      {
+        "termZh": "有理函数",
+        "termEn": "rational function",
+        "defZh": "两个多项式之比的函数。",
+        "defEn": "A function that is the ratio of two polynomials."
+      }
     ]
   },
   "1.16": {
@@ -2237,6 +2727,38 @@ export const TOPICS = {
       "不看书能否复述「中间值定理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "中间值定理",
+        "termEn": "Intermediate Value Theorem",
+        "defZh": "若 \\(f\\) 在 \\([a,b]\\) 上连续且 \\(k\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间，则存在 \\(c\\in(a,b)\\) 使 \\(f(c)=k\\)。",
+        "defEn": "If \\(f\\) is continuous on \\([a,b]\\) and \\(k\\) lies between \\(f(a)\\) and \\(f(b)\\), then some \\(c\\in(a,b)\\) satisfies \\(f(c)=k\\)."
+      },
+      {
+        "termZh": "介值",
+        "termEn": "intermediate value",
+        "defZh": "位于两个函数值之间的数 \\(k\\)。",
+        "defEn": "A number \\(k\\) lying between two function values."
+      },
+      {
+        "termZh": "存在性",
+        "termEn": "existence",
+        "defZh": "定理只保证至少一个 \\(c\\) 存在，不给出具体位置。",
+        "defEn": "The theorem guarantees at least one such \\(c\\) without locating it."
+      },
+      {
+        "termZh": "闭区间",
+        "termEn": "closed interval",
+        "defZh": "包含端点的区间 \\([a,b]\\)，是定理的前提。",
+        "defEn": "The interval \\([a,b]\\) including endpoints, required by the theorem."
+      },
+      {
+        "termZh": "零点",
+        "termEn": "root",
+        "defZh": "使 \\(f(c)=0\\) 的点 \\(c\\)，常用介值定理证明其存在。",
+        "defEn": "A point \\(c\\) with \\(f(c)=0\\), often shown to exist with the Intermediate Value Theorem."
+      }
     ]
   }
 };

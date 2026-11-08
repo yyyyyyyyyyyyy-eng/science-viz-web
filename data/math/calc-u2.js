@@ -140,6 +140,44 @@ export const TOPICS = {
       "不看书能否复述「瞬时变化率」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "平均变化率",
+        "termEn": "average rate of change",
+        "defZh": "区间上函数值改变量与自变量改变量之比 \\(\\dfrac{f(b)-f(a)}{b-a}\\)。",
+        "defEn": "The ratio \\(\\dfrac{f(b)-f(a)}{b-a}\\) of output change to input change over an interval."
+      },
+      {
+        "termZh": "瞬时变化率",
+        "termEn": "instantaneous rate of change",
+        "defZh": "某一时刻的导数，即平均变化率在区间长度趋于零时的极限。",
+        "defEn": "The derivative at an instant, the limit of average rates as the interval length approaches zero."
+      },
+      {
+        "termZh": "差商",
+        "termEn": "difference quotient",
+        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)，表示相邻两点的平均变化率。",
+        "defEn": "\\(\\dfrac{f(a+h)-f(a)}{h}\\), the average rate between two nearby points."
+      },
+      {
+        "termZh": "割线斜率",
+        "termEn": "secant slope",
+        "defZh": "曲线上两点连线的斜率。",
+        "defEn": "The slope of the line joining two points on a curve."
+      },
+      {
+        "termZh": "切线斜率",
+        "termEn": "tangent slope",
+        "defZh": "曲线在一点处切线的斜率，等于该点导数。",
+        "defEn": "The slope of the tangent at a point, equal to the derivative there."
+      },
+      {
+        "termZh": "时间间隔",
+        "termEn": "time interval",
+        "defZh": "计算平均变化率所用的 \\(\\Delta t\\)。",
+        "defEn": "The interval \\(\\Delta t\\) used to compute an average rate."
+      }
     ]
   },
   "2.2": {
@@ -462,6 +500,44 @@ export const TOPICS = {
       "不看书能否复述「可微性估计」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "导数估计",
+        "termEn": "derivative estimate",
+        "defZh": "用差商近似某点的导数值。",
+        "defEn": "Approximating a derivative at a point with a difference quotient."
+      },
+      {
+        "termZh": "前向差分",
+        "termEn": "forward difference",
+        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)，用右侧点估计导数。",
+        "defEn": "\\(\\dfrac{f(a+h)-f(a)}{h}\\), estimating the derivative with a point to the right."
+      },
+      {
+        "termZh": "后向差分",
+        "termEn": "backward difference",
+        "defZh": "\\(\\dfrac{f(a)-f(a-h)}{h}\\)，用左侧点估计导数。",
+        "defEn": "\\(\\dfrac{f(a)-f(a-h)}{h}\\), estimating the derivative with a point to the left."
+      },
+      {
+        "termZh": "中心差分",
+        "termEn": "symmetric difference quotient",
+        "defZh": "\\(\\dfrac{f(a+h)-f(a-h)}{2h}\\)，通常给出更准确的估计。",
+        "defEn": "\\(\\dfrac{f(a+h)-f(a-h)}{2h}\\), usually a more accurate estimate."
+      },
+      {
+        "termZh": "步长",
+        "termEn": "step size",
+        "defZh": "估计中使用的 \\(h\\)，越小通常越接近真实导数。",
+        "defEn": "The increment \\(h\\) used in the estimate; smaller values usually give closer approximations."
+      },
+      {
+        "termZh": "切线斜率",
+        "termEn": "tangent slope",
+        "defZh": "导数估计所逼近的几何量。",
+        "defEn": "The geometric quantity that a derivative estimate approximates."
+      }
     ]
   },
   "2.4": {
@@ -599,6 +675,38 @@ export const TOPICS = {
       "不看书能否复述「导数与连续」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "可微",
+        "termEn": "differentiability",
+        "defZh": "\\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\) 存在且有限。",
+        "defEn": "The property that \\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\) exists and is finite."
+      },
+      {
+        "termZh": "连续",
+        "termEn": "continuity",
+        "defZh": "可微的必要条件；可微必连续，连续不一定可微。",
+        "defEn": "A necessary condition for differentiability: differentiability implies continuity, but not conversely."
+      },
+      {
+        "termZh": "尖点",
+        "termEn": "cusp",
+        "defZh": "曲线出现尖锐转折、左右斜率不相等的点。",
+        "defEn": "A sharp corner where the left and right slopes differ."
+      },
+      {
+        "termZh": "竖直切线",
+        "termEn": "vertical tangent",
+        "defZh": "斜率趋于无穷，函数连续但不可微。",
+        "defEn": "A tangent with infinite slope, where the function is continuous but not differentiable."
+      },
+      {
+        "termZh": "分段函数",
+        "termEn": "piecewise function",
+        "defZh": "在不同区间由不同表达式定义的函数，需检查连接点。",
+        "defEn": "A function defined by different expressions on different intervals, requiring checks at join points."
+      }
     ]
   },
   "2.5": {
@@ -911,6 +1019,44 @@ export const TOPICS = {
       "不看书能否复述「常数倍与和差」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "常数法则",
+        "termEn": "constant rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[c]=0\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[c]=0\\)."
+      },
+      {
+        "termZh": "和法则",
+        "termEn": "sum rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f(x)+g(x)]=f'(x)+g'(x)\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f(x)+g(x)]=f'(x)+g'(x)\\)."
+      },
+      {
+        "termZh": "差法则",
+        "termEn": "difference rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f(x)-g(x)]=f'(x)-g'(x)\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f(x)-g(x)]=f'(x)-g'(x)\\)."
+      },
+      {
+        "termZh": "常数倍法则",
+        "termEn": "constant multiple rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[c f(x)]=c f'(x)\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[c f(x)]=c f'(x)\\)."
+      },
+      {
+        "termZh": "幂法则",
+        "termEn": "power rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[x^{n}]=nx^{n-1}\\)（\\(n\\) 为实数）。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[x^{n}]=nx^{n-1}\\) for real \\(n\\)."
+      },
+      {
+        "termZh": "线性性",
+        "termEn": "linearity",
+        "defZh": "求导运算保持函数加法与常数倍。",
+        "defEn": "Differentiation preserves sums and constant multiples."
+      }
     ]
   },
   "2.7": {
@@ -1048,6 +1194,44 @@ export const TOPICS = {
       "不看书能否复述「eˣ 与 aˣ 导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "正弦导数",
+        "termEn": "derivative of sine",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)."
+      },
+      {
+        "termZh": "余弦导数",
+        "termEn": "derivative of cosine",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)."
+      },
+      {
+        "termZh": "自然指数",
+        "termEn": "natural exponential",
+        "defZh": "\\(e^{x}\\)，其导数仍为 \\(e^{x}\\)。",
+        "defEn": "\\(e^{x}\\), whose derivative is again \\(e^{x}\\)."
+      },
+      {
+        "termZh": "自然对数",
+        "termEn": "natural logarithm",
+        "defZh": "\\(\\ln x\\)，其导数为 \\(\\dfrac{1}{x}\\)（\\(x>0\\)）。",
+        "defEn": "\\(\\ln x\\), whose derivative is \\(\\dfrac{1}{x}\\) for \\(x>0\\)."
+      },
+      {
+        "termZh": "一般指数",
+        "termEn": "general exponential",
+        "defZh": "\\(a^{x}\\)，导数为 \\(a^{x}\\ln a\\)。",
+        "defEn": "\\(a^{x}\\), whose derivative is \\(a^{x}\\ln a\\)."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "复合函数求导时乘以内层函数的导数。",
+        "defEn": "Differentiating a composition by multiplying by the derivative of the inner function."
+      }
     ]
   },
   "2.8": {
@@ -1360,6 +1544,38 @@ export const TOPICS = {
       "不看书能否复述「积商法则续」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "商法则",
+        "termEn": "quotient rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\dfrac{f(x)}{g(x)}\\right]=\\dfrac{f'(x)g(x)-f(x)g'(x)}{[g(x)]^{2}}\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\dfrac{f(x)}{g(x)}\\right]=\\dfrac{f'(x)g(x)-f(x)g'(x)}{[g(x)]^{2}}\\)."
+      },
+      {
+        "termZh": "分子",
+        "termEn": "numerator",
+        "defZh": "商法则中位于分数线上方的函数 \\(f(x)\\)。",
+        "defEn": "The function \\(f(x)\\) above the fraction bar in the quotient rule."
+      },
+      {
+        "termZh": "分母",
+        "termEn": "denominator",
+        "defZh": "商法则中位于分数线下方的函数 \\(g(x)\\)，需非零。",
+        "defEn": "The function \\(g(x)\\) below the fraction bar, required to be nonzero."
+      },
+      {
+        "termZh": "商的导数",
+        "termEn": "derivative of a quotient",
+        "defZh": "由分子导数乘分母减去分子乘分母导数得到。",
+        "defEn": "Obtained from numerator derivative times denominator minus numerator times denominator derivative."
+      },
+      {
+        "termZh": "化简",
+        "termEn": "simplify",
+        "defZh": "展开并合并同类项，使导数表达式更简洁。",
+        "defEn": "Expanding and combining like terms to make the derivative expression simpler."
+      }
     ]
   },
   "2.10": {
@@ -1490,6 +1706,44 @@ export const TOPICS = {
       "不看书能否复述「三角函数导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "正切",
+        "termEn": "tangent",
+        "defZh": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)，导数为 \\(\\sec^{2}x\\)。",
+        "defEn": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\), whose derivative is \\(\\sec^{2}x\\)."
+      },
+      {
+        "termZh": "余切",
+        "termEn": "cotangent",
+        "defZh": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)，导数为 \\(-\\csc^{2}x\\)。",
+        "defEn": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\), whose derivative is \\(-\\csc^{2}x\\)."
+      },
+      {
+        "termZh": "正割",
+        "termEn": "secant",
+        "defZh": "\\(\\sec x=\\dfrac{1}{\\cos x}\\)，导数为 \\(\\sec x\\tan x\\)。",
+        "defEn": "\\(\\sec x=\\dfrac{1}{\\cos x}\\), whose derivative is \\(\\sec x\\tan x\\)."
+      },
+      {
+        "termZh": "余割",
+        "termEn": "cosecant",
+        "defZh": "\\(\\csc x=\\dfrac{1}{\\sin x}\\)，导数为 \\(-\\csc x\\cot x\\)。",
+        "defEn": "\\(\\csc x=\\dfrac{1}{\\sin x}\\), whose derivative is \\(-\\csc x\\cot x\\)."
+      },
+      {
+        "termZh": "平方正割",
+        "termEn": "secant squared",
+        "defZh": "\\(\\sec^{2}x=1+\\tan^{2}x\\)，是正切的导数。",
+        "defEn": "\\(\\sec^{2}x=1+\\tan^{2}x\\), the derivative of tangent."
+      },
+      {
+        "termZh": "三角恒等式",
+        "termEn": "trigonometric identity",
+        "defZh": "用于改写三角表达式并化简导数。",
+        "defEn": "An identity used to rewrite trigonometric expressions and simplify derivatives."
+      }
     ]
   }
 };

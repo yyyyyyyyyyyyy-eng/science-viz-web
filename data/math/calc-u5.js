@@ -310,6 +310,44 @@ export const TOPICS = {
       "不看书能否复述「极值定理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极值定理",
+        "termEn": "Extreme Value Theorem",
+        "defZh": "闭区间上的连续函数必取得全局最大值和最小值。",
+        "defEn": "A continuous function on a closed interval attains both a global maximum and a global minimum."
+      },
+      {
+        "termZh": "全局极大值",
+        "termEn": "global maximum",
+        "defZh": "在整个定义域上函数的最大取值。",
+        "defEn": "The largest function value over the entire domain."
+      },
+      {
+        "termZh": "全局极小值",
+        "termEn": "global minimum",
+        "defZh": "在整个定义域上函数的最小取值。",
+        "defEn": "The smallest function value over the entire domain."
+      },
+      {
+        "termZh": "局部极大值",
+        "termEn": "local maximum",
+        "defZh": "在某邻域内最大的函数值。",
+        "defEn": "A function value that is largest within some neighborhood."
+      },
+      {
+        "termZh": "局部极小值",
+        "termEn": "local minimum",
+        "defZh": "在某邻域内最小的函数值。",
+        "defEn": "A function value that is smallest within some neighborhood."
+      },
+      {
+        "termZh": "临界点",
+        "termEn": "critical point",
+        "defZh": "满足 \\(f'(c)=0\\) 或 \\(f'(c)\\) 不存在的内点 \\(c\\)。",
+        "defEn": "An interior point \\(c\\) where \\(f'(c)=0\\) or \\(f'(c)\\) does not exist."
+      }
     ]
   },
   "5.3": {
@@ -452,6 +490,38 @@ export const TOPICS = {
       "不看书能否复述「增减性」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "递增",
+        "termEn": "increasing",
+        "defZh": "在区间上 \\(x_1<x_2\\) 时 \\(f(x_1)<f(x_2)\\)。",
+        "defEn": "On an interval, \\(x_1<x_2\\) implies \\(f(x_1)<f(x_2)\\)."
+      },
+      {
+        "termZh": "递减",
+        "termEn": "decreasing",
+        "defZh": "在区间上 \\(x_1<x_2\\) 时 \\(f(x_1)>f(x_2)\\)。",
+        "defEn": "On an interval, \\(x_1<x_2\\) implies \\(f(x_1)>f(x_2)\\)."
+      },
+      {
+        "termZh": "导数符号",
+        "termEn": "sign of derivative",
+        "defZh": "\\(f'(x)>0\\) 时递增，\\(f'(x)<0\\) 时递减。",
+        "defEn": "\\(f'(x)>0\\) gives increase and \\(f'(x)<0\\) gives decrease."
+      },
+      {
+        "termZh": "单调性",
+        "termEn": "monotonicity",
+        "defZh": "函数在区间上只增或只减的性质。",
+        "defEn": "The property of a function that only increases or only decreases on an interval."
+      },
+      {
+        "termZh": "临界点",
+        "termEn": "critical point",
+        "defZh": "把定义域分成增减区间的候选分界点。",
+        "defEn": "A candidate boundary point that separates intervals of increase and decrease."
+      }
     ]
   },
   "5.4": {
@@ -764,6 +834,38 @@ export const TOPICS = {
       "不看书能否复述「候选绝对极值」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "候选点检验",
+        "termEn": "candidates test",
+        "defZh": "比较所有临界点与端点处的函数值以找绝对极值。",
+        "defEn": "Comparing function values at all critical points and endpoints to find absolute extrema."
+      },
+      {
+        "termZh": "绝对极大值",
+        "termEn": "absolute maximum",
+        "defZh": "闭区间上函数的最大值。",
+        "defEn": "The largest value of a function on a closed interval."
+      },
+      {
+        "termZh": "绝对极小值",
+        "termEn": "absolute minimum",
+        "defZh": "闭区间上函数的最小值。",
+        "defEn": "The smallest value of a function on a closed interval."
+      },
+      {
+        "termZh": "端点",
+        "termEn": "endpoint",
+        "defZh": "闭区间的两个边界点 \\(a\\) 与 \\(b\\)，必须参与比较。",
+        "defEn": "The two boundary points \\(a\\) and \\(b\\) of a closed interval, which must be included in the comparison."
+      },
+      {
+        "termZh": "临界点",
+        "termEn": "critical point",
+        "defZh": "区间内部导数为零或不存在的点。",
+        "defEn": "An interior point where the derivative is zero or fails to exist."
+      }
     ]
   },
   "5.6": {
@@ -1086,6 +1188,44 @@ export const TOPICS = {
       "不看书能否复述「二阶导数检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "二阶导数检验",
+        "termEn": "second derivative test",
+        "defZh": "在临界点用 \\(f''\\) 的符号判断局部极大或极小。",
+        "defEn": "Using the sign of \\(f''\\) at a critical point to classify a local maximum or minimum."
+      },
+      {
+        "termZh": "局部极大值",
+        "termEn": "local maximum",
+        "defZh": "\\(f'(c)=0\\) 且 \\(f''(c)<0\\) 时取得。",
+        "defEn": "Attained when \\(f'(c)=0\\) and \\(f''(c)<0\\)."
+      },
+      {
+        "termZh": "局部极小值",
+        "termEn": "local minimum",
+        "defZh": "\\(f'(c)=0\\) 且 \\(f''(c)>0\\) 时取得。",
+        "defEn": "Attained when \\(f'(c)=0\\) and \\(f''(c)>0\\)."
+      },
+      {
+        "termZh": "凹性",
+        "termEn": "concavity",
+        "defZh": "由二阶导数符号描述的曲线弯曲方向。",
+        "defEn": "The direction of bending described by the sign of the second derivative."
+      },
+      {
+        "termZh": "拐点",
+        "termEn": "inflection point",
+        "defZh": "凹性发生改变的点。",
+        "defEn": "A point where concavity changes."
+      },
+      {
+        "termZh": "临界点",
+        "termEn": "critical point",
+        "defZh": "一阶导数为零或不存在、用于检验的点。",
+        "defEn": "A point where the first derivative is zero or undefined, used in the test."
+      }
     ]
   },
   "5.8": {
@@ -1224,6 +1364,38 @@ export const TOPICS = {
       "不看书能否复述「函数草图」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "函数图像",
+        "termEn": "graph of a function",
+        "defZh": "以 \\(x\\) 为横轴、\\(f(x)\\) 为纵轴的曲线。",
+        "defEn": "The curve with \\(x\\) on the horizontal axis and \\(f(x)\\) on the vertical axis."
+      },
+      {
+        "termZh": "导数图像",
+        "termEn": "graph of the derivative",
+        "defZh": "显示各点斜率 \\(f'(x)\\) 的图像。",
+        "defEn": "A graph showing the slope \\(f'(x)\\) at each point."
+      },
+      {
+        "termZh": "零点",
+        "termEn": "zero",
+        "defZh": "函数值为零或导数符号改变的点。",
+        "defEn": "A point where the function value is zero or the derivative changes sign."
+      },
+      {
+        "termZh": "极值点",
+        "termEn": "extremum point",
+        "defZh": "函数由增转减或由减转增的位置。",
+        "defEn": "A point where the function changes from increasing to decreasing or the reverse."
+      },
+      {
+        "termZh": "拐点",
+        "termEn": "inflection point",
+        "defZh": "二阶导数为零且凹性改变的位置。",
+        "defEn": "A point where the second derivative is zero and concavity changes."
+      }
     ]
   },
   "5.9": {
@@ -1361,6 +1533,44 @@ export const TOPICS = {
       "不看书能否复述「函数与导数关联」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "函数值",
+        "termEn": "function value",
+        "defZh": "\\(f(x)\\)，由函数图像直接读出。",
+        "defEn": "\\(f(x)\\), read directly from the graph of the function."
+      },
+      {
+        "termZh": "一阶导数",
+        "termEn": "first derivative",
+        "defZh": "\\(f'(x)\\)，表示函数图像的斜率。",
+        "defEn": "\\(f'(x)\\), representing the slope of the function's graph."
+      },
+      {
+        "termZh": "二阶导数",
+        "termEn": "second derivative",
+        "defZh": "\\(f''(x)\\)，表示一阶导数的变化率与凹性。",
+        "defEn": "\\(f''(x)\\), the rate of change of the first derivative and the concavity."
+      },
+      {
+        "termZh": "凹向上",
+        "termEn": "concave up",
+        "defZh": "\\(f''(x)>0\\)，曲线开口向上。",
+        "defEn": "\\(f''(x)>0\\), so the curve opens upward."
+      },
+      {
+        "termZh": "凹向下",
+        "termEn": "concave down",
+        "defZh": "\\(f''(x)<0\\)，曲线开口向下。",
+        "defEn": "\\(f''(x)<0\\), so the curve opens downward."
+      },
+      {
+        "termZh": "斜率",
+        "termEn": "slope",
+        "defZh": "函数图像的倾斜程度，由 \\(f'(x)\\) 给出。",
+        "defEn": "The steepness of a graph, given by \\(f'(x)\\)."
+      }
     ]
   },
   "5.10": {
@@ -1498,6 +1708,38 @@ export const TOPICS = {
       "不看书能否复述「优化导论」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "优化",
+        "termEn": "optimization",
+        "defZh": "在约束条件下寻找最大或最小值的过程。",
+        "defEn": "Finding a maximum or minimum subject to constraints."
+      },
+      {
+        "termZh": "目标函数",
+        "termEn": "objective function",
+        "defZh": "需要最大化或最小化的量。",
+        "defEn": "The quantity to be maximized or minimized."
+      },
+      {
+        "termZh": "约束条件",
+        "termEn": "constraint",
+        "defZh": "变量之间必须满足的方程或不等式。",
+        "defEn": "An equation or inequality that the variables must satisfy."
+      },
+      {
+        "termZh": "可行域",
+        "termEn": "feasible region",
+        "defZh": "满足全部约束的变量取值范围。",
+        "defEn": "The set of variable values satisfying all constraints."
+      },
+      {
+        "termZh": "极值检验",
+        "termEn": "extremum test",
+        "defZh": "用一阶或二阶导数确认候选点是否为最优点。",
+        "defEn": "Using first or second derivatives to confirm whether a candidate is optimal."
+      }
     ]
   },
   "5.11": {
@@ -1803,6 +2045,44 @@ export const TOPICS = {
       "不看书能否复述「隐式关系行为」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "隐式关系",
+        "termEn": "implicit relation",
+        "defZh": "以方程 \\(F(x,y)=0\\) 而非 \\(y=f(x)\\) 给出的关系。",
+        "defEn": "A relation given by an equation \\(F(x,y)=0\\) rather than \\(y=f(x)\\)."
+      },
+      {
+        "termZh": "隐函数求导",
+        "termEn": "implicit differentiation",
+        "defZh": "对方程两边关于 \\(x\\) 求导并解出 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。",
+        "defEn": "Differentiating both sides with respect to \\(x\\) and solving for \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)."
+      },
+      {
+        "termZh": "切线斜率",
+        "termEn": "tangent slope",
+        "defZh": "由隐函数导数在给定点处求得的斜率。",
+        "defEn": "The slope found from the implicit derivative at a given point."
+      },
+      {
+        "termZh": "水平切线",
+        "termEn": "horizontal tangent",
+        "defZh": "满足 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\) 的点处的切线。",
+        "defEn": "A tangent at a point where \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=0\\)."
+      },
+      {
+        "termZh": "竖直切线",
+        "termEn": "vertical tangent",
+        "defZh": "分母为零、斜率无界的点处的切线。",
+        "defEn": "A tangent at a point where the denominator is zero and the slope is unbounded."
+      },
+      {
+        "termZh": "二阶导数",
+        "termEn": "second derivative",
+        "defZh": "对隐函数一阶导数再次求导，用于判断凹性。",
+        "defEn": "Differentiating the implicit first derivative again to determine concavity."
+      }
     ]
   }
 };

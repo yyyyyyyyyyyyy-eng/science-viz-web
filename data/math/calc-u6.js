@@ -135,6 +135,44 @@ export const TOPICS = {
       "不看书能否复述「累积变化探查」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "累积",
+        "termEn": "accumulation",
+        "defZh": "变化率在一段区间上不断累加得到的总量。",
+        "defEn": "A total obtained by continually adding a rate of change over an interval."
+      },
+      {
+        "termZh": "累积函数",
+        "termEn": "accumulation function",
+        "defZh": "\\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\)，表示从 \\(a\\) 到 \\(x\\) 的累积量。",
+        "defEn": "\\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\), the accumulation from \\(a\\) to \\(x\\)."
+      },
+      {
+        "termZh": "变化率",
+        "termEn": "rate of change",
+        "defZh": "被累积的量，如速度或功率。",
+        "defEn": "The quantity being accumulated, such as velocity or power."
+      },
+      {
+        "termZh": "面积",
+        "termEn": "area",
+        "defZh": "函数图像与横轴之间带符号的面积，表示累积量。",
+        "defEn": "The signed area between a graph and the horizontal axis, representing accumulation."
+      },
+      {
+        "termZh": "变上限",
+        "termEn": "variable upper limit",
+        "defZh": "累积函数中可变的积分上限 \\(x\\)。",
+        "defEn": "The variable upper limit \\(x\\) in an accumulation function."
+      },
+      {
+        "termZh": "微积分基本定理",
+        "termEn": "Fundamental Theorem of Calculus",
+        "defZh": "累积函数的导数等于被积函数，即 \\(A'(x)=f(x)\\)。",
+        "defEn": "The derivative of an accumulation function equals the integrand, \\(A'(x)=f(x)\\)."
+      }
     ]
   },
   "6.2": {
@@ -277,6 +315,44 @@ export const TOPICS = {
       "不看书能否复述「黎曼和近似」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "黎曼和",
+        "termEn": "Riemann sum",
+        "defZh": "用有限个矩形面积之和近似定积分。",
+        "defEn": "A sum of finitely many rectangle areas approximating a definite integral."
+      },
+      {
+        "termZh": "左端点",
+        "termEn": "left endpoint",
+        "defZh": "用每个子区间的左端函数值作为矩形高度。",
+        "defEn": "Using the function value at each subinterval's left endpoint as the rectangle height."
+      },
+      {
+        "termZh": "右端点",
+        "termEn": "right endpoint",
+        "defZh": "用每个子区间的右端函数值作为矩形高度。",
+        "defEn": "Using the function value at each subinterval's right endpoint as the rectangle height."
+      },
+      {
+        "termZh": "中点",
+        "termEn": "midpoint",
+        "defZh": "用每个子区间中点的函数值作为矩形高度。",
+        "defEn": "Using the function value at each subinterval's midpoint as the rectangle height."
+      },
+      {
+        "termZh": "子区间",
+        "termEn": "subinterval",
+        "defZh": "把 \\([a,b]\\) 等分后得到的每个小区间。",
+        "defEn": "Each small interval obtained by partitioning \\([a,b]\\)."
+      },
+      {
+        "termZh": "样本点",
+        "termEn": "sample point",
+        "defZh": "子区间内用于计算矩形高度的 \\(x_i^{*}\\)。",
+        "defEn": "The point \\(x_i^{*}\\) in a subinterval used to compute the rectangle height."
+      }
     ]
   },
   "6.3": {
@@ -419,6 +495,44 @@ export const TOPICS = {
       "不看书能否复述「黎曼和、求和记号与定积分」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "求和记号",
+        "termEn": "summation notation",
+        "defZh": "用 \\(\\sum_{i=1}^{n}\\) 紧凑表示多项相加。",
+        "defEn": "The symbol \\(\\sum_{i=1}^{n}\\) compactly denoting a sum."
+      },
+      {
+        "termZh": "定积分",
+        "termEn": "definite integral",
+        "defZh": "\\(\\int_a^b f(x)\\,\\mathrm{d}x\\)，表示带符号的净面积。",
+        "defEn": "\\(\\int_a^b f(x)\\,\\mathrm{d}x\\), representing signed net area."
+      },
+      {
+        "termZh": "积分号",
+        "termEn": "integral sign",
+        "defZh": "记号 \\(\\int\\)，表示连续求和。",
+        "defEn": "The symbol \\(\\int\\), denoting continuous summation."
+      },
+      {
+        "termZh": "被积函数",
+        "termEn": "integrand",
+        "defZh": "积分号后的函数 \\(f(x)\\)。",
+        "defEn": "The function \\(f(x)\\) following the integral sign."
+      },
+      {
+        "termZh": "积分限",
+        "termEn": "limits of integration",
+        "defZh": "定积分的下限 \\(a\\) 与上限 \\(b\\)。",
+        "defEn": "The lower limit \\(a\\) and upper limit \\(b\\) of a definite integral."
+      },
+      {
+        "termZh": "极限定义",
+        "termEn": "limit definition",
+        "defZh": "把定积分定义为黎曼和当 \\(n\\to\\infty\\) 时的极限。",
+        "defEn": "Defining a definite integral as the limit of Riemann sums as \\(n\\to\\infty\\)."
+      }
     ]
   },
   "6.4": {
@@ -737,6 +851,38 @@ export const TOPICS = {
       "不看书能否复述「定积分解释」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "累积函数",
+        "termEn": "accumulation function",
+        "defZh": "由积分上限变化形成的函数 \\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\)。",
+        "defEn": "The function \\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\) formed as the upper limit varies."
+      },
+      {
+        "termZh": "变化率",
+        "termEn": "rate of change",
+        "defZh": "累积函数的导数 \\(A'(x)=f(x)\\)。",
+        "defEn": "The derivative \\(A'(x)=f(x)\\) of an accumulation function."
+      },
+      {
+        "termZh": "符号变化",
+        "termEn": "sign change",
+        "defZh": "被积函数由正变负时，累积量由增转减。",
+        "defEn": "When the integrand changes from positive to negative, accumulation turns from increasing to decreasing."
+      },
+      {
+        "termZh": "局部极大值",
+        "termEn": "local maximum",
+        "defZh": "被积函数由正变负处，累积函数取得局部极大。",
+        "defEn": "Where the integrand changes from positive to negative, the accumulation function has a local maximum."
+      },
+      {
+        "termZh": "净面积",
+        "termEn": "net area",
+        "defZh": "横轴上方面积减去下方面积。",
+        "defEn": "Area above the horizontal axis minus area below it."
+      }
     ]
   },
   "6.6": {
@@ -874,6 +1020,44 @@ export const TOPICS = {
       "不看书能否复述「微积分基本定理应用」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "区间可加性",
+        "termEn": "additivity of intervals",
+        "defZh": "\\(\\int_a^b f+\\int_b^c f=\\int_a^c f\\)。",
+        "defEn": "\\(\\int_a^b f+\\int_b^c f=\\int_a^c f\\)."
+      },
+      {
+        "termZh": "反向积分",
+        "termEn": "reversed limits",
+        "defZh": "\\(\\int_a^b f=-\\int_b^a f\\)。",
+        "defEn": "\\(\\int_a^b f=-\\int_b^a f\\)."
+      },
+      {
+        "termZh": "零积分",
+        "termEn": "zero integral",
+        "defZh": "\\(\\int_a^a f(x)\\,\\mathrm{d}x=0\\)。",
+        "defEn": "\\(\\int_a^a f(x)\\,\\mathrm{d}x=0\\)."
+      },
+      {
+        "termZh": "线性性质",
+        "termEn": "linearity",
+        "defZh": "\\(\\int_a^b[cf(x)+g(x)]\\,\\mathrm{d}x=c\\int_a^b f+\\int_a^b g\\)。",
+        "defEn": "\\(\\int_a^b[cf(x)+g(x)]\\,\\mathrm{d}x=c\\int_a^b f+\\int_a^b g\\)."
+      },
+      {
+        "termZh": "奇函数",
+        "termEn": "odd function",
+        "defZh": "在对称区间上积分为零，因为正负面积相消。",
+        "defEn": "Its integral over a symmetric interval is zero because signed areas cancel."
+      },
+      {
+        "termZh": "偶函数",
+        "termEn": "even function",
+        "defZh": "在对称区间上的积分等于一侧积分的两倍。",
+        "defEn": "Its integral over a symmetric interval equals twice the integral over one side."
+      }
     ]
   },
   "6.7": {
@@ -1011,6 +1195,44 @@ export const TOPICS = {
       "不看书能否复述「定积分求值」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "微积分基本定理",
+        "termEn": "Fundamental Theorem of Calculus",
+        "defZh": "\\(\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a)\\)，其中 \\(F'=f\\)。",
+        "defEn": "\\(\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a)\\), where \\(F'=f\\)."
+      },
+      {
+        "termZh": "原函数",
+        "termEn": "antiderivative",
+        "defZh": "导数等于被积函数的函数 \\(F\\)。",
+        "defEn": "A function \\(F\\) whose derivative is the integrand."
+      },
+      {
+        "termZh": "求值",
+        "termEn": "evaluate",
+        "defZh": "把上下限代入原函数并作差。",
+        "defEn": "Substituting the limits into an antiderivative and subtracting."
+      },
+      {
+        "termZh": "上限",
+        "termEn": "upper limit",
+        "defZh": "定积分中的 \\(b\\)，求值时对应 \\(F(b)\\)。",
+        "defEn": "The upper limit \\(b\\), corresponding to \\(F(b)\\)."
+      },
+      {
+        "termZh": "下限",
+        "termEn": "lower limit",
+        "defZh": "定积分中的 \\(a\\)，求值时对应 \\(F(a)\\)。",
+        "defEn": "The lower limit \\(a\\), corresponding to \\(F(a)\\)."
+      },
+      {
+        "termZh": "净变化",
+        "termEn": "net change",
+        "defZh": "\\(F(b)-F(a)\\)，即变化率累积的总效果。",
+        "defEn": "\\(F(b)-F(a)\\), the total effect of accumulating a rate of change."
+      }
     ]
   },
   "6.8": {
@@ -1148,6 +1370,44 @@ export const TOPICS = {
       "不看书能否复述「求原函数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "原函数",
+        "termEn": "antiderivative",
+        "defZh": "若 \\(F'(x)=f(x)\\)，则 \\(F\\) 是 \\(f\\) 的一个原函数。",
+        "defEn": "If \\(F'(x)=f(x)\\), then \\(F\\) is an antiderivative of \\(f\\)."
+      },
+      {
+        "termZh": "不定积分",
+        "termEn": "indefinite integral",
+        "defZh": "\\(\\int f(x)\\,\\mathrm{d}x=F(x)+C\\)，表示全体原函数。",
+        "defEn": "\\(\\int f(x)\\,\\mathrm{d}x=F(x)+C\\), representing all antiderivatives."
+      },
+      {
+        "termZh": "积分常数",
+        "termEn": "constant of integration",
+        "defZh": "不定积分中的任意常数 \\(C\\)。",
+        "defEn": "The arbitrary constant \\(C\\) in an indefinite integral."
+      },
+      {
+        "termZh": "幂法则",
+        "termEn": "power rule",
+        "defZh": "当 \\(n\\ne-1\\) 时，\\(\\int x^{n}\\,\\mathrm{d}x=\\dfrac{x^{n+1}}{n+1}+C\\)。",
+        "defEn": "For \\(n\\ne-1\\), \\(\\int x^{n}\\,\\mathrm{d}x=\\dfrac{x^{n+1}}{n+1}+C\\)."
+      },
+      {
+        "termZh": "线性性质",
+        "termEn": "linearity",
+        "defZh": "不定积分可以逐项积分并提取常数倍。",
+        "defEn": "An indefinite integral can be taken term by term with constant multiples factored out."
+      },
+      {
+        "termZh": "基本积分表",
+        "termEn": "basic integration table",
+        "defZh": "常用函数原函数的清单，如 \\(\\int\\cos x\\,\\mathrm{d}x=\\sin x+C\\)。",
+        "defEn": "A list of common antiderivatives, such as \\(\\int\\cos x\\,\\mathrm{d}x=\\sin x+C\\)."
+      }
     ]
   },
   "6.9": {
@@ -1991,6 +2251,38 @@ export const TOPICS = {
       "不看书能否复述「积分技巧选择」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "部分分式",
+        "termEn": "partial fractions",
+        "defZh": "把有理函数拆成简单分式之和再积分。",
+        "defEn": "Decomposing a rational function into simpler fractions before integrating."
+      },
+      {
+        "termZh": "线性因子",
+        "termEn": "linear factor",
+        "defZh": "分母中形如 \\((ax+b)\\) 的一次因式。",
+        "defEn": "A first-degree factor such as \\((ax+b)\\) in the denominator."
+      },
+      {
+        "termZh": "待定系数",
+        "termEn": "undetermined coefficients",
+        "defZh": "设出部分分式后比较系数求未知常数。",
+        "defEn": "Setting up a partial-fraction form and comparing coefficients to find unknown constants."
+      },
+      {
+        "termZh": "换元法",
+        "termEn": "substitution",
+        "defZh": "通过变量替换把积分化为基本形式。",
+        "defEn": "Changing variables to reduce an integral to a basic form."
+      },
+      {
+        "termZh": "有理函数",
+        "termEn": "rational function",
+        "defZh": "两个多项式之比，可用部分分式或长除法处理。",
+        "defEn": "A ratio of two polynomials, handled by partial fractions or long division."
+      }
     ]
   },
   "6.14": {
@@ -2125,6 +2417,44 @@ export const TOPICS = {
       "不看书能否复述「积分技巧综合」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "换元法",
+        "termEn": "substitution",
+        "defZh": "令 \\(u=g(x)\\)，把复合函数的积分化为 \\(\\int f(u)\\,\\mathrm{d}u\\)。",
+        "defEn": "Setting \\(u=g(x)\\) to reduce a composite integral to \\(\\int f(u)\\,\\mathrm{d}u\\)."
+      },
+      {
+        "termZh": "分部积分",
+        "termEn": "integration by parts",
+        "defZh": "\\(\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\)。",
+        "defEn": "\\(\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\)."
+      },
+      {
+        "termZh": "部分分式",
+        "termEn": "partial fractions",
+        "defZh": "把有理函数分解为可积的简单分式。",
+        "defEn": "Decomposing a rational function into integrable simple fractions."
+      },
+      {
+        "termZh": "长除法",
+        "termEn": "long division",
+        "defZh": "当分子次数不低于分母时，先做多项式除法。",
+        "defEn": "Polynomial division first when the numerator's degree is at least the denominator's."
+      },
+      {
+        "termZh": "配方",
+        "termEn": "completing the square",
+        "defZh": "把二次式写成完全平方，便于换元或套用公式。",
+        "defEn": "Rewriting a quadratic as a perfect square to enable substitution or a standard formula."
+      },
+      {
+        "termZh": "三角恒等式",
+        "termEn": "trigonometric identity",
+        "defZh": "用恒等式改写被积函数，如 \\(\\sin^{2}x=\\dfrac{1-\\cos 2x}{2}\\)。",
+        "defEn": "Rewriting an integrand with identities such as \\(\\sin^{2}x=\\dfrac{1-\\cos 2x}{2}\\)."
+      }
     ]
   }
 };

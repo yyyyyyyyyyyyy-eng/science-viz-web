@@ -135,6 +135,44 @@ export const TOPICS = {
       "不看书能否复述「序列收敛」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "无穷级数",
+        "termEn": "infinite series",
+        "defZh": "无穷多项之和 \\(\\sum_{n=1}^{\\infty}a_n\\)。",
+        "defEn": "The sum of infinitely many terms, \\(\\sum_{n=1}^{\\infty}a_n\\)."
+      },
+      {
+        "termZh": "部分和",
+        "termEn": "partial sum",
+        "defZh": "\\(S_N=\\sum_{n=1}^{N}a_n\\)，前 \\(N\\) 项之和。",
+        "defEn": "\\(S_N=\\sum_{n=1}^{N}a_n\\), the sum of the first \\(N\\) terms."
+      },
+      {
+        "termZh": "收敛",
+        "termEn": "convergence",
+        "defZh": "部分和序列趋于有限极限 \\(S\\)。",
+        "defEn": "The partial sums approach a finite limit \\(S\\)."
+      },
+      {
+        "termZh": "发散",
+        "termEn": "divergence",
+        "defZh": "部分和序列没有有限极限。",
+        "defEn": "The partial sums fail to approach a finite limit."
+      },
+      {
+        "termZh": "序列",
+        "termEn": "sequence",
+        "defZh": "按整数编号排列的数列 \\(a_n\\)。",
+        "defEn": "An ordered list of numbers \\(a_n\\) indexed by integers."
+      },
+      {
+        "termZh": "部分和序列",
+        "termEn": "sequence of partial sums",
+        "defZh": "\\(\\{S_N\\}\\)，其收敛性定义级数收敛。",
+        "defEn": "\\(\\{S_N\\}\\), whose convergence defines convergence of the series."
+      }
     ]
   },
   "10.2": {
@@ -452,6 +490,44 @@ export const TOPICS = {
       "不看书能否复述「n 项检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "第 \\(n\\) 项检验",
+        "termEn": "\\(n\\)th-term test",
+        "defZh": "若 \\(\\lim_{n\\to\\infty}a_n\\ne0\\) 或不存在，则 \\(\\sum a_n\\) 发散。",
+        "defEn": "If \\(\\lim_{n\\to\\infty}a_n\\ne0\\) or fails to exist, then \\(\\sum a_n\\) diverges."
+      },
+      {
+        "termZh": "通项",
+        "termEn": "general term",
+        "defZh": "级数中的第 \\(n\\) 项 \\(a_n\\)。",
+        "defEn": "The \\(n\\)th term \\(a_n\\) of a series."
+      },
+      {
+        "termZh": "必要条件",
+        "termEn": "necessary condition",
+        "defZh": "级数收敛要求 \\(\\lim_{n\\to\\infty}a_n=0\\)。",
+        "defEn": "Convergence requires \\(\\lim_{n\\to\\infty}a_n=0\\)."
+      },
+      {
+        "termZh": "逆否命题",
+        "termEn": "contrapositive",
+        "defZh": "由通项不趋于零推出级数发散。",
+        "defEn": "Concluding divergence when the terms do not tend to zero."
+      },
+      {
+        "termZh": "发散",
+        "termEn": "divergence",
+        "defZh": "通项检验只能判定发散，不能判定收敛。",
+        "defEn": "The test can establish divergence but never convergence."
+      },
+      {
+        "termZh": "极限为零",
+        "termEn": "limit zero",
+        "defZh": "通项趋于零是必要但非充分条件。",
+        "defEn": "Terms tending to zero is necessary but not sufficient."
+      }
     ]
   },
   "10.4": {
@@ -589,6 +665,44 @@ export const TOPICS = {
       "不看书能否复述「积分检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "积分检验",
+        "termEn": "integral test",
+        "defZh": "对正项、连续、递减函数，用 \\(\\int_N^{\\infty}f(x)\\,\\mathrm{d}x\\) 与级数比较敛散。",
+        "defEn": "For positive, continuous, decreasing \\(f\\), compare \\(\\sum f(n)\\) with \\(\\int_N^{\\infty}f(x)\\,\\mathrm{d}x\\)."
+      },
+      {
+        "termZh": "正项级数",
+        "termEn": "positive-term series",
+        "defZh": "所有项都为正的级数。",
+        "defEn": "A series whose terms are all positive."
+      },
+      {
+        "termZh": "单调递减",
+        "termEn": "decreasing",
+        "defZh": "函数随 \\(x\\) 增大而不增，是积分检验的条件之一。",
+        "defEn": "A function that does not increase as \\(x\\) grows, one hypothesis of the integral test."
+      },
+      {
+        "termZh": "反常积分",
+        "termEn": "improper integral",
+        "defZh": "用于比较的无穷限积分。",
+        "defEn": "The infinite-interval integral used for comparison."
+      },
+      {
+        "termZh": "同敛散",
+        "termEn": "same convergence",
+        "defZh": "级数与积分同时收敛或同时发散。",
+        "defEn": "The series and integral either both converge or both diverge."
+      },
+      {
+        "termZh": "连续函数",
+        "termEn": "continuous function",
+        "defZh": "积分检验要求 \\(f\\) 在 \\([N,\\infty)\\) 上连续。",
+        "defEn": "The integral test requires \\(f\\) to be continuous on \\([N,\\infty)\\)."
+      }
     ]
   },
   "10.5": {
@@ -906,6 +1020,44 @@ export const TOPICS = {
       "不看书能否复述「比较检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "比较检验",
+        "termEn": "comparison test",
+        "defZh": "用已知敛散的正项级数夹住或控制未知级数。",
+        "defEn": "Bounding an unknown positive-term series by a series with known convergence."
+      },
+      {
+        "termZh": "极限比较检验",
+        "termEn": "limit comparison test",
+        "defZh": "比较 \\(\\dfrac{a_n}{b_n}\\) 的极限来判断同敛散。",
+        "defEn": "Comparing the limit of \\(\\dfrac{a_n}{b_n}\\) to establish the same convergence behavior."
+      },
+      {
+        "termZh": "正项级数",
+        "termEn": "positive-term series",
+        "defZh": "各项非负，比较检验的适用对象。",
+        "defEn": "A series with nonnegative terms, the setting for comparison tests."
+      },
+      {
+        "termZh": "上界",
+        "termEn": "upper bound",
+        "defZh": "若 \\(a_n\\le b_n\\) 且 \\(\\sum b_n\\) 收敛，则 \\(\\sum a_n\\) 收敛。",
+        "defEn": "If \\(a_n\\le b_n\\) and \\(\\sum b_n\\) converges, then \\(\\sum a_n\\) converges."
+      },
+      {
+        "termZh": "下界",
+        "termEn": "lower bound",
+        "defZh": "若 \\(a_n\\ge b_n\\) 且 \\(\\sum b_n\\) 发散，则 \\(\\sum a_n\\) 发散。",
+        "defEn": "If \\(a_n\\ge b_n\\) and \\(\\sum b_n\\) diverges, then \\(\\sum a_n\\) diverges."
+      },
+      {
+        "termZh": "收敛级数",
+        "termEn": "convergent series",
+        "defZh": "部分和有有限极限的级数。",
+        "defEn": "A series whose partial sums have a finite limit."
+      }
     ]
   },
   "10.7": {
@@ -1398,6 +1550,44 @@ export const TOPICS = {
       "不看书能否复述「绝对与条件收敛」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "绝对收敛",
+        "termEn": "absolute convergence",
+        "defZh": "\\(\\sum|a_n|\\) 收敛，则 \\(\\sum a_n\\) 也收敛。",
+        "defEn": "If \\(\\sum|a_n|\\) converges, then \\(\\sum a_n\\) also converges."
+      },
+      {
+        "termZh": "条件收敛",
+        "termEn": "conditional convergence",
+        "defZh": "\\(\\sum a_n\\) 收敛但 \\(\\sum|a_n|\\) 发散。",
+        "defEn": "\\(\\sum a_n\\) converges while \\(\\sum|a_n|\\) diverges."
+      },
+      {
+        "termZh": "绝对值级数",
+        "termEn": "absolute series",
+        "defZh": "把原级数各项取绝对值得到的 \\(\\sum|a_n|\\)。",
+        "defEn": "The series \\(\\sum|a_n|\\) formed from the absolute values."
+      },
+      {
+        "termZh": "交错级数",
+        "termEn": "alternating series",
+        "defZh": "各项符号正负交替的级数。",
+        "defEn": "A series whose terms alternate in sign."
+      },
+      {
+        "termZh": "收敛性",
+        "termEn": "convergence",
+        "defZh": "判断原级数是否收敛以及属于何种收敛。",
+        "defEn": "Determining whether the original series converges and in which sense."
+      },
+      {
+        "termZh": "反例",
+        "termEn": "counterexample",
+        "defZh": "说明绝对收敛与条件收敛确有区别的例子。",
+        "defEn": "An example showing that absolute and conditional convergence differ."
+      }
     ]
   },
   "10.10": {
@@ -1535,6 +1725,44 @@ export const TOPICS = {
       "不看书能否复述「交替级数误差」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "交替级数",
+        "termEn": "alternating series",
+        "defZh": "形如 \\(\\sum(-1)^{n}b_n\\) 且 \\(b_n>0\\) 的级数。",
+        "defEn": "A series of the form \\(\\sum(-1)^{n}b_n\\) with \\(b_n>0\\)."
+      },
+      {
+        "termZh": "误差界",
+        "termEn": "error bound",
+        "defZh": "\\(|S-S_N|\\le b_{N+1}\\)，截断后的最大误差。",
+        "defEn": "\\(|S-S_N|\\le b_{N+1}\\), the maximum error after truncation."
+      },
+      {
+        "termZh": "截断误差",
+        "termEn": "truncation error",
+        "defZh": "用前 \\(N\\) 项和代替无穷和产生的误差。",
+        "defEn": "The error from replacing an infinite sum by its first \\(N\\) terms."
+      },
+      {
+        "termZh": "部分和",
+        "termEn": "partial sum",
+        "defZh": "\\(S_N=\\sum_{n=1}^{N}a_n\\)，用于近似总和。",
+        "defEn": "\\(S_N=\\sum_{n=1}^{N}a_n\\), used to approximate the total."
+      },
+      {
+        "termZh": "下一项",
+        "termEn": "next term",
+        "defZh": "\\(b_{N+1}\\)，给出误差界的大小。",
+        "defEn": "\\(b_{N+1}\\), which bounds the error."
+      },
+      {
+        "termZh": "余项",
+        "termEn": "remainder",
+        "defZh": "\\(S-S_N\\)，即被截去的所有项之和。",
+        "defEn": "\\(S-S_N\\), the sum of all discarded terms."
+      }
     ]
   },
   "10.11": {
@@ -2380,6 +2608,44 @@ export const TOPICS = {
       "不看书能否复述「幂级数运算」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "幂级数",
+        "termEn": "power series",
+        "defZh": "形如 \\(\\sum_{n=0}^{\\infty}a_n(x-c)^{n}\\) 的级数。",
+        "defEn": "A series of the form \\(\\sum_{n=0}^{\\infty}a_n(x-c)^{n}\\)."
+      },
+      {
+        "termZh": "收敛半径",
+        "termEn": "radius of convergence",
+        "defZh": "幂级数在 \\(|x-c|<R\\) 内收敛的半径 \\(R\\)。",
+        "defEn": "The radius \\(R\\) such that the series converges for \\(|x-c|<R\\)."
+      },
+      {
+        "termZh": "收敛区间",
+        "termEn": "interval of convergence",
+        "defZh": "所有使幂级数收敛的 \\(x\\) 组成的区间。",
+        "defEn": "The interval of all \\(x\\) for which the power series converges."
+      },
+      {
+        "termZh": "逐项求导",
+        "termEn": "term-by-term differentiation",
+        "defZh": "在收敛区间内部对幂级数逐项求导。",
+        "defEn": "Differentiating a power series term by term inside its interval of convergence."
+      },
+      {
+        "termZh": "逐项积分",
+        "termEn": "term-by-term integration",
+        "defZh": "在收敛区间内部对幂级数逐项积分。",
+        "defEn": "Integrating a power series term by term inside its interval of convergence."
+      },
+      {
+        "termZh": "几何级数",
+        "termEn": "geometric series",
+        "defZh": "\\(\\sum_{n=0}^{\\infty}x^{n}=\\dfrac{1}{1-x}\\)（\\(|x|<1\\)），常用作展开基础。",
+        "defEn": "\\(\\sum_{n=0}^{\\infty}x^{n}=\\dfrac{1}{1-x}\\) for \\(|x|<1\\), a common base for expansions."
+      }
     ]
   }
 };

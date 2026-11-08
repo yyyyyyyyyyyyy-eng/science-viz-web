@@ -490,6 +490,38 @@ export const TOPICS = {
       "不看书能否复述「反函数导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "反函数",
+        "termEn": "inverse function",
+        "defZh": "满足 \\(f(g(x))=x\\) 与 \\(g(f(x))=x\\) 的函数 \\(g=f^{-1}\\)。",
+        "defEn": "The function \\(g=f^{-1}\\) satisfying \\(f(g(x))=x\\) and \\(g(f(x))=x\\)."
+      },
+      {
+        "termZh": "反函数定理",
+        "termEn": "inverse function theorem",
+        "defZh": "若 \\(f'(a)\\ne0\\)，则 \\((f^{-1})'(f(a))=\\dfrac{1}{f'(a)}\\)。",
+        "defEn": "If \\(f'(a)\\ne0\\), then \\((f^{-1})'(f(a))=\\dfrac{1}{f'(a)}\\)."
+      },
+      {
+        "termZh": "斜率倒数",
+        "termEn": "reciprocal slope",
+        "defZh": "反函数在对应点的斜率是原函数斜率的倒数。",
+        "defEn": "The inverse function's slope at the corresponding point is the reciprocal of the original slope."
+      },
+      {
+        "termZh": "定义域限制",
+        "termEn": "domain restriction",
+        "defZh": "为使函数一一对应而限制的输入范围。",
+        "defEn": "A restricted input range that makes a function one-to-one."
+      },
+      {
+        "termZh": "复合验证",
+        "termEn": "composition check",
+        "defZh": "用 \\(f(g(x))=x\\) 检验两函数是否互为反函数。",
+        "defEn": "Using \\(f(g(x))=x\\) to check that two functions are inverses."
+      }
     ]
   },
   "3.4": {
@@ -627,6 +659,44 @@ export const TOPICS = {
       "不看书能否复述「反三角函数导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "反正弦",
+        "termEn": "arcsine",
+        "defZh": "\\(\\arcsin x\\)，定义域 \\([-1,1]\\)，值域 \\(\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right]\\)。",
+        "defEn": "\\(\\arcsin x\\), with domain \\([-1,1]\\) and range \\(\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right]\\)."
+      },
+      {
+        "termZh": "反余弦",
+        "termEn": "arccosine",
+        "defZh": "\\(\\arccos x\\)，定义域 \\([-1,1]\\)，值域 \\([0,\\pi]\\)。",
+        "defEn": "\\(\\arccos x\\), with domain \\([-1,1]\\) and range \\([0,\\pi]\\)."
+      },
+      {
+        "termZh": "反正切",
+        "termEn": "arctangent",
+        "defZh": "\\(\\arctan x\\)，定义域为全体实数，值域 \\(\\left(-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right)\\)。",
+        "defEn": "\\(\\arctan x\\), defined for all real \\(x\\), with range \\(\\left(-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right)\\)."
+      },
+      {
+        "termZh": "主值",
+        "termEn": "principal value",
+        "defZh": "反三角函数取定的单值输出范围。",
+        "defEn": "The single-valued output range chosen for an inverse trigonometric function."
+      },
+      {
+        "termZh": "导数公式",
+        "termEn": "derivative formula",
+        "defZh": "如 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]=\\dfrac{1}{\\sqrt{1-x^{2}}}\\)。",
+        "defEn": "For example, \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\arcsin x]=\\dfrac{1}{\\sqrt{1-x^{2}}}\\)."
+      },
+      {
+        "termZh": "定义域",
+        "termEn": "domain",
+        "defZh": "使反三角函数有定义的输入集合。",
+        "defEn": "The set of inputs for which an inverse trigonometric function is defined."
+      }
     ]
   },
   "3.5": {
@@ -764,6 +834,44 @@ export const TOPICS = {
       "不看书能否复述「高阶导数选讲」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "乘积法则",
+        "termEn": "product rule",
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f g]=f'g+fg'\\)。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f g]=f'g+fg'\\)."
+      },
+      {
+        "termZh": "商法则",
+        "termEn": "quotient rule",
+        "defZh": "对两个函数之商求导的法则。",
+        "defEn": "The rule for differentiating a quotient of two functions."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "对复合函数 \\(f(g(x))\\) 求导，得 \\(f'(g(x))g'(x)\\)。",
+        "defEn": "Differentiating \\(f(g(x))\\) gives \\(f'(g(x))g'(x)\\)."
+      },
+      {
+        "termZh": "隐函数求导",
+        "termEn": "implicit differentiation",
+        "defZh": "对方程两边关于 \\(x\\) 求导并解出 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。",
+        "defEn": "Differentiating both sides of an equation with respect to \\(x\\) and solving for \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)."
+      },
+      {
+        "termZh": "对数求导",
+        "termEn": "logarithmic differentiation",
+        "defZh": "先取对数再求导，适用于幂指函数或复杂乘积。",
+        "defEn": "Taking logarithms before differentiating, useful for functions with variable exponents or long products."
+      },
+      {
+        "termZh": "方法选择",
+        "termEn": "method selection",
+        "defZh": "根据函数结构选择最直接的求导法则。",
+        "defEn": "Choosing the most direct differentiation rule based on the structure of the function."
+      }
     ]
   },
   "3.6": {
@@ -894,6 +1002,38 @@ export const TOPICS = {
       "不看书能否复述「高阶导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "高阶导数",
+        "termEn": "higher-order derivative",
+        "defZh": "对导数继续求导得到的二阶、三阶等导数。",
+        "defEn": "Derivatives beyond the first, such as second and third derivatives."
+      },
+      {
+        "termZh": "二阶导数",
+        "termEn": "second derivative",
+        "defZh": "\\(f''(x)=\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f'(x)]\\)。",
+        "defEn": "\\(f''(x)=\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[f'(x)]\\)."
+      },
+      {
+        "termZh": "加速度",
+        "termEn": "acceleration",
+        "defZh": "位置对时间的二阶导数，也是速度的导数。",
+        "defEn": "The second derivative of position with respect to time, or the derivative of velocity."
+      },
+      {
+        "termZh": "阶数",
+        "termEn": "order",
+        "defZh": "求导次数，如三阶导数记作 \\(f'''\\) 或 \\(f^{(3)}\\)。",
+        "defEn": "The number of differentiation steps, such as a third derivative written \\(f'''\\) or \\(f^{(3)}\\)."
+      },
+      {
+        "termZh": "反复求导",
+        "termEn": "repeated differentiation",
+        "defZh": "连续应用求导法则得到更高阶导数。",
+        "defEn": "Applying differentiation rules repeatedly to obtain higher derivatives."
+      }
     ]
   }
 };

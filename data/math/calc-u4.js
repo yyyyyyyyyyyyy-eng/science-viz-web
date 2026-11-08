@@ -140,6 +140,38 @@ export const TOPICS = {
       "不看书能否复述「变化率情境」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "变化率",
+        "termEn": "rate of change",
+        "defZh": "一个量随另一个量改变的速度。",
+        "defEn": "How quickly one quantity changes as another changes."
+      },
+      {
+        "termZh": "情境解释",
+        "termEn": "contextual interpretation",
+        "defZh": "用实际单位说明导数在问题中的含义。",
+        "defEn": "Explaining the meaning of a derivative in a problem using its real units."
+      },
+      {
+        "termZh": "单位",
+        "termEn": "units",
+        "defZh": "导数的单位是输出单位除以输入单位。",
+        "defEn": "A derivative's units are output units divided by input units."
+      },
+      {
+        "termZh": "瞬时变化",
+        "termEn": "instantaneous change",
+        "defZh": "某一时刻的变化率，由导数给出。",
+        "defEn": "The rate of change at a single instant, given by the derivative."
+      },
+      {
+        "termZh": "边际量",
+        "termEn": "marginal quantity",
+        "defZh": "经济学中增加一单位输入所引起的输出变化。",
+        "defEn": "In economics, the output change caused by one additional unit of input."
+      }
     ]
   },
   "4.2": {
@@ -282,6 +314,44 @@ export const TOPICS = {
       "不看书能否复述「直线运动」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "位置",
+        "termEn": "position",
+        "defZh": "物体相对参考点的坐标 \\(s(t)\\)。",
+        "defEn": "The coordinate \\(s(t)\\) of an object relative to a reference point."
+      },
+      {
+        "termZh": "速度",
+        "termEn": "velocity",
+        "defZh": "位置对时间的导数 \\(v(t)=s'(t)\\)，带方向。",
+        "defEn": "The derivative of position, \\(v(t)=s'(t)\\), including direction."
+      },
+      {
+        "termZh": "速率",
+        "termEn": "speed",
+        "defZh": "速度的大小 \\(|v(t)|\\)，不带方向。",
+        "defEn": "The magnitude \\(|v(t)|\\) of velocity, without direction."
+      },
+      {
+        "termZh": "加速度",
+        "termEn": "acceleration",
+        "defZh": "速度对时间的导数 \\(a(t)=v'(t)=s''(t)\\)。",
+        "defEn": "The derivative of velocity, \\(a(t)=v'(t)=s''(t)\\)."
+      },
+      {
+        "termZh": "位移",
+        "termEn": "displacement",
+        "defZh": "位置的变化量 \\(s(b)-s(a)\\)，带正负。",
+        "defEn": "The change in position \\(s(b)-s(a)\\), with sign."
+      },
+      {
+        "termZh": "运动方向",
+        "termEn": "direction of motion",
+        "defZh": "由速度的符号决定，正表示向正方向运动。",
+        "defEn": "Determined by the sign of velocity; positive means motion in the positive direction."
+      }
     ]
   },
   "4.3": {
@@ -419,6 +489,38 @@ export const TOPICS = {
       "不看书能否复述「变化率与单位」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "单位变化率",
+        "termEn": "unit rate",
+        "defZh": "每增加一个输入单位所引起的输出变化。",
+        "defEn": "The output change per one additional unit of input."
+      },
+      {
+        "termZh": "边际成本",
+        "termEn": "marginal cost",
+        "defZh": "多生产一单位产品所增加的成本，常由导数估计。",
+        "defEn": "The added cost of producing one more unit, often estimated by a derivative."
+      },
+      {
+        "termZh": "增长率",
+        "termEn": "growth rate",
+        "defZh": "数量随时间或其他变量增加的速率。",
+        "defEn": "The rate at which a quantity increases with time or another variable."
+      },
+      {
+        "termZh": "相对变化率",
+        "termEn": "relative rate",
+        "defZh": "变化率除以当前量，常以百分比表示。",
+        "defEn": "A rate divided by the current quantity, often expressed as a percentage."
+      },
+      {
+        "termZh": "量纲分析",
+        "termEn": "dimensional analysis",
+        "defZh": "检查分子与分母单位是否与所求变化率一致。",
+        "defEn": "Checking that numerator and denominator units match the desired rate."
+      }
     ]
   },
   "4.4": {
@@ -731,6 +833,44 @@ export const TOPICS = {
       "不看书能否复述「相关变化率求解」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "相关变化率",
+        "termEn": "related rates",
+        "defZh": "两个或多个随时间变化的量之间的变化率关系。",
+        "defEn": "Relationships among the rates of change of two or more quantities over time."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "把各变量对时间的导数联系起来。",
+        "defEn": "Connects the time derivatives of the related variables."
+      },
+      {
+        "termZh": "几何约束",
+        "termEn": "geometric constraint",
+        "defZh": "如面积、体积或相似三角形给出的变量关系。",
+        "defEn": "A relation among variables given by area, volume, or similar triangles."
+      },
+      {
+        "termZh": "已知变化率",
+        "termEn": "known rate",
+        "defZh": "题目给出的某一变量对时间的变化率。",
+        "defEn": "A time derivative supplied in the problem."
+      },
+      {
+        "termZh": "未知变化率",
+        "termEn": "unknown rate",
+        "defZh": "题目要求求解的某一变量对时间的变化率。",
+        "defEn": "The time derivative the problem asks for."
+      },
+      {
+        "termZh": "隐函数求导",
+        "termEn": "implicit differentiation",
+        "defZh": "对约束方程两边关于时间 \\(t\\) 求导。",
+        "defEn": "Differentiating both sides of a constraint equation with respect to time \\(t\\)."
+      }
     ]
   },
   "4.6": {
@@ -868,6 +1008,38 @@ export const TOPICS = {
       "不看书能否复述「局部线性近似」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "局部线性",
+        "termEn": "local linearity",
+        "defZh": "可微函数在足够小的邻域内近似为直线。",
+        "defEn": "The property that a differentiable function looks linear on a sufficiently small neighborhood."
+      },
+      {
+        "termZh": "线性化",
+        "termEn": "linearization",
+        "defZh": "用切线 \\(L(x)=f(a)+f'(a)(x-a)\\) 近似函数。",
+        "defEn": "Approximating a function with its tangent line \\(L(x)=f(a)+f'(a)(x-a)\\)."
+      },
+      {
+        "termZh": "切线近似",
+        "termEn": "tangent line approximation",
+        "defZh": "以切线上点的值作为函数值的近似。",
+        "defEn": "Using a value on the tangent line as an approximation to the function value."
+      },
+      {
+        "termZh": "微分",
+        "termEn": "differential",
+        "defZh": "\\(\\mathrm{d}y=f'(a)\\,\\mathrm{d}x\\)，表示线性化后的改变量。",
+        "defEn": "\\(\\mathrm{d}y=f'(a)\\,\\mathrm{d}x\\), the change predicted by linearization."
+      },
+      {
+        "termZh": "近似误差",
+        "termEn": "approximation error",
+        "defZh": "近似值与真实值之差，通常随 \\(|x-a|\\) 增大而增大。",
+        "defEn": "The difference between the approximation and the true value, usually growing with \\(|x-a|\\)."
+      }
     ]
   },
   "4.7": {
