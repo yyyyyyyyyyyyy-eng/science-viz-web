@@ -333,7 +333,7 @@ export const ENRICHMENTS = {
 
   'math/math-prep-alg1/P1.9': {
     enrichedAt: 'batch1',
-    definition: '因式分解是把多项式写成若干多项式之积。对二次式 \(ax^2+bx+c\)，常用十字相乘、完全平方、平方差 \(a^2-b^2=(a-b)(a+b)\) 等方法，使方程求解或化简分式。',
+    definition: '因式分解是把多项式写成若干多项式之积。对二次式 \\(ax^2+bx+c\\)，常用十字相乘、完全平方、平方差 \\(a^2-b^2=(a-b)(a+b)\\) 等方法，使方程求解或化简分式。',
     intuition: '乘法的逆运算：展开是“拆开括号”，因式分解是“找括号”。',
     intuitionDetailed: '能分解则方程可用零因子法则：乘积为 0 ⇒ 某一因子为 0。',
     formulas: [
@@ -347,27 +347,27 @@ export const ENRICHMENTS = {
     keyPoints: ['先提公因式', '二次式看判别式与十字相乘', '分解后可解方程、化简有理式'],
     misconceptions: [
       '漏提公因式',
-      '把 \(x^2+4\) 误写成 \((x+2)^2\)',
-      '符号错误：\(a^2-2ab+b^2=(a-b)^2\) 不是 \((a+b)^2\)',
+      '把 \\(x^2+4\\) 误写成 \\((x+2)^2\\)',
+      '符号错误：\\(a^2-2ab+b^2=(a-b)^2\\) 不是 \\((a+b)^2\\)',
     ],
     examples: [
       {
         title: '例 1',
-        prompt: '分解 \(x^2-5x+6\)。',
-        steps: ['找两数积为 6、和为 -5：-2 与 -3。', '得 \((x-2)(x-3)\)。'],
-        solution: '\((x-2)(x-3)\)。',
+        prompt: '分解 \\(x^2-5x+6\\)。',
+        steps: ['找两数积为 6、和为 -5：-2 与 -3。', '得 \\((x-2)(x-3)\\)。'],
+        solution: '\\((x-2)(x-3)\\)。',
       },
       {
         title: '例 2',
-        prompt: '分解 \(2x^2+4x\)。',
-        steps: ['提 \(2x\)：\(2x(x+2)\)。'],
-        solution: '\(2x(x+2)\)。',
+        prompt: '分解 \\(2x^2+4x\\)。',
+        steps: ['提 \\(2x\\)：\\(2x(x+2)\\)。'],
+        solution: '\\(2x(x+2)\\)。',
       },
       {
         title: '例 3 · 解方程',
-        prompt: '解 \(x^2-9=0\)。',
-        steps: ['\((x-3)(x+3)=0\)', '\(x=3\) 或 \(x=-3\)。'],
-        solution: '\(x=\\pm 3\)。',
+        prompt: '解 \\(x^2-9=0\\)。',
+        steps: ['\\((x-3)(x+3)=0\\)', '\\(x=3\\) 或 \\(x=-3\\)。'],
+        solution: '\\(x=\\pm 3\\)。',
       },
     ],
     examTips: ['代数预备：为极限中约分、导数差商化简打基础', '验算：展开因式应回到原式'],
@@ -377,15 +377,15 @@ export const ENRICHMENTS = {
       { subject: 'math', chapterId: 'calc-u1', code: '1.6', title: '代数操作求极限', relation: '后续' },
     ],
     development: ['公因式', '二次式十字相乘', '公式法'],
-    checks: ['分解 \(x^2-16\)', '解 \((x-1)(x+4)=0\)'],
+    checks: ['分解 \\(x^2-16\\)', '解 \\((x-1)(x+4)=0\\)'],
     summary: '因式分解是展开的逆过程，是解方程与化简的基本工具。',
   },
 
   'mech/mech-u3/3.1': {
     enrichedAt: 'batch1',
-    definition: '功–动能定理：合外力对质点做的功等于动能的改变\n\\[\nW_{\\mathrm{net}}=\\Delta K=K_f-K_i=\\dfrac{1}{2}mv_f^{2}-\\dfrac{1}{2}mv_i^{2}.\n\\]\n对变力，\(W=\\int\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}\\)。',
+    definition: '功–动能定理：合外力对质点做的功等于动能的改变\n\\[\nW_{\\mathrm{net}}=\\Delta K=K_f-K_i=\\dfrac{1}{2}mv_f^{2}-\\dfrac{1}{2}mv_i^{2}.\n\\]\n对变力，\\(W=\\int\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}\\)。',
     intuition: '推得越狠、位移越大，动能增加越多；阻力做负功则动能减少。',
-    intuitionDetailed: '由牛顿第二定律 \(F=ma\) 与链式法则 \(a=v\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}\)，积分得 \(W=\\Delta K\)。',
+    intuitionDetailed: '由牛顿第二定律 \\(F=ma\\) 与链式法则 \\(a=v\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}\\)，积分得 \\(W=\\Delta K\\)。',
     formulas: [
       { latex: 'W_{\\mathrm{net}}=\\Delta K', note: '功–动能定理。' },
       { latex: 'K=\\dfrac{1}{2}mv^{2}', note: '平动动能。' },
