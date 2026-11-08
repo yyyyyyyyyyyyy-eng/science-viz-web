@@ -289,7 +289,7 @@ export const ENRICHMENTS = {
       {
         title: '例 1 · 镰状细胞 · Example 1 · Sickle Cell',
         prompt: 'HbS 的 β 珠蛋白基因发生哪种突变？ · What type of mutation occurs in the β-globin gene of HbS?',
-        steps: ['编码第 6 位谷氨酸的密码子 GAG 变为 GTG。 · The codon GAG, which encodes the sixth amino acid glutamate, changes to GTG.', '替换导致谷氨酸 → 缬氨酸（错义突变）。 · The substitution changes glutamate to valine (a missense mutation).'],
+        steps: ['DNA 编码链上编码第 6 位谷氨酸的三联体由 GAG 变为 GTG；对应的 mRNA 密码子由 GAG 变为 GUG。 · On the DNA coding strand, the triplet encoding the sixth amino acid glutamate changes from GAG to GTG; the corresponding mRNA codon changes from GAG to GUG.', '替换导致谷氨酸 → 缬氨酸（错义突变）。 · The substitution changes glutamate to valine (a missense mutation).'],
         solution: '单碱基替换引起的错义突变。 · A missense mutation caused by a single-base substitution.',
       },
       {
@@ -313,7 +313,7 @@ export const ENRICHMENTS = {
     connections: [
       '先修：6.2 DNA 复制与 6.4 翻译，理解突变如何在复制与蛋白合成中产生后果。 · Prerequisite: DNA replication in 6.2 and translation in 6.4 explain how mutations produce consequences during replication and protein synthesis.',
       '后续：7.2 自然选择与 7.4 群体遗传，把突变提供的新等位基因转化为种群频率变化。 · Follow-up: natural selection in 7.2 and population genetics in 7.4 turn new alleles from mutation into changes in population frequency.',
-      '相关：6.8 生物技术利用诱变与测序检测突变；医学中的镰状细胞病与致癌突变是直接应用。 · Related: biotechnology in 6.8 uses mutagenesis and sequencing to detect mutations; sickle cell disease and cancer-causing mutations are direct medical applications.',
+      '相关：6.8 生物技术中，诱变剂用于诱发突变，测序用于检测突变；镰状细胞病与致癌突变是直接相关的医学例子。 · Related: in 6.8 biotechnology, mutagens induce mutations while sequencing detects them; sickle cell disease and cancer-causing mutations are direct medical examples.',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.6', title: '基因表达与细胞特化 · Gene Expression and Cell Specialization', relation: '先修 · Prerequisite' },
@@ -5238,7 +5238,7 @@ export const ENRICHMENTS = {
       "与其他法则组合 · Combining with other rules"
     ],
     checks: [
-      "为什么 \\((uv)'\\neq u'v'\\)？ · 为什么 ((uv)'\\neq u'v')？ · Why is ((uv)'\\neq u'v')?",
+      "为什么 \\((uv)'\\neq u'v'\\)，而要用积法则 \\((uv)'=u'v+uv'\\)？ · Why is \\((uv)'\\neq u'v'\\), and why must we use the product rule \\((uv)'=u'v+uv'\\)?",
       "商法则的分母为什么是平方？ · Why is the denominator in the quotient rule squared?",
       "如何用积法则推出商法则？ · How can the quotient rule be derived from the product rule?"
     ],
