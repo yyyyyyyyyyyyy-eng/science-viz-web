@@ -11,6 +11,8 @@ import { isCompleted } from './progress.js';
 
 export { el, clear, rowLink, SUBJECT_LABEL };
 
+let selectSeq = 0;
+
 /** @deprecated home index moved to #/all */
 export function renderHome(main) {
   clear(main);
@@ -295,8 +297,9 @@ export function checkbox(parent, { label, checked = false, onChange }) {
 
 export function select(parent, { label, options, value, onChange }) {
   const group = el('div', { className: 'control-group' });
-  group.appendChild(el('label', { className: 'hit-target', text: label }));
-  const sel = el('select', { className: 'hit-target' });
+  const id = `ctl-select-${++selectSeq}`;
+  group.appendChild(el('label', { className: 'hit-target', text: label, for: id }));
+  const sel = el('select', { className: 'hit-target', id });
   for (const opt of options) {
     const o = el('option', { value: opt.value, text: opt.label });
     if (opt.value === value) o.selected = true;

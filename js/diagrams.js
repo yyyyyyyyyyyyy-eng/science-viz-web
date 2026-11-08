@@ -17,7 +17,7 @@ function bg() {
 
 function svgRoot(w, h, content, opts = {}) {
   const vb = opts.viewBox || `0 0 ${w} ${h}`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${w}" height="${h}" role="img" aria-label="${opts.label || 'diagram'}" style="max-width:100%;height:auto;color:${stroke()}">${content}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${w}" height="${h}" role="img" aria-label="${opts.label || 'diagram'}" style="max-width:100%;height:auto;color:inherit">${content}</svg>`;
 }
 
 function arrowHead(id = 'arr') {

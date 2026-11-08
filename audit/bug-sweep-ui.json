@@ -1,0 +1,137 @@
+{
+  "session": "UI / layout bug sweep",
+  "generatedAt": "2026-11-08T11:42:17+08:00",
+  "baseline": {
+    "webStartHead": "8f75254",
+    "webScanHead": "e560aaf",
+    "note": "Other sessions committed physics and bio/math exam-figure interactivity while this sweep was running. Their files were not edited; findings in those files are recorded under leftovers."
+  },
+  "coverage": {
+    "primarySweep": {
+      "routes": 52,
+      "viewports": ["1280x800", "390x844"],
+      "themes": ["light", "dark"],
+      "loads": 208,
+      "pageScope": [
+        "home", "catalog", "paths", "credits", "pastpapers",
+        "four subject hubs", "four mindmaps", "math/mech/em formulas",
+        "sample chapters and topics from bio/math/mech/em",
+        "sample practice units from all four subjects",
+        "sample simulation modules"
+      ]
+    },
+    "supplementary": [
+      "All 42 chapters and 42 practice units at 1280 and 390 (168 loads).",
+      "All 182 bio/mech/em topic pages at 1280 and 390.",
+      "All 158 math topic pages at 1280 and 390 after the interactive-figure commits.",
+      "All 340 topic pages at 390 for element-level horizontal clipping.",
+      "All 35 simulation module pages for labeled select controls.",
+      "All 42 practice units at 390 with a live light→dark toggle for canvas/SVG theme freshness.",
+      "Palette open/search/close at 1280, 390, and 320 in both themes.",
+      "Mindmap interaction at 1280 and 390: left-drag, right-drag, two-finger synthetic pointer pan, wheel/pinch hint text and context-menu suppression."
+    ],
+    "checks": [
+      "console errors and page errors",
+      "HTTP responses >= 400",
+      "document horizontal overflow",
+      "element-level horizontal clipping (ignoring the root #main clip, respecting intentional scroll containers)",
+      "clipped text / figcaption overflow",
+      "KaTeX .katex-error",
+      "broken images",
+      "visible hit targets < 44x44",
+      "header control overlap",
+      "duplicate IDs, unlabeled links/buttons/form controls",
+      "runtime theme change (not only cold-load theme)"
+    ]
+  },
+  "fixes": [
+    {
+      "id": "ui-palette-mobile-fill",
+      "severity": "layout",
+      "files": ["css/main.css"],
+      "found": "At <=640px the palette panel stretches to 100dvh, but the legacy .palette-list max-height:420px remained. The result was a 420px result list and the hint bar at ~478px, leaving ~330px of empty panel below it.",
+      "fix": "Reset .palette-list max-height at the mobile breakpoint so the flex list fills the panel and the hint stays at the bottom.",
+      "verification": "390x844 and 320x760, light+dark: list clientHeight 749/665, hint flush with panel bottom; desktop 1280 unchanged (420px list)."
+    },
+    {
+      "id": "ui-palette-mobile-close",
+      "severity": "behavior/accessibility",
+      "files": ["js/palette.js", "css/main.css"],
+      "found": "On phones the palette is a full-screen panel. The header only showed a non-interactive 'Esc' kbd label and the backdrop was fully covered, so touch users had no way to dismiss the palette without choosing a result.",
+      "fix": "Added a 44px '关闭' button in the palette header, hidden on desktop and shown at <=640px; hid the non-applicable Esc badge on phones. The button calls closePalette(), which restores focus to the search trigger.",
+      "verification": "1280: close hidden, Esc badge shown. 390/320: close visible and 50x44; tapping it closes the palette, aria-expanded returns false, focus returns to #search-trigger."
+    },
+    {
+      "id": "ui-practice-graph-theme",
+      "severity": "theme",
+      "files": ["js/practice.js"],
+      "found": "Practice stimulus graphs are canvas bitmaps drawn once from live CSS variables. A runtime light↔dark toggle left the old background/axes/curve colors, producing a light graph block on the dark page (and vice versa). Resizing also left the bitmap at the old CSS width.",
+      "fix": "Store the graph spec on the canvas and redraw all visible .stim-graph canvases on 'themechange' and 'resize' (rAF-throttled), with cleanup on route dispose. Also redraw after filter changes so cards hidden during a theme change catch up.",
+      "verification": "All 42 practice units at 390: after a light→dark toggle every graph pixel matches the current --canvas-plot; resize 1280→390 updates canvas.width from 420 to 356; filter hide→toggle→show remains dark."
+    },
+    {
+      "id": "ui-practice-diagram-theme",
+      "severity": "theme",
+      "files": ["js/diagrams.js"],
+      "found": "Practice SVG diagrams froze the light-theme text color inline (color:#131311), so after a runtime switch to dark theme diagram strokes and labels stayed near-black on the dark page.",
+      "fix": "Let the SVG inherit color from its .stim-svg host (style=color:inherit), which is already bound to var(--text).",
+      "verification": "All 42 practice units at 390 with .stim-svg content: after a light→dark toggle every SVG computed color equals its host color; before the fix it stayed rgb(19,19,17) while the host became rgb(244,244,239)."
+    },
+    {
+      "id": "ui-select-label",
+      "severity": "accessibility",
+      "files": ["js/ui.js"],
+      "found": "The shared select() helper rendered a visual label and a select control but did not associate them; the select had no accessible name.",
+      "fix": "Generate a unique id per select, set it on the control, and point the label's for attribute at it.",
+      "verification": "All 35 module pages: every .control-panel select resolves a matching label[for]; clicking the label focuses the select."
+    }
+  ],
+  "leftoversOutsideScope": [
+    {
+      "severity": "layout",
+      "area": "Exam figure captions",
+      "detail": "Many .exam-figure-cap elements have scrollHeight 4-7px larger than clientHeight because overflow-x:auto computes overflow-y:auto. Visible denominators/descenders can touch or clip at the caption edge. At 390px this affected 5/89 bio topic pages and at least one caption on 172/251 mech+em+math topic pages; it is also present on simulation modules such as #/m/projectile and #/m/electric-field.",
+      "observedRoutes": [
+        "#/t/bio/bio-prep-hs/P2.9",
+        "#/t/bio/bio-u3/3.1",
+        "#/t/bio/bio-u5/5.4",
+        "#/t/math/calc-u6/6.1",
+        "#/t/mech/mech-prep-hs/P1.3",
+        "#/t/mech/mech-u5/5.3",
+        "#/t/mech/mech-u7/7.1",
+        "#/t/em/em-u11/11.6",
+        "#/t/em/em-u13/13.1",
+        "#/m/projectile",
+        "#/m/electric-field"
+      ],
+      "ownerFiles": ["modules/physics/exam-figures.js", "data/math/figures.js", "data/math/figlib.js", "shared .exam-figure-cap CSS"],
+      "note": "Not edited: interactive-figure sessions own the JS/HTML caption content, and this sweep was told not to change the shared .exam-figures/.exam-figure-cap layout rules. A safe owner-side fix is a caption descent strut/phantom or overflow-y: visible on the shared caption rule after their work settles."
+    },
+    {
+      "severity": "low",
+      "area": "Duplicate SVG marker ids",
+      "detail": "Multiple figures/diagrams on one page reuse marker ids: figlib uses id=\"ah\"; js/diagrams.js uses fbd/pul/pw/fw. IDs are document-global. Current markers are visually identical, so no visible break was observed, but ids should be unique per instance.",
+      "observedRoutes": ["topic pages with 2+ figures", "#/mech/practice/mech-u5 (fbd x11)"],
+      "ownerFiles": ["data/math/figlib.js", "js/diagrams.js"],
+      "note": "js/diagrams.js was touched only for the theme-color fix; marker ids were left alone to avoid a refactor while another session is changing figures."
+    },
+    {
+      "severity": "low",
+      "area": "Small attribution link",
+      "detail": "On #/m/electric-field the Wikimedia attribution link in the figure media is 256x15px, below the 44px touch target guideline.",
+      "ownerFiles": ["modules/physics/exam-figures.js"],
+      "note": "Left for the exam-figure owner."
+    }
+  ],
+  "concurrentWorkNote": "During the sweep, an intermediate uncommitted math-figure revision briefly threw 'Cannot access D2R before initialization' and blanked math topic/map pages. The owner fixed it before the final scans; final math checks are clean. No files outside this session's scope were modified.",
+  "finalStatus": {
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "httpErrors": 0,
+    "katexErrors": 0,
+    "horizontalOverflow": 0,
+    "fixedBugs": 5,
+    "remainingFindings": "Only the outside-scope caption clipping and low-risk duplicate-id/touch-target notes above."
+  },
+  "screenshots": "screenshots/bug-sweep-ui/"
+}

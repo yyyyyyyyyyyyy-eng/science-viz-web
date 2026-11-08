@@ -4085,6 +4085,20 @@ html[data-route="map"] .site-footer { display: none; }
   outline: none;
 }
 .palette-kbd { font-family: var(--mono); font-size: 0.62rem; color: var(--text-dim); border: 1px solid var(--border); padding: 0.1rem 0.32rem; }
+.palette-close {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 0.65rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.palette-close:hover { color: var(--text); border-color: var(--border-strong); }
 .palette-list { flex: 1; overflow-y: auto; padding: 0.35rem 0; }
 .palette-group {
   display: flex;
@@ -4319,6 +4333,9 @@ html.palette-open, html.nav-mobile-open { overflow: hidden; }
   .map-panel { width: 100%; border-left: 0; }
   .palette { padding: 0; align-items: stretch; }
   .palette-panel { width: 100%; max-height: 100dvh; border-left: 0; border-right: 0; border-bottom: 0; }
+  .palette-list { max-height: none; }
+  .palette-kbd { display: none; }
+  .palette-close { display: inline-flex; }
   .palette-hint { padding-bottom: max(0.55rem, env(safe-area-inset-bottom)); }
 }
 

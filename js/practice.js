@@ -117,6 +117,7 @@ function renderStimulus(stim) {
 }
 
 function drawGraph(canvas, g) {
+  canvas._graph = g;
   const dpr = Math.min(devicePixelRatio || 1, 2);
   const w = canvas.clientWidth || 320;
   const h = canvas.clientHeight || 160;
@@ -345,6 +346,12 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     ctx.cards.forEach((item) => {
       jumpGrid.querySelector(`[data-index="${item.number}"]`)?.classList.toggle('is-hidden', item.card.hidden);
     });
+    // Graphs in cards that were hidden while the theme changed need a redraw now.
+    requestAnimationFrame(() => {
+      main.querySelectorAll('.stim-graph').forEach((canvas) => {
+        if (canvas._graph && canvas.clientWidth > 0) drawGraph(canvas, canvas._graph);
+      });
+    });
   }
   filterDefs.forEach(([key, label]) => {
     const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: label });
@@ -382,9 +389,29 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   window.addEventListener('scroll', onScroll, { passive: true });
   paintActive();
 
+  // Stimulus graphs are drawn once from live theme tokens; redraw them when the
+  // theme changes or the viewport resizes so the bitmap stays in sync.
+  let graphRaf = 0;
+  const redrawGraphs = () => {
+    if (graphRaf) return;
+    graphRaf = requestAnimationFrame(() => {
+      graphRaf = 0;
+      main.querySelectorAll('.stim-graph').forEach((canvas) => {
+        if (canvas._graph && canvas.isConnected && canvas.clientWidth > 0) {
+          drawGraph(canvas, canvas._graph);
+        }
+      });
+    });
+  };
+  window.addEventListener('themechange', redrawGraphs);
+  window.addEventListener('resize', redrawGraphs);
+
   return () => {
     window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('themechange', redrawGraphs);
+    window.removeEventListener('resize', redrawGraphs);
     if (raf) cancelAnimationFrame(raf);
+    if (graphRaf) cancelAnimationFrame(graphRaf);
   };
 }
 

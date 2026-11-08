@@ -70,6 +70,13 @@ function ensureDom() {
       'aria-controls': 'palette-results',
     }),
     el('kbd', { className: 'palette-kbd', 'aria-hidden': 'true', text: 'Esc' }),
+    el('button', {
+      type: 'button',
+      className: 'palette-close hit-target',
+      text: '关闭',
+      'aria-label': '关闭搜索',
+      onClick: () => closePalette(),
+    }),
   ]);
   listEl = el('div', { className: 'palette-list', id: 'palette-results', role: 'listbox', 'aria-label': '结果' });
   const hint = el('div', { className: 'palette-hint' }, [
