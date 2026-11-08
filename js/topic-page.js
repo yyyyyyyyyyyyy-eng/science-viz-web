@@ -212,6 +212,14 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   appendMathText(defSec, topic.definition);
   if (topic.intuition) appendMathText(defSec, topic.intuition, 'muted');
 
+  if (topic.vocabulary?.length) {
+    const ul = el('ul', { className: 'topic-list' });
+    topic.vocabulary.forEach((item) => {
+      appendMathLi(ul, `${item.termZh} · ${item.termEn}：${item.defZh} · ${item.defEn}`);
+    });
+    block('vocabulary', '重要词汇 · Key Vocabulary').appendChild(ul);
+  }
+
   if (topic.essentialKnowledge?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.essentialKnowledge.forEach((c) => appendMathLi(ul, c));

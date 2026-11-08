@@ -140,6 +140,44 @@ export const TOPICS = {
       "不看书能否复述「参数运动导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "参数方程",
+        "termEn": "parametric equations",
+        "defZh": "用参数 \\(t\\) 分别表示 \\(x(t)\\) 与 \\(y(t)\\) 的方程，用来描述平面曲线。",
+        "defEn": "Equations that express \\(x(t)\\) and \\(y(t)\\) separately in terms of a parameter \\(t\\) to describe a plane curve."
+      },
+      {
+        "termZh": "参数 \\(t\\)",
+        "termEn": "parameter",
+        "defZh": "控制曲线上点位置的自变量。",
+        "defEn": "The independent variable that locates a point on the curve."
+      },
+      {
+        "termZh": "参数导数",
+        "termEn": "parametric derivative",
+        "defZh": "\\(\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}\\)，其中 \\(dx/dt\\ne 0\\)。",
+        "defEn": "The slope \\(\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}\\), defined when \\(dx/dt\\ne 0\\)."
+      },
+      {
+        "termZh": "水平切线",
+        "termEn": "horizontal tangent",
+        "defZh": "\\(dy/dt=0\\) 且 \\(dx/dt\\ne 0\\) 的点处切线水平。",
+        "defEn": "The tangent is horizontal at a point where \\(dy/dt=0\\) and \\(dx/dt\\ne 0\\)."
+      },
+      {
+        "termZh": "竖直切线",
+        "termEn": "vertical tangent",
+        "defZh": "\\(dx/dt=0\\) 且 \\(dy/dt\\ne 0\\) 的点处切线竖直。",
+        "defEn": "The tangent is vertical at a point where \\(dx/dt=0\\) and \\(dy/dt\\ne 0\\)."
+      },
+      {
+        "termZh": "消参",
+        "termEn": "eliminating the parameter",
+        "defZh": "消去 \\(t\\)，得到 \\(x\\) 与 \\(y\\) 的直接关系。",
+        "defEn": "Removing \\(t\\) to obtain a direct relationship between \\(x\\) and \\(y\\)."
+      }
     ]
   },
   "9.2": {
@@ -415,6 +453,44 @@ export const TOPICS = {
       "不看书能否复述「参数弧长」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "弧长",
+        "termEn": "arc length",
+        "defZh": "参数曲线从 \\(t_1\\) 到 \\(t_2\\) 的实际长度。",
+        "defEn": "The actual length of a parametric curve from \\(t_1\\) to \\(t_2\\)."
+      },
+      {
+        "termZh": "弧长积分",
+        "termEn": "arc length integral",
+        "defZh": "\\(L=\\int_{t_1}^{t_2}\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\,\\mathrm{d}t\\)。",
+        "defEn": "The length is \\(L=\\int_{t_1}^{t_2}\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\,\\mathrm{d}t\\)."
+      },
+      {
+        "termZh": "速度分量",
+        "termEn": "velocity components",
+        "defZh": "\\(x'(t)\\) 与 \\(y'(t)\\) 分别是水平与竖直方向的速度分量。",
+        "defEn": "\\(x'(t)\\) and \\(y'(t)\\) are the horizontal and vertical velocity components."
+      },
+      {
+        "termZh": "速率",
+        "termEn": "speed",
+        "defZh": "\\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)，是速度向量的长度。",
+        "defEn": "The quantity \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\), the length of the velocity vector."
+      },
+      {
+        "termZh": "光滑曲线",
+        "termEn": "smooth curve",
+        "defZh": "导数连续且不同时为零的参数曲线。",
+        "defEn": "A parametric curve whose derivatives are continuous and never simultaneously zero."
+      },
+      {
+        "termZh": "积分上限",
+        "termEn": "upper limit of integration",
+        "defZh": "弧长累加终止的参数值 \\(t_2\\)。",
+        "defEn": "The parameter value \\(t_2\\) at which arc length accumulation stops."
+      }
     ]
   },
   "9.4": {
@@ -968,6 +1044,44 @@ export const TOPICS = {
       "不看书能否复述「极坐标导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极坐标",
+        "termEn": "polar coordinates",
+        "defZh": "用点到极点的距离 \\(r\\) 与相对极轴的角 \\(\\theta\\) 表示点的位置。",
+        "defEn": "Coordinates \\((r,\\theta)\\) giving a point's distance from the pole and its angle from the polar axis."
+      },
+      {
+        "termZh": "极点",
+        "termEn": "pole",
+        "defZh": "极坐标中的原点。",
+        "defEn": "The origin in polar coordinates."
+      },
+      {
+        "termZh": "极轴",
+        "termEn": "polar axis",
+        "defZh": "极坐标中 \\(\\theta=0\\) 的参考射线。",
+        "defEn": "The reference ray where \\(\\theta=0\\)."
+      },
+      {
+        "termZh": "极坐标导数",
+        "termEn": "polar derivative",
+        "defZh": "\\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\)。",
+        "defEn": "The slope \\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\)."
+      },
+      {
+        "termZh": "对称性",
+        "termEn": "symmetry",
+        "defZh": "利用曲线关于极轴、竖直轴或极点的对称性简化作图。",
+        "defEn": "Using symmetry about the polar axis, the vertical axis, or the pole to simplify graphing."
+      },
+      {
+        "termZh": "玫瑰线",
+        "termEn": "rose curve",
+        "defZh": "由 \\(r=a\\cos(n\\theta)\\) 或 \\(r=a\\sin(n\\theta)\\) 形成的花瓣状曲线。",
+        "defEn": "A petal-shaped curve given by \\(r=a\\cos(n\\theta)\\) or \\(r=a\\sin(n\\theta)\\)."
+      }
     ]
   },
   "9.8": {
@@ -1111,6 +1225,44 @@ export const TOPICS = {
       "不看书能否复述「极坐标面积」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极坐标面积",
+        "termEn": "polar area",
+        "defZh": "由极坐标曲线 \\(r(\\theta)\\) 围成的区域面积。",
+        "defEn": "The area of a region enclosed by a polar curve \\(r(\\theta)\\)."
+      },
+      {
+        "termZh": "扇形面积元",
+        "termEn": "sector area element",
+        "defZh": "\\(\\dfrac{1}{2}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta\\)，是一小段角度扫过的面积。",
+        "defEn": "The element \\(\\dfrac{1}{2}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta\\) swept out by a small angle."
+      },
+      {
+        "termZh": "极坐标面积积分",
+        "termEn": "polar area integral",
+        "defZh": "\\(A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta\\)。",
+        "defEn": "The area is \\(A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^{2}\\,\\mathrm{d}\\theta\\)."
+      },
+      {
+        "termZh": "积分限",
+        "termEn": "limits of integration",
+        "defZh": "扫过区域的起始角 \\(\\alpha\\) 与终止角 \\(\\beta\\)。",
+        "defEn": "The starting angle \\(\\alpha\\) and ending angle \\(\\beta\\) that sweep out the region."
+      },
+      {
+        "termZh": "交点",
+        "termEn": "intersection point",
+        "defZh": "两条极坐标曲线共享的点，用于确定区域边界和积分限。",
+        "defEn": "A point shared by two polar curves, used to determine boundaries and limits."
+      },
+      {
+        "termZh": "对称区域",
+        "termEn": "symmetric region",
+        "defZh": "关于极轴或极点对称、可只算一部分再倍增的区域。",
+        "defEn": "A region symmetric about the polar axis or pole, so one part can be computed and doubled."
+      }
     ]
   },
   "9.9": {

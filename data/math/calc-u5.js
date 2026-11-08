@@ -135,6 +135,44 @@ export const TOPICS = {
       "不看书能否复述「中值定理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "中值定理",
+        "termEn": "Mean Value Theorem",
+        "defZh": "若 \\(f\\) 在 \\([a,b]\\) 连续、在 \\((a,b)\\) 可导，则存在 \\(c\\) 使 \\(f'(c)=\\dfrac{f(b)-f(a)}{b-a}\\)。",
+        "defEn": "If \\(f\\) is continuous on \\([a,b]\\) and differentiable on \\((a,b)\\), then some \\(c\\) satisfies \\(f'(c)=\\dfrac{f(b)-f(a)}{b-a}\\)."
+      },
+      {
+        "termZh": "割线斜率",
+        "termEn": "secant slope",
+        "defZh": "连接端点的直线斜率 \\(\\dfrac{f(b)-f(a)}{b-a}\\)。",
+        "defEn": "The slope of the line through the endpoints, \\(\\dfrac{f(b)-f(a)}{b-a}\\)."
+      },
+      {
+        "termZh": "瞬时变化率",
+        "termEn": "instantaneous rate of change",
+        "defZh": "\\(f'(c)\\)，即某点处切线的斜率。",
+        "defEn": "\\(f'(c)\\), the slope of the tangent line at a point."
+      },
+      {
+        "termZh": "开区间可导",
+        "termEn": "differentiability on an open interval",
+        "defZh": "定理要求 \\((a,b)\\) 内每一点都可导。",
+        "defEn": "The theorem requires differentiability at every point of \\((a,b)\\)."
+      },
+      {
+        "termZh": "闭区间连续",
+        "termEn": "continuity on a closed interval",
+        "defZh": "定理要求 \\(f\\) 在 \\([a,b]\\) 上连续。",
+        "defEn": "The theorem requires \\(f\\) to be continuous on \\([a,b]\\)."
+      },
+      {
+        "termZh": "罗尔定理",
+        "termEn": "Rolle's Theorem",
+        "defZh": "中值定理在 \\(f(a)=f(b)\\) 时的特例，此时存在 \\(c\\) 使 \\(f'(c)=0\\)。",
+        "defEn": "The special case of the Mean Value Theorem when \\(f(a)=f(b)\\), giving some \\(c\\) with \\(f'(c)=0\\)."
+      }
     ]
   },
   "5.2": {
@@ -551,6 +589,44 @@ export const TOPICS = {
       "不看书能否复述「一阶导数检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "一阶导数检验",
+        "termEn": "first derivative test",
+        "defZh": "用 \\(f'\\) 在临界点两侧的符号变化判断局部极值。",
+        "defEn": "Using the sign change of \\(f'\\) around a critical point to classify a local extremum."
+      },
+      {
+        "termZh": "临界点",
+        "termEn": "critical point",
+        "defZh": "\\(f'(x)=0\\) 或 \\(f'(x)\\) 不存在的内点。",
+        "defEn": "An interior point where \\(f'(x)=0\\) or \\(f'(x)\\) does not exist."
+      },
+      {
+        "termZh": "局部极大值",
+        "termEn": "local maximum",
+        "defZh": "\\(f'\\) 由正变负处的函数值。",
+        "defEn": "A function value where \\(f'\\) changes from positive to negative."
+      },
+      {
+        "termZh": "局部极小值",
+        "termEn": "local minimum",
+        "defZh": "\\(f'\\) 由负变正处的函数值。",
+        "defEn": "A function value where \\(f'\\) changes from negative to positive."
+      },
+      {
+        "termZh": "符号表",
+        "termEn": "sign chart",
+        "defZh": "标出 \\(f'\\) 在各区间正负的表格。",
+        "defEn": "A table showing the sign of \\(f'\\) on each interval."
+      },
+      {
+        "termZh": "驻点",
+        "termEn": "stationary point",
+        "defZh": "\\(f'(x)=0\\) 的点。",
+        "defEn": "A point where \\(f'(x)=0\\)."
+      }
     ]
   },
   "5.5": {
@@ -830,6 +906,44 @@ export const TOPICS = {
       "不看书能否复述「凹性与拐点」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "凹性",
+        "termEn": "concavity",
+        "defZh": "\\(f''>0\\) 时凹向上，\\(f''<0\\) 时凹向下。",
+        "defEn": "The graph is concave up when \\(f''>0\\) and concave down when \\(f''<0\\)."
+      },
+      {
+        "termZh": "凹向上",
+        "termEn": "concave up",
+        "defZh": "切线位于曲线下方、\\(f'\\) 递增的区间。",
+        "defEn": "An interval where the tangent lies below the curve and \\(f'\\) is increasing."
+      },
+      {
+        "termZh": "凹向下",
+        "termEn": "concave down",
+        "defZh": "切线位于曲线上方、\\(f'\\) 递减的区间。",
+        "defEn": "An interval where the tangent lies above the curve and \\(f'\\) is decreasing."
+      },
+      {
+        "termZh": "拐点",
+        "termEn": "inflection point",
+        "defZh": "曲线凹性发生改变的点。",
+        "defEn": "A point where the concavity of the curve changes."
+      },
+      {
+        "termZh": "二阶导数 \\(f''\\)",
+        "termEn": "second derivative",
+        "defZh": "变化率的变化率，用来判断凹性。",
+        "defEn": "The rate of change of the rate of change, used to determine concavity."
+      },
+      {
+        "termZh": "候选拐点",
+        "termEn": "candidate inflection point",
+        "defZh": "\\(f''=0\\) 或 \\(f''\\) 不存在的点，还需检验凹性是否真的改变。",
+        "defEn": "A point where \\(f''=0\\) or fails to exist; it still must be checked for an actual change of concavity."
+      }
     ]
   },
   "5.7": {
@@ -1521,6 +1635,44 @@ export const TOPICS = {
       "不看书能否复述「优化求解」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "优化",
+        "termEn": "optimization",
+        "defZh": "在约束条件下求目标量的最大值或最小值。",
+        "defEn": "Finding the maximum or minimum of a target quantity under constraints."
+      },
+      {
+        "termZh": "目标函数",
+        "termEn": "objective function",
+        "defZh": "需要最大化或最小化的函数。",
+        "defEn": "The function to be maximized or minimized."
+      },
+      {
+        "termZh": "约束条件",
+        "termEn": "constraint",
+        "defZh": "变量之间必须满足的关系。",
+        "defEn": "A relationship that the variables must satisfy."
+      },
+      {
+        "termZh": "候选点",
+        "termEn": "candidate point",
+        "defZh": "临界点与区间端点，需逐一比较函数值。",
+        "defEn": "Critical points and interval endpoints, compared by their function values."
+      },
+      {
+        "termZh": "绝对极值",
+        "termEn": "absolute extremum",
+        "defZh": "整个可行域上的最大值或最小值。",
+        "defEn": "The largest or smallest value over the entire feasible region."
+      },
+      {
+        "termZh": "可行域",
+        "termEn": "feasible region",
+        "defZh": "满足全部约束的变量取值集合。",
+        "defEn": "The set of variable values satisfying all constraints."
+      }
     ]
   },
   "5.12": {

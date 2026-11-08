@@ -277,6 +277,44 @@ export const TOPICS = {
       "不看书能否复述「斜率场」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "微分方程",
+        "termEn": "differential equation",
+        "defZh": "含有未知函数及其导数的方程。",
+        "defEn": "An equation containing an unknown function and its derivatives."
+      },
+      {
+        "termZh": "解",
+        "termEn": "solution",
+        "defZh": "代入微分方程后使等式成立的函数。",
+        "defEn": "A function that makes the differential equation true when substituted."
+      },
+      {
+        "termZh": "验证解",
+        "termEn": "verifying a solution",
+        "defZh": "把候选函数及其导数代回方程，检查两边是否相等。",
+        "defEn": "Substituting a candidate function and its derivatives back into the equation to check equality."
+      },
+      {
+        "termZh": "斜率场",
+        "termEn": "slope field",
+        "defZh": "在网格每点画出短线段，表示该点的 \\(\\dfrac{dy}{dx}\\)。",
+        "defEn": "A grid of short segments whose slopes equal \\(\\dfrac{dy}{dx}\\) at each point."
+      },
+      {
+        "termZh": "通解",
+        "termEn": "general solution",
+        "defZh": "含有任意常数的解族。",
+        "defEn": "A family of solutions containing an arbitrary constant."
+      },
+      {
+        "termZh": "特解",
+        "termEn": "particular solution",
+        "defZh": "由初始条件确定常数后的单个解。",
+        "defEn": "A single solution obtained after an initial condition fixes the constant."
+      }
     ]
   },
   "7.3": {
@@ -835,6 +873,44 @@ export const TOPICS = {
       "不看书能否复述「可分离变量」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "可分离微分方程",
+        "termEn": "separable differential equation",
+        "defZh": "能写成 \\(\\dfrac{dy}{dx}=f(x)g(y)\\) 的方程。",
+        "defEn": "An equation that can be written as \\(\\dfrac{dy}{dx}=f(x)g(y)\\)."
+      },
+      {
+        "termZh": "分离变量",
+        "termEn": "separation of variables",
+        "defZh": "把含 \\(y\\) 的项移到 \\(\\mathrm{d}y\\) 一侧、含 \\(x\\) 的项移到 \\(\\mathrm{d}x\\) 一侧。",
+        "defEn": "Moving all \\(y\\)-terms to the \\(\\mathrm{d}y\\) side and all \\(x\\)-terms to the \\(\\mathrm{d}x\\) side."
+      },
+      {
+        "termZh": "两边积分",
+        "termEn": "integrating both sides",
+        "defZh": "分离后两边分别对 \\(y\\) 和 \\(x\\) 积分。",
+        "defEn": "After separating, integrate one side with respect to \\(y\\) and the other with respect to \\(x\\)."
+      },
+      {
+        "termZh": "积分常数 \\(C\\)",
+        "termEn": "constant of integration",
+        "defZh": "不定积分产生的任意常数。",
+        "defEn": "The arbitrary constant produced by indefinite integration."
+      },
+      {
+        "termZh": "通解",
+        "termEn": "general solution",
+        "defZh": "含有 \\(C\\) 的解族。",
+        "defEn": "The family of solutions containing \\(C\\)."
+      },
+      {
+        "termZh": "初始条件",
+        "termEn": "initial condition",
+        "defZh": "用来确定 \\(C\\) 的已知点 \\((x_0,y_0)\\)。",
+        "defEn": "A known point \\((x_0,y_0)\\) used to determine \\(C\\)."
+      }
     ]
   },
   "7.7": {
@@ -1239,6 +1315,44 @@ export const TOPICS = {
       "不看书能否复述「Logistic 模型」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "Logistic 微分方程",
+        "termEn": "logistic differential equation",
+        "defZh": "\\(\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{M}\\right)\\)。",
+        "defEn": "The equation \\(\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{M}\\right)\\)."
+      },
+      {
+        "termZh": "环境容纳量 \\(M\\)",
+        "termEn": "carrying capacity",
+        "defZh": "种群在长期内能够维持的最大规模。",
+        "defEn": "The maximum population size that the environment can sustain in the long run."
+      },
+      {
+        "termZh": "内禀增长率 \\(k\\)",
+        "termEn": "intrinsic growth rate",
+        "defZh": "种群在低密度时的相对增长速度。",
+        "defEn": "The relative growth rate of the population at low density."
+      },
+      {
+        "termZh": "S 形曲线",
+        "termEn": "logistic curve",
+        "defZh": "先加速增长、后减速并趋于 \\(M\\) 的解曲线。",
+        "defEn": "A solution curve that first accelerates, then slows and approaches \\(M\\)."
+      },
+      {
+        "termZh": "平衡解",
+        "termEn": "equilibrium solution",
+        "defZh": "\\(P=0\\) 与 \\(P=M\\) 使 \\(\\dfrac{dP}{dt}=0\\)。",
+        "defEn": "The constant solutions \\(P=0\\) and \\(P=M\\), where \\(\\dfrac{dP}{dt}=0\\)."
+      },
+      {
+        "termZh": "拐点",
+        "termEn": "inflection point",
+        "defZh": "Logistic 曲线在 \\(P=\\dfrac{M}{2}\\) 处由凹向上转为凹向下。",
+        "defEn": "The logistic curve changes from concave up to concave down at \\(P=\\dfrac{M}{2}\\)."
+      }
     ]
   }
 };

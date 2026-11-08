@@ -561,6 +561,44 @@ export const TOPICS = {
       "不看书能否复述「微积分基本定理」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "微积分基本定理",
+        "termEn": "Fundamental Theorem of Calculus",
+        "defZh": "若 \\(F'=f\\)，则 \\(\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a)\\)，把定积分与导数联系起来。",
+        "defEn": "If \\(F'=f\\), then \\(\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a)\\), linking definite integrals to derivatives."
+      },
+      {
+        "termZh": "累积函数",
+        "termEn": "accumulation function",
+        "defZh": "\\(G(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\)，表示从 \\(a\\) 到 \\(x\\) 的累积量。",
+        "defEn": "The function \\(G(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\), the accumulation from \\(a\\) to \\(x\\)."
+      },
+      {
+        "termZh": "变上限积分",
+        "termEn": "integral with variable upper limit",
+        "defZh": "上限为变量 \\(x\\) 的定积分，其导数为 \\(f(x)\\)。",
+        "defEn": "A definite integral whose upper limit is the variable \\(x\\); its derivative is \\(f(x)\\)."
+      },
+      {
+        "termZh": "被积函数",
+        "termEn": "integrand",
+        "defZh": "积分号内被积分的函数 \\(f(t)\\)。",
+        "defEn": "The function \\(f(t)\\) being integrated."
+      },
+      {
+        "termZh": "积分下限",
+        "termEn": "lower limit of integration",
+        "defZh": "累积开始的固定点 \\(a\\)。",
+        "defEn": "The fixed starting point \\(a\\) of the accumulation."
+      },
+      {
+        "termZh": "累积速率",
+        "termEn": "rate of accumulation",
+        "defZh": "累积函数的变化率等于被积函数，即 \\(\\dfrac{d}{dx}\\int_a^x f(t)\\,\\mathrm{d}t=f(x)\\)。",
+        "defEn": "The accumulation function changes at rate \\(\\dfrac{d}{dx}\\int_a^x f(t)\\,\\mathrm{d}t=f(x)\\)."
+      }
     ]
   },
   "6.5": {
@@ -1247,6 +1285,44 @@ export const TOPICS = {
       "不看书能否复述「换元积分法」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "换元积分法",
+        "termEn": "integration by substitution",
+        "defZh": "令 \\(u=g(x)\\)，把积分化为 \\(\\int f(u)\\,\\mathrm{d}u\\) 的形式。",
+        "defEn": "Setting \\(u=g(x)\\) to rewrite an integral in the form \\(\\int f(u)\\,\\mathrm{d}u\\)."
+      },
+      {
+        "termZh": "换元 \\(u=g(x)\\)",
+        "termEn": "substitution",
+        "defZh": "用新变量 \\(u\\) 简化被积函数。",
+        "defEn": "A new variable \\(u\\) that simplifies the integrand."
+      },
+      {
+        "termZh": "微分替换",
+        "termEn": "differential substitution",
+        "defZh": "由 \\(\\mathrm{d}u=g'(x)\\,\\mathrm{d}x\\) 把 \\(\\mathrm{d}x\\) 一并替换。",
+        "defEn": "Replacing \\(\\mathrm{d}x\\) using \\(\\mathrm{d}u=g'(x)\\,\\mathrm{d}x\\)."
+      },
+      {
+        "termZh": "积分限变换",
+        "termEn": "changing limits",
+        "defZh": "定积分换元时，把 \\(x\\) 的上下限换成对应的 \\(u\\) 值。",
+        "defEn": "For a definite integral, converting the \\(x\\)-limits into the corresponding \\(u\\)-values."
+      },
+      {
+        "termZh": "回代",
+        "termEn": "back-substitution",
+        "defZh": "不定积分用 \\(u\\) 算出后，再把结果换回 \\(x\\)。",
+        "defEn": "Rewriting an indefinite integral in terms of \\(x\\) after integrating in \\(u\\)."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "换元积分法是链式求导的逆过程。",
+        "defEn": "Substitution is the reverse process of the chain rule."
+      }
     ]
   },
   "6.10": {
@@ -1384,6 +1460,44 @@ export const TOPICS = {
       "不看书能否复述「分部积分」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "分部积分",
+        "termEn": "integration by parts",
+        "defZh": "由 \\(\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\) 把积分转化为另一个积分。",
+        "defEn": "The identity \\(\\int u\\,\\mathrm{d}v=uv-\\int v\\,\\mathrm{d}u\\) converts one integral into another."
+      },
+      {
+        "termZh": "选择 \\(u\\)",
+        "termEn": "choosing u",
+        "defZh": "优先选择求导后变简单的因子作为 \\(u\\)。",
+        "defEn": "Choosing as \\(u\\) the factor that becomes simpler when differentiated."
+      },
+      {
+        "termZh": "选择 \\(\\mathrm{d}v\\)",
+        "termEn": "choosing dv",
+        "defZh": "选择容易求原函数的因子作为 \\(\\mathrm{d}v\\)。",
+        "defEn": "Choosing as \\(\\mathrm{d}v\\) the factor that is easy to antidifferentiate."
+      },
+      {
+        "termZh": "定积分分部",
+        "termEn": "definite integration by parts",
+        "defZh": "\\(\\int_a^b u\\,\\mathrm{d}v=[uv]_a^b-\\int_a^b v\\,\\mathrm{d}u\\)。",
+        "defEn": "The definite form \\(\\int_a^b u\\,\\mathrm{d}v=[uv]_a^b-\\int_a^b v\\,\\mathrm{d}u\\)."
+      },
+      {
+        "termZh": "循环积分",
+        "termEn": "cyclic integral",
+        "defZh": "分部后出现与原积分相同的积分，移项后求解。",
+        "defEn": "An integral that reappears after parts and is then solved algebraically."
+      },
+      {
+        "termZh": "递推公式",
+        "termEn": "reduction formula",
+        "defZh": "重复分部得到的积分递推关系。",
+        "defEn": "A recurrence relation obtained by repeated integration by parts."
+      }
     ]
   },
   "6.11": {
@@ -1521,6 +1635,44 @@ export const TOPICS = {
       "不看书能否复述「部分分式」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "部分分式分解",
+        "termEn": "partial fraction decomposition",
+        "defZh": "把有理函数拆成若干个简单分式之和。",
+        "defEn": "Writing a rational function as a sum of simpler fractions."
+      },
+      {
+        "termZh": "有理函数",
+        "termEn": "rational function",
+        "defZh": "两个多项式之比。",
+        "defEn": "A ratio of two polynomials."
+      },
+      {
+        "termZh": "真分式",
+        "termEn": "proper fraction",
+        "defZh": "分子次数低于分母次数的有理函数。",
+        "defEn": "A rational function whose numerator has lower degree than its denominator."
+      },
+      {
+        "termZh": "线性因子",
+        "termEn": "linear factor",
+        "defZh": "分母中形如 \\((x-a)\\) 的一次因子。",
+        "defEn": "A first-degree factor such as \\((x-a)\\) in the denominator."
+      },
+      {
+        "termZh": "待定系数",
+        "termEn": "undetermined coefficients",
+        "defZh": "设出分解式后比较系数，求出未知常数。",
+        "defEn": "Unknown constants found by comparing coefficients after writing the decomposition."
+      },
+      {
+        "termZh": "重因子",
+        "termEn": "repeated factor",
+        "defZh": "分母中 \\((x-a)^k\\) 出现多次时，需要为每一级幂分别设项。",
+        "defEn": "When \\((x-a)^k\\) appears, a separate term is needed for each power up to \\(k\\)."
+      }
     ]
   },
   "6.12": {
@@ -1658,6 +1810,50 @@ export const TOPICS = {
       "不看书能否复述「反常积分」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "反常积分",
+        "termEn": "improper integral",
+        "defZh": "积分区间无限或被积函数在区间内无界的积分。",
+        "defEn": "An integral with an infinite interval or an unbounded integrand."
+      },
+      {
+        "termZh": "无穷限积分",
+        "termEn": "infinite-interval integral",
+        "defZh": "\\(\\int_a^{\\infty}f(x)\\,\\mathrm{d}x=\\lim_{b\\to\\infty}\\int_a^b f(x)\\,\\mathrm{d}x\\)。",
+        "defEn": "An integral defined by \\(\\int_a^{\\infty}f(x)\\,\\mathrm{d}x=\\lim_{b\\to\\infty}\\int_a^b f(x)\\,\\mathrm{d}x\\)."
+      },
+      {
+        "termZh": "无界被积函数",
+        "termEn": "unbounded integrand",
+        "defZh": "被积函数在积分区间内某点趋于无穷。",
+        "defEn": "An integrand that tends to infinity at some point in the interval."
+      },
+      {
+        "termZh": "极限定义",
+        "termEn": "limit definition",
+        "defZh": "用极限把反常积分写成普通定积分的极限。",
+        "defEn": "Writing an improper integral as the limit of ordinary definite integrals."
+      },
+      {
+        "termZh": "收敛",
+        "termEn": "convergence",
+        "defZh": "极限存在且有限时，反常积分收敛。",
+        "defEn": "An improper integral converges when its defining limit exists and is finite."
+      },
+      {
+        "termZh": "发散",
+        "termEn": "divergence",
+        "defZh": "极限不存在或为无穷时，反常积分发散。",
+        "defEn": "An improper integral diverges when its defining limit fails to exist or is infinite."
+      },
+      {
+        "termZh": "p 积分",
+        "termEn": "p-integral",
+        "defZh": "\\(\\int_1^{\\infty}\\dfrac{1}{x^{p}}\\,\\mathrm{d}x\\) 在 \\(p>1\\) 时收敛，在 \\(p\\le 1\\) 时发散。",
+        "defEn": "\\(\\int_1^{\\infty}\\dfrac{1}{x^{p}}\\,\\mathrm{d}x\\) converges for \\(p>1\\) and diverges for \\(p\\le 1\\)."
+      }
     ]
   },
   "6.13": {

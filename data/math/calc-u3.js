@@ -140,6 +140,44 @@ export const TOPICS = {
       "不看书能否复述「链式法则」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "\\((f\\circ g)'(x)=f'(g(x))\\,g'(x)\\)。",
+        "defEn": "The rule \\((f\\circ g)'(x)=f'(g(x))\\,g'(x)\\)."
+      },
+      {
+        "termZh": "复合函数",
+        "termEn": "composite function",
+        "defZh": "\\(f(g(x))\\)，一个函数套在另一个函数内部。",
+        "defEn": "A function \\(f(g(x))\\) in which one function is nested inside another."
+      },
+      {
+        "termZh": "内函数",
+        "termEn": "inner function",
+        "defZh": "先作用的函数 \\(g(x)\\)。",
+        "defEn": "The function \\(g(x)\\) that is applied first."
+      },
+      {
+        "termZh": "外函数",
+        "termEn": "outer function",
+        "defZh": "后作用的函数 \\(f(u)\\)。",
+        "defEn": "The function \\(f(u)\\) that is applied second."
+      },
+      {
+        "termZh": "外层导数",
+        "termEn": "outer derivative",
+        "defZh": "\\(f'(g(x))\\)，在外函数处求导并保留内函数。",
+        "defEn": "\\(f'(g(x))\\), the derivative of the outer function evaluated at the inner function."
+      },
+      {
+        "termZh": "内层导数",
+        "termEn": "inner derivative",
+        "defZh": "\\(g'(x)\\)，乘在外层导数之后。",
+        "defEn": "\\(g'(x)\\), multiplied after the outer derivative."
+      }
     ]
   },
   "3.2": {
@@ -277,6 +315,44 @@ export const TOPICS = {
       "不看书能否复述「隐函数求导」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "隐函数",
+        "termEn": "implicit function",
+        "defZh": "由方程 \\(F(x,y)=0\\) 确定、未解出 \\(y\\) 的函数。",
+        "defEn": "A function defined by an equation \\(F(x,y)=0\\) without solving for \\(y\\)."
+      },
+      {
+        "termZh": "隐函数求导",
+        "termEn": "implicit differentiation",
+        "defZh": "方程两边同时对 \\(x\\) 求导，并把 \\(y\\) 看作 \\(x\\) 的函数。",
+        "defEn": "Differentiating both sides with respect to \\(x\\) while treating \\(y\\) as a function of \\(x\\)."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "对含 \\(y\\) 的项求导时产生因子 \\(\\dfrac{dy}{dx}\\)。",
+        "defEn": "Differentiating a term containing \\(y\\) produces the factor \\(\\dfrac{dy}{dx}\\)."
+      },
+      {
+        "termZh": "乘积法则",
+        "termEn": "product rule",
+        "defZh": "对 \\(xy\\) 等混合项求导时使用。",
+        "defEn": "Used when differentiating mixed terms such as \\(xy\\)."
+      },
+      {
+        "termZh": "切线斜率",
+        "termEn": "tangent slope",
+        "defZh": "解出 \\(\\dfrac{dy}{dx}\\) 后代入点的坐标得到。",
+        "defEn": "Found by solving for \\(\\dfrac{dy}{dx}\\) and substituting the point's coordinates."
+      },
+      {
+        "termZh": "竖直切线",
+        "termEn": "vertical tangent",
+        "defZh": "分母为零而分子非零时出现。",
+        "defEn": "Occurs where the denominator is zero while the numerator is nonzero."
+      }
     ]
   },
   "3.3": {

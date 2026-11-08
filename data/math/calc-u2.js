@@ -282,6 +282,44 @@ export const TOPICS = {
       "不看书能否复述「导数定义」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "导数",
+        "termEn": "derivative",
+        "defZh": "\\(f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}\\)，表示函数在 \\(a\\) 处的瞬时变化率。",
+        "defEn": "The instantaneous rate of change at \\(a\\), defined by \\(f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}\\)."
+      },
+      {
+        "termZh": "差商",
+        "termEn": "difference quotient",
+        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)，是割线的斜率。",
+        "defEn": "The quotient \\(\\dfrac{f(a+h)-f(a)}{h}\\), the slope of a secant line."
+      },
+      {
+        "termZh": "导数记号",
+        "termEn": "derivative notation",
+        "defZh": "\\(f'(a)\\)、\\(\\dfrac{dy}{dx}\\bigg|_{x=a}\\) 等记号都表示同一点处的导数。",
+        "defEn": "Notations such as \\(f'(a)\\) and \\(\\dfrac{dy}{dx}\\bigg|_{x=a}\\) all denote the derivative at the same point."
+      },
+      {
+        "termZh": "切线斜率",
+        "termEn": "tangent slope",
+        "defZh": "导数在几何上就是曲线在 \\(a\\) 处切线的斜率。",
+        "defEn": "Geometrically, the derivative is the slope of the tangent line to the curve at \\(a\\)."
+      },
+      {
+        "termZh": "可导",
+        "termEn": "differentiability",
+        "defZh": "差商的极限存在且有限时，函数在该点可导。",
+        "defEn": "A function is differentiable at a point when the limit of the difference quotient exists and is finite."
+      },
+      {
+        "termZh": "增量 \\(h\\)",
+        "termEn": "increment",
+        "defZh": "自变量从 \\(a\\) 到 \\(a+h\\) 的改变量。",
+        "defEn": "The change in the input from \\(a\\) to \\(a+h\\)."
+      }
     ]
   },
   "2.3": {
@@ -698,6 +736,44 @@ export const TOPICS = {
       "不看书能否复述「幂函数导数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "幂法则",
+        "termEn": "power rule",
+        "defZh": "\\(\\dfrac{d}{dx}x^{n}=nx^{n-1}\\)，其中 \\(n\\) 为任意实数。",
+        "defEn": "The rule \\(\\dfrac{d}{dx}x^{n}=nx^{n-1}\\) for any real exponent \\(n\\)."
+      },
+      {
+        "termZh": "指数 \\(n\\)",
+        "termEn": "exponent",
+        "defZh": "幂函数 \\(x^{n}\\) 中的指数。",
+        "defEn": "The exponent in the power function \\(x^{n}\\)."
+      },
+      {
+        "termZh": "系数",
+        "termEn": "coefficient",
+        "defZh": "求导后乘在幂前面的因子 \\(n\\)。",
+        "defEn": "The factor \\(n\\) that multiplies the power after differentiation."
+      },
+      {
+        "termZh": "常数倍法则",
+        "termEn": "constant multiple rule",
+        "defZh": "\\(\\dfrac{d}{dx}[cf(x)]=cf'(x)\\)。",
+        "defEn": "The rule \\(\\dfrac{d}{dx}[cf(x)]=cf'(x)\\)."
+      },
+      {
+        "termZh": "和差法则",
+        "termEn": "sum and difference rule",
+        "defZh": "多个函数相加减时，逐项求导后再相加减。",
+        "defEn": "Differentiate each term separately, then add or subtract the results."
+      },
+      {
+        "termZh": "常数函数",
+        "termEn": "constant function",
+        "defZh": "函数值不随自变量改变，其导数为 0。",
+        "defEn": "A function whose value does not change; its derivative is 0."
+      }
     ]
   },
   "2.6": {
@@ -1109,6 +1185,44 @@ export const TOPICS = {
       "不看书能否复述「积商法则」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "乘积法则",
+        "termEn": "product rule",
+        "defZh": "\\((uv)'=u'v+uv'\\)。",
+        "defEn": "The rule \\((uv)'=u'v+uv'\\)."
+      },
+      {
+        "termZh": "商法则",
+        "termEn": "quotient rule",
+        "defZh": "\\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\)，要求 \\(v\\ne 0\\)。",
+        "defEn": "The rule \\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\), valid when \\(v\\ne 0\\)."
+      },
+      {
+        "termZh": "因子",
+        "termEn": "factor",
+        "defZh": "乘积中相乘的每个函数。",
+        "defEn": "Each function being multiplied in a product."
+      },
+      {
+        "termZh": "分子 \\(u\\)",
+        "termEn": "numerator",
+        "defZh": "商法则中位于分数线上方的函数。",
+        "defEn": "The function above the fraction bar in the quotient rule."
+      },
+      {
+        "termZh": "分母 \\(v\\)",
+        "termEn": "denominator",
+        "defZh": "商法则中位于分数线下方的函数，必须非零。",
+        "defEn": "The function below the fraction bar in the quotient rule; it must be nonzero."
+      },
+      {
+        "termZh": "展开两项",
+        "termEn": "two-term expansion",
+        "defZh": "把乘积的导数写成两项之和，避免只对一个因子求导。",
+        "defEn": "Writing the derivative of a product as the sum of two terms so that neither factor is ignored."
+      }
     ]
   },
   "2.9": {

@@ -277,6 +277,44 @@ export const TOPICS = {
       "不看书能否复述「几何级数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "几何级数",
+        "termEn": "geometric series",
+        "defZh": "相邻两项之比恒为常数 \\(r\\) 的级数，形如 \\(\\sum_{n=0}^{\\infty}ar^{n}\\)。",
+        "defEn": "A series whose consecutive terms have a constant ratio \\(r\\), written \\(\\sum_{n=0}^{\\infty}ar^{n}\\)."
+      },
+      {
+        "termZh": "公比 \\(r\\)",
+        "termEn": "common ratio",
+        "defZh": "后一项与前一项的比值，决定几何级数是否收敛。",
+        "defEn": "The ratio of each term to the preceding term; it determines whether the series converges."
+      },
+      {
+        "termZh": "首项 \\(a\\)",
+        "termEn": "initial term",
+        "defZh": "求和从 \\(n=0\\) 开始时对应的第一项。",
+        "defEn": "The first term of the series when the sum starts at \\(n=0\\)."
+      },
+      {
+        "termZh": "收敛条件 \\(|r|<1\\)",
+        "termEn": "convergence condition",
+        "defZh": "公比的绝对值小于 1 时，几何级数收敛。",
+        "defEn": "A geometric series converges exactly when the absolute value of its ratio is less than 1."
+      },
+      {
+        "termZh": "几何级数和",
+        "termEn": "sum of a geometric series",
+        "defZh": "收敛时 \\(\\sum_{n=0}^{\\infty}ar^{n}=\\dfrac{a}{1-r}\\)。",
+        "defEn": "When the series converges, its sum is \\(\\sum_{n=0}^{\\infty}ar^{n}=\\dfrac{a}{1-r}\\)."
+      },
+      {
+        "termZh": "发散",
+        "termEn": "divergence",
+        "defZh": "当 \\(|r|\\ge 1\\) 时，部分和没有有限极限。",
+        "defEn": "When \\(|r|\\ge 1\\), the partial sums have no finite limit."
+      }
     ]
   },
   "10.3": {
@@ -693,6 +731,44 @@ export const TOPICS = {
       "不看书能否复述「调和级数与 p 级数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "调和级数",
+        "termEn": "harmonic series",
+        "defZh": "\\(\\sum_{n=1}^{\\infty}\\dfrac{1}{n}\\)，即 \\(p=1\\) 的 p 级数，它是发散的。",
+        "defEn": "The series \\(\\sum_{n=1}^{\\infty}\\dfrac{1}{n}\\), the p-series with \\(p=1\\), which diverges."
+      },
+      {
+        "termZh": "p 级数",
+        "termEn": "p-series",
+        "defZh": "形如 \\(\\sum_{n=1}^{\\infty}\\dfrac{1}{n^{p}}\\) 的级数，其中 \\(p>0\\)。",
+        "defEn": "A series of the form \\(\\sum_{n=1}^{\\infty}\\dfrac{1}{n^{p}}\\) with \\(p>0\\)."
+      },
+      {
+        "termZh": "p 检验",
+        "termEn": "p-test",
+        "defZh": "p 级数在 \\(p>1\\) 时收敛，在 \\(p\\le 1\\) 时发散。",
+        "defEn": "A p-series converges when \\(p>1\\) and diverges when \\(p\\le 1\\)."
+      },
+      {
+        "termZh": "部分和 \\(S_n\\)",
+        "termEn": "partial sum",
+        "defZh": "级数前 \\(n\\) 项相加所得的和。",
+        "defEn": "The sum of the first \\(n\\) terms of a series."
+      },
+      {
+        "termZh": "收敛",
+        "termEn": "convergence",
+        "defZh": "部分和序列 \\(S_n\\) 趋于一个有限极限。",
+        "defEn": "The sequence of partial sums \\(S_n\\) approaches a finite limit."
+      },
+      {
+        "termZh": "积分检验",
+        "termEn": "integral test",
+        "defZh": "用 \\(\\int_{1}^{\\infty}f(x)\\,\\mathrm{d}x\\) 的敛散性判断正项级数 \\(\\sum f(n)\\) 的敛散性。",
+        "defEn": "Uses the convergence of \\(\\int_{1}^{\\infty}f(x)\\,\\mathrm{d}x\\) to decide the convergence of the positive-term series \\(\\sum f(n)\\)."
+      }
     ]
   },
   "10.6": {
@@ -967,6 +1043,44 @@ export const TOPICS = {
       "不看书能否复述「交替级数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "交替级数",
+        "termEn": "alternating series",
+        "defZh": "各项符号正负交替的级数，例如 \\(\\sum_{n=1}^{\\infty}(-1)^{n-1}b_n\\)。",
+        "defEn": "A series whose terms alternate in sign, such as \\(\\sum_{n=1}^{\\infty}(-1)^{n-1}b_n\\)."
+      },
+      {
+        "termZh": "交替级数检验",
+        "termEn": "alternating series test",
+        "defZh": "若 \\(b_n\\) 单调递减且趋于 0，则交替级数 \\(\\sum(-1)^{n-1}b_n\\) 收敛。",
+        "defEn": "If \\(b_n\\) decreases monotonically to 0, then \\(\\sum(-1)^{n-1}b_n\\) converges."
+      },
+      {
+        "termZh": "单调递减",
+        "termEn": "monotone decreasing",
+        "defZh": "\\(b_{n+1}\\le b_n\\) 对所有足够大的 \\(n\\) 成立。",
+        "defEn": "\\(b_{n+1}\\le b_n\\) for all sufficiently large \\(n\\)."
+      },
+      {
+        "termZh": "通项趋于零",
+        "termEn": "terms tend to zero",
+        "defZh": "\\(\\lim_{n\\to\\infty}b_n=0\\) 是交替级数检验的必要条件之一。",
+        "defEn": "The condition \\(\\lim_{n\\to\\infty}b_n=0\\) is one of the requirements of the test."
+      },
+      {
+        "termZh": "绝对收敛",
+        "termEn": "absolute convergence",
+        "defZh": "取绝对值后的级数 \\(\\sum b_n\\) 也收敛。",
+        "defEn": "The series of absolute values \\(\\sum b_n\\) also converges."
+      },
+      {
+        "termZh": "条件收敛",
+        "termEn": "conditional convergence",
+        "defZh": "原级数收敛，但取绝对值后的级数发散。",
+        "defEn": "The original series converges, but the series of absolute values diverges."
+      }
     ]
   },
   "10.8": {
@@ -1109,6 +1223,44 @@ export const TOPICS = {
       "不看书能否复述「比值检验」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "比值检验",
+        "termEn": "ratio test",
+        "defZh": "用 \\(L=\\lim_{n\\to\\infty}\\left|\\dfrac{a_{n+1}}{a_n}\\right|\\) 判断级数的敛散性。",
+        "defEn": "Uses \\(L=\\lim_{n\\to\\infty}\\left|\\dfrac{a_{n+1}}{a_n}\\right|\\) to decide convergence."
+      },
+      {
+        "termZh": "比值极限 \\(L\\)",
+        "termEn": "ratio limit",
+        "defZh": "相邻两项绝对值之比的极限。",
+        "defEn": "The limit of the absolute ratio of consecutive terms."
+      },
+      {
+        "termZh": "收敛情形 \\(L<1\\)",
+        "termEn": "convergence case",
+        "defZh": "比值极限小于 1 时，级数绝对收敛。",
+        "defEn": "When the ratio limit is less than 1, the series converges absolutely."
+      },
+      {
+        "termZh": "发散情形 \\(L>1\\)",
+        "termEn": "divergence case",
+        "defZh": "比值极限大于 1 时，级数发散。",
+        "defEn": "When the ratio limit is greater than 1, the series diverges."
+      },
+      {
+        "termZh": "无结论情形 \\(L=1\\)",
+        "termEn": "inconclusive case",
+        "defZh": "比值极限等于 1 时，比值检验不能判定敛散性。",
+        "defEn": "When the ratio limit equals 1, the ratio test gives no conclusion."
+      },
+      {
+        "termZh": "阶乘 \\(n!\\)",
+        "termEn": "factorial",
+        "defZh": "\\(n!=n(n-1)\\cdots 1\\)，在含阶乘的比值检验中常被约去。",
+        "defEn": "\\(n!=n(n-1)\\cdots 1\\), often canceled in ratio-test computations."
+      }
     ]
   },
   "10.9": {
@@ -1525,6 +1677,44 @@ export const TOPICS = {
       "不看书能否复述「泰勒多项式导论」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "泰勒多项式",
+        "termEn": "Taylor polynomial",
+        "defZh": "在 \\(x=a\\) 处截取泰勒级数前 \\(n+1\\) 项得到的近似多项式。",
+        "defEn": "The polynomial obtained by truncating the Taylor series at \\(x=a\\) after \\(n+1\\) terms."
+      },
+      {
+        "termZh": "展开中心 \\(a\\)",
+        "termEn": "center of expansion",
+        "defZh": "泰勒多项式所围绕的点，各阶导数都在此处取值。",
+        "defEn": "The point about which the polynomial is expanded; all derivatives are evaluated there."
+      },
+      {
+        "termZh": "导数系数",
+        "termEn": "derivative coefficient",
+        "defZh": "\\(\\dfrac{f^{(k)}(a)}{k!}\\)，由函数在中心的 \\(k\\) 阶导数确定。",
+        "defEn": "The coefficient \\(\\dfrac{f^{(k)}(a)}{k!}\\), determined by the \\(k\\)-th derivative at the center."
+      },
+      {
+        "termZh": "阶乘 \\(k!\\)",
+        "termEn": "factorial",
+        "defZh": "泰勒系数分母中的 \\(k!\\)，用于抵消高阶导数的重复计数。",
+        "defEn": "The \\(k!\\) in the denominator of each Taylor coefficient."
+      },
+      {
+        "termZh": "逼近误差",
+        "termEn": "approximation error",
+        "defZh": "函数值与泰勒多项式值之差 \\(f(x)-P_n(x)\\)。",
+        "defEn": "The difference \\(f(x)-P_n(x)\\) between the function and its Taylor polynomial."
+      },
+      {
+        "termZh": "麦克劳林多项式",
+        "termEn": "Maclaurin polynomial",
+        "defZh": "中心为 \\(a=0\\) 的泰勒多项式。",
+        "defEn": "A Taylor polynomial centered at \\(a=0\\)."
+      }
     ]
   },
   "10.12": {
@@ -1662,6 +1852,44 @@ export const TOPICS = {
       "不看书能否复述「拉格朗日误差界」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "拉格朗日误差界",
+        "termEn": "Lagrange error bound",
+        "defZh": "用 \\(|R_n(x)|\\le\\dfrac{M}{(n+1)!}|x-a|^{n+1}\\) 控制泰勒多项式的误差。",
+        "defEn": "Bounds the Taylor polynomial error by \\(|R_n(x)|\\le\\dfrac{M}{(n+1)!}|x-a|^{n+1}\\)."
+      },
+      {
+        "termZh": "余项 \\(R_n(x)\\)",
+        "termEn": "remainder",
+        "defZh": "函数与 \\(n\\) 次泰勒多项式之差。",
+        "defEn": "The difference between the function and its degree-\\(n\\) Taylor polynomial."
+      },
+      {
+        "termZh": "导数上界 \\(M\\)",
+        "termEn": "derivative bound",
+        "defZh": "在包含 \\(a\\) 与 \\(x\\) 的区间上，\\(|f^{(n+1)}|\\) 的一个上界。",
+        "defEn": "An upper bound for \\(|f^{(n+1)}|\\) on an interval containing \\(a\\) and \\(x\\)."
+      },
+      {
+        "termZh": "误差界",
+        "termEn": "error bound",
+        "defZh": "允许的近似误差上限，用来确定所需的多项式次数。",
+        "defEn": "The maximum acceptable approximation error, used to choose the needed polynomial degree."
+      },
+      {
+        "termZh": "区间约束",
+        "termEn": "interval constraint",
+        "defZh": "\\(M\\) 必须在同时包含展开中心与目标点的区间上估计。",
+        "defEn": "The bound \\(M\\) must be estimated on an interval containing both the center and the target point."
+      },
+      {
+        "termZh": "交替级数误差界",
+        "termEn": "alternating series error bound",
+        "defZh": "交替级数用首个被舍去的项来界定截断误差。",
+        "defEn": "For an alternating series, the first omitted term bounds the truncation error."
+      }
     ]
   },
   "10.13": {
@@ -1799,6 +2027,44 @@ export const TOPICS = {
       "不看书能否复述「半径与区间」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "幂级数",
+        "termEn": "power series",
+        "defZh": "形如 \\(\\sum_{n=0}^{\\infty}a_n(x-c)^{n}\\) 的级数。",
+        "defEn": "A series of the form \\(\\sum_{n=0}^{\\infty}a_n(x-c)^{n}\\)."
+      },
+      {
+        "termZh": "收敛半径 \\(R\\)",
+        "termEn": "radius of convergence",
+        "defZh": "使幂级数在 \\(|x-c|<R\\) 内绝对收敛的距离。",
+        "defEn": "The distance from the center within which the power series converges absolutely."
+      },
+      {
+        "termZh": "收敛区间",
+        "termEn": "interval of convergence",
+        "defZh": "使幂级数收敛的全部 \\(x\\) 值组成的区间。",
+        "defEn": "The interval of all \\(x\\) values for which the power series converges."
+      },
+      {
+        "termZh": "收敛中心 \\(c\\)",
+        "termEn": "center of convergence",
+        "defZh": "幂级数展开所围绕的点。",
+        "defEn": "The point about which the power series is centered."
+      },
+      {
+        "termZh": "端点检验",
+        "termEn": "endpoint check",
+        "defZh": "对收敛区间的两个端点分别使用其他检验判断敛散性。",
+        "defEn": "Testing each endpoint of the interval separately with another convergence test."
+      },
+      {
+        "termZh": "比值检验",
+        "termEn": "ratio test",
+        "defZh": "求收敛半径时最常用的检验。",
+        "defEn": "The test most often used to find the radius of convergence."
+      }
     ]
   },
   "10.14": {
@@ -1941,6 +2207,44 @@ export const TOPICS = {
       "不看书能否复述「函数表示为幂级数」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "泰勒级数",
+        "termEn": "Taylor series",
+        "defZh": "以 \\(x=a\\) 为中心、由各阶导数构成的幂级数 \\(\\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(a)}{n!}(x-a)^{n}\\)。",
+        "defEn": "The power series \\(\\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(a)}{n!}(x-a)^{n}\\) built from the derivatives at \\(x=a\\)."
+      },
+      {
+        "termZh": "麦克劳林级数",
+        "termEn": "Maclaurin series",
+        "defZh": "中心为 \\(a=0\\) 的泰勒级数。",
+        "defEn": "A Taylor series centered at \\(a=0\\)."
+      },
+      {
+        "termZh": "收敛半径",
+        "termEn": "radius of convergence",
+        "defZh": "泰勒级数有效表示函数的区间半径。",
+        "defEn": "The radius of the interval on which the Taylor series represents the function."
+      },
+      {
+        "termZh": "已知展开式",
+        "termEn": "known series expansion",
+        "defZh": "如 \\(e^{x}\\)、\\(\\sin x\\)、\\(\\dfrac{1}{1-x}\\) 的标准麦克劳林级数，可用于代换和求导。",
+        "defEn": "Standard Maclaurin series such as those for \\(e^{x}\\), \\(\\sin x\\), and \\(\\dfrac{1}{1-x}\\), used by substitution and differentiation."
+      },
+      {
+        "termZh": "逐项求导",
+        "termEn": "term-by-term differentiation",
+        "defZh": "在收敛区间内部对幂级数逐项求导得到新级数。",
+        "defEn": "Differentiating a power series term by term inside its interval of convergence."
+      },
+      {
+        "termZh": "逐项积分",
+        "termEn": "term-by-term integration",
+        "defZh": "在收敛区间内部对幂级数逐项积分得到新级数。",
+        "defEn": "Integrating a power series term by term inside its interval of convergence."
+      }
     ]
   },
   "10.15": {

@@ -1377,6 +1377,44 @@ export const TOPICS = {
       "不看书能否复述「变换」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "变换",
+        "termEn": "transformation",
+        "defZh": "把平面上的点按规则映到新位置的运算。",
+        "defEn": "An operation that maps each point of the plane to a new position by a rule."
+      },
+      {
+        "termZh": "平移",
+        "termEn": "translation",
+        "defZh": "每个点沿同一方向移动相同距离，写作 \\((x,y)\\mapsto(x+a,y+b)\\)。",
+        "defEn": "Every point moves the same distance in the same direction, written \\((x,y)\\mapsto(x+a,y+b)\\)."
+      },
+      {
+        "termZh": "旋转",
+        "termEn": "rotation",
+        "defZh": "绕一个定点转动给定角度。",
+        "defEn": "A turn about a fixed point through a given angle."
+      },
+      {
+        "termZh": "反射",
+        "termEn": "reflection",
+        "defZh": "关于一条直线翻折，对应点到该直线距离相等。",
+        "defEn": "A flip across a line, with corresponding points equally distant from that line."
+      },
+      {
+        "termZh": "位似",
+        "termEn": "dilation",
+        "defZh": "以某点为中心按比例放大或缩小。",
+        "defEn": "An enlargement or reduction about a center point by a scale factor."
+      },
+      {
+        "termZh": "刚体变换",
+        "termEn": "rigid motion",
+        "defZh": "保持距离和角度不变的平移、旋转或反射。",
+        "defEn": "A translation, rotation, or reflection that preserves distances and angles."
+      }
     ]
   },
   "P2.11": {

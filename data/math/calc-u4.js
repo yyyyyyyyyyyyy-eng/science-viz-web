@@ -556,6 +556,44 @@ export const TOPICS = {
       "不看书能否复述「相关变化率」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "相关变化率",
+        "termEn": "related rates",
+        "defZh": "两个或多个随时间变化的量，其变化率通过一个方程相联系。",
+        "defEn": "Two or more quantities changing with time whose rates are linked by an equation."
+      },
+      {
+        "termZh": "对时间求导",
+        "termEn": "differentiating with respect to time",
+        "defZh": "方程两边对 \\(t\\) 求导，产生 \\(\\dfrac{d}{dt}\\) 项。",
+        "defEn": "Differentiating both sides with respect to \\(t\\), producing \\(\\dfrac{d}{dt}\\) terms."
+      },
+      {
+        "termZh": "变化率",
+        "termEn": "rate of change",
+        "defZh": "某量随时间的变化速度，如 \\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\)。",
+        "defEn": "The speed at which a quantity changes with time, such as \\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\)."
+      },
+      {
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "把 \\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) 与 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\) 联系起来的工具。",
+        "defEn": "The tool that links \\(\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) to \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}t}\\)."
+      },
+      {
+        "termZh": "几何约束",
+        "termEn": "geometric constraint",
+        "defZh": "体积、面积或距离公式给出的变量关系。",
+        "defEn": "A relationship among variables supplied by a volume, area, or distance formula."
+      },
+      {
+        "termZh": "瞬时值",
+        "termEn": "instantaneous value",
+        "defZh": "求导后代入某一时刻的已知量。",
+        "defEn": "A known quantity substituted at a particular instant after differentiating."
+      }
     ]
   },
   "4.5": {
@@ -960,6 +998,44 @@ export const TOPICS = {
       "不看书能否复述「洛必达法则」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "洛必达法则",
+        "termEn": "L'Hospital's rule",
+        "defZh": "对 \\(\\dfrac{0}{0}\\) 或 \\(\\dfrac{\\infty}{\\infty}\\) 型极限，用导数之比代替函数之比。",
+        "defEn": "For limits of the form \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\), replace the ratio of functions by the ratio of derivatives."
+      },
+      {
+        "termZh": "不定式",
+        "termEn": "indeterminate form",
+        "defZh": "\\(\\dfrac{0}{0}\\)、\\(\\dfrac{\\infty}{\\infty}\\) 等不能直接代入的极限形式。",
+        "defEn": "A limit form such as \\(\\dfrac{0}{0}\\) or \\(\\dfrac{\\infty}{\\infty}\\) that cannot be evaluated by direct substitution."
+      },
+      {
+        "termZh": "导数之比",
+        "termEn": "ratio of derivatives",
+        "defZh": "\\(\\lim\\dfrac{f'(x)}{g'(x)}\\)，是洛必达法则的核心。",
+        "defEn": "The limit \\(\\lim\\dfrac{f'(x)}{g'(x)}\\), the core of L'Hospital's rule."
+      },
+      {
+        "termZh": "适用条件",
+        "termEn": "hypotheses",
+        "defZh": "分子分母在去心邻域可导，且 \\(g'(x)\\ne 0\\)。",
+        "defEn": "Both functions are differentiable near the point and \\(g'(x)\\ne 0\\)."
+      },
+      {
+        "termZh": "转化",
+        "termEn": "rewriting",
+        "defZh": "把 \\(0\\cdot\\infty\\) 或 \\(\\infty-\\infty\\) 型改写成商式后再用洛必达。",
+        "defEn": "Rewriting \\(0\\cdot\\infty\\) or \\(\\infty-\\infty\\) forms as quotients before applying the rule."
+      },
+      {
+        "termZh": "指数型不定式",
+        "termEn": "exponential indeterminate form",
+        "defZh": "\\(1^{\\infty}\\)、\\(0^{0}\\)、\\(\\infty^{0}\\) 型，先取对数再求极限。",
+        "defEn": "Forms such as \\(1^{\\infty}\\), \\(0^{0}\\), and \\(\\infty^{0}\\); take a logarithm before evaluating the limit."
+      }
     ]
   }
 };

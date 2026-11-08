@@ -550,6 +550,44 @@ export const TOPICS = {
       "不看书能否复述「曲线间面积」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "曲线间面积",
+        "termEn": "area between curves",
+        "defZh": "在区间 \\([a,b]\\) 上，上函数减下函数的定积分。",
+        "defEn": "The definite integral of the upper function minus the lower function on \\([a,b]\\)."
+      },
+      {
+        "termZh": "上函数 \\(f(x)\\)",
+        "termEn": "upper function",
+        "defZh": "区间内位于另一条曲线上方的函数。",
+        "defEn": "The function that lies above the other curve on the interval."
+      },
+      {
+        "termZh": "下函数 \\(g(x)\\)",
+        "termEn": "lower function",
+        "defZh": "区间内位于另一条曲线下方的函数。",
+        "defEn": "The function that lies below the other curve on the interval."
+      },
+      {
+        "termZh": "交点",
+        "termEn": "intersection point",
+        "defZh": "两条曲线相交、用于确定积分限的点。",
+        "defEn": "A point where the curves meet, used to determine the limits of integration."
+      },
+      {
+        "termZh": "面积元",
+        "termEn": "area element",
+        "defZh": "\\([f(x)-g(x)]\\,\\mathrm{d}x\\) 表示宽度为 \\(\\mathrm{d}x\\) 的竖直条面积。",
+        "defEn": "The element \\([f(x)-g(x)]\\,\\mathrm{d}x\\), the area of a vertical strip of width \\(\\mathrm{d}x\\)."
+      },
+      {
+        "termZh": "绝对值面积",
+        "termEn": "absolute-value area",
+        "defZh": "曲线多次交叉时，用 \\(\\int_a^b|f(x)-g(x)|\\,\\mathrm{d}x\\) 保证面积非负。",
+        "defEn": "When the curves cross repeatedly, \\(\\int_a^b|f(x)-g(x)|\\,\\mathrm{d}x\\) keeps the total area nonnegative."
+      }
     ]
   },
   "8.5": {
@@ -1241,6 +1279,44 @@ export const TOPICS = {
       "不看书能否复述「圆盘法」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "圆盘法",
+        "termEn": "disc method",
+        "defZh": "把旋转体切成垂直于转轴的圆盘，再对圆盘体积积分。",
+        "defEn": "Slicing a solid of revolution into discs perpendicular to the axis, then integrating their volumes."
+      },
+      {
+        "termZh": "旋转体",
+        "termEn": "solid of revolution",
+        "defZh": "平面区域绕一条轴旋转形成的立体。",
+        "defEn": "A solid formed by revolving a plane region about an axis."
+      },
+      {
+        "termZh": "半径函数 \\(R(x)\\)",
+        "termEn": "radius function",
+        "defZh": "圆盘半径等于曲线到转轴的距离。",
+        "defEn": "The disc radius, equal to the distance from the curve to the axis of revolution."
+      },
+      {
+        "termZh": "圆盘体积元",
+        "termEn": "disc volume element",
+        "defZh": "\\(\\pi[R(x)]^{2}\\,\\mathrm{d}x\\) 是一个薄圆盘的体积。",
+        "defEn": "The volume \\(\\pi[R(x)]^{2}\\,\\mathrm{d}x\\) of one thin disc."
+      },
+      {
+        "termZh": "转轴",
+        "termEn": "axis of revolution",
+        "defZh": "区域绕其旋转的直线。",
+        "defEn": "The line about which the region is revolved."
+      },
+      {
+        "termZh": "垂直切片",
+        "termEn": "perpendicular slice",
+        "defZh": "切片方向垂直于转轴，厚度为 \\(\\mathrm{d}x\\) 或 \\(\\mathrm{d}y\\)。",
+        "defEn": "A slice perpendicular to the axis, with thickness \\(\\mathrm{d}x\\) or \\(\\mathrm{d}y\\)."
+      }
     ]
   },
   "8.10": {
@@ -1520,6 +1596,44 @@ export const TOPICS = {
       "不看书能否复述「垫圈法」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "垫圈法",
+        "termEn": "washer method",
+        "defZh": "区域与转轴之间有间隙时，用外圆减内圆的环形截面求体积。",
+        "defEn": "When a gap separates the region from the axis, use annular cross sections: outer circle minus inner circle."
+      },
+      {
+        "termZh": "外半径 \\(R_{\\mathrm{out}}\\)",
+        "termEn": "outer radius",
+        "defZh": "离转轴较远的边界到转轴的距离。",
+        "defEn": "The distance from the axis to the farther boundary."
+      },
+      {
+        "termZh": "内半径 \\(R_{\\mathrm{in}}\\)",
+        "termEn": "inner radius",
+        "defZh": "离转轴较近的边界到转轴的距离。",
+        "defEn": "The distance from the axis to the nearer boundary."
+      },
+      {
+        "termZh": "环形截面",
+        "termEn": "washer cross-section",
+        "defZh": "外圆面积减内圆面积得到的截面。",
+        "defEn": "A cross section equal to the outer circle area minus the inner circle area."
+      },
+      {
+        "termZh": "垫圈体积元",
+        "termEn": "washer volume element",
+        "defZh": "\\(\\pi\\left([R_{\\mathrm{out}}]^{2}-[R_{\\mathrm{in}}]^{2}\\right)\\mathrm{d}x\\) 是一个薄垫圈的体积。",
+        "defEn": "The volume \\(\\pi\\left([R_{\\mathrm{out}}]^{2}-[R_{\\mathrm{in}}]^{2}\\right)\\mathrm{d}x\\) of one thin washer."
+      },
+      {
+        "termZh": "转轴",
+        "termEn": "axis of revolution",
+        "defZh": "区域旋转所绕的直线。",
+        "defEn": "The line about which the region is revolved."
+      }
     ]
   },
   "8.12": {
@@ -1788,6 +1902,44 @@ export const TOPICS = {
       "不看书能否复述「弧长」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "弧长",
+        "termEn": "arc length",
+        "defZh": "平面曲线从 \\(a\\) 到 \\(b\\) 的实际长度。",
+        "defEn": "The actual length of a plane curve from \\(a\\) to \\(b\\)."
+      },
+      {
+        "termZh": "弧长公式",
+        "termEn": "arc length formula",
+        "defZh": "\\(L=\\int_a^b\\sqrt{1+[f'(x)]^{2}}\\,\\mathrm{d}x\\)。",
+        "defEn": "The length is \\(L=\\int_a^b\\sqrt{1+[f'(x)]^{2}}\\,\\mathrm{d}x\\)."
+      },
+      {
+        "termZh": "弧长元",
+        "termEn": "arc length element",
+        "defZh": "\\(\\mathrm{d}s=\\sqrt{1+[f'(x)]^{2}}\\,\\mathrm{d}x\\) 是一小段曲线的长度。",
+        "defEn": "The element \\(\\mathrm{d}s=\\sqrt{1+[f'(x)]^{2}}\\,\\mathrm{d}x\\), the length of a small piece of curve."
+      },
+      {
+        "termZh": "光滑曲线",
+        "termEn": "smooth curve",
+        "defZh": "导数连续的曲线。",
+        "defEn": "A curve whose derivative is continuous."
+      },
+      {
+        "termZh": "行驶距离",
+        "termEn": "distance traveled",
+        "defZh": "沿路径累积的弧长，等于速率对时间的积分。",
+        "defEn": "Arc length accumulated along a path, equal to the integral of speed over time."
+      },
+      {
+        "termZh": "勾股近似",
+        "termEn": "Pythagorean approximation",
+        "defZh": "用 \\(\\sqrt{(\\Delta x)^{2}+(\\Delta y)^{2}}\\) 近似一小段弧长。",
+        "defEn": "Approximating a small arc length by \\(\\sqrt{(\\Delta x)^{2}+(\\Delta y)^{2}}\\)."
+      }
     ]
   }
 };

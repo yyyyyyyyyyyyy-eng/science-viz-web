@@ -277,6 +277,44 @@ export const TOPICS = {
       "不看书能否复述「极限定义与记号」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "极限",
+        "termEn": "limit",
+        "defZh": "当 \\(x\\) 充分接近 \\(a\\) 时，\\(f(x)\\) 可以任意接近的数 \\(L\\)。",
+        "defEn": "The number \\(L\\) that \\(f(x)\\) can be made arbitrarily close to as \\(x\\) gets sufficiently close to \\(a\\)."
+      },
+      {
+        "termZh": "极限记号",
+        "termEn": "limit notation",
+        "defZh": "\\(\\lim_{x\\to a}f(x)=L\\)，读作当 \\(x\\) 趋于 \\(a\\) 时 \\(f(x)\\) 的极限为 \\(L\\)。",
+        "defEn": "The notation \\(\\lim_{x\\to a}f(x)=L\\), read as the limit of \\(f(x)\\) as \\(x\\) approaches \\(a\\) is \\(L\\)."
+      },
+      {
+        "termZh": "左极限",
+        "termEn": "left-hand limit",
+        "defZh": "\\(x\\) 从小于 \\(a\\) 的一侧趋近 \\(a\\) 时的极限，记作 \\(\\lim_{x\\to a^{-}}f(x)\\)。",
+        "defEn": "The limit as \\(x\\) approaches \\(a\\) from values less than \\(a\\), written \\(\\lim_{x\\to a^{-}}f(x)\\)."
+      },
+      {
+        "termZh": "右极限",
+        "termEn": "right-hand limit",
+        "defZh": "\\(x\\) 从大于 \\(a\\) 的一侧趋近 \\(a\\) 时的极限，记作 \\(\\lim_{x\\to a^{+}}f(x)\\)。",
+        "defEn": "The limit as \\(x\\) approaches \\(a\\) from values greater than \\(a\\), written \\(\\lim_{x\\to a^{+}}f(x)\\)."
+      },
+      {
+        "termZh": "双侧极限",
+        "termEn": "two-sided limit",
+        "defZh": "左极限与右极限都存在且相等时的共同值。",
+        "defEn": "The common value when both one-sided limits exist and are equal."
+      },
+      {
+        "termZh": "去心邻域",
+        "termEn": "punctured neighborhood",
+        "defZh": "满足 \\(0<|x-a|<\\delta\\) 的点集，不包含 \\(a\\) 本身。",
+        "defEn": "The set of points with \\(0<|x-a|<\\delta\\), which excludes \\(a\\) itself."
+      }
     ]
   },
   "1.3": {

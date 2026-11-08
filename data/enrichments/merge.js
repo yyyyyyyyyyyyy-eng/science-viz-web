@@ -6,7 +6,7 @@ export function applyEnrichment(topic, enrichment) {
   for (const k of [
     'learningObjectives', 'essentialKnowledge', 'formulas', 'derivationNotes', 'conditions',
     'keyPoints', 'misconceptions', 'examples', 'examTips', 'related', 'connections',
-    'development', 'checks', 'modules',
+    'development', 'checks', 'modules', 'vocabulary',
   ]) {
     if (enrichment[k] != null) out[k] = enrichment[k];
   }
