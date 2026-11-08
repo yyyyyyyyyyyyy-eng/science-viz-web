@@ -6,6 +6,8 @@
  * Math labels use stacked fractions (drawn in SVG; captions rendered with KaTeX \dfrac).
  */
 
+import { defaultParams, mountFigureInteraction } from './exam-figure-interact.js';
+
 const VW = 400, VH = 260;
 // Extra inline depth so stacked-fraction captions clear the figcaption's
 // overflow edge (KaTeX fractions otherwise touch the bottom of the box).
@@ -51,6 +53,12 @@ function rich(s) {
 }
 const plain = (s) => String(s).replace(/[_^]\{([^}]*)\}/g, '$1');
 const wEst = (s, fs = 13) => plain(s).length * fs * 0.55;
+const PART_CSS = `<style>.fig-part{cursor:pointer;transition:opacity .12s}.fig-has-hot .fig-part{opacity:.2}.fig-has-hot .fig-part.is-hot{opacity:1}.fig-hit{fill:transparent;stroke:none}.fig-part:focus{outline:none}.fig-part:focus .fig-hit{stroke:currentColor;stroke-width:1;stroke-dasharray:3 3}</style>`;
+/** Wrap a labelled schematic part; box enlarges the pointer target. */
+function part(key, inner, box) {
+  const hit = box ? `<rect class="fig-hit" x="${r1(box.x)}" y="${r1(box.y)}" width="${r1(box.w)}" height="${r1(box.h)}" pointer-events="all"/>` : '';
+  return `<g class="fig-part" data-part="${esc(key)}">${hit}${inner}</g>`;
+}
 function tx(x, y, s, o = {}) {
   const fs = o.fs || 13;
   return `<text x="${r1(x)}" y="${r1(y)}" font-size="${fs}" text-anchor="${o.anchor || 'start'}" style="fill:${COL[o.c || 'g']};font-family:KaTeX_Main,'Times New Roman',serif;${o.it === false ? '' : 'font-style:italic;'}">${rich(s)}</text>`;
@@ -202,6 +210,10 @@ function incline(th, bx = 50, by = 225, L = 300) {
 
 const F = {};
 const def = (id, title, tex, draw) => { F[id] = { id, title, tex, draw }; };
+/** Interactive figure: controls hold their baseline values, so draw() at load reproduces the static view. */
+const defI = (id, title, tex, controls, draw, opt = {}) => { F[id] = { id, title, tex, controls, draw, ...opt }; };
+/** Highlight-only schematic: parts = { key: description }. */
+const defH = (id, title, tex, parts, draw, opt = {}) => { F[id] = { id, title, tex, parts, draw, ...opt }; };
 const defImg = (id, title, tex, img, credit, creditUrl) => { F[id] = { id, title, tex, img, credit, creditUrl }; };
 
 /* ======================= Kinematics ======================= */
@@ -215,8 +227,11 @@ def('kin-graphs', 'x–t、v–t、a–t 图（匀加速，a > 0，v₀ < 0）',
   s += eq(40, 218, ['x = x₀ + v₀t + ', { n: '1', d: '2' }, 'at^{2}']) + eq(240, 218, ['Δx = ', { n: 'v₀ + v', d: '2' }, 't']);
   return s;
 });
-def('projectile', '抛体：速度分量与加速度', 'R=\\dfrac{v_0^2\\sin 2\\theta}{g}', () => {
-  const v0 = 60, th = 55, g = 30; const vx = v0 * Math.cos(rad(th)), vy = v0 * Math.sin(rad(th));
+defI('projectile', '抛体：速度分量与加速度', 'R=\\dfrac{v_0^2\\sin 2\\theta}{g}', [
+  { key: 'th', label: '发射角 θ', min: 20, max: 70, step: 1, value: 55, unit: '°' },
+  { key: 'v0', label: '初速度 v₀', min: 40, max: 80, step: 1, value: 60, unit: '' },
+], (p) => {
+  const v0 = p.v0 ?? 60, th = p.th ?? 55, g = 30; const vx = v0 * Math.cos(rad(th)), vy = v0 * Math.sin(rad(th));
   const T = 2 * vy / g, sc = 300 / (vx * T); const X = (t) => 40 + vx * t * sc, Y = (t) => 225 - (vy * t - 0.5 * g * t * t) * sc;
   let s = hatch(20, 225, 380) + poly(Array.from({ length: 61 }, (_, i) => [X(i / 60 * T), Y(i / 60 * T)]), { c: 'm', dash: '5 4' });
   for (const f of [0, 0.25, 0.5, 0.8]) {
@@ -225,15 +240,17 @@ def('projectile', '抛体：速度分量与加速度', 'R=\\dfrac{v_0^2\\sin 2\\
     if (Math.abs(vy - g * t) > 1) s += arr(x, y, x, y - (vy - g * t) * k, 'v', 1.6);
     s += arr(x, y, x, y + 26, 'a', 1.6);
   }
-  s += arc(40, 225, 26, 0, th) + tx(68, 204, 'θ') + tx(X(0) + vx * 0.6 + 18, 221, 'v_{x}', { c: 'v', fs: 12 });
-  s += tx(X(0.5 * T) - 10, Y(0.5 * T) - 10, '最高点 v_{y} = 0', { fs: 11, anchor: 'middle' }) + tx(X(0.8 * T) + 6, Y(0.8 * T) + 30, 'a = g（竖直向下）', { c: 'a', fs: 11 });
+  s += arc(40, 225, 26, 0, th) + tx(th === 55 ? 68 : 40 + 31 * Math.cos(rad(th)), th === 55 ? 204 : 225 - 28 * Math.sin(rad(th)), 'θ');
+  s += tx(X(0) + vx * 0.6 + 18, 221, 'v_{x}', { c: 'v', fs: 12 });
+  s += tx(X(0.5 * T) - 10, Y(0.5 * T) - 10, '最高点 v_{y} = 0', { fs: 11, anchor: 'middle' }) + tx(X(0.8 * T) + 6, Math.min(212, Y(0.8 * T) + 30), 'a = g（竖直向下）', { c: 'a', fs: 11 });
   s += eq(260, 40, ['R = ', { n: 'v₀^{2} sin 2θ', d: 'g' }]);
   return s;
 });
 
 /* ======================= Dynamics / inclines ======================= */
-function inclineFBD(kind) {
-  const th = 30, I = incline(th); const b = I.block(150, 38); const C = b.C; const mg = 72;
+function inclineFBD(kind, p = {}) {
+  const th = p.th ?? 30, muK = p.muk ?? 0.385, muS = p.mus ?? 0.6;
+  const I = incline(th); const b = I.block(150, 38); const C = b.C; const mg = 72;
   const N = mg * Math.cos(rad(th));
   let s = I.s + b.svg;
   s += arr(C[0], C[1], C[0], C[1] + mg, 'f') + tx(C[0] + 5, C[1] + mg + 4, 'mg', { c: 'f' });
@@ -247,7 +264,7 @@ function inclineFBD(kind) {
     s += arr(a0[0], a0[1], a1[0], a1[1], 'a') + tx(a1[0] - 4, a1[1] + 14, 'a', { c: 'a', anchor: 'end' });
     s += tx(30, 30, '光滑斜面：只有 N 与 mg', { it: false, fs: 12 }) + eq(30, 62, ['a = g sin θ（沿斜面向下）']) + eq(30, 88, ['N = mg cos θ']);
   } else if (kind === 'kinetic') {
-    const fk = add(C, I.u, 24); s += arr(C[0], C[1], fk[0], fk[1], 'f') + tx(fk[0] + 4, fk[1] - 6, 'f_{k}', { c: 'f' });
+    const fk = add(C, I.u, muK * N); s += arr(C[0], C[1], fk[0], fk[1], 'f') + tx(fk[0] + 4, fk[1] - 6, 'f_{k}', { c: 'f' });
     const v0 = add(C, I.n, 34), v1 = add(v0, I.u, -38); s += arr(v0[0], v0[1], v1[0], v1[1], 'v') + tx(v1[0] - 4, v1[1] - 4, 'v', { c: 'v', anchor: 'end' });
     s += tx(30, 30, '物块沿斜面下滑：f_{k} 沿斜面向上', { it: false, fs: 12 }) + eq(30, 62, ['f_{k} = μ_{k}N = μ_{k}mg cos θ']) + eq(30, 88, ['a = g(sin θ − μ_{k} cos θ)']);
   } else {
@@ -256,11 +273,35 @@ function inclineFBD(kind) {
   }
   return s;
 }
-def('incline-frictionless', '光滑斜面受力图', 'a=g\\sin\\theta', () => inclineFBD('none'));
-def('incline-kinetic', '粗糙斜面（下滑，动摩擦）', 'a=g(\\sin\\theta-\\mu_k\\cos\\theta)', () => inclineFBD('kinetic'));
-def('incline-static', '粗糙斜面（静止，静摩擦）', '\\tan\\theta\\le\\mu_s', () => inclineFBD('static'));
-def('incline-pulley', '斜面 + 顶端滑轮 + 悬挂物（光滑斜面）', 'a=\\dfrac{(m_2-m_1\\sin\\theta)g}{m_1+m_2}', () => {
-  const th = 30, I = incline(th, 40, 225, 280); const b = I.block(120, 34, 'm₁'); const C = b.C; const r = 12;
+defI('incline-frictionless', '光滑斜面受力图', 'a=g\\sin\\theta', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 45, step: 1, value: 30, unit: '°' },
+], (p) => inclineFBD('none', p), {
+  status: (p) => `a = g sin θ = ${r1(9.8 * Math.sin(rad(p.th ?? 30)))} m/s²（沿斜面向下）`,
+});
+defI('incline-kinetic', '粗糙斜面（下滑，动摩擦）', 'a=g(\\sin\\theta-\\mu_k\\cos\\theta)', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 45, step: 1, value: 30, unit: '°' },
+  { key: 'muk', label: '动摩擦 μk', min: 0.05, max: 0.65, step: 0.005, value: 0.385 },
+], (p) => inclineFBD('kinetic', p), {
+  status: (p) => {
+    const a = 9.8 * (Math.sin(rad(p.th ?? 30)) - (p.muk ?? 0.385) * Math.cos(rad(p.th ?? 30)));
+    return a >= 0 ? `a = g(sin θ − μk cos θ) = ${r1(a)} m/s²（沿斜面向下）` : 'μk 过大：释放后物块不会自行下滑';
+  },
+});
+defI('incline-static', '粗糙斜面（静止，静摩擦）', '\\tan\\theta\\le\\mu_s', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 45, step: 1, value: 30, unit: '°' },
+  { key: 'mus', label: '静摩擦 μs', min: 0.1, max: 0.9, step: 0.01, value: 0.6 },
+], (p) => inclineFBD('static', p), {
+  status: (p) => {
+    const t = Math.tan(rad(p.th ?? 30)), mu = p.mus ?? 0.6;
+    return t <= mu ? `tan θ = ${r1(t)} ≤ μs = ${r1(mu)}：保持静止` : `tan θ = ${r1(t)} > μs = ${r1(mu)}：会滑动（图示为临界前）`;
+  },
+});
+defI('incline-pulley', '斜面 + 顶端滑轮 + 悬挂物（光滑斜面）', 'a=\\dfrac{(m_2-m_1\\sin\\theta)g}{m_1+m_2}', [
+  { key: 'th', label: '倾角 θ', min: 20, max: 45, step: 1, value: 30, unit: '°' },
+  { key: 'ratio', label: 'm₂ / m₁', min: 0.5, max: 2.5, step: 0.1, value: 1.5 },
+], (p) => {
+  const th = p.th ?? 30, ratio = p.ratio ?? 1.5, m1 = 2, m2 = m1 * ratio;
+  const I = incline(th, 40, 225, 280); const b = I.block(120, 34, 'm₁'); const C = b.C; const r = 12;
   let s = I.s + b.svg;
   const Q = add(add(I.top, I.n, 17 - r), I.u, 4); // pulley centre: string (at block-centre height) tangent to its top-left
   const tp = add(Q, I.n, r);
@@ -270,22 +311,45 @@ def('incline-pulley', '斜面 + 顶端滑轮 + 悬挂物（光滑斜面）', 'a=
   const Nn = add(C, I.n, 36); s += arr(C[0], C[1], Nn[0], Nn[1], 'f') + tx(Nn[0] - 4, Nn[1], 'N', { c: 'f', anchor: 'end' });
   s += arr(C[0], C[1], C[0], C[1] + 42, 'f') + tx(C[0] + 4, C[1] + 50, 'm₁g', { c: 'f' });
   s += arr(hx, 160, hx, 132, 'f') + tx(hx + 5, 140, 'T', { c: 'f' }) + arr(hx, 190, hx, 226, 'f') + tx(hx + 5, 232, 'm₂g', { c: 'f' });
-  s += tx(20, 24, '若 m₂ > m₁ sin θ：m₂ 下降，m₁ 沿斜面上滑', { it: false, fs: 12 });
+  s += tx(20, 24, ratio > Math.sin(rad(th)) ? '若 m₂ > m₁ sin θ：m₂ 下降，m₁ 沿斜面上滑' : '若 m₂ < m₁ sin θ：m₁ 下滑，m₂ 上升', { it: false, fs: 12 });
   s += eq(20, 58, ['a = ', { n: '(m₂ − m₁ sin θ)g', d: 'm₁ + m₂' }]);
   return s;
+}, {
+  status: (p) => {
+    const th = p.th ?? 30, ratio = p.ratio ?? 1.5;
+    const a = 9.8 * (ratio - Math.sin(rad(th))) / (1 + ratio);
+    return Math.abs(a) < 0.05 ? 'm₂ = m₁ sin θ：系统可保持静止或匀速' : `a = ${r1(Math.abs(a))} m/s²，${a > 0 ? 'm₂ 下降' : 'm₁ 下滑'}`;
+  },
 });
-def('atwood', '阿特伍德机（m₂ > m₁，轻绳、无摩擦轻滑轮）', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2},\\; T=\\dfrac{2m_1m_2g}{m_1+m_2}', () => {
+defI('atwood', '阿特伍德机（m₂ > m₁，轻绳、无摩擦轻滑轮）', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2},\\; T=\\dfrac{2m_1m_2g}{m_1+m_2}', [
+  { key: 'm1', label: '质量 m₁', min: 0.5, max: 6, step: 0.1, value: 2, unit: ' kg' },
+  { key: 'm2', label: '质量 m₂', min: 0.5, max: 6, step: 0.1, value: 3, unit: ' kg' },
+], (p) => {
+  const m1 = p.m1 ?? 2, m2 = p.m2 ?? 3, rightDown = m2 >= m1;
   const cx = 130, cy = 52, r = 30; let s = hatch(70, 14, 190) + ln(cx, 14, cx, cy, { w: 2 }) + circ(cx, cy, r) + circ(cx, cy, 3, { fill: 'currentColor' });
-  s += ln(cx - r, cy, cx - r, 150) + ln(cx + r, cy, cx + r, 180);
-  s += mass(cx - r - 18, 150, 36, 30, 'm₁') + mass(cx + r - 20, 180, 40, 40, 'm₂');
-  s += arr(cx - r, 150, cx - r, 118, 'f') + tx(cx - r - 6, 128, 'T', { c: 'f', anchor: 'end' }) + arr(cx - r, 180, cx - r, 212, 'f') + tx(cx - r - 6, 212, 'm₁g', { c: 'f', anchor: 'end' });
-  s += arr(cx + r, 180, cx + r, 148, 'f') + tx(cx + r + 6, 158, 'T', { c: 'f' }) + arr(cx + r, 220, cx + r, 254, 'f') + tx(cx + r + 6, 252, 'm₂g', { c: 'f' });
-  s += arr(cx - r - 40, 182, cx - r - 40, 152, 'a') + tx(cx - r - 44, 172, 'a', { c: 'a', anchor: 'end' }) + arr(cx + r + 34, 186, cx + r + 34, 216, 'a') + tx(cx + r + 40, 206, 'a', { c: 'a' });
+  const ly = rightDown ? 150 : 180, ry = rightDown ? 180 : 150;
+  s += ln(cx - r, cy, cx - r, ly) + ln(cx + r, cy, cx + r, ry);
+  s += mass(cx - r - 18, ly, 36, 30, 'm₁') + mass(cx + r - 20, ry, 40, 40, 'm₂');
+  s += arr(cx - r, ly, cx - r, ly - 32, 'f') + tx(cx - r - 6, ly - 22, 'T', { c: 'f', anchor: 'end' }) + arr(cx - r, ly + 30, cx - r, ly + 62, 'f') + tx(cx - r - 6, ly + 62, 'm₁g', { c: 'f', anchor: 'end' });
+  s += arr(cx + r, ry, cx + r, ry - 32, 'f') + tx(cx + r + 6, ry - 22, 'T', { c: 'f' }) + arr(cx + r, ry + 40, cx + r, ry + 74, 'f') + tx(cx + r + 6, ry + 72, 'm₂g', { c: 'f' });
+  if (Math.abs(m2 - m1) > 0.001) {
+    s += arr(cx - r - 40, ly + (rightDown ? 32 : 30), cx - r - 40, ly + (rightDown ? 2 : 60), 'a') + tx(cx - r - 44, ly + (rightDown ? 22 : 50), 'a', { c: 'a', anchor: 'end' });
+    s += arr(cx + r + 34, ry + (rightDown ? 6 : 36), cx + r + 34, ry + (rightDown ? 36 : 6), 'a') + tx(cx + r + 40, ry + (rightDown ? 26 : 16), 'a', { c: 'a' });
+  }
   s += eq(225, 60, ['a = ', { n: '(m₂ − m₁)g', d: 'm₁ + m₂' }]) + eq(225, 120, ['T = ', { n: '2m₁m₂g', d: 'm₁ + m₂' }]);
   s += tx(225, 168, '两侧张力相等', { it: false, fs: 11 }) + tx(225, 184, '（轻绳、无质量无摩擦滑轮）', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => {
+    const m1 = p.m1 ?? 2, m2 = p.m2 ?? 3;
+    const a = 9.8 * Math.abs(m2 - m1) / (m1 + m2), T = 2 * m1 * m2 * 9.8 / (m1 + m2);
+    return m2 === m1 ? 'm₁ = m₂：a = 0，系统平衡' : `a = ${r1(a)} m/s²，T = ${r1(T)} N`;
+  },
 });
-def('table-pulley', '桌面滑块 + 桌边滑轮 + 悬挂物', 'a=\\dfrac{(m_2-\\mu_k m_1)g}{m_1+m_2}', () => {
+defI('table-pulley', '桌面滑块 + 桌边滑轮 + 悬挂物', 'a=\\dfrac{(m_2-\\mu_k m_1)g}{m_1+m_2}', [
+  { key: 'muk', label: '动摩擦 μk', min: 0, max: 0.8, step: 0.02, value: 0.4 },
+], (p) => {
+  const muk = p.muk ?? 0.4;
   const ty = 130; let s = rect(20, ty, 270, 10) + ln(40, ty + 10, 40, 250) + ln(270, ty + 10, 270, 250);
   const bx = 90, by = ty - 40; s += mass(bx, by, 60, 40, 'm₁');
   const r = 12, sy = ty - 20, Qc = [300, sy + r];
@@ -293,21 +357,26 @@ def('table-pulley', '桌面滑块 + 桌边滑轮 + 悬挂物', 'a=\\dfrac{(m_2-\
   s += mass(Qc[0] + r - 18, 190, 36, 34, 'm₂');
   const cx = bx + 30;
   s += arr(cx, by, cx, by - 36, 'f') + tx(cx + 5, by - 26, 'N', { c: 'f' }) + arr(cx, by + 40, cx, by + 76, 'f') + tx(cx + 5, by + 74, 'm₁g', { c: 'f' });
-  s += arr(bx + 60, sy, bx + 104, sy, 'f') + tx(bx + 84, sy + 16, 'T', { c: 'f' }) + arr(bx, by + 36, bx - 34, by + 36, 'f') + tx(bx - 30, by + 28, 'f_{k}', { c: 'f' });
+  s += arr(bx + 60, sy, bx + 104, sy, 'f') + tx(bx + 84, sy + 16, 'T', { c: 'f' });
+  const fk = 34 * muk / 0.4;
+  if (fk > 1) { s += arr(bx, by + 36, bx - fk, by + 36, 'f') + tx(bx - fk + 4, by + 28, 'f_{k}', { c: 'f', anchor: 'end' }); }
   const hx = Qc[0] + r; s += arr(hx, 190, hx, 160, 'f') + tx(hx + 6, 172, 'T', { c: 'f' }) + arr(hx, 224, hx, 254, 'f') + tx(hx + 6, 252, 'm₂g', { c: 'f' });
   s += arr(bx + 10, by - 50, bx + 50, by - 50, 'a') + tx(bx + 54, by - 46, 'a', { c: 'a' }) + arr(hx - 30, 196, hx - 30, 226, 'a') + tx(hx - 36, 216, 'a', { c: 'a', anchor: 'end' });
   s += eq(20, 30, ['a = ', { n: '(m₂ − μ_{k}m₁)g', d: 'm₁ + m₂' }]) + tx(200, 34, '（光滑桌面取 μ_{k} = 0）', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `取 m₁ = 2 kg、m₂ = 3 kg：a = ${r1(9.8 * (3 - (p.muk ?? 0.4) * 2) / 5)} m/s²`,
 });
 
 /* ======================= Circular motion ======================= */
-function banked(withFriction) {
-  const th = 25, I = incline(th, 130, 215, 240); const b = I.block(110, 34, 'm'); const C = b.C; const mg = 60;
+function banked(withFriction, p = {}) {
+  const th = p.th ?? 25, muS = p.mus ?? 0.37, mg = 60;
+  const I = incline(th, 130, 215, 240); const b = I.block(110, 34, 'm'); const C = b.C;
   let s = I.s + b.svg;
-  const N = withFriction ? 80 : mg / Math.cos(rad(th));
+  const N = withFriction ? mg / (Math.cos(rad(th)) - muS * Math.sin(rad(th))) : mg / Math.cos(rad(th));
   const Ne = add(C, I.n, N); s += arr(C[0], C[1], Ne[0], Ne[1], 'f') + tx(Ne[0] - 6, Ne[1], 'N', { c: 'f', anchor: 'end' });
   s += arr(C[0], C[1], C[0], C[1] + mg, 'f') + tx(C[0] + 5, C[1] + mg + 6, 'mg', { c: 'f' });
-  if (withFriction) { const fe = add(C, I.u, -30); s += arr(C[0], C[1], fe[0], fe[1], 'f') + tx(fe[0] - 2, fe[1] + 16, 'f_{s}', { c: 'f', anchor: 'end' }); }
+  if (withFriction) { const fe = add(C, I.u, -muS * N); s += arr(C[0], C[1], fe[0], fe[1], 'f') + tx(fe[0] - 2, fe[1] + 16, 'f_{s}', { c: 'f', anchor: 'end' }); }
   s += arr(C[0] - 40, C[1] - 82, C[0] - 100, C[1] - 82, 'a') + tx(C[0] - 104, C[1] - 78, 'a_{c}', { c: 'a', anchor: 'end' });
   s += arc(C[0], C[1], 30, 90, 90 + th, { c: 'm', w: 1 }) + tx(C[0] - 6, C[1] - 34, 'θ', { fs: 11, c: 'm', anchor: 'end' }) + ln(C[0], C[1], C[0], C[1] - 40, { c: 'm', dash: '3 3', w: 1 });
   s += tx(20, 236, '← 圆心方向（水平，指向弯道内侧）', { it: false, fs: 11 });
@@ -315,10 +384,29 @@ function banked(withFriction) {
   else s += tx(20, 26, 'v 大于设计速度：f_{s} 沿坡面向下', { it: false, fs: 12 }) + eq(10, 130, ['v_{max}^{2} = rg', { n: 'sin θ + μ_{s} cos θ', d: 'cos θ − μ_{s} sin θ' }], { fs: 11 });
   return s;
 }
-def('banked-frictionless', '倾斜弯道（无摩擦）', '\\tan\\theta=\\dfrac{v^2}{rg}', () => banked(false));
-def('banked-friction', '倾斜弯道（有静摩擦，最大速度）', 'v_{\\max}^2=rg\\,\\dfrac{\\sin\\theta+\\mu_s\\cos\\theta}{\\cos\\theta-\\mu_s\\sin\\theta}', () => banked(true));
-def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T_0=2\\pi\\sqrt{\\dfrac{L\\cos\\theta}{g}}', () => {
-  const px = 140, py = 30, L = 160, th = 35; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
+defI('banked-frictionless', '倾斜弯道（无摩擦）', '\\tan\\theta=\\dfrac{v^2}{rg}', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 40, step: 1, value: 25, unit: '°' },
+], (p) => banked(false, p), {
+  status: (p) => `tan θ = ${Math.tan(rad(p.th ?? 25)).toFixed(3)}，设计速度 v = √(rg tan θ)`,
+});
+defI('banked-friction', '倾斜弯道（有静摩擦，最大速度）', 'v_{\\max}^2=rg\\,\\dfrac{\\sin\\theta+\\mu_s\\cos\\theta}{\\cos\\theta-\\mu_s\\sin\\theta}', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 40, step: 1, value: 25, unit: '°' },
+  { key: 'mus', label: '静摩擦 μs', min: 0.1, max: 0.55, step: 0.01, value: 0.37 },
+], (p) => banked(true, p), {
+  status: (p) => {
+    const th = rad(p.th ?? 25), mu = p.mus ?? 0.37;
+    const den = Math.cos(th) - mu * Math.sin(th);
+    if (den <= 0.02) return 'μs 过大：任意速度都会侧滑';
+    const k = (Math.sin(th) + mu * Math.cos(th)) / den;
+    return `v_max = √(${k.toFixed(2)} rg)（括号内为 v²/rg）`;
+  },
+});
+defI('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T_0=2\\pi\\sqrt{\\dfrac{L\\cos\\theta}{g}}', [
+  { key: 'th', label: '摆角 θ', min: 20, max: 45, step: 1, value: 35, unit: '°' },
+  { key: 'L', label: '摆长 L', min: 130, max: 160, step: 1, value: 160, unit: '' },
+], (p) => {
+  const th = p.th ?? 35, L = p.L ?? 160;
+  const px = 140, py = 30; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
   let s = hatch(90, py, 190) + `<ellipse cx="${px}" cy="${r1(by)}" rx="${r1(bx - px)}" ry="18" style="fill:none;stroke:${COL.m};stroke-dasharray:5 4"/>`;
   s += ln(px, py, px, by, { c: 'm', dash: '4 4' }) + ln(px, py, bx, by) + arc(px, py, 34, -90, -90 + th, { w: 1 }) + tx(px + 6, py + 48, 'θ');
   s += tx((px + bx) / 2 - 10, (py + by) / 2 + 4, 'L', { anchor: 'end' }) + ln(px, by, bx, by, { c: 'm', dash: '3 3' }) + tx((px + bx) / 2, by + 30, 'r', { anchor: 'middle' });
@@ -327,9 +415,13 @@ def('conical-pendulum', '圆锥摆', '\\tan\\theta=\\dfrac{v^2}{rg},\\; T_0=2\\p
   s += arr(bx, by, bx, by + 59, 'f') + tx(bx + 6, by + 58, 'mg', { c: 'f' }) + arr(bx + 16, by - 20, bx + 16 - 45, by - 20, 'a', 1.8) + tx(bx + 20, by - 16, 'a_{c}', { c: 'a' });
   s += eq(265, 60, ['tan θ = ', { n: 'v^{2}', d: 'rg' }]) + eq(265, 125, ['T₀ = 2π', { sqrt: { n: 'L cos θ', d: 'g' } }], { fs: 12 }) + tx(265, 175, 'T cos θ = mg（T：张力）', { fs: 11 }) + eq(265, 205, ['T sin θ = ', { n: 'mv^{2}', d: 'r' }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `r = L sin θ = ${r1((p.L ?? 160) * Math.sin(rad(p.th ?? 35)))}，周期 T₀ 随 L cos θ 增大`,
 });
-def('vertical-loop', '竖直圆环（物体在轨道内侧）', 'v_{\\text{top,min}}=\\sqrt{gR}', () => {
-  const cx = 130, cy = 128, R = 95; let s = circ(cx, cy, R) + circ(cx, cy, 2, { fill: 'currentColor' }) + ln(cx, cy, ...pt(cx, cy, R, 135), { c: 'm', dash: '3 3' }) + tx(...pt(cx, cy, 50, 150), 'R');
+defI('vertical-loop', '竖直圆环（物体在轨道内侧）', 'v_{\\text{top,min}}=\\sqrt{gR}', [
+  { key: 'R', label: '半径 R', min: 60, max: 100, step: 1, value: 95, unit: '' },
+], (p) => {
+  const R = p.R ?? 95, cx = 130, cy = 128; let s = circ(cx, cy, R) + circ(cx, cy, 2, { fill: 'currentColor' }) + ln(cx, cy, ...pt(cx, cy, R, 135), { c: 'm', dash: '3 3' }) + tx(...pt(cx, cy, 50, 150), 'R');
   s += circ(cx, cy - R + 9, 8, { fill: 'currentColor' }) + arr(cx - 3, cy - R + 9, cx - 3, cy - R + 42, 'f') + tx(cx - 8, cy - R + 42, 'N', { c: 'f', anchor: 'end' });
   s += arr(cx + 3, cy - R + 9, cx + 3, cy - R + 60, 'f') + tx(cx + 8, cy - R + 58, 'mg', { c: 'f' }) + arr(cx - 10, cy - R + 9, cx - 50, cy - R + 9, 'v', 1.8) + tx(cx - 54, cy - R + 5, 'v', { c: 'v', anchor: 'end' });
   s += circ(cx, cy + R - 9, 8, { fill: 'currentColor' }) + arr(cx, cy + R - 9, cx, cy + R - 88, 'f') + tx(cx + 6, cy + R - 72, 'N', { c: 'f' }) + arr(cx, cy + R - 9, cx, cy + R + 24, 'f') + tx(cx + 6, cy + R + 22, 'mg', { c: 'f' });
@@ -338,40 +430,71 @@ def('vertical-loop', '竖直圆环（物体在轨道内侧）', 'v_{\\text{top,m
   s += tx(250, 94, '底部：N − mg = ', { fs: 12 }) + eq(338, 90, [{ n: 'mv^{2}', d: 'R' }], { fs: 12 });
   s += tx(250, 145, '恰好过顶部（N = 0）：', { it: false, fs: 12 }) + eq(260, 180, ['v_{min} = ', { sqrt: 'gR' }]) + tx(250, 225, '侧点：N 指向圆心', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `R = ${p.R ?? 95}：v_min = √(gR) = ${r1(Math.sqrt(9.8 * (p.R ?? 95)))} m/s（取 R 的数值）`,
 });
-def('orbit', '圆轨道卫星', 'v=\\sqrt{\\dfrac{GM}{r}},\\; U=-\\dfrac{GMm}{r},\\; T^2\\propto r^3', () => {
-  const cx = 130, cy = 130, r = 95; let s = circ(cx, cy, 26, { fill: 'var(--canvas-plot, transparent)' }) + tx(cx, cy + 5, 'M', { anchor: 'middle' }) + circ(cx, cy, r, { c: 'm', dash: '5 4' });
+defI('orbit', '圆轨道卫星', 'v=\\sqrt{\\dfrac{GM}{r}},\\; U=-\\dfrac{GMm}{r},\\; T^2\\propto r^3', [
+  { key: 'r', label: '轨道半径 r', min: 70, max: 110, step: 1, value: 95, unit: '' },
+], (p) => {
+  const r = p.r ?? 95, cx = 130, cy = 130; let s = circ(cx, cy, 26, { fill: 'var(--canvas-plot, transparent)' }) + tx(cx, cy + 5, 'M', { anchor: 'middle' }) + circ(cx, cy, r, { c: 'm', dash: '5 4' });
   const [sx, sy] = pt(cx, cy, r, 40); s += circ(sx, sy, 7, { fill: 'currentColor' }) + tx(sx + 10, sy - 8, 'm');
   s += arr(sx, sy, ...pt(sx, sy, 50, 220), 'f') + tx(...pt(sx, sy, 62, 232), 'F_{g}', { c: 'f' }) + arr(sx, sy, ...pt(sx, sy, 60, 130), 'v') + tx(...pt(sx, sy, 70, 126), 'v', { c: 'v' });
   s += ln(cx, cy, ...pt(cx, cy, r, -30), { c: 'm' }) + tx(...pt(cx, cy, r / 2, -18), 'r');
   s += eq(250, 50, [{ n: 'GMm ', d: 'r^{2}' }, '    =    ', { n: 'mv^{2}', d: 'r' }]) + eq(250, 110, ['v = ', { sqrt: { n: 'GM', d: 'r' } }]) + eq(250, 170, ['U = −', { n: 'GMm', d: 'r' }]) + tx(250, 215, '开普勒：T² ∝ r³', { fs: 11, it: false });
   return s;
+}, {
+  status: () => 'r 增大：v ∝ r^{−1/2} 减小，T² ∝ r³ 增大',
 });
 
 /* ======================= Work / energy ======================= */
-def('force-position', 'F–x 图面积 = 功；弹簧势能曲线 U(x)', 'W=\\int F\\,dx,\\; U_s=\\dfrac{1}{2}kx^2', () => {
+defI('force-position', 'F–x 图面积 = 功；弹簧势能曲线 U(x)', 'W=\\int F\\,dx,\\; U_s=\\dfrac{1}{2}kx^2', [
+  { key: 'k', label: '劲度 k', min: 0.3, max: 1, step: 0.05, value: 1 },
+], (p) => {
+  const k = p.k ?? 1, ymax = Math.max(1.1, 1.1 * k);
   let s = '';
-  const g1 = graph(40, 30, 130, 120, { fns: [{ f: (x) => x, c: 'f' }], t1: 1, ymin: 0, ymax: 1.1, xl: 'x', yl: 'F' });
-  s += g1.s + poly([[g1.X(0), g1.Y(0)], [g1.X(0.8), g1.Y(0.8)], [g1.X(0.8), g1.Y(0)], [g1.X(0), g1.Y(0)]], { fill: COL.f, op: 0.18, c: 'f', w: 0.5 }) + tx(g1.X(0.55), g1.Y(0.18), 'W', { anchor: 'middle' });
+  const g1 = graph(40, 30, 130, 120, { fns: [{ f: (x) => x * k, c: 'f' }], t1: 1, ymin: 0, ymax, xl: 'x', yl: 'F' });
+  s += g1.s + poly([[g1.X(0), g1.Y(0)], [g1.X(0.8), g1.Y(0.8 * k)], [g1.X(0.8), g1.Y(0)], [g1.X(0), g1.Y(0)]], { fill: COL.f, op: 0.18, c: 'f', w: 0.5 }) + tx(g1.X(0.55), g1.Y(0.18 * k), 'W', { anchor: 'middle' });
   s += eq(40, 205, ['W = ', { n: '1', d: '2' }, 'kx^{2}（F_{app} = kx）']);
-  const g2 = graph(250, 30, 120, 120, { fns: [{ f: (x) => (x - 0.5) ** 2 * 4 }, { f: () => 0.64, c: 'm', dash: '4 3', w: 1.2 }], t1: 1, ymin: 0, ymax: 1.1, xl: 'x', yl: 'U', vmarks: [{ t: 0.1, label: '−A' }, { t: 0.9, label: 'A' }] });
-  s += g2.s + tx(g2.X(0.5), g2.Y(0.64) - 6, 'E', { anchor: 'middle' });
+  const g2 = graph(250, 30, 120, 120, { fns: [{ f: (x) => (x - 0.5) ** 2 * 4 * k }, { f: () => 0.64 * k, c: 'm', dash: '4 3', w: 1.2 }], t1: 1, ymin: 0, ymax, xl: 'x', yl: 'U', vmarks: [{ t: 0.1, label: '−A' }, { t: 0.9, label: 'A' }] });
+  s += g2.s + tx(g2.X(0.5), g2.Y(0.64 * k) - 6, 'E', { anchor: 'middle' });
   s += eq(250, 205, ['F_s = −', { n: 'dU', d: 'dx' }, ' = −kx']);
   return s;
 });
 
 /* ======================= Momentum ======================= */
-def('collision-elastic', '一维弹性碰撞（碰前 / 碰后）', "v_1'=\\dfrac{m_1-m_2}{m_1+m_2}v_1,\\; v_2'=\\dfrac{2m_1}{m_1+m_2}v_1", () => {
+defI('collision-elastic', '一维弹性碰撞（碰前 / 碰后）', "v_1'=\\dfrac{m_1-m_2}{m_1+m_2}v_1,\\; v_2'=\\dfrac{2m_1}{m_1+m_2}v_1", [
+  { key: 'ratio', label: 'm₂ / m₁', min: 0.3, max: 3, step: 0.05, value: 1.25 },
+], (p) => {
+  const ratio = p.ratio ?? 1.25;
   let s = tx(20, 30, '碰前', { it: false, fs: 12 }) + hatch(20, 80, 380) + mass(60, 50, 40, 30, 'm₁') + mass(220, 50, 50, 30, 'm₂') + arr(100, 40, 150, 40, 'v') + tx(152, 44, 'v₁', { c: 'v' }) + tx(245, 44, 'v₂ = 0', { fs: 11, anchor: 'middle' });
-  s += tx(20, 120, '碰后（m₁ < m₂：m₁ 反弹）', { it: false, fs: 12 }) + hatch(20, 170, 380) + mass(120, 140, 40, 30, 'm₁') + mass(250, 140, 50, 30, 'm₂') + arr(120, 130, 90, 130, 'v') + tx(86, 134, "v₁'", { c: 'v', anchor: 'end' }) + arr(300, 130, 340, 130, 'v') + tx(344, 134, "v₂'", { c: 'v' });
+  const note = ratio > 1.001 ? '碰后（m₁ < m₂：m₁ 反弹）' : ratio < 0.999 ? '碰后（m₁ > m₂：两者同向）' : '碰后（m₁ = m₂：m₁ 停下）';
+  s += tx(20, 120, note, { it: false, fs: 12 }) + hatch(20, 170, 380) + mass(120, 140, 40, 30, 'm₁') + mass(250, 140, 50, 30, 'm₂');
+  if (ratio > 1.001) {
+    s += arr(120, 130, 90, 130, 'v') + tx(86, 134, "v₁'", { c: 'v', anchor: 'end' });
+  } else if (ratio < 0.999) {
+    s += arr(160, 130, 190, 130, 'v') + tx(194, 134, "v₁'", { c: 'v' });
+  } else {
+    s += tx(160, 134, "v₁' = 0", { c: 'v', fs: 11 });
+  }
+  s += arr(300, 130, 340, 130, 'v') + tx(344, 134, "v₂'", { c: 'v' });
   s += eq(20, 218, ["v₁' = ", { n: 'm₁ − m₂', d: 'm₁ + m₂' }, 'v₁'], { fs: 12 }) + eq(205, 218, ["v₂' = ", { n: '2m₁', d: 'm₁ + m₂' }, 'v₁'], { fs: 12 });
   return s;
+}, {
+  status: (p) => {
+    const r = p.ratio ?? 1.25;
+    return `v₁' = ${((1 - r) / (1 + r)).toFixed(2)}v₁，v₂' = ${(2 / (1 + r)).toFixed(2)}v₁`;
+  },
 });
-def('collision-inelastic', '完全非弹性碰撞（碰后粘在一起）', 'v_f=\\dfrac{m_1v_1}{m_1+m_2}', () => {
+defI('collision-inelastic', '完全非弹性碰撞（碰后粘在一起）', 'v_f=\\dfrac{m_1v_1}{m_1+m_2}', [
+  { key: 'ratio', label: 'm₂ / m₁', min: 0.3, max: 3, step: 0.05, value: 1.25 },
+], (p) => {
+  const ratio = p.ratio ?? 1.25, len = 67.5 / (1 + ratio);
   let s = tx(20, 30, '碰前', { it: false, fs: 12 }) + hatch(20, 80, 380) + mass(60, 50, 40, 30, 'm₁') + mass(220, 50, 50, 30, 'm₂') + arr(100, 40, 150, 40, 'v') + tx(152, 44, 'v₁', { c: 'v' });
-  s += tx(20, 120, '碰后', { it: false, fs: 12 }) + hatch(20, 170, 380) + mass(180, 140, 40, 30, 'm₁') + mass(220, 140, 50, 30, 'm₂') + arr(270, 130, 300, 130, 'v') + tx(304, 134, 'v_{f}', { c: 'v' });
+  s += tx(20, 120, '碰后', { it: false, fs: 12 }) + hatch(20, 170, 380) + mass(180, 140, 40, 30, 'm₁') + mass(220, 140, 50, 30, 'm₂') + arr(270, 130, 270 + len, 130, 'v') + tx(274 + len, 134, 'v_{f}', { c: 'v' });
   s += eq(30, 218, ['v_{f} = ', { n: 'm₁v₁', d: 'm₁ + m₂' }]) + eq(190, 218, ['ΔK = −', { n: 'm₁m₂v₁^{2}', d: '2(m₁ + m₂)' }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `v_f = ${(1 / (1 + (p.ratio ?? 1.25))).toFixed(2)} v₁`,
 });
 def('collision-2d', '二维碰撞：动量分量守恒', "m_1v_1=m_1v_1'\\cos\\theta_1+m_2v_2'\\cos\\theta_2", () => {
   const cx = 180, cy = 110; let s = ln(30, cy, 360, cy, { c: 'm', dash: '4 4' });
@@ -381,8 +504,10 @@ def('collision-2d', '二维碰撞：动量分量守恒', "m_1v_1=m_1v_1'\\cos\\t
   s += tx(20, 215, "x：m₁v₁ = m₁v₁' cos θ₁ + m₂v₂' cos θ₂", { fs: 12 }) + tx(20, 240, "y：0 = m₁v₁' sin θ₁ − m₂v₂' sin θ₂", { fs: 12 });
   return s;
 });
-def('ballistic-pendulum', '冲击摆', 'v=\\dfrac{m+M}{m}\\sqrt{2gh}', () => {
-  const L = 130, ang = 32, h = L - L * Math.cos(rad(ang));
+defI('ballistic-pendulum', '冲击摆', 'v=\\dfrac{m+M}{m}\\sqrt{2gh}', [
+  { key: 'ang', label: '上摆角 θ', min: 20, max: 55, step: 1, value: 32, unit: '°' },
+], (p) => {
+  const L = 130, ang = p.ang ?? 32, h = L - L * Math.cos(rad(ang));
   let s = hatch(170, 20, 330) + ln(200, 20, 200, 140, { c: 'm', dash: '4 4' }) + ln(260, 20, 260, 140, { c: 'm', dash: '4 4' }) + rect(185, 140, 90, 40, { dash: '4 3', c: 'm', fill: 'none' }) + tx(230, 165, 'M', { anchor: 'middle', c: 'm' });
   const dx = L * Math.sin(rad(ang)), dy = L * Math.cos(rad(ang));
   s += ln(200, 20, 200 + dx, 20 + dy) + ln(260, 20, 260 + dx, 20 + dy) + rect(185 + dx, 20 + dy, 90, 40) + tx(230 + dx, 45 + dy, 'm + M', { anchor: 'middle', fs: 12 });
@@ -390,12 +515,18 @@ def('ballistic-pendulum', '冲击摆', 'v=\\dfrac{m+M}{m}\\sqrt{2gh}', () => {
   s += ln(365, 180, 365, 180 - h, { c: 'm', w: 1 }) + ln(355, 180, 375, 180, { c: 'm', w: 1 }) + ln(355, 180 - h, 375, 180 - h, { c: 'm', w: 1 }) + tx(370, 180 - h / 2 + 4, 'h', { anchor: 'start' });
   s += tx(20, 40, '① 碰撞瞬间：动量守恒', { it: false, fs: 12 }) + tx(20, 60, '② 上摆：机械能守恒', { it: false, fs: 12 }) + eq(20, 225, ['v = ', { n: 'm + M', d: 'm' }, { sqrt: '2gh' }]);
   return s;
+}, {
+  status: (p) => `h = L(1 − cos θ) = ${r1(130 * (1 - Math.cos(rad(p.ang ?? 32))))}（L 固定）`,
 });
-def('impulse-graph', 'F–t 图：曲线下面积 = 冲量', 'J=\\int F\\,dt=\\Delta p,\\; F_{avg}=\\dfrac{\\Delta p}{\\Delta t}', () => {
-  const pulse = (t) => (t > 0.2 && t < 0.8 ? Math.sin(((t - 0.2) / 0.6) * Math.PI) : 0);
-  const g = graph(50, 30, 280, 150, { fns: [{ f: pulse, c: 'f' }], t1: 1, ymin: 0, ymax: 1.15, yl: 'F', vmarks: [{ t: 0.2, label: 't₁' }, { t: 0.8, label: 't₂' }] });
-  const pts = []; for (let i = 0; i <= 40; i++) { const t = 0.2 + i / 40 * 0.6; pts.push([g.X(t), g.Y(pulse(t))]); }
-  let s = g.s + poly(pts, { fill: COL.f, op: 0.18, c: 'f', w: 0.5 }) + tx(g.X(0.5), g.Y(0.4), 'J', { anchor: 'middle', fs: 16 });
+defI('impulse-graph', 'F–t 图：曲线下面积 = 冲量', 'J=\\int F\\,dt=\\Delta p,\\; F_{avg}=\\dfrac{\\Delta p}{\\Delta t}', [
+  { key: 'd', label: '作用时间 Δt', min: 0.3, max: 0.9, step: 0.05, value: 0.6 },
+  { key: 'F', label: '峰值 F', min: 0.4, max: 1, step: 0.05, value: 1 },
+], (p) => {
+  const d = p.d ?? 0.6, Fm = p.F ?? 1, t1 = 0.5 - d / 2, t2 = 0.5 + d / 2;
+  const pulse = (t) => (t > t1 && t < t2 ? Fm * Math.sin(((t - t1) / d) * Math.PI) : 0);
+  const g = graph(50, 30, 280, 150, { fns: [{ f: pulse, c: 'f' }], t1: 1, ymin: 0, ymax: Math.max(1.15, 1.15 * Fm), yl: 'F', vmarks: [{ t: t1, label: 't₁' }, { t: t2, label: 't₂' }] });
+  const pts = []; for (let i = 0; i <= 40; i++) { const t = t1 + i / 40 * d; pts.push([g.X(t), g.Y(pulse(t))]); }
+  let s = g.s + poly(pts, { fill: COL.f, op: 0.18, c: 'f', w: 0.5 }) + tx(g.X(0.5), g.Y(0.4 * Fm), 'J', { anchor: 'middle', fs: 16 });
   s += tx(50, 230, 'J = ∫F dt = Δp = mv_{f} − mv_{i}', { fs: 12 }) + eq(270, 226, ['F_{avg} = ', { n: 'Δp', d: 'Δt' }]);
   return s;
 });
@@ -408,8 +539,13 @@ def('momentum-graph', 'p–t 图：两车弹性碰撞（等质量）', 'p_1+p_2=
 });
 
 /* ======================= Rotation ======================= */
-def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, () => {
-  const th = 28, x0 = 20, y0 = 70, L = 340; const u = [Math.cos(rad(th)), Math.sin(rad(th))]; // down-slope
+defI('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, [
+  { key: 'th', label: '倾角 θ', min: 15, max: 33, step: 1, value: 28, unit: '°' },
+  { key: 'body', label: '刚体', type: 'choice', value: 'sphere', options: [{ value: 'sphere', label: '实心球' }, { value: 'disk', label: '圆盘' }, { value: 'hoop', label: '圆环' }] },
+], (p) => {
+  const th = p.th ?? 28, body = p.body ?? 'sphere';
+  const spec = body === 'disk' ? { txt: '圆盘', n: '2', d: '3', I: '1/2' } : body === 'hoop' ? { txt: '圆环', n: '1', d: '2', I: '1' } : { txt: '实心球', n: '5', d: '7', I: '2/5' };
+  const x0 = 20, y0 = 70, L = 340; const u = [Math.cos(rad(th)), Math.sin(rad(th))]; // down-slope
   const n = [Math.sin(rad(th)), -Math.cos(rad(th))]; // outward normal
   const bot = [x0 + u[0] * L, y0 + u[1] * L];
   let s = poly([[x0, y0], bot, [x0, bot[1]], [x0, y0]], { fill: 'var(--canvas-plot, transparent)' }) + arc(bot[0], bot[1], 40, 180 - th, 180) + tx(bot[0] - 56, bot[1] - 6, 'θ');
@@ -420,20 +556,32 @@ def('rolling-incline', '纯滚动下坡（静摩擦沿坡面向上）', 'a=\\dfr
   const fe = add(cp, u, -36); s += arr(cp[0], cp[1], fe[0], fe[1], 'f') + tx(fe[0] - 4, fe[1] + 14, 'f_{s}', { c: 'f', anchor: 'end' });
   const v0 = add(C, n, R + 12), v1 = add(v0, u, 44); s += arr(v0[0], v0[1], v1[0], v1[1], 'v') + tx(v1[0] + 4, v1[1] + 14, 'v_{cm}', { c: 'v' });
   s += arc(C[0], C[1], R - 8, 160, 20, { c: 'a', w: 1.5, me: 'a' }) + tx(C[0] - R - 6, C[1] - R + 2, 'ω', { c: 'a', anchor: 'end' });
-  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', dPrefix: '1 + ', d: { n: 'I', d: 'MR^{2}' } }]) + tx(230, 159, '实心球', { it: false, fs: 12 }) + eq(276, 155, ['a = ', { n: '5', d: '7' }, 'g sin θ'], { fs: 12 });
+  s += tx(200, 30, 'v_{cm} = Rω；接触点瞬时静止', { it: false, fs: 12 }) + eq(200, 86, ['a = ', { n: 'g sin θ', dPrefix: '1 + ', d: { n: 'I', d: 'MR^{2}' } }]) + tx(230, 159, spec.txt, { it: false, fs: 12 }) + eq(276, 155, ['a = ', { n: spec.n, d: spec.d }, 'g sin θ'], { fs: 12 });
   return s;
+}, {
+  status: (p) => {
+    const th = p.th ?? 28, body = p.body ?? 'sphere';
+    const coef = body === 'disk' ? 2 / 3 : body === 'hoop' ? 1 / 2 : 5 / 7;
+    return `a = ${coef.toFixed(2)} g sin θ = ${r1(coef * 9.8 * Math.sin(rad(th)))} m/s²`;
+  },
 });
-def('rolling-velocity', '纯滚动：轮上各点速度（地面参考系）', 'v_{\\text{top}}=2v_{cm},\\; v_{\\text{contact}}=0', () => {
-  const cx = 120, cy = 140, R = 70; let s = hatch(20, cy + R, 380) + circ(cx, cy, R) + circ(cx, cy, 3, { fill: 'currentColor' });
-  s += arr(cx, cy - R, cx + 120, cy - R, 'v') + tx(cx + 124, cy - R + 4, '2v_{cm}', { c: 'v' }) + arr(cx, cy, cx + 60, cy, 'v') + tx(cx + 64, cy + 4, 'v_{cm}', { c: 'v' });
+defI('rolling-velocity', '纯滚动：轮上各点速度（地面参考系）', 'v_{\\text{top}}=2v_{cm},\\; v_{\\text{contact}}=0', [
+  { key: 'v', label: '质心速度 v_cm', min: 1, max: 5, step: 0.1, value: 3, unit: '' },
+], (p) => {
+  const v = p.v ?? 3, sc = v / 3, cx = 120, cy = 140, R = 70; let s = hatch(20, cy + R, 380) + circ(cx, cy, R) + circ(cx, cy, 3, { fill: 'currentColor' });
+  s += arr(cx, cy - R, cx + 120 * sc, cy - R, 'v') + tx(cx + 124 * sc, cy - R + 4, '2v_{cm}', { c: 'v' }) + arr(cx, cy, cx + 60 * sc, cy, 'v') + tx(cx + 64 * sc, cy + 4, 'v_{cm}', { c: 'v' });
   s += circ(cx, cy + R, 3.5, { fill: COL.v, c: 'v' }) + tx(cx + 8, cy + R - 6, 'v = 0', { c: 'v', fs: 12 });
-  const [fx, fy] = pt(cx, cy, R, 180); s += arr(fx, fy, fx + 60, fy - 60, 'v', 1.6) + tx(fx - 4, fy + 16, '√2 v_{cm}', { c: 'v', fs: 11, anchor: 'start' });
+  const [fx, fy] = pt(cx, cy, R, 180); s += arr(fx, fy, fx + 60 * sc, fy - 60 * sc, 'v', 1.6) + tx(fx - 4, fy + 16, '√2 v_{cm}', { c: 'v', fs: 11, anchor: 'start' });
   s += arc(cx, cy, R + 12, 120, 60, { c: 'a', w: 1.4, me: 'a' }) + tx(cx, cy - R - 18, 'ω', { c: 'a', anchor: 'middle' });
   s += eq(285, 120, ['ω = ', { n: 'v_{cm}', d: 'R' }]) + eq(210, 185, ['K = ', { n: '1', d: '2' }, 'Mv_{cm}^{2} + ', { n: '1', d: '2' }, 'Iω^{2}'], { fs: 12 });
   return s;
+}, {
+  status: (p) => `v_top = 2v_cm = ${r1(2 * (p.v ?? 3))}，接触点 v = 0`,
 });
-def('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfrac{1}{3}ML^2,\\; \\alpha=\\dfrac{3g}{2L}' + CAP_DESCENT, () => {
-  const px = 50, py = 110, L = 280; let s = '';
+defI('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfrac{1}{3}ML^2,\\; \\alpha=\\dfrac{3g}{2L}' + CAP_DESCENT, [
+  { key: 'L', label: '杆长 L', min: 180, max: 300, step: 1, value: 280, unit: '' },
+], (p) => {
+  const px = 50, py = 110, L = p.L ?? 280; let s = '';
   s += `<polygon points="${px},${py} ${px - 12},${py + 22} ${px + 12},${py + 22}" style="fill:none;stroke:currentColor;stroke-width:1.5"/>` + hatch(px - 20, py + 22, px + 22);
   s += rect(px, py - 5, L, 10) + circ(px, py, 3.5, { fill: 'currentColor' });
   s += ln(px, py, ...pt(px, py, L, -35), { c: 'm', dash: '6 4', w: 1.2 }) + arc(px, py, 80, -2, -33, { c: 'm', w: 1, me: 'm' });
@@ -442,16 +590,23 @@ def('rod-pivot', '端点转轴均匀细杆（自水平位置释放）', 'I=\\dfr
   s += tx(px + L / 4, py - 12, 'L/2', { anchor: 'middle', fs: 12 }) + tx(px + L, py - 12, 'L', { anchor: 'middle', fs: 12 });
   s += eq(40, 220, ['τ = Mg', { n: 'L', d: '2' }, ' = ', { n: '1', d: '3' }, 'ML^{2}α']) + eq(260, 220, ['α = ', { n: '3g', d: '2L' }]);
   return s;
+}, {
+  status: (p) => `α = 3g/(2L) = ${r1(3 * 9.8 / (2 * (p.L ?? 280)))} rad/s²（取 L 的数值）`,
 });
-def('disk-string', '定轴均匀圆盘 + 绕绳悬挂物', 'a=\\dfrac{mg}{m+\\dfrac{I}{R^2}}=\\dfrac{2mg}{2m+M}' + CAP_DESCENT, () => {
+defI('disk-string', '定轴均匀圆盘 + 绕绳悬挂物', 'a=\\dfrac{mg}{m+\\dfrac{I}{R^2}}=\\dfrac{2mg}{2m+M}' + CAP_DESCENT, [
+  { key: 'ratio', label: 'M / m', min: 0.5, max: 4, step: 0.1, value: 2 },
+], (p) => {
+  const ratio = p.ratio ?? 2, span = Math.max(40, Math.min(140, 180 / ratio));
   const cx = 120, cy = 80, R = 52; let s = hatch(70, 14, 170) + ln(cx, 14, cx, cy, { w: 2 }) + circ(cx, cy, R, { fill: 'var(--canvas-plot, transparent)' }) + circ(cx, cy, 3, { fill: 'currentColor' }) + tx(cx - 30, cy + 6, 'M', {});
   s += ln(cx, cy, cx + R, cy, { c: 'm', dash: '3 3' }) + tx(cx + R / 2, cy - 6, 'R', { anchor: 'middle', fs: 12 });
   s += ln(cx + R, cy, cx + R, 180) + mass(cx + R - 18, 180, 36, 30, 'm');
   s += arr(cx + R + 4, cy + 4, cx + R + 4, cy + 46, 'f') + tx(cx + R + 10, cy + 40, 'T（作用于盘）', { c: 'f', fs: 11 });
   s += arr(cx + R, 180, cx + R, 146, 'f') + tx(cx + R + 6, 156, 'T', { c: 'f' }) + arr(cx + R, 210, cx + R, 246, 'f') + tx(cx + R + 6, 246, 'mg', { c: 'f' });
-  s += arr(cx + R - 34, 190, cx + R - 34, 224, 'a') + tx(cx + R - 40, 214, 'a', { c: 'a', anchor: 'end' }) + arc(cx, cy, R + 10, 150, 60, { c: 'a', w: 1.4, me: 'a' }) + tx(cx - R - 14, cy - 20, 'α', { c: 'a', anchor: 'end' });
+  s += arr(cx + R - 34, 190, cx + R - 34, 224, 'a') + tx(cx + R - 40, 214, 'a', { c: 'a', anchor: 'end' }) + arc(cx, cy, R + 10, 150, 150 - span, { c: 'a', w: 1.4, me: 'a' }) + tx(cx - R - 14, cy - 20, 'α', { c: 'a', anchor: 'end' });
   s += tx(250, 30, 'mg − T = ma', { fs: 12 }) + tx(250, 52, 'TR = Iα，a = Rα', { fs: 12 }) + eq(250, 100, ['a = ', { n: 'mg', dPrefix: 'm + ', d: { n: 'I', d: 'R^{2}' } }]) + eq(250, 165, ['圆盘 I = ', { n: '1', d: '2' }, 'MR^{2}'], { fs: 12 }) + eq(250, 215, ['a = ', { n: '2mg', d: '2m + M' }]);
   return s;
+}, {
+  status: (p) => `a = 2g/(2 + M/m) = ${r1(2 * 9.8 / (2 + (p.ratio ?? 2)))} m/s²`,
 });
 def('ladder', '转动静力学：靠墙梯子（光滑墙、粗糙地面）', '\\mu_s\\ge\\dfrac{1}{2\\tan\\theta}', () => {
   const fx = 70, fy = 225, L = 200, th = 60; const top = [fx + L * Math.cos(rad(th)), fy - L * Math.sin(rad(th))];
@@ -466,14 +621,31 @@ def('ladder', '转动静力学：靠墙梯子（光滑墙、粗糙地面）', '\
 });
 
 /* ======================= SHM ======================= */
-def('shm-horizontal', '水平弹簧振子（光滑水平面）', 'T=2\\pi\\sqrt{\\dfrac{m}{k}},\\; F=-kx', () => {
-  const y = 150, x0 = 200; let s = vhatch(30, 90, y + 2) + hatch(30, y, 380);
-  const bx = x0 + 50; s += spring(30, y - 20, bx, y - 20, 12, 9) + mass(bx, y - 40, 44, 40, 'm');
-  [[x0 - 70, '−A'], [x0, 'x = 0'], [x0 + 70, '+A']].forEach(([x, l]) => { s += ln(x, y + 4, x, y + 14, { w: 1 }) + tx(x, y + 30, l, { anchor: 'middle', fs: 12 }); });
-  s += ln(x0, 60, x0, y, { c: 'm', dash: '3 3' }) + ln(bx, 60, bx, y - 40, { c: 'm', dash: '3 3' }) + arr(x0, 70, bx, 70, 'g', 1) + tx((x0 + bx) / 2, 64, 'x', { anchor: 'middle' });
-  s += arr(bx + 22, y - 20, bx - 34, y - 20, 'f') + tx(bx - 38, y - 28, 'F = −kx', { c: 'f', anchor: 'end', fs: 12 });
+defI('shm-horizontal', '水平弹簧振子（光滑水平面）', 'T=2\\pi\\sqrt{\\dfrac{m}{k}},\\; F=-kx', [
+  { key: 'x', label: '位置 x', min: -70, max: 70, step: 5, value: 50, unit: '' },
+], (p) => {
+  const x = p.x ?? 50, y = 150, x0 = 200; let s = vhatch(30, 90, y + 2) + hatch(30, y, 380);
+  const bx = x0 + x; s += spring(30, y - 20, bx, y - 20, 12, 9) + mass(bx, y - 40, 44, 40, 'm');
+  [[x0 - 70, '−A'], [x0, 'x = 0'], [x0 + 70, '+A']].forEach(([px, l]) => { s += ln(px, y + 4, px, y + 14, { w: 1 }) + tx(px, y + 30, l, { anchor: 'middle', fs: 12 }); });
+  if (Math.abs(x) > 2) {
+    s += ln(x0, 60, x0, y, { c: 'm', dash: '3 3' }) + ln(bx, 60, bx, y - 40, { c: 'm', dash: '3 3' }) + arr(x0, 70, bx, 70, 'g', 1) + tx((x0 + bx) / 2, 64, 'x', { anchor: 'middle' });
+  } else {
+    s += ln(x0, 60, x0, y - 40, { c: 'm', dash: '3 3' }) + tx(x0, 64, 'x = 0', { anchor: 'middle' });
+  }
+  if (Math.abs(x) > 2) {
+    const fl = Math.min(56, Math.abs(x) * 56 / 50);
+    if (x > 0) s += arr(bx + 22, y - 20, bx + 22 - fl, y - 20, 'f') + tx(bx - 38, y - 28, 'F = −kx', { c: 'f', anchor: 'end', fs: 12 });
+    else s += arr(bx - 22, y - 20, bx - 22 + fl, y - 20, 'f') + tx(bx + 26, y - 28, 'F = −kx', { c: 'f', fs: 12 });
+  } else {
+    s += tx(bx + 28, y - 28, 'F = 0', { c: 'f', fs: 12 });
+  }
   s += eq(30, 220, ['T = 2π', { sqrt: { n: 'm', d: 'k' } }]) + eq(200, 220, ['ω = ', { sqrt: { n: 'k', d: 'm' } }]) + tx(40, 28, '端点 ±A：v = 0，|a| 最大', { fs: 11, it: false }) + tx(40, 46, '平衡点 x = 0：|v| 最大，a = 0', { fs: 11, it: false });
   return s;
+}, {
+  status: (p) => {
+    const x = p.x ?? 50;
+    return Math.abs(x) < 2 ? 'x = 0：F = 0，速度最大' : `x/A = ${(x / 70).toFixed(2)}，F = −kx 指向平衡位置`;
+  },
 });
 def('shm-vertical', '竖直弹簧振子', '\\Delta y=\\dfrac{mg}{k},\\; T=2\\pi\\sqrt{\\dfrac{m}{k}}', () => {
   let s = hatch(30, 20, 370);
@@ -485,17 +657,22 @@ def('shm-vertical', '竖直弹簧振子', '\\Delta y=\\dfrac{mg}{k},\\; T=2\\pi\
   s += eq(30, 160, ['Δy = ', { n: 'mg', d: 'k' }]) + eq(20, 225, ['T = 2π', { sqrt: { n: 'm', d: 'k' } }], { fs: 12 }) + tx(120, 251, '以平衡位置为原点：F_{net} = −ky（周期与水平时相同）', { fs: 11 });
   return s;
 });
-def('pendulum-simple', '单摆（小角度）', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', () => {
-  const px = 140, py = 26, L = 170, th = 25; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
+defI('pendulum-simple', '单摆（小角度）', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', [
+  { key: 'th', label: '摆角 θ', min: 5, max: 35, step: 1, value: 25, unit: '°' },
+  { key: 'L', label: '摆长 L', min: 120, max: 175, step: 1, value: 170, unit: '' },
+], (p) => {
+  const th = p.th ?? 25, L = p.L ?? 170, px = 140, py = 26; const bx = px + L * Math.sin(rad(th)), by = py + L * Math.cos(rad(th));
   let s = hatch(90, py, 190) + ln(px, py, px, py + L + 10, { c: 'm', dash: '4 4' }) + ln(px, py, bx, by) + arc(px, py, 40, -90, -90 + th, { w: 1 }) + tx(px + 6, py + 56, 'θ') + tx((px + bx) / 2 + 8, (py + by) / 2, 'L');
   s += circ(bx, by, 10, { fill: 'currentColor' });
   s += arr(bx, by, bx - 66 * Math.sin(rad(th)), by - 66 * Math.cos(rad(th)), 'f') + tx(bx - 34, by - 62, 'T', { c: 'f', anchor: 'end' });
   s += arr(bx, by, bx, by + 62, 'f') + tx(bx + 6, by + 64, 'mg', { c: 'f' });
   const mgs = 62 * Math.sin(rad(th)), mgc = 62 * Math.cos(rad(th));
-  s += arr(bx, by, bx - mgs * Math.cos(rad(th)), by + mgs * Math.sin(rad(th)), 'm', 1.4, '4 3') + tx(bx - 30, by + 26, 'mg sin θ', { c: 'm', fs: 11, anchor: 'end' });
-  s += arr(bx, by, bx + mgc * Math.sin(rad(th)), by + mgc * Math.cos(rad(th)), 'm', 1.4, '4 3') + tx(bx + 26, by + 50, 'mg cos θ', { c: 'm', fs: 11 });
+  if (mgs > 5) s += arr(bx, by, bx - mgs * Math.cos(rad(th)), by + mgs * Math.sin(rad(th)), 'm', 1.4, '4 3') + tx(bx - 30, by + 26, 'mg sin θ', { c: 'm', fs: 11, anchor: 'end' });
+  if (mgc > 5) s += arr(bx, by, bx + mgc * Math.sin(rad(th)), by + mgc * Math.cos(rad(th)), 'm', 1.4, '4 3') + tx(bx + 26, by + 50, 'mg cos θ', { c: 'm', fs: 11 });
   s += eq(260, 60, ['T = 2π', { sqrt: { n: 'L', d: 'g' } }]) + tx(260, 115, '回复力 −mg sin θ ≈ −mgθ', { fs: 11 }) + tx(260, 135, '（θ 很小，sin θ ≈ θ）', { it: false, fs: 11 }) + tx(260, 160, 'T 与 m、振幅无关', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `T ∝ √L：L = ${p.L ?? 170}，θ = ${p.th ?? 25}°（小角近似）`,
 });
 def('pendulum-physical', '物理摆（刚体绕固定轴摆动）', 'T=2\\pi\\sqrt{\\dfrac{I}{mgd}}', () => {
   const px = 130, py = 40, d = 90, th = 22, Lr = 180; const [cmx, cmy] = [px + d * Math.sin(rad(th)), py + d * Math.cos(rad(th))];
@@ -521,46 +698,73 @@ def('shm-graphs', 'SHM 的 x、v、a – t 图（x = A cos ωt）', 'v=-A\\omega
 });
 
 /* ======================= Electrostatics ======================= */
-def('point-charge-field', '点电荷电场线与等势面', 'E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q}{r^2},\\; V=\\dfrac{kq}{r}', () => {
-  const cx = 130, cy = 130; let s = '';
+defI('point-charge-field', '点电荷电场线与等势面', 'E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q}{r^2},\\; V=\\dfrac{kq}{r}', [
+  { key: 'q', label: '电荷 q', min: -2, max: 2, step: 0.5, value: 1, fmt: (v) => `${v > 0 ? '+' : ''}${v.toFixed(1)}q` },
+], (p) => {
+  const q = p.q ?? 1, cx = 130, cy = 130; let s = '';
   [40, 70, 100].forEach((r) => { s += circ(cx, cy, r, { c: 'm', dash: '4 4', w: 1 }); });
-  for (let k = 0; k < 12; k++) { const a = k * 30 + 15; s += arr(...pt(cx, cy, 16, a), ...pt(cx, cy, 116, a), 'E', 1.2); }
-  s += circ(cx, cy, 12, { fill: COL.E, op: 0.3, c: 'E' }) + tx(cx, cy + 5, '+q', { anchor: 'middle', fs: 12 });
-  s += eq(255, 55, ['E = ', { n: '1', d: '4πε₀' }, { n: 'q', d: 'r^{2}' }]) + eq(255, 120, ['V = ', { n: 'kq', d: 'r' }]) + tx(255, 170, '等势面（虚线）⊥ 电场线', { it: false, fs: 11 }) + tx(255, 190, 'E 指向 V 降低方向', { it: false, fs: 11 });
+  if (Math.abs(q) > 0.01) {
+    const nLine = Math.max(2, Math.min(24, Math.round(12 * Math.abs(q)))), stepA = 360 / nLine;
+    for (let k = 0; k < nLine; k++) {
+      const a = k * stepA + stepA / 2;
+      if (q > 0) s += arr(...pt(cx, cy, 16, a), ...pt(cx, cy, 116, a), 'E', 1.2);
+      else s += arr(...pt(cx, cy, 116, a), ...pt(cx, cy, 16, a), 'E', 1.2);
+    }
+  }
+  const qc = q >= 0 ? 'E' : 'v';
+  s += circ(cx, cy, 12, { fill: COL[qc], op: 0.3, c: qc }) + tx(cx, cy + 5, q >= 0 ? '+q' : '−q', { anchor: 'middle', fs: 12, c: qc });
+  s += eq(255, 55, ['E = ', { n: '1', d: '4πε₀' }, { n: 'q', d: 'r^{2}' }]) + eq(255, 120, ['V = ', { n: 'kq', d: 'r' }]) + tx(255, 170, '等势面（虚线）⊥ 电场线', { it: false, fs: 11 }) + tx(255, 190, q >= 0 ? 'E 指向 V 降低方向' : '负电荷：E 指向电荷', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => Math.abs(p.q ?? 1) < 0.01 ? 'q = 0：无电场线' : `|E| ∝ |q|/r²，${(p.q ?? 1) > 0 ? '电场线向外' : '电场线指向电荷'}`,
 });
-def('dipole-field', '电偶极子电场（按库仑定律逐点计算方向）', '\\vec E=\\sum_i\\dfrac{kq_i}{r_i^2}\\hat r_i', () => {
-  const q = [[140, 130, 1], [260, 130, -1]]; let s = '';
+defI('dipole-field', '电偶极子电场（按库仑定律逐点计算方向）', '\\vec E=\\sum_i\\dfrac{kq_i}{r_i^2}\\hat r_i', [
+  { key: 'sep', label: '电荷间距 d', min: 50, max: 140, step: 5, value: 120, unit: '' },
+], (p) => {
+  const sep = p.sep ?? 120, q = [[200 - sep / 2, 130, 1], [200 + sep / 2, 130, -1]]; let s = '';
   for (let x = 40; x <= 360; x += 32) for (let y = 30; y <= 230; y += 28) {
     let ex = 0, ey = 0, near = false;
     for (const [qx, qy, qq] of q) { const dx = x - qx, dy = y - qy, r2 = dx * dx + dy * dy; if (r2 < 500) near = true; const r3 = Math.pow(r2, 1.5); ex += qq * dx / r3; ey += qq * dy / r3; }
     if (near) continue; const m = Math.hypot(ex, ey), L = 14; s += arr(x - ex / m * L / 2, y - ey / m * L / 2, x + ex / m * L / 2, y + ey / m * L / 2, 'E', 1.2);
   }
-  s += circ(140, 130, 12, { fill: COL.E, op: 0.25, c: 'E' }) + tx(140, 135, '+q', { anchor: 'middle', fs: 12 }) + circ(260, 130, 12, { fill: COL.v, op: 0.25, c: 'v' }) + tx(260, 135, '−q', { anchor: 'middle', fs: 12 });
+  s += circ(200 - sep / 2, 130, 12, { fill: COL.E, op: 0.25, c: 'E' }) + tx(200 - sep / 2, 135, '+q', { anchor: 'middle', fs: 12 }) + circ(200 + sep / 2, 130, 12, { fill: COL.v, op: 0.25, c: 'v' }) + tx(200 + sep / 2, 135, '−q', { anchor: 'middle', fs: 12 });
   return s;
+}, {
+  status: (p) => `d = ${p.sep ?? 120}：电场线由 +q 出发、终止于 −q`,
 });
-def('parallel-plate-potential', '平行板间匀强电场与等势线', 'E=\\dfrac{\\Delta V}{d}=\\dfrac{\\sigma}{\\varepsilon_0}', () => {
-  let s = ln(60, 50, 280, 50, { w: 4 }) + ln(60, 200, 280, 200, { w: 4 });
-  for (let x = 75; x <= 270; x += 30) { s += tx(x, 42, '+', { anchor: 'middle', it: false }) + tx(x, 220, '−', { anchor: 'middle', it: false }); }
-  for (let x = 90; x <= 260; x += 45) s += arr(x, 56, x, 194, 'E', 1.4);
-  [87.5, 125, 162.5].forEach((y, i) => { s += ln(62, y, 278, y, { c: 'm', dash: '5 4', w: 1 }) + tx(286, y + 4, ['V₀ − ¼ΔV', 'V₀ − ½ΔV', 'V₀ − ¾ΔV'][i], { fs: 10 }); });
-  s += tx(286, 54, 'V₀', { fs: 11 }) + tx(286, 204, 'V₀ − ΔV', { fs: 11 }) + tx(36, 130, 'd', {}) + arr(46, 60, 46, 190, 'g', 1) + tx(100, 130, 'E', { c: 'E' });
+defI('parallel-plate-potential', '平行板间匀强电场与等势线', 'E=\\dfrac{\\Delta V}{d}=\\dfrac{\\sigma}{\\varepsilon_0}', [
+  { key: 'd', label: '板间距 d', min: 80, max: 170, step: 5, value: 150, unit: '' },
+], (p) => {
+  const d = p.d ?? 150, top = 125 - d / 2, bot = 125 + d / 2;
+  let s = ln(60, top, 280, top, { w: 4 }) + ln(60, bot, 280, bot, { w: 4 });
+  for (let x = 75; x <= 270; x += 30) { s += tx(x, top - 8, '+', { anchor: 'middle', it: false }) + tx(x, bot + 20, '−', { anchor: 'middle', it: false }); }
+  for (let x = 90; x <= 260; x += 45) s += arr(x, top + 6, x, bot - 6, 'E', 1.4);
+  [0.25, 0.5, 0.75].forEach((f, i) => { const y = top + f * d; s += ln(62, y, 278, y, { c: 'm', dash: '5 4', w: 1 }) + tx(286, y + 4, ['V₀ − ¼ΔV', 'V₀ − ½ΔV', 'V₀ − ¾ΔV'][i], { fs: 10 }); });
+  s += tx(286, top + 4, 'V₀', { fs: 11 }) + tx(286, bot + 4, 'V₀ − ΔV', { fs: 11 }) + tx(36, 130, 'd', {}) + arr(46, top + 10, 46, bot - 10, 'g', 1) + tx(100, 130, 'E', { c: 'E' });
   s += eq(70, 240, ['E = ', { n: 'ΔV', d: 'd' }, ' = ', { n: 'σ', d: 'ε₀' }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `d = ${p.d ?? 150}：E ∝ 1/d（ΔV 固定时板距增大，场强减小）`,
 });
 
 /* ======================= Gauss ======================= */
-def('gauss-sphere', '高斯面：同心球面（点电荷 / 均匀带电球）', '\\oint\\vec E\\cdot d\\vec A=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0},\\; E=\\dfrac{Q}{4\\pi\\varepsilon_0 r^2}', () => {
-  const cx = 120, cy = 130, R = 38, r = 88; let s = circ(cx, cy, R, { fill: COL.E, op: 0.15, c: 'E' }) + tx(cx, cy + 5, '+Q', { anchor: 'middle' });
+defI('gauss-sphere', '高斯面：同心球面（点电荷 / 均匀带电球）', '\\oint\\vec E\\cdot d\\vec A=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0},\\; E=\\dfrac{Q}{4\\pi\\varepsilon_0 r^2}', [
+  { key: 'r', label: '高斯面半径 r', min: 55, max: 105, step: 1, value: 88, unit: '' },
+], (p) => {
+  const r = p.r ?? 88, cx = 120, cy = 130, R = 38; let s = circ(cx, cy, R, { fill: COL.E, op: 0.15, c: 'E' }) + tx(cx, cy + 5, '+Q', { anchor: 'middle' });
   s += circ(cx, cy, r, { dash: '6 4' }) + `<ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="22" style="fill:none;stroke:${COL.m};stroke-dasharray:4 4"/>`;
   for (let k = 0; k < 8; k++) { const a = 22.5 + k * 45; s += arr(...pt(cx, cy, r - 14, a), ...pt(cx, cy, r + 24, a), 'E', 1.5); }
   s += arr(...pt(cx, cy, r, 90), ...pt(cx, cy, r + 28, 90), 'g', 1.2) + tx(cx + 6, cy - r - 16, 'dA', { fs: 12 });
   s += ln(cx, cy, ...pt(cx, cy, r, -60), { c: 'm' }) + tx(...pt(cx, cy, 62, -48), 'r', {}) + ln(cx, cy, ...pt(cx, cy, R, 200), { c: 'm', w: 1 }) + tx(...pt(cx, cy, R + 6, 205), 'R', { fs: 11, anchor: 'end' });
   s += tx(240, 28, 'E ∥ dA，面上 |E| 处处相同', { it: false, fs: 11 }) + eq(240, 68, ['E·4πr^{2} = ', { n: 'Q_{enc}', d: 'ε₀' }]) + eq(240, 128, ['r > R：E = ', { n: 'Q', d: '4πε₀r^{2}' }], { fs: 12 }) + eq(240, 188, ['r < R：E = ', { n: 'Qr', d: '4πε₀R^{3}' }], { fs: 12 }) + tx(240, 228, '（均匀带电实心球）', { it: false, fs: 10 });
   return s;
+}, {
+  status: (p) => `r = ${p.r ?? 88} > R = 38：E = Q/(4πε₀r²)`,
 });
-def('gauss-cylinder', '高斯面：同轴圆柱面（无限长线电荷 λ）', 'E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}', () => {
-  const x1 = 90, x2 = 250, cy = 115, r = 50; let s = ln(20, cy, 330, cy, { c: 'E', w: 3 }) + tx(336, cy + 4, 'λ', { c: 'E' });
+defI('gauss-cylinder', '高斯面：同轴圆柱面（无限长线电荷 λ）', 'E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}', [
+  { key: 'r', label: '高斯面半径 r', min: 30, max: 65, step: 1, value: 50, unit: '' },
+], (p) => {
+  const r = p.r ?? 50, x1 = 90, x2 = 250, cy = 115; let s = ln(20, cy, 330, cy, { c: 'E', w: 3 }) + tx(336, cy + 4, 'λ', { c: 'E' });
   s += `<ellipse cx="${x1}" cy="${cy}" rx="16" ry="${r}" style="fill:none;stroke:currentColor;stroke-dasharray:6 4"/><ellipse cx="${x2}" cy="${cy}" rx="16" ry="${r}" style="fill:none;stroke:currentColor;stroke-dasharray:6 4"/>`;
   s += ln(x1, cy - r, x2, cy - r, { dash: '6 4' }) + ln(x1, cy + r, x2, cy + r, { dash: '6 4' });
   for (const x of [130, 170, 210]) { s += arr(x, cy - 6, x, cy - r - 26, 'E', 1.5) + arr(x, cy + 6, x, cy + r + 26, 'E', 1.5); }
@@ -568,6 +772,8 @@ def('gauss-cylinder', '高斯面：同轴圆柱面（无限长线电荷 λ）', 
   s += tx(170, cy + r + 44, 'ℓ', { anchor: 'middle' }) + ln(x1 - 34, cy, x1 - 34, cy - r, { c: 'm' }) + tx(x1 - 40, cy - 20, 'r', { anchor: 'end' });
   s += eq(30, 232, ['E·2πrℓ = ', { n: 'λℓ', d: 'ε₀' }]) + eq(220, 232, ['E = ', { n: 'λ', d: '2πε₀r' }]);
   return s;
+}, {
+  status: (p) => `r = ${p.r ?? 50}：E ∝ 1/r（无限长线电荷）`,
 });
 def('gauss-plane', '高斯面：无限大带电平面（柱形盒）', 'E=\\dfrac{\\sigma}{2\\varepsilon_0}', () => {
   const px = 190; let s = `<polygon points="${px - 20},40 ${px + 20},20 ${px + 20},190 ${px - 20},210" style="fill:${COL.E};fill-opacity:0.12;stroke:${COL.E};stroke-width:1.5"/>`;
@@ -580,31 +786,62 @@ def('gauss-plane', '高斯面：无限大带电平面（柱形盒）', 'E=\\dfra
   s += tx(20, 236, '侧面 E ⊥ dA：通量 0', { it: false, fs: 11 }) + eq(170, 232, ['2EA = ', { n: 'σA', d: 'ε₀' }, ' ⇒ E = ', { n: 'σ', d: '2ε₀' }], { fs: 12 });
   return s;
 });
-def('gauss-conductor', '导体静电平衡（内部 E = 0）', 'E_{\\text{inside}}=0,\\; E_{\\text{surface}}=\\dfrac{\\sigma}{\\varepsilon_0}', () => {
-  const cx = 120, cy = 130, R = 70; let s = circ(cx, cy, R, { w: 3 });
-  for (let k = 0; k < 16; k++) { const [x, y] = pt(cx, cy, R - 10, k * 22.5); s += tx(x, y + 4, '+', { anchor: 'middle', it: false, fs: 11 }); }
-  for (let k = 0; k < 8; k++) { const a = k * 45 + 10; s += arr(...pt(cx, cy, R + 2, a), ...pt(cx, cy, R + 38, a), 'E', 1.5); }
-  s += circ(cx, cy, 36, { dash: '4 4', c: 'm' }) + tx(cx, cy + 4, 'E = 0', { anchor: 'middle' });
+defH('gauss-conductor', '导体静电平衡（内部 E = 0）', 'E_{\\text{inside}}=0,\\; E_{\\text{surface}}=\\dfrac{\\sigma}{\\varepsilon_0}', {
+  charges: '静电平衡时净电荷分布在外表面，内部无净电荷',
+  field: '表面处 E ⊥ 表面；导体内部 E = 0',
+  gauss: '虚线高斯面完全在导体内：Q_enc = 0 ⇒ E = 0',
+}, () => {
+  const cx = 120, cy = 130, R = 70;
+  let charges = '';
+  for (let k = 0; k < 16; k++) { const [x, y] = pt(cx, cy, R - 10, k * 22.5); charges += tx(x, y + 4, '+', { anchor: 'middle', it: false, fs: 11 }); }
+  let field = '';
+  for (let k = 0; k < 8; k++) { const a = k * 45 + 10; field += arr(...pt(cx, cy, R + 2, a), ...pt(cx, cy, R + 38, a), 'E', 1.5); }
+  let s = circ(cx, cy, R, { w: 3 });
+  s += part('gauss', circ(cx, cy, 36, { dash: '4 4', c: 'm' }) + tx(cx, cy + 4, 'E = 0', { anchor: 'middle' }), { x: 80, y: 90, w: 80, h: 80 });
+  s += part('field', field);
+  s += part('charges', charges, { x: 45, y: 55, w: 150, h: 150 });
   s += tx(240, 50, '电荷分布在外表面', { it: false, fs: 11 }) + tx(240, 72, '表面处 E ⊥ 表面', { it: false, fs: 11 }) + tx(240, 94, '整个导体为等势体', { it: false, fs: 11 }) + eq(240, 140, ['E_{surface} = ', { n: 'σ', d: 'ε₀' }]) + tx(240, 190, '虚线高斯面内 Q_{enc} = 0', { fs: 11 });
   return s;
+}, {
+  partsHint: '悬停 / 点击表面电荷、外部电场或高斯面：高亮对应部分',
 });
 
 /* ======================= Capacitors ======================= */
-def('capacitor-plate', '平行板电容器', 'C=\\dfrac{\\varepsilon_0A}{d},\\; U=\\dfrac{1}{2}CV^2', () => {
-  let s = rect(80, 40, 200, 10, { fill: COL.E, op: 0.2, c: 'E' }) + rect(80, 170, 200, 10, { fill: COL.v, op: 0.2, c: 'v' }) + tx(290, 50, '+Q', {}) + tx(290, 180, '−Q', {});
-  for (let x = 100; x <= 260; x += 32) s += arr(x, 54, x, 166, 'E', 1.4);
-  s += arr(60, 110, 60, 52, 'g', 1) + arr(60, 110, 60, 168, 'g', 1) + tx(52, 114, 'd', { anchor: 'end' }) + tx(180, 34, 'A', { anchor: 'middle' }) + tx(112, 116, 'E', { c: 'E' });
+defI('capacitor-plate', '平行板电容器', 'C=\\dfrac{\\varepsilon_0A}{d},\\; U=\\dfrac{1}{2}CV^2', [
+  { key: 'd', label: '板间距 d', min: 60, max: 130, step: 5, value: 120, unit: '' },
+], (p) => {
+  const d = p.d ?? 120, yb = 50 + d;
+  let s = rect(80, 40, 200, 10, { fill: COL.E, op: 0.2, c: 'E' }) + rect(80, yb, 200, 10, { fill: COL.v, op: 0.2, c: 'v' }) + tx(290, 50, '+Q', {}) + tx(290, yb + 10, '−Q', {});
+  for (let x = 100; x <= 260; x += 32) s += arr(x, 54, x, yb - 4, 'E', 1.4);
+  const cy = (54 + yb - 2) / 2;
+  s += arr(60, cy, 60, 52, 'g', 1) + arr(60, cy, 60, yb - 2, 'g', 1) + tx(52, cy + 3, 'd', { anchor: 'end' }) + tx(180, 34, 'A', { anchor: 'middle' }) + tx(112, cy + 5, 'E', { c: 'E' });
   s += eq(30, 225, ['C = ', { n: 'ε₀A', d: 'd' }]) + eq(150, 225, ['E = ', { n: 'σ', d: 'ε₀' }]) + eq(260, 225, ['U = ', { n: '1', d: '2' }, 'CV^{2}'], { fs: 12 });
   return s;
+}, {
+  status: (p) => `d = ${p.d ?? 120}：C ∝ 1/d（A 固定）`,
 });
-def('capacitor-dielectric', '电容器充满电介质 κ', 'C=\\kappa\\dfrac{\\varepsilon_0A}{d},\\; E=\\dfrac{E_0}{\\kappa}', () => {
-  let s = rect(70, 40, 200, 10, { fill: COL.E, op: 0.2, c: 'E' }) + rect(70, 170, 200, 10, { fill: COL.v, op: 0.2, c: 'v' }) + tx(278, 50, '+Q', {}) + tx(278, 180, '−Q', {});
-  s += rect(70, 54, 200, 112, { fill: COL.B, op: 0.1, c: 'B', dash: '3 2' }) + tx(250, 112, 'κ', { c: 'B', fs: 16 });
-  for (let x = 85; x <= 260; x += 25) { s += tx(x, 68, '−', { anchor: 'middle', it: false, fs: 12, c: 'B' }) + tx(x, 162, '+', { anchor: 'middle', it: false, fs: 12, c: 'B' }); }
-  for (let x = 100; x <= 240; x += 46) s += arr(x, 76, x, 146, 'E', 1.4);
-  s += eq(70, 112, ['E = ', { n: 'E₀', d: 'κ' }], { fs: 12, c: 'E' }) + tx(300, 100, '介质表面', { it: false, fs: 10, c: 'B' }) + tx(300, 114, '束缚电荷', { it: false, fs: 10, c: 'B' }) + tx(300, 128, '削弱板间场', { it: false, fs: 10, c: 'B' });
+defH('capacitor-dielectric', '电容器充满电介质 κ', 'C=\\kappa\\dfrac{\\varepsilon_0A}{d},\\; E=\\dfrac{E_0}{\\kappa}', {
+  plates: '极板带 ±Q；断开电源时 Q 不变，接电源时 V 不变',
+  dielectric: '电介质 κ > 1：电容增大为 C = κε₀A/d',
+  bound: '介质表面出现束缚电荷，削弱板间电场',
+  field: '板间场强减小为 E = E₀/κ',
+}, () => {
+  const plateTop = rect(70, 40, 200, 10, { fill: COL.E, op: 0.2, c: 'E' }) + tx(278, 50, '+Q', {});
+  const plateBot = rect(70, 170, 200, 10, { fill: COL.v, op: 0.2, c: 'v' }) + tx(278, 180, '−Q', {});
+  let s = part('plates', plateTop, { x: 60, y: 32, w: 230, h: 24 }) + part('plates', plateBot, { x: 60, y: 162, w: 230, h: 24 });
+  s += part('dielectric', rect(70, 54, 200, 112, { fill: COL.B, op: 0.1, c: 'B', dash: '3 2' }) + tx(250, 112, 'κ', { c: 'B', fs: 16 }), { x: 60, y: 44, w: 220, h: 132 });
+  let bound = '';
+  for (let x = 85; x <= 260; x += 25) { bound += tx(x, 68, '−', { anchor: 'middle', it: false, fs: 12, c: 'B' }) + tx(x, 162, '+', { anchor: 'middle', it: false, fs: 12, c: 'B' }); }
+  s += part('bound', bound, { x: 70, y: 56, w: 205, h: 118 });
+  let field = '';
+  for (let x = 100; x <= 240; x += 46) field += arr(x, 76, x, 146, 'E', 1.4);
+  field += eq(70, 112, ['E = ', { n: 'E₀', d: 'κ' }], { fs: 12, c: 'E' });
+  s += part('field', field);
+  s += tx(300, 100, '介质表面', { it: false, fs: 10, c: 'B' }) + tx(300, 114, '束缚电荷', { it: false, fs: 10, c: 'B' }) + tx(300, 128, '削弱板间场', { it: false, fs: 10, c: 'B' });
   s += eq(30, 222, ['C = κ', { n: 'ε₀A', d: 'd' }]) + tx(160, 214, '断开电源（Q 不变）：V ↓、U ↓', { it: false, fs: 10 }) + tx(160, 232, '接上电源（V 不变）：Q ↑、U ↑', { it: false, fs: 10 });
   return s;
+}, {
+  partsHint: '悬停 / 点击极板、介质、束缚电荷或电场：高亮对应部分',
 });
 def('capacitor-dielectric-partial', '部分填充电介质：并联型 / 串联型', 'C_{\\parallel}=\\dfrac{\\varepsilon_0A}{2d}(1+\\kappa),\\; C_{\\text{series}}=\\dfrac{2\\kappa\\varepsilon_0A}{(1+\\kappa)d}', () => {
   let s = tx(20, 24, '左右各半（等效并联）', { it: false, fs: 12 }) + ln(30, 50, 170, 50, { w: 3 }) + ln(30, 150, 170, 150, { w: 3 }) + rect(100, 52, 70, 96, { fill: COL.B, op: 0.15, c: 'B' }) + tx(135, 105, 'κ', { c: 'B', fs: 16, anchor: 'middle' });
@@ -615,68 +852,137 @@ def('capacitor-dielectric-partial', '部分填充电介质：并联型 / 串联�
 });
 
 /* ======================= DC circuits ======================= */
-def('circuit-series', '串联电路', 'R_{eq}=R_1+R_2+R_3,\\; I=\\dfrac{\\varepsilon}{R_{eq}}', () => {
+defI('circuit-series', '串联电路', 'R_{eq}=R_1+R_2+R_3,\\; I=\\dfrac{\\varepsilon}{R_{eq}}', [
+  { key: 'r1', label: 'R₁', min: 1, max: 8, step: 0.5, value: 2, unit: ' Ω' },
+  { key: 'r2', label: 'R₂', min: 1, max: 8, step: 0.5, value: 3, unit: ' Ω' },
+  { key: 'r3', label: 'R₃', min: 1, max: 8, step: 0.5, value: 4, unit: ' Ω' },
+], (p) => {
+  const req = (p.r1 ?? 2) + (p.r2 ?? 3) + (p.r3 ?? 4), ik = Math.max(0.35, Math.min(1.8, 9 / req));
   const L = 60, R = 290, T = 50, B = 180; let s = battery(L, B, L, T, 'ε', true) + resistor(L, T, 175, T, 'R₁') + resistor(175, T, R, T, 'R₂') + resistor(R, T, R, B, 'R₃') + ln(R, B, L, B);
-  s += arr(100, T + 14, 130, T + 14, 'I', 1.6) + tx(115, T + 30, 'I', { c: 'I', anchor: 'middle' }) + arr(R - 14, 100, R - 14, 130, 'I', 1.6) + arr(200, B - 12, 160, B - 12, 'I', 1.6);
+  s += arr(100, T + 14, 100 + 30 * ik, T + 14, 'I', 1.6) + tx(115, T + 30, 'I', { c: 'I', anchor: 'middle' }) + arr(R - 14, 100, R - 14, 100 + 30 * ik, 'I', 1.6) + arr(200, B - 12, 200 - 40 * ik, B - 12, 'I', 1.6);
   s += tx(320, 90, '各处电流', { it: false, fs: 11 }) + tx(320, 106, '相同', { it: false, fs: 11 }) + eq(40, 230, ['R_{eq} = R₁ + R₂ + R₃']) + eq(260, 230, ['I = ', { n: 'ε', d: 'R_{eq}' }]);
   return s;
+}, {
+  status: (p) => {
+    const req = (p.r1 ?? 2) + (p.r2 ?? 3) + (p.r3 ?? 4);
+    return `R_eq = ${r1(req)} Ω，I = ε/${r1(req)}（各电阻 I 相同）`;
+  },
 });
-def('circuit-parallel', '并联电路', '\\dfrac{1}{R_{eq}}=\\dfrac{1}{R_1}+\\dfrac{1}{R_2},\\; I=I_1+I_2', () => {
+defI('circuit-parallel', '并联电路', '\\dfrac{1}{R_{eq}}=\\dfrac{1}{R_1}+\\dfrac{1}{R_2},\\; I=I_1+I_2', [
+  { key: 'r1', label: 'R₁', min: 1, max: 8, step: 0.5, value: 3, unit: ' Ω' },
+  { key: 'r2', label: 'R₂', min: 1, max: 8, step: 0.5, value: 6, unit: ' Ω' },
+], (p) => {
+  const r1 = p.r1 ?? 3, r2 = p.r2 ?? 6, req = 1 / (1 / r1 + 1 / r2);
+  const sT = Math.max(0.35, Math.min(1.8, 2 / req)), s1 = Math.max(0.35, Math.min(1.8, 3 / r1)), s2 = Math.max(0.35, Math.min(1.8, 6 / r2));
   const L = 60, T = 40, B = 170; let s = battery(L, B, L, T, 'ε', true) + ln(L, T, 270, T) + ln(L, B, 270, B) + resistor(170, T, 170, B, 'R₁') + resistor(270, T, 270, B, 'R₂') + node(170, T) + node(170, B);
-  s += arr(95, T - 10, 135, T - 10, 'I', 1.6) + tx(115, T - 16, 'I', { c: 'I', anchor: 'middle' }) + arr(158, 70, 158, 94, 'I', 1.6) + tx(152, 88, 'I₁', { c: 'I', anchor: 'end', fs: 12 }) + arr(258, 70, 258, 94, 'I', 1.6) + tx(252, 88, 'I₂', { c: 'I', anchor: 'end', fs: 12 });
+  s += arr(95, T - 10, 95 + 40 * sT, T - 10, 'I', 1.6) + tx(115, T - 16, 'I', { c: 'I', anchor: 'middle' }) + arr(158, 70, 158, 70 + 24 * s1, 'I', 1.6) + tx(152, 88, 'I₁', { c: 'I', anchor: 'end', fs: 12 }) + arr(258, 70, 258, 70 + 24 * s2, 'I', 1.6) + tx(252, 88, 'I₂', { c: 'I', anchor: 'end', fs: 12 });
   s += tx(300, 100, '各支路', { it: false, fs: 11 }) + tx(300, 116, '电压 = ε', { it: false, fs: 11 }) + eq(30, 225, [{ n: '1', d: 'R_{eq}' }, ' = ', { n: '1', d: 'R₁' }, ' + ', { n: '1', d: 'R₂' }]) + eq(230, 225, ['I = I₁ + I₂']);
   return s;
+}, {
+  status: (p) => {
+    const r1 = p.r1 ?? 3, r2 = p.r2 ?? 6, req = 1 / (1 / r1 + 1 / r2);
+    return `R_eq = ${req.toFixed(2)} Ω；I₁ : I₂ = ${r2} : ${r1}（电压相同）`;
+  },
 });
-def('circuit-kirchhoff', '双回路电路：基尔霍夫定律', '\\sum_{\\text{loop}}\\Delta V=0,\\; \\sum I_{\\text{in}}=\\sum I_{\\text{out}}', () => {
+defI('circuit-kirchhoff', '双回路电路：基尔霍夫定律', '\\sum_{\\text{loop}}\\Delta V=0,\\; \\sum I_{\\text{in}}=\\sum I_{\\text{out}}', [
+  { key: 'e1', label: '电动势 ε₁', min: 3, max: 20, step: 0.5, value: 12, unit: ' V' },
+  { key: 'e2', label: '电动势 ε₂', min: 3, max: 20, step: 0.5, value: 9, unit: ' V' },
+  { key: 'r2', label: '中支路 R₂', min: 1, max: 8, step: 0.5, value: 3, unit: ' Ω' },
+], (p) => {
+  const e1 = p.e1 ?? 12, e2 = p.e2 ?? 9, R1 = 2, R2 = p.r2 ?? 3, R3 = 4;
+  const det = (R1 + R2) * R3 + R1 * R2;
+  const I2 = (e1 * R3 + R1 * e2) / det, I3 = ((R1 + R2) * e2 - R2 * e1) / det, I1 = I2 - I3;
+  const baseI1 = 2.1923076923076925, baseI2 = 2.5384615384615383, baseI3 = 0.34615384615384615;
+  const len1 = Math.max(14, Math.min(55, 40 * Math.abs(I1) / baseI1));
+  const len2 = Math.max(10, Math.min(40, 26 * Math.abs(I2) / baseI2));
+  const len3 = Math.max(10, Math.min(55, 40 * Math.abs(I3) / baseI3));
   const T = 40, B = 170; let s = battery(40, B, 40, T, 'ε₁', true) + resistor(40, T, 200, T, 'R₁') + resistor(200, T, 200, B, 'R₂', { dx: 12 }) + ln(200, B, 40, B) + resistor(200, T, 360, T, 'R₃') + battery(360, B, 360, T, '', true) + tx(386, 110, 'ε₂', {}) + ln(360, B, 200, B) + node(200, T) + node(200, B);
-  s += arr(100, T + 14, 140, T + 14, 'I', 1.5) + tx(120, T + 30, 'I₁', { c: 'I', fs: 12, anchor: 'middle' }) + arr(300, T + 14, 260, T + 14, 'I', 1.5) + tx(280, T + 30, 'I₃', { c: 'I', fs: 12, anchor: 'middle' }) + arr(186, 74, 186, 100, 'I', 1.5) + tx(180, 92, 'I₂', { c: 'I', fs: 12, anchor: 'end' });
+  s += (I1 >= 0 ? arr(100, T + 14, 100 + len1, T + 14, 'I', 1.5) : arr(100 + len1, T + 14, 100, T + 14, 'I', 1.5)) + tx(120, T + 30, 'I₁', { c: 'I', fs: 12, anchor: 'middle' });
+  s += (I3 >= 0 ? arr(300, T + 14, 300 - len3, T + 14, 'I', 1.5) : arr(300 - len3, T + 14, 300, T + 14, 'I', 1.5)) + tx(280, T + 30, 'I₃', { c: 'I', fs: 12, anchor: 'middle' });
+  s += (I2 >= 0 ? arr(186, 74, 186, 74 + len2, 'I', 1.5) : arr(186, 74 + len2, 186, 74, 'I', 1.5)) + tx(180, 92, 'I₂', { c: 'I', fs: 12, anchor: 'end' });
   s += arc(120, 112, 26, 150, -150, { c: 'm', w: 1, me: 'm' }) + arc(290, 112, 26, 150, -150, { c: 'm', w: 1, me: 'm' });
   s += tx(20, 205, '结点：I₂ = I₁ + I₃', { fs: 12 }) + tx(20, 228, '左回路：ε₁ − I₁R₁ − I₂R₂ = 0', { fs: 12 }) + tx(20, 251, '右回路：ε₂ − I₃R₃ − I₂R₂ = 0', { fs: 12 });
   return s;
+}, {
+  status: (p) => {
+    const e1 = p.e1 ?? 12, e2 = p.e2 ?? 9, R1 = 2, R2 = p.r2 ?? 3, R3 = 4;
+    const det = (R1 + R2) * R3 + R1 * R2;
+    const I2 = (e1 * R3 + R1 * e2) / det, I3 = ((R1 + R2) * e2 - R2 * e1) / det, I1 = I2 - I3;
+    return `I₁ = ${I1.toFixed(2)} A，I₂ = ${I2.toFixed(2)} A，I₃ = ${I3.toFixed(2)} A`;
+  },
 });
-def('power-series-parallel', '电功率：串联（I 相同）与并联（V 相同）', 'P=IV=I^{2}R=\\dfrac{V^{2}}{R}' + CAP_DESCENT, () => {
-  let s = tx(22, 24, '串联：I 相同 → P ∝ R', { it: false, fs: 11 }) + tx(218, 24, '并联：V 相同 → P ∝ 1/R', { it: false, fs: 11 });
+defI('power-series-parallel', '电功率：串联（I 相同）与并联（V 相同）', 'P=IV=I^{2}R=\\dfrac{V^{2}}{R}' + CAP_DESCENT, [
+  { key: 'ratio', label: 'R₂ / R₁', min: 0.5, max: 3, step: 0.1, value: 2 },
+], (p) => {
+  const ratio = p.ratio ?? 2, nr = Number.isInteger(ratio) ? String(ratio) : ratio.toFixed(1);
+  let ser = tx(22, 24, '串联：I 相同 → P ∝ R', { it: false, fs: 11 });
   const L = 35, R = 185, T = 56, B = 158;
-  s += battery(L, B, L, T, 'ε', true) + ln(L, T, R, T) + resistor(L, T, 110, T, 'R₁') + resistor(110, T, R, T, 'R₂') + ln(R, T, R, B) + ln(R, B, L, B);
-  s += arr(160, B - 10, 120, B - 10, 'I', 1.4) + tx(140, B + 6, 'I', { c: 'I', anchor: 'middle', fs: 11 });
-  s += tx(110, 190, 'P₁ : P₂ = R₁ : R₂ = 1 : 2', { it: false, fs: 10, anchor: 'middle' });
+  ser += battery(L, B, L, T, 'ε', true) + ln(L, T, R, T) + resistor(L, T, 110, T, 'R₁') + resistor(110, T, R, T, 'R₂') + ln(R, T, R, B) + ln(R, B, L, B);
+  ser += arr(160, B - 10, 120, B - 10, 'I', 1.4) + tx(140, B + 6, 'I', { c: 'I', anchor: 'middle', fs: 11 });
+  ser += tx(110, 190, `P₁ : P₂ = R₁ : R₂ = 1 : ${nr}`, { it: false, fs: 10, anchor: 'middle' });
+  let par = tx(218, 24, '并联：V 相同 → P ∝ 1/R', { it: false, fs: 11 });
   const L2 = 225, R2 = 370, T2 = 56, B2 = 158;
-  s += battery(L2, B2, L2, T2, 'ε', true) + ln(L2, T2, R2, T2) + ln(L2, B2, R2, B2);
-  s += resistor(295, 80, 295, 140, 'R₁') + ln(295, T2, 295, 80) + ln(295, 140, 295, B2);
-  s += resistor(365, 80, 365, 140, 'R₂') + ln(365, T2, 365, 80) + ln(365, 140, 365, B2);
-  s += node(295, T2) + node(295, B2) + node(365, T2) + node(365, B2);
-  s += arr(240, T2 - 10, 270, T2 - 10, 'I', 1.4) + tx(255, T2 - 16, 'I', { c: 'I', anchor: 'middle', fs: 11 });
-  s += arr(295, 62, 295, 78, 'I', 1.2) + tx(288, 72, 'I₁', { c: 'I', anchor: 'end', fs: 11 });
-  s += arr(365, 62, 365, 78, 'I', 1.2) + tx(372, 72, 'I₂', { c: 'I', fs: 11 });
-  s += tx(297, 190, 'P₁ : P₂ = R₂ : R₁ = 2 : 1', { it: false, fs: 10, anchor: 'middle' });
+  par += battery(L2, B2, L2, T2, 'ε', true) + ln(L2, T2, R2, T2) + ln(L2, B2, R2, B2);
+  par += resistor(295, 80, 295, 140, 'R₁') + ln(295, T2, 295, 80) + ln(295, 140, 295, B2);
+  par += resistor(365, 80, 365, 140, 'R₂') + ln(365, T2, 365, 80) + ln(365, 140, 365, B2);
+  par += node(295, T2) + node(295, B2) + node(365, T2) + node(365, B2);
+  par += arr(240, T2 - 10, 270, T2 - 10, 'I', 1.4) + tx(255, T2 - 16, 'I', { c: 'I', anchor: 'middle', fs: 11 });
+  par += arr(295, 62, 295, 78, 'I', 1.2) + tx(288, 72, 'I₁', { c: 'I', anchor: 'end', fs: 11 });
+  par += arr(365, 62, 365, 78, 'I', 1.2) + tx(372, 72, 'I₂', { c: 'I', fs: 11 });
+  par += tx(297, 190, `P₁ : P₂ = R₂ : R₁ = ${nr} : 1`, { it: false, fs: 10, anchor: 'middle' });
+  let s = part('series', ser, { x: 18, y: 14, w: 186, h: 186 }) + part('parallel', par, { x: 210, y: 14, w: 180, h: 186 });
   s += eq(20, 216, ['P = IV = I²R = ', { n: 'V²', d: 'R' }], { fs: 13 });
-  s += tx(20, 244, '同一电源、R₂ = 2R₁：串联时 R₂ 更亮，并联时 R₁ 更亮', { it: false, fs: 10 });
+  s += tx(20, 244, `同一电源、R₂ = ${nr}R₁：串联时 R₂ 更亮，并联时 R₁ 更亮`, { it: false, fs: 10 });
   return s;
+}, {
+  parts: {
+    series: '串联：I 相同，P = I²R，所以 P ∝ R；R₂ 更大时 R₂ 更亮',
+    parallel: '并联：V 相同，P = V²/R，所以 P ∝ 1/R；R₁ 更小时 R₁ 更亮',
+  },
+  partsHint: '悬停 / 点击串联或并联部分：查看功率分配',
+  status: (p) => `R₂/R₁ = ${(p.ratio ?? 2).toFixed(1)}：串联 P₂/P₁ = ${(p.ratio ?? 2).toFixed(1)}，并联 P₁/P₂ = ${(p.ratio ?? 2).toFixed(1)}`,
 });
-def('kirchhoff-loop-signs', '基尔霍夫环路：绕行方向与电压符号', '\\sum_{\\text{loop}}\\Delta V=0' + CAP_DESCENT, () => {
+defI('kirchhoff-loop-signs', '基尔霍夫环路：绕行方向与电压符号', '\\sum_{\\text{loop}}\\Delta V=0' + CAP_DESCENT, [
+  { key: 'dir', label: '绕行方向', type: 'choice', value: 'cw', options: [{ value: 'cw', label: '顺时针' }, { value: 'ccw', label: '逆时针' }] },
+], (p) => {
+  const cw = (p.dir ?? 'cw') === 'cw';
   const L = 45, R = 345, T = 60, B = 175;
-  let s = battery(L, B, L, T, '', true) + tx(8, 104, 'ε₁', { fs: 12 }) + tx(8, 124, '+ε₁', { c: 'a', fs: 11 });
-  s += resistor(L, T, R, T, '') + tx(195, 46, 'R₁', { anchor: 'middle' }) + tx(195, 82, '−IR₁', { anchor: 'middle', c: 'f', fs: 12 });
-  s += battery(R, T, R, B, '', false) + tx(358, 145, 'ε₂', { fs: 12 }) + tx(358, 162, '−ε₂', { c: 'f', fs: 11 });
-  s += resistor(R, B, L, B, '') + tx(195, 190, 'R₂', { anchor: 'middle' }) + tx(195, 158, '−IR₂', { anchor: 'middle', c: 'f', fs: 12 });
-  s += arc(195, 118, 24, 140, -140, { c: 'm', w: 1.2, me: 'm' }) + tx(195, 122, 'I', { c: 'I', anchor: 'middle', fs: 13 });
-  s += eq(20, 214, ['+ε₁ − IR₁ − ε₂ − IR₂ = 0'], { fs: 13 });
-  s += tx(20, 241, '沿绕行方向：电池 −→+ 记 +ε；电阻顺电流记 −IR', { it: false, fs: 10 });
+  let s = battery(L, B, L, T, '', true) + tx(8, 104, 'ε₁', { fs: 12 }) + tx(8, 124, cw ? '+ε₁' : '−ε₁', { c: cw ? 'a' : 'f', fs: 11 });
+  s += resistor(L, T, R, T, '') + tx(195, 46, 'R₁', { anchor: 'middle' }) + tx(195, 82, cw ? '−IR₁' : '+IR₁', { anchor: 'middle', c: cw ? 'f' : 'a', fs: 12 });
+  s += battery(R, T, R, B, '', false) + tx(358, 145, 'ε₂', { fs: 12 }) + tx(358, 162, cw ? '−ε₂' : '+ε₂', { c: cw ? 'f' : 'a', fs: 11 });
+  s += resistor(R, B, L, B, '') + tx(195, 190, 'R₂', { anchor: 'middle' }) + tx(195, 158, cw ? '−IR₂' : '+IR₂', { anchor: 'middle', c: cw ? 'f' : 'a', fs: 12 });
+  s += (cw ? arc(195, 118, 24, 140, -140, { c: 'm', w: 1.2, me: 'm' }) : arc(195, 118, 24, -140, 140, { c: 'm', w: 1.2, me: 'm' })) + tx(195, 122, 'I', { c: 'I', anchor: 'middle', fs: 13 });
+  s += eq(20, 214, [cw ? '+ε₁ − IR₁ − ε₂ − IR₂ = 0' : '−ε₁ + IR₁ + ε₂ + IR₂ = 0'], { fs: 13 });
+  s += tx(20, 241, cw ? '沿绕行方向：电池 −→+ 记 +ε；电阻顺电流记 −IR' : '逆时针：电池 +→− 记 −ε；电阻逆电流记 +IR', { it: false, fs: 10 });
   return s;
+}, {
+  status: (p) => (p.dir ?? 'cw') === 'cw' ? '绕行方向与图中电流 I 同向（顺时针）' : '绕行方向与电流 I 反向（逆时针）：电阻项变号',
 });
-def('kirchhoff-junction', '基尔霍夫结点：流入电流之和 = 流出电流之和', '\\sum I_{\\text{in}}=\\sum I_{\\text{out}}', () => {
+defI('kirchhoff-junction', '基尔霍夫结点：流入电流之和 = 流出电流之和', '\\sum I_{\\text{in}}=\\sum I_{\\text{out}}', [
+  { key: 'i1', label: '流入 I₁', min: 0, max: 5, step: 0.5, value: 2, unit: ' A' },
+  { key: 'i2', label: '流入 I₂', min: 0, max: 5, step: 0.5, value: 1, unit: ' A' },
+  { key: 'i3', label: '流出 I₃', min: 0, max: 5, step: 0.5, value: 1.5, unit: ' A' },
+], (p) => {
+  const i1 = p.i1 ?? 2, i2 = p.i2 ?? 1, i3 = p.i3 ?? 1.5, i4 = i1 + i2 - i3;
   const cx = 200, cy = 120;
+  const l1 = Math.max(18, Math.min(130, 120 * i1 / 2)), l2 = Math.max(18, Math.min(100, 55 * i2)), l3 = Math.max(18, Math.min(130, 120 * i3 / 1.5)), l4 = Math.max(16, Math.min(90, 45 * Math.abs(i4) / 1.5));
   let s = ln(45, cy, cx, cy) + ln(cx, 35, cx, cy) + ln(cx, cy, 355, cy) + ln(cx, cy, cx, 195);
-  s += arr(55, cy, 175, cy, 'I', 1.6) + tx(100, cy - 10, 'I₁', { c: 'I', fs: 12, anchor: 'middle' });
-  s += arr(cx, 45, cx, 100, 'I', 1.6) + tx(cx + 12, 78, 'I₂', { c: 'I', fs: 12 });
-  s += arr(225, cy, 345, cy, 'I', 1.6) + tx(300, cy - 10, 'I₃', { c: 'I', fs: 12, anchor: 'middle' });
-  s += arr(cx, 140, cx, 185, 'I', 1.6) + tx(cx + 12, 172, 'I₄', { c: 'I', fs: 12 });
+  if (i1 > 0.01) s += arr(55, cy, 55 + l1, cy, 'I', 1.6);
+  s += tx(100, cy - 10, 'I₁', { c: 'I', fs: 12, anchor: 'middle' });
+  if (i2 > 0.01) s += arr(cx, 45, cx, 45 + l2, 'I', 1.6);
+  s += tx(cx + 12, 78, 'I₂', { c: 'I', fs: 12 });
+  if (i3 > 0.01) s += arr(225, cy, 225 + l3, cy, 'I', 1.6);
+  s += tx(300, cy - 10, 'I₃', { c: 'I', fs: 12, anchor: 'middle' });
+  if (Math.abs(i4) > 0.01) s += (i4 > 0 ? arr(cx, 140, cx, 140 + l4, 'I', 1.6) : arr(cx, 140 + l4, cx, 140, 'I', 1.6));
+  s += tx(cx + 12, 172, i4 >= 0 ? 'I₄' : 'I₄（反向）', { c: 'I', fs: 12 });
   s += circ(cx, cy, 24, { c: 'm', dash: '4 3' }) + node(cx, cy);
   s += tx(228, 156, '结点', { it: false, fs: 10, c: 'm' });
   s += tx(78, 96, '流入', { it: false, fs: 10, c: 'I' }) + tx(300, 96, '流出', { it: false, fs: 10, c: 'I' });
   s += eq(55, 230, ['I₁ + I₂ = I₃ + I₄'], { fs: 13 });
   s += tx(55, 252, 'ΣI = 0（流入取 +，流出取 −）；结点无电荷积累', { it: false, fs: 10 });
   return s;
+}, {
+  status: (p) => `I₄ = I₁ + I₂ − I₃ = ${((p.i1 ?? 2) + (p.i2 ?? 1) - (p.i3 ?? 1.5)).toFixed(1)} A`,
 });
 def('rc-circuit', 'RC 电路（单刀双掷开关：a 充电 / b 放电）', '\\tau=RC', () => {
   const L = 60, T = 50, B = 190, sx = 150; let s = battery(L, B, L, T, 'ε', true) + ln(L, T, 120, T);
@@ -688,44 +994,79 @@ def('rc-circuit', 'RC 电路（单刀双掷开关：a 充电 / b 放电）', '\\
   s += tx(20, 232, 'S 接 a：电源经 R 给 C 充电', { it: false, fs: 11 }) + tx(20, 250, 'S 接 b：C 经 R 放电（不经电源）', { it: false, fs: 11 }) + eq(300, 240, ['τ = RC']);
   return s;
 });
-def('rc-charging', 'RC 充电：q(t) 与 I(t)', 'q=C\\varepsilon\\left(1-e^{-\\dfrac{t}{RC}}\\right),\\; I=\\dfrac{\\varepsilon}{R}e^{-\\dfrac{t}{RC}}', () => {
-  const g1 = graph(55, 30, 120, 120, { fns: [{ f: (t) => 1 - Math.exp(-t) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Cε' }, { v: 0.632, label: '0.63Cε' }], vmarks: [{ t: 1, label: 'τ' }] });
-  const g2 = graph(255, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.368, label: '0.37ε/R' }], vmarks: [{ t: 1, label: 'τ' }] });
-  return g1.s + g2.s + eq(20, 205, ['q = Cε(1 − exp(−', { n: 't', d: 'RC' }, '))'], { fs: 12 }) + eq(225, 205, ['I = ', { n: 'ε', d: 'R' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, 't = 0：C 相当于导线；t → ∞：C 相当于断路', { it: false, fs: 11 });
+defI('rc-charging', 'RC 充电：q(t) 与 I(t)', 'q=C\\varepsilon\\left(1-e^{-\\dfrac{t}{RC}}\\right),\\; I=\\dfrac{\\varepsilon}{R}e^{-\\dfrac{t}{RC}}', [
+  { key: 't', label: '时间 t / τ', min: 0, max: 5, step: 0.1, value: 1 },
+], (p) => {
+  const t = p.t ?? 1, q = 1 - Math.exp(-t), cur = Math.exp(-t);
+  const g1 = graph(55, 30, 120, 120, { fns: [{ f: (x) => 1 - Math.exp(-x) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Cε' }, { v: 0.632, label: '0.63Cε' }], vmarks: [{ t: 1, label: 'τ' }] });
+  const g2 = graph(255, 30, 120, 120, { fns: [{ f: (x) => Math.exp(-x), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.368, label: '0.37ε/R' }], vmarks: [{ t: 1, label: 'τ' }] });
+  let s = g1.s + g2.s;
+  if (p.__dirty) {
+    s += ln(g1.X(t), 30, g1.X(t), 150, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g1.X(t), g1.Y(q), 4, { fill: 'currentColor' });
+    s += ln(g2.X(t), 30, g2.X(t), 150, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g2.X(t), g2.Y(cur), 4, { fill: COL.I, c: 'I' });
+  }
+  s += eq(20, 205, ['q = Cε(1 − exp(−', { n: 't', d: 'RC' }, '))'], { fs: 12 }) + eq(225, 205, ['I = ', { n: 'ε', d: 'R' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, 't = 0：C 相当于导线；t → ∞：C 相当于断路', { it: false, fs: 11 });
+  return s;
+}, {
+  status: (p) => { const t = p.t ?? 1; return `t = ${t.toFixed(1)}τ：q = ${((1 - Math.exp(-t)) * 100).toFixed(0)}% Cε，I = ${(Math.exp(-t) * 100).toFixed(0)}% ε/R`; },
 });
-def('rc-discharging', 'RC 放电：q(t) 与 |I(t)|', 'q=Q_0e^{-\\dfrac{t}{RC}},\\; |I|=\\dfrac{Q_0}{RC}e^{-\\dfrac{t}{RC}}', () => {
-  const g1 = graph(55, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Q₀' }, { v: 0.368, label: '0.37Q₀' }], vmarks: [{ t: 1, label: 'τ' }] });
-  const g2 = graph(255, 30, 120, 120, { fns: [{ f: (t) => Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: '|I|', hmarks: [{ v: 1, label: 'Q₀/RC' }], vmarks: [{ t: 1, label: 'τ' }] });
-  return g1.s + g2.s + eq(20, 205, ['q = Q₀ exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + eq(225, 205, ['|I| = ', { n: 'Q₀', d: 'RC' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, '放电电流方向与充电电流方向相反', { it: false, fs: 11 });
+defI('rc-discharging', 'RC 放电：q(t) 与 |I(t)|', 'q=Q_0e^{-\\dfrac{t}{RC}},\\; |I|=\\dfrac{Q_0}{RC}e^{-\\dfrac{t}{RC}}', [
+  { key: 't', label: '时间 t / τ', min: 0, max: 5, step: 0.1, value: 1 },
+], (p) => {
+  const t = p.t ?? 1, q = Math.exp(-t);
+  const g1 = graph(55, 30, 120, 120, { fns: [{ f: (x) => Math.exp(-x) }], t1: 5, ymin: 0, ymax: 1.15, yl: 'q', hmarks: [{ v: 1, label: 'Q₀' }, { v: 0.368, label: '0.37Q₀' }], vmarks: [{ t: 1, label: 'τ' }] });
+  const g2 = graph(255, 30, 120, 120, { fns: [{ f: (x) => Math.exp(-x), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: '|I|', hmarks: [{ v: 1, label: 'Q₀/RC' }], vmarks: [{ t: 1, label: 'τ' }] });
+  let s = g1.s + g2.s;
+  if (p.__dirty) {
+    s += ln(g1.X(t), 30, g1.X(t), 150, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g1.X(t), g1.Y(q), 4, { fill: 'currentColor' });
+    s += ln(g2.X(t), 30, g2.X(t), 150, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g2.X(t), g2.Y(q), 4, { fill: COL.I, c: 'I' });
+  }
+  s += eq(20, 205, ['q = Q₀ exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + eq(225, 205, ['|I| = ', { n: 'Q₀', d: 'RC' }, 'exp(−', { n: 't', d: 'RC' }, ')'], { fs: 12 }) + tx(20, 250, '放电电流方向与充电电流方向相反', { it: false, fs: 11 });
+  return s;
+}, {
+  status: (p) => { const t = p.t ?? 1; return `t = ${t.toFixed(1)}τ：q = ${(Math.exp(-t) * 100).toFixed(0)}% Q₀，|I| = ${(Math.exp(-t) * 100).toFixed(0)}% Q₀/RC`; },
 });
 
 /* ======================= Magnetism ======================= */
-def('wire-field', '长直导线磁场（右手定则）', 'B=\\dfrac{\\mu_0I}{2\\pi r}', () => {
-  const cx = 110, cy = 115; let s = dotB(cx, cy, 8, 'I') + tx(cx, cy + 24, 'I ⊙', { anchor: 'middle', fs: 11, c: 'I' });
-  [40, 68, 95].forEach((r) => { s += circ(cx, cy, r, { c: 'B', w: 1.1 }); [45, 225].forEach((a) => { s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, a + 9), 'B', 1.4); }); });
-  s += tx(cx, cy - 100, 'B 逆时针（俯视，I 出纸面）', { c: 'B', fs: 10, anchor: 'middle', it: false }) + ln(cx, cy, cx + 68, cy, { c: 'm', dash: '3 3' }) + tx(cx + 50, cy - 4, 'r', { fs: 12 });
-  // side view: current up the page → B into page on the right, out of page on the left
-  const wx = 300; s += arr(wx, 215, wx, 35, 'I', 2.5) + tx(wx + 6, 46, 'I', { c: 'I' });
-  [75, 125, 175].forEach((y) => { s += crossB(wx + 40, y) + dotB(wx - 40, y, 6); });
-  s += tx(wx + 40, 205, '× 入', { anchor: 'middle', fs: 11, c: 'B', it: false }) + tx(wx - 40, 205, '⊙ 出', { anchor: 'middle', fs: 11, c: 'B', it: false });
+defI('wire-field', '长直导线磁场（右手定则）', 'B=\\dfrac{\\mu_0I}{2\\pi r}', [
+  { key: 'dir', label: '电流方向', type: 'choice', value: 'out', options: [{ value: 'out', label: '出纸面 ⊙' }, { value: 'in', label: '入纸面 ⊗' }] },
+], (p) => {
+  const out = (p.dir ?? 'out') === 'out', cx = 110, cy = 115;
+  let s = (out ? dotB(cx, cy, 8, 'I') : crossB(cx, cy, 8, 'I')) + tx(cx, cy + 24, out ? 'I ⊙' : 'I ⊗', { anchor: 'middle', fs: 11, c: 'I' });
+  [40, 68, 95].forEach((r) => { s += circ(cx, cy, r, { c: 'B', w: 1.1 }); [45, 225].forEach((a) => { s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, out ? a + 9 : a - 9), 'B', 1.4); }); });
+  s += tx(cx, cy - 100, out ? 'B 逆时针（俯视，I 出纸面）' : 'B 顺时针（俯视，I 入纸面）', { c: 'B', fs: 10, anchor: 'middle', it: false }) + ln(cx, cy, cx + 68, cy, { c: 'm', dash: '3 3' }) + tx(cx + 50, cy - 4, 'r', { fs: 12 });
+  const wx = 300; s += (out ? arr(wx, 215, wx, 35, 'I', 2.5) : arr(wx, 35, wx, 215, 'I', 2.5)) + tx(wx + 6, out ? 46 : 230, 'I', { c: 'I' });
+  [75, 125, 175].forEach((y) => { s += (out ? crossB(wx + 40, y) + dotB(wx - 40, y, 6) : dotB(wx + 40, y, 6) + crossB(wx - 40, y)); });
+  s += tx(wx + 40, 205, out ? '× 入' : '⊙ 出', { anchor: 'middle', fs: 11, c: 'B', it: false }) + tx(wx - 40, 205, out ? '⊙ 出' : '× 入', { anchor: 'middle', fs: 11, c: 'B', it: false });
   s += eq(30, 238, ['B = ', { n: 'μ₀I', d: '2πr' }]);
   return s;
+}, {
+  status: (p) => (p.dir ?? 'out') === 'out' ? 'I 出纸面：右手定则给出逆时针 B' : 'I 入纸面：B 方向反向（顺时针）',
 });
-def('loop-field', '圆形电流环中心磁场', 'B_{\\text{center}}=\\dfrac{\\mu_0I}{2R}', () => {
-  const cx = 120, cy = 125, R = 80; let s = circ(cx, cy, R, { c: 'I', w: 2.5 });
+defI('loop-field', '圆形电流环中心磁场', 'B_{\\text{center}}=\\dfrac{\\mu_0I}{2R}', [
+  { key: 'R', label: '半径 R', min: 50, max: 100, step: 1, value: 80, unit: '' },
+], (p) => {
+  const R = p.R ?? 80, cx = 120, cy = 125; let s = circ(cx, cy, R, { c: 'I', w: 2.5 });
   [60, 180, 300].forEach((a) => { s += arr(...pt(cx, cy, R, a), ...pt(cx, cy, R, a + 12), 'I', 2); });
   s += tx(...pt(cx, cy, R + 14, 50), 'I（逆时针）', { c: 'I', fs: 11 }) + dotB(cx, cy, 9) + tx(cx + 14, cy - 10, 'B ⊙（出纸面）', { c: 'B', fs: 11 }) + ln(cx, cy, ...pt(cx, cy, R, -40), { c: 'm', dash: '3 3' }) + tx(...pt(cx, cy, 44, -25), 'R', { fs: 12 });
   s += eq(250, 70, ['B = ', { n: 'μ₀I', d: '2R' }]) + tx(250, 118, '右手：四指沿 I 弯曲，', { it: false, fs: 11 }) + tx(250, 134, '拇指指向环中心 B', { it: false, fs: 11 }) + eq(250, 185, ['N 匝：B = ', { n: 'μ₀NI', d: '2R' }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `R = ${p.R ?? 80}：B_center ∝ 1/R`,
 });
-def('solenoid-field', '螺线管纵截面 + 矩形安培环路', 'B=\\mu_0nI', () => {
+defI('solenoid-field', '螺线管纵截面 + 矩形安培环路', 'B=\\mu_0nI', [
+  { key: 'n', label: '匝密度 n', min: 5, max: 20, step: 1, value: 10, unit: '' },
+], (p) => {
+  const step = 240 / (p.n ?? 10);
   let s = ''; const y1 = 70, y2 = 170;
-  for (let x = 60; x <= 300; x += 24) { s += dotB(x, y1, 7, 'I') + crossB(x, y2, 5.5, 'I'); }
+  for (let x = 60; x <= 300 + 0.01; x += step) { s += dotB(x, y1, 7, 'I') + crossB(x, y2, 5.5, 'I'); }
   for (const y of [100, 120, 140]) s += arr(70, y, 290, y, 'B', 1.6);
   s += tx(296, 124, 'B', { c: 'B' }) + tx(316, 74, '⊙ I 出纸面', { fs: 10, c: 'I', it: false }) + tx(316, 174, '× I 入纸面', { fs: 10, c: 'I', it: false });
   s += rect(110, 110, 90, 100, { c: 'm', dash: '5 4', fill: 'none' }) + tx(155, 228, '矩形安培环路（内边长 ℓ）', { anchor: 'middle', fs: 11, it: false }) + tx(210, 205, '外部 B ≈ 0', { fs: 10, it: false });
   s += tx(20, 30, '∮B·dl = Bℓ = μ₀(nℓ)I', { fs: 12 }) + eq(270, 30, ['B = μ₀nI']) + tx(20, 250, 'n：单位长度匝数', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `n = ${p.n ?? 10}：B = μ₀nI，匝数越密 B 越大（理想螺线管）`,
 });
 def('ampere-wire', '安培环路：长直导线（同心圆环路）', '\\oint\\vec B\\cdot d\\vec l=\\mu_0I_{\\text{enc}}', () => {
   const cx = 120, cy = 125, r = 80; let s = dotB(cx, cy, 8, 'I') + tx(cx, cy + 26, 'I ⊙', { anchor: 'middle', c: 'I', fs: 12 }) + circ(cx, cy, r, { dash: '6 4' });
@@ -743,50 +1084,81 @@ def('ampere-thick-wire', '安培环路：粗导线内部（均匀电流密度）
   s += g.s + eq(215, 195, ['I_{enc} = I', { n: 'r^{2}', d: 'R^{2}' }], { fs: 12 }) + eq(215, 238, ['B = ', { n: 'μ₀Ir', d: '2πR^{2}' }], { fs: 12 });
   return s;
 });
-def('particle-in-B', '带电粒子在匀强磁场中圆周运动（B 入纸面，+q）', 'r=\\dfrac{mv}{|q|B},\\; \\vec F=q\\vec v\\times\\vec B', () => {
+defI('particle-in-B', '带电粒子在匀强磁场中圆周运动（B 入纸面，+q）', 'r=\\dfrac{mv}{|q|B},\\; \\vec F=q\\vec v\\times\\vec B', [
+  { key: 'B', label: '磁感应强度 B', min: 0.7, max: 1.5, step: 0.05, value: 1 },
+], (p) => {
+  const B = p.B ?? 1, r = 80 / B;
   let s = ''; for (let x = 30; x <= 230; x += 40) for (let y = 30; y <= 230; y += 40) s += crossB(x, y, 4);
-  const cx = 130, cy = 125, r = 80; s += circ(cx, cy, r, { c: 'm', dash: '5 4' });
+  const cx = 130, cy = 125; s += circ(cx, cy, r, { c: 'm', dash: '5 4' });
   const px = cx, py = cy + r; s += circ(px, py, 7, { fill: COL.E, c: 'E', op: 0.6 }) + tx(px, py + 4, '+', { anchor: 'middle', it: false, fs: 11 });
   s += arr(px + 8, py, px + 60, py, 'v') + tx(px + 62, py + 14, 'v', { c: 'v' }) + arr(px, py - 8, px, py - 55, 'f') + tx(px + 6, py - 44, 'F', { c: 'f' });
   s += arc(cx, cy, r + 12, 300, 340, { c: 'm', w: 1.2, me: 'm' }) + tx(cx + r + 8, cy + 40, '逆时针', { fs: 10, it: false });
   s += eq(255, 60, ['r = ', { n: 'mv', d: '|q|B' }]) + eq(255, 120, ['T = ', { n: '2πm', d: '|q|B' }]) + tx(255, 170, '负电荷：顺时针', { it: false, fs: 11 }) + tx(255, 190, 'F ⊥ v，磁力不做功', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `B = ${(p.B ?? 1).toFixed(2)}：r ∝ 1/B，B 增大时半径减小`,
 });
 
 /* ======================= Induction ======================= */
-def('faraday-rod', '法拉第：导轨上滑动导体棒（B 入纸面，向右运动）', '\\varepsilon=BLv,\\; I=\\dfrac{BLv}{R},\\; F=\\dfrac{B^2L^2v}{R}', () => {
-  const T = 50, Bt = 180, Lx = 50, rx = 250; let s = '';
+defI('faraday-rod', '法拉第：导轨上滑动导体棒（B 入纸面，向右运动）', '\\varepsilon=BLv,\\; I=\\dfrac{BLv}{R},\\; F=\\dfrac{B^2L^2v}{R}', [
+  { key: 'v', label: '速度 v', min: 0.5, max: 2.5, step: 0.1, value: 1 },
+  { key: 'B', label: '磁感应 B', min: 0.5, max: 2, step: 0.1, value: 1 },
+], (p) => {
+  const v = p.v ?? 1, B = p.B ?? 1, T = 50, Bt = 180, Lx = 50, rx = 250; let s = '';
   for (let x = 80; x <= 370; x += 36) for (let y = 74; y <= 160; y += 30) s += crossB(x, y, 4);
   s += ln(Lx, T, 380, T, { w: 2 }) + ln(Lx, Bt, 380, Bt, { w: 2 }) + resistor(Lx, T, Lx, Bt, 'R', { dx: -10, anchor: 'end' }) + rect(rx - 4, T - 8, 8, Bt - T + 16, { fill: 'currentColor' });
-  s += arr(rx + 10, 115, rx + 60, 115, 'v') + tx(rx + 62, 111, 'v', { c: 'v' }) + arr(rx - 10, 100, rx - 56, 100, 'f') + tx(rx - 58, 94, 'F_{B}', { c: 'f', anchor: 'end', fs: 12 });
+  s += arr(rx + 10, 115, rx + 10 + 60 * v, 115, 'v') + tx(rx + 12 + 60 * v, 111, 'v', { c: 'v' });
+  const fl = Math.max(20, Math.min(90, 46 * B * B * v));
+  s += arr(rx - 10, 100, rx - 10 - fl, 100, 'f') + tx(rx - 12 - fl, 94, 'F_{B}', { c: 'f', anchor: 'end', fs: 12 });
   s += arr(rx - 16, 160, rx - 16, 130, 'I', 2) + tx(rx - 20, 152, 'I', { c: 'I', anchor: 'end' }) + arr(170, T + 10, 130, T + 10, 'I', 1.6) + arr(130, Bt - 10, 170, Bt - 10, 'I', 1.6) + tx(150, Bt - 18, '逆时针', { c: 'I', fs: 10, it: false, anchor: 'middle' });
   s += arr(rx + 24, 140, rx + 24, T + 2, 'g', 1) + arr(rx + 24, 140, rx + 24, Bt - 2, 'g', 1) + tx(rx + 30, 150, 'L', { fs: 12 });
   s += tx(20, 24, '面积↑ ⇒ Φ（入）↑ ⇒ 感应 B 出纸面 ⇒ I 逆时针，F_{B} 向左阻碍运动', { it: false, fs: 10 }) + eq(30, 222, ['ε = BLv']) + eq(130, 222, ['I = ', { n: 'BLv', d: 'R' }]) + eq(240, 222, ['F = ', { n: 'B^{2}L^{2}v', d: 'R' }]);
   return s;
+}, {
+  status: (p) => `ε ∝ Bv，F ∝ B²v：v = ${(p.v ?? 1).toFixed(1)}，B = ${(p.B ?? 1).toFixed(1)}`,
 });
-def('faraday-changing-B', '法拉第：均匀变化磁场中的固定线圈（B 出纸面且增大）', '\\varepsilon=-\\dfrac{d\\Phi_B}{dt}=-A\\dfrac{dB}{dt}', () => {
+defI('faraday-changing-B', '法拉第：均匀变化磁场中的固定线圈（B 出纸面且增大）', '\\varepsilon=-\\dfrac{d\\Phi_B}{dt}=-A\\dfrac{dB}{dt}', [
+  { key: 'rate', label: '磁场变化率 dB/dt', min: 0.5, max: 2.5, step: 0.1, value: 1 },
+], (p) => {
+  const rate = p.rate ?? 1, al = 6 + 6 * rate;
   let s = ''; for (let x = 30; x <= 230; x += 34) for (let y = 30; y <= 230; y += 34) s += dotB(x, y, 4.5);
   const cx = 130, cy = 130, r = 70; s += circ(cx, cy, r, { c: 'I', w: 3 });
-  [90, 210, 330].forEach((a) => { s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, a - 12), 'I', 2); });
+  [90, 210, 330].forEach((a) => { s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, a - al), 'I', 2); });
   s += tx(20, 252, '线圈中感应电流 I 顺时针', { c: 'I', fs: 11, it: false }) + crossB(cx, cy, 9, 'm') + tx(cx + 14, cy + 4, 'B_{ind}', { c: 'm', fs: 11 });
   s += tx(250, 40, 'B ⊙ 增大 ⇒ Φ 增大', { fs: 11, it: false }) + tx(250, 58, '楞次定律：感应 B 入纸面', { fs: 11, it: false }) + tx(250, 76, '⇒ I 顺时针', { fs: 11, it: false });
   s += eq(250, 125, ['ε = −', { n: 'dΦ_{B}', d: 'dt' }]) + eq(250, 190, ['|ε| = πr^{2}', { n: 'dB', d: 'dt' }]);
   return s;
+}, {
+  status: (p) => `dB/dt = ${(p.rate ?? 1).toFixed(1)}：|ε| ∝ dB/dt，感应电流方向由楞次定律决定`,
 });
-def('rl-circuit', 'RL 电路（开关闭合）与电流增长曲线', 'I=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\dfrac{t}{\\tau}}\\right),\\; \\tau=\\dfrac{L}{R}', () => {
-  const L0 = 40, T = 40, B = 170; let s = battery(L0, B, L0, T, 'ε', true) + ln(L0, T, 60, T) + sw(60, T, 100, T, 'S') + resistor(100, T, 180, T, 'R') + inductor(180, T, 180, B, 'L') + ln(180, B, L0, B);
+defI('rl-circuit', 'RL 电路（开关闭合）与电流增长曲线', 'I=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\dfrac{t}{\\tau}}\\right),\\; \\tau=\\dfrac{L}{R}', [
+  { key: 't', label: '时间 t / τ', min: 0, max: 5, step: 0.1, value: 1 },
+], (p) => {
+  const t = p.t ?? 1, L0 = 40, T = 40, B = 170; let s = battery(L0, B, L0, T, 'ε', true) + ln(L0, T, 60, T) + sw(60, T, 100, T, 'S') + resistor(100, T, 180, T, 'R') + inductor(180, T, 180, B, 'L') + ln(180, B, L0, B);
   s += arr(125, T + 14, 150, T + 14, 'I', 1.4);
-  const g = graph(260, 30, 110, 110, { fns: [{ f: (t) => 1 - Math.exp(-t), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.632, label: '0.63' }], vmarks: [{ t: 1, label: 'τ' }] });
-  s += g.s + eq(20, 212, ['I = ', { n: 'ε', d: 'R' }, '(1 − exp(−', { n: 't', d: 'τ' }, '))'], { fs: 11 }) + eq(210, 212, ['τ = ', { n: 'L', d: 'R' }]) + eq(290, 212, ['ε_{L} = −L', { n: 'dI', d: 'dt' }], { fs: 11 }) + tx(20, 252, 't = 0：L 相当于断路；t → ∞：L 相当于导线', { it: false, fs: 11 });
+  const g = graph(260, 30, 110, 110, { fns: [{ f: (x) => 1 - Math.exp(-x), c: 'I' }], t1: 5, ymin: 0, ymax: 1.15, yl: 'I', hmarks: [{ v: 1, label: 'ε/R' }, { v: 0.632, label: '0.63' }], vmarks: [{ t: 1, label: 'τ' }] });
+  s += g.s + (p.__dirty ? ln(g.X(t), 30, g.X(t), 140, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g.X(t), g.Y(1 - Math.exp(-t)), 4, { fill: COL.I, c: 'I' }) : '');
+  s += eq(20, 212, ['I = ', { n: 'ε', d: 'R' }, '(1 − exp(−', { n: 't', d: 'τ' }, '))'], { fs: 11 }) + eq(210, 212, ['τ = ', { n: 'L', d: 'R' }]) + eq(290, 212, ['ε_{L} = −L', { n: 'dI', d: 'dt' }], { fs: 11 }) + tx(20, 252, 't = 0：L 相当于断路；t → ∞：L 相当于导线', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => { const t = p.t ?? 1; return `t = ${t.toFixed(1)}τ：I = ${((1 - Math.exp(-t)) * 100).toFixed(0)}% ε/R`; },
 });
-def('lc-circuit', 'LC 振荡电路与 q(t)、I(t)', '\\omega=\\dfrac{1}{\\sqrt{LC}},\\; q=Q_0\\cos\\omega t,\\; I=\\dfrac{dq}{dt}=-Q_0\\omega\\sin\\omega t', () => {
-  const T = 50, B = 170; let s = capacitor(60, B, 60, T, 'C') + ln(60, T, 160, T) + inductor(160, T, 160, B, 'L') + ln(160, B, 60, B) + tx(50, T + 44, '+Q₀', { fs: 11, anchor: 'end' });
-  const g1 = graph(240, 20, 130, 64, { fns: [{ f: (t) => Math.cos(2 * Math.PI * t) }], t1: 1.25, ymin: -1.15, ymax: 1.15, yl: 'q' });
-  const g2 = graph(240, 118, 130, 64, { fns: [{ f: (t) => -Math.sin(2 * Math.PI * t), c: 'I' }], t1: 1.25, ymin: -1.15, ymax: 1.15, yl: 'I' });
+defI('lc-circuit', 'LC 振荡电路与 q(t)、I(t)', '\\omega=\\dfrac{1}{\\sqrt{LC}},\\; q=Q_0\\cos\\omega t,\\; I=\\dfrac{dq}{dt}=-Q_0\\omega\\sin\\omega t', [
+  { key: 't', label: '时间 t / T', min: 0, max: 1.25, step: 0.01, value: 0 },
+], (p) => {
+  const t = p.t ?? 0, T = 50, B = 170; let s = capacitor(60, B, 60, T, 'C') + ln(60, T, 160, T) + inductor(160, T, 160, B, 'L') + ln(160, B, 60, B) + tx(50, T + 44, '+Q₀', { fs: 11, anchor: 'end' });
+  const g1 = graph(240, 20, 130, 64, { fns: [{ f: (x) => Math.cos(2 * Math.PI * x) }], t1: 1.25, ymin: -1.15, ymax: 1.15, yl: 'q' });
+  const g2 = graph(240, 118, 130, 64, { fns: [{ f: (x) => -Math.sin(2 * Math.PI * x), c: 'I' }], t1: 1.25, ymin: -1.15, ymax: 1.15, yl: 'I' });
   s += g1.s + g2.s + tx(236, g1.Y(1) + 4, 'Q₀', { anchor: 'end', fs: 10 }) + tx(236, g2.Y(1) + 4, 'Q₀ω', { anchor: 'end', fs: 10 });
+  const q = Math.cos(2 * Math.PI * t), cur = -Math.sin(2 * Math.PI * t);
+  if (p.__dirty) {
+    s += ln(g1.X(t), 20, g1.X(t), 84, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g1.X(t), g1.Y(q), 4, { fill: 'currentColor' });
+    s += ln(g2.X(t), 118, g2.X(t), 182, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g2.X(t), g2.Y(cur), 4, { fill: COL.I, c: 'I' });
+  }
   s += eq(20, 225, ['ω = ', { n: '1', d: '√(LC)' }]) + eq(130, 225, ['U = ', { n: 'q^{2}', d: '2C' }, ' + ', { n: '1', d: '2' }, 'LI^{2} = 常量'], { fs: 12 });
   return s;
+}, {
+  status: (p) => { const t = p.t ?? 0; return `t = ${t.toFixed(2)}T：q = ${Math.cos(2 * Math.PI * t).toFixed(2)}Q₀，I = ${(-Math.sin(2 * Math.PI * t)).toFixed(2)}Q₀ω`; },
 });
 
 /* ======================= Kinematics / forces enrichments ======================= */
@@ -828,27 +1200,43 @@ def('elevator', '电梯中的视重：N 随加速度方向变化', 'N=mg+ma\\;(a
   s += eq(20, 248, ['N = mg + ma']) + eq(220, 248, ['N = mg − ma']);
   return s;
 });
-def('friction-graph', '静摩擦到滑动摩擦：f 随 F_app 的变化', 'f_s\\le\\mu_sN,\\;\\; f_k=\\mu_kN', () => {
-  const g = graph(55, 35, 195, 150, { fns: [{ f: (t) => (t < 0.55 ? t : 0.45), c: 'f' }], t1: 1, ymin: 0, ymax: 1.1, xl: 'F_app', yl: 'f', vmarks: [{ t: 0.55, label: '临界' }] });
-  let s = g.s + tx(g.X(0.22), g.Y(0.22) - 8, 'f_s = F_app', { c: 'f', fs: 11, anchor: 'middle' }) + tx(g.X(0.78), g.Y(0.45) - 8, 'f_k', { c: 'f', fs: 12, anchor: 'middle' });
+defI('friction-graph', '静摩擦到滑动摩擦：f 随 F_app 的变化', 'f_s\\le\\mu_sN,\\;\\; f_k=\\mu_kN', [
+  { key: 'mus', label: '静摩擦 μs', min: 0.2, max: 0.8, step: 0.01, value: 0.55 },
+  { key: 'muk', label: '动摩擦 μk', min: 0.05, max: 0.8, step: 0.01, value: 0.45 },
+], (p) => {
+  const mus = p.mus ?? 0.55, muk = Math.min(p.muk ?? 0.45, mus * 0.95);
+  const g = graph(55, 35, 195, 150, { fns: [{ f: (t) => (t < mus ? t : muk), c: 'f' }], t1: 1, ymin: 0, ymax: 1.1, xl: 'F_app', yl: 'f', vmarks: [{ t: mus, label: '临界' }] });
+  let s = g.s + tx(g.X(mus * 0.4), g.Y(mus * 0.4) - 8, 'f_s = F_app', { c: 'f', fs: 11, anchor: 'middle' }) + tx(g.X(Math.min(0.9, mus + 0.23)), g.Y(muk) - 8, 'f_k', { c: 'f', fs: 12, anchor: 'middle' });
   s += eq(270, 80, ['f_s ≤ μ_sN']) + eq(270, 120, ['f_k = μ_kN']) + tx(270, 170, '滑动后 f 近似恒定', { it: false, fs: 11 }) + tx(55, 24, '先静摩擦，后滑动摩擦', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `μs = ${(p.mus ?? 0.55).toFixed(2)}，μk = ${Math.min(p.muk ?? 0.45, (p.mus ?? 0.55) * 0.95).toFixed(2)}：临界后 f 降为 μkN`,
 });
-def('flat-curve', '水平弯道：静摩擦提供向心力', 'f_s=\\dfrac{mv^2}{r}\\le\\mu_smg,\\;\\; v_{\\max}=\\sqrt{\\mu_srg}', () => {
-  const cx = 145, cy = 130, r = 80; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + circ(cx, cy, 2, { fill: 'currentColor' });
+defI('flat-curve', '水平弯道：静摩擦提供向心力', 'f_s=\\dfrac{mv^2}{r}\\le\\mu_smg,\\;\\; v_{\\max}=\\sqrt{\\mu_srg}', [
+  { key: 'r', label: '弯道半径 r', min: 55, max: 95, step: 1, value: 80, unit: '' },
+  { key: 'mus', label: '静摩擦 μs', min: 0.2, max: 0.8, step: 0.01, value: 0.5 },
+], (p) => {
+  const r = p.r ?? 80, mu = p.mus ?? 0.5, vmax = Math.sqrt(mu * 9.8 * r), base = Math.sqrt(0.5 * 9.8 * 80);
+  const cx = 145, cy = 130; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + circ(cx, cy, 2, { fill: 'currentColor' });
   const carY = cy - r; s += rect(cx - 16, carY - 10, 32, 18) + tx(cx, carY + 4, 'm', { anchor: 'middle', fs: 11 });
-  s += arr(cx + 18, carY, cx + 78, carY, 'v') + tx(cx + 80, carY - 6, 'v', { c: 'v' });
-  s += arr(cx, carY + 10, cx, carY + 58, 'f') + tx(cx + 6, carY + 50, 'f_s', { c: 'f' });
+  const vl = Math.max(24, Math.min(88, 60 * vmax / base));
+  s += arr(cx + 18, carY, cx + 18 + vl, carY, 'v') + tx(cx + 22 + vl, carY - 6, 'v', { c: 'v' });
+  const fl = Math.max(18, Math.min(92, 48 * vmax * vmax / (base * base)));
+  s += arr(cx, carY + 10, cx, carY + 10 + fl, 'f') + tx(cx + 6, carY + 2 + fl, 'f_s', { c: 'f' });
   s += tx(20, 26, '俯视：弯道半径 r', { it: false, fs: 11 }) + eq(255, 70, ['f_s = ', { n: 'mv^{2}', d: 'r' }]) + eq(255, 130, ['v_{max} = ', { sqrt: 'μ_s rg' }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `v_max = √(μs r g) = ${r1(Math.sqrt((p.mus ?? 0.5) * (p.r ?? 80) * 9.8))} m/s`,
 });
-def('circular-vectors', '圆周运动：v 切向、a_c 指向圆心', 'a_c=\\dfrac{v^2}{r},\\;\\; v=\\dfrac{2\\pi r}{T}', () => {
-  const cx = 140, cy = 130, r = 75; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + circ(cx, cy, 2, { fill: 'currentColor' });
+defI('circular-vectors', '圆周运动：v 切向、a_c 指向圆心', 'a_c=\\dfrac{v^2}{r},\\;\\; v=\\dfrac{2\\pi r}{T}', [
+  { key: 'r', label: '半径 r', min: 55, max: 85, step: 1, value: 75, unit: '' },
+], (p) => {
+  const r = p.r ?? 75, cx = 140, cy = 130; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + circ(cx, cy, 2, { fill: 'currentColor' });
   [0, 90, 180, 270].forEach((a) => {
-    const p = pt(cx, cy, r, a);
-    s += circ(p[0], p[1], 4, { fill: 'currentColor' });
-    s += arrD(p[0], p[1], a + 90, 34, 'v', 1.8);
-    s += arrD(p[0], p[1], a + 180, 28, 'a', 1.6);
+    const q = pt(cx, cy, r, a);
+    s += circ(q[0], q[1], 4, { fill: 'currentColor' });
+    s += arrD(q[0], q[1], a + 90, 34, 'v', 1.8);
+    s += arrD(q[0], q[1], a + 180, 28, 'a', 1.6);
   });
   s += tx(108, 48, 'v', { c: 'v' }) + tx(146, 84, 'a_c', { c: 'a' });
   s += eq(250, 80, ['a_c = ', { n: 'v^{2}', d: 'r' }]) + eq(250, 140, ['v = ', { n: '2πr', d: 'T' }]) + tx(250, 196, 'v 与 a_c 始终垂直', { it: false, fs: 11 });
@@ -876,24 +1264,41 @@ def('gravitational-potential', '引力势能与场强随距离的变化', 'U=-\\
 });
 
 /* ======================= Energy / momentum / rotation / SHM enrichments ======================= */
-def('energy-bars', '能量条形图：U 与 K 的转换', 'E=K+U=\\text{常量}', () => {
+defH('energy-bars', '能量条形图：U 与 K 的转换', 'E=K+U=\\text{常量}', {
+  start: '初态：U 最大、K = 0，总能量 E 守恒',
+  mid: '中间态：U 与 K 同时存在，U + K = E',
+  end: '末态：U = 0、K 最大，U 全部转化为 K',
+}, () => {
   let s = ln(35, 210, 365, 210, { w: 1.6 }) + ln(35, 40, 35, 210, { w: 1.6 });
-  const groups = [{ x: 55, u: 120, k: 0, label: '初' }, { x: 155, u: 60, k: 60, label: '中' }, { x: 255, u: 0, k: 120, label: '末' }];
-  groups.forEach((g) => { s += bar(g.x, 210, 24, g.u, 'f', 0.28) + bar(g.x + 30, 210, 24, g.k, 'v', 0.25) + tx(g.x + 27, 228, g.label, { anchor: 'middle', fs: 11, it: false }); });
+  const groups = [{ x: 55, u: 120, k: 0, label: '初', key: 'start' }, { x: 155, u: 60, k: 60, label: '中', key: 'mid' }, { x: 255, u: 0, k: 120, label: '末', key: 'end' }];
+  groups.forEach((g) => {
+    const inner = bar(g.x, 210, 24, g.u, 'f', 0.28) + bar(g.x + 30, 210, 24, g.k, 'v', 0.25) + tx(g.x + 27, 228, g.label, { anchor: 'middle', fs: 11, it: false });
+    s += part(g.key, inner, { x: g.x - 4, y: 78, w: 62, h: 156 });
+  });
   s += tx(50, 60, 'U', { c: 'f', fs: 11 }) + tx(84, 60, 'K', { c: 'v', fs: 11 });
   s += ln(45, 90, 340, 90, { c: 'm', dash: '5 4', w: 1 }) + tx(345, 94, 'E', { fs: 11 });
   s += tx(40, 26, '下落过程：U → K，总能量不变', { it: false, fs: 11 });
   return s;
+}, {
+  partsHint: '悬停 / 点击初、中、末状态：查看能量分配',
 });
-def('work-incline', '斜面上各力做功：W_g、W_f、W_N', 'W_{\\rm net}=W_g+W_f+W_N=\\Delta K', () => {
-  const th = 25, I = incline(th, 25, 190, 300); const b = I.block(110, 34, 'm'); const C = b.C; let s = I.s + b.svg;
+defI('work-incline', '斜面上各力做功：W_g、W_f、W_N', 'W_{\\rm net}=W_g+W_f+W_N=\\Delta K', [
+  { key: 'th', label: '倾角 θ', min: 15, max: 32, step: 1, value: 25, unit: '°' },
+  { key: 'muk', label: '动摩擦 μk', min: 0.1, max: 0.8, step: 0.005, value: 0.585 },
+], (p) => {
+  const th = p.th ?? 25, muK = p.muk ?? 0.585, I = incline(th, 25, 190, 300); const b = I.block(110, 34, 'm'); const C = b.C; let s = I.s + b.svg;
   const mg = 64; s += arr(C[0], C[1], C[0], C[1] + mg, 'f') + tx(C[0] + 5, C[1] + mg - 6, 'mg', { c: 'f' });
   const Ne = add(C, I.n, 48); s += arr(C[0], C[1], Ne[0], Ne[1], 'f') + tx(Ne[0] + 5, Ne[1], 'N', { c: 'f' });
-  const fe = add(C, I.u, -34); s += arr(C[0], C[1], fe[0], fe[1], 'f') + tx(fe[0] - 4, fe[1] + 12, 'f_k', { c: 'f', anchor: 'end' });
+  const fe = add(C, I.u, -muK * mg * Math.cos(rad(th))); s += arr(C[0], C[1], fe[0], fe[1], 'f') + tx(fe[0] - 4, fe[1] + 12, 'f_k', { c: 'f', anchor: 'end' });
   const d0 = add(C, I.u, -18), d1 = add(d0, I.u, 58); s += arr(d0[0], d0[1], d1[0], d1[1], 'a', 1.6) + tx(d1[0] + 4, d1[1] + 4, 'd', { c: 'a' });
   s += tx(20, 26, '下滑 d：重力做正功，摩擦做负功', { it: false, fs: 11 });
   s += eq(20, 218, ['W_g = mgd sin θ']) + eq(20, 242, ['W_f = −f_k d，W_N = 0']) + eq(245, 218, ['ΔK = W_{net}']);
   return s;
+}, {
+  status: (p) => {
+    const th = p.th ?? 25, mu = p.muk ?? 0.585;
+    return `W_g = ${Math.sin(rad(th)).toFixed(2)} mgd，W_f = −${(mu * Math.cos(rad(th))).toFixed(2)} mgd`;
+  },
 });
 def('work-angle', '功的符号：F 与 d 的夹角', 'W=Fd\\cos\\theta', () => {
   let s = '';
@@ -908,21 +1313,26 @@ def('work-angle', '功的符号：F 与 d 的夹角', 'W=Fd\\cos\\theta', () => 
   s += eq(130, 242, ['W = Fd cos θ']);
   return s;
 });
-def('power-graph', '恒定作用力：P = Fv', 'P=\\dfrac{dW}{dt}=Fv', () => {
-  const g = graph(55, 35, 190, 145, { fns: [{ f: (t) => t, c: 'f' }], t1: 1, ymin: 0, ymax: 1.1, xl: 'v', yl: 'P' });
+defI('power-graph', '恒定作用力：P = Fv', 'P=\\dfrac{dW}{dt}=Fv', [
+  { key: 'F', label: '恒力 F', min: 0.3, max: 1, step: 0.05, value: 1 },
+], (p) => {
+  const F = p.F ?? 1, ymax = Math.max(1.1, 1.1 * F);
+  const g = graph(55, 35, 190, 145, { fns: [{ f: (t) => t * F, c: 'f' }], t1: 1, ymin: 0, ymax, xl: 'v', yl: 'P' });
   let s = g.s + tx(55, 24, '恒力：P ∝ v', { it: false, fs: 11 }) + eq(265, 80, ['P = Fv']) + eq(265, 130, ['P = ', { n: 'dW', d: 'dt' }]) + tx(265, 202, '瞬时功率', { it: false, fs: 11 });
   return s;
 });
-def('momentum-bars', '碰撞前后动量条形图（等质量弹性碰撞）', 'p_{1i}+p_{2i}=p_{1f}+p_{2f}', () => {
+defH('momentum-bars', '碰撞前后动量条形图（等质量弹性碰撞）', 'p_{1i}+p_{2i}=p_{1f}+p_{2f}', {
+  before: '碰前：p₁ = p₀，p₂ = 0；总动量 p₀',
+  after: '碰后（等质量弹性碰撞）：p₁ = 0，p₂ = p₀；总动量仍为 p₀',
+}, () => {
   let s = ln(35, 150, 365, 150, { w: 1.6 });
-  s += tx(80, 30, '碰前', { anchor: 'middle', it: false, fs: 11 }) + tx(260, 30, '碰后', { anchor: 'middle', it: false, fs: 11 });
-  s += bar(60, 150, 28, 80, 'v', 0.25) + tx(74, 62, 'p₁', { c: 'v', anchor: 'middle', fs: 11 });
-  s += tx(125, 145, 'p₂ = 0', { fs: 10, anchor: 'middle', it: false });
-  s += bar(240, 150, 28, 80, 'v', 0.25) + tx(254, 62, 'p₂', { c: 'v', anchor: 'middle', fs: 11 });
-  s += tx(300, 145, 'p₁ = 0', { fs: 10, anchor: 'middle', it: false });
+  s += part('before', tx(80, 30, '碰前', { anchor: 'middle', it: false, fs: 11 }) + bar(60, 150, 28, 80, 'v', 0.25) + tx(74, 62, 'p₁', { c: 'v', anchor: 'middle', fs: 11 }) + tx(125, 145, 'p₂ = 0', { fs: 10, anchor: 'middle', it: false }), { x: 42, y: 18, w: 118, h: 145 });
+  s += part('after', tx(260, 30, '碰后', { anchor: 'middle', it: false, fs: 11 }) + bar(240, 150, 28, 80, 'v', 0.25) + tx(254, 62, 'p₂', { c: 'v', anchor: 'middle', fs: 11 }) + tx(300, 145, 'p₁ = 0', { fs: 10, anchor: 'middle', it: false }), { x: 218, y: 18, w: 118, h: 145 });
   s += ln(35, 70, 365, 70, { c: 'm', dash: '5 4', w: 1 }) + tx(370, 74, 'p', { fs: 10 });
   s += eq(40, 220, ['p_{1i}+p_{2i}=p_{1f}+p_{2f}']);
   return s;
+}, {
+  partsHint: '悬停 / 点击碰前或碰后：查看动量分配',
 });
 def('explosion', '爆炸 / 反冲：总动量为零', '0=m_1v_1+m_2v_2', () => {
   let s = tx(20, 28, '碰前（静止）', { it: false, fs: 11 }) + mass(165, 60, 55, 32, 'm₁+m₂');
@@ -931,27 +1341,41 @@ def('explosion', '爆炸 / 反冲：总动量为零', '0=m_1v_1+m_2v_2', () => {
   s += eq(40, 235, ['0 = m₁v₁ + m₂v₂']);
   return s;
 });
-def('seesaw', '杠杆平衡：力矩相等', 'm_1gd_1=m_2gd_2', () => {
+defI('seesaw', '杠杆平衡：力矩相等', 'm_1gd_1=m_2gd_2', [
+  { key: 'ratio', label: 'm₂ / m₁', min: 0.7, max: 2, step: 0.05, value: 1 },
+], (p) => {
+  const ratio = p.ratio ?? 1, c2 = 200 + 100 / ratio;
   let s = hatch(20, 220, 380);
   s += `<polygon points="200,200 180,230 220,230" style="fill:none;stroke:currentColor;stroke-width:1.6"/>`;
   s += ln(60, 170, 340, 170, { w: 5 }) + circ(200, 170, 4, { fill: 'currentColor' });
-  s += mass(80, 140, 40, 30, 'm₁') + mass(280, 140, 40, 30, 'm₂');
-  s += arr(100, 170, 100, 220, 'f') + tx(106, 210, 'm₁g', { c: 'f' }) + arr(300, 170, 300, 220, 'f') + tx(306, 210, 'm₂g', { c: 'f' });
-  s += arr(100, 195, 195, 195, 'm', 1) + tx(148, 190, 'd₁', { anchor: 'middle', fs: 11 }) + arr(205, 195, 300, 195, 'm', 1) + tx(253, 190, 'd₂', { anchor: 'middle', fs: 11 });
+  s += mass(80, 140, 40, 30, 'm₁') + mass(c2 - 20, 140, 40, 30, 'm₂');
+  s += arr(100, 170, 100, 220, 'f') + tx(106, 210, 'm₁g', { c: 'f' }) + arr(c2, 170, c2, 220, 'f') + tx(c2 + 6, 210, 'm₂g', { c: 'f' });
+  s += arr(100, 195, 195, 195, 'm', 1) + tx(148, 190, 'd₁', { anchor: 'middle', fs: 11 }) + arr(205, 195, c2, 195, 'm', 1) + tx((205 + c2) / 2, 190, 'd₂', { anchor: 'middle', fs: 11 });
   s += eq(40, 248, ['m₁gd₁ = m₂gd₂']);
   return s;
+}, {
+  status: (p) => `d₂ / d₁ = m₁ / m₂ = ${(1 / (p.ratio ?? 1)).toFixed(2)}`,
 });
-def('moment-of-inertia', '常见刚体的转动惯量（绕中心轴）', 'I_{\\text{hoop}}=MR^2,\\; I_{\\text{disk}}=\\dfrac12MR^2,\\; I_{\\text{sphere}}=\\dfrac25MR^2' + CAP_DESCENT, () => {
+defH('moment-of-inertia', '常见刚体的转动惯量（绕中心轴）', 'I_{\\text{hoop}}=MR^2,I_{\\text{disk}}=\\dfrac12MR^2,I_{\\text{sphere}}=\\dfrac25MR^2' + CAP_DESCENT, {
+  hoop: '圆环（薄壁圆筒）绕中心轴：I = MR²',
+  disk: '均匀圆盘绕中心轴：I = ½MR²',
+  sphere: '均匀实心球绕直径：I = ⅖MR²',
+  rod: '均匀细杆绕中心：I = (1/12)ML²',
+}, () => {
   let s = tx(20, 24, '绕中心轴 / 质心轴', { it: false, fs: 11 });
-  s += circ(105, 78, 26, { w: 2.4 }) + tx(105, 124, 'I = MR²', { anchor: 'middle', fs: 11 });
-  s += circ(295, 78, 26, { fill: 'currentColor', op: 0.08, w: 2.2 }) + tx(295, 124, 'I = ½MR²', { anchor: 'middle', fs: 11 });
-  s += circ(105, 185, 26, { w: 2.2 }) + arc(105, 185, 26, 0, 180, { c: 'm', w: 1 }) + tx(105, 231, 'I = ⅖MR²', { anchor: 'middle', fs: 11 });
-  s += ln(255, 185, 335, 185, { w: 4 }) + circ(295, 185, 3, { fill: 'currentColor' }) + eq(262, 226, ['I = ', { n: '1', d: '12' }, 'ML²'], { fs: 11 });
+  s += part('hoop', circ(105, 78, 26, { w: 2.4 }) + tx(105, 124, 'I = MR²', { anchor: 'middle', fs: 11 }), { x: 70, y: 44, w: 70, h: 88 });
+  s += part('disk', circ(295, 78, 26, { fill: 'currentColor', op: 0.08, w: 2.2 }) + tx(295, 124, 'I = ½MR²', { anchor: 'middle', fs: 11 }), { x: 260, y: 44, w: 70, h: 88 });
+  s += part('sphere', circ(105, 185, 26, { w: 2.2 }) + arc(105, 185, 26, 0, 180, { c: 'm', w: 1 }) + tx(105, 231, 'I = ⅖MR²', { anchor: 'middle', fs: 11 }), { x: 70, y: 151, w: 70, h: 88 });
+  s += part('rod', ln(255, 185, 335, 185, { w: 4 }) + circ(295, 185, 3, { fill: 'currentColor' }) + eq(262, 226, ['I = ', { n: '1', d: '12' }, 'ML²'], { fs: 11 }), { x: 250, y: 165, w: 90, h: 70 });
   s += tx(20, 250, '圆环 / 圆盘 / 实心球 / 细杆', { it: false, fs: 10 });
   return s;
+}, {
+  partsHint: '悬停 / 点击刚体：查看对应转动惯量',
 });
-def('rolling-race', '纯滚动比赛：球 > 盘 > 环', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, () => {
-  const th = 22, I = incline(th, 20, 215, 340); let s = I.s;
+defI('rolling-race', '纯滚动比赛：球 > 盘 > 环', 'a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{MR^2}}' + CAP_DESCENT, [
+  { key: 'th', label: '倾角 θ', min: 15, max: 30, step: 1, value: 22, unit: '°' },
+], (p) => {
+  const th = p.th ?? 22, I = incline(th, 20, 215, 340); let s = I.s;
   const R = 16;
   const items = [{ d: 55, label: '环' }, { d: 125, label: '盘' }, { d: 200, label: '球' }];
   items.forEach((it) => {
@@ -983,49 +1407,79 @@ def('shm-energy', 'SHM 能量：K 与 U 互相转换', 'E=K+U=\\dfrac12kA^2', ()
   s += eq(40, 240, ['E = ', { n: '1', d: '2' }, 'kA²']);
   return s;
 });
-def('shm-phase', 'SHM 与匀速圆周运动的投影', 'x=A\\cos(\\omega t+\\phi)', () => {
-  const cx = 140, cy = 130, r = 75; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + ln(cx, cy, cx + r + 35, cy, { w: 1.4 }) + ln(cx, cy, cx, cy - r - 10, { w: 1.4 });
-  const [px, py] = pt(cx, cy, r, 60); s += ln(cx, cy, px, py, { c: 'm', w: 1.2 }) + arc(cx, cy, 28, 0, 60, { c: 'm', w: 1 }) + tx(cx + 32, cy - 10, 'ωt', { fs: 11 });
+defI('shm-phase', 'SHM 与匀速圆周运动的投影', 'x=A\\cos(\\omega t+\\phi)', [
+  { key: 'ph', label: '相位 φ', min: 0, max: 360, step: 5, value: 60, unit: '°' },
+], (p) => {
+  const ph = p.ph ?? 60, cx = 140, cy = 130, r = 75; let s = circ(cx, cy, r, { c: 'm', dash: '5 4' }) + ln(cx, cy, cx + r + 35, cy, { w: 1.4 }) + ln(cx, cy, cx, cy - r - 10, { w: 1.4 });
+  const [px, py] = pt(cx, cy, r, ph); s += ln(cx, cy, px, py, { c: 'm', w: 1.2 }) + arc(cx, cy, 28, 0, ph, { c: 'm', w: 1 }) + tx(cx + 32, cy - 10, 'ωt', { fs: 11 });
   s += circ(px, py, 5, { fill: 'currentColor' }) + ln(px, py, px, cy, { c: 'm', dash: '3 3', w: 1 }) + circ(px, cy, 4, { fill: COL.v, c: 'v' }) + tx(px + 6, cy + 16, 'x', { c: 'v', fs: 12 });
   s += tx(120, 112, 'A', { fs: 11 }) + tx(20, 24, '参考圆：半径 A，角速度 ω', { it: false, fs: 11 }) + eq(250, 90, ['x = A cos(ωt + φ)']) + tx(250, 145, '投影位置 x 随时间按余弦变化', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => `x = A cos φ = ${Math.cos(rad(p.ph ?? 60)).toFixed(2)}A`,
 });
 def('pendulum-period', '单摆周期：T ∝ √L', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', () => {
   const g = graph(55, 35, 190, 145, { fns: [{ f: (t) => Math.sqrt(t), c: 'a' }], t1: 1, ymin: 0, ymax: 1.15, xl: 'L', yl: 'T' });
   let s = g.s + tx(55, 24, '小角近似', { it: false, fs: 11 }) + eq(265, 70, ['T = 2π', { sqrt: { n: 'L', d: 'g' } }]) + tx(265, 135, '与质量、振幅无关（小角）', { it: false, fs: 11 }) + tx(265, 170, 'T ∝ √L', { it: false, fs: 11 });
   return s;
 });
-def('physical-pendulum-fbd', '复摆：重力对转轴的力矩', 'T=2\\pi\\sqrt{\\dfrac{I}{mgd}},\\;\\; \\tau=-mgd\\sin\\theta', () => {
-  const px = 160, py = 40, L = 180, th = 20; const ex = px + L * Math.sin(rad(th)), ey = py + L * Math.cos(rad(th));
+defI('physical-pendulum-fbd', '复摆：重力对转轴的力矩', 'T=2\\pi\\sqrt{\\dfrac{I}{mgd}},\\;\\; \\tau=-mgd\\sin\\theta', [
+  { key: 'th', label: '摆角 θ', min: 5, max: 40, step: 1, value: 20, unit: '°' },
+], (p) => {
+  const px = 160, py = 40, L = 180, th = p.th ?? 20; const ex = px + L * Math.sin(rad(th)), ey = py + L * Math.cos(rad(th));
   let s = hatch(px - 40, py, px + 40) + `<polygon points="${px},${py} ${px - 10},${py + 18} ${px + 10},${py + 18}" style="fill:none;stroke:currentColor;stroke-width:1.5"/>`;
   s += ln(px, py, ex, ey, { w: 5 }) + circ(px, py, 3, { fill: 'currentColor' }) + ln(px, py, px, py + L, { c: 'm', dash: '4 4', w: 1 }) + arc(px, py, 45, 90 - th, 90, { c: 'm', w: 1 }) + tx(px + 14, py + 52, 'θ', { fs: 11 });
   const cm = [(px + ex) / 2, (py + ey) / 2]; s += circ(cm[0], cm[1], 4, { fill: 'currentColor' }) + arr(cm[0], cm[1], cm[0], cm[1] + 52, 'f') + tx(cm[0] + 5, cm[1] + 48, 'mg', { c: 'f' });
   s += arr(px, py, px, py - 34, 'f') + tx(px + 6, py - 28, 'F_p', { c: 'f', fs: 11 }) + tx(20, 24, '质心距转轴 d；τ 使 θ 减小', { it: false, fs: 11 }) + eq(20, 225, ['τ = −mgd sin θ']) + eq(190, 225, ['T = 2π', { sqrt: { n: 'I', d: 'mgd' } }], { fs: 12 });
   return s;
+}, {
+  status: (p) => `sin θ = ${Math.sin(rad(p.th ?? 20)).toFixed(2)}：θ 增大，回复力矩 |τ| 增大`,
 });
 
 /* ======================= E&M enrichments ======================= */
-def('coulomb-force', '库仑力：异号相吸、同号相斥', 'F=k\\dfrac{|q_1q_2|}{r^2}', () => {
-  let s = tx(20, 26, '异号电荷：力指向彼此', { it: false, fs: 11 });
-  s += circ(85, 115, 14, { c: 'E', w: 1.8 }) + tx(85, 120, '+', { anchor: 'middle', it: false, fs: 14, c: 'E' });
-  s += circ(185, 115, 14, { c: 'B', w: 1.8 }) + tx(185, 120, '−', { anchor: 'middle', it: false, fs: 14, c: 'B' });
-  s += arr(99, 115, 139, 115, 'f') + tx(119, 105, 'F₁₂', { c: 'f', anchor: 'middle', fs: 11 }) + arr(171, 115, 131, 115, 'f') + tx(151, 135, 'F₂₁', { c: 'f', anchor: 'middle', fs: 11 });
-  s += tx(85, 155, 'q₁', { anchor: 'middle', fs: 12 }) + tx(185, 155, 'q₂', { anchor: 'middle', fs: 12 });
-  s += tx(20, 195, '同号：方向相反（排斥）', { it: false, fs: 11 });
+defI('coulomb-force', '库仑力：异号相吸、同号相斥', 'F=k\\dfrac{|q_1q_2|}{r^2}', [
+  { key: 'sep', label: '电荷间距 r', min: 60, max: 150, step: 5, value: 100, unit: '' },
+  { key: 'mode', label: '电荷', type: 'choice', value: 'attract', options: [{ value: 'attract', label: '异号相吸' }, { value: 'repel', label: '同号相斥' }] },
+], (p) => {
+  const sep = p.sep ?? 100, attract = (p.mode ?? 'attract') === 'attract';
+  const x1 = 135 - sep / 2, x2 = 135 + sep / 2;
+  let s = tx(20, 26, attract ? '异号电荷：力指向彼此' : '同号电荷：力背离彼此', { it: false, fs: 11 });
+  s += circ(x1, 115, 14, { c: 'E', w: 1.8 }) + tx(x1, 120, '+', { anchor: 'middle', it: false, fs: 14, c: 'E' });
+  s += circ(x2, 115, 14, { c: 'B', w: 1.8 }) + tx(x2, 120, attract ? '−' : '+', { anchor: 'middle', it: false, fs: 14, c: 'B' });
+  if (attract) {
+    s += arr(x1 + 14, 115, x1 + 54, 115, 'f') + tx(x1 + 34, 105, 'F₁₂', { c: 'f', anchor: 'middle', fs: 11 }) + arr(x2 - 14, 115, x2 - 54, 115, 'f') + tx(x2 - 34, 135, 'F₂₁', { c: 'f', anchor: 'middle', fs: 11 });
+  } else {
+    s += arr(x1 - 14, 115, x1 - 54, 115, 'f') + tx(x1 - 20, 105, 'F₁₂', { c: 'f', anchor: 'end', fs: 11 }) + arr(x2 + 14, 115, x2 + 54, 115, 'f') + tx(x2 + 20, 135, 'F₂₁', { c: 'f', fs: 11 });
+  }
+  s += tx(x1, 155, 'q₁', { anchor: 'middle', fs: 12 }) + tx(x2, 155, 'q₂', { anchor: 'middle', fs: 12 });
+  s += tx(20, 195, attract ? '同号：方向相反（排斥）' : '异号：方向相反（吸引）', { it: false, fs: 11 });
   const g = graph(250, 40, 110, 120, { fns: [{ f: (t) => 1.1 / (1 + 2.5 * t) ** 2, c: 'f' }], t1: 1, ymin: 0, ymax: 1.2, xl: 'r', yl: 'F' });
   s += g.s + eq(20, 235, ['F = k', { n: '|q₁q₂|', d: 'r²' }]);
   return s;
+}, {
+  status: (p) => `r = ${p.sep ?? 100}：F ∝ 1/r²，r 增大时力迅速减小`,
 });
-def('field-vectors', '点电荷电场：E 随距离按 1/r² 减小', 'E=k\\dfrac{q}{r^2}', () => {
-  const cx = 145, cy = 130; let s = circ(cx, cy, 8, { fill: COL.E, c: 'E', op: 0.55 }) + tx(cx, cy + 4, '+', { anchor: 'middle', it: false, fs: 12, c: 'E' });
+defI('field-vectors', '点电荷电场：E 随距离按 1/r² 减小', 'E=k\\dfrac{q}{r^2}', [
+  { key: 'sign', label: '电荷', type: 'choice', value: 'pos', options: [{ value: 'pos', label: '+q' }, { value: 'neg', label: '−q' }] },
+], (p) => {
+  const neg = (p.sign ?? 'pos') === 'neg';
+  const cx = 145, cy = 130; const col = neg ? 'v' : 'E'; let s = circ(cx, cy, 8, { fill: COL[col], c: col, op: 0.55 }) + tx(cx, cy + 4, neg ? '−' : '+', { anchor: 'middle', it: false, fs: 12, c: col });
   s += circ(cx, cy, 52, { c: 'm', dash: '4 4', w: 1 }) + circ(cx, cy, 100, { c: 'm', dash: '4 4', w: 1 });
   [0, 90, 180, 270].forEach((a) => {
     const p1 = pt(cx, cy, 52, a), p2 = pt(cx, cy, 100, a);
-    s += arr(p1[0], p1[1], ...pt(cx, cy, 52, a).map((v, i) => i === 0 ? v + 34 * Math.cos(rad(a)) : v - 34 * Math.sin(rad(a))), 'E', 2);
-    s += arr(p2[0], p2[1], ...pt(cx, cy, 100, a).map((v, i) => i === 0 ? v + 18 * Math.cos(rad(a)) : v - 18 * Math.sin(rad(a))), 'E', 1.8);
+    const q1 = pt(cx, cy, 86, a), q2 = pt(cx, cy, 118, a);
+    if (!neg) {
+      s += arr(p1[0], p1[1], q1[0], q1[1], 'E', 2);
+      s += arr(p2[0], p2[1], q2[0], q2[1], 'E', 1.8);
+    } else {
+      s += arr(q1[0], q1[1], p1[0], p1[1], 'E', 2);
+      s += arr(q2[0], q2[1], p2[0], p2[1], 'E', 1.8);
+    }
   });
-  s += tx(250, 70, 'r 处箭头长度 ∝ 1/r²', { it: false, fs: 11 }) + eq(270, 115, ['E = k', { n: 'q', d: 'r²' }]) + tx(250, 175, '方向沿径向（正电荷向外）', { it: false, fs: 11 });
+  s += tx(250, 70, 'r 处箭头长度 ∝ 1/r²', { it: false, fs: 11 }) + eq(270, 115, ['E = k', { n: 'q', d: 'r²' }]) + tx(250, 175, neg ? '方向沿径向（负电荷指向电荷）' : '方向沿径向（正电荷向外）', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => (p.sign ?? 'pos') === 'neg' ? '−q：电场线指向电荷，E 方向与 +q 相反' : '+q：电场线沿径向向外',
 });
 def('field-superposition', '电场叠加：先求各场强，再矢量相加', '\\vec E=\\sum_i k\\dfrac{q_i}{r_i^2}\\hat r_i', () => {
   let s = ln(100, 180, 200, 80, { c: 'm', dash: '3 3', w: 1 }) + ln(300, 180, 200, 80, { c: 'm', dash: '3 3', w: 1 });
@@ -1047,21 +1501,40 @@ def('line-charge', '无限长线电荷：圆柱形高斯面', 'E=\\dfrac{\\lambd
   s += tx(180, 90, 'E', { c: 'E', fs: 11 }) + tx(20, 26, '取同轴圆柱面，侧面通量 = E·2πrℓ', { it: false, fs: 11 }) + eq(240, 70, ['E = ', { n: 'λ', d: '2πε₀r' }]) + tx(240, 135, '方向沿径向', { it: false, fs: 11 });
   return s;
 });
-def('flux-angle', '电通量：只有法向分量贡献 Φ_E', '\\Phi_E=EA\\cos\\theta', () => {
-  let s = `<polygon points="95,175 225,150 270,95 140,120" style="fill:${COL.B};fill-opacity:0.10;stroke:${COL.B};stroke-width:1.6"/>`;
-  s += ln(182, 135, 210, 70, { c: 'f', w: 2 }) + tx(214, 64, 'n', { c: 'f', fs: 12 });
-  s += arr(85, 65, 125, 85, 'E', 1.8) + arr(120, 45, 160, 65, 'E', 1.8) + arr(155, 25, 195, 45, 'E', 1.8);
-  s += tx(92, 44, 'E', { c: 'E', fs: 12 }) + tx(20, 26, '面积矢量 A 与 E 的夹角 θ', { it: false, fs: 11 });
+defH('flux-angle', '电通量：只有法向分量贡献 Φ_E', '\\Phi_E=EA\\cos\\theta', {
+  area: '面积矢量 A：大小等于面积，方向沿法线',
+  normal: '法线 n 与 E 的夹角为 θ；Φ_E = EA cos θ',
+  field: '电场 E：只有垂直于面积的分量穿过该面',
+}, () => {
+  let s = part('area', `<polygon points="95,175 225,150 270,95 140,120" style="fill:${COL.B};fill-opacity:0.10;stroke:${COL.B};stroke-width:1.6"/>`);
+  s += part('normal', ln(182, 135, 210, 70, { c: 'f', w: 2 }) + tx(214, 64, 'n', { c: 'f', fs: 12 }), { x: 174, y: 58, w: 50, h: 88 });
+  s += part('field', arr(85, 65, 125, 85, 'E', 1.8) + arr(120, 45, 160, 65, 'E', 1.8) + arr(155, 25, 195, 45, 'E', 1.8) + tx(92, 44, 'E', { c: 'E', fs: 12 }));
+  s += tx(20, 26, '面积矢量 A 与 E 的夹角 θ', { it: false, fs: 11 });
   s += eq(245, 80, ['Φ_{E} = EA cos θ']) + tx(245, 135, 'θ = 0：Φ 最大', { it: false, fs: 11 }) + tx(245, 158, 'θ = 90°：Φ = 0', { it: false, fs: 11 });
   return s;
+}, {
+  partsHint: '悬停 / 点击面积、法线或电场：高亮对应部分',
 });
-def('gauss-shell', '导体球壳：腔内电荷与表面感应电荷', '\\oint\\vec E\\cdot d\\vec A=\\dfrac{Q_{\\rm enc}}{\\varepsilon_0}', () => {
-  const cx = 150, cy = 130; let s = circ(cx, cy, 95, { w: 2.2 }) + circ(cx, cy, 55, { w: 2.2 });
-  s += circ(cx, cy, 6, { fill: COL.E, c: 'E', op: 0.55 }) + tx(cx, cy + 4, '+q', { anchor: 'middle', fs: 10, c: 'E', it: false });
-  for (const a of [30, 90, 150, 210, 270, 330]) { const p = pt(cx, cy, 55, a); s += tx(p[0], p[1], '−', { anchor: 'middle', fs: 12, c: 'B' }); }
-  for (const a of [20, 80, 140, 200, 260, 320]) { const p = pt(cx, cy, 95, a); s += tx(p[0], p[1], '+', { anchor: 'middle', fs: 11, c: 'E' }); }
-  s += circ(cx, cy, 75, { c: 'm', dash: '4 4', w: 1 }) + tx(20, 18, '导体内部 E = 0；内表面 −q，外表面 +q', { it: false, fs: 10 }) + eq(255, 70, ['E = 0 （导体内）']) + eq(255, 120, ['E = k', { n: 'q', d: 'r²' }, ' （壳外）'], { fs: 12 });
+defH('gauss-shell', '导体球壳：腔内电荷与表面感应电荷', '\\oint\\vec E\\cdot d\\vec A=\\dfrac{Q_{\\rm enc}}{\\varepsilon_0}', {
+  cavity: '腔内 +q：若腔内无其他电荷，高斯面内 Q_enc = +q',
+  inner: '导体内表面感应 −q（与腔内电荷等量异号）',
+  outer: '外表面感应 +q（导体净电荷为零时）',
+  gauss: '导体内高斯面：E = 0，Q_enc = 0',
+}, () => {
+  const cx = 150, cy = 130;
+  let s = circ(cx, cy, 95, { w: 2.2 }) + circ(cx, cy, 55, { w: 2.2 });
+  s += part('gauss', circ(cx, cy, 75, { c: 'm', dash: '4 4', w: 1 }), { x: 70, y: 50, w: 160, h: 160 });
+  s += part('cavity', circ(cx, cy, 6, { fill: COL.E, c: 'E', op: 0.55 }) + tx(cx, cy + 4, '+q', { anchor: 'middle', fs: 10, c: 'E', it: false }), { x: 130, y: 110, w: 40, h: 40 });
+  let inner = '';
+  for (const a of [30, 90, 150, 210, 270, 330]) { const q = pt(cx, cy, 55, a); inner += tx(q[0], q[1], '−', { anchor: 'middle', fs: 12, c: 'B' }); }
+  s += part('inner', inner, { x: 88, y: 68, w: 124, h: 124 });
+  let outer = '';
+  for (const a of [20, 80, 140, 200, 260, 320]) { const q = pt(cx, cy, 95, a); outer += tx(q[0], q[1], '+', { anchor: 'middle', fs: 11, c: 'E' }); }
+  s += part('outer', outer, { x: 48, y: 28, w: 204, h: 204 });
+  s += tx(20, 18, '导体内部 E = 0；内表面 −q，外表面 +q', { it: false, fs: 10 }) + eq(255, 70, ['E = 0 （导体内）']) + eq(255, 120, ['E = k', { n: 'q', d: 'r²' }, ' （壳外）'], { fs: 12 });
   return s;
+}, {
+  partsHint: '悬停 / 点击腔内电荷、内外表面或高斯面：高亮对应部分',
 });
 def('potential-energy-sign', '电势能的正负：同号与异号电荷', 'U=k\\dfrac{q_1q_2}{r}', () => {
   const g = graph(60, 40, 180, 140, { fns: [{ f: (t) => 0.8 / (t + 0.5), c: 'f' }, { f: (t) => -0.8 / (t + 0.5), c: 'B' }], t1: 1, ymin: -1.1, ymax: 1.1, xl: 'r', yl: 'U', hmarks: [{ v: 0, label: '0' }] });
@@ -1076,25 +1549,37 @@ def('potential-point-charge', '点电荷电势：V 随 r 按 1/r 减小', 'V=k\\
   s += g.s + tx(20, 26, '等势面：同心球面', { it: false, fs: 11 }) + eq(20, 225, ['V = k', { n: 'q', d: 'r' }]) + tx(180, 225, 'V 是标量，可直接相加', { it: false, fs: 11 });
   return s;
 });
-def('charge-in-field', '电荷在平行板间移动：W = qEd', 'W=qEd,\\;\\; \\Delta U=-qEd', () => {
-  let s = ln(50, 55, 300, 55, { w: 3, c: 'E' }) + ln(50, 205, 300, 205, { w: 3, c: 'B' });
-  for (let x = 75; x <= 285; x += 50) { s += tx(x, 48, '+', { c: 'E', it: false, fs: 12, anchor: 'middle' }) + tx(x, 220, '−', { c: 'B', it: false, fs: 12, anchor: 'middle' }); }
-  [110, 160, 210, 260].forEach((x) => { s += arr(x, 65, x, 195, 'E', 1.4); });
-  s += circ(175, 90, 8, { fill: COL.f, c: 'f', op: 0.5 }) + tx(175, 94, '+q', { anchor: 'middle', fs: 10, it: false, c: 'f' });
-  s += arr(175, 100, 175, 170, 'a', 1.8) + tx(181, 140, 'd', { c: 'a' });
+defI('charge-in-field', '电荷在平行板间移动：W = qEd', 'W=qEd,\\;\\; \\Delta U=-qEd', [
+  { key: 'd', label: '板间距 d', min: 80, max: 150, step: 5, value: 150, unit: '' },
+], (p) => {
+  const d = p.d ?? 150, bot = 55 + d, y0 = 90, y1 = y0 + 80 * d / 150;
+  let s = ln(50, 55, 300, 55, { w: 3, c: 'E' }) + ln(50, bot, 300, bot, { w: 3, c: 'B' });
+  for (let x = 75; x <= 285; x += 50) { s += tx(x, 48, '+', { c: 'E', it: false, fs: 12, anchor: 'middle' }) + tx(x, bot + 15, '−', { c: 'B', it: false, fs: 12, anchor: 'middle' }); }
+  [110, 160, 210, 260].forEach((x) => { s += arr(x, 65, x, bot - 10, 'E', 1.4); });
+  s += circ(175, y0, 8, { fill: COL.f, c: 'f', op: 0.5 }) + tx(175, y0 + 4, '+q', { anchor: 'middle', fs: 10, it: false, c: 'f' });
+  s += arr(175, y0 + 10, 175, y1, 'a', 1.8) + tx(181, (y0 + 10 + y1) / 2, 'd', { c: 'a' });
   s += tx(20, 26, 'E 向下；正电荷向下移动', { it: false, fs: 11 }) + eq(20, 238, ['W = qEd，ΔU = −qEd']);
   return s;
+}, {
+  status: (p) => `d = ${p.d ?? 150}：E = ΔV/d，W = qEd（d 越大，E 与 W 越小）`,
 });
-def('capacitor-combinations', '电容器的串联与并联', '\\dfrac1{C_{\\rm eq}}=\\dfrac1{C_1}+\\dfrac1{C_2},\\;\\; C_{\\rm eq}=C_1+C_2', () => {
-  let s = tx(30, 28, '串联', { it: false, fs: 11 }) + tx(225, 28, '并联', { it: false, fs: 11 });
-  s += ln(30, 70, 170, 70, { w: 1.6 }) + ln(30, 185, 170, 185, { w: 1.6 });
-  s += capacitor(80, 70, 80, 120, 'C₁') + capacitor(125, 120, 125, 185, 'C₂');
-  s += ln(80, 120, 125, 120, { w: 1.6 });
-  s += ln(225, 70, 370, 70, { w: 1.6 }) + ln(225, 185, 370, 185, { w: 1.6 });
-  s += ln(260, 70, 260, 110, { w: 1.6 }) + capacitor(260, 110, 260, 155, 'C₁') + ln(260, 155, 260, 185, { w: 1.6 });
-  s += ln(335, 70, 335, 110, { w: 1.6 }) + capacitor(335, 110, 335, 155, 'C₂') + ln(335, 155, 335, 185, { w: 1.6 });
+defH('capacitor-combinations', '电容器的串联与并联', '\\dfrac1{C_{\\rm eq}}=\\dfrac1{C_1}+\\dfrac1{C_2},\\;\\; C_{\\rm eq}=C_1+C_2', {
+  series: '串联：1/C_eq = 1/C₁ + 1/C₂，等效电容小于任一分电容',
+  parallel: '并联：C_eq = C₁ + C₂，等效电容等于各分电容之和',
+}, () => {
+  let ser = tx(30, 28, '串联', { it: false, fs: 11 });
+  ser += ln(30, 70, 170, 70, { w: 1.6 }) + ln(30, 185, 170, 185, { w: 1.6 });
+  ser += capacitor(80, 70, 80, 120, 'C₁') + capacitor(125, 120, 125, 185, 'C₂');
+  ser += ln(80, 120, 125, 120, { w: 1.6 });
+  let par = tx(225, 28, '并联', { it: false, fs: 11 });
+  par += ln(225, 70, 370, 70, { w: 1.6 }) + ln(225, 185, 370, 185, { w: 1.6 });
+  par += ln(260, 70, 260, 110, { w: 1.6 }) + capacitor(260, 110, 260, 155, 'C₁') + ln(260, 155, 260, 185, { w: 1.6 });
+  par += ln(335, 70, 335, 110, { w: 1.6 }) + capacitor(335, 110, 335, 155, 'C₂') + ln(335, 155, 335, 185, { w: 1.6 });
+  let s = part('series', ser, { x: 22, y: 16, w: 156, h: 182 }) + part('parallel', par, { x: 216, y: 16, w: 162, h: 182 });
   s += eq(20, 225, ['1/C_eq = 1/C₁ + 1/C₂'], { fs: 11 }) + eq(215, 225, ['C_eq = C₁ + C₂'], { fs: 11 });
   return s;
+}, {
+  partsHint: '悬停 / 点击串联或并联：查看等效电容公式',
 });
 def('capacitor-energy', '电容器储能与场能密度', 'U=\\dfrac12CV^2=\\dfrac12QV,\\;\\; u=\\dfrac12\\varepsilon_0E^2', () => {
   let s = ln(50, 70, 190, 70, { w: 3 }) + ln(50, 180, 190, 180, { w: 3 }) + ln(120, 70, 120, 180, { w: 1.6 });
@@ -1126,37 +1611,68 @@ def('ohmic-nonohmic', '欧姆器件与非欧姆器件的 I–V 曲线', 'R=\\dfr
   s += eq(260, 70, ['R = V/I']) + tx(260, 125, '直线：R 恒定', { it: false, fs: 11 }) + tx(260, 150, '曲线：R 随温度变化', { it: false, fs: 11 }) + tx(55, 26, '伏安特性', { it: false, fs: 11 });
   return s;
 });
-def('rc-energy', 'RC 充电：电容器储能随时间增长', 'U_C=\\dfrac12C\\varepsilon^2\\left(1-e^{-\\dfrac{t}{RC}}\\right)^2', () => {
-  const g = graph(55, 40, 190, 140, { fns: [{ f: (t) => (1 - Math.exp(-t)) ** 2, c: 'f' }], t1: 5, ymin: 0, ymax: 1.1, yl: 'U_C', vmarks: [{ t: 1, label: 'τ' }], hmarks: [{ v: 1, label: '½Cε²' }] });
-  let s = g.s + tx(55, 26, 't → ∞：U_C → ½Cε²', { it: false, fs: 11 }) + eq(260, 70, ['U_C = ', { n: '1', d: '2' }, 'Cε²(1 − e^{−t/RC})²'], { fs: 11 }) + tx(260, 140, '充电过程中电源做功', { it: false, fs: 11 }) + tx(260, 165, '一半储存，一半发热', { it: false, fs: 11 });
+defI('rc-energy', 'RC 充电：电容器储能随时间增长', 'U_C=\\dfrac12C\\varepsilon^2\\left(1-e^{-\\dfrac{t}{RC}}\\right)^2', [
+  { key: 't', label: '时间 t / τ', min: 0, max: 5, step: 0.1, value: 1 },
+], (p) => {
+  const t = p.t ?? 1, u = (1 - Math.exp(-t)) ** 2;
+  const g = graph(55, 40, 190, 140, { fns: [{ f: (x) => (1 - Math.exp(-x)) ** 2, c: 'f' }], t1: 5, ymin: 0, ymax: 1.1, yl: 'U_C', vmarks: [{ t: 1, label: 'τ' }], hmarks: [{ v: 1, label: '½Cε²' }] });
+  let s = g.s + (p.__dirty ? ln(g.X(t), 40, g.X(t), 180, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g.X(t), g.Y(u), 4, { fill: COL.f, c: 'f' }) : '');
+  s += tx(55, 26, 't → ∞：U_C → ½Cε²', { it: false, fs: 11 }) + eq(260, 70, ['U_C = ', { n: '1', d: '2' }, 'Cε²(1 − e^{−t/RC})²'], { fs: 11 }) + tx(260, 140, '充电过程中电源做功', { it: false, fs: 11 }) + tx(260, 165, '一半储存，一半发热', { it: false, fs: 11 });
   return s;
+}, {
+  status: (p) => { const t = p.t ?? 1; return `t = ${t.toFixed(1)}τ：U_C = ${(((1 - Math.exp(-t)) ** 2) * 100).toFixed(0)}% × ½Cε²`; },
 });
-def('magnetic-force-rhr', '洛伦兹力方向：右手定则', '\\vec F=q\\vec v\\times\\vec B,\\;\\; F=qvB\\sin\\theta', () => {
+defH('magnetic-force-rhr', '洛伦兹力方向：右手定则', '\\vec F=q\\vec v\\times\\vec B,\\;\\; F=qvB\\sin\\theta', {
+  pos: '+q：v 向右、B 入纸面 ⇒ F 向上（右手定则）',
+  neg: '−q：v 向右、B 入纸面 ⇒ F 向下（与 +q 相反）',
+}, () => {
+  const panel = (x0, cx, pos) => {
+    let t = '';
+    for (let x = x0; x <= x0 + 140; x += 35) for (let y = 60; y <= 200; y += 35) t += crossB(x, y, 4);
+    const cy = 130;
+    t += circ(cx, cy, 6, { fill: pos ? COL.E : COL.B, c: pos ? 'E' : 'B', op: 0.6 }) + tx(cx, cy + 4, pos ? '+' : '−', { anchor: 'middle', it: false, fs: 10, c: pos ? 'E' : 'B' });
+    t += arr(cx + 6, cy, cx + 56, cy, 'v') + tx(cx + 58, cy - 6, 'v', { c: 'v' }) + (pos ? arr(cx, cy - 6, cx, cy - 56, 'f') : arr(cx, cy + 6, cx, cy + 56, 'f')) + tx(cx + 6, pos ? cy - 46 : cy + 50, 'F', { c: 'f' });
+    t += tx(cx, 220, pos ? '+q：F 向上' : '−q：F 向下', { anchor: 'middle', it: false, fs: 11 });
+    return t;
+  };
   let s = tx(20, 26, 'B 入纸面（×），v 向右', { it: false, fs: 11 });
-  for (let x = 40; x <= 180; x += 35) for (let y = 60; y <= 200; y += 35) s += crossB(x, y, 4);
-  s += circ(110, 130, 6, { fill: COL.E, c: 'E', op: 0.6 }) + tx(110, 134, '+', { anchor: 'middle', it: false, fs: 10, c: 'E' });
-  s += arr(116, 130, 166, 130, 'v') + tx(168, 124, 'v', { c: 'v' }) + arr(110, 124, 110, 74, 'f') + tx(116, 84, 'F', { c: 'f' }) + tx(110, 220, '+q：F 向上', { anchor: 'middle', it: false, fs: 11 });
-  for (let x = 225; x <= 365; x += 35) for (let y = 60; y <= 200; y += 35) s += crossB(x, y, 4);
-  s += circ(300, 130, 6, { fill: COL.B, c: 'B', op: 0.6 }) + tx(300, 134, '−', { anchor: 'middle', it: false, fs: 10, c: 'B' });
-  s += arr(306, 130, 356, 130, 'v') + tx(358, 124, 'v', { c: 'v' }) + arr(300, 136, 300, 186, 'f') + tx(306, 176, 'F', { c: 'f' }) + tx(300, 220, '−q：F 向下', { anchor: 'middle', it: false, fs: 11 });
+  s += part('pos', panel(40, 110, true), { x: 34, y: 46, w: 160, h: 188 });
+  s += part('neg', panel(225, 300, false), { x: 219, y: 46, w: 160, h: 188 });
   s += eq(20, 242, ['F = qvB sin θ']);
   return s;
+}, {
+  partsHint: '悬停 / 点击 +q 或 −q：比较洛伦兹力方向',
 });
-def('biot-savart', '毕奥–萨伐尔定律：电流元的磁场', 'dB=\\dfrac{\\mu_0I}{4\\pi}\\dfrac{dl\\sin\\theta}{r^2}', () => {
-  let s = ln(40, 190, 340, 190, { w: 2.4, c: 'I' }) + arr(120, 190, 160, 190, 'I', 2) + tx(140, 180, 'I', { c: 'I', anchor: 'middle' });
-  s += rect(175, 185, 30, 10, { fill: COL.I, op: 0.35, c: 'I' }) + tx(190, 178, 'dl', { c: 'I', anchor: 'middle', fs: 11 });
-  s += circ(250, 110, 5, { fill: 'currentColor' }) + tx(256, 104, 'P', { fs: 12 }) + ln(190, 190, 250, 110, { c: 'm', dash: '3 3', w: 1 }) + tx(212, 142, 'r', { fs: 12 }) + dotB(250, 110, 9, 'B') + tx(264, 132, 'dB ⊙', { c: 'B', fs: 11 });
-  s += arc(190, 190, 35, 0, 43, { c: 'm', w: 1 }) + tx(204, 162, 'θ', { fs: 11 });
+defH('biot-savart', '毕奥–萨伐尔定律：电流元的磁场', 'dB=\\dfrac{\\mu_0I}{4\\pi}\\dfrac{dl\\sin\\theta}{r^2}', {
+  current: '电流 I 沿导线流动；电流元 dl 取在 P 点附近',
+  dl: '电流元 Idl：方向沿电流，长度取小段',
+  r: 'r：从电流元指向场点 P 的位置矢量',
+  theta: 'θ：电流元 dl 与 r 的夹角，只有垂直分量贡献磁场',
+  dB: 'dB 垂直于 dl 与 r 所在平面（右手定则）',
+}, () => {
+  let s = part('current', ln(40, 190, 340, 190, { w: 2.4, c: 'I' }) + arr(120, 190, 160, 190, 'I', 2) + tx(140, 180, 'I', { c: 'I', anchor: 'middle' }));
+  s += part('dl', rect(175, 185, 30, 10, { fill: COL.I, op: 0.35, c: 'I' }) + tx(190, 178, 'dl', { c: 'I', anchor: 'middle', fs: 11 }), { x: 168, y: 168, w: 46, h: 38 });
+  s += part('r', ln(190, 190, 250, 110, { c: 'm', dash: '3 3', w: 1 }) + tx(212, 142, 'r', { fs: 12 }));
+  s += part('theta', arc(190, 190, 35, 0, 43, { c: 'm', w: 1 }) + tx(204, 162, 'θ', { fs: 11 }));
+  s += part('dB', circ(250, 110, 5, { fill: 'currentColor' }) + tx(256, 104, 'P', { fs: 12 }) + dotB(250, 110, 9, 'B') + tx(264, 132, 'dB ⊙', { c: 'B', fs: 11 }), { x: 236, y: 90, w: 76, h: 56 });
   s += tx(20, 26, '右手：dl × r 的方向即 dB', { it: false, fs: 11 }) + eq(20, 232, ['dB = ', { n: 'μ₀I', d: '4π' }, { n: 'dl sin θ', d: 'r²' }], { fs: 12 });
   return s;
+}, {
+  partsHint: '悬停 / 点击电流元、r、θ 或 dB：高亮对应部分',
 });
-def('magnetic-flux-angle', '磁通量：Φ_B = BA cos θ', '\\Phi_B=BA\\cos\\theta', () => {
-  let s = `<polygon points="100,170 230,145 275,90 145,115" style="fill:${COL.B};fill-opacity:0.10;stroke:${COL.B};stroke-width:1.6"/>`;
-  s += ln(188, 130, 216, 65, { c: 'f', w: 2 }) + tx(220, 60, 'n', { c: 'f', fs: 12 });
-  s += arr(70, 80, 125, 95, 'B', 1.8) + arr(105, 55, 160, 70, 'B', 1.8) + arr(140, 30, 195, 45, 'B', 1.8);
-  s += tx(72, 60, 'B', { c: 'B', fs: 12 }) + tx(20, 26, '线圈平面法线与 B 的夹角 θ', { it: false, fs: 11 });
+defH('magnetic-flux-angle', '磁通量：Φ_B = BA cos θ', '\\Phi_B=BA\\cos\\theta', {
+  area: '线圈面积 A：方向沿线圈平面法线',
+  normal: '法线 n 与 B 的夹角为 θ；Φ_B = BA cos θ',
+  field: '磁场 B：只有沿法线方向的分量贡献磁通量',
+}, () => {
+  let s = part('area', `<polygon points="100,170 230,145 275,90 145,115" style="fill:${COL.B};fill-opacity:0.10;stroke:${COL.B};stroke-width:1.6"/>`);
+  s += part('normal', ln(188, 130, 216, 65, { c: 'f', w: 2 }) + tx(220, 60, 'n', { c: 'f', fs: 12 }), { x: 180, y: 53, w: 50, h: 88 });
+  s += part('field', arr(70, 80, 125, 95, 'B', 1.8) + arr(105, 55, 160, 70, 'B', 1.8) + arr(140, 30, 195, 45, 'B', 1.8) + tx(72, 60, 'B', { c: 'B', fs: 12 }));
+  s += tx(20, 26, '线圈平面法线与 B 的夹角 θ', { it: false, fs: 11 });
   s += eq(245, 80, ['Φ_{B} = BA cos θ']) + tx(245, 135, 'θ = 0：Φ 最大', { it: false, fs: 11 }) + tx(245, 158, 'θ = 90°：Φ = 0', { it: false, fs: 11 });
   return s;
+}, {
+  partsHint: '悬停 / 点击线圈面积、法线或磁场：高亮对应部分',
 });
 def('flux-emf-graph', '磁通量与感应电动势：相位差 90°', '\\varepsilon=-\\dfrac{d\\Phi_B}{dt}', () => {
   const g1 = graph(55, 38, 250, 62, { fns: [{ f: (t) => Math.cos(2 * Math.PI * t) }], t1: 1.25, ymin: -1.15, ymax: 1.15, yl: 'Φ' });
@@ -1171,34 +1687,62 @@ def('inductor-energy', '电感储能：U_L = ½LI²', 'U_L=\\dfrac12LI^2', () =>
   s += g.s + tx(20, 26, '电流增大，磁场储能增加', { it: false, fs: 11 }) + eq(20, 225, ['U_L = ½LI²']);
   return s;
 });
-def('lc-energy', 'LC 振荡：电场能与磁场能互相转换', 'U=\\dfrac{q^2}{2C}+\\dfrac12LI^2=\\text{常量}', () => {
+defI('lc-energy', 'LC 振荡：电场能与磁场能互相转换', 'U=\\dfrac{q^2}{2C}+\\dfrac12LI^2=\\text{常量}', [
+  { key: 't', label: '时间 t / T', min: 0, max: 1.25, step: 0.01, value: 0 },
+], (p) => {
+  const t = p.t ?? 0;
   let s = capacitor(70, 180, 70, 60, 'C') + ln(70, 60, 170, 60) + inductor(170, 60, 170, 180, 'L') + ln(170, 180, 70, 180);
-  const g = graph(240, 30, 125, 150, { fns: [{ f: (t) => Math.cos(2 * Math.PI * t) ** 2, c: 'f' }, { f: (t) => Math.sin(2 * Math.PI * t) ** 2, c: 'B' }, { f: () => 1, c: 'm', dash: '4 3', w: 1 }], t1: 1.25, ymin: 0, ymax: 1.15, yl: 'U' });
-  s += g.s + tx(250, 250, 'U_C / U_L / U_total', { it: false, fs: 9 }) + eq(20, 225, ['U = ', { n: 'q²', d: '2C' }, ' + ', { n: '1', d: '2' }, 'LI²']);
+  const g = graph(240, 30, 125, 150, { fns: [{ f: (x) => Math.cos(2 * Math.PI * x) ** 2, c: 'f' }, { f: (x) => Math.sin(2 * Math.PI * x) ** 2, c: 'B' }, { f: () => 1, c: 'm', dash: '4 3', w: 1 }], t1: 1.25, ymin: 0, ymax: 1.15, yl: 'U' });
+  const uc = Math.cos(2 * Math.PI * t) ** 2, ul = Math.sin(2 * Math.PI * t) ** 2;
+  s += g.s + (p.__dirty ? ln(g.X(t), 30, g.X(t), 180, { c: 'm', w: 0.8, dash: '3 3' }) + circ(g.X(t), g.Y(uc), 4, { fill: COL.f, c: 'f' }) + circ(g.X(t), g.Y(ul), 4, { fill: COL.B, c: 'B' }) : '');
+  s += tx(250, 250, 'U_C / U_L / U_total', { it: false, fs: 9 }) + eq(20, 225, ['U = ', { n: 'q²', d: '2C' }, ' + ', { n: '1', d: '2' }, 'LI²']);
   return s;
+}, {
+  status: (p) => { const t = p.t ?? 0; const c = Math.cos(2 * Math.PI * t) ** 2; return `t = ${t.toFixed(2)}T：U_C = ${(c * 100).toFixed(0)}%，U_L = ${((1 - c) * 100).toFixed(0)}%`; },
 });
 
 /* ======================= extra E&M / rotation views ======================= */
-def('velocity-selector', '速度选择器：电场力与磁场力平衡', 'qE=qvB\\;\\Rightarrow\\;v=\\dfrac{E}{B}', () => {
+defI('velocity-selector', '速度选择器：电场力与磁场力平衡', 'qE=qvB\\;\\Rightarrow\\;v=\\dfrac{E}{B}', [
+  { key: 'v', label: '入射速度 v / (E/B)', min: 0.5, max: 2, step: 0.05, value: 1 },
+], (p) => {
+  const v = p.v ?? 1, dy = 70 * (v - 1);
   let s = ln(50, 55, 310, 55, { w: 3, c: 'E' }) + ln(50, 205, 310, 205, { w: 3, c: 'B' });
   for (let x = 80; x <= 290; x += 42) { s += tx(x, 48, '+', { c: 'E', it: false, fs: 12, anchor: 'middle' }) + tx(x, 220, '−', { c: 'B', it: false, fs: 12, anchor: 'middle' }); }
   for (let x = 90; x <= 285; x += 42) for (let y = 85; y <= 190; y += 35) s += crossB(x, y, 4, 'B');
   [105, 155, 205, 255].forEach((x) => { s += arr(x, 65, x, 195, 'E', 1.4); });
   s += circ(180, 130, 8, { fill: COL.E, c: 'E', op: 0.55 }) + tx(180, 134, '+q', { anchor: 'middle', fs: 9, c: 'E', it: false });
-  s += arr(188, 130, 250, 130, 'v') + tx(252, 108, 'v', { c: 'v' }) + arr(180, 138, 180, 180, 'f') + tx(186, 172, 'qE', { c: 'f', fs: 10 }) + arr(180, 122, 180, 80, 'f') + tx(186, 92, 'qvB', { c: 'f', fs: 10 });
+  if (Math.abs(v - 1) < 0.001) {
+    s += arr(188, 130, 250, 130, 'v') + tx(252, 108, 'v', { c: 'v' });
+  } else {
+    s += pathD(`M188,130 Q220,130 250,${r1(130 - dy)}`, { c: 'v', w: 2, me: 'v' }) + tx(252, r1(126 - dy), 'v', { c: 'v' });
+  }
+  s += arr(180, 138, 180, 180, 'f') + tx(186, 172, 'qE', { c: 'f', fs: 10 }) + arr(180, 122, 180, 122 - 42 * v, 'f') + tx(186, 92, 'qvB', { c: 'f', fs: 10 });
   s += tx(20, 26, 'E 向下，B 入纸面；正电荷向右', { it: false, fs: 11 }) + eq(20, 240, ['v = ', { n: 'E', d: 'B' }]);
   return s;
+}, {
+  status: (p) => {
+    const v = p.v ?? 1;
+    return Math.abs(v - 1) < 0.001 ? 'v = E/B：qE 与 qvB 平衡，粒子直线通过' : v > 1 ? 'v > E/B：qvB > qE，粒子向上偏转' : 'v < E/B：qE > qvB，粒子向下偏转';
+  },
 });
-def('mass-spectrometer', '质谱仪：不同质量离子的圆周半径不同', 'r=\\dfrac{mv}{|q|B}', () => {
-  let s = rect(45, 40, 310, 180, { c: 'm', dash: '4 4', fill: 'none' });
-  for (let x = 65; x <= 335; x += 34) for (let y = 60; y <= 200; y += 34) s += dotB(x, y, 4, 'B');
-  s += ln(45, 130, 100, 130, { w: 2 }) + tx(52, 122, '离子束', { fs: 10, it: false });
-  s += arr(100, 130, 135, 130, 'v') + tx(112, 118, 'v', { c: 'v', fs: 11 });
-  s += arc(160, 130, 45, 180, 360, { c: 'f', w: 1.8, me: 'f' }) + arc(160, 130, 65, 180, 360, { c: 'B', w: 1.8, me: 'B' });
-  s += circ(115, 130, 4, { fill: 'currentColor' });
-  s += tx(160, 72, '轻离子：r 小', { c: 'f', fs: 10, anchor: 'middle' }) + tx(175, 40, '重离子：r 大', { c: 'B', fs: 10, anchor: 'middle' });
-  s += tx(300, 210, 'B 出纸面', { c: 'B', fs: 10, it: false, anchor: 'end' }) + eq(20, 240, ['r = ', { n: 'mv', d: '|q|B' }]);
+defH('mass-spectrometer', '质谱仪：不同质量离子的圆周半径不同', 'r=\\dfrac{mv}{|q|B}', {
+  field: '匀强磁场 B 垂直纸面向外，离子在磁场中做圆周运动',
+  beam: '离子束以速度 v 垂直进入磁场，轨迹半径 r = mv/(|q|B)',
+  light: '轻离子：质量小 ⇒ 半径 r 小，打在近处',
+  heavy: '重离子：质量大 ⇒ 半径 r 大，打在远处',
+}, () => {
+  let field = rect(45, 40, 310, 180, { c: 'm', dash: '4 4', fill: 'none' });
+  for (let x = 65; x <= 335; x += 34) for (let y = 60; y <= 200; y += 34) field += dotB(x, y, 4, 'B');
+  field += tx(300, 210, 'B 出纸面', { c: 'B', fs: 10, it: false, anchor: 'end' });
+  let beam = ln(45, 130, 100, 130, { w: 2 }) + tx(52, 122, '离子束', { fs: 10, it: false }) + arr(100, 130, 135, 130, 'v') + tx(112, 118, 'v', { c: 'v', fs: 11 }) + circ(115, 130, 4, { fill: 'currentColor' });
+  let s = part('field', field);
+  s += part('beam', beam, { x: 42, y: 108, w: 100, h: 44 });
+  s += part('heavy', arc(160, 130, 65, 180, 360, { c: 'B', w: 1.8, me: 'B' }) + tx(175, 40, '重离子：r 大', { c: 'B', fs: 10, anchor: 'middle' }), { x: 86, y: 26, w: 150, h: 100 });
+  s += part('light', arc(160, 130, 45, 180, 360, { c: 'f', w: 1.8, me: 'f' }) + tx(160, 72, '轻离子：r 小', { c: 'f', fs: 10, anchor: 'middle' }), { x: 106, y: 60, w: 110, h: 78 });
+  s += eq(20, 240, ['r = ', { n: 'mv', d: '|q|B' }]);
   return s;
+}, {
+  partsHint: '悬停 / 点击轻离子或重离子：比较轨迹半径',
 });
 def('angular-graphs', '匀角加速：ω–t 与 α–t 图', '\\omega=\\omega_0+\\alpha t,\\;\\; \\Delta\\theta=\\omega_0t+\\dfrac12\\alpha t^2', () => {
   const g1 = graph(55, 35, 220, 70, { fns: [{ f: (t) => 0.35 + 0.55 * t, c: 'a' }], t1: 1, ymin: 0, ymax: 1.1, xl: 't', yl: 'ω' });
@@ -1233,13 +1777,14 @@ export const FIGURES = F;
 export const FIGURE_IDS = Object.keys(F);
 
 /** Render one figure as an SVG string (fixed viewBox; scales down only via its container). */
-export function renderFigureSVG(id) {
+export function renderFigureSVG(id, params) {
   const f = F[id]; if (!f) return '';
   if (f.img) {
     return `<img src="${esc(f.img)}" alt="${esc(f.title)}" loading="eager" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;background:#fff">`;
   }
   P = 'xf-' + id;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.title)}" style="display:block;width:100%;height:100%;color:var(--text, #222);overflow:hidden">${markers()}${f.draw()}</svg>`;
+  const state = f.controls ? { ...defaultParams(f), ...(params || {}) } : {};
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.title)}" style="display:block;width:100%;height:100%;color:var(--text, #222);overflow:hidden">${markers()}${PART_CSS}${f.draw(state)}</svg>`;
 }
 
 /** Topic id (mech/…/code or chapterId:code) → relevant exam figure ids. */
@@ -1369,6 +1914,8 @@ function buildFigureGallery(ids, datasetKey, datasetVal) {
     const box = document.createElement('div');
     box.className = 'exam-figure-box';
     box.innerHTML = renderFigureSVG(id);
+    fig.appendChild(box);
+    mountFigureInteraction(fig, box, f, (params) => renderFigureSVG(id, params));
     const cap = document.createElement('figcaption');
     cap.className = 'exam-figure-cap';
     const t = document.createElement('div'); t.textContent = f.title; cap.appendChild(t);
@@ -1390,7 +1937,7 @@ function buildFigureGallery(ids, datasetKey, datasetVal) {
       } else c.textContent = f.credit;
       cap.appendChild(c);
     }
-    fig.append(box, cap); grid.appendChild(fig);
+    fig.append(cap); grid.appendChild(fig);
   });
   sec.append(h, grid);
   return sec;
