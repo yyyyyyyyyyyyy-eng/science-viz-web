@@ -1191,21 +1191,30 @@ export function createLabView(host, opts = {}) {
 
   function makeTunnel(entity) {
     const root = makeRoot(entity);
-    const shellGeo = new THREE.SphereGeometry(entity.R, 32, 24);
-    const shell = new THREE.Mesh(shellGeo, materials.transparent);
+    const shellGeo = new THREE.SphereGeometry(entity.R, 22, 14);
+    const shellMat = new THREE.MeshBasicMaterial({
+      color: theme.accent,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.14,
+      depthWrite: false,
+    });
+    const shell = new THREE.Mesh(shellGeo, shellMat);
     shell.userData = { ...NO_PICK };
     root.add(shell);
-    const ringGeo = new THREE.TorusGeometry(entity.R * 0.985, 0.035, 8, 72);
-    const ring = new THREE.Mesh(ringGeo, materials.accent);
-    ring.rotation.x = Math.PI / 2;
-    root.add(ring);
-    const ring2 = new THREE.Mesh(ringGeo.clone(), materials.accent);
-    ring2.rotation.y = Math.PI / 2;
-    root.add(ring2);
-    const holeGeo = new THREE.CylinderGeometry(0.12, 0.12, entity.R * 2, 16, 1, true);
+    // Horizontal tunnel through the centre, so the ball's SHM is visible.
+    const holeGeo = new THREE.CylinderGeometry(0.14, 0.14, entity.R * 2.04, 18, 1, true);
     const hole = new THREE.Mesh(holeGeo, materials.line);
+    hole.rotation.z = Math.PI / 2;
     hole.userData = { ...NO_PICK };
     root.add(hole);
+    const lipGeo = new THREE.TorusGeometry(0.15, 0.025, 8, 24);
+    for (const x of [-entity.R, entity.R]) {
+      const lip = new THREE.Mesh(lipGeo, materials.accent);
+      lip.rotation.y = Math.PI / 2;
+      lip.position.x = x;
+      root.add(lip);
+    }
     const ballGeo = new THREE.SphereGeometry(0.22, 20, 14);
     const ball = new THREE.Mesh(ballGeo, materials.physics);
     ball.castShadow = true;
@@ -1589,8 +1598,12 @@ export function createLabView(host, opts = {}) {
         visual.bob.position.set(0, -L, 0);
       } else if (entity.type === 'angularTable') {
         visual.marker.rotation.y = -entity.angle;
-        visual.block.visible = !!entity.blockOn;
-        visual.block.position.set(entity.r * Math.cos(entity.angle), 0.28, entity.r * Math.sin(entity.angle));
+        visual.block.visible = true;
+        visual.block.position.set(
+          entity.r * Math.cos(entity.angle),
+          entity.blockOn ? 0.28 : 1.15,
+          entity.r * Math.sin(entity.angle),
+        );
       } else if (entity.type === 'rod') {
         visual.arm.rotation.z = entity.theta;
       } else if (entity.type === 'orbit') {
@@ -1609,7 +1622,7 @@ export function createLabView(host, opts = {}) {
           visual.lastTrailTime = entity.time;
         }
       } else if (entity.type === 'tunnel') {
-        visual.ball.position.set(0, entity.s, 0);
+        visual.ball.position.set(entity.s, 0, 0);
       } else if (entity.type === 'body') {
         visual.root.position.copy(v3(entity.cannon.position));
         if (entity.kind === 'cart') {

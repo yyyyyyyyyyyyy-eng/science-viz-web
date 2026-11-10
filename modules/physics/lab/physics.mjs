@@ -2738,7 +2738,8 @@ export function addTorsionPendulum(world, opts = {}) {
     initial: { theta: (amplitude * Math.PI) / 180, omega: 0, time: 0 },
     measuredPeriod: 0,
     prevTheta: (amplitude * Math.PI) / 180,
-    lastCross: null,
+    lastTurn: 0,
+    prevOmega: 0,
   };
   world.torsionPendulums.push(pend);
   return pend;
@@ -2766,19 +2767,23 @@ export function stepTorsionPendulum(pend, h) {
   const k4w = acc(th0 + h * k3t, w0 + h * k3w);
   const th1 = th0 + (h / 6) * (k1t + 2 * k2t + 2 * k3t + k4t);
   const w1 = w0 + (h / 6) * (k1w + 2 * k2w + 2 * k3w + k4w);
-  if (pend.prevTheta <= 0 && th1 > 0 && pend.prevTheta !== th1) {
-    const frac = -pend.prevTheta / (th1 - pend.prevTheta);
-    const tc = pend.time + frac * h;
-    if (pend.lastCross != null) {
-      const period = tc - pend.lastCross;
-      if (period > 1e-3) pend.measuredPeriod = period;
+  // Successive turning points are half a period apart; the release point is
+  // the first turning point, so the first extremum already yields T.
+  if ((pend.prevOmega > 0 && w1 <= 0) || (pend.prevOmega < 0 && w1 >= 0)) {
+    if (pend.prevOmega !== w1) {
+      const frac = pend.prevOmega / (pend.prevOmega - w1);
+      const tc = pend.time + frac * h;
+      if (tc > (pend.lastTurn ?? 0) + 1e-6) {
+        pend.measuredPeriod = 2 * (tc - (pend.lastTurn ?? 0));
+        pend.lastTurn = tc;
+      }
     }
-    pend.lastCross = tc;
   }
   pend.theta = th1;
   pend.omega = w1;
   pend.time += h;
   pend.prevTheta = th1;
+  pend.prevOmega = w1;
 }
 
 function resetTorsion(pend) {
@@ -2786,7 +2791,8 @@ function resetTorsion(pend) {
   pend.omega = pend.initial?.omega ?? 0;
   pend.time = pend.initial?.time ?? 0;
   pend.prevTheta = pend.theta;
-  pend.lastCross = null;
+  pend.prevOmega = pend.omega;
+  pend.lastTurn = pend.time;
   pend.measuredPeriod = 0;
 }
 
@@ -2946,6 +2952,17 @@ export function dropAngularBlock(table) {
   return true;
 }
 
+/** Lift a stuck block straight off the disc: the disc keeps only its own L. */
+export function liftAngularBlock(table) {
+  if (!table.blockOn) return false;
+  table.L = table.I * table.omega;
+  table.blockOn = false;
+  table.dropped = false;
+  table.omega = table.L / table.I;
+  table.ke = 0.5 * table.I * table.omega * table.omega;
+  return true;
+}
+
 export function stepAngularTable(table, h) {
   if (table.blockOn && table.radialMotor) {
     table.r = clamp(table.r + table.rSpeed * h, 0.15, table.radius * 0.98);
@@ -3075,6 +3092,27 @@ export function getOrbit(world, id) {
   return world.orbits.find((o) => o.id === id) || null;
 }
 
+/** Set a new launch geometry and return the satellite to t = 0. */
+export function setOrbitLaunch(orbit, opts = {}) {
+  const r = Math.max(0.05, opts.r ?? orbit.r0);
+  const phase = opts.phase ?? orbit.phase;
+  const speedFactor = opts.speedFactor ?? orbit.speedFactor;
+  const v0 = speedFactor * Math.sqrt(orbit.mu / r);
+  orbit.r0 = r;
+  orbit.phase = phase;
+  orbit.speedFactor = speedFactor;
+  orbit.initial = {
+    px: r * Math.cos(phase),
+    pz: r * Math.sin(phase),
+    vx: -Math.sin(phase) * v0,
+    vz: Math.cos(phase) * v0,
+    time: 0,
+    energy0: 0.5 * v0 * v0 - orbit.mu / r,
+  };
+  resetOrbit(orbit);
+  return orbit;
+}
+
 export function orbitSemiMajor(orbit) {
   if (!(orbit.energy < 0)) return Infinity;
   return -orbit.mu / (2 * orbit.energy);
@@ -3185,7 +3223,8 @@ export function addTunnel(world, opts = {}) {
     time: 0,
     measuredPeriod: 0,
     prevS: r0 == null ? R : r0,
-    lastCross: null,
+    lastTurn: 0,
+    prevV: 0,
     initial: { s: r0 == null ? R : r0, v: 0, time: 0 },
   };
   world.tunnels.push(tunnel);
@@ -3214,19 +3253,23 @@ export function stepTunnel(tunnel, h) {
   const k4v = acc(s0 + h * k3s);
   const s1 = s0 + (h / 6) * (k1s + 2 * k2s + 2 * k3s + k4s);
   const v1 = v0 + (h / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
-  if (tunnel.prevS <= 0 && s1 > 0 && tunnel.prevS !== s1) {
-    const frac = -tunnel.prevS / (s1 - tunnel.prevS);
-    const tc = tunnel.time + frac * h;
-    if (tunnel.lastCross != null) {
-      const period = tc - tunnel.lastCross;
-      if (period > 1e-3) tunnel.measuredPeriod = period;
+  // Turning points are half a period apart; the release point is a turning
+  // point, so the first extremum already gives the full period.
+  if ((tunnel.prevV > 0 && v1 <= 0) || (tunnel.prevV < 0 && v1 >= 0)) {
+    if (tunnel.prevV !== v1) {
+      const frac = tunnel.prevV / (tunnel.prevV - v1);
+      const tc = tunnel.time + frac * h;
+      if (tc > (tunnel.lastTurn ?? 0) + 1e-6) {
+        tunnel.measuredPeriod = 2 * (tc - (tunnel.lastTurn ?? 0));
+        tunnel.lastTurn = tc;
+      }
     }
-    tunnel.lastCross = tc;
   }
   tunnel.s = s1;
   tunnel.v = v1;
   tunnel.time += h;
   tunnel.prevS = s1;
+  tunnel.prevV = v1;
 }
 
 function resetTunnel(tunnel) {
@@ -3234,7 +3277,8 @@ function resetTunnel(tunnel) {
   tunnel.v = tunnel.initial?.v ?? 0;
   tunnel.time = tunnel.initial?.time ?? 0;
   tunnel.prevS = tunnel.s;
-  tunnel.lastCross = null;
+  tunnel.prevV = tunnel.v;
+  tunnel.lastTurn = tunnel.time;
   tunnel.measuredPeriod = 0;
 }
 

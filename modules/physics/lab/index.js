@@ -63,6 +63,7 @@ import {
   getSurface,
   getTurntable,
   launcherPrediction,
+  liftAngularBlock,
   linkReading,
   loopPoint,
   orbitArealVelocity,
@@ -92,6 +93,7 @@ import {
   setHCircleRadius,
   setInertiaRatio,
   setLoopRadius,
+  setOrbitLaunch,
   setSurfaceAngle,
   setSurfaceLength,
   setSurfaceWidth,
@@ -328,11 +330,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       items: [
         ['oscillator', '阻尼与受迫振动', 'Damped & driven'],
         ['torsion', '扭摆', 'Torsion pendulum'],
+        ['angtable', '角动量转盘', 'Angular momentum'],
+        ['rod', '杆受力矩', 'Rod under torque'],
       ],
     },
     {
       title: label('引力与参考系', 'Gravity & frames'),
       items: [
+        ['orbit', '引力与轨道', 'Gravity & orbits'],
+        ['tunnel', '穿球隧道', 'Sphere tunnel'],
         ['elevator', '升降机', 'Elevator'],
         ['carriage', '加速车厢', 'Accelerating carriage'],
       ],
@@ -2411,13 +2417,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const spot = nextPlacement(kind);
       entity = addOrbit(world, {
         x: spot.x, y: 2.3, z: spot.z,
-        M: 8, G: 1, r: 5, speedFactor: 1,
+        M: 8, G: 1, r: 4, speedFactor: 1,
       });
     } else if (kind === 'tunnel') {
       const spot = nextPlacement(kind);
       entity = addTunnel(world, {
-        x: spot.x, y: 3.25, z: spot.z,
-        R: 3.2, M: 8, G: 1,
+        x: spot.x, y: 2.4, z: spot.z,
+        R: 2.2, M: 8, G: 1,
       });
     } else if (kind === 'elevator') {
       const spot = nextPlacement(kind);
@@ -3864,7 +3870,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             entity.theta = entity.theta0;
             entity.prevTheta = entity.theta;
             entity.omega = 0;
-            entity.lastCross = null;
+            entity.prevOmega = 0;
+            entity.lastTurn = 0;
             entity.measuredPeriod = 0;
             captureInitial(world);
           }
@@ -3872,7 +3879,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '周期（实测）· Period measured', 'torsionMeasured', 's');
-      addLive(readouts, '理论周期 · 2π√(I/κ)', 'torsionTheory', 's');
+      addLive(readouts, '理论周期 · Theory period', 'torsionTheory', 's');
       addLive(readouts, '扭转角 · Twist angle', 'torsionAngle', 'rad');
       addLive(readouts, '角速度 · Angular speed', 'torsionOmega', 'rad/s');
       common.appendChild(readouts);
@@ -3901,7 +3908,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '秤读数 N · Scale reading', 'liftNormal', 'N');
       addLive(readouts, '静止重量 mg · Weight', 'liftWeight', 'N');
-      addLive(readouts, '视重比 N/mg · Apparent/true', 'liftRatio', '');
+      addLive(readouts, '视重比 · Apparent ratio', 'liftRatio', '');
       addLive(readouts, '重力加速度 g · Gravity', 'liftG', 'm/s²');
       common.appendChild(readouts);
       formula(common, 'N=m(g+a),\\qquad a>0\\ \\text{upward}');
@@ -3932,14 +3939,288 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '摆角（实测）· Tilt measured', 'carriageMeasured', '°');
-      addLive(readouts, '理论 tanφ = a/g · Theory', 'carriageTheory', '°');
-      addLive(readouts, '比值 a/g · Ratio', 'carriageRatio', '');
+      addLive(readouts, '理论倾角 · Theory tilt', 'carriageTheory', '°');
+      addLive(readouts, '加速度比 · Acceleration ratio', 'carriageRatio', '');
       addLive(readouts, '角速度 · Angular speed', 'carriageOmega', 'rad/s');
       common.appendChild(readouts);
       formula(common, '\\tan\\varphi=\\dfrac{a}{g},\\qquad \\varphi=\\arctan\\!\\left(\\dfrac{a}{g}\\right)');
       common.appendChild(el('p', {
         className: 'plab-field-hint',
         text: '摆球向加速度的反方向偏转；φ 取向后偏转角。 · The bob lags opposite the acceleration; φ is the rearward tilt.',
+      }));
+    } else if (entity.type === 'angularTable') {
+      field(common, {
+        label: '方块质量 m · Block mass',
+        value: entity.blockMass,
+        min: 0.1,
+        max: 10,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'angBlockMass',
+        onChange: (v) => {
+          entity.blockMass = Math.max(0.05, v);
+          if (entity.blockOn) entity.omega = entity.L / angularTableMoment(entity);
+        },
+      });
+      field(common, {
+        label: '方块半径 r · Block radius',
+        value: entity.r,
+        min: 0.15,
+        max: entity.radius * 0.98,
+        step: 0.01,
+        unit: 'm',
+        testid: 'angRadius',
+        onChange: (v) => {
+          entity.r = Math.max(0.15, Math.min(entity.radius * 0.98, v));
+          if (entity.blockOn) entity.omega = entity.L / angularTableMoment(entity);
+          entity.ke = 0.5 * angularTableMoment(entity) * entity.omega * entity.omega;
+        },
+      });
+      field(common, {
+        label: '径向速度 · Radial speed',
+        value: entity.rSpeed,
+        min: -1.2,
+        max: 1.2,
+        step: 0.02,
+        unit: 'm/s',
+        testid: 'angRadialSpeed',
+        onChange: (v) => {
+          entity.rSpeed = v;
+          entity.radialMotor = Math.abs(v) > 1e-6;
+        },
+      });
+      const blockAction = el('button', {
+        type: 'button',
+        className: 'plab-inspector-more plab-fire hit-target',
+        text: entity.blockOn ? '提离方块 · Lift block off' : '放下方块 · Drop block',
+        'data-action': 'ang-block',
+      });
+      blockAction.addEventListener('click', () => {
+        pushUndo('ang-block');
+        if (entity.blockOn) liftAngularBlock(entity);
+        else dropAngularBlock(entity);
+        view.sync(world);
+        updateLive();
+        buildInspector();
+      });
+      common.appendChild(blockAction);
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '角动量 L · Angular momentum', 'angL', 'kg·m²/s');
+      addLive(readouts, '角速度 ω · Angular speed', 'angOmega', 'rad/s');
+      addLive(readouts, '动能 KE · Kinetic energy', 'angKE', 'J');
+      addLive(readouts, '总转动惯量 I · Total I', 'angI', 'kg·m²');
+      common.appendChild(readouts);
+      formula(common, 'L=(I_{\\text{d}}+mr^2)\\omega=\\text{const},\\qquad K=\\dfrac{1}{2}(I_{\\text{d}}+mr^2)\\omega^2');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '自由转盘无驱动扭矩：滑块内移时 ω 变大，外移时 ω 变小。 · Free turntable with no drive torque: ω rises as the block moves inward and falls as it moves outward.',
+      }));
+    } else if (entity.type === 'rod') {
+      field(common, {
+        label: '杆质量 m · Rod mass',
+        value: entity.mass,
+        min: 0.1,
+        max: 20,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'rodMass',
+        onChange: (v) => {
+          entity.mass = Math.max(0.05, v);
+          entity.I = rodInertia(entity.mass, entity.length, entity.pivot);
+        },
+      });
+      field(common, {
+        label: '杆长 L · Rod length',
+        value: entity.length,
+        min: 0.3,
+        max: 6,
+        step: 0.05,
+        unit: 'm',
+        testid: 'rodLength',
+        onChange: (v) => {
+          entity.length = Math.max(0.2, v);
+          entity.I = rodInertia(entity.mass, entity.length, entity.pivot);
+        },
+      });
+      const pivotSelect = selectField(common, {
+        label: '转轴 · Pivot',
+        value: entity.pivot,
+        testid: 'rodPivot',
+        options: [['end', '端点 · End pivot'], ['center', '中心 · Center pivot']],
+        onChange: (v) => {
+          entity.pivot = v === 'center' ? 'center' : 'end';
+          entity.I = rodInertia(entity.mass, entity.length, entity.pivot);
+          view.sync(world);
+        },
+      });
+      pivotSelect.dataset.field = 'rodPivot';
+      field(common, {
+        label: '力矩 τ · Applied torque',
+        value: entity.torque,
+        min: -20,
+        max: 20,
+        step: 0.1,
+        unit: 'N·m',
+        testid: 'rodTorque',
+        onChange: (v) => { entity.torque = v; },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '角加速度 α · Angular acceleration', 'rodAlpha', 'rad/s²');
+      addLive(readouts, '角速度 ω · Angular speed', 'rodOmega', 'rad/s');
+      addLive(readouts, '转角 θ · Angle', 'rodTheta', 'rad');
+      addLive(readouts, '转动惯量 I · Moment of inertia', 'rodI', 'kg·m²');
+      common.appendChild(readouts);
+      formula(common, '\\alpha=\\dfrac{\\tau}{I},\\qquad I_{\\text{end}}=\\dfrac{1}{3}mL^2,\\qquad I_{\\text{center}}=\\dfrac{1}{12}mL^2');
+    } else if (entity.type === 'orbit') {
+      field(common, {
+        label: '中心质量 M · Central mass',
+        value: entity.M,
+        min: 0.5,
+        max: 60,
+        step: 0.5,
+        unit: '教学单位 · units',
+        testid: 'orbitM',
+        onChange: (v) => {
+          entity.M = Math.max(0.1, v);
+          entity.mu = entity.G * entity.M;
+          setOrbitLaunch(entity, { r: entity.r0, speedFactor: entity.speedFactor });
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '缩放 G · Scaled G',
+        value: entity.G,
+        min: 0.1,
+        max: 5,
+        step: 0.1,
+        unit: '教学单位 · units',
+        testid: 'orbitG',
+        onChange: (v) => {
+          entity.G = Math.max(0.01, v);
+          entity.mu = entity.G * entity.M;
+          setOrbitLaunch(entity, { r: entity.r0, speedFactor: entity.speedFactor });
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '初始半径 r · Initial radius',
+        value: entity.r0,
+        min: 0.5,
+        max: 12,
+        step: 0.1,
+        unit: 'm',
+        testid: 'orbitRadius',
+        onChange: (v) => {
+          setOrbitLaunch(entity, { r: Math.max(0.2, v), speedFactor: entity.speedFactor });
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '速度比 · Speed ratio',
+        value: entity.speedFactor,
+        min: 0.2,
+        max: 1.6,
+        step: 0.01,
+        testid: 'orbitSpeedFactor',
+        onChange: (v) => {
+          setOrbitLaunch(entity, { r: entity.r0, speedFactor: Math.max(0.01, v) });
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'orbitPeriod', 's');
+      addLive(readouts, '开普勒周期 · Kepler T', 'orbitKepler', 's');
+      addLive(readouts, '半长轴 a · Semi-major axis', 'orbitA', 'm');
+      addLive(readouts, '面积速度 · Areal velocity', 'orbitAreal', 'm²/s');
+      addLive(readouts, '比能量 ε · Specific energy', 'orbitEnergy', 'J/kg');
+      addLive(readouts, '逃逸速度 v_esc · Escape speed', 'orbitEscape', 'm/s');
+      addLive(readouts, '当前半径 r · Radius', 'orbitRadiusNow', 'm');
+      common.appendChild(readouts);
+      formula(common, 'T^2=\\dfrac{4\\pi^2a^3}{GM},\\qquad v_{\\text{esc}}=\\sqrt{\\dfrac{2GM}{r}},\\qquad \\dfrac{dA}{dt}=\\dfrac{L}{2m}');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: 'G 与 M 使用清晰标注的教学单位；轨迹按实验室尺度的缩放引力绘制。 · G and M use clearly labelled teaching units; the orbit is drawn with lab-scale scaled gravity.',
+      }));
+    } else if (entity.type === 'tunnel') {
+      field(common, {
+        label: '球半径 R · Sphere radius',
+        value: entity.R,
+        min: 0.8,
+        max: 7,
+        step: 0.05,
+        unit: 'm',
+        testid: 'tunnelR',
+        onChange: (v) => {
+          entity.R = Math.max(0.5, v);
+          entity.mu = entity.G * entity.M;
+          entity.omega = Math.sqrt(entity.mu / (entity.R ** 3));
+          entity.s = entity.R;
+          entity.v = 0;
+          entity.prevS = entity.s;
+          entity.prevV = entity.v;
+          entity.lastTurn = entity.time;
+          entity.measuredPeriod = 0;
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '中心质量 M · Central mass',
+        value: entity.M,
+        min: 0.5,
+        max: 60,
+        step: 0.5,
+        unit: '教学单位 · units',
+        testid: 'tunnelM',
+        onChange: (v) => {
+          entity.M = Math.max(0.1, v);
+          entity.mu = entity.G * entity.M;
+          entity.omega = Math.sqrt(entity.mu / (entity.R ** 3));
+          entity.s = entity.R;
+          entity.v = 0;
+          entity.prevS = entity.s;
+          entity.prevV = entity.v;
+          entity.lastTurn = entity.time;
+          entity.measuredPeriod = 0;
+          if (!running && world.time === 0) captureInitial(world);
+        },
+      });
+      field(common, {
+        label: '缩放 G · Scaled G',
+        value: entity.G,
+        min: 0.1,
+        max: 5,
+        step: 0.1,
+        unit: '教学单位 · units',
+        testid: 'tunnelG',
+        onChange: (v) => {
+          entity.G = Math.max(0.01, v);
+          entity.mu = entity.G * entity.M;
+          entity.omega = Math.sqrt(entity.mu / (entity.R ** 3));
+          entity.s = entity.R;
+          entity.v = 0;
+          entity.prevS = entity.s;
+          entity.prevV = entity.v;
+          entity.lastTurn = entity.time;
+          entity.measuredPeriod = 0;
+          if (!running && world.time === 0) captureInitial(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'tunnelPeriod', 's');
+      addLive(readouts, '理论周期 · Theory period', 'tunnelTheory', 's');
+      addLive(readouts, '径向位置 s · Radial position', 'tunnelS', 'm');
+      addLive(readouts, '内部 g · Inside g', 'tunnelGValue', 'm/s²');
+      addLive(readouts, '径向速度 · Radial speed', 'tunnelV', 'm/s');
+      common.appendChild(readouts);
+      formula(common, 'T=2\\pi\\sqrt{\\dfrac{R^3}{GM}},\\qquad g(r)=\\dfrac{GMr}{R^3}');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '均匀球内部 g ∝ r，小球沿直径做简谐运动。 · Inside a uniform sphere g ∝ r, so the ball performs SHM along a diameter.',
       }));
     } else if (entity.type === 'fan') {
       field(common, {
@@ -4595,6 +4876,128 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'angularTable') {
+      field(moreAdvanced, {
+        label: '圆盘质量 · Disc mass',
+        value: entity.discMass,
+        min: 0.5,
+        max: 40,
+        step: 0.5,
+        unit: 'kg',
+        testid: 'angDiscMass',
+        onChange: (v) => {
+          entity.discMass = Math.max(0.1, v);
+          entity.I = 0.5 * entity.discMass * entity.radius * entity.radius;
+          if (entity.blockOn) entity.omega = entity.L / angularTableMoment(entity);
+          if (!running && world.time === 0) captureInitial(world);
+        },
+      });
+      field(moreAdvanced, {
+        label: '圆盘半径 · Disc radius',
+        value: entity.radius,
+        min: 0.4,
+        max: 4,
+        step: 0.05,
+        unit: 'm',
+        testid: 'angDiscRadius',
+        onChange: (v) => {
+          entity.radius = Math.max(0.2, v);
+          entity.r = Math.min(entity.r, entity.radius * 0.98);
+          entity.I = 0.5 * entity.discMass * entity.radius * entity.radius;
+          if (entity.blockOn) entity.omega = entity.L / angularTableMoment(entity);
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '圆盘转动惯量 I_d · Disc I', 'angDiscI', 'kg·m²');
+      addLive(readouts, '角动量 L · Angular momentum', 'angL', 'kg·m²/s');
+      addLive(readouts, '动能 KE · Kinetic energy', 'angKE', 'J');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'I_{\\text{d}}=\\dfrac{1}{2}M_{\\text{d}}R^2,\\qquad L=(I_{\\text{d}}+mr^2)\\omega');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '提离方块时圆盘保留自身角动量；再放下时 L 不变、动能下降（完全非弹性）。 · Lifting the block leaves the disc’s own L; dropping it again keeps L while kinetic energy drops (perfectly inelastic).',
+      }));
+    }
+
+    if (entity.type === 'rod') {
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '角加速度 α · Angular acceleration', 'rodAlpha', 'rad/s²');
+      addLive(readouts, '角速度 ω · Angular speed', 'rodOmega', 'rad/s');
+      addLive(readouts, '转角 θ · Angle', 'rodTheta', 'rad');
+      addLive(readouts, '转动惯量 I · Moment of inertia', 'rodI', 'kg·m²');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, '\\tau=I\\alpha,\\qquad I_{\\text{end}}=\\dfrac{1}{3}mL^2,\\qquad I_{\\text{center}}=\\dfrac{1}{12}mL^2');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '选择端点或中心转轴后，I 与 α 立即更新。 · I and α update immediately when the pivot is changed.',
+      }));
+    }
+
+    if (entity.type === 'orbit') {
+      field(moreAdvanced, {
+        label: '初始方位角 · Initial phase',
+        value: (entity.phase * 180) / Math.PI,
+        min: 0,
+        max: 360,
+        step: 1,
+        unit: '°',
+        testid: 'orbitPhase',
+        onChange: (v) => {
+          const phase = (v * Math.PI) / 180;
+          setOrbitLaunch(entity, { r: entity.r0, speedFactor: entity.speedFactor, phase });
+          if (!running && world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'orbitPeriod', 's');
+      addLive(readouts, '开普勒周期 · Kepler T', 'orbitKepler', 's');
+      addLive(readouts, '半长轴 a · Semi-major axis', 'orbitA', 'm');
+      addLive(readouts, '面积速度 · Areal velocity', 'orbitAreal', 'm²/s');
+      addLive(readouts, '比能量 ε · Specific energy', 'orbitEnergy', 'J/kg');
+      addLive(readouts, '逃逸速度 v_esc · Escape speed', 'orbitEscape', 'm/s');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'T^2=\\dfrac{4\\pi^2a^3}{GM},\\qquad \\varepsilon=\\dfrac{v^2}{2}-\\dfrac{GM}{r},\\qquad v_{\\text{esc}}=\\sqrt{\\dfrac{2GM}{r}}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '速度比达到 √2（逃逸）时轨道不再束缚；打开轨迹可看到等面积扫过。 · At a speed ratio of √2 (escape) the orbit is unbound; open Trails to see equal-area sweeps.',
+      }));
+    }
+
+    if (entity.type === 'tunnel') {
+      field(moreAdvanced, {
+        label: '释放位置 s₀ · Release position',
+        value: entity.s,
+        min: -7,
+        max: 7,
+        step: 0.1,
+        unit: 'm',
+        testid: 'tunnelS0',
+        onChange: (v) => {
+          const s0 = Math.max(-entity.R, Math.min(entity.R, v));
+          entity.s = s0;
+          entity.v = 0;
+          entity.prevS = s0;
+          entity.prevV = entity.v;
+          entity.lastTurn = entity.time;
+          entity.measuredPeriod = 0;
+          if (!running && world.time === 0) captureInitial(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'tunnelPeriod', 's');
+      addLive(readouts, '理论周期 · Theory period', 'tunnelTheory', 's');
+      addLive(readouts, '内部 g · Inside g', 'tunnelGValue', 'm/s²');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'T=2\\pi\\sqrt{\\dfrac{R^3}{GM}},\\qquad g(r)=\\dfrac{GMr}{R^3}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '从球面释放时振幅为 R；释放位置在球内时周期不变。 · Released at the surface the amplitude is R; inside the sphere the period is unchanged.',
+      }));
+    }
+
     if (entity.type === 'elevator') {
       field(moreAdvanced, {
         label: '轿厢高度 · Cabin height',
@@ -4619,7 +5022,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '秤读数 N · Scale reading', 'liftNormal', 'N');
       addLive(readouts, '静止重量 mg · Weight', 'liftWeight', 'N');
-      addLive(readouts, '视重比 N/mg · Apparent/true', 'liftRatio', '');
+      addLive(readouts, '视重比 · Apparent ratio', 'liftRatio', '');
       moreAdvanced.appendChild(readouts);
       formula(moreAdvanced, 'N=m(g+a),\\qquad a=-g\\Rightarrow N=0');
       moreAdvanced.appendChild(el('p', {
@@ -4651,12 +5054,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '摆角（实测）· Tilt measured', 'carriageMeasured', '°');
-      addLive(readouts, '理论 tanφ = a/g · Theory', 'carriageTheory', '°');
+      addLive(readouts, '理论倾角 · Theory tilt', 'carriageTheory', '°');
       moreAdvanced.appendChild(readouts);
       formula(moreAdvanced, '\\ddot{\\theta}=-\\dfrac{g}{L}\\sin\\theta-\\dfrac{a}{L}\\cos\\theta-\\gamma\\dot{\\theta}');
       moreAdvanced.appendChild(el('p', {
         className: 'plab-field-hint',
-        text: '稳定后 tanφ = a/g，摆球向后偏。 · At equilibrium tanφ = a/g and the bob lags rearward.',
+        text: '稳定后 tanφ 等于加速度与 g 的比值，摆球向后偏。 · At equilibrium tanφ equals the acceleration divided by g, and the bob lags rearward.',
       }));
     }
 
@@ -4749,7 +5152,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '周期（实测）· Period measured', 'torsionMeasured', 's');
-      addLive(readouts, '理论周期 · 2π√(I/κ)', 'torsionTheory', 's');
+      addLive(readouts, '理论周期 · Theory period', 'torsionTheory', 's');
       moreAdvanced.appendChild(readouts);
       formula(moreAdvanced, 'I\\ddot{\\theta}+\\kappa\\theta=0,\\qquad T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}}');
       moreAdvanced.appendChild(el('p', {
@@ -4975,6 +5378,33 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('carriageTheory', `${fmt((carriageTilt(entity.accel, world.g) * 180) / Math.PI)}°`);
       setLive('carriageRatio', fmt(entity.accel / Math.max(1e-9, world.g)));
       setLive('carriageOmega', `${fmt(entity.omega)} rad/s`);
+    } else if (entity?.type === 'angularTable') {
+      setLive('angL', `${fmt(angularTableMomentum(entity))} kg·m²/s`);
+      setLive('angOmega', `${fmt(entity.omega)} rad/s`);
+      setLive('angKE', `${fmt(entity.ke)} J`);
+      setLive('angI', `${fmt(angularTableMoment(entity))} kg·m²`);
+      setLive('angDiscI', `${fmt(entity.I)} kg·m²`);
+    } else if (entity?.type === 'rod') {
+      setLive('rodAlpha', `${fmt(entity.torque / Math.max(1e-9, entity.I))} rad/s²`);
+      setLive('rodOmega', `${fmt(entity.omega)} rad/s`);
+      setLive('rodTheta', `${fmt(entity.theta)} rad`);
+      setLive('rodI', `${fmt(entity.I)} kg·m²`);
+    } else if (entity?.type === 'orbit') {
+      setLive('orbitPeriod', entity.periodMeasured ? `${fmt(entity.periodMeasured)}` : '—');
+      const tk = orbitKeplerPeriod(entity);
+      setLive('orbitKepler', Number.isFinite(tk) ? `${fmt(tk)}` : '—');
+      const a = orbitSemiMajor(entity);
+      setLive('orbitA', Number.isFinite(a) ? `${fmt(a)} m` : '不束缚 · Unbound');
+      setLive('orbitAreal', `${fmt(orbitArealVelocity(entity))} m²/s`);
+      setLive('orbitEnergy', `${fmt(entity.energy)} J/kg`);
+      setLive('orbitEscape', `${fmt(orbitEscapeSpeed(entity))} m/s`);
+      setLive('orbitRadiusNow', `${fmt(Math.hypot(entity.px, entity.pz))} m`);
+    } else if (entity?.type === 'tunnel') {
+      setLive('tunnelPeriod', entity.measuredPeriod ? `${fmt(entity.measuredPeriod)}` : '—');
+      setLive('tunnelTheory', `${fmt(tunnelPeriod(entity))}`);
+      setLive('tunnelS', `${fmt(entity.s)} m`);
+      setLive('tunnelGValue', `${fmt((entity.mu * Math.abs(entity.s)) / Math.max(1e-9, entity.R ** 3))} m/s²`);
+      setLive('tunnelV', `${fmt(entity.v)} m/s`);
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -5016,7 +5446,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else if (entity?.type === 'elevator') {
         inspectorSummary.textContent = `N ${fmt(elevatorReading(world, entity))} N · mg ${fmt(entity.mass * world.g)} N · a ${fmt(entity.accel)} m/s²`;
       } else if (entity?.type === 'carriage') {
-        inspectorSummary.textContent = `φ ${fmt((-entity.theta * 180) / Math.PI)}° · tanφ=a/g → ${fmt((carriageTilt(entity.accel, world.g) * 180) / Math.PI)}°`;
+        inspectorSummary.textContent = `φ ${fmt((-entity.theta * 180) / Math.PI)}° · 理论 · theory ${fmt((carriageTilt(entity.accel, world.g) * 180) / Math.PI)}°`;
+      } else if (entity?.type === 'angularTable') {
+        inspectorSummary.textContent = `L ${fmt(angularTableMomentum(entity))} kg·m²/s · ω ${fmt(entity.omega)} rad/s · KE ${fmt(entity.ke)} J`;
+      } else if (entity?.type === 'rod') {
+        inspectorSummary.textContent = `α ${fmt(entity.torque / Math.max(1e-9, entity.I))} rad/s² · I ${fmt(entity.I)} kg·m² · τ ${fmt(entity.torque)} N·m`;
+      } else if (entity?.type === 'orbit') {
+        const tk = orbitKeplerPeriod(entity);
+        inspectorSummary.textContent = `T ${entity.periodMeasured ? fmt(entity.periodMeasured) : '—'} s · Kepler ${Number.isFinite(tk) ? fmt(tk) : '—'} s · r ${fmt(Math.hypot(entity.px, entity.pz))} m`;
+      } else if (entity?.type === 'tunnel') {
+        inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 理论 · theory ${fmt(tunnelPeriod(entity))} s · s ${fmt(entity.s)} m`;
       } else {
         inspectorSummary.textContent = '—';
       }
