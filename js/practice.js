@@ -128,6 +128,14 @@ export function isReviewDue(record, now = Date.now()) {
   return Number.isFinite(dueAt) && dueAt <= (Number.isFinite(now) ? now : Date.now());
 }
 
+/**
+ * A due record is a fresh review, not a locked completed card. The previous
+ * attempt is kept in `history` when the student submits the new review.
+ */
+export function isFreshReview(record, now = Date.now()) {
+  return isRecordObject(record) && isReviewDue(record, now);
+}
+
 /** All due records across every bank in the store. */
 export function dueReviews(store, now = Date.now()) {
   const migrated = migratePracticeStore(store);
@@ -294,12 +302,35 @@ function updatePracticeBankState(bankKey, mutate) {
   writePracticeStore(store);
 }
 
+/** Snapshot of the attempt that a due review replaces. */
+function reviewHistoryEntry(record) {
+  return {
+    status: record.status === 'right' || record.status === 'wrong' ? record.status : null,
+    lastAnswer: String(record.lastAnswer ?? ''),
+    at: Number.isFinite(record.at) ? record.at : null,
+    intervalDays: Number.isFinite(record.intervalDays) ? record.intervalDays : null,
+    dueAt: Number.isFinite(record.dueAt) ? record.dueAt : null,
+    reps: Number.isFinite(record.reps) ? record.reps : null,
+    solOpen: record.solOpen === true,
+  };
+}
+
 export function recordPracticeAttempt(bankKey, id, ok, lastAnswer, now = Date.now()) {
   if (!bankKey || !id) return null;
   const at = Number.isFinite(now) ? now : Date.now();
   let nextRecord = null;
   updatePracticeBankState(bankKey, (bank) => {
-    nextRecord = scheduleAfterAttempt(bank.answers[id], ok, at);
+    const existing = bank.answers[id];
+    const base = isFreshReview(existing, at)
+      ? {
+        ...existing,
+        history: [
+          ...(Array.isArray(existing.history) ? existing.history : []),
+          reviewHistoryEntry(existing),
+        ],
+      }
+      : existing;
+    nextRecord = scheduleAfterAttempt(base, ok, at);
     nextRecord.lastAnswer = String(lastAnswer ?? '').slice(0, 240);
     nextRecord.at = at;
     bank.answers[id] = nextRecord;
@@ -308,12 +339,51 @@ export function recordPracticeAttempt(bankKey, id, ok, lastAnswer, now = Date.no
 }
 
 /**
+ * Record one quiz item. A blank becomes `unanswered` with no schedule, so it
+ * never enters the wrong-answer book or 今日复习. An existing genuine attempt
+ * is never overwritten by a later blank.
+ */
+export function recordQuizItemResult(bankKey, id, result, now = Date.now()) {
+  if (!bankKey || !id) return null;
+  const at = Number.isFinite(now) ? now : Date.now();
+  const answered = result?.answered === true;
+  if (answered) {
+    return recordPracticeAttempt(bankKey, id, result.ok === true, result.answerText, at);
+  }
+  let updated = null;
+  updatePracticeBankState(bankKey, (bank) => {
+    const current = bank.answers[id];
+    if (isRecordObject(current) && (current.status === 'right' || current.status === 'wrong')) {
+      updated = current;
+      return;
+    }
+    updated = {
+      ...(isRecordObject(current) ? current : {}),
+      status: 'unanswered',
+      lastAnswer: '',
+      at,
+      quizBlank: true,
+    };
+    delete updated.intervalDays;
+    delete updated.dueAt;
+    delete updated.reps;
+    bank.answers[id] = updated;
+  });
+  return updated;
+}
+
+/**
  * UI snapshot of a stored answer. Legacy records without solOpen stay valid and
  * default the solution expander to closed; unknown fields remain in the store.
+ * A currently due record renders as a fresh review instead of restoring the
+ * previous answer and locking the card.
  */
-export function practiceAttemptSnapshot(record) {
+export function practiceAttemptSnapshot(record, now = Date.now()) {
   if (!isRecordObject(record)) {
-    return { hasAttempt: false, status: null, lastAnswer: '', solOpen: false };
+    return { hasAttempt: false, status: null, lastAnswer: '', solOpen: false, freshReview: false };
+  }
+  if (isFreshReview(record, now)) {
+    return { hasAttempt: false, status: null, lastAnswer: '', solOpen: false, freshReview: true };
   }
   const status = record.status === 'right' || record.status === 'wrong' ? record.status : null;
   return {
@@ -321,6 +391,7 @@ export function practiceAttemptSnapshot(record) {
     status,
     lastAnswer: String(record.lastAnswer ?? ''),
     solOpen: record.solOpen === true,
+    freshReview: false,
   };
 }
 
@@ -1000,16 +1071,19 @@ function questionIdFromProgressId(id) {
 function renderPracticeProgress(section) {
   clear(section);
   const store = readPracticeStore();
-  const stats = new Map(PRACTICE_SUBJECTS.map(([key]) => [key, { attempted: 0, correct: 0 }]));
+  const stats = new Map(PRACTICE_SUBJECTS.map(([key]) => [key, { attempted: 0, correct: 0, unanswered: 0 }]));
   for (const [bankKey, bank] of Object.entries(store.banks)) {
     const { subject } = parsePracticeBankKey(bankKey);
     const stat = stats.get(subject);
     if (!stat || !isRecordObject(bank) || !isRecordObject(bank.answers)) continue;
     for (const record of Object.values(bank.answers)) {
       if (!isRecordObject(record)) continue;
-      if (record.status !== 'right' && record.status !== 'wrong') continue;
-      stat.attempted += 1;
-      if (record.status === 'right') stat.correct += 1;
+      if (record.status === 'right' || record.status === 'wrong') {
+        stat.attempted += 1;
+        if (record.status === 'right') stat.correct += 1;
+      } else if (record.status === 'unanswered') {
+        stat.unanswered += 1;
+      }
     }
   }
 
@@ -1020,11 +1094,12 @@ function renderPracticeProgress(section) {
     ]),
   );
 
-  const maxAttempted = Math.max(1, ...[...stats.values()].map((stat) => stat.attempted));
+  const maxCount = Math.max(1, ...[...stats.values()].map((stat) => stat.attempted + stat.unanswered));
   PRACTICE_SUBJECTS.forEach(([key, zh, en]) => {
     const stat = stats.get(key);
     const accuracy = stat.attempted ? Math.round((stat.correct / stat.attempted) * 100) : 0;
-    const attemptedWidth = Math.round((stat.attempted / maxAttempted) * 100);
+    const attemptedWidth = Math.round((stat.attempted / maxCount) * 100);
+    const unansweredWidth = Math.round((stat.unanswered / maxCount) * 100);
     const row = el('div', { className: 'practice-progress-row', 'data-subject': key });
     row.appendChild(
       el('div', { className: 'practice-progress-course' }, [
@@ -1036,9 +1111,9 @@ function renderPracticeProgress(section) {
     const data = el('div', { className: 'practice-progress-data' });
     data.appendChild(
       el('p', { className: 'practice-progress-stat' }, [
-        el('span', { className: 'practice-progress-stat-zh', text: `已答 ${stat.attempted} · 正确 ${stat.correct} · 正确率 ${accuracy}%` }),
+        el('span', { className: 'practice-progress-stat-zh', text: `已答 ${stat.attempted} · 正确 ${stat.correct} · 未作答 ${stat.unanswered} · 正确率 ${accuracy}%` }),
         el('span', { className: 'practice-progress-stat-sep', text: '·' }),
-        el('span', { className: 'practice-progress-stat-en', text: `${stat.attempted} answered · ${stat.correct} correct · ${accuracy}% accuracy` }),
+        el('span', { className: 'practice-progress-stat-en', text: `${stat.attempted} answered · ${stat.correct} correct · ${stat.unanswered} Unanswered · ${accuracy}% accuracy` }),
       ]),
     );
     const addBar = (label, width, kind) => {
@@ -1050,12 +1125,13 @@ function renderPracticeProgress(section) {
       ]);
       data.appendChild(
         el('div', { className: 'practice-bar-line' }, [
-          el('span', { className: 'practice-bar-label', text: label }),
+          el('span', { className: `practice-bar-label practice-bar-label-${kind}`, text: label }),
           track,
         ]),
       );
     };
     addBar('已答 · Attempted', attemptedWidth, 'attempted');
+    addBar('未作答 · Unanswered', unansweredWidth, 'unanswered');
     addBar('正确率 · Accuracy', accuracy, 'accuracy');
     row.appendChild(data);
     section.appendChild(row);
@@ -1165,7 +1241,41 @@ function quizEntryCorrect(entry) {
   return false;
 }
 
-function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGraded, onDraftChange }) {
+/**
+ * Quiz breakdown. Only items that received an answer count as attempted;
+ * blanks are counted separately and stay out of the accuracy denominator.
+ */
+export function summarizeQuizResults(results) {
+  const list = Array.isArray(results) ? results : [];
+  let answered = 0;
+  let correct = 0;
+  for (const result of list) {
+    if (result?.answered !== true) continue;
+    answered += 1;
+    if (result.ok === true) correct += 1;
+  }
+  const total = list.length;
+  const unanswered = total - answered;
+  return {
+    total,
+    answered,
+    correct,
+    unanswered,
+    scorePercent: total ? Math.round((correct / total) * 100) : 0,
+    accuracy: answered ? Math.round((correct / answered) * 100) : 0,
+  };
+}
+
+/**
+ * Solution payloads may only be materialized after a quiz has been submitted.
+ * While a quiz is active (including its setup screen) the regular list is
+ * unmounted, so no hidden card can expose a solution body.
+ */
+export function quizSolutionAllowed(phase) {
+  return phase === 'submitted';
+}
+
+function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGraded, onDraftChange, onActiveChange }) {
   let active = false;
   let quiz = null;
 
@@ -1223,6 +1333,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     clear(panel);
     panel.hidden = true;
     page.classList.remove('is-quizzing');
+    onActiveChange?.(false);
     onDraftChange?.();
   }
 
@@ -1232,6 +1343,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     active = true;
     page.classList.add('is-quizzing');
     panel.hidden = false;
+    onActiveChange?.(true);
     clear(panel);
     const pool = buildQuizPool(bank, bankKey, subject, unitId);
 
@@ -1350,6 +1462,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     active = true;
     page.classList.add('is-quizzing');
     panel.hidden = false;
+    onActiveChange?.(true);
     clear(panel);
 
     const leaveBtn = el('button', { type: 'button', className: 'btn hit-target', text: '退出小测 · Leave quiz' });
@@ -1556,36 +1669,40 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       quiz.timerEl.classList.remove('is-urgent');
       quiz.timerEl.textContent = auto ? '时间到 · Time is up' : '已提交 · Submitted';
     }
-    let correct = 0;
+    const results = [];
     for (const entry of quiz.entries) {
-      const ok = quizEntryCorrect(entry);
-      entry.ok = ok;
-      if (ok) correct += 1;
       const answerText = quizAnswerText(entry);
-      recordPracticeAttempt(bankKey, entry.progressId, ok, answerText);
+      const answered = answerText !== '';
+      const ok = answered && quizEntryCorrect(entry);
+      entry.ok = ok;
+      entry.answered = answered;
+      results.push({ answered, ok });
+      recordQuizItemResult(bankKey, entry.progressId, { answered, ok, answerText });
       if (ok) markCompleted(entry.progressId);
       lockQuizEntry(entry);
-      const resultText = !answerText && !ok
+      const resultText = !answered
         ? '未作答 · Unanswered'
         : ok ? '正确 · Correct' : '答错 · Incorrect';
       entry.resultEl.textContent = resultText;
-      entry.resultEl.className = `practice-quiz-result ${ok ? 'ok' : 'bad'}`;
-      const solution = el('div', { className: 'practice-quiz-solution' });
-      if (solutionHasContent(entry.grading)) {
-        solution.appendChild(buildSolutionBody(entry.grading));
-      } else {
-        solution.appendChild(el('p', {
-          className: 'practice-sol-empty',
-          text: '暂无解析 · No solution provided',
-        }));
+      entry.resultEl.className = `practice-quiz-result ${!answered ? 'unanswered' : ok ? 'ok' : 'bad'}`;
+      if (quizSolutionAllowed('submitted')) {
+        const solution = el('div', { className: 'practice-quiz-solution' });
+        if (solutionHasContent(entry.grading)) {
+          solution.appendChild(buildSolutionBody(entry.grading));
+        } else {
+          solution.appendChild(el('p', {
+            className: 'practice-sol-empty',
+            text: '暂无解析 · No solution provided',
+          }));
+        }
+        entry.itemEl.appendChild(solution);
       }
-      entry.itemEl.appendChild(solution);
     }
     clearPracticeQuizDraft(bankKey);
     onDraftChange?.();
 
-    const total = quiz.entries.length;
-    const percent = total ? Math.round((correct / total) * 100) : 0;
+    const breakdown = summarizeQuizResults(results);
+    const { total, answered, correct, unanswered, scorePercent, accuracy } = breakdown;
     const summary = quiz.summaryEl;
     clear(summary);
     summary.hidden = false;
@@ -1594,12 +1711,19 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       className: 'practice-quiz-score',
       role: 'status',
       'aria-live': 'polite',
-      text: `${correct} / ${total} · ${percent}%`,
+      text: `${correct} / ${total} · ${scorePercent}%`,
     }));
+    summary.appendChild(
+      el('p', { className: 'practice-quiz-breakdown' }, [
+        el('span', { text: `已答 ${answered} · 正确 ${correct} · 未作答 ${unanswered} · 正确率 ${accuracy}%` }),
+        el('span', { className: 'practice-quiz-breakdown-sep', text: '·' }),
+        el('span', { className: 'practice-quiz-breakdown-en', text: `${answered} answered · ${correct} correct · ${unanswered} Unanswered · ${accuracy}% accuracy` }),
+      ]),
+    );
     if (auto) {
       summary.appendChild(el('p', {
         className: 'practice-quiz-note',
-        text: '时间到，已自动提交；未作答按错误计入。 · Time is up; unanswered items count as incorrect.',
+        text: '时间到，已自动提交；未作答不记为已答。 · Time is up; unanswered items are not counted as answered.',
       }));
     }
 
@@ -1759,6 +1883,8 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     bankKey,
     cards: [],
     sets: [],
+    solutions: [],
+    quizActive: false,
     onDone: null,
   };
   let idx = 0;
@@ -1772,6 +1898,24 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     }
   });
 
+  /**
+   * While a quiz is open (setup or in progress) the regular cards must not be
+   * interactive and must not keep solution payloads in the document. Removing
+   * the solution mounts also makes programmatic clicks on hidden cards inert.
+   */
+  function setQuizMode(active) {
+    ctx.quizActive = active;
+    if (active) layout.setAttribute('inert', '');
+    else layout.removeAttribute('inert');
+    layout.inert = active;
+    if (active) layout.setAttribute('aria-hidden', 'true');
+    else layout.removeAttribute('aria-hidden');
+    ctx.solutions.forEach((solution) => {
+      if (active) solution.unmount();
+      else solution.restore();
+    });
+  }
+
   quizCtl = createPracticeQuiz({
     panel: quizPanel,
     page,
@@ -1779,6 +1923,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     subject,
     unitId: unit.id,
     bank,
+    onActiveChange: setQuizMode,
     onGraded(entries) {
       const correctIds = new Set(entries.filter((entry) => entry.ok).map((entry) => entry.progressId));
       ctx.cards.forEach((item) => {
@@ -2282,6 +2427,8 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
   const attemptOpts = {
     bankKey: ctx.bankKey,
     answerIds,
+    solutions: ctx.solutions,
+    blocked: () => ctx.quizActive === true,
     onAttempt: (ok, id) => ctx.onAttempt?.(ok, id),
   };
 
@@ -2303,7 +2450,10 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
       resetDone();
       mount.appendChild(renderInstanceBody(instance, progressId, markDone, { ...attemptOpts, instanceStem: true }));
     };
-    regen.addEventListener('click', redraw);
+    regen.addEventListener('click', () => {
+      if (ctx.quizActive) return;
+      redraw();
+    });
     body.append(regen, mount);
     mount.appendChild(renderInstanceBody(instance, progressId, markDone, { ...attemptOpts, instanceStem: true }));
   } else {
@@ -2424,16 +2574,16 @@ function buildSolutionBody(prob) {
 
 /**
  * The expander is hidden until the first checked answer when the item has a
- * checker. Items without a checker keep the old collapsed-but-available peek.
+ * checker. Items without a checker keep a collapsed-but-available peek.
+ * The solution body is always built lazily, and a gated expander does not
+ * exist in the DOM until the first check. This keeps hidden practice cards
+ * free of solution payloads while a quiz is active.
  */
-function createSolutionDetails(prob, gated) {
+function createSolutionDetails(prob, gated, onToggle) {
   const hasContent = solutionHasContent(prob);
   if (!hasContent && !gated) return null;
-  const details = el('details', { className: 'practice-sol' });
-  details.appendChild(el('summary', {
-    className: 'hit-target',
-    text: gated ? '查看解析 · View solution' : '答案与解析 · Answer & solution',
-  }));
+  const mount = el('div', { className: 'practice-sol-mount' });
+  let details = null;
   let built = false;
   const build = () => {
     if (built) return;
@@ -2446,16 +2596,41 @@ function createSolutionDetails(prob, gated) {
         ]),
     );
   };
-  details.addEventListener('toggle', () => {
-    if (details.open) build();
-  });
-  if (gated) details.hidden = true;
-  else build();
+  const ensureDetails = () => {
+    if (details) return details;
+    details = el('details', { className: 'practice-sol' });
+    details.appendChild(el('summary', {
+      className: 'hit-target',
+      text: gated ? '查看解析 · View solution' : '答案与解析 · Answer & solution',
+    }));
+    details.addEventListener('toggle', () => {
+      if (details.open) build();
+      onToggle?.(details);
+    });
+    mount.appendChild(details);
+    return details;
+  };
+  if (!gated) ensureDetails();
   return {
-    details,
+    mount,
+    get details() {
+      return details;
+    },
     reveal() {
-      build();
+      ensureDetails();
       details.hidden = false;
+      build();
+    },
+    unmount() {
+      if (!mount.isConnected) return;
+      mount._practiceHome = mount.parentNode;
+      mount.remove();
+    },
+    restore() {
+      if (mount.isConnected) return;
+      const home = mount._practiceHome;
+      if (home) home.appendChild(mount);
+      mount._practiceHome = null;
     },
   };
 }
@@ -2515,7 +2690,14 @@ function mcqChoiceIndexFromAnswer(raw, choices) {
 function renderAnswerUI(prob, progressId, onDone, opts = {}) {
   const box = el('div', { className: 'practice-answer-ui' });
   const gated = (prob.type === 'mcq' && prob.choices) || prob.check === 'numeric' || prob.check === 'symbolic';
-  const solution = createSolutionDetails(prob, gated);
+  const blocked = () => opts.blocked?.() === true;
+  const solution = createSolutionDetails(prob, gated, (details) => {
+    if (blocked()) return;
+    const current = practiceAttemptSnapshot(practiceAnswerMap(opts.bankKey)[progressId]);
+    if (!current.hasAttempt) return;
+    setPracticeSolutionOpen(opts.bankKey, progressId, details.open);
+  });
+  if (solution) opts.solutions?.push(solution);
   const snapshot = practiceAttemptSnapshot(practiceAnswerMap(opts.bankKey)[progressId]);
   const recordAttempt = (ok, answerText) => {
     recordPracticeAttempt(opts.bankKey, progressId, ok, answerText);
@@ -2539,13 +2721,13 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
         el('span', { className: 'mcq-text', text: c.text }),
       ]);
       btn.addEventListener('click', () => {
-        if (group.dataset.locked === 'true') return;
+        if (blocked() || group.dataset.locked === 'true') return;
         selectChoice(i);
       });
       btn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          if (group.dataset.locked === 'true') return;
+          if (blocked() || group.dataset.locked === 'true') return;
           selectChoice(i);
           checkSelection();
           return;
@@ -2575,7 +2757,7 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
       checkBtn.disabled = false;
     }
     function checkSelection() {
-      if (selected < 0) return;
+      if (blocked() || selected < 0) return;
       const ok = prob.choices[selected].correct || selected === prob.answerIndex;
       const choiceText = prob.choices[selected].text || '';
       recordAttempt(ok, `${String.fromCharCode(65 + selected)}. ${choiceText}`);
@@ -2655,6 +2837,7 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
     });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (blocked()) return;
       if (previewTimer) {
         clearTimeout(previewTimer);
         previewTimer = 0;
@@ -2709,6 +2892,7 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
     const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (blocked()) return;
       const raw = input.value.trim();
       if (!raw) {
         fb.textContent = '请先输入答案 · Enter an answer first';
@@ -2747,16 +2931,11 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
   }
 
   if (solution) {
-    box.appendChild(solution.details);
+    box.appendChild(solution.mount);
     if (snapshot.hasAttempt) {
       solution.reveal();
       if (snapshot.solOpen) solution.details.open = true;
     }
-    solution.details.addEventListener('toggle', () => {
-      const current = practiceAttemptSnapshot(practiceAnswerMap(opts.bankKey)[progressId]);
-      if (!current.hasAttempt) return;
-      setPracticeSolutionOpen(opts.bankKey, progressId, solution.details.open);
-    });
   }
   return box;
 }

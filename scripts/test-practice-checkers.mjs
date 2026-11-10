@@ -49,15 +49,19 @@ const {
   migratePracticeStore,
   scheduleAfterAttempt,
   isReviewDue,
+  isFreshReview,
   dueReviews,
   readPracticeStore,
   recordPracticeAttempt,
+  recordQuizItemResult,
   practiceAttemptSnapshot,
   setPracticeSolutionOpen,
   savePracticeQuizDraft,
   loadPracticeQuizDraft,
   clearPracticeQuizDraft,
   clampQuizRemainingSec,
+  summarizeQuizResults,
+  quizSolutionAllowed,
   PRACTICE_STORE_KEY,
 } = await import('../js/practice.js');
 
@@ -336,12 +340,102 @@ ok('solution toggle keeps unknown answer fields', restoreSaved.banks['bio/bio-u1
 ok('solution toggle keeps lastAnswer', restoreSaved.banks['bio/bio-u1'].answers.answerA.lastAnswer, 'x');
 ok('solution toggle keeps the legacy wrong schedule', restoreSaved.banks['bio/bio-u1'].answers.answerA.dueAt, 0);
 ok('solution toggle persists solOpen true', restoreSaved.banks['bio/bio-u1'].answers.answerA.solOpen, true);
-ok('solution toggle round-trips through the snapshot', practiceAttemptSnapshot(restoreSaved.banks['bio/bio-u1'].answers.answerA).solOpen, true);
+ok('a due legacy wrong renders fresh instead of restoring solOpen', practiceAttemptSnapshot(restoreSaved.banks['bio/bio-u1'].answers.answerA).solOpen, false);
 ok('solution toggle leaves the other answer alone', restoreSaved.banks['math/calc-u2'].answers.answerB.solOpen, false);
+setPracticeSolutionOpen('math/calc-u2', 'answerB', true);
+const restoreNonDue = JSON.parse(restoreStorage.getItem(PRACTICE_STORE_KEY));
+ok(
+  'solution toggle round-trips through the snapshot for a non-due answer',
+  practiceAttemptSnapshot(restoreNonDue.banks['math/calc-u2'].answers.answerB).solOpen,
+  true,
+);
 
 setPracticeSolutionOpen('bio/bio-u1', 'missingAnswer', true);
 const restoreAfterMissing = JSON.parse(restoreStorage.getItem(PRACTICE_STORE_KEY));
 ok('solution toggle never invents an answer record', Object.keys(restoreAfterMissing.banks['bio/bio-u1'].answers).length, 1);
+
+console.log('\nDue review records are fresh, not locked');
+const dueRecord = {
+  status: 'right',
+  lastAnswer: '4.0',
+  at: NOW - 3 * DAY,
+  intervalDays: 3,
+  dueAt: NOW - 1,
+  reps: 1,
+  solOpen: true,
+  note: 'keep',
+};
+ok('due record is a fresh review', isFreshReview(dueRecord, NOW));
+const dueSnapshot = practiceAttemptSnapshot(dueRecord, NOW);
+ok('due review snapshot does not restore the old attempt', dueSnapshot.hasAttempt, false);
+ok('due review snapshot flags freshReview', dueSnapshot.freshReview, true);
+ok('due review snapshot clears lastAnswer', dueSnapshot.lastAnswer, '');
+ok('due review snapshot clears solOpen', dueSnapshot.solOpen, false);
+const futureRecord = { ...dueRecord, dueAt: NOW + DAY };
+ok('future record is not a fresh review', isFreshReview(futureRecord, NOW), false);
+const futureSnapshot = practiceAttemptSnapshot(futureRecord, NOW);
+ok('non-due completed record still restores', futureSnapshot.hasAttempt);
+ok('non-due completed record keeps lastAnswer', futureSnapshot.lastAnswer, '4.0');
+ok('non-due completed record keeps solOpen', futureSnapshot.solOpen, true);
+ok('non-due completed record is not flagged fresh', futureSnapshot.freshReview, false);
+
+const reviewStorage = createStorage();
+globalThis.localStorage = reviewStorage;
+reviewStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify({
+  v: 2,
+  banks: {
+    'math/calc-u1': {
+      answers: { 'practice:math/calc-u1/calc-u1-q001': dueRecord },
+      lastIndex: 0,
+    },
+  },
+}));
+const reviewResult = recordPracticeAttempt(
+  'math/calc-u1',
+  'practice:math/calc-u1/calc-u1-q001',
+  true,
+  '4',
+  NOW,
+);
+ok('review result keeps a history array', Array.isArray(reviewResult.history), true);
+ok('review result appends one previous attempt', reviewResult.history.length, 1);
+ok('history keeps the old lastAnswer', reviewResult.history[0].lastAnswer, '4.0');
+ok('history keeps the old status', reviewResult.history[0].status, 'right');
+ok('history keeps the old schedule', reviewResult.history[0].dueAt, NOW - 1);
+ok('history keeps the old solOpen', reviewResult.history[0].solOpen, true);
+ok('review advances 3 -> 7 days', reviewResult.intervalDays, 7);
+ok('review moves dueAt forward', reviewResult.dueAt, NOW + 7 * DAY);
+ok('review keeps unknown record fields', reviewResult.note, 'keep');
+ok('review replaces lastAnswer with the new answer', reviewResult.lastAnswer, '4');
+const reviewSaved = JSON.parse(reviewStorage.getItem(PRACTICE_STORE_KEY));
+ok(
+  'review history survives the store write',
+  reviewSaved.banks['math/calc-u1'].answers['practice:math/calc-u1/calc-u1-q001'].history.length,
+  1,
+);
+const secondReview = recordPracticeAttempt(
+  'math/calc-u1',
+  'practice:math/calc-u1/calc-u1-q001',
+  true,
+  '4',
+  NOW + 7 * DAY,
+);
+ok('a later due review appends another history entry', secondReview.history.length, 2);
+
+const nonDueStorage = createStorage();
+globalThis.localStorage = nonDueStorage;
+nonDueStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify({
+  v: 2,
+  banks: {
+    'math/calc-u1': {
+      answers: { q1: futureRecord },
+      lastIndex: 0,
+    },
+  },
+}));
+const nonDueResult = recordPracticeAttempt('math/calc-u1', 'q1', true, '4', NOW);
+ok('a non-due completed record does not fabricate history', 'history' in nonDueResult, false);
+ok('a non-due completed record keeps its unknown fields', nonDueResult.note, 'keep');
 
 console.log('\nPractice quiz draft persistence');
 ok('remaining seconds clamp keeps zero', clampQuizRemainingSec(0), 0);
@@ -443,6 +537,82 @@ ok('save draft refuses a corrupt store', savePracticeQuizDraft('math/calc-u2', q
 ok('save draft leaves corrupt bytes untouched', corruptDraftStorage.getItem(PRACTICE_STORE_KEY), '{not valid json');
 ok('clear draft refuses a corrupt store', clearPracticeQuizDraft('math/calc-u2'), false);
 ok('clear draft also leaves corrupt bytes untouched', corruptDraftStorage.getItem(PRACTICE_STORE_KEY), '{not valid json');
+
+console.log('\nQuiz blanks are unanswered');
+const mixedQuiz = summarizeQuizResults([
+  { answered: true, ok: true },
+  { answered: true, ok: true },
+  { answered: true, ok: false },
+  { answered: true, ok: false },
+  { answered: false, ok: false },
+]);
+ok('mixed quiz counts every item', mixedQuiz.total, 5);
+ok('mixed quiz attempted excludes the blank', mixedQuiz.answered, 4);
+ok('mixed quiz correct count', mixedQuiz.correct, 2);
+ok('mixed quiz unanswered count', mixedQuiz.unanswered, 1);
+ok('mixed quiz accuracy uses attempted as its denominator', mixedQuiz.accuracy, 50);
+ok('mixed quiz score still gives a blank zero points', mixedQuiz.scorePercent, 40);
+const allBlankQuiz = summarizeQuizResults(Array.from({ length: 5 }, () => ({ answered: false, ok: false })));
+ok('all-blank quiz attempted is zero', allBlankQuiz.answered, 0);
+ok('all-blank quiz unanswered is five', allBlankQuiz.unanswered, 5);
+ok('all-blank quiz accuracy is zero', allBlankQuiz.accuracy, 0);
+ok('all-blank quiz score is zero', allBlankQuiz.scorePercent, 0);
+
+const quizStorage = createStorage();
+globalThis.localStorage = quizStorage;
+recordQuizItemResult('bio/bio-u1', 'q-right-1', { answered: true, ok: true, answerText: 'A' }, NOW);
+recordQuizItemResult('bio/bio-u1', 'q-right-2', { answered: true, ok: true, answerText: 'B' }, NOW);
+recordQuizItemResult('bio/bio-u1', 'q-wrong-1', { answered: true, ok: false, answerText: 'C' }, NOW);
+recordQuizItemResult('bio/bio-u1', 'q-wrong-2', { answered: true, ok: false, answerText: 'D' }, NOW);
+recordQuizItemResult('bio/bio-u1', 'q-blank', { answered: false, ok: false, answerText: '' }, NOW);
+const quizSaved = JSON.parse(quizStorage.getItem(PRACTICE_STORE_KEY)).banks['bio/bio-u1'].answers;
+ok('quiz right answers stay right', quizSaved['q-right-1'].status, 'right');
+ok('quiz wrong answers stay wrong', quizSaved['q-wrong-1'].status, 'wrong');
+ok('quiz blank is stored as unanswered', quizSaved['q-blank'].status, 'unanswered');
+ok('quiz blank is not a wrong answer', quizSaved['q-blank'].status === 'wrong', false);
+ok('quiz blank has no dueAt', 'dueAt' in quizSaved['q-blank'], false);
+const quizDue = dueReviews(JSON.parse(quizStorage.getItem(PRACTICE_STORE_KEY)), NOW);
+ok('quiz due list excludes the blank', quizDue.some((entry) => entry.id === 'q-blank'), false);
+ok('quiz due list contains both wrongs', quizDue.filter((entry) => entry.id.startsWith('q-wrong')).length, 2);
+ok('quiz blank is absent from the wrong book', Object.entries(quizSaved).filter(([, record]) => record.status === 'wrong').length, 2);
+
+const blankQuizStorage = createStorage();
+globalThis.localStorage = blankQuizStorage;
+for (let i = 0; i < 5; i++) {
+  recordQuizItemResult('bio/bio-u1', `blank-${i}`, { answered: false, ok: false, answerText: '' }, NOW);
+}
+const blankQuizSaved = JSON.parse(blankQuizStorage.getItem(PRACTICE_STORE_KEY)).banks['bio/bio-u1'].answers;
+ok('five-blank quiz writes no wrong records', Object.values(blankQuizSaved).filter((record) => record.status === 'wrong').length, 0);
+ok('five-blank quiz writes no due records', dueReviews(JSON.parse(blankQuizStorage.getItem(PRACTICE_STORE_KEY)), NOW).length, 0);
+ok('five-blank quiz writes five unanswered records', Object.values(blankQuizSaved).filter((record) => record.status === 'unanswered').length, 5);
+
+const preserveStorage = createStorage();
+globalThis.localStorage = preserveStorage;
+preserveStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify({
+  v: 2,
+  banks: {
+    'bio/bio-u1': {
+      answers: { q1: { status: 'right', lastAnswer: 'A', at: 1, note: 'keep' } },
+      lastIndex: 0,
+    },
+  },
+}));
+recordQuizItemResult('bio/bio-u1', 'q1', { answered: false, ok: false, answerText: '' }, NOW);
+const preserved = JSON.parse(preserveStorage.getItem(PRACTICE_STORE_KEY)).banks['bio/bio-u1'].answers.q1;
+ok('a blank does not overwrite a genuine attempt', preserved.status, 'right');
+ok('a blank keeps the genuine lastAnswer', preserved.lastAnswer, 'A');
+ok('a blank keeps unknown answer fields', preserved.note, 'keep');
+
+globalThis.localStorage = quizStorage;
+recordQuizItemResult('bio/bio-u1', 'q-blank', { answered: true, ok: false, answerText: 'B' }, NOW + 1);
+const afterLaterAttempt = JSON.parse(quizStorage.getItem(PRACTICE_STORE_KEY)).banks['bio/bio-u1'].answers['q-blank'];
+ok('a later wrong attempt replaces the unanswered record', afterLaterAttempt.status, 'wrong');
+ok('a later wrong attempt enters the review schedule', afterLaterAttempt.dueAt, NOW + 1);
+
+console.log('\nQuiz solution invariant');
+ok('setup phase does not allow solution payloads', quizSolutionAllowed('setup'), false);
+ok('active quiz phase does not allow solution payloads', quizSolutionAllowed('active'), false);
+ok('submitted phase allows solution payloads', quizSolutionAllowed('submitted'), true);
 
 const practiceDir = new URL('../data/math/practice/', import.meta.url);
 const banks = [];

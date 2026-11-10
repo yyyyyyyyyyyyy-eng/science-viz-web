@@ -366,6 +366,12 @@
 }
 
 .practice-page .practice-bar-accuracy .practice-bar-fill { background: var(--text); }
+.practice-page .practice-bar-unanswered .practice-bar-fill { background: var(--text-dim); }
+
+.practice-page .practice-bar-label-unanswered {
+  white-space: normal;
+  line-height: 1.3;
+}
 
 .practice-page .practice-progress-row[data-subject="bio"] .practice-bar-accuracy .practice-bar-fill { background: var(--bio); }
 .practice-page .practice-progress-row[data-subject="math"] .practice-bar-accuracy .practice-bar-fill { background: var(--math); }
@@ -546,6 +552,27 @@
   letter-spacing: -0.02em;
 }
 
+.practice-page .practice-quiz-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.practice-page .practice-quiz-breakdown-sep {
+  font-size: 0.66rem;
+  color: var(--text-muted);
+}
+
+.practice-page .practice-quiz-breakdown-en {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
 .practice-page .practice-quiz-note {
   margin: 0.35rem 0 0;
   font-size: 0.78rem;
@@ -592,6 +619,7 @@
 
 .practice-page .practice-quiz-result.ok { color: color-mix(in srgb, var(--bio) 70%, var(--text)); }
 .practice-page .practice-quiz-result.bad { color: color-mix(in srgb, var(--danger) 80%, var(--text)); }
+.practice-page .practice-quiz-result.unanswered { color: var(--text-muted); }
 
 .practice-page .practice-quiz-item-body {
   margin-left: 2.75rem;
