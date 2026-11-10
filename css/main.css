@@ -2612,9 +2612,28 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   max-width: 100%;
 }
 .exam-figure {
+  /* Physics-figure palette: each label colour stays >=4.5:1 on --canvas-plot
+     in both themes. Keep the semantic hue (v blue, a green, E red, B violet,
+     I amber) while the force accent stays a warm orange. */
+  --ef-force: #a8400f;
+  --ef-v: #1c5fae;
+  --ef-a: #1d6b33;
+  --ef-e: #b02318;
+  --ef-b: #5b3ac0;
+  --ef-i: #7d5200;
+  --ef-muted: #66655e;
   margin: 0;
   min-width: 0;
   max-width: 100%;
+}
+[data-theme="dark"] .exam-figure {
+  --ef-force: #ff9a6c;
+  --ef-v: #7fb2ff;
+  --ef-a: #6fdc8c;
+  --ef-e: #ff8787;
+  --ef-b: #b79aff;
+  --ef-i: #ffc078;
+  --ef-muted: #a3a29a;
 }
 .exam-figure-box {
   width: 100%;
@@ -2643,6 +2662,23 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
      fraction descenders so they are not clipped at the bottom edge. */
   padding-bottom: 0.5rem;
   color: var(--text-muted);
+}
+/* Credit/source links double as touch targets: keep the full row >=44px. */
+.exam-figure-credit {
+  margin-top: 0.15rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+.exam-figure-credit a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.35rem 0;
+  color: inherit;
+  overflow-wrap: anywhere;
 }
 
 /* ============================================================
