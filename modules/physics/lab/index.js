@@ -14,10 +14,16 @@ import {
   addSurface,
   addTurntable,
   applyInitialVelocity,
+  attachBodyToHCircle,
+  attachBodyToLoop,
+  attachBodyToSurface,
+  attachBodyToTurntable,
   bodyDiagnostics,
   captureInitial,
+  clampMuPair,
   clearWorld,
   createWorld,
+  DEG,
   detachBody,
   disposeWorld,
   energyBreakdown,
@@ -163,7 +169,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const stepBtn = el('button', {
     type: 'button',
     className: 'plab-btn hit-target',
-    text: '单步 · Step',
+    text: '单步 1/60 s · Step',
     'data-action': 'step',
   });
   const resetBtn = el('button', {
@@ -395,7 +401,6 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let selected = null;
   let gizmoMode = 'translate';
   let pendingLink = null;
-  let layoutIndex = 0;
   let lastFrame = performance.now();
   let lastReadout = 0;
   const liveNodes = new Map();
@@ -465,9 +470,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function updateTransport() {
     playBtn.disabled = running;
     pauseBtn.disabled = !running;
+    playBtn.textContent = running ? '运行中 · Running' : '播放 · Play';
     playBtn.setAttribute('aria-pressed', running ? 'true' : 'false');
     root.dataset.running = running ? '1' : '0';
     view.transform.enabled = !running && gizmoMode !== 'off';
+    if (view.setGizmoVisible) view.setGizmoVisible(!running && gizmoMode !== 'off');
     view.setGizmoMode(gizmoMode);
   }
 
@@ -480,10 +487,50 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function nextX() {
-    const xs = [0, -3.4, 3.4, -6.6, 6.6];
-    const x = xs[layoutIndex % xs.length];
-    layoutIndex += 1;
-    return x;
+    return 0;
+  }
+
+  const APPARATUS_EXTENT = {
+    incline: { halfX: 4, halfZ: 1.2 },
+    surface: { halfX: 4.5, halfZ: 1.2 },
+    track: { halfX: 5, halfZ: 1.2 },
+    loop: { halfX: 1.8, halfZ: 0.2 },
+    turntable: { halfX: 2, halfZ: 2 },
+    hcircle: { halfX: 2, halfZ: 2 },
+  };
+
+  function apparatusBoxes() {
+    const boxes = [];
+    for (const s of world.surfaces) {
+      const a = (s.angle || 0) * DEG;
+      const halfX = Math.abs((s.length / 2) * Math.cos(a)) + Math.abs((s.thickness / 2) * Math.sin(a));
+      boxes.push({ x: s.body.position.x, z: s.body.position.z, halfX, halfZ: s.width / 2 });
+    }
+    for (const l of world.loops) boxes.push({ x: l.x, z: l.z, halfX: l.radius, halfZ: 0.2 });
+    for (const t of world.turntables) boxes.push({ x: t.x, z: t.z, halfX: t.radius, halfZ: t.radius });
+    for (const c of world.hcircles) boxes.push({ x: c.x, z: c.z, halfX: c.radius, halfZ: c.radius });
+    return boxes;
+  }
+
+  function placementClear(x, halfX, halfZ, boxes) {
+    const margin = 0.6;
+    for (const box of boxes) {
+      const overlapX = Math.abs(x - box.x) < halfX + box.halfX + margin;
+      const overlapZ = Math.abs(0 - box.z) < halfZ + box.halfZ + margin;
+      if (overlapX && overlapZ) return false;
+    }
+    return true;
+  }
+
+  function nextPlacement(kind) {
+    const extent = APPARATUS_EXTENT[kind] || { halfX: 1, halfZ: 1 };
+    const boxes = apparatusBoxes();
+    for (let i = 0; i < 240; i += 1) {
+      const mag = Math.ceil(i / 2) * 0.5;
+      const x = i === 0 ? 0 : (i % 2 === 1 ? mag : -mag);
+      if (placementClear(x, extent.halfX, extent.halfZ, boxes)) return x;
+    }
+    return 0;
   }
 
   function selectedBody() {
@@ -495,32 +542,46 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     prepareEdit();
     let entity = null;
     if (kind === 'incline') {
-      entity = addSurface(world, { kind: 'incline', x: nextX(), y: 1.35, z: 0, angleDeg: 20, length: 8, width: 2.4, muS: 0.5, muK: 0.35 });
+      entity = addSurface(world, { kind: 'incline', x: nextPlacement(kind), y: 1.35, z: 0, angleDeg: 20, length: 8, width: 2.4, muS: 0.5, muK: 0.35 });
     } else if (kind === 'surface') {
-      entity = addSurface(world, { kind: 'surface', x: nextX(), y: 0.55, z: 0, angleDeg: 0, length: 9, width: 2.4, muS: 0.5, muK: 0.35 });
+      entity = addSurface(world, { kind: 'surface', x: nextPlacement(kind), y: 0.55, z: 0, angleDeg: 0, length: 9, width: 2.4, muS: 0.5, muK: 0.35 });
     } else if (kind === 'track') {
-      entity = addSurface(world, { kind: 'track', x: nextX(), y: 0.55, z: 0, angleDeg: 0, length: 10, width: 2.4, muS: 0.3, muK: 0.2 });
+      entity = addSurface(world, { kind: 'track', x: nextPlacement(kind), y: 0.55, z: 0, angleDeg: 0, length: 10, width: 2.4, muS: 0.3, muK: 0.2 });
     } else if (kind === 'loop') {
-      entity = addLoop(world, { x: nextX(), y: 2.7, z: 0, radius: 1.8 });
+      entity = addLoop(world, { x: nextPlacement(kind), y: 2.7, z: 0, radius: 1.8 });
     } else if (kind === 'turntable') {
-      entity = addTurntable(world, { x: nextX(), y: 0.62, z: 0, radius: 2, omega: 1.2, targetOmega: 1.2, I: 8, drive: 'target', muS: 0.5, muK: 0.35 });
+      entity = addTurntable(world, { x: nextPlacement(kind), y: 0.62, z: 0, radius: 2, omega: 1.2, targetOmega: 1.2, I: 8, drive: 'target', muS: 0.5, muK: 0.35 });
     } else if (kind === 'hcircle') {
-      entity = addHCircle(world, { x: nextX(), z: 0, y: 0.12, radius: 2, muS: 0.55, muK: 0.35 });
+      entity = addHCircle(world, { x: nextPlacement(kind), z: 0, y: 0.12, radius: 2, muS: 0.55, muK: 0.35 });
     } else if (kind === 'block' || kind === 'cart') {
       let spawn = { x: 0, y: 2.5, z: 0 };
-      if (selected?.type === 'surface') {
-        spawn = { x: selected.body.position.x, y: selected.body.position.y + 1.1, z: selected.body.position.z };
-      } else if (selected?.type === 'loop') {
-        spawn = { x: selected.x, y: selected.y - selected.radius, z: selected.z };
-      } else if (selected?.type === 'turntable') {
-        spawn = { x: selected.x + selected.radius * 0.55, y: selected.y + 0.9, z: selected.z };
-      } else if (selected?.type === 'hcircle') {
-        spawn = { x: selected.x + selected.radius * 0.7, y: selected.y + 0.7, z: selected.z };
+      const target = selected?.type === 'surface' || selected?.type === 'loop'
+        || selected?.type === 'turntable' || selected?.type === 'hcircle' ? selected : null;
+      if (target?.type === 'surface') {
+        spawn = { x: target.body.position.x, y: target.body.position.y + 1.1, z: target.body.position.z };
+      } else if (target?.type === 'loop') {
+        spawn = { x: target.x, y: target.y - target.radius, z: target.z };
+      } else if (target?.type === 'turntable') {
+        spawn = { x: target.x + target.radius * 0.55, y: target.y + 0.9, z: target.z };
+      } else if (target?.type === 'hcircle') {
+        spawn = { x: target.x + target.radius, y: target.y + 0.7, z: target.z };
+      } else if (selected?.type === 'body') {
+        spawn = { x: selected.cannon.position.x + 0.8, y: selected.cannon.position.y + 0.8, z: selected.cannon.position.z };
       }
       entity = kind === 'cart'
         ? addCart(world, { mass: 1, radius: 0.3, x: spawn.x, y: spawn.y, z: spawn.z })
         : addBlock(world, { mass: 1, size: 0.5, x: spawn.x, y: spawn.y, z: spawn.z });
-      snapBodyToNearest(world, entity, { maxDistance: 5 });
+      if (target?.type === 'surface') {
+        attachBodyToSurface(world, entity, target.id, { localX: 0, localZ: 0 });
+      } else if (target?.type === 'loop') {
+        attachBodyToLoop(world, entity, target.id, { theta: 0 });
+      } else if (target?.type === 'turntable') {
+        attachBodyToTurntable(world, entity, target.id, { r: target.radius * 0.55, phi: 0 });
+      } else if (target?.type === 'hcircle') {
+        attachBodyToHCircle(world, entity, target.id, { phi: 0 });
+      } else {
+        snapBodyToNearest(world, entity, { maxDistance: 5 });
+      }
     } else if (kind === 'spring' || kind === 'nonlinear' || kind === 'meter') {
       startLink(kind);
       return;
@@ -734,7 +795,6 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function clearScene() {
     running = false;
     clearWorld(world);
-    layoutIndex = 0;
     captureInitial(world);
     selected = null;
     pendingLink = null;
@@ -898,6 +958,50 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return { wrap, out, range, number };
   }
 
+  function setFieldValue(handle, value, min, max, fmtValue = fmt) {
+    if (!handle) return;
+    handle.out.textContent = fmtValue(value);
+    handle.range.value = String(Math.max(min, Math.min(max, value)));
+    handle.number.value = fmtInput(value);
+  }
+
+  function frictionFields(parent, contact, disabled = false) {
+    let sField = null;
+    let kField = null;
+    const sync = () => {
+      setFieldValue(sField, contact.muS, 0, 1.5);
+      setFieldValue(kField, contact.muK, 0, 1.5);
+    };
+    sField = field(parent, {
+      label: '静摩擦因数 · μs',
+      value: contact.muS,
+      min: 0,
+      max: 1.5,
+      step: 0.01,
+      disabled,
+      testid: 'muS',
+      onChange: (v) => {
+        contact.muS = Math.max(0, v);
+        if (contact.muK > contact.muS) contact.muK = contact.muS;
+        sync();
+      },
+    });
+    kField = field(parent, {
+      label: '动摩擦因数 · μk',
+      value: contact.muK,
+      min: 0,
+      max: 1.5,
+      step: 0.01,
+      disabled,
+      testid: 'muK',
+      onChange: (v) => {
+        contact.muK = Math.max(0, v);
+        if (contact.muK > contact.muS) contact.muS = contact.muK;
+        sync();
+      },
+    });
+  }
+
   function addLive(parent, text, key, unit = '') {
     const value = el('strong', { text: '—', 'data-live': key });
     const row = el('div', { className: 'plab-readout' }, [
@@ -931,24 +1035,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     if (!contact) return;
     parent.appendChild(el('h3', { className: 'plab-section-title', text: '接触面 · Contact' }));
-    field(parent, {
-      label: '静摩擦因数 · μs',
-      value: contact.muS,
-      min: 0,
-      max: 1.5,
-      step: 0.01,
-      onChange: (v) => { contact.muS = v; },
-      testid: 'muS',
-    });
-    field(parent, {
-      label: '动摩擦因数 · μk',
-      value: contact.muK,
-      min: 0,
-      max: 1.5,
-      step: 0.01,
-      onChange: (v) => { contact.muK = v; },
-      testid: 'muK',
-    });
+    frictionFields(parent, contact);
   }
 
   function buildInspector() {
@@ -1002,24 +1089,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           view.sync(world);
         },
       });
-      field(inspectorBody, {
-        label: '静摩擦因数 · μs',
-        value: entity.muS,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        onChange: (v) => { entity.muS = v; },
-        testid: 'muS',
-      });
-      field(inspectorBody, {
-        label: '动摩擦因数 · μk',
-        value: entity.muK,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        onChange: (v) => { entity.muK = v; },
-        testid: 'muK',
-      });
+      frictionFields(inspectorBody, entity);
       const flip = el('button', { type: 'button', className: 'plab-btn hit-target', text: '翻转坡度 · Flip slope' });
       flip.addEventListener('click', () => {
         prepareEdit();
@@ -1083,6 +1153,47 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         });
         quick.append(disc, hoop);
         inspectorBody.appendChild(quick);
+        const brakeCheck = el('input', { type: 'checkbox', checked: !!entity.brake, 'data-field': 'brake' });
+        brakeCheck.addEventListener('change', () => { entity.brake = brakeCheck.checked; });
+        inspectorBody.appendChild(el('label', { className: 'plab-check hit-target' }, [
+          brakeCheck,
+          el('span', { text: '刹车（锁定车轴） · Brake (lock axle)' }),
+        ]));
+        const motorCheck = el('input', { type: 'checkbox', checked: !!entity.motor?.on, 'data-field': 'motor' });
+        motorCheck.addEventListener('change', () => {
+          entity.motor = entity.motor || { on: false, target: 0, force: 2 };
+          entity.motor.on = motorCheck.checked;
+        });
+        inspectorBody.appendChild(el('label', { className: 'plab-check hit-target' }, [
+          motorCheck,
+          el('span', { text: '电机 · Motor' }),
+        ]));
+        field(inspectorBody, {
+          label: '目标速度 · Target speed',
+          value: entity.motor?.target ?? 0,
+          min: -10,
+          max: 10,
+          step: 0.1,
+          unit: 'm/s',
+          testid: 'motorTarget',
+          onChange: (v) => {
+            entity.motor = entity.motor || { on: false, target: 0, force: 2 };
+            entity.motor.target = v;
+          },
+        });
+        field(inspectorBody, {
+          label: '最大驱动力 · Max drive force',
+          value: entity.motor?.force ?? 2,
+          min: 0,
+          max: 50,
+          step: 0.5,
+          unit: 'N',
+          testid: 'motorForce',
+          onChange: (v) => {
+            entity.motor = entity.motor || { on: false, target: 0, force: 2 };
+            entity.motor.force = Math.max(0, v);
+          },
+        });
         formula(inspectorBody, 'a=\\dfrac{F_{t}}{m+\\dfrac{I}{R^{2}}}');
       }
       field(inspectorBody, {
@@ -1279,24 +1390,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'torque',
         onChange: (v) => { entity.torque = v; },
       });
-      field(inspectorBody, {
-        label: '静摩擦因数 · μs',
-        value: entity.muS,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        testid: 'muS',
-        onChange: (v) => { entity.muS = v; },
-      });
-      field(inspectorBody, {
-        label: '动摩擦因数 · μk',
-        value: entity.muK,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        testid: 'muK',
-        onChange: (v) => { entity.muK = v; },
-      });
+      frictionFields(inspectorBody, entity);
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '角速度 ω · Angular speed', 'omega', 'rad/s');
       addLive(readouts, '转角 · Angle', 'tableAngle', 'rad');
@@ -1316,24 +1410,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'radius',
         onChange: (v) => { setHCircleRadius(world, entity, v); view.sync(world); },
       });
-      field(inspectorBody, {
-        label: '静摩擦因数 · μs',
-        value: entity.muS,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        testid: 'muS',
-        onChange: (v) => { entity.muS = v; },
-      });
-      field(inspectorBody, {
-        label: '动摩擦因数 · μk',
-        value: entity.muK,
-        min: 0,
-        max: 1.5,
-        step: 0.01,
-        testid: 'muK',
-        onChange: (v) => { entity.muK = v; },
-      });
+      frictionFields(inspectorBody, entity);
       formula(inspectorBody, '\\dfrac{mv^{2}}{R}\\le \\mu_{s}N');
     }
 
@@ -1401,7 +1478,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (d.mode === 'free') stateText = '自由 / 抛体 · Free';
       else if (d.mode === 'loop') stateText = '轨道约束 · On track';
       else if (d.mode === 'turntable' || d.mode === 'hcircle') stateText = d.static ? '约束 · Constrained' : '打滑 / 滑动 · Slipping';
-      else if (entity.kind === 'cart' && !d.static) stateText = d.rolling ? '滚动 · Rolling' : '滑动 · Sliding';
+      else if (entity.kind === 'cart' && d.rolling) stateText = '滚动 · Rolling';
+      else if (entity.kind === 'cart' && !d.static) stateText = '滑动 · Sliding';
       else if (d.static) stateText = '静摩擦 · Static';
       setLive('state', stateText);
     } else if (entity?.type === 'link') {
