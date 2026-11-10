@@ -2680,5 +2680,212 @@ export const problems = [
       }
     ],
     "solutionLatex": "a_c=\\dfrac{v^{2}}{r}=\\dfrac{(4.0)^{2}}{2.0}=8.0\\,\\mathrm{m\\,s^{-2}}."
+  },
+  {
+    "id": "mech-u2-q060",
+    "title": "2.7 阻力模型的选择 · 2.7 Choosing a drag model",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "关于线性阻力与二次阻力，下列哪一项正确？ · Which statement about linear and quadratic drag is correct?",
+    "choices": [
+      {
+        "text": "线性阻力 F_r = −bv 与速度成正比，常用于低速或黏性阻力；二次阻力 F_r = −c|v|v 与速度平方成正比，常用于较高速度。 · Linear drag F_r = −bv is proportional to speed and is common at low speed or for viscous drag; quadratic drag F_r = −c|v|v is proportional to speed squared and is common at higher speed.",
+        "correct": true
+      },
+      {
+        "text": "二次阻力 F_r = −cv² 总是沿坐标轴负方向，与速度方向无关。 · Quadratic drag F_r = −cv² always points along the negative axis, independent of velocity.",
+        "correct": false
+      },
+      {
+        "text": "终端速度与物体被抛出时的初速度成正比。 · Terminal speed is proportional to the launch speed.",
+        "correct": false
+      },
+      {
+        "text": "有阻力时仍可用 v = at，因为加速度是常数。 · With drag, v = at still applies because acceleration is constant.",
+        "correct": false
+      }
+    ],
+    "solution": "线性模型写作 F_r = −bv，二次模型写作 F_r = −c|v|v，后者的符号必须随速度反向。终端速度由 m、g 和阻力系数决定，与抛出速度无关；有阻力时加速度不是常数。 · The linear model is F_r = −bv and the quadratic model is F_r = −c|v|v, whose sign must follow the velocity. Terminal speed depends on m, g, and the drag coefficient, not launch speed; with drag, acceleration is not constant.",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.7",
+        "label": "2.7 阻力与终端速度",
+        "topicId": "mech-u2:2.7"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q061",
+    "title": "2.7 线性阻力的终端速度 · 2.7 Terminal speed with linear drag",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": true,
+    "check": "numeric",
+    "stemLatex": "m=0.20\\,\\mathrm{kg},\\quad b=0.50\\,\\mathrm{kg\\,s^{-1}},\\quad g=9.8\\,\\mathrm{m\\,s^{-2}}",
+    "stem": "雨滴在空气中下落，按线性阻力模型计算终端速度。 · A raindrop falls in air. Find its terminal speed in the linear-drag model.",
+    "expected": 3.92,
+    "tol": 0.02,
+    "answerLatex": "3.92\\,\\mathrm{m\\,s^{-1}}",
+    "solution": "终端时合力为零，mg = bv_t，所以 v_t ≈ 3.9 m/s。 · At terminal speed the net force is zero, mg = bv_t, so v_t ≈ 3.9 m/s.",
+    "solutionLatex": "v_t=\\dfrac{mg}{b}=\\dfrac{(0.20)(9.8)}{0.50}=3.92\\,\\mathrm{m\\,s^{-1}}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.7",
+        "label": "2.7 阻力与终端速度",
+        "topicId": "mech-u2:2.7"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q062",
+    "title": "2.7 线性阻力的 v(t) · 2.7 v(t) with linear drag",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": true,
+    "check": "numeric",
+    "stemLatex": "v_t=3.92\\,\\mathrm{m\\,s^{-1}},\\quad \\tau=0.40\\,\\mathrm{s},\\quad t=0.80\\,\\mathrm{s}",
+    "stem": "雨滴从静止释放，速度按线性阻力模型增长。求 t = 0.80 s 时的速度。 · The raindrop is released from rest and speeds up with linear drag. Find its speed at t = 0.80 s.",
+    "expected": 3.39,
+    "tol": 0.02,
+    "answerLatex": "3.39\\,\\mathrm{m\\,s^{-1}}",
+    "solution": "用 v(t) = v_t[1 − e^(−t/τ)]，代入 t/τ = 2.0，得 v ≈ 3.39 m/s。 · Use v(t) = v_t[1 − e^(−t/τ)]. With t/τ = 2.0, v ≈ 3.39 m/s.",
+    "solutionLatex": "v(t)=v_t\\left(1-e^{-t/\\tau}\\right)=3.92\\left(1-e^{-2.0}\\right)=3.39\\,\\mathrm{m\\,s^{-1}}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.7",
+        "label": "2.7 阻力与终端速度",
+        "topicId": "mech-u2:2.7"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q063",
+    "title": "2.7 二次阻力的终端速度（符号） · 2.7 Terminal speed for quadratic drag (symbolic)",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "symbolic",
+    "stem": "二次阻力下，质量 m、重力加速度 g、阻力系数 c 已知。写出终端速度 v_t 的表达式。 · For quadratic drag with mass m, gravitational acceleration g, and drag coefficient c, write the expression for terminal speed v_t.",
+    "expected": "sqrt(m*g/c)",
+    "answerLatex": "v_t=\\sqrt{\\dfrac{mg}{c}}",
+    "solution": "令合力为零：mg = cv_t²，所以 v_t 等于 mg 除以 c 后的平方根。 · Set the net force to zero: mg = cv_t², so v_t is the square root of mg divided by c.",
+    "solutionLatex": "mg=cv_t^{2}\\quad\\Rightarrow\\quad v_t=\\sqrt{\\dfrac{mg}{c}}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.7",
+        "label": "2.7 阻力与终端速度",
+        "topicId": "mech-u2:2.7"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q064",
+    "title": "2.8 串联弹簧的等效劲度 · 2.8 Equivalent constant in series",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "k_1=200\\,\\mathrm{N\\,m^{-1}},\\quad k_2=300\\,\\mathrm{N\\,m^{-1}}",
+    "stem": "两个理想弹簧串联。求等效劲度系数。 · Two ideal springs are connected in series. Find the equivalent spring constant.",
+    "expected": 120,
+    "tol": 0.01,
+    "answerLatex": "120\\,\\mathrm{N\\,m^{-1}}",
+    "solution": "串联时等效劲度的倒数等于各倒数之和，得 120 N/m。 · For series springs, the reciprocal of the equivalent constant is the sum of reciprocals, giving 120 N/m.",
+    "solutionLatex": "\\dfrac{1}{k_{\\mathrm{eq}}}=\\dfrac{1}{200}+\\dfrac{1}{300}\\quad\\Rightarrow\\quad k_{\\mathrm{eq}}=120\\,\\mathrm{N\\,m^{-1}}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.8",
+        "label": "2.8 弹簧力与非理想弹簧",
+        "topicId": "mech-u2:2.8"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q065",
+    "title": "2.8 非理想弹簧的判断 · 2.8 Identifying a nonideal spring",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "某弹簧的 F–x 图像是一条不经过原点的曲线。下列判断哪一项正确？ · The F–x graph of a spring is a curve that does not pass through the origin. Which conclusion is correct?",
+    "choices": [
+      {
+        "text": "它可能是非理想弹簧，不能再无条件使用 F = −kx 与 U = ½kx²。 · It may be a nonideal spring, and F = −kx and U = ½kx² can no longer be used unconditionally.",
+        "correct": true
+      },
+      {
+        "text": "只要曲线连续，就仍然是理想弹簧。 · As long as the curve is continuous, it is still an ideal spring.",
+        "correct": false
+      },
+      {
+        "text": "弹簧力一定与速度反向。 · The spring force must oppose velocity.",
+        "correct": false
+      },
+      {
+        "text": "非理想弹簧一定没有平衡位置。 · A nonideal spring has no equilibrium position.",
+        "correct": false
+      }
+    ],
+    "solution": "非理想弹簧的力不与形变成正比，或质量不可忽略；胡克定律与 ½kx² 只对理想弹簧成立。弹簧力指向平衡位置，而不是总与速度反向。 · A nonideal spring has a force not proportional to deformation or nonnegligible mass; Hooke's law and ½kx² apply only to an ideal spring. The spring force points toward equilibrium, not necessarily opposite velocity.",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.8",
+        "label": "2.8 弹簧力与非理想弹簧",
+        "topicId": "mech-u2:2.8"
+      }
+    ]
+  },
+  {
+    "id": "mech-u2-q066",
+    "title": "2.8 并联弹簧的等效劲度（符号） · 2.8 Equivalent constant in parallel (symbolic)",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "symbolic",
+    "stem": "两个理想弹簧并联，劲度分别为 k1 与 k2。写出等效劲度系数的表达式。 · Two ideal springs with constants k1 and k2 are connected in parallel. Write the expression for the equivalent spring constant.",
+    "expected": "k1+k2",
+    "answerLatex": "k_{\\mathrm{eq}}=k_1+k_2",
+    "solution": "并联时两弹簧形变相同，力相加，所以等效劲度等于两者之和。 · In parallel the springs share the same deformation and their forces add, so the equivalent constant is the sum.",
+    "solutionLatex": "k_{\\mathrm{eq}}=k_1+k_2",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u2/2.8",
+        "label": "2.8 弹簧力与非理想弹簧",
+        "topicId": "mech-u2:2.8"
+      }
+    ]
   }
 ];

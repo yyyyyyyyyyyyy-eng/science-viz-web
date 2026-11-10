@@ -2331,5 +2331,214 @@ export const problems = [
         "topicId": "mech-u3:3.4"
       }
     ]
+  },
+  {
+    "id": "mech-u3-q060",
+    "title": "3.5 非线性弹簧的功 · 3.5 Work by a nonlinear spring",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": true,
+    "check": "numeric",
+    "stemLatex": "F_{\\mathrm{app},x}=kx+\\beta x^{3},\\quad k=200\\,\\mathrm{N\\,m^{-1}},\\quad \\beta=500\\,\\mathrm{N\\,m^{-3}},\\quad x:0\\to0.20\\,\\mathrm{m}",
+    "stem": "外力把非线性弹簧从平衡位置拉伸 0.20 m。求外力做的功。 · An applied force stretches a nonlinear spring from equilibrium to 0.20 m. Find the work done by the applied force.",
+    "expected": 4.2,
+    "tol": 0.02,
+    "answerLatex": "4.2\\,\\mathrm{J}",
+    "solution": "对 F_app = kx + βx³ 积分，得 4.0 J + 0.20 J = 4.2 J。 · Integrate F_app = kx + βx³ to get 4.0 J + 0.20 J = 4.2 J.",
+    "solutionLatex": "W=\\int_0^{0.20}(200x+500x^{3})\\,\\mathrm{d}x=\\left[100x^{2}+125x^{4}\\right]_0^{0.20}=4.2\\,\\mathrm{J}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q061",
+    "title": "3.5 由 U(x) 判断力的方向 · 3.5 Force direction from U(x)",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "一维势能 U(x) 在 x = x0 处的斜率为正。该处的保守力 F_x 指向哪一侧？ · The one-dimensional potential energy U(x) has a positive slope at x = x0. Which way does the conservative force F_x point there?",
+    "choices": [
+      {
+        "text": "沿负 x 方向，因为 F_x 等于势能斜率的相反数。 · Along negative x, because F_x is the negative of the potential-energy slope.",
+        "correct": true
+      },
+      {
+        "text": "沿正 x 方向，因为力总与斜率同向。 · Along positive x, because force always follows the slope.",
+        "correct": false
+      },
+      {
+        "text": "力为零，因为势能不为零。 · The force is zero because the potential energy is nonzero.",
+        "correct": false
+      },
+      {
+        "text": "无法判断，必须知道物体的速度。 · It cannot be determined without the object's velocity.",
+        "correct": false
+      }
+    ],
+    "solution": "F_x = −dU/dx。斜率为正，所以力沿负 x 方向，指向势能降低的一侧。 · F_x = −dU/dx. A positive slope gives a force along negative x, toward lower potential energy.",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q062",
+    "title": "3.5 由 U(x) 求力 · 3.5 Force from U(x)",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stemLatex": "U(x)=3x^{2}-x^{3}\\,\\mathrm{J}\\quad(x\\ \\text{in m})",
+    "stem": "求 x = 1.0 m 处的保守力 F_x（带符号，单位 N）。 · Find the conservative force F_x at x = 1.0 m, with sign, in N.",
+    "expected": -3,
+    "tol": 0.01,
+    "answerLatex": "-3.0\\,\\mathrm{N}",
+    "solution": "F_x = −dU/dx = 3x² − 6x，在 x = 1.0 m 处得 −3.0 N，方向沿负 x。 · F_x = −dU/dx = 3x² − 6x. At x = 1.0 m this gives −3.0 N, along negative x.",
+    "solutionLatex": "F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}=3x^{2}-6x,\\qquad F_x(1.0)=-3.0\\,\\mathrm{N}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q063",
+    "title": "3.5 非线性弹簧的势能（符号） · 3.5 Potential energy of a nonlinear spring (symbolic)",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "symbolic",
+    "stem": "非线性弹簧的力为 F_x = −(kx + βx³)，取 U(0) = 0。写出 U(x) 的表达式。 · A nonlinear spring has F_x = −(kx + βx³), with U(0) = 0. Write the expression for U(x).",
+    "expected": "k*x^2/2+beta*x^4/4",
+    "answerLatex": "U(x)=\\dfrac{1}{2}kx^{2}+\\dfrac{1}{4}\\beta x^{4}",
+    "solution": "对 −F_x 积分：kx 积分得 ½kx²，βx³ 积分得 ¼βx⁴。 · Integrate −F_x: kx gives ½kx² and βx³ gives ¼βx⁴.",
+    "solutionLatex": "U(x)=-\\int F_x\\,\\mathrm{d}x=\\dfrac{1}{2}kx^{2}+\\dfrac{1}{4}\\beta x^{4}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q064",
+    "title": "3.5 变力做功的积分 · 3.5 Work by a variable force",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": true,
+    "check": "numeric",
+    "stemLatex": "F_x=4x-x^{2}\\,\\mathrm{N}\\quad(x\\ \\text{in m}),\\quad x:0\\to3.0\\,\\mathrm{m}",
+    "stem": "物体沿 x 方向运动，力随位置变化。求该力在 0 到 3.0 m 内做的功。 · An object moves along x under a position-dependent force. Find the work done from 0 to 3.0 m.",
+    "expected": 9,
+    "tol": 0.02,
+    "answerLatex": "9.0\\,\\mathrm{J}",
+    "solution": "积分得 [2x² − x³/3]，代入 0 与 3.0 得 18 − 9 = 9.0 J。 · Integrating gives [2x² − x³/3]; substituting 0 and 3.0 gives 18 − 9 = 9.0 J.",
+    "solutionLatex": "W=\\int_0^{3.0}(4x-x^{2})\\,\\mathrm{d}x=\\left[2x^{2}-\\dfrac{x^{3}}{3}\\right]_0^{3.0}=9.0\\,\\mathrm{J}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q065",
+    "title": "3.5 稳定平衡与不稳定平衡 · 3.5 Stable and unstable equilibrium",
+    "type": "mcq",
+    "difficulty": "中",
+    "stem": "一维势能 U(x) 在 x = x0 处有局部极大值。关于 x0 的平衡性质，下列哪项正确？ · A one-dimensional potential energy U(x) has a local maximum at x = x0. Which statement about the equilibrium at x0 is correct?",
+    "choices": [
+      {
+        "text": "不稳定平衡，因为小位移后力把物体推离 x0。 · Unstable equilibrium, because after a small displacement the force pushes the object away from x0.",
+        "correct": true
+      },
+      {
+        "text": "稳定平衡，因为 U 在 x0 处最大。 · Stable equilibrium, because U is largest at x0.",
+        "correct": false
+      },
+      {
+        "text": "不是平衡位置，因为 U 不为零。 · It is not an equilibrium position because U is not zero.",
+        "correct": false
+      },
+      {
+        "text": "稳定性与 U 的曲率无关。 · Stability is unrelated to the curvature of U.",
+        "correct": false
+      }
+    ],
+    "solution": "U 的局部极大点对应不稳定平衡；局部极小点才对应稳定平衡。稳定性由 U″ 的符号决定。 · A local maximum of U is unstable equilibrium; only a local minimum is stable. Stability is set by the sign of U″.",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q066",
+    "title": "3.5 转折点与机械能 · 3.5 Turning point and mechanical energy",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": true,
+    "check": "numeric",
+    "stemLatex": "U(x)=2x^{2}\\,\\mathrm{J},\\quad E=8.0\\,\\mathrm{J}\\quad(x\\ \\text{in m})",
+    "stem": "物体在保守力场中运动，总机械能守恒。求正 x 方向的转折点位置。 · The object moves in a conservative field with constant mechanical energy. Find the turning point on the positive x side.",
+    "expected": 2,
+    "tol": 0.01,
+    "answerLatex": "x=2.0\\,\\mathrm{m}",
+    "solution": "转折点 K = 0，所以 U = E：2x² = 8.0，得正根 x = 2.0 m。 · At a turning point K = 0, so U = E: 2x² = 8.0, giving the positive root x = 2.0 m.",
+    "solutionLatex": "K=0\\ \\Rightarrow\\ U(x)=E,\\qquad 2x^{2}=8.0\\quad\\Rightarrow\\quad x=2.0\\,\\mathrm{m}",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.5",
+        "label": "3.5 变力做功与势能函数",
+        "topicId": "mech-u3:3.5"
+      }
+    ]
   }
 ];

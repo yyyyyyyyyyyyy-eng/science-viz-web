@@ -511,6 +511,126 @@ defI('force-position', 'F–x 图面积 = 功；弹簧势能曲线 U(x) · Area 
   return s;
 });
 
+defI('drag-terminal', '阻力下落：受力图与 v–t 渐近线 · Falling with drag: free-body diagram and v–t asymptote', 'v_t=\\dfrac{mg}{b}\\;\\text{（线性 / linear）},\\quad v_t=\\sqrt{\\dfrac{mg}{c}}\\;\\text{（二次 / quadratic）}', [
+  { key: 'model', label: '阻力模型 · Drag model', type: 'choice', value: 'linear', options: [{ value: 'linear', label: '线性 · linear' }, { value: 'quad', label: '二次 · quadratic' }] },
+], (p) => {
+  const quad = p.model === 'quad';
+  let s = '';
+  s += part('fbd', circ(95, 92, 17) + tx(95, 97, 'm', { anchor: 'middle' })
+    + arr(95, 74, 95, 30, 'f', 2.4) + tx(103, 48, 'F_{r}', { c: 'f' })
+    + arr(95, 110, 95, 158, 'f', 2.4) + tx(103, 143, 'mg', { c: 'f' })
+    + arr(122, 106, 122, 150, 'v', 2) + tx(130, 132, 'v', { c: 'v' }), { x: 35, y: 22, w: 138, h: 148 });
+  s += tx(95, 190, '合力为零 → a = 0', { anchor: 'middle', it: false, fs: 11 });
+  s += tx(95, 208, 'net force zero → a = 0', { anchor: 'middle', it: false, fs: 10 });
+  s += tx(95, 228, quad ? 'F_{r} = −c|v|v' : 'F_{r} = −bv', { anchor: 'middle', fs: 12 });
+
+  const lin = (t) => 1 - Math.exp(-t);
+  const qua = (t) => Math.tanh(t);
+  const sel = quad ? qua : lin;
+  const other = quad ? lin : qua;
+  const g = graph(238, 42, 120, 126, {
+    fns: [{ f: other, c: 'm', w: 1.5, dash: '4 3' }, { f: sel, c: 'v', w: 2.4 }],
+    t1: 4, ymin: 0, ymax: 1.25, xl: 't', yl: 'v',
+    hmarks: [{ v: 1, label: 'v_{t}' }],
+  });
+  s += part('graph', g.s, { x: 220, y: 30, w: 164, h: 156 });
+  s += tx(300, 190, quad ? '二次模型 · quadratic model' : '线性模型 · linear model', { anchor: 'middle', fs: 11 });
+  s += tx(300, 208, quad ? '二次：更快趋近 · quadratic: faster' : '线性：指数趋近 · linear: exponential', { anchor: 'middle', it: false, fs: 10 });
+  s += tx(300, 226, '虚线：另一模型 · dashed: other', { anchor: 'middle', it: false, fs: 9 });
+  return s;
+}, {
+  parts: {
+    fbd: '受力图：重力向下、阻力向上 · FBD: weight down, drag up',
+    graph: 'v–t 图：水平渐近线 vₜ · v–t graph: horizontal asymptote vₜ',
+  },
+  partsHint: '悬停 / 点击标注 · Hover / tap labels',
+});
+
+defI('spring-ideal-nonlinear', '弹簧力：理想胡克与非理想 F–x · Spring force: ideal Hooke vs nonideal F–x', 'F_s=-(kx+\\beta x^{3}),\\quad U(x)=\\dfrac{1}{2}kx^{2}+\\dfrac{1}{4}\\beta x^{4}', [
+  { key: 'beta', label: '非线性 β · Nonlinear β', min: 0, max: 1.2, step: 0.1, value: 0.8 },
+  { key: 'mode', label: '形变 · Deformation', type: 'choice', value: 'stretch', options: [{ value: 'stretch', label: '拉伸 · stretch' }, { value: 'compress', label: '压缩 · compress' }] },
+], (p) => {
+  const beta = p.beta ?? 0.8;
+  const stretch = p.mode !== 'compress';
+  let s = '';
+  const wallX = 30, eqX = wallX + 105;
+  const mx = stretch ? eqX + 38 : eqX - 34;
+  let dia = '';
+  dia += vhatch(wallX, 88, 186, true);
+  dia += spring(wallX, 166, mx, 166, 10, 7);
+  dia += mass(mx, 146, 34, 40, 'm');
+  dia += hatch(20, 186, 222);
+  dia += ln(eqX, 92, eqX, 180, { c: 'm', dash: '4 3', w: 1 });
+  dia += tx(eqX, 84, 'x = 0', { anchor: 'middle', fs: 10 });
+  dia += arr(eqX, 128, mx, 128, 'm', 1.2) + tx((eqX + mx) / 2, 120, stretch ? 'x > 0' : 'x < 0', { anchor: 'middle', fs: 10 });
+  const fx = stretch ? mx - 52 : mx + 58;
+  dia += arr(mx + 17, 112, fx, 112, 'f', 2.2) + tx(stretch ? fx - 6 : fx + 6, 104, 'F_{s}', { c: 'f', anchor: stretch ? 'end' : 'start' });
+  s += part('spring', dia, { x: 18, y: 76, w: 212, h: 120 });
+  s += tx(112, 212, stretch ? '拉伸：拉回 · stretch: pulls back' : '压缩：推回 · compress: pushes back', { anchor: 'middle', it: false, fs: 9 });
+
+  const g = graph(252, 42, 116, 120, {
+    fns: [
+      { f: (t) => -(t - 1), c: 'm', w: 1.5, dash: '4 3' },
+      { f: (t) => -((t - 1) + beta * (t - 1) ** 3), c: 'f', w: 2.4 },
+    ],
+    t1: 2, ymin: -2.2, ymax: 2.2, xl: 'x', yl: 'F',
+  });
+  s += part('graph', g.s, { x: 240, y: 30, w: 150, h: 148 });
+  s += ln(g.X(1), 42, g.X(1), 162, { c: 'm', dash: '3 3', w: 0.8 }) + tx(g.X(1), 174, '0', { anchor: 'middle', fs: 10 });
+  s += tx(310, 188, '实线 β · solid β', { anchor: 'middle', it: false, fs: 9 });
+  s += tx(310, 204, '虚线 理想 · dashed ideal', { anchor: 'middle', it: false, fs: 9 });
+  s += tx(310, 220, '越陡越硬 · steeper = stiffer', { anchor: 'middle', it: false, fs: 9 });
+  return s;
+}, {
+  parts: {
+    spring: '弹簧—物块：形变与指向平衡位置的力 · Spring–block: deformation and force toward equilibrium',
+    graph: 'F–x 图：理想直线与非线性曲线 · F–x graph: ideal line and nonlinear curve',
+  },
+  partsHint: '悬停 / 点击标注 · Hover / tap labels',
+});
+
+defI('work-variable-potential', '变力做功与势能斜率 · Work by a variable force and the slope of U(x)', 'W=\\int_{x_a}^{x_b}F_x\\,\\mathrm{d}x,\\quad F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}', [
+  { key: 'beta', label: '非线性 β · Nonlinear β', min: 0, max: 1, step: 0.1, value: 0.6 },
+], (p) => {
+  const beta = p.beta ?? 0.6;
+  const A = 0.8;
+  const force = (t) => -(t + beta * t ** 3);
+  const pot = (t) => 0.5 * t * t + 0.25 * beta * t ** 4;
+  let s = '';
+  const g1 = graph(44, 42, 118, 118, {
+    fns: [{ f: force, c: 'f', w: 2.2 }],
+    t1: 1, ymin: -2.2, ymax: 0.4, xl: 'x', yl: 'F',
+  });
+  const shade = [[g1.X(0), g1.Y(0)]];
+  for (let i = 0; i <= 30; i++) { const t = (i / 30) * A; shade.push([g1.X(t), g1.Y(force(t))]); }
+  shade.push([g1.X(A), g1.Y(0)]);
+  s += part('area', g1.s + poly(shade, { fill: COL.f, op: 0.18, c: 'f', w: 0.5 })
+    + tx(g1.X(A / 2), g1.Y(-0.32), 'W_{s} < 0', { anchor: 'middle', fs: 11, c: 'f' }), { x: 32, y: 34, w: 142, h: 144 });
+  s += tx(103, 190, 'F_{x} = −(kx + βx³)', { anchor: 'middle', fs: 11 });
+  s += tx(103, 208, '面积 = 功（有符号）', { anchor: 'middle', it: false, fs: 10 });
+  s += tx(103, 224, 'area = work (signed)', { anchor: 'middle', it: false, fs: 9 });
+
+  const g2 = graph(255, 42, 115, 118, {
+    fns: [{ f: pot, c: 'a', w: 2.2 }],
+    t1: 1, ymin: 0, ymax: 0.9, xl: 'x', yl: 'U',
+  });
+  const x0 = 0.70, u0 = pot(x0), slope = x0 + beta * x0 ** 3;
+  const tA = 0.44, tB = 0.96;
+  s += ln(g2.X(tA), g2.Y(u0 + slope * (tA - x0)), g2.X(tB), g2.Y(u0 + slope * (tB - x0)), { c: 'm', dash: '4 3', w: 1.3 });
+  s += tx(g2.X(0.44), g2.Y(0.68), '斜率 = −F_{x}', { anchor: 'middle', fs: 10 });
+  s += part('slope', g2.s, { x: 242, y: 34, w: 142, h: 144 });
+  s += tx(312, 190, 'U(x) = ½kx² + ¼βx⁴', { anchor: 'middle', fs: 11 });
+  s += tx(312, 208, '力指向 U 降低的方向', { anchor: 'middle', it: false, fs: 10 });
+  s += tx(312, 224, 'force points toward lower U', { anchor: 'middle', it: false, fs: 9 });
+  return s;
+}, {
+  parts: {
+    area: 'F–x 图：曲线下面积 = 变力做功 · F–x graph: area under the curve = work',
+    slope: 'U–x 图：切线斜率 = −F_x · U–x graph: tangent slope = −F_x',
+  },
+  partsHint: '悬停 / 点击标注 · Hover / tap labels',
+});
+
 /* ======================= Momentum ======================= */
 defI('collision-elastic', '一维弹性碰撞（碰前 / 碰后） · One-dimensional elastic collision (before / after)', "v_1'=\\dfrac{m_1-m_2}{m_1+m_2}v_1,\\; v_2'=\\dfrac{2m_1}{m_1+m_2}v_1", [
   { key: 'ratio', label: 'm₂ / m₁', min: 0.3, max: 3, step: 0.05, value: 1.25 },
@@ -1914,10 +2034,13 @@ export const TOPIC_FIGURES = {
   'mech/mech-u2/2.4': ['banked-frictionless', 'banked-friction', 'conical-pendulum', 'vertical-loop', 'flat-curve', 'circular-vectors'],
   'mech/mech-u2/2.5': ['atwood', 'table-pulley', 'atwood-apparatus'],
   'mech/mech-u2/2.6': ['orbit', 'conical-pendulum', 'kepler-ellipse', 'gravitational-potential', 'orbit-energy'],
+  'mech/mech-u2/2.7': ['drag-terminal'],
+  'mech/mech-u2/2.8': ['spring-ideal-nonlinear'],
   'mech/mech-u3/3.1': ['force-position', 'vertical-loop', 'energy-bars', 'work-incline', 'work-angle'],
   'mech/mech-u3/3.2': ['force-position', 'work-angle'],
   'mech/mech-u3/3.3': ['force-position', 'vertical-loop', 'energy-bars'],
   'mech/mech-u3/3.4': ['power-graph'],
+  'mech/mech-u3/3.5': ['work-variable-potential', 'force-position'],
   'mech/mech-u4/4.1': ['impulse-graph', 'momentum-graph', 'momentum-bars'],
   'mech/mech-u4/4.2': ['collision-elastic', 'collision-inelastic', 'collision-2d', 'ballistic-pendulum', 'momentum-bars', 'explosion'],
   'mech/mech-u5/5.1': ['ladder', 'rod-pivot', 'seesaw'],
