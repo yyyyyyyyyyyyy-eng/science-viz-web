@@ -8,14 +8,19 @@ import { startAnimLoop } from '../../anim-loop.js';
 import { el, clear } from '../../../js/ui-shared.js';
 import {
   addAnchor,
+  addBarrier,
   addBlock,
   addCart,
   addHCircle,
+  addLauncher,
   addLink,
   addLoop,
+  addProjectile,
+  addPulley,
   addSurface,
   addTurntable,
   applyInitialVelocity,
+  attachBodyToPulley,
   attachBodyToHCircle,
   attachBodyToLoop,
   attachBodyToSurface,
@@ -30,17 +35,23 @@ import {
   detachBody,
   disposeWorld,
   energyBreakdown,
+  fireLauncher,
   forceVectors,
   getBody,
   getHCircle,
+  getLauncher,
   getLoop,
   getSurface,
   getTurntable,
+  launcherPrediction,
   linkReading,
   loopPoint,
   repositionSurfaceBody,
   resetWorld,
   serializeScene,
+  setBarrierRestitution,
+  setBarrierSize,
+  setBodyCollisionRestitution,
   setBodyMass,
   setBlockSize,
   setCartInertia,
@@ -82,6 +93,18 @@ const ZH_EN = {
   hcircle: ['水平圆周轨道', 'Horizontal circle'],
   spring: ['线性弹簧', 'Linear spring'],
   meter: ['测力计', 'Force meter'],
+  launcher: ['抛射发射器', 'Projectile launcher'],
+  projectile: ['抛射体', 'Projectile'],
+  pulley: ['滑轮与绳', 'Pulley & rope'],
+  wall: ['挡板', 'Wall'],
+  bumper: ['碰撞缓冲器', 'Collision bumper'],
+  ball: ['球体', 'Ball'],
+  cylinder: ['圆柱', 'Cylinder'],
+  pendulum: ['单摆', 'Pendulum'],
+  wedge: ['可动楔', 'Movable wedge'],
+  photogate: ['光电门', 'Photogate'],
+  motion: ['运动传感器', 'Motion sensor'],
+  fan: ['风扇附件', 'Fan attachment'],
 };
 
 function label(zh, en) {
@@ -111,6 +134,13 @@ function kindLabel(entity) {
   if (entity.type === 'loop') return ZH_EN.loop;
   if (entity.type === 'turntable') return ZH_EN.turntable;
   if (entity.type === 'hcircle') return ZH_EN.hcircle;
+  if (entity.type === 'launcher') return ZH_EN.launcher;
+  if (entity.type === 'pulley') return ZH_EN.pulley;
+  if (entity.type === 'barrier') return ZH_EN[entity.kind] || ZH_EN.wall;
+  if (entity.type === 'pendulum') return ZH_EN.pendulum;
+  if (entity.type === 'wedge') return ZH_EN.wedge;
+  if (entity.type === 'sensor') return ZH_EN[entity.kind] || ZH_EN.photogate;
+  if (entity.type === 'fan') return ZH_EN.fan;
   return ['物体', 'Object'];
 }
 
@@ -207,11 +237,20 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       ],
     },
     {
+      title: label('发射与碰撞', 'Launch & collisions'),
+      items: [
+        ['launcher', '抛射发射器', 'Projectile launcher'],
+        ['wall', '挡板', 'Wall'],
+        ['bumper', '碰撞缓冲器', 'Bumper'],
+      ],
+    },
+    {
       title: label('连接与测量', 'Links & meters'),
       items: [
         ['spring', '线性弹簧', 'Linear spring'],
         ['nonlinear', '非线性弹簧', 'Nonlinear spring'],
         ['meter', '测力计', 'Force meter'],
+        ['pulley', '滑轮与绳', 'Pulley & rope'],
       ],
     },
     {
@@ -766,6 +805,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (type === 'loop') return getLoop(world, id);
     if (type === 'turntable') return getTurntable(world, id);
     if (type === 'hcircle') return getHCircle(world, id);
+    if (type === 'launcher') return world.launchers.find((l) => l.id === id) || null;
+    if (type === 'pulley') return world.pulleys.find((p) => p.id === id) || null;
+    if (type === 'barrier') return world.barriers.find((b) => b.id === id) || null;
+    if (type === 'pendulum') return world.pendulums.find((p) => p.id === id) || null;
+    if (type === 'wedge') return world.wedges.find((w) => w.id === id) || null;
+    if (type === 'sensor') return world.sensors.find((s) => s.id === id) || null;
+    if (type === 'fan') return world.fans.find((f) => f.id === id) || null;
     if (type === 'link') return world.links.find((l) => l.id === id) || null;
     return null;
   }
@@ -792,6 +838,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       && world.loops.length === 0
       && world.turntables.length === 0
       && world.hcircles.length === 0
+      && world.launchers.length === 0
+      && world.pulleys.length === 0
+      && world.barriers.length === 0
+      && world.pendulums.length === 0
+      && world.wedges.length === 0
+      && world.sensors.length === 0
+      && world.fans.length === 0
       && world.links.length === 0;
   }
 
@@ -832,6 +885,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     hcircle: { halfX: 2, halfZ: 2 },
     block: { halfX: 0.5, halfZ: 0.5 },
     cart: { halfX: 0.6, halfZ: 0.6 },
+    ball: { halfX: 0.5, halfZ: 0.5 },
+    cylinder: { halfX: 0.5, halfZ: 0.5 },
+    launcher: { halfX: 1.1, halfZ: 0.8 },
+    pulley: { halfX: 1.4, halfZ: 0.9 },
+    wall: { halfX: 0.6, halfZ: 1.6 },
+    bumper: { halfX: 0.7, halfZ: 0.7 },
+    pendulum: { halfX: 1, halfZ: 1 },
+    wedge: { halfX: 2, halfZ: 1.2 },
+    photogate: { halfX: 0.4, halfZ: 1.2 },
+    motion: { halfX: 0.5, halfZ: 0.5 },
+    fan: { halfX: 0.8, halfZ: 0.8 },
   };
 
   function apparatusBoxes() {
@@ -844,6 +908,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     for (const l of world.loops) boxes.push({ x: l.x, z: l.z, halfX: l.radius, halfZ: 0.2 });
     for (const t of world.turntables) boxes.push({ x: t.x, z: t.z, halfX: t.radius, halfZ: t.radius });
     for (const c of world.hcircles) boxes.push({ x: c.x, z: c.z, halfX: c.radius, halfZ: c.radius });
+    for (const l of world.launchers) boxes.push({ x: l.x, z: l.z, halfX: 1.1, halfZ: 0.8 });
+    for (const p of world.pulleys) boxes.push({ x: p.x, z: p.z, halfX: p.radius + 0.8, halfZ: p.radius + 0.8 });
+    for (const b of world.barriers) boxes.push({ x: b.x, z: b.z, halfX: (b.width || 0.7) / 2, halfZ: (b.width || 0.7) / 2 });
     for (const b of world.bodies) {
       const p = b.cannon?.position;
       if (!p) continue;
@@ -901,7 +968,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       ...world.loops,
       ...world.turntables,
       ...world.hcircles,
-      ...world.bodies,
+      ...world.launchers,
+      ...world.pulleys,
+      ...world.barriers,
+      ...world.pendulums,
+      ...world.wedges,
+      ...world.sensors,
+      ...world.fans,
+      ...world.bodies.filter((b) => !b.transient),
       ...world.links,
     ];
   }
@@ -1066,6 +1140,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         (l.a.type === 'body' && l.a.id === entity.id)
         || (l.b.type === 'body' && l.b.id === entity.id)
       ));
+      world.fans = world.fans.filter((f) => f.bodyId !== entity.id);
+      for (const pulley of world.pulleys) {
+        if (pulley.aId === entity.id) pulley.aId = null;
+        if (pulley.bId === entity.id) pulley.bId = null;
+      }
     } else if (entity.type === 'surface') {
       world.engine.removeBody(entity.body);
       world.surfaces = world.surfaces.filter((s) => s.id !== entity.id);
@@ -1088,6 +1167,36 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       for (const b of world.bodies) {
         if (b.attachment?.type === 'hcircle' && b.attachment.id === entity.id) detachBody(world, b);
       }
+    } else if (entity.type === 'launcher') {
+      if (entity.projectileId) {
+        const projectile = getBody(world, entity.projectileId);
+        if (projectile) {
+          world.engine.removeBody(projectile.cannon);
+          world.bodies = world.bodies.filter((b) => b.id !== projectile.id);
+        }
+      }
+      world.launchers = world.launchers.filter((l) => l.id !== entity.id);
+    } else if (entity.type === 'pulley') {
+      for (const b of world.bodies) {
+        if (b.rope?.pulleyId === entity.id) b.rope = null;
+      }
+      world.pulleys = world.pulleys.filter((p) => p.id !== entity.id);
+    } else if (entity.type === 'barrier') {
+      world.engine.removeBody(entity.body);
+      world.barriers = world.barriers.filter((b) => b.id !== entity.id);
+    } else if (entity.type === 'pendulum') {
+      world.pendulums = world.pendulums.filter((p) => p.id !== entity.id);
+    } else if (entity.type === 'wedge') {
+      world.engine.removeBody(entity.body);
+      world.wedges = world.wedges.filter((w) => w.id !== entity.id);
+    } else if (entity.type === 'sensor') {
+      world.sensors = world.sensors.filter((s) => s.id !== entity.id);
+    } else if (entity.type === 'fan') {
+      if (entity.bodyId) {
+        const body = getBody(world, entity.bodyId);
+        if (body && body.fan === entity) body.fan = null;
+      }
+      world.fans = world.fans.filter((f) => f.id !== entity.id);
     } else if (entity.type === 'link') {
       world.links = world.links.filter((l) => l.id !== entity.id);
     }
@@ -1225,6 +1334,33 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         name: entity.name ? `${entity.name} 副本` : '',
         x: spot.x, y: entity.y, z: spot.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
       });
+    } else if (entity.type === 'launcher') {
+      const spot = nextPlacement('launcher');
+      copy = addLauncher(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z, angle: entity.angle, speed: entity.speed,
+        height: entity.height, azimuth: entity.azimuth, mass: entity.mass, radius: entity.radius,
+        drag: entity.drag, dragB: entity.dragB, dragC: entity.dragC,
+      });
+    } else if (entity.type === 'barrier') {
+      const spot = nextPlacement(entity.kind);
+      copy = addBarrier(world, {
+        kind: entity.kind,
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z,
+        width: entity.width, height: entity.height, thickness: entity.thickness,
+        radius: entity.radius, angleDeg: entity.angle, restitution: entity.e,
+      });
+    } else if (entity.type === 'pulley') {
+      const spot = nextPlacement('pulley');
+      copy = addPulley(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z, radius: entity.radius, mass: entity.mass, I: entity.I, mode: entity.mode,
+      });
+      const left = addBlock(world, { mass: 2, size: 0.45, x: spot.x - entity.radius, y: entity.y - 1.65, z: spot.z });
+      const right = addBlock(world, { mass: 1, size: 0.45, x: spot.x + entity.radius, y: entity.y - 1.65, z: spot.z });
+      attachBodyToPulley(world, left, copy.id, 'a');
+      attachBodyToPulley(world, right, copy.id, 'b');
     } else if (entity.type === 'link') {
       copy = addLink(world, { a: { ...entity.a }, b: { ...entity.b }, k: entity.k, beta: entity.beta, rest: entity.rest, meter: entity.meter });
     }
@@ -1531,6 +1667,33 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           );
         }
       }
+    } else if (entity.type === 'launcher') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      entity.target = launcherPrediction(world, entity);
+    } else if (entity.type === 'pulley') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      for (const b of world.bodies) {
+        if (b.rope?.pulleyId === entity.id) {
+          b.cannon.position.x = entity.x + (b.rope.side === 'a' ? -entity.radius : entity.radius);
+          b.cannon.position.z = entity.z;
+          b.cannon.aabbNeedsUpdate = true;
+        }
+      }
+    } else if (entity.type === 'barrier') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      entity.body.position.set(entity.x, entity.y + entity.height / 2, entity.z);
+      entity.body.aabbNeedsUpdate = true;
+    } else if (entity.type === 'pendulum') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+    } else if (entity.type === 'wedge') {
+      entity.x = p.x; entity.z = p.z;
+      entity.baseY = p.y;
+      entity.body.position.set(p.x, p.y + entity.centroidY, p.z);
+      entity.body.aabbNeedsUpdate = true;
+    } else if (entity.type === 'sensor') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+    } else if (entity.type === 'fan') {
+      // Fan attachments follow their body and are not moved independently.
     }
   }
 
@@ -1871,6 +2034,34 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     } else if (kind === 'hcircle') {
       const spot = nextPlacement(kind);
       entity = addHCircle(world, { x: spot.x, z: spot.z, y: 0.12, radius: 2, muS: 0.55, muK: 0.35 });
+    } else if (kind === 'launcher') {
+      const spot = nextPlacement(kind);
+      entity = addLauncher(world, {
+        x: spot.x, y: 0, z: spot.z, angle: 45, speed: 8, height: 1.2,
+        mass: 0.2, radius: 0.09, drag: 'none', dragB: 0.4, dragC: 0.06,
+      });
+    } else if (kind === 'pulley') {
+      const spot = nextPlacement(kind);
+      entity = addPulley(world, {
+        x: spot.x, y: 3.1, z: spot.z, radius: 0.34, mass: 0.5, mode: 'atwood',
+      });
+      const left = addBlock(world, { mass: 2, size: 0.45, x: spot.x - 0.34, y: 1.45, z: spot.z });
+      const right = addBlock(world, { mass: 1, size: 0.45, x: spot.x + 0.34, y: 1.45, z: spot.z });
+      attachBodyToPulley(world, left, entity.id, 'a');
+      attachBodyToPulley(world, right, entity.id, 'b');
+    } else if (kind === 'wall' || kind === 'bumper') {
+      const spot = nextPlacement(kind);
+      entity = addBarrier(world, {
+        kind,
+        x: spot.x,
+        y: 0,
+        z: spot.z,
+        width: 2.4,
+        height: 1.2,
+        thickness: 0.16,
+        radius: 0.42,
+        restitution: 0.6,
+      });
     } else if (kind === 'block' || kind === 'cart') {
       const target = selected?.type === 'surface' || selected?.type === 'loop'
         || selected?.type === 'turntable' || selected?.type === 'hcircle' ? selected : null;
@@ -2113,6 +2304,30 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           );
         }
       }
+    } else if (entity.type === 'launcher') {
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+      entity.target = launcherPrediction(world, entity);
+    } else if (entity.type === 'pulley') {
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+      for (const b of world.bodies) {
+        if (b.rope?.pulleyId === entity.id) {
+          b.cannon.position.x = entity.x + (b.rope.side === 'a' ? -entity.radius : entity.radius);
+          b.cannon.position.z = entity.z;
+          b.cannon.aabbNeedsUpdate = true;
+        }
+      }
+    } else if (entity.type === 'barrier') {
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+      entity.body.position.set(entity.x, entity.y + entity.height / 2, entity.z);
+      entity.body.quaternion.set(object.quaternion.x, object.quaternion.y, object.quaternion.z, object.quaternion.w);
+      entity.angle = (zAngle(object.quaternion) / Math.PI) * 180;
+      entity.body.aabbNeedsUpdate = true;
     } else if (entity.type === 'body') {
       if (entity.attachment) detachBody(world, entity);
       entity.cannon.position.set(object.position.x, object.position.y, object.position.z);
@@ -2516,6 +2731,29 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return { wrap, out, range, number };
   }
 
+  function selectField(parent, { label: text, value, options, onChange, testid = '' }) {
+    const wrap = el('div', { className: 'plab-field' });
+    wrap.appendChild(el('div', { className: 'plab-field-head' }, [
+      el('label', { text }),
+    ]));
+    const select = el('select', {
+      className: 'plab-select hit-target',
+      'data-field': testid,
+      'aria-label': text,
+    });
+    for (const [val, labelTextValue] of options) {
+      select.appendChild(el('option', {
+        value: val,
+        text: labelTextValue,
+        selected: String(value) === String(val),
+      }));
+    }
+    select.addEventListener('change', () => onChange(select.value));
+    wrap.appendChild(select);
+    parent.appendChild(wrap);
+    return select;
+  }
+
   function setFieldValue(handle, value, min, max, fmtValue = fmt) {
     if (!handle) return;
     handle.out.textContent = fmtValue(value);
@@ -2617,6 +2855,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const geoDisabled = running;
     const common = el('div', { className: 'plab-inspector-common' });
     inspectorBody.appendChild(common);
+    buildMoreAdvanced();
 
     if (entity.type === 'surface') {
       field(common, {
@@ -2736,6 +2975,123 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'radius',
         onChange: (v) => { setHCircleRadius(world, entity, v); view.sync(world); },
       });
+    } else if (entity.type === 'launcher') {
+      field(common, {
+        label: '发射角 · Launch angle',
+        value: entity.angle,
+        min: -10,
+        max: 85,
+        step: 1,
+        unit: '°',
+        testid: 'launchAngle',
+        onChange: (v) => {
+          entity.angle = v;
+          entity.target = launcherPrediction(world, entity);
+          if (world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '发射速度 · Launch speed',
+        value: entity.speed,
+        min: 0,
+        max: 25,
+        step: 0.1,
+        unit: 'm/s',
+        testid: 'launchSpeed',
+        onChange: (v) => {
+          entity.speed = v;
+          entity.target = launcherPrediction(world, entity);
+          if (world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '发射高度 · Launch height',
+        value: entity.height,
+        min: 0.1,
+        max: 4,
+        step: 0.05,
+        unit: 'm',
+        testid: 'launchHeight',
+        onChange: (v) => {
+          entity.height = v;
+          entity.target = launcherPrediction(world, entity);
+          if (world.time === 0) captureInitial(world);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '抛射体质量 · Projectile mass',
+        value: entity.mass,
+        min: 0.02,
+        max: 5,
+        step: 0.02,
+        unit: 'kg',
+        testid: 'projectileMass',
+        onChange: (v) => { entity.mass = Math.max(0.01, v); },
+      });
+      const fire = el('button', {
+        type: 'button',
+        className: 'plab-inspector-more plab-fire hit-target',
+        text: '发射 · Fire',
+        'data-action': 'launcher-fire',
+      });
+      fire.addEventListener('click', () => {
+        fireLauncher(world, entity);
+        if (!running) play();
+        view.sync(world);
+        updateLive();
+        setStatus(`已发射：${fmt(entity.speed)} m/s，${fmt(entity.angle)}°。 · Fired at ${fmt(entity.speed)} m/s, ${fmt(entity.angle)}°.`);
+      });
+      common.appendChild(fire);
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '射程 · Range', 'launchRange', 'm');
+      addLive(readouts, '最大高度 · Max height', 'launchHeightMax', 'm');
+      addLive(readouts, '飞行时间 · Flight time', 'launchTime', 's');
+      common.appendChild(readouts);
+    } else if (entity.type === 'pulley') {
+      field(common, {
+        label: '滑轮质量 · Pulley mass',
+        value: entity.mass,
+        min: 0,
+        max: 20,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'pulleyMass',
+        onChange: (v) => { entity.mass = Math.max(0, v); },
+      });
+      field(common, {
+        label: '转动惯量 I · Moment of inertia',
+        value: entity.I,
+        min: 0,
+        max: 5,
+        step: 0.005,
+        unit: 'kg·m²',
+        testid: 'pulleyInertia',
+        onChange: (v) => { entity.I = Math.max(0, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '绳张力 A · Tension A', 'tensionA', 'N');
+      addLive(readouts, '绳张力 B · Tension B', 'tensionB', 'N');
+      common.appendChild(readouts);
+    } else if (entity.type === 'barrier') {
+      field(common, {
+        label: '恢复系数 e · Restitution',
+        value: entity.e,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        testid: 'restitution',
+        onChange: (v) => { setBarrierRestitution(world, entity, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '碰撞前动量 · p in', 'impactPIn', 'kg·m/s');
+      addLive(readouts, '碰撞后动量 · p out', 'impactPOut', 'kg·m/s');
+      addLive(readouts, '碰撞前动能 · KE in', 'impactKEIn', 'J');
+      addLive(readouts, '碰撞后动能 · KE out', 'impactKEOut', 'J');
+      addLive(readouts, '实测恢复系数 · e measured', 'impactE', '');
+      common.appendChild(readouts);
     } else if (entity.type === 'link') {
       field(common, {
         label: '劲度系数 k · Spring constant',
@@ -2776,7 +3132,6 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     });
     openAdvanced.addEventListener('click', openMore);
     inspectorBody.appendChild(openAdvanced);
-    buildMoreAdvanced();
   }
 
   function moreHeading(parent, entity) {
@@ -3000,6 +3355,169 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             : 'f_{k}=\\mu_{k}N,\\qquad |f_{s}|\\le \\mu_{s}N');
     }
 
+    if (entity.type === 'launcher') {
+      field(moreAdvanced, {
+        label: '抛射体半径 · Projectile radius',
+        value: entity.radius,
+        min: 0.02,
+        max: 0.5,
+        step: 0.01,
+        unit: 'm',
+        testid: 'projectileRadius',
+        onChange: (v) => { entity.radius = Math.max(0.02, v); },
+      });
+      field(moreAdvanced, {
+        label: '发射方位角 · Launch azimuth',
+        value: entity.azimuth,
+        min: -180,
+        max: 180,
+        step: 1,
+        unit: '°',
+        testid: 'launchAzimuth',
+        onChange: (v) => {
+          entity.azimuth = v;
+          entity.target = launcherPrediction(world, entity);
+          view.sync(world);
+        },
+      });
+      selectField(moreAdvanced, {
+        label: '空气阻力 · Air resistance',
+        value: entity.drag,
+        testid: 'launchDrag',
+        options: [
+          ['none', '无 · None'],
+          ['linear', '线性 −b v · Linear'],
+          ['quadratic', '二次 −c v² · Quadratic'],
+        ],
+        onChange: (v) => { entity.drag = v; },
+      });
+      field(moreAdvanced, {
+        label: '线性阻力 b · Linear drag',
+        value: entity.dragB,
+        min: 0,
+        max: 5,
+        step: 0.01,
+        unit: 'kg/s',
+        testid: 'launchDragB',
+        onChange: (v) => { entity.dragB = Math.max(0, v); },
+      });
+      field(moreAdvanced, {
+        label: '二次阻力 c · Quadratic drag',
+        value: entity.dragC,
+        min: 0,
+        max: 1,
+        step: 0.005,
+        unit: 'kg/m',
+        testid: 'launchDragC',
+        onChange: (v) => { entity.dragC = Math.max(0, v); },
+      });
+      formula(moreAdvanced, 'R=\\dfrac{v^{2}\\sin 2\\theta}{g},\\qquad v_{t}=\\dfrac{mg}{b}\\ \\text{or}\\ \\sqrt{\\dfrac{mg}{c}}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '发射按钮可在播放中使用；暂停时发射会自动开始。 · Fire works while playing; from pause it starts the run.',
+      }));
+    }
+
+    if (entity.type === 'pulley') {
+      field(moreAdvanced, {
+        label: '滑轮半径 · Pulley radius',
+        value: entity.radius,
+        min: 0.1,
+        max: 1,
+        step: 0.01,
+        unit: 'm',
+        testid: 'pulleyRadius',
+        onChange: (v) => { entity.radius = Math.max(0.1, v); },
+      });
+      selectField(moreAdvanced, {
+        label: '配置 · Configuration',
+        value: entity.mode,
+        testid: 'pulleyMode',
+        options: [
+          ['atwood', '阿特伍德双悬挂 · Atwood'],
+          ['table', '桌面—滑轮 · Block on table'],
+        ],
+        onChange: (v) => { entity.mode = v; },
+      });
+      const endpointRow = el('div', { className: 'plab-tool-row' });
+      for (const side of ['a', 'b']) {
+        const wrap = el('div', { className: 'plab-field' });
+        wrap.appendChild(el('div', { className: 'plab-field-head' }, [
+          el('label', { text: side === 'a' ? '端点 A · Endpoint A' : '端点 B · Endpoint B' }),
+        ]));
+        const select = el('select', {
+          className: 'plab-select hit-target',
+          'data-field': `pulleyEndpoint${side.toUpperCase()}`,
+          'aria-label': side === 'a' ? '端点 A · Endpoint A' : '端点 B · Endpoint B',
+        });
+        select.appendChild(el('option', { value: '', text: '— 未连接 · Unconnected —' }));
+        for (const body of world.bodies) {
+          if (body.transient) continue;
+          select.appendChild(el('option', {
+            value: body.id,
+            text: `${body.name || labelText(...kindLabel(body))} #${String(body.id).split('-').pop()}`,
+            selected: (side === 'a' ? entity.aId : entity.bId) === body.id,
+          }));
+        }
+        select.addEventListener('change', () => {
+          const body = select.value ? getBody(world, select.value) : null;
+          if (body) {
+            attachBodyToPulley(world, body, entity.id, side);
+          } else if (side === 'a') {
+            entity.aId = null;
+          } else {
+            entity.bId = null;
+          }
+          view.sync(world);
+          buildInspector();
+        });
+        wrap.appendChild(select);
+        endpointRow.appendChild(wrap);
+      }
+      moreAdvanced.appendChild(endpointRow);
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '张力 A · Tension A', 'tensionA', 'N');
+      addLive(readouts, '张力 B · Tension B', 'tensionB', 'N');
+      addLive(readouts, '绳状态 · Rope', 'ropeState', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'a=\\dfrac{(m_{1}-m_{2})g}{m_{1}+m_{2}+I/r^{2}},\\qquad T_{1}=m_{1}(g-a)');
+    }
+
+    if (entity.type === 'barrier') {
+      field(moreAdvanced, {
+        label: '宽度 · Width',
+        value: entity.width,
+        min: 0.4,
+        max: 8,
+        step: 0.1,
+        unit: 'm',
+        testid: 'barrierWidth',
+        onChange: (v) => { setBarrierSize(world, entity, { width: v }); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '高度 · Height',
+        value: entity.height,
+        min: 0.2,
+        max: 4,
+        step: 0.05,
+        unit: 'm',
+        testid: 'barrierHeight',
+        onChange: (v) => { setBarrierSize(world, entity, { height: v }); view.sync(world); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '碰撞前动量 · p in', 'impactPIn', 'kg·m/s');
+      addLive(readouts, '碰撞后动量 · p out', 'impactPOut', 'kg·m/s');
+      addLive(readouts, '碰撞前动能 · KE in', 'impactKEIn', 'J');
+      addLive(readouts, '碰撞后动能 · KE out', 'impactKEOut', 'J');
+      addLive(readouts, '实测恢复系数 · e measured', 'impactE', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'e=\\dfrac{v_{\\text{out}}}{v_{\\text{in}}},\\qquad p=mv,\\qquad E_{k}=\\dfrac{1}{2}mv^{2}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '静态挡板的动量变化由墙提供；读数展示物体的碰前/碰后 p 与 KE。 · The static wall supplies the momentum change; readouts show the body p and KE before/after.',
+      }));
+    }
+
     if (entity.type === 'loop') {
       formula(moreAdvanced, 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta');
       moreAdvanced.appendChild(el('p', { className: 'plab-field-hint', text: 'N < 0 时物体离开轨道成为抛体。 · When N < 0 the body leaves the track and becomes a projectile.' }));
@@ -3108,6 +3626,22 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     } else if (entity?.type === 'turntable') {
       setLive('omega', `${fmt(entity.omega)} rad/s`);
       setLive('tableAngle', `${fmt(entity.angle)} rad`);
+    } else if (entity?.type === 'launcher') {
+      const f = entity.flight;
+      setLive('launchRange', f ? `${fmt(f.range)} m` : '—');
+      setLive('launchHeightMax', f ? `${fmt(f.maxHeight)} m` : '—');
+      setLive('launchTime', f ? `${fmt(f.flightTime)} s` : '—');
+    } else if (entity?.type === 'pulley') {
+      setLive('tensionA', `${fmt(entity.tensionA)} N`);
+      setLive('tensionB', `${fmt(entity.tensionB)} N`);
+      setLive('ropeState', entity.slack ? '松弛 · Slack' : '张紧 · Taut');
+    } else if (entity?.type === 'barrier') {
+      const hit = entity.lastImpact;
+      setLive('impactPIn', hit ? `${fmt(hit.pInMag)}` : '—');
+      setLive('impactPOut', hit ? `${fmt(hit.pOutMag)}` : '—');
+      setLive('impactKEIn', hit ? `${fmt(hit.keIn)}` : '—');
+      setLive('impactKEOut', hit ? `${fmt(hit.keOut)}` : '—');
+      setLive('impactE', hit ? fmt(hit.measuredE) : '—');
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -3119,6 +3653,18 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         inspectorSummary.textContent = `角速度 · ω ${fmt(entity.omega)} rad/s`;
       } else if (entity?.type === 'surface') {
         inspectorSummary.textContent = `倾角 · Angle ${fmt(entity.angle)}° · μs ${fmt(entity.muS)} · μk ${fmt(entity.muK)}`;
+      } else if (entity?.type === 'launcher') {
+        const f = entity.flight;
+        inspectorSummary.textContent = f
+          ? `射程 · Range ${fmt(f.range)} m · 最大高度 · Max ${fmt(f.maxHeight)} m · 时间 · Time ${fmt(f.flightTime)} s`
+          : `发射角 · ${fmt(entity.angle)}° · ${fmt(entity.speed)} m/s · 高度 · ${fmt(entity.height)} m`;
+      } else if (entity?.type === 'pulley') {
+        inspectorSummary.textContent = `张力 · T ${fmt(entity.tensionA)} / ${fmt(entity.tensionB)} N · ${entity.slack ? '松弛 · Slack' : '张紧 · Taut'}`;
+      } else if (entity?.type === 'barrier') {
+        const hit = entity.lastImpact;
+        inspectorSummary.textContent = hit
+          ? `p ${fmt(hit.pInMag)}→${fmt(hit.pOutMag)} kg·m/s · KE ${fmt(hit.keIn)}→${fmt(hit.keOut)} J`
+          : `恢复系数 · e ${fmt(entity.e)} · 等待碰撞 · awaiting impact`;
       } else {
         inspectorSummary.textContent = '—';
       }
@@ -3164,7 +3710,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     step: 0.01,
     testid: 'restitution',
     onChange: (v) => {
-      world.engine.defaultContactMaterial.restitution = Math.max(0, Math.min(1, v));
+      setBodyCollisionRestitution(world, v);
     },
   });
   if (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) {

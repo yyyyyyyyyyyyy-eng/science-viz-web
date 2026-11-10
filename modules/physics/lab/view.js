@@ -7,7 +7,7 @@ import * as THREE from '../../../vendor/three/three.module.js';
 import { OrbitControls } from '../../../vendor/three/controls/OrbitControls.js';
 import { TransformControls } from '../../../vendor/three/controls/TransformControls.js';
 import { themeColors } from '../../../js/theme.js';
-import { DEG, getSurface, getTurntable, surfaceFrame, surfaceTopPoint } from './physics.mjs';
+import { DEG, getSurface, getTurntable, pendulumBob, surfaceFrame, surfaceTopPoint } from './physics.mjs';
 
 const NO_PICK = { noPick: true };
 
@@ -27,7 +27,21 @@ function signatureOf(entity) {
     case 'hcircle':
       return `${entity.type}:${entity.radius}`;
     case 'body':
-      return `${entity.type}:${entity.kind}:${entity.size || entity.radius}`;
+      return `${entity.type}:${entity.kind}:${entity.size || entity.radius}:${entity.width || 0}`;
+    case 'launcher':
+      return `${entity.type}:${entity.height}:${entity.angle}`;
+    case 'pulley':
+      return `${entity.type}:${entity.radius}`;
+    case 'barrier':
+      return `${entity.type}:${entity.kind}:${entity.width}:${entity.height}:${entity.radius}`;
+    case 'pendulum':
+      return `${entity.type}:${entity.length}:${entity.radius}`;
+    case 'wedge':
+      return `${entity.type}:${entity.angle}:${entity.length}:${entity.width}`;
+    case 'sensor':
+      return `${entity.type}:${entity.kind}:${entity.width}:${entity.height}`;
+    case 'fan':
+      return `${entity.type}`;
     default:
       return entity.type;
   }
@@ -79,6 +93,7 @@ export function createLabView(host, opts = {}) {
     meter: new THREE.MeshStandardMaterial({ color: theme.warn, roughness: 0.55, metalness: 0.12 }),
     line: new THREE.LineBasicMaterial({ color: theme.border }),
     accentLine: new THREE.LineBasicMaterial({ color: theme.accent }),
+    trail: new THREE.LineBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.9 }),
     transparent: new THREE.MeshBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.012, depthWrite: false }),
     ground: new THREE.ShadowMaterial({ opacity: 0.16 }),
   };
@@ -441,6 +456,7 @@ export function createLabView(host, opts = {}) {
     materials.meter.color.set(t.warn);
     materials.line.color.set(t.axis);
     materials.accentLine.color.set(t.accent);
+    materials.trail.color.set(t.accent);
     materials.transparent.color.set(t.accent);
     trailMaterial.color.set(t.accent);
     rulerMaterial.color.set(t.warn);
@@ -609,6 +625,286 @@ export function createLabView(host, opts = {}) {
     return { root, sig: signatureOf(entity) };
   }
 
+  function makeLauncher(entity) {
+    const root = makeRoot(entity);
+    const baseGeo = new THREE.BoxGeometry(0.72, 0.14, 0.58);
+    const base = new THREE.Mesh(baseGeo, materials.surface);
+    base.position.y = 0.07;
+    base.castShadow = true;
+    base.receiveShadow = true;
+    root.add(base);
+    addEdges(root, baseGeo);
+    const postH = Math.max(0.2, entity.height);
+    const postGeo = new THREE.BoxGeometry(0.1, postH, 0.1);
+    const post = new THREE.Mesh(postGeo, materials.wheel);
+    post.position.set(-0.16, postH / 2, 0);
+    post.castShadow = true;
+    root.add(post);
+    const pivot = new THREE.Group();
+    pivot.position.set(-0.16, postH, 0);
+    pivot.rotation.z = (entity.angle || 0) * Math.PI / 180;
+    root.add(pivot);
+    const barrelGeo = new THREE.CylinderGeometry(0.085, 0.1, 0.95, 16);
+    const barrel = new THREE.Mesh(barrelGeo, materials.accent);
+    barrel.rotation.z = -Math.PI / 2;
+    barrel.position.x = 0.38;
+    barrel.castShadow = true;
+    pivot.add(barrel);
+    const muzzleGeo = new THREE.TorusGeometry(0.09, 0.018, 8, 18);
+    const muzzle = new THREE.Mesh(muzzleGeo, materials.wheel);
+    muzzle.rotation.y = Math.PI / 2;
+    muzzle.position.x = 0.88;
+    pivot.add(muzzle);
+    const trailGeo = new THREE.BufferGeometry();
+    trailGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(2500 * 3), 3));
+    trailGeo.setDrawRange(0, 0);
+    const trail = new THREE.Line(trailGeo, materials.trail);
+    trail.frustumCulled = false;
+    trail.userData = { ...NO_PICK };
+    root.add(trail);
+    const target = new THREE.Group();
+    const ringGeo = new THREE.RingGeometry(0.22, 0.28, 28);
+    const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: theme.accent, side: THREE.DoubleSide }));
+    ring.rotation.x = -Math.PI / 2;
+    target.add(ring);
+    for (const rot of [0, Math.PI / 2]) {
+      const lineGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-0.4, 0.01, 0),
+        new THREE.Vector3(0.4, 0.01, 0),
+      ]);
+      const line = new THREE.Line(lineGeo, materials.accentLine);
+      line.rotation.y = rot;
+      target.add(line);
+    }
+    target.userData = { ...NO_PICK };
+    root.add(target);
+    return { root, trail, target, trailCount: -1, sig: signatureOf(entity) };
+  }
+
+  function makePulley(entity) {
+    const root = makeRoot(entity);
+    const postH = Math.max(0.2, entity.y);
+    const postGeo = new THREE.BoxGeometry(0.1, postH, 0.1);
+    const post = new THREE.Mesh(postGeo, materials.wheel);
+    post.position.set(0, -postH / 2, -0.16);
+    post.castShadow = true;
+    root.add(post);
+    const wheel = new THREE.Group();
+    const rimGeo = new THREE.TorusGeometry(entity.radius, 0.055, 10, 40);
+    const rim = new THREE.Mesh(rimGeo, materials.physics);
+    rim.castShadow = true;
+    wheel.add(rim);
+    const discGeo = new THREE.CylinderGeometry(entity.radius * 0.9, entity.radius * 0.9, 0.07, 28);
+    const disc = new THREE.Mesh(discGeo, materials.surface);
+    disc.rotation.x = Math.PI / 2;
+    disc.castShadow = true;
+    wheel.add(disc);
+    const spokeGeo = new THREE.BoxGeometry(entity.radius * 1.5, 0.035, 0.075);
+    const spoke = new THREE.Mesh(spokeGeo, materials.accent);
+    spoke.position.y = 0.045;
+    wheel.add(spoke);
+    wheel.position.set(0, 0, 0);
+    root.add(wheel);
+    const ropeGeoA = new THREE.BufferGeometry();
+    ropeGeoA.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+    const ropeA = new THREE.Line(ropeGeoA, materials.trail);
+    ropeA.frustumCulled = false;
+    ropeA.userData = { ...NO_PICK };
+    root.add(ropeA);
+    const ropeGeoB = new THREE.BufferGeometry();
+    ropeGeoB.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+    const ropeB = new THREE.Line(ropeGeoB, materials.trail);
+    ropeB.frustumCulled = false;
+    ropeB.userData = { ...NO_PICK };
+    root.add(ropeB);
+    root.position.set(entity.x, entity.y, entity.z);
+    return { root, wheel, ropeA, ropeB, sig: signatureOf(entity) };
+  }
+
+  function makeBarrier(entity) {
+    const root = makeRoot(entity);
+    if (entity.kind === 'bumper') {
+      const geo = new THREE.CylinderGeometry(entity.radius, entity.radius, entity.height, 24);
+      const mesh = new THREE.Mesh(geo, materials.meter);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      root.add(mesh);
+      addEdges(root, geo);
+      const bandGeo = new THREE.TorusGeometry(entity.radius * 1.01, 0.035, 8, 28);
+      const band = new THREE.Mesh(bandGeo, materials.wheel);
+      band.rotation.x = Math.PI / 2;
+      band.position.y = entity.height * 0.22;
+      root.add(band);
+    } else {
+      const geo = new THREE.BoxGeometry(entity.thickness, entity.height, entity.width);
+      const mesh = new THREE.Mesh(geo, materials.meter);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      root.add(mesh);
+      addEdges(root, geo);
+      const capGeo = new THREE.BoxGeometry(entity.thickness * 1.3, 0.06, entity.width);
+      const cap = new THREE.Mesh(capGeo, materials.accent);
+      cap.position.y = entity.height / 2 + 0.03;
+      root.add(cap);
+    }
+    root.position.copy(v3(entity.body.position));
+    root.quaternion.set(entity.body.quaternion.x, entity.body.quaternion.y, entity.body.quaternion.z, entity.body.quaternion.w);
+    return { root, sig: signatureOf(entity) };
+  }
+
+  function makeBall(entity) {
+    const root = makeRoot(entity);
+    const geo = new THREE.SphereGeometry(entity.radius || 0.28, 24, 16);
+    const mesh = new THREE.Mesh(geo, materials.physics);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    root.add(mesh);
+    const bandGeo = new THREE.TorusGeometry((entity.radius || 0.28) * 0.92, 0.018, 6, 24);
+    const band = new THREE.Mesh(bandGeo, materials.accent);
+    root.add(band);
+    return { root, sig: signatureOf(entity) };
+  }
+
+  function makeCylinder(entity) {
+    const root = makeRoot(entity);
+    const radius = entity.radius || 0.3;
+    const length = entity.width || 0.7;
+    const geo = new THREE.CylinderGeometry(radius, radius, length, 24);
+    const mesh = new THREE.Mesh(geo, materials.physics);
+    mesh.rotation.x = Math.PI / 2;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    root.add(mesh);
+    const edgeGeo = new THREE.CylinderGeometry(radius, radius, length, 24);
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(edgeGeo), materials.line);
+    edges.rotation.x = Math.PI / 2;
+    edges.userData = { ...NO_PICK };
+    root.add(edges);
+    return { root, sig: signatureOf(entity) };
+  }
+
+  function makePendulum(entity) {
+    const root = makeRoot(entity);
+    const postH = Math.max(0.2, entity.y);
+    const postGeo = new THREE.BoxGeometry(0.1, postH, 0.1);
+    const post = new THREE.Mesh(postGeo, materials.wheel);
+    post.position.set(0, -postH / 2, -0.32);
+    post.castShadow = true;
+    root.add(post);
+    const armGeo = new THREE.BoxGeometry(0.1, 0.1, 0.52);
+    const arm = new THREE.Mesh(armGeo, materials.wheel);
+    arm.position.set(0, 0, -0.16);
+    root.add(arm);
+    const pivotGeo = new THREE.SphereGeometry(0.055, 10, 8);
+    const pivot = new THREE.Mesh(pivotGeo, materials.accent);
+    root.add(pivot);
+    const stringGeo = new THREE.BufferGeometry();
+    stringGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+    const string = new THREE.Line(stringGeo, materials.line);
+    string.frustumCulled = false;
+    string.userData = { ...NO_PICK };
+    root.add(string);
+    const bobGeo = new THREE.SphereGeometry(entity.radius, 20, 14);
+    const bob = new THREE.Mesh(bobGeo, materials.physics);
+    bob.castShadow = true;
+    root.add(bob);
+    root.position.set(entity.x, entity.y, entity.z);
+    return { root, string, bob, sig: signatureOf(entity) };
+  }
+
+  function makeWedge(entity) {
+    const root = makeRoot(entity);
+    const L = entity.length;
+    const W = entity.width;
+    const H = entity.height;
+    const cx = L / 6;
+    const cy = H / 3;
+    const shape = new THREE.Shape();
+    shape.moveTo(-L / 2 - cx, -cy);
+    shape.lineTo(L / 2 - cx, -cy);
+    shape.lineTo(L / 2 - cx, H - cy);
+    shape.closePath();
+    const geo = new THREE.ExtrudeGeometry(shape, { depth: W, bevelEnabled: false });
+    geo.translate(0, 0, -W / 2);
+    const mesh = new THREE.Mesh(geo, materials.surface);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    root.add(mesh);
+    addEdges(root, geo, materials.line);
+    const railGeo = new THREE.BoxGeometry(L * 1.02, 0.035, 0.05);
+    const rail = new THREE.Mesh(railGeo, materials.accent);
+    rail.position.set(0, H / 3 - cy + 0.01, W / 2);
+    rail.rotation.z = Math.atan2(H, L);
+    root.add(rail);
+    root.position.copy(v3(entity.body.position));
+    root.quaternion.set(entity.body.quaternion.x, entity.body.quaternion.y, entity.body.quaternion.z, entity.body.quaternion.w);
+    return { root, sig: signatureOf(entity) };
+  }
+
+  function makeSensor(entity) {
+    const root = makeRoot(entity);
+    if (entity.kind === 'motion') {
+      const bodyGeo = new THREE.BoxGeometry(0.34, 0.24, 0.26);
+      const body = new THREE.Mesh(bodyGeo, materials.meter);
+      body.position.y = 0.12;
+      body.castShadow = true;
+      root.add(body);
+      addEdges(root, bodyGeo);
+      const lensGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.08, 18);
+      const lens = new THREE.Mesh(lensGeo, materials.wheel);
+      lens.rotation.z = -Math.PI / 2;
+      lens.position.set(0.2, 0.14, 0);
+      root.add(lens);
+    } else {
+      const postGeo = new THREE.BoxGeometry(0.08, entity.height, 0.08);
+      for (const z of [-entity.width / 2, entity.width / 2]) {
+        const post = new THREE.Mesh(postGeo, materials.wheel);
+        post.position.set(0, entity.height / 2, z);
+        post.castShadow = true;
+        root.add(post);
+      }
+      const barGeo = new THREE.BoxGeometry(0.08, 0.08, entity.width);
+      const bar = new THREE.Mesh(barGeo, materials.meter);
+      bar.position.set(0, entity.height - 0.04, 0);
+      root.add(bar);
+      const beamGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, entity.height * 0.55, -entity.width / 2),
+        new THREE.Vector3(0, entity.height * 0.55, entity.width / 2),
+      ]);
+      const beam = new THREE.Line(beamGeo, materials.trail);
+      beam.userData = { ...NO_PICK };
+      root.add(beam);
+    }
+    root.position.set(entity.x, entity.y, entity.z);
+    return { root, sig: signatureOf(entity) };
+  }
+
+  function makeFan(entity) {
+    const root = makeRoot(entity);
+    const ductGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.2, 20, 1, true);
+    const duct = new THREE.Mesh(ductGeo, materials.meter);
+    duct.rotation.z = -Math.PI / 2;
+    duct.castShadow = true;
+    root.add(duct);
+    const hubGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.24, 10);
+    const hub = new THREE.Mesh(hubGeo, materials.wheel);
+    hub.rotation.z = -Math.PI / 2;
+    root.add(hub);
+    const blades = new THREE.Group();
+    for (let i = 0; i < 4; i += 1) {
+      const bladeGeo = new THREE.BoxGeometry(0.02, 0.16, 0.055);
+      const blade = new THREE.Mesh(bladeGeo, materials.accent);
+      blade.position.y = 0.09;
+      blade.rotation.z = (i * Math.PI) / 2;
+      const holder = new THREE.Group();
+      holder.rotation.x = (i * Math.PI) / 2;
+      holder.add(blade);
+      blades.add(holder);
+    }
+    root.add(blades);
+    return { root, blades, sig: signatureOf(entity) };
+  }
+
   function makeBlock(entity) {
     const root = makeRoot(entity);
     const size = entity.size || 0.5;
@@ -683,7 +979,19 @@ export function createLabView(host, opts = {}) {
     else if (entity.type === 'loop') visual = makeLoop(entity);
     else if (entity.type === 'turntable') visual = makeTurntable(entity);
     else if (entity.type === 'hcircle') visual = makeHCircle(entity);
-    else if (entity.type === 'body') visual = entity.kind === 'cart' ? makeCart(entity) : makeBlock(entity);
+    else if (entity.type === 'launcher') visual = makeLauncher(entity);
+    else if (entity.type === 'pulley') visual = makePulley(entity);
+    else if (entity.type === 'barrier') visual = makeBarrier(entity);
+    else if (entity.type === 'pendulum') visual = makePendulum(entity);
+    else if (entity.type === 'wedge') visual = makeWedge(entity);
+    else if (entity.type === 'sensor') visual = makeSensor(entity);
+    else if (entity.type === 'fan') visual = makeFan(entity);
+    else if (entity.type === 'body') {
+      if (entity.kind === 'cart') visual = makeCart(entity);
+      else if (entity.kind === 'ball') visual = makeBall(entity);
+      else if (entity.kind === 'cylinder') visual = makeCylinder(entity);
+      else visual = makeBlock(entity);
+    }
     else if (entity.type === 'link') visual = makeLink(entity);
     else return null;
     visual.entity = entity;
@@ -780,6 +1088,13 @@ export function createLabView(host, opts = {}) {
       ...world.loops,
       ...world.turntables,
       ...world.hcircles,
+      ...world.launchers,
+      ...world.pulleys,
+      ...world.barriers,
+      ...world.pendulums,
+      ...world.wedges,
+      ...world.sensors,
+      ...world.fans,
       ...world.bodies,
       ...world.links,
     ];
@@ -799,6 +1114,66 @@ export function createLabView(host, opts = {}) {
         visual.marker.rotation.y = -entity.angle;
       } else if (entity.type === 'hcircle') {
         visual.root.position.set(entity.x, entity.y, entity.z);
+      } else if (entity.type === 'launcher') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+        visual.target.position.set(entity.target.x - entity.x, 0.015 - entity.y, entity.target.z - entity.z);
+        visual.target.visible = entity.showTarget !== false;
+        const points = entity.trail || [];
+        if (points.length !== visual.trailCount) {
+          const attr = visual.trail.geometry.getAttribute('position');
+          const n = Math.min(points.length, 2500);
+          for (let i = 0; i < n; i += 1) {
+            attr.setXYZ(i, points[i][0] - entity.x, points[i][1] - entity.y, points[i][2] - entity.z);
+          }
+          attr.needsUpdate = true;
+          visual.trail.geometry.setDrawRange(0, n);
+          visual.trail.geometry.computeBoundingSphere();
+          visual.trailCount = points.length;
+        }
+      } else if (entity.type === 'pulley') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+        visual.wheel.rotation.z = -entity.angle;
+        for (const [key, side] of [['ropeA', 'aId'], ['ropeB', 'bId']]) {
+          const body = world.bodies.find((b) => b.id === entity[side]);
+          const line = visual[key];
+          if (!body) {
+            line.visible = false;
+            continue;
+          }
+          line.visible = true;
+          const attr = line.geometry.getAttribute('position');
+          attr.setXYZ(0, body.cannon.position.x - entity.x, body.cannon.position.y - entity.y, body.cannon.position.z - entity.z);
+          attr.setXYZ(1, 0, 0, 0);
+          attr.needsUpdate = true;
+          line.geometry.computeBoundingSphere();
+        }
+      } else if (entity.type === 'barrier') {
+        visual.root.position.copy(v3(entity.body.position));
+        const q = entity.body.quaternion;
+        visual.root.quaternion.set(q.x, q.y, q.z, q.w);
+      } else if (entity.type === 'pendulum') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+        const bob = pendulumBob(entity);
+        visual.bob.position.set(bob.x - entity.x, bob.y - entity.y, bob.z - entity.z);
+        const attr = visual.string.geometry.getAttribute('position');
+        attr.setXYZ(0, 0, 0, 0);
+        attr.setXYZ(1, visual.bob.position.x, visual.bob.position.y, visual.bob.position.z);
+        attr.needsUpdate = true;
+        visual.string.geometry.computeBoundingSphere();
+      } else if (entity.type === 'wedge') {
+        visual.root.position.copy(v3(entity.body.position));
+        const q = entity.body.quaternion;
+        visual.root.quaternion.set(q.x, q.y, q.z, q.w);
+      } else if (entity.type === 'sensor') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+      } else if (entity.type === 'fan') {
+        const body = world.bodies.find((b) => b.id === entity.bodyId);
+        visual.root.visible = !!body;
+        if (body) {
+          visual.root.position.set(body.cannon.position.x - 0.55, body.cannon.position.y + 0.3, body.cannon.position.z);
+          visual.root.rotation.y = -(entity.azimuth || 0) * DEG;
+          visual.blades.rotation.x = entity.spin;
+        }
       } else if (entity.type === 'body') {
         visual.root.position.copy(v3(entity.cannon.position));
         if (entity.kind === 'cart') {
@@ -855,6 +1230,27 @@ export function createLabView(host, opts = {}) {
         return;
       }
       box.setFromPoints([visual.pa, visual.pb]).expandByScalar(0.12);
+    } else if (selected.type === 'launcher') {
+      const launcher = world.launchers.find((l) => l.id === selected.id);
+      if (!launcher) {
+        selectionHelper.visible = false;
+        return;
+      }
+      const h = Math.max(0.8, launcher.height);
+      box.setFromCenterAndSize(
+        new THREE.Vector3(launcher.x, launcher.y + h / 2, launcher.z),
+        new THREE.Vector3(1.3, h + 0.5, 1.1),
+      );
+    } else if (selected.type === 'pulley') {
+      const pulley = world.pulleys.find((p) => p.id === selected.id);
+      if (!pulley) {
+        selectionHelper.visible = false;
+        return;
+      }
+      box.setFromCenterAndSize(
+        new THREE.Vector3(pulley.x, pulley.y, pulley.z),
+        new THREE.Vector3(pulley.radius * 2 + 0.25, pulley.radius * 2 + 0.25, 0.35),
+      );
     } else {
       box.setFromObject(visual.root).expandByScalar(0.06);
     }

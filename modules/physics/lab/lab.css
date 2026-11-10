@@ -395,6 +395,16 @@ html[data-route="lab"] .site-footer {
   background: var(--bg-soft);
   color: var(--text-strong);
 }
+.plab-fire {
+  margin-top: 0.55rem;
+  border-color: var(--accent);
+  color: var(--accent-active);
+  font-weight: 600;
+}
+.plab-fire:hover {
+  background: var(--accent-active);
+  color: var(--on-accent);
+}
 
 /* ------------------------------ form controls ------------------------------ */
 

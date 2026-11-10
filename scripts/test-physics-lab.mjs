@@ -5,14 +5,20 @@
  */
 import {
   addAnchor,
+  addBarrier,
   addBlock,
   addCart,
   addHCircle,
+  addLauncher,
   addLink,
   addLoop,
+  addProjectile,
+  addPulley,
   addSurface,
   addTurntable,
   applyInitialVelocity,
+  attachBodyToPulley,
+  fireLauncher,
   attachBodyToHCircle,
   attachBodyToLoop,
   attachBodyToSurface,
@@ -25,6 +31,7 @@ import {
   energyBreakdown,
   resetWorld,
   serializeScene,
+  setBodyCollisionRestitution,
   springEnergyFromLength,
   springTension,
   stepOnce,
@@ -546,6 +553,128 @@ check('friction pair helper enforces mu_k <= mu_s', () => {
   const c = clampMuPair(-1, 2);
   near(c.muS, 0, 1e-12, 'negative muS');
   near(c.muK, 0, 1e-12, 'negative muK');
+});
+
+function projectileRange({ angle = 45, speed = 8, drag = 'none', dragB = 0, dragC = 0, mass = 0.2, radius = 0.02 } = {}) {
+  const world = createWorld({ g: 9.8 });
+  const theta = (angle * Math.PI) / 180;
+  const body = addProjectile(world, {
+    x: 0,
+    y: radius,
+    z: 0,
+    vx: speed * Math.cos(theta),
+    vy: speed * Math.sin(theta),
+    mass,
+    radius,
+    drag,
+    dragB,
+    dragC,
+  });
+  const h = 1 / 960;
+  let t = 0;
+  for (let i = 0; i < Math.round(5 / h); i += 1) {
+    stepWorld(world, h, { h });
+    t += h;
+    if (t > 0.04 && body.cannon.position.y <= radius + 0.004 && body.cannon.velocity.y < 0) break;
+  }
+  return { range: body.cannon.position.x, body, world, time: t };
+}
+
+check('projectile range without drag matches v^2 sin(2theta)/g within 0.5%', () => {
+  for (const angle of [30, 45, 60]) {
+    const measured = projectileRange({ angle, speed: 8 }).range;
+    const expected = (8 * 8 * Math.sin((2 * angle * Math.PI) / 180)) / 9.8;
+    near(measured, expected, expected * 0.005, `range at ${angle} deg`);
+  }
+});
+
+check('linear and quadratic drag both lower projectile range', () => {
+  const clean = projectileRange({ angle: 45, speed: 10 }).range;
+  const linear = projectileRange({ angle: 45, speed: 10, drag: 'linear', dragB: 0.18 }).range;
+  const quadratic = projectileRange({ angle: 45, speed: 10, drag: 'quadratic', dragC: 0.03 }).range;
+  if (!(linear < clean * 0.9)) throw new Error(`linear drag did not lower range: ${linear} vs ${clean}`);
+  if (!(quadratic < clean * 0.9)) throw new Error(`quadratic drag did not lower range: ${quadratic} vs ${clean}`);
+  console.log(`      range: none=${clean.toFixed(3)} m, linear=${linear.toFixed(3)} m, quadratic=${quadratic.toFixed(3)} m`);
+});
+
+check('linear drag approaches terminal velocity v_t = mg/b', () => {
+  const world = createWorld({ g: 9.8 });
+  const body = addProjectile(world, {
+    x: 0, y: 1000, z: 0, mass: 1, radius: 0.02, drag: 'linear', dragB: 0.5,
+  });
+  advance(world, 10, 1 / 240);
+  const vt = (1 * 9.8) / 0.5;
+  near(-body.cannon.velocity.y, vt, vt * 0.01, 'linear terminal speed');
+  console.log(`      linear terminal: ${(-body.cannon.velocity.y).toFixed(4)} m/s vs ${vt.toFixed(4)} m/s`);
+});
+
+check('quadratic drag approaches terminal velocity v_t = sqrt(mg/c)', () => {
+  const world = createWorld({ g: 9.8 });
+  const body = addProjectile(world, {
+    x: 0, y: 500, z: 0, mass: 1, radius: 0.02, drag: 'quadratic', dragC: 0.2,
+  });
+  advance(world, 5, 1 / 240);
+  const vt = Math.sqrt((1 * 9.8) / 0.2);
+  near(-body.cannon.velocity.y, vt, vt * 0.01, 'quadratic terminal speed');
+  console.log(`      quadratic terminal: ${(-body.cannon.velocity.y).toFixed(4)} m/s vs ${vt.toFixed(4)} m/s`);
+});
+
+check('Atwood pulley: a = (m1 - m2)g / (m1 + m2 + I/r^2)', () => {
+  for (const I of [0, 0.2]) {
+    const r = 0.3;
+    const world = createWorld({ g: 9.8 });
+    const pulley = addPulley(world, { x: 0, y: 3, z: 0, radius: r, mass: 0.5, I });
+    const a = addBlock(world, { mass: 3, x: -r, y: 2, z: 0 });
+    const b = addBlock(world, { mass: 1, x: r, y: 2, z: 0 });
+    attachBodyToPulley(world, a, pulley.id, 'a');
+    attachBodyToPulley(world, b, pulley.id, 'b');
+    a.cannon.position.set(-r, 2, 0);
+    b.cannon.position.set(r, 2, 0);
+    a.cannon.velocity.setZero();
+    b.cannon.velocity.setZero();
+    const h = 1 / 960;
+    advance(world, 0.5, h);
+    const measured = -a.cannon.velocity.y / 0.5;
+    const expected = ((3 - 1) * 9.8) / (3 + 1 + I / (r * r));
+    near(measured, expected, Math.max(1e-3, expected * 0.002), `Atwood acceleration I=${I}`);
+    near(b.cannon.velocity.y / 0.5, expected, Math.max(1e-3, expected * 0.002), `Atwood partner I=${I}`);
+    if (I === 0) near(pulley.tensionA, pulley.tensionB, 1e-6, 'massless-pulley tensions equal');
+    console.log(`      I=${I}: a=${measured.toFixed(6)} m/s^2 vs ${expected.toFixed(6)}; T_A=${pulley.tensionA.toFixed(3)} N T_B=${pulley.tensionB.toFixed(3)} N`);
+  }
+});
+
+check('elastic collision (e=1, no friction) conserves KE and momentum', () => {
+  const world = createWorld({ g: 0 });
+  setBodyCollisionRestitution(world, 1);
+  const a = addBlock(world, { mass: 1.2, size: 0.5, x: -1, y: 1, z: 0, v0: 2, azimuth: 0 });
+  const b = addBlock(world, { mass: 0.8, size: 0.5, x: 1, y: 1, z: 0, v0: 1.5, azimuth: 180 });
+  applyInitialVelocity(world, a);
+  applyInitialVelocity(world, b);
+  const p0 = a.mass * a.cannon.velocity.x + b.mass * b.cannon.velocity.x;
+  const k0 = 0.5 * a.mass * a.cannon.velocity.x ** 2 + 0.5 * b.mass * b.cannon.velocity.x ** 2;
+  advance(world, 1.2, 1 / 480);
+  const p1 = a.mass * a.cannon.velocity.x + b.mass * b.cannon.velocity.x;
+  const k1 = 0.5 * a.mass * a.cannon.velocity.x ** 2 + 0.5 * b.mass * b.cannon.velocity.x ** 2;
+  near(p1, p0, 1e-6, 'momentum');
+  if (Math.abs(k1 - k0) / k0 > 0.01) {
+    throw new Error(`kinetic energy changed by ${(((k1 - k0) / k0) * 100).toFixed(2)}%`);
+  }
+  console.log(`      momentum ${p0.toFixed(6)} -> ${p1.toFixed(6)} kg m/s; KE ${k0.toFixed(6)} -> ${k1.toFixed(6)} J`);
+});
+
+check('wall restitution e reverses the normal velocity with the set coefficient', () => {
+  const world = createWorld({ g: 0 });
+  const wall = addBarrier(world, {
+    kind: 'wall', x: 2, y: 0, z: 0, width: 2, height: 1.2, restitution: 0.8,
+  });
+  const block = addBlock(world, { mass: 1, size: 0.5, x: 0, y: 1, z: 0, v0: 4, azimuth: 0 });
+  applyInitialVelocity(world, block);
+  advance(world, 0.8, 1 / 480);
+  near(block.cannon.velocity.x, -3.2, 0.06, 'reflected speed');
+  if (!wall.lastImpact) throw new Error('wall did not record an impact');
+  near(wall.lastImpact.measuredE, 0.8, 0.03, 'measured restitution');
+  const p = wall.lastImpact.pInMag;
+  if (!(p > 0)) throw new Error('momentum readout missing');
 });
 
 check('stepOnce advances 1/60 s by default', () => {

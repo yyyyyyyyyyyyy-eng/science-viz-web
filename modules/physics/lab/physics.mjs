@@ -35,7 +35,20 @@ function makeEngine(g) {
 
 export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
   const engine = makeEngine(g);
-  const ground = new CANNON.Body({ mass: 0, shape: new CANNON.Plane() });
+  const bodyMaterial = new CANNON.Material('lab-body');
+  const groundMaterial = new CANNON.Material('lab-ground');
+  const bodyContact = new CANNON.ContactMaterial(bodyMaterial, bodyMaterial, {
+    friction: 0,
+    restitution: 0,
+    contactEquationStiffness: 1e8,
+    contactEquationRelaxation: 200,
+  });
+  engine.addContactMaterial(bodyContact);
+  const ground = new CANNON.Body({
+    mass: 0,
+    shape: new CANNON.Plane(),
+    material: groundMaterial,
+  });
   ground.position.set(0, 0, 0);
   ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
   engine.addBody(ground);
@@ -47,18 +60,34 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
     time: 0,
     accumulator: 0,
     nextId: 1,
+    bodyMaterial,
+    groundMaterial,
+    bodyContact,
     surfaces: [],
     loops: [],
     turntables: [],
     hcircles: [],
+    launchers: [],
+    pulleys: [],
+    barriers: [],
+    pendulums: [],
+    wedges: [],
+    sensors: [],
+    fans: [],
     bodies: [],
     links: [],
     events: [],
+    pendingImpacts: [],
     thermal: 0,
     appliedWork: 0,
     driveWork: 0,
     initial: null,
   };
+}
+
+/** Rolling bodies use the same contact law as the cart. */
+export function isRollingBody(body) {
+  return !!body && (body.kind === 'cart' || body.kind === 'ball' || body.kind === 'cylinder');
 }
 
 function nextId(world, prefix) {
@@ -247,8 +276,12 @@ function baseBody(world, kind, opts) {
     appliedElevation: 0,
     attachment: null,
     skid: null,
+    rope: null,
+    fan: null,
+    drag: { model: 'none', b: 0, c: 0 },
     brake: false,
     motor: { on: false, target: 0, force: 2 },
+    transient: false,
     createPos: V(x, y, z),
     diagnostics: {
       normal: 0,
@@ -274,6 +307,7 @@ export function addBlock(world, opts = {}) {
   b.size = size;
   const body = new CANNON.Body({
     mass: b.mass,
+    material: world.bodyMaterial,
     shape: new CANNON.Box(V(size / 2, size / 2, size / 2)),
   });
   body.position.copy(b.createPos);
@@ -287,6 +321,7 @@ export function addBlock(world, opts = {}) {
   b.name = opts.name || b.name;
   b.brake = !!opts.brake;
   if (opts.motor) b.motor = { ...b.motor, ...opts.motor };
+  if (opts.drag) b.drag = { ...b.drag, ...opts.drag };
   world.bodies.push(b);
   return b;
 }
@@ -300,7 +335,8 @@ export function addCart(world, opts = {}) {
   b.radius = radius;
   b.width = width;
   b.I = opts.I ?? 0.5 * b.mass * radius * radius;
-  const body = new CANNON.Body({ mass: b.mass });
+  b.inertiaRatio = b.I / Math.max(1e-9, b.mass * radius * radius);
+  const body = new CANNON.Body({ mass: b.mass, material: world.bodyMaterial });
   // A sphere keeps a single, stable contact point; the cart frame and
   // wheels are visual, while the chosen I is enforced about the rolling axis.
   body.addShape(new CANNON.Sphere(radius));
@@ -317,12 +353,76 @@ export function addCart(world, opts = {}) {
   b.name = opts.name || b.name;
   b.brake = !!opts.brake;
   if (opts.motor) b.motor = { ...b.motor, ...opts.motor };
+  if (opts.drag) b.drag = { ...b.drag, ...opts.drag };
+  world.bodies.push(b);
+  return b;
+}
+
+export function addBall(world, opts = {}) {
+  const b = baseBody(world, 'ball', opts);
+  const radius = opts.radius ?? 0.28;
+  b.halfHeight = radius;
+  b.halfLength = radius;
+  b.radius = radius;
+  b.I = opts.I ?? (2 / 5) * b.mass * radius * radius;
+  b.inertiaRatio = b.I / Math.max(1e-9, b.mass * radius * radius);
+  const body = new CANNON.Body({
+    mass: b.mass,
+    material: world.bodyMaterial,
+    shape: new CANNON.Sphere(radius),
+  });
+  body.position.copy(b.createPos);
+  body.linearDamping = 0;
+  body.angularDamping = 0;
+  body.angularFactor.set(0, 0, 1);
+  body.updateMassProperties();
+  body.inertia.z = b.I;
+  body.invInertia.z = b.I > 0 ? 1 / b.I : 0;
+  body.updateInertiaWorld(true);
+  world.engine.addBody(body);
+  b.cannon = body;
+  b.name = opts.name || b.name;
+  if (opts.drag) b.drag = { ...b.drag, ...opts.drag };
+  world.bodies.push(b);
+  return b;
+}
+
+export function addCylinder(world, opts = {}) {
+  const b = baseBody(world, 'cylinder', opts);
+  const radius = opts.radius ?? 0.3;
+  const length = opts.length ?? 0.7;
+  b.halfHeight = radius;
+  b.halfLength = radius;
+  b.radius = radius;
+  b.width = length;
+  b.I = opts.I ?? 0.5 * b.mass * radius * radius;
+  b.inertiaRatio = b.I / Math.max(1e-9, b.mass * radius * radius);
+  const body = new CANNON.Body({ mass: b.mass, material: world.bodyMaterial });
+  const shape = new CANNON.Cylinder(radius, radius, length, 20);
+  const axisToZ = new CANNON.Quaternion();
+  axisToZ.setFromEuler(Math.PI / 2, 0, 0);
+  body.addShape(shape, V(), axisToZ);
+  body.position.copy(b.createPos);
+  body.linearDamping = 0;
+  body.angularDamping = 0;
+  body.angularFactor.set(0, 0, 1);
+  body.updateMassProperties();
+  body.inertia.z = b.I;
+  body.invInertia.z = b.I > 0 ? 1 / b.I : 0;
+  body.updateInertiaWorld(true);
+  world.engine.addBody(body);
+  b.cannon = body;
+  b.name = opts.name || b.name;
+  if (opts.drag) b.drag = { ...b.drag, ...opts.drag };
   world.bodies.push(b);
   return b;
 }
 
 export function addBody(world, kind, opts = {}) {
-  return kind === 'cart' ? addCart(world, opts) : addBlock(world, opts);
+  if (kind === 'cart') return addCart(world, opts);
+  if (kind === 'ball') return addBall(world, opts);
+  if (kind === 'cylinder') return addCylinder(world, opts);
+  return addBlock(world, opts);
 }
 
 export function getBody(world, id) {
@@ -339,6 +439,14 @@ export function getTurntable(world, id) {
 }
 export function getHCircle(world, id) {
   return world.hcircles.find((c) => c.id === id) || null;
+}
+
+export function removeBody(world, body) {
+  if (!body) return;
+  world.engine.removeBody(body.cannon);
+  world.bodies = world.bodies.filter((b) => b !== body);
+  if (body.rope) body.rope = null;
+  if (body.fan) body.fan = null;
 }
 
 export function loopPoint(loop, theta) {
@@ -379,9 +487,9 @@ export function attachBodyToSurface(world, body, surfaceId, opts = {}) {
   };
   body.cannon.type = CANNON.Body.DYNAMIC;
   body.cannon.fixedRotation = body.kind === 'block';
-  body.cannon.angularFactor.set(0, 0, body.kind === 'cart' ? 1 : 0);
+  body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
   body.cannon.updateMassProperties();
-  if (body.kind === 'cart') {
+  if (isRollingBody(body)) {
     body.cannon.inertia.z = body.I;
     body.cannon.invInertia.z = body.I > 0 ? 1 / body.I : 0;
     body.cannon.updateInertiaWorld(true);
@@ -422,9 +530,14 @@ export function attachBodyToLoop(world, body, loopId, opts = {}) {
   }
   body.attachment = { type: 'loop', id: loop.id, theta };
   body.cannon.type = CANNON.Body.DYNAMIC;
-  body.cannon.fixedRotation = true;
-  body.cannon.angularFactor.set(0, 0, 0);
+  body.cannon.fixedRotation = !isRollingBody(body);
+  body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
   body.cannon.updateMassProperties();
+  if (isRollingBody(body)) {
+    body.cannon.inertia.z = body.I;
+    body.cannon.invInertia.z = body.I > 0 ? 1 / body.I : 0;
+    body.cannon.updateInertiaWorld(true);
+  }
   body.cannon.position.copy(loopPoint(loop, theta));
   body.cannon.quaternion.setFromEuler(0, 0, 0);
   applyInitialVelocity(world, body);
@@ -498,7 +611,7 @@ export function detachBody(world, body) {
   body.skid = null;
   body.cannon.type = CANNON.Body.DYNAMIC;
   body.cannon.fixedRotation = body.kind === 'block';
-  body.cannon.angularFactor.set(0, 0, body.kind === 'cart' ? 1 : 0);
+  body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
   body.cannon.updateMassProperties();
   body.cannon.wakeUp();
 }
@@ -526,7 +639,7 @@ export function applyInitialVelocity(world, body) {
     const vel = t.scale(vt);
     vel.vadd(b.scale(vb), vel);
     body.cannon.velocity.copy(vel);
-    if (body.kind === 'cart') {
+    if (isRollingBody(body)) {
       body.cannon.angularVelocity.copy(b.scale(-vt / body.radius));
     } else {
       body.cannon.angularVelocity.setZero();
@@ -539,7 +652,7 @@ export function applyInitialVelocity(world, body) {
     const speed = v0 * Math.cos(az);
     att.speed = speed;
     body.cannon.velocity.copy(loopTangent(att.theta).scale(speed));
-    if (body.kind === 'cart' && body.I > 0) {
+    if (isRollingBody(body) && body.I > 0) {
       body.cannon.angularVelocity.set(0, 0, -speed / body.radius);
     } else {
       body.cannon.angularVelocity.setZero();
@@ -568,6 +681,993 @@ export function applyInitialVelocity(world, body) {
     body.cannon.velocity.copy(tangent.scale(att.speed));
     body.cannon.angularVelocity.setZero();
     return;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Projectile launcher                                                */
+/* ------------------------------------------------------------------ */
+
+export function addLauncher(world, opts = {}) {
+  const {
+    x = 0,
+    y = 0,
+    z = 0,
+    angle = 45,
+    speed = 8,
+    height = 1.2,
+    azimuth = 0,
+    mass = 0.2,
+    radius = 0.09,
+    drag = 'none',
+    dragB = 0.4,
+    dragC = 0.06,
+  } = opts;
+  const launcher = {
+    id: assignId(world, 'launcher', opts.id),
+    type: 'launcher',
+    kind: 'launcher',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    angle,
+    speed,
+    height,
+    azimuth,
+    mass,
+    radius,
+    drag,
+    dragB,
+    dragC,
+    projectileId: null,
+    flight: null,
+    trail: [],
+    trailLast: -1,
+    target: { x: x, z: z },
+    showTarget: true,
+  };
+  world.launchers.push(launcher);
+  launcher.target = launcherPrediction(world, launcher);
+  return launcher;
+}
+
+export function launcherDirection(launcher) {
+  const el = (launcher.angle || 0) * DEG;
+  const az = (launcher.azimuth || 0) * DEG;
+  return V(Math.cos(el) * Math.cos(az), Math.sin(el), Math.cos(el) * Math.sin(az));
+}
+
+export function launcherMuzzle(launcher) {
+  const dir = launcherDirection(launcher);
+  return V(
+    launcher.x + dir.x * 0.52,
+    launcher.y + launcher.height + dir.y * 0.52,
+    launcher.z + dir.z * 0.52,
+  );
+}
+
+/** Level-landing estimate used only for the initial target marker. */
+export function launcherPrediction(world, launcher) {
+  const theta = (launcher.angle || 0) * DEG;
+  const az = (launcher.azimuth || 0) * DEG;
+  const v = Math.max(0, launcher.speed || 0);
+  const g = Math.max(1e-6, world.g);
+  const h = Math.max(0, launcher.y + launcher.height);
+  const vx = v * Math.cos(theta);
+  const vy = v * Math.sin(theta);
+  const t = (vy + Math.sqrt(Math.max(0, vy * vy + 2 * g * h))) / g;
+  const range = vx * t;
+  return {
+    x: launcher.x + Math.cos(az) * range,
+    z: launcher.z + Math.sin(az) * range,
+  };
+}
+
+export function getLauncher(world, id) {
+  return world.launchers.find((l) => l.id === id) || null;
+}
+
+export function clearLauncher(world, launcher) {
+  if (!launcher) return;
+  if (launcher.projectileId) {
+    const body = getBody(world, launcher.projectileId);
+    if (body) removeBody(world, body);
+  }
+  launcher.projectileId = null;
+  launcher.flight = null;
+  launcher.trail = [];
+  launcher.trailLast = -1;
+  launcher.target = launcherPrediction(world, launcher);
+}
+
+export function addProjectile(world, opts = {}) {
+  const {
+    x = 0,
+    y = 2,
+    z = 0,
+    vx = 0,
+    vy = 0,
+    vz = 0,
+    mass = 0.2,
+    radius = 0.09,
+    drag = 'none',
+    dragB = 0,
+    dragC = 0,
+    launcherId = null,
+  } = opts;
+  const body = addBall(world, {
+    mass: Math.max(0.01, mass),
+    radius: Math.max(0.02, radius),
+    x,
+    y,
+    z,
+  });
+  body.transient = true;
+  body.launcherId = launcherId;
+  body.drag = {
+    model: drag,
+    b: Math.max(0, dragB),
+    c: Math.max(0, dragC),
+  };
+  body.cannon.fixedRotation = true;
+  body.cannon.angularFactor.set(0, 0, 0);
+  body.cannon.updateMassProperties();
+  body.cannon.angularVelocity.setZero();
+  body.cannon.position.set(x, y, z);
+  body.cannon.velocity.set(vx, vy, vz);
+  body.cannon.aabbNeedsUpdate = true;
+  body.cannon.wakeUp();
+  return body;
+}
+
+export function fireLauncher(world, launcher) {
+  if (!launcher) return null;
+  clearLauncher(world, launcher);
+  const muzzle = launcherMuzzle(launcher);
+  const dir = launcherDirection(launcher);
+  const speed = Math.max(0, launcher.speed || 0);
+  const body = addProjectile(world, {
+    x: muzzle.x,
+    y: muzzle.y,
+    z: muzzle.z,
+    vx: dir.x * speed,
+    vy: dir.y * speed,
+    vz: dir.z * speed,
+    mass: launcher.mass,
+    radius: launcher.radius,
+    drag: launcher.drag,
+    dragB: launcher.dragB,
+    dragC: launcher.dragC,
+    launcherId: launcher.id,
+  });
+  launcher.projectileId = body.id;
+  launcher.flight = {
+    active: true,
+    time0: world.time,
+    x0: muzzle.x,
+    y0: muzzle.y,
+    z0: muzzle.z,
+    maxHeight: 0,
+    range: 0,
+    flightTime: 0,
+    landed: false,
+    targetX: launcher.target.x,
+    targetZ: launcher.target.z,
+  };
+  launcher.trail = [];
+  launcher.trailLast = -1;
+  world.events.push({ type: 'launch', launcherId: launcher.id, bodyId: body.id, time: world.time });
+  return body;
+}
+
+function updateLauncher(world, launcher) {
+  if (!launcher.projectileId) return;
+  const body = getBody(world, launcher.projectileId);
+  if (!body) {
+    launcher.projectileId = null;
+    launcher.flight = null;
+    return;
+  }
+  const flight = launcher.flight;
+  if (!flight || !flight.active) return;
+  const p = body.cannon.position;
+  const v = body.cannon.velocity;
+  const t = world.time - flight.time0;
+  flight.flightTime = Math.max(0, t);
+  flight.range = Math.hypot(p.x - flight.x0, p.z - flight.z0);
+  flight.maxHeight = Math.max(flight.maxHeight, Math.max(0, p.y - launcher.y));
+  if (world.time - launcher.trailLast >= 0.03 || launcher.trailLast < 0) {
+    launcher.trailLast = world.time;
+    launcher.trail.push([p.x, p.y, p.z]);
+    if (launcher.trail.length > 2500) launcher.trail.shift();
+  }
+  const groundY = launcher.y + body.radius;
+  const landed = p.y <= groundY + 0.045 && v.y <= 0.25 && t > 0.04;
+  if (landed || t > 25 || p.y < -8) {
+    flight.active = false;
+    flight.landed = true;
+    // Extrapolate the last fraction of a step to the exact ground height so
+    // the reported range is not biased by the detection skin.
+    let targetX = p.x;
+    let targetZ = p.z;
+    let targetT = flight.flightTime;
+    if (landed && v.y < -0.02 && p.y > groundY) {
+      const dt = (p.y - groundY) / -v.y;
+      targetX = p.x + v.x * dt;
+      targetZ = p.z + v.z * dt;
+      targetT = t + dt;
+      flight.range = Math.hypot(targetX - flight.x0, targetZ - flight.z0);
+      flight.flightTime = targetT;
+    }
+    flight.targetX = targetX;
+    flight.targetZ = targetZ;
+    launcher.target = { x: targetX, z: targetZ };
+    world.events.push({
+      type: 'landing',
+      launcherId: launcher.id,
+      bodyId: body.id,
+      time: world.time,
+      range: flight.range,
+      maxHeight: flight.maxHeight,
+      flightTime: flight.flightTime,
+    });
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Pulley and rope                                                    */
+/* ------------------------------------------------------------------ */
+
+export function addPulley(world, opts = {}) {
+  const {
+    x = 0,
+    y = 2.7,
+    z = 0,
+    radius = 0.34,
+    mass = 0.5,
+    I = null,
+    mode = 'atwood',
+    muS = 0.5,
+    muK = 0.35,
+  } = opts;
+  const pulley = {
+    id: assignId(world, 'pulley', opts.id),
+    type: 'pulley',
+    kind: 'pulley',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    radius: Math.max(0.12, radius),
+    mass: Math.max(0, mass),
+    I: I == null ? Math.max(0, mass) * 0.5 * Math.max(0.12, radius) ** 2 : Math.max(0, I),
+    mode,
+    muS,
+    muK,
+    aId: null,
+    bId: null,
+    tensionA: 0,
+    tensionB: 0,
+    slack: false,
+    angle: 0,
+    omega: 0,
+    length: 0,
+  };
+  world.pulleys.push(pulley);
+  return pulley;
+}
+
+export function getPulley(world, id) {
+  return world.pulleys.find((p) => p.id === id) || null;
+}
+
+export function attachBodyToPulley(world, body, pulleyId, side = 'a') {
+  const pulley = getPulley(world, pulleyId);
+  if (!pulley) return false;
+  if (side === 'a') pulley.aId = body.id;
+  else pulley.bId = body.id;
+  body.rope = { pulleyId: pulley.id, side };
+  // A rope endpoint is a free hanging body unless the student has already
+  // seated it on a surface (table mode keeps that surface attachment).
+  if (pulley.mode === 'atwood' && body.attachment?.type === 'surface') detachBody(world, body);
+  const dx = side === 'a' ? -pulley.radius : pulley.radius;
+  if (body.attachment?.type !== 'surface') {
+    body.cannon.position.set(pulley.x + dx, Math.min(body.cannon.position.y, pulley.y - 0.8), pulley.z);
+    body.cannon.quaternion.setFromEuler(0, 0, 0);
+    body.cannon.velocity.setZero();
+    body.cannon.angularVelocity.setZero();
+    body.cannon.aabbNeedsUpdate = true;
+  }
+  pulley.length = Math.hypot(body.cannon.position.x - pulley.x, body.cannon.position.y - pulley.y);
+  body.cannon.wakeUp();
+  return true;
+}
+
+function ropeDirection(world, pulley, body, side) {
+  if (pulley.mode === 'atwood') return V(0, 1, 0);
+  if (side === 'b') return V(0, 1, 0);
+  const p = body.cannon.position;
+  const d = V(pulley.x - p.x, pulley.y - p.y, pulley.z - p.z);
+  const len = d.length();
+  if (len < 1e-6) return V(1, 0, 0);
+  return d.scale(1 / len);
+}
+
+function holdHangingBody(world, pulley, body, side) {
+  if (!body || body.attachment?.type === 'surface') return;
+  const dx = side === 'a' ? -pulley.radius : pulley.radius;
+  body.cannon.position.x = pulley.x + dx;
+  body.cannon.position.z = pulley.z;
+  body.cannon.velocity.x = 0;
+  body.cannon.velocity.z = 0;
+  body.cannon.quaternion.setFromEuler(0, 0, 0);
+  body.cannon.angularVelocity.setZero();
+}
+
+function applyPulleyForces(world, pulley) {
+  const a = pulley.aId ? getBody(world, pulley.aId) : null;
+  const b = pulley.bId ? getBody(world, pulley.bId) : null;
+  if (a) { a._ropeT = 0; a._ropeU = null; }
+  if (b) { b._ropeT = 0; b._ropeU = null; }
+  pulley.tensionA = 0;
+  pulley.tensionB = 0;
+  pulley.slack = false;
+  if (!a || !b) return;
+  const grounded = (body) => !body.attachment
+    && body.cannon.position.y <= (body.halfHeight || 0.2) + 0.012
+    && Math.abs(body.cannon.velocity.y) < 0.6;
+  if (pulley.mode === 'atwood' && (grounded(a) || grounded(b))) {
+    pulley.slack = true;
+    return;
+  }
+  if (pulley.mode === 'atwood') {
+    holdHangingBody(world, pulley, a, 'a');
+    holdHangingBody(world, pulley, b, 'b');
+  } else {
+    holdHangingBody(world, pulley, b, 'b');
+  }
+  const uA = ropeDirection(world, pulley, a, 'a');
+  const uB = ropeDirection(world, pulley, b, 'b');
+  const extA = externalForceOn(world, a).vadd(V(0, -a.mass * world.g, 0));
+  const extB = externalForceOn(world, b).vadd(V(0, -b.mass * world.g, 0));
+  const FA = extA.dot(uA);
+  const FB = extB.dot(uB);
+  const R = Math.max(0.05, pulley.radius);
+  const eff = a.mass + b.mass + (pulley.I > 0 ? pulley.I / (R * R) : 0);
+  if (eff <= 1e-9) return;
+  const qdd = (FA - FB) / eff;
+  let TA = a.mass * qdd - FA;
+  let TB = -b.mass * qdd - FB;
+  if (TA < -1e-6 || TB < -1e-6) {
+    // A rope cannot push. Let the slack rope fall free.
+    pulley.slack = true;
+    return;
+  }
+  TA = Math.max(0, TA);
+  TB = Math.max(0, TB);
+  pulley.tensionA = TA;
+  pulley.tensionB = TB;
+  if (TA > 0) a.cannon.applyForce(uA.scale(TA));
+  if (TB > 0) b.cannon.applyForce(uB.scale(TB));
+  a._ropeU = uA;
+  b._ropeU = uB;
+  a._ropeT = TA;
+  b._ropeT = TB;
+}
+
+function projectPulley(world, pulley, h) {
+  const a = pulley.aId ? getBody(world, pulley.aId) : null;
+  const b = pulley.bId ? getBody(world, pulley.bId) : null;
+  if (!a || !b || pulley.slack) {
+    if (a) { a._ropeU = null; a._ropeT = 0; }
+    if (b) { b._ropeU = null; b._ropeT = 0; }
+    return;
+  }
+  const uA = ropeDirection(world, pulley, a, 'a');
+  const uB = ropeDirection(world, pulley, b, 'b');
+  const C = a.cannon.velocity.dot(uA) + b.cannon.velocity.dot(uB);
+  const inv = 1 / Math.max(1e-9, a.mass) + 1 / Math.max(1e-9, b.mass);
+  const j = -C / inv;
+  a.cannon.velocity.vadd(uA.scale(j / a.mass), a.cannon.velocity);
+  b.cannon.velocity.vadd(uB.scale(j / b.mass), b.cannon.velocity);
+  if (pulley.mode === 'atwood') {
+    holdHangingBody(world, pulley, a, 'a');
+    holdHangingBody(world, pulley, b, 'b');
+  } else {
+    holdHangingBody(world, pulley, b, 'b');
+  }
+  const va = a.cannon.velocity.dot(uA);
+  const vb = b.cannon.velocity.dot(uB);
+  const omega = (va - vb) / (2 * pulley.radius);
+  pulley.omega = omega;
+  pulley.angle += omega * h;
+}
+
+export function setPulleyMass(world, pulley, mass) {
+  const m = Math.max(0, mass);
+  const ratio = pulley.mass > 0 ? pulley.I / pulley.mass : 0.5 * pulley.radius * pulley.radius;
+  pulley.mass = m;
+  if (pulley.I > 0) pulley.I = Math.max(0, ratio * m);
+}
+
+export function setPulleyRadius(world, pulley, radius) {
+  const r = Math.max(0.1, Math.min(1.2, radius));
+  const ratio = pulley.I / Math.max(1e-9, pulley.mass * pulley.radius * pulley.radius);
+  pulley.radius = r;
+  if (pulley.I > 0) pulley.I = ratio * pulley.mass * r * r;
+}
+
+/* ------------------------------------------------------------------ */
+/* Barriers: wall and bumper                                          */
+/* ------------------------------------------------------------------ */
+
+export function addBarrier(world, opts = {}) {
+  const {
+    kind = 'wall',
+    x = 0,
+    y = 0,
+    z = 0,
+    width = 2.4,
+    height = 1.2,
+    thickness = 0.16,
+    radius = 0.35,
+    angleDeg = 0,
+    restitution = 0.6,
+  } = opts;
+  const material = new CANNON.Material(`lab-barrier-${world.nextId}`);
+  let body;
+  if (kind === 'bumper') {
+    body = new CANNON.Body({
+      mass: 0,
+      material,
+      shape: new CANNON.Cylinder(radius, radius, height, 20),
+    });
+    body.position.set(x, y + height / 2, z);
+  } else {
+    body = new CANNON.Body({
+      mass: 0,
+      material,
+      shape: new CANNON.Box(V(thickness / 2, height / 2, width / 2)),
+    });
+    body.position.set(x, y + height / 2, z);
+  }
+  body.quaternion.setFromEuler(0, angleDeg * DEG, 0);
+  body.aabbNeedsUpdate = true;
+  world.engine.addBody(body);
+  const barrier = {
+    id: assignId(world, kind === 'bumper' ? 'bumper' : 'wall', opts.id),
+    type: 'barrier',
+    kind,
+    name: opts.name || '',
+    body,
+    x,
+    y,
+    z,
+    width,
+    height,
+    thickness,
+    radius,
+    angle: angleDeg,
+    e: Math.max(0, Math.min(1, restitution)),
+    material,
+    contactMaterial: null,
+    lastImpact: null,
+    lastImpactAt: -1,
+  };
+  barrier.contactMaterial = new CANNON.ContactMaterial(world.bodyMaterial, material, {
+    friction: 0,
+    restitution: barrier.e,
+    contactEquationStiffness: 1e8,
+    contactEquationRelaxation: 200,
+  });
+  world.engine.addContactMaterial(barrier.contactMaterial);
+  body.addEventListener('collide', (event) => {
+    const other = event.body;
+    if (!other || !other.mass) return;
+    const dynamic = world.bodies.find((b) => b.cannon === other);
+    if (!dynamic) return;
+    world.pendingImpacts.push({
+      barrierId: barrier.id,
+      bodyId: dynamic.id,
+      time: world.time,
+      preV: cloneV(dynamic._preStepV || other.velocity),
+    });
+  });
+  world.barriers.push(barrier);
+  return barrier;
+}
+
+export function getBarrier(world, id) {
+  return world.barriers.find((b) => b.id === id) || null;
+}
+
+export function setBarrierRestitution(world, barrier, e) {
+  barrier.e = Math.max(0, Math.min(1, e));
+  if (barrier.contactMaterial) barrier.contactMaterial.restitution = barrier.e;
+}
+
+export function setBarrierSize(world, barrier, opts = {}) {
+  if (Number.isFinite(opts.width)) barrier.width = Math.max(0.2, opts.width);
+  if (Number.isFinite(opts.height)) barrier.height = Math.max(0.2, opts.height);
+  if (Number.isFinite(opts.thickness)) barrier.thickness = Math.max(0.04, opts.thickness);
+  if (Number.isFinite(opts.radius)) barrier.radius = Math.max(0.1, opts.radius);
+  barrier.body.shapes.length = 0;
+  barrier.body.shapeOffsets.length = 0;
+  barrier.body.shapeOrientations.length = 0;
+  if (barrier.kind === 'bumper') {
+    barrier.body.addShape(new CANNON.Cylinder(barrier.radius, barrier.radius, barrier.height, 20));
+  } else {
+    barrier.body.addShape(new CANNON.Box(V(barrier.thickness / 2, barrier.height / 2, barrier.width / 2)));
+  }
+  barrier.body.position.y = barrier.y + barrier.height / 2;
+  barrier.body.updateBoundingRadius();
+  barrier.body.aabbNeedsUpdate = true;
+  barrier.body.wakeUp();
+}
+
+export function setBodyCollisionRestitution(world, e) {
+  const value = Math.max(0, Math.min(1, e));
+  world.engine.defaultContactMaterial.restitution = value;
+  if (world.bodyContact) world.bodyContact.restitution = value;
+}
+
+function barrierNormal(barrier, body) {
+  if (barrier.kind === 'bumper') {
+    const p = body.cannon.position;
+    const dx = p.x - barrier.x;
+    const dz = p.z - barrier.z;
+    const len = Math.hypot(dx, dz) || 1;
+    return V(dx / len, 0, dz / len);
+  }
+  const n = V(1, 0, 0);
+  return barrier.body.quaternion.vmult(n);
+}
+
+function processImpacts(world) {
+  if (!world.pendingImpacts.length) return;
+  const pending = world.pendingImpacts;
+  world.pendingImpacts = [];
+  for (const hit of pending) {
+    const barrier = getBarrier(world, hit.barrierId);
+    const body = getBody(world, hit.bodyId);
+    if (!barrier || !body) continue;
+    if (world.time - barrier.lastImpactAt < 0.06) continue;
+    const n = barrierNormal(barrier, body);
+    const vIn = hit.preV;
+    const vOut = body.cannon.velocity;
+    const vnIn = vIn.dot(n);
+    const vnOut = vOut.dot(n);
+    if (Math.abs(vnIn) < 0.15) continue;
+    const pIn = vIn.scale(body.mass);
+    const pOut = vOut.scale(body.mass);
+    const keIn = 0.5 * body.mass * vIn.lengthSquared();
+    const keOut = 0.5 * body.mass * vOut.lengthSquared();
+    barrier.lastImpact = {
+      bodyId: body.id,
+      time: world.time,
+      vIn: [vIn.x, vIn.y, vIn.z],
+      vOut: [vOut.x, vOut.y, vOut.z],
+      pIn: [pIn.x, pIn.y, pIn.z],
+      pOut: [pOut.x, pOut.y, pOut.z],
+      pInMag: pIn.length(),
+      pOutMag: pOut.length(),
+      keIn,
+      keOut,
+      measuredE: Math.abs(vnIn) > 1e-6 ? Math.max(0, -vnOut / vnIn) : 0,
+    };
+    barrier.lastImpactAt = world.time;
+    world.events.push({ type: 'impact', barrierId: barrier.id, bodyId: body.id, time: world.time });
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Pendulum                                                           */
+/* ------------------------------------------------------------------ */
+
+export function addPendulum(world, opts = {}) {
+  const {
+    x = 0,
+    y = 3.2,
+    z = 0,
+    length = 1.6,
+    mass = 1,
+    amplitude = 20,
+    radius = 0.16,
+    conical = false,
+  } = opts;
+  const pendulum = {
+    id: assignId(world, 'pendulum', opts.id),
+    type: 'pendulum',
+    kind: 'pendulum',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    length: Math.max(0.2, length),
+    mass: Math.max(0.01, mass),
+    amplitude: Math.max(0.1, Math.min(89, amplitude)),
+    radius: Math.max(0.04, radius),
+    conical,
+    theta: Math.max(0.1, Math.min(89, amplitude)) * DEG,
+    omega: 0,
+    phi: 0,
+    phiDot: 0,
+    measuredPeriod: 0,
+    lastCross: null,
+    tension: 0,
+  };
+  world.pendulums.push(pendulum);
+  return pendulum;
+}
+
+export function getPendulum(world, id) {
+  return world.pendulums.find((p) => p.id === id) || null;
+}
+
+export function pendulumBob(pendulum) {
+  if (pendulum.conical) {
+    const a = pendulum.amplitude * DEG;
+    return V(
+      pendulum.x + pendulum.length * Math.sin(a) * Math.cos(pendulum.phi),
+      pendulum.y - pendulum.length * Math.cos(a),
+      pendulum.z + pendulum.length * Math.sin(a) * Math.sin(pendulum.phi),
+    );
+  }
+  const theta = pendulum.theta;
+  return V(
+    pendulum.x + pendulum.length * Math.sin(theta),
+    pendulum.y - pendulum.length * Math.cos(theta),
+    pendulum.z,
+  );
+}
+
+export function pendulumPeriod(pendulum, g = 9.8) {
+  return 2 * Math.PI * Math.sqrt(pendulum.length / Math.max(1e-9, g));
+}
+
+function stepPendulum(world, pendulum, h) {
+  if (pendulum.conical) {
+    const a = pendulum.amplitude * DEG;
+    const c = Math.cos(a);
+    pendulum.theta = a;
+    pendulum.omega = 0;
+    pendulum.phiDot = Math.sqrt(world.g / Math.max(1e-6, pendulum.length * Math.max(0.02, c)));
+    pendulum.phi += pendulum.phiDot * h;
+    pendulum.tension = (pendulum.mass * world.g) / Math.max(0.02, c);
+    return;
+  }
+  const L = Math.max(0.05, pendulum.length);
+  const a1 = -(world.g / L) * Math.sin(pendulum.theta);
+  const theta2 = pendulum.theta + pendulum.omega * h + 0.5 * a1 * h * h;
+  const a2 = -(world.g / L) * Math.sin(theta2);
+  const omega2 = pendulum.omega + 0.5 * (a1 + a2) * h;
+  const prev = pendulum.theta;
+  pendulum.theta = theta2;
+  pendulum.omega = omega2;
+  pendulum.tension = pendulum.mass * (world.g * Math.cos(theta2) + L * omega2 * omega2);
+  if (prev <= 0 && theta2 > 0) {
+    if (pendulum.lastCross != null) {
+      pendulum.measuredPeriod = world.time + h - pendulum.lastCross;
+    }
+    pendulum.lastCross = world.time + h;
+  }
+}
+
+export function resetPendulum(pendulum) {
+  pendulum.theta = pendulum.amplitude * DEG;
+  pendulum.omega = 0;
+  pendulum.phi = 0;
+  pendulum.phiDot = 0;
+  pendulum.measuredPeriod = 0;
+  pendulum.lastCross = null;
+}
+
+/* ------------------------------------------------------------------ */
+/* Movable wedge                                                      */
+/* ------------------------------------------------------------------ */
+
+function wedgeGeometry({ length, angle, width }) {
+  const L = Math.max(0.6, length);
+  const W = Math.max(0.4, width);
+  const H = Math.max(0.05, L * Math.tan(Math.max(1, Math.min(60, angle)) * DEG));
+  const cx = L / 6;
+  const cy = H / 3;
+  const v = [
+    [-L / 2 - cx, -cy, -W / 2], [L / 2 - cx, -cy, -W / 2], [L / 2 - cx, H - cy, -W / 2],
+    [-L / 2 - cx, -cy, W / 2], [L / 2 - cx, -cy, W / 2], [L / 2 - cx, H - cy, W / 2],
+  ].map(([x, y, z]) => V(x, y, z));
+  const faces = [
+    [0, 2, 1],
+    [3, 4, 5],
+    [0, 1, 4, 3],
+    [1, 2, 5, 4],
+    [0, 3, 5, 2],
+  ];
+  return { L, W, H, cx, cy, vertices: v, faces };
+}
+
+export function addWedge(world, opts = {}) {
+  const {
+    x = 0,
+    baseY = 0,
+    z = 0,
+    angle = 25,
+    length = 3,
+    width = 1.6,
+    mass = 4,
+    muFloor = 0,
+    blockMu = 0,
+    restitution = 0,
+  } = opts;
+  const geo = wedgeGeometry({ length, angle, width });
+  const shape = new CANNON.ConvexPolyhedron({
+    vertices: geo.vertices,
+    faces: geo.faces,
+  });
+  const body = new CANNON.Body({
+    mass: Math.max(0.05, mass),
+    material: world.bodyMaterial,
+    shape,
+  });
+  body.position.set(x, baseY + geo.cy, z);
+  body.linearDamping = 0;
+  body.angularDamping = 0;
+  body.angularFactor.set(0, 0, 0);
+  body.fixedRotation = true;
+  body.updateMassProperties();
+  body.aabbNeedsUpdate = true;
+  world.engine.addBody(body);
+  const material = new CANNON.Material(`lab-wedge-${world.nextId}`);
+  body.material = material;
+  const wedge = {
+    id: assignId(world, 'wedge', opts.id),
+    type: 'wedge',
+    kind: 'wedge',
+    name: opts.name || '',
+    body,
+    x,
+    baseY,
+    z,
+    angle,
+    length: geo.L,
+    width: geo.W,
+    height: geo.H,
+    centroidY: geo.cy,
+    mass: Math.max(0.05, mass),
+    muFloor,
+    blockMu,
+    restitution,
+    floorMaterial: null,
+    blockMaterial: null,
+  };
+  wedge.floorMaterial = new CANNON.ContactMaterial(world.groundMaterial, material, {
+    friction: Math.max(0, muFloor),
+    restitution,
+  });
+  wedge.blockMaterial = new CANNON.ContactMaterial(world.bodyMaterial, material, {
+    friction: Math.max(0, blockMu),
+    restitution,
+  });
+  world.engine.addContactMaterial(wedge.floorMaterial);
+  world.engine.addContactMaterial(wedge.blockMaterial);
+  world.wedges.push(wedge);
+  return wedge;
+}
+
+export function getWedge(world, id) {
+  return world.wedges.find((w) => w.id === id) || null;
+}
+
+export function setWedgeFloorFriction(world, wedge, mu) {
+  wedge.muFloor = Math.max(0, mu);
+  if (wedge.floorMaterial) wedge.floorMaterial.friction = wedge.muFloor;
+}
+
+export function setWedgeBlockFriction(world, wedge, mu) {
+  wedge.blockMu = Math.max(0, mu);
+  if (wedge.blockMaterial) wedge.blockMaterial.friction = wedge.blockMu;
+}
+
+export function setWedgeMass(world, wedge, mass) {
+  wedge.mass = Math.max(0.05, mass);
+  wedge.body.mass = wedge.mass;
+  wedge.body.updateMassProperties();
+  wedge.body.wakeUp();
+}
+
+export function rebuildWedge(world, wedge, { angle, length, width } = {}) {
+  const nextAngle = angle ?? wedge.angle;
+  const nextLength = length ?? wedge.length;
+  const nextWidth = width ?? wedge.width;
+  const geo = wedgeGeometry({ length: nextLength, angle: nextAngle, width: nextWidth });
+  const shape = new CANNON.ConvexPolyhedron({ vertices: geo.vertices, faces: geo.faces });
+  wedge.body.shapes.length = 0;
+  wedge.body.shapeOffsets.length = 0;
+  wedge.body.shapeOrientations.length = 0;
+  wedge.body.addShape(shape);
+  const bottom = wedge.body.position.y - wedge.centroidY;
+  wedge.angle = nextAngle;
+  wedge.length = geo.L;
+  wedge.width = geo.W;
+  wedge.height = geo.H;
+  wedge.centroidY = geo.cy;
+  wedge.body.position.y = bottom + geo.cy;
+  wedge.body.updateMassProperties();
+  wedge.body.updateBoundingRadius();
+  wedge.body.aabbNeedsUpdate = true;
+  wedge.body.wakeUp();
+}
+
+/* ------------------------------------------------------------------ */
+/* Photogate and motion sensor                                        */
+/* ------------------------------------------------------------------ */
+
+export function addSensor(world, opts = {}) {
+  const {
+    kind = 'photogate',
+    x = 0,
+    y = 0,
+    z = 0,
+    width = 1.8,
+    height = 1.2,
+    range = 8,
+    face = 1,
+  } = opts;
+  const sensor = {
+    id: assignId(world, kind === 'motion' ? 'motion' : 'gate', opts.id),
+    type: 'sensor',
+    kind,
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    width,
+    height,
+    range,
+    face,
+    lastSide: new Map(),
+    crossings: [],
+    samples: [],
+    lastCrossing: null,
+    lastDistance: null,
+    lastSpeed: null,
+    flashUntil: -1,
+    sampleAt: -1,
+  };
+  world.sensors.push(sensor);
+  return sensor;
+}
+
+export function getSensor(world, id) {
+  return world.sensors.find((s) => s.id === id) || null;
+}
+
+function updateSensor(world, sensor) {
+  if (sensor.kind === 'photogate') {
+    for (const body of world.bodies) {
+      if (body.transient && !body.launcherId) continue;
+      const p = body.cannon.position;
+      const side = Math.sign(p.x - sensor.x) || 1;
+      const prev = sensor.lastSide.get(body.id);
+      sensor.lastSide.set(body.id, side);
+      if (prev == null || prev === side) continue;
+      if (Math.abs(p.z - sensor.z) > sensor.width / 2 + (body.radius || 0.2)) continue;
+      if (p.y < sensor.y - 0.3 || p.y > sensor.y + sensor.height) continue;
+      const v = Math.abs(body.cannon.velocity.x);
+      const crossing = {
+        t: world.time,
+        bodyId: body.id,
+        x: p.x,
+        v,
+        direction: side,
+      };
+      sensor.crossings.push(crossing);
+      if (sensor.crossings.length > 80) sensor.crossings.shift();
+      sensor.lastCrossing = crossing;
+      sensor.flashUntil = world.time + 0.18;
+      sensor.samples.push({ t: world.time, x: p.x - sensor.x, v, a: 0 });
+      if (sensor.samples.length > 1200) sensor.samples.shift();
+    }
+    return;
+  }
+  // Motion sensor: nearest body in front of the sensor.
+  let best = null;
+  let bestD = sensor.range;
+  for (const body of world.bodies) {
+    const p = body.cannon.position;
+    if (Math.abs(p.z - sensor.z) > 2.4) continue;
+    if (p.y < sensor.y - 1 || p.y > sensor.y + 2.2) continue;
+    const d = (p.x - sensor.x) * sensor.face;
+    if (d <= 0.05 || d >= bestD) continue;
+    bestD = d;
+    best = body;
+  }
+  if (best) {
+    const v = best.cannon.velocity.x * sensor.face;
+    sensor.lastDistance = bestD;
+    sensor.lastSpeed = v;
+  } else {
+    sensor.lastDistance = null;
+    sensor.lastSpeed = null;
+  }
+  if (world.time - sensor.sampleAt >= 0.04) {
+    sensor.sampleAt = world.time;
+    if (best) {
+      sensor.samples.push({ t: world.time, x: bestD, v: sensor.lastSpeed, a: 0 });
+      if (sensor.samples.length > 1200) sensor.samples.shift();
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Fan attachment                                                     */
+/* ------------------------------------------------------------------ */
+
+export function addFan(world, opts = {}) {
+  const { bodyId = null, thrust = 3, on = true, azimuth = 0, elevation = 0 } = opts;
+  const fan = {
+    id: assignId(world, 'fan', opts.id),
+    type: 'fan',
+    kind: 'fan',
+    name: opts.name || '',
+    bodyId,
+    thrust: Math.max(0, thrust),
+    on: !!on,
+    azimuth,
+    elevation,
+    spin: 0,
+  };
+  world.fans.push(fan);
+  const body = bodyId ? getBody(world, bodyId) : null;
+  if (body) body.fan = fan;
+  return fan;
+}
+
+export function getFan(world, id) {
+  return world.fans.find((f) => f.id === id) || null;
+}
+
+export function fanForce(fan) {
+  if (!fan || !fan.on || fan.thrust <= 0) return V();
+  const az = (fan.azimuth || 0) * DEG;
+  const el = (fan.elevation || 0) * DEG;
+  return V(
+    fan.thrust * Math.cos(el) * Math.cos(az),
+    fan.thrust * Math.sin(el),
+    fan.thrust * Math.cos(el) * Math.sin(az),
+  );
+}
+
+export function setFanBody(world, fan, bodyId) {
+  const prev = fan.bodyId ? getBody(world, fan.bodyId) : null;
+  if (prev && prev.fan === fan) prev.fan = null;
+  fan.bodyId = bodyId;
+  const body = bodyId ? getBody(world, bodyId) : null;
+  if (body) body.fan = fan;
+}
+
+/* ------------------------------------------------------------------ */
+/* Drag forces                                                        */
+/* ------------------------------------------------------------------ */
+
+export function dragForce(body) {
+  const drag = body?.drag;
+  if (!drag || drag.model === 'none') return V();
+  const v = body.cannon.velocity;
+  const speed = v.length();
+  if (speed < 1e-9) return V();
+  if (drag.model === 'linear') return v.scale(-Math.max(0, drag.b || 0));
+  if (drag.model === 'quadratic') {
+    return v.scale(-Math.max(0, drag.c || 0) * speed);
+  }
+  return V();
+}
+
+function applyDragForces(world) {
+  for (const body of world.bodies) {
+    const f = dragForce(body);
+    if (f.lengthSquared() > 0) body.cannon.applyForce(f);
   }
 }
 
@@ -638,6 +1738,7 @@ export function nearestAttachment(world, point, { maxDistance = 3.5 } = {}) {
 }
 
 export function snapBodyToNearest(world, body, opts = {}) {
+  if (body.rope) return null;
   const nearest = nearestAttachment(world, body.cannon.position, opts);
   if (!nearest) return null;
   if (nearest.type === 'surface') {
@@ -655,7 +1756,7 @@ export function snapBodyToNearest(world, body, opts = {}) {
 export function snapNearbyBodies(world, maxDistance = 3.5) {
   const snapped = [];
   for (const body of world.bodies) {
-    if (body.attachment) continue;
+    if (body.attachment || body.rope || body.transient) continue;
     const hit = snapBodyToNearest(world, body, { maxDistance });
     if (hit) snapped.push({ body, type: hit });
   }
@@ -754,6 +1855,13 @@ function applyAppliedForces(world) {
     const f = appliedForce(body);
     if (f.lengthSquared() > 0) body.cannon.applyForce(f);
   }
+  for (const fan of world.fans) {
+    if (!fan.bodyId) continue;
+    const body = getBody(world, fan.bodyId);
+    if (!body) continue;
+    const f = fanForce(fan);
+    if (f.lengthSquared() > 0) body.cannon.applyForce(f);
+  }
 }
 
 export function externalForceOn(world, body) {
@@ -768,6 +1876,8 @@ export function externalForceOn(world, body) {
     total.vadd(f, total);
   }
   total.vadd(appliedForce(body), total);
+  if (body.fan) total.vadd(fanForce(body.fan), total);
+  if (body._ropeT > 0 && body._ropeU) total.vadd(body._ropeU.scale(body._ropeT), total);
   return total;
 }
 
@@ -962,7 +2072,7 @@ function postSurface(world, body, h) {
   // Put the wheels back on the rolling constraint before asking for the new
   // acceleration; otherwise the stale wheel speed would look like slip and
   // kinetic friction would be applied for one step.
-  if (body.kind === 'cart' && body._surfaceRolling) {
+  if (isRollingBody(body) && body._surfaceRolling) {
     const vtNow = body.cannon.velocity.dot(t);
     const { b } = surfaceFrame(surface);
     body.cannon.angularVelocity.copy(b.scale(-vtNow / body.radius));
@@ -973,7 +2083,7 @@ function postSurface(world, body, h) {
     const vt = body.cannon.velocity.dot(t);
     const vtNext = v0.dot(t) + 0.5 * (a0 + (d.accel || 0)) * h;
     body.cannon.velocity.vadd(t.scale(vtNext - vt), body.cannon.velocity);
-    if (body.kind === 'cart' && (body._surfaceRolling || body.I === 0)) {
+    if (isRollingBody(body) && (body._surfaceRolling || body.I === 0)) {
       const { b } = surfaceFrame(surface);
       body.cannon.angularVelocity.copy(b.scale(-vtNext / body.radius));
     }
@@ -990,7 +2100,7 @@ function preLoop(world, body) {
   }
   body.cannon.position.copy(loopPoint(loop, att.theta));
   body.cannon.velocity.copy(loopTangent(att.theta).scale(att.speed));
-  if (body.kind === 'cart' && body.I > 0) {
+  if (isRollingBody(body) && body.I > 0) {
     body.cannon.angularVelocity.set(0, 0, -att.speed / body.radius);
   } else {
     body.cannon.angularVelocity.setZero();
@@ -1003,7 +2113,7 @@ function postLoop(world, body, h) {
   const att = body.attachment;
   const R = loop.radius;
   const m = body.mass;
-  const massEff = m + (body.kind === 'cart' ? body.I / (body.radius * body.radius) : 0);
+  const massEff = m + (isRollingBody(body) ? body.I / (body.radius * body.radius) : 0);
   const accelAt = (theta) => {
     body.cannon.position.copy(loopPoint(loop, theta));
     const ext = externalForceOn(world, body);
@@ -1026,7 +2136,7 @@ function postLoop(world, body, h) {
   att.speed = omega2 * R;
   body.cannon.position.copy(loopPoint(loop, theta));
   body.cannon.velocity.copy(loopTangent(theta).scale(att.speed));
-  if (body.kind === 'cart' && body.I > 0) {
+  if (isRollingBody(body) && body.I > 0) {
     body.cannon.angularVelocity.set(0, 0, -att.speed / body.radius);
   } else {
     body.cannon.angularVelocity.setZero();
@@ -1427,6 +2537,9 @@ export function substep(world, h) {
   for (const table of world.turntables) updateTurntable(world, table, h);
   applySpringForces(world);
   applyAppliedForces(world);
+  applyDragForces(world);
+  for (const pulley of world.pulleys) applyPulleyForces(world, pulley);
+  for (const pendulum of world.pendulums) stepPendulum(world, pendulum, h);
 
   for (const body of world.bodies) {
     if (body.skid) applySkidFriction(world, body, h);
@@ -1440,10 +2553,12 @@ export function substep(world, h) {
     }
   }
 
-  // Work done by the externally applied force (explicit bookkeeping).
+  // Work done by externally applied forces (explicit bookkeeping).
   for (const body of world.bodies) {
-    const f = appliedForce(body);
+    let f = appliedForce(body);
+    if (body.fan) f = f.vadd(fanForce(body.fan));
     if (f.lengthSquared() > 0) world.appliedWork += f.dot(body.cannon.velocity) * h;
+    body._preStepV = cloneV(body.cannon.velocity);
   }
 
   world.engine.step(h);
@@ -1459,6 +2574,11 @@ export function substep(world, h) {
       if (table) postTurntable(world, body, table);
     }
   }
+  for (const pulley of world.pulleys) projectPulley(world, pulley, h);
+  for (const launcher of world.launchers) updateLauncher(world, launcher);
+  processImpacts(world);
+  for (const sensor of world.sensors) updateSensor(world, sensor);
+  for (const fan of world.fans) fan.spin += h * (fan.on ? 18 : 0);
   world.time += h;
 }
 
@@ -1571,14 +2691,14 @@ export function bodyDiagnostics(world, body) {
       const vt = v.dot(tangent);
       const ext = externalForceOn(world, body);
       const inward = loopInward(theta);
-      const massEff = body.mass + (body.kind === 'cart' ? body.I / (body.radius * body.radius) : 0);
+      const massEff = body.mass + (isRollingBody(body) ? body.I / (body.radius * body.radius) : 0);
       d.normal = (body.mass * vt * vt) / loop.radius + body.mass * world.g * Math.cos(theta) - ext.dot(inward);
       d.speed = Math.abs(vt);
       d.mode = 'loop';
       d.contact = 'loop';
       d.friction = 0;
       d.static = false;
-      d.rolling = body.kind === 'cart' && body.I > 0;
+      d.rolling = isRollingBody(body) && body.I > 0;
       d.accel = (-body.mass * world.g * Math.sin(theta) + ext.dot(tangent)) / massEff;
     }
   } else if (body.attachment?.type === 'hcircle') {
@@ -1654,7 +2774,7 @@ export function energyBreakdown(world) {
   for (const body of world.bodies) {
     const v = body.cannon.velocity.length();
     translational += 0.5 * body.mass * v * v;
-    if (body.kind === 'cart') {
+    if (isRollingBody(body)) {
       const w = body.cannon.angularVelocity.z;
       rotational += 0.5 * body.I * w * w;
     }
@@ -1662,6 +2782,19 @@ export function energyBreakdown(world) {
   }
   for (const table of world.turntables) {
     rotational += 0.5 * table.I * table.omega * table.omega;
+  }
+  for (const wedge of world.wedges) {
+    const v = wedge.body.velocity.length();
+    translational += 0.5 * wedge.mass * v * v;
+    gravitational += wedge.mass * world.g * wedge.body.position.y;
+  }
+  for (const pendulum of world.pendulums) {
+    const bob = pendulumBob(pendulum);
+    const speed = pendulum.conical
+      ? pendulum.length * Math.abs(pendulum.phiDot) * Math.sin(pendulum.amplitude * DEG)
+      : pendulum.length * Math.abs(pendulum.omega);
+    translational += 0.5 * pendulum.mass * speed * speed;
+    gravitational += pendulum.mass * world.g * bob.y;
   }
   for (const link of world.links) {
     const g = linkGeometry(world, link);
@@ -1683,7 +2816,7 @@ export function energyBreakdown(world) {
 
 export function captureInitial(world) {
   world.initial = {
-    bodyStates: world.bodies.map((body) => ({
+    bodyStates: world.bodies.filter((body) => !body.transient).map((body) => ({
       id: body.id,
       position: [body.cannon.position.x, body.cannon.position.y, body.cannon.position.z],
       quaternion: [body.cannon.quaternion.x, body.cannon.quaternion.y, body.cannon.quaternion.z, body.cannon.quaternion.w],
@@ -1696,12 +2829,57 @@ export function captureInitial(world) {
       omega: table.omega,
       angle: table.angle,
     })),
+    wedges: world.wedges.map((wedge) => ({
+      id: wedge.id,
+      position: [wedge.body.position.x, wedge.body.position.y, wedge.body.position.z],
+      quaternion: [wedge.body.quaternion.x, wedge.body.quaternion.y, wedge.body.quaternion.z, wedge.body.quaternion.w],
+      velocity: [wedge.body.velocity.x, wedge.body.velocity.y, wedge.body.velocity.z],
+      angularVelocity: [wedge.body.angularVelocity.x, wedge.body.angularVelocity.y, wedge.body.angularVelocity.z],
+    })),
   };
 }
 
 export function resetWorld(world) {
   const init = world.initial;
   if (!init) return;
+  for (const body of [...world.bodies]) {
+    if (body.transient) removeBody(world, body);
+  }
+  for (const launcher of world.launchers) {
+    launcher.projectileId = null;
+    launcher.flight = null;
+    launcher.trail = [];
+    launcher.trailLast = -1;
+    launcher.target = launcherPrediction(world, launcher);
+  }
+  for (const pendulum of world.pendulums) resetPendulum(pendulum);
+  for (const pulley of world.pulleys) {
+    pulley.tensionA = 0;
+    pulley.tensionB = 0;
+    pulley.angle = 0;
+    pulley.omega = 0;
+    pulley.slack = false;
+  }
+  for (const sensor of world.sensors) {
+    sensor.lastSide.clear();
+    sensor.crossings = [];
+    sensor.samples = [];
+    sensor.lastCrossing = null;
+    sensor.lastDistance = null;
+    sensor.lastSpeed = null;
+    sensor.sampleAt = -1;
+  }
+  const wedgeState = new Map((init.wedges || []).map((w) => [w.id, w]));
+  for (const wedge of world.wedges) {
+    const saved = wedgeState.get(wedge.id);
+    if (!saved) continue;
+    wedge.body.position.set(...saved.position);
+    wedge.body.quaternion.set(...saved.quaternion);
+    wedge.body.velocity.set(...saved.velocity);
+    wedge.body.angularVelocity.set(...saved.angularVelocity);
+    wedge.body.aabbNeedsUpdate = true;
+    wedge.body.wakeUp();
+  }
   const tableState = new Map(init.turntables.map((t) => [t.id, t]));
   for (const table of world.turntables) {
     const saved = tableState.get(table.id);
@@ -1763,13 +2941,23 @@ export function clearWorld(world) {
   for (const body of world.bodies) world.engine.removeBody(body.cannon);
   for (const surface of world.surfaces) world.engine.removeBody(surface.body);
   for (const table of world.turntables) world.engine.removeBody(table.body);
+  for (const barrier of world.barriers) world.engine.removeBody(barrier.body);
+  for (const wedge of world.wedges) world.engine.removeBody(wedge.body);
   world.bodies = [];
   world.surfaces = [];
   world.loops = [];
   world.turntables = [];
   world.hcircles = [];
+  world.launchers = [];
+  world.pulleys = [];
+  world.barriers = [];
+  world.pendulums = [];
+  world.wedges = [];
+  world.sensors = [];
+  world.fans = [];
   world.links = [];
   world.events = [];
+  world.pendingImpacts = [];
   world.thermal = 0;
   world.appliedWork = 0;
   world.driveWork = 0;
@@ -1793,7 +2981,7 @@ export function setBodyMass(world, body, mass) {
   body.mass = Math.max(0.01, mass);
   body.cannon.mass = body.mass;
   body.cannon.updateMassProperties();
-  if (body.kind === 'cart') {
+  if (isRollingBody(body)) {
     body.cannon.inertia.z = body.I;
     body.cannon.invInertia.z = body.I > 0 ? 1 / body.I : 0;
     body.cannon.updateInertiaWorld(true);
@@ -1803,6 +2991,7 @@ export function setBodyMass(world, body, mass) {
 
 export function setCartInertia(world, body, I) {
   body.I = Math.max(0, I);
+  body.inertiaRatio = body.I / Math.max(1e-9, body.mass * body.radius * body.radius);
   body.cannon.inertia.z = body.I;
   body.cannon.invInertia.z = body.I > 0 ? 1 / body.I : 0;
   body.cannon.updateInertiaWorld(true);
@@ -1816,13 +3005,29 @@ export function setCartRadius(world, body, radius) {
   body.cannon.shapes.length = 0;
   body.cannon.shapeOffsets.length = 0;
   body.cannon.shapeOrientations.length = 0;
-  body.cannon.addShape(new CANNON.Sphere(r));
+  if (body.kind === 'cylinder') {
+    const shape = new CANNON.Cylinder(r, r, body.width || 0.7, 20);
+    const axisToZ = new CANNON.Quaternion();
+    axisToZ.setFromEuler(Math.PI / 2, 0, 0);
+    body.cannon.addShape(shape, V(), axisToZ);
+  } else if (body.kind === 'ball') {
+    body.cannon.addShape(new CANNON.Sphere(r));
+  } else {
+    body.cannon.addShape(new CANNON.Sphere(r));
+  }
   body.cannon.updateMassProperties();
   body.cannon.inertia.z = body.I;
   body.cannon.invInertia.z = body.I > 0 ? 1 / body.I : 0;
   body.cannon.updateInertiaWorld(true);
   if (body.attachment?.type === 'surface') repositionSurfaceBody(world, body);
   body.cannon.wakeUp();
+}
+
+/** Set I from the dimensionless radius of gyration I / (m r²). */
+export function setInertiaRatio(world, body, ratio) {
+  const k = clamp(Number.isFinite(ratio) ? ratio : 0.5, 0, 2);
+  body.inertiaRatio = k;
+  setCartInertia(world, body, k * body.mass * body.radius * body.radius);
 }
 
 export function setSurfaceAngle(world, surface, angleDeg) {
@@ -2004,12 +3209,109 @@ export function serializeScene(world, { runtime = false } = {}) {
       muS: c.muS,
       muK: c.muK,
     })),
-    bodies: world.bodies.map((b) => ({
+    launchers: world.launchers.map((l) => ({
+      id: l.id,
+      name: l.name || '',
+      x: l.x,
+      y: l.y,
+      z: l.z,
+      angle: l.angle,
+      speed: l.speed,
+      height: l.height,
+      azimuth: l.azimuth,
+      mass: l.mass,
+      radius: l.radius,
+      drag: l.drag,
+      dragB: l.dragB,
+      dragC: l.dragC,
+      showTarget: l.showTarget,
+    })),
+    pulleys: world.pulleys.map((p) => ({
+      id: p.id,
+      name: p.name || '',
+      x: p.x,
+      y: p.y,
+      z: p.z,
+      radius: p.radius,
+      mass: p.mass,
+      I: p.I,
+      mode: p.mode,
+      muS: p.muS,
+      muK: p.muK,
+      aId: p.aId,
+      bId: p.bId,
+    })),
+    barriers: world.barriers.map((b) => ({
+      id: b.id,
+      kind: b.kind,
+      name: b.name || '',
+      x: b.x,
+      y: b.y,
+      z: b.z,
+      width: b.width,
+      height: b.height,
+      thickness: b.thickness,
+      radius: b.radius,
+      angle: b.angle,
+      e: b.e,
+    })),
+    pendulums: world.pendulums.map((p) => ({
+      id: p.id,
+      name: p.name || '',
+      x: p.x,
+      y: p.y,
+      z: p.z,
+      length: p.length,
+      mass: p.mass,
+      amplitude: p.amplitude,
+      radius: p.radius,
+      conical: p.conical,
+    })),
+    wedges: world.wedges.map((w) => ({
+      id: w.id,
+      name: w.name || '',
+      x: w.x,
+      baseY: w.baseY,
+      z: w.z,
+      angle: w.angle,
+      length: w.length,
+      width: w.width,
+      mass: w.mass,
+      muFloor: w.muFloor,
+      blockMu: w.blockMu,
+      restitution: w.restitution,
+      position: sceneVec(w.body.position),
+      quaternion: [w.body.quaternion.x, w.body.quaternion.y, w.body.quaternion.z, w.body.quaternion.w],
+      velocity: sceneVec(w.body.velocity),
+    })),
+    sensors: world.sensors.map((s) => ({
+      id: s.id,
+      kind: s.kind,
+      name: s.name || '',
+      x: s.x,
+      y: s.y,
+      z: s.z,
+      width: s.width,
+      height: s.height,
+      range: s.range,
+      face: s.face,
+    })),
+    fans: world.fans.map((f) => ({
+      id: f.id,
+      name: f.name || '',
+      bodyId: f.bodyId,
+      thrust: f.thrust,
+      on: f.on,
+      azimuth: f.azimuth,
+      elevation: f.elevation,
+    })),
+    bodies: world.bodies.filter((b) => !b.transient).map((b) => ({
       id: b.id,
       kind: b.kind,
       name: b.name || '',
       mass: b.mass,
       I: b.I,
+      inertiaRatio: b.inertiaRatio,
       radius: b.radius,
       size: b.size,
       width: b.width,
@@ -2021,6 +3323,8 @@ export function serializeScene(world, { runtime = false } = {}) {
       appliedElevation: b.appliedElevation,
       brake: !!b.brake,
       motor: b.motor ? { ...b.motor } : null,
+      drag: b.drag ? { ...b.drag } : null,
+      rope: b.rope ? { ...b.rope } : null,
       attachment: b.attachment ? { ...b.attachment } : null,
       skid: b.skid ? { ...b.skid } : null,
       position: sceneVec(b.cannon.position),
@@ -2093,6 +3397,32 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       muK: Math.min(c.muK ?? 0.35, c.muS ?? 0.55),
     });
   }
+  for (const l of data.launchers || []) {
+    addLauncher(world, { ...l });
+  }
+  for (const p of data.pulleys || []) {
+    const pulley = addPulley(world, { ...p });
+    pulley.aId = p.aId ?? null;
+    pulley.bId = p.bId ?? null;
+  }
+  for (const b of data.barriers || []) {
+    addBarrier(world, { ...b, restitution: b.e ?? b.restitution ?? 0.6 });
+  }
+  for (const p of data.pendulums || []) {
+    addPendulum(world, { ...p });
+  }
+  for (const w of data.wedges || []) {
+    const wedge = addWedge(world, { ...w });
+    if (runtime) {
+      if (w.position) wedge.body.position.set(...w.position);
+      if (w.quaternion) wedge.body.quaternion.set(...w.quaternion);
+      if (w.velocity) wedge.body.velocity.set(...w.velocity);
+      wedge.body.aabbNeedsUpdate = true;
+    }
+  }
+  for (const s of data.sensors || []) {
+    addSensor(world, { ...s });
+  }
   for (const b of data.bodies || []) {
     const body = addBody(world, b.kind || 'block', {
       id: b.id,
@@ -2114,6 +3444,12 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
     body.appliedMag = b.appliedMag ?? 0;
     body.appliedAzimuth = b.appliedAzimuth ?? 0;
     body.appliedElevation = b.appliedElevation ?? 0;
+    if (b.drag) body.drag = { ...body.drag, ...b.drag };
+    if (b.rope) body.rope = { ...b.rope };
+    if (Number.isFinite(b.inertiaRatio)) {
+      body.inertiaRatio = b.inertiaRatio;
+      setCartInertia(world, body, b.inertiaRatio * body.mass * body.radius * body.radius);
+    }
     const att = b.attachment;
     if (att?.type === 'surface') {
       attachBodyToSurface(world, body, att.id, { localX: att.localX, localZ: att.localZ });
@@ -2142,6 +3478,9 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
     }
     body.cannon.aabbNeedsUpdate = true;
     body.cannon.wakeUp();
+  }
+  for (const f of data.fans || []) {
+    addFan(world, { ...f });
   }
   for (const l of data.links || []) {
     addLink(world, {
