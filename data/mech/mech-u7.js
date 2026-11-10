@@ -18,9 +18,11 @@ export const TOPICS = {
     "titleZh": "周期运动",
     "titleEn": "Periodic Motion",
     "layer": "ap",
-    "summary": "简谐运动由 \\(F=-kx\\) 与 \\(a=-\\omega^{2}x\\) 定义；受迫振动在驱动频率接近固有频率时发生共振，振幅显著增大。 · SHM is defined by \\(F=-kx\\) and \\(a=-\\omega^{2}x\\); a forced oscillator exhibits resonance when the driving frequency approaches its natural frequency, with a large increase in amplitude.",
+    "summary": "简谐运动由 \\(F=-kx\\) 与 \\(a=-\\omega^{2}x\\) 定义；由牛顿第二定律可得二阶方程 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)，其余弦解 \\(x=A\\cos(\\omega t+\\phi)\\) 代入即可验证。受迫振动在驱动频率接近固有频率时发生共振，振幅显著增大。 · SHM is defined by \\(F=-kx\\) and \\(a=-\\omega^{2}x\\); Newton's second law gives the second-order equation \\(\\ddot{x}+\\dfrac{k}{m}x=0\\), and substituting the cosine solution \\(x=A\\cos(\\omega t+\\phi)\\) verifies it. A forced oscillator exhibits resonance when the driving frequency approaches its natural frequency, with a large increase in amplitude.",
     "learningObjectives": [
       "能写出简谐运动的动力学判据与运动学解，并由系统参数求固有频率。 · Write the dynamical criterion and kinematic solution of SHM, and find the natural frequency from system parameters.",
+      "能从牛顿第二定律导出弹簧振子的二阶微分方程 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)，并通过代入 \\(x=A\\cos(\\omega t+\\phi)\\) 验证解与 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)。 · Derive the spring oscillator's second-order differential equation \\(\\ddot{x}+\\dfrac{k}{m}x=0\\) from Newton's second law, and verify the solution and \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\) by substitution.",
+      "能用初始条件 \\(x(0)\\) 与 \\(v(0)\\) 确定振幅和初相，并说明二阶方程为什么需要两个初始条件。 · Use the initial conditions \\(x(0)\\) and \\(v(0)\\) to determine the amplitude and initial phase, and explain why a second-order equation requires two initial conditions.",
       "能区分自由振动与受迫振动，说明稳态振动频率等于驱动频率。 · Distinguish free from forced oscillation and explain that the steady-state frequency equals the driving frequency.",
       "能解释共振条件、共振曲线的峰值与阻尼影响，并用能量观点说明振幅为何增大。 · Explain the resonance condition, the peak of the resonance curve, and the effect of damping, and use energy reasoning to explain the amplitude growth.",
       "能识别共振的利弊，并用改变固有频率、增加阻尼或避免同频驱动等方案控制共振。 · Identify benefits and hazards of resonance and control it by changing the natural frequency, adding damping, or avoiding sustained driving at the same frequency.",
@@ -28,6 +30,10 @@ export const TOPICS = {
     ],
     "essentialKnowledge": [
       "周期运动是状态随时间重复的运动；简谐运动（SHM）是最基本的周期运动，回复力与位移成正比且方向相反：\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。 · Periodic motion repeats in time; simple harmonic motion (SHM) is the basic case, with a restoring force proportional and opposite to displacement: \\(F=-kx\\), so \\(a=-\\omega^{2}x\\).",
+      "对水平弹簧振子，取 \\(x\\) 从平衡位置量起，牛顿第二定律 \\(\\Sigma F=ma\\) 给出 \\(m\\ddot{x}=-kx\\)，即 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)；这是二阶线性常系数微分方程，负号表示回复力总指向平衡位置。 · For a horizontal spring oscillator, with \\(x\\) measured from equilibrium, Newton's second law \\(\\Sigma F=ma\\) gives \\(m\\ddot{x}=-kx\\), that is, \\(\\ddot{x}+\\dfrac{k}{m}x=0\\). This is a second-order linear differential equation with constant coefficients; the minus sign shows that the restoring force always points toward equilibrium.",
+      "把 \\(x=A\\cos(\\omega t+\\phi)\\) 求导两次得 \\(\\ddot{x}=-A\\omega^{2}\\cos(\\omega t+\\phi)=-\\omega^{2}x\\)；代回方程得 \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\)，要对所有 \\(t\\) 成立必须 \\(\\omega^{2}=\\dfrac{k}{m}\\)，这就验证了余弦解；因此位置随时间变化的函数 \\(x(t)=A\\cos(\\omega t+\\phi)\\) 就是该二阶方程的解。 · Differentiating \\(x=A\\cos(\\omega t+\\phi)\\) twice gives \\(\\ddot{x}=-A\\omega^{2}\\cos(\\omega t+\\phi)=-\\omega^{2}x\\); substituting back gives \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\), which must hold for all \\(t\\), so \\(\\omega^{2}=\\dfrac{k}{m}\\). This verifies the cosine solution; hence the position function \\(x(t)=A\\cos(\\omega t+\\phi)\\) is a solution of the second-order equation.",
+      "二阶方程的通解含两个独立常数，可写成 \\(x=C_1\\cos(\\omega t)+C_2\\sin(\\omega t)\\) 或 \\(x=A\\cos(\\omega t+\\phi)\\)；初始条件 \\(x(0)=x_0\\)、\\(v(0)=v_0\\) 确定这两个常数，因此运动唯一。 · The general solution of the second-order equation contains two independent constants and can be written \\(x=C_1\\cos(\\omega t)+C_2\\sin(\\omega t)\\) or \\(x=A\\cos(\\omega t+\\phi)\\); the initial conditions \\(x(0)=x_0\\) and \\(v(0)=v_0\\) determine these two constants, so the motion is unique.",
+      "AP Physics C: Mechanics 只要求知道并会使用这个二阶方程的解 \\(x=A\\cos(\\omega t+\\phi)\\)，不要求从零求解微分方程；但应能说明它为什么满足方程。 · AP Physics C: Mechanics expects students to know and use the solution \\(x=A\\cos(\\omega t+\\phi)\\) of this second-order equation, not to solve the differential equation from scratch; however, students should be able to explain why it satisfies the equation.",
       "SHM 的运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)，周期 \\(T=\\dfrac{2\\pi}{\\omega}=2\\pi\\sqrt{\\dfrac{m}{k}}\\)；振幅不影响周期。 · The kinematic solution of SHM is \\(x=A\\cos(\\omega t+\\phi)\\), with \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\) and period \\(T=\\dfrac{2\\pi}{\\omega}=2\\pi\\sqrt{\\dfrac{m}{k}}\\); the amplitude does not affect the period.",
       "平衡位置速度最大、加速度为零；端点速度为零、加速度最大；能量在动能 \\(K\\) 与弹性势能 \\(U_s\\) 之间转化，\\(E=\\dfrac{1}{2}kA^{2}\\)。 · At equilibrium the speed is maximum and acceleration is zero; at the endpoints the speed is zero and acceleration is maximum; energy alternates between kinetic energy \\(K\\) and elastic potential energy \\(U_s\\), with \\(E=\\dfrac{1}{2}kA^{2}\\).",
       "受迫振动由外加正弦驱动力 \\(F_{\\mathrm{ext}}(t)=F_0\\cos(\\omega_d t)\\) 维持；经过暂态后进入稳态，系统以驱动频率 \\(\\omega_d\\) 振动，而不是以固有频率振动。 · Forced oscillation is maintained by a sinusoidal driving force \\(F_{\\mathrm{ext}}(t)=F_0\\cos(\\omega_d t)\\); after transients decay, the steady state oscillates at the driving frequency \\(\\omega_d\\), not at the natural frequency.",
@@ -38,12 +44,24 @@ export const TOPICS = {
       "在共振曲线中，横轴是驱动频率、纵轴是稳态振幅；峰的位置给出固有频率，峰的高度和宽度反映阻尼大小。 · On a resonance curve, the horizontal axis is driving frequency and the vertical axis is steady-state amplitude; the peak position gives the natural frequency, while its height and width reflect the amount of damping.",
       "受迫振动的相位随驱动频率变化：远低于共振时位移与驱动力近似同相，共振时位移落后 \\(\\dfrac{\\pi}{2}\\)，远高于共振时近似反相（相差 \\(\\pi\\)）。 · The phase of forced oscillation changes with driving frequency: well below resonance the displacement is nearly in phase with the driving force, at resonance it lags by \\(\\dfrac{\\pi}{2}\\), and well above resonance it is nearly opposite (a difference of \\(\\pi\\))."
     ],
-    "definition": "周期运动是状态随时间重复的运动；简谐运动（SHM）的回复力与位移成正比且方向相反，\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)，周期 \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\)。当系统受到正弦驱动力 \\(F_{\\mathrm{ext}}=F_0\\cos(\\omega_d t)\\) 作用时，经过暂态后进入受迫振动稳态，以驱动频率 \\(\\omega_d\\) 振动；若 \\(\\omega_d\\) 接近系统的固有频率 \\(\\omega_0\\)，稳态振幅达到最大，这就是共振（resonance）。真实系统有阻尼，因此共振峰有限，峰值频率略低于无阻尼固有频率。 · Periodic motion repeats in time; for simple harmonic motion (SHM) the restoring force is proportional and opposite to displacement, \\(F=-kx\\), so \\(a=-\\omega^{2}x\\). The kinematic solution is \\(x=A\\cos(\\omega t+\\phi)\\), with \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\) and period \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\). When a sinusoidal driving force \\(F_{\\mathrm{ext}}=F_0\\cos(\\omega_d t)\\) acts on the system, it enters a steady forced oscillation at the driving frequency \\(\\omega_d\\) after transients decay; if \\(\\omega_d\\) approaches the natural frequency \\(\\omega_0\\), the steady-state amplitude becomes maximum. This is resonance. Real systems have damping, so the resonance peak is finite and its frequency lies slightly below the undamped natural frequency.",
+    "definition": "周期运动是状态随时间重复的运动；简谐运动（SHM）的回复力与位移成正比且方向相反，\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。对水平弹簧振子，取 \\(x\\) 从平衡位置量起，牛顿第二定律给出 \\(m\\ddot{x}=-kx\\)，即 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)；这是二阶线性常系数微分方程。把 \\(x=A\\cos(\\omega t+\\phi)\\) 求导两次得 \\(\\ddot{x}=-\\omega^{2}x\\)，代回可知当且仅当 \\(\\omega^{2}=\\dfrac{k}{m}\\) 时方程对所有 \\(t\\) 成立。通解也可写成 \\(x=C_1\\cos(\\omega t)+C_2\\sin(\\omega t)\\)，两个独立常数由初始条件 \\(x(0)\\)、\\(v(0)\\) 确定。运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)，周期 \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\)。当系统受到正弦驱动力 \\(F_{\\mathrm{ext}}=F_0\\cos(\\omega_d t)\\) 作用时，经过暂态后进入受迫振动稳态，以驱动频率 \\(\\omega_d\\) 振动；若 \\(\\omega_d\\) 接近系统的固有频率 \\(\\omega_0\\)，稳态振幅达到最大，这就是共振（resonance）。真实系统有阻尼，因此共振峰有限，峰值频率略低于无阻尼固有频率。 · Periodic motion repeats in time; for simple harmonic motion (SHM) the restoring force is proportional and opposite to displacement, \\(F=-kx\\), so \\(a=-\\omega^{2}x\\). For a horizontal spring oscillator with \\(x\\) measured from equilibrium, Newton's second law gives \\(m\\ddot{x}=-kx\\), i.e. \\(\\ddot{x}+\\dfrac{k}{m}x=0\\), a second-order linear differential equation with constant coefficients. Differentiating \\(x=A\\cos(\\omega t+\\phi)\\) twice gives \\(\\ddot{x}=-\\omega^{2}x\\), and substitution shows that the equation holds for all \\(t\\) if and only if \\(\\omega^{2}=\\dfrac{k}{m}\\). The general solution can also be written \\(x=C_1\\cos(\\omega t)+C_2\\sin(\\omega t)\\), with two independent constants determined by the initial conditions \\(x(0)\\) and \\(v(0)\\). The kinematic solution is \\(x=A\\cos(\\omega t+\\phi)\\), with \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\) and period \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\). When a sinusoidal driving force \\(F_{\\mathrm{ext}}=F_0\\cos(\\omega_d t)\\) acts on the system, it enters a steady forced oscillation at the driving frequency \\(\\omega_d\\) after transients decay; if \\(\\omega_d\\) approaches the natural frequency \\(\\omega_0\\), the steady-state amplitude becomes maximum. This is resonance. Real systems have damping, so the resonance peak is finite and its frequency lies slightly below the undamped natural frequency.",
     "intuition": "推秋千时，只有在秋千自然来回的节奏上反复施力，振幅才会越推越大；推得太快或太慢，力有时与运动方向相反，振幅反而小。这就是共振：驱动力频率与系统固有频率匹配时，能量输入效率最高。 · When pushing a swing, the amplitude grows only if you push in rhythm with the swing's natural motion; pushing too fast or too slow makes the force oppose the motion part of the time, so the amplitude stays small. This is resonance: energy input is most efficient when the driving frequency matches the natural frequency.",
     "formulas": [
       {
         "latex": "F=-kx,\\quad a=-\\omega^{2}x",
         "note": "SHM 的动力学判据。 · Dynamical criterion for SHM."
+      },
+      {
+        "latex": "m\\ddot{x}=-kx\\quad\\Rightarrow\\quad\\dfrac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}+\\dfrac{k}{m}x=0\\quad\\Leftrightarrow\\quad\\dfrac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}=-\\dfrac{k}{m}x",
+        "note": "由牛顿第二定律得到的 SHM 二阶微分方程；负号表示回复力指向平衡位置。 · Second-order SHM differential equation from Newton's second law; the minus sign shows that the restoring force points toward equilibrium."
+      },
+      {
+        "latex": "x=C_1\\cos(\\omega t)+C_2\\sin(\\omega t),\\quad C_1=x_0,\\quad C_2=\\dfrac{v_0}{\\omega}",
+        "note": "二阶方程的等价通解；两个常数由初始条件确定。 · Equivalent general solution of the second-order equation; the two constants are fixed by the initial conditions."
+      },
+      {
+        "latex": "A=\\sqrt{x_0^{2}+\\left(\\dfrac{v_0}{\\omega}\\right)^{2}},\\quad \\tan\\phi=-\\dfrac{v_0}{\\omega x_0}",
+        "note": "由初始位置与初始速度求振幅和初相；用 \\(x_0\\) 的符号确定 \\(\\phi\\) 的象限。 · Amplitude and initial phase from the initial position and velocity; use the sign of \\(x_0\\) to choose the quadrant of \\(\\phi\\)."
       },
       {
         "latex": "x=A\\cos(\\omega t+\\phi),\\quad v=-A\\omega\\sin(\\omega t+\\phi)",
@@ -76,6 +94,26 @@ export const TOPICS = {
     ],
     "derivationNotes": [
       {
+        "from": "牛顿第二定律（弹簧振子） · Newton's second law (spring oscillator)",
+        "to": "SHM 二阶方程 · Second-order SHM equation",
+        "note": "取 \\(x\\) 从平衡位置量起，\\(m\\ddot{x}=-kx\\)，两边除以 \\(m\\) 得 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)。 · With \\(x\\) measured from equilibrium, \\(m\\ddot{x}=-kx\\); dividing by \\(m\\) gives \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)."
+      },
+      {
+        "from": "试探解 · Trial solution",
+        "to": "验证解 · Verify the solution",
+        "note": "设 \\(x=A\\cos(\\omega t+\\phi)\\)，则 \\(\\ddot{x}=-\\omega^{2}x\\)；代入得 \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\)，故需 \\(\\omega^{2}=\\dfrac{k}{m}\\)。 · Let \\(x=A\\cos(\\omega t+\\phi)\\); then \\(\\ddot{x}=-\\omega^{2}x\\), and substitution gives \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\), so \\(\\omega^{2}=\\dfrac{k}{m}\\)."
+      },
+      {
+        "from": "初始条件 · Initial conditions",
+        "to": "振幅与初相 · Amplitude and initial phase",
+        "note": "\\(x(0)=A\\cos\\phi=x_0\\)，\\(v(0)=-A\\omega\\sin\\phi=v_0\\)，解得 \\(A=\\sqrt{x_0^{2}+\\left(\\dfrac{v_0}{\\omega}\\right)^{2}}\\)、\\(\\tan\\phi=-\\dfrac{v_0}{\\omega x_0}\\)，再由 \\(x_0\\) 的符号确定象限。 · \\(x(0)=A\\cos\\phi=x_0\\) and \\(v(0)=-A\\omega\\sin\\phi=v_0\\), so \\(A=\\sqrt{x_0^{2}+\\left(\\dfrac{v_0}{\\omega}\\right)^{2}}\\) and \\(\\tan\\phi=-\\dfrac{v_0}{\\omega x_0}\\); the sign of \\(x_0\\) then selects the quadrant."
+      },
+      {
+        "from": "二阶方程 · Second-order equation",
+        "to": "唯一解 · Unique solution",
+        "note": "两个独立常数需要两个初始条件；给定 \\(x_0\\) 与 \\(v_0\\) 后，SHM 的位置函数唯一确定。 · Two independent constants require two initial conditions; given \\(x_0\\) and \\(v_0\\), the position function of SHM is uniquely determined."
+      },
+      {
         "from": "牛顿第二定律 + 正弦驱动力 · Newton's second law + sinusoidal driving force",
         "to": "受迫振动方程 · Forced-oscillation equation",
         "note": "取 \\(x\\) 从平衡位置量起，\\(m\\ddot{x}+b\\dot{x}+kx=F_0\\cos(\\omega_d t)\\)。 · With \\(x\\) measured from equilibrium, \\(m\\ddot{x}+b\\dot{x}+kx=F_0\\cos(\\omega_d t)\\)."
@@ -102,6 +140,9 @@ export const TOPICS = {
       }
     ],
     "conditions": [
+      "弹簧振子模型要求回复力严格线性 \\(F=-kx\\)，弹簧质量可忽略且无摩擦或阻尼；只有这样才能得到常系数线性二阶方程。 · The spring-oscillator model requires a strictly linear restoring force \\(F=-kx\\), a massless spring, and no friction or damping; only then is the equation a linear second-order equation with constant coefficients.",
+      "推导使用 \\(x\\) 从平衡位置量起；若坐标原点不在平衡位置，方程会出现常数项，解也要相应平移。 · The derivation uses \\(x\\) measured from equilibrium; if the origin is not at equilibrium, the equation gains a constant term and the solution must be shifted accordingly.",
+      "AP 只要求已知解并验证，不要求用特征方程或级数法求解二阶微分方程。 · AP only expects students to know and verify the solution, not to solve the second-order differential equation with characteristic equations or series methods.",
       "回复力近似线性（\\(F=-kx\\)），阻尼也近似线性；非线性系统可能出现跳跃、滞回或混沌。 · The restoring force is approximately linear (\\(F=-kx\\)) and damping is approximately linear; nonlinear systems may show jumps, hysteresis, or chaos.",
       "驱动力是幅值与频率恒定的正弦力；实际驱动可能含多个频率成分。 · The driving force is sinusoidal with constant amplitude and frequency; real driving may contain several frequency components.",
       "讨论的是暂态衰减后的稳态；刚接通驱动力时的暂态含固有频率成分。 · The discussion concerns the steady state after transients decay; immediately after the driving force is applied, the transient contains natural-frequency components.",
@@ -110,6 +151,10 @@ export const TOPICS = {
       "受迫振动稳态频率等于驱动频率，而不是固有频率；固有频率只决定共振响应的位置。 · The steady-state frequency of forced oscillation equals the driving frequency, not the natural frequency; the natural frequency only sets where the resonance response peaks."
     ],
     "keyPoints": [
+      "从牛顿第二定律到 SHM：\\(m\\ddot{x}=-kx\\Rightarrow\\ddot{x}+\\dfrac{k}{m}x=0\\)，负号是回复力的标志。 · From Newton's second law to SHM: \\(m\\ddot{x}=-kx\\Rightarrow\\ddot{x}+\\dfrac{k}{m}x=0\\); the minus sign is the signature of a restoring force.",
+      "验证解：对 \\(x=A\\cos(\\omega t+\\phi)\\) 求两次导数得 \\(\\ddot{x}=-\\omega^{2}x\\)，代回方程可确定 \\(\\omega^{2}=\\dfrac{k}{m}\\)。 · Verify the solution: differentiating \\(x=A\\cos(\\omega t+\\phi)\\) twice gives \\(\\ddot{x}=-\\omega^{2}x\\); substituting back determines \\(\\omega^{2}=\\dfrac{k}{m}\\).",
+      "\\(\\omega\\) 由系统参数 \\(k\\)、\\(m\\) 决定；\\(A\\) 与 \\(\\phi\\) 由初始条件 \\(x_0\\)、\\(v_0\\) 决定。 · \\(\\omega\\) is set by the system parameters \\(k\\) and \\(m\\); \\(A\\) and \\(\\phi\\) are set by the initial conditions \\(x_0\\) and \\(v_0\\).",
+      "二阶微分方程需要两个初始条件；只给初始位置不足以唯一确定 SHM。 · A second-order differential equation needs two initial conditions; the initial position alone does not uniquely determine SHM.",
       "固有频率由系统参数决定，不随驱动力幅值改变。 · The natural frequency is set by system parameters and does not change with the driving-force amplitude.",
       "受迫振动达到稳态后，以驱动频率振动；共振时驱动频率才与固有频率近似相等。 · In steady state a forced oscillator vibrates at the driving frequency; only at resonance are the driving and natural frequencies approximately equal.",
       "共振时稳态振幅最大，系统从驱动力吸收能量的效率最高。 · At resonance the steady-state amplitude is maximum and energy absorption from the driving force is most efficient.",
@@ -119,6 +164,10 @@ export const TOPICS = {
       "工程上通过改变固有频率、增加阻尼、避免同频持续驱动或采用隔振来防止有害共振。 · Engineering practice prevents harmful resonance by changing the natural frequency, adding damping, avoiding sustained driving at the same frequency, or using vibration isolation."
     ],
     "misconceptions": [
+      "把 \\(x=A\\cos(\\omega t+\\phi)\\) 当作“猜出来的公式”而不验证；应求导两次并代入方程，确认 \\(\\omega^{2}=\\dfrac{k}{m}\\)。 · Treating \\(x=A\\cos(\\omega t+\\phi)\\) as a guessed formula without verification; differentiate twice and substitute to confirm \\(\\omega^{2}=\\dfrac{k}{m}\\).",
+      "认为角频率 \\(\\omega\\) 由初始条件决定；\\(\\omega\\) 由 \\(k\\) 和 \\(m\\) 决定，初始条件只改变 \\(A\\) 和 \\(\\phi\\)。 · Thinking the angular frequency \\(\\omega\\) is set by the initial conditions; \\(\\omega\\) is set by \\(k\\) and \\(m\\), while the initial conditions change only \\(A\\) and \\(\\phi\\).",
+      "把方程写成 \\(\\ddot{x}-\\dfrac{k}{m}x=0\\) 或漏掉负号；这样得到的是指数增长或衰减，而不是振动。 · Writing \\(\\ddot{x}-\\dfrac{k}{m}x=0\\) or dropping the minus sign; that gives exponential growth or decay rather than oscillation.",
+      "只给一个初始条件就试图确定 SHM；二阶方程需要 \\(x_0\\) 与 \\(v_0\\) 两个条件。 · Trying to determine SHM from only one initial condition; a second-order equation needs both \\(x_0\\) and \\(v_0\\).",
       "认为只要振幅大就是共振；共振还要求驱动频率与固有频率匹配。 · Thinking any large amplitude is resonance; resonance also requires the driving frequency to match the natural frequency.",
       "认为受迫振动总是以固有频率振动；稳态实际以驱动频率振动。 · Thinking forced oscillation always occurs at the natural frequency; the steady state actually oscillates at the driving frequency.",
       "认为共振时振幅一定无限大；真实系统有阻尼，振幅有限。 · Thinking resonance always gives infinite amplitude; real systems have damping and finite amplitude.",
@@ -130,7 +179,31 @@ export const TOPICS = {
     ],
     "examples": [
       {
-        "title": "例 1 · 固有频率与共振 · Example 1: Natural frequency and resonance",
+        "title": "例 1 · 从牛顿第二定律导出 SHM 方程 · Example 1: Deriving the SHM equation from Newton's second law",
+        "prompt": "一水平弹簧振子质量 \\(m=0.40\\,\\mathrm{kg}\\)、劲度系数 \\(k=10\\,\\mathrm{N/m}\\)，在光滑水平面上振动。取 \\(x\\) 从平衡位置量起。(a) 由牛顿第二定律写出运动微分方程；(b) 验证 \\(x=A\\cos(\\omega t+\\phi)\\) 是解，并求 \\(\\omega\\) 与 \\(T\\)；(c) 说明负号的物理意义。 · A horizontal spring oscillator with \\(m=0.40\\,\\mathrm{kg}\\) and \\(k=10\\,\\mathrm{N/m}\\) oscillates on a frictionless surface. With \\(x\\) measured from equilibrium, (a) derive the differential equation of motion from Newton's second law; (b) verify that \\(x=A\\cos(\\omega t+\\phi)\\) is a solution and find \\(\\omega\\) and \\(T\\); (c) explain the physical meaning of the minus sign.",
+        "steps": [
+          "弹簧力 \\(F=-kx\\)，牛顿第二定律给出 \\(m\\ddot{x}=-kx\\)。 · The spring force is \\(F=-kx\\), so Newton's second law gives \\(m\\ddot{x}=-kx\\).",
+          "两边除以 \\(m\\)：\\(\\ddot{x}+\\dfrac{k}{m}x=0\\)。 · Divide by \\(m\\): \\(\\ddot{x}+\\dfrac{k}{m}x=0\\).",
+          "代入 \\(x=A\\cos(\\omega t+\\phi)\\)：\\(\\ddot{x}=-A\\omega^{2}\\cos(\\omega t+\\phi)=-\\omega^{2}x\\)，所以 \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\)，得 \\(\\omega=\\sqrt{\\dfrac{k}{m}}=\\sqrt{\\dfrac{10}{0.40}}=5.0\\,\\mathrm{rad/s}\\)。 · Substituting \\(x=A\\cos(\\omega t+\\phi)\\) gives \\(\\ddot{x}=-\\omega^{2}x\\), so \\(\\left(\\dfrac{k}{m}-\\omega^{2}\\right)x=0\\) and \\(\\omega=\\sqrt{\\dfrac{k}{m}}=\\sqrt{\\dfrac{10}{0.40}}=5.0\\,\\mathrm{rad/s}\\).",
+          "\\(T=\\dfrac{2\\pi}{\\omega}=\\dfrac{2\\pi}{5.0}\\approx1.26\\,\\mathrm{s}\\)。负号表示力总指向平衡位置，是回复力。 · \\(T=\\dfrac{2\\pi}{\\omega}=\\dfrac{2\\pi}{5.0}\\approx1.26\\,\\mathrm{s}\\). The minus sign means the force always points toward equilibrium: it is a restoring force."
+        ],
+        "solution": "\\(\\ddot{x}+25x=0\\)（即 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)），\\(\\omega=5.0\\,\\mathrm{rad/s}\\)，\\(T\\approx1.26\\,\\mathrm{s}\\)；负号表示回复力。 · \\(\\ddot{x}+25x=0\\) (that is, \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)), \\(\\omega=5.0\\,\\mathrm{rad/s}\\), \\(T\\approx1.26\\,\\mathrm{s}\\); the minus sign indicates a restoring force.",
+        "solutionLatex": "\\ddot{x}+25x=0,\\qquad \\omega=5.0\\,\\mathrm{rad\\,s^{-1}},\\qquad T\\approx1.26\\,\\mathrm{s}"
+      },
+      {
+        "title": "例 2 · 由初始条件确定振幅与初相 · Example 2: Amplitude and phase from initial conditions",
+        "prompt": "某 SHM 的角频率 \\(\\omega=3.0\\,\\mathrm{rad/s}\\)。在 \\(t=0\\) 时，\\(x_0=0.10\\,\\mathrm{m}\\)，\\(v_0=-0.60\\,\\mathrm{m/s}\\)。求振幅 \\(A\\) 与初相 \\(\\phi\\)（取 \\(0\\le\\phi<2\\pi\\)），并写出 \\(x(t)\\)。 · An SHM has \\(\\omega=3.0\\,\\mathrm{rad/s}\\). At \\(t=0\\), \\(x_0=0.10\\,\\mathrm{m}\\) and \\(v_0=-0.60\\,\\mathrm{m/s}\\). Find the amplitude \\(A\\) and initial phase \\(\\phi\\) (with \\(0\\le\\phi<2\\pi\\)), and write \\(x(t)\\).",
+        "steps": [
+          "由 \\(x=A\\cos(\\omega t+\\phi)\\) 得 \\(v=-A\\omega\\sin(\\omega t+\\phi)\\)。 · From \\(x=A\\cos(\\omega t+\\phi)\\), \\(v=-A\\omega\\sin(\\omega t+\\phi)\\).",
+          "\\(A=\\sqrt{x_0^{2}+\\left(\\dfrac{v_0}{\\omega}\\right)^{2}}=\\sqrt{(0.10)^{2}+\\left(\\dfrac{-0.60}{3.0}\\right)^{2}}=\\sqrt{0.010+0.040}\\approx0.22\\,\\mathrm{m}\\)。 · \\(A=\\sqrt{x_0^{2}+\\left(\\dfrac{v_0}{\\omega}\\right)^{2}}=\\sqrt{(0.10)^{2}+\\left(\\dfrac{-0.60}{3.0}\\right)^{2}}=\\sqrt{0.010+0.040}\\approx0.22\\,\\mathrm{m}\\).",
+          "\\(\\tan\\phi=-\\dfrac{v_0}{\\omega x_0}=-\\dfrac{-0.60}{(3.0)(0.10)}=2.0\\)，且 \\(\\cos\\phi=\\dfrac{x_0}{A}>0\\)，所以 \\(\\phi\\approx63^\\circ\\approx1.1\\,\\mathrm{rad}\\)。 · \\(\\tan\\phi=-\\dfrac{v_0}{\\omega x_0}=-\\dfrac{-0.60}{(3.0)(0.10)}=2.0\\), and \\(\\cos\\phi=\\dfrac{x_0}{A}>0\\), so \\(\\phi\\approx63^\\circ\\approx1.1\\,\\mathrm{rad}\\).",
+          "\\(x(t)=0.22\\cos(3.0t+1.1)\\)（\\(x\\) 以 m 为单位，\\(t\\) 以 s 为单位）。 · \\(x(t)=0.22\\cos(3.0t+1.1)\\), with \\(x\\) in meters and \\(t\\) in seconds."
+        ],
+        "solution": "\\(A\\approx0.22\\,\\mathrm{m}\\)，\\(\\phi\\approx1.1\\,\\mathrm{rad}\\)，\\(x(t)=0.22\\cos(3.0t+1.1)\\)。 · \\(A\\approx0.22\\,\\mathrm{m}\\), \\(\\phi\\approx1.1\\,\\mathrm{rad}\\), and \\(x(t)=0.22\\cos(3.0t+1.1)\\).",
+        "solutionLatex": "A\\approx0.22\\,\\mathrm{m},\\qquad \\phi\\approx1.1\\,\\mathrm{rad},\\qquad x(t)=0.22\\cos(3.0t+1.1)"
+      },
+      {
+        "title": "例 3 · 固有频率与共振 · Example 3: Natural frequency and resonance",
         "prompt": "弹簧振子质量 \\(m=0.50\\,\\mathrm{kg}\\)，劲度系数 \\(k=50\\,\\mathrm{N/m}\\)，线性阻尼系数 \\(b=0.20\\,\\mathrm{kg/s}\\)，驱动力幅值 \\(F_0=0.20\\,\\mathrm{N}\\)。求固有频率；分别求驱动频率为 \\(1.59\\,\\mathrm{Hz}\\) 与 \\(3.18\\,\\mathrm{Hz}\\) 时的稳态振幅，并解释差异。 · A spring oscillator has mass \\(m=0.50\\,\\mathrm{kg}\\), spring constant \\(k=50\\,\\mathrm{N/m}\\), linear damping coefficient \\(b=0.20\\,\\mathrm{kg/s}\\), and driving-force amplitude \\(F_0=0.20\\,\\mathrm{N}\\). Find the natural frequency and the steady-state amplitudes at driving frequencies \\(1.59\\,\\mathrm{Hz}\\) and \\(3.18\\,\\mathrm{Hz}\\), then explain the difference.",
         "steps": [
           "\\(\\omega_0=\\sqrt{\\dfrac{k}{m}}=\\sqrt{\\dfrac{50}{0.50}}=10\\,\\mathrm{rad/s}\\)，所以 \\(f_0=\\dfrac{\\omega_0}{2\\pi}\\approx1.59\\,\\mathrm{Hz}\\)。 · \\(\\omega_0=\\sqrt{\\dfrac{k}{m}}=\\sqrt{\\dfrac{50}{0.50}}=10\\,\\mathrm{rad/s}\\), so \\(f_0=\\dfrac{\\omega_0}{2\\pi}\\approx1.59\\,\\mathrm{Hz}\\).",
@@ -141,7 +214,7 @@ export const TOPICS = {
         "solutionLatex": "f_0\\approx1.59\\,\\mathrm{Hz},\\qquad A_{\\mathrm{res}}\\approx0.10\\,\\mathrm{m},\\qquad A(3.18\\,\\mathrm{Hz})\\approx1.3\\times10^{-3}\\,\\mathrm{m}"
       },
       {
-        "title": "例 2 · 读共振曲线 · Example 2: Reading a resonance curve",
+        "title": "例 4 · 读共振曲线 · Example 4: Reading a resonance curve",
         "prompt": "某受迫振动的共振曲线显示：驱动频率为 \\(2.0\\,\\mathrm{Hz}\\) 时振幅最大；增大阻尼后，峰值降为原来的 \\(0.60\\)，峰变宽。求固有频率，并解释阻尼对峰值和宽度的影响。 · A resonance curve peaks at a driving frequency of \\(2.0\\,\\mathrm{Hz}\\); after damping is increased, the peak falls to \\(0.60\\) of its original height and becomes broader. Find the natural frequency and explain the effect of damping on peak height and width.",
         "steps": [
           "峰值位置近似给出固有频率：\\(f_0\\approx2.0\\,\\mathrm{Hz}\\)；有阻尼时峰值略低于无阻尼固有频率，轻阻尼下可近似相等。 · The peak position gives the natural frequency: \\(f_0\\approx2.0\\,\\mathrm{Hz}\\); with damping the peak lies slightly below the undamped natural frequency, and for light damping the two are approximately equal.",
@@ -152,7 +225,7 @@ export const TOPICS = {
         "solutionLatex": "f_0\\approx2.0\\,\\mathrm{Hz},\\qquad A_{\\mathrm{peak}}\\propto\\dfrac{1}{b}\\ \\text{(light damping)}"
       },
       {
-        "title": "例 3 · 共振的能量论证 · Example 3: Energy argument for resonance",
+        "title": "例 5 · 共振的能量论证 · Example 5: Energy argument for resonance",
         "prompt": "用功—能观点解释：为什么驱动频率等于固有频率时振幅最大？ · Use work–energy reasoning to explain why the amplitude is largest when the driving frequency equals the natural frequency.",
         "steps": [
           "驱动力做功的功率为 \\(P=F_{\\mathrm{ext}}v\\)；只有当力与速度在一个周期内大部分时间方向相同时，净输入能量才大。 · The power delivered by the driving force is \\(P=F_{\\mathrm{ext}}v\\); the net energy input is large only when the force and velocity point in the same direction for most of a cycle.",
@@ -163,7 +236,7 @@ export const TOPICS = {
         "solutionLatex": "\\omega_d=\\omega_0,\\qquad P=F_{\\mathrm{ext}}v"
       },
       {
-        "title": "例 4 · 桥梁共振与工程控制 · Example 4: Bridge resonance and engineering control",
+        "title": "例 6 · 桥梁共振与工程控制 · Example 6: Bridge resonance and engineering control",
         "prompt": "一队士兵齐步走过桥，若步频接近桥的固有频率，可能引起大幅振动。用共振原理解释，并给出两种工程控制措施。 · Soldiers marching in step can excite large vibrations if their step frequency is near the bridge's natural frequency. Explain with resonance and give two engineering controls.",
         "steps": [
           "齐步走提供周期性驱动力；步频接近桥的固有频率时发生共振，振幅增大。 · Marching provides a periodic driving force; when the step frequency is near the bridge's natural frequency, resonance occurs and the amplitude grows.",
@@ -175,6 +248,9 @@ export const TOPICS = {
       }
     ],
     "examTips": [
+      "看到“由牛顿第二定律导出 SHM”时，先写 \\(F=-kx\\)，再写 \\(m\\ddot{x}=-kx\\)，最后化为 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)。 · When asked to derive SHM from Newton's second law, write \\(F=-kx\\), then \\(m\\ddot{x}=-kx\\), then \\(\\ddot{x}+\\dfrac{k}{m}x=0\\).",
+      "验证解的标准三步：求 \\(x\\) 的两阶导数、代入方程、比较系数得 \\(\\omega^{2}=\\dfrac{k}{m}\\)。 · Three steps to verify a solution: differentiate \\(x\\) twice, substitute into the equation, and compare coefficients to get \\(\\omega^{2}=\\dfrac{k}{m}\\).",
+      "两个初始条件缺一不可：\\(x_0\\) 与 \\(v_0\\) 共同决定 \\(A\\) 和 \\(\\phi\\)；\\(\\omega\\) 只由系统参数决定。 · Both initial conditions are needed: \\(x_0\\) and \\(v_0\\) together determine \\(A\\) and \\(\\phi\\); \\(\\omega\\) is set only by the system parameters.",
       "先由系统参数求 \\(f_0\\)，再与驱动频率比较。 · Find \\(f_0\\) from the system parameters first, then compare it with the driving frequency.",
       "受迫振动稳态频率等于驱动频率；共振时二者才近似相等。 · In steady state a forced oscillator vibrates at the driving frequency; only at resonance are the two approximately equal.",
       "共振曲线：峰位读 \\(f_0\\)，峰高与宽度读阻尼。 · On a resonance curve, read \\(f_0\\) from the peak position and damping from the peak height and width.",
@@ -220,13 +296,18 @@ export const TOPICS = {
     ],
     "practiceHref": "#/mech/practice/mech-u7",
     "connections": [
+      "动力学：牛顿第二定律把弹簧力 \\(F=-kx\\) 变成二阶方程 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)；其解 \\(x=A\\cos(\\omega t+\\phi)\\) 可通过求导两次验证。 · Dynamics: Newton's second law turns the spring force \\(F=-kx\\) into the second-order equation \\(\\ddot{x}+\\dfrac{k}{m}x=0\\); its solution \\(x=A\\cos(\\omega t+\\phi)\\) can be verified by differentiating twice.",
+      "数学：SHM 的方程是二阶线性常系数微分方程，通解有两个独立常数；初始条件 \\(x_0\\)、\\(v_0\\) 决定振幅与初相。 · Mathematics: the SHM equation is a second-order linear differential equation with constant coefficients; its general solution has two independent constants, and the initial conditions \\(x_0\\) and \\(v_0\\) determine the amplitude and initial phase.",
       "上游：2.8 的胡克定律给出 \\(F=-kx\\)，3.5 的势能给出 \\(U_s=\\dfrac{1}{2}kx^{2}\\)，共同构成 SHM 的动力学基础。 · Upstream: Hooke's law in 2.8 gives \\(F=-kx\\), and potential energy in 3.5 gives \\(U_s=\\dfrac{1}{2}kx^{2}\\); together they form the dynamical basis of SHM.",
       "下游：7.2 的单摆与 7.3 的复摆、扭摆都是不同回复力下的振子，共振概念同样适用于它们。 · Downstream: the simple pendulum in 7.2 and the physical and torsion pendulums in 7.3 are oscillators with different restoring forces, and resonance applies to them as well.",
       "数学：受迫振动是二阶线性微分方程，稳态解与驱动同频率；共振曲线由振幅对驱动频率的函数给出。 · Mathematics: forced oscillation is a second-order linear differential equation whose steady-state solution has the driving frequency; the resonance curve is the amplitude as a function of driving frequency.",
       "工程与跨学科：桥梁、建筑、乐器、洗衣机、核磁共振与电路调谐都涉及共振；设计时需要利用或抑制它。 · Engineering and cross-disciplinary connections: bridges, buildings, musical instruments, washing machines, nuclear magnetic resonance, and circuit tuning all involve resonance, which must be exploited or suppressed in design."
     ],
-    "intuitionDetailed": "把受迫振动想成推秋千：秋千自己有一个来回的固有节奏 \\(f_0\\)。如果你每次都在它向前运动时推，力与速度同向，能量不断输入，振幅越来越大；如果你推的节奏太快或太慢，有时会在秋千向后时推，做负功，净输入就小。共振就是“推的节奏刚好对上秋千的节奏”。真实系统有摩擦和空气阻力，振幅不会无限增大：当每周期推入的能量等于每周期耗散的能量时，振幅稳定下来。阻尼越大，能量耗散越快，共振峰越低、越宽。共振曲线以驱动频率为横轴、稳态振幅为纵轴：峰位告诉你固有频率，峰高和宽度告诉你阻尼大小。共振时位移落后驱动力 \\(\\dfrac{\\pi}{2}\\)，所以驱动力与速度同相，输入功率最大；远低于共振时位移与力近似同相，远高于共振时近似反相。 · Think of forced oscillation as pushing a swing: the swing has its own natural rhythm \\(f_0\\). If you push every time it moves forward, force and velocity are in the same direction, energy keeps entering, and the amplitude grows; if you push too fast or too slow, you sometimes push while it moves backward, doing negative work, so the net input is small. Resonance is “pushing exactly in rhythm with the swing.” Real systems have friction and air resistance, so the amplitude does not grow without bound: it stabilizes when the energy input per cycle equals the energy dissipated per cycle. Larger damping dissipates energy faster and makes the resonance peak lower and broader. A resonance curve plots steady-state amplitude against driving frequency: the peak position gives the natural frequency, and the peak height and width give the damping. At resonance the displacement lags the driving force by \\(\\dfrac{\\pi}{2}\\), so the driving force is in phase with velocity and the input power is maximum; well below resonance displacement and force are nearly in phase, and well above resonance they are nearly opposite.",
+    "intuitionDetailed": "从动力学看，弹簧振子的方程不是“背下来”的：牛顿第二定律 \\(m\\ddot{x}=-kx\\) 直接给出 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)；把 \\(x=A\\cos(\\omega t+\\phi)\\) 求导两次得到 \\(\\ddot{x}=-\\omega^{2}x\\)，代回就发现只要 \\(\\omega^{2}=\\dfrac{k}{m}\\) 方程自动成立。把受迫振动想成推秋千：秋千自己有一个来回的固有节奏 \\(f_0\\)。如果你每次都在它向前运动时推，力与速度同向，能量不断输入，振幅越来越大；如果你推的节奏太快或太慢，有时会在秋千向后时推，做负功，净输入就小。共振就是“推的节奏刚好对上秋千的节奏”。真实系统有摩擦和空气阻力，振幅不会无限增大：当每周期推入的能量等于每周期耗散的能量时，振幅稳定下来。阻尼越大，能量耗散越快，共振峰越低、越宽。共振曲线以驱动频率为横轴、稳态振幅为纵轴：峰位告诉你固有频率，峰高和宽度告诉你阻尼大小。共振时位移落后驱动力 \\(\\dfrac{\\pi}{2}\\)，所以驱动力与速度同相，输入功率最大；远低于共振时位移与力近似同相，远高于共振时近似反相。 · In dynamics, the spring equation is not something to memorize: Newton's second law \\(m\\ddot{x}=-kx\\) gives \\(\\ddot{x}+\\dfrac{k}{m}x=0\\) directly; differentiating \\(x=A\\cos(\\omega t+\\phi)\\) twice gives \\(\\ddot{x}=-\\omega^{2}x\\), and substituting back shows the equation is satisfied automatically when \\(\\omega^{2}=\\dfrac{k}{m}\\). Think of forced oscillation as pushing a swing: the swing has its own natural rhythm \\(f_0\\). If you push every time it moves forward, force and velocity are in the same direction, energy keeps entering, and the amplitude grows; if you push too fast or too slow, you sometimes push while it moves backward, doing negative work, so the net input is small. Resonance is “pushing exactly in rhythm with the swing.” Real systems have friction and air resistance, so the amplitude does not grow without bound: it stabilizes when the energy input per cycle equals the energy dissipated per cycle. Larger damping dissipates energy faster and makes the resonance peak lower and broader. A resonance curve plots steady-state amplitude against driving frequency: the peak position gives the natural frequency, and the peak height and width give the damping. At resonance the displacement lags the driving force by \\(\\dfrac{\\pi}{2}\\), so the driving force is in phase with velocity and the input power is maximum; well below resonance displacement and force are nearly in phase, and well above resonance they are nearly opposite.",
     "development": [
+      "从 \\(F=-kx\\) 出发，用牛顿第二定律写出 \\(m\\ddot{x}=-kx\\)，化为标准二阶方程。 · Start from \\(F=-kx\\), use Newton's second law to write \\(m\\ddot{x}=-kx\\), and put it in standard second-order form.",
+      "代入 \\(x=A\\cos(\\omega t+\\phi)\\) 验证解，并由系数比较得到 \\(\\omega^{2}=\\dfrac{k}{m}\\)。 · Substitute \\(x=A\\cos(\\omega t+\\phi)\\) to verify the solution, and compare coefficients to obtain \\(\\omega^{2}=\\dfrac{k}{m}\\).",
+      "用初始条件求 \\(A\\) 与 \\(\\phi\\)，检查 \\(x(0)\\)、\\(v(0)\\) 是否与给定值一致。 · Use the initial conditions to find \\(A\\) and \\(\\phi\\), and check that \\(x(0)\\) and \\(v(0)\\) match the given values.",
       "识别回复力与系统参数，求固有频率 \\(f_0\\)。 · Identify the restoring force and system parameters, and find the natural frequency \\(f_0\\).",
       "区分自由振动与受迫振动，写出驱动力与运动方程。 · Distinguish free from forced oscillation and write the driving force and equation of motion.",
       "说明稳态以驱动频率振动，暂态含固有频率成分。 · Explain that the steady state oscillates at the driving frequency while the transient contains natural-frequency components.",
@@ -234,6 +315,10 @@ export const TOPICS = {
       "读共振曲线，比较不同阻尼下的峰高、峰宽与峰位，并联系工程应用。 · Read resonance curves, compare peak height, width, and position for different damping, and connect them to engineering applications."
     ],
     "checks": [
+      "能否从 \\(F=-kx\\) 一步步写出 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)？每一步用了什么定律？ · Can you go step by step from \\(F=-kx\\) to \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)? Which law is used at each step?",
+      "把 \\(x=A\\cos(\\omega t+\\phi)\\) 代入方程，如何说明它只在 \\(\\omega^{2}=\\dfrac{k}{m}\\) 时成立？ · Substitute \\(x=A\\cos(\\omega t+\\phi)\\) into the equation; how do you show it holds only when \\(\\omega^{2}=\\dfrac{k}{m}\\)?",
+      "为什么二阶微分方程需要两个初始条件？它们分别影响 \\(A\\) 和 \\(\\phi\\) 的什么？ · Why does a second-order differential equation need two initial conditions? How do they affect \\(A\\) and \\(\\phi\\)?",
+      "若把方程写成 \\(\\ddot{x}-\\dfrac{k}{m}x=0\\)，解的形式会怎样改变？为什么这不是振动？ · If the equation were \\(\\ddot{x}-\\dfrac{k}{m}x=0\\), how would the solution change, and why is it not oscillation?",
       "什么决定固有频率？改变驱动力幅值会改变它吗？ · What determines the natural frequency? Does changing the driving-force amplitude change it?",
       "受迫振动达到稳态后以什么频率振动？共振时又有什么特殊？ · At what frequency does a forced oscillator vibrate in steady state, and what is special at resonance?",
       "为什么阻尼会降低共振峰？能量到哪里去了？ · Why does damping lower the resonance peak, and where does the energy go?",
@@ -243,10 +328,10 @@ export const TOPICS = {
     ],
     "vocabulary": [
       {
-        "termZh": "周期运动",
-        "termEn": "periodic motion",
-        "defZh": "状态随时间重复的运动，每隔一个周期回到相同状态。",
-        "defEn": "Motion whose state repeats in time, returning to the same state every period."
+        "termZh": "二阶微分方程",
+        "termEn": "second-order differential equation",
+        "defZh": "最高阶导数为二阶的微分方程；SHM 的动力学方程为 \\(\\ddot{x}+\\dfrac{k}{m}x=0\\)，其通解含两个独立常数。",
+        "defEn": "A differential equation whose highest derivative is second order; the dynamical equation of SHM is \\(\\ddot{x}+\\dfrac{k}{m}x=0\\), and its general solution contains two independent constants."
       },
       {
         "termZh": "简谐运动",
@@ -261,10 +346,10 @@ export const TOPICS = {
         "defEn": "The frequency of free oscillation set by the system's own parameters, such as \\(f_0=\\dfrac{1}{2\\pi}\\sqrt{\\dfrac{k}{m}}\\) for a spring oscillator."
       },
       {
-        "termZh": "驱动频率",
-        "termEn": "driving frequency",
-        "defZh": "外加周期性驱动力的频率；受迫振动稳态以该频率振动。",
-        "defEn": "The frequency of an external periodic driving force; a forced oscillator vibrates at this frequency in steady state."
+        "termZh": "初始条件",
+        "termEn": "initial conditions",
+        "defZh": "\\(t=0\\) 时的位置与速度 \\(x_0\\)、\\(v_0\\)；用来确定 SHM 的振幅 \\(A\\) 与初相 \\(\\phi\\)。",
+        "defEn": "The position and velocity \\(x_0\\), \\(v_0\\) at \\(t=0\\), used to determine the amplitude \\(A\\) and initial phase \\(\\phi\\) of SHM."
       },
       {
         "termZh": "受迫振动",
