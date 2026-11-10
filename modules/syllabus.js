@@ -389,7 +389,9 @@ export const UNITS = {
         { code: '8.4', titleZh: '电通量', titleEn: 'Electric Flux' },
         { code: '8.5', titleZh: '高斯定律', titleEn: "Gauss's Law" },
         { code: '8.6', titleZh: '电荷性质与电荷守恒', titleEn: 'Properties and Conservation of Charge' },
+        { code: '8.7', titleZh: '连续电荷分布的电场积分', titleEn: 'Electric Fields by Integration' },
         { code: '8.8', titleZh: '电力、引力与宏观物性', titleEn: 'Electric and Gravitational Forces in Matter' },
+        { code: '8.9', titleZh: '介电率与电极化', titleEn: 'Permittivity and Electric Polarization' },
         { code: '8.10', titleZh: '绝缘体电荷与内部电场', titleEn: 'Charge and Fields inside Insulators' },
         { code: '8.11', titleZh: '电荷密度与包围电荷积分', titleEn: 'Charge Density and Enclosed Charge' },
       ],
@@ -401,6 +403,8 @@ export const UNITS = {
         { code: '9.2', titleZh: '电势', titleEn: 'Electric Potential' },
         { code: '9.3', titleZh: '电势与场', titleEn: 'Electric Potential Due to Charge Distributions' },
         { code: '9.4', titleZh: '电势差与功', titleEn: 'Conservation of Electric Energy' },
+        { code: '9.5', titleZh: '电势能积分与多电荷系统', titleEn: 'Potential Energy Integrals and Charge Systems' },
+        { code: '9.6', titleZh: '电池与化学电势差', titleEn: 'Batteries and Chemical Potential Difference' },
       ],
     },
     {
@@ -410,6 +414,8 @@ export const UNITS = {
         { code: '10.2', titleZh: '电荷再分布', titleEn: 'Redistribution of Charge between Conductors' },
         { code: '10.3', titleZh: '电容器', titleEn: 'Capacitors' },
         { code: '10.4', titleZh: '电介质', titleEn: 'Dielectrics' },
+        { code: '10.5', titleZh: '接触再分布与感应接地', titleEn: 'Charge Redistribution and Grounding' },
+        { code: '10.6', titleZh: '导体静电平衡的建立', titleEn: 'Establishing Electrostatic Equilibrium' },
       ],
     },
     {

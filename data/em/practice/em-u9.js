@@ -2705,5 +2705,109 @@ export const problems = [
         "topicId": "em-u9:9.4"
       }
     ]
-  }
+  },
+{
+  "id": "em-u9-q045",
+  "title": "9.5 逆着电场移动电荷的电势差",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "匀强电场 E=250 V/m 沿 +x 方向。把 q=+2.0 μC 的电荷沿 −x 方向移动 4.0 cm。求始末位置的电势差 ΔV（V）。",
+  "expected": 10.0,
+  "tol": 0.02,
+  "answerLatex": "10\\,\\mathrm{V}",
+  "solution": "ΔV=−E·Δx=−(250)(−0.040)=+10 V；逆着电场移动时电势升高。",
+  "solutionLatex": "\\Delta V=-E\\,\\Delta x=-(250)(-0.040)=+10\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u9/9.5",
+      "label": "9.5 电势能积分与多电荷系统",
+      "topicId": "em-u9:9.5"
+    }
+  ]
+},
+{
+  "id": "em-u9-q046",
+  "title": "9.5 四个电荷的独立相互作用对数",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "四个点电荷组成一个系统。计算总电势能时，需要计入多少个独立的电荷对？",
+  "expected": 6.0,
+  "tol": 0.01,
+  "answerLatex": "6",
+  "solution": "独立对数 n(n−1) ÷ 2=4×3 ÷ 2=6；每对只算一次。",
+  "solutionLatex": "N_{\\mathrm{pairs}}=\\dfrac{n(n-1)}{2}=\\dfrac{4\\cdot3}{2}=6",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u9/9.5",
+      "label": "9.5 电势能积分与多电荷系统",
+      "topicId": "em-u9:9.5"
+    }
+  ]
+},
+{
+  "id": "em-u9-q047",
+  "title": "9.6 含内阻电池的端电压",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "电池电动势 ε=9.0 V，内阻 r=1.5 Ω，外接电阻 R=3.0 Ω。求端电压 V_term（V）。",
+  "expected": 6.0,
+  "tol": 0.02,
+  "answerLatex": "6.0\\,\\mathrm{V}",
+  "solution": "I=ε ÷ (R+r)=9.0 ÷ 4.5=2.0 A；V_term=ε−Ir=9.0−3.0=6.0 V。",
+  "solutionLatex": "I=\\dfrac{\\varepsilon}{R+r}=2.0\\,\\mathrm{A},\\qquad V_{\\mathrm{term}}=\\varepsilon-Ir=6.0\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u9/9.6",
+      "label": "9.6 电池与化学电势差",
+      "topicId": "em-u9:9.6"
+    }
+  ]
+},
+{
+  "id": "em-u9-q048",
+  "title": "9.6 由化学功求电动势",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "电池中的化学过程把 2.0 C 的正电荷从负极搬到正极，做非静电力功 18 J。求电池的电动势 ε（V）。",
+  "expected": 9.0,
+  "tol": 0.02,
+  "answerLatex": "9.0\\,\\mathrm{V}",
+  "solution": "ε=W_ne ÷ q=18 J ÷ 2.0 C=9.0 V。",
+  "solutionLatex": "\\varepsilon=\\dfrac{W_{\\mathrm{ne}}}{q}=\\dfrac{18\\,\\mathrm{J}}{2.0\\,\\mathrm{C}}=9.0\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u9/9.6",
+      "label": "9.6 电池与化学电势差",
+      "topicId": "em-u9:9.6"
+    }
+  ]
+}
 ];

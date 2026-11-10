@@ -3076,5 +3076,239 @@ export const problems = [
       "topicId": "em-u8:8.6"
     }
   ]
+},
+{
+  "id": "em-u8-q054",
+  "title": "8.6 系统边界与电荷转移",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "下列哪种过程一定会改变所选系统的净电荷？",
+  "choices": [
+    {
+      "text": "电子从系统外转移到系统内",
+      "correct": true
+    },
+    {
+      "text": "系统内正负电荷重新分布，但没有电荷穿过边界",
+      "correct": false
+    },
+    {
+      "text": "导体内部自由电子移动直到内部电场为零",
+      "correct": false
+    },
+    {
+      "text": "中性导体在外场中极化，两端出现等量异号电荷",
+      "correct": false
+    }
+  ],
+  "solution": "净电荷只能因电荷跨过系统边界而改变；内部重分布与极化不改变净电荷。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.6",
+      "label": "8.6 电荷性质与电荷守恒",
+      "topicId": "em-u8:8.6"
+    }
+  ]
+},
+{
+  "id": "em-u8-q055",
+  "title": "8.7 有限带电棒垂直平分线上的电场",
+  "type": "frq",
+  "difficulty": "难",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "一均匀带电细棒长 L=0.80 m，线电荷密度 λ=2.0 μC/m。求距棒中点 d=0.30 m 的垂直平分线上的电场大小（N/C），取 k=9.0×10⁹ N·m²/C²。",
+  "expected": 96000.0,
+  "tol": 0.03,
+  "answerLatex": "9.6\\times10^{4}\\,\\mathrm{N/C}",
+  "solution": "对称性使平行棒方向分量抵消；E=2kλL ÷ [d√(4d²+L²)]，代入得 9.6×10⁴ N/C。",
+  "solutionLatex": "E_{\\perp}=\\dfrac{2k\\lambda L}{d\\sqrt{4d^{2}+L^{2}}}=\\dfrac{2(9.0\\times10^{9})(2.0\\times10^{-6})(0.80)}{0.30\\sqrt{4(0.30)^{2}+(0.80)^{2}}}=9.6\\times10^{4}\\,\\mathrm{N/C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.7",
+      "label": "8.7 连续电荷分布的电场积分",
+      "topicId": "em-u8:8.7"
+    }
+  ]
+},
+{
+  "id": "em-u8-q056",
+  "title": "8.7 均匀带电圆环轴线上的电场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 R=0.10 m 的均匀带电圆环带总电荷 Q=5.0 μC。求轴线上距环心 z=0.20 m 处的电场大小（N/C），取 k=9.0×10⁹ N·m²/C²。",
+  "expected": 800000.0,
+  "tol": 0.03,
+  "answerLatex": "8.0\\times10^{5}\\,\\mathrm{N/C}",
+  "solution": "E=kQz ÷ (z²+R²)^(3÷2)；代入 Q、z、R 得约 8.0×10⁵ N/C，方向沿轴线。",
+  "solutionLatex": "E=\\dfrac{kQz}{\\sqrt{(z^{2}+R^{2})^{3}}}=\\dfrac{(9.0\\times10^{9})(5.0\\times10^{-6})(0.20)}{\\sqrt{[(0.20)^{2}+(0.10)^{2}]^{3}}}\\approx8.0\\times10^{5}\\,\\mathrm{N/C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.7",
+      "label": "8.7 连续电荷分布的电场积分",
+      "topicId": "em-u8:8.7"
+    }
+  ]
+},
+{
+  "id": "em-u8-q057",
+  "title": "8.7 半圆弧圆心处的电场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 R=0.050 m 的半圆弧均匀带总电荷 Q=3.0 μC。求圆心处的电场大小（N/C），取 k=9.0×10⁹ N·m²/C²。",
+  "expected": 6900000.0,
+  "tol": 0.03,
+  "answerLatex": "6.9\\times10^{6}\\,\\mathrm{N/C}",
+  "solution": "半圆弧 λ=Q ÷ (πR)，圆心处 E=2kλ ÷ R=2kQ ÷ (πR²)，代入得约 6.9×10⁶ N/C。",
+  "solutionLatex": "E=\\dfrac{2kQ}{\\pi R^{2}}=\\dfrac{2(9.0\\times10^{9})(3.0\\times10^{-6})}{\\pi(0.050)^{2}}\\approx6.9\\times10^{6}\\,\\mathrm{N/C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.7",
+      "label": "8.7 连续电荷分布的电场积分",
+      "topicId": "em-u8:8.7"
+    }
+  ]
+},
+{
+  "id": "em-u8-q058",
+  "title": "8.8 两个电子的电力与引力之比",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "两个电子相距 1.0 nm。求它们之间电力与引力之比（填科学计数法系数，如 4.2e42）。取 k=9.0×10⁹ N·m²/C²，G=6.67×10⁻¹¹ N·m²/kg²，e=1.60×10⁻¹⁹ C，m_e=9.11×10⁻³¹ kg。",
+  "expected": 4.2e42,
+  "tol": 0.05,
+  "answerLatex": "4.2\\times10^{42}",
+  "solution": "比值为 ke² ÷ (Gm_e²)，与距离无关；代入得约 4.2×10⁴²，电力远强于引力。",
+  "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_e^{2}}\\approx\\dfrac{(9.0\\times10^{9})(1.60\\times10^{-19})^{2}}{(6.67\\times10^{-11})(9.11\\times10^{-31})^{2}}\\approx4.2\\times10^{42}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.8",
+      "label": "8.8 电力、引力与宏观物性",
+      "topicId": "em-u8:8.8"
+    }
+  ]
+},
+{
+  "id": "em-u8-q059",
+  "title": "8.8 为什么宏观物体近中性仍有力",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "桌面上的书受到支持力。下列哪项解释最符合微观电磁作用的观点？",
+  "choices": [
+    {
+      "text": "书与桌面的电子云相互排斥，大量微观电磁作用的宏观平均表现为支持力",
+      "correct": true
+    },
+    {
+      "text": "书与桌面都近中性，所以它们之间没有任何电磁作用",
+      "correct": false
+    },
+    {
+      "text": "支持力是一种与电磁力无关的新基本相互作用",
+      "correct": false
+    },
+    {
+      "text": "引力是支持力的主要来源",
+      "correct": false
+    }
+  ],
+  "solution": "宏观物体整体近中性，但内部有大量正负电荷；接触力是微观电磁相互作用的宏观平均。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.8",
+      "label": "8.8 电力、引力与宏观物性",
+      "topicId": "em-u8:8.8"
+    }
+  ]
+},
+{
+  "id": "em-u8-q060",
+  "title": "8.9 由电容比求相对介电常数",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "平行板电容器在真空中的电容 C₀=2.0 pF；填满某均匀介质后电容 C=7.0 pF。求该介质的相对介电常数 κ。",
+  "expected": 3.5,
+  "tol": 0.02,
+  "answerLatex": "3.5",
+  "solution": "填满介质时 C=κC₀，故 κ=C ÷ C₀=7.0 ÷ 2.0=3.5。",
+  "solutionLatex": "\\kappa=\\dfrac{C}{C_0}=\\dfrac{7.0\\,\\mathrm{pF}}{2.0\\,\\mathrm{pF}}=3.5",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.9",
+      "label": "8.9 介电率与电极化",
+      "topicId": "em-u8:8.9"
+    }
+  ]
+},
+{
+  "id": "em-u8-q061",
+  "title": "8.9 介质内部场强的削弱",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "平行板电容器极板间原本的场强 E₀=1.2×10⁵ V/m；填满相对介电常数 κ=2.5 的均匀介质。求介质内部的净场强大小（V/m）。",
+  "expected": 48000.0,
+  "tol": 0.02,
+  "answerLatex": "4.8\\times10^{4}\\,\\mathrm{V/m}",
+  "solution": "线性均匀介质内部 E=E₀ ÷ κ=1.2×10⁵ ÷ 2.5=4.8×10⁴ V/m。",
+  "solutionLatex": "E=\\dfrac{E_0}{\\kappa}=\\dfrac{1.2\\times10^{5}}{2.5}=4.8\\times10^{4}\\,\\mathrm{V/m}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.9",
+      "label": "8.9 介电率与电极化",
+      "topicId": "em-u8:8.9"
+    }
+  ]
 }
 ];

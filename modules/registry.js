@@ -338,7 +338,7 @@ export const MODULES = [
   // —— E&M ——
   {
     id: 'electric-field',
-    subject: 'em', chapterId: 'em-u8', topicCodes: ['8.2', '8.3', '8.1'],
+    subject: 'em', chapterId: 'em-u8', topicCodes: ['8.2', '8.3', '8.1', '8.7'],
     title: '电场线与等势 · Electric Field Lines and Equipotentials',
     summary: '点电荷的电场与等势线。 · Electric fields and equipotential lines of point charges.',
     explanation: '电场强度叠加；等势面与场线正交。 · Electric fields superpose; equipotential surfaces are perpendicular to field lines.',

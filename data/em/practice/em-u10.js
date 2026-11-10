@@ -2721,5 +2721,122 @@ export const problems = [
         "topicId": "em-u10:10.4"
       }
     ]
-  }
+  },
+{
+  "id": "em-u10-q045",
+  "title": "10.5 两导体球接触后的电荷分配",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "两个半径分别为 R₁=2.0 cm、R₂=4.0 cm 的导体球用细导线连接，系统总电荷 +12 μC。求半径较小的球所带电荷 Q₁（μC）。",
+  "expected": 4.0,
+  "tol": 0.02,
+  "answerLatex": "4.0\\,\\mathrm{\\mu C}",
+  "solution": "连接后同电势，Q₁ ÷ Q₂=R₁ ÷ R₂=1 ÷ 2；总电荷 12 μC，故 Q₁=4.0 μC、Q₂=8.0 μC。",
+  "solutionLatex": "Q_1=\\dfrac{R_1}{R_1+R_2}Q_{\\mathrm{total}}=\\dfrac{2.0}{6.0}(12\\,\\mathrm{\\mu C})=4.0\\,\\mathrm{\\mu C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.5",
+      "label": "10.5 接触再分布与感应接地",
+      "topicId": "em-u10:10.5"
+    }
+  ]
+},
+{
+  "id": "em-u10-q046",
+  "title": "10.5 孤立导体球接地后的电荷",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "一个带 +5.0 μC 的孤立导体球通过导线接地，达到静电平衡后它的净电荷变为多少？",
+  "choices": [
+    {
+      "text": "0 μC，电子从地球流入中和正电荷",
+      "correct": true
+    },
+    {
+      "text": "+5.0 μC 保持不变，因为地球不导电荷",
+      "correct": false
+    },
+    {
+      "text": "−5.0 μC，正电荷被地球吸走",
+      "correct": false
+    },
+    {
+      "text": "无法判断，取决于导体半径",
+      "correct": false
+    }
+  ],
+  "solution": "接地使导体与地球同电势（V=0）；孤立球最终净电荷为零，电子从地球流入。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.5",
+      "label": "10.5 接触再分布与感应接地",
+      "topicId": "em-u10:10.5"
+    }
+  ]
+},
+{
+  "id": "em-u10-q047",
+  "title": "10.6 外场中导体表面的感应电荷密度",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "一块大面积中性导体板置于 E₀=1.0×10⁴ V/m 的匀强外场中，达到静电平衡。求导体两面的感应面电荷密度大小（C/m²），取 ε₀=8.85×10⁻¹² C²/(N·m²)。",
+  "expected": 8.85e-8,
+  "tol": 0.03,
+  "answerLatex": "8.9\\times10^{-8}\\,\\mathrm{C/m^{2}}",
+  "solution": "导体内部 E=0；表面外侧场强 E_surface=σ ÷ ε₀。取 σ=ε₀E₀=8.85×10⁻⁸ C/m²。",
+  "solutionLatex": "\\sigma=\\varepsilon_0E_0=(8.85\\times10^{-12})(1.0\\times10^{4})=8.85\\times10^{-8}\\,\\mathrm{C/m^{2}}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.6",
+      "label": "10.6 导体静电平衡的建立",
+      "topicId": "em-u10:10.6"
+    }
+  ]
+},
+{
+  "id": "em-u10-q048",
+  "title": "10.6 平衡时间与测量分辨率的数量级",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "某实验的时间分辨率为 1.0 ns，导体达到静电平衡的时间约为 10⁻¹⁶ s。求测量分辨率与平衡时间的比值（填科学计数法系数，如 1.0e7）。",
+  "expected": 1.0e7,
+  "tol": 0.02,
+  "answerLatex": "1.0\\times10^{7}",
+  "solution": "比值=1.0×10⁻⁹ s ÷ 1.0×10⁻¹⁶ s=1.0×10⁷，因此瞬态过程无法被分辨。",
+  "solutionLatex": "\\dfrac{1.0\\times10^{-9}}{1.0\\times10^{-16}}=1.0\\times10^{7}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.6",
+      "label": "10.6 导体静电平衡的建立",
+      "topicId": "em-u10:10.6"
+    }
+  ]
+}
 ];

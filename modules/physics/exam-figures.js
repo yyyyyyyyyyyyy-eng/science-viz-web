@@ -2932,6 +2932,499 @@ def('charge-properties-conservation', '电荷是物质的基本属性：守恒�
   return s;
 });
 
+/* ======================= Track B B06 figures ======================= */
+def('em-u8-induced-charge-separation', '感应分离与接地顺序 · Induced charge separation and grounding order', 'Q_{\\mathrm{net}}=0\\ \\text{(isolated)},\\qquad Q_{\\mathrm{net}}<0\\ \\text{(grounded)}', () => {
+  let s = tx(18, 18, '① 靠近：近端 −、远端 +', { it: false, fs: 9 });
+  s += rect(24, 66, 11, 66, { fill: COL.f, op: 0.25, c: 'f' }) + tx(30, 62, '+', { anchor: 'middle', fs: 11, c: 'f' });
+  s += tx(30, 86, '+', { anchor: 'middle', fs: 10, c: 'f' }) + tx(30, 110, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  s += circ(96, 100, 27, { w: 1.3 }) + tx(78, 96, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(78, 112, '−', { anchor: 'middle', fs: 11, c: 'v' });
+  s += tx(114, 96, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(114, 112, '+', { anchor: 'middle', fs: 11, c: 'f' });
+  s += tx(96, 146, 'Q_net = 0', { anchor: 'middle', fs: 9 });
+  s += tx(150, 18, '② 接地：电子流入', { it: false, fs: 9 });
+  s += rect(156, 66, 11, 66, { fill: COL.f, op: 0.25, c: 'f' }) + tx(162, 62, '+', { anchor: 'middle', fs: 11, c: 'f' });
+  s += circ(228, 100, 27, { w: 1.3 }) + tx(210, 96, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(210, 112, '−', { anchor: 'middle', fs: 11, c: 'v' });
+  s += ln(228, 127, 228, 156, { w: 1.4 }) + ln(206, 156, 250, 156, { w: 2 }) + ln(210, 160, 204, 168, { w: 0.9, c: 'm' }) + ln(220, 160, 214, 168, { w: 0.9, c: 'm' }) + ln(236, 160, 230, 168, { w: 0.9, c: 'm' }) + ln(246, 160, 240, 168, { w: 0.9, c: 'm' });
+  s += arr(244, 150, 244, 132, 'v', 1.6) + tx(250, 144, 'e⁻', { c: 'v', fs: 9 });
+  s += tx(228, 146, 'Q_net < 0', { anchor: 'middle', fs: 9 });
+  s += tx(282, 18, '③ 先断地，再移棒', { it: false, fs: 9 });
+  s += rect(288, 66, 11, 66, { c: 'm', dash: '3 3' }) + tx(294, 62, '+', { anchor: 'middle', fs: 11, c: 'm' });
+  s += circ(350, 100, 27, { w: 1.3 }) + tx(336, 96, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(336, 112, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(362, 96, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(362, 112, '−', { anchor: 'middle', fs: 11, c: 'v' });
+  s += tx(350, 146, '净负电荷保留', { anchor: 'middle', fs: 8.5 });
+  s += ln(18, 172, 382, 172, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(18, 190, '反序对照：先移棒，再断开接地 → 导体恢复中性。', { it: false, fs: 9 });
+  s += circ(318, 213, 20, { w: 1.2 }) + tx(308, 209, '+', { anchor: 'middle', fs: 10, c: 'f' }) + tx(308, 222, '−', { anchor: 'middle', fs: 10, c: 'v' }) + tx(328, 209, '+', { anchor: 'middle', fs: 10, c: 'f' }) + tx(328, 222, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += tx(18, 214, '同样操作，仅顺序不同，最终电荷符号不同；', { it: false, fs: 8.5 });
+  s += tx(18, 228, '接地线提供电子转移路径，地球是巨大电荷库。', { it: false, fs: 8.5 });
+  s += tx(18, 246, 'The order of grounding and removing the rod fixes the final charge.', { it: false, fs: 7.5, c: 'm' });
+  return s;
+});
+def('em-u8-conductor-insulator-charging', '导体与绝缘体的起电方式 · Charging a conductor versus an insulator', 'q=ne,\\qquad Q_{\\mathrm{total}}=\\text{const}', () => {
+  let s = tx(18, 18, '导体 · conductor', { it: false, fs: 10, c: 'a' });
+  s += rect(24, 38, 156, 92, { w: 1.5 });
+  s += tx(102, 34, '自由电子可宏观移动', { anchor: 'middle', it: false, fs: 8 });
+  for (const [x, y] of [[32, 52], [32, 82], [32, 112], [172, 52], [172, 82], [172, 112], [72, 44], [102, 44], [132, 44], [72, 124], [102, 124], [132, 124]]) s += tx(x, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  for (const [x, y] of [[52, 60], [82, 60], [122, 60], [152, 60], [52, 104], [82, 104], [122, 104], [152, 104]]) s += tx(x, y, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += arr(70, 145, 134, 145, 'v', 1.4) + tx(102, 158, '接触 / 摩擦后电荷分布到表面', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(18, 178, '感应：近端 −、远端 +，内部 E 最终为零。', { it: false, fs: 8.5 });
+  s += tx(214, 18, '绝缘体 · insulator', { it: false, fs: 10, c: 'v' });
+  s += rect(220, 38, 156, 92, { w: 1.5 });
+  s += tx(298, 34, '电荷被束缚在局部', { anchor: 'middle', it: false, fs: 8 });
+  s += circ(244, 70, 12, { fill: COL.v, op: 0.2, c: 'v' }) + tx(244, 74, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += circ(266, 96, 12, { fill: COL.v, op: 0.2, c: 'v' }) + tx(266, 100, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += circ(250, 118, 12, { fill: COL.v, op: 0.2, c: 'v' }) + tx(250, 122, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += tx(330, 70, '+', { anchor: 'middle', fs: 10, c: 'f' }) + tx(350, 90, '+', { anchor: 'middle', fs: 10, c: 'f' }) + tx(330, 116, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  s += arr(286, 70, 318, 70, 'f', 1.2) + arr(286, 118, 318, 118, 'f', 1.2);
+  s += tx(298, 158, '仅局部极化，电荷不流到远处', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(214, 178, '摩擦后电荷停留在摩擦区域附近。', { it: false, fs: 8.5 });
+  s += ln(18, 194, 382, 194, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(18, 212, '相同起电操作，导体把电荷重新分布到表面；', { it: false, fs: 8.5 });
+  s += tx(18, 226, '绝缘体只能发生局部极化或保留局部电荷。', { it: false, fs: 8.5 });
+  s += tx(18, 244, 'Charging moves electrons; conductors redistribute, insulators localize.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('em-u8-rod-integration', '有限带电棒：垂直平分线与轴线 · Finite charged rod: perpendicular bisector and axis', 'E_\\perp=\\dfrac{2k\\lambda L}{d\\sqrt{4d^{2}+L^{2}}},\\qquad E_{\\mathrm{axis}}=\\dfrac{k\\lambda L}{x(x+L)}' + CAP_DESCENT, () => {
+  let s = tx(18, 18, '(a) 垂直平分线 · bisector', { it: false, fs: 9 });
+  s += ln(58, 34, 58, 208, { w: 3 }) + tx(38, 120, 'λ', { fs: 11, anchor: 'middle' });
+  s += rect(54, 62, 8, 8, { fill: COL.f, op: 0.5, c: 'f' }) + rect(54, 172, 8, 8, { fill: COL.f, op: 0.5, c: 'f' });
+  s += circ(158, 120, 3.5, { fill: COL.v }) + tx(164, 124, 'P', { fs: 10 });
+  s += ln(58, 120, 158, 120, { c: 'm', dash: '4 3', w: 1 }) + tx(108, 114, 'd', { fs: 10, anchor: 'middle' });
+  s += ln(58, 66, 158, 120, { c: 'm', dash: '4 3', w: 1 }) + tx(112, 82, 'r', { fs: 10, c: 'm' });
+  s += arr(158, 120, 184, 104, 'E', 1.8) + arr(158, 120, 184, 136, 'E', 1.8) + arr(158, 120, 190, 120, 'E', 2.2);
+  s += tx(172, 148, '竖直分量抵消', { it: false, fs: 8, c: 'E' });
+  s += tx(18, 230, 'dq = λ dx，r = √(x² + d²)', { it: false, fs: 8.5 });
+  s += tx(210, 18, '(b) 轴线上 · on axis', { it: false, fs: 9 });
+  s += ln(232, 86, 372, 86, { w: 3 }) + tx(302, 78, 'λ', { fs: 11, anchor: 'middle' });
+  s += rect(248, 82, 8, 8, { fill: COL.f, op: 0.5, c: 'f' }) + rect(290, 82, 8, 8, { fill: COL.f, op: 0.5, c: 'f' }) + rect(332, 82, 8, 8, { fill: COL.f, op: 0.5, c: 'f' });
+  s += circ(208, 86, 3.5, { fill: COL.v }) + tx(194, 90, 'P', { fs: 10 });
+  s += arr(248, 70, 220, 82, 'E', 1.3) + arr(290, 70, 224, 84, 'E', 1.3) + arr(332, 70, 228, 86, 'E', 1.3);
+  s += tx(208, 112, 'x', { fs: 10 }) + tx(302, 102, 'L', { fs: 10, anchor: 'middle' });
+  s += tx(210, 132, '所有 dE 同向，直接积分', { it: false, fs: 8.5 });
+  s += tx(210, 148, 'x ≫ L：E → kQ ÷ x²', { it: false, fs: 8.5 });
+  s += eq(210, 178, ['E_{axis} = ', { n: 'kλL', d: 'x(x+L)' }]);
+  s += tx(210, 210, 'L → ∞：E → 2kλ ÷ d', { it: false, fs: 8.5 });
+  s += tx(18, 248, '对称性先消去一个分量，再对剩余分量积分。', { it: false, fs: 8 });
+  return s;
+});
+def('em-u8-ring-axis', '均匀带电圆环轴线上的电场 · Electric field on the axis of a uniformly charged ring', 'E(z)=\\dfrac{kQz}{\\sqrt{(z^{2}+R^{2})^{3}}},\\qquad z_{\\max}=\\dfrac{R}{\\sqrt{2}}', () => {
+  let s = `<ellipse cx="110" cy="116" rx="62" ry="23" fill="none" stroke="currentColor" stroke-width="1.6"/>`;
+  s += ln(110, 116, 286, 116, { c: 'm', dash: '4 3', w: 1 }) + tx(198, 110, 'z', { fs: 10, anchor: 'middle' });
+  s += circ(292, 116, 3.5, { fill: COL.v }) + tx(298, 120, 'P', { fs: 10 });
+  s += circ(110, 93, 4, { fill: COL.f }) + tx(102, 88, 'dq', { fs: 9, c: 'f' });
+  s += circ(110, 139, 4, { fill: COL.f }) + tx(122, 150, 'dq′', { fs: 9, c: 'f' });
+  s += ln(110, 93, 292, 116, { c: 'm', dash: '4 3', w: 1 }) + tx(210, 90, 'r', { fs: 10, c: 'm' });
+  s += arr(292, 116, 326, 138, 'E', 1.8) + arr(292, 116, 326, 94, 'E', 1.8) + arr(292, 116, 340, 116, 'E', 2.2);
+  s += tx(332, 146, '横向抵消', { it: false, fs: 8, c: 'E' });
+  s += tx(28, 168, 'R', { fs: 10 }) + ln(110, 116, 156, 100, { c: 'm', w: 1 });
+  s += tx(18, 204, '每个 dq 的轴向分量同向叠加；', { it: false, fs: 8.5 });
+  s += tx(18, 218, '横向分量成对抵消。', { it: false, fs: 8.5 });
+  const g = graph(236, 34, 132, 92, { fns: [{ f: (t) => 2.598 * t / Math.pow(1 + t * t, 1.5), c: 'E', w: 2.2 }], t1: 3, ymin: 0, ymax: 1.08, xl: 'z/R', yl: 'E' });
+  s += g.s;
+  s += ln(g.X(Math.SQRT1_2), g.Y(0), g.X(Math.SQRT1_2), g.Y(1), { c: 'm', dash: '3 3', w: 1 });
+  s += tx(g.X(Math.SQRT1_2) + 3, 42, 'z=R/√2', { fs: 7.5, c: 'E' });
+  s += tx(236, 172, 'E(z) = kQz ÷ (z² + R²)^{3/2}', { it: false, fs: 8 });
+  s += tx(236, 188, 'z → 0：E → 0；z ≫ R：E → kQ ÷ z²', { it: false, fs: 8 });
+  s += tx(236, 204, '轴线上 E 在 z = R/√2 取最大值。', { it: false, fs: 8 });
+  s += tx(18, 244, 'On-axis field: transverse components cancel; maximum at z = R/√2.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('em-u8-disk-plane', '带电圆盘轴线与无限平面极限 · Charged disk on axis and the infinite-plane limit', 'E_{\\mathrm{disk}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\rightarrow\\dfrac{\\sigma}{2\\varepsilon_{0}}' + CAP_DESCENT, () => {
+  let s = `<ellipse cx="108" cy="112" rx="72" ry="23" fill="none" stroke="currentColor" stroke-width="1.6"/>`;
+  s += `<ellipse cx="108" cy="112" rx="42" ry="13" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+  s += ln(108, 112, 276, 112, { c: 'm', dash: '4 3', w: 1 }) + tx(196, 106, 'z', { fs: 10, anchor: 'middle' });
+  s += circ(282, 112, 3.5, { fill: COL.v }) + tx(288, 116, 'P', { fs: 10 });
+  s += tx(112, 94, 'R', { fs: 10 }) + tx(70, 132, "r′", { fs: 9 }) + tx(138, 132, "dr′", { fs: 9 });
+  s += arr(108, 112, 108, 84, 'E', 1.6) + tx(116, 90, 'dE', { fs: 9, c: 'E' });
+  s += tx(18, 158, '环元：dq = σ 2πr′ dr′', { it: false, fs: 8.5 });
+  s += tx(18, 174, '把圆盘看成半径 r′ 的细环叠加。', { it: false, fs: 8.5 });
+  const g = graph(236, 30, 132, 100, { fns: [{ f: (t) => 1 - t / Math.sqrt(t * t + 1), c: 'E', w: 2.2 }], t1: 4, ymin: 0, ymax: 1.08, xl: 'z/R', yl: 'E' });
+  s += g.s;
+  s += ln(g.X(0), g.Y(1), g.X(4), g.Y(1), { c: 'm', dash: '4 3', w: 1 });
+  s += tx(238, 42, '无限平面 · infinite plane', { it: false, fs: 7.5, c: 'm' });
+  s += tx(236, 150, '有限圆盘 E(z) 随 z 下降；', { it: false, fs: 8 });
+  s += tx(236, 164, 'R → ∞ 时趋近常数 σ ÷ (2ε₀)。', { it: false, fs: 8 });
+  s += tx(236, 184, '无限大平面场与 z 无关。', { it: false, fs: 8 });
+  s += tx(18, 214, 'z = 0：E = σ ÷ (2ε₀)；z ≫ R：E → kQ ÷ z²。', { it: false, fs: 8.3 });
+  s += tx(18, 230, '圆盘先积分环元；无限平面是 R → ∞ 的极限。', { it: false, fs: 8.3 });
+  s += tx(18, 248, 'The infinite-plane field is independent of distance z.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('em-u8-arc-line', '半圆弧与无限长直线的电场 · Field of a semicircular arc and an infinite line', 'E_{\\mathrm{arc}}=\\dfrac{2k\\lambda}{R},\\qquad E_{\\mathrm{line}}=\\dfrac{\\lambda}{2\\pi\\varepsilon_0r}', () => {
+  let s = tx(18, 18, '(a) 半圆弧 · semicircular arc', { it: false, fs: 9 });
+  s += arc(112, 118, 64, 0, 180, { c: 'f', w: 3 });
+  s += circ(112, 118, 3.5, { fill: COL.v }) + tx(118, 122, 'O', { fs: 10 });
+  s += circ(48, 118, 4, { fill: COL.f }) + circ(176, 118, 4, { fill: COL.f }) + circ(112, 54, 4, { fill: COL.f });
+  s += arr(112, 54, 112, 94, 'E', 1.6) + arr(48, 118, 82, 118, 'E', 1.4) + arr(176, 118, 142, 118, 'E', 1.4);
+  s += arr(112, 118, 112, 158, 'E', 2.2);
+  s += tx(120, 164, 'E = 2kλ ÷ R', { fs: 9, c: 'E' });
+  s += tx(18, 192, '对称 dE 对消去水平分量，', { it: false, fs: 8.5 });
+  s += tx(18, 206, '只剩沿对称轴方向的场。', { it: false, fs: 8.5 });
+  s += tx(18, 224, '半圆圆心处 B 与 E 都由对称性化简。', { it: false, fs: 8.5 });
+  s += tx(212, 18, '(b) 无限长直线 / 圆柱 · line / cylinder', { it: false, fs: 9 });
+  s += ln(300, 34, 300, 214, { w: 2.4 }) + tx(310, 44, 'λ', { fs: 11, c: 'f' });
+  s += `<ellipse cx="300" cy="120" rx="58" ry="18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="5 3"/>`;
+  s += `<ellipse cx="300" cy="70" rx="58" ry="18" fill="none" stroke="currentColor" stroke-width="1.2"/>`;
+  s += ln(242, 70, 358, 70, { w: 1.2 }) + ln(242, 120, 358, 120, { w: 1.2, c: 'm', dash: '4 3' });
+  s += arr(300, 120, 358, 120, 'E', 1.8) + arr(300, 120, 242, 120, 'E', 1.8);
+  s += tx(326, 132, 'r', { fs: 10 });
+  s += tx(228, 188, 'E = λ ÷ (2πε₀r)', { fs: 9, c: 'E' });
+  s += tx(228, 204, '实心圆柱内部：E = ρr ÷ (2ε₀)', { it: false, fs: 8.2 });
+  s += tx(228, 224, '高斯面：同轴圆柱面，通量只穿过侧面。', { it: false, fs: 8 });
+  s += tx(18, 248, 'Arc: symmetry cancels components; line: cylindrical Gaussian surface.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('neutral-matter', '电中性宏观物质与微观电荷 · Neutral macroscopic matter and microscopic charge', 'Q_{\\mathrm{net}}\\approx0,\\qquad F_g=G\\dfrac{m_1m_2}{r^{2}}', () => {
+  let s = circ(108, 116, 74, { fill: COL.g, op: 0.04, c: 'g', w: 1.4 });
+  for (const [x, y] of [[74, 82], [108, 82], [142, 82], [74, 116], [108, 116], [142, 116], [74, 150], [108, 150], [142, 150]]) s += tx(x, y + 4, '+', { anchor: 'middle', fs: 11, c: 'f' });
+  for (const [x, y] of [[91, 99], [125, 99], [91, 133], [125, 133], [58, 99], [158, 99], [58, 133], [158, 133]]) s += tx(x, y + 4, '−', { anchor: 'middle', fs: 11, c: 'v' });
+  s += tx(108, 210, 'Q_net ≈ 0，内部电荷巨大', { anchor: 'middle', it: false, fs: 8.5 });
+  s += arr(108, 20, 108, 40, 'f', 1.6) + arr(108, 212, 108, 232, 'f', 1.6);
+  s += tx(118, 32, 'g', { fs: 10, c: 'f' }) + tx(118, 228, 'g', { fs: 10, c: 'f' });
+  s += tx(214, 18, '微观接触：电子云排斥', { it: false, fs: 8.5 });
+  s += rect(220, 54, 156, 52, { w: 1.3 }) + rect(220, 128, 156, 52, { w: 1.3 });
+  for (let x = 238; x <= 358; x += 24) s += circ(x, 80, 7, { fill: COL.v, op: 0.18, c: 'v' });
+  for (let x = 238; x <= 358; x += 24) s += circ(x, 154, 7, { fill: COL.v, op: 0.18, c: 'v' });
+  s += arr(298, 112, 298, 126, 'f', 1.8) + arr(298, 126, 298, 112, 'f', 1.8);
+  s += tx(310, 122, 'N', { fs: 10, c: 'f' }) + tx(214, 194, '支持力 / 摩擦力 = 微观电磁作用的宏观平均', { it: false, fs: 8 });
+  s += tx(214, 210, '引力不能被屏蔽，但整体近中性使电力在宏观尺度抵消。', { it: false, fs: 7.8 });
+  s += tx(214, 226, 'Large-scale gravity wins because bodies are nearly neutral,', { it: false, fs: 7.2, c: 'm' });
+  s += tx(214, 238, 'not because gravity is a stronger coupling.', { it: false, fs: 7.2, c: 'm' });
+  return s;
+});
+def('em-u8-force-direction-pairs', '电力与引力的方向对照 · Direction of electric and gravitational forces', 'F_e=k\\dfrac{|q_1q_2|}{r^{2}},\\qquad F_g=G\\dfrac{m_1m_2}{r^{2}}', () => {
+  let s = tx(18, 18, '(a) 同号电荷 · same sign', { it: false, fs: 9.5 });
+  s += circ(86, 102, 18, { fill: COL.f, op: 0.25, c: 'f' }) + tx(86, 107, '+', { anchor: 'middle', fs: 13, c: 'f' });
+  s += circ(198, 102, 18, { fill: COL.f, op: 0.25, c: 'f' }) + tx(198, 107, '+', { anchor: 'middle', fs: 13, c: 'f' });
+  s += arr(68, 102, 34, 102, 'f', 2.2) + arr(216, 102, 250, 102, 'f', 2.2);
+  s += arr(100, 102, 140, 102, 'v', 1.6, '5 4') + arr(184, 102, 144, 102, 'v', 1.6, '5 4');
+  s += tx(142, 88, 'F_g', { fs: 9, c: 'v', anchor: 'middle' }) + tx(142, 122, 'F_e', { fs: 9, c: 'f', anchor: 'middle' });
+  s += tx(142, 146, '电斥、引吸；净力为矢量和', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(18, 158, 'F_e 可吸引或排斥；F_g 永远吸引。', { it: false, fs: 8.5 });
+  s += tx(214, 18, '(b) 异号电荷 · opposite sign', { it: false, fs: 9.5 });
+  s += circ(278, 102, 18, { fill: COL.f, op: 0.25, c: 'f' }) + tx(278, 107, '+', { anchor: 'middle', fs: 13, c: 'f' });
+  s += circ(350, 102, 18, { fill: COL.v, op: 0.25, c: 'v' }) + tx(350, 107, '−', { anchor: 'middle', fs: 13, c: 'v' });
+  s += arr(296, 102, 328, 102, 'f', 2.2) + arr(332, 102, 300, 102, 'f', 2.2);
+  s += arr(278, 86, 278, 58, 'v', 1.3, '5 4') + arr(350, 86, 350, 58, 'v', 1.3, '5 4');
+  s += tx(314, 84, '两者都吸引', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(314, 146, 'F_e 远大于 F_g', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(214, 158, '同距离下用 F_e ÷ F_g 比较数量级。', { it: false, fs: 8.5 });
+  s += tx(18, 186, '同号：F_e 向外，F_g 向内；异号：两者都向内。', { it: false, fs: 8.7 });
+  s += tx(18, 202, '质量始终产生吸引的引力；电荷符号决定电力方向。', { it: false, fs: 8.7 });
+  s += tx(18, 222, '净力是电力与引力的矢量和；通常 F_g 可忽略。', { it: false, fs: 8.7 });
+  s += tx(18, 242, 'Electric forces can attract or repel; gravity always attracts.', { it: false, fs: 7.5, c: 'm' });
+  return s;
+});
+def('em-u8-dielectric-polarization', '介质极化与束缚电荷 · Dielectric polarization and bound charge', 'E=\\dfrac{E_0}{\\kappa},\\qquad C=\\kappa C_0,\\qquad \\varepsilon=\\kappa\\varepsilon_0', () => {
+  let s = rect(80, 44, 10, 172, { fill: COL.f, op: 0.22, c: 'f' }) + rect(310, 44, 10, 172, { fill: COL.v, op: 0.22, c: 'v' });
+  for (let y = 58; y <= 202; y += 24) s += tx(85, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  for (let y = 58; y <= 202; y += 24) s += tx(315, y, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += rect(120, 52, 160, 156, { fill: COL.g, op: 0.04, c: 'g', w: 1.2 });
+  s += tx(200, 40, '电介质 · dielectric', { anchor: 'middle', it: false, fs: 9 });
+  for (let y = 72; y <= 190; y += 30) {
+    s += circ(154, y, 8, { c: 'v', w: 1 }) + tx(154, y + 3, '−', { anchor: 'middle', fs: 9, c: 'v' });
+    s += circ(186, y, 8, { c: 'f', w: 1 }) + tx(186, y + 3, '+', { anchor: 'middle', fs: 9, c: 'f' });
+  }
+  s += tx(126, 224, '束缚 −', { fs: 8.5, c: 'v', anchor: 'middle' }) + tx(274, 224, '束缚 +', { fs: 8.5, c: 'f', anchor: 'middle' });
+  s += arr(200, 92, 292, 92, 'E', 2.2) + tx(246, 84, 'E₀', { fs: 10, c: 'E', anchor: 'middle' });
+  s += arr(200, 120, 136, 120, 'v', 1.8) + tx(168, 112, 'E_b', { fs: 10, c: 'v', anchor: 'middle' });
+  s += arr(200, 148, 250, 148, 'E', 1.4) + tx(225, 140, 'E', { fs: 10, c: 'E', anchor: 'middle' });
+  s += tx(18, 238, 'E = E₀ ÷ κ：束缚电荷的反向场削弱净场；C = κC₀。', { it: false, fs: 8.3 });
+  s += tx(18, 252, 'κ ≥ 1；ε = κε₀ 是介质的介电常数。', { it: false, fs: 8.3 });
+  return s;
+});
+def('em-u8-permittivity-materials', '介电常数材料比较与非极性/极性分子 · Permittivity comparison and nonpolar/polar molecules', '\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1', () => {
+  const L = 118, R = 360, X = (v) => L + (Math.log10(v) / 2) * (R - L);
+  let s = ln(L, 34, L, 174, { w: 1.2 }) + ln(L, 174, R, 174, { w: 1.2 });
+  [1, 10, 100].forEach((v) => { s += ln(X(v), 168, X(v), 180, { w: 1 }) + tx(X(v), 192, `${v}`, { fs: 9, anchor: 'middle' }); });
+  const rows = [['真空 · vacuum', 1, 'm'], ['空气 · air', 1.0006, 'm'], ['塑料 · plastic', 3, 'a'], ['玻璃 · glass', 6, 'v'], ['水 · water', 80, 'B']];
+  rows.forEach(([lab, v, c], i) => {
+    const y = 44 + i * 24;
+    s += tx(L - 6, y + 8, lab, { anchor: 'end', it: false, fs: 8.2 });
+    s += rect(X(1), y, Math.max(1, X(v) - X(1)), 14, { fill: COL[c], op: c === 'm' ? 0.12 : 0.28, c: c === 'm' ? 'g' : c, w: 1 });
+    s += tx(X(v) + 4, y + 10, v === 1 ? '1' : (v < 2 ? '≈1.0006' : `${v}`), { fs: 8, it: false, c: c === 'm' ? 'g' : c });
+  });
+  s += tx(18, 210, '非极性分子：诱导偶极', { it: false, fs: 8.2 });
+  s += circ(86, 236, 13, { w: 1.2 }) + circ(114, 236, 13, { w: 1.2 });
+  s += arr(98, 224, 114, 224, 'v', 1.2) + tx(106, 220, 'E', { fs: 8, c: 'v', anchor: 'middle' });
+  s += tx(180, 210, '极性分子：永久偶极可转动', { it: false, fs: 8.2 });
+  s += circ(236, 236, 13, { c: 'f', w: 1.2 }) + tx(236, 240, '+', { anchor: 'middle', fs: 10, c: 'f' }) + circ(264, 236, 13, { c: 'v', w: 1.2 }) + tx(264, 240, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  s += arc(250, 236, 34, 200, 340, { c: 'a', w: 1.2, me: 'a' });
+  s += tx(298, 210, 'κ 由组成与排列决定：', { it: false, fs: 8.2 });
+  s += tx(298, 224, '电子能否容易改变位形。', { it: false, fs: 8.2 });
+  s += tx(298, 238, '水分子永久偶极 → κ 大。', { it: false, fs: 8.2 });
+  s += tx(18, 254, 'κ = ε ÷ ε₀；组成与排列决定极化响应，不只是密度。', { it: false, fs: 8 });
+  return s;
+});
+def('em-u8-conductor-insulator-response', '导体与绝缘体对外场的响应 · Conductor versus insulator response to an external field', 'E_{\\mathrm{cond}}=0,\\qquad E_{\\mathrm{ins}}=\\dfrac{E_0}{\\kappa}', () => {
+  let s = tx(18, 18, '导体 · conductor', { it: false, fs: 10, c: 'a' });
+  s += rect(38, 70, 118, 78, { fill: COL.g, op: 0.04, c: 'g', w: 1.4 });
+  for (let y = 56; y <= 162; y += 26) s += arr(20, y, 56, y, 'E', 1.3);
+  s += tx(22, 182, '外场 E₀', { it: false, fs: 8, c: 'E' });
+  for (let y = 82; y <= 138; y += 18) s += tx(42, y, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  for (let y = 82; y <= 138; y += 18) s += tx(152, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  s += tx(97, 112, '自由载流子迁移', { anchor: 'middle', it: false, fs: 8.2 });
+  s += tx(97, 126, '内部 E = 0', { anchor: 'middle', it: false, fs: 8.2, c: 'a' });
+  s += tx(18, 204, '净电荷在表面；无静态 κ。', { it: false, fs: 8.3 });
+  s += tx(214, 18, '绝缘体 · insulator', { it: false, fs: 10, c: 'v' });
+  s += rect(234, 70, 118, 78, { fill: COL.g, op: 0.04, c: 'g', w: 1.4 });
+  for (let y = 56; y <= 162; y += 26) s += arr(216, y, 252, y, 'E', 1.3);
+  s += tx(218, 182, '外场 E₀', { it: false, fs: 8, c: 'E' });
+  for (let y = 82; y <= 138; y += 20) {
+    s += circ(258, y, 6, { c: 'v', w: 1 }) + tx(258, y + 3, '−', { anchor: 'middle', fs: 8, c: 'v' });
+    s += circ(286, y, 6, { c: 'f', w: 1 }) + tx(286, y + 3, '+', { anchor: 'middle', fs: 8, c: 'f' });
+  }
+  s += tx(296, 94, '束缚极化', { it: false, fs: 8.2 });
+  s += tx(296, 108, '内部 E = E₀ ÷ κ', { it: false, fs: 8.2, c: 'v' });
+  s += tx(214, 204, '束缚表面电荷；静态 κ 有意义。', { it: false, fs: 8.3 });
+  s += ln(18, 220, 382, 220, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(18, 238, '导体屏蔽内部场；绝缘体只部分削弱内部场。', { it: false, fs: 8.5 });
+  s += tx(18, 252, 'Conductors screen; insulators polarize and reduce E by κ.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('multi-charge-potential', '多点电荷的电势叠加 · Superposition of electric potential from several charges', 'V(P)=k\\dfrac{q_1}{r_1}+k\\dfrac{q_2}{r_2}+k\\dfrac{q_3}{r_3}', () => {
+  let s = circ(66, 60, 12, { fill: COL.f, op: 0.25, c: 'f' }) + tx(66, 65, '+', { anchor: 'middle', fs: 12, c: 'f' }) + tx(48, 56, 'q₁', { fs: 9 });
+  s += circ(66, 170, 12, { fill: COL.f, op: 0.25, c: 'f' }) + tx(66, 175, '+', { anchor: 'middle', fs: 12, c: 'f' }) + tx(48, 166, 'q₂', { fs: 9 });
+  s += circ(176, 115, 12, { fill: COL.v, op: 0.25, c: 'v' }) + tx(176, 120, '−', { anchor: 'middle', fs: 12, c: 'v' }) + tx(190, 112, 'q₃', { fs: 9 });
+  s += circ(306, 115, 4, { fill: COL.v }) + tx(314, 120, 'P', { fs: 10 });
+  s += ln(66, 60, 306, 115, { c: 'm', dash: '4 3', w: 1 }) + tx(196, 76, 'r₁', { fs: 9, c: 'm' });
+  s += ln(66, 170, 306, 115, { c: 'm', dash: '4 3', w: 1 }) + tx(196, 156, 'r₂', { fs: 9, c: 'm' });
+  s += ln(176, 115, 306, 115, { c: 'm', dash: '4 3', w: 1 }) + tx(240, 108, 'r₃', { fs: 9, c: 'm' });
+  s += `<ellipse cx="246" cy="128" rx="88" ry="44" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="5 4"/>`;
+  s += tx(246, 176, '等势线 · equipotential', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(18, 194, 'V 是标量：直接取代数和，不用分解方向。', { it: false, fs: 8.7 });
+  s += tx(18, 210, '某点 V = 0 只表示各贡献抵消，E 不一定为零。', { it: false, fs: 8.7 });
+  s += tx(18, 226, '电势的正负由各电荷符号与距离共同决定。', { it: false, fs: 8.7 });
+  s += tx(18, 246, 'Potential is a scalar sum; V = 0 does not imply E = 0.', { it: false, fs: 7.5, c: 'm' });
+  return s;
+});
+def('potential-slope-field', 'V(x) 斜率与电场 · Slope of V(x) and the electric field', 'E_x=-\\dfrac{dV}{dx}', () => {
+  const g = graph(46, 32, 300, 132, { fns: [{ f: (t) => 600 - 400 * t, c: 'a', w: 2.4 }], t1: 1.5, ymin: -80, ymax: 640, xl: 'x (m)', yl: 'V (V)' });
+  let s = g.s;
+  s += ln(g.X(0.4), g.Y(440), g.X(0.7), g.Y(320), { c: 'E', w: 1.8 });
+  s += tx(g.X(0.72), g.Y(306), '切线斜率 = −E_x', { fs: 8.4, c: 'E' });
+  s += ln(g.X(1.0), g.Y(200), g.X(1.3), g.Y(80), { c: 'E', w: 1.8 });
+  s += tx(g.X(0.78), g.Y(120), 'E_x = −dV ÷ dx', { fs: 8.4, c: 'E' });
+  s += tx(46, 190, 'V 随 x 线性下降 → E_x 为常量且沿 +x。', { it: false, fs: 8.6 });
+  s += tx(46, 204, '正电荷受力沿 E；负电荷受力反向。', { it: false, fs: 8.6 });
+  s += arr(250, 222, 326, 222, 'E', 1.8) + tx(288, 214, 'E', { fs: 10, c: 'E', anchor: 'middle' });
+  s += circ(110, 228, 10, { fill: COL.f, op: 0.25, c: 'f' }) + tx(110, 232, '+', { anchor: 'middle', fs: 11, c: 'f' }) + arr(122, 228, 154, 228, 'f', 1.6);
+  s += circ(110, 248, 10, { fill: COL.v, op: 0.25, c: 'v' }) + tx(110, 252, '−', { anchor: 'middle', fs: 11, c: 'v' }) + arr(98, 248, 68, 248, 'v', 1.6);
+  s += tx(178, 232, '正电荷 · positive', { it: false, fs: 8 });
+  s += tx(178, 252, '负电荷 · negative', { it: false, fs: 8 });
+  return s;
+});
+def('equipotentials-particle-energy', '等势线与粒子能量 · Equipotentials and particle energy', 'K+U=\\text{const},\\qquad \\Delta K=-\\Delta U', () => {
+  let s = '';
+  for (let i = 0; i < 4; i++) {
+    const x = 70 + i * 44;
+    s += ln(x, 42, x, 196, { c: 'a', w: 1.2, dash: i === 0 ? '' : '4 3' });
+    s += tx(x, 34, `${10 + i * 10} V`, { fs: 8, anchor: 'middle', c: 'a' });
+  }
+  s += tx(52, 20, '等势线 · equipotentials', { it: false, fs: 8.6 });
+  s += pathD('M50,180 C110,180 150,110 220,84', { c: 'v', w: 2.2, me: 'v' });
+  s += circ(72, 176, 4, { fill: COL.v }) + tx(56, 192, 'A', { fs: 9 }) + circ(206, 88, 4, { fill: COL.v }) + tx(212, 82, 'B', { fs: 9 });
+  s += circ(240, 76, 4, { fill: COL.f }) + tx(246, 72, '折返点', { fs: 8, c: 'f' });
+  s += tx(18, 216, '沿等势线移动不做功；只有电场力做功时 K + U 守恒。', { it: false, fs: 8.2 });
+  s += tx(18, 230, '粒子不能进入 U 高于总能量的区域，在折返点 K = 0。', { it: false, fs: 8.2 });
+  s += tx(18, 248, 'Bar chart: K + U is constant; turning point where K = 0.', { it: false, fs: 7.4, c: 'm' });
+  const bx = 280, base = 206;
+  s += ln(bx - 8, base, 388, base, { w: 1.2 });
+  s += bar(bx, base, 20, 70, 'v', 0.3) + bar(bx + 26, base, 20, 34, 'a', 0.3);
+  s += bar(bx + 56, base, 20, 26, 'v', 0.3) + bar(bx + 82, base, 20, 78, 'a', 0.3);
+  s += ln(bx, base - 104, 388, base - 104, { c: 'm', dash: '4 3', w: 1 });
+  s += tx(bx + 12, base + 12, 'K', { fs: 9, c: 'v', anchor: 'middle' }) + tx(bx + 38, base + 12, 'U', { fs: 9, c: 'a', anchor: 'middle' });
+  s += tx(bx + 68, base + 12, 'K', { fs: 9, c: 'v', anchor: 'middle' }) + tx(bx + 94, base + 12, 'U', { fs: 9, c: 'a', anchor: 'middle' });
+  s += tx(bx + 6, base - 110, '总能量', { fs: 8, c: 'm' });
+  return s;
+});
+def('three-charge-pairwise', '三点电荷的逐对势能 · Pairwise potential energy of three charges', 'U=\\sum_{i<j}k\\dfrac{q_iq_j}{r_{ij}}', () => {
+  let s = ln(62, 198, 202, 198, { w: 1.4 }) + ln(62, 198, 62, 58, { w: 1.4 });
+  s += circ(62, 198, 11, { fill: COL.f, op: 0.25, c: 'f' }) + tx(62, 202, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(44, 202, 'q₁', { fs: 9 });
+  s += circ(202, 198, 11, { fill: COL.f, op: 0.25, c: 'f' }) + tx(202, 202, '−', { anchor: 'middle', fs: 11, c: 'v' }) + tx(212, 202, 'q₂', { fs: 9 });
+  s += circ(62, 58, 11, { fill: COL.v, op: 0.25, c: 'v' }) + tx(62, 62, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(44, 56, 'q₃', { fs: 9 });
+  s += tx(132, 208, '0.30 m', { fs: 8.5, anchor: 'middle' }) + tx(40, 128, '0.40 m', { fs: 8.5, anchor: 'middle' });
+  s += tx(146, 126, '0.50 m', { fs: 8.5 });
+  s += ln(62, 58, 202, 198, { c: 'm', dash: '4 3', w: 1 });
+  s += tx(226, 42, '逐对组装 · place one at a time', { it: false, fs: 8.6 });
+  s += tx(226, 64, '① 第一个电荷：0 J', { it: false, fs: 8.3 });
+  s += tx(226, 80, '② 第二个：+U₁₂', { it: false, fs: 8.3 });
+  s += tx(226, 96, '③ 第三个：+U₁₃ + U₂₃', { it: false, fs: 8.3 });
+  s += tx(226, 120, 'U₁₂ = kq₁q₂ ÷ r₁₂', { fs: 8.3 });
+  s += tx(226, 136, 'U₁₃ = kq₁q₃ ÷ r₁₃', { fs: 8.3 });
+  s += tx(226, 152, 'U₂₃ = kq₂q₃ ÷ r₂₃', { fs: 8.3 });
+  s += tx(226, 176, '总势能 = 三项之和', { it: false, fs: 8.6, c: 'a' });
+  s += tx(18, 228, '三个电荷只有三对相互作用，每对只算一次。', { it: false, fs: 8.5 });
+  s += tx(18, 244, '先放置的电荷不需要克服后来电荷的场。', { it: false, fs: 8.5 });
+  return s;
+});
+def('pairwise-double-counting', '双计数错误与正确配对 · Double-counting error and correct pairing', 'U=\\sum_{i<j}k\\dfrac{q_iq_j}{r_{ij}}=\\dfrac12\\sum_i q_iV_i', () => {
+  let s = tx(18, 18, '错误：有序对 · ordered pairs', { it: false, fs: 9.3, c: 'E' });
+  s += rect(18, 28, 174, 132, { c: 'E', w: 1.3, dash: '4 3' });
+  s += tx(28, 50, 'Σᵢ Σⱼ≠ᵢ kqᵢqⱼ ÷ rᵢⱼ', { fs: 9.3, c: 'E' });
+  const terms = ['1-2', '2-1', '1-3', '3-1', '2-3', '3-2'];
+  terms.forEach((t, i) => { s += tx(36 + (i % 2) * 72, 76 + Math.floor(i / 2) * 24, `U${t}`, { fs: 8.8 }); });
+  s += tx(28, 148, '每对算两次 → 结果 ×2', { it: false, fs: 8.4, c: 'E' });
+  s += tx(214, 18, '正确：无序对 · i < j', { it: false, fs: 9.3, c: 'a' });
+  s += rect(214, 28, 168, 132, { c: 'a', w: 1.3, dash: '4 3' });
+  s += tx(224, 50, 'Σᵢ<ⱼ kqᵢqⱼ ÷ rᵢⱼ', { fs: 9.3, c: 'a' });
+  const terms2 = ['U₁₂', 'U₁₃', 'U₂₃'];
+  terms2.forEach((t, i) => { s += tx(234, 78 + i * 24, t, { fs: 8.8, c: 'a' }); });
+  s += tx(224, 148, '三项，每对一次', { it: false, fs: 8.4, c: 'a' });
+  s += tx(18, 184, '(1/2)Σᵢ qᵢVᵢ 中的 1/2 正是为了抵消双计数；', { it: false, fs: 8.5 });
+  s += tx(18, 200, '自能项 i = j 不计入相互作用势能。', { it: false, fs: 8.5 });
+  s += tx(18, 220, '三电荷：3 对；四电荷：6 对；n 个电荷：n(n−1) ÷ 2 对。', { it: false, fs: 8.5 });
+  s += tx(18, 242, 'The factor 1/2 cancels the double counting of ordered pairs.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('battery-chemical-emf', '电池的化学电动势 · Chemical emf of a battery', '\\varepsilon=\\dfrac{W_{\\mathrm{ne}}}{q},\\qquad V_{\\mathrm{term}}=\\varepsilon-Ir', () => {
+  let s = rect(36, 62, 188, 136, { w: 1.6 }) + rect(36, 62, 188, 22, { fill: COL.g, op: 0.06, c: 'g', w: 1 });
+  s += tx(130, 78, '电解质 · electrolyte', { anchor: 'middle', it: false, fs: 8.5 });
+  s += rect(66, 96, 12, 86, { fill: COL.v, op: 0.25, c: 'v' }) + rect(182, 96, 12, 86, { fill: COL.f, op: 0.25, c: 'f' });
+  s += tx(72, 192, '−', { anchor: 'middle', fs: 12, c: 'v' }) + tx(188, 192, '+', { anchor: 'middle', fs: 12, c: 'f' });
+  s += tx(72, 214, '阳极 −', { anchor: 'middle', it: false, fs: 8, c: 'v' }) + tx(188, 214, '阴极 +', { anchor: 'middle', it: false, fs: 8, c: 'f' });
+  s += ln(72, 96, 72, 34, { w: 1.6 }) + ln(188, 96, 188, 34, { w: 1.6 }) + ln(72, 34, 112, 34, { w: 1.6 }) + ln(148, 34, 188, 34, { w: 1.6 });
+  s += resistor(112, 34, 148, 34, 'R', { dy: -8 });
+  s += arr(92, 24, 128, 24, 'v', 1.6) + tx(110, 18, 'e⁻', { fs: 9, c: 'v', anchor: 'middle' });
+  s += arr(78, 132, 176, 132, 'a', 1.8) + tx(127, 124, '非静电力 F_ne', { fs: 8, c: 'a', anchor: 'middle' });
+  s += arr(176, 152, 78, 152, 'E', 1.8) + tx(127, 166, '内电场 E', { fs: 8, c: 'E', anchor: 'middle' });
+  s += tx(236, 54, '化学过程分离正负电荷，', { it: false, fs: 8.3 });
+  s += tx(236, 68, '非静电力把正电荷搬到正极。', { it: false, fs: 8.3 });
+  s += tx(236, 90, '电池不是电荷仓库；', { it: false, fs: 8.3 });
+  s += tx(236, 104, '持续提供电势差。', { it: false, fs: 8.3 });
+  s += tx(236, 130, '开路：V_term = ε', { it: false, fs: 8.3, c: 'a' });
+  s += tx(236, 146, '有电流：V_term = ε − Ir', { it: false, fs: 8.3, c: 'a' });
+  s += tx(236, 172, '内部 E 与外电路电流方向相反。', { it: false, fs: 8 });
+  s += tx(18, 232, '电动势 ε 是单位电荷获得的非静电力做功。', { it: false, fs: 8.5 });
+  s += tx(18, 248, 'Chemical reactions separate charge; emf is energy per unit charge.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('battery-terminal-voltage', '端电压与电流的关系 · Terminal voltage versus current', 'V_{\\mathrm{term}}=\\varepsilon-Ir,\\qquad I=\\dfrac{\\varepsilon}{R+r}', () => {
+  let s = ln(46, 54, 168, 54, { w: 1.6 }) + ln(168, 54, 168, 200, { w: 1.6 }) + ln(168, 200, 46, 200, { w: 1.6 }) + ln(46, 200, 46, 54, { w: 1.6 });
+  s += battery(46, 120, 46, 152, 'ε', false);
+  s += resistor(130, 54, 168, 54, 'r', { dy: -8 }) + resistor(46, 78, 46, 112, 'R', { anchor: 'start', dx: 10 });
+  s += circ(214, 54, 13, { w: 1.2 }) + tx(214, 58, 'V', { anchor: 'middle', fs: 10 });
+  s += ln(168, 54, 201, 54, { w: 1.2, c: 'm', dash: '3 3' }) + ln(227, 54, 250, 54, { w: 1.2, c: 'm', dash: '3 3' });
+  s += ln(214, 67, 214, 200, { c: 'm', dash: '3 3', w: 1 }) + ln(168, 200, 214, 200, { c: 'm', dash: '3 3', w: 1 });
+  s += arr(92, 54, 120, 54, 'I', 1.8) + tx(106, 46, 'I', { fs: 9, c: 'I', anchor: 'middle' });
+  s += tx(18, 224, '端电压 V_term = ε − Ir = IR；', { it: false, fs: 8.4 });
+  s += tx(18, 238, '电流越大，内阻分压 Ir 越大，端电压越低。', { it: false, fs: 8.4 });
+  const g = graph(270, 48, 112, 132, { fns: [{ f: (t) => 9 - 1.5 * t, c: 'a', w: 2.2 }], t1: 3, ymin: 0, ymax: 10, xl: 'I (A)', yl: 'V_term (V)' });
+  s += g.s;
+  s += circ(g.X(0), g.Y(9), 3, { fill: COL.a }) + tx(g.X(0) + 4, g.Y(9) - 4, '开路 ε', { fs: 7.6, c: 'a' });
+  s += circ(g.X(2), g.Y(6), 3, { fill: COL.a }) + tx(g.X(2) + 4, g.Y(6) + 10, '负载', { fs: 7.6, c: 'a' });
+  s += tx(270, 198, '斜率 = −r；纵截距 = ε。', { it: false, fs: 8.2 });
+  s += tx(270, 214, '短路：V_term = 0，I = ε ÷ r。', { it: false, fs: 8.2 });
+  return s;
+});
+def('contact-spheres', '不同半径导体球的接触再分布 · Contact charge redistribution between spheres of different radii', 'V_1=V_2,\\qquad \\dfrac{Q_1}{Q_2}=\\dfrac{R_1}{R_2},\\qquad \\dfrac{\\sigma_1}{\\sigma_2}=\\dfrac{R_2}{R_1}' + CAP_DESCENT, () => {
+  let s = circ(92, 118, 34, { w: 1.5 }) + tx(92, 68, 'R₁ = 1.0 cm', { anchor: 'middle', it: false, fs: 8.6 });
+  s += circ(286, 118, 62, { w: 1.5 }) + tx(286, 44, 'R₂ = 2.0 cm', { anchor: 'middle', it: false, fs: 8.6 });
+  s += ln(126, 118, 224, 118, { w: 2.4 }) + tx(175, 110, '导线 · wire', { anchor: 'middle', it: false, fs: 8.2 });
+  for (const [x, y] of [[70, 100], [70, 124], [92, 88], [92, 148], [112, 106], [112, 132]]) s += tx(x, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  for (const [x, y] of [[244, 92], [244, 120], [268, 78], [268, 158], [300, 82], [300, 154], [322, 100], [322, 136]]) s += tx(x, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  s += tx(92, 172, 'Q₁', { anchor: 'middle', fs: 9 }) + tx(286, 192, 'Q₂', { anchor: 'middle', fs: 9 });
+  s += tx(18, 204, '连接后同电势：V₁ = V₂；电荷按半径分配。', { it: false, fs: 8.5 });
+  s += tx(18, 220, 'Q₁ ÷ Q₂ = R₁ ÷ R₂；σ₁ ÷ σ₂ = R₂ ÷ R₁。', { it: false, fs: 8.5 });
+  s += tx(18, 236, '小球的表面电荷密度更大，表面场更强：E₁ > E₂。', { it: false, fs: 8.5 });
+  s += tx(18, 252, 'The wire enforces a common potential, not equal charge.', { it: false, fs: 7.4, c: 'm' });
+  return s;
+});
+def('charging-by-grounding', '接地感应带电的操作顺序 · Charging by induction and grounding order', 'Q_{\\mathrm{net}}=0\\ \\text{(isolated)},\\qquad Q_{\\mathrm{net}}<0\\ \\text{(grounded)}', () => {
+  const sphere = (cx, cy, neg = false) => {
+    let o = circ(cx, cy, 18, { w: 1.3 });
+    if (neg) {
+      o += tx(cx - 8, cy - 2, '−', { anchor: 'middle', fs: 9, c: 'v' }) + tx(cx + 8, cy - 2, '−', { anchor: 'middle', fs: 9, c: 'v' }) + tx(cx, cy + 10, '−', { anchor: 'middle', fs: 9, c: 'v' });
+    } else {
+      o += tx(cx - 10, cy - 2, '−', { anchor: 'middle', fs: 9, c: 'v' }) + tx(cx + 10, cy - 2, '+', { anchor: 'middle', fs: 9, c: 'f' });
+    }
+    return o;
+  };
+  const rod = (x, y, ghost = false) => rect(x, y, 8, 44, { fill: ghost ? 'none' : COL.f, op: ghost ? 0 : 0.25, c: ghost ? 'm' : 'f', dash: ghost ? '3 3' : '' }) + tx(x + 4, y - 5, '+', { anchor: 'middle', fs: 9, c: ghost ? 'm' : 'f' });
+  let s = tx(18, 16, '① 靠近 · near', { it: false, fs: 8.6 });
+  s += rod(26, 48) + sphere(96, 70);
+  s += tx(18, 122, '近端 −、远端 +，Q_net = 0', { it: false, fs: 7.6 });
+  s += tx(208, 16, '② 接地 · grounded', { it: false, fs: 8.6 });
+  s += rod(216, 48) + sphere(286, 70);
+  s += ln(286, 88, 286, 110, { w: 1.1 }) + ln(270, 110, 302, 110, { w: 1.6 });
+  s += arr(302, 104, 302, 88, 'v', 1.4) + tx(308, 100, 'e⁻', { fs: 7.6, c: 'v' });
+  s += tx(208, 122, '电子流入，Q_net < 0', { it: false, fs: 7.6 });
+  s += tx(18, 140, '③ 先断地 · disconnect first', { it: false, fs: 8.6 });
+  s += rod(26, 168) + sphere(96, 190, true);
+  s += tx(18, 238, '净负电荷被保留', { it: false, fs: 7.6 });
+  s += tx(208, 140, '④ 再移棒 · then remove rod', { it: false, fs: 8.6 });
+  s += sphere(286, 190, true);
+  s += tx(208, 238, '负电荷分布在表面', { it: false, fs: 7.6 });
+  s += tx(18, 254, '反序：接地 → 先移棒 → 再断地 → 最终中性。', { it: false, fs: 8.2 });
+  return s;
+});
+def('ground-reservoir', '大地作为零电势电荷库 · Earth as a zero-potential charge reservoir', 'V_{\\mathrm{Earth}}=0,\\qquad C_{\\mathrm{Earth}}\\to\\infty', () => {
+  let s = circ(118, 132, 82, { fill: COL.g, op: 0.04, c: 'g', w: 1.6 });
+  s += tx(118, 112, '地球 · Earth', { anchor: 'middle', it: false, fs: 11 });
+  s += tx(118, 132, 'V = 0', { anchor: 'middle', fs: 11, c: 'a' });
+  s += tx(118, 150, 'C → ∞', { anchor: 'middle', fs: 10 });
+  s += tx(118, 168, '近似中性', { anchor: 'middle', it: false, fs: 9 });
+  s += circ(306, 76, 28, { w: 1.5 }) + tx(306, 80, '导体', { anchor: 'middle', it: false, fs: 8.6 });
+  s += ln(278, 76, 200, 76, { w: 1.6 }) + ln(200, 76, 200, 132, { w: 1.6 }) + ln(200, 132, 190, 132, { w: 1.6 });
+  s += arr(230, 68, 272, 68, 'v', 1.5) + arr(254, 84, 212, 84, 'v', 1.5);
+  s += tx(242, 58, '电荷双向流动', { anchor: 'middle', it: false, fs: 8 });
+  s += tx(212, 48, '接地线 · ground wire', { it: false, fs: 8 });
+  s += tx(238, 116, 'Q 交换', { it: false, fs: 8 });
+  const gx = 244, gy = 156, gw = 132, gh = 66;
+  s += ln(gx, gy + gh, gx + gw, gy + gh, { w: 1.2 }) + ln(gx, gy + gh, gx, gy, { w: 1.2 });
+  s += ln(gx, gy + gh / 2, gx + gw, gy + gh / 2, { c: 'a', w: 2.2 });
+  s += tx(gx + gw, gy + gh + 14, 'Q', { fs: 9, anchor: 'end' }) + tx(gx - 4, gy + 4, 'V', { fs: 9, anchor: 'end' });
+  s += tx(gx + 6, gy + gh / 2 - 6, 'V = 0 恒定', { fs: 8, c: 'a' });
+  s += tx(18, 224, '接地的导体可与地球交换有限电荷，而地球电势几乎不变。', { it: false, fs: 8.7 });
+  s += tx(18, 240, 'ΔV = ΔQ ÷ C_Earth ≈ 0，因为 C_Earth 极大。', { it: false, fs: 8.5 });
+  s += tx(18, 254, 'Earth is much larger and approximately neutral, so its potential stays zero.', { it: false, fs: 7.2, c: 'm' });
+  return s;
+});
+def('conductor-polarization', '外场中中性导体的极化 · Polarization of a neutral conductor in an external field', 'E_{\\mathrm{inside}}=0,\\qquad E_{\\mathrm{surface}}=\\dfrac{\\sigma}{\\varepsilon_0}', () => {
+  let s = tx(18, 18, '(a) 导体板 · conducting slab', { it: false, fs: 9 });
+  s += rect(58, 72, 92, 100, { fill: COL.g, op: 0.04, c: 'g', w: 1.5 });
+  for (let y = 56; y <= 188; y += 26) s += arr(22, y, 54, y, 'E', 1.3);
+  for (let y = 56; y <= 188; y += 26) s += arr(154, y, 186, y, 'E', 1.3);
+  for (let y = 88; y <= 156; y += 22) s += tx(63, y, '−', { anchor: 'middle', fs: 10, c: 'v' });
+  for (let y = 88; y <= 156; y += 22) s += tx(145, y, '+', { anchor: 'middle', fs: 10, c: 'f' });
+  s += tx(104, 190, 'Q_net = 0', { anchor: 'middle', it: false, fs: 8.5 });
+  s += tx(18, 210, '外场使自由电子向左迁移，', { it: false, fs: 8.3 });
+  s += tx(18, 224, '左面 −，右面 +。', { it: false, fs: 8.3 });
+  s += tx(206, 18, '(b) 表面放大 · surface zoom', { it: false, fs: 9 });
+  s += rect(226, 132, 150, 40, { fill: COL.g, op: 0.04, c: 'g', w: 1.4 });
+  s += tx(301, 156, '导体表面', { anchor: 'middle', it: false, fs: 8.2 });
+  for (let x = 242; x <= 360; x += 24) s += arr(x, 54, x, 126, 'E', 1.4);
+  for (let x = 238; x <= 366; x += 24) s += ln(x, 136, x + 12, 136, { c: 'a', w: 1.1 });
+  s += tx(376, 140, '等势线', { fs: 8, c: 'a', anchor: 'end' });
+  s += tx(206, 186, '场线垂直表面；表面是等势面。', { it: false, fs: 8.3 });
+  s += tx(206, 202, '内部合场为零，导体仍是等势体。', { it: false, fs: 8.3 });
+  s += tx(206, 220, 'E_surface = σ ÷ ε₀，方向垂直表面。', { it: false, fs: 8.3 });
+  s += tx(18, 246, 'An external field polarizes a neutral conductor without changing Q_net.', { it: false, fs: 7.2, c: 'm' });
+  return s;
+});
+def('equilibrium-time', '导体静电平衡的建立时间 · Settling time to electrostatic equilibrium', '\\tau=\\dfrac{\\varepsilon}{\\sigma_c}\\ll t_{\\mathrm{macro}}', () => {
+  const x0 = 52, x1 = 366, y0 = 196, yTop = 48;
+  const X = (logt) => x0 + ((logt + 19) / 10) * (x1 - x0);
+  let s = ln(x0, y0, x1, y0, { w: 1.2 }) + ln(x0, y0, x0, yTop, { w: 1.2 });
+  s += tx(x1 + 2, y0 + 4, 'log₁₀ t (s)', { fs: 8.6 });
+  s += tx(x0 - 6, yTop - 2, '|E_inside|', { fs: 8.6, anchor: 'end' });
+  [-19, -16, -12, -9].forEach((k) => {
+    s += ln(X(k), y0 - 4, X(k), y0 + 4, { w: 1 }) + tx(X(k), y0 + 16, `10^${k}`, { fs: 8, anchor: 'middle' });
+  });
+  const pts = [];
+  for (let i = 0; i <= 100; i++) {
+    const lt = -19 + (i / 100) * 10;
+    const v = 1 / (1 + Math.exp((lt + 16.5) * 4));
+    pts.push([X(lt), y0 - v * (y0 - yTop)]);
+  }
+  s += poly(pts, { c: 'E', w: 2.4 });
+  s += ln(X(-16), yTop, X(-16), y0, { c: 'm', dash: '3 3', w: 1 });
+  s += tx(X(-16) + 4, yTop + 10, '≈10⁻¹⁶ s 基本平衡', { fs: 7.8, c: 'E' });
+  s += tx(x0, yTop - 14, '电荷集体重排，|E_inside| 迅速降到 0', { it: false, fs: 8.4 });
+  s += tx(18, 222, '建立时间 τ = ε ÷ σ_c 远小于宏观时间；', { it: false, fs: 8.6 });
+  s += tx(18, 238, '实验中通常视为瞬间达到静电平衡。', { it: false, fs: 8.6 });
+  s += tx(18, 254, 'Equilibration is effectively instantaneous on macroscopic time scales.', { it: false, fs: 7.2, c: 'm' });
+  return s;
+});
+
 /* ======================= openly licensed reference media ======================= */
 defImg('atwood-apparatus', '阿特伍德机装置图（参考） · Atwood machine apparatus (reference)', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2}', 'modules/physics/media/atwood-machine.svg', 'MikeRun / Wikimedia Commons / CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Atwood-machine.svg');
 defImg('pendulum-apparatus', '单摆装置图（参考） · Simple pendulum apparatus (reference)', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', 'modules/physics/media/simple-pendulum.svg', 'Chetvorno / Wikimedia Commons / Public domain', 'https://commons.wikimedia.org/wiki/File:Simple_gravity_pendulum.svg');
@@ -3040,18 +3533,24 @@ export const TOPIC_FIGURES = {
   'em/em-u8/8.3': ['point-charge-field', 'dipole-field', 'field-superposition', 'field-lines-equipotentials'],
   'em/em-u8/8.4': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'flux-angle'],
   'em/em-u8/8.5': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'gauss-conductor', 'gauss-shell', 'line-charge'],
-  'em/em-u8/8.6': ['charge-properties-conservation', 'coulomb-force', 'point-charge-field', 'dipole-field', 'field-superposition', 'flux-angle', 'gauss-sphere', 'gauss-cylinder', 'gauss-plane'],
-  'em/em-u8/8.8': ['em-force-ratio', 'coulomb-force', 'point-charge-field'],
+  'em/em-u8/8.6': ['charge-properties-conservation', 'em-u8-induced-charge-separation', 'em-u8-conductor-insulator-charging', 'coulomb-force', 'point-charge-field', 'dipole-field', 'field-superposition', 'flux-angle', 'gauss-sphere', 'gauss-cylinder', 'gauss-plane'],
+  'em/em-u8/8.7': ['em-u8-rod-integration', 'em-u8-ring-axis', 'em-u8-disk-plane', 'em-u8-arc-line', 'field-superposition'],
+  'em/em-u8/8.8': ['em-u8-force-direction-pairs', 'em-force-ratio', 'neutral-matter', 'coulomb-force', 'point-charge-field'],
+  'em/em-u8/8.9': ['em-u8-dielectric-polarization', 'em-u8-permittivity-materials', 'em-u8-conductor-insulator-response'],
   'em/em-u8/8.10': ['insulator-sphere-E', 'gauss-conductor', 'gauss-sphere', 'nonuniform-insulator', 'conductor-vs-insulator'],
   'em/em-u8/8.11': ['charge-density-shell', 'gauss-sphere', 'gauss-cylinder', 'nonuniform-insulator'],
   'em/em-u9/9.1': ['parallel-plate-potential', 'point-charge-field', 'potential-energy-sign'],
   'em/em-u9/9.2': ['parallel-plate-potential', 'potential-point-charge'],
   'em/em-u9/9.3': ['parallel-plate-potential', 'point-charge-field', 'potential-point-charge', 'field-lines-equipotentials'],
   'em/em-u9/9.4': ['parallel-plate-potential', 'charge-in-field'],
+  'em/em-u9/9.5': ['multi-charge-potential', 'potential-slope-field', 'equipotentials-particle-energy', 'three-charge-pairwise', 'pairwise-double-counting', 'potential-point-charge'],
+  'em/em-u9/9.6': ['battery-chemical-emf', 'battery-terminal-voltage', 'potential-point-charge', 'parallel-plate-potential'],
   'em/em-u10/10.1': ['gauss-conductor', 'gauss-sphere', 'gauss-shell'],
   'em/em-u10/10.2': ['gauss-conductor', 'gauss-shell'],
   'em/em-u10/10.3': ['capacitor-plate', 'capacitor-combinations', 'capacitor-energy'],
   'em/em-u10/10.4': ['capacitor-dielectric', 'capacitor-dielectric-partial', 'capacitor-energy'],
+  'em/em-u10/10.5': ['contact-spheres', 'charging-by-grounding', 'ground-reservoir', 'gauss-conductor'],
+  'em/em-u10/10.6': ['conductor-polarization', 'equilibrium-time', 'gauss-conductor', 'gauss-shell'],
   'em/em-u11/11.1': ['circuit-series'],
   'em/em-u11/11.2': ['circuit-series', 'circuit-parallel', 'circuit-equivalent', 'ammeter-voltmeter'],
   'em/em-u11/11.3': ['circuit-series', 'circuit-parallel', 'ohmic-nonohmic'],
