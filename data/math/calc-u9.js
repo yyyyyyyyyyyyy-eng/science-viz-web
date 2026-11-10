@@ -1479,16 +1479,16 @@ export const TOPICS = {
         "defEn": "The quantity \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\), the rate at which the slope changes with \\(x\\)."
       },
       {
-        "termZh": "水平切线",
-        "termEn": "horizontal tangent",
-        "defZh": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\) 的点处切线水平。",
-        "defEn": "The tangent is horizontal at a point where \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)."
+        "termZh": "对称性",
+        "termEn": "symmetry",
+        "defZh": "利用曲线关于极轴、竖直轴或极点的对称性简化作图；也可用来减少求切线与凹凸性的重复计算。",
+        "defEn": "Using symmetry about the polar axis, the vertical axis, or the pole to simplify graphing; it can also reduce repeated work when finding tangents and concavity."
       },
       {
-        "termZh": "竖直切线",
-        "termEn": "vertical tangent",
-        "defZh": "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\) 的点处切线竖直。",
-        "defEn": "The tangent is vertical at a point where \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\)."
+        "termZh": "玫瑰线",
+        "termEn": "rose curve",
+        "defZh": "由 \\(r=a\\cos(n\\theta)\\) 或 \\(r=a\\sin(n\\theta)\\) 形成的花瓣状曲线；其切线方向随 \\(\\theta\\) 周期变化。",
+        "defEn": "A petal-shaped curve given by \\(r=a\\cos(n\\theta)\\) or \\(r=a\\sin(n\\theta)\\); its tangent direction changes periodically with \\(\\theta\\)."
       },
       {
         "termZh": "凹性",
