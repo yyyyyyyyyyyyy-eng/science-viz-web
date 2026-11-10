@@ -2132,7 +2132,7 @@ def('charge-density-shell', '电荷密度与球壳体积元 · Charge density an
   s += tx(20, 244, '高斯面半径 r：只计入 r 以内的电荷', { it: false, fs: 9.5 });
   return s;
 });
-def('em-force-ratio', '电力与引力之比（同距离，对数标度） · Ratio of electric to gravitational force at the same separation (log scale)', '\\dfrac{F_e}{F_g}=\\dfrac{kq_1q_2/r^2}{Gm_1m_2/r^2}', () => {
+def('em-force-ratio', '电力与引力之比（同距离，对数标度） · Ratio of electric to gravitational force at the same separation (log scale)', '\\dfrac{F_e}{F_g}=\\dfrac{kq_1q_2}{Gm_1m_2}', () => {
   const L = 96, R = 318, lo = 0, hi = 40; const X = (v) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
   let s = tx(20, 18, '横轴 log₁₀(F_e/F_g)', { it: false, fs: 9.5 });
   s += ln(L, 48, L, 220, { w: 1.2 }) + ln(L, 220, R, 220, { w: 1.2 });
