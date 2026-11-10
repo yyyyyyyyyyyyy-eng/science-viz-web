@@ -1422,5 +1422,150 @@ export const problems = [
         "solution": "3x²−6x=6 ⇒ x²−2x−2=0 ⇒ x=1±√3；较小者为 1−√3。"
       }
     ]
+  },
+  {
+    "kind": "set",
+    "id": "calc-u2-b08-q1",
+    "title": "2.3 三种差商估计 · Three difference-quotient estimates",
+    "stimulus": {
+      "title": "f(x)=2^x 的数值表 · Table of f(x)=2^x",
+      "text": "下表给出 f(x)=2^x 在 x=2 附近的取值。用前向、后向与中心差商分别估计 f′(2)，并与精确值 4ln2≈2.7726 比较。 · The table gives f(x)=2^x near x=2. Estimate f′(2) with forward, backward, and central difference quotients, then compare with the exact value 4ln2≈2.7726.",
+      "table": {
+        "headers": [
+          "x",
+          "f(x)"
+        ],
+        "rows": [
+          [
+            "1.8",
+            "3.4822"
+          ],
+          [
+            "1.9",
+            "3.7321"
+          ],
+          [
+            "2.0",
+            "4.0000"
+          ],
+          [
+            "2.1",
+            "4.2871"
+          ],
+          [
+            "2.2",
+            "4.5948"
+          ]
+        ]
+      },
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方题；用于 2.3 三种差商估计。"
+    },
+    "questions": [
+      {
+        "id": "calc-u2-b08-q1a",
+        "type": "frq",
+        "difficulty": "中",
+        "calculator": true,
+        "title": "中心差商 · Central difference",
+        "check": "numeric",
+        "stem": "用 x=1.9 与 x=2.1 的中心差商估计 f′(2)。 · Estimate f′(2) with the central difference using x=1.9 and x=2.1.",
+        "expected": 2.775,
+        "tol": 0.01,
+        "answerLatex": "f'(2)\\approx\\dfrac{f(2.1)-f(1.9)}{0.2}=2.775",
+        "solution": "中心差商为 (4.2871−3.7321)/0.2=2.775，与 4ln2≈2.7726 很接近。前向差商为 2.871，后向差商为 2.679。 · The central quotient is (4.2871−3.7321)/0.2=2.775, close to 4ln2≈2.7726. The forward quotient is 2.871 and the backward quotient is 2.679.",
+        "solutionLatex": "\\dfrac{f(2.1)-f(1.9)}{2.1-1.9}=\\dfrac{4.2871-3.7321}{0.2}=2.775",
+        "topicLinks": [
+          {
+            "href": "#/t/math/calc-u2/2.3",
+            "label": "2.3 估计函数在某点处的导数",
+            "topicId": "calc-u2:2.3"
+          }
+        ]
+      },
+      {
+        "id": "calc-u2-b08-q1b",
+        "type": "mcq",
+        "difficulty": "易",
+        "calculator": false,
+        "title": "哪种估计最接近 · Closest estimate",
+        "stem": "在前向、后向与中心三种估计中，哪一种通常最接近精确值 4ln2≈2.7726？ · Among the forward, backward, and central estimates, which is usually closest to the exact value 4ln2≈2.7726?",
+        "choices": [
+          {
+            "text": "中心差商，因为它取两侧对称点，一阶误差相消 · The central difference, because it uses symmetric points and cancels the first-order error",
+            "correct": true
+          },
+          {
+            "text": "前向差商，因为它只用到右侧的点 · The forward difference, because it uses only the point on the right",
+            "correct": false
+          },
+          {
+            "text": "后向差商，因为它只用到左侧的点 · The backward difference, because it uses only the point on the left",
+            "correct": false
+          },
+          {
+            "text": "三者误差完全相同 · All three have exactly the same error",
+            "correct": false
+          }
+        ],
+        "solution": "中心差商取 a−h 与 a+h 的对称点，两侧的一阶偏差部分抵消，误差通常为 O(h²)，小于前向或后向差商的 O(h)。本例中心 2.775 最接近 2.7726。 · The central difference uses symmetric points a−h and a+h, so first-order deviations cancel and the error is usually O(h²), smaller than the O(h) error of one-sided quotients. Here 2.775 is closest to 2.7726.",
+        "topicLinks": [
+          {
+            "href": "#/t/math/calc-u2/2.3",
+            "label": "2.3 估计函数在某点处的导数",
+            "topicId": "calc-u2:2.3"
+          }
+        ]
+      }
+    ],
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u2/2.3",
+        "label": "2.3 估计函数在某点处的导数",
+        "topicId": "calc-u2:2.3"
+      }
+    ]
+  },
+  {
+    "id": "calc-u2-b08-q2",
+    "type": "mcq",
+    "difficulty": "中",
+    "calculator": true,
+    "title": "2.3 技术：精确与近似 · Technology: exact versus approximate",
+    "stem": "用计算器的 nDeriv 以 h=0.1 估计 ln x 在 x=2 处的导数，得到约 0.5004；CAS 符号求导得到 1/x，在 x=2 处为 0.5。下列哪项正确？ · A calculator's nDeriv with h=0.1 estimates the derivative of ln x at x=2 as about 0.5004, while a CAS symbolic derivative gives 1/x, which equals 0.5 at x=2. Which statement is correct?",
+    "choices": [
+      {
+        "text": "0.5 是精确值；0.5004 是有限差商近似，误差随 h 减小而减小 · 0.5 is exact; 0.5004 is a finite-difference approximation whose error shrinks as h decreases",
+        "correct": true
+      },
+      {
+        "text": "0.5004 是精确值，0.5 是四舍五入后的近似 · 0.5004 is exact, and 0.5 is a rounded approximation",
+        "correct": false
+      },
+      {
+        "text": "两者都精确，因为计算器与 CAS 不会出错 · Both are exact because calculators and CAS never make errors",
+        "correct": false
+      },
+      {
+        "text": "两者都错误，因为 ln x 在 x=2 处不可导 · Both are wrong because ln x is not differentiable at x=2",
+        "correct": false
+      }
+    ],
+    "solution": "符号求导给出精确表达式 1/x，在 x=2 处恰为 0.5。nDeriv 用有限 h 的差商近似导数，结果含截断与舍入误差；h=0.1 时约为 0.5004，减小 h 通常会更接近 0.5。 · Symbolic differentiation gives the exact expression 1/x, exactly 0.5 at x=2. nDeriv approximates with a finite h, so its output carries truncation and rounding error; with h=0.1 it is about 0.5004, and decreasing h usually brings it closer to 0.5.",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 2.3 技术估计与精确求导的对比。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u2/2.3",
+        "label": "2.3 估计函数在某点处的导数",
+        "topicId": "calc-u2:2.3"
+      }
+    ]
   }
 ];

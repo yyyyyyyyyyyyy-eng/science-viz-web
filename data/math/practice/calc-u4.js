@@ -1307,5 +1307,122 @@ export const problems = [
         "solutionLatex": "\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=\\dfrac{1}{2}\\left(x\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}+y\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\right)=\\dfrac{1}{2}\\left(6\\cdot\\left(-\\dfrac{3}{2}\\right)+8\\cdot2\\right)=\\dfrac{7}{2}"
       }
     ]
+  },
+  {
+    "id": "calc-u4-b08-q1",
+    "title": "4.1 导数的情境含义 · Meaning of a derivative in context",
+    "type": "mcq",
+    "difficulty": "易",
+    "calculator": false,
+    "stem": "设 C(x) 是生产 x 件产品的总成本（美元），且 C′(200)=15。下列哪项正确？ · Let C(x) be the total cost in dollars of producing x items, with C′(200)=15. Which statement is correct?",
+    "choices": [
+      {
+        "text": "生产 200 件产品的总成本是 15 美元 · The total cost of 200 items is $15",
+        "correct": false
+      },
+      {
+        "text": "当产量为 200 件时，成本约以每多生产 1 件 15 美元的速度增加 · At a production level of 200 items, cost is increasing at about $15 per additional item",
+        "correct": true
+      },
+      {
+        "text": "生产 200 件产品时的平均成本是每件 15 美元 · The average cost at 200 items is $15 per item",
+        "correct": false
+      },
+      {
+        "text": "再生产的下一件产品一定恰好增加 15 美元成本 · The next item will increase cost by exactly $15",
+        "correct": false
+      }
+    ],
+    "solution": "导数是瞬时变化率，不是函数值，也不是平均变化率。C′(200)=15 表示在 x=200 附近，每多生产 1 件，成本约增加 15 美元；单位是“美元/件”。 · A derivative is an instantaneous rate, not a function value or an average rate. C′(200)=15 means that near x=200, each additional item raises cost by about $15; the unit is dollars per item.",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 4.1 导数取值与变化率的区别。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u4/4.1",
+        "label": "4.1 变化率情境",
+        "topicId": "calc-u4:4.1"
+      }
+    ]
+  },
+  {
+    "id": "calc-u4-b08-q2",
+    "title": "4.2 直线运动的速度 · Velocity in straight-line motion",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "质点沿直线运动，位置 s(t)=t³−6t²+9t（米，秒）。求 t=2 时的速度 v(2)（m/s，带符号）。 · A particle moves along a line with position s(t)=t³−6t²+9t (meters, seconds). Find its velocity v(2) at t=2 (m/s, with sign).",
+    "expected": -3,
+    "tol": 0.01,
+    "answerLatex": "v(2)=-3\\,\\mathrm{m/s}",
+    "solution": "v(t)=s′(t)=3t²−12t+9，所以 v(2)=12−24+9=−3 m/s。负号表示质点在 t=2 时沿负方向运动。 · v(t)=s′(t)=3t²−12t+9, so v(2)=12−24+9=−3 m/s. The negative sign means the particle moves in the negative direction at t=2.",
+    "solutionLatex": "v(t)=3t^{2}-12t+9,\\qquad v(2)=3(2)^{2}-12(2)+9=-3\\,\\mathrm{m/s}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 4.2 位置—速度—加速度。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u4/4.2",
+        "label": "4.2 直线运动",
+        "topicId": "calc-u4:4.2"
+      }
+    ]
+  },
+  {
+    "id": "calc-u4-b08-q3",
+    "title": "4.3 边际成本 · Marginal cost",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "某产品的总成本为 C(x)=0.01x³−0.6x²+13x（美元，x 为件数）。求 x=20 时的边际成本 C′(20)（美元/件）。 · A product's total cost is C(x)=0.01x³−0.6x²+13x (dollars, x in items). Find the marginal cost C′(20) at x=20 (dollars per item).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "C'(20)=1",
+    "solution": "C′(x)=0.03x²−1.2x+13，代入 x=20 得 C′(20)=12−24+13=1。即产量约为 20 件时，每多生产 1 件成本约增加 1 美元。 · C′(x)=0.03x²−1.2x+13; at x=20, C′(20)=12−24+13=1. At a production level near 20 items, cost rises by about $1 per additional item.",
+    "solutionLatex": "C'(x)=0.03x^{2}-1.2x+13,\\qquad C'(20)=0.03(20)^{2}-1.2(20)+13=1",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 4.3 应用情境中的变化率与单位。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u4/4.3",
+        "label": "4.3 变化率与单位",
+        "topicId": "calc-u4:4.3"
+      }
+    ]
+  },
+  {
+    "id": "calc-u4-b08-q4",
+    "title": "4.6 局部线性近似 · Local linear approximation",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "设 f(x)=√x，在 a=4 处取切线 L(x)=f(4)+f′(4)(x−4)。用 L(4.41) 估计 √4.41。 · Let f(x)=√x and use the tangent line at a=4, L(x)=f(4)+f′(4)(x−4), to estimate √4.41 via L(4.41).",
+    "expected": 2.1025,
+    "tol": 0.001,
+    "answerLatex": "L(4.41)=2.1025",
+    "solution": "f(4)=2，f′(x)=1/(2√x)，f′(4)=1/4，所以 L(x)=2+0.25(x−4)。L(4.41)=2+0.25(0.41)=2.1025。由于 √x 在 x=4 附近上凸（concave down），切线在曲线上方，故这是高估；实际 √4.41=2.1。 · f(4)=2, f′(x)=1/(2√x), f′(4)=1/4, so L(x)=2+0.25(x−4). Thus L(4.41)=2+0.25(0.41)=2.1025. Because √x is concave down near x=4, the tangent lies above the curve, so this overestimates; actually √4.41=2.1.",
+    "solutionLatex": "L(x)=2+\\dfrac{1}{4}(x-4),\\qquad L(4.41)=2+\\dfrac{0.41}{4}=2.1025",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 4.6 切线近似与凹凸性判断。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u4/4.6",
+        "label": "4.6 局部线性近似",
+        "topicId": "calc-u4:4.6"
+      }
+    ]
   }
 ];

@@ -3768,6 +3768,94 @@ def('em-u13-static-vs-induced-e', '静电场与感应电场的比较 · Electros
   return s;
 });
 
+def('em-u13-loop-entering-field', '线框进入、完全处于与离开磁场 · Loop entering, fully inside, and leaving a field region', '\\Phi_B=\\int\\vec B\\cdot d\\vec A,\\qquad \\varepsilon=-\\dfrac{d\\Phi_B}{dt},\\qquad F_B=ILB', () => {
+  const panel = (x0, label, stage) => {
+    let o = tx(x0, 14, label, { it: false, fs: 9, c: stage === 2 ? 'a' : 'v' });
+    o += rect(x0 + 6, 26, 98, 92, { fill: COL.B, op: 0.07, c: 'm', dash: '5 4', w: 1.1 });
+    for (let x = x0 + 16; x <= x0 + 96; x += 20) for (let y = 38; y <= 108; y += 22) o += crossB(x, y, 3.4);
+    const lx = stage === 1 ? x0 - 12 : stage === 2 ? x0 + 20 : x0 + 56;
+    const rx = lx + 66;
+    o += rect(lx, 38, 66, 68, { fill: 'none', w: 2 });
+    if (stage === 1) {
+      o += arr(rx, 100, rx, 44, 'I', 1.8) + tx(rx + 4, 76, 'I', { c: 'I', fs: 9 });
+      o += arr(rx, 74, rx - 24, 74, 'f', 2) + tx(rx - 26, 68, 'F_B', { c: 'f', fs: 9, anchor: 'end' });
+      o += tx(x0, 132, '前边受力 · leading side', { fs: 7.6, it: false, c: 'f' });
+    } else if (stage === 2) {
+      o += tx(x0 + 49, 132, 'I = 0，F = 0', { fs: 7.8, it: false, c: 'a', anchor: 'middle' });
+    } else {
+      o += arr(lx, 100, lx, 44, 'I', 1.8) + tx(lx + 4, 76, 'I', { c: 'I', fs: 9 });
+      o += arr(lx, 74, lx - 24, 74, 'f', 2) + tx(lx - 26, 68, 'F_B', { c: 'f', fs: 9, anchor: 'end' });
+      o += tx(x0 + 49, 132, '后边受力 · trailing side', { fs: 7.6, it: false, c: 'f', anchor: 'middle' });
+    }
+    return o;
+  };
+  let s = panel(14, '进入 · entering', 1) + panel(140, '完全在场内 · fully inside', 2) + panel(266, '离开 · leaving', 3);
+  s += tx(14, 150, '只有场区内线段受力；进入与离开时磁阻力都向后。 · Only in-field segments feel force; drag points backward both entering and leaving.', { fs: 7.4, it: false, c: 'm' });
+  const g = graph(56, 168, 300, 54, { fns: [
+    { f: (t) => (t < 1 ? 0.55 * t : t < 2 ? 0.55 : 0.55 * (3 - t)), c: 'B', w: 1.8 },
+    { f: (t) => (t < 1 ? 0.28 : t < 2 ? 0 : -0.28), c: 'I', w: 1.6 },
+    { f: (t) => (t < 1 || t >= 2 ? -0.42 : 0), c: 'f', w: 1.6, dash: '4 3' },
+  ], t1: 3, ymin: -0.55, ymax: 0.7, xl: 'x', yl: '', vmarks: [{ t: 1, label: '边界' }, { t: 2, label: '边界' }] });
+  s += g.s;
+  s += tx(56, 252, 'Φ_B（紫）先增后减；ε、I（棕）换向；F_B（橙虚线）始终向后。 · Φ_B rises then falls; ε and I reverse; F_B always opposes motion.', { fs: 7.1, it: false, c: 'm' });
+  return s;
+});
+def('em-u13-sliding-bar-terminal', '滑杆磁阻力与终端速度 · Sliding bar: magnetic drag and terminal speed', '\\varepsilon=BLv,\\qquad I=\\dfrac{BLv}{R},\\qquad F_B=\\dfrac{B^{2}L^{2}v}{R},\\qquad v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}', () => {
+  let s = tx(16, 14, '滑杆：磁阻力随速度增大，达到终端速度 · drag grows with speed until terminal speed', { fs: 8.2, it: false });
+  s += rect(24, 30, 210, 92, { fill: COL.B, op: 0.07, c: 'm', dash: '5 4', w: 1.1 });
+  for (let x = 36; x <= 222; x += 24) for (let y = 42; y <= 110; y += 24) s += crossB(x, y, 3.4);
+  s += ln(30, 52, 236, 52, { w: 2 }) + ln(30, 112, 236, 112, { w: 2 });
+  s += ln(168, 52, 168, 112, { w: 3.4, c: 'I' });
+  s += arr(168, 104, 168, 60, 'I', 1.8) + tx(174, 84, 'I', { c: 'I', fs: 9 });
+  s += arr(150, 52, 90, 52, 'I', 1.5) + tx(120, 46, 'I', { c: 'I', fs: 8.5 });
+  s += arr(186, 112, 246, 112, 'I', 1.5) + tx(216, 126, 'I', { c: 'I', fs: 8.5 });
+  s += arr(168, 82, 222, 82, 'a', 2.2) + tx(226, 86, 'F_app', { c: 'a', fs: 9, anchor: 'start' });
+  s += arr(168, 82, 116, 82, 'f', 2.2) + tx(112, 76, 'F_B', { c: 'f', fs: 9, anchor: 'end' });
+  s += arr(188, 140, 238, 140, 'v', 2) + tx(242, 144, 'v', { c: 'v', fs: 9, anchor: 'start' });
+  s += tx(24, 156, 'B ⊗ 恒定 · steady', { fs: 7.8, it: false, c: 'B' });
+  const g1 = graph(258, 32, 120, 64, { fns: [{ f: (t) => 1 - Math.exp(-2.2 * t), c: 'v', w: 2 }], t1: 3, ymin: 0, ymax: 1.3, xl: 't', yl: 'v', hmarks: [{ v: 1, label: 'v_t' }], vmarks: [{ t: 0.45, label: 'τ' }] });
+  s += g1.s + tx(258, 116, 'v(t) = v_t(1 − e^{−t/τ})', { fs: 8.2, it: false, c: 'v' });
+  const g2 = graph(258, 142, 120, 56, { fns: [{ f: (t) => t, c: 'f', w: 2 }], t1: 1.2, ymin: 0, ymax: 1.2, xl: 'v', yl: 'F_B' });
+  s += g2.s + tx(258, 214, 'F_B = (B²L²/R) v', { fs: 8.2, it: false, c: 'f' });
+  s += eq(16, 190, ['v_t = ', { n: 'F_app R', d: 'B²L²' }], { fs: 12 });
+  s += eq(16, 220, ['τ = ', { n: 'mR', d: 'B²L²' }], { fs: 12 });
+  s += tx(16, 248, 'a = 0 时达到 v_t；撤去外力后 v = v₀e^{−t/τ}。 · At a = 0 the bar reaches v_t; after removing F_app, v decays exponentially.', { fs: 7.2, it: false, c: 'm' });
+  return s;
+});
+def('em-u13-force-torque-distribution', '受力段、净力与磁力矩分布 · Force-bearing segments, net force, and magnetic torque', '\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B,\\qquad \\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i=\\vec\\mu\\times\\vec B', () => {
+  let s = tx(12, 14, '部分在场内：逐段受力 · partly inside', { it: false, fs: 8, c: 'v' });
+  s += rect(22, 30, 98, 110, { fill: COL.B, op: 0.07, c: 'm', dash: '5 4', w: 1.1 });
+  for (let x = 34; x <= 110; x += 20) for (let y = 42; y <= 128; y += 22) s += crossB(x, y, 3.2);
+  s += rect(78, 48, 100, 84, { fill: 'none', w: 2 });
+  s += ln(78, 48, 78, 132, { c: 'f', w: 3.2 }) + ln(78, 48, 120, 48, { c: 'f', w: 3.2 }) + ln(78, 132, 120, 132, { c: 'f', w: 3.2 });
+  s += arr(78, 88, 48, 88, 'f', 2.2) + tx(46, 82, 'F_left', { c: 'f', fs: 8, anchor: 'end' });
+  s += arr(99, 48, 99, 24, 'f', 1.7) + tx(104, 30, 'F_top', { c: 'f', fs: 7.6 });
+  s += arr(99, 132, 99, 156, 'f', 1.7) + tx(104, 156, 'F_bottom', { c: 'f', fs: 7.6 });
+  s += circ(128, 90, 3.5, { fill: 'currentColor' }) + tx(132, 104, 'CM', { fs: 7.6, it: false });
+  s += arr(128, 90, 98, 90, 'a', 2) + tx(96, 102, 'F_net', { c: 'a', fs: 8, anchor: 'end' });
+  s += tx(12, 154, '净力来自左侧边；上下边力相消。 · Net force from the left side; top and bottom forces cancel.', { fs: 7.1, it: false, c: 'm' });
+
+  s += tx(208, 14, '全在场内：F_net = 0，τ ≠ 0 · fully inside', { it: false, fs: 7.8, c: 'B' });
+  s += rect(212, 28, 176, 116, { fill: COL.B, op: 0.07, c: 'm', dash: '5 4', w: 1.1 });
+  for (let x = 224; x <= 376; x += 22) for (let y = 40; y <= 132; y += 24) s += crossB(x, y, 3.2);
+  const cx = 298, cy = 86, ang = 28, hw = 46, hh = 28;
+  const rot = (px, py) => [cx + px * Math.cos(rad(ang)) - py * Math.sin(rad(ang)), cy + px * Math.sin(rad(ang)) + py * Math.cos(rad(ang))];
+  const q1 = rot(-hw, -hh), q2 = rot(hw, -hh), q3 = rot(hw, hh), q4 = rot(-hw, hh);
+  s += poly([q1, q2, q3, q4, q1], { fill: COL.I, op: 0.06, c: 'I', w: 2.2 });
+  s += arr(q1[0], q1[1], q2[0], q2[1], 'I', 1.6) + arr(q3[0], q3[1], q4[0], q4[1], 'I', 1.6);
+  const ux = Math.cos(rad(ang)), uy = Math.sin(rad(ang));
+  const fx = uy, fy = -ux;
+  const m1 = [(q1[0] + q2[0]) / 2, (q1[1] + q2[1]) / 2], m2 = [(q3[0] + q4[0]) / 2, (q3[1] + q4[1]) / 2];
+  s += arr(m1[0], m1[1], m1[0] + fx * 30, m1[1] + fy * 30, 'f', 2.1) + tx(m1[0] + fx * 34, m1[1] + fy * 34, 'F', { c: 'f', fs: 9 });
+  s += arr(m2[0], m2[1], m2[0] - fx * 30, m2[1] - fy * 30, 'f', 2.1) + tx(m2[0] - fx * 34, m2[1] - fy * 34, 'F', { c: 'f', fs: 9 });
+  s += arc(cx, cy, 38, 20, 160, { c: 'a', w: 1.6, me: 'a' }) + tx(cx + 34, cy - 28, 'τ', { c: 'a', fs: 11 });
+  s += tx(cx, cy + 6, 'μ', { c: 'I', fs: 10, it: false });
+  s += eq(12, 190, ['F_net = Σ I L_i × B'], { fs: 11 });
+  s += eq(12, 216, ['τ = Σ r_i × F_i = μ × B'], { fs: 11 });
+  s += tx(12, 244, '只有场区内线段受力；净力为零不代表力矩为零。 · Only in-field segments feel force; zero net force does not imply zero torque.', { fs: 7.2, it: false, c: 'm' });
+  return s;
+});
+
 /* ======================= openly licensed reference media ======================= */
 defImg('atwood-apparatus', '阿特伍德机装置图（参考） · Atwood machine apparatus (reference)', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2}', 'modules/physics/media/atwood-machine.svg', 'MikeRun / Wikimedia Commons / CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Atwood-machine.svg');
 defImg('pendulum-apparatus', '单摆装置图（参考） · Simple pendulum apparatus (reference)', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', 'modules/physics/media/simple-pendulum.svg', 'Chetvorno / Wikimedia Commons / Public domain', 'https://commons.wikimedia.org/wiki/File:Simple_gravity_pendulum.svg');
@@ -3923,6 +4011,7 @@ export const TOPIC_FIGURES = {
   'em/em-u13/13.5': ['rl-circuit', 'inductor-energy'],
   'em/em-u13/13.6': ['lc-circuit', 'lc-energy'],
   'em/em-u13/13.7': ['em-u13-induced-e-changing-b', 'em-u13-static-vs-induced-e', 'displacement-current', 'em-wave-eb-triad', 'faraday-changing-B', 'em-wave-profile'],
+  'em/em-u13/13.8': ['em-u13-loop-entering-field', 'em-u13-sliding-bar-terminal', 'em-u13-force-torque-distribution'],
 };
 
 /** Resolve figure ids for a topic object or topic id string. */

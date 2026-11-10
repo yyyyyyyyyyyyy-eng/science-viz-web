@@ -460,6 +460,7 @@ export const UNITS = {
         { code: '13.5', titleZh: 'LR 电路', titleEn: 'Circuits with Resistors and Inductors (LR Circuits)' },
         { code: '13.6', titleZh: 'LC 电路', titleEn: 'Circuits with Capacitors and Inductors (LC Circuits)' },
         { code: '13.7', titleZh: '麦克斯韦方程与电磁波', titleEn: 'Maxwell Equations and Electromagnetic Waves' },
+        { code: '13.8', titleZh: '感应回路受力与运动', titleEn: 'Forces and Motion of Induced-Current Loops' },
       ],
     },
   ],

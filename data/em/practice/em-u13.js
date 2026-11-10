@@ -3498,5 +3498,92 @@ export const problems = [
         "topicId": "em-u13:13.7"
       }
     ]
+  },
+  {
+    "id": "em-u13-q060",
+    "title": "13.8 滑杆的终端速度 · Terminal speed of a sliding bar",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "水平滑杆质量 m=0.10 kg、长度 L=0.40 m、回路总电阻 R=0.20 Ω，处在垂直纸面向里的匀强磁场 B=0.50 T 中。恒定外力 F_app=0.20 N 向右拉动滑杆。求终端速度 v_t（m/s）。 · A horizontal bar of mass 0.10 kg and length 0.40 m moves on rails with total resistance 0.20 Ω in a uniform 0.50 T field into the page. A constant 0.20 N force pulls it to the right. Find its terminal speed (m/s).",
+    "expected": 1,
+    "tol": 0.02,
+    "answerLatex": "v_t=1.0\\,\\mathrm{m/s}",
+    "solution": "终端时 a=0，F_app=B²L²v_t/R，所以 v_t=F_app R/(B²L²)=1.0 m/s；时间常数 τ=mR/(B²L²)=0.50 s。 · At terminal speed a=0, so F_app=B²L²v_t/R and v_t=1.0 m/s; the time constant is τ=mR/(B²L²)=0.50 s.",
+    "solutionLatex": "v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}=\\dfrac{(0.20)(0.20)}{(0.50)^{2}(0.40)^{2}}=1.0\\,\\mathrm{m/s}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 13.8 滑杆终端速度。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.8",
+        "label": "13.8 感应回路受力与运动",
+        "topicId": "em-u13:13.8"
+      }
+    ]
+  },
+  {
+    "id": "em-u13-q061",
+    "title": "13.8 受力段与完全进入场区 · Force-bearing segment and fully inside the field",
+    "type": "mcq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "矩形线框以恒定速度穿过有限匀强磁场区域。关于磁力，下列哪项正确？ · A rectangular loop moves at constant speed through a finite uniform magnetic field region. Which statement about the magnetic force is correct?",
+    "choices": [
+      {
+        "text": "只有位于场区内的线段受力；完全进入恒定匀强场区后 I=0、F=0。 · Only in-field segments feel force; fully inside a steady uniform field, I=0 and F=0.",
+        "correct": true
+      },
+      {
+        "text": "整个线框处处受力，因为线框处于磁场附近。 · The whole loop feels force everywhere because it is near the field.",
+        "correct": false
+      },
+      {
+        "text": "完全进入场区后磁力最大，因为穿过线框的磁通量最大。 · The force is largest when fully inside because the flux through the loop is largest.",
+        "correct": false
+      },
+      {
+        "text": "进入和离开场区时磁力都向前，帮助线框运动。 · Entering and leaving, the magnetic force points forward and helps the motion.",
+        "correct": false
+      }
+    ],
+    "solution": "磁力只作用在场区内的载流线段上。完全进入恒定匀强场区后磁通量不变，感应电动势、电流与磁力均为零；进入和离开时磁力都阻碍相对运动（向后）。 · Magnetic force acts only on current-carrying segments inside the field. Once fully inside a steady uniform region the flux is constant, so the emf, current, and magnetic force are all zero; entering and leaving, the force opposes the motion (backward).",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 13.8 受力段识别与三阶段运动。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.8",
+        "label": "13.8 感应回路受力与运动",
+        "topicId": "em-u13:13.8"
+      }
+    ]
+  },
+  {
+    "id": "em-u13-q062",
+    "title": "13.8 磁体与回路的作用力 · Forces between a magnet and a loop",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "stem": "学生声称：“只有回路受到磁力，磁体不受力。”用楞次定律、牛顿第三定律与能量守恒评价该说法。 · A student claims: “Only the loop feels a magnetic force; the magnet feels none.” Evaluate this claim using Lenz's law, Newton's third law, and energy conservation.",
+    "answer": "说法错误。感应电流产生的磁场阻碍磁体与回路的相对运动：磁体靠近时回路排斥磁体，远离时吸引磁体；磁体与回路之间的力是等大反向的作用—反作用对。外力移动磁体做的机械功转化为回路中的焦耳热。 · The claim is false. The induced current's field opposes the relative motion: the loop repels an approaching magnet and attracts a receding one. The forces on magnet and loop are equal and opposite action–reaction pairs, and mechanical work done by the external agent becomes Joule heat in the loop.",
+    "solution": "楞次定律给出感应电流方向，使回路磁矩反抗磁通量变化；因此磁体也受到回路磁场的反作用力。牛顿第三定律要求两者受力等大反向；能量守恒要求维持相对运动的外力做功等于 I²R 焦耳热（忽略动能变化时）。 · Lenz's law sets the induced current so the loop's magnetic moment opposes the flux change, so the magnet also feels a reaction force from the loop's field. Newton's third law makes the two forces equal and opposite; energy conservation equates the external work needed to maintain the relative motion with the Joule heating I²R (when kinetic energy is unchanged).",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格 CER 题，非官方题；用于 13.8 磁体—回路作用力。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.8",
+        "label": "13.8 感应回路受力与运动",
+        "topicId": "em-u13:13.8"
+      }
+    ]
   }
 ];

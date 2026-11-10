@@ -1793,5 +1793,70 @@ export const problems = [
       "topicId": "calc-u1:1.12"
     }
   ]
+},
+{
+  "id": "calc-u1-q087",
+  "title": "1.1 某点处的平均变化率 · Average rate at a point",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "关于函数 f 在 x=a 处的平均变化率，下列哪项正确？ · Which statement about the average rate of change of f at x=a is correct?",
+  "choices": [
+    {
+      "text": "无定义，因为自变量的改变量为 0 · Undefined, because the change in the independent variable is zero",
+      "correct": true
+    },
+    {
+      "text": "等于 0 · Equal to 0",
+      "correct": false
+    },
+    {
+      "text": "等于 f′(a) · Equal to f′(a)",
+      "correct": false
+    },
+    {
+      "text": "一定趋于无穷 · Always tends to infinity",
+      "correct": false
+    }
+  ],
+  "solution": "平均变化率是 \\(\\dfrac{f(b)-f(a)}{b-a}\\)，需要 b≠a；在单点处 b=a，分母为 0，因此无定义（不是 0，也不一定是无穷）。瞬时变化率才由差商的极限定义。 · The average rate is \\(\\dfrac{f(b)-f(a)}{b-a}\\) with b≠a; at a single point b=a makes the denominator zero, so it is undefined (not 0, and not necessarily infinite). The instantaneous rate is defined by the limit of the difference quotient.",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 1.1 平均变化率与瞬时变化率。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u1/1.1",
+      "label": "1.1 瞬时变化导论",
+      "topicId": "calc-u1:1.1"
+    }
+  ]
+},
+{
+  "id": "calc-u1-q088",
+  "title": "1.1 由差商求导数 · Derivative from the difference quotient",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "设 f(x)=x²。先化简差商 \\(\\dfrac{f(3+h)-f(3)}{h}\\)（h≠0），再令 h→0 求 f′(3)。 · For f(x)=x², simplify \\(\\dfrac{f(3+h)-f(3)}{h}\\) (h≠0), then let h→0 to find f′(3).",
+  "expected": 6,
+  "tol": 0.01,
+  "answerLatex": "f'(3)=6",
+  "solution": "\\(\\dfrac{(3+h)^2-9}{h}=\\dfrac{6h+h^2}{h}=6+h\\)，所以 \\(\\lim_{h\\to0}(6+h)=6\\)。 · The quotient simplifies to 6+h, whose limit is 6.",
+  "solutionLatex": "\\dfrac{(3+h)^{2}-3^{2}}{h}=\\dfrac{6h+h^{2}}{h}=6+h\\;\\longrightarrow\\;6",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 1.1 差商极限。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u1/1.1",
+      "label": "1.1 瞬时变化导论",
+      "topicId": "calc-u1:1.1"
+    }
+  ]
 }
 ];

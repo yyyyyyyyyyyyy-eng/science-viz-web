@@ -124,6 +124,31 @@ def('derivative-limit', 'Secant slopes approach the derivative', 'For \\(f(x)=x^
   rows.forEach(([a, b], i) => { const y = 70 + i * 30; s += line(430, y - 18, 620, y - 18, { color: C.grid, w: 0.8 }) + text(440, y, a, { size: 11, anchor: 'start' }) + text(560, y, b, { size: 11, anchor: 'start', color: i === 3 ? C.a : C.ink }); });
   return svg(W, H, s, 'secant slopes limit');
 });
+def('deriv-onesided-value', 'One-sided difference quotients and the value f(a)', 'Left: for \\(f(x)=|x-1|\\), the one-sided difference quotients approach \\(-1\\) and \\(1\\), so \\(f\'(1)\\) does not exist even though \\(f(1)=0\\). Right: for \\(f(x)=x^2\\) \\((x\\ne2)\\) with \\(f(2)=5\\), \\(\\lim_{x\\to2}f(x)=4\\) but \\(\\dfrac{f(2+h)-f(2)}{h}=-\\dfrac{1}{h}+4+h\\) is unbounded, so \\(f\'(2)\\) does not exist; a general limit ignores \\(f(a)\\), but the difference quotient contains it.', () => {
+  const W = 660, H = 300;
+  const LX = (x) => 55 + ((x + 0.5) / 3) * 235, LY = (y) => 240 - (y / 2) * 190;
+  let s = line(55, 240, 305, 240, { arrow: true }) + line(55, 240, 55, 42, { arrow: true });
+  s += text(292, 258, 'x', { size: 11, color: C.muted }) + text(40, 135, 'f(x)', { size: 11, color: C.muted, rotate: -90 });
+  s += path(`M${LX(-0.5)},${LY(1.5)} L${LX(1)},${LY(0)} L${LX(2.5)},${LY(1.5)}`, { stroke: C.ink, w: 2.2 });
+  s += text(84, 64, 'f(x) = |x − 1|', { size: 11, anchor: 'start' });
+  s += line(LX(0.25), LY(0.75), LX(1.55), LY(-0.55), { color: C.b, w: 1.4, dash: '5 3' }) + line(LX(0.95), LY(0.05), LX(2.15), LY(1.25), { color: C.c, w: 1.4, dash: '5 3' });
+  s += circle(LX(1), LY(0), 4, { fill: C.ink, stroke: C.ink });
+  s += text(LX(0.52), LY(0.72), '斜率 −1', { size: 10, color: C.b, anchor: 'start' }) + text(LX(1.28), LY(0.42), '斜率 +1', { size: 10, color: C.c, anchor: 'start' });
+  s += text(165, 270, 'f(1) = 0 有定义，但 f′(1) 不存在', { size: 10.5, anchor: 'middle' });
+
+  const RX = (x) => 370 + ((x - 1) / 2.4) * 235, RY = (y) => 240 - (y / 6.5) * 190;
+  s += line(370, 240, 620, 240, { arrow: true }) + line(370, 240, 370, 42, { arrow: true });
+  s += text(607, 258, 'x', { size: 11, color: C.muted }) + text(355, 135, 'f(x)', { size: 11, color: C.muted, rotate: -90 });
+  let d = ''; for (let i = 0; i <= 60; i++) { const x = 1 + (0.98 * i) / 60; d += (i ? 'L' : 'M') + RX(x).toFixed(1) + ',' + RY(x * x).toFixed(1); }
+  for (let i = 0; i <= 60; i++) { const x = 2.02 + (1.38 * i) / 60; d += 'L' + RX(x).toFixed(1) + ',' + RY(x * x).toFixed(1); }
+  s += path(d, { stroke: C.ink, w: 2.2 });
+  s += text(392, 62, 'f(x) = x²（x ≠ 2）', { size: 11, anchor: 'start' });
+  s += circle(RX(2), RY(4), 4.5, { stroke: C.ink, w: 1.6 }) + text(RX(2) + 8, RY(4) + 12, '空心：f(2) 原值 4', { size: 9.5, anchor: 'start', color: C.muted });
+  s += circle(RX(2), RY(5), 4, { fill: C.a, stroke: C.a }) + text(RX(2) + 8, RY(5) - 10, '重新定义 f(2) = 5', { size: 9.5, anchor: 'start', color: C.a });
+  s += line(RX(1.5), RY(2.25), RX(2), RY(5), { color: C.b, w: 1.4, dash: '5 3' }) + line(RX(2.5), RY(6.25), RX(2), RY(5), { color: C.c, w: 1.4, dash: '5 3' });
+  s += text(430, 270, '差商 = −1/h + 4 + h，h → 0 时无界', { size: 10.5, anchor: 'middle' });
+  return svg(W, H, s, 'one-sided difference quotients and the value f(a)');
+});
 def('avg-inst', 'Average vs instantaneous rate', '\\(f(x)=x^2\\) on \\([1,3]\\): average rate \\(\\dfrac{f(3)-f(1)}{3-1}=4\\); instantaneous rate \\(f\'(2)=4\\) (parallel lines).', () =>
   plot({ x: [-0.5, 4], y: [-2, 12], curves: [{ f: (x) => x * x, color: C.ink }, { f: (x) => 1 + 4 * (x - 1), color: C.b, dash: '5 3', label: 'secant m = 4', labelAt: [3.05, 9.5] }, { f: (x) => 4 + 4 * (x - 2), color: C.a, label: 'tangent at x = 2', labelAt: [1.2, -1.2] }], points: [{ x: 1, y: 1 }, { x: 3, y: 9 }, { x: 2, y: 4, color: C.a }] }));
 idef('diff-quotient', 'Difference quotient', '', (v) => {
@@ -1245,7 +1270,7 @@ export const TOPIC_FIGURES = {
   'math-prep-precalc:P4.1': ['rational-analysis', 'poly-mult'], 'math-prep-precalc:P4.2': ['exp-log-model', 'log-inverse'], 'math-prep-precalc:P4.3': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'], 'math-prep-precalc:P4.4': ['trig-eq', 'pythag-id'],
   'math-prep-precalc:P4.5': ['polar-points', 'polar-basic'], 'math-prep-precalc:P4.6': ['param-intro', 'cycloid'], 'math-prep-precalc:P4.7': ['vectors', 'vector-components'], 'math-prep-precalc:P4.8': ['matrix-transform', 'matrix-rot'], 'math-prep-precalc:P4.9': ['limit-sinx', 'limit-table'], 'math-prep-precalc:P4.10': ['rate-intuition', 'secant-tangent'],
   'calc-u0:0.1': ['parent-fns', 'fn-graphs'], 'calc-u0:0.2': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'],
-  'calc-u1:1.1': ['secant-tangent', 'derivative-limit'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided', 'limit-scale-window'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
+  'calc-u1:1.1': ['secant-tangent', 'derivative-limit', 'deriv-onesided-value'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided', 'limit-scale-window'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
   'calc-u1:1.5': ['limit-algebra', 'limit-1sided'], 'calc-u1:1.6': ['limit-hole', 'limit-rationalize'], 'calc-u1:1.7': ['limit-rationalize', 'limit-sinx'], 'calc-u1:1.8': ['limit-squeeze', 'limit-sinx'], 'calc-u1:1.9': ['limit-table', 'limit-1sided', 'limit-hole'],
   'calc-u1:1.10': ['disc-types', 'limit-jump', 'limit-hole', 'limit-va'], 'calc-u1:1.11': ['cont-3cond', 'cont-interval'], 'calc-u1:1.12': ['cont-interval', 'cont-3cond', 'continuity-domain-family'], 'calc-u1:1.13': ['cont-remove', 'limit-hole'], 'calc-u1:1.14': ['limit-va', 'limit-ha'], 'calc-u1:1.15': ['limit-ha', 'limit-va'], 'calc-u1:1.16': ['ivt', 'cont-interval'],
   'calc-u2:2.1': ['avg-inst', 'secant-tangent'], 'calc-u2:2.2': ['diff-quotient', 'secant-tangent', 'derivative-limit'], 'calc-u2:2.3': ['deriv-table', 'diff-quotient', 'derivative-limit'], 'calc-u2:2.4': ['nondiff', 'limit-jump'], 'calc-u2:2.5': ['power-rule', 'secant-tangent'], 'calc-u2:2.6': ['sum-rule', 'power-rule'],
