@@ -2151,5 +2151,44 @@ export const problems = [
       "topicId": "mech-u7:7.3"
     }
   ]
+},
+{
+  "id": "mech-u7-q043",
+  "title": "7.1 SHM 二阶方程的解",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "哪一族函数满足 x'' + (k/m)x = 0？",
+  "choices": [
+    {
+      "text": "x=A cos(ωt+φ)，且 ω²=k/m",
+      "correct": true
+    },
+    {
+      "text": "x=At+B",
+      "correct": false
+    },
+    {
+      "text": "x = A e^(kt/m)",
+      "correct": false
+    },
+    {
+      "text": "x=A cos(kt/m)",
+      "correct": false
+    }
+  ],
+  "solution": "把 x = A cos(ωt+φ) 代入得 x'' = −ω²x，故需 ω² = k/m；另外两个常数 A、φ 由初始条件确定。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u7/7.1",
+      "label": "7.1 周期运动",
+      "topicId": "mech-u7:7.1"
+    }
+  ]
 }
 ];

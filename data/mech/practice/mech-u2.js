@@ -2939,5 +2939,83 @@ export const problems = [
       "topicId": "mech-u2:2.6"
     }
   ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u2-q069",
+  "title": "2.1 非均匀杆的质心",
+  "stem": "长 L=1.8 m 的杆，线密度 λ(x)=λ₀(1+x/L)。求质心坐标 x_cm（m，从 x=0 端量起）。",
+  "expected": 1.0,
+  "tol": 0.02,
+  "answerLatex": "1.0\\,\\mathrm{m}",
+  "solution": "x_cm=5L/9=5(1.8)/9=1.0 m；密度向右增大，质心在 L/2 右侧。",
+  "solutionLatex": "x_{cm}=\\dfrac{\\int x\\lambda\\,\\mathrm{d}x}{\\int\\lambda\\,\\mathrm{d}x}=\\dfrac{5L}{9}=1.0\\,\\mathrm{m}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u2/2.1",
+      "label": "2.1 质心",
+      "topicId": "mech-u2:2.1"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u2-q070",
+  "title": "2.8 串联弹簧的等效劲度系数",
+  "stem": "两根弹簧 k₁=200 N/m、k₂=300 N/m 串联。求等效劲度系数（N/m）。",
+  "expected": 120.0,
+  "tol": 0.01,
+  "answerLatex": "120\\,\\mathrm{N\\,m^{-1}}",
+  "solution": "串联同力、形变相加：1/k_eq=1/200+1/300=1/120，故 k_eq=120 N/m。",
+  "solutionLatex": "\\dfrac{1}{k_{eq}}=\\dfrac{1}{200}+\\dfrac{1}{300}=\\dfrac{1}{120}\\Rightarrow k_{eq}=120\\,\\mathrm{N\\,m^{-1}}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u2/2.8",
+      "label": "2.8 弹簧力与非理想弹簧",
+      "topicId": "mech-u2:2.8"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u2-q071",
+  "title": "2.3 两物块间的接触力",
+  "stem": "光滑水平面上 m₁=2.0 kg 与 m₂=3.0 kg 接触，水平力 F=10 N 作用在 m₁ 上。求两物块间的接触力大小（N）。",
+  "expected": 6.0,
+  "tol": 0.01,
+  "answerLatex": "6.0\\,\\mathrm{N}",
+  "solution": "整体 a=F/(m₁+m₂)=2.0 m/s²；对 m₂，接触力 = m₂a = 6.0 N。",
+  "solutionLatex": "a=\\dfrac{F}{m_1+m_2}=2.0\\,\\mathrm{m\\,s^{-2}},\\quad F_{12}=m_2a=6.0\\,\\mathrm{N}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u2/2.3",
+      "label": "2.3 牛顿第一与第二定律",
+      "topicId": "mech-u2:2.3"
+    }
+  ]
 }
 ];

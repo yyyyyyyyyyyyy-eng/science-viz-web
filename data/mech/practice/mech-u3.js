@@ -2579,5 +2579,44 @@ export const problems = [
       "topicId": "mech-u3:3.2"
     }
   ]
+},
+{
+  "id": "mech-u3-q068",
+  "title": "3.2 单对象系统只有动能",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "若系统只包含一个质点（点模型），下列关于该系统能量的说法正确的是？",
+  "choices": [
+    {
+      "text": "它只能具有动能；势能属于相互作用的系统",
+      "correct": true
+    },
+    {
+      "text": "它可以同时具有动能和重力势能",
+      "correct": false
+    },
+    {
+      "text": "它一定没有机械能",
+      "correct": false
+    },
+    {
+      "text": "它的内能一定不为零",
+      "correct": false
+    }
+  ],
+  "solution": "CED 3.4.A.1：只含单个对象的系统只能有动能；重力势能属于物块–地球系统，内能需要内部结构。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u3/3.2",
+      "label": "3.2 力与势能",
+      "topicId": "mech-u3:3.2"
+    }
+  ]
 }
 ];

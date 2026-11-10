@@ -2331,5 +2331,96 @@ export const problems = [
         "topicId": "mech-u6:6.4"
       }
     ]
-  }
+  },
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u6-q045",
+  "title": "6.2 力矩–时间图面积",
+  "stem": "净力矩在 0–0.50 s 内恒为 4.0 N·m，随后在 0.50–1.0 s 内线性减小到零。求 0–1.0 s 的角冲量（N·m·s）。",
+  "expected": 3.0,
+  "tol": 0.01,
+  "answerLatex": "3.0\\,\\mathrm{N\\,m\\,s}",
+  "solution": "矩形面积 4.0×0.50=2.0；三角面积 ½×4.0×0.50=1.0；总角冲量 3.0 N·m·s。",
+  "solutionLatex": "J_{\\rm ang}=4.0(0.50)+\\dfrac12(4.0)(0.50)=3.0\\,\\mathrm{N\\,m\\,s}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u6/6.2",
+      "label": "6.2 角动量",
+      "topicId": "mech-u6:6.2"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u6-q046",
+  "title": "6.1 质心静止的转动动能",
+  "stem": "薄圆环绕固定轴转动，I=0.50 kg·m²，ω=6.0 rad/s，质心保持静止。求转动动能（J）。",
+  "expected": 9.0,
+  "tol": 0.01,
+  "answerLatex": "9.0\\,\\mathrm{J}",
+  "solution": "K_rot=½Iω²=½(0.50)(6.0)²=9.0 J；能量来自各质元的线速度。",
+  "solutionLatex": "K_{\\rm rot}=\\dfrac12I\\omega^{2}=\\dfrac12(0.50)(6.0)^{2}=9.0\\,\\mathrm{J}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u6/6.1",
+      "label": "6.1 转动动能",
+      "topicId": "mech-u6:6.1"
+    }
+  ]
+},
+{
+  "id": "mech-u6-q047",
+  "title": "6.4 圆轨道的 K/U/L",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "卫星在圆轨道上运动。关于其动能 K、引力势能 U、总机械能 E 与角动量 L，下列哪项正确？",
+  "choices": [
+    {
+      "text": "K、U、E、L 都各自恒定",
+      "correct": true
+    },
+    {
+      "text": "只有 E 恒定，K 与 U 随时间交换",
+      "correct": false
+    },
+    {
+      "text": "K 恒定、U 随时间变化",
+      "correct": false
+    },
+    {
+      "text": "L 随时间周期性变化",
+      "correct": false
+    }
+  ],
+  "solution": "圆轨道 r 恒定，v 恒定，故 K、U、E、L 都恒定；椭圆轨道才是 K 与 U 交换而 E、L 恒定。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u6/6.4",
+      "label": "6.4 轨道",
+      "topicId": "mech-u6:6.4"
+    }
+  ]
+}
 ];

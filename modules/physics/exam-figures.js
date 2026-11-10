@@ -2434,6 +2434,504 @@ def('em-wave-profile', '电磁波剖面：E 与 B 同相振荡 · Electromagneti
   return s;
 });
 
+/* ======================= Track B B04–B05 coverage figures ======================= */
+def('nonuniform-integration', '非匀加速：由 a(t) 积分还原 v(t) 与 x(t) · Nonuniform acceleration: integrate a(t) to recover v(t) and x(t)', 'v(t)=v_0+\\int_0^t a\\,\\mathrm{d}t,\\qquad x(t)=x_0+\\int_0^t v\\,\\mathrm{d}t', () => {
+  const g1 = graph(34, 30, 142, 140, { fns: [{ f: (t) => 0.8 * t, c: 'a', w: 2.4 }], t1: 2.5, ymin: 0, ymax: 2.3, xl: 't', yl: 'a' });
+  let s = g1.s;
+  s += poly([[g1.X(0), g1.Y(0)], [g1.X(2), g1.Y(0)], [g1.X(2), g1.Y(1.6)]], { fill: COL.a, c: 'a', op: 0.16 });
+  s += ln(g1.X(2), g1.Y(0), g1.X(2), g1.Y(1.6), { c: 'm', dash: '4 3', w: 1 }) + tx(g1.X(2) + 4, g1.Y(0) + 15, 'T', { fs: 10 });
+  s += tx(g1.X(0.55), g1.Y(0.95), '面积 = Δv', { it: false, fs: 9, c: 'a' });
+  const g2 = graph(236, 30, 142, 140, { fns: [{ f: (t) => 0.4 * t * t, c: 'v', w: 2.4 }], t1: 2.5, ymin: 0, ymax: 2.7, xl: 't', yl: 'v' });
+  s += g2.s;
+  s += poly([[g2.X(0), g2.Y(0)], [g2.X(2), g2.Y(0)], [g2.X(2), g2.Y(1.6)], ...Array.from({ length: 33 }, (_, i) => { const t = 2 * (1 - i / 32); return [g2.X(t), g2.Y(0.4 * t * t)]; })], { fill: COL.v, c: 'v', op: 0.14 });
+  s += tx(g2.X(0.5), g2.Y(1.1), '面积 = Δx', { it: false, fs: 9, c: 'v' });
+  s += tx(34, 190, 'a(t)=kt：斜率 k，曲线下面积给出速度增量。', { it: false, fs: 9 });
+  s += tx(34, 204, '再把 v(t) 积分一次得到位移；积分常数由 v₀、x₀ 固定。', { it: false, fs: 9 });
+  s += tx(34, 218, 'Piecewise a(t): match v and x at each join; sign of area matters.', { it: false, fs: 8, c: 'm' });
+  s += eq(34, 242, ['v(t) = v₀ + ∫a dt,   x(t) = x₀ + ∫v dt']);
+  return s;
+});
+def('nonuniform-components', '不同方向非匀加速：分量各自积分 · Different nonuniform accelerations by component', 'a_x(t)\\ne a_y(t),\\qquad v_x=v_{0x}+\\int a_x\\,\\mathrm{d}t,\\qquad v_y=v_{0y}+\\int a_y\\,\\mathrm{d}t', () => {
+  const gx = graph(28, 30, 128, 112, { fns: [{ f: (t) => 0.9 * t, c: 'a', w: 2.2 }], t1: 2.4, ymin: 0, ymax: 2.4, xl: 't', yl: 'a_x' });
+  const gy = graph(28, 170, 128, 52, { fns: [{ f: (t) => 0.9 * t, c: 'a', w: 2.2, dash: '5 3' }], t1: 2.4, ymin: 0, ymax: 2.4, xl: 't', yl: 'a_y' });
+  let s = gx.s + gy.s;
+  s += tx(30, 152, 'a_x = αt（上）· a_y = −βt（下，取大小）', { it: false, fs: 8.5 });
+  const gvx = graph(210, 26, 168, 88, { fns: [{ f: (t) => 0.45 * t * t, c: 'v', w: 2.2 }], t1: 2.4, ymin: 0, ymax: 2.7, xl: 't', yl: 'v_x' });
+  const gvy = graph(210, 146, 168, 78, { fns: [{ f: (t) => 2.4 - 0.45 * t * t, c: 'v', w: 2.2, dash: '5 3' }], t1: 2.4, ymin: 0, ymax: 2.7, xl: 't', yl: 'v_y' });
+  s += gvx.s + gvy.s;
+  s += ln(gvx.X(2.0), gvx.Y(0), gvx.Y(2.0), gvx.Y(2.0), { c: 'm', w: 0.8 }) + ln(gvx.X(2.0), gvx.Y(0), gvx.X(2.0), gvx.Y(0.15), { c: 'm', w: 0.8 });
+  s += tx(210, 240, '同一 t 标记：速度分量独立积分，轨迹由 (x(t), y(t)) 合成。', { it: false, fs: 8.5 });
+  s += tx(210, 252, 'If a_x depends on y, the equations couple and cannot be integrated separately.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(28, 246, ['v_x = v_{0x}+∫a_x dt,   v_y = v_{0y}+∫a_y dt']);
+  return s;
+});
+def('trajectory-3d', '三维轨迹与坐标面投影 · 3D trajectory and coordinate-plane projections', '\\vec r(t)=x(t)\\hat i+y(t)\\hat j+z(t)\\hat k,\\qquad \\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t}', () => {
+  const O = [150, 212], X = [350, 212], Y = [76, 156], Z = [150, 44];
+  let s = ln(O[0], O[1], X[0], X[1], { w: 1.2 }) + ln(O[0], O[1], Y[0], Y[1], { w: 1.2 }) + ln(O[0], O[1], Z[0], Z[1], { w: 1.2 });
+  s += tx(X[0] + 4, X[1] + 4, 'x', { fs: 11 }) + tx(Y[0] - 12, Y[1] - 2, 'y', { fs: 11 }) + tx(Z[0] - 4, Z[1] - 6, 'z', { fs: 11 });
+  const P = (t) => [150 + 150 * t - 55 * t * t, 212 - 12 * t - 95 * t * t + 12 * t * t * t];
+  const curve = Array.from({ length: 60 }, (_, i) => P(i / 59));
+  const projXY = curve.map(([x, y]) => [x, 212 - (212 - y) * 0.18]);
+  const projXZ = curve.map(([x, y]) => [x, 212 - (212 - y) * 0.72]);
+  const projYZ = curve.map(([x, y]) => [150 + (x - 150) * 0.18, y]);
+  s += poly(projXY, { c: 'm', w: 1, dash: '3 3' }) + poly(projXZ, { c: 'm', w: 1, dash: '3 3' }) + poly(projYZ, { c: 'm', w: 1, dash: '3 3' });
+  s += poly(curve, { c: 'v', w: 2.6 });
+  s += tx(300, 60, 'r(t) 空间曲线', { it: false, fs: 9.5, c: 'v' });
+  s += tx(242, 196, 'xy 投影', { it: false, fs: 8, c: 'm' }) + tx(262, 104, 'xz 投影', { it: false, fs: 8, c: 'm' }) + tx(64, 86, 'yz 投影', { it: false, fs: 8, c: 'm' });
+  s += circ(P(0.62)[0], P(0.62)[1], 3.5, { fill: COL.v }) + tx(P(0.62)[0] + 7, P(0.62)[1] + 4, 't', { fs: 10, c: 'v' });
+  s += tx(18, 238, '三个分量共用同一时间 t；任一投影不足以还原三维运动。', { it: false, fs: 8.8 });
+  s += tx(18, 252, 'Each component is a 1D problem with a common clock; one projection loses information.', { it: false, fs: 7.8, c: 'm' });
+  return s;
+});
+
+def('point-vs-rigid-model', '内部结构决定模型：质点、刚体与多体 · Internal structure sets the model: point, rigid body, multi-body', '\\text{point: }\\vec r_{\\rm cm};\\quad \\text{rigid: }I,\\alpha;\\quad \\text{multi-body: internal degrees of freedom}', () => {
+  let s = tx(18, 18, '(a) 平动：质点模型 · point model', { it: false, fs: 9.5 });
+  s += hatch(20, 160, 116) + rect(42, 120, 46, 38) + circ(65, 139, 3, { fill: 'currentColor' });
+  s += arr(65, 139, 108, 139, 'f', 1.8) + tx(84, 132, 'F', { c: 'f', fs: 10 });
+  s += tx(18, 188, '内部结构可忽略；只跟踪质心平动。', { it: false, fs: 8.5 });
+  s += tx(142, 18, '(b) 转动：刚体模型 · rigid-body model', { it: false, fs: 9.5 });
+  s += circ(212, 140, 36, { fill: COL.v, op: 0.1, c: 'v', w: 1.6 }) + circ(212, 140, 3, { fill: 'currentColor' });
+  s += arc(212, 140, 46, 20, 150, { c: 'a', w: 1.5 }) + tx(260, 100, 'I, α', { c: 'a', fs: 10 });
+  s += tx(142, 188, '质量分布影响 I；转动与形变不可忽略。', { it: false, fs: 8.5 });
+  s += tx(282, 18, '(c) 多体：内部自由度 · multi-body', { it: false, fs: 9.5 });
+  s += rect(286, 116, 32, 30) + rect(348, 116, 32, 30) + spring(318, 131, 348, 131, 7, 5);
+  s += arr(302, 108, 302, 96, 'a', 1.2) + arr(364, 108, 364, 96, 'a', 1.2) + tx(308, 92, 'internal', { it: false, fs: 7.5, c: 'a' });
+  s += tx(282, 188, '弹簧振荡等内部运动需额外坐标。', { it: false, fs: 8.5 });
+  s += tx(18, 216, '质点模型丢掉转动、形变与内部能量；刚体模型保留质量分布；多体模型保留内部自由度。', { it: false, fs: 8.8 });
+  s += tx(18, 230, 'Choose the simplest model that still keeps the physics the question asks about.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 250, ['point ⊂ rigid body ⊂ multi-body']);
+  return s;
+});
+def('nonuniform-rod-cm', '非均匀杆的质心：dm = λ(x) dx · Center of mass of a nonuniform rod', 'x_{\\rm cm}=\\dfrac{\\int_0^L x\\lambda(x)\\,\\mathrm{d}x}{\\int_0^L\\lambda(x)\\,\\mathrm{d}x},\\qquad \\lambda(x)=\\lambda_0\\left(1+\\dfrac{x}{L}\\right)', () => {
+  const x0 = 48, x1 = 352, y = 136, xc = x0 + (x1 - x0) * 5 / 9;
+  let s = ln(x0 - 10, y, x1 + 10, y, { w: 2 });
+  s += poly([[x0, y - 52], [x1, y - 76], [x1, y - 8], [x0, y - 8]], { fill: COL.a, c: 'a', op: 0.12 });
+  s += ln(x0, y - 52, x0, y - 8, { c: 'a', w: 1 }) + ln(x1, y - 76, x1, y - 8, { c: 'a', w: 1 });
+  s += tx(x0 - 4, y - 58, 'λ₀', { fs: 10, c: 'a', anchor: 'end' }) + tx(x1 + 4, y - 82, '2λ₀', { fs: 10, c: 'a' });
+  const xe = x0 + (x1 - x0) * 0.72;
+  s += rect(xe - 7, y - 8, 14, 10, { c: 'f', w: 1 }) + tx(xe, y + 22, 'dm = λ(x) dx', { fs: 9, c: 'f', anchor: 'middle' });
+  s += ln(xc, y, xc, y + 46, { c: 'm', dash: '4 3', w: 1.2 }) + circ(xc, y, 4, { fill: 'currentColor' }) + tx(xc, y + 60, 'x_cm = 5L/9', { fs: 10, anchor: 'middle' });
+  s += tx(x0, y - 96, '密度向右增大 → 质心偏向右侧', { it: false, fs: 9 });
+  s += tx(18, 216, 'M = ∫λ dx = 3λ₀L/2；x_cm = ∫xλ dx / M = 5L/9。', { it: false, fs: 9 });
+  s += tx(18, 230, 'The extra mass on the right pulls the CM right of the midpoint L/2.', { it: false, fs: 8, c: 'm' });
+  s += eq(18, 250, ['M=∫λ dx,   x_{cm}=', { n: '1', d: 'M' }, '∫xλ dx']);
+  return s;
+});
+
+def('system-internal-interactions', '内部相互作用决定系统性质 · Internal interactions determine system properties', '\\sum\\vec F_{\\rm int}=0,\\qquad \\vec p_{\\rm sys}=\\text{const (isolated)},\\qquad \\Delta E_{\\rm int}\\ne0', () => {
+  let s = rect(30, 30, 190, 160, { dash: '5 4', c: 'm' }) + tx(36, 22, '系统边界 · system boundary', { it: false, fs: 8.5 });
+  const pts = [[88, 76], [158, 66], [118, 142], [178, 146]];
+  for (const [x, y] of pts) s += circ(x, y, 10, { fill: COL.f, op: 0.14, c: 'f' });
+  s += arr(98, 76, 146, 68, 'f', 1.5) + arr(146, 68, 98, 76, 'f', 1.5, '4 2');
+  s += arr(126, 134, 168, 140, 'f', 1.5) + arr(168, 140, 126, 134, 'f', 1.5, '4 2');
+  s += tx(122, 54, '成对内力 · paired internal forces', { it: false, fs: 8, c: 'f', anchor: 'middle' });
+  s += tx(238, 42, '宏观性质 · macroscopic:', { it: false, fs: 9.5 });
+  s += tx(238, 62, '温度 T、压强 p', { it: false, fs: 9 });
+  s += tx(238, 80, '内能 E_int、总动量 p', { it: false, fs: 9 });
+  s += tx(238, 108, '内力成对抵消：', { it: false, fs: 9 });
+  s += tx(238, 124, 'ΣF_int = 0 → p 不变', { fs: 9, c: 'a' });
+  s += tx(238, 150, '内力可重分配能量：', { it: false, fs: 9 });
+  s += tx(238, 166, '摩擦/碰撞 → ΔE_int > 0', { fs: 9, c: 'f' });
+  s += tx(18, 216, '系统性质（温度、压强、内能、总动量）由组成对象的相互作用决定。', { it: false, fs: 8.8 });
+  s += tx(18, 230, 'Internal forces cancel in the total-momentum sum but can redistribute energy.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 250, ['ΣF_{int}=0,   M a_{cm}=ΣF_{ext}']);
+  return s;
+});
+def('open-system-mass-energy', '开放系统：质量与能量跨边界传递 · Open system: mass and energy cross the boundary', '\\dfrac{\\mathrm{d}m}{\\mathrm{d}t}=\\dot m_{\\rm in}-\\dot m_{\\rm out},\\qquad \\dfrac{\\mathrm{d}E}{\\mathrm{d}t}=\\dot Q-\\dot W+\\dot E_{\\rm mass,in}-\\dot E_{\\rm mass,out}', () => {
+  let s = rect(92, 58, 180, 118, { dash: '5 4', c: 'm', w: 1.6 });
+  s += tx(96, 48, '控制体积 · control volume', { it: false, fs: 9 });
+  s += arr(24, 92, 88, 92, 'v', 2) + tx(28, 84, 'ṁ_in', { fs: 10, c: 'v' });
+  s += arr(272, 140, 344, 140, 'v', 2) + tx(292, 132, 'ṁ_out', { fs: 10, c: 'v' });
+  s += arr(160, 34, 160, 54, 'f', 1.8) + tx(168, 44, 'Q', { fs: 10, c: 'f' });
+  s += arr(238, 176, 238, 208, 'a', 1.8) + tx(246, 196, 'W', { fs: 10, c: 'a' });
+  s += tx(108, 110, 'E_mass,in', { fs: 9, c: 'v' }) + tx(240, 120, 'E_mass,out', { fs: 9, c: 'v' });
+  s += tx(18, 224, '开放：质量与能量都可跨边界；封闭：无质量交换；孤立：两者都无。', { it: false, fs: 8.5 });
+  s += tx(18, 238, 'Open: mass + energy flow; closed: no mass flow; isolated: neither.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 254, ['open: mass flow ≠ 0;  closed: mass flow = 0;  isolated: also Q = W = 0']);
+  return s;
+});
+
+def('fbd-center-of-mass', '质心点受力图：所有外力从质心出发 · Center-of-mass FBD: every external force starts at the CM dot', '\\vec F_{\\rm net}=\\sum\\vec F_{\\rm ext},\\qquad \\vec a_{\\rm cm}=\\dfrac{\\vec F_{\\rm net}}{M}', () => {
+  let s = tx(18, 18, '实物 · extended object', { it: false, fs: 9.5 });
+  s += hatch(24, 178, 156) + rect(54, 104, 72, 56) + circ(90, 132, 4, { fill: 'currentColor' }) + tx(90, 126, 'CM', { fs: 9, anchor: 'middle' });
+  s += tx(18, 202, '质心不一定在物体内部，但可代表整体平动。', { it: false, fs: 8.2 });
+  s += tx(174, 18, '受力图 · free-body diagram', { it: false, fs: 9.5 });
+  s += circ(252, 132, 5, { fill: 'currentColor' });
+  s += arr(252, 132, 252, 82, 'f', 1.8) + tx(258, 96, 'N', { c: 'f', fs: 10 });
+  s += arr(252, 132, 252, 182, 'f', 1.8) + tx(258, 176, 'Mg', { c: 'f', fs: 10 });
+  s += arr(252, 132, 312, 112, 'f', 1.8) + tx(290, 104, 'T', { c: 'f', fs: 10 });
+  s += arr(252, 132, 200, 118, 'f', 1.8) + tx(206, 112, 'f', { c: 'f', fs: 10 });
+  s += tx(174, 202, '所有外力箭头统一起点于质心点。', { it: false, fs: 8.2 });
+  s += ln(322, 48, 382, 104, { c: 'f', w: 1.8 }) + ln(382, 48, 322, 104, { c: 'f', w: 1.8 });
+  s += tx(326, 132, '不画：', { it: false, fs: 8.5 });
+  s += tx(326, 146, '物体对环境的作用力', { it: false, fs: 8 });
+  s += tx(326, 160, '与 ma 箭头', { it: false, fs: 8 });
+  s += tx(18, 232, '系统视为质量集中在质心；只画作用在系统上的外力。', { it: false, fs: 8.8 });
+  s += tx(18, 246, 'A system is treated as if all its mass sits at the CM.', { it: false, fs: 7.8, c: 'm' });
+  return s;
+});
+def('ideal-string-tension', '理想绳的张力：微段受力与均匀张力 · Tension in an ideal string: segment forces and uniform tension', 'T(x+\\Delta x)-T(x)=\\Delta m\\,a\\;\\xrightarrow{\\Delta m\\to0}\\;T=\\text{const}', () => {
+  let s = ln(28, 92, 172, 92, { c: 'I', w: 2.2 }) + arr(58, 92, 92, 92, 'I', 1.4) + arr(108, 92, 142, 92, 'I', 1.4);
+  s += rect(84, 78, 32, 28, { c: 'f', w: 1.4, dash: '3 2' }) + tx(100, 72, 'Δm', { fs: 9, anchor: 'middle' });
+  s += arr(84, 92, 56, 92, 'f', 1.8) + arr(116, 92, 144, 92, 'f', 1.8);
+  s += tx(50, 116, 'T(x)', { fs: 10, c: 'f' }) + tx(130, 116, 'T(x+Δx)', { fs: 10, c: 'f' });
+  s += tx(28, 146, '无质量极限：Δm → 0 ⇒ T(x+Δx) = T(x)', { it: false, fs: 8.8 });
+  s += tx(28, 160, '不可伸长 ⇒ 各段加速度相同。', { it: false, fs: 8.8 });
+  s += ln(206, 30, 206, 226, { c: 'm', w: 1, dash: '4 3' });
+  s += ln(300, 36, 300, 64, { w: 1.4 }) + spring(300, 64, 300, 118, 8, 6);
+  s += rect(280, 118, 40, 30) + tx(300, 138, 'm_block', { fs: 9, anchor: 'middle' });
+  s += tx(232, 46, '有质量绳 · massive rope', { it: false, fs: 9 });
+  s += arr(300, 118, 300, 96, 'f', 1.6) + tx(308, 102, 'T_bottom = m_block g', { fs: 8.2, c: 'f' });
+  s += arr(300, 64, 300, 48, 'f', 1.6) + tx(308, 52, 'T_top = (m_rope+m_block)g', { fs: 8.2, c: 'f' });
+  s += tx(232, 176, '真实绳：张力随高度变化。', { it: false, fs: 8.8 });
+  s += tx(232, 190, '理想绳：质量可忽略且不可伸长。', { it: false, fs: 8.8 });
+  s += tx(18, 220, '张力是相邻绳段相互作用的宏观表现，不是绳子“产生”的独立力。', { it: false, fs: 8.6 });
+  s += tx(18, 234, 'Tension is the macroscopic net of adjacent-segment forces.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 252, ['T_{top}=(m_{rope}+m_{block})g,   T_{bottom}=m_{block}g']);
+  return s;
+});
+def('circular-accel-vector-sum', '圆周运动：径向与切向加速度矢量合成 · Circular motion: vector sum of radial and tangential acceleration', '\\vec a=\\vec a_c+\\vec a_t,\\qquad a=\\sqrt{a_c^2+a_t^2},\\qquad \\tan\\phi=\\dfrac{a_t}{a_c}', () => {
+  const cx = 132, cy = 132, R = 74;
+  let s = circ(cx, cy, R, { c: 'm', w: 1.3, dash: '4 3' }) + circ(cx, cy, 3, { fill: 'currentColor' });
+  const A = pt(cx, cy, R, 35), B = pt(cx, cy, R, 140);
+  s += circ(A[0], A[1], 5, { fill: COL.v });
+  s += arr(A[0], A[1], A[0] + 42, A[1] - 30, 'v', 2) + tx(A[0] + 46, A[1] - 34, 'v', { c: 'v', fs: 10 });
+  s += arr(A[0], A[1], cx + (A[0] - cx) * 0.52, cy + (A[1] - cy) * 0.52, 'a', 2) + tx(cx + 18, cy + 20, 'a_c', { c: 'a', fs: 10 });
+  s += arr(A[0], A[1], A[0] + 32, A[1] - 23, 'a', 2) + tx(A[0] + 8, A[1] - 30, 'a_t', { c: 'a', fs: 10 });
+  s += ln(A[0] + 32, A[1] - 23, A[0] + 66, A[1] - 52, { c: 'a', w: 1.3, dash: '3 2' });
+  s += ln(cx + (A[0] - cx) * 0.52, cy + (A[1] - cy) * 0.52, A[0] + 66, A[1] - 52, { c: 'a', w: 1.3, dash: '3 2' });
+  s += arr(A[0], A[1], A[0] + 66, A[1] - 52, 'a', 2.4) + tx(A[0] + 70, A[1] - 58, 'a', { c: 'a', fs: 11 });
+  s += circ(B[0], B[1], 5, { fill: COL.v }) + arr(B[0], B[1], B[0] - 18, B[1] - 40, 'v', 1.8);
+  s += tx(232, 48, '加速：a_t 与 v 同向', { it: false, fs: 9 });
+  s += tx(232, 66, '减速：a_t 与 v 反向', { it: false, fs: 9 });
+  s += tx(232, 92, '匀速圆周：a_t = 0，a = a_c', { it: false, fs: 9 });
+  s += tx(232, 118, '方向：tan φ = a_t / a_c', { it: false, fs: 9 });
+  s += tx(18, 214, '向心分量只改变方向；切向分量改变速率。', { it: false, fs: 8.8 });
+  s += tx(18, 228, 'The two perpendicular components add as vectors, not algebraically.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 248, ['a=a_c+a_t,   a_c=', { n: 'v²', d: 'r' }, '=ω²r,   a_t=rα']);
+  return s;
+});
+
+def('gravity-field-model', '引力场：非接触作用的空间模型 · Gravitational field: a spatial model of noncontact force', '\\vec g(\\vec r)=\\dfrac{\\vec F_g(\\vec r)}{m},\\qquad \\vec F_g=m\\vec g', () => {
+  const cx = 112, cy = 128;
+  let s = circ(cx, cy, 26, { fill: COL.f, op: 0.2, c: 'f', w: 1.6 }) + tx(cx, cy + 4, 'M', { fs: 12, anchor: 'middle' });
+  for (const a of [0, 40, 80, 120, 160, 200, 240, 280, 320]) {
+    const r1a = 34, r2a = 34 + 62 / (1 + (a % 80) / 40);
+    const [x1, y1] = pt(cx, cy, r1a, a), [x2, y2] = pt(cx, cy, r1a + 28, a);
+    s += arr(x1, y1, x2, y2, 'f', 1.2);
+  }
+  s += tx(cx, 54, 'g 的箭头随 r 增大而变短', { it: false, fs: 8.5, anchor: 'middle' });
+  const T = [272, 84];
+  s += circ(T[0], T[1], 6, { fill: COL.v }) + tx(T[0] + 10, T[1] + 4, 'm（试探质量）', { it: false, fs: 8.5 });
+  s += arr(T[0], T[1], T[0] - 34, T[1] + 18, 'f', 1.7) + tx(T[0] - 38, T[1] + 38, 'F_g = m g', { c: 'f', fs: 9 });
+  s += tx(216, 138, '场在每一点都有大小和方向；', { it: false, fs: 8.8 });
+  s += tx(216, 152, '没有试探质量时场仍然存在。', { it: false, fs: 8.8 });
+  s += tx(216, 174, '场由源质量 M 决定，', { it: false, fs: 8.8 });
+  s += tx(216, 188, '不是“流线”。', { it: false, fs: 8.8 });
+  s += tx(18, 216, '引力场把“超距作用”改写成空间中逐点的矢量模型。', { it: false, fs: 8.8 });
+  s += tx(18, 230, 'The field exists at every point even without a test mass.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 250, ['g(r)=', { n: 'GM', d: 'r²' }, '  (outside a spherical source)']);
+  return s;
+});
+def('gravity-mass-element-superposition', '质量元引力矢量叠加 · Vector superposition of gravitational forces from mass elements', '\\vec F_{\\rm net}=\\sum_i\\vec F_i,\\qquad F_{\\rm net}=\\dfrac{GMm}{r^2}\\ \\text{(outside)}', () => {
+  const cx = 112, cy = 126, R = 48;
+  let s = circ(cx, cy, R, { fill: COL.f, op: 0.08, c: 'f', w: 1.4 });
+  for (const a of [20, 70, 120, 170, 220, 270, 320]) {
+    const [x, y] = pt(cx, cy, R * 0.72, a);
+    s += circ(x, y, 3, { fill: COL.f }) + tx(x + 4, y - 4, 'dm', { fs: 7.5, c: 'f' });
+  }
+  const P = [314, 86];
+  s += circ(P[0], P[1], 5, { fill: COL.v }) + tx(P[0] + 8, P[1] + 4, 'm', { fs: 10 });
+  const d1 = [cx + 34, cy - 34], d2 = [cx + 34, cy + 34];
+  s += arr(d1[0], d1[1], P[0] - 8, P[1] + 6, 'f', 1.3) + arr(d2[0], d2[1], P[0] - 8, P[1] - 6, 'f', 1.3);
+  s += tx(P[0] - 34, P[1] - 18, 'dF₁', { fs: 8, c: 'f' }) + tx(P[0] - 34, P[1] + 26, 'dF₂', { fs: 8, c: 'f' });
+  s += arr(P[0], P[1], P[0] + 34, P[1], 'a', 2.2) + tx(P[0] + 40, P[1] + 4, 'ΣdF', { c: 'a', fs: 9 });
+  s += tx(196, 150, '横向分量相消，径向分量相加；', { it: false, fs: 8.5 });
+  s += tx(196, 164, '外部等效于球心点质量。', { it: false, fs: 8.5 });
+  s += tx(18, 206, '球壳内部：相对立体角的质量元成对抵消 → 净力为零。', { it: false, fs: 8.4 });
+  s += tx(18, 220, 'Interior of a thin shell: opposite solid-angle patches cancel.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 240, ['F_{net}=∫dF,   ΣF_{⊥}=0,   F_{radial}=', { n: 'GMm', d: 'r²' }]);
+  return s;
+});
+
+def('springs-series-parallel', '弹簧串联与并联：等效劲度系数 · Springs in series and parallel: equivalent spring constant', '\\dfrac{1}{k_{\\rm series}}=\\sum_i\\dfrac{1}{k_i},\\qquad k_{\\rm parallel}=\\sum_i k_i', () => {
+  let s = tx(18, 18, '串联 · series', { it: false, fs: 9.5 });
+  s += ln(22, 54, 66, 54, { w: 1.6 }) + spring(66, 54, 138, 54, 8, 6) + ln(138, 54, 168, 54, { w: 1.6 });
+  s += arr(168, 54, 198, 54, 'f', 1.8) + tx(180, 42, 'F', { c: 'f', fs: 10 });
+  s += tx(66, 82, 'k₁', { fs: 9 }) + tx(138, 82, 'k₂', { fs: 9 });
+  s += tx(18, 110, '同一 F；形变相加 Δx = Δx₁ + Δx₂', { it: false, fs: 8.5 });
+  s += tx(18, 126, '等效弹簧比任一根都软。', { it: false, fs: 8.5 });
+  s += tx(18, 148, '200 与 300 N/m → k_eq = 120 N/m', { fs: 8.8, c: 'a' });
+  s += ln(18, 168, 196, 168, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(18, 188, '并联 · parallel', { it: false, fs: 9.5 });
+  s += ln(22, 212, 58, 212, { w: 1.6 });
+  s += spring(58, 212, 128, 212, 8, 6) + spring(58, 232, 128, 232, 8, 6);
+  s += ln(128, 212, 176, 212, { w: 1.6 }) + ln(128, 232, 176, 232, { w: 1.6 });
+  s += arr(176, 212, 206, 212, 'f', 1.8) + arr(176, 232, 206, 232, 'f', 1.8) + tx(190, 200, 'F', { c: 'f', fs: 10 });
+  s += tx(40, 216, 'k₁', { fs: 9 }) + tx(40, 236, 'k₂', { fs: 9 });
+  s += tx(222, 54, '同一 Δx；力相加 F = F₁ + F₂', { it: false, fs: 8.8 });
+  s += tx(222, 70, '等效弹簧比任一根都硬。', { it: false, fs: 8.8 });
+  s += tx(222, 92, '200 与 300 N/m → k_eq = 500 N/m', { fs: 8.8, c: 'a' });
+  s += tx(222, 116, '串联：同力，形变相加。', { it: false, fs: 8.8 });
+  s += tx(222, 130, '并联：同形变，力相加。', { it: false, fs: 8.8 });
+  s += tx(222, 154, 'Series: same force. Parallel: same extension.', { it: false, fs: 7.8, c: 'm' });
+  return s;
+});
+def('spring-substructure-external-variable', '外变量改变弹簧子结构 · External variables change a spring’s substructure', 'F=-kx\\ \\text{(small }x\\text{)},\\qquad k=k(T,\\text{history}),\\qquad \\text{yield when }x\\text{ is large}', () => {
+  let s = tx(18, 18, '宏观：弹簧形变 · macroscopic', { it: false, fs: 9.5 });
+  s += ln(24, 80, 56, 80, { w: 1.6 }) + spring(56, 80, 174, 80, 10, 8) + ln(174, 80, 208, 80, { w: 1.6 });
+  s += arr(208, 80, 244, 80, 'f', 2) + tx(226, 68, 'F', { c: 'f', fs: 10 });
+  s += tx(18, 104, '温度 T、外力 F、加载历史都是外变量。', { it: false, fs: 8.5 });
+  s += tx(18, 132, '微观：原子键长与键角 · microscopic', { it: false, fs: 9.5 });
+  const ax = [60, 132, 204];
+  for (let i = 0; i < 3; i++) s += circ(ax[i], 170, 12, { fill: COL.a, op: 0.16, c: 'a', w: 1.3 });
+  s += ln(ax[0] + 12, 170, ax[1] - 12, 170, { w: 1.8 }) + ln(ax[1] + 12, 170, ax[2] - 12, 170, { w: 1.8 });
+  s += arr(60, 148, 60, 132, 'f', 1.4) + arr(204, 148, 204, 132, 'f', 1.4) + tx(132, 142, '外加作用 / 升温', { it: false, fs: 8, c: 'f', anchor: 'middle' });
+  s += tx(18, 198, '外变量 → 键长/键角变化 → k 改变或胡克定律失效。', { it: false, fs: 8.6 });
+  s += tx(18, 212, '超过弹性极限后出现屈服/塑性，不再可逆。', { it: false, fs: 8.6 });
+  const g = graph(252, 30, 132, 132, { fns: [{ f: (t) => (t <= 1 ? t : 1 + 0.25 * (t - 1)), c: 'a', w: 2.2 }], t1: 2.2, ymin: 0, ymax: 1.6, xl: 'x', yl: 'F' });
+  s += g.s;
+  s += ln(g.X(1), g.Y(0), g.X(1), g.Y(1), { c: 'm', dash: '4 3', w: 1 }) + tx(g.X(1), g.Y(0) + 14, '弹性极限', { fs: 8, anchor: 'middle' });
+  s += tx(g.X(0.25), g.Y(0.32), '线性区', { fs: 8, c: 'a' }) + tx(g.X(1.2), g.Y(1.25), '屈服', { fs: 8, c: 'f' });
+  s += tx(252, 190, 'External variable → substructure change → k shifts.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 238, ['F=−kx  (linear elastic only);   k=k(T)']);
+  return s;
+});
+
+def('single-vs-multi-object-energy', '单对象与多对象系统的能量对照 · Single-object versus multi-object energy accounting', '\\text{single object: }K\\ \\text{only};\\qquad \\text{object+Earth: }K+U_g;\\qquad \\text{object+spring: }K+U_s', () => {
+  let s = tx(18, 18, '(a) 只选物块 · block alone', { it: false, fs: 9.5 });
+  s += hatch(22, 152, 128) + rect(48, 96, 54, 44) + tx(75, 123, 'm', { fs: 11, anchor: 'middle' });
+  s += arr(102, 118, 138, 118, 'f', 1.8) + tx(120, 108, 'W_ext', { c: 'f', fs: 9 });
+  s += tx(18, 180, '只有动能 K；外力做功改变 K。', { it: false, fs: 8.5 });
+  s += tx(18, 194, '单对象点模型没有势能。', { it: false, fs: 8.5 });
+  s += ln(158, 26, 158, 214, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(174, 18, '(b) 物块 + 地球 · block + Earth', { it: false, fs: 9.5 });
+  s += circ(220, 96, 18, { fill: COL.v, op: 0.12, c: 'v', w: 1.3 }) + tx(220, 100, 'Earth', { fs: 7.5, anchor: 'middle' });
+  s += rect(272, 116, 44, 36) + tx(294, 140, 'm', { fs: 10, anchor: 'middle' });
+  s += arr(294, 152, 294, 188, 'f', 1.6) + tx(300, 176, 'mg', { c: 'f', fs: 9 });
+  s += arr(294, 116, 294, 84, 'v', 1.6) + tx(300, 92, 'v', { c: 'v', fs: 9 });
+  s += tx(174, 180, 'K + U_g；E = K + U_g 可守恒。', { it: false, fs: 8.5 });
+  s += tx(174, 194, '势能属于物块–地球系统。', { it: false, fs: 8.5 });
+  s += eq(18, 238, ['E=K+U,   ΔE=W_{ext}+W_{nc}']);
+  s += tx(18, 252, 'Choose the system first; potential energy only exists for an interaction pair.', { it: false, fs: 7.6, c: 'm' });
+  return s;
+});
+
+def('rigid-force-diagram-vs-fbd', '刚体力图与质心点受力图的区别 · Rigid-body force diagram versus point-mass FBD', '\\tau=Fd_{\\perp},\\qquad \\sum\\vec F=M\\vec a_{\\rm cm},\\qquad \\sum\\tau_{\\rm axis}=I\\alpha', () => {
+  let s = tx(18, 18, '刚体力图：力画在实际作用点 · force diagram', { it: false, fs: 9 });
+  s += rect(42, 108, 132, 14) + circ(108, 115, 3, { fill: 'currentColor' }) + tx(108, 100, 'CM', { fs: 8.5, anchor: 'middle' });
+  s += ln(108, 76, 108, 156, { c: 'm', dash: '4 3', w: 1 }) + tx(112, 152, 'axis', { fs: 8, c: 'm' });
+  s += arr(60, 108, 60, 76, 'f', 1.7) + tx(50, 72, 'F₁', { c: 'f', fs: 9 });
+  s += arr(156, 122, 156, 154, 'f', 1.7) + tx(162, 146, 'F₂', { c: 'f', fs: 9 });
+  s += ln(60, 92, 108, 92, { c: 'a', w: 1.2, dash: '3 2' }) + tx(84, 86, 'd₁', { fs: 8, c: 'a' });
+  s += tx(18, 184, '力可产生力矩；作用点与力臂都要读出。', { it: false, fs: 8.4 });
+  s += ln(206, 26, 206, 214, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(222, 18, '点质量 FBD：力平移到质心 · point FBD', { it: false, fs: 9 });
+  s += circ(300, 116, 5, { fill: 'currentColor' });
+  s += arr(300, 116, 300, 70, 'f', 1.7) + tx(306, 82, 'F₁', { c: 'f', fs: 9 });
+  s += arr(300, 116, 300, 164, 'f', 1.7) + tx(306, 154, 'F₂', { c: 'f', fs: 9 });
+  s += tx(222, 184, '所有外力起点都在质心；不画力臂。', { it: false, fs: 8.4 });
+  s += tx(18, 214, '同一组力：刚体力图保留作用点以算力矩；FBD 只用于平动。', { it: false, fs: 8.6 });
+  s += tx(18, 228, 'Rigid diagram keeps application points; the point FBD collapses them to the CM.', { it: false, fs: 7.6, c: 'm' });
+  s += eq(18, 250, ['τ=Fd_{⊥},   Στ=Iα  (fixed axis)']);
+  return s;
+});
+def('translational-vs-rotational-equilibrium', '平动与转动平衡互不蕴含 · Translational and rotational equilibrium are independent', '\\sum F=0\\ \\not\\Rightarrow\\ \\sum\\tau=0,\\qquad \\sum\\tau=0\\ \\not\\Rightarrow\\ \\sum F=0', () => {
+  let s = tx(18, 18, '(a) 力偶：ΣF = 0，Στ ≠ 0', { it: false, fs: 9.2 });
+  s += rect(44, 116, 132, 12) + circ(110, 122, 3, { fill: 'currentColor' });
+  s += arr(44, 104, 44, 70, 'f', 1.8) + arr(176, 140, 176, 174, 'f', 1.8);
+  s += tx(26, 62, 'F', { c: 'f', fs: 10 }) + tx(182, 188, 'F', { c: 'f', fs: 10 });
+  s += arc(110, 122, 54, 20, 160, { c: 'a', w: 1.6 }) + tx(110, 196, 'α ≠ 0（转动）', { it: false, fs: 8.5, c: 'a', anchor: 'middle' });
+  s += tx(18, 210, '合力为零但力偶使刚体转动。', { it: false, fs: 8.4 });
+  s += ln(202, 26, 202, 214, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(218, 18, '(b) 偏离质心转动：Στ = 0，ΣF ≠ 0', { it: false, fs: 9.2 });
+  s += circ(300, 116, 6, { fill: 'currentColor' }) + tx(300, 96, 'CM', { fs: 8, anchor: 'middle' });
+  s += arc(300, 116, 34, 20, 160, { c: 'a', w: 1.4 }) + tx(300, 164, 'ω = const', { fs: 9, c: 'a', anchor: 'middle' });
+  s += arr(300, 116, 300, 76, 'f', 1.6) + tx(306, 84, 'F_c = Mω²r_cm', { c: 'f', fs: 8 });
+  s += tx(218, 210, '无外力矩，但质心在做圆周运动。', { it: false, fs: 8.4 });
+  s += tx(18, 228, '转动平衡允许恒定非零角速度；平动平衡允许恒定非零速度。', { it: false, fs: 8.5 });
+  s += eq(18, 250, ['Στ=0 ⇔ ω=const;   ΣF=0 ⇔ v_{cm}=const']);
+  return s;
+});
+def('tangential-radial-acceleration', '同一刚体不同半径处的线速度与加速度 · Linear velocity and acceleration at different radii on one rigid body', 'v=r\\omega,\\qquad a_t=r\\alpha,\\qquad a_c=\\omega^2r=\\dfrac{v^2}{r}', () => {
+  const cx = 120, cy = 132;
+  let s = circ(cx, cy, 84, { c: 'm', w: 1.2, dash: '4 3' }) + circ(cx, cy, 3, { fill: 'currentColor' });
+  const A = pt(cx, cy, 84, 34), B = pt(cx, cy, 48, 34);
+  s += ln(cx, cy, A[0], A[1], { c: 'm', w: 1 }) + ln(cx, cy, B[0], B[1], { c: 'm', w: 1 });
+  s += circ(A[0], A[1], 4.5, { fill: COL.v }) + circ(B[0], B[1], 4.5, { fill: COL.v });
+  s += arr(A[0], A[1], A[0] + 30, A[1] - 20, 'v', 1.7) + tx(A[0] + 34, A[1] - 24, 'v_A = r_Aω', { c: 'v', fs: 8 });
+  s += arr(B[0], B[1], B[0] + 18, B[1] - 12, 'v', 1.5) + tx(B[0] + 20, B[1] - 16, 'v_B = r_Bω', { c: 'v', fs: 8 });
+  s += arr(A[0], A[1], cx + (A[0] - cx) * 0.6, cy + (A[1] - cy) * 0.6, 'a', 1.6) + tx(cx + 30, cy + 26, 'a_c', { c: 'a', fs: 9 });
+  s += arr(A[0], A[1], A[0] + 20, A[1] - 14, 'a', 1.6) + tx(A[0] + 22, A[1] - 20, 'a_t', { c: 'a', fs: 9 });
+  s += tx(220, 48, '同一刚体：ω、α 相同', { it: false, fs: 9 });
+  s += tx(220, 66, 'v、a_t、a_c 随 r 增大', { it: false, fs: 9 });
+  s += tx(220, 92, 'a_c 指向轴，a_t 沿切向', { it: false, fs: 9 });
+  s += tx(220, 118, '总加速度：a = √(a_t²+a_c²)', { it: false, fs: 9 });
+  s += tx(18, 216, '刚体上各点共享角量，但线量按半径缩放。', { it: false, fs: 8.8 });
+  s += tx(18, 230, 'All points share ω and α; linear quantities scale with r.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 250, ['a=√(a_{t}²+a_{c}²),   tanφ=', { n: 'a_t', d: 'a_c' }]);
+  return s;
+});
+def('torque-angle-area', '力矩–转角图：曲线下面积等于功 · Torque–angle graph: area under the curve equals work', 'W=\\int_{\\theta_i}^{\\theta_f}\\tau\\,\\mathrm{d}\\theta,\\qquad W_{\\rm net}=\\sum_i W_i', () => {
+  const X = (t) => 42 + t * 72, Y = (v) => 150 - v * 52;
+  let s = arr(42, Y(0), 360, Y(0), 'g', 1.2) + arr(42, 204, 42, 36, 'g', 1.2);
+  s += tx(364, Y(0) + 4, 'θ', { fs: 11 }) + tx(36, 32, 'τ', { fs: 11, anchor: 'end' });
+  s += poly([[X(0), Y(0)], [X(1), Y(1.4)], [X(1), Y(0)]], { fill: COL.a, c: 'a', op: 0.16 });
+  s += poly([[X(1), Y(0)], [X(2), Y(1.4)], [X(2), Y(0)]], { fill: COL.v, c: 'v', op: 0.14 });
+  s += poly([[X(2), Y(0)], [X(3), Y(-0.8)], [X(3), Y(0)]], { fill: COL.f, c: 'f', op: 0.16 });
+  s += poly([[X(0), Y(0)], [X(1), Y(1.4)], [X(2), Y(1.4)], [X(3), Y(-0.8)]], { c: 'a', w: 2.2 });
+  s += tx(X(0.5), Y(0.55), 'W₁', { fs: 10, c: 'a' }) + tx(X(1.5), Y(0.55), 'W₂', { fs: 10, c: 'v' }) + tx(X(2.5), Y(-0.62), 'W₃ < 0', { fs: 9, c: 'f' });
+  s += tx(42, 224, '正面积：力矩做正功；负面积：力矩做负功。', { it: false, fs: 8.6 });
+  s += tx(42, 238, '净功 = 代数面积和；恒力矩时 W = τΔθ。', { it: false, fs: 8.6 });
+  s += eq(42, 254, ['W=∫τ dθ = signed area']);
+  return s;
+});
+
+def('rotational-ke-elements', '定轴刚体的转动动能：质元线动能求和 · Rotational kinetic energy: sum of element kinetic energies', 'K=\\sum_i\\dfrac{1}{2}m_iv_i^2=\\sum_i\\dfrac{1}{2}m_i(r_i\\omega)^2=\\dfrac{1}{2}I\\omega^2', () => {
+  const cx = 118, cy = 128;
+  let s = circ(cx, cy, 74, { fill: COL.v, op: 0.06, c: 'v', w: 1.5 }) + circ(cx, cy, 4, { fill: 'currentColor' }) + tx(cx, cy - 10, 'CM 静止', { it: false, fs: 8.5, anchor: 'middle' });
+  for (const a of [20, 80, 140, 200, 260, 320]) {
+    const [x, y] = pt(cx, cy, 56, a);
+    s += circ(x, y, 4, { fill: COL.f }) + arr(x, y, x + 18 * Math.cos(rad(a + 90)), y - 18 * Math.sin(rad(a + 90)), 'v', 1.3);
+  }
+  s += arc(cx, cy, 30, 10, 170, { c: 'a', w: 1.4 }) + tx(cx, cy + 36, 'ω', { fs: 11, c: 'a', anchor: 'middle' });
+  s += tx(212, 48, '每个质元 v_i = ωr_i', { fs: 9.5, c: 'v' });
+  s += tx(212, 66, 'K_i = ½m_i v_i²', { fs: 9.5 });
+  s += tx(212, 92, '求和 → K = ½Iω²', { fs: 9.5, c: 'a' });
+  s += tx(212, 118, '质心静止也可有转动动能。', { it: false, fs: 8.8 });
+  s += tx(212, 142, 'I = Σm_i r_i²', { fs: 9.5 });
+  s += tx(18, 216, '转动动能来自各质元的线速度，而不是质心的平动。', { it: false, fs: 8.8 });
+  s += tx(18, 230, 'A rigid body can have K_rot while its CM is at rest.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 250, ['K_{rot}=½Iω²,   I=Σm_{i}r_{i}²']);
+  return s;
+});
+def('torque-time-area', '力矩–时间图：面积等于角冲量 · Torque–time graph: area equals angular impulse', 'J_{\\rm ang}=\\int_{t_i}^{t_f}\\tau_{\\rm ext}\\,\\mathrm{d}t=\\Delta L', () => {
+  const X = (t) => 42 + t * 78, Y = (v) => 148 - v * 56;
+  let s = arr(42, Y(0), 370, Y(0), 'g', 1.2) + arr(42, 204, 42, 36, 'g', 1.2);
+  s += tx(374, Y(0) + 4, 't', { fs: 11 }) + tx(36, 32, 'τ', { fs: 11, anchor: 'end' });
+  s += poly([[X(0), Y(0)], [X(1), Y(1.2)], [X(2.2), Y(1.2)], [X(3.1), Y(-0.7)], [X(4), Y(0)]], { c: 'a', w: 2.2 });
+  s += poly([[X(0), Y(0)], [X(1), Y(1.2)], [X(2.2), Y(1.2)], [X(3.1), Y(-0.7)], [X(4), Y(0)]], { fill: COL.a, c: 'a', op: 0.12 });
+  s += tx(X(0.45), Y(0.55), '+ΔL', { fs: 10, c: 'a' }) + tx(X(2.55), Y(-0.45), '−ΔL', { fs: 10, c: 'f' });
+  s += tx(42, 224, '净角冲量是正、负面积的代数和。', { it: false, fs: 8.6 });
+  s += tx(42, 238, '恒力矩时 J = τΔt；梯形面积可直接读图。', { it: false, fs: 8.6 });
+  s += eq(42, 254, ['J_{ang}=∫τ dt=ΔL']);
+  return s;
+});
+def('angular-momentum-slope', '角动量–时间图：斜率等于净力矩 · Angular-momentum–time graph: slope equals net torque', '\\tau_{\\rm net}=\\dfrac{\\mathrm{d}L}{\\mathrm{d}t}=\\text{slope of }L(t)', () => {
+  const g = graph(48, 30, 230, 158, { fns: [{ f: (t) => (t < 1 ? 0.8 * t : t < 2.2 ? 0.8 : t < 3.2 ? 0.8 - 0.5 * (t - 2.2) : 0.3), c: 'v', w: 2.4 }], t1: 3.8, ymin: -0.2, ymax: 1.5, xl: 't', yl: 'L' });
+  let s = g.s;
+  s += ln(g.X(0), g.Y(0.8), g.X(1.9), g.Y(0.8), { c: 'a', w: 1.4, dash: '4 3' }) + tx(g.X(1.0), g.Y(0.95), 'τ > 0', { fs: 9, c: 'a' });
+  s += ln(g.X(2.2), g.Y(0.8), g.X(3.2), g.Y(0.3), { c: 'f', w: 1.4, dash: '4 3' }) + tx(g.X(2.6), g.Y(0.48), 'τ < 0', { fs: 9, c: 'f' });
+  s += tx(290, 54, '斜率 = τ_net', { fs: 9.5, c: 'a' });
+  s += tx(290, 76, '正斜率：L 增大', { it: false, fs: 8.8 });
+  s += tx(290, 92, '零斜率：L 恒定', { it: false, fs: 8.8 });
+  s += tx(290, 108, '负斜率：L 减小', { it: false, fs: 8.8 });
+  s += tx(18, 224, 'L–t 图的切线斜率给出该时刻的净力矩。', { it: false, fs: 8.7 });
+  s += tx(18, 238, 'The slope of L(t) is the net torque, not the angular momentum itself.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 254, ['τ_{net}=', { n: 'dL', d: 'dt' }]);
+  return s;
+});
+def('system-angular-momentum', '系统角动量：各组成部分对同一轴的角动量求和 · System angular momentum: sum about the same axis', 'L_{\\rm sys}=\\sum_i L_i,\\qquad L_{\\rm rigid}=I\\omega', () => {
+  const cx = 120, cy = 128;
+  let s = circ(cx, cy, 64, { c: 'm', w: 1.2, dash: '4 3' }) + ln(cx, cy - 80, cx, cy + 80, { c: 'm', w: 1, dash: '3 2' });
+  s += circ(cx - 34, cy, 16, { fill: COL.v, op: 0.18, c: 'v' }) + tx(cx - 34, cy + 4, 'm₁', { fs: 9, anchor: 'middle' });
+  s += circ(cx + 34, cy, 16, { fill: COL.f, op: 0.18, c: 'f' }) + tx(cx + 34, cy + 4, 'm₂', { fs: 9, anchor: 'middle' });
+  s += arr(cx - 34, cy - 16, cx - 34, cy - 48, 'v', 1.6) + tx(cx - 42, cy - 36, 'v₁', { c: 'v', fs: 9 });
+  s += arr(cx + 34, cy - 16, cx + 34, cy - 48, 'v', 1.6) + tx(cx + 42, cy - 36, 'v₂', { c: 'v', fs: 9 });
+  s += arc(cx, cy, 44, 20, 160, { c: 'a', w: 1.5 }) + tx(cx, cy + 76, '同一转轴 · same axis', { fs: 8.5, c: 'a', anchor: 'middle' });
+  s += tx(218, 48, 'L₁ = m₁r₁v₁', { fs: 9.5 });
+  s += tx(218, 66, 'L₂ = m₂r₂v₂', { fs: 9.5 });
+  s += tx(218, 92, 'L_sys = L₁ + L₂（同向取正）', { fs: 9.5, c: 'a' });
+  s += tx(218, 116, '刚体：L = Iω', { fs: 9.5 });
+  s += tx(18, 212, '系统角动量必须关于同一轴或同一参考点求和。', { it: false, fs: 8.8 });
+  s += tx(18, 226, 'Add angular momenta only after choosing one common axis.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 248, ['L_{sys}=ΣL_{i},   L_{i}=r_{i}×p_{i}']);
+  return s;
+});
+def('system-boundary-torque', '系统边界与外力矩：角动量是否改变 · System boundary and external torque: does angular momentum change?', '\\tau_{\\rm ext}=\\dfrac{\\mathrm{d}L_{\\rm sys}}{\\mathrm{d}t};\\qquad \\tau_{\\rm int}\\ \\text{cancels in pairs}', () => {
+  let s = rect(36, 44, 188, 136, { dash: '5 4', c: 'm' }) + tx(42, 36, '系统 A：转盘 + 电机 · disk + motor', { it: false, fs: 8.5 });
+  s += circ(110, 112, 36, { fill: COL.v, op: 0.1, c: 'v', w: 1.4 }) + circ(110, 112, 3, { fill: 'currentColor' });
+  s += rect(148, 96, 34, 32) + tx(165, 116, 'motor', { fs: 7.5, anchor: 'middle' });
+  s += arr(148, 112, 122, 112, 'f', 1.4) + arr(122, 112, 148, 112, 'f', 1.4, '4 2');
+  s += tx(100, 168, '内力矩成对抵消', { it: false, fs: 8, c: 'f' });
+  s += tx(250, 56, '系统 A：Στ_ext = 0', { fs: 9, c: 'a' });
+  s += tx(250, 72, '→ L_A 守恒', { fs: 9, c: 'a' });
+  s += tx(250, 96, '系统 B：转盘 + 电机 + 地球', { it: false, fs: 8.5 });
+  s += tx(250, 112, '电机支架给地球的力矩', { it: false, fs: 8.2 });
+  s += tx(250, 126, '成为内力矩', { it: false, fs: 8.2 });
+  s += tx(250, 148, '→ L_B 也守恒', { fs: 9, c: 'a' });
+  s += tx(18, 200, '选不同系统：原本的外力矩可变成内力矩。', { it: false, fs: 8.8 });
+  s += tx(18, 214, '角动量在所有相互作用中守恒，但某个子系统的 L 可以改变。', { it: false, fs: 8.6 });
+  s += tx(18, 228, 'Angular momentum is conserved overall; a subsystem can exchange it.', { it: false, fs: 7.6, c: 'm' });
+  s += eq(18, 250, ['ΔL_{sys}=∫τ_{ext} dt']);
+  return s;
+});
+def('orbit-energy-compare', '圆轨道与椭圆轨道的 K/U/L 对照 · Circular versus elliptical orbit: K, U and L', 'E=K+U=-\\dfrac{GMm}{2a},\\qquad U=-\\dfrac{GMm}{r},\\qquad L=mvr\\sin\\phi', () => {
+  let s = tx(18, 18, '圆轨道 · circular', { it: false, fs: 9.5 });
+  s += circ(112, 96, 46, { c: 'm', w: 1.2 }) + circ(112, 96, 13, { fill: COL.f, op: 0.3, c: 'f' });
+  s += circ(158, 96, 3.5, { fill: COL.v }) + arr(158, 96, 158, 72, 'v', 1.4);
+  s += tx(18, 158, 'r 恒定 → v 恒定', { it: false, fs: 8.5 });
+  s += tx(18, 172, 'K、U、E、L 各自恒定', { fs: 8.5, c: 'a' });
+  s += tx(18, 194, 'K = −E = GMm/(2r)', { fs: 8.5 });
+  s += tx(18, 208, 'U = 2E（更负）', { fs: 8.5 });
+  s += ln(206, 26, 206, 220, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(222, 18, '椭圆轨道 · elliptical', { it: false, fs: 9.5 });
+  s += pathD('M300,96 m-58,0 a58,30 0 1,0 116,0 a58,30 0 1,0 -116,0', { c: 'm', w: 1.2 });
+  s += circ(256, 96, 3.5, { fill: COL.v }) + tx(244, 118, '近点 v 大', { fs: 8, c: 'v' });
+  s += circ(354, 96, 3.5, { fill: COL.v }) + tx(330, 78, '远点 v 小', { fs: 8, c: 'v' });
+  s += tx(222, 158, 'E、L 恒定；K 与 U 交换', { fs: 8.5, c: 'a' });
+  s += tx(222, 172, '近点：U 小、K 大', { it: false, fs: 8.5 });
+  s += tx(222, 186, '远点：U 大、K 小', { it: false, fs: 8.5 });
+  s += tx(222, 208, 'L = m r_peri v_peri', { fs: 8.5 });
+  s += tx(18, 234, '圆轨道是椭圆轨道的特例；两种轨道都满足 E、L 守恒。', { it: false, fs: 8.5 });
+  s += eq(18, 252, ['K_{circ}=', { n: 'GMm', d: '2r' }, ',   U_{circ}=−', { n: 'GMm', d: 'r' }]);
+  return s;
+});
+
+def('shm-ode', '从牛顿第二定律到 SHM 二阶方程与解 · From Newton’s second law to the SHM equation and its solution', 'm\\ddot x=-kx\\;\\Rightarrow\\;\\ddot x+\\dfrac{k}{m}x=0,\\qquad x=A\\cos(\\omega t+\\phi),\\quad \\omega^2=\\dfrac{k}{m}', () => {
+  let s = hatch(24, 176, 152) + ln(66, 176, 66, 130, { w: 2 }) + spring(66, 130, 66, 84, 8, 7);
+  s += rect(48, 56, 36, 28) + tx(66, 75, 'm', { fs: 11, anchor: 'middle' });
+  s += arr(102, 70, 140, 70, 'f', 1.6) + tx(118, 62, 'F = −kx', { c: 'f', fs: 8.5 });
+  s += arr(66, 56, 66, 30, 'v', 1.4) + tx(72, 36, 'x', { c: 'v', fs: 9 });
+  s += tx(18, 202, '选择 x 从平衡位置量起；', { it: false, fs: 8.5 });
+  s += tx(18, 216, '回复力指向平衡位置。', { it: false, fs: 8.5 });
+  s += ln(172, 24, 172, 218, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(188, 34, 'N2L：m x¨ = −kx', { fs: 9.5 });
+  s += tx(188, 58, '⇒ x¨ + (k/m)x = 0', { fs: 9.5, c: 'a' });
+  s += tx(188, 84, '试探解 x = A cos(ωt+φ)', { fs: 9.5 });
+  s += tx(188, 108, 'x¨ = −ω²x', { fs: 9.5 });
+  s += tx(188, 132, '代入 ⇒ (k/m − ω²)x = 0', { fs: 9.5 });
+  s += tx(188, 156, '⇒ ω² = k/m（对所有 t 成立）', { fs: 9.5, c: 'a' });
+  s += tx(188, 180, '两个初始条件定 A 与 φ。', { it: false, fs: 8.5 });
+  s += tx(188, 202, '二阶方程需要两个独立常数。', { it: false, fs: 8.5 });
+  s += eq(18, 240, ['x(t)=A cos(ωt+φ),   ω=', { sqrt: { n: 'k', d: 'm' } }, ',   T=2π', { sqrt: { n: 'm', d: 'k' } }]);
+  return s;
+});
+
+def('charge-properties-conservation', '电荷是物质的基本属性：守恒与量子化 · Charge is a fundamental property: conservation and quantization', 'Q_{\\rm net}=0\\ \\text{(neutral)},\\qquad Q_{\\rm total}=\\text{const},\\qquad q=ne,\\quad e=1.60\\times10^{-19}\\,\\mathrm{C}', () => {
+  let s = tx(18, 18, '(a) 中性 · neutral', { it: false, fs: 8.8 });
+  s += circ(78, 118, 40, { fill: COL.g, op: 0.04, c: 'g', w: 1.4 });
+  for (const [x, y] of [[62, 100], [94, 100], [62, 134], [94, 134], [78, 117]]) s += tx(x, y + 4, '+', { anchor: 'middle', fs: 12, c: 'f', it: false });
+  for (const [x, y] of [[78, 100], [62, 117], [94, 117], [78, 134], [108, 110], [48, 110]]) s += tx(x, y + 4, '−', { anchor: 'middle', fs: 12, c: 'v', it: false });
+  s += tx(78, 174, 'Q_net = 0，内部电荷巨大', { it: false, fs: 8.0, anchor: 'middle' });
+  s += tx(144, 18, '(b) 摩擦起电 · charging', { it: false, fs: 8.8 });
+  s += rect(160, 96, 44, 34) + tx(182, 118, 'A', { fs: 10, anchor: 'middle' }) + tx(182, 140, '+q', { fs: 9, c: 'f', anchor: 'middle' });
+  s += rect(246, 96, 44, 34) + tx(268, 118, 'B', { fs: 10, anchor: 'middle' }) + tx(268, 140, '−q', { fs: 9, c: 'v', anchor: 'middle' });
+  s += arr(222, 82, 246, 82, 'v', 1.8) + tx(234, 74, 'e⁻', { fs: 9, c: 'v', anchor: 'middle' });
+  s += tx(225, 168, 'Q_total = +q − q = 0', { it: false, fs: 8.2, anchor: 'middle' });
+  s += tx(290, 18, '(c) 量子化 · quantization', { it: false, fs: 8.8 });
+  s += ln(304, 168, 304, 44, { w: 1.4 });
+  for (let i = -2; i <= 2; i++) {
+    const y = 104 - i * 22;
+    s += ln(296, y, 312, y, { w: 2 }) + tx(318, y + 4, i === 0 ? '0' : `${i > 0 ? '+' : '−'}${Math.abs(i)}e`, { fs: 8.5, c: i > 0 ? 'f' : i < 0 ? 'v' : 'g' });
+  }
+  s += tx(290, 188, 'q = ne；无中间能级', { it: false, fs: 8.2 });
+  s += tx(18, 210, '起电只是电子转移；总电荷守恒，且电荷只能取 e 的整数倍。', { it: false, fs: 8.5 });
+  s += tx(18, 224, 'Charging moves electrons; net charge is conserved and quantized.', { it: false, fs: 7.8, c: 'm' });
+  s += eq(18, 248, ['q=ne,   e=1.60×10^{−19} C,   Q_{total}=const']);
+  return s;
+});
+
 /* ======================= openly licensed reference media ======================= */
 defImg('atwood-apparatus', '阿特伍德机装置图（参考） · Atwood machine apparatus (reference)', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2}', 'modules/physics/media/atwood-machine.svg', 'MikeRun / Wikimedia Commons / CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Atwood-machine.svg');
 defImg('pendulum-apparatus', '单摆装置图（参考） · Simple pendulum apparatus (reference)', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', 'modules/physics/media/simple-pendulum.svg', 'Chetvorno / Wikimedia Commons / Public domain', 'https://commons.wikimedia.org/wiki/File:Simple_gravity_pendulum.svg');
@@ -2501,31 +2999,31 @@ export const TOPIC_FIGURES = {
   'mech/mech-prep-math/P3.3': ['force-position', 'impulse-graph'],
   'mech/mech-prep-math/P3.4': ['rc-charging', 'rc-discharging', 'shm-graphs'],
   'mech/mech-prep-math/P3.5': ['pendulum-simple', 'shm-graphs', 'pendulum-period'],
-  'mech/mech-u1/1.1': ['kin-graphs', 'motion-diagram', 'free-fall', 'two-observer-frames', 'point-object-model', 'position-displacement-axis'],
-  'mech/mech-u1/1.2': ['projectile', 'kin-graphs', 'projectile-range', 'vector-arrow-model', 'two-observer-frames', 'boat-river'],
-  'mech/mech-u2/2.1': ['center-of-mass', 'system-external-force'],
-  'mech/mech-u2/2.2': ['system-external-force', 'explosion', 'momentum-bars'],
-  'mech/mech-u2/2.3': ['incline-frictionless', 'incline-kinetic', 'atwood', 'table-pulley', 'elevator', 'friction-graph'],
-  'mech/mech-u2/2.4': ['banked-frictionless', 'banked-friction', 'conical-pendulum', 'vertical-loop', 'flat-curve', 'circular-vectors'],
+  'mech/mech-u1/1.1': ['kin-graphs', 'motion-diagram', 'free-fall', 'two-observer-frames', 'point-object-model', 'position-displacement-axis', 'nonuniform-integration'],
+  'mech/mech-u1/1.2': ['projectile', 'kin-graphs', 'projectile-range', 'vector-arrow-model', 'two-observer-frames', 'boat-river', 'nonuniform-components', 'trajectory-3d'],
+  'mech/mech-u2/2.1': ['center-of-mass', 'system-external-force', 'point-vs-rigid-model', 'nonuniform-rod-cm'],
+  'mech/mech-u2/2.2': ['system-external-force', 'explosion', 'momentum-bars', 'system-internal-interactions', 'open-system-mass-energy'],
+  'mech/mech-u2/2.3': ['incline-frictionless', 'incline-kinetic', 'atwood', 'table-pulley', 'elevator', 'friction-graph', 'fbd-center-of-mass', 'ideal-string-tension'],
+  'mech/mech-u2/2.4': ['banked-frictionless', 'banked-friction', 'conical-pendulum', 'vertical-loop', 'flat-curve', 'circular-vectors', 'circular-accel-vector-sum'],
   'mech/mech-u2/2.5': ['atwood', 'table-pulley', 'atwood-apparatus', 'contact-force-atomic'],
-  'mech/mech-u2/2.6': ['orbit', 'conical-pendulum', 'kepler-ellipse', 'gravitational-potential', 'orbit-energy', 'solid-sphere-f-r', 'elevator-apparent-weight', 'shell-vs-solid-sphere', 'inertial-vs-gravitational-mass'],
+  'mech/mech-u2/2.6': ['orbit', 'conical-pendulum', 'kepler-ellipse', 'gravitational-potential', 'orbit-energy', 'solid-sphere-f-r', 'elevator-apparent-weight', 'shell-vs-solid-sphere', 'inertial-vs-gravitational-mass', 'gravity-field-model', 'gravity-mass-element-superposition'],
   'mech/mech-u2/2.7': ['drag-terminal'],
-  'mech/mech-u2/2.8': ['spring-ideal-nonlinear'],
+  'mech/mech-u2/2.8': ['spring-ideal-nonlinear', 'springs-series-parallel', 'spring-substructure-external-variable'],
   'mech/mech-u3/3.1': ['force-position', 'vertical-loop', 'energy-bars', 'work-incline', 'work-angle'],
-  'mech/mech-u3/3.2': ['force-position', 'work-angle', 'multi-body-potential'],
+  'mech/mech-u3/3.2': ['force-position', 'work-angle', 'multi-body-potential', 'single-vs-multi-object-energy'],
   'mech/mech-u3/3.3': ['force-position', 'vertical-loop', 'energy-bars'],
   'mech/mech-u3/3.4': ['power-graph'],
   'mech/mech-u3/3.5': ['work-variable-potential', 'force-position'],
   'mech/mech-u4/4.1': ['impulse-graph', 'momentum-graph', 'momentum-bars'],
   'mech/mech-u4/4.2': ['collision-elastic', 'collision-inelastic', 'collision-2d', 'ballistic-pendulum', 'momentum-bars', 'explosion'],
-  'mech/mech-u5/5.1': ['ladder', 'rod-pivot', 'seesaw'],
-  'mech/mech-u5/5.2': ['rolling-velocity', 'angular-graphs'],
-  'mech/mech-u5/5.3': ['rod-pivot', 'disk-string', 'rolling-incline', 'moment-of-inertia', 'rolling-race', 'angular-momentum-skater'],
-  'mech/mech-u6/6.1': ['rolling-incline', 'disk-string', 'rolling-race'],
-  'mech/mech-u6/6.2': ['disk-string', 'rod-pivot', 'angular-momentum-skater'],
+  'mech/mech-u5/5.1': ['ladder', 'rod-pivot', 'seesaw', 'rigid-force-diagram-vs-fbd', 'translational-vs-rotational-equilibrium'],
+  'mech/mech-u5/5.2': ['rolling-velocity', 'angular-graphs', 'tangential-radial-acceleration'],
+  'mech/mech-u5/5.3': ['rod-pivot', 'disk-string', 'rolling-incline', 'moment-of-inertia', 'rolling-race', 'angular-momentum-skater', 'torque-angle-area'],
+  'mech/mech-u6/6.1': ['rolling-incline', 'disk-string', 'rolling-race', 'rotational-ke-elements'],
+  'mech/mech-u6/6.2': ['disk-string', 'rod-pivot', 'angular-momentum-skater', 'torque-time-area', 'angular-momentum-slope', 'system-angular-momentum', 'system-boundary-torque'],
   'mech/mech-u6/6.3': ['rolling-incline', 'rolling-velocity', 'rolling-race'],
-  'mech/mech-u6/6.4': ['orbit', 'orbit-energy'],
-  'mech/mech-u7/7.1': ['shm-horizontal', 'shm-vertical', 'shm-graphs', 'shm-energy', 'shm-phase', 'shm-resonance'],
+  'mech/mech-u6/6.4': ['orbit', 'orbit-energy', 'orbit-energy-compare'],
+  'mech/mech-u7/7.1': ['shm-horizontal', 'shm-vertical', 'shm-graphs', 'shm-energy', 'shm-phase', 'shm-resonance', 'shm-ode'],
   'mech/mech-u7/7.2': ['pendulum-simple', 'shm-graphs', 'pendulum-period', 'pendulum-apparatus'],
   'mech/mech-u7/7.3': ['pendulum-physical', 'shm-graphs', 'physical-pendulum-fbd', 'torsion-pendulum'],
   'em/em-prep-found/P1.1': ['point-charge-field', 'coulomb-force'],
@@ -2542,6 +3040,7 @@ export const TOPIC_FIGURES = {
   'em/em-u8/8.3': ['point-charge-field', 'dipole-field', 'field-superposition', 'field-lines-equipotentials'],
   'em/em-u8/8.4': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'flux-angle'],
   'em/em-u8/8.5': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'gauss-conductor', 'gauss-shell', 'line-charge'],
+  'em/em-u8/8.6': ['charge-properties-conservation', 'coulomb-force', 'point-charge-field'],
   'em/em-u8/8.8': ['em-force-ratio', 'coulomb-force', 'point-charge-field'],
   'em/em-u8/8.10': ['insulator-sphere-E', 'gauss-conductor', 'gauss-sphere', 'nonuniform-insulator', 'conductor-vs-insulator'],
   'em/em-u8/8.11': ['charge-density-shell', 'gauss-sphere', 'gauss-cylinder', 'nonuniform-insulator'],

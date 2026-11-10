@@ -2998,5 +2998,83 @@ export const problems = [
       "topicId": "em-u8:8.10"
     }
   ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "em-u8-q051",
+  "title": "8.6 电荷量子化与多余电子数",
+  "stem": "一个物体带净电荷 q=−3.2 μC。求多余电子数（个，用科学计数法，如 2.0e13 填 2.0e13）。",
+  "expected": 20000000000000.0,
+  "tol": 0.02,
+  "answerLatex": "2.0\\times10^{13}",
+  "solution": "N=|q|/e=(3.2×10⁻⁶)/(1.60×10⁻¹⁹)=2.0×10¹³。",
+  "solutionLatex": "N=\\dfrac{|q|}{e}=\\dfrac{3.2\\times10^{-6}}{1.60\\times10^{-19}}=2.0\\times10^{13}",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.6",
+      "label": "8.6 电荷性质与电荷守恒",
+      "topicId": "em-u8:8.6"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "em-u8-q052",
+  "title": "8.6 接触后的电荷守恒",
+  "stem": "两个相同的导体球分别带 +7.0 μC 与 −3.0 μC，接触后分开。求每个球的最终电荷（μC）。",
+  "expected": 2.0,
+  "tol": 0.01,
+  "answerLatex": "2.0\\,\\mathrm{\\mu C}",
+  "solution": "总电荷守恒：Q_total=+4.0 μC；两球相同，均分后各为 +2.0 μC。",
+  "solutionLatex": "Q_{\\rm total}=+7.0-3.0=+4.0\\,\\mathrm{\\mu C},\\quad q_{\\rm each}=\\dfrac{Q_{\\rm total}}{2}=+2.0\\,\\mathrm{\\mu C}",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.6",
+      "label": "8.6 电荷性质与电荷守恒",
+      "topicId": "em-u8:8.6"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "em-u8-q053",
+  "title": "8.6 库仑力的比例推理",
+  "stem": "两固定点电荷间库仑力为 F₀。若一个电荷变为 3 倍、另一个变为 2 倍，距离变为 2 倍，求新力与 F₀ 的比值。",
+  "expected": 1.5,
+  "tol": 0.01,
+  "answerLatex": "1.5F_0",
+  "solution": "F∝q₁q₂/r²；因子为 (3×2)/2²=6/4=1.5。",
+  "solutionLatex": "F_{\\rm new}=F_0\\dfrac{(3q_1)(2q_2)}{(2r)^{2}}=F_0\\dfrac{6}{4}=1.5F_0",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.6",
+      "label": "8.6 电荷性质与电荷守恒",
+      "topicId": "em-u8:8.6"
+    }
+  ]
 }
 ];

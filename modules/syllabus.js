@@ -388,6 +388,7 @@ export const UNITS = {
         { code: '8.3', titleZh: '电场叠加', titleEn: 'Electric Field of Charge Distributions' },
         { code: '8.4', titleZh: '电通量', titleEn: 'Electric Flux' },
         { code: '8.5', titleZh: '高斯定律', titleEn: "Gauss's Law" },
+        { code: '8.6', titleZh: '电荷性质与电荷守恒', titleEn: 'Properties and Conservation of Charge' },
         { code: '8.8', titleZh: '电力、引力与宏观物性', titleEn: 'Electric and Gravitational Forces in Matter' },
         { code: '8.10', titleZh: '绝缘体电荷与内部电场', titleEn: 'Charge and Fields inside Insulators' },
         { code: '8.11', titleZh: '电荷密度与包围电荷积分', titleEn: 'Charge Density and Enclosed Charge' },

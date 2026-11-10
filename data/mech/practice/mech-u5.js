@@ -2086,5 +2086,57 @@ export const problems = [
       }
     ],
     "solutionLatex": "\\tau=rF=(0.50)(10)=5.0\\,\\mathrm{N\\,m}."
-  }
+  },
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u5-q041",
+  "title": "5.3 力矩–转角图面积",
+  "stem": "刚体受到恒力矩 τ=25 N·m，从 θ=0 转到 θ=0.80 rad。求力矩做的功（J）。",
+  "expected": 20.0,
+  "tol": 0.01,
+  "answerLatex": "20\\,\\mathrm{J}",
+  "solution": "恒力矩做功 W=τΔθ=25×0.80=20 J；也等于 τ–θ 图矩形面积。",
+  "solutionLatex": "W=\\int\\tau\\,\\mathrm{d}\\theta=\\tau\\Delta\\theta=25(0.80)=20\\,\\mathrm{J}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u5/5.3",
+      "label": "5.3 转动动力学",
+      "topicId": "mech-u5:5.3"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u5-q042",
+  "title": "5.2 切向与径向加速度合成",
+  "stem": "半径 0.30 m 的转盘上一点，ω=2.0 rad/s、α=3.0 rad/s²。求该点总加速度大小（m/s²）。",
+  "expected": 1.5,
+  "tol": 0.01,
+  "answerLatex": "1.5\\,\\mathrm{m\\,s^{-2}}",
+  "solution": "a_t=rα=0.90 m/s²，a_c=ω²r=1.2 m/s²，a=√(0.90²+1.2²)=1.5 m/s²。",
+  "solutionLatex": "a_t=r\\alpha=0.90,\\quad a_c=\\omega^{2}r=1.2,\\quad a=\\sqrt{a_t^{2}+a_c^{2}}=1.5\\,\\mathrm{m\\,s^{-2}}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u5/5.2",
+      "label": "5.2 转动运动学",
+      "topicId": "mech-u5:5.2"
+    }
+  ]
+}
 ];

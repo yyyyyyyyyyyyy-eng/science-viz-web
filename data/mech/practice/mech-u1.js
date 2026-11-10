@@ -2151,5 +2151,57 @@ export const problems = [
       "topicId": "mech-u1:1.2"
     }
   ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u1-q043",
+  "title": "1.1 非匀加速的积分还原",
+  "stem": "小车从静止出发，加速度 a(t)=(3.0 m/s³)t，0≤t≤2.0 s。求 t=2.0 s 时的速度（m/s）。",
+  "expected": 6.0,
+  "tol": 0.01,
+  "answerLatex": "6.0\\,\\mathrm{m\\,s^{-1}}",
+  "solution": "v(t)=∫a dt=1.5t²；t=2.0 s 时 v=6.0 m/s。",
+  "solutionLatex": "v=\\int_0^{2.0}(3.0t)\\,\\mathrm{d}t=1.5(2.0)^{2}=6.0\\,\\mathrm{m\\,s^{-1}}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u1/1.1",
+      "label": "1.1 一维运动学",
+      "topicId": "mech-u1:1.1"
+    }
+  ]
+},
+{
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "id": "mech-u1-q044",
+  "title": "1.2 三维运动的投影距离",
+  "stem": "无人机初速度 v₀=(1.0, 2.0, −1.0) m/s，恒定加速度 a=(0.50, −0.25, 0.75) m/s²。求 t=4.0 s 时到原点的距离（m）。",
+  "expected": 10.2,
+  "tol": 0.02,
+  "answerLatex": "10.2\\,\\mathrm{m}",
+  "solution": "r=(8.0, 6.0, 2.0) m；|r|=√(8²+6²+2²)=10.2 m。",
+  "solutionLatex": "\\vec r=\\vec v_0t+\\dfrac12\\vec at^{2}=(8.0,6.0,2.0)\\,\\mathrm{m},\\quad |\\vec r|=10.2\\,\\mathrm{m}",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u1/1.2",
+      "label": "1.2 二维运动学",
+      "topicId": "mech-u1:1.2"
+    }
+  ]
 }
 ];
