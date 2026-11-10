@@ -855,7 +855,7 @@ export const ENRICHMENTS = {
       '能量流是能量沿食物链单向传递、逐级递减的过程。',
       '生产者固定太阳能，是生态系统能量的入口；NPP = GPP − R。',
       '每一营养级只有约 10% 的能量传递到下一级，能量金字塔不会倒置。',
-      '分解者回收有机物中的化学能，但能量最终以热的形式散失。',
+      '分解者回收有机物中的物质（养分），能量最终以热的形式散失。',
       '物质可循环，能量不能循环；传递效率因生态系统与营养级而异。'
     ],
     definition: '能量流是能量在生态系统中沿食物链单向传递、逐级递减的过程。生产者固定太阳能，消费者通过摄食获得能量，分解者回收有机物；每一营养级只有约 10% 的能量传递到下一级。',
@@ -1342,7 +1342,7 @@ export const ENRICHMENTS = {
       'FRQ 常考：配体-受体特异性与信号放大',
     ],
     related: [
-      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号导引导论', relation: '后续' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号转导导论', relation: '后续' },
       { subject: 'bio', chapterId: 'bio-u4', code: '4.3', title: '信号转导', relation: '后续' },
       { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈', relation: '应用' },
     ],
@@ -1406,7 +1406,7 @@ export const ENRICHMENTS = {
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.1', title: '细胞通讯', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号导引导论', relation: '先修' },
+      { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号转导导论', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u4', code: '4.4', title: '反馈', relation: '应用' },
     ],
     development: ['接收与受体', '转导级联', '第二信使与放大', '终止与整合'],
@@ -1491,7 +1491,7 @@ export const ENRICHMENTS = {
       '方向性、稳定化与分裂性选择对应不同的表型分布变化。',
       '适应是相对的、情境依赖的；性选择也是自然选择的一种形式。'
     ],
-    definition: '自然选择是种群中具有可遗传变异的个体因差异生存与繁殖，使有利等位基因频率逐代升高的过程。它作用于表型，改变种群而非个体，且不具定向性。',
+    definition: '自然选择是种群中具有可遗传变异的个体因差异生存与繁殖，使有利等位基因频率逐代升高的过程。它作用于表型，改变种群而非个体，且不预设目标或终点。',
     intuition: '自然选择像环境设置的过滤器：适应当前环境的变异更容易留下后代，不适应者被筛掉。',
     intuitionDetailed: '自然选择需要变异、遗传与差异繁殖成功率。选择压力可来自捕食、疾病、气候、配偶选择等。方向性选择、稳定化选择与分裂性选择是三种常见模式。',
     formulas: [
@@ -1579,7 +1579,7 @@ export const ENRICHMENTS = {
         title: '例 2 · 狗',
         prompt: '狗品种差异为何如此大？',
         steps: ['长期按体型、毛色、行为等性状选育。', '不同品种间累积不同等位基因。'],
-        solution: '多代人工选择 + 生殖隔离倾向。',
+        solution: '多代人工选择 + 品种形成（仍属同一物种，可杂交）。',
       },
       {
         title: '例 3 · 风险',
@@ -1613,11 +1613,11 @@ export const ENRICHMENTS = {
     essentialKnowledge: [
       '群体遗传研究种群中等位基因与基因型频率的分布及变化。',
       '哈代–温伯格平衡是零模型：无突变、无选择、无漂变、无基因流、随机交配。',
-      '五种进化力量：突变、自然选择、遗传漂变、基因流与非随机交配。',
+      '四种改变等位基因频率的力量：突变、自然选择、遗传漂变与基因流；非随机交配只改变基因型频率，不直接改变等位基因频率（偏离哈代–温伯格假设）。',
       '小种群中遗传漂变更强；瓶颈与奠基者效应随机改变频率。',
       '基因流降低种群间分化；真实种群通常不完全满足哈代–温伯格假设。'
     ],
-    definition: '群体遗传研究种群中等位基因与基因型频率的分布及变化，分析突变、自然选择、遗传漂变、基因流与非随机交配如何改变这些频率。',
+    definition: '群体遗传研究种群中等位基因与基因型频率的分布及变化，分析突变、自然选择、遗传漂变与基因流如何改变等位基因频率，以及非随机交配如何改变基因型频率。',
     intuition: '群体遗传像统计一个池塘里不同颜色鱼的比例，并追踪哪些力量会让比例发生变化。',
     intuitionDetailed: '哈代–温伯格平衡描述无进化力量时的理想状态：\\(p^2+2pq+q^2=1\\)。遗传漂变在小种群中更强，瓶颈效应与奠基者效应会随机改变等位基因频率；基因流则使种群间更相似。',
     formulas: [
@@ -1625,7 +1625,7 @@ export const ENRICHMENTS = {
       { latex: 'p^{2}+2pq+q^{2}=1', note: '哈代–温伯格基因型频率。' },
     ],
     conditions: ['哈代–温伯格假设：无突变、无选择、无漂变、无基因流、随机交配', '真实种群通常不完全满足这些假设', '种群大小影响漂变强度'],
-    keyPoints: ['等位基因频率 vs 基因型频率', '五种进化力量', '小种群漂变更强', '基因流降低分化', '哈代–温伯格是零模型'],
+    keyPoints: ['等位基因频率 vs 基因型频率', '四种力量改变等位基因频率', '非随机交配改变基因型频率（HWE 偏离）', '小种群漂变更强', '基因流降低分化', '哈代–温伯格是零模型'],
     misconceptions: [
       '认为显性等位基因一定更常见',
       '认为哈代–温伯格适用于所有真实种群',
@@ -1662,7 +1662,7 @@ export const ENRICHMENTS = {
       { subject: 'bio', chapterId: 'bio-u7', code: '7.5', title: '哈代–温伯格', relation: '后续' },
       { subject: 'bio', chapterId: 'bio-u7', code: '7.9', title: '系统发生', relation: '相关' },
     ],
-    development: ['等位基因频率', '五种进化力量', '哈代–温伯格', '瓶颈与奠基者'],
+    development: ['等位基因频率', '四种改变等位基因频率的力量', '非随机交配与基因型频率', '哈代–温伯格', '瓶颈与奠基者'],
     checks: ['哈代–温伯格的五个假设是什么？', '为什么小种群漂变更明显？'],
     summary: '群体遗传用频率描述种群，并分析选择、漂变、突变、基因流如何改变频率。',
   },
@@ -5120,7 +5120,7 @@ export const ENRICHMENTS = {
     connections: [
       "先修：2.5 幂函数导数 · Prerequisite: 2.5 Derivatives of power functions.",
       "先修：2.6 常数倍与和差 · Prerequisite: 2.6 Constant multiples and sums/differences.",
-      "后续：2.9 积商法则续 · Follow-up: 2.9 Further product and quotient rules.",
+      "后续：2.9 商法则 · Follow-up: 2.9 The Quotient Rule.",
       "后续：3.1 链式法则 · Follow-up: 3.1 The chain rule."
     ],
     definition: "积法则把两个可导函数乘积的导数写成 \\((uv)'=u'v+uv'\\)；商法则把商的导数写成 \\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\)（\\(v\\neq0\\)）。两者都可由导数定义或对数求导推出，是多项式、指数、三角与有理函数求导的基本工具。 · The product rule writes the derivative of a product of two differentiable functions as ((uv)'=u'v+uv'); the quotient rule writes the derivative of a quotient as \\(\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^{2}}\\) for \\(v\\neq0\\). Both follow from the limit definition or logarithmic differentiation and are basic tools for differentiating polynomial, exponential, trigonometric, and rational functions.",
@@ -5219,7 +5219,7 @@ export const ENRICHMENTS = {
         subject: "math",
         chapterId: "calc-u2",
         code: "2.9",
-        title: "积商法则续 · Further Product and Quotient Rules",
+        title: "商法则 · The Quotient Rule",
         relation: "后续 · Follow-up"
       },
       {
@@ -6350,7 +6350,7 @@ export const ENRICHMENTS = {
     connections: [
       "先修：6.7 定积分求值 · Prerequisite: 6.7 Evaluating definite integrals.",
       "后续：8.5 曲线间面积 y · Follow-up: 8.5 Area between curves as functions of \\(y\\).",
-      "后续：8.7 旋转体体积盘法 · Follow-up: 8.7 Volumes of revolution by the disk method."
+      "后续：8.7 截面法：正方形与矩形 · Follow-up: 8.7 Volumes with Cross Sections: Squares and Rectangles."
     ],
     definition: "两曲线之间的面积等于上曲线减下曲线在区间上的定积分：\\(A=\\displaystyle\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x\\)（要求 \\(f\\ge g\\)）。若上下关系改变，要分段积分或加绝对值。也可对 \\(y\\) 积分：\\(A=\\displaystyle\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y\\)。 · The area between two curves equals the definite integral of the upper curve minus the lower curve over the interval: \\(A=\\displaystyle\\int_{a}^{b}\\left[f(x)-g(x)\\right]\\mathrm{d}x\\), provided \\(f\\ge g\\). If the upper-lower relationship changes, split the integral or use absolute value. One may also integrate with respect to \\(y\\): \\(A=\\displaystyle\\int_{c}^{d}\\left[x_{\\mathrm{right}}(y)-x_{\\mathrm{left}}(y)\\right]\\mathrm{d}y\\).",
     intuition: "把区域切成竖条，每一条的高度是“上减下”，宽度是 \\(\\mathrm{d}x\\)；积分就是把这些竖条面积加起来。 · Slice the region into vertical strips whose height is “upper minus lower” and whose width is \\(\\mathrm{d}x\\); the integral adds the areas of these strips.",
@@ -6451,7 +6451,7 @@ export const ENRICHMENTS = {
         subject: "math",
         chapterId: "calc-u8",
         code: "8.7",
-        title: "旋转体体积盘法 · Volumes of Revolution by the Disk Method",
+        title: "截面法：正方形与矩形 · Volumes with Cross Sections: Squares and Rectangles",
         relation: "后续 · Follow-up"
       }
     ],
@@ -6784,7 +6784,7 @@ export const ENRICHMENTS = {
       '后续：1.4 蛋白质与 1.5 核酸把单体序列提升为信息与催化功能。',
       '应用：消化与细胞呼吸都依赖水解把聚合物拆成可吸收单体。',
     ],
-    definition: '生物大分子主要有四类：碳水化合物、脂质、蛋白质和核酸。它们都由较小的单体通过脱水缩合连成聚合物，聚合物又可通过水解拆回单体。四类分子都以碳骨架为基础，但元素组成与官能团不同：碳水与脂质主要含 C、H、O，蛋白质还含 N（部分含 S），核酸含 C、H、O、N、P。',
+    definition: '生物大分子主要有四类：碳水化合物、脂质、蛋白质和核酸。碳水化合物、蛋白质和核酸由较小的单体通过脱水缩合连成聚合物，聚合物又可通过水解拆回单体；脂质通常不是由单一重复单体构成的聚合物，而由甘油、脂肪酸等前体组装（类固醇等不属于聚合物）。四类分子都以碳骨架为基础，但元素组成与官能团不同：碳水与脂质主要含 C、H、O，蛋白质还含 N（部分含 S），核酸含 C、H、O、N、P。',
     intuition: '生物大分子像用不同积木搭成的结构：单体的种类和连接顺序决定最终形状，形状再决定功能。',
     intuitionDetailed: '脱水缩合每形成一个键就脱去一分子水；水解则消耗水把键断开。碳水化合物是主要能源与结构材料（淀粉、纤维素、糖原）；脂质疏水，适合储能、隔膜与信号；蛋白质由氨基酸序列决定折叠与功能；核酸由核苷酸序列储存和传递遗传信息。',
     formulas: [
@@ -7174,7 +7174,7 @@ export const ENRICHMENTS = {
       '后续：4.3 信号转导细节与 4.4 反馈调节。',
       '应用：肾上腺素升血糖、胰岛素降血糖与药物靶点。',
     ],
-    definition: '信号导引（signal transduction）把细胞外信号转换为细胞内的响应。基本过程为：配体与受体结合（接收）→ 细胞内信号分子依次传递并放大（转导）→ 效应器产生响应（如基因表达、代谢改变、细胞运动）。受体包括 G 蛋白偶联受体、受体酪氨酸激酶、离子通道型受体和胞内受体。',
+    definition: '信号转导（signal transduction）把细胞外信号转换为细胞内的响应。基本过程为：配体与受体结合（接收）→ 细胞内信号分子依次传递并放大（转导）→ 效应器产生响应（如基因表达、代谢改变、细胞运动）。受体包括 G 蛋白偶联受体、受体酪氨酸激酶、离子通道型受体和胞内受体。',
     intuition: '信号像“接力赛”：配体只敲一下门，门内的人把消息一层层传下去，最后很多人一起行动。',
     intuitionDetailed: '第二信使（cAMP、Ca²⁺、IP₃、DAG）把小信号放大；磷酸化级联由激酶与磷酸酶共同控制，既能放大也能关闭。信号的特异性来自“配体—受体”配对，终止机制包括配体降解、受体脱敏、磷酸酶水解等。',
     formulas: [
@@ -7223,7 +7223,7 @@ export const ENRICHMENTS = {
     ],
     development: ['配体与受体', '接收—转导—响应', '第二信使与级联', '放大与终止', '细胞类型特异性'],
     checks: ['信号通路的三个基本步骤是什么？', '第二信使的作用是什么？', '为什么同一信号在不同细胞响应不同？'],
-    summary: '信号导引通过配体—受体结合、第二信使与磷酸化级联把外部信号放大并转化为细胞响应，且必须可终止。',
+    summary: '信号转导通过配体—受体结合、第二信使与磷酸化级联把外部信号放大并转化为细胞响应，且必须可终止。',
   },
 
   'bio/bio-u5/5.3': {
@@ -7271,15 +7271,15 @@ export const ENRICHMENTS = {
       {
         title: '例 1 · 单基因',
         prompt: '\\(Aa\\times Aa\\)，子代表型比与 \\(aa\\) 概率是多少？',
-        steps: ['配子各为 \\(A\\)、\\(a\\)，概率各 \\(1/2\\)。', '\\(aa\\) 概率 \\(\\dfrac{1}{2}\\times\\dfrac{1}{2}=\\dfrac{1}{4}\\)。', '显性表型 \\(1-\\dfrac{1}{4}=\\dfrac{3}{4}\\)。'],
-        solution: '\\(3:1\\)，\\(aa\\) 概率 \\(1/4\\)。',
+        steps: ['配子各为 \\(A\\)、\\(a\\)，概率各 \\(\\dfrac{1}{2}\\)。', '\\(aa\\) 概率 \\(\\dfrac{1}{2}\\times\\dfrac{1}{2}=\\dfrac{1}{4}\\)。', '显性表型 \\(1-\\dfrac{1}{4}=\\dfrac{3}{4}\\)。'],
+        solution: '\\(3:1\\)，\\(aa\\) 概率 \\(\\dfrac{1}{4}\\)。',
         solutionLatex: 'P(aa)=\\dfrac{1}{4}',
       },
       {
         title: '例 2 · 双基因',
         prompt: '\\(AaBb\\times AaBb\\)，子代 \\(A\\!-\\!B\\!-\\) 的概率是多少？',
         steps: ['两对基因独立。', '\\(P(A\\!-)=\\dfrac{3}{4}\\)，\\(P(B\\!-)=\\dfrac{3}{4}\\)。', '\\(P(A\\!-\\!B\\!-)=\\dfrac{3}{4}\\times\\dfrac{3}{4}=\\dfrac{9}{16}\\)。'],
-        solution: '\\(9/16\\)，对应 \\(9:3:3:1\\) 中的 9。',
+        solution: '\\(\\dfrac{9}{16}\\)，对应 \\(9:3:3:1\\) 中的 9。',
         solutionLatex: 'P(A\\!-\\!B\\!-)=\\dfrac{9}{16}',
       },
       {
@@ -8054,7 +8054,7 @@ export const ENRICHMENTS = {
       }
     ],
     connections: [
-      "先修：2.8 积商法则与基本导数公式。 · Prerequisite: 2.8 product and quotient rules and basic derivative formulas.",
+      "先修：2.8 乘积法则与基本导数公式。 · Prerequisite: 2.8 The Product Rule and basic derivative formulas.",
       "后续：3.2 隐函数求导与 4.4 相关变化率。 · Follow-up: 3.2 implicit differentiation and 4.4 related rates.",
       "应用：6.9 换元积分是链式法则的逆过程。 · Application: 6.9 integration by substitution is the reverse of the chain rule."
     ],
@@ -8155,7 +8155,7 @@ export const ENRICHMENTS = {
         subject: "math",
         chapterId: "calc-u2",
         code: "2.8",
-        title: "积商法则 · Product and Quotient Rules",
+        title: "乘积法则 · The Product Rule",
         relation: "先修 · Prerequisite"
       },
       {
@@ -11024,10 +11024,10 @@ export const ENRICHMENTS = {
       '\\(0.\\overline{9}=1\\) 是几何级数的经典结果 · \\(0.\\overline{9}=1\\) is a classic geometric-series result',
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u10', code: '10.1', title: '序列收敛 · Defining Convergent and Divergent Infinite Series', relation: '先修 · Prerequisite' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.1', title: '无穷级数的收敛与发散 · Defining Convergent and Divergent Infinite Series', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.3', title: 'n 项检验 · The nth Term Test for Divergence', relation: '相关 · Related' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.5', title: '调和级数与 p 级数 · Harmonic Series and p-Series', relation: '对比 · Contrast' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '幂级数运算 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '函数表示为幂级数 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
     ],
     development: ['部分和与错位相减 · Partial sums and shift-and-subtract', '收敛判据 · Convergence criterion', '求和公式 · Sum formula', '首项与公比识别 · Identifying the first term and ratio', '循环小数与几何级数 · Repeating decimals and geometric series'],
     checks: ['为什么 \\(r=1\\) 时不能用求和公式？ · Why can the sum formula not be used when \\(r=1\\)?', '\\(r=-1\\) 时部分和为什么没有极限？ · Why do the partial sums have no limit when \\(r=-1\\)?', '从 \\(n=0\\) 与从 \\(n=1\\) 开始时首项有什么不同？ · How does the first term differ when starting at \\(n=0\\) versus \\(n=1\\)?'],
@@ -11125,7 +11125,7 @@ export const ENRICHMENTS = {
       '说明理由时要写出“因为 \\(p>1\\)”或“因为 \\(p\\le1\\)” · In justifications, state “because \\(p>1\\)” or “because \\(p\\le1\\)”',
     ],
     related: [
-      { subject: 'math', chapterId: 'calc-u10', code: '10.1', title: '序列收敛 · Defining Convergent and Divergent Infinite Series', relation: '先修 · Prerequisite' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.1', title: '无穷级数的收敛与发散 · Defining Convergent and Divergent Infinite Series', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.4', title: '积分检验 · Integral Test for Convergence', relation: '推导工具 · Derivation tool' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.6', title: '比较检验 · Comparison Tests for Convergence', relation: '后续 · Follow-up' },
       { subject: 'math', chapterId: 'calc-u6', code: '6.12', title: '反常积分 · Evaluating Improper Integrals', relation: '相关 · Related' },
@@ -11434,7 +11434,7 @@ export const ENRICHMENTS = {
       { subject: 'math', chapterId: 'calc-u10', code: '10.8', title: '比值检验 · Ratio Test for Convergence', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.7', title: '交替级数 · Alternating Series Test for Convergence', relation: '端点工具 · Endpoint tool' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.14', title: '函数表示为幂级数 · Finding Taylor or Maclaurin Series for a Function', relation: '后续 · Follow-up' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '幂级数运算 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '函数表示为幂级数 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
     ],
     development: ['幂级数的中心与系数 · Center and coefficients', '比值检验 · Ratio test', '收敛半径 · Radius of convergence', '端点检验 · Endpoint checks', '收敛区间记号 · Interval notation'],
     checks: ['为什么端点必须单独检验？ · Why must endpoints be checked separately?', '\\(R=+\\infty\\) 与 \\(R=0\\) 分别表示什么？ · What do \\(R=+\\infty\\) and \\(R=0\\) mean?', '收敛半径与收敛区间有什么区别？ · What is the difference between the radius and the interval of convergence?'],
@@ -11535,7 +11535,7 @@ export const ENRICHMENTS = {
       { subject: 'math', chapterId: 'calc-u10', code: '10.11', title: '泰勒多项式导论 · Finding Taylor Polynomial Approximations of Functions', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.12', title: '拉格朗日误差界 · Lagrange Error Bound', relation: '误差 · Error' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.13', title: '半径与区间 · Radius and Interval of Convergence of Power Series', relation: '先修 · Prerequisite' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '幂级数运算 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '函数表示为幂级数 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
     ],
     development: ['泰勒系数 · Taylor coefficients', '麦克劳林级数 · Maclaurin series', '常见展开 · Common expansions', '代换与乘法 · Substitution and multiplication', '逐项求导与积分 · Term-by-term differentiation and integration'],
     checks: ['为什么泰勒系数要除以 \\(n!\\)？ · Why is the Taylor coefficient divided by \\(n!\\)?', '写出泰勒级数是否一定等于原函数？ · Does writing a Taylor series always mean it equals the original function?', '如何从 \\(\\dfrac{1}{1-x}\\) 得到 \\(\\ln(1+x)\\) 的展开？ · How do you get the expansion of \\(\\ln(1+x)\\) from \\(\\dfrac{1}{1-x}\\)?'],
@@ -12154,7 +12154,7 @@ export const ENRICHMENTS = {
       { subject: 'math', chapterId: 'calc-u8', code: '8.9', title: '圆盘法 · Volume with Disc Method: Revolving Around the x- or y-Axis', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u8', code: '8.12', title: '垫圈法其他轴 · Volume with Washer Method: Revolving Around Other Axes', relation: '后续 · Follow-up' },
       { subject: 'math', chapterId: 'calc-u8', code: '8.4', title: '曲线间面积 · Finding the Area Between Curves Expressed as Functions of x', relation: '先修 · Prerequisite' },
-      { subject: 'math', chapterId: 'calc-u8', code: '8.7', title: '旋转体体积盘法 · Volumes with Cross Sections: Squares and Rectangles', relation: '对比 · Contrast' },
+      { subject: 'math', chapterId: 'calc-u8', code: '8.7', title: '截面法：正方形与矩形 · Volumes with Cross Sections: Squares and Rectangles', relation: '对比 · Contrast' },
     ],
     development: ['圆环截面 · Annulus cross sections', '外半径与内半径 · Outer and inner radii', '绕 \\(x\\) 轴 · About the \\(x\\)-axis', '绕 \\(y\\) 轴 · About the \\(y\\)-axis', '与圆盘法的关系 · Relation to the disk method'],
     checks: ['为什么垫圈面积是 \\(\\pi(R^{2}-r^{2})\\) 而不是 \\(\\pi(R-r)^{2}\\)？ · Why is the washer area \\(\\pi(R^{2}-r^{2})\\) rather than \\(\\pi(R-r)^{2}\\)?', '绕 \\(y\\) 轴时外半径由哪条曲线给出？ · Which curve gives the outer radius about the \\(y\\)-axis?', '什么情况下垫圈法退化为圆盘法？ · When does the washer method reduce to the disk method?'],
