@@ -122,7 +122,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -136,7 +136,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -215,7 +215,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -229,7 +229,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -308,7 +308,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -322,7 +322,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -401,7 +401,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -415,7 +415,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -494,7 +494,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -508,7 +508,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -587,7 +587,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -601,7 +601,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -680,7 +680,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -694,7 +694,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -773,7 +773,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -787,7 +787,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -866,7 +866,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -880,7 +880,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -959,7 +959,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -973,7 +973,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -1052,7 +1052,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -1066,7 +1066,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -1145,7 +1145,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -1159,7 +1159,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -1238,7 +1238,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -1252,7 +1252,7 @@ export const problems = [
     "title": "2.3 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「可微性估计」，下列正确的是？",
+    "stem": "关于「估计函数在某点处的导数」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",
@@ -1331,7 +1331,7 @@ export const problems = [
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^{3}e^{x}\\right)",
-    "expected": "e^x(3x^2+x^3)",
+    "expected": "e^x*(3x^2+x^3)",
     "answerLatex": "e^{x}(3x^{2}+x^{3})",
     "solution": "乘积法则。",
     "sourceId": "openstax-calculus",
@@ -1345,7 +1345,7 @@ export const problems = [
     "title": "2.8 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「积商法则」，下列正确的是？",
+    "stem": "关于「乘积法则」，下列正确的是？",
     "choices": [
       {
         "text": "可导 ⇒ 连续；连续 ⇏ 可导",

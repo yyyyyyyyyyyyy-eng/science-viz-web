@@ -18,6 +18,24 @@ function mathEngine() {
   return window.math || null;
 }
 
+const RESERVED_SYMBOLS = new Set(['e', 'pi', 'E', 'PI', 'i', 'tau', 'phi', 'Infinity', 'NaN', 'true', 'false', 'null']);
+
+/** Collect only true variables: skip constants, function callees, and names that would shadow mathjs functions. */
+function collectSymbolicVariables(m, expr, vars) {
+  try {
+    m.parse(expr).traverse((n, _path, parent) => {
+      if (!n.isSymbolNode) return;
+      const name = n.name;
+      if (RESERVED_SYMBOLS.has(name)) return;
+      // FunctionNode callee names are functions, not variables (sqrt, cos, cot, ...).
+      if (parent && parent.isFunctionNode && parent.fn === n) return;
+      // Never shadow a mathjs function with a random sample value.
+      if (typeof m[name] === 'function') return;
+      vars.add(name);
+    });
+  } catch (_) {}
+}
+
 /** Symbolic equivalence via simplify + random-point numeric sampling */
 export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
   const m = mathEngine();
@@ -33,14 +51,8 @@ export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
     const diff = m.simplify(`(${user})-(${expected})`).toString();
     if (diff === '0' || diff === '0.0') return true;
     const vars = new Set();
-    try {
-      m.parse(user).traverse((n) => {
-        if (n.isSymbolNode && !['e', 'pi', 'E', 'PI'].includes(n.name)) vars.add(n.name);
-      });
-      m.parse(expected).traverse((n) => {
-        if (n.isSymbolNode && !['e', 'pi', 'E', 'PI'].includes(n.name)) vars.add(n.name);
-      });
-    } catch (_) {}
+    collectSymbolicVariables(m, user, vars);
+    collectSymbolicVariables(m, expected, vars);
     const names = [...vars];
     if (names.length === 0) {
       const vu = m.evaluate(user);
@@ -65,7 +77,7 @@ export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
   }
 }
 
-function checkNumeric(user, expected, tol = 0.02) {
+export function checkNumeric(user, expected, tol = 0.02) {
   const raw = String(user ?? '').trim();
   if (!raw) return false;
   const e = Number(expected);
@@ -81,7 +93,8 @@ function checkNumeric(user, expected, tol = 0.02) {
     u = Number(raw);
   }
   if (!Number.isFinite(u)) return false;
-  const scale = Math.max(1, Math.abs(e));
+  // Relative tolerance; a tiny floor keeps expected ≈ 0 from becoming an absolute-tolerance pass.
+  const scale = Math.max(Math.abs(e), 1e-12);
   return Math.abs(u - e) <= tol * scale;
 }
 

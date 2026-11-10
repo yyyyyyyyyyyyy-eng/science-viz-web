@@ -509,11 +509,11 @@ export const problems = [
   },
   {
     "id": "calc-u8-q024",
-    "title": "8.7 论述 · 旋转体体积盘法",
+    "title": "8.7 论述 · 截面法：正方形与矩形",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "stem": "关于「旋转体体积盘法」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「截面法：正方形与矩形」：说明净面积与总面积（绝对值）在应用中的区别。",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
     "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
     "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
@@ -1045,7 +1045,7 @@ export const problems = [
     "title": "8.7 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「旋转体体积盘法」，下列正确的是？",
+    "stem": "关于「截面法：正方形与矩形」，下列正确的是？",
     "choices": [
       {
         "text": "定积分是黎曼和的极限，可表示净变化量",
@@ -1588,11 +1588,11 @@ export const problems = [
   },
   {
     "id": "calc-u8-q076",
-    "title": "8.7 论述 · 旋转体体积盘法",
+    "title": "8.7 论述 · 截面法：正方形与矩形",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「旋转体体积盘法」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「截面法：正方形与矩形」：说明净面积与总面积（绝对值）在应用中的区别。",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
     "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
     "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",

@@ -767,7 +767,7 @@ export const PAST_PAPERS = {
       "difficulty": "中",
       "topics": [
         "calc-u5:5.1",
-        "calc-u5:3"
+        "calc-u5:5.3"
       ],
       "abShared": true,
       "pdfQuestions": "https://apcentral.collegeboard.org/media/pdf/ap23-frq-calculus-bc.pdf",
@@ -797,9 +797,9 @@ export const PAST_PAPERS = {
                 "label": "calc-u5:5.1"
               },
               {
-                "topicId": "calc-u5:3",
-                "href": "#/t/math/calc-u5/3",
-                "label": "calc-u5:3"
+                "topicId": "calc-u5:5.3",
+                "href": "#/t/math/calc-u5/5.3",
+                "label": "calc-u5:5.3"
               }
             ]
           },
@@ -807,9 +807,9 @@ export const PAST_PAPERS = {
             "text": "分小问完成计算或论证；对照评分指南自检。",
             "links": [
               {
-                "topicId": "calc-u5:3",
-                "href": "#/t/math/calc-u5/3",
-                "label": "calc-u5:3"
+                "topicId": "calc-u5:5.3",
+                "href": "#/t/math/calc-u5/5.3",
+                "label": "calc-u5:5.3"
               }
             ]
           }
@@ -821,9 +821,9 @@ export const PAST_PAPERS = {
             "label": "calc-u5:5.1"
           },
           {
-            "topicId": "calc-u5:3",
-            "href": "#/t/math/calc-u5/3",
-            "label": "calc-u5:3"
+            "topicId": "calc-u5:5.3",
+            "href": "#/t/math/calc-u5/5.3",
+            "label": "calc-u5:5.3"
           }
         ]
       },
@@ -1249,7 +1249,7 @@ export const PAST_PAPERS = {
       "difficulty": "中",
       "topics": [
         "calc-u5:5.1",
-        "calc-u5:3"
+        "calc-u5:5.3"
       ],
       "abShared": true,
       "pdfQuestions": "https://apcentral.collegeboard.org/media/pdf/ap23-frq-calculus-ab.pdf",
@@ -1279,9 +1279,9 @@ export const PAST_PAPERS = {
                 "label": "calc-u5:5.1"
               },
               {
-                "topicId": "calc-u5:3",
-                "href": "#/t/math/calc-u5/3",
-                "label": "calc-u5:3"
+                "topicId": "calc-u5:5.3",
+                "href": "#/t/math/calc-u5/5.3",
+                "label": "calc-u5:5.3"
               }
             ]
           },
@@ -1289,9 +1289,9 @@ export const PAST_PAPERS = {
             "text": "分小问完成计算或论证；对照评分指南自检。",
             "links": [
               {
-                "topicId": "calc-u5:3",
-                "href": "#/t/math/calc-u5/3",
-                "label": "calc-u5:3"
+                "topicId": "calc-u5:5.3",
+                "href": "#/t/math/calc-u5/5.3",
+                "label": "calc-u5:5.3"
               }
             ]
           }
@@ -1303,9 +1303,9 @@ export const PAST_PAPERS = {
             "label": "calc-u5:5.1"
           },
           {
-            "topicId": "calc-u5:3",
-            "href": "#/t/math/calc-u5/3",
-            "label": "calc-u5:3"
+            "topicId": "calc-u5:5.3",
+            "href": "#/t/math/calc-u5/5.3",
+            "label": "calc-u5:5.3"
           }
         ]
       },
@@ -6400,7 +6400,7 @@ export const PAST_PAPERS = {
       "difficulty": "难",
       "topics": [
         "mech-u5:5.1",
-        "mech-u5:3"
+        "mech-u5:5.3"
       ],
       "pdfQuestions": "https://apcentral.collegeboard.org/media/pdf/ap24-frq-physics-c-mech-set-1.pdf",
       "pdfScoring": "https://apcentral.collegeboard.org/media/pdf/ap24-sg-physics-c-mech-set-1.pdf",
@@ -6429,9 +6429,9 @@ export const PAST_PAPERS = {
                 "label": "mech-u5:5.1"
               },
               {
-                "topicId": "mech-u5:3",
-                "href": "#/t/mech/mech-u5/3",
-                "label": "mech-u5:3"
+                "topicId": "mech-u5:5.3",
+                "href": "#/t/mech/mech-u5/5.3",
+                "label": "mech-u5:5.3"
               }
             ]
           },
@@ -6439,9 +6439,9 @@ export const PAST_PAPERS = {
             "text": "分小问完成计算或论证；对照评分指南自检。",
             "links": [
               {
-                "topicId": "mech-u5:3",
-                "href": "#/t/mech/mech-u5/3",
-                "label": "mech-u5:3"
+                "topicId": "mech-u5:5.3",
+                "href": "#/t/mech/mech-u5/5.3",
+                "label": "mech-u5:5.3"
               }
             ]
           }
@@ -6453,9 +6453,9 @@ export const PAST_PAPERS = {
             "label": "mech-u5:5.1"
           },
           {
-            "topicId": "mech-u5:3",
-            "href": "#/t/mech/mech-u5/3",
-            "label": "mech-u5:3"
+            "topicId": "mech-u5:5.3",
+            "href": "#/t/mech/mech-u5/5.3",
+            "label": "mech-u5:5.3"
           }
         ]
       },

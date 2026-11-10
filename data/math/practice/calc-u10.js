@@ -1855,7 +1855,7 @@ export const problems = [
         "check": "numeric",
         "stem": "用前三项估计 ln(1.2)（保留四位小数）。",
         "expected": 0.18266666666666667,
-        "tol": 0.001,
+        "tol": 0.002,
         "answerLatex": "\\approx0.1827",
         "solution": "用前三项计算；下一项的绝对值给出误差上界。",
         "solutionLatex": "0.2-\\dfrac{0.2^{2}}{2}+\\dfrac{0.2^{3}}{3}\\approx0.1827,\\qquad \\dfrac{0.2^{4}}{4}=0.0004"
