@@ -542,130 +542,251 @@ export const TOPICS = {
     "titleZh": "向量值函数",
     "titleEn": "Defining and Differentiating Vector-Valued Functions",
     "layer": "ap",
-    "summary": "向量值函数 · Defining and Differentiating Vector-Valued Functions",
+    "summary": "向量值函数的定义、逐分量求导与运动学解释。 · Defining vector-valued functions, differentiating them componentwise, and interpreting derivatives as velocity and acceleration.",
     "learningObjectives": [
-      "能陈述「向量值函数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能写出二维或三维向量值函数 \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)，并说明定义域、连续性与可导性由各分量决定。 · Write a two- or three-dimensional vector-valued function \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\) and explain that its domain, continuity, and differentiability are determined component by component.",
+      "能用极限定义证明 \\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\)，并把和、数乘、乘积与链式法则推广到向量值函数。 · Use the limit definition to justify \\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\), and extend the sum, scalar-multiple, product, and chain rules to vector-valued functions.",
+      "能由位置向量求速度、速率、加速度、单位切向量与切线方程，并用图像和分量运算检验结果。 · Find velocity, speed, acceleration, the unit tangent vector, and tangent lines from a position vector, and check the result with graphs and component computations."
     ],
     "essentialKnowledge": [
-      "Defining and Differentiating Vector-Valued Functions：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「向量值函数」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "向量值函数把参数映到向量：\\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)，三维情形为 \\(\\vec r(t)=\\langle x(t),y(t),z(t)\\rangle\\)；其图像是平面或空间曲线。 · A vector-valued function maps a parameter to a vector: \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\), or \\(\\vec r(t)=\\langle x(t),y(t),z(t)\\rangle\\) in three dimensions; its graph is a plane or space curve.",
+      "导数用向量极限定义：\\(\\vec r'(t)=\\displaystyle\\lim_{h\\to0}\\dfrac{\\vec r(t+h)-\\vec r(t)}{h}\\)，极限存在当且仅当每个分量的极限存在。 · The derivative is defined by the vector limit \\(\\vec r'(t)=\\displaystyle\\lim_{h\\to0}\\dfrac{\\vec r(t+h)-\\vec r(t)}{h}\\), which exists exactly when every component limit exists.",
+      "因此求导可以逐分量进行：\\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\)；实值函数的求导法则（和、数乘、乘积、标量商与链式法则）可以逐分量搬过来。 · Differentiation is therefore componentwise: \\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\); the rules for real-valued functions (sum, scalar multiple, product, scalar quotient, and chain) carry over component by component.",
+      "\\(\\vec r'(t)\\) 是曲线在 \\(\\vec r(t)\\) 处的切向量，指向参数增大的方向；若 \\(\\vec r'(t)\\neq\\vec{0}\\)，单位切向量为 \\(\\vec T(t)=\\dfrac{\\vec r'(t)}{\\|\\vec r'(t)\\|}\\)。 · \\(\\vec r'(t)\\) is a tangent vector to the curve at \\(\\vec r(t)\\), pointing in the direction of increasing parameter; if \\(\\vec r'(t)\\neq\\vec{0}\\), the unit tangent vector is \\(\\vec T(t)=\\dfrac{\\vec r'(t)}{\\|\\vec r'(t)\\|}\\).",
+      "在运动学中，位置向量求导得速度向量 \\(\\vec v(t)=\\vec r'(t)\\)，速度的模是速率 \\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)；再求导得加速度 \\(\\vec a(t)=\\vec v'(t)=\\vec r''(t)\\)。 · In kinematics, differentiating the position vector gives velocity \\(\\vec v(t)=\\vec r'(t)\\); the magnitude of velocity is speed, \\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\), and one more derivative gives acceleration \\(\\vec a(t)=\\vec v'(t)=\\vec r''(t)\\).",
+      "\\(\\vec r\\) 在 \\(t\\) 可导当且仅当 \\(x,y\\)（及 \\(z\\)）都在 \\(t\\) 可导；可导必连续，但连续不一定可导，例如 \\(\\vec r(t)=\\langle t,|t|\\rangle\\) 在 \\(t=0\\) 连续却不可导。 · \\(\\vec r\\) is differentiable at \\(t\\) exactly when \\(x,y\\) (and \\(z\\)) are differentiable there; differentiability implies continuity, but continuity does not imply differentiability—for example, \\(\\vec r(t)=\\langle t,|t|\\rangle\\) is continuous but not differentiable at \\(t=0\\).",
+      "同一曲线换参数化后切向量会按链式法则改变长度和方向：若 \\(t=f(s)\\)，则 \\(\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}s}=f'(s)\\,\\vec r'(f(s))\\)；曲线的几何切线不变，但速度与速率依赖参数化。 · Reparameterizing a curve changes the tangent vector by the chain rule: if \\(t=f(s)\\), then \\(\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}s}=f'(s)\\,\\vec r'(f(s))\\); the geometric tangent line is unchanged, but velocity and speed depend on the parameterization.",
+      "向量值函数的乘积法则还包括标量函数乘向量函数与点积：\\((f\\vec r)'=f'\\vec r+f\\vec r'\\)，\\((\\vec r\\cdot\\vec s)'=\\vec r'\\cdot\\vec s+\\vec r\\cdot\\vec s'\\)；这些都可以逐分量验证。 · Product rules for vector-valued functions include scalar-times-vector and dot products: \\((f\\vec r)'=f'\\vec r+f\\vec r'\\) and \\((\\vec r\\cdot\\vec s)'=\\vec r'\\cdot\\vec s+\\vec r\\cdot\\vec s'\\), both verified componentwise."
     ],
-    "definition": "向量值函数（Defining and Differentiating Vector-Valued Functions）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「向量值函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "向量值函数是输出为向量的函数，平面情形写成 \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\)，空间情形写成 \\(\\vec r(t)=\\langle x(t),y(t),z(t)\\rangle\\)。若分量函数都在 \\(t\\) 可导，则 \\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\)（空间情形再加 \\(z'(t)\\)），也就是把实值函数的求导法则逐分量使用。导数 \\(\\vec r'(t)\\) 是曲线在 \\(\\vec r(t)\\) 处的切向量；在运动中它是速度向量，模 \\(\\|\\vec r'(t)\\|\\) 是速率，二阶导数 \\(\\vec r''(t)\\) 是加速度向量。 · A vector-valued function is a function whose output is a vector, written \\(\\vec r(t)=\\langle x(t),y(t)\\rangle\\) in the plane and \\(\\vec r(t)=\\langle x(t),y(t),z(t)\\rangle\\) in space. If the component functions are differentiable at \\(t\\), then \\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\) (plus \\(z'(t)\\) in space): the differentiation rules for real-valued functions are applied component by component. The derivative \\(\\vec r'(t)\\) is a tangent vector to the curve at \\(\\vec r(t)\\); for motion it is the velocity vector, its magnitude \\(\\|\\vec r'(t)\\|\\) is speed, and the second derivative \\(\\vec r''(t)\\) is the acceleration vector.",
+    "intuition": "把 \\(t\\) 想成时间，\\(\\vec r(t)\\) 是质点的位置。位置随时间的瞬时变化率就是速度向量 \\(\\vec r'(t)\\)：它既告诉我们运动有多快（模长），也告诉我们往哪个方向走（方向）。对每个坐标分别求导，再把结果重新组装成向量即可。 · Think of \\(t\\) as time and \\(\\vec r(t)\\) as the position of a particle. The instantaneous rate of change of position is the velocity vector \\(\\vec r'(t)\\): its magnitude says how fast the particle moves, and its direction says where it goes. Differentiate each coordinate separately, then reassemble the results into a vector.",
     "formulas": [
       {
-        "latex": "\\vec r'(t)=\\langle x'(t),y'(t)\\rangle,\\quad \\|\\vec r'(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}",
-        "note": "向量值函数的导数与速率。 · Derivative and speed of a vector-valued function."
+        "latex": "\\vec r'(t)=\\lim_{h\\to0}\\dfrac{\\vec r(t+h)-\\vec r(t)}{h}=\\left\\langle\\lim_{h\\to0}\\dfrac{x(t+h)-x(t)}{h},\\ \\lim_{h\\to0}\\dfrac{y(t+h)-y(t)}{h}\\right\\rangle",
+        "note": "向量值函数的极限定义；极限按分量计算。 · Limit definition of the derivative; the limit is computed componentwise."
+      },
+      {
+        "latex": "\\vec r'(t)=\\langle x'(t),y'(t)\\rangle,\\qquad \\vec r''(t)=\\langle x''(t),y''(t)\\rangle",
+        "note": "逐分量求导；空间曲线再加 \\(z'(t)\\) 与 \\(z''(t)\\)。 · Componentwise differentiation; add \\(z'(t)\\) and \\(z''(t)\\) for a space curve."
+      },
+      {
+        "latex": "(\\vec r+\\vec s)'=\\vec r'+\\vec s',\\quad (c\\vec r)'=c\\vec r',\\quad (f\\vec r)'=f'\\vec r+f\\vec r'",
+        "note": "和、数乘与标量函数乘向量函数的求导法则；逐分量验证。 · Sum, scalar-multiple, and scalar-function-times-vector rules; verify component by component."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\vec r(f(t))=f'(t)\\,\\vec r'(f(t))",
+        "note": "向量值函数的链式法则；内层导数不能漏。 · Chain rule for vector-valued functions; do not omit the inner derivative."
+      },
+      {
+        "latex": "\\vec v(t)=\\vec r'(t),\\qquad \\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}",
+        "note": "速度向量与速率；速率是标量。 · Velocity vector and speed; speed is a scalar."
+      },
+      {
+        "latex": "\\vec T(t)=\\dfrac{\\vec r'(t)}{\\|\\vec r'(t)\\|}\\quad (\\vec r'(t)\\neq\\vec{0}),\\qquad \\vec a(t)=\\vec r''(t)",
+        "note": "单位切向量与加速度向量。 · Unit tangent vector and acceleration vector."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「向量值函数」的工作方程或机制链。"
+        "from": "向量极限 · Vector limit",
+        "to": "逐分量求导 · Componentwise differentiation",
+        "note": "向量减法与数乘按分量进行，因此 \\(\\dfrac{\\vec r(t+h)-\\vec r(t)}{h}=\\left\\langle\\dfrac{x(t+h)-x(t)}{h},\\ \\dfrac{y(t+h)-y(t)}{h}\\right\\rangle\\)；取极限即得 \\(\\vec r'=\\langle x',y'\\rangle\\)。 · Vector subtraction and scalar multiplication are componentwise, so the difference quotient splits into component difference quotients; taking the limit gives the componentwise derivative."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "实值函数求导法则 · Real-valued differentiation rules",
+        "to": "向量值函数求导法则 · Vector-valued differentiation rules",
+        "note": "对每个分量分别使用和、数乘、乘积与链式法则，再把结果组装回向量；不需要新的向量专用法则。 · Apply the sum, scalar-multiple, product, and chain rules to each component, then reassemble the vector; no separate vector-only rule is needed."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "割线向量 · Secant vector",
+        "to": "切向量 · Tangent vector",
+        "note": "\\(\\dfrac{\\vec r(t+h)-\\vec r(t)}{h}\\) 是沿曲线的割线方向；当 \\(h\\to0\\) 时其极限 \\(\\vec r'(t)\\) 与曲线相切，并指向参数增大的方向。 · The difference quotient is the direction of a secant line along the curve; as \\(h\\to0\\), its limit \\(\\vec r'(t)\\) is tangent to the curve and points in the direction of increasing parameter."
+      },
+      {
+        "from": "位置向量 · Position vector",
+        "to": "速度、速率与加速度 · Velocity, speed, and acceleration",
+        "note": "对 \\(\\vec r(t)\\) 求导得速度 \\(\\vec v=\\vec r'\\)；速率是 \\(\\|\\vec v\\|\\)；再对速度求导得加速度 \\(\\vec a=\\vec v'=\\vec r''\\)。 · Differentiate the position vector to get velocity; speed is the magnitude of velocity; differentiating velocity gives acceleration."
+      },
+      {
+        "from": "参数化 · Parameterization",
+        "to": "链式法则 · Chain rule",
+        "note": "若 \\(t=f(s)\\)，则复合函数 \\(\\vec r(f(s))\\) 的导数为 \\(f'(s)\\,\\vec r'(f(s))\\)；同一几何曲线的速度大小会随参数化改变。 · If \\(t=f(s)\\), the derivative of the composition is \\(f'(s)\\vec r'(f(s))\\); the speed along the same geometric curve changes with the parameterization."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "各分量在讨论的区间内可导；在端点处用单侧导数。 · Each component must be differentiable on the interval under discussion; use one-sided derivatives at endpoints.",
+      "\\(\\vec r'(t)\\) 存在当且仅当 \\(x'(t)\\)、\\(y'(t)\\)（及 \\(z'(t)\\)）都存在；一个分量不可导就足以使向量函数不可导。 · \\(\\vec r'(t)\\) exists exactly when the component derivatives all exist; one nondifferentiable component makes the vector function nondifferentiable.",
+      "使用单位切向量或由导数写切线时要求 \\(\\vec r'(t)\\neq\\vec{0}\\)；导数为零只说明瞬时速度为零，不说明曲线不存在。 · A unit tangent vector or a tangent line written from the derivative requires \\(\\vec r'(t)\\neq\\vec{0}\\); a zero derivative only means the instantaneous velocity is zero, not that the curve fails to exist.",
+      "速率 \\(\\|\\vec r'(t)\\|\\) 是标量且非负；速度 \\(\\vec r'(t)\\) 是向量，两者不能混写。 · Speed is a nonnegative scalar; velocity is a vector, and the two must not be conflated.",
+      "乘积法则要求标量因子与向量因子都可导；链式法则要求内层函数可导。 · The product rule requires both the scalar and vector factors to be differentiable; the chain rule requires the inner function to be differentiable.",
+      "高阶导数要求分量具有相应阶数的导数；\\(\\vec r''\\) 一般不是切向量，除非速度方向不变。 · Higher derivatives require components with the corresponding order of differentiability; \\(\\vec r''\\) is generally not a tangent vector unless the direction of velocity is constant.",
+      "三维情形逐分量推广，不能漏掉 \\(z\\) 分量。 · The three-dimensional case extends componentwise; do not omit the \\(z\\)-component."
     ],
     "keyPoints": [
-      "掌握 9.4「向量值函数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "向量值函数逐分量定义、逐分量连续、逐分量可导。 · Vector-valued functions are defined, continuous, and differentiable component by component.",
+      "\\(\\vec r'(t)=\\langle x'(t),y'(t)\\rangle\\) 来自向量极限；实值函数的求导法则全部可以逐分量使用。 · The componentwise derivative comes from the vector limit; all real-valued differentiation rules apply componentwise.",
+      "导数 \\(\\vec r'(t)\\) 是切向量；\\(\\vec r'(t)\\neq\\vec{0}\\) 时单位切向量为 \\(\\vec T=\\dfrac{\\vec r'}{\\|\\vec r'\\|}\\)。 · The derivative is a tangent vector; when it is nonzero, the unit tangent vector is the derivative divided by its magnitude.",
+      "运动中 \\(\\vec v=\\vec r'\\)、速率 \\(=\\|\\vec v\\|\\)、\\(\\vec a=\\vec r''\\)；速率不是向量。 · In motion, velocity is the derivative of position, speed is the magnitude of velocity, and acceleration is the derivative of velocity; speed is not a vector.",
+      "可导必连续，连续不一定可导；检查每个分量，尤其是分段函数与绝对值。 · Differentiability implies continuity, but not conversely; check every component, especially piecewise functions and absolute values.",
+      "换参数化时用链式法则，速度与速率改变，但几何切线不变。 · Reparameterization uses the chain rule; velocity and speed change, but the geometric tangent line does not."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「向量值函数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "把速率 \\(\\|\\vec r'(t)\\|\\) 写成速度向量，或把速度的模当成加速度 \\(\\vec r''(t)\\)。 · Writing speed as a velocity vector, or mistaking the magnitude of velocity for acceleration.",
+      "认为 \\(\\vec r'(t)=\\vec{0}\\) 时函数不可导；实际上导数存在且为零向量，只是单位切向量没有定义。 · Thinking the function is not differentiable when the derivative is the zero vector; the derivative exists and equals zero, but the unit tangent vector is undefined.",
+      "把 \\(\\vec r''(t)\\) 当作切向量；加速度一般有法向分量。 · Treating acceleration as a tangent vector; acceleration generally has a normal component.",
+      "只对 \\(x\\) 或 \\(y\\) 求导就写答案，漏掉其他分量；三维时漏掉 \\(z\\)。 · Differentiating only one component and omitting the others, or omitting \\(z\\) in three dimensions.",
+      "把连续当成可导，例如误以为 \\(\\langle t,|t|\\rangle\\) 在 \\(t=0\\) 可导。 · Confusing continuity with differentiability, for example assuming \\(\\langle t,|t|\\rangle\\) is differentiable at \\(t=0\\).",
+      "链式法则漏乘内层导数，或乘积法则只写一项。 · Omitting the inner derivative in the chain rule, or writing only one term in the product rule.",
+      "把参数 \\(t\\) 与坐标 \\(x\\) 混为一谈，直接用 \\(y'(t)\\) 当曲线斜率；斜率应为 \\(\\dfrac{y'(t)}{x'(t)}\\)（\\(x'(t)\\neq0\\)）。 · Confusing the parameter with the coordinate and using \\(y'(t)\\) directly as the slope; the slope is the ratio of the component derivatives when the denominator is nonzero."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「向量值函数」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 逐分量求导 · Example 1: Componentwise differentiation",
+        "prompt": "已知 \\(\\vec r(t)=\\langle t^{2},\\sin t\\rangle\\)，求 \\(\\vec r'(t)\\)、\\(\\vec r''(t)\\)，并求 \\(t=0\\) 时的速度与加速度。 · Given \\(\\vec r(t)=\\langle t^{2},\\sin t\\rangle\\), find \\(\\vec r'(t)\\) and \\(\\vec r''(t)\\), and find the velocity and acceleration at \\(t=0\\).",
+        "steps": [
+          "分别对两个分量求导：\\(x'(t)=2t\\)，\\(y'(t)=\\cos t\\)。 · Differentiate each component: \\(x'(t)=2t\\) and \\(y'(t)=\\cos t\\).",
+          "组装成向量：\\(\\vec r'(t)=\\langle2t,\\cos t\\rangle\\)。 · Assemble the vector: \\(\\vec r'(t)=\\langle2t,\\cos t\\rangle\\).",
+          "再逐分量求导：\\(\\vec r''(t)=\\langle2,-\\sin t\\rangle\\)。 · Differentiate again componentwise: \\(\\vec r''(t)=\\langle2,-\\sin t\\rangle\\).",
+          "代入 \\(t=0\\)：\\(\\vec r'(0)=\\langle0,1\\rangle\\)，\\(\\vec r''(0)=\\langle2,0\\rangle\\)。 · At \\(t=0\\), \\(\\vec r'(0)=\\langle0,1\\rangle\\) and \\(\\vec r''(0)=\\langle2,0\\rangle\\)."
+        ],
+        "solution": "\\(\\vec r'(t)=\\langle2t,\\cos t\\rangle\\)，\\(\\vec r''(t)=\\langle2,-\\sin t\\rangle\\)；\\(t=0\\) 时速度为 \\(\\langle0,1\\rangle\\)，加速度为 \\(\\langle2,0\\rangle\\)。 · \\(\\vec r'(t)=\\langle2t,\\cos t\\rangle\\) and \\(\\vec r''(t)=\\langle2,-\\sin t\\rangle\\); at \\(t=0\\) the velocity is \\(\\langle0,1\\rangle\\) and the acceleration is \\(\\langle2,0\\rangle\\).",
+        "solutionLatex": "\\vec r'(t)=\\langle2t,\\cos t\\rangle,\\qquad \\vec r''(t)=\\langle2,-\\sin t\\rangle"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "title": "例 2 · 速率与加速度 · Example 2: Speed and acceleration",
+        "prompt": "质点位置 \\(\\vec r(t)=\\langle2\\cos t,\\sin2t\\rangle\\)。求 \\(t=\\dfrac{\\pi}{6}\\) 时的速度、速率、加速度和单位切向量。 · A particle has position \\(\\vec r(t)=\\langle2\\cos t,\\sin2t\\rangle\\). Find its velocity, speed, acceleration, and unit tangent vector at \\(t=\\dfrac{\\pi}{6}\\).",
+        "steps": [
+          "\\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\)。 · Differentiate the position vector: \\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\).",
+          "在 \\(t=\\dfrac{\\pi}{6}\\)：\\(\\vec v=\\left\\langle-2\\cdot\\dfrac{1}{2},2\\cdot\\dfrac{1}{2}\\right\\rangle=\\langle-1,1\\rangle\\)。 · At \\(t=\\dfrac{\\pi}{6}\\): \\(\\vec v=\\left\\langle-2\\cdot\\dfrac{1}{2},2\\cdot\\dfrac{1}{2}\\right\\rangle=\\langle-1,1\\rangle\\).",
+          "速率 \\(\\|\\vec v\\|=\\sqrt{(-1)^{2}+1^{2}}=\\sqrt{2}\\approx1.41\\)。 · Speed: \\(\\|\\vec v\\|=\\sqrt{(-1)^{2}+1^{2}}=\\sqrt{2}\\approx1.41\\).",
+          "\\(\\vec a(t)=\\langle-2\\cos t,-4\\sin2t\\rangle\\)，故 \\(\\vec a=\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\approx\\langle-1.73,-3.46\\rangle\\)。 · \\(\\vec a(t)=\\langle-2\\cos t,-4\\sin2t\\rangle\\), so \\(\\vec a=\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\approx\\langle-1.73,-3.46\\rangle\\).",
+          "单位切向量 \\(\\vec T=\\dfrac{\\vec v}{\\|\\vec v\\|}=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)。 · Unit tangent vector: \\(\\vec T=\\dfrac{\\vec v}{\\|\\vec v\\|}=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)."
+        ],
+        "solution": "速度 \\(\\langle-1,1\\rangle\\)，速率 \\(\\sqrt{2}\\)，加速度 \\(\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\)，单位切向量 \\(\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)。 · Velocity is \\(\\langle-1,1\\rangle\\), speed is \\(\\sqrt{2}\\), acceleration is \\(\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\), and the unit tangent vector is \\(\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\).",
+        "solutionLatex": "\\vec v=\\langle-1,1\\rangle,\\quad \\|\\vec v\\|=\\sqrt{2},\\quad \\vec a=\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「向量值函数」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 切线与单位切向量 · Example 3: Tangent line and unit tangent",
+        "prompt": "曲线 \\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\)。求 \\(t=\\dfrac{\\pi}{4}\\) 处的单位切向量与切线方程。 · For the curve \\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\), find the unit tangent vector and the tangent line at \\(t=\\dfrac{\\pi}{4}\\).",
+        "steps": [
+          "\\(\\vec r'(t)=\\langle-\\sin t,\\cos t\\rangle\\)，故 \\(\\vec r'\\left(\\dfrac{\\pi}{4}\\right)=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)。 · \\(\\vec r'(t)=\\langle-\\sin t,\\cos t\\rangle\\), so \\(\\vec r'\\left(\\dfrac{\\pi}{4}\\right)=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\).",
+          "该向量模为 \\(1\\)，所以单位切向量 \\(\\vec T=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)。 · This vector has magnitude \\(1\\), so the unit tangent vector is \\(\\vec T=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\).",
+          "切点 \\(\\vec r\\left(\\dfrac{\\pi}{4}\\right)=\\left\\langle\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)，切线斜率 \\(\\dfrac{y'}{x'}=-1\\)。 · The point of tangency is \\(\\vec r\\left(\\dfrac{\\pi}{4}\\right)=\\left\\langle\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\), and the tangent slope is \\(\\dfrac{y'}{x'}=-1\\).",
+          "切线：\\(y-\\dfrac{\\sqrt{2}}{2}=-\\left(x-\\dfrac{\\sqrt{2}}{2}\\right)\\)，即 \\(x+y=\\sqrt{2}\\)。 · Tangent line: \\(y-\\dfrac{\\sqrt{2}}{2}=-\\left(x-\\dfrac{\\sqrt{2}}{2}\\right)\\), that is, \\(x+y=\\sqrt{2}\\)."
+        ],
+        "solution": "单位切向量 \\(\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\)，切线方程 \\(x+y=\\sqrt{2}\\)。 · The unit tangent vector is \\(\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle\\) and the tangent line is \\(x+y=\\sqrt{2}\\).",
+        "solutionLatex": "\\vec T=\\left\\langle-\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2}\\right\\rangle,\\qquad x+y=\\sqrt{2}"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「向量值函数」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「向量值函数」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 乘积与链式法则 · Example 4: Product and chain rules",
+        "prompt": "求 \\(\\vec r(t)=\\langle t\\cos t,\\ e^{t^{2}}\\rangle\\) 的导数，并求 \\(t=0\\) 处的切向量。 · Find the derivative of \\(\\vec r(t)=\\langle t\\cos t,\\ e^{t^{2}}\\rangle\\) and the tangent vector at \\(t=0\\).",
+        "steps": [
+          "第一个分量用乘积法则：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}(t\\cos t)=\\cos t-t\\sin t\\)。 · The first component uses the product rule: \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}(t\\cos t)=\\cos t-t\\sin t\\).",
+          "第二个分量用链式法则：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}e^{t^{2}}=2t e^{t^{2}}\\)。 · The second component uses the chain rule: \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}t}e^{t^{2}}=2t e^{t^{2}}\\).",
+          "所以 \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\)。 · Therefore \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\).",
+          "在 \\(t=0\\)：\\(\\vec r'(0)=\\langle1,0\\rangle\\)。 · At \\(t=0\\), \\(\\vec r'(0)=\\langle1,0\\rangle\\)."
+        ],
+        "solution": "\\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\)，\\(\\vec r'(0)=\\langle1,0\\rangle\\)。 · \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\) and \\(\\vec r'(0)=\\langle1,0\\rangle\\).",
+        "solutionLatex": "\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle,\\qquad \\vec r'(0)=\\langle1,0\\rangle"
+      },
+      {
+        "title": "例 5 · 连续但不可导 · Example 5: Continuous but not differentiable",
+        "prompt": "\\(\\vec r(t)=\\langle t^{2},|t|\\rangle\\)。说明它在 \\(t=0\\) 连续但不可导。 · For \\(\\vec r(t)=\\langle t^{2},|t|\\rangle\\), show that it is continuous but not differentiable at \\(t=0\\).",
+        "steps": [
+          "两个分量在 \\(t=0\\) 都连续，因此 \\(\\vec r\\) 在 \\(t=0\\) 连续。 · Both components are continuous at \\(t=0\\), so \\(\\vec r\\) is continuous there.",
+          "\\(x'(0)=0\\)，但 \\(y(t)=|t|\\) 在 \\(0\\) 的差商为 \\(\\dfrac{|h|-0}{h}=\\dfrac{|h|}{h}\\)：当 \\(h>0\\) 时为 \\(1\\)，当 \\(h<0\\) 时为 \\(-1\\)。 · \\(x'(0)=0\\), but the difference quotient of \\(y(t)=|t|\\) at \\(0\\) is \\(\\dfrac{|h|-0}{h}=\\dfrac{|h|}{h}\\): it equals \\(1\\) for \\(h>0\\) and \\(-1\\) for \\(h<0\\).",
+          "左右极限不同，故 \\(y'(0)\\) 不存在，从而 \\(\\vec r'(0)\\) 不存在。 · The one-sided limits differ, so \\(y'(0)\\) does not exist, and therefore \\(\\vec r'(0)\\) does not exist.",
+          "这说明向量值函数的可导性要求每个分量都可导，连续不足以保证可导。 · Thus differentiability of a vector-valued function requires every component to be differentiable; continuity alone is not enough."
+        ],
+        "solution": "\\(\\vec r\\) 在 \\(t=0\\) 连续；但 \\(y=|t|\\) 的左右差商极限分别为 \\(1\\) 与 \\(-1\\)，所以 \\(\\vec r'(0)\\) 不存在。 · \\(\\vec r\\) is continuous at \\(t=0\\), but the left and right difference-quotient limits of \\(y=|t|\\) are \\(1\\) and \\(-1\\), so \\(\\vec r'(0)\\) does not exist.",
+        "solutionLatex": "\\lim_{h\\to0^{+}}\\dfrac{|h|}{h}=1,\\qquad \\lim_{h\\to0^{-}}\\dfrac{|h|}{h}=-1"
+      },
+      {
+        "title": "例 6 · 点积恒等式与垂直速度 · Example 6: Dot-product identity and perpendicular velocity",
+        "prompt": "\\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\)。验证 \\(\\vec r\\cdot\\vec r=1\\)，并用求导法则说明 \\(\\vec r\\cdot\\vec r'=0\\)。 · For \\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\), verify \\(\\vec r\\cdot\\vec r=1\\) and use differentiation rules to show \\(\\vec r\\cdot\\vec r'=0\\).",
+        "steps": [
+          "\\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\)。 · \\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\).",
+          "两边对 \\(t\\) 求导，左边用点积乘积法则：\\(2\\vec r\\cdot\\vec r'=0\\)。 · Differentiate both sides with respect to \\(t\\); the left side uses the dot-product rule: \\(2\\vec r\\cdot\\vec r'=0\\).",
+          "\\(\\vec r'=\\langle-\\sin t,\\cos t\\rangle\\)，直接计算也得 \\(\\vec r\\cdot\\vec r'=-\\sin t\\cos t+\\sin t\\cos t=0\\)。 · Since \\(\\vec r'=\\langle-\\sin t,\\cos t\\rangle\\), direct computation also gives \\(\\vec r\\cdot\\vec r'=-\\sin t\\cos t+\\sin t\\cos t=0\\).",
+          "所以速度与位置向量垂直；这正对应匀速圆周运动，且 \\(\\|\\vec r'\\|=1\\)。 · Therefore velocity is perpendicular to the position vector; this describes uniform circular motion, and \\(\\|\\vec r'\\|=1\\)."
+        ],
+        "solution": "\\(\\vec r\\cdot\\vec r=1\\)，求导得 \\(2\\vec r\\cdot\\vec r'=0\\)，故 \\(\\vec r\\cdot\\vec r'=0\\)。 · \\(\\vec r\\cdot\\vec r=1\\); differentiating gives \\(2\\vec r\\cdot\\vec r'=0\\), so \\(\\vec r\\cdot\\vec r'=0\\).",
+        "solutionLatex": "\\vec r\\cdot\\vec r=1\\ \\Longrightarrow\\ 2\\vec r\\cdot\\vec r'=0"
+      },
+      {
+        "title": "例 7 · 三维向量值函数 · Example 7: A three-dimensional vector-valued function",
+        "prompt": "\\(\\vec r(t)=\\langle t,\\ t^{2},\\ t^{3}\\rangle\\)。求 \\(\\vec r'(t)\\) 以及 \\(t=1\\) 处的单位切向量。 · For \\(\\vec r(t)=\\langle t,\\ t^{2},\\ t^{3}\\rangle\\), find \\(\\vec r'(t)\\) and the unit tangent vector at \\(t=1\\).",
+        "steps": [
+          "逐分量求导：\\(\\vec r'(t)=\\langle1,\\ 2t,\\ 3t^{2}\\rangle\\)。 · Differentiate componentwise: \\(\\vec r'(t)=\\langle1,\\ 2t,\\ 3t^{2}\\rangle\\).",
+          "在 \\(t=1\\)：\\(\\vec r'(1)=\\langle1,2,3\\rangle\\)，模为 \\(\\sqrt{1+4+9}=\\sqrt{14}\\)。 · At \\(t=1\\), \\(\\vec r'(1)=\\langle1,2,3\\rangle\\), whose magnitude is \\(\\sqrt{1+4+9}=\\sqrt{14}\\).",
+          "单位切向量 \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle=\\left\\langle\\dfrac{1}{\\sqrt{14}},\\dfrac{2}{\\sqrt{14}},\\dfrac{3}{\\sqrt{14}}\\right\\rangle\\)。 · Unit tangent vector: \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle=\\left\\langle\\dfrac{1}{\\sqrt{14}},\\dfrac{2}{\\sqrt{14}},\\dfrac{3}{\\sqrt{14}}\\right\\rangle\\)."
+        ],
+        "solution": "\\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\)，\\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\)。 · \\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\) and \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\).",
+        "solutionLatex": "\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle,\\qquad \\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先分别求 \\(x'(t)\\)、\\(y'(t)\\)（及 \\(z'(t)\\)），再组装成向量；每一步都用实值函数求导法则。 · Find the component derivatives separately, then assemble the vector; use the real-valued differentiation rules at every step.",
+      "区分速度、速率与加速度：速度是向量，速率是非负标量，加速度是速度的导数。 · Distinguish velocity, speed, and acceleration: velocity is a vector, speed is a nonnegative scalar, and acceleration is the derivative of velocity.",
+      "切线题先求切点 \\(\\vec r(t_0)\\) 与方向 \\(\\vec r'(t_0)\\)；写单位切向量前确认 \\(\\vec r'(t_0)\\neq\\vec{0}\\)。 · For tangent-line problems, first find the point and the direction; before writing a unit tangent vector, confirm the derivative is nonzero.",
+      "检查可导性时逐个分量看，遇到绝对值、分段点或尖点要算左右差商。 · Check differentiability component by component; at absolute values, piecewise breakpoints, or cusps, compute one-sided difference quotients.",
+      "链式法则与乘积法则不要漏项；向量值函数没有“新”法则，全部逐分量验证。 · Do not omit terms in the chain and product rules; there is no separate vector-only rule—verify everything componentwise.",
+      "AP 简答按主张—证据—推理：写定义或法则，代入分量，解释方向与大小并做合理性检查。 · Organize AP free response as claim–evidence–reasoning: state the definition or rule, substitute the components, interpret direction and magnitude, and check plausibility."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u9",
-        "code": "9.3",
-        "title": "参数弧长",
-        "relation": "prerequisite"
+        "code": "9.1",
+        "title": "参数运动导数 · Defining and Differentiating Parametric Equations",
+        "relation": "先修 · Prerequisite"
       },
       {
         "subject": "math",
         "chapterId": "calc-u9",
         "code": "9.5",
-        "title": "向量值函数积分",
-        "relation": "related"
+        "title": "向量值函数积分 · Integrating Vector-Valued Functions",
+        "relation": "后续 · Follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u9",
+        "code": "9.6",
+        "title": "向量运动解题 · Solving Motion Problems Using Parametric and Vector-Valued Functions",
+        "relation": "应用 · Application"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.2",
+        "title": "导数定义 · Definition of the Derivative",
+        "relation": "先修 · Prerequisite"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u9",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：9.1 参数方程给出参数曲线与 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 的参数求导；2.2 的导数极限定义是向量导数的直接来源。 · Upstream: parametric equations in 9.1 give parametric curves and parametric slopes; the limit definition of the derivative in 2.2 is the direct source of the vector derivative.",
+      "数学：向量代数、极限与逐分量运算；求导法则与实值函数完全平行，只是结果重新组装为向量。 · Mathematics: vector algebra, limits, and componentwise operations; the differentiation rules parallel the real-valued case exactly, with the results reassembled into a vector.",
+      "下游：9.5 逐分量积分还原位置向量；9.6 用 \\(\\vec r,\\vec v,\\vec a\\) 解决运动、位移与路程问题。 · Downstream: componentwise integration in 9.5 recovers position vectors; 9.6 uses position, velocity, and acceleration to solve motion, displacement, and distance problems.",
+      "跨学科：物理中的抛体、圆周运动与三维轨迹都用位置、速度、加速度向量描述；工程中的路径规划也使用参数曲线。 · Cross-disciplinary: projectile motion, circular motion, and three-dimensional trajectories in physics are described by position, velocity, and acceleration vectors; path planning in engineering also uses parametric curves."
     ],
-    "intuitionDetailed": "把「向量值函数」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "把向量值函数看成“每个时刻的位置箭头”。从 \\(t\\) 到 \\(t+h\\)，位置改变了一个小向量 \\(\\vec r(t+h)-\\vec r(t)\\)；除以时间间隔 \\(h\\) 得到平均速度向量，再让 \\(h\\to0\\) 得到瞬时速度向量。这个极限按分量计算，所以只需分别求 \\(x'(t)\\)、\\(y'(t)\\)，再把它们放回同一个尖括号。几何上，割线方向在极限中变成切线方向，因此 \\(\\vec r'(t)\\) 是切向量；它的模长是速率，方向是运动方向。求导法则也不需要重新发明：和、数乘、乘积与链式法则对每个分量成立，组合起来就对向量成立。要注意的是，单位切向量要求 \\(\\vec r'(t)\\neq\\vec{0}\\)；导数为零只表示瞬时速度为零。最后用图像检查方向、用分量检查符号，并用 \\(\\|\\vec v\\|\\) 检验速率是否为非负标量。 · Think of a vector-valued function as a position arrow at each instant. From \\(t\\) to \\(t+h\\), the position changes by a small vector \\(\\vec r(t+h)-\\vec r(t)\\); dividing by the time interval \\(h\\) gives an average velocity vector, and letting \\(h\\to0\\) gives the instantaneous velocity vector. This limit is computed componentwise, so only \\(x'(t)\\) and \\(y'(t)\\) need to be found separately and then placed back into the same angle brackets. Geometrically, the secant direction becomes the tangent direction in the limit, so \\(\\vec r'(t)\\) is a tangent vector; its magnitude is speed, and its direction is the direction of motion. The differentiation rules do not need to be reinvented: the sum, scalar-multiple, product, and chain rules hold for each component, and combining them gives the vector rule. Note that a unit tangent vector requires \\(\\vec r'(t)\\neq\\vec{0}\\); a zero derivative only means the instantaneous velocity is zero. Finally, use the graph to check direction, use components to check signs, and use \\(\\|\\vec v\\|\\) to confirm that speed is a nonnegative scalar.",
     "development": [
-      "回顾先修：确认符号、单位与「向量值函数」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "回顾参数方程与实值函数求导：\\(x(t)\\)、\\(y(t)\\) 分别可导时，曲线才有光滑的参数化。 · Review parametric equations and real-valued differentiation: a smooth parametrization requires \\(x(t)\\) and \\(y(t)\\) to be differentiable.",
+      "用向量极限定义 \\(\\vec r'(t)\\)，并说明极限按分量计算。 · Define the vector derivative by the vector limit and explain that the limit is computed componentwise.",
+      "把和、数乘、乘积与链式法则逐分量搬到向量值函数。 · Extend the sum, scalar-multiple, product, and chain rules componentwise to vector-valued functions.",
+      "解释导数的几何意义（切向量）与运动学意义（速度、速率、加速度）。 · Interpret the derivative geometrically as a tangent vector and kinematically as velocity, speed, and acceleration.",
+      "用单位切向量、切线方程和可导性判定做综合练习。 · Practice unit tangent vectors, tangent lines, and differentiability tests in combined exercises.",
+      "检查：分量是否齐全、速率是否为标量、\\(\\vec r'(t)\\neq\\vec{0}\\) 是否满足。 · Check that all components are present, that speed is a scalar, and that the nonzero-derivative condition holds when needed."
     ],
     "checks": [
-      "不看书能否复述「向量值函数」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "为什么 \\(\\vec r'(t)\\) 可以逐分量求导？用向量极限说明。 · Why can the derivative be computed componentwise? Explain using the vector limit.",
+      "\\(\\vec r'(t)=\\vec{0}\\) 时，函数是否可导？单位切向量是否定义？ · If the derivative is the zero vector, is the function differentiable? Is the unit tangent vector defined?",
+      "速度、速率、加速度三者有什么区别与联系？ · What are the differences and connections among velocity, speed, and acceleration?",
+      "\\(\\vec r(t)=\\langle t,|t|\\rangle\\) 在 \\(t=0\\) 连续吗？可导吗？为什么？ · Is \\(\\vec r(t)=\\langle t,|t|\\rangle\\) continuous at \\(t=0\\)? Is it differentiable there? Why?",
+      "换参数化 \\(t=f(s)\\) 后，\\(\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}s}\\) 与 \\(\\vec r'(t)\\) 有什么关系？ · After reparameterizing with \\(t=f(s)\\), how is \\(\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}s}\\) related to \\(\\vec r'(t)\\)?",
+      "三维情形求导时最容易漏掉什么？ · What is most easily omitted when differentiating in three dimensions?"
     ],
     "vocabulary": [
       {
@@ -701,8 +822,20 @@ export const TOPICS = {
       {
         "termZh": "逐分量求导",
         "termEn": "componentwise differentiation",
-        "defZh": "对每个分量分别求导。",
-        "defEn": "Differentiating each component separately."
+        "defZh": "对每个分量分别求导，再组合成向量。",
+        "defEn": "Differentiate each component separately, then combine the results into a vector."
+      },
+      {
+        "termZh": "速率",
+        "termEn": "speed",
+        "defZh": "速度向量的模 \\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)，是非负标量。",
+        "defEn": "The magnitude of the velocity vector, \\(\\|\\vec v(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\), a nonnegative scalar."
+      },
+      {
+        "termZh": "单位切向量",
+        "termEn": "unit tangent vector",
+        "defZh": "\\(\\vec T(t)=\\dfrac{\\vec r'(t)}{\\|\\vec r'(t)\\|}\\)，要求 \\(\\vec r'(t)\\neq\\vec{0}\\)。",
+        "defEn": "\\(\\vec T(t)=\\dfrac{\\vec r'(t)}{\\|\\vec r'(t)\\|}\\), defined when \\(\\vec r'(t)\\neq\\vec{0}\\)."
       }
     ]
   },
