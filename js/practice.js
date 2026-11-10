@@ -199,6 +199,36 @@ export function recordPracticeAttempt(bankKey, id, ok, lastAnswer, now = Date.no
   return nextRecord;
 }
 
+/**
+ * UI snapshot of a stored answer. Legacy records without solOpen stay valid and
+ * default the solution expander to closed; unknown fields remain in the store.
+ */
+export function practiceAttemptSnapshot(record) {
+  if (!isRecordObject(record)) {
+    return { hasAttempt: false, status: null, lastAnswer: '', solOpen: false };
+  }
+  const status = record.status === 'right' || record.status === 'wrong' ? record.status : null;
+  return {
+    hasAttempt: !!status,
+    status,
+    lastAnswer: String(record.lastAnswer ?? ''),
+    solOpen: record.solOpen === true,
+  };
+}
+
+/** Persist only the expander state; never creates an answer record by itself. */
+export function setPracticeSolutionOpen(bankKey, id, open) {
+  if (!bankKey || !id) return null;
+  let updated = null;
+  updatePracticeBankState(bankKey, (bank) => {
+    const current = bank.answers[id];
+    if (!isRecordObject(current)) return;
+    updated = { ...current, solOpen: !!open };
+    bank.answers[id] = updated;
+  });
+  return updated;
+}
+
 function clearPracticeAttempt(bankKey, id) {
   if (!bankKey || !id) return;
   updatePracticeBankState(bankKey, (bank) => {
@@ -2220,10 +2250,23 @@ function renderPracticePreview(target, raw) {
   target.append(label, content);
 }
 
+/** Map a stored MCQ answer (`B. choice text` or the raw text) back to its index. */
+function mcqChoiceIndexFromAnswer(raw, choices) {
+  const text = String(raw ?? '').trim();
+  if (!text || !Array.isArray(choices) || !choices.length) return -1;
+  const letter = text.match(/^([A-Za-z])(?:[.)、:：\s]|$)/);
+  if (letter) {
+    const index = letter[1].toUpperCase().charCodeAt(0) - 65;
+    if (index >= 0 && index < choices.length) return index;
+  }
+  return choices.findIndex((choice) => String(choice?.text ?? '').trim() === text);
+}
+
 function renderAnswerUI(prob, progressId, onDone, opts = {}) {
   const box = el('div', { className: 'practice-answer-ui' });
   const gated = (prob.type === 'mcq' && prob.choices) || prob.check === 'numeric' || prob.check === 'symbolic';
   const solution = createSolutionDetails(prob, gated);
+  const snapshot = practiceAttemptSnapshot(practiceAnswerMap(opts.bankKey)[progressId]);
   const recordAttempt = (ok, answerText) => {
     recordPracticeAttempt(opts.bankKey, progressId, ok, answerText);
     opts.onAttempt?.(ok, progressId);
@@ -2304,6 +2347,40 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
       }
       solution?.reveal();
     }
+
+    if (snapshot.hasAttempt) {
+      const restoredIndex = mcqChoiceIndexFromAnswer(snapshot.lastAnswer, prob.choices);
+      if (restoredIndex >= 0) {
+        selectChoice(restoredIndex);
+        if (snapshot.status === 'right') {
+          buttons[restoredIndex].classList.add('is-correct');
+          group.dataset.locked = 'true';
+          buttons.forEach((b) => { b.disabled = true; });
+          checkBtn.disabled = true;
+          checkBtn.textContent = '已答对';
+          fb.textContent = '正确';
+          fb.className = 'practice-feedback ok';
+          onDone?.();
+        } else {
+          buttons[restoredIndex].classList.add('is-wrong');
+          fb.textContent = '再试一次';
+          fb.className = 'practice-feedback bad';
+        }
+      } else if (snapshot.status === 'right') {
+        group.dataset.locked = 'true';
+        buttons.forEach((b) => { b.disabled = true; });
+        checkBtn.disabled = true;
+        checkBtn.textContent = '已答对';
+        fb.textContent = '正确';
+        fb.className = 'practice-feedback ok';
+        onDone?.();
+      } else {
+        fb.textContent = '未作答 · Unanswered';
+        fb.className = 'practice-feedback bad';
+        checkBtn.disabled = true;
+      }
+    }
+
     checkBtn.addEventListener('click', checkSelection);
     box.append(group, el('div', { className: 'answer-actions' }, [checkBtn]), fb);
   } else if (prob.check === 'symbolic') {
@@ -2353,6 +2430,20 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
       }
       solution?.reveal();
     });
+    if (snapshot.hasAttempt) {
+      input.value = snapshot.lastAnswer;
+      queueMicrotask(() => renderPracticePreview(preview, input.value));
+      const ok = snapshot.status === 'right';
+      const answered = snapshot.lastAnswer.trim() !== '';
+      fb.textContent = ok ? '等价正确' : answered ? '与标准形式不等价，请化简后再试' : '未作答 · Unanswered';
+      fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
+      form.dataset.state = ok ? 'ok' : 'bad';
+      if (ok) {
+        input.disabled = true;
+        btn.disabled = true;
+        onDone?.();
+      }
+    }
     form.append(input, btn);
     box.append(form, preview, fb);
   } else if (prob.check === 'numeric') {
@@ -2388,11 +2479,35 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
       }
       solution?.reveal();
     });
+    if (snapshot.hasAttempt) {
+      input.value = snapshot.lastAnswer;
+      const ok = snapshot.status === 'right';
+      const answered = snapshot.lastAnswer.trim() !== '';
+      fb.textContent = ok ? '正确' : answered ? '不在容差内' : '未作答 · Unanswered';
+      fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
+      form.dataset.state = ok ? 'ok' : 'bad';
+      if (ok) {
+        input.disabled = true;
+        btn.disabled = true;
+        onDone?.();
+      }
+    }
     form.append(input, btn);
     box.append(form, fb);
   }
 
-  if (solution) box.appendChild(solution.details);
+  if (solution) {
+    box.appendChild(solution.details);
+    if (snapshot.hasAttempt) {
+      solution.reveal();
+      if (snapshot.solOpen) solution.details.open = true;
+    }
+    solution.details.addEventListener('toggle', () => {
+      const current = practiceAttemptSnapshot(practiceAnswerMap(opts.bankKey)[progressId]);
+      if (!current.hasAttempt) return;
+      setPracticeSolutionOpen(opts.bankKey, progressId, solution.details.open);
+    });
+  }
   return box;
 }
 

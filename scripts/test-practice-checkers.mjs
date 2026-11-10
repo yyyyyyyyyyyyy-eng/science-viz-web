@@ -6,18 +6,40 @@
  *   UI-02  symbolic equivalence must not shadow math functions
  *   MATH-07 numeric tolerance must be relative for exact-value items
  *   Review scheduling migration (1/3/7-day due queue) and store writes
+ *   Restore snapshots (lastAnswer / solution-open state) across reloads
  *
  * Run: node scripts/test-practice-checkers.mjs
  */
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { PAST_PAPERS } from '../data/shared/pastpapers.js';
 import { CHAPTERS } from '../modules/registry.js';
 
-const require = createRequire(import.meta.url);
-const math = require('../vendor/mathjs/math.min.js');
+/**
+ * Load the vendored UMD bundle on Node 24+ without extra flags.
+ * createRequire handles the normal CJS path; the Function fallback keeps the
+ * script working if Node's loader treats this repo or vendor/*.js as ESM.
+ */
+function loadVendoredMath() {
+  const require = createRequire(import.meta.url);
+  try {
+    const loaded = require('../vendor/mathjs/math.min.js');
+    if (loaded && typeof loaded.evaluate === 'function') return loaded;
+  } catch (_) { /* fall through to the direct UMD evaluation */ }
+  const bundlePath = fileURLToPath(new URL('../vendor/mathjs/math.min.js', import.meta.url));
+  const source = readFileSync(bundlePath, 'utf8');
+  const bundle = { exports: {} };
+  const evaluateBundle = new Function('module', 'exports', 'define', 'require', source);
+  evaluateBundle(bundle, bundle.exports, undefined, createRequire(bundlePath));
+  if (!bundle.exports || typeof bundle.exports.evaluate !== 'function') {
+    throw new Error('Failed to load vendor/mathjs/math.min.js');
+  }
+  return bundle.exports;
+}
+
+const math = loadVendoredMath();
 
 // js/practice.js reads window.math. Set it before importing the module.
 globalThis.window = { math };
@@ -30,6 +52,8 @@ const {
   dueReviews,
   readPracticeStore,
   recordPracticeAttempt,
+  practiceAttemptSnapshot,
+  setPracticeSolutionOpen,
   PRACTICE_STORE_KEY,
 } = await import('../js/practice.js');
 
@@ -252,6 +276,68 @@ recordPracticeAttempt('bio/bio-u1', 'practice:bio/bio-u1/new', false, 'wrong', N
 const persistedWrong = JSON.parse(writeStorage.getItem(PRACTICE_STORE_KEY));
 ok('a newly recorded wrong is due now', persistedWrong.banks['bio/bio-u1'].answers['practice:bio/bio-u1/new'].dueAt, NOW);
 ok('a newly recorded wrong has interval 1', persistedWrong.banks['bio/bio-u1'].answers['practice:bio/bio-u1/new'].intervalDays, 1);
+
+console.log('\nPractice restore snapshots');
+const legacySnapshot = practiceAttemptSnapshot({
+  status: 'wrong',
+  lastAnswer: '0.5',
+  at: 5,
+  note: 'keep',
+});
+ok('legacy attempt snapshot has an attempt', legacySnapshot.hasAttempt);
+ok('legacy attempt snapshot keeps status', legacySnapshot.status, 'wrong');
+ok('legacy attempt snapshot keeps lastAnswer', legacySnapshot.lastAnswer, '0.5');
+ok('legacy attempt snapshot defaults the expander closed', legacySnapshot.solOpen, false);
+
+const openSnapshot = practiceAttemptSnapshot({
+  status: 'right',
+  lastAnswer: '3x^2',
+  at: 6,
+  solOpen: true,
+  custom: 1,
+});
+ok('open attempt snapshot round-trips lastAnswer', openSnapshot.lastAnswer, '3x^2');
+ok('open attempt snapshot round-trips solOpen', openSnapshot.solOpen, true);
+ok('empty snapshot has no attempt', practiceAttemptSnapshot(undefined).hasAttempt, false);
+ok('non-object snapshot has no attempt', practiceAttemptSnapshot('nope').hasAttempt, false);
+
+const restoreStorage = createStorage();
+globalThis.localStorage = restoreStorage;
+restoreStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify({
+  v: 1,
+  keptTop: 'yes',
+  banks: {
+    'bio/bio-u1': {
+      answers: {
+        answerA: { status: 'wrong', lastAnswer: 'x', at: 1, note: 'keep' },
+      },
+      lastIndex: 2,
+      keptBank: 'yes',
+    },
+    'math/calc-u2': {
+      answers: {
+        answerB: { status: 'right', lastAnswer: 'y', at: 2, solOpen: false },
+      },
+      lastIndex: 0,
+    },
+  },
+}));
+restoreStorage.resetWrites();
+setPracticeSolutionOpen('bio/bio-u1', 'answerA', true);
+const restoreSaved = JSON.parse(restoreStorage.getItem(PRACTICE_STORE_KEY));
+ok('solution toggle keeps the other bank', Object.keys(restoreSaved.banks).sort().join(','), 'bio/bio-u1,math/calc-u2');
+ok('solution toggle keeps unknown top-level fields', restoreSaved.keptTop, 'yes');
+ok('solution toggle keeps unknown bank fields', restoreSaved.banks['bio/bio-u1'].keptBank, 'yes');
+ok('solution toggle keeps unknown answer fields', restoreSaved.banks['bio/bio-u1'].answers.answerA.note, 'keep');
+ok('solution toggle keeps lastAnswer', restoreSaved.banks['bio/bio-u1'].answers.answerA.lastAnswer, 'x');
+ok('solution toggle keeps the legacy wrong schedule', restoreSaved.banks['bio/bio-u1'].answers.answerA.dueAt, 0);
+ok('solution toggle persists solOpen true', restoreSaved.banks['bio/bio-u1'].answers.answerA.solOpen, true);
+ok('solution toggle round-trips through the snapshot', practiceAttemptSnapshot(restoreSaved.banks['bio/bio-u1'].answers.answerA).solOpen, true);
+ok('solution toggle leaves the other answer alone', restoreSaved.banks['math/calc-u2'].answers.answerB.solOpen, false);
+
+setPracticeSolutionOpen('bio/bio-u1', 'missingAnswer', true);
+const restoreAfterMissing = JSON.parse(restoreStorage.getItem(PRACTICE_STORE_KEY));
+ok('solution toggle never invents an answer record', Object.keys(restoreAfterMissing.banks['bio/bio-u1'].answers).length, 1);
 
 const practiceDir = new URL('../data/math/practice/', import.meta.url);
 const banks = [];
