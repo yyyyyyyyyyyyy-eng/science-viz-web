@@ -305,144 +305,316 @@ export const TOPICS = {
     "titleZh": "感应电流与磁力",
     "titleEn": "Induced Currents and Magnetic Forces",
     "layer": "ap",
-    "summary": "感应电流与磁力 · Induced Currents and Magnetic Forces",
+    "summary": "导体棒在匀强磁场中的导轨上滑动时，棒内自由电荷受洛伦兹力驱动，产生动生电动势 \\(\\varepsilon=BLv\\)；闭合回路中的感应电流由楞次定律定方向，并受到磁力 \\(\\vec F=I\\vec L\\times\\vec B\\)。该磁力总是阻碍相对运动，形成磁阻力；外力拉棒做的机械功最终等于电阻中的焦耳热。 · When a conducting bar slides on rails in a uniform magnetic field, the Lorentz force on its charge carriers produces a motional emf \\(\\varepsilon=BLv\\); Lenz's law sets the direction of the induced current in the closed loop, and the current experiences a magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\). This force always opposes the relative motion, acting as a magnetic drag; the mechanical work done by the external agent pulling the bar ends up as Joule heating in the resistor.",
     "learningObjectives": [
-      "能陈述「感应电流与磁力」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能计算导轨上滑动导体棒的动生电动势 \\(\\varepsilon=BLv\\)、感应电流 \\(I=\\dfrac{\\varepsilon}{R}\\) 与磁阻力 \\(F_B=\\dfrac{B^2L^2v}{R}\\)，并说明各量的方向。 · Calculate the motional emf \\(\\varepsilon=BLv\\), induced current \\(I=\\dfrac{\\varepsilon}{R}\\), and magnetic drag \\(F_B=\\dfrac{B^2L^2v}{R}\\) for a bar sliding on rails, and state the direction of each quantity.",
+      "能用楞次定律判断线框进入、离开磁场区域时的感应电流方向，并用 \\(\\vec F=I\\vec L\\times\\vec B\\) 说明磁力为什么总阻碍运动。 · Use Lenz's law to determine the direction of the induced current as a loop enters or leaves a field region, and use \\(\\vec F=I\\vec L\\times\\vec B\\) to explain why the magnetic force always opposes the motion.",
+      "能对滑棒或进、出场线框做能量簿记：外力做的机械功、动能变化与焦耳热 \\(I^2Rt\\) 之间的关系，并求匀速或终端速度。 · Keep energy accounts for a sliding bar or an entering/leaving loop: relate the mechanical work by the external agent, the change in kinetic energy, and Joule heating \\(I^2Rt\\), and find the constant or terminal speed.",
+      "能分析 \\(\\Phi_B\\)、\\(\\varepsilon\\)、\\(I\\)、\\(F_B\\) 随时间或位置变化的图像，并指出匀速、加速与完全进入场区后的差别。 · Analyze graphs of \\(\\Phi_B\\), \\(\\varepsilon\\), \\(I\\), and \\(F_B\\) versus time or position, and distinguish constant-speed motion, acceleration, and the moment when the loop is fully inside the field."
     ],
     "essentialKnowledge": [
-      "Induced Currents and Magnetic Forces：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能画出对应的受力图/电路图/场示意图，并与方程一一对应。",
-      "能做比例推理：某量加倍时目标量如何变化。"
+      "磁通量 \\(\\Phi_B=BA\\cos\\theta\\)；只有穿过回路的磁通量发生变化，才有感应电动势。 · Magnetic flux is \\(\\Phi_B=BA\\cos\\theta\\); an induced emf requires a changing magnetic flux through the loop.",
+      "法拉第定律 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) 给出感应电动势的大小与方向，负号体现楞次定律。 · Faraday's law \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) gives the magnitude and direction of the induced emf; the minus sign expresses Lenz's law.",
+      "导体棒垂直切割磁感线时，动生电动势 \\(\\varepsilon=BLv\\)；若 \\(\\vec v\\)、\\(\\vec B\\)、\\(\\vec L\\) 不两两垂直，应取垂直分量。 · When a bar cuts magnetic field lines perpendicularly, the motional emf is \\(\\varepsilon=BLv\\); if \\(\\vec v\\), \\(\\vec B\\), and \\(\\vec L\\) are not mutually perpendicular, use the perpendicular components.",
+      "闭合回路中 \\(I=\\dfrac{\\varepsilon}{R}\\)；电动势存在但回路断开时没有持续电流。 · In a closed loop \\(I=\\dfrac{\\varepsilon}{R}\\); an emf can exist with no sustained current if the loop is open.",
+      "楞次定律：感应电流的磁场总是阻碍原磁通量的变化；因此线框进入磁场时感应电流的方向与离开时相反。 · Lenz's law: the magnetic field of the induced current always opposes the change in the original magnetic flux; hence the current direction when a loop enters a field is opposite to that when it leaves.",
+      "载流导线在磁场中受力 \\(\\vec F=I\\vec L\\times\\vec B\\)，大小为 \\(F=BIL\\sin\\theta\\)；滑棒情形中力沿导轨方向且与速度反向。 · A current-carrying wire in a magnetic field experiences \\(\\vec F=I\\vec L\\times\\vec B\\), with magnitude \\(F=BIL\\sin\\theta\\); for a sliding bar the force is along the rails and opposite to the velocity.",
+      "滑棒的磁阻力 \\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\)，随速度增大而增大；它不依赖外加力，只由瞬间速度决定。 · The magnetic drag on the bar is \\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\), which grows with speed and depends on the instantaneous speed, not on the applied force.",
+      "能量簿记：匀速时 \\(F_{\\mathrm{app}}v=I^2R\\)；若没有外力，棒的动能全部转化为焦耳热 \\(\\dfrac{1}{2}mv_0^2\\)。 · Energy accounting: at constant speed \\(F_{\\mathrm{app}}v=I^2R\\); without an external force, the bar's kinetic energy is entirely converted into Joule heat \\(\\dfrac{1}{2}mv_0^2\\).",
+      "恒定外力下，滑棒趋于终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\)，时间常数为 \\(\\tau=\\dfrac{mR}{B^2L^2}\\)。 · Under a constant applied force, the bar approaches the terminal speed \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\), with time constant \\(\\tau=\\dfrac{mR}{B^2L^2}\\).",
+      "线框完全进入匀强磁场后，磁通量不变，感应电动势与感应电流都为零；进入和离开的过程中才有电流。 · Once a loop is completely inside a uniform field, the flux is constant, so the induced emf and current are both zero; current flows only while entering or leaving."
     ],
-    "definition": "感应电流与磁力（Induced Currents and Magnetic Forces）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「感应电流与磁力」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "感应电流与磁力（Induced Currents and Magnetic Forces）：当穿过闭合回路的磁通量变化时，回路中出现感应电动势 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)，并由此产生感应电流 \\(I=\\dfrac{\\varepsilon}{R}\\)。在滑棒—导轨模型中，动生电动势为 \\(\\varepsilon=BLv\\)；磁场对这段感应电流的作用力为 \\(\\vec F=I\\vec L\\times\\vec B\\)，大小 \\(F=BIL\\)（\\(\\vec L\\perp\\vec B\\)），方向由右手定则确定。该磁力总是阻碍导体与磁场之间的相对运动，因而称为磁阻力或回推阻力；外力为维持运动所做的机械功最终在电阻中转化为焦耳热。 · Induced currents and magnetic forces: when the magnetic flux through a closed loop changes, an induced emf \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) appears, driving an induced current \\(I=\\dfrac{\\varepsilon}{R}\\). In the sliding-bar/rail model the motional emf is \\(\\varepsilon=BLv\\), and the magnetic force on the induced current is \\(\\vec F=I\\vec L\\times\\vec B\\), with magnitude \\(F=BIL\\) when \\(\\vec L\\perp\\vec B\\), direction given by the right-hand rule. This force always opposes the relative motion between the conductor and the field, so it is called magnetic drag or back force; the mechanical work done by an external agent to maintain the motion eventually becomes Joule heat in the resistor.",
+    "intuition": "把滑棒想成一台“发电机”：棒中的自由电荷随棒一起运动，在磁场中受到洛伦兹力，被推到棒的一端，于是棒两端出现电势差。接上导轨和电阻后，这个电势差驱动电流；而电流一旦流过棒，磁场又对它施加一个与运动方向相反的力，像“磁刹车”。 · Think of the sliding bar as a generator: free charges in the bar move with it, feel a Lorentz force in the magnetic field, and are pushed toward one end, creating a potential difference across the bar. Once the rails and resistor close the circuit, this potential difference drives a current; the current in the bar then feels a magnetic force opposite to the motion, like a magnetic brake.",
     "formulas": [
       {
+        "latex": "\\Phi_B=BA\\cos\\theta",
+        "note": "匀强磁场中穿过回路的磁通量；\\(\\theta\\) 是 \\(\\vec B\\) 与面法线的夹角。 · Magnetic flux through a loop in a uniform field; \\(\\theta\\) is the angle between \\(\\vec B\\) and the surface normal."
+      },
+      {
         "latex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}",
-        "note": "感应电动势。"
+        "note": "法拉第电磁感应定律；负号表示感应效果阻碍磁通量变化。 · Faraday's law of induction; the minus sign means the induced effect opposes the change in flux."
+      },
+      {
+        "latex": "\\varepsilon=BLv",
+        "note": "导体棒、速度与磁场两两垂直时的动生电动势。 · Motional emf when the bar, velocity, and magnetic field are mutually perpendicular."
       },
       {
         "latex": "I=\\dfrac{\\varepsilon}{R}",
-        "note": "闭合回路的感应电流。"
+        "note": "闭合回路的感应电流；\\(R\\) 为回路总电阻。 · Induced current in a closed loop; \\(R\\) is the total loop resistance."
       },
       {
         "latex": "\\vec F=I\\vec L\\times\\vec B",
-        "note": "感应电流受到的磁力。"
+        "note": "磁场对感应电流的作用力；\\(\\vec L\\) 沿电流方向。 · Magnetic force on the induced current; \\(\\vec L\\) points along the current."
+      },
+      {
+        "latex": "F_B=BIL=\\dfrac{B^2L^2v}{R}",
+        "note": "滑棒所受磁阻力的大小；方向与速度相反。 · Magnitude of the magnetic drag on the sliding bar; it points opposite to the velocity."
+      },
+      {
+        "latex": "P_{\\mathrm{mech}}=F_{\\mathrm{app}}v=I^2R=\\dfrac{\\varepsilon^2}{R}",
+        "note": "匀速时的功率平衡：外力功率等于焦耳热功率。 · Power balance at constant speed: the external mechanical power equals the Joule heating rate."
+      },
+      {
+        "latex": "v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2},\\quad \\tau=\\dfrac{mR}{B^2L^2}",
+        "note": "恒定外力下的终端速度与趋近终端速度的时间常数。 · Terminal speed under a constant applied force and the time constant for approaching it."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「感应电流与磁力」的工作方程或机制链。"
+        "from": "磁通量变化 · Changing magnetic flux",
+        "to": "感应电动势 · Induced emf",
+        "note": "法拉第定律 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)；对滑棒，面积变化率 \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=Lv\\)，故 \\(|\\varepsilon|=BLv\\)。 · Faraday's law \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\); for a sliding bar the area changes at \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=Lv\\), so \\(|\\varepsilon|=BLv\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "感应电动势 · Induced emf",
+        "to": "感应电流 · Induced current",
+        "note": "闭合回路欧姆定律 \\(I=\\dfrac{\\varepsilon}{R}\\)；电流方向由楞次定律确定。 · Ohm's law for the closed loop, \\(I=\\dfrac{\\varepsilon}{R}\\); Lenz's law sets the current direction."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "感应电流 · Induced current",
+        "to": "磁力 · Magnetic force",
+        "note": "\\(\\vec F=I\\vec L\\times\\vec B\\)；棒中电流与 \\(\\vec B\\) 垂直时大小为 \\(F=BIL\\)。 · \\(\\vec F=I\\vec L\\times\\vec B\\); when the current in the bar is perpendicular to \\(\\vec B\\), the magnitude is \\(F=BIL\\)."
+      },
+      {
+        "from": "磁力 · Magnetic force",
+        "to": "磁阻力公式 · Drag formula",
+        "note": "代入 \\(I=\\dfrac{BLv}{R}\\) 得 \\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\)；力随速度线性增大。 · Substituting \\(I=\\dfrac{BLv}{R}\\) gives \\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\); the drag grows linearly with speed."
+      },
+      {
+        "from": "功率平衡 · Power balance",
+        "to": "能量守恒 · Energy conservation",
+        "note": "匀速时 \\(F_{\\mathrm{app}}=F_B\\)，故 \\(F_{\\mathrm{app}}v=I^2R\\)；外力做正功，磁力对棒做负功，电能最终变为焦耳热。 · At constant speed \\(F_{\\mathrm{app}}=F_B\\), so \\(F_{\\mathrm{app}}v=I^2R\\); the external agent does positive work, the magnetic force does negative work on the bar, and the electrical energy ends up as Joule heat."
+      },
+      {
+        "from": "无外力滑行 · Bar sliding without an external force",
+        "to": "指数衰减 · Exponential decay",
+        "note": "\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\)，解得 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，\\(\\tau=\\dfrac{mR}{B^2L^2}\\)。 · \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\), so \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) with \\(\\tau=\\dfrac{mR}{B^2L^2}\\)."
+      },
+      {
+        "from": "线框进入场区 · Loop entering the field",
+        "to": "电流与磁力 · Current and force",
+        "note": "\\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=BLv\\)，故 \\(\\varepsilon=BLv\\)、\\(I=\\dfrac{BLv}{R}\\)；前边受力向后。完全进入后 \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=0\\)，电流与磁力都消失。 · \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=BLv\\), so \\(\\varepsilon=BLv\\) and \\(I=\\dfrac{BLv}{R}\\); the leading side feels a backward force. Once fully inside, \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=0\\) and both current and force vanish."
+      },
+      {
+        "from": "线框离开场区 · Loop leaving the field",
+        "to": "楞次定律 · Lenz's law",
+        "note": "磁通量减少，感应电流反向；但受力边变为后边，\\(\\vec L\\times\\vec B\\) 仍给出与速度相反的力。 · The flux decreases, so the induced current reverses; however, the force now acts on the trailing side, and \\(\\vec L\\times\\vec B\\) still gives a force opposite to the velocity."
       }
     ],
     "conditions": [
-      "闭合导体回路；磁通量变化",
-      "楞次定律判断感应电流方向",
-      "磁力通常阻碍相对运动（能量守恒）"
+      "磁场在相关区域内均匀且恒定；导体棒、导轨与磁场两两垂直（或取垂直分量）。 · The field is uniform and steady over the relevant region; the bar, rails, and field are mutually perpendicular (or use perpendicular components).",
+      "回路闭合且总电阻为 \\(R\\)；忽略导轨与接触电阻时，\\(R\\) 就是外接电阻。 · The loop is closed with total resistance \\(R\\); if rail and contact resistances are neglected, \\(R\\) is the external resistor.",
+      "除非题目特别说明，忽略回路的自感、摩擦与辐射；滑棒质量 \\(m\\) 只用于加速或减速过程。 · Unless stated otherwise, neglect self-inductance, friction, and radiation; the bar mass \\(m\\) matters only during acceleration or deceleration.",
+      "楞次定律与右手定则用于方向判断；电流方向取正电荷的流动方向。 · Use Lenz's law and the right-hand rule for directions; current direction is the flow of positive charge.",
+      "匀速运动需要外力与磁阻力平衡；若撤去外力，棒将减速，能量簿记必须包含动能变化。 · Constant-speed motion requires the applied force to balance the drag; if the external force is removed, the bar slows and the energy account must include the change in kinetic energy.",
+      "线框进入或离开场区时，磁场边界清晰、线框边与边界平行；完全进入匀强场区后磁通量不变。 · When a loop enters or leaves a field region, the boundary is sharp and the loop side is parallel to it; once fully inside a uniform region the flux is constant.",
+      "磁力对宏观导体棒做负功，但磁场对单个运动电荷不做功；能量转换来自动生电动势对电荷的作用。 · The magnetic force does negative work on the macroscopic bar, but the magnetic field does no work on an individual moving charge; the energy conversion comes from the motional emf acting on the charges."
     ],
     "keyPoints": [
-      "掌握 13.3「感应电流与磁力」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "磁通量变化是感应电动势的前提；滑棒中面积以 \\(Lv\\) 的速率增大。 · A changing flux is required for an induced emf; for a sliding bar the area grows at rate \\(Lv\\).",
+      "动生电动势 \\(\\varepsilon=BLv\\)，感应电流 \\(I=\\dfrac{BLv}{R}\\)，磁阻力 \\(F_B=\\dfrac{B^2L^2v}{R}\\)。 · Motional emf \\(\\varepsilon=BLv\\), induced current \\(I=\\dfrac{BLv}{R}\\), and magnetic drag \\(F_B=\\dfrac{B^2L^2v}{R}\\).",
+      "楞次定律：感应电流的磁场阻碍原磁通量变化；线框进入与离开时电流方向相反。 · Lenz's law: the induced current's field opposes the change in flux; the current directions when entering and leaving are opposite.",
+      "磁力 \\(\\vec F=I\\vec L\\times\\vec B\\) 总是阻碍相对运动；这正是楞次定律的能量含义。 · The magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\) always opposes the relative motion; this is the energy meaning of Lenz's law.",
+      "匀速时外力功率等于焦耳热功率：\\(F_{\\mathrm{app}}v=I^2R\\)。 · At constant speed the external power equals the Joule heating rate: \\(F_{\\mathrm{app}}v=I^2R\\).",
+      "无外力时滑棒按 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 减速，\\(\\tau=\\dfrac{mR}{B^2L^2}\\)，初动能全部变为焦耳热。 · Without an external force the bar decelerates as \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) with \\(\\tau=\\dfrac{mR}{B^2L^2}\\), and its initial kinetic energy all becomes Joule heat.",
+      "恒定外力下终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\)；速度越大，磁阻力越大，最终与外力平衡。 · Under a constant applied force the terminal speed is \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\); a larger speed gives a larger drag until it balances the applied force.",
+      "线框完全进入匀强磁场后 \\(\\Phi_B\\) 不变，\\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)。 · Once a loop is fully inside a uniform field, \\(\\Phi_B\\) is constant, so \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\).",
+      "通过导线截面的电荷量 \\(q=\\dfrac{\\Delta\\Phi_B}{R}\\)，与速度大小无关（只取决于磁通量变化）。 · The charge passing a cross section is \\(q=\\dfrac{\\Delta\\Phi_B}{R}\\), independent of speed and determined only by the flux change.",
+      "图像题先看斜率：\\(\\Phi_B\\)–\\(t\\) 斜率的绝对值给出 \\(|\\varepsilon|\\)；\\(\\varepsilon\\)–\\(t\\) 与 \\(I\\)–\\(t\\) 形状相同（相差 \\(R\\)）。 · For graph problems read slopes first: the absolute slope of \\(\\Phi_B\\)–\\(t\\) gives \\(|\\varepsilon|\\); \\(\\varepsilon\\)–\\(t\\) and \\(I\\)–\\(t\\) have the same shape up to the factor \\(R\\)."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「感应电流与磁力」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "认为只要有磁场就有感应电流；实际上必须磁通量变化且回路闭合。 · Thinking any magnetic field produces an induced current; the flux must change and the loop must be closed.",
+      "把楞次定律理解为感应电流的磁场总与原磁场反向；它阻碍的是磁通量的“变化”，不是原磁场本身。 · Reading Lenz's law as “the induced field is always opposite to the original field”; it opposes the change in flux, not the original field itself.",
+      "认为线框进入和离开磁场时感应电流方向相同；两种过程的磁通量变化方向相反，电流方向也相反。 · Thinking the induced current has the same direction when a loop enters and leaves; the flux changes in opposite senses, so the current directions are opposite.",
+      "认为磁力总是帮助线框运动或做正功；磁力阻碍相对运动，对棒做负功，能量由外力或动能提供。 · Thinking the magnetic force helps the loop move or does positive work; it opposes relative motion and does negative work on the bar, with energy supplied by the external agent or kinetic energy.",
+      "用 \\(F=BIL\\) 时不检查垂直条件；一般情况下必须用 \\(\\vec F=I\\vec L\\times\\vec B\\)，大小为 \\(BIL\\sin\\theta\\)。 · Using \\(F=BIL\\) without checking perpendicularity; in general use \\(\\vec F=I\\vec L\\times\\vec B\\), with magnitude \\(BIL\\sin\\theta\\).",
+      "认为磁阻力与外力成正比；\\(F_B=\\dfrac{B^2L^2v}{R}\\) 只由瞬时速度决定，外力通过改变速度间接影响它。 · Thinking the drag is proportional to the applied force; \\(F_B=\\dfrac{B^2L^2v}{R}\\) depends on the instantaneous speed, and the applied force affects it only through the speed.",
+      "认为线框完全进入磁场后仍有感应电流；此时磁通量不变，感应电动势为零。 · Thinking a current still flows after the loop is fully inside the field; the flux is then constant and the induced emf is zero.",
+      "把电动势与路端电压混为一谈；棒本身有电阻时，路端电压小于电动势。 · Confusing emf with terminal voltage; when the bar itself has resistance, the terminal voltage is less than the emf.",
+      "能量簿记时只算焦耳热而忽略动能变化；加速或减速过程中必须同时计入 \\(\\Delta K\\)。 · Counting only Joule heat and ignoring changes in kinetic energy; during acceleration or deceleration \\(\\Delta K\\) must be included.",
+      "判断电流方向时把电子运动方向当作电流方向；电路中的电流方向按正电荷流动定义。 · Using electron drift direction as the current direction; current is defined by the flow of positive charge."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「感应电流与磁力」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 滑棒上的动生电动势与磁阻力 · Example 1: Motional emf and magnetic drag on a sliding bar",
+        "prompt": "长 \\(L=0.40\\,\\mathrm{m}\\) 的导体棒在相距 \\(0.40\\,\\mathrm{m}\\) 的平行导轨上以 \\(v=2.0\\,\\mathrm{m/s}\\) 向右匀速滑动，匀强磁场 \\(B=0.50\\,\\mathrm{T}\\) 垂直纸面向里，回路总电阻 \\(R=0.20\\,\\Omega\\)。(a) 求动生电动势与感应电流；(b) 求棒所受的磁阻力；(c) 求外力维持匀速所需的功率。 · A \\(0.40\\,\\mathrm{m}\\) bar slides to the right at \\(v=2.0\\,\\mathrm{m/s}\\) on parallel rails \\(0.40\\,\\mathrm{m}\\) apart, in a uniform \\(0.50\\,\\mathrm{T}\\) field into the page; the loop resistance is \\(0.20\\,\\Omega\\). (a) Find the motional emf and induced current; (b) find the magnetic drag on the bar; (c) find the external power needed to maintain constant speed.",
+        "steps": [
+          "磁通量变化率：面积以 \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=Lv\\) 增大，故 \\(|\\varepsilon|=\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=BLv\\)。 · Rate of flux change: the area grows at \\(\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}=Lv\\), so \\(|\\varepsilon|=\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}=BLv\\).",
+          "\\(\\varepsilon=(0.50)(0.40)(2.0)=0.40\\,\\mathrm{V}\\)，\\(I=\\dfrac{\\varepsilon}{R}=\\dfrac{0.40}{0.20}=2.0\\,\\mathrm{A}\\)。 · \\(\\varepsilon=(0.50)(0.40)(2.0)=0.40\\,\\mathrm{V}\\) and \\(I=\\dfrac{\\varepsilon}{R}=\\dfrac{0.40}{0.20}=2.0\\,\\mathrm{A}\\).",
+          "方向：磁通量向里增大，感应磁场向外，电流逆时针；棒中电流向上。 · Direction: the flux into the page is increasing, so the induced field points out of the page and the current is counterclockwise; the current in the bar is upward.",
+          "\\(F_B=BIL=(0.50)(2.0)(0.40)=0.40\\,\\mathrm{N}\\)，方向向左，与速度相反。 · \\(F_B=BIL=(0.50)(2.0)(0.40)=0.40\\,\\mathrm{N}\\), directed to the left, opposite to the velocity.",
+          "匀速时 \\(F_{\\mathrm{app}}=F_B\\)，\\(P=F_{\\mathrm{app}}v=(0.40)(2.0)=0.80\\,\\mathrm{W}\\)；也可由 \\(I^2R=(2.0)^2(0.20)=0.80\\,\\mathrm{W}\\) 检验。 · At constant speed \\(F_{\\mathrm{app}}=F_B\\), so \\(P=F_{\\mathrm{app}}v=(0.40)(2.0)=0.80\\,\\mathrm{W}\\); equivalently \\(I^2R=(2.0)^2(0.20)=0.80\\,\\mathrm{W}\\)."
+        ],
+        "solution": "\\(\\varepsilon=0.40\\,\\mathrm{V}\\)，\\(I=2.0\\,\\mathrm{A}\\)，\\(F_B=0.40\\,\\mathrm{N}\\)（向左），\\(P=0.80\\,\\mathrm{W}\\)。 · \\(\\varepsilon=0.40\\,\\mathrm{V}\\), \\(I=2.0\\,\\mathrm{A}\\), \\(F_B=0.40\\,\\mathrm{N}\\) to the left, and \\(P=0.80\\,\\mathrm{W}\\).",
+        "solutionLatex": "\\varepsilon=BLv=0.40\\,\\mathrm{V},\\quad I=2.0\\,\\mathrm{A},\\quad F_B=0.40\\,\\mathrm{N},\\quad P=0.80\\,\\mathrm{W}"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}"
+        "title": "例 2 · 恒定外力下的终端速度 · Example 2: Terminal speed under a constant applied force",
+        "prompt": "质量 \\(m=0.30\\,\\mathrm{kg}\\) 的导体棒在 \\(B=0.80\\,\\mathrm{T}\\) 的匀强磁场中沿导轨滑动，棒长 \\(L=0.50\\,\\mathrm{m}\\)，回路总电阻 \\(R=0.25\\,\\Omega\\)。用恒定的水平外力 \\(F_{\\mathrm{app}}=0.60\\,\\mathrm{N}\\) 拉棒。(a) 求终端速度；(b) 求 \\(t=0\\) 时的加速度；(c) 求终端速度时外力的功率。 · A bar of mass \\(m=0.30\\,\\mathrm{kg}\\) slides on rails in a uniform \\(0.80\\,\\mathrm{T}\\) field; its length is \\(L=0.50\\,\\mathrm{m}\\) and the loop resistance is \\(R=0.25\\,\\Omega\\). A constant horizontal force \\(F_{\\mathrm{app}}=0.60\\,\\mathrm{N}\\) pulls the bar. (a) Find the terminal speed; (b) find the acceleration at \\(t=0\\); (c) find the power delivered by the applied force at terminal speed.",
+        "steps": [
+          "终端速度时 \\(F_{\\mathrm{app}}=F_B=\\dfrac{B^2L^2v_t}{R}\\)，故 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\)。 · At terminal speed \\(F_{\\mathrm{app}}=F_B=\\dfrac{B^2L^2v_t}{R}\\), so \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\).",
+          "\\(B^2L^2=(0.80)^2(0.50)^2=0.16\\,\\mathrm{T^2\\,m^2}\\)，\\(v_t=\\dfrac{(0.60)(0.25)}{0.16}=0.94\\,\\mathrm{m/s}\\)。 · \\(B^2L^2=(0.80)^2(0.50)^2=0.16\\,\\mathrm{T^2\\,m^2}\\), so \\(v_t=\\dfrac{(0.60)(0.25)}{0.16}=0.94\\,\\mathrm{m/s}\\).",
+          "\\(t=0\\) 时 \\(v=0\\)，无磁阻力，\\(a=\\dfrac{F_{\\mathrm{app}}}{m}=\\dfrac{0.60}{0.30}=2.0\\,\\mathrm{m/s^2}\\)。 · At \\(t=0\\), \\(v=0\\) and there is no drag, so \\(a=\\dfrac{F_{\\mathrm{app}}}{m}=\\dfrac{0.60}{0.30}=2.0\\,\\mathrm{m/s^2}\\).",
+          "终端时 \\(P=F_{\\mathrm{app}}v_t=(0.60)(0.9375)=0.56\\,\\mathrm{W}\\)；又 \\(I=\\dfrac{BLv_t}{R}=1.5\\,\\mathrm{A}\\)，\\(I^2R=(1.5)^2(0.25)=0.56\\,\\mathrm{W}\\)。 · At terminal speed \\(P=F_{\\mathrm{app}}v_t=(0.60)(0.9375)=0.56\\,\\mathrm{W}\\); also \\(I=\\dfrac{BLv_t}{R}=1.5\\,\\mathrm{A}\\) and \\(I^2R=(1.5)^2(0.25)=0.56\\,\\mathrm{W}\\).",
+          "时间常数 \\(\\tau=\\dfrac{mR}{B^2L^2}=\\dfrac{(0.30)(0.25)}{0.16}=0.47\\,\\mathrm{s}\\)，速度按 \\(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 趋近终端值。 · The time constant is \\(\\tau=\\dfrac{mR}{B^2L^2}=\\dfrac{(0.30)(0.25)}{0.16}=0.47\\,\\mathrm{s}\\), and the speed approaches the terminal value as \\(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)."
+        ],
+        "solution": "\\(v_t\\approx0.94\\,\\mathrm{m/s}\\)，\\(a_0=2.0\\,\\mathrm{m/s^2}\\)，\\(P=0.56\\,\\mathrm{W}\\)。 · \\(v_t\\approx0.94\\,\\mathrm{m/s}\\), \\(a_0=2.0\\,\\mathrm{m/s^2}\\), and \\(P=0.56\\,\\mathrm{W}\\).",
+        "solutionLatex": "v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}=0.94\\,\\mathrm{m/s},\\quad a_0=2.0\\,\\mathrm{m/s^2},\\quad P=0.56\\,\\mathrm{W}"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「感应电流与磁力」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 线框进入磁场区 · Example 3: A loop entering a field region",
+        "prompt": "边长 \\(L=0.20\\,\\mathrm{m}\\)、电阻 \\(R=0.10\\,\\Omega\\) 的正方形线框以 \\(v=3.0\\,\\mathrm{m/s}\\) 匀速进入宽磁场区，\\(B=0.50\\,\\mathrm{T}\\) 垂直纸面向里。(a) 求线框进入过程中感应电流的大小与方向；(b) 求磁力；(c) 求线框完全进入前通过导线截面的电荷量；(d) 验证外力功等于焦耳热。 · A square loop of side \\(L=0.20\\,\\mathrm{m}\\) and resistance \\(R=0.10\\,\\Omega\\) enters a wide field region at constant \\(v=3.0\\,\\mathrm{m/s}\\); \\(B=0.50\\,\\mathrm{T}\\) into the page. (a) Find the magnitude and direction of the induced current while entering; (b) find the magnetic force; (c) find the charge that passes a cross section before the loop is fully inside; (d) verify that the external work equals the Joule heat.",
+        "steps": [
+          "进入时只有前边切割磁感线，\\(\\varepsilon=BLv=(0.50)(0.20)(3.0)=0.30\\,\\mathrm{V}\\)，\\(I=\\dfrac{\\varepsilon}{R}=3.0\\,\\mathrm{A}\\)。 · While entering, only the leading side cuts field lines: \\(\\varepsilon=BLv=(0.50)(0.20)(3.0)=0.30\\,\\mathrm{V}\\) and \\(I=\\dfrac{\\varepsilon}{R}=3.0\\,\\mathrm{A}\\).",
+          "磁通量向里增大，感应磁场向外，电流逆时针；前边受力 \\(F_B=BIL=(0.50)(3.0)(0.20)=0.30\\,\\mathrm{N}\\)，方向向左。 · The flux into the page increases, so the induced field points out of the page and the current is counterclockwise; the force on the leading side is \\(F_B=BIL=(0.50)(3.0)(0.20)=0.30\\,\\mathrm{N}\\) to the left.",
+          "电荷量 \\(q=\\dfrac{\\Delta\\Phi_B}{R}=\\dfrac{BL^2}{R}=\\dfrac{(0.50)(0.20)^2}{0.10}=0.20\\,\\mathrm{C}\\)。 · The charge is \\(q=\\dfrac{\\Delta\\Phi_B}{R}=\\dfrac{BL^2}{R}=\\dfrac{(0.50)(0.20)^2}{0.10}=0.20\\,\\mathrm{C}\\).",
+          "进入时间 \\(t=\\dfrac{L}{v}=0.0667\\,\\mathrm{s}\\)；外力功 \\(W=F_BL=(0.30)(0.20)=0.060\\,\\mathrm{J}\\)；焦耳热 \\(I^2Rt=(3.0)^2(0.10)(0.0667)=0.060\\,\\mathrm{J}\\)。 · The entering time is \\(t=\\dfrac{L}{v}=0.0667\\,\\mathrm{s}\\); the external work is \\(W=F_BL=(0.30)(0.20)=0.060\\,\\mathrm{J}\\), and the Joule heat is \\(I^2Rt=(3.0)^2(0.10)(0.0667)=0.060\\,\\mathrm{J}\\).",
+          "完全进入后磁通量不变，\\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)；离开时电流反向，但磁力仍阻碍运动。 · Once fully inside, the flux is constant, so \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\); while leaving, the current reverses but the magnetic force still opposes the motion."
+        ],
+        "solution": "进入时 \\(I=3.0\\,\\mathrm{A}\\)（逆时针），\\(F_B=0.30\\,\\mathrm{N}\\)（向左），\\(q=0.20\\,\\mathrm{C}\\)，\\(W=Q=0.060\\,\\mathrm{J}\\)。 · While entering, \\(I=3.0\\,\\mathrm{A}\\) counterclockwise, \\(F_B=0.30\\,\\mathrm{N}\\) to the left, \\(q=0.20\\,\\mathrm{C}\\), and \\(W=Q=0.060\\,\\mathrm{J}\\).",
+        "solutionLatex": "I=3.0\\,\\mathrm{A},\\quad F_B=0.30\\,\\mathrm{N},\\quad q=0.20\\,\\mathrm{C},\\quad W=Q=0.060\\,\\mathrm{J}"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「感应电流与磁力」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「感应电流与磁力」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 撤去外力后的减速与能量 · Example 4: Deceleration and energy after the force is removed",
+        "prompt": "质量 \\(m=0.20\\,\\mathrm{kg}\\)、长 \\(L=0.50\\,\\mathrm{m}\\) 的导体棒以初速度 \\(v_0=4.0\\,\\mathrm{m/s}\\) 在 \\(B=1.0\\,\\mathrm{T}\\) 的磁场中沿导轨滑动，回路电阻 \\(R=0.40\\,\\Omega\\)，忽略摩擦。撤去外力后：(a) 求初始感应电动势、电流与磁阻力；(b) 求初始加速度；(c) 求速度随时间的关系与时间常数；(d) 求棒最终滑行的距离与产生的总焦耳热。 · A bar of mass \\(m=0.20\\,\\mathrm{kg}\\) and length \\(L=0.50\\,\\mathrm{m}\\) slides on rails with initial speed \\(v_0=4.0\\,\\mathrm{m/s}\\) in a \\(1.0\\,\\mathrm{T}\\) field; the loop resistance is \\(R=0.40\\,\\Omega\\) and friction is negligible. After the external force is removed: (a) find the initial emf, current, and magnetic drag; (b) find the initial acceleration; (c) find \\(v(t)\\) and the time constant; (d) find the total stopping distance and total Joule heat.",
+        "steps": [
+          "\\(\\varepsilon_0=BLv_0=(1.0)(0.50)(4.0)=2.0\\,\\mathrm{V}\\)，\\(I_0=\\dfrac{\\varepsilon_0}{R}=5.0\\,\\mathrm{A}\\)，\\(F_0=BI_0L=(1.0)(5.0)(0.50)=2.5\\,\\mathrm{N}\\)，方向与速度相反。 · \\(\\varepsilon_0=BLv_0=(1.0)(0.50)(4.0)=2.0\\,\\mathrm{V}\\), \\(I_0=\\dfrac{\\varepsilon_0}{R}=5.0\\,\\mathrm{A}\\), and \\(F_0=BI_0L=(1.0)(5.0)(0.50)=2.5\\,\\mathrm{N}\\), opposite to the velocity.",
+          "初始加速度 \\(a_0=\\dfrac{F_0}{m}=\\dfrac{2.5}{0.20}=12.5\\,\\mathrm{m/s^2}\\)，方向与速度相反。 · The initial acceleration is \\(a_0=\\dfrac{F_0}{m}=\\dfrac{2.5}{0.20}=12.5\\,\\mathrm{m/s^2}\\), opposite to the velocity.",
+          "\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\)，故 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，\\(\\tau=\\dfrac{mR}{B^2L^2}=\\dfrac{(0.20)(0.40)}{(1.0)^2(0.50)^2}=0.32\\,\\mathrm{s}\\)。 · \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\), so \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) with \\(\\tau=\\dfrac{mR}{B^2L^2}=\\dfrac{(0.20)(0.40)}{(1.0)^2(0.50)^2}=0.32\\,\\mathrm{s}\\).",
+          "总滑行距离 \\(x=\\displaystyle\\int_0^{\\infty}v\\,\\mathrm{d}t=v_0\\tau=(4.0)(0.32)=1.28\\,\\mathrm{m}\\)。 · The total stopping distance is \\(x=\\displaystyle\\int_0^{\\infty}v\\,\\mathrm{d}t=v_0\\tau=(4.0)(0.32)=1.28\\,\\mathrm{m}\\).",
+          "总焦耳热等于初动能：\\(Q=\\dfrac{1}{2}mv_0^2=\\dfrac{1}{2}(0.20)(4.0)^2=1.6\\,\\mathrm{J}\\)；也可对 \\(I^2R\\) 积分得到同一结果。 · The total Joule heat equals the initial kinetic energy: \\(Q=\\dfrac{1}{2}mv_0^2=\\dfrac{1}{2}(0.20)(4.0)^2=1.6\\,\\mathrm{J}\\); integrating \\(I^2R\\) gives the same result."
+        ],
+        "solution": "初始 \\(\\varepsilon_0=2.0\\,\\mathrm{V}\\)、\\(I_0=5.0\\,\\mathrm{A}\\)、\\(F_0=2.5\\,\\mathrm{N}\\)，\\(a_0=12.5\\,\\mathrm{m/s^2}\\)；\\(v=4.0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，\\(\\tau=0.32\\,\\mathrm{s}\\)，滑行 \\(1.28\\,\\mathrm{m}\\)，产热 \\(1.6\\,\\mathrm{J}\\)。 · Initially \\(\\varepsilon_0=2.0\\,\\mathrm{V}\\), \\(I_0=5.0\\,\\mathrm{A}\\), \\(F_0=2.5\\,\\mathrm{N}\\), and \\(a_0=12.5\\,\\mathrm{m/s^2}\\); \\(v=4.0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) with \\(\\tau=0.32\\,\\mathrm{s}\\), stopping distance \\(1.28\\,\\mathrm{m}\\), and Joule heat \\(1.6\\,\\mathrm{J}\\).",
+        "solutionLatex": "v=4.0\\exp\\left(-\\dfrac{t}{\\tau}\\right),\\quad \\tau=0.32\\,\\mathrm{s},\\quad x=1.28\\,\\mathrm{m},\\quad Q=1.6\\,\\mathrm{J}"
+      },
+      {
+        "title": "例 5 · 主张—证据—推理：离开磁场时磁力会帮忙吗？ · Example 5: Claim–evidence–reasoning: does the magnetic force help when leaving?",
+        "prompt": "一名学生说：“线框离开磁场时感应电流反向，所以磁力也反向，会帮助线框加速离开。”请用楞次定律、\\(\\vec F=I\\vec L\\times\\vec B\\) 与能量守恒评价这一说法。 · A student says: “When the loop leaves the field the induced current reverses, so the magnetic force also reverses and helps the loop accelerate out.” Evaluate this claim using Lenz's law, \\(\\vec F=I\\vec L\\times\\vec B\\), and energy conservation.",
+        "steps": [
+          "主张：电流反向意味着磁力反向，磁力做正功帮助线框离开。 · Claim: reversing the current reverses the magnetic force, so the force does positive work and helps the loop leave.",
+          "证据：\\(\\vec B\\) 向里时，进入过程磁通量增大，感应电流逆时针，前边电流向上，\\(\\vec L\\times\\vec B\\) 向左；离开过程磁通量减小，感应电流顺时针，后边电流向上，\\(\\vec L\\times\\vec B\\) 仍向左。 · Evidence: with \\(\\vec B\\) into the page, the flux increases while entering, the current is counterclockwise, the current in the leading side is upward, and \\(\\vec L\\times\\vec B\\) points left; while leaving, the flux decreases, the current is clockwise, the current in the trailing side is upward, and \\(\\vec L\\times\\vec B\\) still points left.",
+          "推理：电流方向确实相反，但受力边从“前边”换成了“后边”，两次叉积都给出与速度相反的力；若磁力帮助运动，能量将无中生有，违反能量守恒。 · Reasoning: the current direction does reverse, but the force acts on the leading side in one case and the trailing side in the other; both cross products give a force opposite to the velocity. If the force helped the motion, energy would be created from nothing, violating energy conservation.",
+          "结论：磁力始终是阻力；线框进入和离开时电流方向相反，但磁力方向都阻碍运动。 · Conclusion: the magnetic force is always a drag; the current reverses between entering and leaving, but the force opposes the motion in both cases."
+        ],
+        "solution": "说法错误：电流反向不等于磁力反向；磁力始终阻碍相对运动，这正是楞次定律的能量含义。 · The claim is false: a reversed current does not mean a reversed force; the magnetic force always opposes the relative motion, which is the energy meaning of Lenz's law.",
+        "solutionLatex": "\\vec F=I\\vec L\\times\\vec B\\ \\text{always opposes}\\ \\vec v"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先判断磁通量为何变化：滑棒改变的是面积，线框进出改变的是“在场内的面积”，固定线圈改变的是 \\(B\\) 或夹角。 · First identify why the flux changes: a sliding bar changes the area, a loop entering or leaving changes the area inside the field, and a fixed coil changes \\(B\\) or the angle.",
+      "用楞次定律定方向时，先写出“原磁通量向哪、增大还是减小”，再让感应磁场阻碍这个变化，最后用右手定则定电流。 · To use Lenz's law, state the direction of the original flux and whether it is increasing or decreasing, let the induced field oppose that change, then use the right-hand rule for the current.",
+      "磁力方向用 \\(\\vec F=I\\vec L\\times\\vec B\\) 判断，并检查结果是否与运动方向相反；若同向，说明电流或磁场方向判断有误。 · Determine the force direction with \\(\\vec F=I\\vec L\\times\\vec B\\) and check that it opposes the motion; if it points along the motion, the current or field direction is wrong.",
+      "能量题先写 \\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v\\) 与 \\(P_{\\mathrm{J}}=I^2R\\)；匀速时相等，变速时差值等于动能变化率。 · For energy problems write \\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v\\) and \\(P_{\\mathrm{J}}=I^2R\\); they are equal at constant speed, and their difference equals the rate of change of kinetic energy when speed changes.",
+      "线框完全进入匀强磁场后，磁通量不变，立即判定 \\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)，不要继续套用滑棒公式。 · Once a loop is fully inside a uniform field, the flux is constant, so immediately conclude \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\); do not keep applying the sliding-bar formula.",
+      "注意单位换算（cm→m、mT→T）与有效数字；AP 计算题通常要求 2–3 位有效数字并写单位。 · Watch unit conversions (cm→m, mT→T) and significant figures; AP calculation questions usually expect 2–3 significant figures with units.",
+      "简答题按“主张—证据—推理”组织：先写定律，再代入方向或能量，最后说明结论与假设。 · Organize free response as claim–evidence–reasoning: state the law, substitute the direction or energy argument, and finish with the conclusion and assumptions."
     ],
     "related": [
       {
         "subject": "em",
         "chapterId": "em-u13",
+        "code": "13.1",
+        "title": "磁通量 · Magnetic Flux",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u13",
         "code": "13.2",
-        "title": "电磁感应",
-        "relation": "prerequisite"
+        "title": "电磁感应 · Electromagnetic Induction",
+        "relation": "前置 · prerequisite"
       },
       {
         "subject": "em",
         "chapterId": "em-u13",
         "code": "13.4",
-        "title": "电感",
-        "relation": "related"
+        "title": "电感 · Inductance",
+        "relation": "后续 · next"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.2",
+        "title": "运动电荷与磁场 · Moving Charges and Magnetic Fields",
+        "relation": "相关 · related"
       }
     ],
     "modules": [
       {
         "id": "faraday-induction",
-        "title": "法拉第电磁感应"
+        "title": "法拉第电磁感应 · Faraday electromagnetic induction"
       }
     ],
     "practiceHref": "#/em/practice/em-u13",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：13.1 磁通量与 13.2 法拉第定律、楞次定律给出感应电动势的大小与方向；12.2 的洛伦兹力解释动生电动势的微观来源。 · Upstream: 13.1 magnetic flux and 13.2 Faraday's law and Lenz's law give the magnitude and direction of the induced emf; the Lorentz force from 12.2 explains the microscopic origin of motional emf.",
+      "数学：磁通量变化率、\\(\\vec L\\times\\vec B\\) 的叉积、指数衰减 \\(\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 与功率平衡；图像题要把斜率、面积与物理量对应起来。 · Mathematics: rates of flux change, the cross product \\(\\vec L\\times\\vec B\\), exponential decay \\(\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\), and power balance; graph problems require matching slopes and areas to physical quantities.",
+      "下游：13.4 电感与 13.5 RL 电路把“变化电流产生感应电动势”推广到自感；发电机、电动机与变压器都利用感应电流与磁力。 · Downstream: 13.4 inductance and 13.5 RL circuits extend “a changing current produces an induced emf” to self-induction; generators, motors, and transformers all use induced currents and magnetic forces.",
+      "跨学科：电磁制动、再生制动、感应加热、金属探测器与磁悬浮列车都依赖感应电流所受的磁阻力或磁力。 · Cross-disciplinary: electromagnetic braking, regenerative braking, induction heating, metal detectors, and maglev trains all rely on the magnetic drag or force on induced currents."
     ],
-    "intuitionDetailed": "把「感应电流与磁力」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "先看滑棒。设棒长 \\(L\\)、速度 \\(v\\) 向右、\\(\\vec B\\) 垂直纸面向里。棒内正电荷的速度向右，\\(\\vec v\\times\\vec B\\) 向上，所以正电荷被推向棒的顶端，顶端电势高；棒相当于一个电动势为 \\(\\varepsilon=BLv\\) 的电池。闭合回路中，电流从棒的顶端经外电路流回底端，在棒内由底端流向顶端。这个电流在棒内向上，\\(\\vec L\\times\\vec B\\) 向左，故磁力向左，与速度反向。电流越大、磁场越强、棒越长，磁阻力越大：\\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\)。若外力向右拉棒且速度恒定，外力与磁阻力平衡，外力功率 \\(F_{\\mathrm{app}}v\\) 正好等于电阻的焦耳热功率 \\(I^2R\\)。若撤去外力，棒在磁阻力下减速；由牛顿第二定律 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\) 得指数衰减 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，时间常数 \\(\\tau=\\dfrac{mR}{B^2L^2}\\)，全部初动能变成焦耳热。再看线框进入场区：只有前边切割磁感线，磁通量向里增加，感应电流逆时针，前边受力向左；线框完全进入后磁通量不变，电流消失；离开时磁通量向里减少，感应电流顺时针，后边受力仍向左。可见无论进入还是离开，磁力都阻碍运动，这正是楞次定律的能量含义。 · Start with the sliding bar. Let the bar have length \\(L\\), velocity \\(v\\) to the right, and \\(\\vec B\\) into the page. A positive charge in the bar moves right, so \\(\\vec v\\times\\vec B\\) points upward; positive charge is pushed toward the top end, which becomes the higher-potential end. The bar acts like a battery of emf \\(\\varepsilon=BLv\\). In the closed circuit, current flows from the top end through the external circuit back to the bottom, and inside the bar from bottom to top. The current in the bar is upward, so \\(\\vec L\\times\\vec B\\) points left; the magnetic force is left, opposite to the velocity. A larger current, stronger field, or longer bar gives a larger drag: \\(F_B=BIL=\\dfrac{B^2L^2v}{R}\\). If an external force pulls the bar to the right at constant speed, the applied force balances the drag, and the external power \\(F_{\\mathrm{app}}v\\) equals the Joule heating rate \\(I^2R\\). If the external force is removed, the bar slows under the drag; Newton's second law \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\) gives exponential decay \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) with time constant \\(\\tau=\\dfrac{mR}{B^2L^2}\\), and all the initial kinetic energy becomes Joule heat. Now consider a loop entering a field region: only the leading side cuts field lines, the flux into the page increases, the induced current is counterclockwise, and the force on the leading side is to the left. Once the loop is fully inside, the flux is constant and the current vanishes. As it leaves, the flux into the page decreases, the induced current is clockwise, and the force on the trailing side is still to the left. Whether entering or leaving, the magnetic force opposes the motion—this is the energy meaning of Lenz's law.",
     "development": [
-      "回顾先修：确认符号、单位与「感应电流与磁力」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "回顾 13.1 的磁通量与 13.2 的法拉第定律、楞次定律：先判断磁通量是否变化、变化方向如何。 · Review magnetic flux from 13.1 and Faraday's and Lenz's laws from 13.2: first decide whether the flux changes and in which sense.",
+      "用洛伦兹力解释动生电动势：棒中电荷随棒运动，\\(q\\vec v\\times\\vec B\\) 把电荷推到一端，得到 \\(\\varepsilon=BLv\\)。 · Explain motional emf with the Lorentz force: charges in the bar move with it, and \\(q\\vec v\\times\\vec B\\) pushes them to one end, giving \\(\\varepsilon=BLv\\).",
+      "闭合回路后由 \\(I=\\dfrac{\\varepsilon}{R}\\) 求电流，并用楞次定律或右手定则确定方向。 · Close the circuit, find the current from \\(I=\\dfrac{\\varepsilon}{R}\\), and determine its direction with Lenz's law or the right-hand rule.",
+      "计算磁场对感应电流的力 \\(\\vec F=I\\vec L\\times\\vec B\\)，验证它阻碍棒或线框的运动，得到磁阻力 \\(F_B=\\dfrac{B^2L^2v}{R}\\)。 · Calculate the magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\) on the induced current, verify that it opposes the motion of the bar or loop, and obtain the drag \\(F_B=\\dfrac{B^2L^2v}{R}\\).",
+      "做能量簿记：外力功率、动能变化率与焦耳热功率；匀速时 \\(F_{\\mathrm{app}}v=I^2R\\)，无外力时 \\(\\dfrac{1}{2}mv_0^2=Q\\)。 · Keep the energy account: external power, rate of change of kinetic energy, and Joule heating; at constant speed \\(F_{\\mathrm{app}}v=I^2R\\), and without an external force \\(\\dfrac{1}{2}mv_0^2=Q\\).",
+      "迁移到线框进入/离开场区与图像问题：分清“部分在场内”和“完全在场内”，画出 \\(\\Phi_B\\)、\\(\\varepsilon\\)、\\(I\\)、\\(F_B\\) 随位置或时间的图像。 · Transfer to loops entering/leaving a field and to graph problems: distinguish “partly inside” from “fully inside,” and sketch \\(\\Phi_B\\), \\(\\varepsilon\\), \\(I\\), and \\(F_B\\) versus position or time."
     ],
     "checks": [
-      "不看书能否复述「感应电流与磁力」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "能否从 \\(q\\vec v\\times\\vec B\\) 出发说明滑棒为什么产生 \\(\\varepsilon=BLv\\)？ · Can you start from \\(q\\vec v\\times\\vec B\\) and explain why a sliding bar produces \\(\\varepsilon=BLv\\)?",
+      "若 \\(\\vec B\\) 垂直纸面向里、棒向右运动，棒中电流方向、回路电流方向与磁阻力方向分别是什么？ · If \\(\\vec B\\) is into the page and the bar moves right, what are the current direction in the bar, the current direction around the loop, and the direction of the magnetic drag?",
+      "为什么 \\(F_B=\\dfrac{B^2L^2v}{R}\\) 只依赖瞬时速度而不直接依赖外力？终端速度如何由外力决定？ · Why does \\(F_B=\\dfrac{B^2L^2v}{R}\\) depend on the instantaneous speed rather than directly on the applied force? How does the applied force set the terminal speed?",
+      "匀速拉棒时，写出外力功率、焦耳热功率与磁阻力功率的关系，并说明能量从哪里来、到哪里去。 · For a bar pulled at constant speed, write the relation among external power, Joule heating rate, and the power associated with the drag, and explain where the energy comes from and where it goes.",
+      "线框进入和离开磁场时，感应电流方向为什么相反？为什么磁力方向却不变？ · Why are the induced current directions opposite when a loop enters and leaves a field, and why does the magnetic force direction stay the same?",
+      "线框完全进入匀强磁场后，为什么 \\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)？ · Why are \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\) once a loop is fully inside a uniform field?",
+      "撤去外力后，滑棒的动能去了哪里？如何由 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\) 得到时间常数与总滑行距离？ · After the external force is removed, where does the bar's kinetic energy go? How do you obtain the time constant and total stopping distance from \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\)?",
+      "通过导线截面的电荷量为什么只由 \\(\\Delta\\Phi_B/R\\) 决定，而与滑棒速度无关？ · Why is the charge passing a cross section determined only by \\(\\Delta\\Phi_B/R\\) and independent of the bar's speed?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "动生电动势",
+        "termEn": "motional emf",
+        "defZh": "导体在磁场中运动、因自由电荷受洛伦兹力而产生的电动势；棒、速度与磁场两两垂直时 \\(\\varepsilon=BLv\\)。",
+        "defEn": "The emf produced when a conductor moves through a magnetic field because its free charges experience a Lorentz force; when the bar, velocity, and field are mutually perpendicular, \\(\\varepsilon=BLv\\)."
+      },
+      {
+        "termZh": "感应电流",
+        "termEn": "induced current",
+        "defZh": "闭合回路中由变化的磁通量产生的电流，大小 \\(I=\\dfrac{\\varepsilon}{R}\\)，方向由楞次定律确定。",
+        "defEn": "The current produced in a closed loop by a changing magnetic flux; its magnitude is \\(I=\\dfrac{\\varepsilon}{R}\\) and its direction is given by Lenz's law."
+      },
+      {
+        "termZh": "楞次定律",
+        "termEn": "Lenz's law",
+        "defZh": "感应电流的磁场总是阻碍引起它的磁通量变化；负号 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) 体现了这一点。",
+        "defEn": "The magnetic field of an induced current always opposes the change in flux that produced it; the minus sign in \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) expresses this."
+      },
+      {
+        "termZh": "磁阻力",
+        "termEn": "magnetic drag (back force)",
+        "defZh": "磁场对感应电流的作用力中阻碍导体相对运动的分量；滑棒情形为 \\(F_B=\\dfrac{B^2L^2v}{R}\\)，方向与速度相反。",
+        "defEn": "The component of the magnetic force on the induced current that opposes the conductor's relative motion; for a sliding bar, \\(F_B=\\dfrac{B^2L^2v}{R}\\) opposite to the velocity."
+      },
+      {
+        "termZh": "焦耳热",
+        "termEn": "Joule heating",
+        "defZh": "电流通过电阻时把电能转化为内能的过程，功率为 \\(I^2R\\)；滑棒系统中它等于外力做功的功率（匀速时）。",
+        "defEn": "The conversion of electrical energy into thermal energy as current flows through resistance, at rate \\(I^2R\\); in a sliding-bar system it equals the external mechanical power at constant speed."
+      },
+      {
+        "termZh": "载流导线所受磁力",
+        "termEn": "magnetic force on a current-carrying wire",
+        "defZh": "磁场对通电导线的力 \\(\\vec F=I\\vec L\\times\\vec B\\)，大小 \\(F=BIL\\sin\\theta\\)，方向由右手定则确定。",
+        "defEn": "The force \\(\\vec F=I\\vec L\\times\\vec B\\) exerted by a magnetic field on a current-carrying wire, with magnitude \\(F=BIL\\sin\\theta\\) and direction from the right-hand rule."
+      },
+      {
+        "termZh": "终端速度",
+        "termEn": "terminal speed",
+        "defZh": "恒定外力下拉棒达到的稳定速度，此时外力与磁阻力平衡：\\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\)。",
+        "defEn": "The steady speed reached by a pulled bar under a constant applied force, when the applied force balances the magnetic drag: \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^2L^2}\\)."
+      }
     ]
   },
   "13.4": {

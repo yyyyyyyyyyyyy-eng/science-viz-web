@@ -118,6 +118,39 @@ export const stimuli = {
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+  },
+  "stim-em-u13-4": {
+    "title": "滑棒与磁阻力 · 物理情境",
+    "text": "长 0.40 m 的导体棒在相距 0.40 m 的平行导轨上以 2.0 m/s 向右匀速滑动；B = 0.50 T 垂直纸面向里，回路总电阻 R = 0.20 Ω。 · A 0.40 m bar slides at 2.0 m/s to the right on parallel rails 0.40 m apart in a uniform 0.50 T field into the page; the loop resistance is 0.20 Ω.",
+    "table": {
+      "headers": [
+        "量",
+        "值"
+      ],
+      "rows": [
+        [
+          "B",
+          "0.50 T"
+        ],
+        [
+          "L",
+          "0.40 m"
+        ],
+        [
+          "v",
+          "2.0 m/s"
+        ],
+        [
+          "R",
+          "0.20 Ω"
+        ]
+      ]
+    },
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 13.3 感应电流与磁力练习。"
   }
 };
 export const problems = [
@@ -3246,5 +3279,159 @@ export const problems = [
       "topicId": "em-u13:13.7"
     }
   ]
-}
+},
+  {
+    "kind": "set",
+    "id": "em-u13-set4",
+    "title": "题组 4 · 滑棒上的感应电流与磁阻力 · Sliding bar: induced current and magnetic drag",
+    "sharedStimulus": "stim-em-u13-4",
+    "stimulus": {
+      "title": "滑棒与磁阻力 · 物理情境",
+      "text": "长 0.40 m 的导体棒在相距 0.40 m 的平行导轨上以 2.0 m/s 向右匀速滑动；B = 0.50 T 垂直纸面向里，回路总电阻 R = 0.20 Ω。 · A 0.40 m bar slides at 2.0 m/s to the right on parallel rails 0.40 m apart in a uniform 0.50 T field into the page; the loop resistance is 0.20 Ω.",
+      "table": {
+        "headers": [
+          "量",
+          "值"
+        ],
+        "rows": [
+          [
+            "B",
+            "0.50 T"
+          ],
+          [
+            "L",
+            "0.40 m"
+          ],
+          [
+            "v",
+            "2.0 m/s"
+          ],
+          [
+            "R",
+            "0.20 Ω"
+          ]
+        ]
+      },
+      "sourceId": "original",
+      "source": "Original AP-style item (this project)",
+      "license": "Project",
+      "sourceUrl": "",
+      "sourceNote": "原创 AP 风格题，非官方题；用于 13.3 感应电流与磁力练习。"
+    },
+    "questions": [
+      {
+        "id": "em-u13-q054",
+        "title": "滑棒的感应电流 · Induced current in the sliding bar",
+        "difficulty": "中",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求滑棒的感应电流 I（A）。 · Find the induced current I in the sliding bar (A).",
+        "expected": 2,
+        "tol": 0.01,
+        "answerLatex": "2.0\\,\\mathrm{A}",
+        "solution": "ε=BLv=(0.50)(0.40)(2.0)=0.40 V，故 I=ε/R=2.0 A。 · ε=0.40 V, so I=2.0 A.",
+        "solutionLatex": "I=\\dfrac{BLv}{R}=\\dfrac{(0.50)(0.40)(2.0)}{0.20}=2.0\\,\\mathrm{A}",
+        "sourceId": "original",
+        "source": "Original AP-style item (this project)",
+        "license": "Project",
+        "sourceUrl": "",
+        "sourceNote": "原创 AP 风格题，非官方题；用于 13.3。",
+        "topicLinks": [
+          {
+            "href": "#/t/em/em-u13/13.3",
+            "label": "13.3 感应电流与磁力",
+            "topicId": "em-u13:13.3"
+          }
+        ]
+      },
+      {
+        "id": "em-u13-q055",
+        "title": "磁阻力 · Magnetic drag",
+        "difficulty": "中",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求导体棒所受磁阻力的大小 F_B（N）。 · Find the magnitude of the magnetic drag F_B on the bar (N).",
+        "expected": 0.4,
+        "tol": 0.01,
+        "answerLatex": "0.40\\,\\mathrm{N}",
+        "solution": "F_B=BIL=(0.50)(2.0)(0.40)=0.40 N，方向与速度相反。 · F_B=0.40 N, opposite to the velocity.",
+        "solutionLatex": "F_B=BIL=\\dfrac{B^2L^2v}{R}=\\dfrac{(0.50)^2(0.40)^2(2.0)}{0.20}=0.40\\,\\mathrm{N}",
+        "sourceId": "original",
+        "source": "Original AP-style item (this project)",
+        "license": "Project",
+        "sourceUrl": "",
+        "sourceNote": "原创 AP 风格题，非官方题；用于 13.3。",
+        "topicLinks": [
+          {
+            "href": "#/t/em/em-u13/13.3",
+            "label": "13.3 感应电流与磁力",
+            "topicId": "em-u13:13.3"
+          }
+        ]
+      },
+      {
+        "id": "em-u13-q056",
+        "title": "磁阻力方向 · Direction of the magnetic drag",
+        "difficulty": "易",
+        "type": "mcq",
+        "stem": "B 垂直纸面向里，导体棒向右运动。导体棒所受磁阻力的方向是？ · B points into the page and the bar moves to the right. What is the direction of the magnetic drag on the bar?",
+        "choices": [
+          {
+            "text": "向左 · to the left",
+            "correct": true
+          },
+          {
+            "text": "向右 · to the right",
+            "correct": false
+          },
+          {
+            "text": "向上 · upward",
+            "correct": false
+          },
+          {
+            "text": "向下 · downward",
+            "correct": false
+          }
+        ],
+        "solution": "磁通量向里增大，感应电流逆时针，棒中电流向上；L×B 向左，故磁力阻碍向右运动。 · The flux into the page increases, the current is counterclockwise, and the current in the bar is upward; L×B points left, so the drag opposes the rightward motion.",
+        "sourceId": "original",
+        "source": "Original AP-style item (this project)",
+        "license": "Project",
+        "sourceUrl": "",
+        "sourceNote": "原创 AP 风格题，非官方题；用于 13.3。",
+        "topicLinks": [
+          {
+            "href": "#/t/em/em-u13/13.3",
+            "label": "13.3 感应电流与磁力",
+            "topicId": "em-u13:13.3"
+          }
+        ]
+      },
+      {
+        "id": "em-u13-q057",
+        "title": "外力功率与焦耳热 · External power and Joule heating",
+        "difficulty": "难",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "棒匀速滑动时，求外力为维持运动所需的功率 P（W）。 · While the bar moves at constant speed, find the external power P needed to maintain the motion (W).",
+        "expected": 0.8,
+        "tol": 0.01,
+        "answerLatex": "0.80\\,\\mathrm{W}",
+        "solution": "匀速时 F_app=F_B=0.40 N，P=F_app v=(0.40)(2.0)=0.80 W；也等于 I²R=(2.0)²(0.20)=0.80 W。 · At constant speed F_app=F_B=0.40 N, so P=0.80 W, equal to I²R=0.80 W.",
+        "solutionLatex": "P=F_{\\mathrm{app}}v=I^2R=(2.0)^2(0.20)=0.80\\,\\mathrm{W}",
+        "sourceId": "original",
+        "source": "Original AP-style item (this project)",
+        "license": "Project",
+        "sourceUrl": "",
+        "sourceNote": "原创 AP 风格题，非官方题；用于 13.3。",
+        "topicLinks": [
+          {
+            "href": "#/t/em/em-u13/13.3",
+            "label": "13.3 感应电流与磁力",
+            "topicId": "em-u13:13.3"
+          }
+        ]
+      }
+    ]
+  }
 ];

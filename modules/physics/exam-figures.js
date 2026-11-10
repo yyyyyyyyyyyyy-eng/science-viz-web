@@ -1287,6 +1287,35 @@ defI('faraday-rod', '法拉第：导轨上滑动导体棒（B 入纸面，向右
 }, {
   status: (p) => `ε ∝ Bv，F ∝ B²v：v = ${(p.v ?? 1).toFixed(1)}，B = ${(p.B ?? 1).toFixed(1)}`,
 });
+def('loop-entering-leaving-field', '线框进入/离开磁场：感应电流与磁阻力 · Loop entering/leaving a magnetic field: induced current and magnetic drag', '\\varepsilon=BLv,\\; I=\\dfrac{BLv}{R},\\; F_B=\\dfrac{B^2L^2v}{R}', () => {
+  let s = tx(18, 16, '进入场区 · entering', { it: false, fs: 9.5, c: 'v' });
+  s += tx(18, 30, 'Φ 增大 → I 逆时针 → F 向左', { it: false, fs: 9.5 });
+  s += rect(100, 48, 85, 100, { fill: 'none', c: 'm', dash: '5 4', w: 1.2 });
+  for (let x = 112; x <= 176; x += 22) for (let y = 60; y <= 138; y += 26) s += crossB(x, y, 4);
+  s += rect(40, 52, 80, 92, { fill: 'none', w: 2.2 });
+  s += arr(125, 164, 175, 164, 'v', 2.2) + tx(178, 168, 'v', { c: 'v', fs: 12 });
+  s += arr(120, 98, 85, 98, 'f', 2.2) + tx(82, 92, 'F_{B}', { c: 'f', anchor: 'end', fs: 12 });
+  s += arr(120, 132, 120, 62, 'I', 2.2) + tx(125, 101, 'I', { c: 'I', fs: 12 });
+  s += arr(110, 52, 70, 52, 'I', 1.8) + tx(90, 46, 'I', { c: 'I', fs: 11, anchor: 'middle' });
+  s += dotB(80, 98, 5, 'v') + tx(88, 102, 'B_{ind}', { c: 'v', fs: 10 });
+  s += tx(18, 178, '× 表示 B 入纸面 · into page', { it: false, fs: 9, c: 'B' });
+
+  s += tx(215, 16, '离开场区 · leaving', { it: false, fs: 9.5, c: 'v' });
+  s += tx(215, 30, 'Φ 减小 → I 顺时针 → F 仍向左', { it: false, fs: 9.5 });
+  s += rect(215, 48, 85, 100, { fill: 'none', c: 'm', dash: '5 4', w: 1.2 });
+  for (let x = 227; x <= 291; x += 22) for (let y = 60; y <= 138; y += 26) s += crossB(x, y, 4);
+  s += rect(280, 52, 80, 92, { fill: 'none', w: 2.2 });
+  s += arr(310, 164, 360, 164, 'v', 2.2) + tx(363, 168, 'v', { c: 'v', fs: 12 });
+  s += arr(280, 98, 245, 98, 'f', 2.2) + tx(242, 92, 'F_{B}', { c: 'f', anchor: 'end', fs: 12 });
+  s += arr(280, 132, 280, 62, 'I', 2.2) + tx(285, 101, 'I', { c: 'I', fs: 12 });
+  s += arr(290, 52, 350, 52, 'I', 1.8) + tx(320, 46, 'I', { c: 'I', fs: 11, anchor: 'middle' });
+  s += crossB(320, 98, 5, 'v') + tx(328, 102, 'B_{ind}', { c: 'v', fs: 10 });
+
+  s += eq(18, 198, ['ε = BLv']) + eq(98, 198, ['I = ', { n: 'BLv', d: 'R' }]) + eq(210, 198, ['F_{B} = ', { n: 'B^{2}L^{2}v', d: 'R' }]);
+  s += tx(18, 232, '能量：F_{app}v = I^{2}R（匀速时） · energy balance at constant speed', { it: false, fs: 9 });
+  s += tx(18, 247, '完全进入后：Φ 不变 → ε = 0，I = 0，F_{B} = 0', { it: false, fs: 9 });
+  return s;
+});
 defI('faraday-changing-B', '法拉第：均匀变化磁场中的固定线圈（B 出纸面且增大） · Faraday: fixed coil in a uniformly changing field (B out of page, increasing)', '\\varepsilon=-\\dfrac{d\\Phi_B}{dt}=-A\\dfrac{dB}{dt}', [
   { key: 'rate', label: '磁场变化率 dB/dt', min: 0.5, max: 2.5, step: 0.1, value: 1 },
 ], (p) => {
@@ -2543,7 +2572,7 @@ export const TOPIC_FIGURES = {
   'em/em-u12/12.9': ['loop-field', 'biot-savart', 'arc-field', 'finite-wire-field'],
   'em/em-u13/13.1': ['faraday-changing-B', 'magnetic-flux-angle'],
   'em/em-u13/13.2': ['faraday-rod', 'faraday-changing-B', 'flux-emf-graph'],
-  'em/em-u13/13.3': ['faraday-rod', 'particle-in-B', 'magnetic-force-rhr'],
+  'em/em-u13/13.3': ['faraday-rod', 'particle-in-B', 'magnetic-force-rhr', 'loop-entering-leaving-field'],
   'em/em-u13/13.4': ['rl-circuit', 'lc-circuit', 'inductor-energy'],
   'em/em-u13/13.5': ['rl-circuit', 'inductor-energy'],
   'em/em-u13/13.6': ['lc-circuit', 'lc-energy'],
