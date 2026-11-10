@@ -8,17 +8,21 @@ import { startAnimLoop } from '../../anim-loop.js';
 import { el, clear } from '../../../js/ui-shared.js';
 import {
   addAnchor,
+  addBall,
   addBarrier,
   addBlock,
   addCart,
+  addCylinder,
   addHCircle,
   addLauncher,
   addLink,
   addLoop,
+  addPendulum,
   addProjectile,
   addPulley,
   addSurface,
   addTurntable,
+  addWedge,
   applyInitialVelocity,
   attachBodyToPulley,
   attachBodyToHCircle,
@@ -46,7 +50,10 @@ import {
   launcherPrediction,
   linkReading,
   loopPoint,
+  pendulumPeriod,
+  rebuildWedge,
   repositionSurfaceBody,
+  resetPendulum,
   resetWorld,
   serializeScene,
   setBarrierRestitution,
@@ -57,12 +64,16 @@ import {
   setCartInertia,
   setCartRadius,
   setHCircleRadius,
+  setInertiaRatio,
   setLoopRadius,
   setSurfaceAngle,
   setSurfaceLength,
   setSurfaceWidth,
   setTurntableDrive,
   setTurntableRadius,
+  setWedgeBlockFriction,
+  setWedgeFloorFriction,
+  setWedgeMass,
   snapBodyToNearest,
   snapNearbyBodies,
   stepOnce,
@@ -227,6 +238,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['incline', '斜面', 'Incline'],
         ['surface', '水平面 / 倾斜面', 'Horizontal surface'],
         ['track', '直线轨道', 'Straight track'],
+        ['wedge', '可动楔', 'Movable wedge'],
       ],
     },
     {
@@ -234,6 +246,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       items: [
         ['block', '方块', 'Block'],
         ['cart', '小车', 'Cart'],
+        ['ball', '球体', 'Ball'],
+        ['cylinder', '圆柱', 'Cylinder'],
       ],
     },
     {
@@ -259,6 +273,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['turntable', '转盘', 'Turntable'],
         ['loop', '竖直圆环', 'Vertical loop'],
         ['hcircle', '水平圆周轨道', 'Horizontal circle'],
+        ['pendulum', '单摆', 'Pendulum'],
       ],
     },
   ];
@@ -911,6 +926,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     for (const l of world.launchers) boxes.push({ x: l.x, z: l.z, halfX: 1.1, halfZ: 0.8 });
     for (const p of world.pulleys) boxes.push({ x: p.x, z: p.z, halfX: p.radius + 0.8, halfZ: p.radius + 0.8 });
     for (const b of world.barriers) boxes.push({ x: b.x, z: b.z, halfX: (b.width || 0.7) / 2, halfZ: (b.width || 0.7) / 2 });
+    for (const p of world.pendulums) boxes.push({ x: p.x, z: p.z, halfX: 0.8, halfZ: 0.8 });
+    for (const w of world.wedges) boxes.push({ x: w.body.position.x, z: w.body.position.z, halfX: w.length / 2, halfZ: w.width / 2 });
     for (const b of world.bodies) {
       const p = b.cannon?.position;
       if (!p) continue;
@@ -1232,8 +1249,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!entity) return;
     const f = Math.max(0.05, factor);
     if (entity.type === 'body') {
-      if (entity.kind === 'cart') setCartRadius(world, entity, start.radius * f);
-      else setBlockSize(world, entity, start.size * f);
+      if (entity.kind === 'cart' || entity.kind === 'ball' || entity.kind === 'cylinder') {
+        setCartRadius(world, entity, start.radius * f);
+        if (entity.kind !== 'cart') setInertiaRatio(world, entity, entity.inertiaRatio ?? 0.5);
+      } else {
+        setBlockSize(world, entity, start.size * f);
+      }
     } else if (entity.type === 'surface') {
       if (axis === 'z') setSurfaceWidth(world, entity, start.width * f);
       else if (axis === 'x') setSurfaceLength(world, entity, start.length * f);
@@ -1247,6 +1268,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setTurntableRadius(world, entity, start.radius * f);
     } else if (entity.type === 'hcircle') {
       setHCircleRadius(world, entity, start.radius * f);
+    } else if (entity.type === 'pendulum') {
+      entity.length = Math.max(0.2, Math.min(5, (start.length || entity.length) * f));
+    } else if (entity.type === 'wedge') {
+      if (axis === 'z') rebuildWedge(world, entity, { width: start.width * f });
+      else if (axis === 'x') rebuildWedge(world, entity, { length: start.length * f });
+      else rebuildWedge(world, entity, { length: start.length * f, width: start.width * f });
     } else if (entity.type === 'link') {
       entity.rest = Math.max(0.05, Math.min(20, start.rest * f));
     }
@@ -1285,6 +1312,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       };
       if (entity.kind === 'cart') {
         copy = addCart(world, { ...opts, radius: entity.radius, I: entity.I, width: entity.width });
+      } else if (entity.kind === 'ball') {
+        copy = addBall(world, { ...opts, radius: entity.radius, I: entity.I });
+      } else if (entity.kind === 'cylinder') {
+        copy = addCylinder(world, { ...opts, radius: entity.radius, I: entity.I, length: entity.width });
       } else {
         copy = addBlock(world, { ...opts, size: entity.size });
       }
@@ -1361,6 +1392,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const right = addBlock(world, { mass: 1, size: 0.45, x: spot.x + entity.radius, y: entity.y - 1.65, z: spot.z });
       attachBodyToPulley(world, left, copy.id, 'a');
       attachBodyToPulley(world, right, copy.id, 'b');
+    } else if (entity.type === 'pendulum') {
+      const spot = nextPlacement('pendulum');
+      copy = addPendulum(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z, length: entity.length, mass: entity.mass,
+        amplitude: entity.amplitude, radius: entity.radius, conical: entity.conical,
+      });
+    } else if (entity.type === 'wedge') {
+      const spot = nextPlacement('wedge');
+      copy = addWedge(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, baseY: entity.baseY, z: spot.z, angle: entity.angle,
+        length: entity.length, width: entity.width, mass: entity.mass,
+        muFloor: entity.muFloor, blockMu: entity.blockMu,
+      });
     } else if (entity.type === 'link') {
       copy = addLink(world, { a: { ...entity.a }, b: { ...entity.b }, k: entity.k, beta: entity.beta, rest: entity.rest, meter: entity.meter });
     }
@@ -1393,7 +1439,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     const d = bodyDiagnostics(world, entity);
     const v = entity.cannon.velocity.length();
-    const rot = entity.kind === 'cart' ? 0.5 * entity.I * entity.cannon.angularVelocity.z ** 2 : 0;
+    const rolling = entity.kind === 'cart' || entity.kind === 'ball' || entity.kind === 'cylinder';
+    const rot = rolling ? 0.5 * entity.I * entity.cannon.angularVelocity.z ** 2 : 0;
     const energy = 0.5 * entity.mass * v * v + rot + entity.mass * world.g * entity.cannon.position.y;
     graphData.push({
       t: world.time,
@@ -2000,7 +2047,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     let pos = null;
     let quat = null;
     if (entity.type === 'body') pos = entity.cannon.position;
-    else if (entity.type === 'surface') pos = entity.body.position;
+    else if (entity.type === 'surface' || entity.type === 'barrier' || entity.type === 'wedge') pos = entity.body.position;
     else pos = { x: entity.x, y: entity.y, z: entity.z };
     if (entity.type === 'body' && entity.attachment?.type === 'surface') {
       const surface = getSurface(world, entity.attachment.id);
@@ -2062,9 +2109,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         radius: 0.42,
         restitution: 0.6,
       });
-    } else if (kind === 'block' || kind === 'cart') {
+    } else if (kind === 'pendulum') {
+      const spot = nextPlacement(kind);
+      entity = addPendulum(world, {
+        x: spot.x, y: 3.1, z: spot.z, length: 1.6, mass: 1, amplitude: 20, radius: 0.16,
+      });
+    } else if (kind === 'wedge') {
+      const spot = nextPlacement(kind);
+      entity = addWedge(world, {
+        x: spot.x, baseY: 0, z: spot.z, angle: 25, length: 3, width: 1.6,
+        mass: 4, muFloor: 0, blockMu: 0, restitution: 0,
+      });
+    } else if (kind === 'block' || kind === 'cart' || kind === 'ball' || kind === 'cylinder') {
       const target = selected?.type === 'surface' || selected?.type === 'loop'
-        || selected?.type === 'turntable' || selected?.type === 'hcircle' ? selected : null;
+        || selected?.type === 'turntable' || selected?.type === 'hcircle'
+        || selected?.type === 'wedge' ? selected : null;
       let spawn;
       if (target?.type === 'surface') {
         spawn = { x: target.body.position.x, y: target.body.position.y + 1.1, z: target.body.position.z };
@@ -2074,15 +2133,27 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         spawn = { x: target.x + target.radius * 0.55, y: target.y + 0.9, z: target.z };
       } else if (target?.type === 'hcircle') {
         spawn = { x: target.x + target.radius, y: target.y + 0.7, z: target.z };
+      } else if (target?.type === 'wedge') {
+        spawn = {
+          x: target.body.position.x - target.length * 0.15,
+          y: target.body.position.y + target.height * 0.55 + 0.8,
+          z: target.body.position.z,
+        };
       } else if (assists.placement) {
         const spot = nextPlacement(kind);
         spawn = { x: spot.x, y: 1.0, z: spot.z };
       } else {
         spawn = { x: 0, y: 2.5, z: 0 };
       }
-      entity = kind === 'cart'
-        ? addCart(world, { mass: 1, radius: 0.3, x: spawn.x, y: spawn.y, z: spawn.z, brake: false })
-        : addBlock(world, { mass: 1, size: 0.5, x: spawn.x, y: spawn.y, z: spawn.z, brake: false });
+      if (kind === 'cart') {
+        entity = addCart(world, { mass: 1, radius: 0.3, x: spawn.x, y: spawn.y, z: spawn.z, brake: false });
+      } else if (kind === 'ball') {
+        entity = addBall(world, { mass: 1, radius: 0.26, x: spawn.x, y: spawn.y, z: spawn.z });
+      } else if (kind === 'cylinder') {
+        entity = addCylinder(world, { mass: 1, radius: 0.28, length: 0.7, x: spawn.x, y: spawn.y, z: spawn.z });
+      } else {
+        entity = addBlock(world, { mass: 1, size: 0.5, x: spawn.x, y: spawn.y, z: spawn.z, brake: false });
+      }
       if (target?.type === 'surface') {
         attachBodyToSurface(world, entity, target.id, { localX: 0, localZ: 0 });
       } else if (target?.type === 'loop') {
@@ -2091,6 +2162,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         attachBodyToTurntable(world, entity, target.id, { r: target.radius * 0.55, phi: 0 });
       } else if (target?.type === 'hcircle') {
         attachBodyToHCircle(world, entity, target.id, { phi: 0 });
+      } else if (target?.type === 'wedge') {
+        entity.cannon.position.set(spawn.x, spawn.y, spawn.z);
+        entity.cannon.velocity.setZero();
+        entity.cannon.angularVelocity.setZero();
+        entity.cannon.aabbNeedsUpdate = true;
+        applyInitialVelocity(world, entity);
       } else {
         let seated = null;
         if (assists.snap) seated = snapBodyToNearest(world, entity, { maxDistance: 6 });
@@ -2328,6 +2405,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.body.quaternion.set(object.quaternion.x, object.quaternion.y, object.quaternion.z, object.quaternion.w);
       entity.angle = (zAngle(object.quaternion) / Math.PI) * 180;
       entity.body.aabbNeedsUpdate = true;
+    } else if (entity.type === 'pendulum') {
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+    } else if (entity.type === 'wedge') {
+      entity.x = object.position.x;
+      entity.baseY = object.position.y;
+      entity.z = object.position.z;
+      entity.body.position.set(entity.x, entity.baseY + entity.centroidY, entity.z);
+      entity.body.quaternion.set(object.quaternion.x, object.quaternion.y, object.quaternion.z, object.quaternion.w);
+      entity.body.aabbNeedsUpdate = true;
+    } else if (entity.type === 'sensor') {
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
     } else if (entity.type === 'body') {
       if (entity.attachment) detachBody(world, entity);
       entity.cannon.position.set(object.position.x, object.position.y, object.position.z);
@@ -2348,7 +2440,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         flashSeat(entity);
         setStatus('已自动吸附到装置。 · Auto-snapped to apparatus.');
       }
-    } else if (entity.type === 'surface' || entity.type === 'loop' || entity.type === 'turntable' || entity.type === 'hcircle') {
+    } else if (entity.type === 'surface' || entity.type === 'loop' || entity.type === 'turntable'
+      || entity.type === 'hcircle' || entity.type === 'wedge' || entity.type === 'pendulum') {
       snapNearbyBodies(world, 2);
     }
     captureInitial(world);
@@ -3092,6 +3185,75 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '碰撞后动能 · KE out', 'impactKEOut', 'J');
       addLive(readouts, '实测恢复系数 · e measured', 'impactE', '');
       common.appendChild(readouts);
+    } else if (entity.type === 'pendulum') {
+      field(common, {
+        label: '摆长 · Length',
+        value: entity.length,
+        min: 0.2,
+        max: 5,
+        step: 0.05,
+        unit: 'm',
+        testid: 'pendulumLength',
+        onChange: (v) => { entity.length = Math.max(0.2, v); },
+      });
+      field(common, {
+        label: '摆球质量 · Bob mass',
+        value: entity.mass,
+        min: 0.05,
+        max: 20,
+        step: 0.05,
+        unit: 'kg',
+        testid: 'pendulumMass',
+        onChange: (v) => { entity.mass = Math.max(0.01, v); },
+      });
+      field(common, {
+        label: '振幅 · Amplitude',
+        value: entity.amplitude,
+        min: 1,
+        max: 80,
+        step: 1,
+        unit: '°',
+        testid: 'pendulumAmplitude',
+        onChange: (v) => {
+          entity.amplitude = Math.max(1, Math.min(89, v));
+          if (!running && world.time === 0) resetPendulum(entity);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'pendulumMeasured', 's');
+      addLive(readouts, '小角周期 · Small-angle T', 'pendulumTheory', 's');
+      addLive(readouts, '摆角 · Angle', 'pendulumAngle', 'rad');
+      addLive(readouts, '绳张力 · Tension', 'pendulumTension', 'N');
+      common.appendChild(readouts);
+    } else if (entity.type === 'wedge') {
+      field(common, {
+        label: '楔质量 · Wedge mass',
+        value: entity.mass,
+        min: 0.2,
+        max: 30,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'wedgeMass',
+        onChange: (v) => { setWedgeMass(world, entity, v); },
+      });
+      field(common, {
+        label: '楔角 · Wedge angle',
+        value: entity.angle,
+        min: 5,
+        max: 60,
+        step: 1,
+        unit: '°',
+        testid: 'wedgeAngle',
+        onChange: (v) => {
+          rebuildWedge(world, entity, { angle: v });
+          view.sync(world);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '楔速度 · Wedge speed', 'wedgeSpeed', 'm/s');
+      addLive(readouts, '楔位移 · Wedge x', 'wedgeX', 'm');
+      addLive(readouts, '地面摩擦 · Floor μ', 'wedgeMu', '');
+      common.appendChild(readouts);
     } else if (entity.type === 'link') {
       field(common, {
         label: '劲度系数 k · Spring constant',
@@ -3264,6 +3426,51 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             entity.motor.force = Math.max(0, v);
           },
         });
+      }
+      if (entity.kind === 'ball' || entity.kind === 'cylinder') {
+        field(moreAdvanced, {
+          label: '半径 · Radius',
+          value: entity.radius,
+          min: 0.12,
+          max: 0.6,
+          step: 0.01,
+          unit: 'm',
+          disabled: geoDisabled,
+          testid: 'rollingRadius',
+          onChange: (v) => {
+            setCartRadius(world, entity, v);
+            entity.I = (entity.inertiaRatio ?? 0.5) * entity.mass * entity.radius ** 2;
+            setCartInertia(world, entity, entity.I);
+            captureInitial(world);
+            view.sync(world);
+          },
+        });
+        field(moreAdvanced, {
+          label: 'I ÷ (m r²) · Inertia ratio',
+          value: entity.inertiaRatio ?? (entity.I / Math.max(1e-9, entity.mass * entity.radius ** 2)),
+          min: 0,
+          max: 1.5,
+          step: 0.01,
+          testid: 'inertiaRatio',
+          onChange: (v) => { setInertiaRatio(world, entity, v); },
+        });
+        const presets = el('div', { className: 'plab-tool-row' });
+        [
+          ['实心球 · Solid sphere', 2 / 5],
+          ['空心球 · Hollow sphere', 2 / 3],
+          ['实心圆柱 · Solid cylinder', 1 / 2],
+          ['空心圆柱 · Hollow cylinder', 1],
+        ].forEach(([text, ratio]) => {
+          const btn = el('button', { type: 'button', className: 'plab-action hit-target', text });
+          btn.addEventListener('click', () => {
+            pushUndo('inertia');
+            setInertiaRatio(world, entity, ratio);
+            buildInspector();
+          });
+          presets.appendChild(btn);
+        });
+        moreAdvanced.appendChild(presets);
+        formula(moreAdvanced, 'I=k\\,mr^{2},\\qquad a=\\dfrac{g\\sin\\theta}{1+I/(mr^{2})}');
       }
       field(moreAdvanced, {
         label: '方向仰角 · Direction elevation',
@@ -3518,6 +3725,104 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'pendulum') {
+      field(moreAdvanced, {
+        label: '摆球半径 · Bob radius',
+        value: entity.radius,
+        min: 0.04,
+        max: 0.4,
+        step: 0.01,
+        unit: 'm',
+        testid: 'pendulumRadius',
+        onChange: (v) => { entity.radius = Math.max(0.04, v); view.sync(world); },
+      });
+      const conical = el('input', { type: 'checkbox', checked: !!entity.conical, 'data-field': 'pendulumConical' });
+      conical.addEventListener('change', () => {
+        pushUndo('pendulum-conical');
+        entity.conical = conical.checked;
+        resetPendulum(entity);
+      });
+      moreAdvanced.appendChild(el('label', { className: 'plab-check hit-target' }, [
+        conical,
+        el('span', { text: '圆锥摆模式 · Conical pendulum' }),
+      ]));
+      field(moreAdvanced, {
+        label: '摆角（圆锥）· Cone angle',
+        value: entity.amplitude,
+        min: 1,
+        max: 80,
+        step: 1,
+        unit: '°',
+        testid: 'coneAngle',
+        onChange: (v) => {
+          entity.amplitude = Math.max(1, Math.min(85, v));
+          if (!running && world.time === 0) resetPendulum(entity);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '实测周期 · Measured period', 'pendulumMeasured', 's');
+      addLive(readouts, '小角周期 · 2π√(L/g)', 'pendulumTheory', 's');
+      addLive(readouts, '摆角 · Angle', 'pendulumAngle', 'rad');
+      addLive(readouts, '绳张力 · Tension', 'pendulumTension', 'N');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'T=2\\pi\\sqrt{\\dfrac{L}{g}},\\qquad T_{\\text{conical}}=\\dfrac{mg}{\\cos\\alpha}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '小角周期公式仅在小振幅下严格；实测周期按过零点计时。 · The small-angle formula is exact only at small amplitude; the measured period uses zero crossings.',
+      }));
+    }
+
+    if (entity.type === 'wedge') {
+      field(moreAdvanced, {
+        label: '长度 · Length',
+        value: entity.length,
+        min: 0.8,
+        max: 8,
+        step: 0.1,
+        unit: 'm',
+        testid: 'wedgeLength',
+        onChange: (v) => { rebuildWedge(world, entity, { length: v }); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '宽度 · Width',
+        value: entity.width,
+        min: 0.4,
+        max: 5,
+        step: 0.1,
+        unit: 'm',
+        testid: 'wedgeWidth',
+        onChange: (v) => { rebuildWedge(world, entity, { width: v }); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '地面摩擦因数 · Floor μ',
+        value: entity.muFloor,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        testid: 'wedgeFloorMu',
+        onChange: (v) => { setWedgeFloorFriction(world, entity, v); },
+      });
+      field(moreAdvanced, {
+        label: '物块—楔摩擦因数 · Block μ',
+        value: entity.blockMu,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        testid: 'wedgeBlockMu',
+        onChange: (v) => { setWedgeBlockFriction(world, entity, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '楔速度 · Wedge speed', 'wedgeSpeed', 'm/s');
+      addLive(readouts, '楔位移 · Wedge x', 'wedgeX', 'm');
+      addLive(readouts, '地面摩擦 · Floor μ', 'wedgeMu', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'm_{w}v_{w}+m_{b}v_{b,x}=0\\ \\text{(frictionless floor)}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '先选中可动楔，再添加方块，方块会落在斜面上。 · Select the wedge first, then add a block; it drops onto the slope.',
+      }));
+    }
+
     if (entity.type === 'loop') {
       formula(moreAdvanced, 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta');
       moreAdvanced.appendChild(el('p', { className: 'plab-field-hint', text: 'N < 0 时物体离开轨道成为抛体。 · When N < 0 the body leaves the track and becomes a projectile.' }));
@@ -3617,8 +3922,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (d.mode === 'free') stateText = '自由 / 抛体 · Free';
       else if (d.mode === 'loop') stateText = '轨道约束 · On track';
       else if (d.mode === 'turntable' || d.mode === 'hcircle') stateText = d.static ? '约束 · Constrained' : '打滑 / 滑动 · Slipping';
-      else if (entity.kind === 'cart' && d.rolling) stateText = '滚动 · Rolling';
-      else if (entity.kind === 'cart' && !d.static) stateText = '滑动 · Sliding';
+      else if ((entity.kind === 'cart' || entity.kind === 'ball' || entity.kind === 'cylinder') && d.rolling) stateText = '滚动 · Rolling';
+      else if ((entity.kind === 'cart' || entity.kind === 'ball' || entity.kind === 'cylinder') && !d.static) stateText = '滑动 · Sliding';
       else if (d.static) stateText = '静摩擦 · Static';
       setLive('state', stateText);
     } else if (entity?.type === 'link') {
@@ -3642,6 +3947,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('impactKEIn', hit ? `${fmt(hit.keIn)}` : '—');
       setLive('impactKEOut', hit ? `${fmt(hit.keOut)}` : '—');
       setLive('impactE', hit ? fmt(hit.measuredE) : '—');
+    } else if (entity?.type === 'pendulum') {
+      setLive('pendulumMeasured', entity.measuredPeriod ? `${fmt(entity.measuredPeriod)}` : '—');
+      setLive('pendulumTheory', fmt(pendulumPeriod(entity, world.g)));
+      setLive('pendulumAngle', `${fmt(entity.theta)} rad`);
+      setLive('pendulumTension', `${fmt(entity.tension)} N`);
+    } else if (entity?.type === 'wedge') {
+      setLive('wedgeSpeed', `${fmt(entity.body.velocity.length())} m/s`);
+      setLive('wedgeX', `${fmt(entity.body.position.x - entity.x)} m`);
+      setLive('wedgeMu', fmt(entity.muFloor));
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -3665,6 +3979,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         inspectorSummary.textContent = hit
           ? `p ${fmt(hit.pInMag)}→${fmt(hit.pOutMag)} kg·m/s · KE ${fmt(hit.keIn)}→${fmt(hit.keOut)} J`
           : `恢复系数 · e ${fmt(entity.e)} · 等待碰撞 · awaiting impact`;
+      } else if (entity?.type === 'pendulum') {
+        inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 小角 · small-angle ${fmt(pendulumPeriod(entity, world.g))} s`;
+      } else if (entity?.type === 'wedge') {
+        inspectorSummary.textContent = `楔速度 · Wedge ${fmt(entity.body.velocity.length())} m/s · μ ${fmt(entity.muFloor)}`;
       } else {
         inspectorSummary.textContent = '—';
       }

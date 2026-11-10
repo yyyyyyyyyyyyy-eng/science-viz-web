@@ -831,9 +831,9 @@ export function createLabView(host, opts = {}) {
     mesh.receiveShadow = true;
     root.add(mesh);
     addEdges(root, geo, materials.line);
-    const railGeo = new THREE.BoxGeometry(L * 1.02, 0.035, 0.05);
+    const railGeo = new THREE.BoxGeometry(Math.hypot(L, H), 0.035, 0.05);
     const rail = new THREE.Mesh(railGeo, materials.accent);
-    rail.position.set(0, H / 3 - cy + 0.01, W / 2);
+    rail.position.set(0, H / 2 - cy, W / 2 + 0.012);
     rail.rotation.z = Math.atan2(H, L);
     root.add(rail);
     root.position.copy(v3(entity.body.position));

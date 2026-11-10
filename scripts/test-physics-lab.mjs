@@ -5,17 +5,21 @@
  */
 import {
   addAnchor,
+  addBall,
   addBarrier,
   addBlock,
   addCart,
+  addCylinder,
   addHCircle,
   addLauncher,
   addLink,
   addLoop,
+  addPendulum,
   addProjectile,
   addPulley,
   addSurface,
   addTurntable,
+  addWedge,
   applyInitialVelocity,
   attachBodyToPulley,
   fireLauncher,
@@ -675,6 +679,59 @@ check('wall restitution e reverses the normal velocity with the set coefficient'
   near(wall.lastImpact.measuredE, 0.8, 0.03, 'measured restitution');
   const p = wall.lastImpact.pInMag;
   if (!(p > 0)) throw new Error('momentum readout missing');
+});
+
+check('pendulum small-angle period matches 2*pi*sqrt(L/g) within 1%', () => {
+  for (const L of [0.8, 1.5, 2.4]) {
+    const world = createWorld({ g: 9.8 });
+    const pendulum = addPendulum(world, { x: 0, y: 4, z: 0, length: L, mass: 1, amplitude: 2 });
+    advance(world, 8, 1 / 480);
+    const expected = 2 * Math.PI * Math.sqrt(L / 9.8);
+    if (!pendulum.measuredPeriod) throw new Error(`L=${L}: no period measured`);
+    near(pendulum.measuredPeriod, expected, expected * 0.01, `pendulum period L=${L}`);
+    console.log(`      L=${L}: T=${pendulum.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s`);
+  }
+});
+
+check('rolling ball and cylinder use I/(m r^2) in the rolling law', () => {
+  for (const [kind, ratio] of [['ball', 2 / 5], ['cylinder', 1 / 2]]) {
+    const world = createWorld({ g: 9.8 });
+    const surface = addSurface(world, { angleDeg: 20, muS: 0.8, muK: 0.5, length: 40, x: 0, y: 4, width: 3 });
+    const radius = 0.3;
+    const body = kind === 'ball'
+      ? addBall(world, { mass: 2, radius, x: 0, y: 6, z: 0, I: ratio * 2 * radius ** 2 })
+      : addCylinder(world, { mass: 2, radius, length: 0.7, x: 0, y: 6, z: 0, I: ratio * 2 * radius ** 2 });
+    attachBodyToSurface(world, body, surface.id, { localX: 5, localZ: 0 });
+    body.v0 = 0;
+    applyInitialVelocity(world, body);
+    advance(world, 1.2, 1 / 960);
+    const { t } = surfaceFrame(surface);
+    const measured = -body.cannon.velocity.dot(t) / 1.2;
+    const expected = (9.8 * Math.sin((20 * Math.PI) / 180)) / (1 + ratio);
+    near(measured, expected, Math.max(0.005, expected * 0.003), `${kind} rolling acceleration`);
+    console.log(`      ${kind} I/mr^2=${ratio}: a=${measured.toFixed(6)} vs ${expected.toFixed(6)} m/s^2`);
+  }
+});
+
+check('movable wedge: block motion couples to the wedge on a frictionless floor', () => {
+  const world = createWorld({ g: 9.8 });
+  const wedge = addWedge(world, {
+    x: 0, baseY: 0, z: 0, angle: 25, length: 3, width: 1.6, mass: 4, muFloor: 0, blockMu: 0,
+  });
+  const block = addBlock(world, { mass: 1, size: 0.4, x: -0.5, y: 1.25, z: 0 });
+  applyInitialVelocity(world, block);
+  const wx0 = wedge.body.position.x;
+  const bx0 = block.cannon.position.x;
+  const p0 = wedge.mass * wedge.body.velocity.x + block.mass * block.cannon.velocity.x;
+  advance(world, 0.6, 1 / 960);
+  const p1 = wedge.mass * wedge.body.velocity.x + block.mass * block.cannon.velocity.x;
+  const dxW = wedge.body.position.x - wx0;
+  const dxB = block.cannon.position.x - bx0;
+  near(p1, p0, 1e-5, 'horizontal momentum');
+  if (!(dxW > 0.02)) throw new Error(`wedge did not recoil: dx=${dxW}`);
+  if (!(dxB < -0.02)) throw new Error(`block did not slide down the slope: dx=${dxB}`);
+  if (Math.abs(wedge.body.velocity.x) < 0.1) throw new Error('wedge velocity stayed near zero');
+  console.log(`      dx wedge=${dxW.toFixed(4)} m, dx block=${dxB.toFixed(4)} m, p=${p1.toFixed(6)} kg m/s`);
 });
 
 check('stepOnce advances 1/60 s by default', () => {

@@ -1346,11 +1346,13 @@ function stepPendulum(world, pendulum, h) {
   pendulum.theta = theta2;
   pendulum.omega = omega2;
   pendulum.tension = pendulum.mass * (world.g * Math.cos(theta2) + L * omega2 * omega2);
-  if (prev <= 0 && theta2 > 0) {
+  if ((prev < 0 && theta2 >= 0) || (prev > 0 && theta2 <= 0)) {
+    const cross = world.time + h;
     if (pendulum.lastCross != null) {
-      pendulum.measuredPeriod = world.time + h - pendulum.lastCross;
+      // Zero crossings alternate; two half-periods make a full period.
+      pendulum.measuredPeriod = 2 * (cross - pendulum.lastCross);
     }
-    pendulum.lastCross = world.time + h;
+    pendulum.lastCross = cross;
   }
 }
 
