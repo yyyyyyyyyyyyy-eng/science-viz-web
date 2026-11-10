@@ -1204,167 +1204,327 @@ export const TOPICS = {
     "titleZh": "cos x、sin x、eˣ 与 ln x 的导数",
     "titleEn": "Derivatives of cos x, sin x, eˣ, and ln x",
     "layer": "ap",
-    "summary": "cos x、sin x、eˣ 与 ln x 的导数 · Derivatives of cos x, sin x, eˣ, and ln x",
+    "summary": "掌握 \\(\\sin x\\)、\\(\\cos x\\)、\\(e^{x}\\) 与 \\(\\ln x\\) 四条基本导数规则，理解它们来自图像斜率与极限定义，并能与常数倍、和差法则组合求导。 · Master the four basic derivative rules for \\(\\sin x\\), \\(\\cos x\\), \\(e^{x}\\), and \\(\\ln x\\), understand how they come from graph slopes and the limit definition, and combine them with constant-multiple and sum/difference rules.",
     "learningObjectives": [
-      "能陈述「cos x、sin x、eˣ 与 ln x 的导数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能写出并直接使用 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\) 与 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)，并说明负号来自余弦图像的斜率。 · State and use \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\) and \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\), and explain that the negative sign comes from the slope of the cosine graph.",
+      "能写出并直接使用 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\) 与 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\)（\\(x>0\\)），并说明各自的定义域。 · State and use \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\) and \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\) for \\(x>0\\), and state their domains.",
+      "能说明三角函数的导数公式只在弧度制下成立；若角度以度为单位，会出现因子 \\(\\dfrac{\\pi}{180}\\)。 · Explain that the trigonometric derivative formulas hold only in radians; if the angle is measured in degrees, a factor \\(\\dfrac{\\pi}{180}\\) appears.",
+      "能用常数倍与和差法则求 \\(3\\sin x-2\\cos x+5e^{x}-4\\ln x\\) 这类组合的导数。 · Use the constant-multiple and sum/difference rules to differentiate combinations such as \\(3\\sin x-2\\cos x+5e^{x}-4\\ln x\\).",
+      "能从极限定义出发，用和角公式与基本极限推导 \\(\\sin x\\)、\\(\\cos x\\)、\\(e^{x}\\) 与 \\(\\ln x\\) 的导数公式。 · Derive the derivative formulas for \\(\\sin x\\), \\(\\cos x\\), \\(e^{x}\\), and \\(\\ln x\\) from the limit definition, using angle-addition formulas and basic limits.",
+      "能在给定点求切线斜率，把导数解释为瞬时变化率，并用符号、大小、单位与图像检查结果。 · Find a tangent slope at a given point, interpret the derivative as an instantaneous rate, and check the result with sign, size, units, and a graph."
     ],
     "essentialKnowledge": [
-      "Derivatives of cos x, sin x, eˣ, and ln x：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「cos x、sin x、eˣ 与 ln x 的导数」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "FUN-3.A.4：可以用特定法则求 sine、cosine、exponential 与 logarithmic functions 的导数。 · FUN-3.A.4: Specific rules can be used to find the derivatives for sine, cosine, exponential, and logarithmic functions.",
+      "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)。在 \\(x=0\\) 处 \\(\\sin\\) 的切线斜率为 1，在 \\(x=\\dfrac{\\pi}{2}\\) 处为 0，与 \\(\\cos\\) 的函数值一致。 · \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\). At \\(x=0\\) the tangent slope of \\(\\sin\\) is 1, and at \\(x=\\dfrac{\\pi}{2}\\) it is 0, matching the values of \\(\\cos\\).",
+      "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)。负号不能丢：\\(\\cos\\) 在 \\(x=\\dfrac{\\pi}{2}\\) 处下降最陡，斜率为 \\(-1\\)。 · \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\). The negative sign is essential: at \\(x=\\dfrac{\\pi}{2}\\), \\(\\cos\\) is decreasing most steeply with slope \\(-1\\).",
+      "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\)：自然指数函数的高度等于斜率，因此它是自己的导数。 · \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\): the natural exponential equals its own slope, so it is its own derivative.",
+      "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\)，定义域为 \\(x>0\\)。在 \\(x=1\\) 处斜率为 1，在 \\(x=e\\) 处斜率为 \\(\\dfrac{1}{e}\\)，体现对数增长越来越慢。 · \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\) for \\(x>0\\). The slope is 1 at \\(x=1\\) and \\(\\dfrac{1}{e}\\) at \\(x=e\\), showing that logarithmic growth slows down.",
+      "三角导数公式要求 \\(x\\) 用弧度制。若 \\(x\\) 以度为单位，则 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin(x^{\\circ})]=\\dfrac{\\pi}{180}\\cos(x^{\\circ})\\)。 · The trigonometric derivative formulas require radians. If \\(x\\) is in degrees, then \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin(x^{\\circ})]=\\dfrac{\\pi}{180}\\cos(x^{\\circ})\\).",
+      "一般指数与对数（\\(a>0\\)，\\(a\\neq1\\)）：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[a^{x}]=a^{x}\\ln a\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\log_{a}x]=\\dfrac{1}{x\\ln a}\\)。 · General exponential and logarithm (\\(a>0\\), \\(a\\neq1\\)): \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[a^{x}]=a^{x}\\ln a\\) and \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\log_{a}x]=\\dfrac{1}{x\\ln a}\\).",
+      "常数倍与和差法则把四条基本规则扩展到线性组合：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[cf(x)\\pm g(x)]=cf'(x)\\pm g'(x)\\)。 · The constant-multiple and sum/difference rules extend the four basic rules to linear combinations: \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[cf(x)\\pm g(x)]=cf'(x)\\pm g'(x)\\).",
+      "\\(\\sin\\) 与 \\(\\cos\\) 的导数循环为 \\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\)；\\(e^{x}\\) 的所有阶导数仍是 \\(e^{x}\\)，而 \\(\\ln x\\) 的二阶导数为 \\(-\\dfrac{1}{x^{2}}\\)。 · The derivatives of \\(\\sin\\) and \\(\\cos\\) cycle as \\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\); every derivative of \\(e^{x}\\) is \\(e^{x}\\), and the second derivative of \\(\\ln x\\) is \\(-\\dfrac{1}{x^{2}}\\).",
+      "导数在某点给出切线斜率与瞬时变化率；AP 题常用「求切线或法线」「解释正负与单位」「比较图像斜率」来考查这四条规则。 · The derivative gives the tangent slope and instantaneous rate at a point; AP questions often ask for a tangent or normal line, an interpretation of sign and units, or a comparison of graph slopes."
     ],
-    "definition": "cos x、sin x、eˣ 与 ln x 的导数（Derivatives of cos x, sin x, eˣ, and ln x）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「cos x、sin x、eˣ 与 ln x 的导数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "在弧度制下，四个基本函数的导数由以下规则给出：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\)（\\(x>0\\)）。这些规则在各自的定义域内逐点成立：\\(\\sin\\)、\\(\\cos\\)、\\(e^{x}\\) 对所有实数可导，\\(\\ln x\\) 只在 \\(x>0\\) 可导。它们不是相互独立的记忆项，而是导数极限定义在四类基本函数上的结果。 · In radians, the derivatives of the four basic functions are \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\), \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\), \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}\\), and \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\) for \\(x>0\\). These rules hold pointwise on their domains: \\(\\sin\\), \\(\\cos\\), and \\(e^{x}\\) are differentiable for all real numbers, while \\(\\ln x\\) is differentiable only for \\(x>0\\). They are not independent facts to memorize but consequences of the limit definition of the derivative for four families of basic functions.",
+    "intuition": "把 \\(\\sin\\) 的图像在 \\(x=0\\) 附近放大：曲线穿过原点，切线斜率正好是 1，而 \\(\\cos 0=1\\)；在 \\(x=\\dfrac{\\pi}{2}\\) 处 \\(\\sin\\) 到达峰顶、切线水平，而 \\(\\cos\\dfrac{\\pi}{2}=0\\)。整条 \\(\\cos\\) 曲线正好记录 \\(\\sin\\) 每一点的斜率，所以 \\((\\sin x)'=\\cos x\\)。\\(\\cos\\) 在 \\(x=0\\) 处切线水平、在 \\(x=\\dfrac{\\pi}{2}\\) 处下降最陡（斜率 \\(-1\\)），所以 \\((\\cos x)'=-\\sin x\\)。\\(e^{x}\\) 的特别之处是「高度等于斜率」：每一点的增长速率都等于当前函数值，所以它是自己的导数。\\(\\ln x\\) 增长越来越慢：在 \\(x=1\\) 处斜率为 1，在 \\(x=e\\) 处只有 \\(\\dfrac{1}{e}\\)，正好由 \\(\\dfrac{1}{x}\\) 描述。 · Zoom in on the graph of \\(\\sin\\) near \\(x=0\\): the curve passes through the origin with tangent slope exactly 1, and \\(\\cos 0=1\\); at \\(x=\\dfrac{\\pi}{2}\\), \\(\\sin\\) reaches a peak with a horizontal tangent, and \\(\\cos\\dfrac{\\pi}{2}=0\\). The entire cosine curve records the slope of sine at every point, so \\((\\sin x)'=\\cos x\\). Cosine has a horizontal tangent at \\(x=0\\) and decreases most steeply at \\(x=\\dfrac{\\pi}{2}\\) with slope \\(-1\\), so \\((\\cos x)'=-\\sin x\\). The special feature of \\(e^{x}\\) is that its height equals its slope: the growth rate at every point equals the current value, so it is its own derivative. \\(\\ln x\\) grows more and more slowly: its slope is 1 at \\(x=1\\) and only \\(\\dfrac{1}{e}\\) at \\(x=e\\), exactly as \\(\\dfrac{1}{x}\\) describes.",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x,\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x,\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x},\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}",
-        "note": "sin x、cos x、eˣ 与 ln x 的导数。 · Derivatives of sin x, cos x, eˣ, and ln x."
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x",
+        "note": "正弦的导数；\\(x\\) 用弧度制。 · Derivative of sine; \\(x\\) is in radians."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x",
+        "note": "余弦的导数；负号不能漏。 · Derivative of cosine; do not drop the negative sign."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[e^{x}]=e^{x}",
+        "note": "自然指数函数是自己的导数。 · The natural exponential is its own derivative."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\ln x]=\\dfrac{1}{x}\\quad(x>0)",
+        "note": "自然对数的导数；定义域为 \\(x>0\\)。 · Derivative of the natural logarithm; the domain is \\(x>0\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[a^{x}]=a^{x}\\ln a,\\qquad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\log_{a}x]=\\dfrac{1}{x\\ln a}",
+        "note": "一般指数与对数（\\(a>0\\)，\\(a\\neq1\\)）；对数还要求 \\(x>0\\)。 · General exponential and logarithm (\\(a>0\\), \\(a\\neq1\\)); the logarithm also requires \\(x>0\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[cf(x)\\pm g(x)]=cf'(x)\\pm g'(x)",
+        "note": "常数倍与和差法则：可以逐项求导。 · Constant-multiple and sum/difference rules: differentiate term by term."
+      },
+      {
+        "latex": "\\lim_{h\\to0}\\dfrac{\\sin h}{h}=1,\\qquad \\lim_{h\\to0}\\dfrac{\\cos h-1}{h}=0",
+        "note": "推导正弦、余弦导数的两个基本极限（弧度制）。 · Two basic limits for deriving the sine and cosine derivatives (radians)."
+      },
+      {
+        "latex": "\\lim_{h\\to0}\\dfrac{e^{h}-1}{h}=1,\\qquad \\lim_{u\\to0}\\dfrac{\\ln(1+u)}{u}=1",
+        "note": "推导 \\(e^{x}\\) 与 \\(\\ln x\\) 导数的基本极限。 · Basic limits for deriving the derivatives of \\(e^{x}\\) and \\(\\ln x\\)."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「cos x、sin x、eˣ 与 ln x 的导数」的工作方程或机制链。"
+        "from": "正弦的和角公式 · Angle-addition for sine",
+        "to": "正弦的导数 · Derivative of sine",
+        "note": "\\(\\sin(x+h)=\\sin x\\cos h+\\cos x\\sin h\\)，所以差商为 \\(\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}\\)；令 \\(h\\to0\\)，用两个基本极限得 \\(\\cos x\\)。 · \\(\\sin(x+h)=\\sin x\\cos h+\\cos x\\sin h\\), so the difference quotient is \\(\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}\\); letting \\(h\\to0\\) and using the two basic limits gives \\(\\cos x\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "余弦的和角公式 · Angle-addition for cosine",
+        "to": "余弦的导数 · Derivative of cosine",
+        "note": "\\(\\cos(x+h)=\\cos x\\cos h-\\sin x\\sin h\\)，差商为 \\(\\cos x\\cdot\\dfrac{\\cos h-1}{h}-\\sin x\\cdot\\dfrac{\\sin h}{h}\\)，极限为 \\(-\\sin x\\)。 · \\(\\cos(x+h)=\\cos x\\cos h-\\sin x\\sin h\\), so the difference quotient is \\(\\cos x\\cdot\\dfrac{\\cos h-1}{h}-\\sin x\\cdot\\dfrac{\\sin h}{h}\\), whose limit is \\(-\\sin x\\)."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "自然指数的定义 · Definition of the natural exponential",
+        "to": "\\(e^{x}\\) 的导数 · Derivative of \\(e^{x}\\)",
+        "note": "\\(\\dfrac{e^{x+h}-e^{x}}{h}=e^{x}\\cdot\\dfrac{e^{h}-1}{h}\\)；由 \\(e\\) 的定义，第二个因子趋于 1，所以导数为 \\(e^{x}\\)。 · \\(\\dfrac{e^{x+h}-e^{x}}{h}=e^{x}\\cdot\\dfrac{e^{h}-1}{h}\\); by the definition of \\(e\\), the second factor tends to 1, so the derivative is \\(e^{x}\\)."
+      },
+      {
+        "from": "对数的性质 · Properties of logarithms",
+        "to": "\\(\\ln x\\) 的导数 · Derivative of \\(\\ln x\\)",
+        "note": "\\(\\dfrac{\\ln(x+h)-\\ln x}{h}=\\dfrac{1}{h}\\ln\\left(1+\\dfrac{h}{x}\\right)\\)。令 \\(u=\\dfrac{h}{x}\\)，得 \\(\\dfrac{1}{x}\\cdot\\dfrac{\\ln(1+u)}{u}\\to\\dfrac{1}{x}\\)，因为 \\(\\lim_{u\\to0}(1+u)^{1/u}=e\\)。 · \\(\\dfrac{\\ln(x+h)-\\ln x}{h}=\\dfrac{1}{h}\\ln\\left(1+\\dfrac{h}{x}\\right)\\). Let \\(u=\\dfrac{h}{x}\\); then \\(\\dfrac{1}{x}\\cdot\\dfrac{\\ln(1+u)}{u}\\to\\dfrac{1}{x}\\), because \\(\\lim_{u\\to0}(1+u)^{1/u}=e\\)."
+      },
+      {
+        "from": "指数函数的极限 · Limit of an exponential",
+        "to": "一般指数与对数 · General exponential and logarithm",
+        "note": "\\(\\dfrac{a^{h}-1}{h}\\to\\ln a\\)，所以 \\(\\dfrac{a^{x+h}-a^{x}}{h}=a^{x}\\cdot\\dfrac{a^{h}-1}{h}\\to a^{x}\\ln a\\)；又 \\(\\log_{a}x=\\dfrac{\\ln x}{\\ln a}\\)，故其导数为 \\(\\dfrac{1}{x\\ln a}\\)。 · \\(\\dfrac{a^{h}-1}{h}\\to\\ln a\\), so \\(\\dfrac{a^{x+h}-a^{x}}{h}=a^{x}\\cdot\\dfrac{a^{h}-1}{h}\\to a^{x}\\ln a\\); also \\(\\log_{a}x=\\dfrac{\\ln x}{\\ln a}\\), so its derivative is \\(\\dfrac{1}{x\\ln a}\\)."
+      },
+      {
+        "from": "角度制与弧度制 · Degrees versus radians",
+        "to": "三角导数公式的适用范围 · Scope of the trigonometric derivative formulas",
+        "note": "\\(x^{\\circ}=\\dfrac{\\pi}{180}x\\) 弧度；对 \\(\\sin(x^{\\circ})\\) 用极限定义会多出因子 \\(\\dfrac{\\pi}{180}\\)，所以微积分中一律使用弧度。 · \\(x^{\\circ}=\\dfrac{\\pi}{180}x\\) radians; applying the limit definition to \\(\\sin(x^{\\circ})\\) produces an extra factor \\(\\dfrac{\\pi}{180}\\), so calculus always uses radians."
+      },
+      {
+        "from": "导数的线性性 · Linearity of the derivative",
+        "to": "线性组合的导数 · Derivative of a linear combination",
+        "note": "导数是极限，极限保持加法与常数倍，所以可以逐项求导；但它不保持乘积，乘积需要 2.8 的乘积法则。 · The derivative is a limit, and limits preserve sums and constant multiples, so we can differentiate term by term; the derivative does not preserve products, which require the product rule in 2.8."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "三角函数求导必须使用弧度制；计算器或 CAS 要设为 radian 模式。 · Trigonometric differentiation requires radians; set calculators or CAS to radian mode.",
+      "\\(\\ln x\\) 只在 \\(x>0\\) 有定义，因此 \\(\\dfrac{1}{x}\\) 也只在 \\(x>0\\) 作为 \\(\\ln x\\) 的导数使用。 · \\(\\ln x\\) is defined only for \\(x>0\\), so \\(\\dfrac{1}{x}\\) is used as its derivative only for \\(x>0\\).",
+      "\\(\\sin\\)、\\(\\cos\\)、\\(e^{x}\\) 对所有实数可导。 · \\(\\sin\\), \\(\\cos\\), and \\(e^{x}\\) are differentiable for all real numbers.",
+      "对 \\(a^{x}\\) 与 \\(\\log_{a}x\\)，要求 \\(a>0\\) 且 \\(a\\neq1\\)；\\(\\log_{a}x\\) 还要求 \\(x>0\\)。 · For \\(a^{x}\\) and \\(\\log_{a}x\\), require \\(a>0\\) and \\(a\\neq1\\); \\(\\log_{a}x\\) also requires \\(x>0\\).",
+      "和差、常数倍法则要求每一项在讨论点可导；组合的导数定义域是各项定义域的交集。 · The sum/difference and constant-multiple rules require each term to be differentiable at the point; the domain of the combination is the intersection of the domains.",
+      "求切线或法线时，先确认点在该函数图像上（或按要求取点），再用导数值作斜率。 · For a tangent or normal line, first confirm the point is on the graph (or use the specified point), then use the derivative value as the slope.",
+      "在特殊角处使用精确值（如 \\(\\sin\\dfrac{\\pi}{6}=\\dfrac12\\)），不要提前四舍五入。 · Use exact values at special angles (such as \\(\\sin\\dfrac{\\pi}{6}=\\dfrac12\\)) and do not round prematurely.",
+      "导数公式给出的是瞬时变化率；若用有限差商近似，需说明步长与误差。 · The formulas give instantaneous rates; if a finite difference is used, state the step size and error."
     ],
     "keyPoints": [
-      "掌握 2.7「cos x、sin x、eˣ 与 ln x 的导数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "四条基本公式：\\((\\sin x)'=\\cos x\\)，\\((\\cos x)'=-\\sin x\\)，\\((e^{x})'=e^{x}\\)，\\((\\ln x)'=\\dfrac{1}{x}\\)。 · Four basic formulas: \\((\\sin x)'=\\cos x\\), \\((\\cos x)'=-\\sin x\\), \\((e^{x})'=e^{x}\\), and \\((\\ln x)'=\\dfrac{1}{x}\\).",
+      "余弦的导数是负正弦；负号是最常见的失分点。 · The derivative of cosine is negative sine; the sign is the most common lost point.",
+      "\\(e^{x}\\) 是（在常数倍意义下）唯一等于自身导数的函数；不要把幂法则用在 \\(e^{x}\\) 上。 · \\(e^{x}\\) is, up to constant multiples, the only function equal to its own derivative; do not apply the power rule to \\(e^{x}\\).",
+      "\\(\\ln x\\) 的导数是 \\(\\dfrac{1}{x}\\)，不是 \\(\\ln x\\)；定义域 \\(x>0\\)。 · The derivative of \\(\\ln x\\) is \\(\\dfrac{1}{x}\\), not \\(\\ln x\\); the domain is \\(x>0\\).",
+      "三角公式只在弧度制下成立；角度制会产生 \\(\\dfrac{\\pi}{180}\\) 因子。 · The trigonometric formulas hold only in radians; degrees produce a factor \\(\\dfrac{\\pi}{180}\\).",
+      "用和差与常数倍逐项求导；乘积与商分别用 2.8、2.9 的法则。 · Differentiate term by term with the sum/difference and constant-multiple rules; use the product and quotient rules from 2.8 and 2.9 for products and quotients.",
+      "图像检查：\\((\\sin x)'\\) 在 \\(x=0\\) 应为 1，\\((\\cos x)'\\) 在 \\(x=\\dfrac{\\pi}{2}\\) 应为 \\(-1\\)。 · Graph check: \\((\\sin x)'\\) should be 1 at \\(x=0\\), and \\((\\cos x)'\\) should be \\(-1\\) at \\(x=\\dfrac{\\pi}{2}\\).",
+      "AP 作答要写公式、代点、化简，并在切线或变化率题中给出单位与解释。 · AP responses should state the formula, substitute the point, simplify, and give units and an interpretation in tangent or rate problems."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「cos x、sin x、eˣ 与 ln x 的导数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "\\((\\cos x)'=\\sin x\\)——漏掉负号；正确结果是 \\(-\\sin x\\)。 · \\((\\cos x)'=\\sin x\\) is wrong because it drops the negative sign; the correct result is \\(-\\sin x\\).",
+      "\\((e^{x})'=xe^{x-1}\\)——把幂法则误用到指数函数；\\(e^{x}\\) 的导数仍是 \\(e^{x}\\)。 · \\((e^{x})'=xe^{x-1}\\) wrongly applies the power rule to an exponential function; the derivative of \\(e^{x}\\) is still \\(e^{x}\\).",
+      "\\((\\ln x)'=\\ln x\\) 或 \\(\\dfrac{1}{\\ln x}\\)——正确结果是 \\(\\dfrac{1}{x}\\)。 · \\((\\ln x)'=\\ln x\\) or \\(\\dfrac{1}{\\ln x}\\) is wrong; the correct result is \\(\\dfrac{1}{x}\\).",
+      "把 \\(x^{e}\\) 与 \\(e^{x}\\) 混为一谈：前者用幂法则，后者用指数法则。 · Confusing \\(x^{e}\\) with \\(e^{x}\\): the former uses the power rule, the latter the exponential rule.",
+      "在角度制下直接套用 \\((\\sin x)'=\\cos x\\)——会漏掉 \\(\\dfrac{\\pi}{180}\\)。 · Applying \\((\\sin x)'=\\cos x\\) in degree mode drops the factor \\(\\dfrac{\\pi}{180}\\).",
+      "在 \\(x\\le0\\) 处使用 \\((\\ln x)'=\\dfrac{1}{x}\\)——\\(\\ln x\\) 在那里没有定义。 · Using \\((\\ln x)'=\\dfrac{1}{x}\\) for \\(x\\le0\\) is invalid because \\(\\ln x\\) is not defined there.",
+      "把导数的和法则误当成积法则：\\((fg)'\\neq f'g'\\)。 · Mistaking the sum rule for a product rule: \\((fg)'\\neq f'g'\\).",
+      "\\((a^{x})'=a^{x}\\)——只对 \\(a=e\\) 成立；一般 \\(a\\) 需乘 \\(\\ln a\\)。 · \\((a^{x})'=a^{x}\\) holds only for \\(a=e\\); a general base requires the factor \\(\\ln a\\)."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「cos x、sin x、eˣ 与 ln x 的导数」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 四项基本规则组合 · Example 1: A combination of all four rules",
+        "prompt": "求 \\(f(x)=3\\sin x-2\\cos x+5e^{x}-4\\ln x\\) 的导数，并写出定义域。 · Differentiate \\(f(x)=3\\sin x-2\\cos x+5e^{x}-4\\ln x\\) and state the domain.",
+        "steps": [
+          "逐项使用常数倍与和差法则。 · Differentiate term by term using the constant-multiple and sum/difference rules.",
+          "\\((3\\sin x)'=3\\cos x\\)，\\((-2\\cos x)'=2\\sin x\\)。 · \\((3\\sin x)'=3\\cos x\\) and \\((-2\\cos x)'=2\\sin x\\).",
+          "\\((5e^{x})'=5e^{x}\\)，\\((-4\\ln x)'=-\\dfrac{4}{x}\\)。 · \\((5e^{x})'=5e^{x}\\) and \\((-4\\ln x)'=-\\dfrac{4}{x}\\).",
+          "合并：\\(f'(x)=3\\cos x+2\\sin x+5e^{x}-\\dfrac{4}{x}\\)。 · Combine: \\(f'(x)=3\\cos x+2\\sin x+5e^{x}-\\dfrac{4}{x}\\).",
+          "因为含 \\(\\ln x\\)，定义域为 \\(x>0\\)。 · Because of \\(\\ln x\\), the domain is \\(x>0\\)."
+        ],
+        "solution": "\\(f'(x)=3\\cos x+2\\sin x+5e^{x}-\\dfrac{4}{x}\\)，定义域 \\(x>0\\)。 · \\(f'(x)=3\\cos x+2\\sin x+5e^{x}-\\dfrac{4}{x}\\), domain \\(x>0\\).",
+        "solutionLatex": "f'(x)=3\\cos x+2\\sin x+5e^{x}-\\dfrac{4}{x},\\qquad x>0"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "title": "例 2 · 在 \\(x=0\\) 处的切线 · Example 2: Tangent line at \\(x=0\\)",
+        "prompt": "求曲线 \\(y=e^{x}+\\sin x\\) 在 \\(x=0\\) 处的切线方程。 · Find the tangent line to \\(y=e^{x}+\\sin x\\) at \\(x=0\\).",
+        "steps": [
+          "点：\\(x=0\\) 时 \\(y=e^{0}+\\sin0=1+0=1\\)，切点为 \\((0,1)\\)。 · Point: at \\(x=0\\), \\(y=e^{0}+\\sin0=1+0=1\\), so the point of tangency is \\((0,1)\\).",
+          "斜率：\\(y'=e^{x}+\\cos x\\)，所以 \\(y'(0)=e^{0}+\\cos0=1+1=2\\)。 · Slope: \\(y'=e^{x}+\\cos x\\), so \\(y'(0)=e^{0}+\\cos0=1+1=2\\).",
+          "点斜式：\\(y-1=2(x-0)\\)，即 \\(y=2x+1\\)。 · Point-slope form: \\(y-1=2(x-0)\\), so \\(y=2x+1\\).",
+          "检查：在 \\(x=0\\) 右侧函数上升，斜率 2 为正；\\(e^{x}\\) 与 \\(\\sin x\\) 的斜率都为 1，相加得 2。 · Check: the function rises to the right of \\(x=0\\), and the slope 2 is positive; the slopes of \\(e^{x}\\) and \\(\\sin x\\) are both 1, and their sum is 2."
+        ],
+        "solution": "切线为 y=2x+1。 · The tangent line is y=2x+1.",
+        "solutionLatex": "y=1+2x"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「cos x、sin x、eˣ 与 ln x 的导数」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 用极限定义推导正弦导数 · Example 3: Deriving the sine derivative from the limit definition",
+        "prompt": "用导数定义证明 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)，并指出哪里用到了弧度制。 · Use the definition of the derivative to prove \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\), and identify where radians are used.",
+        "steps": [
+          "写出差商：\\(\\dfrac{\\sin(x+h)-\\sin x}{h}\\)。 · Write the difference quotient: \\(\\dfrac{\\sin(x+h)-\\sin x}{h}\\).",
+          "用和角公式：\\(\\sin(x+h)=\\sin x\\cos h+\\cos x\\sin h\\)。 · Use the angle-addition formula: \\(\\sin(x+h)=\\sin x\\cos h+\\cos x\\sin h\\).",
+          "整理：\\(\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}\\)。 · Rearrange: \\(\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}\\).",
+          "令 \\(h\\to0\\)，用 \\(\\lim_{h\\to0}\\dfrac{\\sin h}{h}=1\\) 与 \\(\\lim_{h\\to0}\\dfrac{\\cos h-1}{h}=0\\)，得 \\(\\sin x\\cdot0+\\cos x\\cdot1=\\cos x\\)。 · Let \\(h\\to0\\) and use \\(\\lim_{h\\to0}\\dfrac{\\sin h}{h}=1\\) and \\(\\lim_{h\\to0}\\dfrac{\\cos h-1}{h}=0\\) to get \\(\\sin x\\cdot0+\\cos x\\cdot1=\\cos x\\).",
+          "这两个极限只在 \\(h\\) 以弧度计时成立；若用角度制，\\(\\dfrac{\\sin h}{h}\\) 的极限会变成 \\(\\dfrac{\\pi}{180}\\)。 · These limits hold only when \\(h\\) is measured in radians; in degrees, the limit of \\(\\dfrac{\\sin h}{h}\\) becomes \\(\\dfrac{\\pi}{180}\\)."
+        ],
+        "solution": "推导得 \\(\\cos x\\)；关键极限 \\(\\lim_{h\\to0}\\dfrac{\\sin h}{h}=1\\) 与 \\(\\lim_{h\\to0}\\dfrac{\\cos h-1}{h}=0\\) 要求弧度制。 · The derivation gives \\(\\cos x\\); the key limits \\(\\lim_{h\\to0}\\dfrac{\\sin h}{h}=1\\) and \\(\\lim_{h\\to0}\\dfrac{\\cos h-1}{h}=0\\) require radians.",
+        "solutionLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\sin x\\cdot0+\\cos x\\cdot1=\\cos x"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「cos x、sin x、eˣ 与 ln x 的导数」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「cos x、sin x、eˣ 与 ln x 的导数」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 法线与精确值 · Example 4: Normal line with exact values",
+        "prompt": "曲线 \\(y=\\ln x\\) 在 \\(x=2\\) 处的切线斜率为 \\(\\dfrac12\\)。求该点处的法线方程，并用精确值表示。 · The tangent slope of \\(y=\\ln x\\) at \\(x=2\\) is \\(\\dfrac12\\). Find the normal line at that point, using exact values.",
+        "steps": [
+          "切点：\\((2,\\ln2)\\)。 · Point of tangency: \\((2,\\ln2)\\).",
+          "切线斜率 \\(m=\\dfrac{1}{2}\\)；法线斜率 \\(m_{\\perp}=-\\dfrac{1}{m}=-2\\)。 · Tangent slope \\(m=\\dfrac{1}{2}\\); normal slope \\(m_{\\perp}=-\\dfrac{1}{m}=-2\\).",
+          "点斜式：\\(y-\\ln2=-2(x-2)\\)。 · Point-slope form: \\(y-\\ln2=-2(x-2)\\).",
+          "化简：\\(y=-2x+4+\\ln2\\)。 · Simplify: \\(y=-2x+4+\\ln2\\).",
+          "检查：\\(\\ln x\\) 递增，切线斜率为正；法线斜率为负且更陡。 · Check: \\(\\ln x\\) is increasing, so the tangent slope is positive; the normal slope is negative and steeper."
+        ],
+        "solution": "法线：y=-2x+4+ln2。 · The normal line is y=-2x+4+ln2.",
+        "solutionLatex": "y-\\ln2=-2(x-2)\\quad\\Longrightarrow\\quad y=-2x+4+\\ln2"
+      },
+      {
+        "title": "例 5 · 由函数值确定系数 · Example 5: Determining coefficients from values",
+        "prompt": "设 \\(f(x)=a\\sin x+b\\cos x\\)。已知 \\(f(0)=2\\)、\\(f'(0)=3\\)，求 \\(a,b\\)，并求 \\(f\\) 在 \\([0,2\\pi]\\) 上所有水平切线的横坐标。 · Let \\(f(x)=a\\sin x+b\\cos x\\). Given \\(f(0)=2\\) and \\(f'(0)=3\\), find \\(a,b\\) and all \\(x\\) in \\([0,2\\pi]\\) where \\(f\\) has a horizontal tangent.",
+        "steps": [
+          "\\(f(0)=a\\sin0+b\\cos0=b=2\\)。 · \\(f(0)=a\\sin0+b\\cos0=b=2\\).",
+          "\\(f'(x)=a\\cos x-b\\sin x\\)，所以 \\(f'(0)=a=3\\)。 · \\(f'(x)=a\\cos x-b\\sin x\\), so \\(f'(0)=a=3\\).",
+          "因此 \\(f(x)=3\\sin x+2\\cos x\\)，\\(f'(x)=3\\cos x-2\\sin x\\)。 · Thus \\(f(x)=3\\sin x+2\\cos x\\) and \\(f'(x)=3\\cos x-2\\sin x\\).",
+          "水平切线要求 \\(f'(x)=0\\)：\\(3\\cos x=2\\sin x\\)，即 \\(\\tan x=\\dfrac{3}{2}\\)（\\(\\cos x\\neq0\\)）。 · A horizontal tangent requires \\(f'(x)=0\\): \\(3\\cos x=2\\sin x\\), so \\(\\tan x=\\dfrac{3}{2}\\) (with \\(\\cos x\\neq0\\)).",
+          "在 \\([0,2\\pi]\\) 内，解为 \\(x=\\arctan\\dfrac{3}{2}\\) 与 \\(x=\\arctan\\dfrac{3}{2}+\\pi\\)。 · In \\([0,2\\pi]\\), the solutions are \\(x=\\arctan\\dfrac{3}{2}\\) and \\(x=\\arctan\\dfrac{3}{2}+\\pi\\)."
+        ],
+        "solution": "\\(a=3\\)，\\(b=2\\)；\\(x=\\arctan\\dfrac{3}{2}\\) 与 \\(x=\\arctan\\dfrac{3}{2}+\\pi\\)。 · \\(a=3\\), \\(b=2\\); \\(x=\\arctan\\dfrac{3}{2}\\) and \\(x=\\arctan\\dfrac{3}{2}+\\pi\\).",
+        "solutionLatex": "a=3,\\quad b=2;\\qquad x=\\arctan\\dfrac{3}{2},\\ \\arctan\\dfrac{3}{2}+\\pi"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写四条基本公式，再逐项求导；不要在脑中跳步。 · Write the four basic formulas first, then differentiate term by term; do not skip steps mentally.",
+      "看到 \\(\\cos\\) 就检查负号；看到 \\(e^{x}\\) 不要用幂法则。 · Check the negative sign whenever cosine appears, and never apply the power rule to \\(e^{x}\\).",
+      "确认 \\(\\ln x\\) 的定义域；答案中保留 \\(x>0\\)。 · Confirm the domain of \\(\\ln x\\) and keep \\(x>0\\) in the answer.",
+      "三角函数题先确认弧度模式。 · For trigonometric problems, confirm radian mode first.",
+      "切线题：先算点，再算斜率，最后写点斜式并化简。 · Tangent-line problems: compute the point, then the slope, then write point-slope form and simplify.",
+      "用特殊角的精确值，最后才按需近似。 · Use exact values at special angles and approximate only at the end if needed.",
+      "AP 解释题要说明导数的符号、大小和单位；图像题要比较斜率。 · In AP explanation questions, state the sign, size, and units of the derivative; in graph questions, compare slopes.",
+      "组合函数只可用和差与常数倍；乘积与商留到 2.8、2.9。 · For combinations, use only the sum/difference and constant-multiple rules; leave products and quotients to 2.8 and 2.9."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u2",
+        "code": "2.5",
+        "title": "幂法则 · The Power Rule",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
         "code": "2.6",
-        "title": "常数倍与和差",
-        "relation": "prerequisite"
+        "title": "常数倍与和差 · Constant Multiples and Sums and Differences",
+        "relation": "前置 · prerequisite"
       },
       {
         "subject": "math",
         "chapterId": "calc-u2",
         "code": "2.8",
-        "title": "乘积法则",
-        "relation": "related"
+        "title": "乘积法则 · The Product Rule",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.9",
+        "title": "商法则 · The Quotient Rule",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.10",
+        "title": "三角函数导数 · Finding the Derivatives of Tangent, Cotangent, Secant, and Cosecant Functions",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u3",
+        "code": "3.1",
+        "title": "链式法则 · The Chain Rule",
+        "relation": "后续 · follow-up"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u2",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：2.5 幂法则与 2.6 线性法则提供逐项求导的工具；2.7 增加四类基本函数的导数。 · Upstream: the power rule in 2.5 and the linearity rules in 2.6 provide tools for term-by-term differentiation; 2.7 adds the derivatives of four basic families.",
+      "下游：2.8 与 2.9 把基本规则组合成乘积、商的求导；2.10 用 \\(\\sin\\)、\\(\\cos\\) 的导数推出 tan、cot、sec、csc 的导数。 · Downstream: 2.8 and 2.9 combine basic rules into product and quotient differentiation; 2.10 uses the sine and cosine derivatives to derive the derivatives of tan, cot, sec, and csc.",
+      "后续：3.1 链式法则把 \\(\\sin(2x)\\)、\\(e^{3x}\\)、\\(\\ln(5x)\\) 化为基本规则与内层导数的乘积。 · Later: the chain rule in 3.1 reduces \\(\\sin(2x)\\), \\(e^{3x}\\), and \\(\\ln(5x)\\) to basic rules multiplied by the inner derivative.",
+      "应用：4.1 把导数解释为带单位的变化率；切线、法线题把导数值转化为几何斜率。 · Applications: 4.1 interprets the derivative as a rate with units; tangent and normal problems turn derivative values into geometric slopes.",
+      "图像：\\(\\cos\\) 是 \\(\\sin\\) 的斜率曲线；\\(e^{x}\\) 的斜率等于高度；\\(\\ln x\\) 的斜率随 \\(x\\) 增大而减小。 · Graphs: \\(\\cos\\) is the slope curve of \\(\\sin\\); the slope of \\(e^{x}\\) equals its height; the slope of \\(\\ln x\\) decreases as \\(x\\) increases."
     ],
-    "intuitionDetailed": "把「cos x、sin x、eˣ 与 ln x 的导数」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "先抓住四个「斜率画像」。\\(\\sin\\) 在原点附近几乎就是直线 \\(y=x\\)，所以原点斜率为 1；到峰顶切线变平，斜率降为 0，这条斜率曲线正是 \\(\\cos\\)。\\(\\cos\\) 从峰顶出发，切线一开始水平，随后向下倾斜，在 \\(x=\\dfrac{\\pi}{2}\\) 处达到最陡的 \\(-1\\)，所以它的导数是 \\(-\\sin\\)。\\(e^{x}\\) 每一点的切线斜率都等于该点的高度，这种「斜率=函数值」的性质使它成为微分方程 \\(y'=y\\) 的基本解。\\(\\ln x\\) 是 \\(e^{x}\\) 的反函数：\\(e^{x}\\) 增长越来越快，反过来 \\(\\ln x\\) 增长越来越慢，斜率 \\(\\dfrac{1}{x}\\) 正好随 \\(x\\) 增大而减小。把这四个画像与极限推导对照，就能在忘记公式时快速重建。 · First build four slope pictures. Near the origin, \\(\\sin\\) is almost the line \\(y=x\\), so its slope at the origin is 1; at the peak the tangent flattens to slope 0, and this slope curve is exactly \\(\\cos\\). Cosine starts at a peak with a horizontal tangent, then tilts downward and reaches its steepest slope \\(-1\\) at \\(x=\\dfrac{\\pi}{2}\\), so its derivative is \\(-\\sin\\). Every tangent slope of \\(e^{x}\\) equals its height, the property that makes it the basic solution of \\(y'=y\\). \\(\\ln x\\) is the inverse of \\(e^{x}\\): as \\(e^{x}\\) grows faster and faster, \\(\\ln x\\) grows more and more slowly, with slope \\(\\dfrac{1}{x}\\) decreasing as \\(x\\) increases. Compare these pictures with the limit derivations, and you can rebuild the formulas if you forget them.",
     "development": [
-      "回顾先修：确认符号、单位与「cos x、sin x、eˣ 与 ln x 的导数」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "回顾导数定义与弧度制：确认差商、极限以及 \\(180^{\\circ}=\\pi\\) 弧度。 · Review the derivative definition and radians: confirm the difference quotient, the limit, and \\(180^{\\circ}=\\pi\\) radians.",
+      "用和角公式与两个基本极限推导 \\(\\sin\\)、\\(\\cos\\) 的导数。 · Derive the derivatives of \\(\\sin\\) and \\(\\cos\\) with angle-addition formulas and the two basic limits.",
+      "用 \\(e\\) 的定义推导 \\(e^{x}\\) 的导数。 · Derive the derivative of \\(e^{x}\\) from the definition of \\(e\\).",
+      "用对数性质与 \\(e\\) 的极限推导 \\(\\ln x\\) 的导数。 · Derive the derivative of \\(\\ln x\\) from logarithm properties and the limit defining \\(e\\).",
+      "整理公式表，并用常数倍、和差法则练习线性组合。 · Organize the formula table and practice linear combinations with the constant-multiple and sum/difference rules.",
+      "把导数用于切线、法线与带单位的变化率，检查符号、大小和单位。 · Apply derivatives to tangent lines, normal lines, and rates with units, checking sign, size, and units.",
+      "扩展到一般指数、对数与高阶导数，观察 \\(\\sin\\)、\\(\\cos\\) 的导数循环。 · Extend to general exponentials, logarithms, and higher derivatives, observing the derivative cycle of \\(\\sin\\) and \\(\\cos\\)."
     ],
     "checks": [
-      "不看书能否复述「cos x、sin x、eˣ 与 ln x 的导数」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "不看书，写出四条基本导数公式，并说明每条的定义域。 · Without notes, write the four basic derivative formulas and state each domain.",
+      "为什么 \\((\\cos x)'=-\\sin x\\) 而不是 \\(\\sin x\\)？用 \\(x=\\dfrac{\\pi}{2}\\) 处的斜率解释。 · Why is \\((\\cos x)'=-\\sin x\\) rather than \\(\\sin x\\)? Explain using the slope at \\(x=\\dfrac{\\pi}{2}\\).",
+      "若 \\(x\\) 用角度制，\\((\\sin x)'\\) 会多出什么因子？为什么？ · If \\(x\\) is measured in degrees, what factor appears in \\((\\sin x)'\\), and why?",
+      "求 \\(f(x)=2\\sin x+3e^{x}-\\ln x\\) 的导数。 · Differentiate \\(f(x)=2\\sin x+3e^{x}-\\ln x\\).",
+      "求 \\(y=e^{x}+\\cos x\\) 在 \\(x=0\\) 处的切线方程。 · Find the tangent line to \\(y=e^{x}+\\cos x\\) at \\(x=0\\).",
+      "解释为什么 \\(e^{x}\\) 是自己的导数，而 \\(x^{e}\\) 不是。 · Explain why \\(e^{x}\\) is its own derivative but \\(x^{e}\\) is not.",
+      "写出 \\(\\sin x\\) 的前四阶导数，并说明循环规律。 · Write the first four derivatives of \\(\\sin x\\) and describe the cycle.",
+      "已知 \\(f(x)=\\ln x\\)，求 \\(f''(x)\\) 并说明 \\(f'\\) 的增减性。 · Given \\(f(x)=\\ln x\\), find \\(f''(x)\\) and describe whether \\(f'\\) is increasing or decreasing."
     ],
     "vocabulary": [
       {
-        "termZh": "正弦导数",
+        "termZh": "正弦的导数",
         "termEn": "derivative of sine",
-        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)。",
-        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)."
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)，在弧度制下成立。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\), valid in radians."
       },
       {
-        "termZh": "余弦导数",
+        "termZh": "余弦的导数",
         "termEn": "derivative of cosine",
-        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)。",
-        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)."
+        "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)，负号不能漏。",
+        "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\); the negative sign is essential."
       },
       {
-        "termZh": "自然指数",
-        "termEn": "natural exponential",
+        "termZh": "自然指数函数",
+        "termEn": "natural exponential function",
         "defZh": "\\(e^{x}\\)，其导数仍为 \\(e^{x}\\)。",
         "defEn": "\\(e^{x}\\), whose derivative is again \\(e^{x}\\)."
       },
       {
-        "termZh": "自然对数",
-        "termEn": "natural logarithm",
-        "defZh": "\\(\\ln x\\)，其导数为 \\(\\dfrac{1}{x}\\)（\\(x>0\\)）。",
-        "defEn": "\\(\\ln x\\), whose derivative is \\(\\dfrac{1}{x}\\) for \\(x>0\\)."
+        "termZh": "自然对数函数",
+        "termEn": "natural logarithm function",
+        "defZh": "\\(\\ln x\\)，定义域 \\(x>0\\)，导数为 \\(\\dfrac{1}{x}\\)。",
+        "defEn": "\\(\\ln x\\), defined for \\(x>0\\), with derivative \\(\\dfrac{1}{x}\\)."
       },
       {
-        "termZh": "一般指数",
-        "termEn": "general exponential",
-        "defZh": "\\(a^{x}\\)，导数为 \\(a^{x}\\ln a\\)。",
-        "defEn": "\\(a^{x}\\), whose derivative is \\(a^{x}\\ln a\\)."
+        "termZh": "弧度制",
+        "termEn": "radian measure",
+        "defZh": "以 \\(2\\pi\\) 为一整圈的角度制；三角函数的导数公式只在此制下成立。",
+        "defEn": "Angle measure with a full turn equal to \\(2\\pi\\); the trigonometric derivative formulas hold only in this measure."
       },
       {
-        "termZh": "链式法则",
-        "termEn": "chain rule",
-        "defZh": "复合函数求导时乘以内层函数的导数。",
-        "defEn": "Differentiating a composition by multiplying by the derivative of the inner function."
+        "termZh": "一般指数函数",
+        "termEn": "general exponential function",
+        "defZh": "\\(a^{x}\\)（\\(a>0\\)，\\(a\\neq1\\)），导数为 \\(a^{x}\\ln a\\)。",
+        "defEn": "\\(a^{x}\\) for \\(a>0\\), \\(a\\neq1\\), with derivative \\(a^{x}\\ln a\\)."
+      },
+      {
+        "termZh": "一般对数函数",
+        "termEn": "general logarithmic function",
+        "defZh": "\\(\\log_{a}x\\)（\\(a>0\\)，\\(a\\neq1\\)），导数为 \\(\\dfrac{1}{x\\ln a}\\)。",
+        "defEn": "\\(\\log_{a}x\\) for \\(a>0\\), \\(a\\neq1\\), with derivative \\(\\dfrac{1}{x\\ln a}\\)."
+      },
+      {
+        "termZh": "导数循环",
+        "termEn": "derivative cycle",
+        "defZh": "\\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\) 的四步循环。",
+        "defEn": "The four-step cycle \\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\)."
       }
     ]
   },
@@ -1723,160 +1883,332 @@ export const TOPICS = {
     "titleZh": "三角函数导数",
     "titleEn": "Finding the Derivatives of Tangent, Cotangent, Secant, and Cosecant Functions",
     "layer": "ap",
-    "summary": "三角函数导数 · Finding the Derivatives of Tangent, Cotangent, Secant, and Cosecant Functions",
+    "summary": "先利用商的关系或倒数关系把 \\(\\tan x\\)、\\(\\cot x\\)、\\(\\sec x\\)、\\(\\csc x\\) 改写成 \\(\\sin x\\) 与 \\(\\cos x\\) 的表达式，再用商法则或倒数法则求导，并用三角恒等式化简。 · Rewrite \\(\\tan x\\), \\(\\cot x\\), \\(\\sec x\\), and \\(\\csc x\\) as quotients or reciprocals of \\(\\sin x\\) and \\(\\cos x\\), differentiate with the quotient or reciprocal rule, and simplify with trigonometric identities.",
     "learningObjectives": [
-      "能陈述「三角函数导数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能写出 \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)、\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)、\\(\\sec x=\\dfrac{1}{\\cos x}\\)、\\(\\csc x=\\dfrac{1}{\\sin x}\\)，并说明各自的定义域。 · Write the four quotient or reciprocal identities and state their domains.",
+      "能用商法则从 \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\) 与 \\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\) 推导出 \\(\\sec^{2}x\\) 与 \\(-\\csc^{2}x\\)。 · Use the quotient rule on the sine and cosine quotients to derive \\(\\sec^{2}x\\) and \\(-\\csc^{2}x\\).",
+      "能用倒数法则或商法则推导 \\((\\sec x)'=\\sec x\\tan x\\) 与 \\((\\csc x)'=-\\csc x\\cot x\\)。 · Use the reciprocal or quotient rule to derive \\((\\sec x)'=\\sec x\\tan x\\) and \\((\\csc x)'=-\\csc x\\cot x\\).",
+      "能用 \\(\\sin^{2}x+\\cos^{2}x=1\\) 及其变形 \\(1+\\tan^{2}x=\\sec^{2}x\\)、\\(1+\\cot^{2}x=\\csc^{2}x\\) 化简导数。 · Simplify derivatives with \\(\\sin^{2}x+\\cos^{2}x=1\\) and its forms \\(1+\\tan^{2}x=\\sec^{2}x\\) and \\(1+\\cot^{2}x=\\csc^{2}x\\).",
+      "能在特殊角处求导数值，求切线方程，并判断水平或竖直切线。 · Evaluate derivatives at special angles, find tangent lines, and identify horizontal or vertical tangents.",
+      "能指出各函数的定义域限制，并说明在渐近线处导数不存在。 · State the domain restrictions and explain that derivatives do not exist at the asymptotes.",
+      "能把三角导数与乘积法则、商法则及其他基本导数组合使用。 · Combine trigonometric derivatives with the product rule, quotient rule, and other basic derivatives.",
+      "能检查公式的符号与结构，避免把 \\(\\tan\\) 与 \\(\\sec\\) 的导数混淆。 · Check the signs and structure of the formulas and avoid confusing the derivatives of \\(\\tan\\) and \\(\\sec\\)."
     ],
     "essentialKnowledge": [
-      "Finding the Derivatives of Tangent, Cotangent, Secant, and Cosecant Functions：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「三角函数导数」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "FUN-3.B.3：利用恒等式把 tangent、cotangent、secant 与 cosecant 改写后，就可以用求导法则求导。 · FUN-3.B.3: Rearranging tangent, cotangent, secant, and cosecant functions using identities allows differentiation using derivative rules.",
+      "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)，用商法则得 \\(\\dfrac{\\cos^{2}x+\\sin^{2}x}{\\cos^{2}x}=\\dfrac{1}{\\cos^{2}x}=\\sec^{2}x\\)。 · \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\); the quotient rule gives \\(\\dfrac{\\cos^{2}x+\\sin^{2}x}{\\cos^{2}x}=\\dfrac{1}{\\cos^{2}x}=\\sec^{2}x\\).",
+      "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)，用商法则得 \\(\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}=-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\)。 · \\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\); the quotient rule gives \\(\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}=-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\).",
+      "\\(\\sec x=\\dfrac{1}{\\cos x}\\)，用倒数法则得 \\(\\dfrac{\\sin x}{\\cos^{2}x}=\\sec x\\tan x\\)。 · \\(\\sec x=\\dfrac{1}{\\cos x}\\); the reciprocal rule gives \\(\\dfrac{\\sin x}{\\cos^{2}x}=\\sec x\\tan x\\).",
+      "\\(\\csc x=\\dfrac{1}{\\sin x}\\)，用倒数法则得 \\(-\\dfrac{\\cos x}{\\sin^{2}x}=-\\csc x\\cot x\\)。 · \\(\\csc x=\\dfrac{1}{\\sin x}\\); the reciprocal rule gives \\(-\\dfrac{\\cos x}{\\sin^{2}x}=-\\csc x\\cot x\\).",
+      "定义域：\\(\\tan\\) 与 \\(\\sec\\) 要求 \\(\\cos x\\neq0\\)，即 \\(x\\neq\\dfrac{\\pi}{2}+k\\pi\\)；\\(\\cot\\) 与 \\(\\csc\\) 要求 \\(\\sin x\\neq0\\)，即 \\(x\\neq k\\pi\\)。 · Domains: \\(\\tan\\) and \\(\\sec\\) require \\(\\cos x\\neq0\\), so \\(x\\neq\\dfrac{\\pi}{2}+k\\pi\\); \\(\\cot\\) and \\(\\csc\\) require \\(\\sin x\\neq0\\), so \\(x\\neq k\\pi\\).",
+      "毕达哥拉斯恒等式：\\(1+\\tan^{2}x=\\sec^{2}x\\)，\\(1+\\cot^{2}x=\\csc^{2}x\\)；因此 \\((\\tan x)'=\\sec^{2}x\\ge1\\)，\\((\\cot x)'=-\\csc^{2}x\\le-1\\)。 · Pythagorean identities: \\(1+\\tan^{2}x=\\sec^{2}x\\) and \\(1+\\cot^{2}x=\\csc^{2}x\\); hence \\((\\tan x)'=\\sec^{2}x\\ge1\\) and \\((\\cot x)'=-\\csc^{2}x\\le-1\\).",
+      "符号规律：\\(\\tan\\) 的导数 \\(\\sec^{2}x\\) 恒为正；\\(\\cot\\) 的导数 \\(-\\csc^{2}x\\) 恒为负；\\(\\sec\\) 与 \\(\\csc\\) 的导数分别是 \\(\\sec x\\tan x=\\dfrac{\\sin x}{\\cos^{2}x}\\) 与 \\(-\\csc x\\cot x=-\\dfrac{\\cos x}{\\sin^{2}x}\\)，其符号随区间变化。 · Sign pattern: \\((\\tan x)'=\\sec^{2}x\\) is always positive and \\((\\cot x)'=-\\csc^{2}x\\) is always negative; the derivatives of \\(\\sec\\) and \\(\\csc\\) are \\(\\sec x\\tan x=\\dfrac{\\sin x}{\\cos^{2}x}\\) and \\(-\\csc x\\cot x=-\\dfrac{\\cos x}{\\sin^{2}x}\\), whose signs vary by interval.",
+      "三角导数公式只在弧度制下成立；角度制会引入因子 \\(\\dfrac{\\pi}{180}\\)。 · The trigonometric derivative formulas hold only in radians; degrees introduce a factor \\(\\dfrac{\\pi}{180}\\).",
+      "先化简再求导往往更快：例如 \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)（在 \\(\\cos x\\neq0\\) 上），所以其导数为 \\(\\cos x\\)。 · Simplifying before differentiating is often faster: for example, \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\) where \\(\\cos x\\neq0\\), so its derivative is \\(\\cos x\\).",
+      "与乘积、商法则组合：如 \\((e^{x}\\sec x)'=e^{x}\\sec x(1+\\tan x)\\)，\\((x\\tan x)'=\\tan x+x\\sec^{2}x\\)。 · Combine with the product and quotient rules: for example, \\((e^{x}\\sec x)'=e^{x}\\sec x(1+\\tan x)\\) and \\((x\\tan x)'=\\tan x+x\\sec^{2}x\\).",
+      "\\((\\tan x)'=\\sec^{2}x=1+\\tan^{2}x\\ge1>0\\)，所以 \\(\\tan\\) 在每个连续分支上严格递增，没有水平切线。 · \\((\\tan x)'=\\sec^{2}x=1+\\tan^{2}x\\ge1>0\\), so \\(\\tan\\) is strictly increasing on each continuous branch and has no horizontal tangent."
     ],
-    "definition": "三角函数导数（Finding the Derivatives of Tangent, Cotangent, Secant, and Cosecant Functions）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「三角函数导数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "在弧度制下，且在各函数有定义的点：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^{2}x\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sec x]=\\sec x\\tan x\\)，\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\csc x]=-\\csc x\\cot x\\)。这些公式不是新的独立规则，而是把 \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)、\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)、\\(\\sec x=\\dfrac{1}{\\cos x}\\)、\\(\\csc x=\\dfrac{1}{\\sin x}\\) 代入商法则或倒数法则，再用 \\(\\sin^{2}x+\\cos^{2}x=1\\) 化简得到的。 · In radians, at points where the functions are defined, \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^{2}x\\), \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x\\), \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sec x]=\\sec x\\tan x\\), and \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\csc x]=-\\csc x\\cot x\\). These formulas are not new independent rules: they come from substituting the quotient or reciprocal identities into the quotient or reciprocal rule and simplifying with \\(\\sin^{2}x+\\cos^{2}x=1\\).",
+    "intuition": "\\(\\tan\\) 是 \\(\\sin\\) 与 \\(\\cos\\) 的商。在 \\(\\cos x\\) 从正侧接近 0 的地方，\\(\\tan\\) 急剧上升，斜率也急剧增大，所以 \\(\\tan\\) 的导数是 \\(\\sec^{2}x\\)，且 \\(\\sec^{2}x=1+\\tan^{2}x\\ge1\\)。\\(\\cot\\) 是 \\(\\cos\\) 与 \\(\\sin\\) 的商，在每个连续分支上递减，所以导数为负的 \\(\\csc^{2}x\\)。\\(\\sec\\) 是 \\(\\cos\\) 的倒数，\\(\\csc\\) 是 \\(\\sin\\) 的倒数：它们的导数分别为 \\(\\sec x\\tan x\\) 与 \\(-\\csc x\\cot x\\)，符号随所在区间变化。所有公式都可以由「改写—求导—化简」三步得到，不需要死记硬背。 · \\(\\tan\\) is the quotient of \\(\\sin\\) and \\(\\cos\\). Where \\(\\cos x\\) approaches 0 from the positive side, \\(\\tan\\) rises steeply and its slope grows rapidly, so its derivative is \\(\\sec^{2}x\\), with \\(\\sec^{2}x=1+\\tan^{2}x\\ge1\\). \\(\\cot\\) is the quotient of \\(\\cos\\) and \\(\\sin\\); it decreases on each continuous branch, so its derivative is negative, \\(-\\csc^{2}x\\). \\(\\sec\\) is the reciprocal of \\(\\cos\\), and \\(\\csc\\) is the reciprocal of \\(\\sin\\): their derivatives are \\(\\sec x\\tan x\\) and \\(-\\csc x\\cot x\\), whose signs vary by interval. Every formula can be obtained in three steps—rewrite, differentiate, simplify—so there is no need to memorize blindly.",
     "formulas": [
       {
-        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^{2}x,\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x,\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sec x]=\\sec x\\tan x,\\quad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\csc x]=-\\csc x\\cot x",
-        "note": "tan x、cot x、sec x 与 csc x 的导数。 · Derivatives of tan x, cot x, sec x, and csc x."
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=\\sec^{2}x",
+        "note": "正切的导数；在 \\(\\cos x\\neq0\\) 处成立。 · Derivative of tangent; valid where \\(\\cos x\\neq0\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x",
+        "note": "余切的导数；负号不能漏。 · Derivative of cotangent; do not drop the negative sign."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sec x]=\\sec x\\tan x",
+        "note": "正割的导数；不是 \\(\\sec^{2}x\\)。 · Derivative of secant; it is not \\(\\sec^{2}x\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\csc x]=-\\csc x\\cot x",
+        "note": "余割的导数；负号不能漏。 · Derivative of cosecant; do not drop the negative sign."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\tan x]=1+\\tan^{2}x,\\qquad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-(1+\\cot^{2}x)",
+        "note": "用毕达哥拉斯恒等式写出的等价形式。 · Equivalent forms using Pythagorean identities."
+      },
+      {
+        "latex": "\\tan x=\\dfrac{\\sin x}{\\cos x},\\quad \\cot x=\\dfrac{\\cos x}{\\sin x},\\quad \\sec x=\\dfrac{1}{\\cos x},\\quad \\csc x=\\dfrac{1}{\\sin x}",
+        "note": "求导前先把四个函数改写成 \\(\\sin\\)、\\(\\cos\\) 的商或倒数。 · Rewrite the four functions as quotients or reciprocals of \\(\\sin\\) and \\(\\cos\\) before differentiating."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\dfrac{u}{v}\\right]=\\dfrac{u'v-uv'}{v^{2}},\\qquad \\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\dfrac{1}{v}\\right]=-\\dfrac{v'}{v^{2}}",
+        "note": "商法则与倒数法则；分母必须非零。 · Quotient and reciprocal rules; the denominator must be nonzero."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「三角函数导数」的工作方程或机制链。"
+        "from": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)",
+        "to": "\\((\\tan x)'=\\sec^{2}x\\)",
+        "note": "商法则：\\(\\dfrac{(\\sin x)'\\cos x-\\sin x(\\cos x)'}{\\cos^{2}x}=\\dfrac{\\cos^{2}x+\\sin^{2}x}{\\cos^{2}x}=\\dfrac{1}{\\cos^{2}x}=\\sec^{2}x\\)。 · Quotient rule: \\(\\dfrac{(\\sin x)'\\cos x-\\sin x(\\cos x)'}{\\cos^{2}x}=\\dfrac{\\cos^{2}x+\\sin^{2}x}{\\cos^{2}x}=\\dfrac{1}{\\cos^{2}x}=\\sec^{2}x\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)",
+        "to": "\\((\\cot x)'=-\\csc^{2}x\\)",
+        "note": "商法则：\\(\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}=-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\)。 · Quotient rule: \\(\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}=-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\)."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "\\(\\sec x=\\dfrac{1}{\\cos x}\\)",
+        "to": "\\((\\sec x)'=\\sec x\\tan x\\)",
+        "note": "倒数法则：\\(-\\dfrac{(\\cos x)'}{\\cos^{2}x}=\\dfrac{\\sin x}{\\cos^{2}x}=\\dfrac{1}{\\cos x}\\cdot\\dfrac{\\sin x}{\\cos x}=\\sec x\\tan x\\)。 · Reciprocal rule: \\(-\\dfrac{(\\cos x)'}{\\cos^{2}x}=\\dfrac{\\sin x}{\\cos^{2}x}=\\dfrac{1}{\\cos x}\\cdot\\dfrac{\\sin x}{\\cos x}=\\sec x\\tan x\\)."
+      },
+      {
+        "from": "\\(\\csc x=\\dfrac{1}{\\sin x}\\)",
+        "to": "\\((\\csc x)'=-\\csc x\\cot x\\)",
+        "note": "倒数法则：\\(-\\dfrac{(\\sin x)'}{\\sin^{2}x}=-\\dfrac{\\cos x}{\\sin^{2}x}=-\\dfrac{1}{\\sin x}\\cdot\\dfrac{\\cos x}{\\sin x}=-\\csc x\\cot x\\)。 · Reciprocal rule: \\(-\\dfrac{(\\sin x)'}{\\sin^{2}x}=-\\dfrac{\\cos x}{\\sin^{2}x}=-\\dfrac{1}{\\sin x}\\cdot\\dfrac{\\cos x}{\\sin x}=-\\csc x\\cot x\\)."
+      },
+      {
+        "from": "毕达哥拉斯恒等式 · Pythagorean identity",
+        "to": "等价导数形式 · Equivalent derivative forms",
+        "note": "由 \\(\\sin^{2}x+\\cos^{2}x=1\\) 两边除以 \\(\\cos^{2}x\\) 得 \\(1+\\tan^{2}x=\\sec^{2}x\\)；除以 \\(\\sin^{2}x\\) 得 \\(1+\\cot^{2}x=\\csc^{2}x\\)。 · Dividing \\(\\sin^{2}x+\\cos^{2}x=1\\) by \\(\\cos^{2}x\\) gives \\(1+\\tan^{2}x=\\sec^{2}x\\); dividing by \\(\\sin^{2}x\\) gives \\(1+\\cot^{2}x=\\csc^{2}x\\)."
+      },
+      {
+        "from": "先化简再求导 · Simplify before differentiating",
+        "to": "更短的解法 · A shorter solution",
+        "note": "例如 \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)（在 \\(\\cos x\\neq0\\) 上），导数直接为 \\(\\cos x\\)；若用商法则也能得到同样结果，但计算更长。 · For example, \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\) where \\(\\cos x\\neq0\\), so the derivative is directly \\(\\cos x\\); the quotient rule gives the same result with more work."
+      },
+      {
+        "from": "定义域限制 · Domain restrictions",
+        "to": "可导区间 · Differentiability intervals",
+        "note": "原函数无定义的点（\\(\\cos x=0\\) 或 \\(\\sin x=0\\)）不可能是可导点；导数公式只在原函数的定义域内使用。 · Points where the original function is undefined (\\(\\cos x=0\\) or \\(\\sin x=0\\)) cannot be differentiable points; the derivative formulas apply only on the original domain."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "所有公式都要求 \\(x\\) 用弧度制；角度制会引入因子 \\(\\dfrac{\\pi}{180}\\)。 · All formulas require \\(x\\) in radians; degrees introduce a factor \\(\\dfrac{\\pi}{180}\\).",
+      "\\(\\tan\\) 与 \\(\\sec\\) 在 \\(\\cos x=0\\) 处无定义；\\(\\cot\\) 与 \\(\\csc\\) 在 \\(\\sin x=0\\) 处无定义，因此这些点也没有导数。 · \\(\\tan\\) and \\(\\sec\\) are undefined where \\(\\cos x=0\\); \\(\\cot\\) and \\(\\csc\\) are undefined where \\(\\sin x=0\\), so they have no derivative there.",
+      "使用商法则或倒数法则时，分母必须非零；这正是定义域限制的来源。 · When using the quotient or reciprocal rule, the denominator must be nonzero; this is the source of the domain restrictions.",
+      "化简前后定义域可能看起来不同：例如 \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)，但原式仍要求 \\(\\cos x\\neq0\\)。 · The domain may look different after simplification: for example, \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\), but the original expression still requires \\(\\cos x\\neq0\\).",
+      "特殊角要使用精确值（如 \\(\\sec\\dfrac{\\pi}{4}=\\sqrt2\\)、\\(\\tan\\dfrac{\\pi}{4}=1\\)），不要提前舍入。 · Use exact values at special angles (such as \\(\\sec\\dfrac{\\pi}{4}=\\sqrt2\\) and \\(\\tan\\dfrac{\\pi}{4}=1\\)) and do not round early.",
+      "\\((\\tan x)'=\\sec^{2}x\\ge1\\)，所以 \\(\\tan\\) 在每个连续分支上严格递增；\\((\\cot x)'=-\\csc^{2}x\\le-1\\)，所以 \\(\\cot\\) 在每个连续分支上严格递减。 · \\((\\tan x)'=\\sec^{2}x\\ge1\\), so \\(\\tan\\) is strictly increasing on each continuous branch; \\((\\cot x)'=-\\csc^{2}x\\le-1\\), so \\(\\cot\\) is strictly decreasing on each continuous branch.",
+      "与乘积、商法则组合时，每个因子都要在讨论点可导。 · When combining with the product or quotient rule, every factor must be differentiable at the point.",
+      "求切线或法线时，先确认点在原函数图像上，并保留原函数的定义域限制。 · For a tangent or normal line, first confirm the point is on the original graph and keep the original domain restrictions."
     ],
     "keyPoints": [
-      "掌握 2.10「三角函数导数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "三步法：先把 \\(\\tan\\)、\\(\\cot\\)、\\(\\sec\\)、\\(\\csc\\) 改写成 \\(\\sin\\)、\\(\\cos\\) 的商或倒数，再用商法则或倒数法则，最后用恒等式化简。 · Three-step method: rewrite the four functions as quotients or reciprocals of \\(\\sin\\) and \\(\\cos\\), apply the quotient or reciprocal rule, then simplify with identities.",
+      "四个公式：\\((\\tan x)'=\\sec^{2}x\\)，\\((\\cot x)'=-\\csc^{2}x\\)，\\((\\sec x)'=\\sec x\\tan x\\)，\\((\\csc x)'=-\\csc x\\cot x\\)。 · Four formulas: \\((\\tan x)'=\\sec^{2}x\\), \\((\\cot x)'=-\\csc^{2}x\\), \\((\\sec x)'=\\sec x\\tan x\\), and \\((\\csc x)'=-\\csc x\\cot x\\).",
+      "符号：\\((\\tan x)'=\\sec^{2}x>0\\)；\\((\\cot x)'=-\\csc^{2}x<0\\)；\\((\\sec x)'=\\sec x\\tan x\\) 与 \\((\\csc x)'=-\\csc x\\cot x\\) 的符号随区间变化，不要把它们简单记成恒正或恒负。 · Signs: \\((\\tan x)'=\\sec^{2}x>0\\) and \\((\\cot x)'=-\\csc^{2}x<0\\); the signs of \\((\\sec x)'=\\sec x\\tan x\\) and \\((\\csc x)'=-\\csc x\\cot x\\) vary by interval, so do not memorize them as always positive or always negative.",
+      "\\((\\tan x)'=\\sec^{2}x=1+\\tan^{2}x\\)；\\((\\cot x)'=-\\csc^{2}x=-(1+\\cot^{2}x)\\)。 · \\((\\tan x)'=\\sec^{2}x=1+\\tan^{2}x\\); \\((\\cot x)'=-\\csc^{2}x=-(1+\\cot^{2}x)\\).",
+      "定义域：\\(\\tan\\)、\\(\\sec\\) 排除 \\(x=\\dfrac{\\pi}{2}+k\\pi\\)；\\(\\cot\\)、\\(\\csc\\) 排除 \\(x=k\\pi\\)。 · Domains: \\(\\tan\\) and \\(\\sec\\) exclude \\(x=\\dfrac{\\pi}{2}+k\\pi\\); \\(\\cot\\) and \\(\\csc\\) exclude \\(x=k\\pi\\).",
+      "\\(\\tan\\) 在各分支上严格递增，没有水平切线；\\(\\sec^{2}x\\) 永远取不到 0。 · \\(\\tan\\) is strictly increasing on each branch and has no horizontal tangent; \\(\\sec^{2}x\\) is never 0.",
+      "遇到混合表达式先用恒等式化简；例如 \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)。 · Simplify mixed expressions with identities first; for example, \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\).",
+      "AP 切线题要用精确值，并写出原函数的定义域限制。 · AP tangent-line problems require exact values and the original domain restrictions."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「三角函数导数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "\\((\\tan x)'=\\sec x\\tan x\\)——把 \\(\\tan\\) 与 \\(\\sec\\) 的导数混淆；正确结果是 \\(\\sec^{2}x\\)。 · \\((\\tan x)'=\\sec x\\tan x\\) confuses the derivatives of \\(\\tan\\) and \\(\\sec\\); the correct result is \\(\\sec^{2}x\\).",
+      "\\((\\sec x)'=\\sec^{2}x\\)——这是 \\(\\tan\\) 的导数；\\(\\sec\\) 的导数是 \\(\\sec x\\tan x\\)。 · \\((\\sec x)'=\\sec^{2}x\\) is the derivative of \\(\\tan\\); the derivative of \\(\\sec\\) is \\(\\sec x\\tan x\\).",
+      "\\((\\cot x)'=\\csc^{2}x\\)——漏掉负号；正确结果是 \\(-\\csc^{2}x\\)。 · \\((\\cot x)'=\\csc^{2}x\\) drops the negative sign; the correct result is \\(-\\csc^{2}x\\).",
+      "\\((\\csc x)'=\\csc x\\cot x\\)——漏掉负号；正确结果是 \\(-\\csc x\\cot x\\)。 · \\((\\csc x)'=\\csc x\\cot x\\) drops the negative sign; the correct result is \\(-\\csc x\\cot x\\).",
+      "在 \\(x=\\dfrac{\\pi}{2}\\) 处使用 \\((\\tan x)'=\\sec^{2}x\\)——\\(\\tan\\) 与 \\(\\sec\\) 在那里无定义。 · Using \\((\\tan x)'=\\sec^{2}x\\) at \\(x=\\dfrac{\\pi}{2}\\) is invalid because \\(\\tan\\) and \\(\\sec\\) are undefined there.",
+      "在角度制下套用这些公式——会漏掉 \\(\\dfrac{\\pi}{180}\\) 因子。 · Applying these formulas in degree mode drops the factor \\(\\dfrac{\\pi}{180}\\).",
+      "化简时忽略原定义域：\\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\) 只在 \\(\\cos x\\neq0\\) 时成立。 · Ignoring the original domain during simplification: \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\) only where \\(\\cos x\\neq0\\).",
+      "把 \\(\\sec^{2}x\\) 读成 \\(\\sec(x^{2})\\)；前者是 \\((\\sec x)^{2}\\)。 · Reading \\(\\sec^{2}x\\) as \\(\\sec(x^{2})\\); the former means \\((\\sec x)^{2}\\)."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「三角函数导数」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 四个公式组合 · Example 1: A combination of all four formulas",
+        "prompt": "求 \\(f(x)=\\tan x-2\\cot x+3\\sec x-\\csc x\\) 的导数。 · Differentiate \\(f(x)=\\tan x-2\\cot x+3\\sec x-\\csc x\\).",
+        "steps": [
+          "逐项求导：\\((\\tan x)'=\\sec^{2}x\\)，\\((-2\\cot x)'=2\\csc^{2}x\\)。 · Differentiate term by term: \\((\\tan x)'=\\sec^{2}x\\) and \\((-2\\cot x)'=2\\csc^{2}x\\).",
+          "\\((3\\sec x)'=3\\sec x\\tan x\\)，\\((-\\csc x)'=\\csc x\\cot x\\)。 · \\((3\\sec x)'=3\\sec x\\tan x\\) and \\((-\\csc x)'=\\csc x\\cot x\\).",
+          "合并：\\(f'(x)=\\sec^{2}x+2\\csc^{2}x+3\\sec x\\tan x+\\csc x\\cot x\\)。 · Combine: \\(f'(x)=\\sec^{2}x+2\\csc^{2}x+3\\sec x\\tan x+\\csc x\\cot x\\).",
+          "定义域：\\(\\sin x\\neq0\\) 且 \\(\\cos x\\neq0\\)，即 \\(x\\neq\\dfrac{k\\pi}{2}\\)。 · Domain: \\(\\sin x\\neq0\\) and \\(\\cos x\\neq0\\), so \\(x\\neq\\dfrac{k\\pi}{2}\\)."
+        ],
+        "solution": "\\(f'(x)=\\sec^{2}x+2\\csc^{2}x+3\\sec x\\tan x+\\csc x\\cot x\\)，\\(x\\neq\\dfrac{k\\pi}{2}\\)。 · \\(f'(x)=\\sec^{2}x+2\\csc^{2}x+3\\sec x\\tan x+\\csc x\\cot x\\), \\(x\\neq\\dfrac{k\\pi}{2}\\).",
+        "solutionLatex": "f'(x)=\\sec^{2}x+2\\csc^{2}x+3\\sec x\\tan x+\\csc x\\cot x"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "title": "例 2 · 用商法则证明余切导数 · Example 2: Proving the cotangent derivative with the quotient rule",
+        "prompt": "用商法则证明 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x\\)，并指出定义域限制。 · Use the quotient rule to prove \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=-\\csc^{2}x\\), and state the domain restriction.",
+        "steps": [
+          "改写：\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)。 · Rewrite: \\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\).",
+          "商法则：\\(\\dfrac{(-\\sin x)(\\sin x)-(\\cos x)(\\cos x)}{\\sin^{2}x}\\)。 · Quotient rule: \\(\\dfrac{(-\\sin x)(\\sin x)-(\\cos x)(\\cos x)}{\\sin^{2}x}\\).",
+          "分子：\\(-\\sin^{2}x-\\cos^{2}x=-(\\sin^{2}x+\\cos^{2}x)=-1\\)。 · Numerator: \\(-\\sin^{2}x-\\cos^{2}x=-(\\sin^{2}x+\\cos^{2}x)=-1\\).",
+          "所以导数为 \\(-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\)。 · So the derivative is \\(-\\dfrac{1}{\\sin^{2}x}=-\\csc^{2}x\\).",
+          "要求 \\(\\sin x\\neq0\\)，即 \\(x\\neq k\\pi\\)；在这些点 \\(\\cot x\\) 本身无定义。 · Require \\(\\sin x\\neq0\\), so \\(x\\neq k\\pi\\); at those points \\(\\cot x\\) itself is undefined."
+        ],
+        "solution": "cot'=-csc²x，x≠kπ。 · cot'=-csc²x, x≠kπ.",
+        "solutionLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cot x]=\\dfrac{-\\sin^{2}x-\\cos^{2}x}{\\sin^{2}x}=-\\csc^{2}x"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「三角函数导数」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 先化简再求导 · Example 3: Simplify before differentiating",
+        "prompt": "求 \\(g(x)=\\dfrac{\\tan x}{\\sec x}\\) 的导数，并说明化简前后定义域是否相同。 · Differentiate \\(g(x)=\\dfrac{\\tan x}{\\sec x}\\) and explain whether simplifying changes the domain.",
+        "steps": [
+          "先化简：\\(\\dfrac{\\tan x}{\\sec x}=\\dfrac{\\dfrac{\\sin x}{\\cos x}}{\\dfrac{1}{\\cos x}}=\\sin x\\)，其中 \\(\\cos x\\neq0\\)。 · Simplify first: \\(\\dfrac{\\tan x}{\\sec x}=\\dfrac{\\dfrac{\\sin x}{\\cos x}}{\\dfrac{1}{\\cos x}}=\\sin x\\), where \\(\\cos x\\neq0\\).",
+          "因此 \\(g'(x)=\\cos x\\)（在 \\(\\cos x\\neq0\\) 的区间上）。 · Thus \\(g'(x)=\\cos x\\) on intervals where \\(\\cos x\\neq0\\).",
+          "用商法则核对：\\(\\dfrac{\\sec^{2}x\\cdot\\sec x-\\tan x\\cdot\\sec x\\tan x}{\\sec^{2}x}\\)。 · Check with the quotient rule: \\(\\dfrac{\\sec^{2}x\\cdot\\sec x-\\tan x\\cdot\\sec x\\tan x}{\\sec^{2}x}\\).",
+          "化简：\\(\\dfrac{\\sec^{2}x-\\tan^{2}x}{\\sec x}=\\dfrac{1}{\\sec x}=\\cos x\\)。 · Simplify: \\(\\dfrac{\\sec^{2}x-\\tan^{2}x}{\\sec x}=\\dfrac{1}{\\sec x}=\\cos x\\).",
+          "化简后 \\(\\sin x\\) 对所有 \\(x\\) 有定义，但原式 \\(g\\) 在 \\(\\cos x=0\\) 处无定义，所以导数也只在原定义域上成立。 · After simplification, \\(\\sin x\\) is defined for all \\(x\\), but the original \\(g\\) is undefined where \\(\\cos x=0\\), so the derivative holds only on the original domain."
+        ],
+        "solution": "g(x)=sin x（cos x≠0），g'(x)=cos x。 · g(x)=sin x where cos x≠0, and g'(x)=cos x.",
+        "solutionLatex": "g(x)=\\sin x\\ (x\\neq\\dfrac{\\pi}{2}+k\\pi),\\qquad g'(x)=\\cos x"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「三角函数导数」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「三角函数导数」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 正割曲线的切线 · Example 4: Tangent line to the secant curve",
+        "prompt": "求曲线 \\(y=\\sec x\\) 在 \\(x=\\dfrac{\\pi}{4}\\) 处的切线方程。 · Find the tangent line to \\(y=\\sec x\\) at \\(x=\\dfrac{\\pi}{4}\\).",
+        "steps": [
+          "\\(y\\left(\\dfrac{\\pi}{4}\\right)=\\sec\\dfrac{\\pi}{4}=\\sqrt2\\)。 · \\(y\\left(\\dfrac{\\pi}{4}\\right)=\\sec\\dfrac{\\pi}{4}=\\sqrt2\\).",
+          "\\(y'=\\sec x\\tan x\\)，所以 \\(y'\\left(\\dfrac{\\pi}{4}\\right)=\\sqrt2\\cdot1=\\sqrt2\\)。 · \\(y'=\\sec x\\tan x\\), so \\(y'\\left(\\dfrac{\\pi}{4}\\right)=\\sqrt2\\cdot1=\\sqrt2\\).",
+          "点斜式：\\(y-\\sqrt2=\\sqrt2\\left(x-\\dfrac{\\pi}{4}\\right)\\)。 · Point-slope form: \\(y-\\sqrt2=\\sqrt2\\left(x-\\dfrac{\\pi}{4}\\right)\\).",
+          "化简：\\(y=\\sqrt2 x+\\sqrt2\\left(1-\\dfrac{\\pi}{4}\\right)\\)。 · Simplify: \\(y=\\sqrt2 x+\\sqrt2\\left(1-\\dfrac{\\pi}{4}\\right)\\).",
+          "检查：\\(\\sec\\) 在 \\(\\left(0,\\dfrac{\\pi}{2}\\right)\\) 上递增，切线斜率为正。 · Check: \\(\\sec\\) is increasing on \\(\\left(0,\\dfrac{\\pi}{2}\\right)\\), so the tangent slope is positive."
+        ],
+        "solution": "切线：\\(y-\\sqrt2=\\sqrt2\\left(x-\\dfrac{\\pi}{4}\\right)\\)。 · Tangent: \\(y-\\sqrt2=\\sqrt2\\left(x-\\dfrac{\\pi}{4}\\right)\\).",
+        "solutionLatex": "y-\\sqrt2=\\sqrt2\\left(x-\\dfrac{\\pi}{4}\\right)"
+      },
+      {
+        "title": "例 5 · 与指数函数组合 · Example 5: Combined with an exponential",
+        "prompt": "求 \\(h(x)=e^{x}\\sec x\\) 的导数，并计算 \\(h'(0)\\)。 · Differentiate \\(h(x)=e^{x}\\sec x\\) and evaluate \\(h'(0)\\).",
+        "steps": [
+          "乘积法则：\\(h'=(e^{x})'\\sec x+e^{x}(\\sec x)'\\)。 · Product rule: \\(h'=(e^{x})'\\sec x+e^{x}(\\sec x)'\\).",
+          "\\(=e^{x}\\sec x+e^{x}\\sec x\\tan x\\)。 · \\(=e^{x}\\sec x+e^{x}\\sec x\\tan x\\).",
+          "提取公因子：\\(h'=e^{x}\\sec x(1+\\tan x)\\)。 · Factor: \\(h'=e^{x}\\sec x(1+\\tan x)\\).",
+          "在 \\(x=0\\)：\\(e^{0}=1\\)，\\(\\sec0=1\\)，\\(\\tan0=0\\)，所以 \\(h'(0)=1\\cdot1\\cdot1=1\\)。 · At \\(x=0\\): \\(e^{0}=1\\), \\(\\sec0=1\\), and \\(\\tan0=0\\), so \\(h'(0)=1\\cdot1\\cdot1=1\\)."
+        ],
+        "solution": "h'(x)=eˣ sec x(1+tan x)，h'(0)=1。 · h'(x)=eˣ sec x(1+tan x), h'(0)=1.",
+        "solutionLatex": "h'(x)=e^{x}\\sec x(1+\\tan x),\\qquad h'(0)=1"
+      },
+      {
+        "title": "例 6 · 解方程求指定斜率 · Example 6: Solving for a prescribed slope",
+        "prompt": "求 \\(f(x)=\\cot x\\) 在 \\([0,2\\pi]\\) 上所有使 \\(f'(x)=-2\\) 的 \\(x\\)。 · Find all \\(x\\) in \\([0,2\\pi]\\) where \\(f(x)=\\cot x\\) has \\(f'(x)=-2\\).",
+        "steps": [
+          "\\(f'(x)=-\\csc^{2}x\\)，令 \\(-\\csc^{2}x=-2\\)，得 \\(\\csc^{2}x=2\\)。 · \\(f'(x)=-\\csc^{2}x\\); setting \\(-\\csc^{2}x=-2\\) gives \\(\\csc^{2}x=2\\).",
+          "因此 \\(\\sin^{2}x=\\dfrac12\\)，\\(\\sin x=\\pm\\dfrac{1}{\\sqrt2}\\)。 · Thus \\(\\sin^{2}x=\\dfrac12\\), so \\(\\sin x=\\pm\\dfrac{1}{\\sqrt2}\\).",
+          "在 \\([0,2\\pi]\\) 内，\\(\\sin x=\\dfrac{1}{\\sqrt2}\\) 给出 \\(x=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\)；\\(\\sin x=-\\dfrac{1}{\\sqrt2}\\) 给出 \\(x=\\dfrac{5\\pi}{4},\\dfrac{7\\pi}{4}\\)。 · In \\([0,2\\pi]\\), \\(\\sin x=\\dfrac{1}{\\sqrt2}\\) gives \\(x=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\); \\(\\sin x=-\\dfrac{1}{\\sqrt2}\\) gives \\(x=\\dfrac{5\\pi}{4},\\dfrac{7\\pi}{4}\\).",
+          "这些点都不在 \\(\\sin x=0\\) 的排除点，故都有效。 · None of these points is excluded by \\(\\sin x=0\\), so all are valid.",
+          "检查：\\(\\csc^{2}x=2\\) 时 \\(\\cot x=\\pm1\\)，原函数有定义。 · Check: when \\(\\csc^{2}x=2\\), \\(\\cot x=\\pm1\\), so the original function is defined."
+        ],
+        "solution": "\\(x=\\dfrac{\\pi}{4},\\ \\dfrac{3\\pi}{4},\\ \\dfrac{5\\pi}{4},\\ \\dfrac{7\\pi}{4}\\)。 · \\(x=\\dfrac{\\pi}{4},\\ \\dfrac{3\\pi}{4},\\ \\dfrac{5\\pi}{4},\\ \\dfrac{7\\pi}{4}\\).",
+        "solutionLatex": "x=\\dfrac{\\pi}{4},\\ \\dfrac{3\\pi}{4},\\ \\dfrac{5\\pi}{4},\\ \\dfrac{7\\pi}{4}"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先改写为 \\(\\sin\\)、\\(\\cos\\) 的商或倒数，再用商法则或倒数法则；不要硬背四个公式。 · Rewrite as quotients or reciprocals of \\(\\sin\\) and \\(\\cos\\) first, then use the quotient or reciprocal rule; do not memorize the four formulas blindly.",
+      "公式中的负号：\\(\\cot\\) 与 \\(\\csc\\) 的导数带负号；\\(\\tan\\) 与 \\(\\sec\\) 的公式不带负号，但 \\((\\sec x)'=\\sec x\\tan x\\) 的值仍可能为负。 · Negative signs in the formulas: the derivatives of \\(\\cot\\) and \\(\\csc\\) carry a minus sign; the formulas for \\(\\tan\\) and \\(\\sec\\) do not, but the value of \\((\\sec x)'=\\sec x\\tan x\\) can still be negative.",
+      "\\((\\tan x)'=\\sec^{2}x\\)，\\((\\sec x)'=\\sec x\\tan x\\)；两者不要混淆。 · \\((\\tan x)'=\\sec^{2}x\\) and \\((\\sec x)'=\\sec x\\tan x\\); do not confuse them.",
+      "\\((\\cot x)'=-\\csc^{2}x\\)，\\((\\csc x)'=-\\csc x\\cot x\\)；两个负号都要保留。 · \\((\\cot x)'=-\\csc^{2}x\\) and \\((\\csc x)'=-\\csc x\\cot x\\); keep both negative signs.",
+      "写出定义域限制；在渐近线处没有导数。 · State the domain restrictions; there is no derivative at the asymptotes.",
+      "遇到混合表达式，先用恒等式化简（如 \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)）。 · For mixed expressions, simplify with identities first (such as \\(\\dfrac{\\tan x}{\\sec x}=\\sin x\\)).",
+      "特殊角用精确值；切线题先算点再算斜率。 · Use exact values at special angles; in tangent-line problems compute the point first, then the slope.",
+      "弧度制；计算器角度模式会引入 \\(\\dfrac{\\pi}{180}\\)。 · Use radians; degree mode introduces a factor \\(\\dfrac{\\pi}{180}\\)."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u2",
+        "code": "2.7",
+        "title": "sin x、cos x、eˣ 与 ln x 的导数 · Derivatives of cos x, sin x, eˣ, and ln x",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.8",
+        "title": "乘积法则 · The Product Rule",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
         "code": "2.9",
-        "title": "商法则",
-        "relation": "prerequisite"
+        "title": "商法则 · The Quotient Rule",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u3",
+        "code": "3.1",
+        "title": "链式法则 · The Chain Rule",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u5",
+        "code": "5.3",
+        "title": "增减性 · Determining Intervals of Increase and Decrease",
+        "relation": "应用 · application"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u2",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：2.7 给出 \\(\\sin\\)、\\(\\cos\\) 的导数，2.9 给出商法则；2.10 把两者结合，推出其余四个三角函数的导数。 · Upstream: 2.7 supplies the sine and cosine derivatives, and 2.9 supplies the quotient rule; 2.10 combines them to derive the remaining four trigonometric derivatives.",
+      "下游：3.1 链式法则把 \\(\\tan(2x)\\)、\\(\\sec(x^{2})\\) 等复合函数化为外层导数与内层导数的乘积。 · Downstream: the chain rule in 3.1 reduces composites such as \\(\\tan(2x)\\) and \\(\\sec(x^{2})\\) to an outer derivative times an inner derivative.",
+      "工具：2.8 的乘积法则用于 \\(e^{x}\\sec x\\)、\\(x\\tan x\\) 这类组合；2.9 的商法则可用于直接验证化简结果。 · Tools: the product rule in 2.8 handles combinations such as \\(e^{x}\\sec x\\) and \\(x\\tan x\\); the quotient rule in 2.9 can verify simplification results.",
+      "图像：\\(\\tan\\) 与 \\(\\sec\\) 在 \\(x=\\dfrac{\\pi}{2}+k\\pi\\) 处有竖直渐近线；\\(\\cot\\) 与 \\(\\csc\\) 在 \\(x=k\\pi\\) 处有竖直渐近线；导数公式只在这些点之外成立。 · Graphs: \\(\\tan\\) and \\(\\sec\\) have vertical asymptotes at \\(x=\\dfrac{\\pi}{2}+k\\pi\\); \\(\\cot\\) and \\(\\csc\\) have vertical asymptotes at \\(x=k\\pi\\); the derivative formulas hold only away from these points.",
+      "应用：周期运动、斜率与变化率问题常出现 \\(\\tan\\)、\\(\\sec\\) 等函数；5.3 用导数符号判断增减区间。 · Applications: periodic motion, slope, and rate problems often involve \\(\\tan\\), \\(\\sec\\), and related functions; 5.3 uses derivative signs to determine intervals of increase and decrease."
     ],
-    "intuitionDetailed": "把「三角函数导数」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "把四个函数都看成 \\(\\sin\\)、\\(\\cos\\) 的组合，而不是四个孤立的公式。\\(\\tan=\\dfrac{\\sin x}{\\cos x}\\) 用商法则求导，分子化简为 \\(\\cos^{2}x+\\sin^{2}x=1\\)，因此斜率为 \\(\\sec^{2}x\\)，总为正且至少为 1，所以 \\(\\tan\\) 在每个连续分支上严格递增。\\(\\cot\\) 是「余弦除以正弦」：用商法则得到 \\(-\\csc^{2}x\\)，它总为负，所以 \\(\\cot\\) 在每个连续分支上严格递减。\\(\\sec\\) 是 \\(\\cos\\) 的倒数，\\(\\csc\\) 是 \\(\\sin\\) 的倒数：用倒数法则分别得到 \\(\\sec x\\tan x\\) 与 \\(-\\csc x\\cot x\\)，它们的符号随区间变化。真正需要记住的是「先改写、再求导、后化简」这条流程，以及 \\(\\sin^{2}x+\\cos^{2}x=1\\) 这个化简工具。 · View the four functions as combinations of \\(\\sin\\) and \\(\\cos\\), not as four isolated formulas. Differentiating \\(\\tan=\\dfrac{\\sin x}{\\cos x}\\) with the quotient rule gives numerator \\(\\cos^{2}x+\\sin^{2}x=1\\), so the slope is \\(\\sec^{2}x\\), always positive and at least 1; hence \\(\\tan\\) is strictly increasing on each continuous branch. \\(\\cot\\) is cosine divided by sine: the quotient rule gives \\(-\\csc^{2}x\\), which is always negative, so \\(\\cot\\) is strictly decreasing on each continuous branch. \\(\\sec\\) is the reciprocal of \\(\\cos\\), and \\(\\csc\\) is the reciprocal of \\(\\sin\\): the reciprocal rule gives \\(\\sec x\\tan x\\) and \\(-\\csc x\\cot x\\), whose signs vary by interval. What really matters is the procedure “rewrite, differentiate, simplify” and the identity \\(\\sin^{2}x+\\cos^{2}x=1\\) as the simplification tool.",
     "development": [
-      "回顾先修：确认符号、单位与「三角函数导数」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "回顾 \\(\\sin\\)、\\(\\cos\\) 的导数与商法则：确认 \\((\\sin x)'=\\cos x\\)、\\((\\cos x)'=-\\sin x\\) 以及 \\(\\dfrac{u'v-uv'}{v^{2}}\\)。 · Review the sine and cosine derivatives and the quotient rule: confirm \\((\\sin x)'=\\cos x\\), \\((\\cos x)'=-\\sin x\\), and \\(\\dfrac{u'v-uv'}{v^{2}}\\).",
+      "把 \\(\\tan\\)、\\(\\cot\\)、\\(\\sec\\)、\\(\\csc\\) 改写成 \\(\\sin\\)、\\(\\cos\\) 的商或倒数。 · Rewrite \\(\\tan\\), \\(\\cot\\), \\(\\sec\\), and \\(\\csc\\) as quotients or reciprocals of \\(\\sin\\) and \\(\\cos\\).",
+      "用商法则推导 \\(\\tan\\) 与 \\(\\cot\\) 的导数，并用 \\(\\sin^{2}x+\\cos^{2}x=1\\) 化简。 · Use the quotient rule to derive the derivatives of \\(\\tan\\) and \\(\\cot\\), and simplify with \\(\\sin^{2}x+\\cos^{2}x=1\\).",
+      "用倒数法则推导 \\(\\sec\\) 与 \\(\\csc\\) 的导数。 · Use the reciprocal rule to derive the derivatives of \\(\\sec\\) and \\(\\csc\\).",
+      "整理四个公式与等价形式，记住符号规律与定义域。 · Organize the four formulas and equivalent forms, and memorize the sign pattern and domains.",
+      "在特殊角处求值、求切线，并用图像检查斜率与渐近线。 · Evaluate at special angles, find tangent lines, and check slopes and asymptotes on a graph.",
+      "与乘积、商法则及其他基本导数组合，解决综合求导问题。 · Combine with the product and quotient rules and other basic derivatives to solve composite differentiation problems."
     ],
     "checks": [
-      "不看书能否复述「三角函数导数」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "不看书，写出四个三角函数的导数公式，并标出每个公式的符号。 · Without notes, write the derivative formulas for the four trigonometric functions and mark the sign in each.",
+      "用商法则从 \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\) 推导 \\((\\tan x)'=\\sec^{2}x\\)。 · Use the quotient rule to derive \\((\\tan x)'=\\sec^{2}x\\) from \\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\).",
+      "为什么 \\((\\tan x)'=\\sec^{2}x\\ge1\\)？这说明了 \\(\\tan\\) 的什么图像性质？ · Why is \\((\\tan x)'=\\sec^{2}x\\ge1\\)? What graph property of \\(\\tan\\) does this imply?",
+      "求 \\(f(x)=\\tan x-2\\cot x+3\\sec x-\\csc x\\) 的导数。 · Differentiate \\(f(x)=\\tan x-2\\cot x+3\\sec x-\\csc x\\).",
+      "求 \\(y=\\sec x\\) 在 \\(x=\\dfrac{\\pi}{4}\\) 处的切线斜率。 · Find the tangent slope of \\(y=\\sec x\\) at \\(x=\\dfrac{\\pi}{4}\\).",
+      "\\(\\tan x\\) 与 \\(\\csc x\\) 的定义域分别排除了哪些点？ · Which points are excluded from the domains of \\(\\tan x\\) and \\(\\csc x\\)?",
+      "化简 \\(\\dfrac{\\tan x}{\\sec x}\\) 并求导，说明原式的定义域限制。 · Simplify \\(\\dfrac{\\tan x}{\\sec x}\\), differentiate it, and state the original domain restriction.",
+      "解方程 \\(-\\csc^{2}x=-2\\) 在 \\([0,2\\pi]\\) 上的所有解。 · Solve \\(-\\csc^{2}x=-2\\) on \\([0,2\\pi]\\)."
     ],
     "vocabulary": [
       {
         "termZh": "正切",
         "termEn": "tangent",
-        "defZh": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)，导数为 \\(\\sec^{2}x\\)。",
-        "defEn": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\), whose derivative is \\(\\sec^{2}x\\)."
+        "defZh": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\)，导数为 \\(\\sec^{2}x\\)（\\(\\cos x\\neq0\\)）。",
+        "defEn": "\\(\\tan x=\\dfrac{\\sin x}{\\cos x}\\), whose derivative is \\(\\sec^{2}x\\) where \\(\\cos x\\neq0\\)."
       },
       {
         "termZh": "余切",
         "termEn": "cotangent",
-        "defZh": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)，导数为 \\(-\\csc^{2}x\\)。",
-        "defEn": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\), whose derivative is \\(-\\csc^{2}x\\)."
+        "defZh": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\)，导数为 \\(-\\csc^{2}x\\)（\\(\\sin x\\neq0\\)）。",
+        "defEn": "\\(\\cot x=\\dfrac{\\cos x}{\\sin x}\\), whose derivative is \\(-\\csc^{2}x\\) where \\(\\sin x\\neq0\\)."
       },
       {
         "termZh": "正割",
         "termEn": "secant",
-        "defZh": "\\(\\sec x=\\dfrac{1}{\\cos x}\\)，导数为 \\(\\sec x\\tan x\\)。",
-        "defEn": "\\(\\sec x=\\dfrac{1}{\\cos x}\\), whose derivative is \\(\\sec x\\tan x\\)."
+        "defZh": "\\(\\sec x=\\dfrac{1}{\\cos x}\\)，导数为 \\(\\sec x\\tan x\\)（\\(\\cos x\\neq0\\)）。",
+        "defEn": "\\(\\sec x=\\dfrac{1}{\\cos x}\\), whose derivative is \\(\\sec x\\tan x\\) where \\(\\cos x\\neq0\\)."
       },
       {
         "termZh": "余割",
         "termEn": "cosecant",
-        "defZh": "\\(\\csc x=\\dfrac{1}{\\sin x}\\)，导数为 \\(-\\csc x\\cot x\\)。",
-        "defEn": "\\(\\csc x=\\dfrac{1}{\\sin x}\\), whose derivative is \\(-\\csc x\\cot x\\)."
+        "defZh": "\\(\\csc x=\\dfrac{1}{\\sin x}\\)，导数为 \\(-\\csc x\\cot x\\)（\\(\\sin x\\neq0\\)）。",
+        "defEn": "\\(\\csc x=\\dfrac{1}{\\sin x}\\), whose derivative is \\(-\\csc x\\cot x\\) where \\(\\sin x\\neq0\\)."
       },
       {
-        "termZh": "平方正割",
-        "termEn": "secant squared",
-        "defZh": "\\(\\sec^{2}x=1+\\tan^{2}x\\)，是正切的导数。",
-        "defEn": "\\(\\sec^{2}x=1+\\tan^{2}x\\), the derivative of tangent."
+        "termZh": "商法则",
+        "termEn": "quotient rule",
+        "defZh": "对 \\(\\dfrac{u}{v}\\) 求导得 \\(\\dfrac{u'v-uv'}{v^{2}}\\)，要求 \\(v\\neq0\\)。",
+        "defEn": "Differentiating \\(\\dfrac{u}{v}\\) gives \\(\\dfrac{u'v-uv'}{v^{2}}\\), requiring \\(v\\neq0\\)."
       },
       {
-        "termZh": "三角恒等式",
-        "termEn": "trigonometric identity",
-        "defZh": "用于改写三角表达式并化简导数。",
-        "defEn": "An identity used to rewrite trigonometric expressions and simplify derivatives."
+        "termZh": "倒数法则",
+        "termEn": "reciprocal rule",
+        "defZh": "对 \\(\\dfrac{1}{v}\\) 求导得 \\(-\\dfrac{v'}{v^{2}}\\)，要求 \\(v\\neq0\\)。",
+        "defEn": "Differentiating \\(\\dfrac{1}{v}\\) gives \\(-\\dfrac{v'}{v^{2}}\\), requiring \\(v\\neq0\\)."
+      },
+      {
+        "termZh": "毕达哥拉斯恒等式",
+        "termEn": "Pythagorean identity",
+        "defZh": "\\(\\sin^{2}x+\\cos^{2}x=1\\)，以及 \\(1+\\tan^{2}x=\\sec^{2}x\\)、\\(1+\\cot^{2}x=\\csc^{2}x\\)。",
+        "defEn": "\\(\\sin^{2}x+\\cos^{2}x=1\\), together with \\(1+\\tan^{2}x=\\sec^{2}x\\) and \\(1+\\cot^{2}x=\\csc^{2}x\\)."
+      },
+      {
+        "termZh": "定义域限制",
+        "termEn": "domain restriction",
+        "defZh": "使原函数有定义的自变量范围；\\(\\tan\\)、\\(\\sec\\) 排除 \\(\\cos x=0\\)，\\(\\cot\\)、\\(\\csc\\) 排除 \\(\\sin x=0\\)。",
+        "defEn": "The set of inputs where the original function is defined; \\(\\tan\\) and \\(\\sec\\) exclude \\(\\cos x=0\\), while \\(\\cot\\) and \\(\\csc\\) exclude \\(\\sin x=0\\)."
       }
     ]
   }
