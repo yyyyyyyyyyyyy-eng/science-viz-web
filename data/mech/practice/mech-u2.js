@@ -2887,5 +2887,57 @@ export const problems = [
         "topicId": "mech-u2:2.8"
       }
     ]
-  }
+  },
+{
+  "id": "mech-u2-q067",
+  "title": "2.6 电梯视重",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "质量 60 kg 的人站在电梯内的秤上，电梯以 2.0 m/s² 加速上升。取 g=9.8 m/s²，求秤的读数（N）。",
+  "expected": 708,
+  "tol": 0.01,
+  "answerLatex": "7.08\\times10^{2}\\,\\mathrm{N}",
+  "solution": "N−mg=ma，故 N=m(g+a)=60(9.8+2.0)=708 N。",
+  "solutionLatex": "N=m(g+a)=60(9.8+2.0)=7.08\\times10^{2}\\,\\mathrm{N}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u2/2.6",
+      "label": "2.6 万有引力",
+      "topicId": "mech-u2:2.6"
+    }
+  ]
+},
+{
+  "id": "mech-u2-q068",
+  "title": "2.6 均匀球内部的重力加速度",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "地球质量 M=5.97×10²⁴ kg、半径 R=6.37×10⁶ m，假设密度均匀。求距地心 r=R/2 处的重力加速度（m/s²）。",
+  "expected": 4.9,
+  "tol": 0.01,
+  "answerLatex": "4.9\\,\\mathrm{m\\,s^{-2}}",
+  "solution": "内部 g(r)=GMr/R³；在 r=R/2 处 g=g_surface/2=4.9 m/s²。",
+  "solutionLatex": "g(r)=\\dfrac{GM}{R^{3}}r=\\dfrac{g_{\\mathrm{surface}}}{2}=4.9\\,\\mathrm{m\\,s^{-2}}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u2/2.6",
+      "label": "2.6 万有引力",
+      "topicId": "mech-u2:2.6"
+    }
+  ]
+}
 ];

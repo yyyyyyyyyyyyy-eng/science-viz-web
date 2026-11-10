@@ -2487,6 +2487,8 @@ export const ENRICHMENTS = {
       { subject: 'em', chapterId: 'em-u12', code: '12.2', title: '运动电荷与磁场', relation: '后续' },
       { subject: 'em', chapterId: 'em-u12', code: '12.3', title: '毕奥–萨伐尔定律', relation: '后续' },
       { subject: 'em', chapterId: 'em-u12', code: '12.4', title: '安培定律', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u12', code: '12.5', title: '磁偶极与磁性材料', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u12', code: '12.6', title: '磁导率与材料响应', relation: '后续' },
     ],
     development: ['磁场与磁感线', '洛伦兹力与右手定则', '电流受力', '圆周运动与回旋半径', '进入毕奥–萨伐尔与安培定律'],
     checks: ['静止电荷在磁场中受力吗？', '磁场力为什么不做功？', '电子与质子在相同磁场中受力方向相同吗？'],
@@ -2666,91 +2668,6 @@ export const ENRICHMENTS = {
     summary: '电势是单位电荷的电势能，点电荷电势 \\(V=k\\dfrac{q}{r}\\)，标量叠加；电场指向电势降低最快的方向。',
   },
 
-  'mech/mech-u7/7.3': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      '能写出复摆的小角度运动方程。',
-      '能用平行轴定理计算绕转轴的转动惯量。',
-      '能计算周期与等效单摆长度。'
-    ],
-    essentialKnowledge: [
-      '复摆是绕固定水平轴摆动的刚体，小角度下 \\(I\\ddot\\theta=-mgd\\theta\\)。',
-      '周期 \\(T=2\\pi\\sqrt{\\dfrac{I}{mgd}}\\)，其中 \\(I\\) 绕转轴、\\(d\\) 为质心到转轴距离。',
-      '平行轴定理 \\(I=I_{\\mathrm{cm}}+md^{2}\\) 常用于求绕转轴的转动惯量。',
-      '等效单摆长度 \\(L_{\\mathrm{eq}}=\\dfrac{I}{md}>d\\)；周期与质量分布有关。',
-      '小角度近似是简谐的前提；大角度时周期随振幅增大。'
-    ],
-    definition: '复摆（物理摆）是绕固定水平轴摆动的刚体。小角度下，重力矩 \\(\\tau=-mgd\\sin\\theta\\approx-mgd\\theta\\)，运动方程 \\(I\\ddot\\theta=-mgd\\theta\\)，周期 \\(T=2\\pi\\sqrt{\\dfrac{I}{mgd}}\\)，其中 \\(I\\) 是绕转轴的转动惯量，\\(d\\) 是质心到转轴的距离。',
-    intuition: '复摆就是“不能再看成质点的单摆”：质量分布决定转动惯量，从而决定摆动快慢。',
-    intuitionDetailed: '由平行轴定理 \\(I=I_{\\mathrm{cm}}+md^{2}\\)，所以 \\(T=2\\pi\\sqrt{\\dfrac{I_{\\mathrm{cm}}+md^{2}}{mgd}}\\)。当 \\(d\\to0\\)（质心在轴上）时没有回复力矩，周期趋于无穷；当 \\(d\\) 很大时，复摆趋近于长度为 \\(d\\) 的单摆。',
-    formulas: [
-      { latex: 'T=2\\pi\\sqrt{\\dfrac{I}{mgd}}', note: '复摆周期（小角度）。' },
-      { latex: 'I=I_{\\mathrm{cm}}+md^{2}', note: '平行轴定理。' },
-      { latex: '\\omega=\\sqrt{\\dfrac{mgd}{I}}', note: '角频率。' },
-      { latex: 'L_{\\mathrm{eq}}=\\dfrac{I}{md}', note: '等效单摆长度。' },
-    ],
-    derivationNotes: [
-      { from: '力矩与转动定律', to: '运动方程', note: '\\(\\tau=-mgd\\sin\\theta=I\\ddot\\theta\\)，小角时 \\(\\sin\\theta\\approx\\theta\\)。' },
-      { from: '平行轴定理', to: '周期表达式', note: '把 \\(I\\) 写成 \\(I_{\\mathrm{cm}}+md^{2}\\)，可直接看出质量分布的影响。' },
-      { from: '简谐形式', to: '周期', note: '与 \\(\\ddot\\theta=-\\omega^{2}\\theta\\) 对比得 \\(\\omega^{2}=\\dfrac{mgd}{I}\\)。' },
-    ],
-    conditions: ['小角度近似 \\(\\sin\\theta\\approx\\theta\\)', '固定水平转轴、无摩擦', '刚体质量分布给定，\\(I\\) 必须绕转轴计算', '大角度时周期随振幅增大'],
-    keyPoints: ['复摆周期依赖质量分布（\\(I\\)），不只依赖 \\(d\\)', '平行轴定理常用于求绕转轴的 \\(I\\)', '存在使周期最小的 \\(d=\\sqrt{\\dfrac{I_{\\mathrm{cm}}}{m}}\\)', '等效单摆长度 \\(L_{\\mathrm{eq}}=\\dfrac{I}{md}>d\\)', '同形状、同质量分布下周期与质量无关'],
-    misconceptions: [
-      '直接用单摆公式 \\(T=2\\pi\\sqrt{\\dfrac{d}{g}}\\)',
-      '忘记用绕转轴的 \\(I\\)，误用绕质心的 \\(I_{\\mathrm{cm}}\\)',
-      '认为质量越大周期越长（同形状下与质量无关）',
-      '大角度仍用该公式',
-      '把 \\(d\\) 当成杆长而不是质心到轴的距离',
-    ],
-    examples: [
-      {
-        title: '例 1 · 均匀杆',
-        prompt: '质量 \\(m\\)、长 \\(L\\) 的均匀细杆一端为水平转轴。求小角度摆动周期。',
-        steps: [
-          '绕端点：\\(I=\\dfrac{1}{3}mL^{2}\\)；质心到轴距离 \\(d=\\dfrac{L}{2}\\)。',
-          '代入 \\(T=2\\pi\\sqrt{\\dfrac{I}{mgd}}\\) 得 \\(T=2\\pi\\sqrt{\\dfrac{2L}{3g}}\\)。',
-        ],
-        solution: '\\(T=2\\pi\\sqrt{\\dfrac{2L}{3g}}\\)。',
-        solutionLatex: 'T=2\\pi\\sqrt{\\dfrac{2L}{3g}}',
-      },
-      {
-        title: '例 2 · 米尺',
-        prompt: '长 \\(1.0\\,\\mathrm{m}\\) 的均匀米尺一端悬挂，取 \\(g=9.8\\,\\mathrm{m\\,s^{-2}}\\)。求周期。',
-        steps: [
-          '用 \\(T=2\\pi\\sqrt{\\dfrac{2L}{3g}}\\)。',
-          '\\(T=2\\pi\\sqrt{\\dfrac{2(1.0)}{3(9.8)}}\\approx1.64\\,\\mathrm{s}\\)。',
-        ],
-        solution: '\\(T\\approx1.64\\,\\mathrm{s}\\)。',
-        solutionLatex: 'T\\approx1.64\\,\\mathrm{s}',
-      },
-      {
-        title: '例 3 · 一般刚体',
-        prompt: '某刚体绕水平轴转动，\\(I=0.12\\,\\mathrm{kg\\,m^{2}}\\)，\\(m=0.50\\,\\mathrm{kg}\\)，质心距轴 \\(0.20\\,\\mathrm{m}\\)。求小角度周期。',
-        steps: [
-          '\\(T=2\\pi\\sqrt{\\dfrac{I}{mgd}}\\)。',
-          '\\(T=2\\pi\\sqrt{\\dfrac{0.12}{(0.50)(9.8)(0.20)}}\\approx2.2\\,\\mathrm{s}\\)。',
-        ],
-        solution: '\\(T\\approx2.2\\,\\mathrm{s}\\)。',
-        solutionLatex: 'T\\approx2.2\\,\\mathrm{s}',
-      },
-    ],
-    examTips: [
-      'CED Unit 7：周期运动与刚体转动',
-      '先找转轴与质心距离 \\(d\\)，再用平行轴定理求绕轴的 \\(I\\)',
-      '复摆周期公式与单摆形式相同，但 \\(L\\) 要换成 \\(\\dfrac{I}{md}\\)',
-      '小角度条件与单摆相同',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u7', code: '7.1', title: '周期运动', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u7', code: '7.2', title: '单摆', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u5', code: '5.3', title: '转动动力学', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u6', code: '6.1', title: '转动动能', relation: '相关' },
-    ],
-    development: ['力矩与回复力', '转动定律建立方程', '平行轴定理', '周期与等效单摆', '质量分布的影响'],
-    checks: ['复摆周期为什么与质量无关？', '转轴通过质心时周期是多少？', '等效单摆长度为什么大于 \\(d\\)？'],
-    summary: '复摆用 \\(T=2\\pi\\sqrt{\\dfrac{I}{mgd}}\\) 描述，转动惯量体现质量分布对周期的影响。',
-  },
 
   'mech/mech-u2/2.1': {
     enrichedAt: 'batch2',
@@ -3450,91 +3367,6 @@ export const ENRICHMENTS = {
     summary: 'RC 电路按指数规律充放电，时间常数 \\(\\tau=RC\\)；电容电压连续，稳态时相当于断路。',
   },
 
-  'mech/mech-u2/2.6': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      '能计算质点或球对称物体的引力。',
-      '能计算表面重力加速度与引力势能。',
-      '能区分轨道速度与逃逸速度。'
-    ],
-    essentialKnowledge: [
-      '牛顿万有引力 \\(F=G\\dfrac{m_1m_2}{r^{2}}\\)，方向沿连线相互吸引。',
-      '\\(G=6.67\\times10^{-11}\\,\\mathrm{N\\,m^{2}\\,kg^{-2}}\\)；\\(r\\) 从质心算起。',
-      '球对称质量分布可视为质量集中在球心；均匀球壳内部引力为零。',
-      '表面重力加速度 \\(g=\\dfrac{GM}{r^{2}}\\)；引力势能 \\(U=-\\dfrac{GMm}{r}\\)。',
-      '引力势能为负，越远越大并趋近零；逃逸速度 \\(v_{\\mathrm{esc}}=\\sqrt{\\dfrac{2GM}{r}}\\)。'
-    ],
-    definition: '牛顿万有引力定律：两质点间引力大小 \\(F=G\\dfrac{m_1m_2}{r^{2}}\\)，方向沿连线相互吸引，\\(G=6.67\\times10^{-11}\\,\\mathrm{N\\,m^{2}\\,kg^{-2}}\\)。球对称质量分布可视为质量集中在球心（壳层定理）。',
-    intuition: '引力随距离平方衰减、随质量乘积增大；地球拉月球，月球也以同样大小的力拉地球。',
-    intuitionDetailed: '在星球表面 \\(g=\\dfrac{GM}{R^{2}}\\)；距表面高 \\(h\\) 处 \\(g=\\dfrac{GM}{(R+h)^{2}}\\)。引力势能 \\(U=-\\dfrac{GMm}{r}\\)（无穷远为零），引力做正功时势能减少。',
-    formulas: [
-      { latex: 'F=G\\dfrac{m_1m_2}{r^{2}}', note: '万有引力。' },
-      { latex: 'g=\\dfrac{GM}{r^{2}}', note: '重力加速度。' },
-      { latex: 'U=-\\dfrac{GMm}{r}', note: '引力势能（无穷远为零）。' },
-      { latex: 'v_{\\mathrm{esc}}=\\sqrt{\\dfrac{2GM}{r}}', note: '逃逸速度。' },
-    ],
-    derivationNotes: [
-      { from: '实验规律', to: '万有引力定律', note: '引力与质量乘积成正比、与距离平方成反比。' },
-      { from: '万有引力', to: '表面重力加速度', note: '令 \\(mg=\\dfrac{GMm}{R^{2}}\\) 得 \\(g=\\dfrac{GM}{R^{2}}\\)。' },
-      { from: '引力做功', to: '引力势能', note: '\\(U=-\\int_{\\infty}^{r}\\mathbf F\\cdot\\mathrm{d}\\mathbf r=-\\dfrac{GMm}{r}\\)。' },
-    ],
-    conditions: ['质点或球对称分布；\\(r\\) 为质心距离', '均匀球壳内部引力为零', '忽略其他天体与自转影响', '强引力场需用广义相对论修正'],
-    keyPoints: ['引力总是吸引，成对出现（第三定律）', '平方反比；\\(r\\) 从质心算起', '表面 \\(g\\) 与星球质量和半径有关', '引力势能为负，越远越大（趋近零）', '卫星轨道速度与卫星质量无关'],
-    misconceptions: [
-      '认为质量大的物体下落更快（忽略空气阻力时相同）',
-      '认为太空中没有引力',
-      '把 \\(r\\) 当作表面高度而非质心距离',
-      '认为引力势能总为负所以“没有能量”',
-      '认为月球不受地球引力（或地球不受月球引力）',
-    ],
-    examples: [
-      {
-        title: '例 1 · 地球表面 g',
-        prompt: '地球质量 \\(5.97\\times10^{24}\\,\\mathrm{kg}\\)，半径 \\(6.37\\times10^{6}\\,\\mathrm{m}\\)。求表面重力加速度。',
-        steps: [
-          '\\(g=\\dfrac{GM}{R^{2}}\\)。',
-          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.37\\times10^{6})^{2}}\\approx9.8\\,\\mathrm{m\\,s^{-2}}\\)。',
-        ],
-        solution: '\\(g\\approx9.8\\,\\mathrm{m\\,s^{-2}}\\)。',
-        solutionLatex: 'g\\approx9.8\\,\\mathrm{m\\,s^{-2}}',
-      },
-      {
-        title: '例 2 · 高空 g',
-        prompt: '求距地面 \\(400\\,\\mathrm{km}\\) 处的 \\(g\\)。',
-        steps: [
-          '\\(r=R+h=6.37\\times10^{6}+4.0\\times10^{5}=6.77\\times10^{6}\\,\\mathrm{m}\\)。',
-          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.77\\times10^{6})^{2}}\\approx8.7\\,\\mathrm{m\\,s^{-2}}\\)。',
-        ],
-        solution: '\\(g\\approx8.7\\,\\mathrm{m\\,s^{-2}}\\)，约为地面的 \\(89\\%\\)。',
-        solutionLatex: 'g\\approx8.7\\,\\mathrm{m\\,s^{-2}}',
-      },
-      {
-        title: '例 3 · 两物体间引力',
-        prompt: '两个 \\(5.0\\,\\mathrm{kg}\\) 物体相距 \\(0.20\\,\\mathrm{m}\\)。求引力。',
-        steps: [
-          '\\(F=G\\dfrac{m_1m_2}{r^{2}}\\)。',
-          '\\(F=(6.67\\times10^{-11})\\dfrac{(5.0)(5.0)}{(0.20)^{2}}\\approx4.2\\times10^{-8}\\,\\mathrm{N}\\)。',
-        ],
-        solution: '\\(F\\approx4.2\\times10^{-8}\\,\\mathrm{N}\\)，非常小。',
-        solutionLatex: 'F\\approx4.2\\times10^{-8}\\,\\mathrm{N}',
-      },
-    ],
-    examTips: [
-      'CED Unit 2：万有引力；与 Unit 6 轨道运动联考',
-      '先统一 \\(r\\) 为到质心的距离',
-      '表面 \\(g=\\dfrac{GM}{R^{2}}\\)，高空用 \\(R+h\\)',
-      '引力势能取无穷远为零，故为负值',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.4', title: '圆周运动', relation: '相关' },
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.2', title: '力与势能', relation: '相关' },
-      { subject: 'mech', chapterId: 'mech-u6', code: '6.4', title: '轨道', relation: '后续' },
-    ],
-    development: ['万有引力定律', '表面重力加速度', '高空与球壳', '引力势能', '进入轨道运动'],
-    checks: ['为什么质量不同的物体在真空中下落一样快？', '距地面越高 \\(g\\) 如何变？', '引力势能为什么取负值？'],
-    summary: '万有引力 \\(F=G\\dfrac{m_1m_2}{r^{2}}\\) 提供星球表面重力与轨道向心力；引力势能 \\(U=-\\dfrac{GMm}{r}\\)。',
-  },
 
   'math/calc-u7/7.2': {
     enrichedAt: "batch2",
@@ -4113,156 +3945,7 @@ export const ENRICHMENTS = {
     summary: '简单电路用串并联化简与 \\(\\varepsilon=I(R+r)\\) 分析；端电压受内阻影响，基尔霍夫定律处理复杂连接。',
   },
 
-  'mech/mech-u1/1.1': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      "能陈述「一维运动学」的核心定义与适用条件。",
-      "能用瞬时速度与瞬时加速度的定义分析并解决基础问题。",
-      "能识别“把平均速度与平均速率混为一谈”等常见误用并纠正。"
-    ],
-    essentialKnowledge: [
-      "\\(x\\text{-}t\\) 斜率 = 速度，\\(v\\text{-}t\\) 斜率 = 加速度",
-      "\\(v\\text{-}t\\) 图面积 = 位移；\\(a\\text{-}t\\) 图面积 = 速度变化",
-      "匀加速三方程中不含时间的式子适合“无 \\(t\\)”问题",
-      "最高点速度为零但加速度仍为 \\(g\\)",
-      "先判断哪一段是匀加速，再选方程"
-    ],
-    connections: [
-      "后续：1.2 二维运动学",
-      "应用：2.3 牛顿第一与第二定律",
-      "跨主题：3.1 动能定理"
-    ],
-    definition: '一维运动学研究物体沿一条直线的位置随时间变化。取定正方向后，位置记为 \\(x(t)\\)，位移 \\(\\Delta x=x_f-x_i\\)，平均速度 \\(\\bar v=\\dfrac{\\Delta x}{\\Delta t}\\)，瞬时速度 \\(v=\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)，加速度 \\(a=\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=\\dfrac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}\\)。当加速度恒定时，可用三个匀加速方程。',
-    intuition: '运动图像把“过程”压缩成曲线：\\(x\\text{-}t\\) 图的斜率是速度，\\(v\\text{-}t\\) 图的斜率是加速度、面积是位移。',
-    intuitionDetailed: '先定正方向，再区分位移与路程、瞬时与平均。\\(v\\text{-}t\\) 图在时间轴上方面积为正位移、下方为负位移；曲线切线斜率给出该时刻加速度。自由落体是 \\(a=-g\\) 的匀加速特例（取向上为正）。',
-    formulas: [
-      { latex: 'v=\\dfrac{\\mathrm{d}x}{\\mathrm{d}t},\\quad a=\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}', note: '瞬时速度与瞬时加速度的定义。' },
-      { latex: 'v=v_0+at', note: '匀加速直线运动的速度方程。' },
-      { latex: 'x=x_0+v_0t+\\dfrac{1}{2}at^{2},\\quad v^{2}=v_0^{2}+2a(x-x_0)', note: '匀加速的位置方程与速度—位移关系。' },
-      { latex: '\\Delta x=\\dfrac{v_0+v}{2}\\,t', note: '匀加速时平均速度等于初末速度的算术平均。' },
-    ],
-    conditions: ['直线运动，先取定正方向并全程保持一致', '匀加速方程仅适用于 \\(a\\) 恒定的情形；一般运动回到导数定义', '位移是矢量、路程是标量；平均速度用位移，平均速率用路程', '自由落体忽略空气阻力，取向上为正时 \\(a=-g\\)'],
-    keyPoints: ['\\(x\\text{-}t\\) 斜率 = 速度，\\(v\\text{-}t\\) 斜率 = 加速度', '\\(v\\text{-}t\\) 图面积 = 位移；\\(a\\text{-}t\\) 图面积 = 速度变化', '匀加速三方程中不含时间的式子适合“无 \\(t\\)”问题', '最高点速度为零但加速度仍为 \\(g\\)', '先判断哪一段是匀加速，再选方程'],
-    misconceptions: [
-      '把平均速度与平均速率混为一谈',
-      '认为速度为零时加速度也为零（抛体最高点）',
-      '看到负加速度就认为物体在减速（还要看速度方向）',
-      '在加速度变化时仍套用 \\(v^2=v_0^2+2a\\Delta x\\)',
-      '把 \\(x\\) 当作路程，忽略往返运动中的符号',
-    ],
-    examples: [
-      {
-        title: '例 1 · 匀加速',
-        prompt: '汽车从静止开始在 \\(5.0\\,\\mathrm{s}\\) 内匀加速到 \\(20\\,\\mathrm{m/s}\\)。求加速度与这段时间的位移。',
-        steps: ['\\(a=\\dfrac{v-v_0}{t}=\\dfrac{20-0}{5.0}=4.0\\,\\mathrm{m/s^{2}}\\)。', '\\(\\Delta x=\\dfrac{v_0+v}{2}t=\\dfrac{0+20}{2}(5.0)=50\\,\\mathrm{m}\\)。'],
-        solution: '\\(a=4.0\\,\\mathrm{m/s^{2}}\\)，\\(\\Delta x=50\\,\\mathrm{m}\\)。',
-        solutionLatex: 'a=4.0\\,\\mathrm{m/s^{2}},\\;\\Delta x=50\\,\\mathrm{m}',
-      },
-      {
-        title: '例 2 · 竖直上抛',
-        prompt: '以 \\(15\\,\\mathrm{m/s}\\) 竖直向上抛出小球，忽略空气阻力，\\(g=9.8\\,\\mathrm{m/s^{2}}\\)。求最大高度与落回抛出点的时间。',
-        steps: ['最高点 \\(v=0\\)：\\(0=v_0^{2}-2gh\\Rightarrow h=\\dfrac{v_0^{2}}{2g}=\\dfrac{225}{19.6}=11.5\\,\\mathrm{m}\\)。', '上升与下落时间对称：\\(t_{\\mathrm{total}}=\\dfrac{2v_0}{g}=\\dfrac{30}{9.8}=3.06\\,\\mathrm{s}\\)。'],
-        solution: '最大高度约 \\(11.5\\,\\mathrm{m}\\)，总时间约 \\(3.1\\,\\mathrm{s}\\)。',
-        solutionLatex: 'h\\approx 11.5\\,\\mathrm{m},\\;t\\approx 3.1\\,\\mathrm{s}',
-      },
-      {
-        title: '例 3 · 图像',
-        prompt: '某物体 \\(v\\text{-}t\\) 图：\\(0\\text{–}4\\,\\mathrm{s}\\) 从静止匀加速到 \\(8\\,\\mathrm{m/s}\\)，\\(4\\text{–}6\\,\\mathrm{s}\\) 匀速，\\(6\\text{–}8\\,\\mathrm{s}\\) 匀减速到零。求总位移。',
-        steps: ['\\(0\\text{–}4\\,\\mathrm{s}\\)：三角形面积 \\(\\dfrac{1}{2}(4)(8)=16\\,\\mathrm{m}\\)。', '\\(4\\text{–}6\\,\\mathrm{s}\\)：矩形面积 \\(2\\times 8=16\\,\\mathrm{m}\\)。', '\\(6\\text{–}8\\,\\mathrm{s}\\)：三角形面积 \\(\\dfrac{1}{2}(2)(8)=8\\,\\mathrm{m}\\)。'],
-        solution: '总位移 \\(16+16+8=40\\,\\mathrm{m}\\)（单向运动，路程同为 \\(40\\,\\mathrm{m}\\)）。',
-        solutionLatex: '\\Delta x=40\\,\\mathrm{m}',
-      },
-    ],
-    examTips: [
-      'CED Unit 1：运动学',
-      '先画 \\(x\\text{-}t\\) 或 \\(v\\text{-}t\\) 草图，标出正方向与已知量',
-      '匀加速三方程按“缺哪个量”选择，不要盲目联立',
-      'FRQ 写清“取向上/向右为正”，并检查符号与单位',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u1', code: '1.2', title: '二维运动学', relation: '后续' },
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '应用' },
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '动能定理', relation: '跨主题' },
-    ],
-    development: ['位置、位移与路程', '平均量与瞬时量', '匀加速方程', '图像斜率与面积', '自由落体与竖直上抛'],
-    checks: ['\\(v\\text{-}t\\) 图的斜率与面积分别代表什么？', '抛体在最高点时速度和加速度各是多少？', '为什么负加速度不一定表示减速？'],
-    summary: '一维运动学用位置、速度、加速度描述直线运动；图像看斜率与面积，匀加速时用三方程，关键是符号与分段。',
-  },
 
-  'mech/mech-u1/1.2': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      "能陈述「二维运动学」的核心定义与适用条件。",
-      "能用位置与速度的分量表示分析并解决基础问题。",
-      "能识别“认为水平速度会随高度改变（无空气阻力时不变）”等常见误用并纠正。"
-    ],
-    essentialKnowledge: [
-      "二维运动 = 两个独立一维运动的合成",
-      "水平速度恒定、竖直加速度为 \\(g\\)",
-      "最高点竖直速度为零、水平速度不为零",
-      "轨迹切线方向就是速度方向",
-      "\\(45^\\circ\\) 在无阻力、同高条件下射程最大"
-    ],
-    connections: [
-      "先修：1.1 一维运动学",
-      "应用：2.3 牛顿第一与第二定律",
-      "对比：2.4 圆周运动"
-    ],
-    definition: '二维运动学用矢量描述平面运动：位置 \\(\\vec r=x\\hat i+y\\hat j\\)，速度 \\(\\vec v=\\dfrac{\\mathrm{d}\\vec r}{\\mathrm{d}t}\\)，加速度 \\(\\vec a=\\dfrac{\\mathrm{d}\\vec v}{\\mathrm{d}t}\\)。抛体运动是加速度恒为 \\(\\vec a=-g\\hat j\\) 的特例，水平与竖直分量相互独立。',
-    intuition: '把二维运动拆成两条独立的一维运动：水平方向没有加速度，竖直方向是自由落体；两者用同一个时间 \\(t\\) 连接。',
-    intuitionDetailed: '平抛与斜抛的轨迹是抛物线。速度矢量始终沿轨迹切线；最高点竖直速度为零但水平速度不变。若地面水平，斜抛射程 \\(R=\\dfrac{v_0^{2}\\sin 2\\theta}{g}\\)，\\(45^\\circ\\) 时最大。',
-    formulas: [
-      { latex: '\\vec r=x\\hat i+y\\hat j,\\quad \\vec v=v_x\\hat i+v_y\\hat j', note: '位置与速度的分量表示。' },
-      { latex: 'x=x_0+v_{0x}t,\\quad y=y_0+v_{0y}t-\\dfrac{1}{2}gt^{2}', note: '抛体运动的分量方程（取向上为正）。' },
-      { latex: 'v_x=v_{0x},\\quad v_y=v_{0y}-gt', note: '水平速度不变，竖直速度线性变化。' },
-      { latex: 'y=x\\tan\\theta-\\dfrac{gx^{2}}{2v_0^{2}\\cos^{2}\\theta},\\quad R=\\dfrac{v_0^{2}\\sin 2\\theta}{g}', note: '轨迹方程与平地射程。' },
-    ],
-    conditions: ['抛体只受重力，忽略空气阻力', '地面水平且落点与抛出点同高时射程公式才成立', '角度从水平方向量起；分量分解时先画矢量三角形', '水平与竖直分量共用同一时间 \\(t\\)'],
-    keyPoints: ['二维运动 = 两个独立一维运动的合成', '水平速度恒定、竖直加速度为 \\(g\\)', '最高点竖直速度为零、水平速度不为零', '轨迹切线方向就是速度方向', '\\(45^\\circ\\) 在无阻力、同高条件下射程最大'],
-    misconceptions: [
-      '认为水平速度会随高度改变（无空气阻力时不变）',
-      '把射程公式用于落点高度不同的情形',
-      '在最高点认为速度为零（只有竖直分量为零）',
-      '分解速度时把 \\(\\sin\\) 与 \\(\\cos\\) 用反',
-      '忽略两个分量必须使用同一飞行时间',
-    ],
-    examples: [
-      {
-        title: '例 1 · 斜抛',
-        prompt: '小球以 \\(20\\,\\mathrm{m/s}\\)、与水平成 \\(30^\\circ\\) 抛出，落点与抛出点同高。求飞行时间、射程与最大高度（\\(g=9.8\\,\\mathrm{m/s^{2}}\\)）。',
-        steps: ['\\(v_{0x}=20\\cos30^\\circ=17.3\\,\\mathrm{m/s}\\)，\\(v_{0y}=20\\sin30^\\circ=10\\,\\mathrm{m/s}\\)。', '\\(t=\\dfrac{2v_{0y}}{g}=\\dfrac{20}{9.8}=2.04\\,\\mathrm{s}\\)。', '\\(R=v_{0x}t=17.3(2.04)=35.3\\,\\mathrm{m}\\)；\\(H=\\dfrac{v_{0y}^{2}}{2g}=\\dfrac{100}{19.6}=5.10\\,\\mathrm{m}\\)。'],
-        solution: '\\(t\\approx 2.0\\,\\mathrm{s}\\)，\\(R\\approx 35\\,\\mathrm{m}\\)，\\(H\\approx 5.1\\,\\mathrm{m}\\)。',
-        solutionLatex: 't\\approx 2.0\\,\\mathrm{s},\\;R\\approx 35\\,\\mathrm{m},\\;H\\approx 5.1\\,\\mathrm{m}',
-      },
-      {
-        title: '例 2 · 平抛',
-        prompt: '从 \\(45\\,\\mathrm{m}\\) 高台以 \\(10\\,\\mathrm{m/s}\\) 水平抛出小球。求落地时间、水平射程与落地速率。',
-        steps: ['竖直方向：\\(45=\\dfrac{1}{2}(9.8)t^{2}\\Rightarrow t=\\sqrt{\\dfrac{90}{9.8}}=3.03\\,\\mathrm{s}\\)。', '水平射程 \\(x=10(3.03)=30.3\\,\\mathrm{m}\\)。', '\\(v_y=gt=29.7\\,\\mathrm{m/s}\\)，\\(v=\\sqrt{10^{2}+29.7^{2}}=31.3\\,\\mathrm{m/s}\\)。'],
-        solution: '\\(t\\approx 3.0\\,\\mathrm{s}\\)，\\(x\\approx 30\\,\\mathrm{m}\\)，\\(v\\approx 31\\,\\mathrm{m/s}\\)。',
-        solutionLatex: 't\\approx 3.0\\,\\mathrm{s},\\;x\\approx 30\\,\\mathrm{m},\\;v\\approx 31\\,\\mathrm{m/s}',
-      },
-      {
-        title: '例 3 · 同时落地',
-        prompt: '同一高度，一个小球自由下落，另一个小球同时水平抛出。忽略空气阻力，哪个先落地？',
-        steps: ['竖直方向都只受重力，初速度的竖直分量都为零。', '两者下落高度相同，满足 \\(h=\\dfrac{1}{2}gt^{2}\\)，所以 \\(t\\) 相同。'],
-        solution: '同时落地；水平抛出只增加水平位移，不改变竖直下落时间。',
-      },
-    ],
-    examTips: [
-      'CED Unit 1：二维运动学',
-      '先分解初速度，再分别写水平、竖直方程',
-      '落点高度不同时不要用 \\(R=\\dfrac{v_0^{2}\\sin2\\theta}{g}\\)，回到时间方程',
-      '求落地速率用速度分量合成，不要直接把速率当标量相加',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u1', code: '1.1', title: '一维运动学', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '应用' },
-      { subject: 'mech', chapterId: 'mech-u2', code: '2.4', title: '圆周运动', relation: '对比' },
-    ],
-    development: ['矢量分解', '抛体分量方程', '轨迹与射程', '平抛与斜抛', '落地速度合成'],
-    checks: ['为什么水平与竖直分量可以独立处理？', '斜抛最高点的速度与加速度各是什么？', '落点高度不同时如何求飞行时间？'],
-    summary: '二维运动学把平面运动分解为独立分量；抛体运动水平匀速、竖直匀加速，用同一时间连接两方向。',
-  },
 
   'mech/mech-u2/2.3': {
     enrichedAt: 'batch2',
@@ -4416,81 +4099,6 @@ export const ENRICHMENTS = {
     summary: '圆周运动的速度沿切线、加速度指向圆心；向心力由真实力提供，临界问题常令约束力为零。',
   },
 
-  'mech/mech-u3/3.2': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      "能陈述「力与势能」的核心定义与适用条件。",
-      "能用势能变化等于保守力做功的负值分析并解决基础问题。",
-      "能识别“认为势能属于单个物体（应属于物体—地球或物体—弹簧系统）”等常见误用并纠正。"
-    ],
-    essentialKnowledge: [
-      "保守力做功与路径无关",
-      "\\(F_x=-\\mathrm{d}U/\\mathrm{d}x\\)：力指向势能降低方向",
-      "势能零点可任选，势能差有意义",
-      "稳定平衡在势能谷底，不稳定在峰顶",
-      "重力势能与弹簧势能可以互相转化"
-    ],
-    connections: [
-      "先修：3.1 动能定理",
-      "后续：3.3 机械能守恒",
-      "应用：7.1 周期运动"
-    ],
-    definition: '保守力做功只与始末位置有关、与路径无关，因此可以定义势能 \\(U\\)，满足 \\(\\Delta U=-W_{\\mathrm{cons}}\\)。一维情形下力是势能曲线的负斜率：\\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)。常见势能：近地重力势能 \\(U_g=mgh\\)，弹簧势能 \\(U_s=\\dfrac{1}{2}kx^{2}\\)。',
-    intuition: '势能是“储存在构型中的能量”：把物体举高或压缩弹簧，外力做功把能量存进去；松手后保守力做功又把能量还回来。',
-    intuitionDetailed: '势能曲线把受力与平衡讲清楚：曲线斜率是力的负值，谷底是稳定平衡，峰顶是不稳定平衡。\\(U\\text{-}x\\) 图上“下坡”方向就是力指向；曲线越陡，力越大。势能零点可任选，但同题中只能选一次。',
-    formulas: [
-      { latex: '\\Delta U=-W_{\\mathrm{cons}}=-\\int_{x_i}^{x_f}F_x\\,\\mathrm{d}x', note: '势能变化等于保守力做功的负值。' },
-      { latex: 'F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}', note: '力是势能曲线的负斜率。' },
-      { latex: 'U_g=mgh,\\quad U_s=\\dfrac{1}{2}kx^{2}', note: '近地重力势能与理想弹簧势能。' },
-      { latex: '\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}=0,\\quad \\dfrac{\\mathrm{d}^{2}U}{\\mathrm{d}x^{2}}>0\\;\\text{稳定}', note: '平衡与稳定性判据。' },
-    ],
-    conditions: ['只有保守力才能定义势能；摩擦力等非保守力没有势能', '势能零点可任选，但同一问题中保持一致', '\\(U_g=mgh\\) 要求 \\(h\\ll R_{\\oplus}\\) 且 \\(g\\) 近似恒定', '弹簧势能要求弹簧理想、形变在弹性限度内', '势能属于系统，不属于单个物体'],
-    keyPoints: ['保守力做功与路径无关', '\\(F_x=-\\mathrm{d}U/\\mathrm{d}x\\)：力指向势能降低方向', '势能零点可任选，势能差有意义', '稳定平衡在势能谷底，不稳定在峰顶', '重力势能与弹簧势能可以互相转化'],
-    misconceptions: [
-      '认为势能属于单个物体（应属于物体—地球或物体—弹簧系统）',
-      '把势能零点当作“能量为零的物理特殊点”',
-      '认为摩擦力也有势能',
-      '把 \\(F=-\\mathrm{d}U/\\mathrm{d}x\\) 的负号漏掉',
-      '在势能曲线峰顶误判为稳定平衡',
-    ],
-    examples: [
-      {
-        title: '例 1 · 由势能求力',
-        prompt: '某一维势能 \\(U(x)=x^{3}-3x\\)（取 \\(U\\) 的单位为 J，\\(x\\) 为 m）。求力函数、平衡位置及稳定性。',
-        steps: ['\\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}=-(3x^{2}-3)=3-3x^{2}\\)。', '平衡：\\(F_x=0\\Rightarrow x=\\pm1\\)。', '\\(U\'\'(x)=6x\\)：\\(x=1\\) 时 \\(U\'\'>0\\) 稳定；\\(x=-1\\) 时 \\(U\'\'<0\\) 不稳定。'],
-        solution: '\\(F_x=3-3x^{2}\\)；\\(x=1\\) 稳定平衡，\\(x=-1\\) 不稳定平衡。',
-        solutionLatex: 'F_x=3-3x^{2}',
-      },
-      {
-        title: '例 2 · 弹簧储能',
-        prompt: '劲度系数 \\(k=200\\,\\mathrm{N/m}\\) 的弹簧被压缩 \\(0.10\\,\\mathrm{m}\\)。求储存的势能；释放后 \\(0.50\\,\\mathrm{kg}\\) 物块在光滑水平面上获得多大速率？',
-        steps: ['\\(U_s=\\dfrac{1}{2}kx^{2}=\\dfrac{1}{2}(200)(0.10)^{2}=1.0\\,\\mathrm{J}\\)。', '能量转化：\\(\\dfrac{1}{2}mv^{2}=U_s\\Rightarrow v=\\sqrt{\\dfrac{2(1.0)}{0.50}}=2.0\\,\\mathrm{m/s}\\)。'],
-        solution: '\\(U_s=1.0\\,\\mathrm{J}\\)，\\(v=2.0\\,\\mathrm{m/s}\\)。',
-        solutionLatex: 'U_s=1.0\\,\\mathrm{J},\\;v=2.0\\,\\mathrm{m/s}',
-      },
-      {
-        title: '例 3 · 重力势能',
-        prompt: '把 \\(2.0\\,\\mathrm{kg}\\) 的物体匀速举高 \\(3.0\\,\\mathrm{m}\\)。求重力势能变化、重力做功与外力做功。',
-        steps: ['\\(\\Delta U_g=mg\\Delta h=2.0(9.8)(3.0)=58.8\\,\\mathrm{J}\\)。', '重力向下、位移向上：\\(W_g=-mg\\Delta h=-58.8\\,\\mathrm{J}\\)。', '匀速提升时外力与重力平衡，\\(W_{\\mathrm{ext}}=+58.8\\,\\mathrm{J}\\)。'],
-        solution: '\\(\\Delta U_g=58.8\\,\\mathrm{J}\\)，\\(W_g=-58.8\\,\\mathrm{J}\\)，\\(W_{\\mathrm{ext}}=+58.8\\,\\mathrm{J}\\)。',
-        solutionLatex: '\\Delta U_g=58.8\\,\\mathrm{J}',
-      },
-    ],
-    examTips: [
-      'CED Unit 3：功、能量与功率',
-      '先判断力是否保守，再决定能否用势能',
-      '势能曲线题：斜率看力、谷底看稳定平衡',
-      '写 \\(\\Delta U=-W_{\\mathrm{cons}}\\) 时注意负号',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '动能定理', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.3', title: '机械能守恒', relation: '后续' },
-      { subject: 'mech', chapterId: 'mech-u7', code: '7.1', title: '周期运动', relation: '应用' },
-    ],
-    development: ['保守力与路径无关', '势能定义与零点', '力—势能斜率关系', '重力势能与弹簧势能', '平衡与稳定性'],
-    checks: ['为什么摩擦力不能定义势能？', '势能曲线的斜率与力的方向有什么关系？', '如何判断平衡点是稳定还是不稳定？'],
-    summary: '保守力对应势能，力是势能曲线的负斜率；势能零点可任选，谷底稳定、峰顶不稳定。',
-  },
 
   'mech/mech-u3/3.3': {
     enrichedAt: 'batch2',
@@ -5027,81 +4635,6 @@ export const ENRICHMENTS = {
     summary: '转动动能 \\(\\dfrac{1}{2}I\\omega^{2}\\)；\\(I\\) 依赖质量分布与轴，平行轴定理与纯滚动能量是常用工具。',
   },
 
-  'mech/mech-u7/7.1': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      "能陈述「周期运动」的核心定义与适用条件。",
-      "能用SHM 的动力学判据分析并解决基础问题。",
-      "能识别“认为振幅越大周期越长（线性 SHM 中不是）”等常见误用并纠正。"
-    ],
-    essentialKnowledge: [
-      "SHM 的判据是 \\(a\\propto-x\\)",
-      "平衡位置速度最大、加速度为零",
-      "端点速度为零、加速度最大",
-      "周期与振幅无关",
-      "能量在 \\(K\\) 与 \\(U_s\\) 之间转化"
-    ],
-    connections: [
-      "先修：3.2 力与势能",
-      "后续：7.2 单摆",
-      "后续：7.3 复摆"
-    ],
-    definition: '周期运动是状态随时间重复的运动。简谐运动（SHM）的回复力与位移成正比且方向相反：\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)，周期 \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\)。',
-    intuition: 'SHM 是“被拉回平衡位置”的运动：离平衡越远，回复力越大，加速度越大；在平衡位置速度最大、加速度为零。',
-    intuitionDetailed: '\\(x\\text{-}t\\) 图是正弦/余弦，\\(v\\text{-}t\\) 与 \\(a\\text{-}t\\) 分别相位超前 \\(\\dfrac{\\pi}{2}\\) 与 \\(\\pi\\)。能量在动能与弹性势能之间转化，总能量 \\(E=\\dfrac{1}{2}kA^{2}\\) 恒定。振幅不影响周期，周期只由 \\(m\\) 与 \\(k\\) 决定。',
-    formulas: [
-      { latex: 'F=-kx,\\quad a=-\\omega^{2}x', note: 'SHM 的动力学判据。' },
-      { latex: 'x=A\\cos(\\omega t+\\phi),\\quad v=-A\\omega\\sin(\\omega t+\\phi)', note: '位移与速度。' },
-      { latex: '\\omega=\\sqrt{\\dfrac{k}{m}},\\quad T=\\dfrac{2\\pi}{\\omega}=2\\pi\\sqrt{\\dfrac{m}{k}}', note: '角频率与周期。' },
-      { latex: 'E=\\dfrac{1}{2}kA^{2}=\\dfrac{1}{2}mv^{2}+\\dfrac{1}{2}kx^{2}', note: 'SHM 的能量守恒。' },
-    ],
-    conditions: ['回复力与位移成正比且反向（\\(F=-kx\\)）', '理想弹簧、无摩擦、弹簧质量忽略', '\\(x\\) 从平衡位置量起', '振幅不影响周期（线性回复力）', '相角 \\(\\phi\\) 由初始条件决定'],
-    keyPoints: ['SHM 的判据是 \\(a\\propto-x\\)', '平衡位置速度最大、加速度为零', '端点速度为零、加速度最大', '周期与振幅无关', '能量在 \\(K\\) 与 \\(U_s\\) 之间转化'],
-    misconceptions: [
-      '认为振幅越大周期越长（线性 SHM 中不是）',
-      '在端点认为速度最大',
-      '把 \\(\\omega\\) 与频率 \\(f\\) 混为一谈（\\(\\omega=2\\pi f\\)）',
-      '认为加速度方向总与速度方向相同',
-      '忘记 \\(x\\) 必须从平衡位置量起',
-    ],
-    examples: [
-      {
-        title: '例 1 · 周期',
-        prompt: '劲度系数 \\(100\\,\\mathrm{N/m}\\) 的弹簧挂 \\(0.25\\,\\mathrm{kg}\\) 的物块。求周期与频率。',
-        steps: ['\\(T=2\\pi\\sqrt{\\dfrac{m}{k}}=2\\pi\\sqrt{\\dfrac{0.25}{100}}=0.314\\,\\mathrm{s}\\)。', '\\(f=\\dfrac{1}{T}=3.18\\,\\mathrm{Hz}\\)。'],
-        solution: '\\(T\\approx 0.31\\,\\mathrm{s}\\)，\\(f\\approx 3.2\\,\\mathrm{Hz}\\)。',
-        solutionLatex: 'T\\approx 0.31\\,\\mathrm{s},\\;f\\approx 3.2\\,\\mathrm{Hz}',
-      },
-      {
-        title: '例 2 · 运动学',
-        prompt: '某 SHM 满足 \\(x=0.050\\cos(4\\pi t)\\)（SI 单位）。求振幅、周期、最大速率与最大加速度。',
-        steps: ['\\(A=0.050\\,\\mathrm{m}\\)，\\(\\omega=4\\pi\\,\\mathrm{rad/s}\\)，\\(T=\\dfrac{2\\pi}{\\omega}=0.50\\,\\mathrm{s}\\)。', '\\(v_{\\max}=A\\omega=0.050(4\\pi)=0.628\\,\\mathrm{m/s}\\)。', '\\(a_{\\max}=A\\omega^{2}=0.050(4\\pi)^{2}=7.90\\,\\mathrm{m/s^{2}}\\)。'],
-        solution: '\\(A=0.050\\,\\mathrm{m}\\)，\\(T=0.50\\,\\mathrm{s}\\)，\\(v_{\\max}\\approx 0.63\\,\\mathrm{m/s}\\)，\\(a_{\\max}\\approx 7.9\\,\\mathrm{m/s^{2}}\\)。',
-        solutionLatex: 'A=0.050\\,\\mathrm{m},\\;T=0.50\\,\\mathrm{s}',
-      },
-      {
-        title: '例 3 · 能量分配',
-        prompt: 'SHM 中当位移 \\(x=\\dfrac{A}{2}\\) 时，动能与势能各占总能量的多少？',
-        steps: ['\\(U=\\dfrac{1}{2}k\\left(\\dfrac{A}{2}\\right)^{2}=\\dfrac{1}{4}\\left(\\dfrac{1}{2}kA^{2}\\right)=\\dfrac{1}{4}E\\)。', '故 \\(K=E-U=\\dfrac{3}{4}E\\)。'],
-        solution: '\\(K:E=3:1\\)。',
-        solutionLatex: 'K:E=3:1',
-      },
-    ],
-    examTips: [
-      'CED Unit 7：周期运动',
-      '先确认 \\(F=-kx\\)，再写 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)',
-      '运动学题先由初始条件定 \\(A\\) 与 \\(\\phi\\)',
-      '能量题用 \\(E=\\dfrac{1}{2}kA^{2}\\) 最省事',
-    ],
-    related: [
-      { subject: 'mech', chapterId: 'mech-u3', code: '3.2', title: '力与势能', relation: '先修' },
-      { subject: 'mech', chapterId: 'mech-u7', code: '7.2', title: '单摆', relation: '后续' },
-      { subject: 'mech', chapterId: 'mech-u7', code: '7.3', title: '复摆', relation: '后续' },
-    ],
-    development: ['周期与频率', 'SHM 的动力学判据', '运动学方程', '能量转化', '相角与初始条件'],
-    checks: ['SHM 的判据是什么？', '为什么振幅不影响周期？', '端点与平衡位置的速度、加速度各如何？'],
-    summary: '简谐运动由 \\(F=-kx\\) 定义，运动学为正弦/余弦；周期由 \\(m\\) 与 \\(k\\) 决定，能量在动能与势能间转化。',
-  },
 
   'math/calc-u2/2.8': {
     enrichedAt: "batch2",
@@ -7073,82 +6606,6 @@ export const ENRICHMENTS = {
     summary: '主动运输逆梯度、需载体与能量；原发性直接耗 ATP，继发性借离子梯度，Na⁺/K⁺ 泵是经典例子。',
   },
 
-  'bio/bio-u3/3.2': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      '能解释温度与 pH 对酶活性的双重影响。',
-      '能比较竞争性与非竞争性抑制剂对 \\(K_m\\)、\\(V_{\\max}\\) 的影响。',
-      '能设计控制变量的酶活性实验并解读曲线。',
-    ],
-    essentialKnowledge: [
-      '每种酶有最适温度与最适 pH；超过最适温度后变性使活性骤降。',
-      '温度升高先增加碰撞频率，\\(Q_{10}\\) 常接近 2，但高温会破坏高级结构。',
-      'pH 改变侧链电离状态与活性位点构象，极端 pH 可不可逆失活。',
-      '竞争性抑制剂增大表观 \\(K_m\\)、不改变 \\(V_{\\max}\\)；非竞争性抑制剂降低 \\(V_{\\max}\\)、通常不改变 \\(K_m\\)。',
-      '别构调节与反馈抑制通过非活性位点结合快速调节代谢通量。',
-    ],
-    derivationNotes: [
-      { from: '温度', to: '活性曲线', note: '先升后降；高温变性使活性骤降。' },
-      { from: 'pH', to: '侧链电离', note: '极端 pH 改变活性位点构象与电荷。' },
-      { from: '抑制剂', to: '\\(K_m\\) 与 \\(V_{\\max}\\)', note: '竞争性增大 \\(K_m\\)；非竞争性降低 \\(V_{\\max}\\)。' },
-    ],
-    connections: [
-      '先修：1.6 的酶结构与活性位点。',
-      '后续：3.3 细胞能量与 3.5 细胞呼吸。',
-      '应用：胃蛋白酶/胰蛋白酶的最适 pH 与工业酶条件。',
-    ],
-    definition: '酶的活性受温度、pH、底物浓度、酶浓度、抑制剂、辅因子与别构调节影响。每种酶有最适温度与最适 pH；超过最适温度后，非共价键被破坏导致变性，活性不可逆下降。底物浓度升高时速率趋于饱和 \\(V_{\\max}\\)；酶浓度在底物充足时与速率近似成正比。',
-    intuition: '酶像精密的机器：温度太低转得慢，温度太高会“烧坏”；pH 不对会改变活性位点的电荷，底物就卡不进去。',
-    intuitionDetailed: '温度每升高 10 ℃，反应速率通常增加约 2–3 倍（\\(Q_{10}\\)），但超过最适温度后变性占主导，曲线骤降。pH 改变会改变氨基酸侧链的质子化状态，影响底物结合与催化。竞争性抑制剂增大表观 \\(K_m\\)，非竞争性抑制剂降低 \\(V_{\\max}\\)。',
-    formulas: [
-      { latex: 'v=\\dfrac{V_{\\max}[S]}{K_m+[S]}', note: '底物浓度对速率的影响。' },
-      { latex: 'Q_{10}=\\left(\\dfrac{R_2}{R_1}\\right)^{\\dfrac{10}{T_2-T_1}}', note: '温度系数的定义（\\(T\\) 用 ℃ 或 K 的差值均可）。' },
-      { latex: 'v=k_{\\mathrm{cat}}[E]_t\\dfrac{[S]}{K_m+[S]}', note: '酶浓度与转换数。' },
-    ],
-    conditions: ['温度、pH 的最适值因酶而异', '高温变性通常不可逆；低温抑制常可逆', '底物浓度足够高时速率饱和', '抑制剂类型决定 \\(K_m\\)、\\(V_{\\max}\\) 的变化', '辅因子/辅酶缺乏会降低活性'],
-    keyPoints: ['最适温度与最适 pH 是酶的特性', '高温变性，低温抑制', '底物饱和后加底物不再提速', '酶浓度与速率近似成正比（底物充足时）', '竞争性抑制剂增大 \\(K_m\\)，非竞争性降低 \\(V_{\\max}\\)'],
-    misconceptions: [
-      '认为温度越高酶活性越高',
-      '认为 pH 只影响底物，不影响酶',
-      '把“变性”与“抑制”混为一谈',
-      '认为加更多底物可以无限提高速率',
-      '认为抑制剂一定使酶永久失活',
-    ],
-    examples: [
-      {
-        title: '例 1 · 温度曲线',
-        prompt: '为什么酶活性—温度曲线先升后骤降？',
-        steps: ['低温段：分子运动加快，碰撞增多，速率上升。', '超过最适温度：非共价键被破坏，活性位点变形，变性占主导。'],
-        solution: '先由碰撞频率上升，后由变性导致骤降。',
-      },
-      {
-        title: '例 2 · pH',
-        prompt: '胃蛋白酶最适 pH 约 2，胰蛋白酶约 8。说明什么？',
-        steps: ['不同酶的活性位点氨基酸组成不同。', 'pH 改变侧链质子化状态，影响结合与催化。'],
-        solution: '最适 pH 由酶的结构决定，与所处环境相适应。',
-      },
-      {
-        title: '例 3 · 抑制剂',
-        prompt: '竞争性抑制剂与别构抑制剂对动力学参数的影响有何不同？',
-        steps: ['竞争性：与底物争活性位点，\\(K_m\\) 增大，\\(V_{\\max}\\) 不变。', '别构/非竞争性：改变酶构象，\\(V_{\\max}\\) 降低，\\(K_m\\) 可变或不变。'],
-        solution: '看 \\(K_m\\) 与 \\(V_{\\max}\\) 哪个改变即可区分。',
-      },
-    ],
-    examTips: [
-      'CED Unit 3：酶催化与环境影响',
-      '读曲线：最适点、变性段、饱和段',
-      '实验设计要控制温度、pH、底物浓度等变量',
-      '抑制剂题用 \\(K_m\\)、\\(V_{\\max}\\) 变化判断类型',
-    ],
-    related: [
-      { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.5', title: '酶', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u3', code: '3.1', title: '酶催化', relation: '先修' },
-      { subject: 'bio', chapterId: 'bio-u1', code: '1.6', title: '酶结构与功能', relation: '相关' },
-    ],
-    development: ['温度与 \\(Q_{10}\\)', 'pH 与电荷', '底物浓度与饱和', '酶浓度', '抑制剂与辅因子'],
-    checks: ['为什么高温使酶不可逆失活？', '底物饱和后为什么加底物不再提速？', '竞争性与非竞争性抑制剂的动力学区别是什么？'],
-    summary: '酶活性受温度、pH、底物与酶浓度、抑制剂和辅因子调节；最适条件由酶结构决定，高温变性、底物饱和是两条关键曲线。',
-  },
 
   'bio/bio-u4/4.2': {
     enrichedAt: 'batch2',
@@ -8517,88 +7974,6 @@ export const ENRICHMENTS = {
     ],
     summary: "拉格朗日误差界用第 \\(n+1\\) 阶导数的上界估计泰勒近似的最大误差，是判断近似精度与选择阶数的工具。 · The Lagrange error bound uses an upper bound on the \\((n+1)\\)st derivative to estimate the maximum error of a Taylor approximation, helping judge accuracy and choose the degree."
   },
-  'em/em-u8/8.5': {
-    enrichedAt: 'batch2',
-    learningObjectives: [
-      '能写出高斯定律并正确确定包围的净电荷。',
-      '能根据球、柱、平面对称性选择高斯面并求电场。',
-      '能用导体内部 \\(E=0\\) 分析空腔与感应电荷。',
-    ],
-    essentialKnowledge: [
-      '高斯定律：\\(\\Phi_E=\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0}\\)。',
-      '净通量只由闭合曲面内部的净电荷决定，曲面外电荷不贡献净通量。',
-      '高斯定律对任意闭合曲面成立；利用对称性才能把 \\(\\vec E\\) 提出积分号求场强。',
-      '球对称外部场等效于电荷集中在球心；无限长直线与无限大平面有标准场公式。',
-      '导体静电平衡时内部 \\(\\vec E=0\\)，净电荷分布在外表面，空腔内电荷会在内表面感应异号电荷。',
-    ],
-    derivationNotes: [
-      { from: '闭合曲面', to: '电通量', note: '\\(\\Phi_E=\\oint\\vec E\\cdot\\mathrm{d}\\vec A\\)。' },
-      { from: '高斯定律', to: '\\(Q_{\\text{enc}}/\\varepsilon_0\\)', note: '净通量只由内部净电荷决定。' },
-      { from: '对称性', to: '求 \\(E\\)', note: '球/柱/平面高斯面把 \\(E\\) 提出积分号。' },
-    ],
-    connections: [
-      '先修：8.4 电通量。',
-      '后续：8.2 电场与 9.2 电势。',
-      '应用：导体静电屏蔽、法拉第笼与电容器。',
-    ],
-    definition: '高斯定律指出：通过任意闭合曲面的电通量等于该曲面所包围的净电荷除以真空介电常数，\\(\\Phi_E=\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0}\\)。它是麦克斯韦方程组之一，对任意闭合曲面都成立；当电荷分布具有球对称、柱对称或平面对称时，可利用对称性求电场。',
-    intuition: '高斯定律像“数电通量账单”：不管闭合曲面多大、什么形状，只要里面包的净电荷相同，穿出去的净通量就相同；外面的电荷对净通量没有贡献。',
-    intuitionDetailed: '高斯定律中的 \\(\\vec E\\) 是所有电荷（包括曲面内外）产生的总电场，但只有曲面内部的净电荷决定净通量。利用高斯定律求场强的关键是选取与对称性匹配的高斯面：球对称取同心球面，柱对称取同轴圆柱面，平面对称取跨平面的柱形盒。导体内部静电平衡时 \\(\\vec E=0\\)，净电荷分布在导体外表面；若导体有空腔，腔内电荷会在内表面感应出等量异号电荷。',
-    formulas: [
-      { latex: '\\Phi_E=\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0}', note: '高斯定律的积分形式。' },
-      { latex: 'E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{Q}{r^{2}}', note: '球对称电荷（或球外）的电场。' },
-      { latex: 'E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}', note: '无限长均匀带电直线的电场。' },
-      { latex: 'E=\\dfrac{\\sigma}{2\\varepsilon_0}', note: '无限大均匀带电平面的电场；导体表面外为 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)。' },
-    ],
-    conditions: ['高斯面必须是闭合曲面', '\\(Q_{\\text{enc}}\\) 是曲面内部的净电荷，外部电荷不计入净通量', '利用对称性把 \\(\\vec E\\) 提出积分号时，曲面上的 \\(\\vec E\\) 大小与方向必须具有相应对称性', '导体内部静电平衡时 \\(\\vec E=0\\)', '介质中需用介电常数；真空用 \\(\\varepsilon_0\\)'],
-    keyPoints: ['净通量只由内部净电荷决定', '高斯定律对任意闭合曲面成立，不要求对称', '对称性用于求 \\(E\\)，不是高斯定律成立的前提', '球对称外部场等效于全部电荷集中在球心', '导体内部 \\(E=0\\)，净电荷分布在外表面', '通量单位是 \\(\\mathrm{N\\,m^{2}\\,C^{-1}}\\)'],
-    misconceptions: [
-      '认为高斯面上的 \\(E\\) 只由内部电荷产生（\\(E\\) 是总场）',
-      '认为曲面外电荷对通量有贡献（对净通量无贡献）',
-      '认为高斯定律只适用于对称分布（定律普遍成立，只是求 \\(E\\) 时常用对称性）',
-      '把 \\(Q_{\\text{enc}}\\) 与曲面上的电荷混淆',
-      '认为导体内部有净电荷（静电平衡时内部净电荷为零）',
-      '单位或 \\(\\varepsilon_0\\) 数值代入错误',
-    ],
-    examples: [
-      {
-        title: '例 1 · 点电荷通量',
-        prompt: '\\(2.0\\,\\mathrm{\\mu C}\\) 的点电荷被一个任意闭合曲面包围。求通过该曲面的净电通量。',
-        steps: ['\\(Q_{\\text{enc}}=2.0\\times10^{-6}\\,\\mathrm{C}\\)。', '\\(\\Phi_E=\\dfrac{Q_{\\text{enc}}}{\\varepsilon_0}=\\dfrac{2.0\\times10^{-6}}{8.85\\times10^{-12}}\\)。', '\\(\\Phi_E\\approx2.26\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。'],
-        solution: '\\(\\Phi_E\\approx2.3\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
-        solutionLatex: '\\Phi_E=\\dfrac{2.0\\times10^{-6}}{8.85\\times10^{-12}}\\approx2.26\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}',
-      },
-      {
-        title: '例 2 · 球面电场',
-        prompt: '\\(1.0\\,\\mathrm{\\mu C}\\) 的点电荷位于半径 \\(0.30\\,\\mathrm{m}\\) 的球面中心。求球面上的电场大小与通过球面的通量。',
-        steps: ['\\(E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{Q}{r^{2}}=8.99\\times10^{9}\\times\\dfrac{1.0\\times10^{-6}}{(0.30)^{2}}\\)。', '\\(E\\approx9.99\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)。', '\\(\\Phi_E=\\dfrac{Q}{\\varepsilon_0}=\\dfrac{1.0\\times10^{-6}}{8.85\\times10^{-12}}\\approx1.13\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。'],
-        solution: '\\(E\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)，\\(\\Phi_E\\approx1.1\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
-        solutionLatex: 'E\\approx9.99\\times10^{4}\\,\\mathrm{N\\,C^{-1}},\\quad\\Phi_E\\approx1.13\\times10^{5}\\,\\mathrm{N\\,m^{2}\\,C^{-1}}',
-      },
-      {
-        title: '例 3 · 导体空腔',
-        prompt: '一个带净电荷 \\(+5\\,\\mathrm{\\mu C}\\) 的导体球壳，空腔内放有 \\(+2\\,\\mathrm{\\mu C}\\) 的点电荷。求导体壳内表面与外表面的感应电荷。',
-        steps: ['导体内部静电平衡时 \\(E=0\\)。', '取包围空腔的闭合高斯面，内部净电荷必须为 0，故内表面感应出 \\(-2\\,\\mathrm{\\mu C}\\)。', '导体总净电荷 \\(+5\\,\\mathrm{\\mu C}\\)，所以外表面电荷为 \\(+5-(-2)=+7\\,\\mathrm{\\mu C}\\)。'],
-        solution: '内表面 \\(-2\\,\\mathrm{\\mu C}\\)，外表面 \\(+7\\,\\mathrm{\\mu C}\\)。',
-        solutionLatex: 'Q_{\\text{内}}=-2\\,\\mathrm{\\mu C},\\quad Q_{\\text{外}}=+7\\,\\mathrm{\\mu C}',
-      },
-    ],
-    examTips: [
-      'CED Unit 8：电通量与高斯定律；先判断对称性再选高斯面',
-      '写高斯定律时明确 \\(Q_{\\text{enc}}\\) 与高斯面',
-      '导体内部 \\(E=0\\) 是求感应电荷的关键',
-      '通量题先算 \\(Q_{\\text{enc}}/\\varepsilon_0\\)，不要被曲面形状干扰',
-    ],
-    related: [
-      { subject: 'em', chapterId: 'em-u8', code: '8.4', title: '电通量', relation: '先修' },
-      { subject: 'em', chapterId: 'em-u8', code: '8.2', title: '电场', relation: '先修' },
-      { subject: 'em', chapterId: 'em-u9', code: '9.2', title: '电势', relation: '后续' },
-      { subject: 'em', chapterId: 'em-u10', code: '10.1', title: '导体静电', relation: '应用' },
-    ],
-    development: ['电通量', '高斯定律', '对称性与高斯面', '球/柱/平面对称场', '导体与空腔'],
-    checks: ['高斯面上的电场由哪些电荷产生？', '为什么高斯定律求场强时常要求对称性？', '导体空腔内外表面的感应电荷如何分配？'],
-    summary: '高斯定律把闭合曲面的净电通量与内部净电荷联系起来；对称性帮助求场强，导体平衡与感应电荷是其重要应用。',
-  },
 
   'em/em-u11/11.6': {
     enrichedAt: 'batch2',
@@ -9025,7 +8400,7 @@ export const ENRICHMENTS = {
     ],
     connections: [
       '先修：12.2 运动电荷受力与 12.3 毕奥–萨伐尔定律。',
-      '后续：12.5 磁通量与 13.2 电磁感应。',
+      '后续：12.5 磁偶极与磁性材料、12.6 磁导率与材料响应与 13.2 电磁感应。',
       '应用：电磁铁、螺线管与电流传感器。',
     ],
     definition: '安培定律把磁场沿闭合回路的环流与穿过该回路的净电流联系起来：\\(\\oint\\vec B\\cdot\\mathrm{d}\\vec l=\\mu_0 I_{\\mathrm{encl}}\\)。当电流分布具有长直、螺线管或环面对称时，可用它求磁场：长直导线 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)，理想螺线管 \\(B=\\mu_0nI\\)。',
@@ -9078,6 +8453,8 @@ export const ENRICHMENTS = {
     related: [
       { subject: 'em', chapterId: 'em-u12', code: '12.2', title: '运动电荷与磁场', relation: '先修' },
       { subject: 'em', chapterId: 'em-u12', code: '12.3', title: '毕奥–萨伐尔定律', relation: '先修' },
+      { subject: 'em', chapterId: 'em-u12', code: '12.5', title: '磁偶极与磁性材料', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u12', code: '12.6', title: '磁导率与材料响应', relation: '后续' },
       { subject: 'em', chapterId: 'em-u13', code: '13.1', title: '磁通量', relation: '后续' },
     ],
     development: ['磁场环流', '安培定律', '长直导线', '螺线管与环面', '同轴电缆与对称性'],
@@ -9187,7 +8564,7 @@ export const ENRICHMENTS = {
     ],
     connections: [
       '先修：11.6 环路定律与 13.4 电感。',
-      '后续：13.6 LC 电路与 13.7 电磁振荡。',
+      '后续：13.6 LC 电路与 13.7 麦克斯韦方程与电磁波。',
       '应用：继电器、电机启动与滤波电路。',
     ],
     definition: 'LR 电路由电感 \\(L\\) 与电阻 \\(R\\) 串联组成。电感反抗电流变化，回路方程 \\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。接通电源时电流按 \\(I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-t/\\tau}\\right)\\) 上升，断开后按 \\(I=I_0e^{-t/\\tau}\\) 衰减，时间常数 \\(\\tau=\\dfrac{L}{R}\\)。',
@@ -9269,7 +8646,7 @@ export const ENRICHMENTS = {
     ],
     connections: [
       '先修：13.4 电感与 11.4 电容。',
-      '后续：13.7 电磁波与 RLC 阻尼振荡。',
+      '后续：13.7 麦克斯韦方程与电磁波。',
       '应用：无线电调谐、振荡器与滤波器。',
     ],
     definition: '理想 LC 电路由电感与电容组成，无电阻时电荷与电流发生简谐振荡。回路方程 \\(L\\dfrac{\\mathrm{d}^{2}q}{\\mathrm{d}t^{2}}+\\dfrac{q}{C}=0\\)，角频率 \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)，周期 \\(T=2\\pi\\sqrt{LC}\\)。能量在电容电场与电感磁场之间来回转化，总能量守恒。',

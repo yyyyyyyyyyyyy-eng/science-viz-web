@@ -2086,5 +2086,70 @@ export const problems = [
       }
     ],
     "solutionLatex": "v=v_0+at=0+(2.0)(3.0)=6.0\\,\\mathrm{m\\,s^{-1}}."
-  }
+  },
+{
+  "id": "mech-u1-q041",
+  "title": "1.2 标量与矢量分类",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "下列哪一组量全部是标量？",
+  "choices": [
+    {
+      "text": "路程、速率、质量、时间",
+      "correct": true
+    },
+    {
+      "text": "位移、速度、加速度、力",
+      "correct": false
+    },
+    {
+      "text": "力、速度、时间、能量",
+      "correct": false
+    },
+    {
+      "text": "位置、速率、位移、质量",
+      "correct": false
+    }
+  ],
+  "solution": "标量只有大小；位移、速度、加速度与力都带方向。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u1/1.2",
+      "label": "1.2 二维运动学",
+      "topicId": "mech-u1:1.2"
+    }
+  ]
+},
+{
+  "id": "mech-u1-q042",
+  "title": "1.2 船与河流的合速度",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "小船在静水中速度 4.0 m/s，船头正对北岸；河水以 3.0 m/s 向东流。求船相对地面的速度大小（m/s）。",
+  "expected": 5.0,
+  "tol": 0.01,
+  "answerLatex": "5.0\\,\\mathrm{m\\,s^{-1}}",
+  "solution": "两速度垂直，合速度大小为 √(4.0²+3.0²)=5.0 m/s。",
+  "solutionLatex": "v=\\sqrt{4.0^{2}+3.0^{2}}=5.0\\,\\mathrm{m\\,s^{-1}}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u1/1.2",
+      "label": "1.2 二维运动学",
+      "topicId": "mech-u1:1.2"
+    }
+  ]
+}
 ];

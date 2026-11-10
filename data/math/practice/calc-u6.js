@@ -1797,5 +1797,31 @@ export const problems = [
         "solution": "先用 FTC 把累积函数的导数化为被积函数，再对 f 求导。"
       }
     ]
-  }
+  },
+{
+  "id": "calc-u6-q085",
+  "title": "6.6 跳跃间断函数的定积分",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "设 f(x)=x+1（0≤x<2），f(x)=x²+1（2≤x≤3）。求 ∫₀³ f(x) dx。",
+  "expected": 11.33,
+  "tol": 0.01,
+  "answerLatex": "\\dfrac{34}{3}\\approx11.33",
+  "solution": "在 x=2 处分段：∫₀²(x+1)dx=4，∫₂³(x²+1)dx=22/3，总和 34/3。",
+  "solutionLatex": "\\int_0^3 f\\,dx=\\int_0^2(x+1)\\,dx+\\int_2^3(x^{2}+1)\\,dx=4+\\dfrac{22}{3}=\\dfrac{34}{3}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u6/6.6",
+      "label": "6.6 定积分性质的应用",
+      "topicId": "calc-u6:6.6"
+    }
+  ]
+}
 ];

@@ -3716,5 +3716,31 @@ export const problems = [
         "topicId": "em-u11:11.4"
       }
     ]
-  }
+  },
+{
+  "id": "em-u11-q061",
+  "title": "11.9 非均匀电流密度的总电流",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 R=1.0 mm 的导线截面内电流密度 J(r)=J₀(1−r/R)，J₀=1.2×10⁶ A/m²。求总电流（A）。",
+  "expected": 1.3,
+  "tol": 0.01,
+  "answerLatex": "1.3\\,\\mathrm{A}",
+  "solution": "I=∫₀ᴿJ₀(1−r/R)2πr dr=J₀πR²/3≈1.3 A。",
+  "solutionLatex": "I=\\int_0^R J_0\\left(1-\\dfrac{r}{R}\\right)2\\pi r\\,dr=\\dfrac{J_0\\pi R^{2}}{3}\\approx1.3\\,\\mathrm{A}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u11/11.9",
+      "label": "11.9 电流密度与截面积分",
+      "topicId": "em-u11:11.9"
+    }
+  ]
+}
 ];

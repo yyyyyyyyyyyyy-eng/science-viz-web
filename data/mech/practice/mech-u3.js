@@ -2540,5 +2540,44 @@ export const problems = [
         "topicId": "mech-u3:3.5"
       }
     ]
-  }
+  },
+{
+  "id": "mech-u3-q067",
+  "title": "3.2 多物体系统的势能对数",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "三个物体两两之间存在引力势能。系统的总势能包含多少个不同的 pair 项？",
+  "choices": [
+    {
+      "text": "3",
+      "correct": true
+    },
+    {
+      "text": "6",
+      "correct": false
+    },
+    {
+      "text": "9",
+      "correct": false
+    },
+    {
+      "text": "12",
+      "correct": false
+    }
+  ],
+  "solution": "无序对数为 N(N−1)/2=3；把 U₁₂ 与 U₂₁ 都算入会重复计数。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u3/3.2",
+      "label": "3.2 力与势能",
+      "topicId": "mech-u3:3.2"
+    }
+  ]
+}
 ];

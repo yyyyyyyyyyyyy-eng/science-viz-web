@@ -1666,5 +1666,44 @@ export const problems = [
         "solution": "A(2)=2·2·(12−4)=32；A″=−12x<0，故为最大值。"
       }
     ]
-  }
+  },
+{
+  "id": "calc-u5-q085",
+  "title": "5.7 唯一临界点与绝对极值",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "f 在区间 I 上连续，I 内只有一个临界点 x=2，且 f(2) 是局部极小值。下列哪项一定成立？",
+  "choices": [
+    {
+      "text": "f(2) 是 I 上的绝对最小值",
+      "correct": true
+    },
+    {
+      "text": "f(2) 是 I 上的绝对最大值",
+      "correct": false
+    },
+    {
+      "text": "f(2) 既是绝对最小值也是绝对最大值",
+      "correct": false
+    },
+    {
+      "text": "无法判断任何绝对极值",
+      "correct": false
+    }
+  ],
+  "solution": "FUN-4.A.8：连续、唯一临界点且为局部极值 ⇒ 同类型的绝对极值。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u5/5.7",
+      "label": "5.7 二阶导数检验",
+      "topicId": "calc-u5:5.7"
+    }
+  ]
+}
 ];

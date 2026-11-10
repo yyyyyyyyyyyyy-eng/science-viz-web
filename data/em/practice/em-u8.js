@@ -2946,5 +2946,57 @@ export const problems = [
         "topicId": "em-u8:8.3"
       }
     ]
-  }
+  },
+{
+  "id": "em-u8-q049",
+  "title": "8.8 电子与质子的电力/引力比",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "电子与质子相距 r。求电力与引力的比值 F_e/F_g（数量级即可，填 10 的幂对应的系数，如 2.3×10³⁹ 填 2.3e39）。",
+  "expected": 2.3e+39,
+  "tol": 0.05,
+  "answerLatex": "2.3\\times10^{39}",
+  "solution": "F_e/F_g=k e²/(G m_e m_p)≈2.3×10³⁹；电力远强于引力。",
+  "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_em_p}\\approx2.3\\times10^{39}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.8",
+      "label": "8.8 电力、引力与宏观物性",
+      "topicId": "em-u8:8.8"
+    }
+  ]
+},
+{
+  "id": "em-u8-q050",
+  "title": "8.10 均匀带电绝缘球内部电场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 R=0.20 m 的均匀带电绝缘球带总电荷 Q=4.0 μC。求 r=R/2 处的电场大小（N/C），取 k=9.0×10⁹ N·m²/C²。",
+  "expected": 450000.0,
+  "tol": 0.02,
+  "answerLatex": "4.5\\times10^{5}\\,\\mathrm{N/C}",
+  "solution": "绝缘球内部 E=kQr/R³；代入 r=0.10 m 得 4.5×10⁵ N/C。",
+  "solutionLatex": "E=\\dfrac{kQr}{R^{3}}=\\dfrac{(9.0\\times10^{9})(4.0\\times10^{-6})(0.10)}{(0.20)^{3}}=4.5\\times10^{5}\\,\\mathrm{N/C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u8/8.10",
+      "label": "8.10 绝缘体电荷与内部电场",
+      "topicId": "em-u8:8.10"
+    }
+  ]
+}
 ];

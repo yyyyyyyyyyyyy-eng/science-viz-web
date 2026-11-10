@@ -1959,6 +1959,274 @@ def('angular-graphs', '匀角加速：ω–t 与 α–t 图 · Uniform angular a
   return s;
 });
 
+/* ======================= Track B coverage figures (B01-B03) ======================= */
+def('vector-arrow-model', '矢量箭头模型与三维分量 · Vector arrow model and 3D components', '\\vec A=A_x\\hat i+A_y\\hat j+A_z\\hat k,\\;\\; A=\\sqrt{A_x^2+A_y^2+A_z^2}', () => {
+  let s = tx(24, 16, '箭头长度 ∝ 大小；方向 = 箭头方向', { it: false, fs: 10 });
+  s += tx(24, 30, 'arrow length ∝ magnitude; orientation = direction', { it: false, fs: 9 });
+  s += arr(30, 210, 30, 46, 'g', 1.2) + arr(30, 210, 186, 210, 'g', 1.2);
+  s += tx(190, 214, 'x', { fs: 12 }) + tx(24, 40, 'y', { anchor: 'end', fs: 12 });
+  s += arr(30, 210, 142, 92, 'v', 2.2) + tx(82, 144, 'A', { c: 'v', fs: 14 });
+  s += ln(30, 210, 142, 210, { c: 'm', dash: '4 3' }) + ln(142, 210, 142, 92, { c: 'm', dash: '4 3' });
+  s += tx(86, 226, 'A_{x} = A cos θ', { fs: 10 }) + tx(148, 152, 'A_{y} = A sin θ', { fs: 10 });
+  s += arc(30, 210, 35, 0, 50, { c: 'm', w: 1 }) + tx(70, 191, 'θ', { fs: 11 });
+  s += ln(232, 205, 366, 205, { w: 1.1 }) + arr(232, 205, 232, 78, 'g', 1.1) + arr(232, 205, 300, 234, 'g', 1.1);
+  const P0 = [232, 205], vx = [34, 0], vy = [-24, 10], vz = [0, -78];
+  const end = [P0[0] + vx[0] + vy[0] + vz[0], P0[1] + vx[1] + vy[1] + vz[1]];
+  s += ln(P0[0], P0[1], P0[0] + vx[0], P0[1], { c: 'm', dash: '3 3' }) + ln(P0[0] + vx[0], P0[1], P0[0] + vx[0] + vy[0], P0[1] + vy[1], { c: 'm', dash: '3 3' });
+  s += ln(P0[0] + vx[0] + vy[0], P0[1] + vy[1], end[0], end[1], { c: 'm', dash: '3 3' });
+  s += ln(end[0], end[1], end[0] - vz[0], end[1] - vz[1], { c: 'm', dash: '3 3' });
+  s += arr(P0[0], P0[1], end[0], end[1], 'v', 2.2) + tx(end[0] - 22, end[1] - 6, 'A', { c: 'v', fs: 13 });
+  s += tx(252, 222, 'A_{x}', { fs: 10 }) + tx(206, 222, 'A_{y}', { fs: 10 }) + tx(238, 130, 'A_{z}', { fs: 10 });
+  s += tx(232, 66, 'A = 7.0', { it: false, fs: 10 });
+  s += tx(232, 80, '方向余弦 (0.286, −0.429, 0.857)', { it: false, fs: 8.5 });
+  s += tx(232, 48, 'A = 2i − 3j + 6k', { fs: 10.5 });
+  return s;
+});
+def('two-observer-frames', '双观察者坐标系与伽利略变换 · Two observer frames and Galilean transformation', "x'=x-ut,\\;\\; v'=v-u,\\;\\; a'=a", () => {
+  let s = '';
+  s += arr(28, 208, 356, 208, 'g', 1.2) + tx(360, 212, 'x', { fs: 12 }) + tx(30, 226, '地面系 · ground frame', { it: false, fs: 10 });
+  s += arr(28, 112, 350, 112, 'g', 1.2) + tx(344, 108, "x'", { fs: 12 }) + tx(30, 130, "列车系 · train frame", { it: false, fs: 10 });
+  s += rect(170, 62, 170, 68) + tx(255, 84, '列车 · train', { it: false, fs: 10 });
+  s += circ(206, 122, 8) + ln(178, 130, 350, 130, { w: 1.1 });
+  s += circ(250, 108, 6, { fill: 'currentColor' }) + tx(250, 94, '杯子 · cup', { anchor: 'middle', fs: 10 });
+  s += arr(170, 46, 208, 46, 'v', 2) + tx(190, 38, 'u', { c: 'v', fs: 12, anchor: 'middle' });
+  s += ln(250, 112, 250, 208, { c: 'm', dash: '3 3' }) + ln(250, 130, 250, 208, { c: 'm', dash: '3 3' });
+  s += tx(256, 188, '同一事件：地面 x，列车 x′', { it: false, fs: 10 });
+  s += eq(40, 246, ["x' = x − ut"]) + eq(170, 246, ["v' = v − u"]) + eq(290, 246, ["a' = a"]);
+  return s;
+});
+def('boat-river', '船与河流：相对速度合成 · Boat and river: relative-velocity composition', '\\vec v_{A/C}=\\vec v_{A/B}+\\vec v_{B/C}', () => {
+  let s = ln(20, 52, 380, 52, { w: 2 }) + ln(20, 226, 380, 226, { w: 2 });
+  s += tx(30, 42, '河岸 · bank', { it: false, fs: 10 }) + tx(30, 246, '河岸 · bank', { it: false, fs: 10 });
+  s += tx(200, 64, '河宽 60 m · width 60 m', { it: false, fs: 10, anchor: 'middle' });
+  s += arr(70, 190, 180, 190, 'v', 2) + tx(125, 204, '水流 3.0 m/s · current', { c: 'v', fs: 10, anchor: 'middle' });
+  s += arr(70, 190, 70, 80, 'f', 2) + tx(62, 132, '船 4.0 m/s · boat', { c: 'f', fs: 10, anchor: 'end' });
+  s += arr(70, 190, 180, 80, 'a', 2.2) + tx(150, 128, '合速度 5.0 m/s', { c: 'a', fs: 10 });
+  s += arc(70, 190, 44, 0, 53, { c: 'm', w: 1 }) + tx(122, 172, '36.9°', { fs: 10 });
+  s += tx(228, 110, '船头正北：漂移 45 m，15 s', { it: false, fs: 9.5 });
+  s += tx(228, 130, '正对岸：48.6° 上游，22.7 s', { it: false, fs: 9.5 });
+  s += eq(238, 168, ['v_{A/C} = v_{A/B} + v_{B/C}']);
+  return s;
+});
+def('solid-sphere-f-r', '均匀实心球内部与外部引力 · Gravity inside and outside a uniform solid sphere', 'F(r)=\\begin{cases}G\\dfrac{Mm}{R^3}r,&r\\le R\\\\[2pt]G\\dfrac{Mm}{r^2},&r>R\\end{cases}', () => {
+  const g = graph(42, 24, 218, 170, { fns: [{ f: (t) => (t <= 1 ? t : 1 / (t * t)), c: 'f', w: 2.4 }], t1: 3, ymin: 0, ymax: 1.25, xl: 'r', yl: 'F' });
+  let s = g.s;
+  s += ln(g.X(1), g.Y(0), g.X(1), g.Y(1), { c: 'm', dash: '4 3', w: 1 }) + tx(g.X(1), g.Y(0) + 14, 'r = R', { anchor: 'middle', fs: 10 });
+  s += tx(g.X(0.5), g.Y(0.52), 'F ∝ r', { fs: 11, c: 'f' }) + tx(g.X(2.2), g.Y(0.42), 'F ∝ 1/r²', { fs: 11, c: 'f' });
+  s += tx(278, 56, '内部 M(r) = Mr³/R³', { it: false, fs: 9 });
+  s += tx(278, 74, 'F = GMmr/R³', { fs: 10 });
+  s += tx(278, 104, '外部等效于球心', { it: false, fs: 9 });
+  s += tx(278, 122, 'F = GMm/r²', { fs: 10 });
+  s += tx(278, 156, 'r=R 连续，斜率突变', { it: false, fs: 9 });
+  s += tx(278, 174, '中心 F = 0', { it: false, fs: 9 });
+  return s;
+});
+def('elevator-apparent-weight', '电梯视重：静止、加速上升、加速下降与自由落体 · Elevator apparent weight: rest, up, down, free fall', 'N=m(g+a_y)', () => {
+  let s = tx(20, 12, '秤读数 = 支持力 N，不是重力 mg', { it: false, fs: 10 });
+  s += tx(20, 24, 'scale reads N, not mg', { it: false, fs: 9 });
+  const panels = [
+    ['静止 · rest', 'N = mg', 0], ['加速上升 · up', 'N = m(g+a)', 1], ['加速下降 · down', 'N = m(g−a)', -1], ['自由落体 · free fall', 'N = 0', -2],
+  ];
+  panels.forEach(([lab, val, k], i) => {
+    const x = 18 + i * 95;
+    s += rect(x, 34, 80, 150) + tx(x + 40, 30, lab, { it: false, fs: 9.5, anchor: 'middle' });
+    s += person(x + 40, 86);
+    s += ln(x + 18, 106, x + 62, 106, { w: 2.2 });
+    s += arr(x + 40, 112, x + 40, 112 + (k >= 0 ? 20 : 14), k >= 1 ? 'a' : 'f', 1.6);
+    s += tx(x + 40, 146, val, { fs: 11 });
+    if (k === -2) s += tx(x + 40, 164, 'a = g', { fs: 10, c: 'a' });
+  });
+  s += eq(30, 218, ['N − mg = ma_y']) + tx(220, 212, '加速上升 a_y > 0：N > mg', { it: false, fs: 10 }) + tx(220, 230, '加速下降 a_y < 0：N < mg', { it: false, fs: 10 });
+  return s;
+});
+def('multi-body-potential', '多物体系统势能：每对求和 · Potential energy of a multi-body system: sum over pairs', 'U_{\\mathrm{total}}=\\sum_{i<j}U_{ij},\\;\\; N_{\\mathrm{pairs}}=\\dfrac{N(N-1)}{2}', () => {
+  let s = ln(30, 104, 370, 104, { w: 1.1 });
+  const xs = [70, 190, 315], ms = ['m₁', 'm₂', 'm₃'], ys = [104, 104, 104];
+  xs.forEach((x, i) => { s += circ(x, ys[i], 16, { fill: COL.f, op: 0.18, c: 'f' }) + tx(x, ys[i] + 4, ms[i], { anchor: 'middle', fs: 11 }); });
+  s += tx((xs[0] + xs[1]) / 2, 88, 'r₁₂', { fs: 10 }) + tx((xs[1] + xs[2]) / 2, 88, 'r₂₃', { fs: 10 }) + tx((xs[0] + xs[2]) / 2, 60, 'r₁₃', { fs: 10 });
+  s += arc(xs[0], 104, 46, 8, 172, { c: 'm', w: 1, dash: '4 3' }) + arc(xs[1], 104, 62, 8, 172, { c: 'm', w: 1, dash: '4 3' });
+  s += tx(30, 138, 'U₁₂ = −Gm₁m₂/r₁₂', { fs: 11 }) + tx(30, 158, 'U₁₃ = −Gm₁m₃/r₁₃', { fs: 11 }) + tx(30, 178, 'U₂₃ = −Gm₂m₃/r₂₃', { fs: 11 });
+  s += ln(30, 196, 370, 196, { w: 1.2 }) + tx(30, 216, 'U_total = U₁₂ + U₁₃ + U₂₃', { fs: 12, c: 'a' });
+  s += tx(30, 238, '同一对只计一次；U₂₁ 与 U₁₂ 重复 · each unordered pair once', { it: false, fs: 10 });
+  return s;
+});
+def('shm-resonance', '受迫振动共振曲线 · Forced-oscillation resonance curve', 'A(\\omega_d)=\\dfrac{F_0/m}{\\sqrt{(\\omega_0^2-\\omega_d^2)^2+(b\\omega_d/m)^2}}', () => {
+  const amp = (x, z) => 1 / Math.sqrt((1 - x * x) ** 2 + (2 * z * x) ** 2);
+  const g = graph(50, 22, 206, 168, { fns: [{ f: (t) => amp(t, 0.08), c: 'a' }, { f: (t) => amp(t, 0.18), c: 'b', dash: '6 3' }, { f: (t) => amp(t, 0.35), c: 'e', dash: '2 3' }], t1: 2.4, ymin: 0, ymax: 6.6, xl: 'ω_d/ω_0', yl: 'A' });
+  let s = g.s + ln(g.X(1), g.Y(0), g.X(1), g.Y(1), { c: 'm', dash: '4 3', w: 1 }) + tx(g.X(1), g.Y(0) + 14, 'ω₀', { anchor: 'middle', fs: 10 });
+  s += tx(268, 44, '阻尼小 light', { it: false, fs: 9, c: 'a' }) + tx(268, 62, '阻尼中 medium', { it: false, fs: 9, c: 'b' }) + tx(268, 80, '阻尼大 heavy', { it: false, fs: 9, c: 'e' });
+  s += tx(268, 112, '稳态频率=驱动频率', { it: false, fs: 9 });
+  s += tx(268, 130, '共振 ω_d ≈ ω₀', { it: false, fs: 9 });
+  s += tx(268, 148, '阻尼越大：峰低而宽', { it: false, fs: 9 });
+  return s;
+});
+def('torsion-pendulum', '扭摆：金属丝的扭转回复力矩 · Torsion pendulum: restoring torque of a twisted wire', '\\tau=-\\kappa\\theta,\\;\\; T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}}', () => {
+  const cx = 130, cy = 130;
+  let s = circ(cx, cy, 72, { fill: COL.g, op: 0.06 }) + circ(cx, cy, 4, { fill: 'currentColor' }) + tx(cx, cy - 10, '转轴 · axis', { anchor: 'middle', it: false, fs: 9 });
+  s += ln(cx, cy, cx + 72, cy, { c: 'm', dash: '4 3', w: 1 }) + tx(cx + 36, cy + 16, 'θ = 0', { fs: 9, c: 'm' });
+  const a = 32 * Math.PI / 180;
+  s += ln(cx, cy, cx + 72 * Math.cos(a), cy - 72 * Math.sin(a), { c: 'a', w: 2 }) + tx(cx + 58 * Math.cos(a), cy - 58 * Math.sin(a) - 8, 'θ', { c: 'a', fs: 12 });
+  s += arc(cx, cy, 48, 0, 32, { c: 'a', w: 1.2 });
+  s += arr(cx + 72 * Math.cos(a), cy - 72 * Math.sin(a), cx + 52 * Math.cos(a), cy - 52 * Math.sin(a), 'f', 2) + tx(cx + 18, cy - 78, 'τ = −κθ', { c: 'f', fs: 10 });
+  s += eq(228, 54, ['τ = −κθ']) + eq(228, 96, ['T = 2π', { sqrt: { n: 'I', d: 'κ' } }]);
+  s += tx(228, 140, 'κ：扭转常数 (N·m/rad)', { it: false, fs: 9.5 });
+  s += tx(228, 160, '圆盘 I = ½mR²（中心轴）', { it: false, fs: 9.5 });
+  s += tx(228, 182, '周期与 g 无关 · g-independent', { it: false, fs: 9.5 });
+  return s;
+});
+
+def('contact-force-atomic', '接触力的微观起源：原子间电作用 · Microscopic origin of contact forces: interatomic electric interaction', 'N,\\;f\\;\\text{are macroscopic averages of interatomic electric forces}', () => {
+  let s = tx(18, 20, '宏观：只画作用在物体上的外力 · macroscopic: only external forces on the object', { it: false, fs: 9.5 });
+  s += hatch(24, 196, 150) + rect(56, 118, 66, 50) + tx(89, 146, 'm', { anchor: 'middle', fs: 12 });
+  s += arr(89, 143, 89, 196, 'f', 2) + tx(95, 188, 'mg', { c: 'f', fs: 11 }) + arr(89, 143, 89, 96, 'f', 2) + tx(95, 106, 'N', { c: 'f', fs: 11 });
+  s += arr(89, 143, 132, 143, 'f', 1.6) + tx(120, 136, 'f', { c: 'f', fs: 11 });
+  s += tx(18, 220, 'N ⟂ 表面，f ∥ 表面', { it: false, fs: 9.5 });
+  s += tx(182, 20, '放大：原子电子云排斥 + 微弱吸引', { it: false, fs: 9.5 });
+  s += circ(206, 120, 16, { fill: COL.E, op: 0.2, c: 'E' }) + circ(256, 120, 16, { fill: COL.E, op: 0.2, c: 'E' });
+  s += circ(206, 170, 16, { fill: COL.v, op: 0.2, c: 'v' }) + circ(256, 170, 16, { fill: COL.v, op: 0.2, c: 'v' });
+  s += arr(222, 120, 238, 120, 'f', 1.8) + arr(240, 170, 224, 170, 'f', 1.8);
+  s += tx(231, 100, '排斥', { fs: 9.5, anchor: 'middle', c: 'f' }) + tx(231, 190, '吸引', { fs: 9.5, anchor: 'middle', c: 'f' });
+  s += tx(182, 220, '净效果 = 宏观 N 与 f', { it: false, fs: 9.5 });
+  s += tx(182, 240, '接触力不是新的基本相互作用', { it: false, fs: 9.5 });
+  s += tx(310, 54, '受力图：', { it: false, fs: 10 }) + tx(310, 74, '只画外力；', { it: false, fs: 10 }) + tx(310, 94, '不画反作用力', { it: false, fs: 10 }) + tx(310, 114, '与 ma 箭头', { it: false, fs: 10 });
+  return s;
+});
+def('charge-density-shell', '电荷密度与球壳体积元 · Charge density and a spherical-shell volume element', 'Q_{\\mathrm{enc}}(r)=\\int_0^r\\rho(r\')\\,4\\pi r\'^2\\,dr\'', () => {
+  const cx = 116, cy = 130;
+  let s = circ(cx, cy, 78, { w: 1.3 }) + circ(cx, cy, 54, { c: 'a', w: 1.3 }) + circ(cx, cy, 64, { c: 'a', w: 1.3, dash: '3 3' });
+  s += tx(cx, cy - 4, 'ρ(r)', { anchor: 'middle', fs: 11 });
+  s += tx(cx + 68, cy - 46, 'dV = 4πr′² dr′', { fs: 9.5, c: 'a' });
+  s += tx(cx, cy + 96, 'r′ → r′ + dr′', { fs: 9.5, anchor: 'middle' });
+  s += graph(224, 24, 140, 160, { fns: [{ f: (t) => t * t * (3 - 2 * t), c: 'a', w: 2.2 }], t1: 1, ymin: 0, ymax: 1.05, xl: 'r/R', yl: 'Q_enc/Q' }).s;
+  s += tx(224, 204, 'Q_enc 随 r 增大；球壳外无新增电荷', { it: false, fs: 9.5 });
+  s += tx(224, 224, 'ρ(r) = ρ₀(1 − r/R)', { it: false, fs: 9.5 });
+  s += tx(20, 244, '高斯面半径 r：只计入 r 以内的电荷', { it: false, fs: 9.5 });
+  return s;
+});
+def('em-force-ratio', '电力与引力之比（同距离，对数标度） · Ratio of electric to gravitational force at the same separation (log scale)', '\\dfrac{F_e}{F_g}=\\dfrac{kq_1q_2/r^2}{Gm_1m_2/r^2}', () => {
+  const L = 96, R = 318, lo = 0, hi = 40; const X = (v) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+  let s = tx(20, 18, '横轴 log₁₀(F_e/F_g)', { it: false, fs: 9.5 });
+  s += ln(L, 48, L, 220, { w: 1.2 }) + ln(L, 220, R, 220, { w: 1.2 });
+  [0, 10, 20, 30, 40].forEach((v) => { s += ln(X(10 ** v), 214, X(10 ** v), 226, { w: 1 }) + tx(X(10 ** v), 240, `10^${v}`, { fs: 9.5 }); });
+  s += ln(X(1), 48, X(1), 220, { c: 'm', dash: '4 3', w: 1 }) + tx(X(1) + 4, 58, '电力=引力', { it: false, fs: 9, anchor: 'start' });
+  const rows = [['电子–质子', 2.3e39, 'f'], ['质子–质子', 1.2e36, 'v'], ['1 g 小球 (1 μC)', 1.3e14, 'a']];
+  rows.forEach(([lab, v, c], i) => {
+    const y = 76 + i * 44; s += tx(L - 6, y + 12, lab, { anchor: 'end', it: false, fs: 9.5 });
+    s += rect(X(1), y, X(v) - X(1), 24, { fill: COL[c], op: 0.3, c, stroke: c, w: 1 });
+    s += tx(X(v) - 4, y + 12, `≈${v.toExponential(1).replace('e+', '×10^')}`, { it: false, fs: 9, anchor: 'end', c });
+  });
+  s += tx(22, 200, '宏观天体近中性：引力在大尺度占优', { it: false, fs: 9 });
+  return s;
+});
+def('insulator-sphere-E', '均匀带电绝缘球与导体球的 E(r) · E(r) for a uniformly charged insulating sphere vs a conducting sphere', 'E_{\\mathrm{ins}}=\\dfrac{kQr}{R^3}\\;(r<R),\\;\\; E_{\\mathrm{out}}=\\dfrac{kQ}{r^2}\\;(r>R)', () => {
+  const g = graph(46, 24, 220, 166, { fns: [{ f: (t) => (t <= 1 ? t : 1 / (t * t)), c: 'E', w: 2.4 }, { f: (t) => (t < 1 ? 0 : 1 / (t * t)), c: 'v', dash: '6 3', w: 2 }], t1: 3, ymin: 0, ymax: 1.25, xl: 'r/R', yl: 'E/E(R)' });
+  let s = g.s + ln(g.X(1), g.Y(0), g.X(1), g.Y(1), { c: 'm', dash: '4 3', w: 1 }) + tx(g.X(1), g.Y(0) + 14, 'R', { anchor: 'middle', fs: 10 });
+  s += tx(278, 48, '绝缘球：体内电荷', { it: false, fs: 9, c: 'E' }) + tx(278, 66, '内部 E ∝ r', { it: false, fs: 9 });
+  s += tx(278, 96, '导体：表面电荷', { it: false, fs: 9, c: 'v' }) + tx(278, 114, '内部 E = 0', { it: false, fs: 9 });
+  s += tx(278, 146, '外部均 E ∝ 1/r²', { it: false, fs: 9 });
+  return s;
+});
+def('current-density-annulus', '电流密度与环形面积元 · Current density and an annular area element', 'I=\\int_S\\vec J\\cdot d\\vec A=\\int_0^R J(r)\\,2\\pi r\\,dr', () => {
+  const cx = 118, cy = 126;
+  let s = circ(cx, cy, 70, { w: 1.4 }) + circ(cx, cy, 42, { c: 'a', w: 1.4 }) + circ(cx, cy, 54, { c: 'a', w: 1.4, dash: '3 3' });
+  for (let k = 0; k < 8; k++) { const a = k * 45 * Math.PI / 180, r0 = 0, r1 = 66; s += arr(cx + r0 * Math.cos(a), cy + r0 * Math.sin(a), cx + r1 * Math.cos(a), cy + r1 * Math.sin(a), 'I', 1.4); }
+  s += tx(cx, cy + 4, 'J(r)', { anchor: 'middle', fs: 11, c: 'I' });
+  s += tx(cx + 58, cy - 42, 'dA = 2πr dr', { fs: 10, c: 'a' });
+  s += tx(cx + 80, cy + 4, 'R', { fs: 10 });
+  s += graph(248, 24, 130, 166, { fns: [{ f: (t) => 1 - t, c: 'I', w: 2.2 }], t1: 1, ymin: 0, ymax: 1.08, xl: 'r/R', yl: 'J' }).s;
+  s += tx(248, 214, 'J(r) = J₀(1 − r/R)', { it: false, fs: 9.5 });
+  s += tx(248, 232, '曲线下面积 ≠ I', { it: false, fs: 9 });
+  s += tx(248, 246, '需乘 2πr 权重', { it: false, fs: 9 });
+  return s;
+});
+def('current-loop-dipole', '电流环与磁偶极矩 · Current loop and magnetic dipole moment', '\\vec\\mu=I\\vec A,\\;\\; B_{\\mathrm{center}}=\\dfrac{\\mu_0I}{2R}', () => {
+  const cx = 120, cy = 132;
+  let s = `<ellipse cx="${cx}" cy="${cy}" rx="76" ry="34" fill="none" stroke="currentColor" stroke-width="1.6"/>`;
+  let s2 = '';
+  for (let k = 0; k < 4; k++) { const a = 20 + k * 90, x = cx + 76 * Math.cos(a * Math.PI / 180), y = cy + 34 * Math.sin(a * Math.PI / 180); s2 += arr(x - 8, y - 4, x + 8, y + 4, 'I', 1.6); }
+  s += s2 + arr(cx, cy, cx, cy - 54, 'v', 2.2) + tx(cx + 6, cy - 44, 'μ', { c: 'v', fs: 13 });
+  s += ln(cx - 50, cy + 18, cx + 50, cy + 18, { c: 'm', dash: '4 3', w: 1 }) + tx(cx, cy + 34, '面积 A', { fs: 9, anchor: 'middle' });
+  s += rect(250, 72, 46, 120) + tx(273, 88, 'N', { anchor: 'middle', fs: 11 }) + tx(273, 178, 'S', { anchor: 'middle', fs: 11 });
+  s += arc(273, 96, 58, -70, 70, { c: 'B', w: 1.4 }) + arc(273, 96, 70, -60, 60, { c: 'B', w: 1, dash: '4 3' });
+  s += tx(238, 214, 'N 极面 = μ 指向；磁感线闭合', { it: false, fs: 9.5 });
+  s += eq(20, 246, ['μ = IA']);
+  return s;
+});
+def('bh-curve', 'B–H 曲线、饱和与磁滞 · B–H curve, saturation and hysteresis', 'B=\\mu H,\\;\\; \\mu_r=\\dfrac{\\mu}{\\mu_0},\\;\\; \\chi_m=\\mu_r-1', () => {
+  let s = ln(60, 210, 370, 210, { w: 1.2 }) + ln(60, 210, 60, 54, { w: 1.2 });
+  s += tx(374, 214, 'H', { fs: 12 }) + tx(54, 48, 'B', { fs: 12, anchor: 'end' });
+  s += pathD('M60,210 C110,180 130,74 200,62 C270,54 320,58 366,60', { c: 'a', w: 2.2 });
+  s += pathD('M92,210 C104,178 108,84 190,66 C270,58 334,60 366,62', { c: 'a', w: 1.3, dash: '4 3' });
+  s += pathD('M60,210 C96,186 116,120 180,86 L300,72 C250,92 150,120 120,210 Z', { c: 'b', w: 1.6 });
+  s += tx(154, 76, '饱和 · saturation', { fs: 10, c: 'a' }) + tx(200, 52, 'B_r', { fs: 10, c: 'b' }) + tx(98, 178, 'H_c', { fs: 10, c: 'b' });
+  s += tx(236, 120, '初始斜率 = μ', { it: false, fs: 10 }) + tx(236, 140, '回线面积 = 每周期磁滞损耗', { it: false, fs: 9.5 });
+  s += tx(236, 164, '软磁：回线窄；硬磁：回线宽', { it: false, fs: 9.5 });
+  s += tx(236, 186, '超过拐点后 μ_r 不再是常数', { it: false, fs: 9.5 });
+  return s;
+});
+def('crossed-field-deflection', '复合场中带电粒子的偏转 · Deflection of a charged particle in crossed fields', '\\vec F=q(\\vec E+\\vec v\\times\\vec B),\\;\\; v=\\dfrac{E}{B}\\;\\text{(balance)}', () => {
+  let s = rect(56, 54, 260, 24) + rect(56, 172, 260, 24);
+  s += tx(60, 46, '+', { fs: 14 }) + tx(60, 216, '−', { fs: 14 });
+  for (let x = 80; x <= 300; x += 40) s += arr(x, 82, x, 104, 'E', 1.4);
+  for (let x = 90; x <= 300; x += 44) for (let y = 120; y <= 158; y += 30) s += dotB(x, y, 4);
+  s += tx(318, 92, 'E 向下', { fs: 9.5, c: 'E' }) + tx(318, 132, 'B 出纸面', { fs: 9.5, c: 'B' });
+  s += pathD('M70,138 C140,138 190,138 250,116', { c: 'v', w: 2.2, arrow: true }) + tx(120, 128, 'v', { c: 'v', fs: 11 });
+  s += arr(150, 138, 150, 164, 'f', 1.8) + tx(156, 160, 'qE', { c: 'f', fs: 9.5 }) + arr(150, 138, 150, 112, 'v', 1.8) + tx(156, 126, 'qv×B', { c: 'v', fs: 9.5 });
+  s += tx(40, 244, 'v = E/B：两力平衡，直线通过；v < E/B 向 E 偏，v > E/B 向 qv×B 偏', { it: false, fs: 9.5 });
+  return s;
+});
+def('hall-effect-polarity', '霍尔效应：载流子符号决定电压极性 · Hall effect: carrier sign sets the voltage polarity', 'qE_H=qv_dB,\\;\\; V_H=\\dfrac{IB}{nqt}', () => {
+  let s = rect(60, 72, 250, 110, { fill: COL.B, op: 0.05, c: 'B' });
+  s += arr(70, 196, 300, 196, 'I', 2) + tx(185, 214, '电流 I · current', { c: 'I', fs: 10, anchor: 'middle' });
+  for (let x = 90; x <= 290; x += 40) for (let y = 90; y <= 160; y += 34) s += dotB(x, y, 4);
+  s += tx(318, 84, 'B 出纸面', { fs: 10, c: 'B' });
+  s += circ(150, 126, 12, { fill: COL.v, op: 0.25, c: 'v' }) + tx(150, 130, '+', { anchor: 'middle', fs: 12 }) + arr(150, 126, 150, 178, 'v', 1.8);
+  s += circ(230, 126, 12, { fill: COL.e, op: 0.25, c: 'e' }) + tx(230, 130, '−', { anchor: 'middle', fs: 12 }) + arr(230, 126, 230, 178, 'e', 1.8);
+  s += tx(24, 34, '正载流子：−y 侧积累正电荷 → 电势高', { fs: 9.5 });
+  s += tx(24, 50, '负载流子：−y 侧积累负电荷 → 电势低', { fs: 9.5 });
+  s += rect(340, 92, 46, 70) + tx(363, 108, 'V', { fs: 12 }) + tx(363, 146, '−', { fs: 14 }) + tx(363, 132, '+', { fs: 14 });
+  s += tx(60, 214, '电流 I 向右，B 出纸面', { it: false, fs: 9.5 });
+  s += tx(60, 232, 'F_B 使两种载流子都向 −y 偏转', { it: false, fs: 9.5 });
+  return s;
+});
+def('arc-field', '圆弧电流在圆心处的磁场 · Magnetic field at the center of a circular arc', 'B=\\dfrac{\\mu_0I\\theta}{4\\pi R},\\;\\; B_{\\mathrm{loop}}=\\dfrac{\\mu_0I}{2R}', () => {
+  const cx = 128, cy = 132, R = 76;
+  let s = arc(cx, cy, R, -60, 60, { c: 'I', w: 3 });
+  for (let a = -50; a <= 50; a += 25) { const [x1, y1] = pt(cx, cy, R, a), [x2, y2] = pt(cx, cy, R, a + 10); s += arr(x1, y1, x2, y2, 'I', 1.5); }
+  s += ln(cx, cy, cx + R * Math.cos(-60 * Math.PI / 180), cy + R * Math.sin(-60 * Math.PI / 180), { c: 'm', dash: '4 3', w: 1 }) + ln(cx, cy, cx + R * Math.cos(60 * Math.PI / 180), cy + R * Math.sin(60 * Math.PI / 180), { c: 'm', dash: '4 3', w: 1 });
+  s += arc(cx, cy, 38, -60, 60, { c: 'a', w: 1.2 }) + tx(cx + 46, cy - 2, 'θ', { c: 'a', fs: 12 });
+  s += dotB(cx, cy, 5) + tx(cx + 10, cy + 4, 'B', { fs: 11, c: 'B' });
+  s += tx(cx, cy - 22, 'R', { fs: 10 });
+  s += graph(244, 28, 100, 150, { fns: [{ f: (t) => t, c: 'B', w: 2.2 }], t1: 1, ymin: 0, ymax: 1.05, xl: 'θ/2π', yl: 'B/B_loop' }).s;
+  s += tx(238, 202, 'B ∝ θ；2π 时回到圆环公式', { it: false, fs: 9 });
+  s += tx(238, 222, '半圆：B = ½ B_loop', { it: false, fs: 9 });
+  return s;
+});
+def('em-wave-eb-triad', '电磁波：E、B 与传播方向 · Electromagnetic wave: E, B and propagation direction', '\\vec E\\perp\\vec B\\perp\\vec k,\\;\\; E=cB,\\;\\; c=\\dfrac{1}{\\sqrt{\\mu_0\\varepsilon_0}}', () => {
+  let s = arr(70, 190, 356, 190, 'g', 1.2) + arr(70, 190, 70, 54, 'g', 1.2) + arr(70, 190, 158, 232, 'g', 1.2);
+  s += tx(360, 194, 'x (k)', { fs: 11 }) + tx(64, 46, 'y (E)', { fs: 11, anchor: 'end' }) + tx(164, 244, 'z (B)', { fs: 11 });
+  const ptsE = [], ptsB = [];
+  for (let i = 0; i <= 60; i++) { const x = 80 + i * 4.2, ph = i / 60 * 4 * Math.PI; ptsE.push([x, 128 - 58 * Math.sin(ph)]); ptsB.push([x + 0.55 * 58 * Math.sin(ph), 128 + 0.42 * 58 * Math.sin(ph)]); }
+  s += poly(ptsE, { c: 'E', w: 2.2 }) + poly(ptsB, { c: 'B', w: 2, dash: '6 3' });
+  s += tx(250, 60, 'E', { c: 'E', fs: 13 }) + tx(320, 176, 'B', { c: 'B', fs: 13 });
+  s += arr(300, 220, 340, 220, 'v', 2) + tx(320, 212, 'k', { c: 'v', fs: 11, anchor: 'middle' });
+  s += tx(72, 24, 'E × B 指向传播方向 · E × B points along propagation', { it: false, fs: 10 });
+  return s;
+});
+def('displacement-current', '充电电容器与位移电流 · Charging capacitor and displacement current', 'I_d=\\varepsilon_0\\dfrac{d\\Phi_E}{dt},\\;\\; \\oint\\vec B\\cdot d\\vec l=\\mu_0(I+I_d)', () => {
+  let s = capacitor(168, 132, 236, 132, '');
+  s += ln(36, 132, 168, 132, { w: 2 }) + ln(236, 132, 360, 132, { w: 2 });
+  s += arr(90, 132, 126, 132, 'I', 2) + arr(320, 132, 286, 132, 'I', 2);
+  for (let y = 82; y <= 182; y += 20) s += arr(202, y, 202, y + 10, 'E', 1.3);
+  s += arr(202, 150, 202, 196, 'E', 1.3) + tx(210, 188, 'E = Q/(Aε₀)', { fs: 9, c: 'E' });
+  s += arr(205, 210, 245, 210, 'v', 1.8, '5 4') + tx(225, 226, 'I_d（虚位移电流）', { c: 'v', fs: 9, anchor: 'middle' });
+  s += circ(120, 132, 46, { c: 'a', w: 1.4, dash: '5 3' }) + tx(120, 78, '安培环路', { fs: 9, c: 'a', anchor: 'middle' });
+  s += tx(28, 28, '导线中有传导电流 I；极板间无电荷流动，但变化的 E 等效为 I_d', { it: false, fs: 9.5 });
+  s += tx(28, 44, '同一环路取两个曲面：穿过导线得 I，穿过间隙得 I_d，总电流连续', { it: false, fs: 9.5 });
+  s += eq(28, 246, ['I_d = ε₀ dΦ_E/dt']);
+  return s;
+});
+
 /* ======================= openly licensed reference media ======================= */
 defImg('atwood-apparatus', '阿特伍德机装置图（参考） · Atwood machine apparatus (reference)', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2}', 'modules/physics/media/atwood-machine.svg', 'MikeRun / Wikimedia Commons / CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Atwood-machine.svg');
 defImg('pendulum-apparatus', '单摆装置图（参考） · Simple pendulum apparatus (reference)', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', 'modules/physics/media/simple-pendulum.svg', 'Chetvorno / Wikimedia Commons / Public domain', 'https://commons.wikimedia.org/wiki/File:Simple_gravity_pendulum.svg');
@@ -2026,18 +2294,18 @@ export const TOPIC_FIGURES = {
   'mech/mech-prep-math/P3.3': ['force-position', 'impulse-graph'],
   'mech/mech-prep-math/P3.4': ['rc-charging', 'rc-discharging', 'shm-graphs'],
   'mech/mech-prep-math/P3.5': ['pendulum-simple', 'shm-graphs', 'pendulum-period'],
-  'mech/mech-u1/1.1': ['kin-graphs', 'motion-diagram', 'free-fall'],
-  'mech/mech-u1/1.2': ['projectile', 'kin-graphs', 'projectile-range'],
+  'mech/mech-u1/1.1': ['kin-graphs', 'motion-diagram', 'free-fall', 'two-observer-frames'],
+  'mech/mech-u1/1.2': ['projectile', 'kin-graphs', 'projectile-range', 'vector-arrow-model', 'two-observer-frames', 'boat-river'],
   'mech/mech-u2/2.1': ['center-of-mass', 'system-external-force'],
   'mech/mech-u2/2.2': ['system-external-force', 'explosion', 'momentum-bars'],
   'mech/mech-u2/2.3': ['incline-frictionless', 'incline-kinetic', 'atwood', 'table-pulley', 'elevator', 'friction-graph'],
   'mech/mech-u2/2.4': ['banked-frictionless', 'banked-friction', 'conical-pendulum', 'vertical-loop', 'flat-curve', 'circular-vectors'],
-  'mech/mech-u2/2.5': ['atwood', 'table-pulley', 'atwood-apparatus'],
-  'mech/mech-u2/2.6': ['orbit', 'conical-pendulum', 'kepler-ellipse', 'gravitational-potential', 'orbit-energy'],
+  'mech/mech-u2/2.5': ['atwood', 'table-pulley', 'atwood-apparatus', 'contact-force-atomic'],
+  'mech/mech-u2/2.6': ['orbit', 'conical-pendulum', 'kepler-ellipse', 'gravitational-potential', 'orbit-energy', 'solid-sphere-f-r', 'elevator-apparent-weight'],
   'mech/mech-u2/2.7': ['drag-terminal'],
   'mech/mech-u2/2.8': ['spring-ideal-nonlinear'],
   'mech/mech-u3/3.1': ['force-position', 'vertical-loop', 'energy-bars', 'work-incline', 'work-angle'],
-  'mech/mech-u3/3.2': ['force-position', 'work-angle'],
+  'mech/mech-u3/3.2': ['force-position', 'work-angle', 'multi-body-potential'],
   'mech/mech-u3/3.3': ['force-position', 'vertical-loop', 'energy-bars'],
   'mech/mech-u3/3.4': ['power-graph'],
   'mech/mech-u3/3.5': ['work-variable-potential', 'force-position'],
@@ -2050,9 +2318,9 @@ export const TOPIC_FIGURES = {
   'mech/mech-u6/6.2': ['disk-string', 'rod-pivot', 'angular-momentum-skater'],
   'mech/mech-u6/6.3': ['rolling-incline', 'rolling-velocity', 'rolling-race'],
   'mech/mech-u6/6.4': ['orbit', 'orbit-energy'],
-  'mech/mech-u7/7.1': ['shm-horizontal', 'shm-vertical', 'shm-graphs', 'shm-energy', 'shm-phase'],
+  'mech/mech-u7/7.1': ['shm-horizontal', 'shm-vertical', 'shm-graphs', 'shm-energy', 'shm-phase', 'shm-resonance'],
   'mech/mech-u7/7.2': ['pendulum-simple', 'shm-graphs', 'pendulum-period', 'pendulum-apparatus'],
-  'mech/mech-u7/7.3': ['pendulum-physical', 'shm-graphs', 'physical-pendulum-fbd'],
+  'mech/mech-u7/7.3': ['pendulum-physical', 'shm-graphs', 'physical-pendulum-fbd', 'torsion-pendulum'],
   'em/em-prep-found/P1.1': ['point-charge-field', 'coulomb-force'],
   'em/em-prep-found/P1.2': ['point-charge-field', 'dipole-field', 'field-vectors', 'field-lines-equipotentials'],
   'em/em-prep-found/P1.3': ['parallel-plate-potential', 'point-charge-field', 'potential-energy-sign', 'potential-point-charge'],
@@ -2067,6 +2335,9 @@ export const TOPIC_FIGURES = {
   'em/em-u8/8.3': ['point-charge-field', 'dipole-field', 'field-superposition', 'field-lines-equipotentials'],
   'em/em-u8/8.4': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'flux-angle'],
   'em/em-u8/8.5': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'gauss-conductor', 'gauss-shell', 'line-charge'],
+  'em/em-u8/8.8': ['em-force-ratio', 'coulomb-force', 'point-charge-field'],
+  'em/em-u8/8.10': ['insulator-sphere-E', 'gauss-conductor', 'gauss-sphere'],
+  'em/em-u8/8.11': ['charge-density-shell', 'gauss-sphere', 'gauss-cylinder'],
   'em/em-u9/9.1': ['parallel-plate-potential', 'point-charge-field', 'potential-energy-sign'],
   'em/em-u9/9.2': ['parallel-plate-potential', 'potential-point-charge'],
   'em/em-u9/9.3': ['parallel-plate-potential', 'point-charge-field', 'potential-point-charge', 'field-lines-equipotentials'],
@@ -2083,16 +2354,22 @@ export const TOPIC_FIGURES = {
   'em/em-u11/11.6': ['circuit-kirchhoff', 'kirchhoff-loop-signs'],
   'em/em-u11/11.7': ['circuit-kirchhoff', 'circuit-parallel', 'kirchhoff-junction'],
   'em/em-u11/11.8': ['rc-circuit', 'rc-charging', 'rc-discharging', 'rc-energy'],
+  'em/em-u11/11.9': ['current-density-annulus', 'circuit-series'],
   'em/em-u12/12.1': ['wire-field', 'loop-field', 'solenoid-field'],
   'em/em-u12/12.2': ['particle-in-B', 'magnetic-force-rhr', 'cathode-ray-tube', 'velocity-selector', 'mass-spectrometer'],
   'em/em-u12/12.3': ['wire-field', 'loop-field', 'biot-savart'],
   'em/em-u12/12.4': ['ampere-wire', 'ampere-thick-wire', 'solenoid-field', 'line-charge'],
+  'em/em-u12/12.5': ['current-loop-dipole', 'loop-field', 'solenoid-field'],
+  'em/em-u12/12.6': ['wire-field', 'solenoid-field', 'ampere-wire', 'bh-curve', 'magnetic-force-rhr'],
+  'em/em-u12/12.8': ['velocity-selector', 'hall-effect-polarity', 'particle-in-B', 'crossed-field-deflection'],
+  'em/em-u12/12.9': ['loop-field', 'biot-savart', 'arc-field'],
   'em/em-u13/13.1': ['faraday-changing-B', 'magnetic-flux-angle'],
   'em/em-u13/13.2': ['faraday-rod', 'faraday-changing-B', 'flux-emf-graph'],
   'em/em-u13/13.3': ['faraday-rod', 'particle-in-B', 'magnetic-force-rhr'],
   'em/em-u13/13.4': ['rl-circuit', 'lc-circuit', 'inductor-energy'],
   'em/em-u13/13.5': ['rl-circuit', 'inductor-energy'],
   'em/em-u13/13.6': ['lc-circuit', 'lc-energy'],
+  'em/em-u13/13.7': ['displacement-current', 'em-wave-eb-triad', 'faraday-changing-B'],
 };
 
 /** Resolve figure ids for a topic object or topic id string. */

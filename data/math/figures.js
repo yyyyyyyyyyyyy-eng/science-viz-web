@@ -251,6 +251,32 @@ def('concavity', 'Concavity and inflection', '\\(f=\\sin x\\) on \\([0,2\\pi]\\)
   plot({ x: [0, 2 * PI], y: [-1.5, 1.5], piX: 0.5, ystep: 0.5, fills: [{ f: () => 1.5, g: () => -1.5, dom: [PI, 2 * PI], color: C.c, op: 0.08 }], curves: [{ f: sin, color: C.a, label: 'f = sin x', labelAt: [0.35, 1.1] }, { f: (x) => -sin(x), color: C.c, dash: '5 3', label: 'f″', labelAt: [4.4, 1.2], labelColor: C.ink }], points: [{ x: PI, y: 0, color: C.b, label: 'inflection' }], texts: [[PI / 2, -1.25, 'concave down', C.ink], [1.5 * PI, -1.25, 'concave up', C.ink]] }));
 def('sdt', 'Second derivative test', '\\(f=x^4-2x^2\\): \\(f\'=4x^3-4x=0\\) at \\(0,\\pm1\\). \\(f\'\'=12x^2-4\\): \\(f\'\'(\\pm1)=8>0\\) (local min), \\(f\'\'(0)=-4<0\\) (local max).', () =>
   plot({ x: [-2, 2], y: [-1.5, 3], ystep: 0.5, curves: [{ f: (x) => x ** 4 - 2 * x * x, color: C.a }], points: [{ x: -1, y: -1, label: 'f″ = 8: min', dy: 14, anchor: 'end', dx: -4 }, { x: 1, y: -1, label: 'f″ = 8: min', dy: 14 }, { x: 0, y: 0, label: 'f″ = −4: max' }] }));
+def('sdt-signchart', 'Unique critical point: f, f′ and f″ sign chart', '\\(f(x)=x^4-4x\\): \\(f\'=4x^3-4=4(x-1)(x^2+x+1)\\), one real critical point \\(x=1\\); \\(f\'\'=12x^2\\ge0\\). \\(f(1)=-3\\) is the absolute minimum on \\(\\mathbb{R}\\).', () => {
+  const W = 480, H = 440, L = 54, R = 438;
+  const X = (x) => L + ((x + 1.3) / 3.3) * (R - L);
+  const Y = (y) => 178 - ((y + 5) / 15) * 150;
+  let s = text(W / 2, 16, 'f(x) = x⁴ − 4x：唯一临界点 → 绝对极值', { size: 13, bold: true });
+  s += line(L, Y(0), R, Y(0), { w: 1.2 }) + line(X(0), 30, X(0), 182, { w: 1.2 });
+  s += text(R + 2, Y(0) + 4, 'x', { size: 11, anchor: 'start' }) + text(X(0) - 6, 30, 'f', { size: 11, anchor: 'end' });
+  const pts = []; for (let i = 0; i <= 160; i++) { const x = -1.3 + (3.3 * i) / 160; pts.push([X(x), Y(x ** 4 - 4 * x)]); }
+  s += path('M' + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L'), { stroke: C.a, w: 2.4 });
+  s += circle(X(1), Y(-3), 4.5, { fill: C.b, stroke: C.b }) + text(X(1) - 8, Y(-3) + 18, '唯一临界点 (1, −3)，全局最小', { size: 10, anchor: 'end', color: C.b });
+  s += text(X(-1.2), Y(3.5), 'f 递减', { size: 10.5, color: C.muted }) + text(X(1.8), Y(3.5), 'f 递增', { size: 10.5, color: C.muted });
+  const sy = 250;
+  s += text(W / 2, sy - 24, 'f′(x) 符号：−（x < 1）→ 0（x = 1）→ +（x > 1）', { size: 11.5, bold: true });
+  s += line(L, sy, R, sy, { w: 1.4, arrow: true });
+  s += line(X(1), sy - 8, X(1), sy + 8, { w: 1.4 }) + text(X(1), sy + 24, 'x = 1', { size: 10.5 });
+  s += text((L + X(1)) / 2, sy - 14, '−', { size: 18, color: C.e, bold: true }) + text((X(1) + R) / 2, sy - 14, '+', { size: 18, color: C.c, bold: true });
+  s += text((L + X(1)) / 2, sy + 28, 'f 递减', { size: 10.5, color: C.muted }) + text((X(1) + R) / 2, sy + 28, 'f 递增', { size: 10.5, color: C.muted });
+  const ty = 330;
+  s += text(W / 2, ty - 24, 'f″(x) = 12x² ≥ 0：全区间凹向上；f″(0) = 0 但不变号', { size: 11.5, bold: true });
+  s += line(L, ty, R, ty, { w: 1.4, arrow: true });
+  s += line(X(0), ty - 8, X(0), ty + 8, { w: 1.4 }) + text(X(0), ty + 24, 'x = 0', { size: 10.5 });
+  s += text((L + X(0)) / 2, ty - 14, '+', { size: 18, color: C.c, bold: true }) + text((X(0) + R) / 2, ty - 14, '+', { size: 18, color: C.c, bold: true });
+  s += text(W / 2, ty + 56, '若有两个临界点：局部极值 ≠ 绝对极值，必须用候选点检验比较端点。', { size: 10.5, color: C.ink });
+  s += text(W / 2, ty + 74, 'f″(c) = 0 时二阶导数检验失效：改用一阶导数符号或定义判断。', { size: 10.5, color: C.muted });
+  return svg(W, H, s, 'unique critical point sign chart');
+});
 idef('optimization', 'Optimization: open-top box volume', '', (v) => {
   const V = (x) => x * (12 - 2 * x) ** 2, vol = V(v.x);
   return plot({ x: [0, 6.3], y: [0, 150], xlabel: 'x', ylabel: 'V(x)', curves: [{ f: V, dom: [0, 6], color: C.a }], points: [{ x: v.x, y: vol, color: C.b, label: v.x === 2 ? 'max (2, 128)' : `(${fmt(v.x, 1)}, ${fmt(vol, 1)})` }] });
@@ -1182,7 +1208,7 @@ export const TOPIC_FIGURES = {
   'calc-u2:2.7': ['trig-deriv', 'exp-ln-deriv'], 'calc-u2:2.8': ['product-rule', 'area-model'], 'calc-u2:2.9': ['quotient-rule', 'product-rule'], 'calc-u2:2.10': ['tan-sec', 'trig-deriv'],
   'calc-u3:3.1': ['chain-rule', 'diff-quotient'], 'calc-u3:3.2': ['implicit-circle', 'implicit-folium'], 'calc-u3:3.3': ['inverse-deriv', 'inverse-trig'], 'calc-u3:3.4': ['inverse-trig', 'inverse-deriv'], 'calc-u3:3.5': ['chain-rule', 'quotient-rule'], 'calc-u3:3.6': ['higher-deriv', 'fff'],
   'calc-u4:4.1': ['context-rate', 'motion-svt'], 'calc-u4:4.2': ['motion-svt', 'disp-dist'], 'calc-u4:4.3': ['marginal', 'context-rate'], 'calc-u4:4.4': ['ladder', 'cone-tank'], 'calc-u4:4.5': ['ladder', 'cone-tank'], 'calc-u4:4.6': ['linearization', 'diff-quotient'], 'calc-u4:4.7': ['lhopital', 'lhopital-inf'],
-  'calc-u5:5.1': ['mvt', 'secant-tangent'], 'calc-u5:5.2': ['evt', 'candidates'], 'calc-u5:5.3': ['inc-dec', 'fdt-chart'], 'calc-u5:5.4': ['fdt-chart', 'inc-dec'], 'calc-u5:5.5': ['candidates', 'evt'], 'calc-u5:5.6': ['concavity', 'fff-panels'], 'calc-u5:5.7': ['sdt', 'concavity'],
+  'calc-u5:5.1': ['mvt', 'secant-tangent'], 'calc-u5:5.2': ['evt', 'candidates'], 'calc-u5:5.3': ['inc-dec', 'fdt-chart'], 'calc-u5:5.4': ['fdt-chart', 'inc-dec'], 'calc-u5:5.5': ['candidates', 'evt'], 'calc-u5:5.6': ['concavity', 'fff-panels'], 'calc-u5:5.7': ['sdt', 'sdt-signchart', 'concavity'],
   'calc-u5:5.8': ['f-from-fprime', 'fff'], 'calc-u5:5.9': ['fff-panels', 'fff', 'f-from-fprime'], 'calc-u5:5.10': ['optimization-diagram', 'optimization'], 'calc-u5:5.11': ['optimization', 'optimization-diagram'], 'calc-u5:5.12': ['implicit-behavior', 'implicit-circle'],
   'calc-u6:6.1': ['accum-velocity', 'ftc-area'], 'calc-u6:6.2': ['riemann-left', 'riemann-right', 'riemann-mid', 'riemann-trap', 'riemann-table'], 'calc-u6:6.3': ['riemann-converge', 'riemann-left'], 'calc-u6:6.4': ['ftc-accum', 'ftc-area'], 'calc-u6:6.5': ['accum-graph', 'ftc-accum'],
   'calc-u6:6.6': ['integral-props', 'ftc-area'], 'calc-u6:6.7': ['ftc-area', 'ftc-accum'], 'calc-u6:6.8': ['antideriv-family', 'u-sub'], 'calc-u6:6.9': ['u-sub', 'antideriv-family'], 'calc-u6:6.10': ['ibp', 'u-sub'], 'calc-u6:6.11': ['partial-frac', 'u-sub'], 'calc-u6:6.12': ['improper', 'p-series'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],

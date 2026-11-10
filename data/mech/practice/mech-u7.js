@@ -2086,5 +2086,70 @@ export const problems = [
       }
     ],
     "solutionLatex": "T=2\\pi\\sqrt{\\dfrac{m}{k}}=2\\pi\\sqrt{\\dfrac{0.50}{50}}\\approx0.628\\,\\mathrm{s}."
-  }
+  },
+{
+  "id": "mech-u7-q041",
+  "title": "7.1 受迫振动与共振",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "弹簧振子的固有频率为 f₀=2.0 Hz，受到频率为 f_d 的正弦驱动力。下列哪项正确？",
+  "choices": [
+    {
+      "text": "稳态振动频率等于 f_d；当 f_d≈f₀ 时振幅最大",
+      "correct": true
+    },
+    {
+      "text": "稳态振动频率等于 f₀；振幅与 f_d 无关",
+      "correct": false
+    },
+    {
+      "text": "共振时振幅无限大，与阻尼无关",
+      "correct": false
+    },
+    {
+      "text": "增大阻尼会使共振峰更高、更窄",
+      "correct": false
+    }
+  ],
+  "solution": "稳态频率由驱动频率决定；共振发生在驱动频率接近固有频率时，阻尼使峰有限并变宽。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u7/7.1",
+      "label": "7.1 周期运动",
+      "topicId": "mech-u7:7.1"
+    }
+  ]
+},
+{
+  "id": "mech-u7-q042",
+  "title": "7.3 圆盘扭摆的周期",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "均匀圆盘质量 0.50 kg、半径 0.10 m，绕通过中心的垂直轴扭转，金属丝扭转常数 κ=2.0×10⁻³ N·m/rad。求扭摆周期（s）。",
+  "expected": 7.0,
+  "tol": 0.01,
+  "answerLatex": "7.0\\,\\mathrm{s}",
+  "solution": "I=½mR²=2.5×10⁻³ kg·m²；T=2π√(I/κ)=2π√1.25≈7.0 s。",
+  "solutionLatex": "T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}}=2\\pi\\sqrt{\\dfrac{2.5\\times10^{-3}}{2.0\\times10^{-3}}}\\approx7.0\\,\\mathrm{s}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/mech/mech-u7/7.3",
+      "label": "7.3 复摆",
+      "topicId": "mech-u7:7.3"
+    }
+  ]
+}
 ];

@@ -2705,5 +2705,109 @@ export const problems = [
         "topicId": "em-u12:12.4"
       }
     ]
-  }
+  },
+{
+  "id": "em-u12-q045",
+  "title": "12.5 电流环的磁偶极矩",
+  "type": "frq",
+  "difficulty": "易",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 0.040 m 的圆环有 200 匝，通 0.50 A 电流。求磁偶极矩大小（A·m²）。",
+  "expected": 0.5,
+  "tol": 0.01,
+  "answerLatex": "5.0\\times10^{-1}\\,\\mathrm{A\\,m^{2}}",
+  "solution": "A=πR²=5.03×10⁻³ m²；μ=NIA=200(0.50)(5.03×10⁻³)≈0.50 A·m²。",
+  "solutionLatex": "\\mu=NIA=200(0.50)\\pi(0.040)^{2}\\approx0.50\\,\\mathrm{A\\,m^{2}}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.5",
+      "label": "12.5 磁偶极与磁性材料",
+      "topicId": "em-u12:12.5"
+    }
+  ]
+},
+{
+  "id": "em-u12-q046",
+  "title": "12.6 铁芯螺线管的磁场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "理想螺线管每米 1000 匝，电流 2.0 A，铁芯相对磁导率 μ_r=500。求内部磁感应强度（T），取 μ₀=4π×10⁻⁷ T·m/A。",
+  "expected": 1.26,
+  "tol": 0.01,
+  "answerLatex": "1.26\\,\\mathrm{T}",
+  "solution": "B=μ_rμ₀nI=500(4π×10⁻⁷)(1000)(2.0)≈1.26 T。",
+  "solutionLatex": "B=\\mu_r\\mu_0nI=500(4\\pi\\times10^{-7})(1000)(2.0)\\approx1.26\\,\\mathrm{T}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.6",
+      "label": "12.6 磁导率与材料响应",
+      "topicId": "em-u12:12.6"
+    }
+  ]
+},
+{
+  "id": "em-u12-q047",
+  "title": "12.8 霍尔电压",
+  "type": "frq",
+  "difficulty": "难",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "厚度 t=1.0 mm 的金属条通电流 I=2.0 A，置于 B=0.50 T 的垂直磁场中。载流子数密度 n=8.5×10²⁸ m⁻³，q=1.6×10⁻¹⁹ C。求霍尔电压大小（V）。",
+  "expected": 7.4e-08,
+  "tol": 0.03,
+  "answerLatex": "7.4\\times10^{-8}\\,\\mathrm{V}",
+  "solution": "V_H=IB/(nqt)=1.0/(8.5×10²⁸·1.6×10⁻¹⁹·1.0×10⁻³)≈7.4×10⁻⁸ V。",
+  "solutionLatex": "V_H=\\dfrac{IB}{nqt}=\\dfrac{(2.0)(0.50)}{(8.5\\times10^{28})(1.6\\times10^{-19})(1.0\\times10^{-3})}\\approx7.4\\times10^{-8}\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.8",
+      "label": "12.8 复合场与霍尔效应",
+      "topicId": "em-u12:12.8"
+    }
+  ]
+},
+{
+  "id": "em-u12-q048",
+  "title": "12.9 四分之一圆弧中心的磁场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "半径 R=0.050 m 的四分之一圆弧通电流 I=3.0 A。求圆心处磁感应强度大小（T），取 μ₀=4π×10⁻⁷ T·m/A。",
+  "expected": 9.4e-06,
+  "tol": 0.03,
+  "answerLatex": "9.4\\times10^{-6}\\,\\mathrm{T}",
+  "solution": "B=μ₀Iθ/(4πR)，θ=π/2，代入得 ≈9.4×10⁻⁶ T。",
+  "solutionLatex": "B=\\dfrac{\\mu_0I\\theta}{4\\pi R}=\\dfrac{(4\\pi\\times10^{-7})(3.0)(\\pi/2)}{4\\pi(0.050)}\\approx9.4\\times10^{-6}\\,\\mathrm{T}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.9",
+      "label": "12.9 毕奥–萨伐尔积分与电流几何",
+      "topicId": "em-u12:12.9"
+    }
+  ]
+}
 ];

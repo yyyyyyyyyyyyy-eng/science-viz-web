@@ -1728,5 +1728,70 @@ export const problems = [
     "license": "CC BY-NC-SA 4.0",
     "sourceUrl": "https://openstax.org/details/books/calculus-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
-  }
+  },
+{
+  "id": "calc-u1-q085",
+  "title": "1.3 图像尺度隐藏的空心点",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "设 f(x)=(x²−4)/(x−2)（x≠2），且 f(2)=1。求 lim_{x→2} f(x)。",
+  "expected": 4,
+  "tol": 0.01,
+  "answerLatex": "4",
+  "solution": "约分后 f(x)=x+2（x≠2），极限为 4；f(2)=1 不影响极限。",
+  "solutionLatex": "\\lim_{x\\to2}\\dfrac{x^{2}-4}{x-2}=\\lim_{x\\to2}(x+2)=4",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u1/1.3",
+      "label": "1.3 由图像估计极限",
+      "topicId": "calc-u1:1.3"
+    }
+  ]
+},
+{
+  "id": "calc-u1-q086",
+  "title": "1.12 初等函数的连续区间",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "函数 f(x)=√(x−3)/(x−5) 在其定义域上的连续区间是：",
+  "choices": [
+    {
+      "text": "[3,5) ∪ (5,∞)",
+      "correct": true
+    },
+    {
+      "text": "(3,5) ∪ (5,∞)",
+      "correct": false
+    },
+    {
+      "text": "[3,∞)",
+      "correct": false
+    },
+    {
+      "text": "(3,∞)",
+      "correct": false
+    }
+  ],
+  "solution": "根号要求 x≥3，分母要求 x≠5；端点 3 处右连续，故包含 3。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u1/1.12",
+      "label": "1.12 确认区间连续",
+      "topicId": "calc-u1:1.12"
+    }
+  ]
+}
 ];

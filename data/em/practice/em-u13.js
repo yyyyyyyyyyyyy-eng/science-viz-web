@@ -3220,5 +3220,31 @@ export const problems = [
         "topicId": "em-u13:13.4"
       }
     ]
-  }
+  },
+{
+  "id": "em-u13-q053",
+  "title": "13.7 位移电流与电场变化率",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "平行板电容器以恒定电流 2.0 A 充电。求极板间电通量的变化率 dΦ_E/dt（V·m/s），取 ε₀=8.85×10⁻¹² C²/(N·m²)。",
+  "expected": 230000000000.0,
+  "tol": 0.03,
+  "answerLatex": "2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
+  "solution": "I_d=ε₀dΦ_E/dt，充电时 I_d=I，故 dΦ_E/dt=I/ε₀≈2.3×10¹¹ V·m/s。",
+  "solutionLatex": "\\dfrac{d\\Phi_E}{dt}=\\dfrac{I}{\\varepsilon_0}=\\dfrac{2.0}{8.85\\times10^{-12}}\\approx2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u13/13.7",
+      "label": "13.7 麦克斯韦方程与电磁波",
+      "topicId": "em-u13:13.7"
+    }
+  ]
+}
 ];
