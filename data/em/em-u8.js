@@ -710,7 +710,7 @@ export const TOPICS = {
       "净通量只由曲面内部的净电荷决定；曲面外电荷对净通量的贡献为零，但仍会改变曲面上各点的局部电场。 · The net flux is determined only by the net charge inside the surface; charges outside contribute zero net flux but still change the local field at points on the surface.",
       "高斯定律对任意闭合曲面都成立，不要求对称性；对称性只是在求 \\(E\\) 时把 \\(\\vec E\\) 提出积分号的计算工具。 · Gauss's law holds for any closed surface and does not require symmetry; symmetry is only a calculational tool for pulling \\(\\vec E\\) out of the integral.",
       "球对称外部场等效于电荷集中在球心：\\(E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{Q}{r^{2}}\\)；无限长均匀带电直线 \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\)；无限大均匀带电平面 \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\)。 · A spherically symmetric exterior field is equivalent to all charge at the center, \\(E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{Q}{r^{2}}\\); an infinite uniform line has \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\); an infinite uniform plane has \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\).",
-      "导体静电平衡时内部 \\(\\vec E=0\\)，净电荷分布在外表面；若导体有空腔，腔内电荷会在内表面感应出等量异号电荷，外表面电荷由导体总净电荷决定。 · In electrostatic equilibrium a conductor has \\(\\vec E=0\\) inside and its net charge resides on the outer surface; if the conductor has a cavity, a charge inside induces an equal and opposite charge on the inner surface, while the outer surface charge is set by the conductor's total net charge.",
+      "导体静电平衡时内部 \\(\\vec E=0\\)，净电荷分布在外表面；若导体有空腔，腔内电荷会在内表面感应出等量异号电荷，外表面电荷由导体总净电荷与腔内电荷共同决定。 · In electrostatic equilibrium a conductor has \\(\\vec E=0\\) inside and its net charge resides on the outer surface; if the conductor has a cavity, a charge inside induces an equal and opposite charge on the inner surface, while the outer surface charge is set by the conductor's total net charge together with the cavity charge.",
       "绝缘体中的电荷被束缚，静电平衡时多余电荷可以分布在内部和表面，内部电场也可以不为零；绝缘体不能像导体那样把内部场完全屏蔽。 · Charges in an insulator are bound, so in electrostatic equilibrium excess charge can be distributed throughout the interior as well as on the surface, and the internal field may be nonzero; an insulator cannot screen the interior field the way a conductor does.",
       "高斯面内的包围电荷可能由电荷密度积分得到：\\(Q_{\\mathrm{enc}}=\\int\\rho\\,\\mathrm{d}V\\)；当电荷只分布在部分区域时，积分限必须只覆盖该区域。 · The enclosed charge may come from integrating a charge density, \\(Q_{\\mathrm{enc}}=\\int\\rho\\,\\mathrm{d}V\\); when charge occupies only part of the region, the limits must cover only that region.",
       "电通量的单位是 \\(\\mathrm{N\\,m^{2}\\,C^{-1}}\\)；真空介电常数 \\(\\varepsilon_0=8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)。 · Electric flux has units \\(\\mathrm{N\\,m^{2}\\,C^{-1}}\\), and the vacuum permittivity is \\(\\varepsilon_0=8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)."
@@ -1066,13 +1066,13 @@ export const TOPICS = {
         "title": "例 1 · 电子与质子的电力/引力之比 · Example 1: Electric-to-gravitational force ratio for an electron and a proton",
         "prompt": "电子与质子相距 \\(r\\)。求它们之间电力与引力的大小之比，并说明这个结果对原子结构意味着什么。 · An electron and a proton are separated by \\(r\\). Find the ratio of the electric force to the gravitational force and explain what the result implies for atomic structure.",
         "steps": [
-          "电力 \\(F_e=k\\dfrac{e^{2}}{r^{2}}\\)，引力 \\(F_g=G\\dfrac{m_em_p}{r^{2}}\\)。 · Electric force \\(F_e=k\\dfrac{e^{2}}{r^{2}}\\), gravitational force \\(F_g=G\\dfrac{m_em_p}{r^{2}}\\).",
-          "相除得 \\(\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_em_p}\\)，距离 \\(r\\) 约去。 · Dividing gives \\(\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_em_p}\\), and the distance \\(r\\) cancels.",
+          "电力 \\(F_e=k\\dfrac{e^{2}}{r^{2}}\\)，引力 \\(F_g=G\\dfrac{m_e m_p}{r^{2}}\\)。 · Electric force \\(F_e=k\\dfrac{e^{2}}{r^{2}}\\), gravitational force \\(F_g=G\\dfrac{m_e m_p}{r^{2}}\\).",
+          "相除得 \\(\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_e m_p}\\)，距离 \\(r\\) 约去。 · Dividing gives \\(\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_e m_p}\\), and the distance \\(r\\) cancels.",
           "代入 \\(k=8.99\\times10^{9}\\)、\\(e=1.60\\times10^{-19}\\)、\\(G=6.67\\times10^{-11}\\)、\\(m_e=9.11\\times10^{-31}\\)、\\(m_p=1.67\\times10^{-27}\\)。 · Substitute \\(k=8.99\\times10^{9}\\), \\(e=1.60\\times10^{-19}\\), \\(G=6.67\\times10^{-11}\\), \\(m_e=9.11\\times10^{-31}\\), and \\(m_p=1.67\\times10^{-27}\\).",
           "\\(\\dfrac{F_e}{F_g}\\approx2.3\\times10^{39}\\)。 · \\(\\dfrac{F_e}{F_g}\\approx2.3\\times10^{39}\\)."
         ],
         "solution": "电力约为引力的 \\(2\\times10^{39}\\) 倍；原子中引力完全可以忽略，电子与原子核的结合由电力主导。 · The electric force is about \\(2\\times10^{39}\\) times gravity; gravity is completely negligible in atoms, and electric forces dominate the binding of electrons to nuclei.",
-        "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_em_p}\\approx2.3\\times10^{39}"
+        "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_e m_p}\\approx2.3\\times10^{39}"
       },
       {
         "title": "例 2 · 带电小球的电力与引力 · Example 2: Electric and gravitational forces between charged spheres",
@@ -1100,12 +1100,12 @@ export const TOPICS = {
         "title": "例 4 · 评价「引力更强」的说法 · Example 4: Evaluating the claim that gravity is stronger",
         "prompt": "有同学说：「既然引力支配太阳系，那么两个质子之间的引力一定比电力强。」请评价这个说法，并用计算支持你的结论。 · A student says: “Since gravity governs the solar system, the gravitational force between two protons must be stronger than the electric force.” Evaluate this claim and support your conclusion with a calculation.",
         "steps": [
-          "对两个质子，\\(\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_p^{2}}\\)。 · For two protons, \\(\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_p^{2}}\\).",
+          "对两个质子，\\(\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_p^{2}}\\)。 · For two protons, \\(\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_p^{2}}\\).",
           "代入数值：\\(\\dfrac{F_e}{F_g}\\approx\\dfrac{(8.99\\times10^{9})(1.60\\times10^{-19})^{2}}{(6.67\\times10^{-11})(1.67\\times10^{-27})^{2}}\\approx1.2\\times10^{36}\\)。 · Substituting values gives \\(\\dfrac{F_e}{F_g}\\approx\\dfrac{(8.99\\times10^{9})(1.60\\times10^{-19})^{2}}{(6.67\\times10^{-11})(1.67\\times10^{-27})^{2}}\\approx1.2\\times10^{36}\\).",
           "所以两个质子之间电力远强于引力；太阳系的引力主导来自天体的巨大质量和近似电中性，而不是单个粒子的力比较。 · Therefore the electric force between two protons is far stronger than gravity; gravity's dominance in the solar system comes from the enormous masses and near neutrality of astronomical bodies, not from a force comparison between individual particles."
         ],
         "solution": "说法错误。两个质子之间 \\(\\dfrac{F_e}{F_g}\\approx1.2\\times10^{36}\\)；引力主导太阳系是因为天体近似电中性和质量巨大。 · The claim is false. For two protons, \\(\\dfrac{F_e}{F_g}\\approx1.2\\times10^{36}\\); gravity governs the solar system because astronomical bodies are nearly neutral and extremely massive.",
-        "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{ke^{2}}{Gm_p^{2}}\\approx1.2\\times10^{36}"
+        "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_p^{2}}\\approx1.2\\times10^{36}"
       }
     ],
     "examTips": [
@@ -1232,7 +1232,7 @@ export const TOPICS = {
     "learningObjectives": [
       "能对比导体与绝缘体的电荷迁移能力，并说明静电平衡时各自的电荷分布。 · Compare charge mobility in conductors and insulators and describe their charge distributions in electrostatic equilibrium.",
       "能解释绝缘体中多余电荷为什么可以分布在内部和表面，以及为什么内部电场可以不为零。 · Explain why excess charge in an insulator can be distributed throughout the interior and on the surface, and why the internal field may be nonzero.",
-      "能计算均匀带电绝缘球内外的电场，并与同样电荷、同样半径的导体球对照。 · Calculate the field inside and outside a uniformly charged insulating sphere and compare it with a conducting sphere of the same charge and radius."
+      "能计算均匀带电实心绝缘球内外的电场，并与同样电荷、同样半径的导体球对照。 · Calculate the field inside and outside a uniformly charged insulating sphere and compare it with a conducting sphere of the same charge and radius."
     ],
     "essentialKnowledge": [
       "导体含有可自由移动的电荷；静电平衡时导体内部 \\(\\vec E=0\\)，净电荷分布在外表面。 · A conductor contains freely moving charges; in electrostatic equilibrium \\(\\vec E=0\\) inside and net charge resides on the outer surface.",
@@ -1261,11 +1261,11 @@ export const TOPICS = {
       },
       {
         "latex": "E(r)=\\dfrac{\\rho r}{3\\varepsilon_0}=\\dfrac{kQr}{R^{3}}\\quad(r<R)",
-        "note": "均匀带电绝缘球内部场强，随 \\(r\\) 线性增大。 · Field inside a uniformly charged insulating sphere; it grows linearly with \\(r\\)."
+        "note": "均匀带电实心绝缘球内部场强，随 \\(r\\) 线性增大。 · Field inside a uniformly charged insulating sphere; it grows linearly with \\(r\\)."
       },
       {
         "latex": "E(r)=\\dfrac{kQ}{r^{2}}\\quad(r\\ge R)",
-        "note": "均匀带电绝缘球外部场强，等效于全部电荷集中在球心。 · Field outside a uniformly charged insulating sphere, equivalent to all charge at the center."
+        "note": "均匀带电实心绝缘球外部场强，等效于全部电荷集中在球心。 · Field outside a uniformly charged insulating sphere, equivalent to all charge at the center."
       },
       {
         "latex": "E=0\\quad(r<R)",
@@ -1314,8 +1314,8 @@ export const TOPICS = {
     "keyPoints": [
       "导体静电平衡：内部 \\(E=0\\)，净电荷在外表面。 · Conductor in electrostatic equilibrium: \\(E=0\\) inside, net charge on the outer surface.",
       "绝缘体静电平衡：内部 \\(E\\) 不一定为零，多余电荷可分布在内部和表面。 · Insulator in electrostatic equilibrium: the internal field need not be zero, and excess charge can be distributed in the interior and on the surface.",
-      "均匀带电绝缘球内部 \\(E\\propto r\\)，球心为零，表面最大。 · Inside a uniformly charged insulating sphere, \\(E\\propto r\\), zero at the center and maximum at the surface.",
-      "均匀带电绝缘球外部等效于点电荷。 · Outside a uniformly charged insulating sphere, the field is equivalent to that of a point charge.",
+      "均匀带电实心绝缘球内部 \\(E\\propto r\\)，球心为零，表面最大。 · Inside a uniformly charged insulating sphere, \\(E\\propto r\\), zero at the center and maximum at the surface.",
+      "均匀带电实心绝缘球外部等效于点电荷。 · Outside a uniformly charged insulating sphere, the field is equivalent to that of a point charge.",
       "导体球内部 \\(E=0\\)，外部同样等效于点电荷。 · A conducting sphere has \\(E=0\\) inside and the same exterior field as a point charge.",
       "「绝缘体内部场可以不为零」取决于电荷分布；若电荷只在球壳外表面，壳内仍可为零。 · “An insulator's internal field may be nonzero” depends on the charge distribution; if charge is only on the outer surface of a shell, the interior can still be field-free.",
       "绝缘体可以有表面电荷，也可以有体电荷。 · An insulator can carry both surface charge and volume charge."
@@ -1325,13 +1325,13 @@ export const TOPICS = {
       "认为多余电荷总会全部跑到外表面；这只对导体成立，绝缘体中的电荷可以留在内部。 · Thinking excess charge always migrates entirely to the outer surface; this is true only for conductors, while charge in an insulator can remain inside.",
       "认为绝缘体不能有表面电荷；绝缘体表面同样可以带电。 · Thinking an insulator cannot have surface charge; an insulating surface can certainly carry charge.",
       "认为静电平衡就意味着内部 \\(E=0\\)；对导体成立，对绝缘体不成立。 · Thinking electrostatic equilibrium implies \\(E=0\\) inside; this holds for conductors but not for insulators.",
-      "认为均匀带电绝缘球内部场是常数；实际上 \\(E\\propto r\\)，随半径线性增大。 · Thinking the field inside a uniformly charged insulating sphere is constant; in fact \\(E\\propto r\\) and grows linearly with radius.",
+      "认为均匀带电实心绝缘球内部场是常数；实际上 \\(E\\propto r\\)，随半径线性增大。 · Thinking the field inside a uniformly charged insulating sphere is constant; in fact \\(E\\propto r\\) and grows linearly with radius.",
       "认为绝缘体内部场一定不为零；若电荷只分布在球壳外表面，壳内 \\(Q_{\\mathrm{enc}}=0\\)，场可以为零。 · Thinking an insulator's internal field is always nonzero; if charge lies only on the outer surface of a shell, \\(Q_{\\mathrm{enc}}=0\\) inside and the field can be zero.",
       "把导体表面场公式 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 直接用于绝缘体内部。 · Applying the conductor-surface formula \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) directly inside an insulator."
     ],
     "examples": [
       {
-        "title": "例 1 · 均匀带电绝缘球的内部场 · Example 1: Field inside a uniformly charged insulating sphere",
+        "title": "例 1 · 均匀带电实心绝缘球的内部场 · Example 1: Field inside a uniformly charged insulating sphere",
         "prompt": "一个半径 \\(R=0.20\\,\\mathrm{m}\\) 的实心绝缘球均匀带电，总电荷 \\(Q=+4.0\\,\\mathrm{\\mu C}\\)。求体电荷密度 \\(\\rho\\)，以及 \\(r=0.10\\,\\mathrm{m}\\)、\\(r=0.20\\,\\mathrm{m}\\)、\\(r=0.30\\,\\mathrm{m}\\) 处的电场大小。 · A solid insulating sphere of radius \\(R=0.20\\,\\mathrm{m}\\) carries a uniform total charge \\(Q=+4.0\\,\\mathrm{\\mu C}\\). Find the volume charge density \\(\\rho\\) and the field magnitude at \\(r=0.10\\,\\mathrm{m}\\), \\(r=0.20\\,\\mathrm{m}\\), and \\(r=0.30\\,\\mathrm{m}\\).",
         "steps": [
           "\\(\\rho=\\dfrac{Q}{\\dfrac{4}{3}\\pi R^{3}}=\\dfrac{4.0\\times10^{-6}}{\\dfrac{4}{3}\\pi(0.20)^{3}}\\approx1.2\\times10^{-4}\\,\\mathrm{C\\,m^{-3}}\\)。 · \\(\\rho=\\dfrac{Q}{\\dfrac{4}{3}\\pi R^{3}}=\\dfrac{4.0\\times10^{-6}}{\\dfrac{4}{3}\\pi(0.20)^{3}}\\approx1.2\\times10^{-4}\\,\\mathrm{C\\,m^{-3}}\\).",
@@ -1379,7 +1379,7 @@ export const TOPICS = {
     "examTips": [
       "先判断材料是导体还是绝缘体，再决定内部 \\(E\\) 是否为零。 · First decide whether the material is a conductor or an insulator, then determine whether the internal field is zero.",
       "导体题优先用 \\(E=0\\) 和「净电荷在外表面」；绝缘体题用实际电荷分布和高斯定律。 · For conductors, use \\(E=0\\) and “net charge on the outer surface”; for insulators, use the actual charge distribution and Gauss's law.",
-      "均匀带电绝缘球内部 \\(E\\propto r\\)，不要误写成常数或零。 · Inside a uniformly charged insulating sphere, \\(E\\propto r\\); do not write it as constant or zero.",
+      "均匀带电实心绝缘球内部 \\(E\\propto r\\)，不要误写成常数或零。 · Inside a uniformly charged insulating sphere, \\(E\\propto r\\); do not write it as constant or zero.",
       "比较导体球与绝缘球时，保持电荷和半径相同，只比较内部场。 · When comparing conducting and insulating spheres, keep charge and radius the same and compare only the internal fields.",
       "遇到绝缘体球壳，先看电荷分布在哪一层，再取高斯面；不要默认全部电荷都在球心。 · For an insulating shell, first locate the charge distribution, then choose the Gaussian surface; do not assume all charge is at the center."
     ],
@@ -1426,18 +1426,18 @@ export const TOPICS = {
       "应用：驻极体、绝缘子、塑料薄膜和高压电缆中的电荷积累与击穿。 · Applications: charge accumulation and breakdown in electrets, insulators, plastic films, and high-voltage cables.",
       "对比：10.1 导体静电平衡与 10.4 电介质极化进一步区分导体、绝缘体和介电材料。 · Comparison: 10.1 on conductor equilibrium and 10.4 on dielectric polarization further distinguish conductors, insulators, and dielectric materials."
     ],
-    "intuitionDetailed": "判断绝缘体内部电场时，最关键的是不要套用导体的结论。导体里有大量自由电子，只要内部出现电场，电子就会移动，直到电场被完全抵消，所以静电平衡时导体内部 \\(E=0\\)，多余电荷只能停在外表面。绝缘体的电子被原子核束缚，不能长距离迁移；把电荷放到塑料、玻璃或橡胶上，电荷会留在放置处附近，可能分布在表面，也可能深入内部。于是绝缘体内部完全可能存在电场，其大小和方向由这些电荷的分布决定。对球对称的均匀带电绝缘球，高斯面内的电荷随 \\(r^{3}\\) 增长，而球面面积随 \\(r^{2}\\) 增长，所以 \\(E\\propto r\\)：球心为零，向外线性增大，到表面达到最大；球外则像点电荷一样按 \\(\\dfrac{1}{r^{2}}\\) 衰减。导体球则相反：内部处处为零，电荷全在表面，外部场与点电荷相同。还要注意，「绝缘体内部场可以不为零」中的「可以」很重要：如果电荷只分布在绝缘球壳的外表面，壳内包围电荷为零，电场仍然为零。 · When analyzing the field inside an insulator, the key is not to apply conductor conclusions. A conductor contains many free electrons; if an internal field appears, electrons move until the field is completely cancelled, so in electrostatic equilibrium the conductor has \\(E=0\\) inside and excess charge can reside only on the outer surface. In an insulator, electrons are bound to nuclei and cannot migrate over long distances; charge placed on plastic, glass, or rubber stays near where it was placed, possibly on the surface and possibly deeper inside. The interior of an insulator can therefore have a nonzero electric field whose magnitude and direction are set by that charge distribution. For a spherically symmetric, uniformly charged insulating sphere, the enclosed charge grows as \\(r^{3}\\) while the sphere's area grows as \\(r^{2}\\), so \\(E\\propto r\\): zero at the center, increasing linearly outward, and maximum at the surface; outside, the field falls as \\(\\dfrac{1}{r^{2}}\\) like a point charge. A conducting sphere is the opposite: zero everywhere inside, all charge on the surface, and the same exterior field as a point charge. Note also that “may be nonzero” is important: if charge lies only on the outer surface of an insulating shell, the enclosed charge inside is zero and the field can still be zero.",
+    "intuitionDetailed": "判断绝缘体内部电场时，最关键的是不要套用导体的结论。导体里有大量自由电子，只要内部出现电场，电子就会移动，直到电场被完全抵消，所以静电平衡时导体内部 \\(E=0\\)，多余电荷只能停在外表面。绝缘体的电子被原子核束缚，不能长距离迁移；把电荷放到塑料、玻璃或橡胶上，电荷会留在放置处附近，可能分布在表面，也可能深入内部。于是绝缘体内部完全可能存在电场，其大小和方向由这些电荷的分布决定。对球对称的均匀带电实心绝缘球，高斯面内的电荷随 \\(r^{3}\\) 增长，而球面面积随 \\(r^{2}\\) 增长，所以 \\(E\\propto r\\)：球心为零，向外线性增大，到表面达到最大；球外则像点电荷一样按 \\(\\dfrac{1}{r^{2}}\\) 衰减。导体球则相反：内部处处为零，电荷全在表面，外部场与点电荷相同。还要注意，「绝缘体内部场可以不为零」中的「可以」很重要：如果电荷只分布在绝缘球壳的外表面，壳内包围电荷为零，电场仍然为零。 · When analyzing the field inside an insulator, the key is not to apply conductor conclusions. A conductor contains many free electrons; if an internal field appears, electrons move until the field is completely cancelled, so in electrostatic equilibrium the conductor has \\(E=0\\) inside and excess charge can reside only on the outer surface. In an insulator, electrons are bound to nuclei and cannot migrate over long distances; charge placed on plastic, glass, or rubber stays near where it was placed, possibly on the surface and possibly deeper inside. The interior of an insulator can therefore have a nonzero electric field whose magnitude and direction are set by that charge distribution. For a spherically symmetric, uniformly charged insulating sphere, the enclosed charge grows as \\(r^{3}\\) while the sphere's area grows as \\(r^{2}\\), so \\(E\\propto r\\): zero at the center, increasing linearly outward, and maximum at the surface; outside, the field falls as \\(\\dfrac{1}{r^{2}}\\) like a point charge. A conducting sphere is the opposite: zero everywhere inside, all charge on the surface, and the same exterior field as a point charge. Note also that “may be nonzero” is important: if charge lies only on the outer surface of an insulating shell, the enclosed charge inside is zero and the field can still be zero.",
     "development": [
       "回顾导体静电平衡的结论：内部 \\(E=0\\)，净电荷在外表面。 · Review the conductor equilibrium result: \\(E=0\\) inside and net charge on the outer surface.",
       "说明绝缘体中电荷被束缚，不能自由迁移，因此多余电荷可以留在内部。 · Explain that charges in an insulator are bound and cannot migrate freely, so excess charge can remain inside.",
-      "用高斯定律分析均匀带电绝缘球，得到内部线性场和外部平方反比场。 · Use Gauss's law to analyze a uniformly charged insulating sphere, obtaining a linear internal field and an inverse-square exterior field.",
+      "用高斯定律分析均匀带电实心绝缘球，得到内部线性场和外部平方反比场。 · Use Gauss's law to analyze a uniformly charged insulating sphere, obtaining a linear internal field and an inverse-square exterior field.",
       "与同样电荷、半径的导体球对照，画出两种 \\(E(r)\\) 曲线。 · Compare with a conducting sphere of the same charge and radius, and sketch both \\(E(r)\\) curves.",
       "讨论球壳与表面电荷的例外，理解「可以不为零」的条件性。 · Discuss shells and surface charge as exceptions to understand the conditional nature of “may be nonzero.”"
     ],
     "checks": [
       "导体与绝缘体在静电平衡时，内部电场分别有什么特点？ · What are the internal fields of conductors and insulators in electrostatic equilibrium?",
       "为什么绝缘体中的多余电荷可以分布在内部和表面？ · Why can excess charge in an insulator be distributed in the interior and on the surface?",
-      "均匀带电绝缘球内部的 \\(E(r)\\) 随 \\(r\\) 如何变化？球心处为多少？ · How does \\(E(r)\\) vary with \\(r\\) inside a uniformly charged insulating sphere, and what is it at the center?",
+      "均匀带电实心绝缘球内部的 \\(E(r)\\) 随 \\(r\\) 如何变化？球心处为多少？ · How does \\(E(r)\\) vary with \\(r\\) inside a uniformly charged insulating sphere, and what is it at the center?",
       "同样电荷、同样半径的导体球与绝缘球，外部场相同吗？内部场呢？ · Do conducting and insulating spheres with the same charge and radius have the same exterior field? The same interior field?",
       "如果绝缘球壳的电荷只分布在外表面，壳内电场一定不为零吗？ · If an insulating shell carries charge only on its outer surface, is the field inside necessarily nonzero?"
     ],
