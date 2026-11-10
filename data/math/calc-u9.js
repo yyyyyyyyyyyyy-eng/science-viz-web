@@ -1200,172 +1200,301 @@ export const TOPICS = {
     "titleZh": "极坐标导数",
     "titleEn": "Defining Polar Coordinates and Differentiating in Polar Form",
     "layer": "ap",
-    "summary": "极坐标导数 · Defining Polar Coordinates and Differentiating in Polar Form",
+    "summary": "极坐标曲线的切线斜率来自参数方程 \\(x=r\\cos\\theta\\)、\\(y=r\\sin\\theta\\) 的导数之比；水平切线看 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)，竖直切线看 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)；二阶导数由 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)\\) 除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) 得到，其符号给出凹凸性，极点单独处理。 · The tangent slope of a polar curve comes from the ratio of derivatives of the parametric equations \\(x=r\\cos\\theta\\), \\(y=r\\sin\\theta\\); horizontal tangents use \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\), vertical tangents use \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\); the second derivative is obtained by dividing \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)\\) by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\), its sign gives concavity, and the pole is handled separately.",
     "learningObjectives": [
-      "能陈述「极坐标导数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能在极坐标 \\((r,\\theta)\\) 与直角坐标 \\((x,y)\\) 之间转换，并处理负半径与多值角。 · Convert between polar coordinates \\((r,\\theta)\\) and rectangular coordinates \\((x,y)\\), including negative radii and multiple angles.",
+      "能对 \\(r=f(\\theta)\\) 分别求 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\)、\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)、\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)，并用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\) 求切线斜率。 · Differentiate \\(r=f(\\theta)\\) to find \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\), \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\), and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\), and use \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\) to find the tangent slope.",
+      "能由 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) 与 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) 判断水平切线与竖直切线，并单独处理极点。 · Use \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) to identify horizontal and vertical tangents, treating the pole separately.",
+      "能用 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\) 求极坐标曲线的二阶导数，并用其符号判断凹凸性。 · Use \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\) to find the second derivative of a polar curve and use its sign to determine concavity.",
     ],
     "essentialKnowledge": [
-      "Defining Polar Coordinates and Differentiating in Polar Form：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「极坐标导数」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "极坐标与直角坐标的关系为 \\(x=r\\cos\\theta\\)、\\(y=r\\sin\\theta\\)；反过来 \\(r^{2}=x^{2}+y^{2}\\)，\\(\\tan\\theta=\\dfrac{y}{x}\\)（要按象限修正）。 · Polar and rectangular coordinates satisfy \\(x=r\\cos\\theta\\) and \\(y=r\\sin\\theta\\); conversely, \\(r^{2}=x^{2}+y^{2}\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\) (with quadrant correction).",
+      "极坐标表示不唯一：\\((r,\\theta)\\) 与 \\((-r,\\theta+\\pi)\\) 表示同一点；负半径和周期性都要考虑。 · Polar representation is not unique: \\((r,\\theta)\\) and \\((-r,\\theta+\\pi)\\) represent the same point; negative radii and periodicity must be considered.",
+      "把 \\(r=f(\\theta)\\) 代入得参数方程 \\(x(\\theta)=f(\\theta)\\cos\\theta\\)、\\(y(\\theta)=f(\\theta)\\sin\\theta\\)；用乘积法则对 \\(\\theta\\) 求导得 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta\\)、\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta\\)。 · Substituting \\(r=f(\\theta)\\) gives the parametric equations \\(x(\\theta)=f(\\theta)\\cos\\theta\\) and \\(y(\\theta)=f(\\theta)\\sin\\theta\\); the product rule gives \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta\\).",
+      "一阶导数是两个对 \\(\\theta\\) 的导数之比：\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\)，要求 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)。 · The first derivative is the ratio of the two \\(\\theta\\)-derivatives: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\), defined when \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\).",
+      "\\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}=f'(\\theta)\\) 只描述半径随角度的变化率，不是切线斜率；切线方向由 \\(x\\) 与 \\(y\\) 同时随 \\(\\theta\\) 的变化决定。 · \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}=f'(\\theta)\\) only describes how the radius changes with angle; it is not the tangent slope. The tangent direction is determined by how both \\(x\\) and \\(y\\) change with \\(\\theta\\).",
+      "水平切线要求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)；竖直切线要求 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\)。 · A horizontal tangent requires \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\); a vertical tangent requires \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\).",
+      "二阶导数用链式法则：\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\)，即先把切线斜率看作 \\(\\theta\\) 的函数求导，再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)；它描述斜率随 \\(x\\) 的变化率。 · The second derivative uses the chain rule: \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\), that is, differentiate the slope as a function of \\(\\theta\\), then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\); it describes how the slope changes with \\(x\\).",
+      "在 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\) 的区间上，\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}>0\\) 表示曲线凹向上，\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}<0\\) 表示凹向下；结合一阶导数可判断极值、拐点与曲线弯曲方向。 · On an interval where \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\), \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}>0\\) means the curve is concave up and \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}<0\\) means concave down; together with the first derivative this identifies extrema, inflection points, and the direction of bending.",
+      "在极点 \\(r=0\\) 处两个一阶导数可能同时为零，切线要用极限或转回直角坐标判断；二阶导数公式在 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 处不适用。 · At the pole \\(r=0\\), both first derivatives may vanish; the tangent must be found by a limit or by converting to rectangular coordinates. The second-derivative formula does not apply where \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\).",
     ],
-    "definition": "极坐标导数（Defining Polar Coordinates and Differentiating in Polar Form）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「极坐标导数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "极坐标用有序对 \\((r,\\theta)\\) 描述点：\\(r\\) 是到极点的有向距离，\\(\\theta\\) 是与正 \\(x\\) 轴的夹角。曲线 \\(r=f(\\theta)\\) 可化为参数方程 \\(x=f(\\theta)\\cos\\theta\\)、\\(y=f(\\theta)\\sin\\theta\\)。对 \\(\\theta\\) 求导得到 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\)、\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)、\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)；一阶导数 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\) 给出切线斜率，二阶导数 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\) 给出斜率随 \\(x\\) 的变化率与凹凸性。 · Polar coordinates describe a point by an ordered pair \\((r,\\theta)\\): \\(r\\) is the directed distance from the pole, and \\(\\theta\\) is the angle from the positive \\(x\\)-axis. A curve \\(r=f(\\theta)\\) becomes the parametric equations \\(x=f(\\theta)\\cos\\theta\\) and \\(y=f(\\theta)\\sin\\theta\\). Differentiating with respect to \\(\\theta\\) gives \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\), \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\), and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\); the first derivative \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\) gives the tangent slope, and the second derivative \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\) gives the rate at which the slope changes with \\(x\\) and the concavity.",
+    "intuition": "极坐标曲线像一根从极点伸出的“雷达臂”：角度转动时，臂的长度 \\(r\\) 随之伸缩。一阶导数给出端点实际移动的方向，也就是切线斜率；二阶导数则告诉我们这个方向转得多快、曲线向哪边弯。 · A polar curve is like a radar arm extending from the pole: as the angle turns, the arm length \\(r\\) expands or contracts. The first derivative gives the direction in which the endpoint actually moves, which is the tangent slope; the second derivative tells how quickly that direction turns and which way the curve bends.",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "x=r\\cos\\theta,\\quad y=r\\sin\\theta",
+        "note": "极坐标到直角坐标。 · Polar to rectangular."
+      },
+      {
+        "latex": "r^{2}=x^{2}+y^{2},\\quad \\tan\\theta=\\dfrac{y}{x}",
+        "note": "直角坐标到极坐标；角度要按象限修正。 · Rectangular to polar; correct the angle by quadrant."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}=f'(\\theta),\\qquad \\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta,\\qquad \\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta",
+        "note": "对 \\(r\\) 直接求导，对参数方程 \\(x\\)、\\(y\\) 使用乘积法则；后两式都含 \\(f\\) 与 \\(f'\\)。 · Differentiate \\(r\\) directly and apply the product rule to the parametric equations for \\(x\\) and \\(y\\); the latter two contain both \\(f\\) and \\(f'\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}",
+        "note": "极坐标曲线的切线斜率；要求 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)。 · Tangent slope of a polar curve; requires \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}",
+        "note": "极坐标曲线的二阶导数：先对 \\(\\theta\\) 求斜率的导数，再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)。 · Second derivative of a polar curve: differentiate the slope with respect to \\(\\theta\\), then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{r^{2}+2\\left(r'\\right)^{2}-r\\,r''}{\\left(r'\\cos\\theta-r\\sin\\theta\\right)^{3}}",
+        "note": "闭式验算公式（分母是 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) 的三次方）；考试时通常用上一式逐次求导。 · Closed-form check (the denominator is the cube of \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)); in practice, differentiate successively with the preceding formula."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0,\\;\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\;\\Rightarrow\\;\\text{水平切线}",
+        "note": "水平切线的条件。 · Condition for a horizontal tangent."
+      },
+      {
+        "latex": "\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0,\\;\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\;\\Rightarrow\\;\\text{竖直切线}",
+        "note": "竖直切线的条件。 · Condition for a vertical tangent."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「极坐标导数」的工作方程或机制链。"
+        "from": "极坐标定义 · Polar definition",
+        "to": "参数方程 · Parametric equations",
+        "note": "把 \\(r=f(\\theta)\\) 代入 \\(x=r\\cos\\theta\\)、\\(y=r\\sin\\theta\\)，得到以 \\(\\theta\\) 为参数的曲线。 · Substitute \\(r=f(\\theta)\\) into \\(x=r\\cos\\theta\\) and \\(y=r\\sin\\theta\\) to obtain a curve parametrized by \\(\\theta\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "参数方程 · Parametric equations",
+        "to": "对 \\(\\theta\\) 的导数 · Derivatives with respect to \\(\\theta\\)",
+        "note": "对 \\(x=f(\\theta)\\cos\\theta\\) 与 \\(y=f(\\theta)\\sin\\theta\\) 使用乘积法则，得到 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) 与 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)；\\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}=f'(\\theta)\\) 只是其中的一部分信息。 · Apply the product rule to \\(x=f(\\theta)\\cos\\theta\\) and \\(y=f(\\theta)\\sin\\theta\\) to obtain \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\); \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}=f'(\\theta)\\) is only part of the information."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "对 \\(\\theta\\) 的导数 · Derivatives with respect to \\(\\theta\\)",
+        "to": "一阶导数 · First derivative",
+        "note": "由参数方程求导公式 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\)，两式相除即得切线斜率。 · By the parametric derivative formula \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\), dividing the two derivatives gives the tangent slope."
+      },
+      {
+        "from": "一阶导数 · First derivative",
+        "to": "二阶导数 · Second derivative",
+        "note": "把 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 看成 \\(\\theta\\) 的函数，先对 \\(\\theta\\) 求导，再用链式法则除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)：\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\cdot\\dfrac{\\mathrm{d}\\theta}{\\mathrm{d}x}\\)。 · Treat \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) as a function of \\(\\theta\\), differentiate it with respect to \\(\\theta\\), then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) by the chain rule: \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\cdot\\dfrac{\\mathrm{d}\\theta}{\\mathrm{d}x}\\)."
+      },
+      {
+        "from": "二阶导数 · Second derivative",
+        "to": "曲线信息 · Information about the curve",
+        "note": "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 的符号给出凹凸性；与 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 的符号联合，可判断递增/递减、极值候选与拐点候选。 · The sign of \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) gives concavity; combined with the sign of \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\), it identifies increasing/decreasing behavior, extrema candidates, and inflection candidates."
+      },
+      {
+        "from": "导数之比 · Ratio of derivatives",
+        "to": "切线分类 · Tangent classification",
+        "note": "分子 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 而分母不为零给水平切线；分母 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 而分子不为零给竖直切线。 · A zero numerator \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) with a nonzero denominator gives a horizontal tangent; a zero denominator \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) with a nonzero numerator gives a vertical tangent."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "一阶导数要求 \\(f\\) 在讨论区间内可导；二阶导数还要求 \\(f\\) 二阶可导（即 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 对 \\(\\theta\\) 可导）。 · The first derivative requires \\(f\\) to be differentiable on the interval; the second derivative also requires \\(f\\) to be twice differentiable (so that \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) is differentiable with respect to \\(\\theta\\)).",
+      "切线斜率与二阶导数公式都要求 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)；分母为零时不能直接相除。 · Both the tangent slope and the second-derivative formula require \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\); do not divide when the denominator is zero.",
+      "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\) 时是竖直切线，应单独写出，而不是说“斜率不存在”就结束。 · When \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\), the tangent is vertical; state that separately instead of stopping at “the slope is undefined.”",
+      "在极点 \\(r=0\\) 处两个一阶导数可能同时为零，切线要用极限或转回直角坐标判断。 · At the pole \\(r=0\\), both first derivatives may vanish; determine the tangent by a limit or by converting to rectangular coordinates.",
+      "转换角度时要按点所在象限修正，不能只用 \\(\\arctan\\left(\\dfrac{y}{x}\\right)\\)；负半径是合法的。 · Correct the angle by quadrant; do not rely only on \\(\\arctan\\left(\\dfrac{y}{x}\\right)\\). Negative radii are allowed.",
+      "同一条极坐标曲线可能被重复描过；求切线或判断凹凸性时要注意所选角度范围只描过一次。 · A polar curve may be traced more than once; when finding tangents or concavity, choose an angle range that traces the curve once.",
+      "三角函数的求导公式要求角度以弧度为单位。 · The trigonometric derivative formulas require angles measured in radians."
     ],
     "keyPoints": [
-      "掌握 9.7「极坐标导数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "先写 \\(x(\\theta)=f(\\theta)\\cos\\theta\\)、\\(y(\\theta)=f(\\theta)\\sin\\theta\\)，再对 \\(\\theta\\) 求导。 · Write \\(x(\\theta)=f(\\theta)\\cos\\theta\\) and \\(y(\\theta)=f(\\theta)\\sin\\theta\\) first, then differentiate with respect to \\(\\theta\\).",
+      "\\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) 不是切线斜率；切线斜率是 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。 · \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) is not the tangent slope; the tangent slope is \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\).",
+      "水平切线看分子 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)，竖直切线看分母 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)。 · Horizontal tangents use the numerator \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\); vertical tangents use the denominator \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\).",
+      "二阶导数必须“先对 \\(\\theta\\) 求斜率的导数，再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)”，不能把两个二阶导数直接相除。 · For the second derivative, differentiate the slope with respect to \\(\\theta\\) and then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\); do not divide the two second derivatives directly.",
+      "二阶导数的符号给出凹凸性：正凹向上，负凹向下。 · The sign of the second derivative gives concavity: positive is concave up, negative is concave down.",
+      "极点处两个一阶导数可能同时为零，要单独判断切线。 · At the pole both first derivatives may vanish; determine the tangent separately."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「极坐标导数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "把 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) 当作切线斜率。 · Treating \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) as the tangent slope.",
+      "把 \\(\\dfrac{y}{x}\\) 当作曲线在极坐标下的斜率。 · Treating \\(\\dfrac{y}{x}\\) as the slope of a polar curve.",
+      "忘记对 \\(r\\cos\\theta\\) 与 \\(r\\sin\\theta\\) 使用乘积法则。 · Forgetting the product rule for \\(r\\cos\\theta\\) and \\(r\\sin\\theta\\).",
+      "把水平与竖直切线的条件弄反。 · Swapping the conditions for horizontal and vertical tangents.",
+      "把 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 写成 \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}\\theta^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}\\theta^{2}}}\\)。 · Writing \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) as \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}\\theta^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}\\theta^{2}}}\\).",
+      "对 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 求导后忘记再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)。 · Differentiating \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) but forgetting to divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\).",
+      "在极点两个导数都为零时直接写“斜率不存在”而不判断切线。 · Declaring “no slope” at the pole when both derivatives vanish without determining the tangent."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「极坐标导数」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 心形线的一阶与二阶导数 · Example 1: First and Second Derivatives of a Cardioid",
+        "prompt": "求 \\(r=1+\\cos\\theta\\) 在 \\(\\theta=\\dfrac{\\pi}{2}\\) 处的切线斜率与 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)，并判断凹凸性。 · Find the tangent slope and \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) for \\(r=1+\\cos\\theta\\) at \\(\\theta=\\dfrac{\\pi}{2}\\), and determine concavity.",
+        "steps": [
+          "\\(f(\\theta)=1+\\cos\\theta\\)，\\(f'(\\theta)=-\\sin\\theta\\)，\\(f''(\\theta)=-\\cos\\theta\\)。 · \\(f(\\theta)=1+\\cos\\theta\\), \\(f'(\\theta)=-\\sin\\theta\\), and \\(f''(\\theta)=-\\cos\\theta\\).",
+          "在 \\(\\theta=\\dfrac{\\pi}{2}\\)：\\(f=1\\)，\\(f'=-1\\)，\\(f''=0\\)。 · At \\(\\theta=\\dfrac{\\pi}{2}\\): \\(f=1\\), \\(f'=-1\\), and \\(f''=0\\).",
+          "记 \\(N=\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)、\\(D=\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)。分子 \\(N=f'\\sin\\theta+f\\cos\\theta=(-1)(1)+1\\cdot0=-1\\)；分母 \\(D=f'\\cos\\theta-f\\sin\\theta=(-1)(0)-1\\cdot1=-1\\)。 · Let \\(N=\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) and \\(D=\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\). Numerator \\(N=f'\\sin\\theta+f\\cos\\theta=(-1)(1)+1\\cdot0=-1\\); denominator \\(D=f'\\cos\\theta-f\\sin\\theta=(-1)(0)-1\\cdot1=-1\\).",
+          "所以 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{-1}{-1}=1\\)。 · Thus \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{-1}{-1}=1\\).",
+          "对斜率求 \\(\\theta\\) 的导数：\\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=0+0-1=-1\\)，\\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=0-2(-1)(1)-0=2\\)，故 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{(-1)(-1)-(-1)(2)}{1}=3\\)。 · Differentiate the slope with respect to \\(\\theta\\): \\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=0+0-1=-1\\) and \\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=0-2(-1)(1)-0=2\\), so \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{(-1)(-1)-(-1)(2)}{1}=3\\).",
+          "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{-1}=-3<0\\)，所以曲线在该点凹向下。 · \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{3}{-1}=-3<0\\), so the curve is concave down at that point."
+        ],
+        "solution": "切线斜率为 \\(1\\)，\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-3\\)，曲线凹向下。 · The tangent slope is \\(1\\), \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-3\\), and the curve is concave down.",
+        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1,\\qquad \\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-3"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}"
+        "title": "例 2 · 圆的水平与竖直切线 · Example 2: Horizontal and Vertical Tangents of a Circle",
+        "prompt": "对 \\(r=2\\cos\\theta\\)（\\(0\\le\\theta\\le\\pi\\)），求水平切线与竖直切线的角度。 · For \\(r=2\\cos\\theta\\) with \\(0\\le\\theta\\le\\pi\\), find the angles of the horizontal and vertical tangents.",
+        "steps": [
+          "\\(f=2\\cos\\theta\\)，\\(f'=-2\\sin\\theta\\)。 · \\(f=2\\cos\\theta\\) and \\(f'=-2\\sin\\theta\\).",
+          "分子 \\(f'\\sin\\theta+f\\cos\\theta=2(\\cos^{2}\\theta-\\sin^{2}\\theta)=2\\cos2\\theta\\)。 · Numerator: \\(f'\\sin\\theta+f\\cos\\theta=2(\\cos^{2}\\theta-\\sin^{2}\\theta)=2\\cos2\\theta\\).",
+          "分母 \\(f'\\cos\\theta-f\\sin\\theta=-4\\sin\\theta\\cos\\theta=-2\\sin2\\theta\\)。 · Denominator: \\(f'\\cos\\theta-f\\sin\\theta=-4\\sin\\theta\\cos\\theta=-2\\sin2\\theta\\).",
+          "水平：\\(\\cos2\\theta=0\\)，得 \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\)。竖直：\\(\\sin2\\theta=0\\)，得 \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\)。 · Horizontal: \\(\\cos2\\theta=0\\), so \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\). Vertical: \\(\\sin2\\theta=0\\), so \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\).",
+          "检查分母：在 \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\) 处分母 \\(-2\\sin2\\theta\\neq0\\)；在 \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\) 处分子 \\(2\\cos2\\theta\\neq0\\)，所以分类成立。 · Check the denominators: at \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\), \\(-2\\sin2\\theta\\neq0\\); at \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\), the numerator \\(2\\cos2\\theta\\neq0\\), so the classification is valid."
+        ],
+        "solution": "水平切线在 \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\)；竖直切线在 \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\)。 · Horizontal tangents at \\(\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\); vertical tangents at \\(\\theta=0,\\dfrac{\\pi}{2},\\pi\\).",
+        "solutionLatex": "\\theta=\\dfrac{\\pi}{4},\\dfrac{3\\pi}{4}\\quad\\text{水平};\\qquad \\theta=0,\\dfrac{\\pi}{2},\\pi\\quad\\text{竖直}"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「极坐标导数」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 转回直角坐标 · Example 3: Convert to Rectangular Coordinates",
+        "prompt": "把 \\(r=2\\sin\\theta\\) 化为直角坐标方程，并求 \\(\\theta=\\dfrac{\\pi}{6}\\) 处的切线斜率。 · Convert \\(r=2\\sin\\theta\\) to a rectangular equation and find the tangent slope at \\(\\theta=\\dfrac{\\pi}{6}\\).",
+        "steps": [
+          "两边乘以 \\(r\\)：\\(r^{2}=2r\\sin\\theta\\)，即 \\(x^{2}+y^{2}=2y\\)。 · Multiply by \\(r\\): \\(r^{2}=2r\\sin\\theta\\), so \\(x^{2}+y^{2}=2y\\).",
+          "配方得 \\(x^{2}+(y-1)^{2}=1\\)，是以 \\((0,1)\\) 为圆心、半径为 \\(1\\) 的圆。 · Complete the square: \\(x^{2}+(y-1)^{2}=1\\), a circle centered at \\((0,1)\\) with radius \\(1\\).",
+          "隐式求导：\\(2x+2(y-1)y'=0\\)，所以 \\(y'=-\\dfrac{x}{y-1}\\)。 · Implicit differentiation: \\(2x+2(y-1)y'=0\\), so \\(y'=-\\dfrac{x}{y-1}\\).",
+          "在 \\(\\theta=\\dfrac{\\pi}{6}\\)：\\(r=1\\)，\\(x=\\dfrac{\\sqrt3}{2}\\)，\\(y=\\dfrac{1}{2}\\)，所以 \\(y'=\\dfrac{\\sqrt3}{1}=\\sqrt3\\)。 · At \\(\\theta=\\dfrac{\\pi}{6}\\): \\(r=1\\), \\(x=\\dfrac{\\sqrt3}{2}\\), \\(y=\\dfrac{1}{2}\\), so \\(y'=\\dfrac{\\sqrt3}{1}=\\sqrt3\\)."
+        ],
+        "solution": "\\(x^{2}+(y-1)^{2}=1\\)，切线斜率为 \\(\\sqrt3\\)。 · \\(x^{2}+(y-1)^{2}=1\\), and the tangent slope is \\(\\sqrt3\\).",
+        "solutionLatex": "y'=\\sqrt3"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「极坐标导数」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「极坐标导数」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 水平切线与凹凸性 · Example 4: Horizontal Tangent and Concavity",
+        "prompt": "证明 \\(r=1+\\cos\\theta\\) 在 \\(\\theta=\\dfrac{\\pi}{3}\\) 处有水平切线，并判断该点附近的凹凸性。 · Show that \\(r=1+\\cos\\theta\\) has a horizontal tangent at \\(\\theta=\\dfrac{\\pi}{3}\\), and determine the concavity near that point.",
+        "steps": [
+          "\\(f=1+\\cos\\theta\\)，\\(f'=-\\sin\\theta\\)，\\(f''=-\\cos\\theta\\)；在 \\(\\theta=\\dfrac{\\pi}{3}\\)：\\(f=\\dfrac{3}{2}\\)，\\(f'=-\\dfrac{\\sqrt3}{2}\\)，\\(f''=-\\dfrac{1}{2}\\)。 · \\(f=1+\\cos\\theta\\), \\(f'=-\\sin\\theta\\), and \\(f''=-\\cos\\theta\\); at \\(\\theta=\\dfrac{\\pi}{3}\\): \\(f=\\dfrac{3}{2}\\), \\(f'=-\\dfrac{\\sqrt3}{2}\\), and \\(f''=-\\dfrac{1}{2}\\).",
+          "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'\\sin\\theta+f\\cos\\theta=\\left(-\\dfrac{\\sqrt3}{2}\\right)\\left(\\dfrac{\\sqrt3}{2}\\right)+\\dfrac{3}{2}\\cdot\\dfrac{1}{2}=-\\dfrac{3}{4}+\\dfrac{3}{4}=0\\)。 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'\\sin\\theta+f\\cos\\theta=\\left(-\\dfrac{\\sqrt3}{2}\\right)\\left(\\dfrac{\\sqrt3}{2}\\right)+\\dfrac{3}{2}\\cdot\\dfrac{1}{2}=-\\dfrac{3}{4}+\\dfrac{3}{4}=0\\).",
+          "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'\\cos\\theta-f\\sin\\theta=\\left(-\\dfrac{\\sqrt3}{2}\\right)\\dfrac{1}{2}-\\dfrac{3}{2}\\cdot\\dfrac{\\sqrt3}{2}=-\\dfrac{\\sqrt3}{4}-\\dfrac{3\\sqrt3}{4}=-\\sqrt3\\neq0\\)，所以切线水平。 · \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'\\cos\\theta-f\\sin\\theta=\\left(-\\dfrac{\\sqrt3}{2}\\right)\\dfrac{1}{2}-\\dfrac{3}{2}\\cdot\\dfrac{\\sqrt3}{2}=-\\dfrac{\\sqrt3}{4}-\\dfrac{3\\sqrt3}{4}=-\\sqrt3\\neq0\\), so the tangent is horizontal.",
+          "记 \\(N=\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)、\\(D=\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)，则斜率为 \\(\\dfrac{N}{D}\\)。对斜率求 \\(\\theta\\) 的导数：\\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=-\\dfrac{\\sqrt3}{4}-\\dfrac{\\sqrt3}{2}-\\dfrac{3\\sqrt3}{4}=-\\dfrac{3\\sqrt3}{2}\\)，\\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=-\\dfrac{1}{4}+\\dfrac{3}{2}-\\dfrac{3}{4}=\\dfrac{1}{2}\\)。 · Let \\(N=\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) and \\(D=\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\), so the slope is \\(\\dfrac{N}{D}\\). Differentiate the slope with respect to \\(\\theta\\): \\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=-\\dfrac{\\sqrt3}{4}-\\dfrac{\\sqrt3}{2}-\\dfrac{3\\sqrt3}{4}=-\\dfrac{3\\sqrt3}{2}\\) and \\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=-\\dfrac{1}{4}+\\dfrac{3}{2}-\\dfrac{3}{4}=\\dfrac{1}{2}\\).",
+          "此时 \\(N=0\\)，故 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{N'}{D}=\\dfrac{-\\dfrac{3\\sqrt3}{2}}{-\\sqrt3}=\\dfrac{3}{2}\\)。 · Here \\(N=0\\), so \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{N'}{D}=\\dfrac{-\\dfrac{3\\sqrt3}{2}}{-\\sqrt3}=\\dfrac{3}{2}\\).",
+          "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{3}{2}}{-\\sqrt3}=-\\dfrac{\\sqrt3}{2}<0\\)，所以曲线在该点凹向下。 · \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{3}{2}}{-\\sqrt3}=-\\dfrac{\\sqrt3}{2}<0\\), so the curve is concave down at that point."
+        ],
+        "solution": "因为 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=-\\sqrt3\\neq0\\)，切线水平；又 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-\\dfrac{\\sqrt3}{2}<0\\)，曲线凹向下。 · Because \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=-\\sqrt3\\neq0\\), the tangent is horizontal; also \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-\\dfrac{\\sqrt3}{2}<0\\), so the curve is concave down.",
+        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0,\\qquad \\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=-\\dfrac{\\sqrt3}{2}"
+      },
+      {
+        "title": "例 5 · 对数螺线的二阶导数 · Example 5: Second Derivative of a Logarithmic Spiral",
+        "prompt": "对 \\(r=e^{\\theta}\\)，求 \\(\\theta=0\\) 处的 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 与 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)。 · For \\(r=e^{\\theta}\\), find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) and \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) at \\(\\theta=0\\).",
+        "steps": [
+          "\\(f=f'=f''=e^{\\theta}\\)；在 \\(\\theta=0\\)：\\(f=f'=f''=1\\)。 · \\(f=f'=f''=e^{\\theta}\\); at \\(\\theta=0\\): \\(f=f'=f''=1\\).",
+          "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'\\cos\\theta-f\\sin\\theta=1\\cdot1-1\\cdot0=1\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'\\sin\\theta+f\\cos\\theta=1\\cdot0+1\\cdot1=1\\)，所以 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1\\)。 · \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'\\cos\\theta-f\\sin\\theta=1\\cdot1-1\\cdot0=1\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'\\sin\\theta+f\\cos\\theta=1\\cdot0+1\\cdot1=1\\), so \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1\\).",
+          "\\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=0+2-0=2\\)，\\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=1-0-1=0\\)。 · \\(N'=f''\\sin\\theta+2f'\\cos\\theta-f\\sin\\theta=0+2-0=2\\) and \\(D'=f''\\cos\\theta-2f'\\sin\\theta-f\\cos\\theta=1-0-1=0\\).",
+          "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{2\\cdot1-1\\cdot0}{1}=2\\)。 · \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)=\\dfrac{N'D-ND'}{D^{2}}=\\dfrac{2\\cdot1-1\\cdot0}{1}=2\\).",
+          "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{2}{1}=2>0\\)，所以曲线在 \\(\\theta=0\\) 处凹向上。 · \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{2}{1}=2>0\\), so the curve is concave up at \\(\\theta=0\\)."
+        ],
+        "solution": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1\\)，\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=2\\)，曲线凹向上。 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1\\), \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=2\\), and the curve is concave up.",
+        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=1,\\qquad \\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=2"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "CED Unit 9（BC）：极坐标导数常与切线、水平/竖直切线、凹凸性一起考。 · CED Unit 9 (BC): polar derivatives often appear with tangent lines, horizontal and vertical tangents, and concavity.",
+      "先写 \\(x(\\theta)\\)、\\(y(\\theta)\\)，再用参数方程求导，避免公式记错。 · Write \\(x(\\theta)\\) and \\(y(\\theta)\\), then differentiate parametrically to avoid misremembering the formula.",
+      "水平切线看分子 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)，竖直切线看分母 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)，并分别检查另一个不为零。 · Horizontal tangents use the numerator \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\); vertical tangents use the denominator \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\); check that the other one is nonzero.",
+      "求 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 时，先对 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 关于 \\(\\theta\\) 求导，再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)；不要漏掉最后一步。 · For \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\), differentiate \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) with respect to \\(\\theta\\), then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\); do not omit the final division.",
+      "用 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 的符号写凹凸性，并用圆或已知图形检查结果是否合理。 · Use the sign of \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) to state concavity, and check the result against a circle or a known graph.",
+      "极点处不要直接代入斜率公式，先看极限或转成直角坐标。 · At the pole, do not substitute directly into the slope formula; use a limit or convert to rectangular coordinates."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u9",
-        "code": "9.6",
-        "title": "向量运动解题",
-        "relation": "prerequisite"
+        "code": "9.1",
+        "title": "参数运动导数 · Defining and Differentiating Parametric Equations",
+        "relation": "先修 · Prerequisite"
       },
       {
         "subject": "math",
         "chapterId": "calc-u9",
         "code": "9.8",
-        "title": "极坐标面积",
-        "relation": "related"
+        "title": "极坐标面积 · Find the Area of a Polar Region or the Area Bounded by a Single Polar Curve",
+        "relation": "后续 · Follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u9",
+        "code": "9.9",
+        "title": "两极曲线间面积 · Finding the Area of the Region Bounded by Two Polar Curves",
+        "relation": "后续 · Follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u3",
+        "code": "3.2",
+        "title": "隐函数求导 · Implicit Differentiation",
+        "relation": "工具 · Tool"
       }
     ],
     "modules": [
       {
         "id": "polar-parametric",
-        "title": "极坐标与参数曲线"
+        "title": "极坐标与参数曲线 · Polar and Parametric Curves"
       }
     ],
     "practiceHref": "#/math/practice/calc-u9",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：参数方程求导（9.1）与链式法则提供 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 和二阶导数的计算框架。 · Upstream: parametric differentiation (9.1) and the chain rule provide the framework for \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) and the second derivative.",
+      "下游：极坐标面积（9.8、9.9）需要先确定曲线走向、切线与角度范围，才能正确设置积分。 · Downstream: polar area (9.8 and 9.9) requires knowing the curve's direction, tangents, and angle range before setting up the integral.",
+      "跨学科：极坐标描述行星轨道、雷达扫描与螺旋结构；一阶导数对应运动方向，二阶导数对应弯曲程度。 · Cross-disciplinary: polar coordinates describe planetary orbits, radar sweeps, and spiral structures; the first derivative gives the direction of motion and the second derivative gives the degree of bending."
     ],
-    "intuitionDetailed": "把「极坐标导数」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "从 \\(x=f(\\theta)\\cos\\theta\\)、\\(y=f(\\theta)\\sin\\theta\\) 出发，对 \\(\\theta\\) 求导：\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta\\)，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta\\)。两者相除就是 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)。若分子为零而分母不为零，切线水平；若分母为零而分子不为零，切线竖直。要求二阶导数时，把 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 看作 \\(\\theta\\) 的函数，先对 \\(\\theta\\) 求导，再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)，因为 \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\cdot\\dfrac{\\mathrm{d}\\theta}{\\mathrm{d}x}\\)。二阶导数的符号告诉你曲线向哪边弯；若两个一阶导数同时为零，曲线可能在极点或出现尖点，需要看极限。 · Starting from \\(x=f(\\theta)\\cos\\theta\\) and \\(y=f(\\theta)\\sin\\theta\\), differentiate with respect to \\(\\theta\\): \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta\\). Their quotient is \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\). If the numerator is zero and the denominator is not, the tangent is horizontal; if the denominator is zero and the numerator is not, the tangent is vertical. For the second derivative, treat \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) as a function of \\(\\theta\\), differentiate it with respect to \\(\\theta\\), then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\), because \\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\cdot\\dfrac{\\mathrm{d}\\theta}{\\mathrm{d}x}\\). The sign of the second derivative tells which way the curve bends; if both first derivatives vanish, the curve may pass through the pole or have a cusp, and a limit is needed.",
     "development": [
-      "回顾先修：确认符号、单位与「极坐标导数」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "极坐标与直角坐标 · Polar and rectangular coordinates",
+      "非唯一表示与负半径 · Nonunique representation and negative radii",
+      "参数化与对 \\(\\theta\\) 求导 · Parametrization and differentiation with respect to \\(\\theta\\)",
+      "一阶导数与切线斜率 · First derivative and tangent slope",
+      "水平与竖直切线 · Horizontal and vertical tangents",
+      "二阶导数与凹凸性 · Second derivative and concavity",
+      "极点处的切线 · Tangents at the pole"
     ],
     "checks": [
-      "不看书能否复述「极坐标导数」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "为什么 \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) 不是切线斜率？ · Why is \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) not the tangent slope?",
+      "如何由 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) 与 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) 判断水平切线和竖直切线？ · How do \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) determine horizontal and vertical tangents?",
+      "求 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 时为什么要再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)？ · Why must you divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) when finding \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\)?",
+      "二阶导数的符号如何告诉你曲线的凹凸性？ · How does the sign of the second derivative tell you the concavity?",
+      "极点处两个一阶导数都为零时如何处理？ · What should be done when both first derivatives vanish at the pole?"
     ],
     "vocabulary": [
       {
         "termZh": "极坐标",
         "termEn": "polar coordinates",
-        "defZh": "用点到极点的距离 \\(r\\) 与相对极轴的角 \\(\\theta\\) 表示点的位置。",
-        "defEn": "Coordinates \\((r,\\theta)\\) giving a point's distance from the pole and its angle from the polar axis."
+        "defZh": "用点到极点的有向距离 \\(r\\) 与相对极轴的角 \\(\\theta\\) 表示点的位置。",
+        "defEn": "Coordinates \\((r,\\theta)\\) giving a point's directed distance from the pole and its angle from the polar axis."
       },
       {
         "termZh": "极点",
         "termEn": "pole",
-        "defZh": "极坐标中的原点。",
-        "defEn": "The origin in polar coordinates."
+        "defZh": "极坐标中的原点，即 \\(r=0\\) 的点。",
+        "defEn": "The origin in polar coordinates, the point where \\(r=0\\)."
       },
       {
         "termZh": "极轴",
         "termEn": "polar axis",
-        "defZh": "极坐标中 \\(\\theta=0\\) 的参考射线。",
-        "defEn": "The reference ray where \\(\\theta=0\\)."
+        "defZh": "极坐标中 \\(\\theta=0\\) 的参考射线，通常取正 \\(x\\) 轴。",
+        "defEn": "The reference ray where \\(\\theta=0\\), usually the positive \\(x\\)-axis."
       },
       {
-        "termZh": "极坐标导数",
-        "termEn": "polar derivative",
-        "defZh": "\\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\)。",
-        "defEn": "The slope \\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\)."
+        "termZh": "极坐标一阶导数",
+        "termEn": "first derivative in polar form",
+        "defZh": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\)，给出切线斜率。",
+        "defEn": "The tangent slope \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{f'(\\theta)\\sin\\theta+f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta-f(\\theta)\\sin\\theta}\\)."
       },
       {
-        "termZh": "对称性",
-        "termEn": "symmetry",
-        "defZh": "利用曲线关于极轴、竖直轴或极点的对称性简化作图。",
-        "defEn": "Using symmetry about the polar axis, the vertical axis, or the pole to simplify graphing."
+        "termZh": "极坐标二阶导数",
+        "termEn": "second derivative in polar form",
+        "defZh": "\\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\)，描述斜率随 \\(x\\) 的变化率。",
+        "defEn": "The quantity \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}\\theta}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\), the rate at which the slope changes with \\(x\\)."
       },
       {
-        "termZh": "玫瑰线",
-        "termEn": "rose curve",
-        "defZh": "由 \\(r=a\\cos(n\\theta)\\) 或 \\(r=a\\sin(n\\theta)\\) 形成的花瓣状曲线。",
-        "defEn": "A petal-shaped curve given by \\(r=a\\cos(n\\theta)\\) or \\(r=a\\sin(n\\theta)\\)."
+        "termZh": "水平切线",
+        "termEn": "horizontal tangent",
+        "defZh": "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\) 的点处切线水平。",
+        "defEn": "The tangent is horizontal at a point where \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)."
+      },
+      {
+        "termZh": "竖直切线",
+        "termEn": "vertical tangent",
+        "defZh": "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\) 的点处切线竖直。",
+        "defEn": "The tangent is vertical at a point where \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\)."
+      },
+      {
+        "termZh": "凹性",
+        "termEn": "concavity",
+        "defZh": "由 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) 的符号判断：正为凹向上，负为凹向下。",
+        "defEn": "Determined by the sign of \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\): positive is concave up, negative is concave down."
       }
     ]
   },
