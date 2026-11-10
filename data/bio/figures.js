@@ -36,7 +36,7 @@ idef('enz-temp', 'Enzyme activity vs temperature', '', (v) => {
   { key: 'Tt', label: '嗜热菌 Tm', min: 65, max: 95, step: 1, value: 85, unit: '°C' },
 ], (v) => {
   const h = enzT(v.Tm), t = enzT(v.Tt), [ph] = peakOf(h, 0, 100), [tp] = peakOf(t, 0, 100);
-  return `Rate = Arrhenius factor \\(e^{-E_a/RT}\\) (\\(E_a=50\\) kJ/mol) × fraction folded (two-state unfolding). Human enzyme (\\(T_m=${fmt(v.Tm, 0)}\\)°C) peaks near ${fmt(ph, 0)}°C; thermophile enzyme (\\(T_m=${fmt(v.Tt, 0)}\\)°C) near ${fmt(tp, 0)}°C. Above the optimum, denaturation causes the steep drop.`;
+  return `Rate = Arrhenius factor \\(e^{-\\frac{E_a}{RT}}\\) (\\(E_a=50\\) kJ/mol) × fraction folded (two-state unfolding). Human enzyme (\\(T_m=${fmt(v.Tm, 0)}\\)°C) peaks near ${fmt(ph, 0)}°C; thermophile enzyme (\\(T_m=${fmt(v.Tt, 0)}\\)°C) near ${fmt(tp, 0)}°C. Above the optimum, denaturation causes the steep drop.`;
 });
 idef('enz-ph', 'Enzyme activity vs pH', '', (v) =>
   plot({ x: [0, 14], y: [0, 1.15], ystep: 0.2, xstep: 1, xlabel: 'pH', ylabel: 'relative rate', curves: [{ f: (x) => gauss(x, 2, 0.9), color: C.e, label: 'pepsin', labelAt: [2.3, 1.05] }, { f: (x) => gauss(x, v.pH, v.w), color: C.a, label: 'amylase', labelAt: [Math.max(0.6, v.pH - 1.8), 1.05] }, { f: (x) => gauss(x, 8, 1.0), color: C.c, label: 'trypsin', labelAt: [8.3, 1.05] }] }), [
