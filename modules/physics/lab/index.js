@@ -67,6 +67,7 @@ import {
   liftAngularBlock,
   linkReading,
   loopPoint,
+  migrateScene,
   orbitArealVelocity,
   orbitEscapeSpeed,
   orbitKeplerPeriod,
@@ -128,6 +129,21 @@ import {
   takeUndo,
   truncateSceneHistory,
 } from './history.mjs';
+import {
+  SLOT_COUNT,
+  deleteSlot,
+  emptySlotStore,
+  readSlotStore,
+  saveSlot,
+  writeSlotStore,
+} from './scene-store.mjs';
+import {
+  SHARE_MAX_PAYLOAD,
+  decodeShareScene,
+  encodeShareScene,
+  shareHash,
+  sharePayloadFromHash,
+} from './scene-share.mjs';
 import {
   addCapacitor,
   addChargedSphere,
@@ -689,6 +705,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const exportBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '导出 JSON · Export', 'data-action': 'export' });
   const importBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '导入 JSON · Import', 'data-action': 'import' });
   const importInput = el('input', { type: 'file', accept: '.json,application/json', hidden: true, 'data-field': 'import' });
+  const shareBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '分享链接 · Share link', 'data-action': 'share' });
+  const copyJsonBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '复制 JSON · Copy JSON', 'data-action': 'copy-json' });
 
   const environment = el('section', { className: 'plab-subpanel' });
   environment.appendChild(el('h3', { className: 'plab-group-title', text: '环境 · Environment' }));
@@ -881,6 +899,31 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const sceneRow = el('div', { className: 'plab-tool-row' });
   sceneRow.append(saveBtn, loadBtn, exportBtn, importBtn, importInput);
   sceneSection.appendChild(sceneRow);
+  const shareRow = el('div', { className: 'plab-tool-row' });
+  shareRow.append(shareBtn, copyJsonBtn);
+  sceneSection.appendChild(shareRow);
+  sceneSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '分享链接写入地址栏；链接过长时请改用导出或复制 JSON。 · Share writes the scene into the address bar; when the link is too long use export or copy JSON instead.',
+  }));
+  const slotSection = el('div', { className: 'plab-slot-section' });
+  slotSection.appendChild(el('h4', { className: 'plab-section-title', text: '场景槽位 · Scene slots' }));
+  slotSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '八个本机槽位；保存会覆盖同名槽位。 · Eight local slots; saving overwrites the same slot.',
+  }));
+  const slotNameInput = el('input', {
+    type: 'text',
+    className: 'plab-slot-name hit-target',
+    maxlength: '80',
+    placeholder: '槽位名称（可选）· Slot name (optional)',
+    'aria-label': '槽位名称 · Slot name',
+    'data-field': 'slotName',
+  });
+  slotSection.appendChild(slotNameInput);
+  const slotList = el('div', { className: 'plab-slot-list', 'data-slot-list': 'on' });
+  slotSection.appendChild(slotList);
+  sceneSection.appendChild(slotSection);
   const editRow = el('div', { className: 'plab-tool-row' });
   editRow.append(dupBtn, snapSelBtn, detachBtn);
   sceneSection.appendChild(editRow);
@@ -2191,47 +2234,55 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   /* ------------------------ scene save/load ---------------------- */
 
   const SCENE_KEY = 'plab-scene-v1';
+  let slotStore = emptySlotStore();
+
+  function sceneStorage() {
+    try { return window.localStorage; } catch (_) { return null; }
+  }
 
   function loadSceneData(data, { quiet = false } = {}) {
+    const migrated = migrateScene(data);
+    if (!migrated) {
+      if (!quiet) setStatus('场景数据无效。 · This scene payload is not valid.', true);
+      return false;
+    }
     pushUndo();
     running = false;
+    pendingLink = null;
+    pendingSensorTarget = null;
     selected = null;
     view.setSelection(null);
-    deserializeScene(world, data);
-    captureInitial(world);
-    layoutReset();
-    view.sync(world);
-    buildInspector();
-    renderOutliner();
-    updateEmpty();
-    updateTransport();
-    updateLive();
-    clearHistory();
-    resetGraphs();
-    view.clearTrail();
+    applySceneState(migrated, { selection: null });
     view.clearRuler();
     if (!quiet) setStatus('场景已读取。 · Scene loaded.');
+    return true;
   }
 
   function saveScene() {
+    const storage = sceneStorage();
+    if (!storage) {
+      setStatus('保存失败：浏览器存储不可用。 · Save failed: browser storage unavailable.', true);
+      return;
+    }
     try {
-      localStorage.setItem(SCENE_KEY, JSON.stringify(serializeScene(world)));
+      storage.setItem(SCENE_KEY, JSON.stringify(serializeScene(world)));
       setStatus('已保存到本机。 · Saved to this browser.');
     } catch (err) {
-      setStatus('保存失败：浏览器存储不可用。 · Save failed: browser storage unavailable.', true);
+      setStatus('保存失败：浏览器存储已满或不可用。 · Save failed: browser storage is full or unavailable.', true);
     }
   }
 
   function loadSavedScene() {
+    const storage = sceneStorage();
     let raw = null;
-    try { raw = localStorage.getItem(SCENE_KEY); } catch (_) { raw = null; }
+    try { raw = storage ? storage.getItem(SCENE_KEY) : null; } catch (_) { raw = null; }
     if (!raw) {
       setStatus('本机没有保存的场景。 · No saved scene in this browser.', true);
       return;
     }
-    try {
-      loadSceneData(JSON.parse(raw));
-    } catch (err) {
+    let data = null;
+    try { data = JSON.parse(raw); } catch (_) { data = null; }
+    if (!loadSceneData(data)) {
       setStatus('保存的场景无法解析。 · The saved scene could not be parsed.', true);
     }
   }
@@ -2253,14 +2304,188 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      try {
-        loadSceneData(JSON.parse(String(reader.result)));
-        setStatus(`已导入 ${file.name}。 · Imported ${file.name}.`);
-      } catch (err) {
+      let data = null;
+      try { data = JSON.parse(String(reader.result)); } catch (_) { data = null; }
+      if (!loadSceneData(data)) {
         setStatus('导入失败：JSON 无效。 · Import failed: invalid JSON.', true);
+        return;
       }
+      setStatus(`已导入 ${file.name}。 · Imported ${file.name}.`);
     };
     reader.readAsText(file);
+  }
+
+  function copyTextWithStatus(text, okMessage, failMessage) {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => setStatus(okMessage),
+        () => setStatus(failMessage, true),
+      );
+      return;
+    }
+    const area = el('textarea', { className: 'plab-copy-fallback' });
+    area.value = text;
+    document.body.appendChild(area);
+    area.select();
+    try {
+      document.execCommand('copy');
+      setStatus(okMessage);
+    } catch (_) {
+      setStatus(failMessage, true);
+    }
+    area.remove();
+  }
+
+  function copySceneJson() {
+    copyTextWithStatus(
+      JSON.stringify(serializeScene(world), null, 2),
+      '场景 JSON 已复制。 · Scene JSON copied.',
+      '复制失败；请使用导出 JSON。 · Copy failed; use Export JSON instead.',
+    );
+  }
+
+  function clearShareHash() {
+    try {
+      if (/[?&]scene=/.test(location.hash) || /\/physics\/lab\/scene\//.test(location.hash)) {
+        window.history.replaceState(null, '', '#/physics/lab/');
+      }
+    } catch (_) {
+      // A failed replace only leaves the old URL; the scene itself is intact.
+    }
+  }
+
+  async function shareCurrentScene() {
+    const payload = await encodeShareScene(serializeScene(world));
+    if (!payload || payload.length > SHARE_MAX_PAYLOAD) {
+      clearShareHash();
+      setStatus(
+        `场景太大，分享链接会超过 ${SHARE_MAX_PAYLOAD} 字符；请用导出 JSON 或复制 JSON。 · Scene too large for a reliable share link; use Export JSON or Copy JSON.`,
+        true,
+      );
+      return;
+    }
+    const hash = shareHash(payload);
+    try {
+      window.history.replaceState(null, '', hash);
+    } catch (_) {
+      setStatus('无法写入分享链接；请用导出 JSON。 · Could not write the share link; use Export JSON.', true);
+      return;
+    }
+    const url = `${location.origin}${location.pathname}${hash}`;
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setStatus('分享链接已写入地址栏并复制。 · Share link written to the address bar and copied.');
+        return;
+      } catch (_) {
+        // Fall through to the address-bar-only message.
+      }
+    }
+    setStatus('分享链接已写入地址栏。 · Share link written to the address bar.');
+  }
+
+  function slotTimestamp(value) {
+    if (!value) return '空 · Empty';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '空 · Empty';
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  }
+
+  function persistSlots(next) {
+    const storage = sceneStorage();
+    if (!storage) {
+      setStatus('保存失败：浏览器存储不可用。 · Save failed: browser storage unavailable.', true);
+      return false;
+    }
+    const result = writeSlotStore(storage, next);
+    if (!result.ok) {
+      setStatus(
+        result.error === 'quota'
+          ? '保存失败：浏览器存储已满，请删除旧槽位后重试。 · Save failed: storage is full; delete an old slot and retry.'
+          : '保存失败：浏览器存储不可用。 · Save failed: browser storage unavailable.',
+        true,
+      );
+      return false;
+    }
+    slotStore = next;
+    return true;
+  }
+
+  function saveToSlot(index) {
+    const scene = serializeScene(world);
+    const current = slotStore.slots[index];
+    const typedName = slotNameInput.value.trim();
+    const next = saveSlot(slotStore, index, {
+      name: typedName || current?.name || '',
+      scene,
+      mode: world.em.mode,
+      now: Date.now(),
+    });
+    if (!persistSlots(next)) return;
+    slotNameInput.value = '';
+    renderSceneSlots();
+    clearShareHash();
+    setStatus(`已保存到槽位 ${index + 1}。 · Saved to slot ${index + 1}.`);
+  }
+
+  function loadFromSlot(index) {
+    const slot = slotStore.slots[index];
+    if (!slot?.scene) return;
+    if (!loadSceneData(slot.scene)) return;
+    setStatus(`已读取槽位 ${index + 1}。 · Loaded slot ${index + 1}.`);
+  }
+
+  function deleteSlotAt(index) {
+    const next = deleteSlot(slotStore, index);
+    if (!persistSlots(next)) return;
+    renderSceneSlots();
+    setStatus(`已删除槽位 ${index + 1}。 · Slot ${index + 1} deleted.`);
+  }
+
+  function renderSceneSlots() {
+    clear(slotList);
+    for (let i = 0; i < SLOT_COUNT; i += 1) {
+      const slot = slotStore.slots[i] || emptySlotForRender(i);
+      const filled = !!slot.scene;
+      const row = el('div', { className: 'plab-slot-row', 'data-slot-index': String(i + 1) });
+      const meta = el('div', { className: 'plab-slot-meta' });
+      meta.appendChild(el('strong', { text: slot.name || `场景 ${i + 1} · Scene ${i + 1}` }));
+      meta.appendChild(el('span', {
+        text: `${slotTimestamp(slot.savedAt)} · ${slot.mode === 'em' ? '电磁 · E&M' : '力学 · Mechanics'} · 槽位 ${i + 1} · Slot ${i + 1}`,
+      }));
+      const actions = el('div', { className: 'plab-slot-actions' });
+      const save = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: filled ? '覆盖 · Overwrite' : '保存 · Save',
+        'data-slot-save': String(i + 1),
+      });
+      save.addEventListener('click', () => saveToSlot(i));
+      const load = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '读取 · Load',
+        disabled: !filled,
+        'data-slot-load': String(i + 1),
+      });
+      load.addEventListener('click', () => loadFromSlot(i));
+      const del = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '删除 · Delete',
+        disabled: !filled,
+        'data-slot-delete': String(i + 1),
+      });
+      del.addEventListener('click', () => deleteSlotAt(i));
+      actions.append(save, load, del);
+      row.append(meta, actions);
+      slotList.appendChild(row);
+    }
+  }
+
+  function emptySlotForRender(index) {
+    return { name: `场景 ${index + 1} · Scene ${index + 1}`, savedAt: 0, mode: 'mechanics', scene: null };
   }
 
   function layoutReset() {
@@ -3737,6 +3962,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   saveBtn.addEventListener('click', saveScene);
   loadBtn.addEventListener('click', loadSavedScene);
   exportBtn.addEventListener('click', exportScene);
+  shareBtn.addEventListener('click', () => { shareCurrentScene(); });
+  copyJsonBtn.addEventListener('click', copySceneJson);
   importBtn.addEventListener('click', () => importInput.click());
   importInput.addEventListener('change', () => {
     importSceneFile(importInput.files?.[0]);
@@ -6681,6 +6908,25 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   syncEMSettingsUI();
   setMode(world.em.mode || 'mechanics', { announce: false });
   updateLive();
+  const initialStorage = sceneStorage();
+  if (initialStorage) slotStore = readSlotStore(initialStorage);
+  renderSceneSlots();
+
+  async function applySharedSceneFromHash() {
+    const payload = sharePayloadFromHash(location.hash);
+    if (!payload) return;
+    const data = await decodeShareScene(payload);
+    if (!data) {
+      setStatus('分享链接中的场景无法读取；请让对方重新分享或导出 JSON。 · This share link could not be read; ask for a fresh link or JSON export.', true);
+      return;
+    }
+    if (!loadSceneData(data, { quiet: true })) {
+      setStatus('分享链接中的场景无效。 · The shared scene payload is invalid.', true);
+      return;
+    }
+    setStatus('已从分享链接载入场景。 · Scene loaded from the share link.');
+  }
+  applySharedSceneFromHash();
 
   // Small read-only QA hook: no student-facing controls depend on it.
   window.__PLAB__ = {
@@ -6695,6 +6941,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     get frameBodyId() { return frameBodyId; },
     get undoDepth() { return sceneHistory.undo.length; },
     get redoDepth() { return sceneHistory.redo.length; },
+    get slots() {
+      return slotStore.slots.map((slot) => ({
+        name: slot.name,
+        savedAt: slot.savedAt,
+        mode: slot.mode,
+        filled: !!slot.scene,
+      }));
+    },
     setMode: (next) => setMode(next),
     addEM: (kind) => addEMApparatus(kind),
   };

@@ -54,6 +54,7 @@ import {
   energyBreakdown,
   leastSquaresSlope,
   mountApparatus,
+  migrateScene,
   orbitArealVelocity,
   orbitEscapeSpeed,
   orbitKeplerPeriod,
@@ -65,6 +66,7 @@ import {
   removeBody,
   resetWorld,
   rodInertia,
+  SCENE_VERSION,
   serializeScene,
   setBodyCollisionRestitution,
   setBodyPosition,
@@ -94,14 +96,45 @@ import {
   takeRedo,
   takeUndo,
 } from '../modules/physics/lab/history.mjs';
+import {
+  SLOT_COUNT,
+  SLOT_KEY,
+  LEGACY_KEY,
+  deleteSlot,
+  parseSlotStore,
+  readSlotStore,
+  saveSlot,
+  writeSlotStore,
+} from '../modules/physics/lab/scene-store.mjs';
+import {
+  decodeShareScene,
+  encodeShareScene,
+  shareHash,
+  sharePayloadFromHash,
+} from '../modules/physics/lab/scene-share.mjs';
 
 let passed = 0;
 let failed = 0;
 const results = [];
 
+const pendingChecks = [];
+
 function check(name, fn) {
   try {
-    fn();
+    const result = fn();
+    if (result && typeof result.then === 'function') {
+      pendingChecks.push(result.then(
+        () => {
+          passed += 1;
+          results.push(`PASS  ${name}`);
+        },
+        (err) => {
+          failed += 1;
+          results.push(`FAIL  ${name}\n      ${err.message}`);
+        },
+      ));
+      return;
+    }
     passed += 1;
     results.push(`PASS  ${name}`);
   } catch (err) {
@@ -921,6 +954,92 @@ check('scene history: coalesced slider edits and selection restore', () => {
   if (history.redo.length !== 2) throw new Error('redo entries not recorded');
 });
 
+check('scene migration accepts v1 and pre-version payloads and rejects garbage', () => {
+  const world = createWorld({ g: 9.8 });
+  addBlock(world, { mass: 2, x: 0, y: 3, z: 0 });
+  const current = serializeScene(world);
+  if (current.version !== SCENE_VERSION || current.version !== 2) throw new Error('serialized scene is not v2');
+  if (!('restitution' in current)) throw new Error('restitution missing from v2 payload');
+
+  const v1 = { ...current, version: 1 };
+  delete v1.restitution;
+  const migratedV1 = migrateScene(v1);
+  if (migratedV1?.version !== SCENE_VERSION || migratedV1.restitution !== 0) throw new Error('v1 payload not migrated');
+  const legacy = { ...current };
+  delete legacy.version;
+  delete legacy.restitution;
+  const migratedLegacy = migrateScene(legacy);
+  if (migratedLegacy?.version !== SCENE_VERSION) throw new Error('pre-version payload not migrated');
+  const target = createWorld({ g: 9.8 });
+  if (!deserializeScene(target, migratedLegacy) || target.bodies.length !== 1) throw new Error('migrated legacy scene did not load');
+
+  for (const garbage of [null, undefined, 3, 'scene', [], {}, { version: 99 }, { version: 2, bodies: 'nope' }]) {
+    if (migrateScene(garbage) !== null) throw new Error(`garbage was accepted: ${JSON.stringify(garbage)}`);
+  }
+  const target2 = createWorld({ g: 9.8 });
+  if (deserializeScene(target2, { version: 2, bodies: 'nope' })) throw new Error('deserializeScene accepted garbage');
+  console.log(`      v1/pre-version -> v${SCENE_VERSION}; 8 garbage shapes rejected`);
+});
+
+check('scene slots migrate the legacy single save and survive overwrite/delete', () => {
+  const world = createWorld({ g: 9.8 });
+  addBlock(world, { mass: 3, x: 0, y: 4, z: 0 });
+  const scene = serializeScene(world);
+  const memory = new Map([[LEGACY_KEY, JSON.stringify(scene)]]);
+  const storage = {
+    getItem: (key) => (memory.has(key) ? memory.get(key) : null),
+    setItem: (key, value) => { memory.set(key, String(value)); },
+    removeItem: (key) => { memory.delete(key); },
+  };
+  let store = readSlotStore(storage);
+  if (SLOT_COUNT < 8) throw new Error('slot count below eight');
+  if (!store.slots[0].scene) throw new Error('legacy save was not migrated into slot 1');
+  near(store.slots[0].scene.bodies[0].mass, 3, 1e-12, 'legacy slot mass');
+  if (store.slots[0].mode !== 'mechanics') throw new Error('legacy mode not recorded');
+
+  store = saveSlot(store, 4, { name: '斜面实验 · Incline test', scene, mode: 'mechanics', now: 123456 });
+  store = saveSlot(store, 5, { name: '电磁 · E&M', scene: { ...scene, em: { mode: 'em' } }, mode: 'em', now: 123457 });
+  const write = writeSlotStore(storage, store);
+  if (!write.ok) throw new Error('slot write failed');
+  const reread = parseSlotStore(memory.get(SLOT_KEY));
+  if (!reread.slots[4].scene || reread.slots[4].name !== '斜面实验 · Incline test') throw new Error('slot 5 did not persist');
+  if (reread.slots[5].mode !== 'em') throw new Error('E&M slot mode did not persist');
+  const afterDelete = deleteSlot(reread, 4);
+  if (afterDelete.slots[4].scene || afterDelete.slots[4].name !== '场景 5 · Scene 5') throw new Error('delete did not clear slot 5');
+  console.log(`      ${SLOT_COUNT} slots; legacy -> slot 1; named overwrite/delete round-trip`);
+});
+
+check('slot store reports quota failures without throwing', () => {
+  const store = parseSlotStore(null);
+  const failing = {
+    getItem: () => null,
+    setItem: () => {
+      const err = new Error('quota');
+      err.name = 'QuotaExceededError';
+      throw err;
+    },
+  };
+  const result = writeSlotStore(failing, store);
+  if (result.ok || result.error !== 'quota') throw new Error(`quota not reported: ${JSON.stringify(result)}`);
+});
+
+check('share payload round-trips through the lab hash form', async () => {
+  const world = createWorld({ g: 9.8 });
+  addSurface(world, { angleDeg: 18, muS: 0.4, muK: 0.2, length: 6, x: 0, y: 2 });
+  addBlock(world, { mass: 1.5, x: 0, y: 3, z: 0 });
+  const data = serializeScene(world);
+  const payload = await encodeShareScene(data);
+  if (!payload || payload.includes('+') || payload.includes('/')) throw new Error('payload is not base64url');
+  const hash = shareHash(payload);
+  if (sharePayloadFromHash(hash) !== payload) throw new Error('payload did not parse from the hash');
+  const parts = hash.replace(/^#/, '').split('/').filter(Boolean);
+  if (parts[0] !== 'physics' || parts[1] !== 'lab') throw new Error(`router would not see the lab segment: ${parts.join('/')}`);
+  const restored = await decodeShareScene(payload);
+  if (migrateScene(restored)?.surfaces.length !== 1) throw new Error('shared scene did not decode');
+  if (migrateScene(restored)?.bodies[0].mass !== 1.5) throw new Error('shared scene lost body data');
+  console.log(`      ${JSON.stringify(data).length} JSON chars -> ${payload.length} hash chars; parts=${parts.join('/')}`);
+});
+
 function linearSlope(points, xKey, yKey) {
   const n = points.length;
   const sx = points.reduce((s, p) => s + p[xKey], 0);
@@ -1548,6 +1667,7 @@ check('launcher rigidly mounted on a moving cart adds the cart velocity at fire'
   console.log(`      flat: v=(7,0,0), vertical: v=(2,5,0), live cart x=${carrier.cannon.position.x.toFixed(3)} m -> projectile vx=${composed.cannon.velocity.x.toFixed(3)} m/s`);
 });
 
+if (pendingChecks.length) await Promise.all(pendingChecks);
 console.log(results.join('\n'));
 console.log(`\n${passed} passed, ${failed} failed (mechanics)`);
 

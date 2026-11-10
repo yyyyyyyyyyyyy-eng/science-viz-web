@@ -4590,15 +4590,54 @@ export function linkReading(world, link) {
 /* Scene serialization (undo, save/load, time scrub)                   */
 /* ------------------------------------------------------------------ */
 
+export const SCENE_VERSION = 2;
+
+const SCENE_ARRAY_KEYS = [
+  'surfaces', 'loops', 'turntables', 'hcircles', 'launchers', 'pulleys',
+  'barriers', 'pendulums', 'wedges', 'sensors', 'fans', 'oscillators',
+  'torsionPendulums', 'elevators', 'carriages', 'angularTables', 'rods',
+  'orbits', 'tunnels', 'bodies', 'links',
+];
+
 function sceneVec(v) {
   return [v.x, v.y, v.z];
 }
 
+/**
+ * Accept v1 (and pre-version) scene payloads and normalise them to the
+ * current schema. Returns null for anything that is not a scene.
+ */
+export function migrateScene(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+  const version = data.version == null ? 1 : Number(data.version);
+  if (!Number.isFinite(version) || version < 0 || version > SCENE_VERSION) return null;
+  const hasSceneShape = SCENE_ARRAY_KEYS.some((key) => Array.isArray(data[key]))
+    || (data.em && typeof data.em === 'object' && !Array.isArray(data.em))
+    || Number.isFinite(data.g)
+    || Number.isFinite(data.h);
+  if (!hasSceneShape) return null;
+  const out = { ...data, version: SCENE_VERSION };
+  for (const key of SCENE_ARRAY_KEYS) {
+    if (!Array.isArray(out[key])) out[key] = [];
+  }
+  out.g = Number.isFinite(data.g) ? data.g : 9.8;
+  out.h = Number.isFinite(data.h) && data.h > 0 ? data.h : DEFAULT_H;
+  out.restitution = Number.isFinite(data.restitution)
+    ? Math.max(0, Math.min(1, data.restitution))
+    : 0;
+  out.em = data.em && typeof data.em === 'object' && !Array.isArray(data.em)
+    ? { ...data.em }
+    : { mode: 'mechanics' };
+  if (out.em.mode !== 'em') out.em.mode = 'mechanics';
+  return out;
+}
+
 export function serializeScene(world, { runtime = false } = {}) {
   return {
-    version: 1,
+    version: SCENE_VERSION,
     g: world.g,
     h: world.h,
+    restitution: world.engine.defaultContactMaterial.restitution || 0,
     time: runtime ? world.time : 0,
     thermal: runtime ? world.thermal : 0,
     appliedWork: runtime ? world.appliedWork : 0,
@@ -4835,12 +4874,15 @@ export function serializeScene(world, { runtime = false } = {}) {
 }
 
 export function deserializeScene(world, data, { runtime = false } = {}) {
-  if (!data || typeof data !== 'object') return false;
+  const migrated = migrateScene(data);
+  if (!migrated) return false;
+  data = migrated;
   clearWorld(world);
   world.nextId = 1;
   world.g = Number.isFinite(data.g) ? data.g : 9.8;
-  world.h = Number.isFinite(data.h) ? data.h : DEFAULT_H;
+  world.h = Number.isFinite(data.h) && data.h > 0 ? data.h : DEFAULT_H;
   world.engine.gravity.set(0, -world.g, 0);
+  world.engine.defaultContactMaterial.restitution = Math.max(0, Math.min(1, data.restitution ?? 0));
   deserializeEM(world.em, data.em || { mode: 'mechanics' });
 
   for (const s of data.surfaces || []) {
