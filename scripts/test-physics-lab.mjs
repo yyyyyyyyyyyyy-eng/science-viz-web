@@ -1674,4 +1674,6 @@ console.log(`\n${passed} passed, ${failed} failed (mechanics)`);
 // The E&M analytic suite is a sibling file so each domain stays readable.
 const emTest = fileURLToPath(new URL('./test-physics-lab-em.mjs', import.meta.url));
 const em = spawnSync(process.execPath, [emTest], { stdio: 'inherit' });
-if (failed || em.status !== 0) process.exit(1);
+const presetTest = fileURLToPath(new URL('./test-physics-lab-presets.mjs', import.meta.url));
+const presets = spawnSync(process.execPath, [presetTest], { stdio: 'inherit' });
+if (failed || em.status !== 0 || presets.status !== 0) process.exit(1);

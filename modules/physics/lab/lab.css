@@ -1242,6 +1242,68 @@ html[data-route="lab"] .site-footer {
 
 /* ------------------------------ responsive ------------------------------ */
 
+.plab-library-modes {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-right: 0;
+}
+.plab-library-modes .plab-tool {
+  flex: 1 1 auto;
+  border-right: 1px solid var(--border);
+  border-bottom: 0;
+  border-top: 0;
+}
+.plab-preset-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.4rem;
+  border-top: 1px solid var(--border);
+}
+.plab-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.plab-preset-info {
+  display: flex;
+  flex: 1 1 13rem;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.plab-preset-title {
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  line-height: 1.25;
+}
+.plab-preset-desc {
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+.plab-preset-meta {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+.plab-preset-row .plab-action {
+  align-self: center;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.plab-preset-row .plab-action:hover {
+  background: var(--bg-soft);
+}
+
 .plab-slot-section {
   margin-top: 0.6rem;
   padding-top: 0.5rem;

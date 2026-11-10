@@ -77,7 +77,7 @@ export function createEMWorld() {
 export function addPointCharge(em, opts = {}) {
   const charge = {
     type: 'emCharge',
-    id: nextId(em, 'charge'),
+    id: opts.id || nextId(em, 'charge'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -91,7 +91,7 @@ export function addPointCharge(em, opts = {}) {
 export function addChargedSphere(em, opts = {}) {
   const sphere = {
     type: 'emSphere',
-    id: nextId(em, 'sphere'),
+    id: opts.id || nextId(em, 'sphere'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -108,7 +108,7 @@ export function addLineCharge(em, opts = {}) {
   const length = Math.max(0.1, opts.length ?? 4);
   const line = {
     type: 'emLine',
-    id: nextId(em, 'line'),
+    id: opts.id || nextId(em, 'line'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.2,
@@ -127,7 +127,7 @@ export function addPlaneCharge(em, opts = {}) {
   const height = Math.max(0.1, opts.height ?? 3);
   const plane = {
     type: 'emPlane',
-    id: nextId(em, 'plane'),
+    id: opts.id || nextId(em, 'plane'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -145,7 +145,7 @@ export function addPlaneCharge(em, opts = {}) {
 export function addProbe(em, opts = {}) {
   const probe = {
     type: 'emProbe',
-    id: nextId(em, 'probe'),
+    id: opts.id || nextId(em, 'probe'),
     name: opts.name || '',
     x: opts.x ?? 1.5,
     y: opts.y ?? 1.2,
@@ -158,7 +158,7 @@ export function addProbe(em, opts = {}) {
 export function addParticle(em, opts = {}) {
   const particle = {
     type: 'emParticle',
-    id: nextId(em, 'particle'),
+    id: opts.id || nextId(em, 'particle'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -179,7 +179,7 @@ export function addParticle(em, opts = {}) {
 export function addCapacitor(em, opts = {}) {
   const capacitor = {
     type: 'emCapacitor',
-    id: nextId(em, 'capacitor'),
+    id: opts.id || nextId(em, 'capacitor'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -427,7 +427,7 @@ export function potentialAt(em, p) {
 export function addMagneticWire(em, opts = {}) {
   const wire = {
     type: 'emMagneticWire',
-    id: nextId(em, 'mwire'),
+    id: opts.id || nextId(em, 'mwire'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -442,7 +442,7 @@ export function addMagneticWire(em, opts = {}) {
 export function addCurrentLoop(em, opts = {}) {
   const loop = {
     type: 'emCurrentLoop',
-    id: nextId(em, 'mloop'),
+    id: opts.id || nextId(em, 'mloop'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -457,7 +457,7 @@ export function addCurrentLoop(em, opts = {}) {
 export function addSolenoid(em, opts = {}) {
   const solenoid = {
     type: 'emSolenoid',
-    id: nextId(em, 'sol'),
+    id: opts.id || nextId(em, 'sol'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -475,7 +475,7 @@ export function addSolenoid(em, opts = {}) {
 export function addUniformField(em, opts = {}) {
   const field = {
     type: 'emUniform',
-    id: nextId(em, 'field'),
+    id: opts.id || nextId(em, 'field'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -495,7 +495,7 @@ export function addUniformField(em, opts = {}) {
 export function addForceWire(em, opts = {}) {
   const wire = {
     type: 'emForceWire',
-    id: nextId(em, 'fwire'),
+    id: opts.id || nextId(em, 'fwire'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -579,7 +579,7 @@ export function forceOnWire(wire, B) {
 export function addRail(em, opts = {}) {
   const rail = {
     type: 'emRail',
-    id: nextId(em, 'rail'),
+    id: opts.id || nextId(em, 'rail'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -629,7 +629,7 @@ export function stepRail(rail, h) {
 export function addInductionCoil(em, opts = {}) {
   const coil = {
     type: 'emInductionCoil',
-    id: nextId(em, 'coil'),
+    id: opts.id || nextId(em, 'coil'),
     name: opts.name || '',
     x: opts.x ?? 0,
     y: opts.y ?? 1.5,
@@ -726,7 +726,7 @@ export function stepEM(em, h) {
 export function addCircuit(em, opts = {}) {
   const circuit = {
     type: 'emCircuit',
-    id: nextId(em, 'circuit'),
+    id: opts.id || nextId(em, 'circuit'),
     name: opts.name || '',
     time: 0,
     components: [],

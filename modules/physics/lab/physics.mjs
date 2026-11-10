@@ -4883,6 +4883,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
   world.h = Number.isFinite(data.h) && data.h > 0 ? data.h : DEFAULT_H;
   world.engine.gravity.set(0, -world.g, 0);
   world.engine.defaultContactMaterial.restitution = Math.max(0, Math.min(1, data.restitution ?? 0));
+  if (world.bodyContact) world.bodyContact.restitution = Math.max(0, Math.min(1, data.restitution ?? 0));
   deserializeEM(world.em, data.em || { mode: 'mechanics' });
 
   for (const s of data.surfaces || []) {

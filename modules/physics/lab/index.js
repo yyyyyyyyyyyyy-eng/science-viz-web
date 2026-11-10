@@ -145,6 +145,14 @@ import {
   sharePayloadFromHash,
 } from './scene-share.mjs';
 import {
+  PRESETS,
+  PRESET_UNITS,
+  getPreset,
+  presetsFor,
+  sensorLabel,
+  unitLabel,
+} from './presets.mjs';
+import {
   addCapacitor,
   addChargedSphere,
   addCircuit,
@@ -894,6 +902,109 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const advancedSection = moreSection('所选对象', 'Selected object');
   const moreAdvanced = el('div', { className: 'plab-more-advanced' });
   advancedSection.appendChild(moreAdvanced);
+
+  const librarySection = moreSection('场景库', 'Scene library');
+  const libraryModes = el('div', { className: 'plab-library-modes', role: 'group', 'aria-label': '场景库筛选 · Scene library filter' });
+  const libraryModeBtns = {};
+  [
+    ['all', '全部 · All'],
+    ['mechanics', '力学 · Mechanics'],
+    ['em', '电磁 · E&M'],
+  ].forEach(([key, text]) => {
+    const btn = el('button', {
+      type: 'button',
+      className: `plab-tool hit-target${key === 'all' ? ' active' : ''}`,
+      text,
+      'data-lib-mode': key,
+      'aria-pressed': key === 'all' ? 'true' : 'false',
+    });
+    btn.addEventListener('click', () => {
+      libraryMode = key;
+      Object.entries(libraryModeBtns).forEach(([modeKey, node]) => {
+        const active = modeKey === key;
+        node.classList.toggle('active', active);
+        node.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      renderLibraryUnits();
+      renderPresetList();
+    });
+    libraryModeBtns[key] = btn;
+    libraryModes.appendChild(btn);
+  });
+  librarySection.appendChild(libraryModes);
+  const libraryUnitLabel = el('label', { className: 'plab-inline-field' }, [
+    el('span', { text: '单元 · Unit' }),
+  ]);
+  const libraryUnitSelect = el('select', {
+    className: 'plab-select hit-target',
+    'data-field': 'presetUnit',
+    'aria-label': '场景库单元 · Scene library unit',
+  });
+  libraryUnitLabel.appendChild(libraryUnitSelect);
+  librarySection.appendChild(libraryUnitLabel);
+  const libraryHint = el('p', {
+    className: 'plab-field-hint',
+    text: '加载会替换当前场景，并可用「撤销」恢复。 · Loading replaces the current scene; use Undo to restore it.',
+  });
+  librarySection.appendChild(libraryHint);
+  const libraryList = el('div', { className: 'plab-preset-list', 'data-preset-list': 'on' });
+  librarySection.appendChild(libraryList);
+  let libraryMode = 'all';
+  let libraryUnit = 'all';
+
+  function renderLibraryUnits() {
+    const units = Object.entries(PRESET_UNITS)
+      .filter(([, info]) => libraryMode === 'all' || info.mode === libraryMode);
+    if (libraryUnit !== 'all' && !units.some(([id]) => id === libraryUnit)) libraryUnit = 'all';
+    clear(libraryUnitSelect);
+    libraryUnitSelect.appendChild(el('option', { value: 'all', text: '全部单元 · All units', selected: libraryUnit === 'all' }));
+    for (const [id, info] of units) {
+      libraryUnitSelect.appendChild(el('option', {
+        value: id,
+        text: `${unitLabel(id)} (${id})`,
+        selected: libraryUnit === id,
+      }));
+    }
+  }
+
+  function renderPresetList() {
+    clear(libraryList);
+    const list = presetsFor({ mode: libraryMode, unit: libraryUnit });
+    for (const preset of list) {
+      const row = el('article', { className: 'plab-preset-row', 'data-preset-id': preset.id });
+      const info = el('div', { className: 'plab-preset-info' });
+      info.appendChild(el('h4', { className: 'plab-preset-title', text: preset.title }));
+      info.appendChild(el('p', { className: 'plab-preset-desc', text: preset.description }));
+      const instrumentLabels = { emProbe: '探测器 · Probe', emCircuit: '电路图 · Circuit sheet' };
+      const recommended = [
+        ...(preset.recommended.sensors || []).map(sensorLabel),
+        ...(preset.recommended.instruments || []).map((type) => instrumentLabels[type] || type),
+      ];
+      info.appendChild(el('p', {
+        className: 'plab-preset-meta',
+        text: `${unitLabel(preset.unit)} · ${preset.mode === 'em' ? '电磁 · E&M' : '力学 · Mechanics'}${recommended.length ? ` · 推荐 · Recommended: ${recommended.join(' / ')}` : ''}`,
+      }));
+      const load = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '加载 · Load',
+        'data-preset-load': preset.id,
+      });
+      load.addEventListener('click', () => loadPresetById(preset.id));
+      row.append(info, load);
+      libraryList.appendChild(row);
+    }
+    if (!list.length) {
+      libraryList.appendChild(el('p', { className: 'plab-field-hint', text: '此筛选没有场景。 · No scenes in this filter.' }));
+    }
+  }
+
+  libraryUnitSelect.addEventListener('change', () => {
+    libraryUnit = libraryUnitSelect.value || 'all';
+    renderPresetList();
+  });
+  renderLibraryUnits();
+  renderPresetList();
 
   const sceneSection = moreSection('场景', 'Scene');
   const sceneRow = el('div', { className: 'plab-tool-row' });
@@ -2434,6 +2545,31 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!slot?.scene) return;
     if (!loadSceneData(slot.scene)) return;
     setStatus(`已读取槽位 ${index + 1}。 · Loaded slot ${index + 1}.`);
+  }
+
+  function loadPresetById(id) {
+    const preset = getPreset(id);
+    if (!preset) return;
+    if (!loadSceneData(preset.build(), { quiet: true })) {
+      setStatus('场景库条目无法加载。 · This scene preset could not be loaded.', true);
+      return;
+    }
+    setGraphs(!!preset.recommended.graphs);
+    let focus = null;
+    if (preset.focus) {
+      focus = entityById(preset.focus.type, preset.focus.id);
+      if (focus) {
+        select(focus);
+        // On phones the inspector sheet would cover the scene the preset is
+        // meant to demonstrate; keep the viewport visible after loading.
+        if (isMobile() && preset.focus.type !== 'emCircuit') openInspector(false);
+      }
+    }
+    closeMore();
+    setStatus(`已加载场景库：${preset.title}。 · Loaded preset: ${preset.title}.`);
+    if (preset.mode === 'em' && preset.focus?.type === 'emCircuit' && focus) {
+      circuitPanel?.open(focus);
+    }
   }
 
   function deleteSlotAt(index) {
