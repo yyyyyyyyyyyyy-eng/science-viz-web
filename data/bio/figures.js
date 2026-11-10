@@ -1060,6 +1060,107 @@ def('extinction-rates', 'Background vs mass-extinction rates', 'Extinction inten
   return svg(W, H, s, 'extinction rates');
 });
 
+/* ================= Track B coverage figures (B03) ================= */
+def('enz-denature-renature', 'Enzyme denaturation and renaturation', 'Some denaturation is reversible when the primary structure stays intact and aggregation is avoided.', () => {
+  const W = 600, H = 320;
+  let s = text(18, 22, '可逆变性 · reversible denaturation', { size: 11.5, anchor: 'start', bold: true, color: C.c });
+  s += rect(24, 40, 118, 58) + text(83, 62, '天然酶 · native', { size: 10.5 }) + text(83, 80, '活性 100%', { size: 10 });
+  s += rect(190, 40, 132, 58) + text(256, 62, '伸展肽链 · unfolded', { size: 10.5 }) + text(256, 80, '活性 ≈ 0%', { size: 10 });
+  s += rect(372, 40, 130, 58) + text(437, 62, '复性 · refolded', { size: 10.5 }) + text(437, 80, '活性恢复 ≈ 90%', { size: 10 });
+  s += arrow(142, 69, 188, 69) + text(165, 58, '尿素 / 还原剂', { size: 9 });
+  s += arrow(322, 69, 370, 69) + text(346, 58, '透析去除', { size: 9 });
+  s += text(18, 132, '不可逆变性 · irreversible denaturation', { size: 11.5, anchor: 'start', bold: true, color: C.e });
+  s += rect(24, 150, 118, 58) + text(83, 172, '天然酶 · native', { size: 10.5 }) + text(83, 190, '活性 100%', { size: 10 });
+  s += rect(190, 150, 158, 58) + text(269, 172, '变性 + 聚集 / 水解', { size: 10.5 }) + text(269, 190, '活性 ≈ 0%', { size: 10 });
+  s += rect(396, 150, 176, 58) + text(484, 172, '冷却不能恢复', { size: 10.5 }) + text(484, 190, '一级结构已破坏或聚集', { size: 10 });
+  s += arrow(142, 179, 188, 179) + text(165, 168, '煮沸 / 极端 pH', { size: 9 });
+  s += arrow(348, 179, 394, 179) + text(371, 168, '不可逆', { size: 9, color: C.e });
+  s += text(W / 2, 246, '可逆条件：一级结构完整、无聚集、变性剂可去除、缓冲条件适宜。', { size: 10.5 });
+  s += text(W / 2, 266, 'Reversible only if the primary structure is intact, no aggregation occurs, and the denaturant can be removed.', { size: 9.5, color: C.muted });
+  s += text(W / 2, 294, '低温失活通常是抑制解除，不是复性 · recovery from cold inhibition is not renaturation', { size: 10, color: C.ink });
+  return svg(W, H, s, 'enzyme denaturation and renaturation');
+});
+def('enz-cold-vs-denature', 'Cold inhibition versus heat denaturation', 'Low temperature slows collisions without unfolding; high temperature can denature, and reversibility depends on aggregation and covalent damage.', () => {
+  const f = enzT(55);
+  const fmax = Math.max(...Array.from({ length: 101 }, (_, i) => f(i)));
+  let s = plot({ W: 600, H: 330, x: [0, 100], y: [0, 1.1], xstep: 10, ystep: 0.2, xlabel: 'temperature (°C)', ylabel: 'relative activity', curves: [{ f: (T) => f(T) / fmax, color: C.a, w: 2.4 }], vlines: [{ x: 12, label: '低温 · cold', color: C.b }, { x: 45, label: '最适 · optimum', color: C.c }, { x: 75, label: '高温 · heat', color: C.e }] });
+  const icons = `<g><rect x="70" y="250" width="34" height="24" fill="none" stroke="${C.b}" stroke-width="1.2"/><path d="M74,254 L88,264 L100,252" fill="none" stroke="${C.b}" stroke-width="1.2"/><text x="87" y="288" font-size="9" text-anchor="middle" fill="${C.b}">折叠 · folded</text><rect x="268" y="250" width="34" height="24" fill="none" stroke="${C.c}" stroke-width="1.2"/><path d="M272,254 L286,264 L300,252" fill="none" stroke="${C.c}" stroke-width="1.2"/><text x="285" y="288" font-size="9" text-anchor="middle" fill="${C.c}">折叠 · folded</text><path d="M478,250 q8,-12 16,0 q8,12 16,0 q8,-12 16,0" fill="none" stroke="${C.e}" stroke-width="1.4"/><text x="502" y="288" font-size="9" text-anchor="middle" fill="${C.e}">伸展 · unfolded</text></g>`;
+  return s.replace('</svg>', icons + '</svg>');
+});
+
+def('water-cycle', 'Water cycle: reservoirs and fluxes', 'Oceans hold about 97% of Earth water; atmospheric water turns over in roughly 10 days.', () => {
+  const W = 620, H = 340;
+  let s = text(W / 2, 18, '水循环：储库与通量 · water cycle: reservoirs and fluxes', { size: 13, bold: true });
+  s += rect(30, 232, 190, 76) + text(125, 258, '海洋 · ocean', { size: 11, bold: true }) + text(125, 276, '最大储库（约 97%）', { size: 9.5 }) + text(125, 292, '≈ 1.34×10⁹ km³', { size: 9.5 });
+  s += rect(258, 40, 154, 62) + text(335, 62, '大气 · atmosphere', { size: 11, bold: true }) + text(335, 80, '小储库、快周转', { size: 9.5 }) + text(335, 94, '停留约 10 天', { size: 9.5 });
+  s += rect(258, 210, 150, 58) + text(333, 232, '地表水 · surface water', { size: 10.5, bold: true }) + text(333, 250, '河流、湖泊、土壤', { size: 9.5 });
+  s += rect(444, 210, 150, 58) + text(519, 232, '地下水 · groundwater', { size: 10.5, bold: true }) + text(519, 250, '缓慢交换', { size: 9.5 });
+  s += rect(444, 88, 150, 56) + text(519, 110, '生物 · organisms', { size: 10.5, bold: true }) + text(519, 128, '蒸腾与代谢水', { size: 9.5 });
+  s += arrow(120, 230, 250, 104, { color: C.b }) + text(164, 152, '蒸发 · evaporation', { size: 9.5, color: C.b });
+  s += arrow(446, 104, 412, 80, { color: C.c }) + text(470, 66, '蒸腾 · transpiration', { size: 9.5, color: C.c });
+  s += arrow(335, 104, 335, 208, { color: C.a }) + text(344, 156, '降水 · precipitation', { size: 9.5, color: C.a });
+  s += arrow(408, 232, 222, 252, { color: C.d }) + text(250, 304, '径流 · runoff', { size: 9.5, color: C.d });
+  s += arrow(390, 238, 444, 238, { color: C.e }) + text(416, 200, '下渗 · infiltration', { size: 9.5, color: C.e });
+  s += text(W / 2, 326, '蒸发/蒸腾 → 大气 → 降水 → 地表/地下 → 径流回海洋。', { size: 10 });
+  return svg(W, H, s, 'water cycle');
+});
+def('carbon-cycle', 'Carbon cycle: photosynthesis, respiration, decomposition, combustion', 'Carbon cycles through the atmosphere, organisms, soil, fossil fuels and sediments; combustion returns stored carbon to the atmosphere.', () => {
+  const W = 640, H = 350;
+  let s = text(W / 2, 18, '碳循环 · carbon cycle', { size: 13, bold: true });
+  s += rect(250, 38, 150, 54) + text(325, 58, '大气 CO₂', { size: 11.5, bold: true }) + text(325, 76, 'atmospheric CO₂', { size: 9.5 });
+  s += rect(40, 120, 140, 56) + text(110, 142, '生产者 · producers', { size: 10.5, bold: true }) + text(110, 160, '光合作用固碳', { size: 9.5 });
+  s += rect(250, 120, 140, 56) + text(320, 142, '消费者 · consumers', { size: 10.5, bold: true }) + text(320, 160, '摄食与呼吸', { size: 9.5 });
+  s += rect(460, 120, 140, 56) + text(530, 142, '土壤/碎屑', { size: 10.5, bold: true }) + text(530, 160, 'soil / detritus', { size: 9.5 });
+  s += rect(40, 244, 140, 56) + text(110, 266, '化石燃料', { size: 10.5, bold: true }) + text(110, 284, 'fossil fuels', { size: 9.5 });
+  s += rect(250, 244, 140, 56) + text(320, 266, '沉积物 · sediments', { size: 10.5, bold: true }) + text(320, 284, '碳酸盐/有机碳', { size: 9.5 });
+  s += rect(460, 244, 140, 56) + text(530, 266, '水体 · water', { size: 10.5, bold: true }) + text(530, 284, '溶解无机碳', { size: 9.5 });
+  s += arrow(175, 112, 262, 88, { color: C.c }) + text(206, 92, '光合 · photosynthesis', { size: 9, color: C.c });
+  s += arrow(300, 118, 262, 92, { color: C.a }) + text(294, 104, '呼吸 · respiration', { size: 9, color: C.a });
+  s += arrow(390, 148, 458, 148, { color: C.ink }) + text(424, 136, '摄食', { size: 9 });
+  s += arrow(528, 176, 600, 176, { color: C.e }) + arrow(600, 176, 600, 64, { color: C.e }) + arrow(600, 64, 402, 64, { color: C.e }) + text(538, 194, '分解 · decomposition', { size: 9, color: C.e });
+  s += arrow(110, 244, 30, 220, { color: C.f }) + arrow(30, 220, 30, 70, { color: C.f }) + arrow(30, 70, 250, 70, { color: C.f }) + text(70, 104, '燃烧 · combustion', { size: 9, color: C.f });
+  s += arrow(190, 272, 248, 272, { color: C.muted }) + text(219, 262, '沉积', { size: 9 });
+  s += arrow(390, 272, 458, 272, { color: C.b }) + text(424, 262, '风化/溶解', { size: 9, color: C.b });
+  s += text(W / 2, 330, '光合与呼吸方向相反；燃烧把地质储库中的碳快速释放到大气。', { size: 10 });
+  return svg(W, H, s, 'carbon cycle');
+});
+def('nitrogen-cycle', 'Nitrogen cycle: fixation, assimilation, ammonification, nitrification, denitrification', 'The atmosphere is the largest nitrogen reservoir, but most organisms cannot use N₂ directly.', () => {
+  const W = 660, H = 350;
+  let s = text(W / 2, 18, '氮循环 · nitrogen cycle', { size: 13, bold: true });
+  s += rect(250, 36, 160, 54) + text(330, 56, '大气 N₂', { size: 11.5, bold: true }) + text(330, 74, '最大储库', { size: 9.5 });
+  s += rect(40, 120, 150, 58) + text(115, 142, '固氮 · fixation', { size: 10.5, bold: true }) + text(115, 160, '根瘤菌/固氮菌/蓝细菌', { size: 8.8 });
+  s += rect(250, 120, 160, 58) + text(330, 142, 'NH₄⁺ / NH₃', { size: 10.5, bold: true }) + text(330, 160, '铵态氮', { size: 9 });
+  s += rect(470, 120, 150, 58) + text(545, 142, '有机氮 · organic N', { size: 10.5, bold: true }) + text(545, 160, '氨基酸、核酸', { size: 9 });
+  s += rect(250, 230, 160, 58) + text(330, 252, 'NO₂⁻ → NO₃⁻', { size: 10.5, bold: true }) + text(330, 270, '硝化 · nitrification（需 O₂）', { size: 8.8 });
+  s += rect(40, 230, 150, 58) + text(115, 252, '反硝化 · denitrification', { size: 9.5, bold: true }) + text(115, 270, 'NO₃⁻ → N₂O → N₂（低 O₂）', { size: 8.5 });
+  s += arrow(115, 118, 120, 86, { color: C.c }) + text(90, 100, '固氮', { size: 9, color: C.c }) + arrow(120, 86, 248, 62, { color: C.c });
+  s += arrow(190, 146, 248, 146, { color: C.a }) + text(219, 136, '同化', { size: 9, color: C.a });
+  s += arrow(410, 146, 468, 146, { color: C.b }) + text(439, 136, '摄食', { size: 9, color: C.b });
+  s += arrow(468, 164, 412, 164, { color: C.e }) + text(440, 178, '氨化', { size: 9, color: C.e });
+  s += arrow(330, 178, 330, 228, { color: C.d }) + text(340, 204, '硝化', { size: 9, color: C.d });
+  s += arrow(248, 258, 192, 258, { color: C.f }) + text(220, 248, '反硝化', { size: 9, color: C.f });
+  s += arrow(100, 228, 100, 90, { color: C.f }) + text(108, 206, '返回大气', { size: 9, color: C.f });
+  s += text(W / 2, 326, '硝化需氧；反硝化需低氧。闪电与工业固氮是生物固氮之外的输入。', { size: 10 });
+  return svg(W, H, s, 'nitrogen cycle');
+});
+def('phosphorus-cycle', 'Phosphorus cycle: weathering, assimilation, sedimentation', 'Phosphorus has no significant gaseous reservoir; slow rock weathering and sedimentation control its availability.', () => {
+  const W = 640, H = 330;
+  let s = text(W / 2, 18, '磷循环 · phosphorus cycle（无显著气态储库）', { size: 13, bold: true });
+  s += rect(36, 96, 140, 58) + text(106, 118, '磷矿石 · rock', { size: 10.5, bold: true }) + text(106, 136, '磷酸盐矿物', { size: 9 });
+  s += rect(238, 96, 150, 58) + text(313, 118, '土壤/水体 PO₄³⁻', { size: 10.5, bold: true }) + text(313, 136, '可溶性磷酸盐', { size: 9 });
+  s += rect(238, 206, 150, 58) + text(313, 228, '生产者 · producers', { size: 10.5, bold: true }) + text(313, 246, 'ATP、核酸、磷脂', { size: 9 });
+  s += rect(450, 206, 140, 58) + text(520, 228, '消费者 · consumers', { size: 10.5, bold: true }) + text(520, 246, '摄食与排泄', { size: 9 });
+  s += rect(450, 96, 140, 58) + text(520, 118, '沉积物 · sediment', { size: 10.5, bold: true }) + text(520, 136, '水体底泥', { size: 9 });
+  s += arrow(178, 118, 236, 118, { color: C.c }) + text(207, 106, '风化 · weathering', { size: 9, color: C.c });
+  s += arrow(300, 156, 300, 204, { color: C.a }) + text(310, 182, '同化', { size: 9, color: C.a });
+  s += arrow(390, 234, 448, 234, { color: C.b }) + text(419, 222, '摄食', { size: 9, color: C.b });
+  s += arrow(500, 262, 360, 142, { color: C.e }) + text(438, 202, '分解/排泄', { size: 9, color: C.e });
+  s += arrow(500, 156, 360, 156, { color: C.d }) + text(430, 170, '侵蚀/径流', { size: 9, color: C.d });
+  s += arrow(500, 92, 200, 88, { color: C.f }) + text(350, 76, '地质抬升 · uplift（缓慢）', { size: 9, color: C.f });
+  s += text(W / 2, 300, '磷无气态储库，因此常成为淡水与陆地生态系统的限制养分；过量输入导致富营养化。', { size: 10 });
+  return svg(W, H, s, 'phosphorus cycle');
+});
+
 /* ---------- topic → figure mapping ---------- */
 export const TOPIC_FIGURES = {
   'bio-prep-chem:P1.1': ['experiment-design', 'c14-decay'], 'bio-prep-chem:P1.2': ['bohr-carbon', 'isotopes', 'c14-decay'], 'bio-prep-chem:P1.3': ['periodic-radius', 'electronegativity'], 'bio-prep-chem:P1.4': ['bond-types', 'electronegativity'],
@@ -1073,6 +1174,7 @@ export const TOPIC_FIGURES = {
   'bio-u2:2.7': ['tonicity', 'water-potential', 'osmosis-potato'], 'bio-u2:2.8': ['na-k-pump', 'transport-types'], 'bio-u2:2.9': ['endomembrane', 'etc'], 'bio-u2:2.10': ['endosymbiosis', 'endosymbiosis-evidence'],
   'bio-u3:3.1': ['activation-energy', 'enz-substrate', 'enz-inhibition', 'induced-fit'], 'bio-u3:3.2': ['enz-temp', 'enz-ph', 'enz-inhibition'], 'bio-u3:3.3': ['atp-cycle', 'exo-endo'],
   'bio-u3:3.4': ['chloroplast-sites', 'psii-photolysis', 'cytb6f-pump', 'psi-nadph', 'atp-synthase', 'calvin-fixation', 'calvin-reduction-regeneration'], 'bio-u3:3.5': ['respiration-overview', 'glycolysis', 'pyruvate-oxidation', 'krebs-cycle', 'etc', 'atp-yield', 'fermentation'], 'bio-u3:3.6': ['metabolic-temp', 'enz-temp'],
+  'bio-u3:3.7': ['enz-denature-renature', 'enz-cold-vs-denature', 'enz-temp'],
   'bio-u4:4.1': ['signal-types', 'signal-transduction'], 'bio-u4:4.2': ['signal-transduction', 'rtk', 'signal-amplification'], 'bio-u4:4.3': ['signal-transduction', 'signal-amplification', 'rtk'], 'bio-u4:4.4': ['feedback-loops', 'feedback-glucose'],
   'bio-u4:4.5': ['cell-cycle', 'dna-content-mitosis'], 'bio-u4:4.6': ['cyclin-cdk', 'cell-cycle'], 'bio-u4:4.7': ['mitosis-stages', 'dna-content-mitosis'],
   'bio-u5:5.1': ['meiosis-stages', 'dna-content-meiosis'], 'bio-u5:5.2': ['crossing-over', 'meiosis-stages'], 'bio-u5:5.3': ['punnett-mono', 'punnett-di', 'punnett-test', 'chi-square'],
@@ -1083,7 +1185,7 @@ export const TOPIC_FIGURES = {
   'bio-u7:7.5': ['hw-curves', 'hw-data'], 'bio-u7:7.6': ['homologous-structures', 'molecular-tree'], 'bio-u7:7.7': ['molecular-tree', 'phylo-tree'], 'bio-u7:7.8': ['antibiotic-resistance', 'sel-directional'],
   'bio-u7:7.9': ['phylo-tree', 'character-matrix'], 'bio-u7:7.10': ['speciation', 'isolation-barriers'], 'bio-u7:7.11': ['extinction', 'extinction-rates'], 'bio-u7:7.12': ['variation', 'genetic-drift'], 'bio-u7:7.13': ['origins-life', 'endosymbiosis'],
   'bio-u8:8.1': ['behavior-taxis', 'photoperiod'], 'bio-u8:8.2': ['energy-pyramid', 'food-web', 'trophic-biomass'], 'bio-u8:8.3': ['pop-growth', 'survivorship'], 'bio-u8:8.4': ['density-dependence', 'pop-oscillation'],
-  'bio-u8:8.5': ['predator-prey', 'competition', 'food-web'], 'bio-u8:8.6': ['diversity-index', 'species-area'], 'bio-u8:8.7': ['disruption', 'succession'],
+  'bio-u8:8.5': ['predator-prey', 'competition', 'food-web'], 'bio-u8:8.6': ['diversity-index', 'species-area'], 'bio-u8:8.7': ['disruption', 'succession'], 'bio-u8:8.10': ['water-cycle', 'carbon-cycle', 'nitrogen-cycle', 'phosphorus-cycle'],
 };
 export const FIGURES = F;
 const cache = {};

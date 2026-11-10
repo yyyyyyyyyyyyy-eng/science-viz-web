@@ -1948,5 +1948,70 @@ export const problems = [
         "topicId": "bio-u3:3.4"
       }
     ]
-  }
+  },
+{
+  "id": "bio-u3-q053",
+  "title": "3.7 可逆变性的证据",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "下列哪项观察最能支持“某酶的变性是可逆的”？",
+  "choices": [
+    {
+      "text": "纯化酶在尿素中失活，透析去除尿素后活性恢复，且没有新蛋白质合成",
+      "correct": true
+    },
+    {
+      "text": "酶活性随温度升高而升高",
+      "correct": false
+    },
+    {
+      "text": "竞争性抑制剂使表观 Km 增大",
+      "correct": false
+    },
+    {
+      "text": "增加酶浓度使反应速率增大",
+      "correct": false
+    }
+  ],
+  "solution": "去除变性剂后活性恢复且无新合成，说明肽链重新折叠复性。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/bio/bio-u3/3.7",
+      "label": "3.7 酶变性与复性",
+      "topicId": "bio-u3:3.7"
+    }
+  ]
+},
+{
+  "id": "bio-u3-q054",
+  "title": "3.7 复性后的活性回收率",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "某酶初始活性 80 U/mL，60 °C 处理后降至 8 U/mL，缓慢冷却并透析后恢复到 60 U/mL。求相对于初始活性的回收率（%）。",
+  "expected": 75,
+  "tol": 0.01,
+  "answerLatex": "75\\%",
+  "solution": "回收率=60/80=0.75=75%；未完全恢复可能与部分聚集或共价损伤有关。",
+  "solutionLatex": "\\text{回收率}=\\dfrac{60}{80}\\times100\\%=75\\%",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/bio/bio-u3/3.7",
+      "label": "3.7 酶变性与复性",
+      "topicId": "bio-u3:3.7"
+    }
+  ]
+}
 ];

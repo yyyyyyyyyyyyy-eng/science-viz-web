@@ -2009,5 +2009,70 @@ export const problems = [
         "topicId": "bio-u8:8.7"
       }
     ]
-  }
+  },
+{
+  "id": "bio-u8-q057",
+  "title": "8.10 磷循环的储库特征",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "磷循环与其他主要生物地球化学循环的关键区别是什么？",
+  "choices": [
+    {
+      "text": "磷没有显著的气态储库，主要依赖岩石风化与沉积",
+      "correct": true
+    },
+    {
+      "text": "磷主要通过大气 N₂ 固定进入生物圈",
+      "correct": false
+    },
+    {
+      "text": "磷循环完全不需要分解者",
+      "correct": false
+    },
+    {
+      "text": "磷只能以气态形式被生产者吸收",
+      "correct": false
+    }
+  ],
+  "solution": "磷以磷酸盐形式存在于岩石、土壤和水体，没有显著气态储库。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/bio/bio-u8/8.10",
+      "label": "8.10 生态层级与物质循环",
+      "topicId": "bio-u8:8.10"
+    }
+  ]
+},
+{
+  "id": "bio-u8-q058",
+  "title": "8.10 大气水的停留时间",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "大气水储库约 1.4×10⁴ km³，全球降水通量约 5.0×10⁵ km³/yr。估算大气水的平均停留时间（天，按 1 yr=365 天）。",
+  "expected": 10,
+  "tol": 0.05,
+  "answerLatex": "10\\ \\mathrm{days}",
+  "solution": "τ=储库/通量=1.4×10⁴/5.0×10⁵=0.028 yr≈10 天。",
+  "solutionLatex": "\\tau=\\dfrac{1.4\\times10^{4}}{5.0\\times10^{5}}\\ \\mathrm{yr}\\approx0.028\\ \\mathrm{yr}\\approx10\\ \\mathrm{days}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/bio/bio-u8/8.10",
+      "label": "8.10 生态层级与物质循环",
+      "topicId": "bio-u8:8.10"
+    }
+  ]
+}
 ];

@@ -1873,5 +1873,44 @@ export const problems = [
         "solutionLatex": "\\dfrac{|x-1|}{3}<1\\Rightarrow -2<x<4"
       }
     ]
-  }
+  },
+{
+  "id": "calc-u10-q085",
+  "title": "10.9 绝对收敛的重排不变性",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "若 ∑a_n 绝对收敛，下列哪项一定也收敛？",
+  "choices": [
+    {
+      "text": "∑|a_n|、任意重排 ∑a_σ(n) 与任意有限分组，三者都收敛",
+      "correct": true
+    },
+    {
+      "text": "只有 ∑|a_n| 收敛，重排可能发散",
+      "correct": false
+    },
+    {
+      "text": "只有原级数收敛，∑|a_n| 可能发散",
+      "correct": false
+    },
+    {
+      "text": "重排后一定收敛到不同的和",
+      "correct": false
+    }
+  ],
+  "solution": "LIM-7.A.14：绝对收敛级数的任意重排或分组都收敛到同一个和。",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u10/10.9",
+      "label": "10.9 绝对与条件收敛",
+      "topicId": "calc-u10:10.9"
+    }
+  ]
+}
 ];
