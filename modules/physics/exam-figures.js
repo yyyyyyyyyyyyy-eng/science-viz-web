@@ -3040,7 +3040,7 @@ export const TOPIC_FIGURES = {
   'em/em-u8/8.3': ['point-charge-field', 'dipole-field', 'field-superposition', 'field-lines-equipotentials'],
   'em/em-u8/8.4': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'flux-angle'],
   'em/em-u8/8.5': ['gauss-sphere', 'gauss-cylinder', 'gauss-plane', 'gauss-conductor', 'gauss-shell', 'line-charge'],
-  'em/em-u8/8.6': ['charge-properties-conservation', 'coulomb-force', 'point-charge-field'],
+  'em/em-u8/8.6': ['charge-properties-conservation', 'coulomb-force', 'point-charge-field', 'dipole-field', 'field-superposition', 'flux-angle', 'gauss-sphere', 'gauss-cylinder', 'gauss-plane'],
   'em/em-u8/8.8': ['em-force-ratio', 'coulomb-force', 'point-charge-field'],
   'em/em-u8/8.10': ['insulator-sphere-E', 'gauss-conductor', 'gauss-sphere', 'nonuniform-insulator', 'conductor-vs-insulator'],
   'em/em-u8/8.11': ['charge-density-shell', 'gauss-sphere', 'gauss-cylinder', 'nonuniform-insulator'],
