@@ -1,4 +1,5 @@
 /** Edge relationship descriptions for bio map */
+import { EDGE_LINKS } from './relation-text.js';
 export const RELATIONS = {
   "bio-prep-chem:P1.1=>bio-prep-chem:P1.2": {
     "id": "bio-prep-chem:P1.1=>bio-prep-chem:P1.2",
@@ -2471,6 +2472,14 @@ export const RELATIONS = {
     ]
   }
 };
+for (const r of Object.values(RELATIONS)) {
+  const link = EDGE_LINKS[`${r.source}=>${r.target}`];
+  if (!link || !/前者提供定义/.test(r.summary || '')) continue;
+  r.summary = `${link[0]} · ${link[1]}`;
+  r.why = `若缺少「${r.sourceTitle}」这一步，「${r.targetTitle}」的推理就没有依据。 · Without “${r.sourceTitle}”, reasoning about “${r.targetTitle}” would lack its basis.`;
+  r.example = `在「${r.targetTitle}」中先用「${r.sourceTitle}」写出已知关系，再代入具体条件完成一步推理。 · In “${r.targetTitle}”, first write the known relation from “${r.sourceTitle}”, then substitute the given conditions for one reasoning step.`;
+}
+
 export function getRelation(sourceId, targetId) {
   return RELATIONS[sourceId + '=>' + targetId] || RELATIONS[targetId + '=>' + sourceId] || null;
 }

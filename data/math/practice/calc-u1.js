@@ -133,7 +133,8 @@ export const problems = [
           ]
         ],
         "xLabel": "x",
-        "yLabel": "f"
+        "yLabel": "f",
+        "holes": [[2, 4]]
       },
       "sourceId": "original",
       "source": "Original AP-style item (this project)",

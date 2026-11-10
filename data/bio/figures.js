@@ -5,6 +5,7 @@
  * FIGURES: id → {title, caption, build}. TOPIC_FIGURES: "chapterId:code" → [figure ids].
  */
 import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, rk4, mulberry, fact, range } from '../math/figlib.js';
+import { FIGURE_ZH } from './figure-zh.js';
 
 const MEDIA_BASE = new URL('./media/', import.meta.url);
 
@@ -581,7 +582,7 @@ def('punnett-mono', 'Punnett square: monohybrid cross Aa × Aa', '', () => {
 });
 def('punnett-di', 'Punnett square: dihybrid cross AaBb × AaBb', '', () => {
   const r = punnettSvg(['Aa', 'Bb'], ['Aa', 'Bb'], (g) => `${dom(g, 'A') ? 'A_' : 'aa'}${dom(g, 'B') ? 'B_' : 'bb'}`);
-  setCap('punnett-di', `16 gamete combinations (AB, Ab, aB, ab each \\(\\tfrac14\\), independent assortment). Phenotype ratio ${Object.values(r.counts).join(' : ')} = 9 : 3 : 3 : 1, e.g. \\(P(\\text{aabb})=\\dfrac14\\cdot\\dfrac14=\\dfrac{1}{16}\\).`); return r.svg;
+  setCap('punnett-di', `16 gamete combinations (AB, Ab, aB, ab each \\(\\dfrac{1}{4}\\), independent assortment). Phenotype ratio ${Object.values(r.counts).join(' : ')} = 9 : 3 : 3 : 1, e.g. \\(P(\\text{aabb})=\\dfrac14\\cdot\\dfrac14=\\dfrac{1}{16}\\).`); return r.svg;
 });
 def('punnett-test', 'Test cross: A? × aa', '', () => {
   const r = punnettSvg(['Aa'], ['aa'], (g) => (dom(g, 'A') ? 'dominant' : 'recessive'));
@@ -844,7 +845,7 @@ idef('pop-oscillation', 'Logistic growth with overshoot (time lag)', '', (v) => 
   return plot({ x: [0, 30], y: [0, 700], xstep: 5, xlabel: 'time', ylabel: 'N', hlines: [{ y: 500, label: 'K' }], curves: [{ pts, color: C.a }], points: pts.map(([x, y]) => ({ x, y, r: 2.5, color: C.a })) });
 }, [
   { key: 'r', label: '离散增长率 r', min: 1.3, max: 2.2, step: 0.1, value: 1.9 },
-], (v) => `Discrete logistic \\(N_{t+1}=N_t+rN_t\\left(1-\\dfrac{N_t}{K}\\right)\\) with \\(r=${fmt(v.r, 1)}\\), \\(K=500\\): the population overshoots and oscillates around K (damped) — as in reindeer on St. Paul Island or Daphnia cultures.`);
+], (v) => `Discrete logistic \\(N_{t+1}=N_t+rN_t\\left(1-\\dfrac{N_t}{K}\\right)\\) with \\(r=${fmt(v.r, 1)}\\), \\(K=500\\): ${v.r < 2 ? 'the population overshoots and oscillates around K (damped)' : 'the population settles into a stable 2-cycle rather than damping to K; larger r approaches chaos'} — as in reindeer on St. Paul Island or Daphnia cultures.`);
 def('survivorship', 'Survivorship curves', 'Log scale of survivors from 1000 newborns. Type I (humans, large mammals): low early mortality, most die old. Type II (many birds, lizards): constant mortality rate → straight line on log scale. Type III (oysters, many fish, plants): very high juvenile mortality.', () =>
   plot({ x: [0, 100], y: [0, 3.2], ystep: 1, xstep: 20, xlabel: 'percentage of maximum life span', ylabel: 'survivors (log₁₀ of 1000)', yfmt: (v) => String(10 ** v), curves: [{ f: (x) => Math.log10(1000 * (1 - (x / 100) ** 6) + 1e-9), dom: [0, 99.9], color: C.a, label: 'Type I', labelAt: [62, 3.1] }, { f: (x) => 3 - 0.028 * x, color: C.b, label: 'Type II', labelAt: [55, 1.6] }, { f: (x) => Math.log10(1000 * exp(-0.35 * x) + 1.2 * (1 - x / 100)), color: C.c, label: 'Type III', labelAt: [20, 0.6] }] }));
 def('density-dependence', 'Density-dependent vs density-independent factors', 'Density-dependent: per-capita birth rate falls and death rate rises with density (competition, disease, predation); they cross at the equilibrium density (≈ K). Density-independent factors (weather, fire) kill a constant fraction regardless of density.', () => {
@@ -1089,8 +1090,17 @@ const cache = {};
 export function buildFigure(id) {
   if (!cache[id]) {
     const f = F[id]; if (!f) return null;
+    const zh = FIGURE_ZH[id];
     const s = f.build();
-    cache[id] = { id, title: f.title, caption: f.caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor: f.captionFor };
+    const cap = f.caption || '';
+    const caption = zh && cap && !cap.startsWith(zh[1]) ? `${zh[1]} · ${cap}` : cap;
+    const captionFor = f.captionFor
+      ? (v) => {
+        const c = f.captionFor(v);
+        return zh && c && !c.startsWith(zh[1]) ? `${zh[1]} · ${c}` : c;
+      }
+      : undefined;
+    cache[id] = { id, title: zh ? `${zh[0]} · ${f.title}` : f.title, caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor };
   }
   return cache[id];
 }

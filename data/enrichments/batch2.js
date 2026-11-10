@@ -895,7 +895,7 @@ export const ENRICHMENTS = {
     ],
     examTips: [
       'CED Unit 8：生态学',
-      '读能量金字塔：宽度表示能量，不是个体数',
+      '读能量金字塔：柱宽为示意（按 log10 能量缩放），具体能量值看标注；不是个体数 · Read an energy pyramid: bar width is schematic (scaled by log10 energy); use the labels for energy values, not the widths',
       'FRQ 常考：计算传递效率、解释食物链长度限制',
     ],
     related: [

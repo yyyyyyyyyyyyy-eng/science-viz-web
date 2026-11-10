@@ -4,6 +4,7 @@
  * FIGURES: id → {title, caption, build}. TOPIC_FIGURES: "chapterId:code" → [figure ids].
  */
 import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, simpson, mulberry, fact, range } from './figlib.js';
+import { FIGURE_ZH } from './figure-zh.js';
 
 const { PI, E, sin, cos, tan, exp, log, sqrt, abs, atan, atan2, asin } = Math;
 const F = {};
@@ -51,7 +52,7 @@ def('riemann-converge', 'Riemann sums converge as n → ∞', '', () => {
   const ns = [2, 4, 8, 16, 32, 64], ex = 28 / 3;
   const S = (k) => ns.map((n) => riemann(k, rf, 0, 4, n).sum);
   const L = S('left'), R = S('right'), M = S('mid'), xs = ns.map((n) => Math.log2(n));
-  setCap('riemann-converge', `Left, right and midpoint sums of \\(\\tfrac14x^2+1\\) on \\([0,4]\\) for \\(n=2,4,\\ldots,64\\) approach \\(\\dfrac{28}{3}\\). At \\(n=64\\): L = ${fmt(L[5], 4)}, R = ${fmt(R[5], 4)}, M = ${fmt(M[5], 5)}.`);
+  setCap('riemann-converge', `Left, right and midpoint sums of \\(\\dfrac14x^2+1\\) on \\([0,4]\\) for \\(n=2,4,\\ldots,64\\) approach \\(\\dfrac{28}{3}\\). At \\(n=64\\): L = ${fmt(L[5], 4)}, R = ${fmt(R[5], 4)}, M = ${fmt(M[5], 5)}.`);
   return plot({ x: [0.5, 6.5], y: [6, 13], xlabel: 'log₂ n', ylabel: 'sum', hlines: [{ y: ex, label: 'exact 28/3' }], curves: [{ pts: xs.map((x, i) => [x, L[i]]), color: C.a, label: 'left', labelAt: [1.2, L[0] + 0.3] }, { pts: xs.map((x, i) => [x, R[i]]), color: C.b, label: 'right', labelAt: [1.2, R[0] - 0.6] }, { pts: xs.map((x, i) => [x, M[i]]), color: C.c, label: 'mid', labelAt: [1.1, M[0] - 0.3] }], points: xs.flatMap((x, i) => [{ x, y: L[i], color: C.a, r: 3 }, { x, y: R[i], color: C.b, r: 3 }, { x, y: M[i], color: C.c, r: 3 }]) });
 });
 def('riemann-table', 'Riemann / trapezoidal sum from a table (unequal Δt)', '', () => {
@@ -63,7 +64,7 @@ def('riemann-table', 'Riemann / trapezoidal sum from a table (unequal Δt)', '',
 });
 
 /* ---------- limits / continuity ---------- */
-def('limit-jump', 'Jump discontinuity', '\\(f(x)=x+1\\) for \\(x<1\\), \\(f(x)=\\tfrac12x+\\tfrac12\\) for \\(x\\ge1\\). \\(\\lim_{x\\to1^-}f=2\\), \\(\\lim_{x\\to1^+}f=1=f(1)\\): one-sided limits differ, so \\(\\lim_{x\\to1}f\\) does not exist.', () =>
+def('limit-jump', 'Jump discontinuity', '\\(f(x)=x+1\\) for \\(x<1\\), \\(f(x)=\\dfrac12x+\\dfrac12\\) for \\(x\\ge1\\). \\(\\lim_{x\\to1^-}f=2\\), \\(\\lim_{x\\to1^+}f=1=f(1)\\): one-sided limits differ, so \\(\\lim_{x\\to1}f\\) does not exist.', () =>
   plot({ x: [-2, 4], y: [-1, 4], curves: [{ f: (x) => x + 1, dom: [-2, 1], color: C.a }, { f: (x) => 0.5 * x + 0.5, dom: [1, 4], color: C.a }], points: [{ x: 1, y: 2, open: true, color: C.a, label: 'lim⁻ = 2' }, { x: 1, y: 1, color: C.a, label: 'f(1) = 1', dy: 14 }] }));
 def('limit-hole', 'Removable discontinuity (hole)', '\\(f(x)=\\dfrac{x^2-4}{x-2}\\) equals \\(x+2\\) for \\(x\\ne2\\), so \\(\\lim_{x\\to2}f(x)=4\\) but \\(f(2)\\) is undefined (open circle).', () =>
   plot({ x: [-3, 5], y: [-1, 7], curves: [{ f: (x) => (abs(x - 2) < 1e-9 ? NaN : (x * x - 4) / (x - 2)), color: C.a, label: 'y = (x²−4)/(x−2)', labelAt: [-2.8, 1.2] }], points: [{ x: 2, y: 4, open: true, color: C.a, label: '(2, 4) hole' }] }));
@@ -154,13 +155,13 @@ def('product-rule', 'Product rule area model', '\\((uv)\'=u\'v+uv\'\\): growing 
     + text(170, 115, 'u · v', { size: 15 }) + text(305, 115, 'v Δu', { size: 12 }) + text(170, 207, 'u Δv', { size: 12 }) + text(305, 207, 'ΔuΔv', { size: 10 }) + text(170, 28, 'u', { size: 13 }) + text(305, 28, 'Δu', { size: 12 }) + text(45, 115, 'v', { size: 13 }) + text(42, 207, 'Δv', { size: 12 });
   return svg(380, 250, s, 'product rule area model');
 });
-def('quotient-rule', 'Quotient rule example', '\\(f(x)=\\dfrac{x}{x^2+1}\\), \\(f\'(x)=\\dfrac{(x^2+1)-x(2x)}{(x^2+1)^2}=\\dfrac{1-x^2}{(x^2+1)^2}\\); \\(f\'=0\\) at \\(x=\\pm1\\) (max \\(\\tfrac12\\), min \\(-\\tfrac12\\)).', () =>
+def('quotient-rule', 'Quotient rule example', '\\(f(x)=\\dfrac{x}{x^2+1}\\), \\(f\'(x)=\\dfrac{(x^2+1)-x(2x)}{(x^2+1)^2}=\\dfrac{1-x^2}{(x^2+1)^2}\\); \\(f\'=0\\) at \\(x=\\pm1\\) (max \\(\\dfrac12\\), min \\(-\\dfrac12\\)).', () =>
   plot({ x: [-5, 5], y: [-1, 1.2], ystep: 0.5, curves: [{ f: (x) => x / (x * x + 1), color: C.a, label: 'f', labelAt: [1.3, 0.62] }, { f: (x) => (1 - x * x) / (x * x + 1) ** 2, color: C.b, dash: '6 3', label: 'f′', labelAt: [0.35, 1.05] }], points: [{ x: 1, y: 0.5, color: C.a }, { x: -1, y: -0.5, color: C.a }] }));
 def('tan-sec', 'tan x and its derivative sec²x', '\\((\\tan x)\'=\\sec^2x\\ge1\\): tan increases on each branch; both have asymptotes at \\(x=\\dfrac{\\pi}{2}+k\\pi\\).', () =>
   plot({ x: [-PI, PI], y: [-4, 6], piX: 0.5, vlines: [{ x: -PI / 2 }, { x: PI / 2 }], curves: [{ f: tan, n: 1500, color: C.a, label: 'tan x', labelAt: [0.35, -1.6] }, { f: (x) => 1 / cos(x) ** 2, n: 1500, color: C.b, dash: '6 3', label: 'sec² x', labelAt: [-0.45, 2.2] }] }));
 def('chain-rule', 'Chain rule: sin(x²)', '\\(\\dfrac{d}{dx}\\sin(x^2)=2x\\cos(x^2)\\): the inner rate \\(2x\\) scales the outer rate.', () =>
   plot({ x: [-3, 3], y: [-6, 6], curves: [{ f: (x) => sin(x * x), n: 800, color: C.a, label: 'sin(x²)', labelAt: [-2.95, 2] }, { f: (x) => 2 * x * cos(x * x), n: 800, color: C.b, dash: '5 3', label: '2x cos(x²)', labelAt: [1.2, 5.2] }] }));
-def('implicit-circle', 'Implicit differentiation: circle', '\\(x^2+y^2=25\\Rightarrow\\dfrac{dy}{dx}=-\\dfrac{x}{y}\\). At \\((3,4)\\): slope \\(-\\dfrac34\\); tangent \\(y=4-\\tfrac34(x-3)\\).', () =>
+def('implicit-circle', 'Implicit differentiation: circle', '\\(x^2+y^2=25\\Rightarrow\\dfrac{dy}{dx}=-\\dfrac{x}{y}\\). At \\((3,4)\\): slope \\(-\\dfrac34\\); tangent \\(y=4-\\dfrac34(x-3)\\).', () =>
   plot({ W: 400, H: 380, x: [-7, 7], y: [-7, 7], curves: [{ param: (t) => [5 * cos(t), 5 * sin(t)], dom: [0, 2 * PI], color: C.a }, { f: (x) => 4 - 0.75 * (x - 3), color: C.b, label: 'm = −3/4', labelAt: [-0.6, 6.2] }], points: [{ x: 3, y: 4, label: '(3, 4)' }] }));
 def('implicit-folium', 'Folium of Descartes x³ + y³ = 6xy', 'Parametrized by \\(x=\\dfrac{6t}{1+t^3}\\), \\(y=\\dfrac{6t^2}{1+t^3}\\). \\(\\dfrac{dy}{dx}=\\dfrac{2y-x^2}{y^2-2x}\\); horizontal tangent at \\((2\\sqrt[3]{2},\\,2\\sqrt[3]{4})\\approx(2.52,3.17)\\).', () =>
   plot({ W: 400, H: 380, x: [-5, 5], y: [-5, 5], curves: [{ param: (t) => [6 * t / (1 + t ** 3), 6 * t * t / (1 + t ** 3)], dom: [-0.75, 40], n: 3000, color: C.a }, { param: (t) => [6 * t / (1 + t ** 3), 6 * t * t / (1 + t ** 3)], dom: [-40, -1.35], n: 3000, color: C.a }, { f: (x) => -x - 2, color: C.muted, dash: '3 3', label: 'asymptote y = −x − 2', labelAt: [-4.8, 3.3] }], segs: [[1.9, 2 * Math.cbrt(4), 3.15, 2 * Math.cbrt(4), C.b, 2]], points: [{ x: 2 * Math.cbrt(2), y: 2 * Math.cbrt(4), color: C.b, label: 'dy/dx = 0' }] }));
@@ -169,7 +170,7 @@ def('implicit-behavior', 'Horizontal & vertical tangents of x² + xy + y² = 3',
 def('inverse-deriv', 'Derivative of an inverse function', '\\(f=e^x\\), \\(f^{-1}=\\ln x\\). Slope of \\(f\\) at \\((1,e)\\) is \\(e\\); slope of \\(f^{-1}\\) at \\((e,1)\\) is \\(\\dfrac1e\\): \\((f^{-1})\'(b)=\\dfrac{1}{f\'(f^{-1}(b))}\\).', () =>
   plot({ W: 400, H: 380, x: [-2, 5], y: [-2, 5], curves: [{ f: exp, color: C.a, label: 'eˣ', labelAt: [1.35, 4.1] }, { f: log, dom: [0.01, 5], color: C.b, label: 'ln x', labelAt: [4.2, 1.1] }, { f: (x) => x, color: C.muted, dash: '4 4', label: 'y = x', labelAt: [3.9, 4.6] }, { f: (x) => E + E * (x - 1), color: C.a, dash: '5 3' }, { f: (x) => 1 + (x - E) / E, color: C.b, dash: '5 3' }], points: [{ x: 1, y: E, color: C.a, label: '(1, e)', anchor: 'end', dx: -8 }, { x: E, y: 1, color: C.b, label: '(e, 1)', dy: 14 }] }));
 def('inverse-trig', 'Inverse trig functions', '\\(\\arcsin x\\) on \\([-1,1]\\), range \\(\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right]\\); \\(\\arctan x\\) with asymptotes \\(y=\\pm\\dfrac{\\pi}{2}\\). \\((\\arcsin x)\'=\\dfrac{1}{\\sqrt{1-x^2}}\\), \\((\\arctan x)\'=\\dfrac{1}{1+x^2}\\).', () =>
-  plot({ x: [-5, 5], y: [-2, 2], ystep: 0.5, hlines: [{ y: PI / 2, label: 'π/2' }, { y: -PI / 2, label: '−π/2' }], curves: [{ f: asin, dom: [-1, 1], color: C.a, label: 'arcsin x', labelAt: [1.05, 1.25] }, { f: atan, color: C.b, label: 'arctan x', labelAt: [2.6, 0.95] }, { f: (x) => 1 / (1 + x * x), color: C.b, dash: '5 3', label: '1/(1+x²)', labelAt: [-4.8, 0.3] }] }));
+  plot({ x: [-5, 5], y: [-2, 2], ystep: 0.5, hlines: [{ y: PI / 2, label: '½π' }, { y: -PI / 2, label: '−π/2' }], curves: [{ f: asin, dom: [-1, 1], color: C.a, label: 'arcsin x', labelAt: [1.05, 1.25] }, { f: atan, color: C.b, label: 'arctan x', labelAt: [2.6, 0.95] }, { f: (x) => 1 / (1 + x * x), color: C.b, dash: '5 3', label: '1/(1+x²)', labelAt: [-4.8, 0.3] }] }));
 def('fff', 'f, f′, f″ for f = x³ − 3x', '\\(f\'=3x^2-3\\) is zero at \\(\\pm1\\) (local max at −1, local min at 1); \\(f\'\'=6x\\) is zero at 0 (inflection point).', () =>
   plot({ x: [-2.5, 2.5], y: [-6, 6], curves: [{ f: (x) => x ** 3 - 3 * x, color: C.a, label: 'f', labelAt: [2.05, 2.6] }, { f: (x) => 3 * x * x - 3, color: C.b, dash: '6 3', label: 'f′', labelAt: [-2.25, 4.6] }, { f: (x) => 6 * x, color: C.c, dash: '2 3', label: 'f″', labelAt: [0.75, 5.2] }], points: [{ x: -1, y: 2, color: C.a }, { x: 1, y: -2, color: C.a }, { x: 0, y: 0, color: C.c }] }));
 function stack3(fns, dom, yr, names, piX) {
@@ -177,9 +178,9 @@ function stack3(fns, dom, yr, names, piX) {
   fns.forEach((g, i) => { const inner = plot({ W, H, x: dom, y: yr[i], piX, curves: [{ f: g, color: PAL[i] }], texts: [[dom[0] + (dom[1] - dom[0]) * 0.05, yr[i][0] + (yr[i][1] - yr[i][0]) * 0.85, names[i], PAL[i], 'start', true]] }); s += `<g transform="translate(0,${i * H})">${inner.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</g>`; });
   return svg(W, 3 * H, s, names.join(' / ') + ' panels');
 }
-def('fff-panels', 'Stacked f / f′ / f″ panels', '\\(f(x)=x^4-4x^2\\): \\(f\'=4x^3-8x\\) is zero at \\(0,\\pm\\sqrt2\\) (extrema of f); \\(f\'\'=12x^2-8\\) is zero at \\(\\pm\\sqrt{\\tfrac23}\\approx\\pm0.816\\) (inflection points). Vertical alignment shows the correspondence.', () =>
+def('fff-panels', 'Stacked f / f′ / f″ panels', '\\(f(x)=x^4-4x^2\\): \\(f\'=4x^3-8x\\) is zero at \\(0,\\pm\\sqrt2\\) (extrema of f); \\(f\'\'=12x^2-8\\) is zero at \\(\\pm\\sqrt{\\dfrac23}\\approx\\pm0.816\\) (inflection points). Vertical alignment shows the correspondence.', () =>
   stack3([(x) => x ** 4 - 4 * x * x, (x) => 4 * x ** 3 - 8 * x, (x) => 12 * x * x - 8], [-2.3, 2.3], [[-5, 6], [-12, 12], [-10, 40]], ['f', 'f′', 'f″']));
-def('f-from-fprime', 'Reading f from the graph of f′', 'Given \\(f\'(x)=(x+1)(x-2)\\): f increases where \\(f\'>0\\) (\\(x<-1\\) or \\(x>2\\)), local max at −1, local min at 2, inflection at \\(x=\\tfrac12\\) where \\(f\'\\) has its minimum. Dashed: \\(f=\\dfrac{x^3}{3}-\\dfrac{x^2}{2}-2x\\).', () =>
+def('f-from-fprime', 'Reading f from the graph of f′', 'Given \\(f\'(x)=(x+1)(x-2)\\): f increases where \\(f\'>0\\) (\\(x<-1\\) or \\(x>2\\)), local max at −1, local min at 2, inflection at \\(x=\\dfrac12\\) where \\(f\'\\) has its minimum. Dashed: \\(f=\\dfrac{x^3}{3}-\\dfrac{x^2}{2}-2x\\).', () =>
   plot({ x: [-3, 4], y: [-4, 6], vlines: [{ x: -1, label: 'max f' }, { x: 2, label: 'min f' }, { x: 0.5, label: 'infl.', color: C.c }], curves: [{ f: (x) => (x + 1) * (x - 2), color: C.b, label: 'f′', labelAt: [3.1, 4.4] }, { f: (x) => x ** 3 / 3 - x * x / 2 - 2 * x, color: C.a, dash: '6 3', label: 'f', labelAt: [-2.9, -3.2] }] }));
 def('higher-deriv', 'Higher-order derivatives of eˣ sin x', '\\(f=e^{x}\\sin x\\), \\(f\'=e^x(\\sin x+\\cos x)\\), \\(f\'\'=2e^x\\cos x\\).', () =>
   plot({ x: [-PI, PI], y: [-6, 8], piX: 0.5, curves: [{ f: (x) => exp(x) * sin(x), color: C.a, label: 'f', labelAt: [2.6, 3] }, { f: (x) => exp(x) * (sin(x) + cos(x)), color: C.b, dash: '6 3', label: 'f′', labelAt: [1.25, 7.2] }, { f: (x) => 2 * exp(x) * cos(x), color: C.c, dash: '2 3', label: 'f″', labelAt: [0.1, 3.6] }] }));
@@ -212,7 +213,7 @@ idef('cone-tank', 'Related rates: conical tank', '', (v) => {
   { key: 'h', label: '水深 h', min: 1, max: 10, step: 0.5, value: 5, unit: 'm' },
 ], (v) => {
   const h = v.h, dhdt = 75 / (4 * PI * h * h);
-  return `Cone radius 4, height 10, so \\(r=\\dfrac{2}{5}h\\) and \\(V=\\dfrac{\\pi}{3}r^2h=\\dfrac{4\\pi}{75}h^3\\). Filling at 3 m³/min, at \\(h=${fmt(h, 1)}\\): \\(\\dfrac{dh}{dt}=\\dfrac{3}{\\frac{4\\pi}{25}\\cdot${fmt(h, 1)}^2}=${fmt(dhdt, 3)}\\) m/min.`;
+  return `Cone radius 4, height 10, so \\(r=\\dfrac{2}{5}h\\) and \\(V=\\dfrac{\\pi}{3}r^2h=\\dfrac{4\\pi}{75}h^3\\). Filling at 3 m³/min, at \\(h=${fmt(h, 1)}\\): \\(\\dfrac{dh}{dt}=\\dfrac{3}{\\dfrac{4\\pi}{25}\\cdot${fmt(h, 1)}^2}=${fmt(dhdt, 3)}\\) m/min.`;
 });
 idef('linearization', 'Local linearity / tangent-line approximation', '', (v) => {
   const a = v.a, ya = sqrt(a), m = 1 / (2 * ya), L = (x) => ya + m * (x - a), nz = (x, d) => String(Number(fmt(x, d)));
@@ -303,11 +304,11 @@ def('arctan-int', 'Other techniques: ∫ 1/(1+x²) dx = arctan x', '\\(\\int_0^1
 /* ---------- differential equations ---------- */
 def('exp-model', 'Exponential models dy/dt = ky', 'Solutions \\(y=y_0e^{kt}\\) for \\(k=0.5,0,-0.5\\) with \\(y_0=2\\). Doubling time \\(\\dfrac{\\ln2}{k}\\approx1.386\\) for \\(k=0.5\\).', () =>
   plot({ x: [0, 4], y: [0, 12], xlabel: 't', curves: [0.5, 0, -0.5].map((k, i) => ({ f: (t) => 2 * exp(k * t), color: PAL[i], label: `k = ${k}`, labelAt: [3.4, 2 * exp(k * 3.4)] })) }));
-def('de-verify', 'Verifying solutions: y = Ce²ˣ solves y′ = 2y', 'Substituting \\(y=Ce^{2x}\\): \\(y\'=2Ce^{2x}=2y\\) for every C. Curves for \\(C=-1,-\\tfrac12,\\tfrac12,1\\) follow the slope field of \\(y\'=2y\\).', () =>
+def('de-verify', 'Verifying solutions: y = Ce²ˣ solves y′ = 2y', 'Substituting \\(y=Ce^{2x}\\): \\(y\'=2Ce^{2x}=2y\\) for every C. Curves for \\(C=-1,-\\dfrac12,\\dfrac12,1\\) follow the slope field of \\(y\'=2y\\).', () =>
   plot({ x: [-2, 1.2], y: [-6, 6], field: { dydx: (x, y) => 2 * y, nx: 12, ny: 10 }, curves: [-1, -0.5, 0.5, 1].map((c, i) => ({ f: (x) => c * exp(2 * x), color: PAL[i] })) }));
 const SF = [
   ['sf-xy', 'dy/dx = x − y', '\\dfrac{dy}{dx}=x-y', (x, y) => x - y, { f: (x) => x - 1 + 2 * exp(-x) }, '\\(y=x-1+2e^{-x}\\) through \\((0,1)\\); the line \\(y=x-1\\) is itself a solution', [-3, 3]],
-  ['sf-xy2', 'dy/dx = xy', '\\dfrac{dy}{dx}=xy', (x, y) => x * y, { f: (x) => 0.5 * exp(x * x / 2) }, '\\(y=\\tfrac12e^{x^2/2}\\) through \\((0,\\tfrac12)\\); \\(y=0\\) is an equilibrium', [-3, 3]],
+  ['sf-xy2', 'dy/dx = xy', '\\dfrac{dy}{dx}=xy', (x, y) => x * y, { f: (x) => 0.5 * exp(x * x / 2) }, '\\(y=\\dfrac12e^{x^2/2}\\) through \\((0,\\dfrac12)\\); \\(y=0\\) is an equilibrium', [-3, 3]],
   ['sf-logistic', 'dy/dx = y(4 − y)/4', '\\dfrac{dy}{dx}=\\dfrac{y(4-y)}{4}', (x, y) => (y * (4 - y)) / 4, { f: (x) => 4 / (1 + 3 * exp(-x)) }, '\\(y=\\dfrac{4}{1+3e^{-x}}\\) through \\((0,1)\\); equilibria \\(y=0\\) (unstable) and \\(y=4\\) (stable)', [-1, 5]],
   ['sf-x-over-y', 'dy/dx = −x/y', '\\dfrac{dy}{dx}=-\\dfrac{x}{y}', (x, y) => -x / y, { param: (t) => [2 * cos(t), 2 * sin(t)], dom: [0.02, PI - 0.02] }, 'upper semicircle \\(x^2+y^2=4\\) through \\((0,2)\\)', [-3, 3]],
 ];
@@ -410,7 +411,7 @@ crossSection('xsec-tri', 'Cross sections: equilateral triangles', 'Same base; \\
 crossSection('xsec-semi', 'Cross sections: semicircles', 'Same base, diameter \\(s=2\\sqrt x\\): \\(A(x)=\\dfrac{\\pi}{8}s^2=\\dfrac{\\pi x}{2}\\), \\(V=\\int_0^4\\dfrac{\\pi x}{2}dx=4\\pi\\approx12.566\\).', 'semi');
 def('arc-length', 'Arc length of y = x^(3/2)', '', () => {
   const L = simpson((x) => sqrt(1 + 2.25 * x), 0, 4), chord = [0, 1, 2, 3].reduce((s, i) => s + Math.hypot(1, (i + 1) ** 1.5 - i ** 1.5), 0);
-  setCap('arc-length', `\\(L=\\int_0^4\\sqrt{1+\\left(\\tfrac32\\sqrt x\\right)^2}\\,dx=\\dfrac{8}{27}\\left(10^{3/2}-1\\right)\\approx${fmt(L, 4)}\\); the 4-chord polygon (dashed) has length ${fmt(chord, 4)} — a lower bound.`);
+  setCap('arc-length', `\\(L=\\int_0^4\\sqrt{1+\\left(\\dfrac32\\sqrt x\\right)^2}\\,dx=\\dfrac{8}{27}\\left(10^{3/2}-1\\right)\\approx${fmt(L, 4)}\\); the 4-chord polygon (dashed) has length ${fmt(chord, 4)} — a lower bound.`);
   return plot({ x: [-0.3, 4.4], y: [-0.5, 8.6], curves: [{ f: (x) => x ** 1.5, dom: [0, 4], color: C.a }, { pts: [0, 1, 2, 3, 4].map((x) => [x, x ** 1.5]), color: C.b, dash: '5 3' }], points: [0, 1, 2, 3, 4].map((x) => ({ x, y: x ** 1.5, r: 3, color: C.b })) });
 });
 
@@ -419,7 +420,7 @@ def('param-curve', 'Parametric curve with direction and tangents', '\\(x=t^2-1\\
   const X = (t) => t * t - 1, Y = (t) => t ** 3 - t, ts = [-1.2, -0.4, 0.4, 1.2];
   return plot({ x: [-1.5, 2], y: [-2.3, 2.3], curves: [{ param: (t) => [X(t), Y(t)], dom: [-1.6, 1.6], color: C.a }], segs: ts.map((t) => [X(t), Y(t), X(t) + 0.12 * 2 * t, Y(t) + 0.12 * (3 * t * t - 1), C.b, 1.8, '', true]), points: [{ x: X(1 / sqrt(3)), y: Y(1 / sqrt(3)), color: C.c, label: 'horizontal', dy: 14 }, { x: X(-1 / sqrt(3)), y: Y(-1 / sqrt(3)), color: C.c, label: 'horizontal' }, { x: -1, y: 0, color: C.e, label: 't = 0: vertical', anchor: 'end', dx: -8 }] });
 });
-def('param-concavity', 'Second derivative of a parametric curve', '\\(x=2\\cos t\\), \\(y=\\sin t\\): \\(\\dfrac{dy}{dx}=-\\dfrac{\\cos t}{2\\sin t}\\), \\(\\dfrac{d^2y}{dx^2}=\\dfrac{\\frac{d}{dt}\\left(\\frac{dy}{dx}\\right)}{\\frac{dx}{dt}}=-\\dfrac{1}{4\\sin^3t}\\): concave down for \\(0<t<\\pi\\), up for \\(\\pi<t<2\\pi\\).', () =>
+def('param-concavity', 'Second derivative of a parametric curve', '\\(x=2\\cos t\\), \\(y=\\sin t\\): \\(\\dfrac{dy}{dx}=-\\dfrac{\\cos t}{2\\sin t}\\), \\(\\dfrac{d^2y}{dx^2}=\\dfrac{\\dfrac{d}{dt}\\left(\\dfrac{dy}{dx}\\right)}{\\dfrac{dx}{dt}}=-\\dfrac{1}{4\\sin^3t}\\): concave down for \\(0<t<\\pi\\), up for \\(\\pi<t<2\\pi\\).', () =>
   plot({ W: 440, H: 300, x: [-2.6, 2.6], y: [-1.6, 1.6], ystep: 0.5, curves: [{ param: (t) => [2 * cos(t), sin(t)], dom: [0, PI], color: C.a, label: 'concave down', labelAt: [-0.6, 1.25] }, { param: (t) => [2 * cos(t), sin(t)], dom: [PI, 2 * PI], color: C.b, label: 'concave up', labelAt: [-0.5, -1.25], dy: 0 }] }));
 def('cycloid', 'Parametric arc length: cycloid', '', () => {
   const L = simpson((t) => sqrt((1 - cos(t)) ** 2 + sin(t) ** 2), 0, 2 * PI);
@@ -444,7 +445,7 @@ function polarPlot(curves, R, marks = [], fills = []) {
   const W = 400, H = 400, cx = 200, cy = 200, sc = 165 / R; let s = '';
   const step = R > 2.5 ? 1 : 0.5;
   for (let k = step; k <= R + 1e-9; k += step) s += circle(cx, cy, k * sc, { stroke: C.grid, w: 0.8 }) + text(cx + k * sc + 2, cy + 9, String(k), { size: 9, color: C.muted, anchor: 'start' });
-  const lbl = ['0', 'π/6', 'π/3', 'π/2', '2π/3', '5π/6', 'π', '7π/6', '4π/3', '3π/2', '5π/3', '11π/6'];
+  const lbl = ['0', 'π/6', 'π/3', '½π', '2π/3', '5π/6', 'π', '7π/6', '4π/3', '1½π', '5π/3', '11π/6'];
   lbl.forEach((l, k) => { const a = (k * PI) / 6; s += line(cx, cy, cx + R * sc * cos(a), cy - R * sc * sin(a), { color: C.grid, w: 0.8 }) + text(cx + (R * sc + 16) * cos(a), cy - (R * sc + 12) * sin(a), l, { size: 9.5, color: C.muted }); });
   const pt = (t, r) => `${(cx + r * cos(t) * sc).toFixed(1)},${(cy - r * sin(t) * sc).toFixed(1)}`;
   for (const f of fills) { const n = 200; let d = ''; for (let i = 0; i <= n; i++) { const t = f.dom[0] + ((f.dom[1] - f.dom[0]) * i) / n; d += (i ? 'L' : 'M') + pt(t, f.outer(t)); } for (let i = n; i >= 0; i--) { const t = f.dom[0] + ((f.dom[1] - f.dom[0]) * i) / n; d += 'L' + pt(t, f.inner ? f.inner(t) : 0); } s += path(d + 'Z', { fill: f.color || C.a, op: 0.28, stroke: 'none' }); }
@@ -478,7 +479,7 @@ def('polar-points', 'Plotting polar points & conversion', 'Point \\(\\left(2,\\d
 
 /* ---------- series ---------- */
 const partial = (a) => a.reduce((acc, v) => { acc.push((acc.length ? acc[acc.length - 1] : 0) + v); return acc; }, []);
-def('geo-series', 'Geometric series partial sums', '\\(\\sum_{n=0}^\\infty 3\\left(\\tfrac12\\right)^n=\\dfrac{3}{1-\\frac12}=6\\); with \\(r=-\\tfrac12\\): \\(\\dfrac{3}{1+\\frac12}=2\\) (oscillating approach). Converges iff \\(|r|<1\\).', () => {
+def('geo-series', 'Geometric series partial sums', '\\(\\sum_{n=0}^\\infty 3\\left(\\dfrac12\\right)^n=\\dfrac{3}{1-\\dfrac12}=6\\); with \\(r=-\\dfrac12\\): \\(\\dfrac{3}{1+\\dfrac12}=2\\) (oscillating approach). Converges iff \\(|r|<1\\).', () => {
   const a = Array.from({ length: 15 }, (_, i) => 3 * 0.5 ** i), b = Array.from({ length: 15 }, (_, i) => 3 * (-0.5) ** i);
   return plot({ x: [0, 16], y: [0, 7], xlabel: 'n (number of terms)', hlines: [{ y: 6, label: 'S = 6' }, { y: 2, label: 'S = 2' }], points: [...partial(a).map((v, i) => ({ x: i + 1, y: v, color: C.a, r: 3 })), ...partial(b).map((v, i) => ({ x: i + 1, y: v, color: C.b, r: 3 }))], legend: [['r = 1/2', C.a], ['r = −1/2', C.b]], legendX: 300 });
 });
@@ -609,7 +610,7 @@ idef('matrix-rot', 'Rotation matrix', '', (v) => {
 ], (v) => `Rotation by \\(\\theta=${fmt(v.deg, 0)}°\\): \\(\\begin{bmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{bmatrix}\\), det = 1 (area preserved).`);
 def('rational-analysis', 'Rational function: asymptotes, hole, intercepts', '\\(f(x)=\\dfrac{(x-1)(x+3)}{(x-1)(x-2)}\\): hole at \\((1,-4)\\), vertical asymptote \\(x=2\\), horizontal asymptote \\(y=1\\), x-intercept \\(-3\\), y-intercept \\(f(0)=-\\dfrac32\\).', () =>
   plot({ x: [-6, 7], y: [-8, 8], vlines: [{ x: 2, label: 'x = 2' }], hlines: [{ y: 1, label: 'y = 1' }], curves: [{ f: (x) => (abs(x - 1) < 1e-9 ? NaN : ((x - 1) * (x + 3)) / ((x - 1) * (x - 2))), n: 1300, color: C.a }], points: [{ x: 1, y: -4, open: true, color: C.a, label: 'hole (1, −4)', anchor: 'start', dx: 10, dy: 14 }, { x: -3, y: 0, label: '(−3, 0)', anchor: 'end', dx: -8, dy: -12 }, { x: 0, y: -1.5, label: '(0, −3/2)', anchor: 'start', dx: 10, dy: 14 }] }));
-def('exp-log-model', 'Exponential decay model (half-life)', '\\(A(t)=100\\left(\\tfrac12\\right)^{t/5}\\): half-life 5, so A halves every 5 units. Taking logs, \\(\\ln A=\\ln100-\\dfrac{\\ln2}{5}t\\) is linear in t.', () =>
+def('exp-log-model', 'Exponential decay model (half-life)', '\\(A(t)=100\\left(\\dfrac12\\right)^{t/5}\\): half-life 5, so A halves every 5 units. Taking logs, \\(\\ln A=\\ln100-\\dfrac{\\ln2}{5}t\\) is linear in t.', () =>
   plot({ x: [0, 21], y: [0, 110], xlabel: 't', ylabel: 'A', curves: [{ f: (t) => 100 * 0.5 ** (t / 5), color: C.a }], points: [0, 5, 10, 15, 20].map((t) => ({ x: t, y: 100 * 0.5 ** (t / 5), label: fmt(100 * 0.5 ** (t / 5), 2) })) }));
 def('rate-intuition', 'Rate of change intuition: shrinking intervals', 'Distance \\(d(t)=4.9t^2\\): average speeds on \\([1,2],[1,1.5],[1,1.1],[1,1.01]\\) are \\(14.7, 12.25, 10.29, 9.849\\) m/s, approaching the instantaneous speed \\(9.8\\) m/s at \\(t=1\\).', () =>
   bars({ bars: [2, 1.5, 1.1, 1.01].map((b, i) => ({ label: `[1, ${b}]`, v: (4.9 * b * b - 4.9) / (b - 1), color: PAL[i] })).concat([{ label: 'instant', v: 9.8, color: PAL[4] }]), showV: true, ylabel: 'average speed (m/s)', max: 17 }));
@@ -629,22 +630,22 @@ def('ineq-1d', 'Compound inequality on a number line', '\\(-2<3x+1\\le7\\Rightar
   s += line(X(-1), 50, X(2), 50, { color: C.a, w: 5 }) + circle(X(-1), 50, 6, { fill: 'var(--bg-elev,#fff)', stroke: C.a, w: 2 }) + circle(X(2), 50, 6, { fill: C.a, stroke: C.a });
   return svg(W, H, s, 'inequality number line');
 });
-def('ineq-2d', 'Linear inequality in two variables', '\\(y\\le-\\tfrac12x+2\\): solid boundary (included), shade below. Test point \\((0,0)\\): \\(0\\le2\\) is true.', () =>
+def('ineq-2d', 'Linear inequality in two variables', '\\(y\\le-\\dfrac12x+2\\): solid boundary (included), shade below. Test point \\((0,0)\\): \\(0\\le2\\) is true.', () =>
   plot({ x: [-4, 6], y: [-4, 5], fills: [{ f: (x) => -0.5 * x + 2, g: () => -4, dom: [-4, 6] }], curves: [{ f: (x) => -0.5 * x + 2, color: C.a, label: 'y = −½x + 2', labelAt: [-3.8, 4.4] }], points: [{ x: 0, y: 0, color: C.b, label: 'test (0, 0)', labelColor: C.ink, dy: 14 }] }));
 def('vlt', 'Function vs not a function (vertical line test)', '\\(y=x^2\\) passes the vertical line test; the circle \\(x^2+y^2=4\\) fails (\\(x=1\\) meets it at \\(y=\\pm\\sqrt3\\)).', () =>
   plot({ W: 460, H: 320, x: [-3, 3], y: [-2.5, 4.5], vlines: [{ x: 1, color: C.e, dash: '', label: 'x = 1' }], curves: [{ f: (x) => x * x, color: C.a, label: 'y = x²', labelAt: [-2.7, 3.6] }, { param: (t) => [2 * cos(t), 2 * sin(t)], dom: [0, 2 * PI], color: C.b }], points: [{ x: 1, y: sqrt(3), color: C.b }, { x: 1, y: -sqrt(3), color: C.b }, { x: 1, y: 1, color: C.a }] }));
-def('fn-graphs', 'Reading a function graph: domain, range, zeros, extrema', '\\(f(x)=\\tfrac14x^3-x\\) on \\([-3,3]\\): zeros \\(0,\\pm2\\); \\(f\'=\\tfrac34x^2-1=0\\) at \\(x=\\pm\\dfrac{2}{\\sqrt3}\\) (relative max \\(\\approx0.770\\), min \\(\\approx-0.770\\)); range \\([-3.75,3.75]\\).', () =>
+def('fn-graphs', 'Reading a function graph: domain, range, zeros, extrema', '\\(f(x)=\\dfrac14x^3-x\\) on \\([-3,3]\\): zeros \\(0,\\pm2\\); \\(f\'=\\dfrac34x^2-1=0\\) at \\(x=\\pm\\dfrac{2}{\\sqrt3}\\) (relative max \\(\\approx0.770\\), min \\(\\approx-0.770\\)); range \\([-3.75,3.75]\\).', () =>
   plot({ x: [-3.2, 3.2], y: [-4, 4], curves: [{ f: (x) => 0.25 * x ** 3 - x, dom: [-3, 3], color: C.a }], points: [{ x: -2, y: 0, label: '−2', dy: 14 }, { x: 0, y: 0, label: '0', dy: 14 }, { x: 2, y: 0, label: '2', dy: -12 }, { x: -2 / sqrt(3), y: 0.25 * (-2 / sqrt(3)) ** 3 + 2 / sqrt(3), color: C.b, r: 3 }, { x: 2 / sqrt(3), y: 0.25 * (2 / sqrt(3)) ** 3 - 2 / sqrt(3), color: C.b, r: 3 }, { x: -3, y: -3.75, label: '(−3, −3.75)' }, { x: 3, y: 3.75, label: '(3, 3.75)', anchor: 'end', dx: -8, dy: 4 }] }));
 def('slope', 'Slope as rise over run', 'Through \\((-1,-1)\\) and \\((3,2)\\): \\(m=\\dfrac{2-(-1)}{3-(-1)}=\\dfrac34\\); point-slope form \\(y+1=\\dfrac34(x+1)\\).', () =>
   plot({ x: [-3, 5], y: [-3, 4], curves: [{ f: (x) => -1 + 0.75 * (x + 1), color: C.a }], segs: [[-1, -1, 3, -1, C.b, 1.6, '4 3'], [3, -1, 3, 2, C.c, 1.6, '4 3']], texts: [[1, -1.45, 'run = 4', C.b], [3.15, 0.5, 'rise = 3', C.c, 'start']], fracs: [[-1.5, 2.5, '3', '4', C.a, 'm =']], points: [{ x: -1, y: -1, label: '(−1, −1)', dy: 14, anchor: 'end', dx: -6 }, { x: 3, y: 2, label: '(3, 2)', anchor: 'end', dx: -8 }] }));
-def('slope-forms', 'Positive, negative, zero, undefined slope', 'Lines \\(y=2x\\) (m = 2), \\(y=-\\tfrac12x+1\\) (\\(m=-\\tfrac12\\)), \\(y=-2\\) (m = 0), \\(x=3\\) (undefined).', () =>
+def('slope-forms', 'Positive, negative, zero, undefined slope', 'Lines \\(y=2x\\) (m = 2), \\(y=-\\dfrac12x+1\\) (\\(m=-\\dfrac12\\)), \\(y=-2\\) (m = 0), \\(x=3\\) (undefined).', () =>
   plot({ x: [-4, 5], y: [-4, 4], vlines: [{ x: 3, color: C.d, dash: '', label: 'undefined' }], curves: [{ f: (x) => 2 * x, color: C.a, label: 'm = 2', labelAt: [1.3, 3.2] }, { f: (x) => -0.5 * x + 1, color: C.b, label: 'm = −1/2', labelAt: [-3.9, 3.5] }, { f: () => -2, color: C.c, label: 'm = 0', labelAt: [-3.9, -1.5] }] }));
 for (const [id, nm, g, cap] of [
   ['sys-one', 'one solution', (x) => -x + 4, 'Intersecting lines \\(y=2x+1\\) and \\(y=-x+4\\): unique solution \\((1,3)\\).'],
   ['sys-none', 'no solution', (x) => 2 * x - 2, 'Parallel lines \\(y=2x+1\\) and \\(y=2x-2\\): same slope, different intercepts ⇒ no solution (inconsistent).'],
   ['sys-inf', 'infinitely many solutions', (x) => 2 * x + 1, '\\(y=2x+1\\) and \\(4x-2y=-2\\) are the same line ⇒ infinitely many solutions (dependent).'],
 ]) def(id, `System of linear equations: ${nm}`, cap, () => plot({ x: [-3, 4], y: [-4, 8], curves: [{ f: (x) => 2 * x + 1, color: C.a, w: id === 'sys-inf' ? 5 : 2 }, { f: g, color: C.b, dash: '6 4' }], points: id === 'sys-one' ? [{ x: 1, y: 3, label: '(1, 3)' }] : [] }));
-def('exp-rules', 'Exponential functions 2ˣ and (1/2)ˣ', '\\(b^{m}b^{n}=b^{m+n}\\), \\(b^0=1\\): both curves pass through \\((0,1)\\); \\(\\left(\\tfrac12\\right)^x=2^{-x}\\) is the reflection of \\(2^x\\) in the y-axis.', () =>
+def('exp-rules', 'Exponential functions 2ˣ and (1/2)ˣ', '\\(b^{m}b^{n}=b^{m+n}\\), \\(b^0=1\\): both curves pass through \\((0,1)\\); \\(\\left(\\dfrac12\\right)^x=2^{-x}\\) is the reflection of \\(2^x\\) in the y-axis.', () =>
   plot({ x: [-4, 4], y: [-1, 9], curves: [{ f: (x) => 2 ** x, color: C.a, label: '2ˣ', labelAt: [2.65, 6.6] }, { f: (x) => 2 ** -x, color: C.b, label: '(1/2)ˣ', labelAt: [-3.9, 7.4] }], points: [{ x: 0, y: 1, label: '(0, 1)' }] }));
 def('area-model', 'Polynomial multiplication area model', '\\((x+2)(x+3)=x^2+3x+2x+6=x^2+5x+6\\).', () => {
   const s = rect(60, 40, 160, 160, { fill: C.a, op: 0.2 }) + rect(220, 40, 90, 160, { fill: C.b, op: 0.2 }) + rect(60, 200, 160, 60, { fill: C.c, op: 0.2 }) + rect(220, 200, 90, 60, { fill: C.d, op: 0.25 }) + text(140, 120, 'x²', { size: 16 }) + text(265, 120, '3x', { size: 14 }) + text(140, 230, '2x', { size: 14 }) + text(265, 230, '6', { size: 14 }) + text(140, 28, 'x') + text(265, 28, '3') + text(44, 120, 'x') + text(44, 230, '2');
@@ -790,7 +791,7 @@ def('number-classes', 'Real numbers: classification tree', 'Every natural number
   let s = text(310, 22, 'real numbers ℝ', { bold: true, size: 13 });
   s += rect(230, 38, 160, 38, { fill: C.a, op: 0.14, stroke: C.a, w: 1.2 }) + text(310, 57, 'ℝ: all points on the line', { size: 10 });
   s += line(310, 76, 190, 110, { color: C.muted, w: 1.2 }) + line(310, 76, 470, 110, { color: C.muted, w: 1.2 });
-  s += rect(40, 110, 300, 52, { fill: C.c, op: 0.15, stroke: C.c, w: 1.2 }) + text(190, 130, 'rational ℚ', { bold: true, size: 11 }) + text(190, 148, 'a ÷ b with b ≠ 0', { size: 9.5 });
+  s += rect(40, 110, 300, 52, { fill: C.c, op: 0.15, stroke: C.c, w: 1.2 }) + text(190, 130, 'rational ℚ', { bold: true, size: 11 }) + text(190, 148, 'ratio a : b, with b ≠ 0', { size: 9.5 });
   s += rect(400, 110, 190, 52, { fill: C.b, op: 0.15, stroke: C.b, w: 1.2 }) + text(495, 130, 'irrational', { bold: true, size: 11 }) + text(495, 148, '√2, π, e', { size: 10.5 });
   s += rect(60, 172, 260, 116, { fill: C.c, op: 0.06, stroke: C.c, w: 1.2 }) + text(70, 190, 'integers ℤ: …, −2, −1, 0, 1, 2, …', { anchor: 'start', size: 10 });
   s += rect(78, 204, 224, 72, { fill: C.c, op: 0.08, stroke: C.c, w: 1.1 }) + text(88, 220, 'whole 𝕎: 0, 1, 2, 3, …', { anchor: 'start', size: 10 });
@@ -809,7 +810,7 @@ def('lin-eq-balance', 'Solving 2x + 3 = 7 with a balance', 'A balance scale mode
   [176, 194, 212].forEach((x) => { s += rect(x, 110, 14, 16, { fill: C.b, op: 0.25, stroke: C.b }) + text(x + 7, 118, '1', { size: 9 }); });
   for (let k = 0; k < 7; k++) s += rect(right - 54 + k * 16, 110, 14, 16, { fill: C.b, op: 0.25, stroke: C.b }) + text(right - 47 + k * 16, 118, '1', { size: 9 });
   s += text(left, 172, '2x + 3', { bold: true, size: 12 }) + text(right, 172, '7', { bold: true, size: 12 });
-  const steps = [['2x + 3 = 7', ''], ['2x = 4', '−3 from both sides'], ['x = 2', '÷2 both sides']];
+  const steps = [['2x + 3 = 7', ''], ['2x = 4', '−3 from both sides'], ['x = 2', 'divide by 2 both sides']];
   steps.forEach(([eq, note], i) => {
     const x = 25 + i * 200;
     s += rect(x, 220, 150, 40, { fill: i === 2 ? C.c : C.a, op: i === 2 ? 0.2 : 0.08, stroke: i === 2 ? C.c : C.a, w: 1.3 }) + text(x + 75, 240, eq, { bold: true, size: 13 });
@@ -821,10 +822,10 @@ def('lin-eq-balance', 'Solving 2x + 3 = 7 with a balance', 'A balance scale mode
 def('exponent-rules', 'Exponent rules with numeric examples', 'The exponent rules follow from repeated multiplication: add exponents when multiplying like bases, subtract when dividing, and multiply when raising a power to a power. Negative exponents give reciprocals and fractional exponents give roots; these conventions make the same rules work for all integer and rational exponents.', () =>
   svg(620, 320, table(15, 32, [180, 225, 185], [
     ['product', 'bᵐ · bⁿ = bᵐ⁺ⁿ', '2³ · 2⁴ = 2⁷ = 128'],
-    ['quotient', 'bᵐ ÷ bⁿ = bᵐ⁻ⁿ', '2⁵ ÷ 2² = 2³ = 8'],
+    ['quotient', 'quotient rule: bᵐ : bⁿ = bᵐ⁻ⁿ', '2⁵ : 2² = 2³ = 8'],
     ['power of a power', '(bᵐ)ⁿ = bᵐⁿ', '(2³)² = 2⁶ = 64'],
     ['zero exponent', 'b⁰ = 1 (b ≠ 0)', '7⁰ = 1'],
-    ['negative exponent', 'b⁻ⁿ = 1 ÷ bⁿ', '2⁻³ = 1 ÷ 8 = 0.125'],
+    ['negative exponent', 'b⁻ⁿ = reciprocal of bⁿ', '2⁻³ = reciprocal of 8 = 0.125'],
     ['fractional exponent', 'b^(1/n) = ⁿ√b', '9^(1/2) = 3; 8^(1/3) = 2'],
     ['combined', 'b^(m/n) = ⁿ√(bᵐ)', '16^(3/4) = 8'],
   ], { headers: ['rule', 'general form', 'example'], rowH: 34, size: 9.5 }), 'exponent rules table'));
@@ -1008,9 +1009,9 @@ idef('arc-sector', 'Arc length and sector area', '', (v) => {
   s += figArc(cx, cy, 38, a0, a1, C.e) + text(isDefault ? cx + 56 : cx + R * 0.55 * cos(mid * D2R), isDefault ? cy - 44 : cy - R * 0.55 * sin(mid * D2R), `θ = ${fmt(theta, 0)}°`, { size: 10.5, color: C.e }) + text(isDefault ? cx + 82 : cx + 0.47 * R * cos(a0 * D2R) + 14, isDefault ? cy + 6 : cy - 0.47 * R * sin(a0 * D2R) + 10, isDefault ? 'r' : `r = ${fmt(r, 1)}`, { size: isDefault ? 12 : 10.5, bold: true }) + text(isDefault ? 108 : cx + (R + 18) * cos(mid * D2R), isDefault ? 74 : cy - (R + 18) * sin(mid * D2R), 'arc s', { size: 11, color: C.b });
   s += text(340, 52, 'radian measure', { bold: true, size: 12, anchor: 'start' });
   s += text(340, 80, 'arc length:  s = rθ', { size: 11, anchor: 'start' }) + text(340, 104, 'sector area:  A = ½ r²θ', { size: 11, anchor: 'start' });
-  s += text(340, 128, 'degrees → radians:  θ × π ÷ 180', { size: 10, anchor: 'start', color: C.muted });
-  s += table(340, 150, [85, 105], [['90°', 'π/2'], ['180°', 'π'], ['270°', '3π/2'], ['360°', '2π']], { headers: ['degrees', 'radians'], rowH: 28, size: 10, align: ['middle', 'middle'] });
-  s += text(340, 300, isDefault ? 'r = 6, θ = 2π/3 → s ≈ 12.57, A ≈ 37.70' : `r = ${fmt(r, 1)}, θ = ${fmt(theta, 0)}° → s ≈ ${fmt(r * rad, 2)}, A ≈ ${fmt(0.5 * r * r * rad, 2)}`, { size: 9.5, anchor: 'start' });
+  s += text(340, 128, 'degrees → radians: multiply θ by π, then divide by 180', { size: 10, anchor: 'start', color: C.muted });
+  s += table(340, 150, [85, 105], [['90°', '½π'], ['180°', 'π'], ['270°', '1½π'], ['360°', '2π']], { headers: ['degrees', 'radians'], rowH: 28, size: 10, align: ['middle', 'middle'] });
+  s += text(340, 300, isDefault ? 'r = 6, θ = ⅔π → s ≈ 12.57, A ≈ 37.70' : `r = ${fmt(r, 1)}, θ = ${fmt(theta, 0)}° → s ≈ ${fmt(r * rad, 2)}, A ≈ ${fmt(0.5 * r * r * rad, 2)}`, { size: 9.5, anchor: 'start' });
   return svg(620, 325, s, 'arc length sector area');
 }, [
   { key: 'r', label: '半径 r', min: 2, max: 10, step: 0.5, value: 6 },
@@ -1077,7 +1078,7 @@ def('function-transformations', 'Function transformations: summary table', 'Each
     ['−f(x)', 'reflect across the x-axis', '−√x'],
     ['f(−x)', 'reflect across the y-axis', '√(−x)'],
     ['a·f(x)', 'vertical stretch by |a|', '2 sin x'],
-    ['f(bx)', 'horizontal compression by 1 ÷ |b|', 'sin(2x)'],
+    ['f(bx)', 'horizontal compression by the reciprocal of |b|', 'sin(2x)'],
     ['|f(x)|', 'reflect negative values up', '|x² − 1|'],
   ], { headers: ['transformation', 'effect on the graph', 'example'], rowH: 34, size: 9.5 }), 'function transformations table'));
 def('poly-sign-chart', 'Polynomial sign chart and end behavior', 'For \\(p(x)=(x+2)(x-1)^2(x-3)\\), the sign chart is \\(+\\,-\\,-\\,+\\) across the zeros −2, 1, 3. At \\(x=1\\) the factor is squared (even multiplicity), so the graph touches but does not cross. Degree 4 with positive leading coefficient means both ends rise: \\(p(x)\\to+\\infty\\) as \\(x\\to\\pm\\infty\\).', () => {
@@ -1105,15 +1106,15 @@ def('exp-parameters', 'Exponential parameters: growth, decay and shifts', 'In \\
     ['0 < b < 1', 'exponential decay', '(1/2)ˣ = 2⁻ˣ'],
     ['k', 'vertical shift; asymptote y = k', '2ˣ − 2 has asymptote −2'],
     ['x − h', 'horizontal shift by h', '2^(x − 3) shifts right 3'],
-    ['doubling / half-life', 'solve bᵗ = 2 or bᵗ = 1/2', 't = ln 2 ÷ ln b'],
+    ['doubling / half-life', 'solve bᵗ = 2 or bᵗ = 0.5', 't = ratio of ln 2 to ln b'],
   ], { headers: ['parameter', 'effect on y = a·bˣ + k', 'example'], rowH: 34, size: 9.5 }), 'exponential parameters'));
 def('log-properties', 'Logarithm properties and a worked equation', 'Logs turn products into sums and quotients into differences; a power comes down as a factor. Change of base writes any log as a ratio of natural logs. When solving, check every candidate in the original equation: logarithms are defined only for positive arguments, so \\(x=-2\\) is rejected in \\( \\log_2 x+\\log_2(x-2)=3\\).', () =>
   svg(640, 335, table(15, 32, [300, 290], [
     ['log_b(MN) = log_b M + log_b N', 'log₂(8·4) = 3 + 2 = 5'],
-    ['log_b(M ÷ N) = log_b M − log_b N', 'log₂(8 ÷ 4) = 3 − 2 = 1'],
+    ['log_b(M : N) = log_b M − log_b N', 'log₂(8 : 4) = 3 − 2 = 1'],
     ['log_b(Mᵖ) = p log_b M', 'log₂(8²) = 2·3 = 6'],
     ['log_b b = 1; log_b 1 = 0', 'log₅ 5 = 1; log₅ 1 = 0'],
-    ['change of base: log_b M = ln M ÷ ln b', 'log₅ 25 = ln 25 ÷ ln 5 = 2'],
+    ['change of base: log_b M = ratio of ln M to ln b', 'log₅ 25 = ratio of ln 25 to ln 5 = 2'],
   ], { headers: ['property', 'numeric example'], rowH: 34, size: 9.5 }) + text(20, 260, 'Solve  log₂ x + log₂(x − 2) = 3', { anchor: 'start', size: 11, bold: true }) + text(20, 283, 'log₂[x(x − 2)] = 3  ⇒  x(x − 2) = 8  ⇒  x² − 2x − 8 = 0', { anchor: 'start', size: 10 }) + text(20, 306, '(x − 4)(x + 2) = 0  ⇒  x = 4  (x = −2 rejected: log of a negative)', { anchor: 'start', size: 9.5, color: C.muted }), 'log properties'));
 def('matrix-inverse', 'Determinant, area scaling and the inverse matrix', 'For \\(A=\\begin{bmatrix}3&1\\\\2&2\\end{bmatrix}\\), \\(\\det A=3(2)-1(2)=4\\). The unit square maps to a parallelogram of area \\(|\\det A|=4\\). Because the determinant is nonzero, \\(A^{-1}=\\dfrac{1}{\\det A}\\begin{bmatrix}d&-b\\\\-c&a\\end{bmatrix}=\\dfrac14\\begin{bmatrix}2&-1\\\\-2&3\\end{bmatrix}\\), and \\(A^{-1}A=I\\). If \\(\\det A=0\\), area collapses and no inverse exists.', () => {
   const p = plot({ W: 370, H: 360, x: [-1, 5], y: [-1, 5], polys: [{ pts: [[0, 0], [1, 0], [1, 1], [0, 1]], close: true, fill: C.muted, color: C.muted, op: 0.12 }, { pts: [[0, 0], [3, 2], [4, 4], [1, 2]], close: true, fill: C.a, color: C.a, op: 0.18 }], points: [{ x: 1, y: 1, label: 'unit square', dy: -12, color: C.muted }, { x: 4, y: 4, label: 'image', dy: 14, color: C.a }] });
@@ -1122,7 +1123,7 @@ def('matrix-inverse', 'Determinant, area scaling and the inverse matrix', 'For \
   s += text(390, 48, 'A = [ 3  1 ; 2  2 ]', { anchor: 'start', bold: true, size: 12 });
   s += text(390, 86, 'det A = 3(2) − 1(2) = 4', { anchor: 'start', size: 10.5 });
   s += text(390, 112, 'area scale = |det A| = 4', { anchor: 'start', size: 10.5 });
-  s += text(390, 146, 'A⁻¹ = (1 ÷ det A) · [ d  −b ; −c  a ]', { anchor: 'start', size: 10 });
+  s += text(390, 146, 'A⁻¹ = (1 : det A) · [ d  −b ; −c  a ]', { anchor: 'start', size: 10 });
   s += text(390, 170, 'A⁻¹ = ¼ [ 2  −1 ; −2  3 ]', { anchor: 'start', size: 10.5, bold: true });
   s += text(390, 208, 'A⁻¹A = I', { anchor: 'start', size: 10.5 });
   s += text(390, 232, 'det A = 0 → area 0, no inverse', { anchor: 'start', size: 9.5, color: C.muted });
@@ -1131,9 +1132,9 @@ def('matrix-inverse', 'Determinant, area scaling and the inverse matrix', 'For \
 def('conic-standard', 'Conic standard forms and completing the square', 'Each conic has a standard form that reveals its center, vertex or axes. Completing the square converts a general equation into standard form: \\(x^2+4x+y^2-6y=3\\) becomes \\((x+2)^2+(y-3)^2=16\\), a circle with center \\((-2,3)\\) and radius 4. The discriminant of the general second-degree equation classifies the conic.', () =>
   svg(640, 335, table(15, 32, [110, 260, 220], [
     ['circle', '(x − h)² + (y − k)² = r²', 'center (h, k), radius r'],
-    ['ellipse', '(x − h)² ÷ a² + (y − k)² ÷ b² = 1', 'axes 2a and 2b'],
+    ['ellipse', '(x − h)² over a² + (y − k)² over b² = 1', 'axes 2a and 2b'],
     ['parabola', '(x − h)² = 4p(y − k)', 'vertex, focus, directrix'],
-    ['hyperbola', '(x − h)² ÷ a² − (y − k)² ÷ b² = 1', 'asymptotes slope ± b ÷ a'],
+    ['hyperbola', '(x − h)² over a² − (y − k)² over b² = 1', 'asymptotes slope ± b : a'],
   ], { headers: ['conic', 'standard form', 'key features'], rowH: 38, size: 9.5 }) + text(20, 245, 'Complete the square:  x² + 4x + y² − 6y = 3', { anchor: 'start', size: 11, bold: true }) + text(20, 272, '(x² + 4x + 4) + (y² − 6y + 9) = 3 + 4 + 9', { anchor: 'start', size: 10 }) + text(20, 299, '(x + 2)² + (y − 3)² = 16  →  center (−2, 3), radius 4', { anchor: 'start', size: 10.5 }), 'conic standard forms'));
 idef('identity-derivation', 'Pythagorean identity from the unit circle', 'A point on the unit circle has coordinates \\((\\cos\\theta,\\sin\\theta)\\), so \\(x^2+y^2=1\\) becomes \\(\\sin^2\\theta+\\cos^2\\theta=1\\). Dividing by \\(\\cos^2\\theta\\) gives \\(1+\\tan^2\\theta=\\sec^2\\theta\\); dividing by \\(\\sin^2\\theta\\) gives \\(1+\\cot^2\\theta=\\csc^2\\theta\\). The double-angle identities follow from the same circle.', (v) => {
   const cx = 160, cy = 180, R = 110, deg = v.deg, th = deg * D2R, px = cx + R * cos(th), py = cy - R * sin(th);
@@ -1200,8 +1201,17 @@ const cache = {};
 export function buildFigure(id) {
   if (!cache[id]) {
     const f = F[id]; if (!f) return null;
+    const zh = FIGURE_ZH[id];
     const s = f.build();
-    cache[id] = { id, title: f.title, caption: f.caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor: f.captionFor };
+    const cap = f.caption || '';
+    const caption = zh && cap && !cap.startsWith(`${zh} ·`) ? `${zh} · ${cap}` : cap;
+    const captionFor = f.captionFor
+      ? (v) => {
+        const c = f.captionFor(v);
+        return zh && c && !c.startsWith(`${zh} ·`) ? `${zh} · ${c}` : c;
+      }
+      : undefined;
+    cache[id] = { id, title: zh ? `${zh} · ${f.title}` : f.title, caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor };
   }
   return cache[id];
 }
