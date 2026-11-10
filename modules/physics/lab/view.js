@@ -113,6 +113,7 @@ export function createLabView(host, opts = {}) {
     transparent: new THREE.MeshBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.012, depthWrite: false }),
     ground: new THREE.ShadowMaterial({ opacity: 0.16 }),
   };
+  const ownedMaterials = [];
 
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), materials.ground);
   ground.rotation.x = -Math.PI / 2;
@@ -497,6 +498,9 @@ export function createLabView(host, opts = {}) {
     materials.accentLine.color.set(t.accent);
     materials.trail.color.set(t.accent);
     materials.transparent.color.set(t.accent);
+    for (const entry of ownedMaterials) {
+      if (!entry.mat.userData?.disposed) entry.mat.color.set(t[entry.key]);
+    }
     trailMaterial.color.set(t.accent);
     rulerMaterial.color.set(t.warn);
     selectionHelper.material.color.set(t.accent);
@@ -531,6 +535,7 @@ export function createLabView(host, opts = {}) {
       if (value && value.isTexture) value.dispose();
     }
     material.dispose();
+    if (material.userData) material.userData.disposed = true;
   }
 
   function disposeObject(object) {
@@ -1199,6 +1204,8 @@ export function createLabView(host, opts = {}) {
       opacity: 0.14,
       depthWrite: false,
     });
+    shellMat.userData.own = true;
+    ownedMaterials.push({ mat: shellMat, key: 'accent' });
     const shell = new THREE.Mesh(shellGeo, shellMat);
     shell.userData = { ...NO_PICK };
     root.add(shell);
@@ -1336,6 +1343,9 @@ export function createLabView(host, opts = {}) {
     const visual = visuals.get(id);
     if (!visual) return;
     scene.remove(visual.root);
+    visual.root.traverse((node) => {
+      if (node.material && node.material.userData?.own) disposeMaterial(node.material);
+    });
     // Materials are shared between apparatus meshes; only geometry belongs
     // to the individual visual. Shared materials are disposed in destroy().
     disposeGeometries(visual.root);
