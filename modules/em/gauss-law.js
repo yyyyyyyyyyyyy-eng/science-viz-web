@@ -26,15 +26,22 @@ function createBase(viz, controls) {
     const { width: w, height: h } = fitCanvas(canvas, wrap);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
-    const cx = w * 0.4, cy = h / 2;
-    ctx.strokeStyle = T.border; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
-    ctx.strokeStyle = T.accent; ctx.setLineDash([6, 4]); ctx.beginPath(); ctx.arc(cx, cy, rg, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    // Keep the sphere/Gaussian surface inside a left-hand panel; the plot
+    // occupies the right strip at every viewport.
+    const plotW = Math.max(90, w * 0.32);
+    const px = w - plotW - 16;
+    const cx = px / 2, cy = h / 2;
+    const maxR = 180;
+    const sc = Math.min(1, (cx - 6) / maxR, (h / 2 - 12) / maxR);
+    const Rp = R * sc, rgp = rg * sc;
+    ctx.strokeStyle = T.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, Rp, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = T.accent; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, rgp, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
     const k = 1; // geometric units
     const E = rg >= R ? k * Q / (rg * rg) : k * Q * rg / (R * R * R);
     // E vs r plot, auto-scaled to the surface field (the maximum of this curve)
-    const px = w * 0.62, py = 40, pw = w * 0.32, ph = h - 80;
+    const py = 40, pw = plotW, ph = h - 80;
     const eMax = (k * Q) / (R * R);
-    ctx.strokeStyle = T.border; ctx.strokeRect(px, py, pw, ph);
+    ctx.strokeStyle = T.axis; ctx.lineWidth = 1; ctx.strokeRect(px, py, pw, ph);
     // mark the charged-sphere radius on the r axis
     const xR = px + ((R - 5) / 200) * pw;
     ctx.strokeStyle = rgba(T.muted, 0.6); ctx.setLineDash([3, 3]);

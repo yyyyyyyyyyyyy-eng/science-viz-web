@@ -17,13 +17,16 @@ function createBase(viz, controls) {
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
     const cx = w / 2, cy = h / 2, k = 800;
+    // Clamp the drawn probe/equipotential radii to the canvas; the readout
+    // still uses the true probe distance.
+    const sc = Math.min(1, (Math.min(w, h) / 2 - 16) / 200);
     for (let i = 1; i <= 6; i++) {
-      const r = 30 * i;
+      const r = 30 * i * sc;
       ctx.strokeStyle = rgba(T.accent, 0.35);
       ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
     }
     ctx.fillStyle = Q >= 0 ? T.accent : T.text; ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = T.text; ctx.beginPath(); ctx.arc(cx, cy, probe, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = T.text; ctx.beginPath(); ctx.arc(cx, cy, probe * sc, 0, Math.PI * 2); ctx.stroke();
     const V = k * Q / probe;
     readouts.replaceChildren();
     readouts.appendChild(el('span', { text: `V≈${V.toFixed(1)} (相对单位)` }));

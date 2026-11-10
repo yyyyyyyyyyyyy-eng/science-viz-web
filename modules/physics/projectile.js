@@ -76,10 +76,11 @@ function createBase(viz, controls) {
     checked: false,
     onChange: (v) => {
       drag = v;
+      syncDragControls();
       if (!running) syncIdeal();
     },
   });
-  slider(controls, {
+  const kSlider = slider(controls, {
     label: '阻力系数 k',
     min: 0.02,
     max: 0.6,
@@ -90,6 +91,21 @@ function createBase(viz, controls) {
       k = v;
     },
   });
+  controls.appendChild(
+    el('p', {
+      className: 'hint',
+      text: '开启空气阻力后生效 · Takes effect when air resistance is on',
+    }),
+  );
+  // The drag coefficient only matters while air resistance is enabled.
+  function syncDragControls() {
+    const group = kSlider.input.closest('.control-group');
+    if (group) {
+      group.style.opacity = drag ? '' : '0.45';
+      group.querySelectorAll('input').forEach((inp) => { inp.disabled = !drag; });
+    }
+  }
+  syncDragControls();
 
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);

@@ -14,30 +14,60 @@ function createBase(viz, controls) {
   slider(controls, { label: 'B', min: 0.3, max: 2.5, step: 0.05, value: B, format: (vv) => vv.toFixed(2), onChange: (vv) => { B = vv; reset(); } });
   slider(controls, { label: 'q', min: -2, max: 2, step: 0.1, value: q, format: (vv) => vv.toFixed(1), onChange: (vv) => { q = vv; reset(); } });
   function reset() { pos = { x: 0, y: 0 }; vel = { x: v, y: 0 }; trail = []; }
+
+  function physics(dt) {
+    // F = q v × B with B out of the page. Four substeps keep the orbit round.
+    const h = dt / 4;
+    for (let k = 0; k < 4; k++) {
+      const ax = (q / m) * (vel.y * B);
+      const ay = (q / m) * (-vel.x * B);
+      vel.x += ax * h; vel.y += ay * h;
+      pos.x += vel.x * h; pos.y += vel.y * h;
+    }
+    trail.push({ ...pos }); if (trail.length > 400) trail.shift();
+  }
+
   function draw() {
     const T = themeColors();
     const { width: w, height: h } = fitCanvas(canvas, wrap);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
-    const dt = 0.016;
-    // F = q v x B, B out of page → 2D: ax = q/m * vy * B * sign?, with B = B z-hat: Fx=q vy B? Actually F=q(v×B): Fx=q vy Bz? v×z = (vx,vy,0)×(0,0,B)=(vy B, -vx B, 0) wait (i j k; vx vy 0; 0 0 B)=(vy*B - 0, 0 - vx*B, 0)= (q omitted) 
-    const ax = (q / m) * (vel.y * B);
-    const ay = (q / m) * (-vel.x * B);
-    vel.x += ax * dt; vel.y += ay * dt; pos.x += vel.x * dt; pos.y += vel.y * dt;
-    trail.push({ ...pos }); if (trail.length > 400) trail.shift();
-    const cx = w / 2, cy = h / 2, sc = Math.min(w, h) * 0.15;
-    // B markers
-    ctx.fillStyle = rgba(T.text, 0.25); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) {
-      ctx.beginPath(); ctx.arc(80 + i * 70, 60 + j * 70, 3, 0, Math.PI * 2); ctx.fill();
+    const r = Math.abs(q) > 1e-6 ? Math.abs((m * v) / (q * B)) : Infinity;
+    // Scale the orbit from r so the full circle fits inside the canvas.
+    const pad = 26;
+    const halfW = Math.max(40, w / 2 - pad);
+    const halfH = Math.max(40, h / 2 - pad);
+    const sc = Number.isFinite(r)
+      ? Math.min(Math.min(w, h) * 0.15, halfW / r, halfH / r)
+      : Math.min(w, h) * 0.12;
+    const sign = q >= 0 ? 1 : -1;
+    const cx = w / 2, cy = h / 2;
+    // B field markers
+    ctx.fillStyle = rgba(T.text, 0.28);
+    for (let x = 60; x < w; x += 70) for (let y = 50; y < h; y += 70) {
+      ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
     }
-    ctx.strokeStyle = T.accent; ctx.beginPath();
-    trail.forEach((p, i) => { const X = cx + p.x * sc, Y = cy - p.y * sc; if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y); });
+    // Full orbit guide (dashed), then the actual trail.
+    if (Number.isFinite(r)) {
+      ctx.strokeStyle = rgba(T.axis, 0.45); ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, cy, r * sc, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.strokeStyle = T.accent; ctx.lineWidth = 2; ctx.beginPath();
+    trail.forEach((p, i) => {
+      const X = cx + p.x * sc;
+      const Y = Number.isFinite(r) ? cy - (sign * r + p.y) * sc : cy - p.y * sc;
+      if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+    });
     ctx.stroke();
-    const r = (m * v) / (Math.abs(q) * B || 1e-6);
+    ctx.fillStyle = T.textStrong;
+    const px = cx + pos.x * sc;
+    const py = Number.isFinite(r) ? cy - (sign * r + pos.y) * sc : cy - pos.y * sc;
+    ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `r=mv/(|q|B)=${r.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: Number.isFinite(r) ? `r=mv/(|q|B)=${r.toFixed(2)}` : 'r=∞（q=0）' }));
+    readouts.appendChild(el('span', { text: `画布比例 · scale: 1 单位 = ${sc.toFixed(1)} px` }));
   }
-  return startAnimLoop(wrap, draw);
+  return startAnimLoop(wrap, draw, { step: 1 / 60, update: physics });
 }
 
 export function create(viz, controls) {

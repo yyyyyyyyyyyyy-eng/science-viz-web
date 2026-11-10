@@ -4286,7 +4286,11 @@ html.palette-open, html.nav-mobile-open { overflow: hidden; }
   .module-tree { flex-direction: row; flex-wrap: wrap; border-left: 0; gap: 0.1rem 0.75rem; }
   .tree-chapter, .tree-link { border-left: 0; margin-left: 0; padding-left: 0; min-height: 40px; }
   .tree-link.active { border-bottom: 1px solid var(--text); border-left-color: transparent; }
-  .module-layout { grid-template-columns: minmax(0, 1fr); }
+  .module-layout { grid-template-columns: minmax(0, 1fr); row-gap: 0.7rem; }
+  /* Mobile reading order: canvas/readouts, controls, then the figure gallery. */
+  .module-layout > .viz-panel { display: contents; }
+  .module-layout > .control-panel { order: 2; }
+  .module-layout .exam-figures { order: 3; }
   .control-panel { border-left: 0; padding-left: 0; border-top: 1px solid var(--border); padding-top: 1rem; }
 }
 

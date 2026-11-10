@@ -2,16 +2,50 @@ import { observeSize } from '../js/ui.js';
 
 /**
  * Start a redraw loop that is tied to the lifetime of a module.
+ *
+ * Pass `update` to run physics on a fixed timestep driven by the elapsed
+ * timestamp, instead of once per rendered frame. That keeps the simulation
+ * speed independent of the display refresh rate (30/60/120 Hz all agree)
+ * while `draw` still runs once per frame.
+ *
  * Returns a handle whose destroy() stops the animation frame and
  * disconnects the ResizeObserver created by observeSize().
+ *
+ * @param {HTMLElement} host
+ * @param {() => void} draw
+ * @param {{ step?: number, update?: (dt: number) => void, maxFrame?: number, maxSteps?: number }} [options]
  */
-export function startAnimLoop(host, draw) {
+export function startAnimLoop(host, draw, options = {}) {
+  const step = Number(options.step) || 0;
+  const update = typeof options.update === 'function' ? options.update : null;
+  const fixed = step > 0 && update;
+  const maxFrame = Number(options.maxFrame) || 0.05;
+  const maxSteps = Math.max(1, Number(options.maxSteps) || 8);
   let raf = 0;
   let destroyed = false;
+  let last = 0;
+  let acc = 0;
   const unobserve = observeSize(host, draw);
 
-  function frame() {
+  function frame(now) {
     if (destroyed) return;
+    if (fixed) {
+      if (!last) last = now;
+      let dt = (now - last) / 1000;
+      last = now;
+      if (!(dt > 0)) dt = 0;
+      // Clamp long pauses (background tab, breakpoint) so we never run a
+      // huge catch-up burst; drop any remaining backlog after maxSteps.
+      if (dt > maxFrame) dt = maxFrame;
+      acc += dt;
+      let steps = 0;
+      while (acc >= step && steps < maxSteps) {
+        update(step);
+        acc -= step;
+        steps += 1;
+      }
+      if (steps === maxSteps) acc = 0;
+    }
     draw();
     if (destroyed) return;
     raf = requestAnimationFrame(frame);
