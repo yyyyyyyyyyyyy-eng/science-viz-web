@@ -1878,7 +1878,9 @@ export function externalForceOn(world, body) {
     total.vadd(f, total);
   }
   total.vadd(appliedForce(body), total);
-  if (body.fan) total.vadd(fanForce(body.fan), total);
+  for (const fan of world.fans) {
+    if (fan.bodyId === body.id) total.vadd(fanForce(fan), total);
+  }
   if (body._ropeT > 0 && body._ropeU) total.vadd(body._ropeU.scale(body._ropeT), total);
   return total;
 }
@@ -2558,7 +2560,9 @@ export function substep(world, h) {
   // Work done by externally applied forces (explicit bookkeeping).
   for (const body of world.bodies) {
     let f = appliedForce(body);
-    if (body.fan) f = f.vadd(fanForce(body.fan));
+    for (const fan of world.fans) {
+      if (fan.bodyId === body.id) f = f.vadd(fanForce(fan));
+    }
     if (f.lengthSquared() > 0) world.appliedWork += f.dot(body.cannon.velocity) * h;
     body._preStepV = cloneV(body.cannon.velocity);
   }
@@ -2980,7 +2984,13 @@ export function disposeWorld(world) {
 /* ------------------------------------------------------------------ */
 
 export function setBodyMass(world, body, mass) {
+  const prevMass = body.mass;
   body.mass = Math.max(0.01, mass);
+  if ((body.kind === 'ball' || body.kind === 'cylinder') && prevMass > 0) {
+    const ratio = body.inertiaRatio ?? body.I / Math.max(1e-9, prevMass * body.radius * body.radius);
+    body.I = Math.max(0, ratio) * body.mass * body.radius * body.radius;
+    body.inertiaRatio = ratio;
+  }
   body.cannon.mass = body.mass;
   body.cannon.updateMassProperties();
   if (isRollingBody(body)) {

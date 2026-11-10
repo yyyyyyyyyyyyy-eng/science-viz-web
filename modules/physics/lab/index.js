@@ -3603,7 +3603,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           },
         });
         field(moreAdvanced, {
-          label: 'I ÷ (m r²) · Inertia ratio',
+          label: '转动惯量比 I ÷ (m r²) · Inertia ratio',
           value: entity.inertiaRatio ?? (entity.I / Math.max(1e-9, entity.mass * entity.radius ** 2)),
           min: 0,
           max: 1.5,
