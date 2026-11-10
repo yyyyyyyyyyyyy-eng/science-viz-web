@@ -5397,7 +5397,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           presets.appendChild(btn);
         });
         moreAdvanced.appendChild(presets);
-        formula(moreAdvanced, 'I=k\\,mr^{2},\\qquad a=\\dfrac{g\\sin\\theta}{1+I/(mr^{2})}');
+        formula(moreAdvanced, 'I=k\\,mr^{2},\\qquad a=\\dfrac{g\\sin\\theta}{1+\\dfrac{I}{mr^{2}}}');
       }
       field(moreAdvanced, {
         label: '方向仰角 · Direction elevation',
@@ -5614,7 +5614,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '张力 B · Tension B', 'tensionB', 'N');
       addLive(readouts, '绳状态 · Rope', 'ropeState', '');
       moreAdvanced.appendChild(readouts);
-      formula(moreAdvanced, 'a=\\dfrac{(m_{1}-m_{2})g}{m_{1}+m_{2}+I/r^{2}},\\qquad T_{1}=m_{1}(g-a)');
+      formula(moreAdvanced, 'a=\\dfrac{(m_{1}-m_{2})g}{m_{1}+m_{2}+\\dfrac{I}{r^{2}}},\\qquad T_{1}=m_{1}(g-a)');
     }
 
     if (entity.type === 'barrier') {

@@ -452,7 +452,7 @@ export function buildEMMore({ entity, world, api }) {
       options: [['x', 'x 轴 · x'], ['y', 'y 轴 · y'], ['z', 'z 轴 · z']],
       testid: 'emLineAxisMore', onChange: (v) => { entity.axis = v; },
     });
-    api.formula(parent, 'E_{\\perp}=\\dfrac{k\\lambda}{r}\\left(\\dfrac{L/2}{\\sqrt{r^{2}+(L/2)^{2}}}\\right)\\times 2');
+    api.formula(parent, 'E_{\\perp}=\\dfrac{k\\lambda}{r}\\left(\\dfrac{\\dfrac{L}{2}}{\\sqrt{r^{2}+(\\dfrac{L}{2})^{2}}}\\right)\\times 2');
   } else if (entity.type === 'emPlane') {
     api.field(parent, {
       label: '高度 · Height', value: entity.height, min: 0.2, max: 40, step: 0.1, unit: 'm', testid: 'emPlaneHeightMore',
@@ -495,7 +495,7 @@ export function buildEMMore({ entity, world, api }) {
     });
     api.formula(parent, '\\oint \\vec{B}\\cdot d\\vec{l}=\\mu_{0}I');
   } else if (entity.type === 'emCurrentLoop') {
-    api.formula(parent, 'B_{\\text{axis}}=\\dfrac{\\mu_{0}IR^{2}}{2(R^{2}+z^{2})^{3/2}}');
+    api.formula(parent, 'B_{\\text{axis}}=\\dfrac{\\mu_{0}IR^{2}}{2(R^{2}+z^{2})^{\\frac{3}{2}}}');
   } else if (entity.type === 'emSolenoid') {
     api.field(parent, {
       label: '长度 L · Length', value: entity.length, min: 0.2, max: 10, step: 0.05, unit: 'm', testid: 'emSolLengthMore',
