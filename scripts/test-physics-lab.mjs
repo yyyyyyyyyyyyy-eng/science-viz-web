@@ -4,6 +4,7 @@
  * Run: node scripts/test-physics-lab.mjs
  */
 import {
+  buildSensorTables,
   addAnchor,
   addAngularTable,
   addBall,
@@ -48,16 +49,26 @@ import {
   dropAngularBlock,
   elevatorReading,
   energyBreakdown,
+  leastSquaresSlope,
+  mountApparatus,
   orbitArealVelocity,
   orbitEscapeSpeed,
   orbitKeplerPeriod,
   oscillatorAnalyticAmplitude,
   oscillatorRegime,
+  quantizeAngle,
+  quantizeValue,
   relativeVelocity,
   resetWorld,
   rodInertia,
   serializeScene,
   setBodyCollisionRestitution,
+  setBodyPosition,
+  setSensorTarget,
+  snapApparatusToNearest,
+  snapBarrierToNearest,
+  snapBodyToNearest,
+  snapNearbyBodies,
   springEnergyFromLength,
   springTension,
   stepOnce,
@@ -65,8 +76,11 @@ import {
   surfaceFrame,
   surfaceLocalPoint,
   surfaceTopPoint,
+  tableToCsv,
+  tableTopY,
   torsionPeriod,
   tunnelPeriod,
+  updateMountedApparatus,
 } from '../modules/physics/lab/physics.mjs';
 
 let passed = 0;
@@ -1088,6 +1102,353 @@ check('tunnel: period through a uniform sphere matches 2*pi*sqrt(R^3/GM) within 
   if (!(tunnel.measuredPeriod > 0)) throw new Error('no tunnel period recorded');
   near(tunnel.measuredPeriod, expected, expected * 0.01, 'tunnel period');
   console.log(`      R=4 m, GM=8: T=${tunnel.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s (${((Math.abs(tunnel.measuredPeriod - expected) / expected) * 100).toFixed(4)}%)`);
+});
+
+/* ---------------------- FAIL fixes: snap steps, time ---------------- */
+
+check('quantize helpers follow the current grid and angle step', () => {
+  near(quantizeValue(0.2609790396, 0.1), 0.3, 1e-12, 'grid x');
+  near(quantizeValue(-0.2313325093, 0.1), -0.2, 1e-12, 'grid z');
+  near(quantizeValue(0.25, 0.1), 0.3, 1e-12, 'grid half step');
+  near(quantizeValue(1.23, 0), 1.23, 0, 'zero step leaves value');
+  // The old R path used a fixed 15° snap; a 10° entry must stay 10° at 5°.
+  near(quantizeAngle(10, 5), 10, 1e-12, '10° with 5° step');
+  near(quantizeAngle(31.55, 5), 30, 1e-12, 'direct-drag angle');
+  near(quantizeAngle(14, 10), 10, 1e-12, 'custom 10° step');
+  near(quantizeAngle(16, 10), 20, 1e-12, 'custom 10° step rounds up');
+});
+
+check('setBodyPosition moves to the typed point and re-seats with snap on', () => {
+  const world = createWorld({ g: 9.8 });
+  const surface = addSurface(world, { kind: 'incline', angleDeg: 20, length: 12, y: 1.5, width: 3 });
+  const block = addBlock(world, { mass: 1, x: 0, y: 2, z: 0 });
+  const free = setBodyPosition(world, block, { x: 1.5, y: 2, z: -1 }, { snap: false });
+  if (free) throw new Error('free move unexpectedly attached');
+  near(block.cannon.position.x, 1.5, 1e-12, 'free x');
+  near(block.cannon.position.y, 2, 1e-12, 'free y');
+  near(block.cannon.position.z, -1, 1e-12, 'free z');
+  const top = surfaceTopPoint(surface, 0, 0);
+  const hit = setBodyPosition(world, block, { x: top.x, y: top.y + 0.4, z: top.z }, { snap: true });
+  if (hit !== 'surface') throw new Error(`snap move returned ${hit}`);
+  if (block.attachment?.type !== 'surface') throw new Error('block did not re-seat on the incline');
+  const local = surfaceLocalPoint(surface, block.cannon.position);
+  near(local.y, surface.thickness / 2 + block.halfHeight, 0.02, 'seated height above surface');
+  console.log(`      typed move -> free (1.5,2,-1); snapped localX=${local.x.toFixed(3)} m, localY=${local.y.toFixed(3)} m`);
+});
+
+check('motion-sensor samples are stamped with the state simulation time', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  addSensor(world, { kind: 'motion', x: 0, y: 0, z: 0, range: 20, face: 1 });
+  const block = addBlock(world, { mass: 1, x: 2, y: 0.25, z: 0, v0: 2, azimuth: 0 });
+  applyInitialVelocity(world, block);
+  const h = 1 / 240;
+  stepWorld(world, h, { h });
+  const sensor = world.sensors[0];
+  if (!sensor.samples.length) throw new Error('no motion sample after one substep');
+  const first = sensor.samples[0];
+  near(first.t, h, 1e-12, 'first sample time = 1/240');
+  near(first.x, block.cannon.position.x, 1e-12, 'first sample x matches post-step state');
+  near(first.x, 2 + 2 * h, 1e-12, 'first sample x = x0 + v h');
+  for (let i = 1; i < 11; i += 1) stepWorld(world, h, { h });
+  const last = sensor.samples[sensor.samples.length - 1];
+  near(last.t, 11 * h, 1e-12, '11th-substep sample time = 11/240');
+  near(last.x, block.cannon.position.x, 1e-12, 'last sample x matches body');
+  near(sensor.samples[sensor.samples.length - 2].t, 1 * h, 1e-12, '40 ms cadence begins at the first substep');
+  console.log(`      samples t=${first.t.toFixed(9)} s, ..., ${last.t.toFixed(9)} s; body x=${block.cannon.position.x.toFixed(9)} m`);
+});
+
+check('photogate crossing time matches the post-step world time', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  addSensor(world, { kind: 'photogate', x: 1, y: 0, z: 0, width: 2, height: 2 });
+  const block = addBlock(world, { mass: 1, x: 0, y: 0.25, z: 0, v0: 2, azimuth: 0 });
+  applyInitialVelocity(world, block);
+  const h = 1 / 240;
+  let crossing = null;
+  for (let i = 0; i < Math.round(0.8 / h); i += 1) {
+    stepWorld(world, h, { h });
+    crossing = world.sensors[0].lastCrossing;
+    if (crossing) break;
+  }
+  if (!crossing) throw new Error('photogate did not trigger');
+  near(crossing.t, world.time, 1e-12, 'crossing timestamp equals current sim time');
+  if (crossing.t <= 0.45 || crossing.t >= 0.55) throw new Error(`crossing time ${crossing.t} outside expected window`);
+  console.log(`      crossing t=${crossing.t.toFixed(9)} s at x=${crossing.x.toFixed(6)} m (world.time=${world.time.toFixed(9)} s)`);
+});
+
+/* ---------------------- sensor targets and tables ------------------- */
+
+check('motion sensor can be pinned to a chosen body and restarts its series', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  const sensor = addSensor(world, { kind: 'motion', x: 0, y: 0, z: 0, range: 20, face: 1 });
+  const nearBody = addBlock(world, { mass: 1, x: 2, y: 0.25, z: 0, v0: 0 });
+  const farBody = addBlock(world, { mass: 2, x: 5, y: 0.25, z: 0, v0: 1, azimuth: 0 });
+  applyInitialVelocity(world, farBody);
+  const h = 1 / 240;
+  for (let i = 0; i < 6; i += 1) stepWorld(world, h, { h });
+  if (sensor.samples[0]?.bodyId !== nearBody.id) throw new Error('default target is not the nearest body in line of sight');
+  if (!setSensorTarget(world, sensor, farBody.id)) throw new Error('setSensorTarget failed');
+  if (sensor.samples.length !== 0) throw new Error('series did not reset on target change');
+  const farStartX = farBody.cannon.position.x - farBody.cannon.velocity.x * world.time;
+  stepWorld(world, h, { h });
+  if (!sensor.samples.length) throw new Error('pinned target produced no samples');
+  near(sensor.samples[0].t, world.time, 1e-12, 'first pinned sample time');
+  near(sensor.samples[0].x, farBody.cannon.position.x, 1e-12, 'first pinned sample x');
+  for (let i = 0; i < 20; i += 1) stepWorld(world, h, { h });
+  if (sensor.samples.some((s) => s.bodyId !== farBody.id)) throw new Error('table mixed two bodies');
+  const last = sensor.samples[sensor.samples.length - 1];
+  near(last.x, farStartX + farBody.cannon.velocity.x * last.t, 1e-9, 'tracked x matches v t at its own timestamp');
+  near(last.y, farBody.cannon.position.y, 1e-9, 'tracked target y');
+  console.log(`      default ${nearBody.id}, pinned ${farBody.id}; ${sensor.samples.length} samples, last x=${last.x.toFixed(6)} m at t=${last.t.toFixed(6)} s`);
+});
+
+check('every logging sensor builds raw + summary tables and CSV headers', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  const sensor = addSensor(world, { kind: 'motion', x: 0, y: 0, z: 0, range: 20, face: 1 });
+  const block = addBlock(world, { mass: 1, x: 2, y: 0.25, z: 0, v0: 2, azimuth: 0 });
+  applyInitialVelocity(world, block);
+  advance(world, 0.5, 1 / 240);
+  const motionTables = buildSensorTables(sensor);
+  if (!motionTables?.raw?.rows.length || !motionTables?.summary?.rows.length) throw new Error('motion tables missing');
+  for (const table of [motionTables.raw, motionTables.summary]) {
+    const header = tableToCsv(table).split('\n')[0];
+    if (!/[\u4e00-\u9fff]/.test(header) || !/[A-Za-z]{2,}/.test(header)) {
+      throw new Error(`CSV header is not bilingual: ${header}`);
+    }
+  }
+  const rawHeader = tableToCsv(motionTables.raw).split('\n')[0];
+  if (!/Time/.test(rawHeader) || !/m\/s/.test(rawHeader)) throw new Error('motion CSV lacks English/units');
+
+  const gateWorld = createWorld({ g: 0, h: 1 / 240 });
+  const gate = addSensor(gateWorld, { kind: 'photogate', x: 1, y: 0, z: 0, width: 2, height: 2 });
+  const runner = addBlock(gateWorld, { mass: 1, x: 0, y: 0.25, z: 0, v0: 2, azimuth: 0 });
+  applyInitialVelocity(gateWorld, runner);
+  advance(gateWorld, 1.0, 1 / 240);
+  const gateTables = buildSensorTables(gate);
+  if (!gateTables?.raw?.rows.length || gateTables.raw.rows.length !== gate.crossings.length) {
+    throw new Error('photogate raw table does not match crossings');
+  }
+  if (gateTables.summary.rows.length !== gateTables.raw.rows.length) throw new Error('photogate interval summary missing');
+  if (!(gateTables.summary.rows[0].dt >= 0)) throw new Error('photogate summary lacks Δt');
+
+  const forceWorld = createWorld({ g: 9.8 });
+  const a = addBlock(forceWorld, { mass: 1, x: -2, y: 1, z: 0 });
+  const b = addBlock(forceWorld, { mass: 1, x: 2, y: 1, z: 0 });
+  const meter = addLink(forceWorld, {
+    a: { type: 'body', id: a.id },
+    b: { type: 'body', id: b.id },
+    k: 30,
+    rest: 3,
+    meter: true,
+  });
+  advance(forceWorld, 0.4, 1 / 240);
+  const forceTables = buildSensorTables(meter);
+  if (!meter.samples.length) throw new Error('force meter logged no samples');
+  if (!forceTables?.raw?.rows.length || !forceTables?.summary?.rows.length) throw new Error('force tables missing');
+  if (!/Force/.test(tableToCsv(forceTables.raw).split('\n')[0])) throw new Error('force CSV lacks English header');
+
+  const bodyTables = buildSensorTables([{ t: 0, x: 0, v: 1, a: 0, e: 2 }, { t: 0.1, x: 0.1, v: 1, a: 0, e: 2 }]);
+  if (!bodyTables?.raw?.rows.length || !bodyTables?.summary?.rows.length) throw new Error('body graph tables missing');
+
+  console.log(`      motion ${motionTables.raw.rows.length} raw/${motionTables.summary.rows.length} summary, photogate ${gateTables.raw.rows.length}/${gateTables.summary.rows.length}, force ${forceTables.raw.rows.length}/${forceTables.summary.rows.length}, body ${bodyTables.raw.rows.length}/${bodyTables.summary.rows.length}`);
+});
+
+/* ---------------------- snap / attach matrix ------------------------ */
+
+function makeMatrixTarget(world, kind) {
+  if (kind === 'incline') return { type: 'surface', value: addSurface(world, { kind: 'incline', angleDeg: 20, length: 10, y: 1.5, width: 3 }) };
+  if (kind === 'surface') return { type: 'surface', value: addSurface(world, { kind: 'surface', angleDeg: 0, length: 10, y: 1.0, width: 3 }) };
+  if (kind === 'track') return { type: 'surface', value: addSurface(world, { kind: 'track', angleDeg: 0, length: 10, y: 1.0, width: 3 }) };
+  if (kind === 'loop') return { type: 'loop', value: addLoop(world, { x: 0, y: 2.5, z: 0, radius: 1.8 }) };
+  if (kind === 'hcircle') return { type: 'hcircle', value: addHCircle(world, { x: 0, y: 0.1, z: 0, radius: 2 }) };
+  if (kind === 'turntable') return { type: 'turntable', value: addTurntable(world, { x: 0, y: 0.62, z: 0, radius: 2 }) };
+  if (kind === 'wedge') return { type: 'wedge', value: addWedge(world, { x: 0, baseY: 0, z: 0, angle: 25, length: 3, width: 1.6 }) };
+  if (kind === 'cart') return { type: 'body', value: addCart(world, { x: 0, y: 1, z: 0 }) };
+  if (kind === 'block') return { type: 'body', value: addBlock(world, { x: 0, y: 1, z: 0 }) };
+  if (kind === 'ball') return { type: 'body', value: addBall(world, { x: 0, y: 1, z: 0 }) };
+  if (kind === 'cylinder') return { type: 'body', value: addCylinder(world, { x: 0, y: 1, z: 0 }) };
+  if (kind === 'launcher') return { type: 'launcher', value: addLauncher(world, { x: 0, y: 1, z: 0 }) };
+  if (kind === 'photogate') return { type: 'sensor', value: addSensor(world, { kind: 'photogate', x: 0, y: 1, z: 0 }) };
+  if (kind === 'motion') return { type: 'sensor', value: addSensor(world, { kind: 'motion', x: 0, y: 1, z: 0 }) };
+  if (kind === 'barrier') return { type: 'barrier', value: addBarrier(world, { kind: 'wall', x: 0, y: 1, z: 0 }) };
+  if (kind === 'anchor') return { type: 'anchor', value: addAnchor(0, 1, 0) };
+  if (kind === 'pulley') return { type: 'pulley', value: addPulley(world, { x: 0, y: 3, z: 0 }) };
+  throw new Error(`unknown matrix target ${kind}`);
+}
+
+function matrixPoint(world, targetKind, target) {
+  if (targetKind === 'incline' || targetKind === 'surface' || targetKind === 'track') {
+    const p = surfaceTopPoint(target.value, 0, 0);
+    return { x: p.x, y: p.y + 0.15, z: p.z };
+  }
+  if (targetKind === 'loop') return { x: target.value.x, y: target.value.y - target.value.radius, z: target.value.z };
+  if (targetKind === 'hcircle') return { x: target.value.x + target.value.radius, y: target.value.y + 0.35, z: target.value.z };
+  if (targetKind === 'turntable') return { x: target.value.x, y: tableTopY(target.value) + 0.2, z: target.value.z };
+  if (targetKind === 'wedge') return { x: target.value.x, y: target.value.height * 0.4, z: target.value.z };
+  if (target.type === 'body') return { x: target.value.cannon.position.x, y: target.value.cannon.position.y + target.value.halfHeight + 0.2, z: target.value.cannon.position.z };
+  if (target.type === 'launcher' || target.type === 'sensor' || target.type === 'barrier') {
+    return { x: target.value.x, y: target.value.y + 0.4, z: target.value.z };
+  }
+  return { x: 0, y: 1, z: 0 };
+}
+
+function matrixSnap(kind, targetKind) {
+  const world = createWorld({ g: 0 });
+  const target = makeMatrixTarget(world, targetKind);
+  const point = matrixPoint(world, targetKind, target);
+  if (['block', 'cart', 'ball', 'cylinder'].includes(kind)) {
+    const body = kind === 'cart'
+      ? addCart(world, { x: point.x, y: point.y, z: point.z })
+      : kind === 'ball'
+        ? addBall(world, { x: point.x, y: point.y, z: point.z })
+        : kind === 'cylinder'
+          ? addCylinder(world, { x: point.x, y: point.y, z: point.z })
+          : addBlock(world, { x: point.x, y: point.y, z: point.z });
+    if (targetKind === 'pulley') {
+      attachBodyToPulley(world, body, target.value.id, 'a');
+      return !!body.rope;
+    }
+    return snapBodyToNearest(world, body, { maxDistance: 4 }) != null;
+  }
+  if (kind === 'spring' || kind === 'meter') {
+    if (target.type !== 'body' && target.type !== 'anchor') return false;
+    const body = addBlock(world, { x: 0, y: 1, z: 0 });
+    const endpoint = target.type === 'body' ? { type: 'body', id: target.value.id } : target.value;
+    const link = addLink(world, {
+      a: { type: 'body', id: body.id },
+      b: endpoint,
+      k: 25,
+      rest: 1,
+      meter: kind === 'meter',
+    });
+    return !!link;
+  }
+  if (kind === 'pulley') {
+    if (target.type !== 'body') return false;
+    const pulley = addPulley(world, { x: 0, y: 3, z: 0 });
+    const body = target.value;
+    attachBodyToPulley(world, body, pulley.id, 'a');
+    return !!body.rope;
+  }
+  if (['launcher', 'photogate', 'motion'].includes(kind)) {
+    const apparatus = kind === 'launcher'
+      ? addLauncher(world, { x: point.x, y: point.y, z: point.z })
+      : addSensor(world, { kind, x: point.x, y: point.y, z: point.z });
+    return snapApparatusToNearest(world, apparatus, { maxDistance: 4 }) != null;
+  }
+  if (kind === 'barrier') {
+    if (target.type === 'surface') {
+      const surface = target.value;
+      const p = surfaceTopPoint(surface, surface.length / 2 - 0.2, 0);
+      const barrier = addBarrier(world, { kind: 'wall', x: p.x, y: p.y, z: p.z });
+      return snapBarrierToNearest(world, barrier, { maxDistance: 4 }) != null;
+    }
+    const barrier = addBarrier(world, { kind: 'wall', x: point.x + 0.05, y: point.y, z: point.z });
+    return snapBarrierToNearest(world, barrier, { maxDistance: 4 }) != null;
+  }
+  if (kind === 'fan') {
+    const carrier = target.type === 'body' ? target.value : null;
+    if (!carrier) return false;
+    const fan = addFan(world, { bodyId: carrier.id, thrust: 2, on: true });
+    return fan.bodyId === carrier.id;
+  }
+  return false;
+}
+
+check('snap/attach matrix: all sensible pairs attach, unsensible pairs stay free', () => {
+  const rows = [];
+  const bodyTargets = ['incline', 'surface', 'track', 'loop', 'hcircle', 'turntable'];
+  for (const bodyKind of ['block', 'cart', 'ball', 'cylinder']) {
+    for (const target of bodyTargets) rows.push({ source: bodyKind, target, expected: true });
+    rows.push({ source: bodyKind, target: 'pulley', expected: true });
+    rows.push({ source: bodyKind, target: 'wedge', expected: false, reason: 'contact-only' });
+  }
+  const portableTargets = ['cart', 'block', 'ball', 'cylinder', 'turntable', 'wedge', 'incline', 'surface', 'track'];
+  for (const source of ['launcher', 'photogate', 'motion']) {
+    for (const target of portableTargets) rows.push({ source, target, expected: true });
+  }
+  for (const target of ['cart', 'block', 'ball', 'cylinder']) rows.push({ source: 'fan', target, expected: true });
+  for (const target of ['incline', 'surface', 'track']) rows.push({ source: 'barrier', target, expected: true });
+  for (const source of ['spring', 'meter']) {
+    for (const target of ['block', 'cart', 'anchor']) rows.push({ source, target, expected: true });
+    rows.push({ source, target: 'surface', expected: false, reason: 'body/anchor only' });
+  }
+  rows.push({ source: 'pulley', target: 'block', expected: true });
+  rows.push({ source: 'pulley', target: 'surface', expected: false, reason: 'rope endpoint only' });
+
+  const sensibleFalse = [
+    ['launcher', 'loop', 'no rail'],
+    ['launcher', 'hcircle', 'no rail'],
+    ['photogate', 'loop', 'no rail'],
+    ['motion', 'hcircle', 'no rail'],
+    ['launcher', 'launcher', 'not a carrier'],
+    ['photogate', 'motion', 'not a carrier'],
+    ['barrier', 'cart', 'fixed to track end'],
+    ['fan', 'incline', 'needs a body'],
+    ['pendulum', 'cart', 'endpoint only'],
+    ['wedge', 'cart', 'not portable'],
+    ['orbit', 'orbit', 'distant attractors'],
+    ['orbit', 'tunnel', 'different systems'],
+    ['tunnel', 'torsion', 'different systems'],
+    ['torsion', 'oscillator', 'different systems'],
+    ['oscillator', 'elevator', 'not a carrier'],
+    ['elevator', 'carriage', 'not a carrier'],
+    ['rod', 'cart', 'not portable'],
+    ['angtable', 'cart', 'not portable'],
+  ];
+  for (const [source, target, reason] of sensibleFalse) rows.push({ source, target, expected: false, reason });
+
+  let failures = 0;
+  for (const row of rows) {
+    let actual = false;
+    try {
+      actual = matrixSnap(row.source, row.target);
+    } catch (err) {
+      actual = false;
+    }
+    const ok = actual === row.expected;
+    if (!ok) failures += 1;
+    console.log(`      ${ok ? 'ok  ' : 'FAIL'} ${row.source} -> ${row.target}: ${actual ? 'snap' : 'no'}${row.reason ? ` (${row.reason})` : ''}`);
+  }
+  if (failures) throw new Error(`${failures} matrix rows disagreed with the accepted matrix`);
+  console.log(`      matrix: ${rows.length} pairs, ${rows.filter((r) => r.expected).length} sensible true, ${rows.filter((r) => !r.expected).length} explicit false`);
+});
+
+check('launcher rigidly mounted on a moving cart adds the cart velocity at fire', () => {
+  const world = createWorld({ g: 0 });
+  const cart = addCart(world, { x: 0, y: 1, z: 0, mass: 2 });
+  const launcher = addLauncher(world, { x: 0, y: 1.4, z: 0, speed: 5, angle: 0, azimuth: 0 });
+  if (!snapApparatusToNearest(world, launcher, { maxDistance: 2 })) throw new Error('launcher did not mount on cart');
+  if (launcher.mount?.type !== 'body' || launcher.mount.id !== cart.id) throw new Error('mount is not the cart');
+  cart.cannon.velocity.set(2, 0, 0);
+  const flat = fireLauncher(world, launcher);
+  near(flat.cannon.velocity.x, 7, 1e-9, 'v_ground x = v_cart + v_launch');
+  near(flat.cannon.velocity.y, 0, 1e-9, 'flat vy');
+  near(flat.cannon.velocity.z, 0, 1e-9, 'flat vz');
+
+  const verticalWorld = createWorld({ g: 0 });
+  const cart2 = addCart(verticalWorld, { x: 0, y: 1, z: 0 });
+  const vertical = addLauncher(verticalWorld, { x: 0, y: 1.4, z: 0, speed: 5, angle: 90, azimuth: 0 });
+  snapApparatusToNearest(verticalWorld, vertical, { maxDistance: 2 });
+  cart2.cannon.velocity.set(2, 0, 0);
+  const up = fireLauncher(verticalWorld, vertical);
+  near(up.cannon.velocity.x, 2, 1e-9, 'vertical vx = cart velocity');
+  near(up.cannon.velocity.y, 5, 1e-9, 'vertical vy = launch speed');
+
+  // The mount follows the carrier while the simulation runs, so the muzzle
+  // and the added velocity use the live cart state, not its initial pose.
+  const moving = createWorld({ g: 0 });
+  const carrier = addCart(moving, { x: 0, y: 1, z: 0 });
+  const mounted = addLauncher(moving, { x: 0, y: 1.4, z: 0, speed: 3, angle: 0, azimuth: 0 });
+  snapApparatusToNearest(moving, mounted, { maxDistance: 2 });
+  carrier.cannon.velocity.set(2, 0, 0);
+  const h = 1 / 240;
+  for (let i = 0; i < 24; i += 1) stepWorld(moving, h, { h });
+  updateMountedApparatus(moving);
+  near(mounted.x, carrier.cannon.position.x, 1e-9, 'mounted launcher x follows cart');
+  near(mounted.y, carrier.cannon.position.y + carrier.halfHeight + 0.02, 1e-9, 'mounted launcher y follows cart top');
+  const composed = fireLauncher(moving, mounted);
+  near(composed.cannon.velocity.x, carrier.cannon.velocity.x + 3, 0.02, 'live cart velocity added');
+  console.log(`      flat: v=(7,0,0), vertical: v=(2,5,0), live cart x=${carrier.cannon.position.x.toFixed(3)} m -> projectile vx=${composed.cannon.velocity.x.toFixed(3)} m/s`);
 });
 
 console.log(results.join('\n'));

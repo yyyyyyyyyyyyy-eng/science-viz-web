@@ -1987,9 +1987,25 @@ export function createLabView(host, opts = {}) {
     }
     if (transform.dragging || transform.axis) return;
     const hit = pickAt(e.clientX, e.clientY);
-    if (hit?.entity?.type === 'body') {
+    if (hit?.entity && ['body', 'launcher', 'sensor', 'barrier'].includes(hit.entity.type)) {
       directCandidate = { ref: { ...hit.entity }, startX: e.clientX, startY: e.clientY };
     }
+  }
+
+  function directRefEntity(ref) {
+    if (!ref || !lastWorld) return null;
+    if (ref.type === 'body') return lastWorld.bodies.find((b) => b.id === ref.id) || null;
+    if (ref.type === 'launcher') return lastWorld.launchers.find((l) => l.id === ref.id) || null;
+    if (ref.type === 'sensor') return lastWorld.sensors.find((s) => s.id === ref.id) || null;
+    if (ref.type === 'barrier') return lastWorld.barriers.find((b) => b.id === ref.id) || null;
+    return null;
+  }
+
+  function directRefY(ref) {
+    const entity = directRefEntity(ref);
+    if (!entity) return 0;
+    if (entity.type === 'body') return entity.cannon.position.y;
+    return entity.y || 0;
   }
 
   renderer.domElement.addEventListener('pointerdown', onDirectPointerDown, true);
@@ -2001,7 +2017,8 @@ export function createLabView(host, opts = {}) {
       if (now - lastHoverAt > 90 && e.target === renderer.domElement) {
         lastHoverAt = now;
         const hover = pickAt(e.clientX, e.clientY);
-        renderer.domElement.style.cursor = hover?.entity?.type === 'body' ? 'grab' : 'crosshair';
+        renderer.domElement.style.cursor = hover?.entity
+          && ['body', 'launcher', 'sensor', 'barrier'].includes(hover.entity.type) ? 'grab' : 'crosshair';
       }
     }
     if (velocityDrag) {
@@ -2028,8 +2045,7 @@ export function createLabView(host, opts = {}) {
       renderer.domElement.style.cursor = 'grabbing';
       if (opts.onDirectDragStart) opts.onDirectDragStart(directCandidate.ref);
     }
-    const body = selectedEntity('body');
-    const point = rayPointOnPlane(e.clientX, e.clientY, body ? body.cannon.position.y : 0);
+    const point = rayPointOnPlane(e.clientX, e.clientY, directRefY(directCandidate.ref));
     if (opts.onDirectDrag) opts.onDirectDrag(directCandidate.ref, point);
   }
 

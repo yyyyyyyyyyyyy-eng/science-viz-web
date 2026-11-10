@@ -21,6 +21,19 @@ const cloneV = (v) => new CANNON.Vec3(v.x, v.y, v.z);
 const cloneQ = (q) => new CANNON.Quaternion(q.x, q.y, q.z, q.w);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
+/** Quantize a value to the nearest multiple of step (grid/angle assist). */
+export function quantizeValue(value, step) {
+  if (!Number.isFinite(value)) return value;
+  const s = Math.abs(Number(step));
+  if (!(s > 0)) return value;
+  return Math.round(value / s) * s;
+}
+
+/** Quantize an angle in degrees to the current angle step (default 5°). */
+export function quantizeAngle(deg, stepDeg = 5) {
+  return quantizeValue(deg, stepDeg);
+}
+
 function makeEngine(g) {
   const engine = new CANNON.World({ gravity: new CANNON.Vec3(0, -g, 0) });
   engine.broadphase = new CANNON.SAPBroadphase(engine);
@@ -455,6 +468,9 @@ export function removeBody(world, body) {
   world.bodies = world.bodies.filter((b) => b !== body);
   if (body.rope) body.rope = null;
   if (body.fan) body.fan = null;
+  for (const apparatus of [...world.launchers, ...world.sensors, ...world.barriers]) {
+    if (apparatus.mount?.type === 'body' && apparatus.mount.id === body.id) apparatus.mount = null;
+  }
 }
 
 export function loopPoint(loop, theta) {
@@ -734,6 +750,7 @@ export function addLauncher(world, opts = {}) {
     trailLast: -1,
     target: { x: x, z: z },
     showTarget: true,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.launchers.push(launcher);
   launcher.target = launcherPrediction(world, launcher);
@@ -831,17 +848,20 @@ export function addProjectile(world, opts = {}) {
 
 export function fireLauncher(world, launcher) {
   if (!launcher) return null;
+  updateMountedApparatus(world);
   clearLauncher(world, launcher);
   const muzzle = launcherMuzzle(launcher);
   const dir = launcherDirection(launcher);
   const speed = Math.max(0, launcher.speed || 0);
+  // A rigidly mounted launcher fires in the lab frame: v_ground = v_carrier + v_launch.
+  const carrierV = mountVelocity(world, launcher.mount, muzzle);
   const body = addProjectile(world, {
     x: muzzle.x,
     y: muzzle.y,
     z: muzzle.z,
-    vx: dir.x * speed,
-    vy: dir.y * speed,
-    vz: dir.z * speed,
+    vx: dir.x * speed + carrierV.x,
+    vy: dir.y * speed + carrierV.y,
+    vz: dir.z * speed + carrierV.z,
     mass: launcher.mass,
     radius: launcher.radius,
     drag: launcher.drag,
@@ -1162,6 +1182,7 @@ export function addBarrier(world, opts = {}) {
     contactMaterial: null,
     lastImpact: null,
     lastImpactAt: -1,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   barrier.contactMaterial = new CANNON.ContactMaterial(world.bodyMaterial, material, {
     friction: 0,
@@ -1544,6 +1565,10 @@ export function addSensor(world, opts = {}) {
     lastSpeed: null,
     flashUntil: -1,
     sampleAt: -1,
+    targetId: opts.targetId || null,
+    sampleBodyId: null,
+    series: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.sensors.push(sensor);
   return sensor;
@@ -1553,7 +1578,38 @@ export function getSensor(world, id) {
   return world.sensors.find((s) => s.id === id) || null;
 }
 
-function updateSensor(world, sensor) {
+export function nearestSensorBody(world, sensor) {
+  let best = null;
+  let bestD = sensor.range;
+  for (const body of world.bodies) {
+    if (body.transient) continue;
+    const p = body.cannon.position;
+    if (Math.abs(p.z - sensor.z) > 2.4) continue;
+    if (p.y < sensor.y - 1 || p.y > sensor.y + 2.2) continue;
+    const d = (p.x - sensor.x) * sensor.face;
+    if (d <= 0.05 || d >= bestD) continue;
+    bestD = d;
+    best = body;
+  }
+  return best;
+}
+
+/** Pick a motion-sensor target; null restores automatic nearest-in-line-of-sight. */
+export function setSensorTarget(world, sensor, bodyId = null) {
+  if (!sensor || sensor.kind !== 'motion') return false;
+  const body = bodyId ? getBody(world, bodyId) : null;
+  if (bodyId && !body) return false;
+  sensor.targetId = body ? body.id : null;
+  sensor.samples.length = 0;
+  sensor.sampleAt = -1;
+  sensor.sampleBodyId = null;
+  sensor.lastDistance = null;
+  sensor.lastSpeed = null;
+  sensor.series += 1;
+  return true;
+}
+
+function updateSensor(world, sensor, sampleTime, h) {
   if (sensor.kind === 'photogate') {
     for (const body of world.bodies) {
       if (body.transient && !body.launcherId) continue;
@@ -1566,48 +1622,320 @@ function updateSensor(world, sensor) {
       if (p.y < sensor.y - 0.3 || p.y > sensor.y + sensor.height) continue;
       const v = Math.abs(body.cannon.velocity.x);
       const crossing = {
-        t: world.time,
+        t: sampleTime,
         bodyId: body.id,
         x: p.x,
+        y: p.y,
+        z: p.z,
         v,
         direction: side,
       };
       sensor.crossings.push(crossing);
       if (sensor.crossings.length > 80) sensor.crossings.shift();
       sensor.lastCrossing = crossing;
-      sensor.flashUntil = world.time + 0.18;
-      sensor.samples.push({ t: world.time, x: p.x - sensor.x, v, a: 0 });
+      sensor.flashUntil = sampleTime + 0.18;
+      sensor.samples.push({ t: sampleTime, x: p.x - sensor.x, v, a: 0 });
       if (sensor.samples.length > 1200) sensor.samples.shift();
     }
     return;
   }
-  // Motion sensor: nearest body in front of the sensor.
-  let best = null;
-  let bestD = sensor.range;
-  for (const body of world.bodies) {
-    const p = body.cannon.position;
-    if (Math.abs(p.z - sensor.z) > 2.4) continue;
-    if (p.y < sensor.y - 1 || p.y > sensor.y + 2.2) continue;
-    const d = (p.x - sensor.x) * sensor.face;
-    if (d <= 0.05 || d >= bestD) continue;
-    bestD = d;
-    best = body;
+  // Motion sensor: explicit target, or nearest body in the line of sight.
+  let target = null;
+  if (sensor.targetId) {
+    target = getBody(world, sensor.targetId);
+    if (!target) {
+      sensor.targetId = null;
+      sensor.lastDistance = null;
+      sensor.lastSpeed = null;
+    }
   }
-  if (best) {
-    const v = best.cannon.velocity.x * sensor.face;
-    sensor.lastDistance = bestD;
-    sensor.lastSpeed = v;
+  let signedDistance = null;
+  if (!target) {
+    target = nearestSensorBody(world, sensor);
+    if (target) {
+      const p = target.cannon.position;
+      signedDistance = (p.x - sensor.x) * sensor.face;
+    }
+  } else {
+    const p = target.cannon.position;
+    signedDistance = (p.x - sensor.x) * sensor.face;
+  }
+  if (target) {
+    const p = target.cannon.position;
+    const v = target.cannon.velocity;
+    const pre = target._preStepV;
+    const invH = h > 0 ? 1 / h : 0;
+    const ax = pre ? (v.x - pre.x) * invH : 0;
+    const ay = pre ? (v.y - pre.y) * invH : 0;
+    const az = pre ? (v.z - pre.z) * invH : 0;
+    const speed = v.length();
+    sensor.lastDistance = Math.abs(signedDistance);
+    sensor.lastSpeed = v.x * sensor.face;
+    if (sensor.sampleBodyId && sensor.sampleBodyId !== target.id) {
+      // Changing target mid-run starts a clean series; never mix two bodies.
+      sensor.samples.length = 0;
+      sensor.sampleAt = -1;
+      sensor.series += 1;
+    }
+    sensor.sampleBodyId = target.id;
+    if (sampleTime - sensor.sampleAt >= 0.04 - 1e-9) {
+      sensor.sampleAt = sampleTime;
+      sensor.samples.push({
+        t: sampleTime,
+        bodyId: target.id,
+        bodyName: target.name || '',
+        x: p.x,
+        y: p.y,
+        z: p.z,
+        vx: v.x,
+        vy: v.y,
+        vz: v.z,
+        v: speed,
+        speed,
+        ax,
+        ay,
+        az,
+        a: Math.hypot(ax, ay, az),
+        ke: 0.5 * target.mass * speed * speed,
+      });
+      if (sensor.samples.length > 1200) sensor.samples.shift();
+    }
   } else {
     sensor.lastDistance = null;
     sensor.lastSpeed = null;
   }
-  if (world.time - sensor.sampleAt >= 0.04) {
-    sensor.sampleAt = world.time;
-    if (best) {
-      sensor.samples.push({ t: world.time, x: bestD, v: sensor.lastSpeed, a: 0 });
-      if (sensor.samples.length > 1200) sensor.samples.shift();
-    }
+}
+
+/* ------------------------------------------------------------------ */
+/* Sensor table builders and CSV                                      */
+/* ------------------------------------------------------------------ */
+
+function tableColumn(key, zh, en, unit = '') {
+  return { key, zh, en, unit };
+}
+
+function tableRowNumber(value) {
+  return Number.isFinite(value) ? Number(value.toPrecision(6)) : null;
+}
+
+export function leastSquaresSlope(points, xKey, yKey) {
+  const rows = (points || []).filter((p) => Number.isFinite(p[xKey]) && Number.isFinite(p[yKey]));
+  const n = rows.length;
+  if (n < 2) return NaN;
+  const sx = rows.reduce((s, p) => s + p[xKey], 0);
+  const sy = rows.reduce((s, p) => s + p[yKey], 0);
+  const sxx = rows.reduce((s, p) => s + p[xKey] * p[xKey], 0);
+  const sxy = rows.reduce((s, p) => s + p[xKey] * p[yKey], 0);
+  const denom = n * sxx - sx * sx;
+  return denom === 0 ? NaN : (n * sxy - sx * sy) / denom;
+}
+
+function motionColumns() {
+  return [
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('x', 'x 位置', 'x Position', 'm'),
+    tableColumn('y', 'y 高度', 'y Height', 'm'),
+    tableColumn('z', 'z 深度', 'z Depth', 'm'),
+    tableColumn('vx', 'vx 速度', 'vx Velocity', 'm/s'),
+    tableColumn('vy', 'vy 速度', 'vy Velocity', 'm/s'),
+    tableColumn('vz', 'vz 速度', 'vz Velocity', 'm/s'),
+    tableColumn('speed', '速率', 'Speed', 'm/s'),
+    tableColumn('ax', 'ax 加速度', 'ax Accel', 'm/s²'),
+    tableColumn('ay', 'ay 加速度', 'ay Accel', 'm/s²'),
+    tableColumn('az', 'az 加速度', 'az Accel', 'm/s²'),
+    tableColumn('a', '加速度大小', '|a| Accel', 'm/s²'),
+    tableColumn('ke', '动能', 'Kinetic energy', 'J'),
+  ];
+}
+
+function motionSummaryColumns() {
+  return [
+    tableColumn('samples', '样本数', 'Samples'),
+    tableColumn('duration', '时长', 'Duration', 's'),
+    tableColumn('meanSpeed', '平均速率', 'Mean speed', 'm/s'),
+    tableColumn('maxSpeed', '最大速率', 'Max speed', 'm/s'),
+    tableColumn('minSpeed', '最小速率', 'Min speed', 'm/s'),
+    tableColumn('meanA', '平均加速度', 'Mean |a|', 'm/s²'),
+    tableColumn('maxA', '最大加速度', 'Max |a|', 'm/s²'),
+    tableColumn('slopeX', 'x–t 斜率', 'x–t slope', 'm/s'),
+    tableColumn('slopeVx', 'vx–t 斜率', 'vx–t slope', 'm/s²'),
+  ];
+}
+
+function buildMotionTables(sensor) {
+  const samples = sensor.samples || [];
+  const rawRows = samples.map((row) => ({
+    t: tableRowNumber(row.t),
+    x: tableRowNumber(row.x),
+    y: tableRowNumber(row.y),
+    z: tableRowNumber(row.z),
+    vx: tableRowNumber(row.vx ?? row.v ?? 0),
+    vy: tableRowNumber(row.vy ?? 0),
+    vz: tableRowNumber(row.vz ?? 0),
+    speed: tableRowNumber(row.speed ?? row.v ?? 0),
+    ax: tableRowNumber(row.ax ?? 0),
+    ay: tableRowNumber(row.ay ?? 0),
+    az: tableRowNumber(row.az ?? 0),
+    a: tableRowNumber(row.a ?? 0),
+    ke: tableRowNumber(row.ke ?? 0),
+  }));
+  const speeds = rawRows.map((r) => r.speed).filter(Number.isFinite);
+  const accels = rawRows.map((r) => r.a).filter(Number.isFinite);
+  const firstT = rawRows[0]?.t;
+  const lastT = rawRows[rawRows.length - 1]?.t;
+  const summaryRow = {
+    samples: rawRows.length,
+    duration: tableRowNumber(Number.isFinite(firstT) && Number.isFinite(lastT) ? lastT - firstT : 0),
+    meanSpeed: tableRowNumber(speeds.length ? speeds.reduce((a, b) => a + b, 0) / speeds.length : 0),
+    maxSpeed: tableRowNumber(speeds.length ? Math.max(...speeds) : 0),
+    minSpeed: tableRowNumber(speeds.length ? Math.min(...speeds) : 0),
+    meanA: tableRowNumber(accels.length ? accels.reduce((a, b) => a + b, 0) / accels.length : 0),
+    maxA: tableRowNumber(accels.length ? Math.max(...accels) : 0),
+    slopeX: tableRowNumber(leastSquaresSlope(rawRows, 't', 'x')),
+    slopeVx: tableRowNumber(leastSquaresSlope(rawRows, 't', 'vx')),
+  };
+  return {
+    kind: 'motion',
+    raw: { titleZh: '原始时间序列', titleEn: 'Raw time series', columns: motionColumns(), rows: rawRows },
+    summary: { titleZh: '统计摘要', titleEn: 'Summary & derived', columns: motionSummaryColumns(), rows: [summaryRow] },
+  };
+}
+
+function buildPhotogateTables(sensor) {
+  const columns = [
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('v', '速度', 'Speed', 'm/s'),
+    tableColumn('x', 'x 位置', 'x Position', 'm'),
+    tableColumn('body', '物体', 'Body'),
+  ];
+  const crossings = sensor.crossings || [];
+  const rawRows = crossings.map((c) => ({
+    t: tableRowNumber(c.t),
+    v: tableRowNumber(c.v),
+    x: tableRowNumber(c.x),
+    body: c.bodyId || '',
+  }));
+  const summaryColumns = [
+    tableColumn('index', '序号', 'Index'),
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('dt', '间隔 Δt', 'Interval Δt', 's'),
+    tableColumn('v', '速度', 'Speed', 'm/s'),
+    tableColumn('body', '物体', 'Body'),
+  ];
+  const summaryRows = crossings.map((c, i) => ({
+    index: i + 1,
+    t: tableRowNumber(c.t),
+    dt: tableRowNumber(i ? c.t - crossings[i - 1].t : 0),
+    v: tableRowNumber(c.v),
+    body: c.bodyId || '',
+  }));
+  return {
+    kind: 'photogate',
+    raw: { titleZh: '每次通过', titleEn: 'Crossing events', columns, rows: rawRows },
+    summary: { titleZh: '间隔摘要', titleEn: 'Interval summary', columns: summaryColumns, rows: summaryRows },
+  };
+}
+
+function buildForceTables(link) {
+  const columns = [
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('force', '力', 'Force', 'N'),
+  ];
+  const samples = link.samples || [];
+  const rawRows = samples.map((row) => ({
+    t: tableRowNumber(row.t),
+    force: tableRowNumber(row.force),
+  }));
+  const forces = rawRows.map((r) => r.force).filter(Number.isFinite);
+  const firstT = rawRows[0]?.t;
+  const lastT = rawRows[rawRows.length - 1]?.t;
+  const summaryColumns = [
+    tableColumn('samples', '样本数', 'Samples'),
+    tableColumn('duration', '时长', 'Duration', 's'),
+    tableColumn('meanForce', '平均力', 'Mean force', 'N'),
+    tableColumn('minForce', '最小力', 'Min force', 'N'),
+    tableColumn('maxForce', '最大力', 'Max force', 'N'),
+    tableColumn('slope', 'F–t 斜率', 'F–t slope', 'N/s'),
+  ];
+  const summaryRow = {
+    samples: rawRows.length,
+    duration: tableRowNumber(Number.isFinite(firstT) && Number.isFinite(lastT) ? lastT - firstT : 0),
+    meanForce: tableRowNumber(forces.length ? forces.reduce((a, b) => a + b, 0) / forces.length : 0),
+    minForce: tableRowNumber(forces.length ? Math.min(...forces) : 0),
+    maxForce: tableRowNumber(forces.length ? Math.max(...forces) : 0),
+    slope: tableRowNumber(leastSquaresSlope(rawRows, 't', 'force')),
+  };
+  return {
+    kind: 'force',
+    raw: { titleZh: '原始时间序列', titleEn: 'Raw time series', columns, rows: rawRows },
+    summary: { titleZh: '统计摘要', titleEn: 'Summary & derived', columns: summaryColumns, rows: [summaryRow] },
+  };
+}
+
+function buildBodyGraphTables(samples) {
+  const columns = [
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('x', 'x 位置', 'x Position', 'm'),
+    tableColumn('v', '速率', 'Speed', 'm/s'),
+    tableColumn('a', '加速度', 'Accel', 'm/s²'),
+    tableColumn('e', '能量', 'Energy', 'J'),
+  ];
+  const rawRows = samples.map((row) => ({
+    t: tableRowNumber(row.t),
+    x: tableRowNumber(row.x),
+    v: tableRowNumber(row.v),
+    a: tableRowNumber(row.a),
+    e: tableRowNumber(row.e),
+  }));
+  const xs = rawRows.map((r) => r.x).filter(Number.isFinite);
+  const summaryColumns = [
+    tableColumn('samples', '样本数', 'Samples'),
+    tableColumn('duration', '时长', 'Duration', 's'),
+    tableColumn('minX', '最小 x', 'Min x', 'm'),
+    tableColumn('maxX', '最大 x', 'Max x', 'm'),
+    tableColumn('slopeX', 'x–t 斜率', 'x–t slope', 'm/s'),
+  ];
+  const firstT = rawRows[0]?.t;
+  const lastT = rawRows[rawRows.length - 1]?.t;
+  const summaryRow = {
+    samples: rawRows.length,
+    duration: tableRowNumber(Number.isFinite(firstT) && Number.isFinite(lastT) ? lastT - firstT : 0),
+    minX: tableRowNumber(xs.length ? Math.min(...xs) : 0),
+    maxX: tableRowNumber(xs.length ? Math.max(...xs) : 0),
+    slopeX: tableRowNumber(leastSquaresSlope(rawRows, 't', 'x')),
+  };
+  return {
+    kind: 'body',
+    raw: { titleZh: '原始时间序列', titleEn: 'Raw time series', columns, rows: rawRows },
+    summary: { titleZh: '统计摘要', titleEn: 'Summary & derived', columns: summaryColumns, rows: [summaryRow] },
+  };
+}
+
+/**
+ * Build both required table formats for a logging source:
+ * a motion/photogate sensor, a force-meter link, or an array of body samples.
+ */
+export function buildSensorTables(source) {
+  if (Array.isArray(source)) return buildBodyGraphTables(source);
+  if (!source) return null;
+  if (source.type === 'sensor') {
+    return source.kind === 'photogate' ? buildPhotogateTables(source) : buildMotionTables(source);
   }
+  if (source.type === 'link' || source.meter) return buildForceTables(source);
+  return null;
+}
+
+export function tableToCsv(table) {
+  if (!table || !table.columns) return '';
+  const header = table.columns.map((c) => `${c.zh} · ${c.en}${c.unit ? ` (${c.unit})` : ''}`);
+  const rows = (table.rows || []).map((row) => table.columns.map((c) => {
+    const value = row[c.key];
+    return value == null ? '' : value;
+  }));
+  return [header, ...rows].map((cells) => cells.map((cell) => {
+    const text = String(cell);
+    return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+  }).join(',')).join('\n');
 }
 
 /* ------------------------------------------------------------------ */
@@ -1773,6 +2101,226 @@ export function snapNearbyBodies(world, maxDistance = 3.5) {
   return snapped;
 }
 
+/**
+ * Move a body to an explicit world position. With snap enabled the body is
+ * re-seated on the nearest surface/track/loop/turntable/circle exactly like
+ * the drag-release path. Returns the attachment type or null.
+ */
+export function setBodyPosition(world, body, position, { snap = false, maxDistance = 2.4 } = {}) {
+  if (!body || body.type !== 'body' || !position) return null;
+  if (body.attachment) detachBody(world, body);
+  body.skid = null;
+  const y = Number.isFinite(position.y) ? Math.max(body.halfHeight + 0.02, position.y) : body.cannon.position.y;
+  body.cannon.position.set(position.x, y, position.z);
+  body.cannon.velocity.setZero();
+  body.cannon.angularVelocity.setZero();
+  body.cannon.aabbNeedsUpdate = true;
+  body.cannon.wakeUp();
+  const hit = snap ? snapBodyToNearest(world, body, { maxDistance }) : null;
+  if (!hit) applyInitialVelocity(world, body);
+  return hit;
+}
+
+/* ------------------------------------------------------------------ */
+/* Portable apparatus mounting (launcher / sensor / barrier)          */
+/* ------------------------------------------------------------------ */
+
+function cloneMount(mount) {
+  if (!mount) return null;
+  return JSON.parse(JSON.stringify(mount));
+}
+
+function mountPoint(world, mount) {
+  if (!mount) return null;
+  if (mount.type === 'body') {
+    const carrier = getBody(world, mount.id);
+    if (!carrier) return null;
+    const offset = mount.offset || [0, carrier.halfHeight + 0.02, 0];
+    const p = carrier.cannon.quaternion.vmult(V(offset[0] || 0, offset[1] || 0, offset[2] || 0));
+    p.vadd(carrier.cannon.position, p);
+    return { point: p, carrier };
+  }
+  if (mount.type === 'turntable') {
+    const table = getTurntable(world, mount.id);
+    if (!table) return null;
+    const phi = (mount.phi || 0) + (table.angle || 0);
+    const r = mount.r || 0;
+    return {
+      point: V(
+        table.x + r * Math.cos(phi),
+        tableTopY(table) + (mount.offsetY || 0.02),
+        table.z + r * Math.sin(phi),
+      ),
+      carrier: table,
+    };
+  }
+  if (mount.type === 'wedge') {
+    const wedge = getWedge(world, mount.id);
+    if (!wedge) return null;
+    const localX = clamp(mount.localX || 0, -wedge.length / 2, wedge.length / 2);
+    const cy = wedge.centroidY;
+    const yLocal = -cy + (localX + wedge.length / 2 + wedge.length / 6) * Math.tan(wedge.angle * DEG);
+    const p = wedge.body.quaternion.vmult(V(localX, yLocal + (mount.offsetY || 0.02), mount.localZ || 0));
+    p.vadd(wedge.body.position, p);
+    return { point: p, carrier: wedge };
+  }
+  if (mount.type === 'surface') {
+    const surface = getSurface(world, mount.id);
+    if (!surface) return null;
+    const p = surfaceTopPoint(surface, mount.localX || 0, mount.localZ || 0);
+    p.y += mount.offsetY || 0;
+    return { point: p, carrier: surface };
+  }
+  return null;
+}
+
+/** Re-position every mounted apparatus from its carrier's current pose. */
+export function updateMountedApparatus(world) {
+  for (const apparatus of world.launchers) {
+    if (!apparatus.mount) continue;
+    const hit = mountPoint(world, apparatus.mount);
+    if (!hit) { apparatus.mount = null; continue; }
+    apparatus.x = hit.point.x;
+    apparatus.y = hit.point.y;
+    apparatus.z = hit.point.z;
+    apparatus.target = launcherPrediction(world, apparatus);
+  }
+  for (const sensor of world.sensors) {
+    if (!sensor.mount) continue;
+    const hit = mountPoint(world, sensor.mount);
+    if (!hit) { sensor.mount = null; continue; }
+    sensor.x = hit.point.x;
+    sensor.y = hit.point.y;
+    sensor.z = hit.point.z;
+  }
+  for (const barrier of world.barriers) {
+    if (!barrier.mount) continue;
+    const hit = mountPoint(world, barrier.mount);
+    if (!hit) { barrier.mount = null; continue; }
+    barrier.x = hit.point.x;
+    barrier.y = hit.point.y;
+    barrier.z = hit.point.z;
+    barrier.body.position.set(barrier.x, barrier.y + barrier.height / 2, barrier.z);
+    barrier.body.aabbNeedsUpdate = true;
+  }
+}
+
+function mountVelocity(world, mount, point) {
+  if (!mount) return V();
+  if (mount.type === 'body') {
+    const carrier = getBody(world, mount.id);
+    return carrier ? cloneV(carrier.cannon.velocity) : V();
+  }
+  if (mount.type === 'turntable') {
+    const table = getTurntable(world, mount.id);
+    return table ? tableSurfaceVelocity(table, point) : V();
+  }
+  if (mount.type === 'wedge') {
+    const wedge = getWedge(world, mount.id);
+    return wedge ? cloneV(wedge.body.velocity) : V();
+  }
+  return V();
+}
+
+/**
+ * Rigidly mount a launcher/sensor on a body, turntable, wedge or surface.
+ * Returns true when the target exists and is a sensible carrier.
+ */
+export function mountApparatus(world, apparatus, target, opts = {}) {
+  if (!apparatus || (apparatus.type !== 'launcher' && apparatus.type !== 'sensor')) return false;
+  const type = target?.type;
+  const id = target?.id;
+  if (!type || !id || type === apparatus.type || id === apparatus.id) return false;
+  if (type === 'body') {
+    const carrier = getBody(world, id);
+    if (!carrier || carrier.transient) return false;
+    apparatus.mount = {
+      type: 'body',
+      id,
+      offset: [opts.offsetX || 0, opts.offsetY ?? (carrier.halfHeight + 0.02), opts.offsetZ || 0],
+    };
+  } else if (type === 'turntable') {
+    if (!getTurntable(world, id)) return false;
+    apparatus.mount = { type, id, r: opts.r || 0, phi: opts.phi || 0, offsetY: opts.offsetY ?? 0.02 };
+  } else if (type === 'wedge') {
+    if (!getWedge(world, id)) return false;
+    apparatus.mount = { type, id, localX: opts.localX || 0, localZ: opts.localZ || 0, offsetY: opts.offsetY ?? 0.02 };
+  } else if (type === 'surface') {
+    const surface = getSurface(world, id);
+    if (!surface) return false;
+    const local = surfaceLocalPoint(surface, V(apparatus.x, apparatus.y, apparatus.z));
+    apparatus.mount = {
+      type,
+      id,
+      localX: clamp(opts.localX ?? local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2),
+      localZ: clamp(opts.localZ ?? local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2),
+      offsetY: opts.offsetY ?? 0,
+    };
+  } else {
+    return false;
+  }
+  updateMountedApparatus(world);
+  return true;
+}
+
+/** Best sensible carrier near a launcher/sensor: body top, turntable, wedge top, or surface. */
+export function snapApparatusToNearest(world, apparatus, { maxDistance = 3, ...opts } = {}) {
+  if (!apparatus) return null;
+  if (apparatus.type === 'barrier') return snapBarrierToNearest(world, apparatus, { maxDistance });
+  if (apparatus.type !== 'launcher' && apparatus.type !== 'sensor') return null;
+  const origin = V(apparatus.x || 0, apparatus.y || 0, apparatus.z || 0);
+  const candidates = [];
+  for (const carrier of world.bodies) {
+    if (carrier.transient) continue;
+    const p = cloneV(carrier.cannon.position);
+    p.y += carrier.halfHeight + 0.02;
+    candidates.push({ type: 'body', id: carrier.id, point: p, distance: p.distanceTo(origin) });
+  }
+  for (const table of world.turntables) {
+    const p = V(table.x, tableTopY(table) + 0.02, table.z);
+    candidates.push({ type: 'turntable', id: table.id, point: p, distance: p.distanceTo(origin) });
+  }
+  for (const wedge of world.wedges) {
+    const p = wedge.body.quaternion.vmult(V(0, wedge.height * 0.35, 0));
+    p.vadd(wedge.body.position, p);
+    candidates.push({ type: 'wedge', id: wedge.id, point: p, distance: p.distanceTo(origin) });
+  }
+  for (const surface of world.surfaces) {
+    const local = surfaceLocalPoint(surface, origin);
+    const p = surfaceTopPoint(
+      surface,
+      clamp(local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2),
+      clamp(local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2),
+    );
+    candidates.push({ type: 'surface', id: surface.id, point: p, distance: p.distanceTo(origin) });
+  }
+  candidates.sort((a, b) => a.distance - b.distance);
+  const best = candidates.find((c) => c.distance <= maxDistance);
+  if (!best) return null;
+  if (!mountApparatus(world, apparatus, best, opts)) return null;
+  return { type: best.type, id: best.id, distance: best.distance };
+}
+
+/** Attach a wall/bumper to the nearest track/incline/surface end. */
+export function snapBarrierToNearest(world, barrier, { maxDistance = 3 } = {}) {
+  if (!barrier || barrier.type !== 'barrier') return null;
+  const origin = V(barrier.x || 0, barrier.y || 0, barrier.z || 0);
+  let best = null;
+  for (const surface of world.surfaces) {
+    for (const sign of [-1, 1]) {
+      const localX = sign * (surface.length / 2 - 0.12);
+      const p = surfaceTopPoint(surface, localX, 0);
+      const d = p.distanceTo(origin);
+      if (!best || d < best.distance) best = { surface, localX, point: p, distance: d };
+    }
+  }
+  if (!best || best.distance > maxDistance) return null;
+  barrier.mount = { type: 'surface', id: best.surface.id, localX: best.localX, localZ: 0, offsetY: 0 };
+  updateMountedApparatus(world);
+  return { type: 'surface', id: best.surface.id, distance: best.distance };
+}
+
+
 /* ------------------------------------------------------------------ */
 /* Springs, applied forces and force meters                           */
 /* ------------------------------------------------------------------ */
@@ -1797,6 +2345,8 @@ export function addLink(world, opts = {}) {
     rest: restLength,
     meter,
     reading: 0,
+    samples: [],
+    sampleAt: -1,
   };
   world.links.push(link);
   return link;
@@ -1845,6 +2395,20 @@ function applySpringForces(world) {
     if (link.b.type === 'body') {
       const body = getBody(world, link.b.id);
       if (body) body.cannon.applyForce(forceOnA.scale(-1));
+    }
+  }
+}
+
+function sampleMeters(world, h) {
+  const t = world.time + h;
+  for (const link of world.links) {
+    if (!link.meter) continue;
+    const g = linkGeometry(world, link);
+    if (!g) continue;
+    if (t - link.sampleAt >= 0.04 - 1e-9) {
+      link.sampleAt = t;
+      link.samples.push({ t, force: Math.abs(g.tension) });
+      if (link.samples.length > 1200) link.samples.shift();
     }
   }
 }
@@ -3339,9 +3903,11 @@ export function substep(world, h) {
     }
   }
   for (const pulley of world.pulleys) projectPulley(world, pulley, h);
+  updateMountedApparatus(world);
   for (const launcher of world.launchers) updateLauncher(world, launcher);
   processImpacts(world);
-  for (const sensor of world.sensors) updateSensor(world, sensor);
+  sampleMeters(world, h);
+  for (const sensor of world.sensors) updateSensor(world, sensor, world.time + h, h);
   for (const fan of world.fans) fan.spin += h * (fan.on ? 18 : 0);
   world.time += h;
 }
@@ -3655,6 +4221,12 @@ export function resetWorld(world) {
     sensor.lastDistance = null;
     sensor.lastSpeed = null;
     sensor.sampleAt = -1;
+    sensor.sampleBodyId = null;
+  }
+  for (const link of world.links) {
+    if (!link.meter) continue;
+    link.samples = [];
+    link.sampleAt = -1;
   }
   const wedgeState = new Map((init.wedges || []).map((w) => [w.id, w]));
   for (const wedge of world.wedges) {
@@ -3765,6 +4337,8 @@ export function resetWorld(world) {
     body.cannon.aabbNeedsUpdate = true;
     body.cannon.wakeUp();
   }
+  updateMountedApparatus(world);
+  for (const launcher of world.launchers) launcher.target = launcherPrediction(world, launcher);
   world.time = 0;
   world.accumulator = 0;
   world.thermal = 0;
@@ -4075,6 +4649,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       dragB: l.dragB,
       dragC: l.dragC,
       showTarget: l.showTarget,
+      mount: l.mount ? { ...l.mount } : null,
     })),
     pulleys: world.pulleys.map((p) => ({
       id: p.id,
@@ -4104,6 +4679,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       radius: b.radius,
       angle: b.angle,
       e: b.e,
+      mount: b.mount ? { ...b.mount } : null,
     })),
     pendulums: world.pendulums.map((p) => ({
       id: p.id,
@@ -4145,6 +4721,8 @@ export function serializeScene(world, { runtime = false } = {}) {
       height: s.height,
       range: s.range,
       face: s.face,
+      targetId: s.targetId || null,
+      mount: s.mount ? { ...s.mount } : null,
     })),
     fans: world.fans.map((f) => ({
       id: f.id,
@@ -4459,6 +5037,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       meter: !!l.meter,
     });
   }
+  updateMountedApparatus(world);
   if (runtime) {
     world.time = data.time || 0;
     world.thermal = data.thermal || 0;

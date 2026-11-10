@@ -42,6 +42,7 @@ import {
   attachBodyToSurface,
   attachBodyToTurntable,
   bodyDiagnostics,
+  buildSensorTables,
   captureInitial,
   carriageTilt,
   clampMuPair,
@@ -76,6 +77,8 @@ import {
   oscillatorEnvelope,
   oscillatorRegime,
   pendulumPeriod,
+  quantizeAngle,
+  quantizeValue,
   rebuildWedge,
   relativeVelocity,
   repositionSurfaceBody,
@@ -87,6 +90,7 @@ import {
   setBarrierSize,
   setBodyCollisionRestitution,
   setBodyMass,
+  setBodyPosition,
   setBlockSize,
   setCartInertia,
   setCartRadius,
@@ -94,6 +98,7 @@ import {
   setInertiaRatio,
   setLoopRadius,
   setOrbitLaunch,
+  setSensorTarget,
   setSurfaceAngle,
   setSurfaceLength,
   setSurfaceWidth,
@@ -102,10 +107,13 @@ import {
   setWedgeBlockFriction,
   setWedgeFloorFriction,
   setWedgeMass,
+  snapApparatusToNearest,
+  snapBarrierToNearest,
   snapBodyToNearest,
   snapNearbyBodies,
   stepOnce,
   stepWorld,
+  tableToCsv,
   torsionPeriod,
   tunnelPeriod,
 } from './physics.mjs';
@@ -764,6 +772,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let rulerMode = false;
   let rulerFirst = null;
   let modal = null;
+  let pendingSensorTarget = null;
+  let positionFieldHandles = null;
+  let sensorTableNodes = [];
+  let lastSensorTableAt = 0;
   let lastPointer = null;
   let undoCoalesceKey = '';
   let undoCoalesceAt = 0;
@@ -845,6 +857,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     moreBtn.setAttribute('aria-expanded', 'true');
     const close = morePanel.querySelector('[data-action="more-close"]');
     if (close) close.focus({ preventScroll: true });
+    // The hidden canvas reports a zero-sized box while More is closed. Once
+    // the panel is laid out, resize and redraw from samples recorded meanwhile.
+    requestAnimationFrame(() => {
+      if (graphsOn) drawGraphs();
+      refreshSensorTables();
+    });
   }
 
   function closeMore() {
@@ -1234,13 +1252,30 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       item.dataset.entityType = entity.type;
       item.dataset.entityId = entity.id;
       item.addEventListener('click', () => {
-        if (isMobile()) closeMore();
+        if (pendingSensorTarget && entity.type === 'body') {
+          const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
+          if (sensor) {
+            pendingSensorTarget = null;
+            setSensorTarget(world, sensor, entity.id);
+            select(sensor);
+            renderOutliner();
+            setStatus(`运动传感器目标 · Motion-sensor target: ${entity.name || entityFallbackName(entity)}`);
+            return;
+          }
+        }
         select(entity);
       });
       item.addEventListener('dblclick', (event) => {
         event.preventDefault();
         startRename(row, entity);
       });
+      const rename = el('button', {
+        type: 'button',
+        className: 'plab-outliner-rename-btn hit-target',
+        text: '重命名 · Rename',
+        'aria-label': `重命名 ${entity.name || entityFallbackName(entity)} · Rename`,
+      });
+      rename.addEventListener('click', () => startRename(row, entity));
       const del = el('button', {
         type: 'button',
         className: 'plab-outliner-del hit-target',
@@ -1248,7 +1283,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         'aria-label': `删除 ${entity.name || entityFallbackName(entity)} · Delete`,
       });
       del.addEventListener('click', () => deleteEntity(entity));
-      row.append(item, del);
+      row.append(item, rename, del);
       outlinerList.appendChild(row);
     }
   }
@@ -1985,6 +2020,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         }
       }
     } else if (entity.type === 'launcher') {
+      entity.mount = null;
       entity.x = p.x; entity.y = p.y; entity.z = p.z;
       entity.target = launcherPrediction(world, entity);
     } else if (entity.type === 'pulley') {
@@ -1997,6 +2033,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         }
       }
     } else if (entity.type === 'barrier') {
+      entity.mount = null;
       entity.x = p.x; entity.y = p.y; entity.z = p.z;
       entity.body.position.set(entity.x, entity.y + entity.height / 2, entity.z);
       entity.body.aabbNeedsUpdate = true;
@@ -2008,6 +2045,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.body.position.set(p.x, p.y + entity.centroidY, p.z);
       entity.body.aabbNeedsUpdate = true;
     } else if (entity.type === 'sensor') {
+      entity.mount = null;
       entity.x = p.x; entity.y = p.y; entity.z = p.z;
     } else if (entity.type === 'fan') {
       // Fan attachments follow their body and are not moved independently.
@@ -2109,7 +2147,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const axis = modal.axis || (entity.type === 'surface' ? 'z' : 'y');
       let angle = modal.numeric ? (Number(modal.numeric) * Math.PI) / 180 : modal.dx * 0.008;
       if (!Number.isFinite(angle)) return;
-      if (snapOn) angle = Math.round(angle / (Math.PI / 12)) * (Math.PI / 12);
+      if (snapOn) {
+        const stepRad = (Math.max(1, angleStepDeg) * Math.PI) / 180;
+        angle = Math.round(angle / stepRad) * stepRad;
+      }
       setEntityQuaternion(entity, quatMul(quatFromAxis(axis, angle), start.quat));
     } else if (modal.mode === 'scale') {
       let factor = modal.numeric ? Number(modal.numeric) : 1 + (modal.dx - modal.dy) * 0.006;
@@ -2625,6 +2666,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }
       return;
     }
+    if (pendingSensorTarget) {
+      if (hit?.entity?.type === 'body') {
+        const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
+        const body = getBody(world, hit.entity.id);
+        if (sensor && body) {
+          pendingSensorTarget = null;
+          setSensorTarget(world, sensor, body.id);
+          select(sensor);
+          renderOutliner();
+          setStatus(`运动传感器目标 · Motion-sensor target: ${body.name || entityFallbackName(body)}`);
+          return;
+        }
+      }
+      if (!hit?.entity) {
+        setStatus('请点击一个物体作为传感器目标。 · Click a body to use as the sensor target.', true);
+        return;
+      }
+    }
     if (pendingLink) {
       let endpoint;
       const point = hit?.point || view.groundPoint(event.clientX, event.clientY);
@@ -2754,6 +2813,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         }
       }
     } else if (entity.type === 'launcher') {
+      entity.mount = null;
       entity.x = object.position.x;
       entity.y = object.position.y;
       entity.z = object.position.z;
@@ -2770,6 +2830,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         }
       }
     } else if (entity.type === 'barrier') {
+      entity.mount = null;
       entity.x = object.position.x;
       entity.y = object.position.y;
       entity.z = object.position.z;
@@ -2789,6 +2850,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.body.quaternion.set(object.quaternion.x, object.quaternion.y, object.quaternion.z, object.quaternion.w);
       entity.body.aabbNeedsUpdate = true;
     } else if (entity.type === 'sensor') {
+      entity.mount = null;
       entity.x = object.position.x;
       entity.y = object.position.y;
       entity.z = object.position.z;
@@ -2809,6 +2871,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (entity.type === 'body') {
       const hit = assists.snap && !shiftHeld ? snapBodyToNearest(world, entity, { maxDistance: 2.4 }) : null;
       if (hit) {
+        if (snapOn && !shiftHeld) quantizeSeatedBody(entity);
         flashSeat(entity);
         setStatus('已自动吸附到装置。 · Auto-snapped to apparatus.');
       }
@@ -2828,36 +2891,106 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function handleDirectDragStart(entityRef) {
     if (!entityRef || running) return;
     const entity = entityById(entityRef.type, entityRef.id);
-    if (!entity || entity.type !== 'body') return;
-    select(entity);
-    pushUndo('direct-drag');
-    prepareEdit();
-    if (entity.attachment) detachBody(world, entity);
-    entity.cannon.velocity.setZero();
-    entity.cannon.angularVelocity.setZero();
+    if (!entity) return;
+    if (entity.type === 'body') {
+      select(entity);
+      pushUndo('direct-drag');
+      prepareEdit();
+      if (entity.attachment) detachBody(world, entity);
+      entity.cannon.velocity.setZero();
+      entity.cannon.angularVelocity.setZero();
+    } else if (entity.type === 'launcher' || entity.type === 'sensor' || entity.type === 'barrier') {
+      select(entity);
+      pushUndo('direct-drag');
+      prepareEdit();
+      entity.mount = null;
+    } else {
+      return;
+    }
     setStatus('拖动中：松开后自动吸附 · Dragging; release to auto-snap');
   }
 
   function handleDirectDrag(entityRef, point) {
     const entity = entityById(entityRef?.type, entityRef?.id);
-    if (!entity || entity.type !== 'body' || !point) return;
-    entity.cannon.position.set(point.x, Math.max(entity.halfHeight + 0.02, point.y), point.z);
-    entity.cannon.aabbNeedsUpdate = true;
+    if (!entity || !point) return;
+    if (entity.type === 'body') {
+      const x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
+      const z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
+      entity.cannon.position.set(x, Math.max(entity.halfHeight + 0.02, point.y), z);
+      entity.cannon.aabbNeedsUpdate = true;
+      syncPositionFields(entity);
+    } else if (entity.type === 'launcher' || entity.type === 'sensor' || entity.type === 'barrier') {
+      const x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
+      const z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
+      entity.x = x;
+      entity.y = point.y;
+      entity.z = z;
+      if (entity.type === 'launcher') entity.target = launcherPrediction(world, entity);
+      if (entity.type === 'barrier') {
+        entity.body.position.set(x, entity.y + entity.height / 2, z);
+        entity.body.aabbNeedsUpdate = true;
+      }
+      syncPositionFields(entity);
+    } else {
+      return;
+    }
     view.sync(world);
+  }
+
+  function quantizeSeatedBody(body) {
+    const att = body?.attachment;
+    if (!att) return;
+    if (att.type === 'surface') {
+      attachBodyToSurface(world, body, att.id, {
+        localX: quantizeValue(att.localX, gridStep),
+        localZ: quantizeValue(att.localZ, gridStep),
+      });
+    } else if (att.type === 'loop') {
+      attachBodyToLoop(world, body, att.id, {
+        theta: (quantizeAngle((att.theta * 180) / Math.PI, angleStepDeg) * Math.PI) / 180,
+      });
+    } else if (att.type === 'turntable') {
+      attachBodyToTurntable(world, body, att.id, {
+        r: quantizeValue(att.r, gridStep),
+        phi: (quantizeAngle((att.phi * 180) / Math.PI, angleStepDeg) * Math.PI) / 180,
+      });
+    } else if (att.type === 'hcircle') {
+      attachBodyToHCircle(world, body, att.id, {
+        phi: (quantizeAngle((att.phi * 180) / Math.PI, angleStepDeg) * Math.PI) / 180,
+      });
+    }
   }
 
   function handleDirectDragEnd(entityRef) {
     const entity = entityById(entityRef?.type, entityRef?.id);
-    if (!entity || entity.type !== 'body') return;
-    const hit = assists.snap && !shiftHeld ? snapBodyToNearest(world, entity, { maxDistance: 2.4 }) : null;
-    if (hit) {
-      flashSeat(entity);
-      setStatus('已自动吸附到最近表面。 · Auto-snapped to the nearest surface.');
+    if (!entity) return;
+    if (entity.type === 'body') {
+      const hit = assists.snap && !shiftHeld ? snapBodyToNearest(world, entity, { maxDistance: 2.4 }) : null;
+      if (hit) {
+        if (snapOn && !shiftHeld) quantizeSeatedBody(entity);
+        flashSeat(entity);
+        setStatus('已自动吸附到最近表面。 · Auto-snapped to the nearest surface.');
+      } else {
+        entity.cannon.position.y = entity.halfHeight + 0.02;
+        entity.cannon.velocity.setZero();
+        applyInitialVelocity(world, entity);
+        setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+      }
+    } else if (entity.type === 'launcher' || entity.type === 'sensor') {
+      const hit = assists.snap && !shiftHeld ? snapApparatusToNearest(world, entity, { maxDistance: 3 }) : null;
+      if (hit) {
+        view.flashSnap?.(entity.type === 'launcher'
+          ? { x: entity.x, y: entity.y + entity.height / 2, z: entity.z }
+          : { x: entity.x, y: entity.y + 0.2, z: entity.z });
+        setStatus('已刚性安装到载体。 · Mounted rigidly to the carrier.');
+      } else {
+        setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+      }
+    } else if (entity.type === 'barrier') {
+      const hit = assists.snap && !shiftHeld ? snapBarrierToNearest(world, entity, { maxDistance: 3 }) : null;
+      setStatus(hit ? '已连接到轨道端。 · Attached to the track end.' : '已放置。 · Placed.');
     } else {
-      entity.cannon.position.y = entity.halfHeight + 0.02;
-      entity.cannon.velocity.setZero();
-      applyInitialVelocity(world, entity);
-      setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+      return;
     }
     captureInitial(world);
     view.sync(world);
@@ -2893,7 +3026,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function handleAngleDrag(entityRef, angle, phase) {
     const entity = entityById(entityRef?.type, entityRef?.id);
     if (!entity || entity.type !== 'surface') return;
-    setSurfaceAngle(world, entity, Math.max(-60, Math.min(60, angle)));
+    const next = snapOn && !shiftHeld ? quantizeAngle(angle, angleStepDeg) : angle;
+    setSurfaceAngle(world, entity, Math.max(-60, Math.min(60, next)));
     view.sync(world);
     const input = inspectorBody.querySelector('[data-field="angle"]');
     if (input) input.value = fmtInput(entity.angle);
@@ -3236,7 +3370,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setFieldValue(kField, contact.muK, 0, 1.5);
     };
     sField = field(parent, {
-      label: '静摩擦因数 · μs',
+      label: '静摩擦因数 · Static friction μs',
       value: contact.muS,
       min: 0,
       max: 1.5,
@@ -3250,7 +3384,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       },
     });
     kField = field(parent, {
-      label: '动摩擦因数 · μk',
+      label: '动摩擦因数 · Kinetic friction μk',
       value: contact.muK,
       min: 0,
       max: 1.5,
@@ -3263,6 +3397,271 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         sync();
       },
     });
+  }
+
+  /* --------------------- editable position x / y / z ------------------ */
+
+  function syncPositionFields(entity = null) {
+    if (!positionFieldHandles) return;
+    const target = entity || entityById(positionFieldHandles.type, positionFieldHandles.id);
+    if (!target) return;
+    if (positionFieldHandles.id !== target.id) return;
+    const p = entityPosition(target);
+    for (const key of ['x', 'y', 'z']) {
+      const input = positionFieldHandles.inputs[key];
+      if (!input) continue;
+      if (document.activeElement === input) continue;
+      input.value = fmtInput(p[key]);
+    }
+  }
+
+  function updatePositionFields() {
+    if (!positionFieldHandles || !selected) {
+      positionFieldHandles = null;
+      return;
+    }
+    syncPositionFields();
+  }
+
+  function applyPositionEdit(entity) {
+    if (!entity || !positionFieldHandles) return;
+    const p = {};
+    for (const key of ['x', 'y', 'z']) {
+      const input = positionFieldHandles.inputs[key];
+      if (!input) return;
+      if (input.value === '' || input.value === '-') return;
+      const value = Number(input.value);
+      if (!Number.isFinite(value)) return;
+      p[key] = value;
+    }
+    pushUndo(`field:position:${entity.id}`);
+    prepareEdit();
+    let hit = null;
+    if (entity.type === 'body') {
+      hit = setBodyPosition(world, entity, p, { snap: assists.snap && !shiftHeld, maxDistance: 2.4 });
+      if (hit) {
+        if (snapOn && !shiftHeld) quantizeSeatedBody(entity);
+        flashSeat(entity);
+      }
+    } else {
+      setEntityPosition(entity, p);
+    }
+    captureInitial(world);
+    view.sync(world);
+    syncPositionFields(entity);
+    updateEmpty();
+    setStatus(hit
+      ? '位置已更新并重新吸附到表面。 · Position updated and re-seated on the surface.'
+      : '位置已更新。 · Position updated.');
+  }
+
+  function positionFields(parent, entity) {
+    const p = entityPosition(entity);
+    parent.appendChild(el('h3', { className: 'plab-section-title', text: '位置 · Position' }));
+    const grid = el('div', { className: 'plab-position-grid' });
+    const inputs = {};
+    const rows = [
+      ['x', '位置 x · Position x (m)', p.x],
+      ['y', '高度 y · Height y (m)', p.y],
+      ['z', '深度 z · Depth z (m)', p.z],
+    ];
+    for (const [key, text, value] of rows) {
+      const input = el('input', {
+        type: 'number',
+        className: 'plab-number hit-target',
+        step: '0.1',
+        min: '-60',
+        max: '60',
+        value: fmtInput(value),
+        'data-field': `pos${key.toUpperCase()}`,
+        'aria-label': text,
+      });
+      input.addEventListener('input', () => {
+        if (input.value === '' || input.value === '-') return;
+        if (!Number.isFinite(Number(input.value))) return;
+        applyPositionEdit(entity);
+      });
+      input.addEventListener('blur', () => syncPositionFields(entity));
+      inputs[key] = input;
+      grid.appendChild(el('label', { className: 'plab-position-field' }, [
+        el('span', { text }),
+        input,
+      ]));
+    }
+    parent.appendChild(grid);
+    positionFieldHandles = { type: entity.type, id: entity.id, inputs };
+  }
+
+  /* --------------------- sensor target, tables and CSV ------------- */
+
+  function copyPlainText(text) {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => setStatus('已复制表格。 · Table copied.'),
+        () => setStatus('复制失败；请手动选择表格。 · Copy failed; select the table manually.', true),
+      );
+      return;
+    }
+    const area = el('textarea', { className: 'plab-copy-fallback' });
+    area.value = text;
+    document.body.appendChild(area);
+    area.select();
+    try { document.execCommand('copy'); setStatus('已复制表格。 · Table copied.'); }
+    catch (_) { setStatus('复制失败。 · Copy failed.', true); }
+    area.remove();
+  }
+
+  function downloadCsv(name, text) {
+    const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setStatus('已导出 CSV。 · CSV exported.');
+  }
+
+  function csvFileName(entity, format) {
+    const base = entity.name ? entity.name.replace(/[^\w\u4e00-\u9fff-]+/g, '-') : entity.kind || entity.type;
+    return `physics-${base}-${format}.csv`;
+  }
+
+  function renderSensorTable(host, table) {
+    clear(host);
+    const tableEl = el('table', { className: 'plab-data-table' });
+    const thead = el('thead');
+    const headRow = el('tr');
+    for (const column of table.columns) {
+      headRow.appendChild(el('th', {
+        scope: 'col',
+        text: `${column.zh} · ${column.en}${column.unit ? ` (${column.unit})` : ''}`,
+      }));
+    }
+    thead.appendChild(headRow);
+    const tbody = el('tbody');
+    if (!table.rows.length) {
+      tbody.appendChild(el('tr', {}, [
+        el('td', { colspan: String(table.columns.length), text: '暂无数据 · No samples yet' }),
+      ]));
+    } else {
+      for (const row of table.rows) {
+        const tr = el('tr');
+        for (const column of table.columns) {
+          const value = row[column.key];
+          tr.appendChild(el('td', { text: value == null ? '—' : String(value) }));
+        }
+        tbody.appendChild(tr);
+      }
+    }
+    tableEl.append(thead, tbody);
+    host.appendChild(tableEl);
+  }
+
+  function sensorDataControls(parent, entity) {
+    if (!entity) return;
+    const source = entity;
+    if (entity.type === 'sensor' && entity.kind === 'motion') {
+      selectField(parent, {
+        label: '跟踪目标 · Target body',
+        value: entity.targetId || '',
+        testid: 'sensorTarget',
+        options: [
+          ['', '自动（视线最近）· Auto (nearest in line of sight)'],
+          ...world.bodies.filter((b) => !b.transient).map((b) => [b.id, b.name || entityFallbackName(b)]),
+        ],
+        onChange: (value) => {
+          setSensorTarget(world, entity, value || null);
+          buildInspector();
+          setStatus(value
+            ? '已切换传感器目标；数据表从新目标重新开始。 · Target changed; tables restart for the new target.'
+            : '传感器跟踪视线内最近物体。 · Sensor tracks the nearest body in line of sight.');
+        },
+      });
+      const pick = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target plab-sensor-pick',
+        text: '在场景中点选目标 · Pick target in scene',
+        'data-action': 'sensor-target-pick',
+      });
+      pick.addEventListener('click', () => {
+        pendingSensorTarget = entity.id;
+        if (isMobile()) openInspector(false);
+        setStatus('点击场景中的物体，设为运动传感器目标。 · Click a body in the scene to track it.');
+      });
+      parent.appendChild(pick);
+      if (entity.targetId) {
+        const body = getBody(world, entity.targetId);
+        if (body) {
+          parent.appendChild(el('p', {
+            className: 'plab-field-hint',
+            text: `当前目标 · Current target: ${body.name || entityFallbackName(body)}`,
+          }));
+        }
+      }
+      parent.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '切换目标会清空当前序列，避免在同一张表混入不同物体。 · Changing target clears the current series so one table never mixes bodies.',
+      }));
+    }
+
+    const tables = buildSensorTables(source);
+    if (!tables) return;
+    parent.appendChild(el('h3', { className: 'plab-section-title', text: '数据表 · Data tables' }));
+    sensorTableNodes = [];
+    for (const format of ['raw', 'summary']) {
+      const table = tables[format];
+      const block = el('div', { className: 'plab-table-block' });
+      const head = el('div', { className: 'plab-table-head' }, [
+        el('span', { text: `${table.titleZh} · ${table.titleEn}` }),
+      ]);
+      const actions = el('div', { className: 'plab-table-actions' });
+      const exportBtn = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '导出 CSV · Export CSV',
+        'data-action': `sensor-csv-${format}`,
+      });
+      exportBtn.addEventListener('click', () => {
+        const latest = buildSensorTables(source) || tables;
+        downloadCsv(csvFileName(source, format), tableToCsv(latest[format]));
+      });
+      const copyBtn = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '复制 · Copy',
+        'data-action': `sensor-copy-${format}`,
+      });
+      copyBtn.addEventListener('click', () => {
+        const latest = buildSensorTables(source) || tables;
+        copyPlainText(tableToCsv(latest[format]));
+      });
+      actions.append(exportBtn, copyBtn);
+      const host = el('div', { className: 'plab-table-scroll' });
+      renderSensorTable(host, table);
+      block.append(head, actions, host);
+      parent.appendChild(block);
+      sensorTableNodes.push({ format, host, source });
+    }
+  }
+
+  function refreshSensorTables(force = false) {
+    if (!sensorTableNodes.length) return;
+    const now = performance.now();
+    if (!force && now - lastSensorTableAt < 220) return;
+    lastSensorTableAt = now;
+    const source = sensorTableNodes[0].source;
+    const live = sensorTableNodes[0].source?.type === 'sensor'
+      ? world.sensors.find((s) => s.id === source.id)
+      : world.links.find((l) => l.id === source.id);
+    if (!live) return;
+    const tables = buildSensorTables(live);
+    if (!tables) return;
+    for (const node of sensorTableNodes) {
+      renderSensorTable(node.host, tables[node.format]);
+    }
   }
 
   function addLive(parent, text, key, unit = '') {
@@ -3390,6 +3789,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function buildInspector() {
     clear(inspectorBody);
     inspectorSummary = null;
+    positionFieldHandles = null;
+    sensorTableNodes = [];
     if (!selected) {
       inspectorBody.appendChild(el('p', {
         className: 'plab-inspector-empty',
@@ -3405,6 +3806,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     inspectorHeading(inspectorBody, entity);
+    if (entity.type !== 'link') positionFields(inspectorBody, entity);
     const geoDisabled = running;
     const common = el('div', { className: 'plab-inspector-common' });
     inspectorBody.appendChild(common);
@@ -3770,6 +4172,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
       addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
       common.appendChild(readouts);
+      sensorDataControls(common, entity);
     } else if (entity.type === 'oscillator') {
       resonanceCanvas = null;
       field(common, {
@@ -4268,6 +4671,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'rest',
         onChange: (v) => { entity.rest = Math.max(0.02, v); },
       });
+      if (entity.meter) sensorDataControls(common, entity);
     }
 
     inspectorSummary = el('p', { className: 'plab-inspector-live', 'aria-live': 'polite', text: '—' });
@@ -4753,7 +5157,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '实测周期 · Measured period', 'pendulumMeasured', 's');
-      addLive(readouts, '小角周期 · 2π√(L/g)', 'pendulumTheory', 's');
+      addLive(readouts, '小角周期 · Small-angle T = 2π√(L/g)', 'pendulumTheory', 's');
       addLive(readouts, '摆角 · Angle', 'pendulumAngle', 'rad');
       addLive(readouts, '绳张力 · Tension', 'pendulumTension', 'N');
       moreAdvanced.appendChild(readouts);
@@ -5415,12 +5819,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else if (entity?.type === 'turntable') {
         inspectorSummary.textContent = `角速度 · ω ${fmt(entity.omega)} rad/s`;
       } else if (entity?.type === 'surface') {
-        inspectorSummary.textContent = `倾角 · Angle ${fmt(entity.angle)}° · μs ${fmt(entity.muS)} · μk ${fmt(entity.muK)}`;
+        inspectorSummary.textContent = `倾角 · Angle ${fmt(entity.angle)}° · 静摩擦 · static μs ${fmt(entity.muS)} · 动摩擦 · kinetic μk ${fmt(entity.muK)}`;
       } else if (entity?.type === 'launcher') {
         const f = entity.flight;
         inspectorSummary.textContent = f
           ? `射程 · Range ${fmt(f.range)} m · 最大高度 · Max ${fmt(f.maxHeight)} m · 时间 · Time ${fmt(f.flightTime)} s`
-          : `发射角 · ${fmt(entity.angle)}° · ${fmt(entity.speed)} m/s · 高度 · ${fmt(entity.height)} m`;
+          : `发射角 · Launch angle ${fmt(entity.angle)}° · ${fmt(entity.speed)} m/s · 高度 · Height ${fmt(entity.height)} m`;
       } else if (entity?.type === 'pulley') {
         inspectorSummary.textContent = `张力 · T ${fmt(entity.tensionA)} / ${fmt(entity.tensionB)} N · ${entity.slack ? '松弛 · Slack' : '张紧 · Taut'}`;
       } else if (entity?.type === 'barrier') {
@@ -5475,6 +5879,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const node = energy.querySelector(`[data-energy="${key}"]`);
       if (node) node.textContent = `${fmt(value)} J`;
     }
+    updatePositionFields();
+    refreshSensorTables();
     const clockNode = root.querySelector('[data-readout="time"]');
     if (clockNode) clockNode.textContent = `t = ${fmt(world.time)} s`;
   }
