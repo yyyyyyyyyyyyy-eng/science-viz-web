@@ -2888,154 +2888,290 @@ export const TOPICS = {
     "titleZh": "中间值定理",
     "titleEn": "Working with the Intermediate Value Theorem (IVT)",
     "layer": "ap",
-    "summary": "中间值定理 · Working with the Intermediate Value Theorem (IVT)",
+    "summary": "中间值定理（IVT）说：闭区间上的连续函数不会跳过任何中间值。若 \\(f\\) 在 \\([a,b]\\) 上连续，\\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间，则至少有一个 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。它只保证存在，不指出位置，也不保证唯一；连续性缺一不可。 · The Intermediate Value Theorem (IVT) says that a continuous function on a closed interval cannot skip an intermediate value. If \\(f\\) is continuous on \\([a,b]\\) and \\(d\\) lies between \\(f(a)\\) and \\(f(b)\\), then at least one \\(c\\in(a,b)\\) satisfies \\(f(c)=d\\). It guarantees existence only: it does not locate \\(c\\) and does not claim uniqueness, and continuity is essential.",
     "learningObjectives": [
-      "能陈述「中间值定理」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "准确陈述中间值定理的三个部分：闭区间连续、\\(d\\) 介于两端函数值之间、存在 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。 · State all three parts of the IVT: continuity on a closed interval, \\(d\\) between the endpoint values, and existence of \\(c\\in(a,b)\\) with \\(f(c)=d\\).",
+      "判断一个具体函数或表格能否使用 IVT，并说明缺少哪条假设时结论可能失败。 · Decide whether the IVT applies to a given function or table, and explain which hypothesis fails when the conclusion does not follow.",
+      "用 IVT 证明方程在给定区间内有解，并用二分法把解所在的区间逐步缩小。 · Use the IVT to prove that an equation has a solution on a given interval, and use bisection to shrink the interval containing it.",
+      "区分“至少一个”与“恰好一个”，知道唯一性需要额外的单调性论证。 · Distinguish “at least one” from “exactly one,” recognizing that uniqueness needs an extra monotonicity argument.",
+      "在图像、表格与符号表示之间转换，并用“主张—证据—推理”写出 AP 风格的 IVT 论证。 · Move among graphs, tables, and symbols, and write AP-style IVT justifications using claim-evidence-reasoning."
     ],
     "essentialKnowledge": [
-      "Working with the Intermediate Value Theorem (IVT)：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「中间值定理」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "FUN-1.A.1：若 \\(f\\) 在闭区间 \\([a,b]\\) 上连续，且 \\(d\\) 是介于 \\(f(a)\\) 与 \\(f(b)\\) 之间的数，则至少存在一个 \\(c\\in(a,b)\\)，使得 \\(f(c)=d\\)。严格写法：当 \\(f(a)<d<f(b)\\) 或 \\(f(b)<d<f(a)\\) 时，\\(c\\) 必在开区间 \\((a,b)\\) 内。 · FUN-1.A.1: If \\(f\\) is continuous on the closed interval \\([a,b]\\) and \\(d\\) is a number between \\(f(a)\\) and \\(f(b)\\), then there is at least one \\(c\\in(a,b)\\) such that \\(f(c)=d\\). In the strict form, when \\(f(a)<d<f(b)\\) or \\(f(b)<d<f(a)\\), \\(c\\) lies in the open interval \\((a,b)\\).",
+      "两个前提缺一不可：\\(f\\) 必须在整个闭区间 \\([a,b]\\) 上连续（包括端点），且 \\(d\\) 必须介于同一对端点函数值 \\(f(a)\\) 与 \\(f(b)\\) 之间。只在开区间连续、只在某个子区间连续，或 \\(d\\) 不在两端值之间，都不能直接引用 IVT。 · Both hypotheses are indispensable: \\(f\\) must be continuous on the entire closed interval \\([a,b]\\), endpoints included, and \\(d\\) must lie between the endpoint values \\(f(a)\\) and \\(f(b)\\) from that same interval. Continuity only on the open interval, only on a subinterval, or a value \\(d\\) outside the endpoint range does not justify applying the IVT.",
+      "结论只保证存在性：至少一个 \\(c\\)，且在严格介值情形下 \\(c\\in(a,b)\\)。定理不给出 \\(c\\) 的公式，也不保证只有一个；图像可以多次穿过水平线 \\(y=d\\)，例如 \\(f(x)=x^{3}-x\\) 在 \\([-1.5,1.5]\\) 上三次取到 \\(0\\)（\\(x=-1,0,1\\)）。 · The conclusion is existential only: at least one \\(c\\), with \\(c\\in(a,b)\\) in the strict case. The theorem gives no formula for \\(c\\) and no uniqueness; a graph may cross the horizontal line \\(y=d\\) several times. For example, \\(f(x)=x^{3}-x\\) takes the value \\(0\\) three times on \\([-1.5,1.5]\\) (at \\(x=-1,0,1\\)).",
+      "端点与相等情形：若 \\(d\\) 恰好等于 \\(f(a)\\) 或 \\(f(b)\\)，端点本身就让等式成立，不需要 IVT；这就是严格结论把 \\(c\\) 写在开区间、而“包含端点”的版本显得平凡的原因。若 \\(f(a)=f(b)\\)，两端值之间只有 \\(d=f(a)\\) 这一个数，IVT 不能保证区间内部还有别的点取到该值。 · Endpoint and equal-value cases: if \\(d\\) equals \\(f(a)\\) or \\(f(b)\\), an endpoint itself satisfies the equation, so the IVT is not needed; that is why the strict version places \\(c\\) in the open interval while an endpoint-inclusive version is trivial. If \\(f(a)=f(b)\\), the only number between the endpoint values is \\(d=f(a)\\), and the IVT cannot guarantee any additional interior point with that value.",
+      "最常用的推论（零点形式）：若 \\(f\\) 在 \\([a,b]\\) 上连续且 \\(f(a)\\) 与 \\(f(b)\\) 异号，即 \\(f(a)f(b)<0\\)，则存在 \\(c\\in(a,b)\\) 使 \\(f(c)=0\\)。这是“连续曲线从 \\(x\\) 轴一侧走到另一侧必穿过 \\(x\\) 轴”的严格表述；AP 证明方程有解时先算两端函数值并写清连续。 · The most common corollary (zero form): if \\(f\\) is continuous on \\([a,b]\\) and \\(f(a)\\) and \\(f(b)\\) have opposite signs, \\(f(a)f(b)<0\\), then some \\(c\\in(a,b)\\) satisfies \\(f(c)=0\\). This is the precise statement that a continuous curve moving from one side of the \\(x\\)-axis to the other must cross it; on the AP exam, compute both endpoint values and state continuity before invoking it.",
+      "连续性不能省：\\(f(x)=\\dfrac{1}{x}\\) 在 \\([-1,1]\\) 上满足 \\(f(-1)=-1\\)、\\(f(1)=1\\)，但 \\(0\\) 不在值域内，因为 \\(f\\) 在 \\(0\\) 处不连续且无定义；分段函数在跳跃处也会跳过某些中间值。判断时先找区间内是否有洞、跳跃或竖直渐近线。 · Continuity cannot be omitted: \\(f(x)=\\dfrac{1}{x}\\) on \\([-1,1]\\) has \\(f(-1)=-1\\) and \\(f(1)=1\\), yet \\(0\\) is never attained because \\(f\\) is discontinuous and undefined at \\(0\\); a piecewise function with a jump can also skip intermediate values. Before applying the theorem, check the interval for holes, jumps, or vertical asymptotes.",
+      "IVT 的逆命题不成立：函数取到某个 \\(d\\)，并不要求 \\(d\\) 介于所取区间的两个端点函数值之间。例如 \\(f(x)=x^{2}\\) 在 \\([-1,2]\\) 上连续，\\(f(-1)=1\\)、\\(f(2)=4\\)，但 \\(f(0)=0\\) 并不在 \\(1\\) 与 \\(4\\) 之间。因此“\\(f(c)=d\\) 有解”不能反推“\\(d\\) 在 \\(f(a)\\) 与 \\(f(b)\\) 之间”；IVT 是充分条件，不是必要条件。 · The converse of the IVT is false: a function can attain \\(d\\) even when \\(d\\) is not between the two endpoint values of the chosen interval. For example, \\(f(x)=x^{2}\\) is continuous on \\([-1,2]\\) with \\(f(-1)=1\\) and \\(f(2)=4\\), yet \\(f(0)=0\\), which is not between \\(1\\) and \\(4\\). Thus “\\(f(c)=d\\) has a solution” does not imply “\\(d\\) lies between \\(f(a)\\) and \\(f(b)\\)”; the IVT is sufficient, not necessary.",
+      "图像与表格：图像上 IVT 表示连续曲线必须与水平线 \\(y=d\\) 相交；表格上只能对“函数值”做介值判断，不能对 \\(x\\) 值做介值判断。使用表格前必须由题目声明 \\(f\\) 在相关闭区间上连续；相邻两点的函数值异号只能说明该子区间内“至少”有一个零点，不能说明只有这一个。 · Graphs and tables: graphically, the IVT says a continuous curve must meet the horizontal line \\(y=d\\); with a table, compare function values, never \\(x\\)-values. The problem must state that \\(f\\) is continuous on the relevant closed interval; opposite signs at two adjacent table points guarantee at least one zero in that subinterval, not exactly one.",
+      "二分法：若 \\(f(a_n)\\) 与 \\(f(b_n)\\) 异号，取中点 \\(m_n=\\dfrac{a_n+b_n}{2}\\)，计算 \\(f(m_n)\\)，保留仍使两端异号的半区间。每步区间长度减半，\\(n\\) 步后区间长度不超过 \\(\\dfrac{b-a}{2^{n}}\\)；若取中点作为近似值，误差不超过 \\(\\dfrac{b-a}{2^{n+1}}\\)。它逼近的是存在性定理保证的那个 \\(c\\)，而不是另造一个解。 · Bisection: if \\(f(a_n)\\) and \\(f(b_n)\\) have opposite signs, take the midpoint \\(m_n=\\dfrac{a_n+b_n}{2}\\), evaluate \\(f(m_n)\\), and keep the half-interval whose endpoints still have opposite signs. The interval length halves each step, so after \\(n\\) steps the interval length is at most \\(\\dfrac{b-a}{2^{n}}\\); using the midpoint as the approximation gives an error of at most \\(\\dfrac{b-a}{2^{n+1}}\\). It approximates the \\(c\\) guaranteed by the existence theorem rather than creating a different solution.",
+      "AP 简答的完整句式：因为 \\(f\\) 在 \\([a,b]\\) 上连续，且 \\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间，由中间值定理，存在 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。若题目问“是否一定”，要分别回答“保证存在”与“不能保证唯一／不能保证具体值”；若要唯一，另证 \\(f\\) 严格单调。 · A complete AP free-response sentence: because \\(f\\) is continuous on \\([a,b]\\) and \\(d\\) lies between \\(f(a)\\) and \\(f(b)\\), the Intermediate Value Theorem guarantees some \\(c\\in(a,b)\\) with \\(f(c)=d\\). When the question asks “must,” answer separately whether existence is guaranteed and whether uniqueness or a specific value is not; for uniqueness, prove that \\(f\\) is strictly monotone."
     ],
-    "definition": "中间值定理（Working with the Intermediate Value Theorem (IVT)）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「中间值定理」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "设 \\(f\\) 在闭区间 \\([a,b]\\) 上连续，\\(d\\) 是介于 \\(f(a)\\) 与 \\(f(b)\\) 之间的数。若 \\(f(a)<d<f(b)\\) 或 \\(f(b)<d<f(a)\\)，则至少存在一个 \\(c\\in(a,b)\\)，使得 \\(f(c)=d\\)；若 \\(d\\) 等于 \\(f(a)\\) 或 \\(f(b)\\)，端点本身就满足等式。这个定理只保证存在，不给出 \\(c\\) 的位置，也不保证唯一。直观上，连续函数的图像在 \\([a,b]\\) 上不断开，因此从高度 \\(f(a)\\) 走到高度 \\(f(b)\\) 时，必定经过两者之间的每一个高度 \\(d\\)。 · Let \\(f\\) be continuous on the closed interval \\([a,b]\\), and let \\(d\\) be a number between \\(f(a)\\) and \\(f(b)\\). If \\(f(a)<d<f(b)\\) or \\(f(b)<d<f(a)\\), then at least one \\(c\\in(a,b)\\) satisfies \\(f(c)=d\\); if \\(d\\) equals \\(f(a)\\) or \\(f(b)\\), an endpoint itself satisfies the equation. The theorem guarantees existence only: it does not locate \\(c\\) and does not guarantee uniqueness. Intuitively, the graph of a continuous function has no break on \\([a,b]\\), so in moving from height \\(f(a)\\) to height \\(f(b)\\) it must pass through every intermediate height \\(d\\).",
+    "intuition": "把函数想成一条连续的山路：你在海拔 \\(f(a)\\) 出发，最后到达海拔 \\(f(b)\\)。无论终点比起点高还是低，只要 \\(d\\) 是两者之间的某个海拔，路上一定有一个时刻你恰好站在海拔 \\(d\\) 上——你不可能从低处跳到高处（或从高处跳到低处）而不经过中间高度。图像上就是水平线 \\(y=d\\) 与曲线至少相交一次。注意三个关键词：连续（路不能断）、闭区间（起点和终点都要在路线上）、介于（\\(d\\) 在两端高度之间）。如果路中间有断崖（跳跃间断）或深渊（竖直渐近线），就可能直接跳过 \\(d\\)；如果 \\(d\\) 在两端高度之外，定理什么也不说。 · Think of the function as a continuous mountain trail: you start at altitude \\(f(a)\\) and end at altitude \\(f(b)\\). Whether the destination is higher or lower than the start, if \\(d\\) is an altitude in between, there must be a moment when you stand exactly at altitude \\(d\\)—you cannot jump from below to above (or from above to below) without passing through intermediate heights. On a graph, the horizontal line \\(y=d\\) meets the curve at least once. Keep three keywords in mind: continuous (the trail has no break), closed interval (both start and end are on the trail), and between (\\(d\\) lies between the two endpoint heights). If the trail has a cliff (jump discontinuity) or a chasm (vertical asymptote), it may skip \\(d\\) entirely; if \\(d\\) lies outside the endpoint heights, the theorem says nothing.",
     "formulas": [
       {
-        "latex": "f(a)<k<f(b)\\Rightarrow\\exists c\\in(a,b),\\ f(c)=k",
-        "note": "中间值定理要求 f 在闭区间连续。"
+        "latex": "f(a)<d<f(b)\\ \\text{或}\\ f(b)<d<f(a)\\Rightarrow\\exists c\\in(a,b),\\ f(c)=d",
+        "note": "严格介值情形：\\(d\\) 严格介于两端函数值之间，结论中的 \\(c\\) 在开区间内。 · Strict betweenness: \\(d\\) lies strictly between the endpoint values, and the conclusion places \\(c\\) in the open interval."
+      },
+      {
+        "latex": "f\\text{ 在 }[a,b]\\text{ 连续},\\ d\\text{ 介于 }f(a),f(b)\\text{ 之间}\\Rightarrow\\exists c\\in(a,b),\\ f(c)=d",
+        "note": "CED 的完整陈述；若 \\(d\\) 等于端点值，端点本身即可满足等式。 · The full CED statement; if \\(d\\) equals an endpoint value, that endpoint already satisfies the equation."
+      },
+      {
+        "latex": "f(a)f(b)<0\\ \\text{且 }f\\text{ 在 }[a,b]\\text{ 连续}\\Rightarrow\\exists c\\in(a,b),\\ f(c)=0",
+        "note": "零点形式（最常用）：两端异号保证区间内至少有一个零点。 · Zero form (most common): opposite signs at the endpoints guarantee at least one zero inside the interval."
+      },
+      {
+        "latex": "m_n=\\dfrac{a_n+b_n}{2},\\qquad |c-m_n|\\le\\dfrac{b-a}{2^{n+1}}",
+        "note": "二分法：每次取中点并保留异号半区间；\\(n\\) 次后中点与真实解的距离不超过该误差界。 · Bisection: take the midpoint and keep the sign-changing half-interval; after \\(n\\) steps the midpoint is within this error bound of the true solution."
+      },
+      {
+        "latex": "f'\\text{ 在 }(a,b)\\text{ 上恒正（或恒负）}\\Rightarrow c\\text{ 唯一}",
+        "note": "唯一性不是 IVT 的结论，需要额外的严格单调性论证。 · Uniqueness is not a conclusion of the IVT; it requires an additional strict-monotonicity argument."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「中间值定理」的工作方程或机制链。"
+        "from": "闭区间连续 · Continuity on a closed interval",
+        "to": "图像不断开 · Unbroken graph",
+        "note": "连续意味着 \\(x\\) 从 \\(a\\) 走到 \\(b\\) 时，函数值不会跳跃或趋于无穷；因此曲线必须经过 \\(f(a)\\) 与 \\(f(b)\\) 之间的每一个高度。 · Continuity means the function values do not jump or blow up as \\(x\\) runs from \\(a\\) to \\(b\\); hence the curve must pass through every height between \\(f(a)\\) and \\(f(b)\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "两端异号 · Opposite endpoint signs",
+        "to": "零点存在 · Existence of a zero",
+        "note": "把 IVT 中的 \\(d\\) 取为 \\(0\\)：若 \\(f(a)<0<f(b)\\) 或 \\(f(b)<0<f(a)\\)，就得到 \\(c\\in(a,b)\\) 使 \\(f(c)=0\\)。 · Take \\(d=0\\) in the IVT: if \\(f(a)<0<f(b)\\) or \\(f(b)<0<f(a)\\), then some \\(c\\in(a,b)\\) satisfies \\(f(c)=0\\)."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "零点存在 · Existence of a zero",
+        "to": "二分法 · Bisection",
+        "note": "在异号区间 \\([a_n,b_n]\\) 上取中点 \\(m_n=\\dfrac{a_n+b_n}{2}\\)。若 \\(f(m_n)=0\\) 已找到解；否则保留使 \\(f\\) 两端仍异号的半区间，长度减半。 · On a sign-changing interval \\([a_n,b_n]\\), take the midpoint \\(m_n=\\dfrac{a_n+b_n}{2}\\). If \\(f(m_n)=0\\), the solution is found; otherwise keep the half-interval on which \\(f\\) still changes sign, halving the length."
+      },
+      {
+        "from": "二分法 · Bisection",
+        "to": "误差估计 · Error bound",
+        "note": "第 \\(n\\) 步区间长度为 \\(\\dfrac{b-a}{2^{n}}\\)，真实解与其中点的距离不超过长度的一半，即 \\(\\dfrac{b-a}{2^{n+1}}\\)。 · At step \\(n\\) the interval length is \\(\\dfrac{b-a}{2^{n}}\\), so the true solution is within half that length of the midpoint, namely \\(\\dfrac{b-a}{2^{n+1}}\\)."
+      },
+      {
+        "from": "单调性 · Monotonicity",
+        "to": "唯一性 · Uniqueness",
+        "note": "IVT 只给出存在；若还能证明 \\(f\\) 在 \\((a,b)\\) 上严格递增或严格递减，则零点至多一个，与存在性合起来得到“恰好一个”。 · The IVT gives existence only; if one can also prove that \\(f\\) is strictly increasing or decreasing on \\((a,b)\\), there is at most one zero, and combining this with existence gives “exactly one.”"
+      },
+      {
+        "from": "间断 · Discontinuity",
+        "to": "反例 · Counterexample",
+        "note": "\\(f(x)=\\dfrac{1}{x}\\) 在 \\([-1,1]\\) 上跨过 \\(0\\) 但不连续；跳跃函数可以在左、右极限之间跳过某个 \\(d\\)。这些反例说明连续性假设不能删除。 · \\(f(x)=\\dfrac{1}{x}\\) crosses \\(0\\) on \\([-1,1]\\) but is not continuous; a jump function can skip a value \\(d\\) between its one-sided limits. These counterexamples show that the continuity hypothesis cannot be removed."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "\\(f\\) 必须在整个闭区间 \\([a,b]\\) 上连续，包括在端点处单侧连续；只在开区间 \\((a,b)\\) 连续不足以直接使用定理。 · \\(f\\) must be continuous on the whole closed interval \\([a,b]\\), including one-sided continuity at the endpoints; continuity only on \\((a,b)\\) is not enough to apply the theorem directly.",
+      "\\(d\\) 必须介于同一区间两端点的函数值 \\(f(a)\\) 与 \\(f(b)\\) 之间；不是介于 \\(a\\) 与 \\(b\\) 之间。 · \\(d\\) must lie between the endpoint function values \\(f(a)\\) and \\(f(b)\\) of the same interval; it need not lie between \\(a\\) and \\(b\\).",
+      "若要断言 \\(c\\) 在开区间 \\((a,b)\\) 内，需要 \\(d\\) 严格介于 \\(f(a)\\) 与 \\(f(b)\\) 之间；若 \\(d\\) 等于端点值，端点本身就可能满足。 · To conclude that \\(c\\) lies in the open interval \\((a,b)\\), \\(d\\) must lie strictly between \\(f(a)\\) and \\(f(b)\\); if \\(d\\) equals an endpoint value, an endpoint itself may satisfy the equation.",
+      "用零点形式时，必须验证 \\(f(a)\\) 与 \\(f(b)\\) 异号（\\(f(a)f(b)<0\\)），并且区间内没有间断点。 · To use the zero form, verify that \\(f(a)\\) and \\(f(b)\\) have opposite signs (\\(f(a)f(b)<0\\)) and that the interval contains no discontinuity.",
+      "二分法除了连续与异号外，还需要每一步都能计算中点函数值；若中点恰好是零点，算法可以提前停止。 · Besides continuity and a sign change, bisection requires the midpoint value to be computable at every step; if the midpoint is exactly a zero, the algorithm may stop early.",
+      "唯一性需要额外的严格单调性（例如 \\(f'>0\\) 或 \\(f'<0\\) 在整个区间上成立）；IVT 本身绝不提供唯一性。 · Uniqueness needs extra strict monotonicity (for example \\(f'>0\\) or \\(f'<0\\) throughout the interval); the IVT itself never provides uniqueness."
     ],
     "keyPoints": [
-      "掌握 1.16「中间值定理」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "IVT 的三要素：闭区间连续、\\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间、存在 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。 · Three ingredients of the IVT: continuity on a closed interval, \\(d\\) between \\(f(a)\\) and \\(f(b)\\), and existence of \\(c\\in(a,b)\\) with \\(f(c)=d\\).",
+      "连续性要在整个 \\([a,b]\\) 上成立；区间内有洞、跳跃或竖直渐近线时不能使用。 · Continuity must hold on all of \\([a,b]\\); do not use the theorem when the interval has a hole, jump, or vertical asymptote.",
+      "\\(d\\) 与函数值比较，不是与 \\(x\\) 端点 \\(a,b\\) 比较。 · Compare \\(d\\) with function values, not with the \\(x\\)-endpoints \\(a\\) and \\(b\\).",
+      "结论是“至少一个”，不是“恰好一个”，也不给出 \\(c\\) 的公式。 · The conclusion is “at least one,” not “exactly one,” and it gives no formula for \\(c\\).",
+      "零点形式：连续且两端异号 \\(\\Rightarrow\\) 区间内至少有一个零点。 · Zero form: continuity plus opposite signs \\(\\Rightarrow\\) at least one zero in the interval.",
+      "逆命题不成立：函数可以取到 \\(d\\) 而 \\(d\\) 不在端点函数值之间。 · The converse is false: a function can attain \\(d\\) while \\(d\\) is not between the endpoint values.",
+      "二分法用 IVT 反复缩小异号区间；误差界是 \\(\\dfrac{b-a}{2^{n+1}}\\)。 · Bisection repeatedly shrinks a sign-changing interval using the IVT; the error bound is \\(\\dfrac{b-a}{2^{n+1}}\\).",
+      "AP 论证要写全“连续—介值—存在”，并用“主张—证据—推理”组织句子。 · A complete AP justification states “continuity—betweenness—existence” and is organized as claim-evidence-reasoning."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「中间值定理」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "“任何函数都能用 IVT。”错误；必须先确认 \\(f\\) 在整个闭区间上连续。 · “The IVT applies to any function.” False; first confirm that \\(f\\) is continuous on the whole closed interval.",
+      "“\\(d\\) 要介于 \\(a\\) 与 \\(b\\) 之间。”错误；\\(d\\) 是函数值，必须介于 \\(f(a)\\) 与 \\(f(b)\\) 之间。 · “\\(d\\) must lie between \\(a\\) and \\(b\\).” False; \\(d\\) is a function value and must lie between \\(f(a)\\) and \\(f(b)\\).",
+      "“IVT 能求出 \\(c\\) 的具体值。”错误；它只保证存在，具体值要靠解方程或二分法等数值方法。 · “The IVT finds the exact value of \\(c\\).” False; it guarantees existence only, and the value requires solving or a numerical method such as bisection.",
+      "“至少一个就是恰好一个。”错误；连续函数可能多次穿过水平线，唯一性需要另外证明。 · “At least one means exactly one.” False; a continuous function may cross the horizontal line several times, and uniqueness needs a separate proof.",
+      "“两端异号就一定只有一个零点。”错误；只保证至少一个；要唯一还需严格单调。 · “Opposite endpoint signs imply exactly one zero.” False; they guarantee at least one, and uniqueness requires strict monotonicity.",
+      "“在开区间连续就可以直接用 IVT。”错误；定理要求闭区间 \\([a,b]\\) 上连续（端点为单侧连续）。 · “Continuity on the open interval is enough for the IVT.” False; the theorem requires continuity on the closed interval \\([a,b]\\), with one-sided continuity at the endpoints.",
+      "“IVT 的逆命题也成立。”错误；例如 \\(f(x)=x^{2}\\) 在 \\([-1,2]\\) 上取到 \\(0\\)，但 \\(0\\) 不在 \\(f(-1)=1\\) 与 \\(f(2)=4\\) 之间。 · “The converse of the IVT is also true.” False; for example, \\(f(x)=x^{2}\\) attains \\(0\\) on \\([-1,2]\\), but \\(0\\) is not between \\(f(-1)=1\\) and \\(f(2)=4\\).",
+      "“表格中相邻两点异号，就能断定该区间恰好有一个零点。”错误；只能断定至少一个，除非另有单调性信息。 · “Opposite signs at adjacent table points prove exactly one zero on that interval.” False; they prove at least one unless additional monotonicity is given.",
+      "“\\(d\\) 不在端点函数值之间，就说明方程无解。”错误；方程可能仍有解，只是 IVT 不能保证；例如 \\(x^{2}=0\\) 在 \\([-1,2]\\) 上。 · “If \\(d\\) is not between the endpoint values, the equation has no solution.” False; a solution may still exist, but the IVT does not guarantee it—for example, \\(x^{2}=0\\) on \\([-1,2]\\)."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「中间值定理」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 用 IVT 证明零点存在并二分 · Example 1: Prove a zero exists and bisect",
+        "prompt": "设 \\(f(x)=x^{3}-x-1\\)。(a) 证明 \\(f\\) 在 \\((1,2)\\) 内至少有一个零点。(b) 用二分法把零点所在区间缩小到长度不超过 \\(0.05\\)，并给出近似值。 · Let \\(f(x)=x^{3}-x-1\\). (a) Prove that \\(f\\) has at least one zero in \\((1,2)\\). (b) Use bisection to shrink the interval containing the zero to length at most \\(0.05\\), and give an approximation.",
+        "steps": [
+          "\\(f\\) 是多项式，处处连续。\\(f(1)=1-1-1=-1<0\\)，\\(f(2)=8-2-1=5>0\\)，所以 \\(0\\) 介于 \\(f(1)\\) 与 \\(f(2)\\) 之间。由 IVT，存在 \\(c\\in(1,2)\\) 使 \\(f(c)=0\\)。 · \\(f\\) is a polynomial and hence continuous everywhere. \\(f(1)=1-1-1=-1<0\\) and \\(f(2)=8-2-1=5>0\\), so \\(0\\) lies between \\(f(1)\\) and \\(f(2)\\). By the IVT, some \\(c\\in(1,2)\\) satisfies \\(f(c)=0\\).",
+          "取中点 \\(1.5\\)：\\(f(1.5)=3.375-1.5-1=0.875>0\\)，所以零点在 \\((1,1.5)\\)。 · Take the midpoint \\(1.5\\): \\(f(1.5)=3.375-1.5-1=0.875>0\\), so the zero lies in \\((1,1.5)\\).",
+          "取中点 \\(1.25\\)：\\(f(1.25)=1.953125-1.25-1=-0.296875<0\\)，所以零点在 \\((1.25,1.5)\\)。 · Take the midpoint \\(1.25\\): \\(f(1.25)=1.953125-1.25-1=-0.296875<0\\), so the zero lies in \\((1.25,1.5)\\).",
+          "取中点 \\(1.375\\)：\\(f(1.375)=2.599609375-1.375-1=0.224609375>0\\)，所以零点在 \\((1.25,1.375)\\)。 · Take the midpoint \\(1.375\\): \\(f(1.375)=2.599609375-1.375-1=0.224609375>0\\), so the zero lies in \\((1.25,1.375)\\).",
+          "取中点 \\(1.3125\\)：\\(f(1.3125)=2.260986328125-1.3125-1=-0.051513671875<0\\)，所以零点在 \\((1.3125,1.375)\\)。 · Take the midpoint \\(1.3125\\): \\(f(1.3125)=2.260986328125-1.3125-1=-0.051513671875<0\\), so the zero lies in \\((1.3125,1.375)\\).",
+          "取中点 \\(1.34375\\)：\\(f(1.34375)=2.426361083984-1.34375-1=0.082611083984>0\\)，所以零点在 \\((1.3125,1.34375)\\)。该区间长度为 \\(0.03125<0.05\\)，取中点近似：\\(c\\approx1.328125\\)。 · Take the midpoint \\(1.34375\\): \\(f(1.34375)=2.426361083984-1.34375-1=0.082611083984>0\\), so the zero lies in \\((1.3125,1.34375)\\). This interval has length \\(0.03125<0.05\\); the midpoint approximation is \\(c\\approx1.328125\\)."
+        ],
+        "solution": "存在 \\(c\\in(1,2)\\) 使 \\(f(c)=0\\)；五次二分后 \\(c\\in(1.3125,1.34375)\\)，取 \\(c\\approx1.328\\)。 · There is a \\(c\\in(1,2)\\) with \\(f(c)=0\\); after five bisections, \\(c\\in(1.3125,1.34375)\\), and \\(c\\approx1.328\\).",
+        "solutionLatex": "f(1)=-1<0<5=f(2),\\qquad c\\in(1.3125,1.34375),\\qquad c\\approx1.328"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)"
+        "title": "例 2 · 存在性与唯一性 · Example 2: Existence and uniqueness",
+        "prompt": "设 \\(f(x)=\\cos x-x\\)。(a) 证明方程 \\(\\cos x=x\\) 在 \\((0,1)\\) 内至少有一个解。(b) 说明这个解为什么唯一。 · Let \\(f(x)=\\cos x-x\\). (a) Prove that \\(\\cos x=x\\) has at least one solution in \\((0,1)\\). (b) Explain why the solution is unique.",
+        "steps": [
+          "\\(f\\) 在 \\([0,1]\\) 上连续。\\(f(0)=\\cos0-0=1>0\\)，\\(f(1)=\\cos1-1\\approx-0.4597<0\\)，所以 \\(0\\) 介于两端函数值之间。由 IVT，存在 \\(c\\in(0,1)\\) 使 \\(f(c)=0\\)，即 \\(\\cos c=c\\)。 · \\(f\\) is continuous on \\([0,1]\\). \\(f(0)=\\cos0-0=1>0\\) and \\(f(1)=\\cos1-1\\approx-0.4597<0\\), so \\(0\\) lies between the endpoint values. By the IVT, some \\(c\\in(0,1)\\) satisfies \\(f(c)=0\\), that is, \\(\\cos c=c\\).",
+          "求导：\\(f'(x)=-\\sin x-1\\)。在 \\((0,1)\\) 上 \\(\\sin x>0\\)，因此 \\(f'(x)<-1<0\\)，\\(f\\) 严格递减。 · Differentiate: \\(f'(x)=-\\sin x-1\\). On \\((0,1)\\), \\(\\sin x>0\\), so \\(f'(x)<-1<0\\) and \\(f\\) is strictly decreasing.",
+          "严格递减函数至多有一个零点；结合 (a) 的存在性，零点恰好一个。 · A strictly decreasing function has at most one zero; combined with existence from (a), the zero is exactly one.",
+          "二分定位：\\(f(0.5)\\approx0.3776>0\\)，\\(f(0.75)\\approx-0.0183<0\\)，所以 \\(c\\in(0.5,0.75)\\)；\\(f(0.625)\\approx0.1860>0\\)，所以 \\(c\\in(0.625,0.75)\\)；\\(f(0.6875)\\approx0.0853>0\\)，所以 \\(c\\in(0.6875,0.75)\\)。 · Bisection: \\(f(0.5)\\approx0.3776>0\\) and \\(f(0.75)\\approx-0.0183<0\\), so \\(c\\in(0.5,0.75)\\); \\(f(0.625)\\approx0.1860>0\\), so \\(c\\in(0.625,0.75)\\); \\(f(0.6875)\\approx0.0853>0\\), so \\(c\\in(0.6875,0.75)\\)."
+        ],
+        "solution": "存在唯一解 \\(c\\in(0,1)\\)；二分给出 \\(c\\in(0.6875,0.75)\\)，近似 \\(c\\approx0.74\\)。 · There is a unique solution \\(c\\in(0,1)\\); bisection gives \\(c\\in(0.6875,0.75)\\), approximately \\(c\\approx0.74\\).",
+        "solutionLatex": "f(0)=1>0,\\quad f(1)=\\cos1-1<0,\\quad f'(x)=-\\sin x-1<0\\ \\text{on }(0,1)"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「中间值定理」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 表格中的“一定存在”判断 · Example 3: “Must exist” questions from a table",
+        "prompt": "函数 \\(h\\) 在 \\([0,10]\\) 上连续，已知 \\(h(0)=-2\\)、\\(h(2)=3\\)、\\(h(5)=3\\)、\\(h(7)=-1\\)、\\(h(10)=4\\)。判断下列结论是否一定成立，并说明理由：(a) 存在 \\(c\\in(0,2)\\) 使 \\(h(c)=0\\)；(b) 存在 \\(c\\in(5,7)\\) 使 \\(h(c)=2\\)；(c) 存在 \\(c\\in(7,10)\\) 使 \\(h(c)=3.5\\)；(d) 存在 \\(c\\in(0,10)\\) 使 \\(h(c)=5\\)；(e) \\(h\\) 在 \\((0,2)\\) 内恰好有一个零点。 · The function \\(h\\) is continuous on \\([0,10]\\), with \\(h(0)=-2\\), \\(h(2)=3\\), \\(h(5)=3\\), \\(h(7)=-1\\), and \\(h(10)=4\\). Decide whether each statement must hold, and explain: (a) some \\(c\\in(0,2)\\) has \\(h(c)=0\\); (b) some \\(c\\in(5,7)\\) has \\(h(c)=2\\); (c) some \\(c\\in(7,10)\\) has \\(h(c)=3.5\\); (d) some \\(c\\in(0,10)\\) has \\(h(c)=5\\); (e) \\(h\\) has exactly one zero in \\((0,2)\\).",
+        "steps": [
+          "(a) 一定成立。在 \\([0,2]\\) 上 \\(h\\) 连续，且 \\(-2<0<3\\)，由 IVT 存在 \\(c\\in(0,2)\\) 使 \\(h(c)=0\\)。 · (a) Must hold. On \\([0,2]\\), \\(h\\) is continuous and \\(-2<0<3\\), so the IVT gives \\(c\\in(0,2)\\) with \\(h(c)=0\\).",
+          "(b) 一定成立。在 \\([5,7]\\) 上 \\(h\\) 连续，且 \\(-1<2<3\\)，由 IVT 存在 \\(c\\in(5,7)\\) 使 \\(h(c)=2\\)。 · (b) Must hold. On \\([5,7]\\), \\(h\\) is continuous and \\(-1<2<3\\), so the IVT gives \\(c\\in(5,7)\\) with \\(h(c)=2\\).",
+          "(c) 一定成立。在 \\([7,10]\\) 上 \\(h\\) 连续，且 \\(-1<3.5<4\\)，由 IVT 存在 \\(c\\in(7,10)\\) 使 \\(h(c)=3.5\\)。 · (c) Must hold. On \\([7,10]\\), \\(h\\) is continuous and \\(-1<3.5<4\\), so the IVT gives \\(c\\in(7,10)\\) with \\(h(c)=3.5\\).",
+          "(d) 不一定成立。逐个检查已知子区间：\\([0,2]\\) 的函数值范围只保证 \\([-2,3]\\)，\\([2,5]\\) 只保证 \\(3\\)，\\([5,7]\\) 只保证 \\([-1,3]\\)，\\([7,10]\\) 只保证 \\([-1,4]\\)；\\(5\\) 不在任何一对端点函数值之间，所以 IVT 不能保证 \\(h(c)=5\\)。它仍可能发生，只是题目信息不足。 · (d) Need not hold. Check each known subinterval: \\([0,2]\\) guarantees only values in \\([-2,3]\\), \\([2,5]\\) only the value \\(3\\), \\([5,7]\\) only \\([-1,3]\\), and \\([7,10]\\) only \\([-1,4]\\); \\(5\\) is not between the endpoint values of any of these intervals, so the IVT cannot guarantee \\(h(c)=5\\). It may still occur, but the given information is insufficient.",
+          "(e) 不一定成立。IVT 只保证 \\((0,2)\\) 内至少有一个零点；\\(h\\) 可以在 \\((0,2)\\) 内多次上下穿越 \\(x\\) 轴而不违反连续性。要断言恰好一个，需要额外的单调性信息。 · (e) Need not hold. The IVT guarantees only at least one zero in \\((0,2)\\); \\(h\\) could cross the \\(x\\)-axis several times without violating continuity. Claiming exactly one would require additional monotonicity information."
+        ],
+        "solution": "(a)(b)(c) 一定成立；(d)(e) 不一定成立。 · (a), (b), and (c) must hold; (d) and (e) need not.",
+        "solutionLatex": "h(0)<0<h(2),\\qquad h(7)<2<h(5),\\qquad h(7)<3.5<h(10)"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「中间值定理」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「中间值定理」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 跳跃间断使 IVT 失效 · Example 4: A jump discontinuity defeats the IVT",
+        "prompt": "设 \\(g(x)=x\\)（\\(0\\le x<1\\)），\\(g(1)=2\\)，\\(g(x)=x+1\\)（\\(1<x\\le2\\)）。(a) 求 \\(g\\) 在 \\(x=1\\) 处的左极限、右极限与函数值，并判断连续性。(b) 取 \\(d=1.5\\)，验证 \\(g(0)=0\\)、\\(g(2)=3\\)，但不存在 \\(c\\in[0,2]\\) 使 \\(g(c)=1.5\\)。说明 IVT 的哪个假设失效。 · Let \\(g(x)=x\\) for \\(0\\le x<1\\), \\(g(1)=2\\), and \\(g(x)=x+1\\) for \\(1<x\\le2\\). (a) Find the left limit, right limit, and function value at \\(x=1\\), and decide continuity. (b) With \\(d=1.5\\), verify \\(g(0)=0\\) and \\(g(2)=3\\), but no \\(c\\in[0,2]\\) satisfies \\(g(c)=1.5\\). Which IVT hypothesis fails?",
+        "steps": [
+          "左极限：\\(x\\to1^{-}\\) 时 \\(g(x)=x\\to1\\)；右极限：\\(x\\to1^{+}\\) 时 \\(g(x)=x+1\\to2\\)；函数值 \\(g(1)=2\\)。左极限 \\(1\\) 与右极限 \\(2\\) 不相等，所以 \\(\\lim_{x\\to1}g(x)\\) 不存在，\\(g\\) 在 \\(x=1\\) 处不连续。 · Left limit: as \\(x\\to1^{-}\\), \\(g(x)=x\\to1\\); right limit: as \\(x\\to1^{+}\\), \\(g(x)=x+1\\to2\\); the function value is \\(g(1)=2\\). The left limit \\(1\\) and right limit \\(2\\) differ, so \\(\\lim_{x\\to1}g(x)\\) does not exist and \\(g\\) is discontinuous at \\(x=1\\).",
+          "\\(g(0)=0\\)，\\(g(2)=2+1=3\\)，所以 \\(d=1.5\\) 介于两端函数值 \\(0\\) 与 \\(3\\) 之间。 · \\(g(0)=0\\) and \\(g(2)=2+1=3\\), so \\(d=1.5\\) lies between the endpoint values \\(0\\) and \\(3\\).",
+          "分析值域：在 \\([0,1)\\) 上 \\(g(x)=x\\in[0,1)\\)；在 \\(x=1\\) 处 \\(g(1)=2\\)；在 \\((1,2]\\) 上 \\(g(x)=x+1\\in(2,3]\\)。因此 \\(g\\) 在 \\([0,2]\\) 上的值域为 \\([0,1)\\cup\\{2\\}\\cup(2,3]\\)，不包含 \\(1.5\\)。 · Analyze the range: on \\([0,1)\\), \\(g(x)=x\\in[0,1)\\); at \\(x=1\\), \\(g(1)=2\\); on \\((1,2]\\), \\(g(x)=x+1\\in(2,3]\\). Thus the range of \\(g\\) on \\([0,2]\\) is \\([0,1)\\cup\\{2\\}\\cup(2,3]\\), which does not contain \\(1.5\\).",
+          "IVT 要求 \\(g\\) 在整个闭区间 \\([0,2]\\) 上连续，但 \\(g\\) 在 \\(x=1\\) 处有跳跃间断；所以虽然 \\(d\\) 介于两端函数值之间，IVT 不能使用，结论也确实不成立。 · The IVT requires \\(g\\) to be continuous on the whole closed interval \\([0,2]\\), but \\(g\\) has a jump discontinuity at \\(x=1\\); so although \\(d\\) lies between the endpoint values, the IVT does not apply, and the conclusion indeed fails."
+        ],
+        "solution": "\\(\\lim_{x\\to1^{-}}g=1\\)，\\(\\lim_{x\\to1^{+}}g=2\\)，\\(g(1)=2\\)，故 \\(g\\) 在 \\(1\\) 处不连续；\\(1.5\\) 被跳跃跳过，连续性假设失效。 · \\(\\lim_{x\\to1^{-}}g=1\\), \\(\\lim_{x\\to1^{+}}g=2\\), and \\(g(1)=2\\), so \\(g\\) is discontinuous at \\(1\\); the value \\(1.5\\) is skipped by the jump, and the continuity hypothesis fails.",
+        "solutionLatex": "\\lim_{x\\to1^{-}}g(x)=1,\\qquad \\lim_{x\\to1^{+}}g(x)=2,\\qquad g(1)=2"
+      },
+      {
+        "title": "例 5 · AP 风格：唯一零点与误差界 · Example 5: AP-style unique zero and error bound",
+        "prompt": "设 \\(f(x)=x^{3}+2x-5\\)。(a) 证明 \\(f\\) 在 \\((1,2)\\) 内有唯一零点。(b) 用二分法求该零点的近似值，使误差不超过 \\(0.02\\)。 · Let \\(f(x)=x^{3}+2x-5\\). (a) Prove that \\(f\\) has exactly one zero in \\((1,2)\\). (b) Use bisection to approximate the zero with error at most \\(0.02\\).",
+        "steps": [
+          "\\(f\\) 是多项式，连续。\\(f(1)=1+2-5=-2<0\\)，\\(f(2)=8+4-5=7>0\\)，由 IVT 存在 \\(c\\in(1,2)\\) 使 \\(f(c)=0\\)。 · \\(f\\) is a polynomial and hence continuous. \\(f(1)=1+2-5=-2<0\\) and \\(f(2)=8+4-5=7>0\\), so the IVT gives \\(c\\in(1,2)\\) with \\(f(c)=0\\).",
+          "求导：\\(f'(x)=3x^{2}+2>0\\) 对所有 \\(x\\) 成立，所以 \\(f\\) 严格递增，零点至多一个；结合存在性，零点恰好一个。 · Differentiate: \\(f'(x)=3x^{2}+2>0\\) for all \\(x\\), so \\(f\\) is strictly increasing and has at most one zero; combined with existence, it has exactly one zero.",
+          "二分：\\(f(1.5)=1.375>0\\Rightarrow(1,1.5)\\)；\\(f(1.25)=-0.546875<0\\Rightarrow(1.25,1.5)\\)；\\(f(1.375)=0.349609375>0\\Rightarrow(1.25,1.375)\\)。 · Bisect: \\(f(1.5)=1.375>0\\Rightarrow(1,1.5)\\); \\(f(1.25)=-0.546875<0\\Rightarrow(1.25,1.5)\\); \\(f(1.375)=0.349609375>0\\Rightarrow(1.25,1.375)\\).",
+          "继续：\\(f(1.3125)=-0.114013671875<0\\Rightarrow(1.3125,1.375)\\)；\\(f(1.34375)=0.113861083984>0\\Rightarrow(1.3125,1.34375)\\)。区间长度 \\(0.03125\\)，取中点 \\(1.328125\\)，误差不超过区间长度的一半 \\(0.015625<0.02\\)。 · Continue: \\(f(1.3125)=-0.114013671875<0\\Rightarrow(1.3125,1.375)\\); \\(f(1.34375)=0.113861083984>0\\Rightarrow(1.3125,1.34375)\\). The interval length is \\(0.03125\\); its midpoint \\(1.328125\\) has error at most half the length, \\(0.015625<0.02\\)."
+        ],
+        "solution": "唯一零点 \\(c\\in(1.3125,1.34375)\\)，取 \\(c\\approx1.328\\)，误差不超过 \\(0.015625<0.02\\)。 · The unique zero lies in \\((1.3125,1.34375)\\); take \\(c\\approx1.328\\), with error at most \\(0.015625<0.02\\).",
+        "solutionLatex": "f(1)=-2<0<7=f(2),\\qquad f'(x)=3x^{2}+2>0,\\qquad c\\approx1.328"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写三件事：\\(f\\) 在 \\([a,b]\\) 上连续、\\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间、由 IVT 得 \\(c\\in(a,b)\\)。 · Write three things first: \\(f\\) is continuous on \\([a,b]\\), \\(d\\) lies between \\(f(a)\\) and \\(f(b)\\), and the IVT gives \\(c\\in(a,b)\\).",
+      "证明方程有解时，先算两端函数值；出现异号就写 \\(f(a)f(b)<0\\)，再引用零点形式。 · To prove an equation has a solution, evaluate both endpoint values; if they have opposite signs, write \\(f(a)f(b)<0\\) and then invoke the zero form.",
+      "“至少一个”不是“恰好一个”；要唯一必须另证严格单调（如 \\(f'>0\\)）。 · “At least one” is not “exactly one”; for uniqueness, separately prove strict monotonicity (for example \\(f'>0\\)).",
+      "\\(d\\) 必须与函数值比较，不能与 \\(x\\) 的端点 \\(a,b\\) 比较。 · Compare \\(d\\) with function values, not with the \\(x\\)-endpoints \\(a\\) and \\(b\\).",
+      "闭区间与连续性缺一不可；区间内有跳跃、洞或竖直渐近线时不要用 IVT。 · A closed interval and continuity are both required; do not use the IVT across a jump, hole, or vertical asymptote.",
+      "表格题先确认题目声明连续，再在函数值异号的相邻子区间上使用 IVT。 · For table problems, confirm that continuity is stated, then apply the IVT on an adjacent subinterval whose function values have opposite signs.",
+      "二分法每题都写中点公式与保留半区间的理由；最后给出区间和误差界。 · In bisection, write the midpoint formula and why each half-interval is kept; finish with the interval and error bound.",
+      "AP 论证用“主张—证据—推理”：主张存在 \\(c\\)，证据是连续与介值，推理引用 IVT 并说明 \\(c\\) 在开区间。 · Use claim-evidence-reasoning on the AP exam: claim existence of \\(c\\), evidence is continuity and betweenness, and reasoning cites the IVT and places \\(c\\) in the open interval."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u1",
-        "code": "1.15",
-        "title": "无穷远处极限与水平渐近",
-        "relation": "prerequisite"
+        "code": "1.11",
+        "title": "定义连续性 · Defining Continuity at a Point",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u1",
+        "code": "1.12",
+        "title": "确认区间连续 · Confirming Continuity over an Interval",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u1",
+        "code": "1.13",
+        "title": "除去间断 · Removing Discontinuities",
+        "relation": "对比 · contrast"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u1",
+        "code": "1.14",
+        "title": "无限极限与竖直渐近 · Connecting Infinite Limits and Vertical Asymptotes",
+        "relation": "反例来源 · source of counterexamples"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u1",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：1.11–1.12 给出一点连续与区间连续的定义，1.13–1.14 说明洞、跳跃与竖直渐近线如何破坏连续性；IVT 把这些“没有断点”的直觉变成存在性结论。 · Upstream: 1.11–1.12 define continuity at a point and on an interval, while 1.13–1.14 show how holes, jumps, and vertical asymptotes break continuity; the IVT turns the intuition of “no break” into an existence theorem.",
+      "下游：零点存在与二分法是求方程近似解的工具；后续的极值定理、中值定理与积分基本定理都沿用“闭区间连续 ⇒ 存在”的论证模式。 · Downstream: zero existence and bisection are tools for approximating solutions; later the Extreme Value Theorem, Mean Value Theorem, and Fundamental Theorem of Calculus reuse the “continuous on a closed interval ⇒ existence” pattern.",
+      "数学内部：IVT 把图像上的“穿越水平线”、代数上的“方程有解”和数值上的“二分逼近”统一成同一个存在性命题。 · Within mathematics, the IVT unifies “crossing a horizontal line” graphically, “the equation has a solution” algebraically, and “bisection converges” numerically into one existence statement.",
+      "跨学科：温度从低于冰点升到高于冰点、浓度从低到高、海拔从低到高，都可用 IVT 保证某个中间状态出现；使用时必须确认变化过程连续。 · Across disciplines, temperature rising from below to above freezing, concentration increasing from low to high, or altitude climbing from low to high can all use the IVT to guarantee an intermediate state; one must confirm that the process changes continuously."
     ],
-    "intuitionDetailed": "把「中间值定理」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "中间值定理回答的是一个非常朴素的问题：如果一条连续的曲线从 \\(y=f(a)\\) 走到 \\(y=f(b)\\)，它能不能“跳过”中间某个高度？答案是不能。把水平线 \\(y=d\\) 画出来，只要 \\(d\\) 位于两端高度之间，曲线就必须与这条水平线至少相交一次。这里“连续”是关键：它排除了跳跃、洞和竖直渐近线，保证曲线在 \\([a,b]\\) 上是一条不间断的路径。定理只告诉我们交点存在，却不告诉我们交点在哪里，也不排除有多个交点；例如 \\(f(x)=x^{3}-x\\) 在 \\([-1.5,1.5]\\) 上与 \\(y=0\\) 有三个交点。要定位交点，可以用二分法：每次取区间中点，判断零点落在左半还是右半，把区间长度减半。要证明只有一个交点，则需要额外的单调性论证。还要注意，IVT 是“充分条件”而非“必要条件”：函数完全可能在端点函数值没有夹住 \\(d\\) 的情况下取到 \\(d\\)，所以不能用“\\(d\\) 不在两端值之间”来断定方程无解。 · The Intermediate Value Theorem answers a very plain question: if a continuous curve travels from \\(y=f(a)\\) to \\(y=f(b)\\), can it “skip” some intermediate height? It cannot. Draw the horizontal line \\(y=d\\); as long as \\(d\\) lies between the two endpoint heights, the curve must meet that line at least once. Continuity is the key: it rules out jumps, holes, and vertical asymptotes, guaranteeing that the curve is an unbroken path on \\([a,b]\\). The theorem tells us that an intersection exists, but not where it is, and it does not rule out several intersections; for example, \\(f(x)=x^{3}-x\\) meets \\(y=0\\) three times on \\([-1.5,1.5]\\). To locate an intersection, use bisection: take the midpoint, decide whether the zero lies in the left or right half, and halve the interval length. To prove that there is only one intersection, an additional monotonicity argument is needed. Also note that the IVT is sufficient, not necessary: a function may attain \\(d\\) even when the endpoint values do not bracket \\(d\\), so “\\(d\\) is not between the endpoint values” does not prove that the equation has no solution.",
     "development": [
-      "回顾先修：确认符号、单位与「中间值定理」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "确定函数 \\(f\\)、闭区间 \\([a,b]\\) 与目标值 \\(d\\)；先检查 \\(f\\) 在 \\([a,b]\\) 上是否连续（包括端点）。 · Identify the function \\(f\\), the closed interval \\([a,b]\\), and the target value \\(d\\); first check whether \\(f\\) is continuous on \\([a,b]\\), endpoints included.",
+      "计算 \\(f(a)\\) 与 \\(f(b)\\)，确认 \\(d\\) 是否介于两者之间；若是求零点，就检查两端是否异号。 · Compute \\(f(a)\\) and \\(f(b)\\) and check whether \\(d\\) lies between them; for a zero, check whether the endpoint values have opposite signs.",
+      "写出 IVT 的引用句：因为连续且 \\(d\\) 介于两端函数值之间，所以存在 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。 · Write the IVT sentence: because \\(f\\) is continuous and \\(d\\) lies between the endpoint values, there exists \\(c\\in(a,b)\\) with \\(f(c)=d\\).",
+      "若题目要求唯一性，另证 \\(f\\) 在 \\((a,b)\\) 上严格单调；若题目要求近似值，进入二分法。 · If uniqueness is required, separately prove that \\(f\\) is strictly monotone on \\((a,b)\\); if an approximation is required, proceed to bisection.",
+      "二分时每次写出中点、函数值符号、保留的半区间；用 \\(\\dfrac{b-a}{2^{n+1}}\\) 控制误差。 · In bisection, record the midpoint, the sign of its function value, and the half-interval kept; control the error with \\(\\dfrac{b-a}{2^{n+1}}\\).",
+      "最后用图像或情境解释结果：曲线与 \\(y=d\\) 相交，或某个连续变化的物理量经过了中间状态；检查答案是否落在原区间内。 · Finally, interpret the result with a graph or context: the curve meets \\(y=d\\), or a continuously changing quantity passes through an intermediate state; check that the answer lies in the original interval."
     ],
     "checks": [
-      "不看书能否复述「中间值定理」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "不看笔记，完整陈述 IVT，并指出三个关键词：闭区间连续、\\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间、存在 \\(c\\in(a,b)\\)。 · Without notes, state the IVT completely and identify three keywords: continuity on a closed interval, \\(d\\) between \\(f(a)\\) and \\(f(b)\\), and existence of \\(c\\in(a,b)\\).",
+      "\\(f(x)=\\dfrac{1}{x}\\) 在 \\([-1,1]\\) 上满足 \\(f(-1)<0<f(1)\\)，为什么不能用 IVT 断定有零点？ · For \\(f(x)=\\dfrac{1}{x}\\) on \\([-1,1]\\), \\(f(-1)<0<f(1)\\); why can we not use the IVT to conclude that there is a zero?",
+      "\\(f\\) 在 \\([2,6]\\) 上连续，\\(f(2)=4\\)、\\(f(6)=10\\)。下列哪些值一定被取到：\\(5\\)、\\(7\\)、\\(10\\)、\\(3\\)？ · \\(f\\) is continuous on \\([2,6]\\) with \\(f(2)=4\\) and \\(f(6)=10\\). Which of the following values must be attained: \\(5\\), \\(7\\), \\(10\\), \\(3\\)?",
+      "\\(f\\) 在 \\([0,4]\\) 上连续，\\(f(0)=-1\\)、\\(f(4)=5\\)。方程 \\(f(x)=2\\) 是否一定有解？是否一定只有一个解？ · \\(f\\) is continuous on \\([0,4]\\) with \\(f(0)=-1\\) and \\(f(4)=5\\). Must \\(f(x)=2\\) have a solution? Must it have exactly one?",
+      "表格给出连续函数 \\(h\\) 的 \\(h(1)=-3\\)、\\(h(3)=2\\)。能否保证 \\(h(c)=0\\)？能否保证 \\(h(c)=2.5\\)？能否保证 \\(h(c)=-4\\)？ · A table gives \\(h(1)=-3\\) and \\(h(3)=2\\) for a continuous function \\(h\\). Can you guarantee \\(h(c)=0\\)? \\(h(c)=2.5\\)? \\(h(c)=-4\\)?",
+      "二分法为什么有效？经过 \\(n\\) 次二分后，真实解与中点的距离不超过多少？ · Why does bisection work? After \\(n\\) bisections, how far can the true solution be from the midpoint?",
+      "给出一个例子，说明“\\(f(c)=d\\) 有解”并不要求 \\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间。 · Give an example showing that “\\(f(c)=d\\) has a solution” does not require \\(d\\) to lie between \\(f(a)\\) and \\(f(b)\\)."
     ],
     "vocabulary": [
       {
         "termZh": "中间值定理",
         "termEn": "Intermediate Value Theorem",
-        "defZh": "若 \\(f\\) 在 \\([a,b]\\) 上连续且 \\(k\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间，则存在 \\(c\\in(a,b)\\) 使 \\(f(c)=k\\)。",
-        "defEn": "If \\(f\\) is continuous on \\([a,b]\\) and \\(k\\) lies between \\(f(a)\\) and \\(f(b)\\), then some \\(c\\in(a,b)\\) satisfies \\(f(c)=k\\)."
+        "defZh": "若 \\(f\\) 在闭区间 \\([a,b]\\) 上连续，且 \\(d\\) 介于 \\(f(a)\\) 与 \\(f(b)\\) 之间，则至少存在一个 \\(c\\in(a,b)\\) 使 \\(f(c)=d\\)。",
+        "defEn": "If \\(f\\) is continuous on the closed interval \\([a,b]\\) and \\(d\\) lies between \\(f(a)\\) and \\(f(b)\\), then at least one \\(c\\in(a,b)\\) satisfies \\(f(c)=d\\)."
+      },
+      {
+        "termZh": "闭区间连续",
+        "termEn": "continuity on a closed interval",
+        "defZh": "\\(f\\) 在 \\([a,b]\\) 内每一点连续，并在端点处分别单侧连续。",
+        "defEn": "\\(f\\) is continuous at every interior point of \\([a,b]\\) and one-sided continuous at each endpoint."
       },
       {
         "termZh": "介值",
         "termEn": "intermediate value",
-        "defZh": "位于两个函数值之间的数 \\(k\\)。",
-        "defEn": "A number \\(k\\) lying between two function values."
+        "defZh": "介于两个函数值 \\(f(a)\\) 与 \\(f(b)\\) 之间的数 \\(d\\)；注意不是介于 \\(a\\) 与 \\(b\\) 之间。",
+        "defEn": "A number \\(d\\) between the two function values \\(f(a)\\) and \\(f(b)\\); note that it is not between \\(a\\) and \\(b\\)."
       },
       {
-        "termZh": "存在性",
-        "termEn": "existence",
-        "defZh": "定理只保证至少一个 \\(c\\) 存在，不给出具体位置。",
-        "defEn": "The theorem guarantees at least one such \\(c\\) without locating it."
-      },
-      {
-        "termZh": "闭区间",
-        "termEn": "closed interval",
-        "defZh": "包含端点的区间 \\([a,b]\\)，是定理的前提。",
-        "defEn": "The interval \\([a,b]\\) including endpoints, required by the theorem."
+        "termZh": "存在性定理",
+        "termEn": "existence theorem",
+        "defZh": "只断言某个对象存在、不给出其位置或唯一性的定理。",
+        "defEn": "A theorem that asserts the existence of an object without giving its location or uniqueness."
       },
       {
         "termZh": "零点",
-        "termEn": "root",
-        "defZh": "使 \\(f(c)=0\\) 的点 \\(c\\)，常用介值定理证明其存在。",
-        "defEn": "A point \\(c\\) with \\(f(c)=0\\), often shown to exist with the Intermediate Value Theorem."
+        "termEn": "zero (root)",
+        "defZh": "使 \\(f(c)=0\\) 的点 \\(c\\)；连续函数两端异号时可用 IVT 证明其存在。",
+        "defEn": "A point \\(c\\) with \\(f(c)=0\\); the IVT proves its existence when a continuous function has opposite signs at the endpoints."
+      },
+      {
+        "termZh": "二分法",
+        "termEn": "bisection method",
+        "defZh": "反复取异号区间中点并保留仍异号的半区间，用来逼近零点。",
+        "defEn": "Repeatedly take the midpoint of a sign-changing interval and keep the half that still changes sign, approximating a zero."
+      },
+      {
+        "termZh": "跳跃间断",
+        "termEn": "jump discontinuity",
+        "defZh": "左右极限都存在但不相等；函数图像在跳跃处可能跳过某些中间值。",
+        "defEn": "Both one-sided limits exist but are unequal; the graph may skip intermediate values at the jump."
+      },
+      {
+        "termZh": "反例",
+        "termEn": "counterexample",
+        "defZh": "满足除某条假设外的条件、却使结论失败的例子，用来说明该假设不可省略。",
+        "defEn": "An example that satisfies the conditions except one hypothesis but makes the conclusion fail, showing that the hypothesis cannot be omitted."
       }
     ]
   }
