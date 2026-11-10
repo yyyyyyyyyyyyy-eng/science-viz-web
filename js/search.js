@@ -353,10 +353,10 @@ function renderResults(query) {
 
   if (!needle) {
     showState([
-      el('p', { className: 'site-search-hint-title', text: '查找知识点或词汇 · Find topics or vocabulary' }),
+      el('p', { className: 'site-search-hint-title', text: '输入关键词开始查找 · Type to start searching' }),
       el('p', {
         className: 'site-search-hint-text',
-        text: '输入中文或英文关键词，例如「导数」或 “derivative”。 · Type a Chinese or English keyword, such as “导数” or “derivative”.',
+        text: '可搜索知识点标题、编号与重要词汇；例如「导数」或 “derivative”。 · Search topic titles, codes, and key vocabulary; for example “导数” or “derivative”.',
       }),
     ], 'hint');
     input?.removeAttribute('aria-activedescendant');
