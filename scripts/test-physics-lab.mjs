@@ -265,6 +265,18 @@ check('cart brake parks an otherwise rolling cart on an incline', () => {
   near(x1, x0, 1e-6, 'braked cart position');
 });
 
+check('cart brake slows a moving cart with kinetic friction', () => {
+  const world = createWorld({ g: 9.8 });
+  const surface = addSurface(world, { angleDeg: 0, muS: 0.5, muK: 0.35, length: 60, x: 0, y: 1, width: 3 });
+  const cart = addCart(world, { mass: 1, radius: 0.3, x: 0, y: 2, z: 0, I: 0.045 });
+  cart.brake = true;
+  cart.v0 = 3;
+  attachBodyToSurface(world, cart, surface.id, { localX: -10, localZ: 0 });
+  applyInitialVelocity(world, cart);
+  advance(world, 1.5, 1 / 240);
+  near(cart.cannon.velocity.length(), 0, 0.02, 'braked cart final speed');
+});
+
 check('turntable: a stuck block rotates at omega (not 2 omega) and keeps its radius', () => {
   for (const omega of [0.5, 1, 1.7]) {
     const world = createWorld({ g: 9.8 });

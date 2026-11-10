@@ -877,12 +877,24 @@ function applySurfaceContact(world, body, h) {
   let staticRoll = false;
   let held = false;
   const atRest = Math.abs(u) < 1e-3 && Math.abs(vt) < STATIC_SPEED && Math.abs(vb) < STATIC_SPEED;
-  if (atRest && body.brake && Math.abs(Ft) + Math.abs(drive.dot(frame.b)) <= staticMax) {
-    f = -Ft;
-    staticRoll = true;
-    held = true;
-    body.cannon.velocity.setZero();
+  const atRestBrake = Math.abs(vt) < STATIC_SPEED && Math.abs(vb) < STATIC_SPEED;
+  if (body.brake) {
+    // A brake locks the axle. At rest, hold if the friction cone allows it;
+    // otherwise the locked wheels slide with kinetic friction until the cart
+    // stops (or slides down a slope it cannot hold).
     body.cannon.angularVelocity.setZero();
+    if (atRestBrake && Math.abs(Ft) + Math.abs(drive.dot(frame.b)) <= staticMax) {
+      f = -Ft;
+      staticRoll = true;
+      held = true;
+      body.cannon.velocity.setZero();
+    } else if (atRestBrake) {
+      f = -Math.sign(Ft || 1) * muK * N;
+      world.thermal += Math.abs(f * vt) * h;
+    } else {
+      f = -Math.sign(vt) * muK * N;
+      world.thermal += Math.abs(f * vt) * h;
+    }
   } else if (Math.abs(u) < 1e-3) {
     if (Math.abs(fReq) <= staticMax) {
       f = fReq;
@@ -910,12 +922,12 @@ function applySurfaceContact(world, body, h) {
   // friction lever arm while preserving the rolling law. A braked cart is a
   // parked/locked axle, so no torque is applied while it is held.
   body.cannon.applyForce(friction);
-  if (!held) {
+  if (!body.brake && !held) {
     body.cannon.torque.vadd(frame.b.scale(f * body.radius), body.cannon.torque);
   }
   body.diagnostics.static = staticRoll;
-  body.diagnostics.rolling = Math.abs(u) < 1e-3;
-  body._surfaceRolling = staticRoll && !held;
+  body.diagnostics.rolling = !body.brake && Math.abs(u) < 1e-3;
+  body._surfaceRolling = !body.brake && staticRoll && !held;
   body.diagnostics.friction = friction.length();
   body.diagnostics.force.copy(friction);
   body.diagnostics.accel = held ? 0 : (drive.dot(frame.t) + f) / body.mass;
@@ -1376,28 +1388,41 @@ export function bodyDiagnostics(world, body) {
         const denom = m + body.I / (r * r);
         const fReq = -body.I * (Ft / denom) / (r * r);
         const N = Math.max(0, c.N);
-        d.rolling = Math.abs(u) < 1e-3;
         let f = 0;
-        if (Math.abs(u) < 1e-3) {
-          if (Math.abs(fReq) <= muS * N) {
+        if (body.brake) {
+          const latDrive = c.drive.dot(c.frame.b);
+          const atRest = Math.abs(vt) < STATIC_SPEED && Math.abs(vb) < STATIC_SPEED;
+          d.rolling = false;
+          if (atRest && Math.abs(Ft) + Math.abs(latDrive) <= muS * N) {
             d.static = true;
-            f = fReq;
-            d.accel = Ft / denom;
+            f = -Ft;
+            d.accel = 0;
+          } else if (atRest) {
+            d.static = false;
+            f = -Math.sign(Ft || 1) * muK * N;
+            d.accel = (Ft + f) / m;
           } else {
             d.static = false;
-            f = Math.sign(fReq || -Ft) * muK * N;
+            f = -Math.sign(vt) * muK * N;
             d.accel = (Ft + f) / m;
           }
         } else {
-          d.static = false;
-          f = -Math.sign(u) * muK * N;
-          d.accel = (Ft + f) / m;
-        }
-        if (body.brake && Math.abs(u) < 1e-3 && Math.abs(vt) < STATIC_SPEED
-          && Math.abs(Ft) + Math.abs(c.drive.dot(c.frame.b)) <= muS * N) {
-          d.static = true;
-          d.accel = 0;
-          f = -Ft;
+          d.rolling = Math.abs(u) < 1e-3;
+          if (Math.abs(u) < 1e-3) {
+            if (Math.abs(fReq) <= muS * N) {
+              d.static = true;
+              f = fReq;
+              d.accel = Ft / denom;
+            } else {
+              d.static = false;
+              f = Math.sign(fReq || -Ft) * muK * N;
+              d.accel = (Ft + f) / m;
+            }
+          } else {
+            d.static = false;
+            f = -Math.sign(u) * muK * N;
+            d.accel = (Ft + f) / m;
+          }
         }
         d.friction = Math.abs(f);
         d.force.copy(c.frame.t.scale(f));
