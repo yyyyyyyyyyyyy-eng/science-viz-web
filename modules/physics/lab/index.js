@@ -1554,6 +1554,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function handleModalKey(e) {
     if (!modal) return false;
+    const tag = (e.target && e.target.tagName) || '';
+    const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
+    if (editing) return false;
     if (e.key === 'Escape') {
       e.preventDefault();
       cancelModal();
