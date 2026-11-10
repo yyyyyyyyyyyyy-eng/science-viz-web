@@ -1466,5 +1466,372 @@ export const TOPICS = {
         "defEn": "The electric field excited in space by a changing magnetic flux; its circulation around a closed path is \\(\\oint\\vec E\\cdot\\mathrm{d}\\vec l=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\neq0\\), so it generally has no single-valued scalar potential."
       }
     ]
+  },
+
+  "13.8": {
+    "id": "em/em-u13/13.8",
+    "subject": "em",
+    "chapterId": "em-u13",
+    "unitCode": "13",
+    "unitTitleZh": "电磁感应",
+    "unitTitleEn": "Electromagnetic Induction",
+    "code": "13.8",
+    "titleZh": "感应回路受力与运动",
+    "titleEn": "Forces and Motion of Induced-Current Loops",
+    "layer": "ap",
+    "summary": "当感应电流流经处在外部磁场中的导体段时，该段受到磁力 \\(\\vec F=I\\vec L\\times\\vec B\\)；只有位于场区内的线段受力，场区外的线段不受磁力。若回路只有一部分在场内，各受力段磁力的矢量和一般不为零，可产生平动加速度；若这些力的作用线不通过质心，还会产生磁力矩和转动加速度。对滑棒或进入、离开场区的线框应用牛顿第二定律 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)，可得到随速度增大的磁阻力、终端速度和指数趋近；完全进入匀强恒定场区后磁通量不变，感应电流与磁力都消失。 · When an induced current flows through conductor segments inside an external magnetic field, each segment experiences the magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\); only segments inside the field feel a force, while segments outside feel none. If only part of the loop is inside, the vector sum of the forces on the in-field segments is generally nonzero and can produce translational acceleration; if the lines of action do not pass through the center of mass, the forces also produce a magnetic torque and rotational acceleration. Applying Newton's second law to a sliding bar or to a loop entering or leaving a field region, \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\), gives a drag that grows with speed, a terminal speed, and exponential approach; once the loop is fully inside a uniform steady field, the flux is constant and both the induced current and the magnetic force vanish.",
+    "learningObjectives": [
+      "能逐段判断回路中哪些线段位于外部磁场内，并对每个受力段写出 \\(\\vec F=I\\vec L\\times\\vec B\\)，说明场区外线段不受磁力。 · Determine segment by segment which parts of a loop lie inside the external field, write \\(\\vec F=I\\vec L\\times\\vec B\\) for each force-bearing segment, and explain why segments outside the field feel no magnetic force.",
+      "能求各受力段磁力的矢量和与力矩和，区分平动加速度 \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\) 与转动加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)。 · Find the vector sum of the magnetic forces and the sum of their torques, and distinguish translational acceleration \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\) from rotational acceleration \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\).",
+      "能说明回路所受磁力正比于感应电流，而感应电流由磁通量变化率、回路电阻和回路速度共同决定，并导出 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)。 · Explain that the magnetic force on a loop is proportional to the induced current, that the current depends on the rate of change of flux, the loop resistance, and the loop speed, and derive \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\).",
+      "能对滑棒、下落线框或进出场区的线框应用牛顿第二定律，求加速度、终端速度、时间常数、速度图像与停止距离。 · Apply Newton's second law to a sliding bar, a falling loop, or a loop entering or leaving a field region, and find the acceleration, terminal speed, time constant, velocity graph, and stopping distance.",
+      "能用牛顿第三定律与楞次定律说明磁体与感应回路之间的相互作用力，并做机械能、焦耳热与动能变化的能量簿记。 · Use Newton's third law and Lenz's law to explain the interaction forces between a magnet and an induced-current loop, and keep an energy account of mechanical work, Joule heat, and kinetic-energy change."
+    ],
+    "essentialKnowledge": [
+      "外部磁场只对位于场区内的载流线段施加磁力 \\(\\vec F=I\\vec L\\times\\vec B\\)；场区外线段所在处 \\(\\vec B=0\\)，磁力为零。 · The external field exerts \\(\\vec F=I\\vec L\\times\\vec B\\) only on current-carrying segments inside the field region; outside the region \\(\\vec B=0\\), so the magnetic force is zero.",
+      "一段长为 \\(L\\)、电流为 \\(I\\) 的直导线在匀强磁场中的磁力大小为 \\(F=BIL\\sin\\theta\\)，\\(\\theta\\) 是 \\(\\vec L\\) 与 \\(\\vec B\\) 的夹角；垂直时 \\(F=BIL\\)。 · For a straight segment of length \\(L\\) carrying current \\(I\\) in a uniform field, the magnetic force has magnitude \\(F=BIL\\sin\\theta\\), where \\(\\theta\\) is the angle between \\(\\vec L\\) and \\(\\vec B\\); when perpendicular, \\(F=BIL\\).",
+      "回路净磁力是各受力段磁力的矢量和 \\(\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B\\)；整个闭合回路都在匀强磁场中时 \\(\\sum_i\\vec L_i=0\\)，净力为零。 · The net magnetic force is the vector sum over force-bearing segments, \\(\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B\\); when the entire closed loop lies in a uniform field, \\(\\sum_i\\vec L_i=0\\) and the net force is zero.",
+      "回路只有一部分在场内时，净力一般不为零；线框进入场区时受力段是前边，离开时是后边，完全处于匀强恒定场区时没有感应电流，也没有磁力。 · When only part of the loop is inside the field, the net force is generally nonzero; the force-bearing segment is the leading side while entering and the trailing side while leaving, and when the loop is fully inside a uniform steady field there is no induced current and no magnetic force.",
+      "净力产生平动加速度 \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\)；净力与速度反向时回路减速，同向时加速。 · The net force produces translational acceleration \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\); the loop slows when the net force opposes its velocity and speeds up when the net force is along the velocity.",
+      "各受力段磁力对质心或转轴的力矩之和为 \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\)，产生转动加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)；即使净力为零，力矩也可能不为零。 · The torques of the magnetic forces about the center of mass or a pivot sum to \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\) and produce rotational acceleration \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\); even when the net force is zero, the torque need not be.",
+      "整个载流回路在匀强磁场中可等效为磁矩 \\(\\vec\\mu=I\\vec A\\)，磁力矩 \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\)，大小 \\(\\tau=IAB\\sin\\theta\\)；\\(N\\) 匝时为 \\(\\mu=NIA\\)。 · A current loop in a uniform field can be described by its magnetic moment \\(\\vec\\mu=I\\vec A\\), with magnetic torque \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\) and magnitude \\(\\tau=IAB\\sin\\theta\\); for \\(N\\) turns, \\(\\mu=NIA\\).",
+      "各受力段磁力（以及只有部分在场内时的净力）正比于感应电流 \\(I\\)：\\(F\\propto I\\)；而 \\(I=\\dfrac{\\varepsilon}{R}\\)，\\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)，所以磁力最终由磁通量变化率与电阻决定。 · The magnetic force on each in-field segment (and the net force when only part of the loop is inside) is proportional to the induced current \\(I\\): \\(F\\propto I\\); since \\(I=\\dfrac{\\varepsilon}{R}\\) and \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\), the force is ultimately set by the rate of change of flux and the resistance.",
+      "动生情形中 \\(\\varepsilon=BLv\\)，故 \\(I=\\dfrac{BLv}{R}\\)，磁阻力 \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\)；它随速度线性增大，方向与速度相反。 · In the motional case \\(\\varepsilon=BLv\\), so \\(I=\\dfrac{BLv}{R}\\) and the magnetic drag is \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\); it grows linearly with speed and points opposite to the velocity.",
+      "若磁通量变化来自随时间变化的磁场而不是回路运动，则 \\(\\varepsilon=A\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\cos\\theta\\)，磁力依赖 \\(B\\) 与 \\(\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\)，而不是回路速度；不要无条件套用 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)。 · If the flux change comes from a time-varying field rather than loop motion, then \\(\\varepsilon=A\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\cos\\theta\\), and the force depends on \\(B\\) and \\(\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\), not on the loop speed; do not apply \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\) unconditionally.",
+      "对滑棒或进入场区的线框，牛顿第二定律写成 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)；终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)，时间常数 \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\)。 · For a sliding bar or a loop entering a field region, Newton's second law reads \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\); the terminal speed is \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) and the time constant is \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\).",
+      "撤去外力后 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，停止距离 \\(x_{\\mathrm{stop}}=v_0\\tau\\)，初动能全部转化为焦耳热 \\(\\dfrac{1}{2}mv_0^{2}\\)。 · After the applied force is removed, \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\), the stopping distance is \\(x_{\\mathrm{stop}}=v_0\\tau\\), and all the initial kinetic energy \\(\\dfrac{1}{2}mv_0^{2}\\) becomes Joule heat.",
+      "磁体与回路之间的力是牛顿第三定律对：感应电流排斥靠近的磁体、吸引远离的磁体，磁体对回路施加等大反向的力；这保证机械功与焦耳热之间的能量守恒。 · The forces between a magnet and a loop form a Newton's-third-law pair: the induced current repels an approaching magnet and attracts a receding one, while the magnet exerts an equal and opposite force on the loop; this enforces energy conservation between mechanical work and Joule heat."
+    ],
+    "definition": "感应回路受力与运动（Forces and Motion of Induced-Current Loops）：当穿过回路的磁通量变化时，回路中产生感应电动势 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) 和感应电流 \\(I=\\dfrac{\\varepsilon}{R}\\)。外部磁场只对位于场区内的载流线段施加磁力 \\(\\vec F=I\\vec L\\times\\vec B\\)，场区外线段不受力；因此必须先逐段识别受力段。各受力段磁力的矢量和给出净力 \\(\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B\\)，可产生平动加速度 \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\)；各力对质心或转轴的力矩之和给出磁力矩 \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\)，可产生转动加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)。若整个回路处于匀强磁场中，\\(\\sum_i\\vec L_i=0\\)，净力为零；但若磁矩 \\(\\vec\\mu=I\\vec A\\) 与 \\(\\vec B\\) 不平行，仍有磁力矩 \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\)。对滑棒或进入、离开场区的线框，感应电流正比于磁通量变化率、反比于电阻；动生情形 \\(\\varepsilon=BLv\\)，故磁阻力 \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\) 随速度增大。应用牛顿第二定律 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\) 可得终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)、时间常数 \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\) 与指数趋近；撤去外力后速度按 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 衰减，初动能全部转化为焦耳热。磁体与回路之间的力也成牛顿第三定律对：感应电流总是排斥靠近的磁体、吸引远离的磁体，从而阻碍相对运动。 · Forces and motion of induced-current loops: when the magnetic flux through a loop changes, an induced emf \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) and an induced current \\(I=\\dfrac{\\varepsilon}{R}\\) appear. The external field exerts a magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\) only on current-carrying segments inside the field region; segments outside feel no force, so the force-bearing segments must be identified segment by segment. The vector sum of the forces on the in-field segments gives the net force \\(\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B\\), which produces translational acceleration \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\); the sum of the torques about the center of mass or a pivot gives the magnetic torque \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\), which produces rotational acceleration \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\). If the entire loop lies in a uniform field, \\(\\sum_i\\vec L_i=0\\) and the net force is zero; however, if the magnetic moment \\(\\vec\\mu=I\\vec A\\) is not parallel to \\(\\vec B\\), there is still a magnetic torque \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\). For a sliding bar or a loop entering or leaving a field region, the induced current is proportional to the rate of change of flux and inversely proportional to the resistance; in the motional case \\(\\varepsilon=BLv\\), so the magnetic drag \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\) grows with speed. Applying Newton's second law \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\) gives the terminal speed \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\), the time constant \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\), and exponential approach; after the applied force is removed, the speed decays as \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\), and all the initial kinetic energy becomes Joule heat. The forces between a magnet and a loop also form a Newton's-third-law pair: the induced current always repels an approaching magnet and attracts a receding one, thereby opposing the relative motion.",
+    "intuition": "把回路想成由许多小段导线拼成；只有浸在场区里的那些小段才“感受”到磁力，场区外的导线像不在磁场中一样。回路只有一部分在场内时，各段磁力的矢量和通常不为零，于是质心获得平动加速度；如果这些力的作用线不通过质心，它们还组成力偶，使回路转动。磁力的大小又由感应电流决定，而感应电流由磁通量变化率和电阻决定；对滑棒，磁通量变化率正比于速度，所以磁阻力随速度增大，最终与外力平衡，速度趋于终端值。 · Think of the loop as many short wire segments; only the segments immersed in the field region 'feel' a magnetic force, while wires outside behave as if there were no field. When only part of the loop is inside, the vector sum of the segment forces is usually nonzero, so the center of mass acquires translational acceleration; if the lines of action do not pass through the center of mass, they also form a couple and make the loop rotate. The force magnitude is set by the induced current, and the current is set by the rate of change of flux and the resistance; for a sliding bar the flux change rate is proportional to speed, so the drag grows with speed until it balances the applied force and the speed approaches a terminal value.",
+    "formulas": [
+      {
+        "latex": "\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}",
+        "note": "法拉第定律：感应电动势由磁通量变化率决定，负号体现楞次定律。 · Faraday's law: the induced emf is set by the rate of change of magnetic flux, and the minus sign expresses Lenz's law."
+      },
+      {
+        "latex": "I=\\dfrac{\\varepsilon}{R}",
+        "note": "闭合回路的感应电流；\\(R\\) 为回路总电阻。 · Induced current in a closed loop; \\(R\\) is the total loop resistance."
+      },
+      {
+        "latex": "\\vec F=I\\vec L\\times\\vec B,\\qquad F=BIL\\sin\\theta",
+        "note": "磁场对载流线段的磁力；\\(\\vec L\\) 沿电流方向，\\(\\theta\\) 为 \\(\\vec L\\) 与 \\(\\vec B\\) 的夹角；垂直时 \\(F=BIL\\)。 · Magnetic force on a current-carrying segment; \\(\\vec L\\) points along the current and \\(\\theta\\) is the angle between \\(\\vec L\\) and \\(\\vec B\\); when perpendicular, \\(F=BIL\\)."
+      },
+      {
+        "latex": "\\vec F_{\\mathrm{net}}=\\sum_i I\\vec L_i\\times\\vec B",
+        "note": "净磁力只对场区内线段求和；整个回路在匀强场中时矢量和为零。 · The net magnetic force sums only over in-field segments; for a complete loop in a uniform field the vector sum is zero."
+      },
+      {
+        "latex": "\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i,\\qquad \\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}",
+        "note": "力矩与转动加速度；\\(I_{\\mathrm{rot}}\\) 是绕质心或转轴的转动惯量。 · Torque and rotational acceleration; \\(I_{\\mathrm{rot}}\\) is the moment of inertia about the center of mass or pivot."
+      },
+      {
+        "latex": "\\vec\\mu=I\\vec A,\\qquad \\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B",
+        "note": "整个回路在匀强场中的磁矩与磁力矩；\\(N\\) 匝时 \\(\\mu=NIA\\)，大小 \\(\\tau=\\mu B\\sin\\theta\\)。 · Magnetic moment and magnetic torque for a complete loop in a uniform field; for \\(N\\) turns \\(\\mu=NIA\\), and the magnitude is \\(\\tau=\\mu B\\sin\\theta\\)."
+      },
+      {
+        "latex": "\\varepsilon=BLv,\\qquad I=\\dfrac{BLv}{R},\\qquad F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}",
+        "note": "动生电动势与滑棒（或进入、离开场区的线框）的磁阻力；要求 \\(\\vec v\\)、\\(\\vec B\\) 与有效长度 \\(L\\) 两两垂直（或取垂直分量）。 · Motional emf and the magnetic drag on a sliding bar or a loop entering/leaving a field region; require \\(\\vec v\\), \\(\\vec B\\), and the effective length \\(L\\) to be mutually perpendicular (or use perpendicular components)."
+      },
+      {
+        "latex": "m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}",
+        "note": "滑棒或进入场区线框的牛顿第二定律；磁阻力项与速度反向。 · Newton's second law for a sliding bar or a loop entering a field region; the drag term opposes the velocity."
+      },
+      {
+        "latex": "v(t)=v_t\\left(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\right),\\qquad v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}},\\qquad \\tau=\\dfrac{mR}{B^{2}L^{2}}",
+        "note": "从静止开始、恒定外力下的速度、终端速度与时间常数。 · Speed, terminal speed, and time constant under a constant applied force starting from rest."
+      },
+      {
+        "latex": "v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right),\\qquad x_{\\mathrm{stop}}=v_0\\tau",
+        "note": "撤去外力后的指数衰减与停止距离。 · Exponential decay and stopping distance after the applied force is removed."
+      },
+      {
+        "latex": "P_{\\mathrm{mech}}=F_{\\mathrm{app}}v=I^{2}R+\\dfrac{\\mathrm{d}K}{\\mathrm{d}t}",
+        "note": "能量簿记：外力功率等于焦耳热功率与动能变化率之和；匀速时 \\(F_{\\mathrm{app}}v=I^{2}R\\)。 · Energy account: the external mechanical power equals the Joule heating rate plus the rate of change of kinetic energy; at constant speed \\(F_{\\mathrm{app}}v=I^{2}R\\)."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "磁通量变化 · Changing magnetic flux",
+        "to": "感应电动势 · Induced emf",
+        "note": "法拉第定律 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)；对进入场区的线框，面积变化率等于有效长度乘速度。 · Faraday's law \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\); for a loop entering a field region, the area changes at a rate equal to the effective length times the speed."
+      },
+      {
+        "from": "感应电动势 · Induced emf",
+        "to": "感应电流 · Induced current",
+        "note": "闭合回路欧姆定律 \\(I=\\dfrac{\\varepsilon}{R}\\)；电流方向由楞次定律确定。 · Ohm's law for the closed loop, \\(I=\\dfrac{\\varepsilon}{R}\\); Lenz's law sets the current direction."
+      },
+      {
+        "from": "感应电流 · Induced current",
+        "to": "受力段磁力 · Force on in-field segments",
+        "note": "对每个位于场区内的线段用 \\(\\vec F=I\\vec L\\times\\vec B\\)；场区外线段 \\(\\vec B=0\\)，力为零。 · Apply \\(\\vec F=I\\vec L\\times\\vec B\\) to each segment inside the field; outside the field \\(\\vec B=0\\) and the force is zero."
+      },
+      {
+        "from": "各段磁力 · Segment forces",
+        "to": "净力 · Net force",
+        "note": "净力是各段磁力的矢量和；整个闭合回路在匀强场中 \\(\\sum_i\\vec L_i=0\\)，净力为零；只有部分在场内时一般不为零。 · The net force is the vector sum of the segment forces; for a complete closed loop in a uniform field \\(\\sum_i\\vec L_i=0\\) and the net force is zero, while for a partially immersed loop it is generally nonzero."
+      },
+      {
+        "from": "各段磁力 · Segment forces",
+        "to": "磁力矩 · Magnetic torque",
+        "note": "对质心或转轴求 \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\)；整个回路在匀强场中可写成 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)。 · Sum \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\) about the center of mass or pivot; for a complete loop in a uniform field this becomes \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)."
+      },
+      {
+        "from": "动生电动势 · Motional emf",
+        "to": "速度依赖的磁阻力 · Velocity-dependent drag",
+        "note": "\\(\\varepsilon=BLv\\)，\\(I=\\dfrac{BLv}{R}\\)，故 \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\)；磁阻力随速度线性增大。 · \\(\\varepsilon=BLv\\) and \\(I=\\dfrac{BLv}{R}\\), so \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\); the drag grows linearly with speed."
+      },
+      {
+        "from": "牛顿第二定律 · Newton's second law",
+        "to": "速度解 · Velocity solution",
+        "note": "\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)，解得 \\(v(t)=v_t\\left(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\right)\\)，\\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)，\\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\)。 · \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\) solves to \\(v(t)=v_t\\left(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\right)\\) with \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) and \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\)."
+      },
+      {
+        "from": "无外力 · No applied force",
+        "to": "指数衰减与停止 · Exponential decay and stopping",
+        "note": "\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^{2}L^{2}v}{R}\\)，故 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，\\(x_{\\mathrm{stop}}=v_0\\tau\\)。 · \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^{2}L^{2}v}{R}\\), so \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) and \\(x_{\\mathrm{stop}}=v_0\\tau\\)."
+      },
+      {
+        "from": "能量守恒 · Energy conservation",
+        "to": "功率平衡 · Power balance",
+        "note": "外力功率 \\(F_{\\mathrm{app}}v\\) 等于焦耳热功率 \\(I^{2}R\\) 与动能变化率之和；匀速时二者相等。 · The external power \\(F_{\\mathrm{app}}v\\) equals the Joule heating rate \\(I^{2}R\\) plus the rate of change of kinetic energy; at constant speed the two are equal."
+      },
+      {
+        "from": "楞次定律与牛顿第三定律 · Lenz's law and Newton's third law",
+        "to": "磁体—回路作用力 · Magnet–loop forces",
+        "note": "感应电流的磁场阻碍磁通量变化，故回路排斥靠近的磁体、吸引远离的磁体；磁体对回路施加等大反向的力。 · The induced current's field opposes the change in flux, so the loop repels an approaching magnet and attracts a receding one; the magnet exerts an equal and opposite force on the loop."
+      }
+    ],
+    "conditions": [
+      "外部磁场在相关区域内均匀且恒定（或明确给出随时间变化）；场区边界清晰，回路边与边界平行或可分段处理。 · The external field is uniform and steady in the relevant region (or its time dependence is given); the field boundary is sharp, and loop sides are parallel to it or can be treated segment by segment.",
+      "只对位于场区内的线段求磁力；场区外 \\(\\vec B=0\\)，磁力为零；若场区边界穿过导线，按进入场内的长度积分或分段。 · Compute magnetic forces only on segments inside the field; outside the region \\(\\vec B=0\\) and the force is zero; if the boundary cuts a wire, integrate over the in-field length or split it into segments.",
+      "回路闭合、总电阻 \\(R\\) 恒定；忽略自感、接触电阻、摩擦与辐射，除非题目另行说明。 · The loop is closed with constant total resistance \\(R\\); neglect self-inductance, contact resistance, friction, and radiation unless stated otherwise.",
+      "导体和回路视为刚体；质量 \\(m\\) 与转动惯量 \\(I_{\\mathrm{rot}}\\) 关于质心或给定转轴。 · The conductor and loop are treated as rigid bodies; the mass \\(m\\) and moment of inertia \\(I_{\\mathrm{rot}}\\) are about the center of mass or the given pivot.",
+      "速度远小于光速，可用经典力学与准静态磁场；电流方向按正电荷流动定义，\\(\\vec L\\) 沿电流方向。 · Speeds are much less than the speed of light, so classical mechanics and quasi-static fields apply; current direction is the flow of positive charge, and \\(\\vec L\\) points along the current.",
+      "磁力矩公式 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) 适用于整个回路都在匀强磁场中的情形；只有部分回路在场内时，必须逐段求力矩。 · The magnetic-torque formula \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) applies when the entire loop is in a uniform field; when only part of the loop is inside, sum the torques segment by segment.",
+      "滑棒或线框沿导轨运动时，导轨电阻与接触电阻可忽略；若有重力、摩擦力或外力，必须一并写入牛顿第二定律。 · When a bar or loop moves on rails, rail and contact resistances may be neglected; if gravity, friction, or an applied force is present, include it in Newton's second law."
+    ],
+    "keyPoints": [
+      "先画场区边界，标出哪些线段在场内；只有这些线段受 \\(\\vec F=I\\vec L\\times\\vec B\\)。 · First draw the field boundary and mark the segments inside it; only those segments feel \\(\\vec F=I\\vec L\\times\\vec B\\).",
+      "线框进入时前边受力，离开时后边受力；完全处于匀强恒定场区时 \\(\\Phi_B\\) 不变，\\(I=0\\)、\\(F_B=0\\)。 · While entering, the leading side feels the force; while leaving, the trailing side does; when fully inside a uniform steady field, \\(\\Phi_B\\) is constant, so \\(I=0\\) and \\(F_B=0\\).",
+      "净力是各受力段磁力的矢量和；整个回路在匀强场中净力为零，但只有部分在场内时一般不为零。 · The net force is the vector sum of the forces on in-field segments; it is zero for a complete loop in a uniform field but generally nonzero when only part of the loop is inside.",
+      "力矩是各力对质心或转轴的力矩之和；净力为零不代表力矩为零。 · The torque is the sum of the moments about the center of mass or pivot; zero net force does not imply zero torque.",
+      "整个回路在匀强场中可用 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)，\\(\\vec\\mu=I\\vec A\\)；\\(N\\) 匝时 \\(\\mu=NIA\\)。 · For a complete loop in a uniform field, use \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) with \\(\\vec\\mu=I\\vec A\\); for \\(N\\) turns, \\(\\mu=NIA\\).",
+      "磁力正比于感应电流：\\(F\\propto I\\)；\\(I=\\dfrac{\\varepsilon}{R}\\)，\\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)。 · The magnetic force is proportional to the induced current: \\(F\\propto I\\); \\(I=\\dfrac{\\varepsilon}{R}\\) and \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\).",
+      "动生情形 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)：与速度成正比、与电阻成反比、与 \\(B^{2}L^{2}\\) 成正比。 · In the motional case \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\): proportional to speed, inversely proportional to resistance, and proportional to \\(B^{2}L^{2}\\).",
+      "牛顿第二定律给出终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) 与时间常数 \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\)；速度按指数趋近。 · Newton's second law gives the terminal speed \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) and time constant \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}\\); the speed approaches exponentially.",
+      "撤去外力后 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)，停止距离 \\(v_0\\tau\\)，初动能全部变为焦耳热。 · After the applied force is removed, \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\), the stopping distance is \\(v_0\\tau\\), and all initial kinetic energy becomes Joule heat.",
+      "磁体与回路之间的力是牛顿第三定律对：感应电流排斥靠近的磁体、吸引远离的磁体。 · The forces between a magnet and a loop form a Newton's-third-law pair: the induced current repels an approaching magnet and attracts a receding one.",
+      "图像题：\\(F_B\\)–\\(v\\) 是过原点的直线；\\(v\\)–\\(t\\) 从零按指数趋近 \\(v_t\\)；\\(a\\)–\\(t\\) 从最大值指数衰减到零。 · Graph problems: \\(F_B\\) versus \\(v\\) is a straight line through the origin; \\(v\\) versus \\(t\\) approaches \\(v_t\\) exponentially from zero; \\(a\\) versus \\(t\\) decays exponentially from its initial value to zero."
+    ],
+    "misconceptions": [
+      "认为整个回路都受磁力；实际上只有位于外部磁场内的线段受力，场区外线段不受力。 · Thinking the whole loop feels the magnetic force; in fact only segments inside the external field do, and segments outside feel none.",
+      "把磁力说成与磁通量成正比；磁力正比于感应电流，而电流正比于磁通量变化率。 · Saying the magnetic force is proportional to the flux; the force is proportional to the induced current, which is proportional to the rate of change of flux.",
+      "认为磁力总是做正功帮助回路运动；磁力阻碍相对运动，对回路做负功，机械能转化为焦耳热。 · Thinking the magnetic force always does positive work and helps the loop move; it opposes relative motion, does negative work on the loop, and converts mechanical energy into Joule heat.",
+      "认为终端速度与电阻无关；\\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) 正比于 \\(R\\)。 · Thinking the terminal speed is independent of resistance; \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) is proportional to \\(R\\).",
+      "认为净力为零就没有力矩；整个回路在匀强场中净力为零，但磁矩与磁场不平行时仍有磁力矩。 · Thinking zero net force means zero torque; a complete loop in a uniform field has zero net force but can still have a magnetic torque when its magnetic moment is not parallel to the field.",
+      "认为线框完全进入匀强场区后仍有感应电流；此时磁通量不变，\\(\\varepsilon=0\\)、\\(I=0\\)。 · Thinking a current still flows after the loop is fully inside a uniform field; the flux is then constant, so \\(\\varepsilon=0\\) and \\(I=0\\).",
+      "把 \\(F=BIL\\) 无条件用于任意方向；一般情况下 \\(F=BIL\\sin\\theta\\)，只有垂直时才等于 \\(BIL\\)。 · Applying \\(F=BIL\\) regardless of orientation; in general \\(F=BIL\\sin\\theta\\), and it equals \\(BIL\\) only when perpendicular.",
+      "认为磁体对回路有作用力而回路对磁体没有反作用力；两者是牛顿第三定律对，等大反向。 · Thinking the magnet acts on the loop but the loop does not act back on the magnet; the two forces are a Newton's-third-law pair, equal in magnitude and opposite in direction.",
+      "把磁场对单个运动电荷不做功与磁力对宏观回路做负功混为一谈；宏观能量转换来自动生电动势对电荷的作用。 · Confusing the fact that a magnetic field does no work on an individual moving charge with the negative work done on a macroscopic loop; the macroscopic energy conversion comes from the motional emf acting on the charges.",
+      "认为回路速度越大磁力越小；动生磁阻力随速度增大，\\(F_B\\propto v\\)。 · Thinking a faster loop feels a smaller magnetic force; the motional drag grows with speed, \\(F_B\\propto v\\)."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 进入场区：受力段、净力与转动 · Example 1: Entering a field — force-bearing segment, net force, and rotation",
+        "prompt": "边长 \\(L=0.20\\,\\mathrm{m}\\)、电阻 \\(R=0.10\\,\\Omega\\)、质量 \\(m=0.050\\,\\mathrm{kg}\\) 的正方形线框以 \\(v=3.0\\,\\mathrm{m/s}\\) 向右匀速进入宽磁场区，\\(B=0.50\\,\\mathrm{T}\\) 垂直纸面向里。(a) 求感应电流；(b) 求前边所受磁力；(c) 求净力与平动加速度；(d) 若前边力的作用线到质心距离 \\(d=0.050\\,\\mathrm{m}\\)，取 \\(I_{\\mathrm{rot}}=2.0\\times10^{-4}\\,\\mathrm{kg\\,m^{2}}\\)，求磁力矩与角加速度。 · A square loop of side \\(L=0.20\\,\\mathrm{m}\\), resistance \\(R=0.10\\,\\Omega\\), and mass \\(m=0.050\\,\\mathrm{kg}\\) enters a wide field region at \\(v=3.0\\,\\mathrm{m/s}\\) to the right; \\(B=0.50\\,\\mathrm{T}\\) is into the page. (a) Find the induced current; (b) find the force on the leading side; (c) find the net force and translational acceleration; (d) if the line of action of the leading-side force is a distance \\(d=0.050\\,\\mathrm{m}\\) from the center of mass, with \\(I_{\\mathrm{rot}}=2.0\\times10^{-4}\\,\\mathrm{kg\\,m^{2}}\\), find the magnetic torque and angular acceleration.",
+        "steps": [
+          "只有前边位于场区内，后边和两侧都在场区外；前边切割磁感线，磁通量向里增大。 · Only the leading side is inside the field; the trailing side and the two side segments are outside. The leading side cuts field lines, and the flux into the page increases.",
+          "动生电动势 \\(\\varepsilon=BLv=(0.50)(0.20)(3.0)=0.30\\,\\mathrm{V}\\)，感应电流 \\(I=\\dfrac{\\varepsilon}{R}=\\dfrac{0.30}{0.10}=3.0\\,\\mathrm{A}\\)；由楞次定律，电流逆时针，前边中电流向上。 · The motional emf is \\(\\varepsilon=BLv=(0.50)(0.20)(3.0)=0.30\\,\\mathrm{V}\\) and the induced current is \\(I=\\dfrac{\\varepsilon}{R}=\\dfrac{0.30}{0.10}=3.0\\,\\mathrm{A}\\); by Lenz's law the current is counterclockwise, so it is upward in the leading side.",
+          "前边所受磁力 \\(F=BIL=(0.50)(3.0)(0.20)=0.30\\,\\mathrm{N}\\)，由 \\(\\vec L\\times\\vec B\\) 得方向向左；其余三边在场区外，磁力为零，故净力为 \\(0.30\\,\\mathrm{N}\\) 向左。 · The force on the leading side is \\(F=BIL=(0.50)(3.0)(0.20)=0.30\\,\\mathrm{N}\\), directed left by \\(\\vec L\\times\\vec B\\); the other three sides are outside the field and feel zero force, so the net force is \\(0.30\\,\\mathrm{N}\\) to the left.",
+          "平动加速度 \\(a=\\dfrac{F_{\\mathrm{net}}}{m}=\\dfrac{0.30}{0.050}=6.0\\,\\mathrm{m/s^{2}}\\)，方向向左；若没有外力，线框减速。 · The translational acceleration is \\(a=\\dfrac{F_{\\mathrm{net}}}{m}=\\dfrac{0.30}{0.050}=6.0\\,\\mathrm{m/s^{2}}\\) to the left; without an external force the loop slows down.",
+          "若前边力的作用线到质心的距离 \\(d=0.050\\,\\mathrm{m}\\)，力矩 \\(\\tau=Fd=(0.30)(0.050)=0.015\\,\\mathrm{N\\,m}\\)；取 \\(I_{\\mathrm{rot}}=2.0\\times10^{-4}\\,\\mathrm{kg\\,m^{2}}\\)，角加速度 \\(\\alpha=\\dfrac{\\tau}{I_{\\mathrm{rot}}}=75\\,\\mathrm{rad/s^{2}}\\)。若作用线通过质心，则 \\(\\tau=0\\)，只有平动。 · If the line of action of the leading-side force is a distance \\(d=0.050\\,\\mathrm{m}\\) from the center of mass, the torque is \\(\\tau=Fd=(0.30)(0.050)=0.015\\,\\mathrm{N\\,m}\\); with \\(I_{\\mathrm{rot}}=2.0\\times10^{-4}\\,\\mathrm{kg\\,m^{2}}\\), the angular acceleration is \\(\\alpha=\\dfrac{\\tau}{I_{\\mathrm{rot}}}=75\\,\\mathrm{rad/s^{2}}\\). If the line of action passes through the center of mass, \\(\\tau=0\\) and the motion is purely translational."
+        ],
+        "solution": "\\(I=3.0\\,\\mathrm{A}\\)，\\(F=0.30\\,\\mathrm{N}\\) 向左，\\(a=6.0\\,\\mathrm{m/s^{2}}\\) 向左；偏移时 \\(\\tau=0.015\\,\\mathrm{N\\,m}\\)、\\(\\alpha=75\\,\\mathrm{rad/s^{2}}\\)。 · \\(I=3.0\\,\\mathrm{A}\\), \\(F=0.30\\,\\mathrm{N}\\) to the left, \\(a=6.0\\,\\mathrm{m/s^{2}}\\) to the left; with the offset, \\(\\tau=0.015\\,\\mathrm{N\\,m}\\) and \\(\\alpha=75\\,\\mathrm{rad/s^{2}}\\).",
+        "solutionLatex": "I=3.0\\,\\mathrm{A},\\quad F=0.30\\,\\mathrm{N},\\quad a=6.0\\,\\mathrm{m/s^{2}},\\quad \\tau=0.015\\,\\mathrm{N\\,m},\\quad \\alpha=75\\,\\mathrm{rad/s^{2}}"
+      },
+      {
+        "title": "例 2 · 下落线框的终端速度 · Example 2: Terminal speed of a falling loop",
+        "prompt": "质量 \\(m=0.010\\,\\mathrm{kg}\\) 的矩形线框从静止开始竖直下落，进入水平方向的匀强磁场区；线框前边水平且长 \\(L=0.10\\,\\mathrm{m}\\)，\\(B=1.0\\,\\mathrm{T}\\) 垂直纸面向里，回路总电阻 \\(R=0.20\\,\\Omega\\)，取 \\(g=9.8\\,\\mathrm{m/s^{2}}\\)。(a) 求终端速度；(b) 求时间常数；(c) 求 \\(t=\\tau\\) 时的速度；(d) 线框完全进入场区后如何运动？ · A rectangular loop of mass \\(m=0.010\\,\\mathrm{kg}\\) falls from rest into a horizontal uniform field region; its leading side is horizontal and has length \\(L=0.10\\,\\mathrm{m}\\), \\(B=1.0\\,\\mathrm{T}\\) is into the page, the loop resistance is \\(R=0.20\\,\\Omega\\), and \\(g=9.8\\,\\mathrm{m/s^{2}}\\). (a) Find the terminal speed; (b) find the time constant; (c) find the speed at \\(t=\\tau\\); (d) how does the loop move after it is fully inside?",
+        "steps": [
+          "进入过程中只有前边切割磁感线，\\(\\varepsilon=BLv\\)，\\(I=\\dfrac{BLv}{R}\\)；磁力 \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\) 向上，阻碍下落。 · While entering, only the leading side cuts field lines: \\(\\varepsilon=BLv\\) and \\(I=\\dfrac{BLv}{R}\\); the magnetic force \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\) points upward and opposes the fall.",
+          "终端速度时 \\(mg=F_B\\)，故 \\(v_t=\\dfrac{mgR}{B^{2}L^{2}}=\\dfrac{(0.010)(9.8)(0.20)}{(1.0)^{2}(0.10)^{2}}=1.96\\,\\mathrm{m/s}\\)。 · At terminal speed \\(mg=F_B\\), so \\(v_t=\\dfrac{mgR}{B^{2}L^{2}}=\\dfrac{(0.010)(9.8)(0.20)}{(1.0)^{2}(0.10)^{2}}=1.96\\,\\mathrm{m/s}\\).",
+          "时间常数 \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}=\\dfrac{(0.010)(0.20)}{(1.0)^{2}(0.10)^{2}}=0.20\\,\\mathrm{s}\\)。 · The time constant is \\(\\tau=\\dfrac{mR}{B^{2}L^{2}}=\\dfrac{(0.010)(0.20)}{(1.0)^{2}(0.10)^{2}}=0.20\\,\\mathrm{s}\\).",
+          "\\(v(\\tau)=v_t\\left(1-\\exp(-1)\\right)=0.632(1.96)=1.24\\,\\mathrm{m/s}\\)。 · \\(v(\\tau)=v_t\\left(1-\\exp(-1)\\right)=0.632(1.96)=1.24\\,\\mathrm{m/s}\\).",
+          "完全进入匀强场区后磁通量不变，\\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)，线框只受重力，以 \\(g\\) 加速；离开场区时后边受力，磁阻力再次向上。 · Once fully inside the uniform field, the flux is constant, so \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\); the loop then accelerates at \\(g\\) under gravity alone. While leaving, the trailing side feels an upward magnetic drag again."
+        ],
+        "solution": "\\(v_t=1.96\\,\\mathrm{m/s}\\)，\\(\\tau=0.20\\,\\mathrm{s}\\)，\\(v(\\tau)=1.24\\,\\mathrm{m/s}\\)；完全进入后以 \\(g\\) 自由加速，离开时再次受磁阻力。 · \\(v_t=1.96\\,\\mathrm{m/s}\\), \\(\\tau=0.20\\,\\mathrm{s}\\), and \\(v(\\tau)=1.24\\,\\mathrm{m/s}\\); once fully inside it accelerates freely at \\(g\\), and the drag returns while leaving.",
+        "solutionLatex": "v_t=1.96\\,\\mathrm{m/s},\\quad \\tau=0.20\\,\\mathrm{s},\\quad v(\\tau)=1.24\\,\\mathrm{m/s}"
+      },
+      {
+        "title": "例 3 · 完全在场内：净力为零但有磁力矩 · Example 3: Fully inside — zero net force but nonzero magnetic torque",
+        "prompt": "边长 \\(a=0.10\\,\\mathrm{m}\\) 的正方形回路，电阻 \\(R=0.20\\,\\Omega\\)，完全处于匀强磁场 \\(B=0.40\\,\\mathrm{T}\\) 中，\\(B\\) 以 \\(\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}=2.0\\,\\mathrm{T/s}\\) 增大；回路法线与 \\(\\vec B\\) 的夹角为 \\(30^{\\circ}\\)。(a) 求感应电流；(b) 求净磁力；(c) 求磁矩；(d) 求磁力矩。 · A square loop of side \\(a=0.10\\,\\mathrm{m}\\) and resistance \\(R=0.20\\,\\Omega\\) lies entirely in a uniform field \\(B=0.40\\,\\mathrm{T}\\) that increases at \\(\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}=2.0\\,\\mathrm{T/s}\\); the loop normal makes an angle of \\(30^{\\circ}\\) with \\(\\vec B\\). (a) Find the induced current; (b) find the net magnetic force; (c) find the magnetic moment; (d) find the magnetic torque.",
+        "steps": [
+          "面积 \\(A=a^{2}=0.010\\,\\mathrm{m^{2}}\\)，磁通量 \\(\\Phi_B=BA\\cos\\theta\\)，故 \\(\\varepsilon=A\\cos\\theta\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}=(0.010)(0.866)(2.0)=0.0173\\,\\mathrm{V}\\)，\\(I=\\dfrac{\\varepsilon}{R}=0.0866\\,\\mathrm{A}\\)。 · The area is \\(A=a^{2}=0.010\\,\\mathrm{m^{2}}\\) and the flux is \\(\\Phi_B=BA\\cos\\theta\\), so \\(\\varepsilon=A\\cos\\theta\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}=(0.010)(0.866)(2.0)=0.0173\\,\\mathrm{V}\\) and \\(I=\\dfrac{\\varepsilon}{R}=0.0866\\,\\mathrm{A}\\).",
+          "整个回路都在匀强磁场中，四条边的磁力两两抵消，矢量和为零，故净力为零，质心没有平动加速度。 · The whole loop is in a uniform field, so the forces on opposite sides cancel in pairs and the vector sum is zero; the net force is zero and the center of mass has no translational acceleration.",
+          "磁矩 \\(\\mu=IA=(0.0866)(0.010)=8.66\\times10^{-4}\\,\\mathrm{A\\,m^{2}}\\)，方向沿回路法线，由右手定则确定。 · The magnetic moment is \\(\\mu=IA=(0.0866)(0.010)=8.66\\times10^{-4}\\,\\mathrm{A\\,m^{2}}\\), along the loop normal given by the right-hand rule.",
+          "磁力矩 \\(\\tau=\\mu B\\sin\\theta=(8.66\\times10^{-4})(0.40)(0.500)=1.73\\times10^{-4}\\,\\mathrm{N\\,m}\\)，方向由 \\(\\vec\\mu\\times\\vec B\\) 确定。 · The magnetic torque is \\(\\tau=\\mu B\\sin\\theta=(8.66\\times10^{-4})(0.40)(0.500)=1.73\\times10^{-4}\\,\\mathrm{N\\,m}\\), with direction from \\(\\vec\\mu\\times\\vec B\\).",
+          "若回路可自由转动，该力矩会使回路转动；转动又改变磁通量并产生新的感应电流，因此完整运动是电磁—力学耦合问题。 · If the loop is free to rotate, this torque turns it; the rotation changes the flux and induces an additional current, so the full motion is a coupled electromagnetic–mechanical problem."
+        ],
+        "solution": "\\(I=0.087\\,\\mathrm{A}\\)，\\(F_{\\mathrm{net}}=0\\)，\\(\\mu=8.7\\times10^{-4}\\,\\mathrm{A\\,m^{2}}\\)，\\(\\tau=1.7\\times10^{-4}\\,\\mathrm{N\\,m}\\)。 · \\(I=0.087\\,\\mathrm{A}\\), \\(F_{\\mathrm{net}}=0\\), \\(\\mu=8.7\\times10^{-4}\\,\\mathrm{A\\,m^{2}}\\), and \\(\\tau=1.7\\times10^{-4}\\,\\mathrm{N\\,m}\\).",
+        "solutionLatex": "I=0.087\\,\\mathrm{A},\\quad F_{\\mathrm{net}}=0,\\quad \\mu=8.7\\times10^{-4}\\,\\mathrm{A\\,m^{2}},\\quad \\tau=1.7\\times10^{-4}\\,\\mathrm{N\\,m}"
+      },
+      {
+        "title": "例 4 · 主张—证据—推理：磁体与回路的作用力 · Example 4: Claim–evidence–reasoning — forces between magnet and loop",
+        "prompt": "一名学生说：“感应电流只存在于回路中，所以磁体不受力，只有回路被推动。”请用楞次定律、牛顿第三定律与能量守恒评价这一说法。 · A student says: 'The induced current exists only in the loop, so the magnet feels no force; only the loop is pushed.' Evaluate this claim using Lenz's law, Newton's third law, and energy conservation.",
+        "steps": [
+          "主张：磁体不受力，只有回路受到磁力。 · Claim: the magnet feels no force; only the loop feels a magnetic force.",
+          "证据：磁体靠近回路时，穿过回路的磁通量增大；感应电流的磁场阻碍这一增大，使回路靠近磁体的一面与磁体同极，因而排斥磁体。 · Evidence: as the magnet approaches the loop, the flux through the loop increases; the induced current's field opposes the increase, so the loop face nearest the magnet has the same polarity as the magnet and repels it.",
+          "推理：磁体对回路施加磁力，回路对磁体施加等大反向的力，二者是牛顿第三定律对；若磁体远离，感应电流的磁场阻碍减小，回路吸引磁体，回路也受到指向磁体的力。 · Reasoning: the magnet exerts a magnetic force on the loop, and the loop exerts an equal and opposite force on the magnet; the two are a Newton's-third-law pair. If the magnet recedes, the induced field opposes the decrease, the loop attracts the magnet, and the loop feels a force toward the magnet.",
+          "能量：克服这一对力做功，机械能转化为电阻中的焦耳热；若磁体不受力，能量守恒将被破坏。 · Energy: work done against this force pair converts mechanical energy into Joule heat in the resistor; if the magnet felt no force, energy conservation would be violated.",
+          "结论：说法错误；磁体与回路都受力，且力总是阻碍二者之间的相对运动。 · Conclusion: the claim is false; both the magnet and the loop feel forces, and the forces always oppose their relative motion."
+        ],
+        "solution": "磁体与回路之间的力是牛顿第三定律对，等大反向；感应电流排斥靠近的磁体、吸引远离的磁体，机械能转化为焦耳热。 · The forces between magnet and loop are a Newton's-third-law pair, equal and opposite; the induced current repels an approaching magnet and attracts a receding one, and mechanical energy becomes Joule heat.",
+        "solutionLatex": "\\vec F_{\\text{loop on magnet}}=-\\vec F_{\\text{magnet on loop}}"
+      },
+      {
+        "title": "例 5 · 穿越有限场区：三阶段运动图像 · Example 5: Crossing a finite field region — three-stage motion",
+        "prompt": "矩形线框在恒定外力 \\(F_{\\mathrm{app}}\\) 作用下穿过一个宽度大于线框的有限恒定匀强磁场区。设初速度足够大，线框能进入场区。描述线框进入、完全处于、离开场区三个阶段的受力段、净力、加速度与速度图像。 · A rectangular loop is pulled by a constant force \\(F_{\\mathrm{app}}\\) through a finite uniform steady field region wider than the loop. Assume the initial speed is large enough for the loop to enter. Describe the force-bearing segments, net force, acceleration, and velocity graph in the three stages: entering, fully inside, and leaving.",
+        "steps": [
+          "进入阶段：只有前边在场内，磁通量增大，感应电流产生；磁阻力 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\) 向后，\\(F_{\\mathrm{net}}=F_{\\mathrm{app}}-F_B\\)。若 \\(F_B>F_{\\mathrm{app}}\\)，线框减速；若相等，匀速；若 \\(F_B<F_{\\mathrm{app}}\\)，线框加速。 · Entering stage: only the leading side is inside, the flux increases, and an induced current appears; the drag \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\) points backward and \\(F_{\\mathrm{net}}=F_{\\mathrm{app}}-F_B\\). The loop slows if \\(F_B>F_{\\mathrm{app}}\\), moves at constant speed if they are equal, and speeds up if \\(F_B<F_{\\mathrm{app}}\\).",
+          "完全处于阶段：恒定场中磁通量不变，\\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)；净力等于 \\(F_{\\mathrm{app}}\\)，线框沿外力方向加速。 · Fully inside stage: in the steady field the flux is constant, so \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\); the net force equals \\(F_{\\mathrm{app}}\\), and the loop accelerates along the applied force.",
+          "离开阶段：只有后边在场内，磁通量减小，感应电流反向；但后边受力仍向后，\\(F_B\\) 仍阻碍运动，加速度由 \\(F_{\\mathrm{app}}-F_B\\) 决定：\\(F_B>F_{\\mathrm{app}}\\) 时减速，\\(F_B<F_{\\mathrm{app}}\\) 时加速。 · Leaving stage: only the trailing side is inside, the flux decreases, and the induced current reverses; however, the force on the trailing side still points backward, so \\(F_B\\) still opposes the motion, and the acceleration is set by \\(F_{\\mathrm{app}}-F_B\\): the loop slows when \\(F_B>F_{\\mathrm{app}}\\) and speeds up when \\(F_B<F_{\\mathrm{app}}\\).",
+          "速度图像：斜率等于 \\(\\dfrac{F_{\\mathrm{app}}-F_B}{m}\\)；进入和离开阶段由 \\(F_B\\) 与 \\(F_{\\mathrm{app}}\\) 的大小决定斜率的正负，完全处于阶段斜率为正；\\(a\\)–\\(t\\) 在边界处跳变。若撤去外力，线框可能在进入阶段就停下，磁阻力随之消失。 · Velocity graph: the slope equals \\(\\dfrac{F_{\\mathrm{app}}-F_B}{m}\\); while entering and leaving, the sign of the slope is set by the relative sizes of \\(F_B\\) and \\(F_{\\mathrm{app}}\\), and while fully inside the slope is positive; \\(a\\) versus \\(t\\) jumps at the boundaries. If the applied force is removed, the loop may stop during entry, and the drag then vanishes.",
+          "受力段随阶段切换：前边 → 无 → 后边；这正是“只对场区内线段求磁力”的直接应用。 · The force-bearing segment switches with stage: leading side → none → trailing side; this is a direct application of 'compute magnetic forces only on in-field segments'."
+        ],
+        "solution": "进入：前边受力，磁阻力向后；完全处于：无感应电流、无磁力，外力使线框加速；离开：后边受力，磁阻力仍向后。速度图像的斜率在进入和离开时由 \\(F_{\\mathrm{app}}\\) 与 \\(F_B\\) 的大小决定，完全处于时为正；若 \\(F_B>F_{\\mathrm{app}}\\)，则先减、再增、再减。 · Entering: the leading side feels a backward drag; fully inside: no induced current and no magnetic force, so the applied force accelerates the loop; leaving: the trailing side feels a backward drag. The slope of the speed graph while entering and leaving is set by the relative sizes of \\(F_{\\mathrm{app}}\\) and \\(F_B\\), and is positive while fully inside; if \\(F_B>F_{\\mathrm{app}}\\), the speed decreases, then increases, then decreases.",
+        "solutionLatex": "F_B=\\dfrac{B^{2}L^{2}v}{R}\\ \\text{(entering or leaving)},\\qquad F_B=0\\ \\text{(fully inside)}"
+      }
+    ],
+    "examTips": [
+      "先画场区边界并标出受力段；不要对场区外线段使用 \\(F=BIL\\)。 · First draw the field boundary and mark the force-bearing segments; do not apply \\(F=BIL\\) to segments outside the field.",
+      "用右手定则判断 \\(\\vec L\\times\\vec B\\)，并检查磁力是否阻碍相对运动；若磁力帮助运动，方向判断有误。 · Use the right-hand rule for \\(\\vec L\\times\\vec B\\) and check that the force opposes relative motion; if it helps the motion, the direction is wrong.",
+      "净力与力矩分开算：净力决定质心平动，力矩决定绕质心或转轴的转动；净力为零时仍可能有转矩。 · Compute net force and torque separately: net force controls translation of the center of mass, torque controls rotation about the center of mass or pivot; zero net force can still allow a torque.",
+      "运动题先写牛顿第二定律的符号式，再代入 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)；终端速度令 \\(a=0\\)。 · For motion problems, first write Newton's second law symbolically, then substitute \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\); set \\(a=0\\) for terminal speed.",
+      "区分动生电动势 \\(\\varepsilon=BLv\\) 与感生电动势 \\(\\varepsilon=A\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\cos\\theta\\)；前者依赖速度，后者不依赖速度。 · Distinguish motional emf \\(\\varepsilon=BLv\\) from transformer emf \\(\\varepsilon=A\\dfrac{\\mathrm{d}B}{\\mathrm{d}t}\\cos\\theta\\); the former depends on speed, the latter does not.",
+      "能量检查：\\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v\\) 与 \\(I^{2}R\\) 比较；匀速时相等，变速时差值等于动能变化率。 · Energy check: compare \\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v\\) with \\(I^{2}R\\); they are equal at constant speed, and the difference equals the rate of change of kinetic energy when speed changes.",
+      "完全进入匀强场区后立即判断 \\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)，不要继续套用滑棒公式。 · Once fully inside a uniform field, immediately conclude \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\); do not keep applying the sliding-bar formula.",
+      "注意单位换算与有效数字；力矩单位是 \\(\\mathrm{N\\,m}\\)，角加速度单位是 \\(\\mathrm{rad/s^{2}}\\)。 · Watch unit conversions and significant figures; torque is in \\(\\mathrm{N\\,m}\\) and angular acceleration in \\(\\mathrm{rad/s^{2}}\\)."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u13",
+        "code": "13.2",
+        "title": "电磁感应 · Electromagnetic Induction",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u13",
+        "code": "13.3",
+        "title": "感应电流与磁力 · Induced Currents and Magnetic Forces",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u13",
+        "code": "13.4",
+        "title": "电感 · Inductance",
+        "relation": "后续 · next"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.2",
+        "title": "运动电荷与磁场 · Moving Charges and Magnetic Fields",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.5",
+        "title": "磁偶极与磁性材料 · Magnetic Dipoles and Magnetic Materials",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [
+      {
+        "id": "faraday-induction",
+        "title": "法拉第电磁感应 · Faraday electromagnetic induction"
+      }
+    ],
+    "practiceHref": "#/em/practice/em-u13",
+    "connections": [
+      "上游：13.1 磁通量与 13.2 法拉第定律、楞次定律给出感应电动势的大小与方向；13.3 的滑棒与进出场区模型给出动生电动势和磁阻力的基本公式；12.2 的洛伦兹力解释动生电动势的微观来源。 · Upstream: 13.1 magnetic flux and 13.2 Faraday's and Lenz's laws give the magnitude and direction of the induced emf; the sliding-bar and entering/leaving models in 13.3 give the basic motional-emf and drag formulas; the Lorentz force from 12.2 explains the microscopic origin of motional emf.",
+      "数学：矢量叉积 \\(\\vec L\\times\\vec B\\)、力矩 \\(\\vec r\\times\\vec F\\)、一阶线性微分方程与指数函数；图像题要把 \\(F_B\\)–\\(v\\) 的斜率、\\(v\\)–\\(t\\) 的渐近线和 \\(a\\)–\\(t\\) 的衰减对应到物理量。 · Mathematics: vector cross products \\(\\vec L\\times\\vec B\\), torques \\(\\vec r\\times\\vec F\\), first-order linear differential equations, and exponential functions; graph problems require matching the slope of \\(F_B\\)–\\(v\\), the asymptote of \\(v\\)–\\(t\\), and the decay of \\(a\\)–\\(t\\) to physical quantities.",
+      "下游：13.4 电感与 13.5 RL 电路把“变化电流产生感应电动势”推广到自感；发电机、电动机、电磁制动与磁悬浮都利用感应回路的受力与运动。 · Downstream: 13.4 inductance and 13.5 RL circuits extend 'a changing current produces an induced emf' to self-induction; generators, motors, electromagnetic braking, and maglev all use the forces and motion of induced-current loops.",
+      "跨学科：电磁制动、再生制动、感应电动机、涡流制动、金属探测器与磁悬浮列车都依赖感应电流所受的磁力或磁阻力；设计时要同时考虑制动力、发热与运动稳定性。 · Cross-disciplinary: electromagnetic braking, regenerative braking, induction motors, eddy-current brakes, metal detectors, and maglev trains all rely on the magnetic force or drag on induced currents; design must balance braking force, heating, and motion stability."
+    ],
+    "intuitionDetailed": "先看一个矩形线框进入有限匀强磁场区。场区边界清晰，线框只有前边在场内；前边切割磁感线，穿过线框的磁通量增加，感应电流由楞次定律确定。只有前边位于场内，所以只有前边受 \\(\\vec F=I\\vec L\\times\\vec B\\)；后边和两侧都在场外，磁力为零。前边所受磁力向后；若没有外力或外力小于磁阻力，净力向后，线框做减速平动。若前边力的作用线不通过质心，这个力还产生力矩，使线框转动；若通过质心，则只有平动。线框完全进入匀强恒定场区后，磁通量不变，感应电流消失，所有磁力为零，线框在外力作用下加速。离开场区时，只有后边在场内，磁通量减小，感应电流反向；虽然后边电流方向与前边进入时相反，但 \\(\\vec L\\times\\vec B\\) 仍给出向后的力，所以磁力还是阻力。再看滑棒：棒在导轨上以速度 \\(v\\) 运动，动生电动势 \\(\\varepsilon=BLv\\)，感应电流 \\(I=\\dfrac{BLv}{R}\\)，磁阻力 \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\)。速度越大，磁阻力越大；恒定外力下，加速度 \\(a=\\dfrac{F_{\\mathrm{app}}-F_B}{m}\\) 随速度增大而减小，速度按 \\(v(t)=v_t\\left(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\right)\\) 趋近终端速度 \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)。撤去外力后，\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^{2}L^{2}v}{R}\\)，速度按 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 衰减，初动能全部变成焦耳热。最后看转动：把线框看成刚性回路，各受力段对质心或转轴的力矩之和为 \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\)，角加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)。整个回路在匀强场中时净力为零，但磁矩 \\(\\vec\\mu=I\\vec A\\) 与 \\(\\vec B\\) 不平行时仍有 \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\)，回路会转动。磁体与回路之间的力则成牛顿第三定律对：磁体靠近时感应电流排斥它，磁体远离时感应电流吸引它；回路受到等大反向的力，机械功与焦耳热之间的能量守恒由此得到保证。 · First consider a rectangular loop entering a finite uniform field region. The boundary is sharp and only the leading side is inside; the leading side cuts field lines, the flux through the loop increases, and Lenz's law sets the induced current. Only the leading side is inside, so only it feels \\(\\vec F=I\\vec L\\times\\vec B\\); the trailing side and the two side segments are outside and feel zero magnetic force. The force on the leading side points backward; if there is no applied force or the applied force is smaller than the drag, the net force is backward and the loop decelerates in translation. If the line of action of this force does not pass through the center of mass, it also produces a torque and the loop rotates; if it passes through the center of mass, the motion is purely translational. Once the loop is fully inside the uniform steady field, the flux is constant, the induced current disappears, all magnetic forces vanish, and the loop accelerates under the applied force. While leaving, only the trailing side is inside, the flux decreases, and the induced current reverses; although the current direction is opposite to that during entry, \\(\\vec L\\times\\vec B\\) still gives a backward force, so the magnetic force remains a drag. Now consider a sliding bar: the bar moves on rails at speed \\(v\\), the motional emf is \\(\\varepsilon=BLv\\), the induced current is \\(I=\\dfrac{BLv}{R}\\), and the magnetic drag is \\(F_B=BIL=\\dfrac{B^{2}L^{2}v}{R}\\). The faster the bar, the larger the drag; under a constant applied force, the acceleration \\(a=\\dfrac{F_{\\mathrm{app}}-F_B}{m}\\) decreases as the speed grows, and the speed approaches the terminal value \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\) according to \\(v(t)=v_t\\left(1-\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\right)\\). After the applied force is removed, \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^{2}L^{2}v}{R}\\), the speed decays as \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\), and all the initial kinetic energy becomes Joule heat. Finally consider rotation: treat the loop as a rigid circuit; the torques of the force-bearing segments about the center of mass or a pivot sum to \\(\\vec\\tau=\\sum_i\\vec r_i\\times\\vec F_i\\), and the angular acceleration is \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\). For a complete loop in a uniform field the net force is zero, but when the magnetic moment \\(\\vec\\mu=I\\vec A\\) is not parallel to \\(\\vec B\\), there is still a magnetic torque \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\), and the loop rotates. The forces between a magnet and a loop form a Newton's-third-law pair: the induced current repels an approaching magnet and attracts a receding one, and the loop feels an equal and opposite force, which guarantees energy conservation between mechanical work and Joule heat.",
+    "development": [
+      "回顾 13.1 的磁通量、13.2 的法拉第定律与楞次定律、13.3 的动生电动势与磁阻力，明确“先判断磁通量是否变化”的起点。 · Review magnetic flux from 13.1, Faraday's and Lenz's laws from 13.2, and motional emf and magnetic drag from 13.3; start by deciding whether the flux changes.",
+      "画出场区边界，逐段标出哪些导线在场内、哪些在场外；只对场内线段写 \\(\\vec F=I\\vec L\\times\\vec B\\)。 · Draw the field boundary and mark which wire segments are inside and which are outside; write \\(\\vec F=I\\vec L\\times\\vec B\\) only for in-field segments.",
+      "求各段磁力的矢量和，得到净力与平动加速度 \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\)；判断净力与速度同向还是反向。 · Sum the segment forces vectorially to obtain the net force and translational acceleration \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\); decide whether the net force is along or opposite to the velocity.",
+      "求各力对质心或转轴的力矩之和，得到磁力矩与角加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)；整个回路在匀强场中可用 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)。 · Sum the torques about the center of mass or pivot to obtain the magnetic torque and angular acceleration \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\); for a complete loop in a uniform field use \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\).",
+      "写牛顿第二定律 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)，解出 \\(v(t)\\)、终端速度 \\(v_t\\) 与时间常数 \\(\\tau\\)；无外力时用指数衰减与停止距离。 · Write Newton's second law \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\), solve for \\(v(t)\\), the terminal speed \\(v_t\\), and the time constant \\(\\tau\\); when no external force acts, use exponential decay and stopping distance.",
+      "做能量与牛顿第三定律检查：\\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v=I^{2}R+\\dfrac{\\mathrm{d}K}{\\mathrm{d}t}\\)；磁体与回路的力等大反向，感应电流排斥靠近、吸引远离。 · Check energy and Newton's third law: \\(P_{\\mathrm{mech}}=F_{\\mathrm{app}}v=I^{2}R+\\dfrac{\\mathrm{d}K}{\\mathrm{d}t}\\); the forces between magnet and loop are equal and opposite, and the induced current repels an approaching magnet and attracts a receding one."
+    ],
+    "checks": [
+      "线框进入、完全处于、离开场区时，哪些线段受力？各阶段磁力方向如何？ · Which segments feel forces while a loop enters, is fully inside, and leaves a field region? What is the force direction in each stage?",
+      "为什么整个回路在匀强场中净力为零？净力为零是否意味着磁力矩为零？ · Why is the net force zero for a complete loop in a uniform field? Does zero net force imply zero magnetic torque?",
+      "从 \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) 出发，说明 \\(F_B\\propto I\\) 且 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)；若 \\(R\\) 加倍，\\(F_B\\) 与 \\(v_t\\) 如何变化？ · Starting from \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\), show that \\(F_B\\propto I\\) and \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\); if \\(R\\) doubles, how do \\(F_B\\) and \\(v_t\\) change?",
+      "线框完全处于匀强静态磁场中时，感应电流、磁力、磁力矩各是多少？若磁场随时间增大，哪些量会变？ · When a loop is fully inside a uniform static field, what are the induced current, magnetic force, and magnetic torque? If the field increases with time, which quantities change?",
+      "写出滑棒或进入场区线框的牛顿第二定律，求 \\(v_t\\) 与 \\(\\tau\\)；撤去外力后速度如何随时间变化？ · Write Newton's second law for a sliding bar or a loop entering a field region, find \\(v_t\\) and \\(\\tau\\), and describe how the speed changes after the applied force is removed.",
+      "无外力时滑棒的初动能去了哪里？如何由 \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\) 求停止距离？ · Where does the initial kinetic energy of a sliding bar go when no external force acts? How do you find the stopping distance from \\(v=v_0\\exp\\left(-\\dfrac{t}{\\tau}\\right)\\)?",
+      "磁体靠近或远离回路时，回路和磁体各受什么方向的力？用牛顿第三定律与能量守恒说明。 · When a magnet approaches or recedes from a loop, what are the force directions on the loop and on the magnet? Explain with Newton's third law and energy conservation.",
+      "画出线框穿越有限场区的 \\(v\\)–\\(t\\) 与 \\(a\\)–\\(t\\) 图像，标出三个阶段的受力段。 · Sketch \\(v\\)–\\(t\\) and \\(a\\)–\\(t\\) for a loop crossing a finite field region, and label the force-bearing segment in each stage.",
+      "若把 \\(F_B\\) 对 \\(v\\) 作图，图像是什么形状？斜率由哪些量决定？ · If you plot \\(F_B\\) versus \\(v\\), what shape is the graph? Which quantities set its slope?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "受力段",
+        "termEn": "force-bearing segment",
+        "defZh": "回路中位于外部磁场内、因而受到磁力 \\(\\vec F=I\\vec L\\times\\vec B\\) 的导线部分；场区外线段不受磁力。",
+        "defEn": "The part of a loop that lies inside the external magnetic field and therefore feels the magnetic force \\(\\vec F=I\\vec L\\times\\vec B\\); segments outside the field feel no magnetic force."
+      },
+      {
+        "termZh": "磁阻力",
+        "termEn": "magnetic drag",
+        "defZh": "磁场对感应电流的作用力中阻碍回路相对运动的分量；滑棒或进入、离开场区时为 \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\)，方向与速度相反。",
+        "defEn": "The component of the magnetic force on the induced current that opposes the loop's relative motion; for a sliding bar or a loop entering/leaving a field region, \\(F_B=\\dfrac{B^{2}L^{2}v}{R}\\) opposite to the velocity."
+      },
+      {
+        "termZh": "终端速度",
+        "termEn": "terminal speed",
+        "defZh": "在恒定外力（或重力）与速度依赖的磁阻力平衡时达到的稳定速度；\\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)。",
+        "defEn": "The steady speed reached when a constant applied force (or gravity) balances the speed-dependent magnetic drag; \\(v_t=\\dfrac{F_{\\mathrm{app}}R}{B^{2}L^{2}}\\)."
+      },
+      {
+        "termZh": "磁力矩",
+        "termEn": "magnetic torque",
+        "defZh": "磁场对载流回路各段磁力的力矩之和；匀强场中整个回路 \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\)，大小 \\(\\tau=\\mu B\\sin\\theta\\)。",
+        "defEn": "The sum of the torques of the magnetic forces on the current-carrying segments of a loop; for a complete loop in a uniform field, \\(\\vec\\tau_{\\mathrm{mag}}=\\vec\\mu\\times\\vec B\\), with magnitude \\(\\tau=\\mu B\\sin\\theta\\)."
+      },
+      {
+        "termZh": "磁矩",
+        "termEn": "magnetic moment",
+        "defZh": "描述载流回路磁性的矢量 \\(\\vec\\mu=I\\vec A\\)，方向由右手定则沿回路法线；\\(N\\) 匝时为 \\(\\mu=NIA\\)。",
+        "defEn": "The vector \\(\\vec\\mu=I\\vec A\\) describing the magnetism of a current loop, directed along the loop normal by the right-hand rule; for \\(N\\) turns, \\(\\mu=NIA\\)."
+      },
+      {
+        "termZh": "平动加速度",
+        "termEn": "translational acceleration",
+        "defZh": "回路质心的加速度 \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\)，由各受力段磁力的矢量和决定。",
+        "defEn": "The acceleration of the loop's center of mass, \\(\\vec a=\\dfrac{\\vec F_{\\mathrm{net}}}{m}\\), set by the vector sum of the magnetic forces on the force-bearing segments."
+      },
+      {
+        "termZh": "转动加速度",
+        "termEn": "rotational acceleration",
+        "defZh": "回路绕质心或转轴的角加速度 \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\)，由磁力矩和转动惯量决定。",
+        "defEn": "The angular acceleration of the loop about its center of mass or pivot, \\(\\vec\\alpha=\\dfrac{\\vec\\tau}{I_{\\mathrm{rot}}}\\), set by the magnetic torque and the moment of inertia."
+      },
+      {
+        "termZh": "牛顿第二定律",
+        "termEn": "Newton's second law",
+        "defZh": "对回路（或滑棒）\\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=\\sum F\\)；在磁阻力情形写成 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)。",
+        "defEn": "For a loop (or sliding bar), \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=\\sum F\\); with magnetic drag this becomes \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=F_{\\mathrm{app}}-\\dfrac{B^{2}L^{2}v}{R}\\)."
+      }
+    ]
   }
 };
