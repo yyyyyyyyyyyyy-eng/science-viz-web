@@ -968,11 +968,12 @@ export const TOPICS = {
     "titleZh": "电荷性质与电荷守恒",
     "titleEn": "Properties and Conservation of Charge",
     "layer": "ap",
-    "summary": "电荷是物质的一种基本属性：一切物质由带正电的质子、带负电的电子和中性粒子组成，电荷不是外加的「流体」，而是粒子本身的属性。电荷只有正、负两种，同种相斥、异种相吸；中性物体只是正负电荷代数和为零。电荷量量子化为 \\(q=ne\\)，孤立系统的总电荷守恒，摩擦起电、接触起电和感应起电都只是电荷的转移或重新分布。两个带电体之间的电力由库仑定律描述，其大小与电荷量乘积成正比、与距离平方成反比，因此可用比例推理预测电荷或距离改变后的新力值。 · Electric charge is a fundamental property of matter: all matter is made of positively charged protons and negatively charged electrons, and charge is not an added “fluid” but a property of the particles themselves. Charge comes in only two signs; like charges repel and opposite charges attract, and a neutral object simply has zero algebraic sum of positive and negative charge. Charge is quantized as \\(q=ne\\), and the total charge of an isolated system is conserved: charging by friction, contact, or induction only transfers or redistributes charge. The electric force between two charged objects is described by Coulomb's law, proportional to the product of the charges and inversely proportional to the square of the distance, so proportional reasoning predicts the new force when charges or separation change.",
+    "summary": "电荷是物质的一种基本属性：一切物质由带正电的质子、带负电的电子和中性粒子组成，电荷不是外加的「流体」，而是粒子本身的属性。电荷只有正、负两种，同种相斥、异种相吸；中性物体只是正负电荷代数和为零。电荷量量子化为 \\(q=ne\\)，孤立系统的总电荷守恒，摩擦起电、接触起电和感应起电都只是电荷的转移或重新分布；系统的净电荷只有在电荷跨过系统边界时才会改变，而其他带电体的存在可使系统内电荷重新分布，甚至在中性系统中发生感应分离。两个带电体之间的电力由库仑定律描述，其大小与电荷量乘积成正比、与距离平方成反比，因此可用比例推理预测电荷或距离改变后的新力值。 · Electric charge is a fundamental property of matter: all matter is made of positively charged protons and negatively charged electrons, and charge is not an added “fluid” but a property of the particles themselves. Charge comes in only two signs; like charges repel and opposite charges attract, and a neutral object simply has zero algebraic sum of positive and negative charge. Charge is quantized as \\(q=ne\\), and the total charge of an isolated system is conserved: charging by friction, contact, or induction only transfers or redistributes charge. A system's net charge changes only when charge crosses its boundary, while the presence of another charged system can redistribute charge within it, producing induced charge separation even in a neutral system. The electric force between two charged objects is described by Coulomb's law, proportional to the product of the charges and inversely proportional to the square of the distance, so proportional reasoning predicts the new force when charges or separation change.",
     "learningObjectives": [
       "能说明电荷是物质的基本属性，区分「带电」与「中性」，并解释中性物体内部仍有大量正负电荷。 · Explain that charge is a fundamental property of matter, distinguish “charged” from “neutral,” and explain that a neutral object still contains enormous positive and negative charge.",
       "能用 \\(q=ne\\) 计算元电荷数，并用电荷守恒分析摩擦起电、接触起电、感应起电和粒子反应中的电荷转移。 · Use \\(q=ne\\) to count elementary charges and apply conservation of charge to friction, contact, induction, and particle reactions.",
-      "能用库仑定律 \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) 及比例关系预测电荷量或距离改变时电力的大小与方向变化，并说明电力是带电体之间的相互作用。 · Use Coulomb's law \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) and ratio reasoning to predict changes in magnitude and direction when charges or separation change, and explain that the electric force is an interaction between charged objects."
+      "能用库仑定律 \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) 及比例关系预测电荷量或距离改变时电力的大小与方向变化，并说明电力是带电体之间的相互作用。 · Use Coulomb's law \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) and ratio reasoning to predict changes in magnitude and direction when charges or separation change, and explain that the electric force is an interaction between charged objects.",
+      "能区分导体与绝缘体的起电机制，并用系统边界说明净电荷改变只能来自跨边界的电荷转移。 · Distinguish charging mechanisms in conductors and insulators, and use the system boundary to explain that a net-charge change requires charge transfer across that boundary."
     ],
     "essentialKnowledge": [
       "电荷是物质的基本属性：物质由带正电的质子、带负电的电子和中性粒子组成；电荷描述粒子参与电磁相互作用的性质，是粒子本身的属性，不是可以独立盛放或添加的「流体」。 · Charge is a fundamental property of matter: matter consists of positively charged protons, negatively charged electrons, and neutral particles; charge describes a particle's property of participating in electromagnetic interactions. It is a property of the particle itself, not a separable “fluid” that can be stored or added independently.",
@@ -982,7 +983,10 @@ export const TOPICS = {
       "在粒子反应中，电荷也按代数和守恒：例如高能光子在原子核附近产生一对正负电子时，反应前总电荷为零，反应后 \\((+e)+(-e)=0\\)。 · Charge is also conserved algebraically in particle reactions: for example, when a high-energy photon near a nucleus produces an electron–positron pair, the total charge is zero before and \\((+e)+(-e)=0\\) after.",
       "两个带电体之间的电力由库仑定律给出：\\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，方向沿连线；两个电荷受到等大反向的力，符合牛顿第三定律。 · The electric force between two charged objects is given by Coulomb's law, \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), directed along the line joining them; the two charges feel equal and opposite forces, consistent with Newton's third law.",
       "库仑定律的函数依赖可用于比例推理：\\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\)。若 \\(q_1\\) 变为 \\(a\\) 倍、\\(q_2\\) 变为 \\(b\\) 倍、\\(r\\) 变为 \\(c\\) 倍，则 \\(F\\) 变为 \\(\\dfrac{ab}{c^{2}}\\) 倍。 · The functional dependence of Coulomb's law supports ratio reasoning: \\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\). If \\(q_1\\) becomes \\(a\\) times, \\(q_2\\) becomes \\(b\\) times, and \\(r\\) becomes \\(c\\) times, then \\(F\\) becomes \\(\\dfrac{ab}{c^{2}}\\) times its original value.",
-      "对由多个带电体组成的系统，系统内各电荷对目标电荷的电力按矢量叠加；对球对称带电体，外部电场等效于全部电荷集中在球心。 · For a system of several charged objects, the electric forces from the individual charges on a target charge add as vectors; outside a spherically symmetric charged body, the field is equivalent to all charge concentrated at its center."
+      "对由多个带电体组成的系统，系统内各电荷对目标电荷的电力按矢量叠加；对球对称带电体，外部电场等效于全部电荷集中在球心。 · For a system of several charged objects, the electric forces from the individual charges on a target charge add as vectors; outside a spherically symmetric charged body, the field is equivalent to all charge concentrated at its center.",
+      "系统的净电荷或电荷分布会因其他系统的存在或变化而改变：摩擦或接触可使电荷在系统间转移；带电体靠近可使系统内电荷重新分布，发生感应分离（极化），即使系统整体中性也可以发生。 · A system's net charge or charge distribution can change in response to the presence or changes of other systems: friction or contact can transfer charge between systems, and a nearby charged object can redistribute charge within a system, producing induced charge separation (polarization) even when the system is neutral overall.",
+      "系统净电荷的任何改变都来自电荷跨越系统边界的转移；起电通常涉及电子的转移：系统得到电子带负电，失去电子带正电。若没有电荷跨过边界，系统的净电荷保持不变。 · Any change in a system's net charge comes from charge crossing the system boundary; charging typically transfers electrons: a system that gains electrons becomes negative and one that loses electrons becomes positive. If no charge crosses the boundary, the net charge stays constant.",
+      "导体与绝缘体的起电机制不同：导体中的自由电荷可以宏观迁移，接触或感应可使电荷重新分布到表面；绝缘体中的电荷被束缚，摩擦或接触后主要留在局部，难以自由转移。 · Charging mechanisms differ between conductors and insulators: free charge in a conductor can migrate macroscopically, so contact or induction can redistribute charge onto the surface; charge in an insulator is bound, so after friction or contact it stays localized and cannot move freely."
     ],
     "definition": "电荷是物质的一种基本属性，分为正电荷与负电荷；同种相斥、异种相吸。电荷量是量子化的，\\(q=ne\\)，且孤立系统的总电荷守恒。带电体之间的相互作用表现为电力：真空中两个静止点电荷之间的力由库仑定律给出，\\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，方向沿连线；同号相斥、异号相吸。电荷守恒并不意味着电荷不能移动：摩擦、接触和感应都可使电荷在物体之间或物体内部转移，但孤立系统的电荷代数和保持不变。 · Electric charge is a fundamental property of matter, occurring as positive or negative; like charges repel and opposite charges attract. Charge is quantized, \\(q=ne\\), and the total charge of an isolated system is conserved. The interaction between charged objects appears as an electric force: in vacuum the force between two stationary point charges is given by Coulomb's law, \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), directed along the line joining them, with like signs repelling and opposite signs attracting. Conservation of charge does not mean charge cannot move: friction, contact, and induction can transfer charge between objects or redistribute it within an object, but the algebraic sum for an isolated system stays constant.",
     "intuition": "把电荷想成粒子的「电磁标签」：质子天生带正标签，电子天生带负标签，物体带电只是正负标签没有完全配对。摩擦起电不是「制造」电荷，而是把电子从一个物体搬到另一个物体；因此一个物体得到多少负电荷，另一个就失去多少负电荷。中性也不是「没有电荷」，而是正负标签数量相等。库仑力像一条「按标签强弱和距离平方缩放」的相互作用：电荷乘积越大，力越强；距离越远，力按平方迅速减小。 · Think of charge as a particle's “electromagnetic label”: protons carry a positive label and electrons a negative one, and a charged object simply has an imbalance of labels. Rubbing does not “create” charge; it moves electrons from one object to another, so whatever negative charge one object gains, the other loses. Neutral does not mean “no charge” but equal numbers of positive and negative labels. The Coulomb force is an interaction “scaled by the charge product and the square of the distance”: a larger charge product gives a stronger force, and a larger separation makes the force fall off rapidly as the square.",
@@ -1131,6 +1135,18 @@ export const TOPICS = {
         ],
         "solution": "摩擦只是转移电子，总电荷守恒；中性墙壁被极化后受到净吸引力。 · Rubbing only transfers electrons, so total charge is conserved; the neutral wall is polarized and then feels a net attractive force.",
         "solutionLatex": "Q_{\\mathrm{balloon}}+Q_{\\mathrm{fur}}=\\mathrm{constant}"
+      },
+      {
+        "title": "例 6 · 中性导体的感应分离与系统边界 · Example 6: Induced charge separation in a neutral conductor and the system boundary",
+        "prompt": "一个中性导体球放在绝缘支架上。把带正电的玻璃棒靠近但不接触导体球。(a) 描述导体球内电荷的分布，球的净电荷是否改变？(b) 若在玻璃棒仍在时把导体球接地，再移走接地线和玻璃棒，球最终带什么电？ · A neutral conducting sphere rests on an insulating stand. A positively charged glass rod is brought near but does not touch the sphere. (a) Describe the charge distribution in the sphere and state whether its net charge changes. (b) If the sphere is grounded while the rod is still present, and then the ground and rod are removed, what is the final charge on the sphere?",
+        "steps": [
+          "玻璃棒的正电荷吸引导体中的自由电子向近端移动，近端带负电，远端留下正电荷；这是感应分离。 · The positive rod attracts free electrons toward the near side, leaving the near side negative and the far side positive; this is induced charge separation.",
+          "导体球与外界没有电荷交换，整体仍中性：\\(Q_{\\mathrm{net}}=0\\)。电荷分布改变不等于净电荷改变。 · No charge crosses the boundary of the sphere, so it remains neutral overall: \\(Q_{\\mathrm{net}}=0\\). A changed distribution is not a changed net charge.",
+          "接地后，导体球与大地连通，电子可以从大地流入导体球中和远端的正电荷；此时有电荷跨过系统边界，球的净电荷变为负。 · After grounding, the sphere is connected to Earth, so electrons can flow from Earth into the sphere and neutralize the positive far side; charge now crosses the system boundary and the sphere's net charge becomes negative.",
+          "先断开接地线再移走玻璃棒，负电荷留在导体球上；若先移走玻璃棒再断开接地线，电子会流回大地，球恢复中性。操作顺序很重要。 · If the ground is disconnected before the rod is removed, the negative charge remains on the sphere; if the rod is removed first and then the ground is disconnected, electrons flow back to Earth and the sphere returns to neutral. The order matters."
+        ],
+        "solution": "(a) 近端负、远端正，净电荷仍为零；(b) 先断开接地再移走玻璃棒时，球最终带负电。 · (a) Negative near side and positive far side, with zero net charge; (b) if the ground is disconnected before removing the rod, the sphere ends up negatively charged.",
+        "solutionLatex": "Q_{\\mathrm{net}}=0\\ \\text{(isolated)},\\qquad Q_{\\mathrm{net}}<0\\ \\text{(after grounding and rod removal)}"
       }
     ],
     "examTips": [
@@ -1197,7 +1213,10 @@ export const TOPICS = {
       "一个物体带 \\(q=-3.2\\,\\mathrm{\\mu C}\\)，它比中性状态多了多少个电子？ · An object has \\(q=-3.2\\,\\mathrm{\\mu C}\\); how many extra electrons does it have compared with its neutral state?",
       "两个点电荷的距离变为原来的 \\(3\\) 倍，力变为原来的多少倍？ · If the distance between two point charges becomes \\(3\\) times its original value, by what factor does the force change?",
       "两个电荷量不相等的电荷之间的力是否等大？为什么？ · Are the forces between two charges of unequal magnitude equal? Why?",
-      "净电荷为零的物体是否一定不受电力？举一个反例。 · Must an object with zero net charge feel zero electric force? Give a counterexample."
+      "净电荷为零的物体是否一定不受电力？举一个反例。 · Must an object with zero net charge feel zero electric force? Give a counterexample.",
+      "一个中性导体球靠近带正电的玻璃棒但未接触，球内电荷如何分布？球的净电荷改变了吗？ · A neutral conducting sphere is near a positively charged glass rod without touching it. How is charge distributed, and does its net charge change?",
+      "为什么「系统净电荷改变」一定意味着有电荷穿过系统边界？分别举导体和绝缘体起电的一个例子。 · Why does a change in a system's net charge require charge to cross the system boundary? Give one example each for charging a conductor and an insulator.",
+      "接地为什么能改变导体的净电荷？电子是流入还是流出由什么决定？ · Why can grounding change a conductor's net charge, and what determines whether electrons flow in or out?"
     ],
     "vocabulary": [
       {
@@ -1250,6 +1269,334 @@ export const TOPICS = {
       }
     ]
   },
+  "8.7": {
+    "id": "em/em-u8/8.7",
+    "subject": "em",
+    "chapterId": "em-u8",
+    "unitCode": "8",
+    "unitTitleZh": "电荷、电场与高斯定律",
+    "unitTitleEn": "Electric Charges, Fields, and Gauss's Law",
+    "code": "8.7",
+    "titleZh": "连续电荷分布的电场积分",
+    "titleEn": "Electric Fields by Integration",
+    "layer": "ap",
+    "summary": "当电荷连续分布在一条线、一个面或一个体积中时，库仑定律不能直接用于整个带电体；先把带电体分成无穷小电荷元 \\(\\mathrm{d}q\\)，写出每个元在场点产生的 \\(\\mathrm{d}\\vec E\\)，再按矢量叠加积分。对称性可以消去某些分量，使积分简化为一维；常见模型包括有限长带电棒的轴线与垂直平分线、带电圆环轴线、带电圆盘轴线、半圆弧圆心和无限长带电直线。 · When charge is continuously distributed along a line, surface, or volume, Coulomb's law cannot be applied to the whole body at once. Divide the body into infinitesimal charge elements \\(\\mathrm{d}q\\), write the field \\(\\mathrm{d}\\vec E\\) each element produces at the field point, and integrate by vector superposition. Symmetry can cancel some components and reduce the integral to one dimension; standard models include a finite charged rod on its axis and perpendicular bisector, the axis of a charged ring, the axis of a charged disk, the center of a semicircular arc, and an infinitely long charged line.",
+    "learningObjectives": [
+      "能把连续分布写成 \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\)、\\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\) 或 \\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\)，并写出场强微元 \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\)。 · Express a continuous distribution as \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\), \\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\), or \\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\), and write the field element \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\).",
+      "能用对称性判断哪些场分量相消，并完成有限长带电棒（轴线与垂直平分线）、带电圆环轴线、半圆弧圆心、带电圆盘轴线和无限长带电直线的积分。 · Use symmetry to identify which field components cancel and carry out the integration for a finite charged rod (on axis and on the perpendicular bisector), the axis of a charged ring, the center of a semicircular arc, the axis of a charged disk, and an infinitely long charged line.",
+      "能用中心、远场、无限长或无限大极限和量纲检查积分结果，并说明方向。 · Check integration results with center, far-field, infinite-length or infinite-area limits, and dimensions, and state the direction of the field."
+    ],
+    "essentialKnowledge": [
+      "连续分布的场强微元为 \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\)，其中 \\(\\hat r\\) 从电荷元指向场点；总场是所有微元的矢量和 \\(\\vec E=\\int\\mathrm{d}\\vec E\\)。 · The field element of a continuous distribution is \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\), where \\(\\hat r\\) points from the charge element to the field point; the total field is the vector sum \\(\\vec E=\\int\\mathrm{d}\\vec E\\) of all elements.",
+      "电荷元按分布维度写成 \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\)（线）、\\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\)（面）或 \\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\)（体）；\\(\\lambda\\)、\\(\\sigma\\)、\\(\\rho\\) 分别是线、面、体电荷密度。 · Charge elements are written \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\) (line), \\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\) (surface), or \\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\) (volume), where \\(\\lambda\\), \\(\\sigma\\), and \\(\\rho\\) are the linear, surface, and volume charge densities.",
+      "积分前先利用对称性：若电荷分布关于某平面对称，场点在该平面上，则垂直于该平面的分量相消，只需计算沿对称轴的分量。 · Before integrating, exploit symmetry: if the distribution is symmetric about a plane and the field point lies in that plane, the component perpendicular to the plane cancels, and only the component along the symmetry axis must be evaluated.",
+      "有限长均匀带电棒（长 \\(L\\)、线电荷密度 \\(\\lambda\\)）在垂直平分线上距中心 \\(d\\) 处的场为 \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\)，方向垂直于棒；当 \\(L\\gg d\\) 时退化为无限长直线的 \\(E=\\dfrac{2k\\lambda}{d}\\)。 · For a finite uniformly charged rod (length \\(L\\), linear charge density \\(\\lambda\\)), the field on the perpendicular bisector at distance \\(d\\) from the center is \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\), perpendicular to the rod; for \\(L\\gg d\\) it reduces to the infinite-line result \\(E=\\dfrac{2k\\lambda}{d}\\).",
+      "有限长带电棒在轴线上、距近端 \\(x\\) 处（棒外）的场为 \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\)，方向沿轴线；当 \\(x\\gg L\\) 时趋近点电荷场 \\(\\dfrac{kQ}{x^{2}}\\)。 · On the axis outside a finite charged rod, at distance \\(x\\) from the near end, the field is \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\), directed along the axis; for \\(x\\gg L\\) it approaches the point-charge field \\(\\dfrac{kQ}{x^{2}}\\).",
+      "半径为 \\(R\\)、总电荷为 \\(Q\\) 的均匀带电圆环在轴线上距圆心 \\(z\\) 处的场为 \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\)，方向沿轴线；圆心处 \\(E=0\\)，远场趋近点电荷场，\\(z=\\dfrac{R}{\\sqrt{2}}\\) 处出现最大值。 · For a uniformly charged ring of radius \\(R\\) and total charge \\(Q\\), the field on the axis at distance \\(z\\) from the center is \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\), directed along the axis; it is zero at the center, approaches the point-charge field far away, and reaches a maximum at \\(z=\\dfrac{R}{\\sqrt{2}}\\).",
+      "半径为 \\(R\\)、面电荷密度为 \\(\\sigma\\) 的均匀带电圆盘在轴线上的场为 \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\)；当 \\(R\\to\\infty\\) 时趋于无限大均匀平面的 \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\)，与距离无关。 · For a uniformly charged disk of radius \\(R\\) and surface charge density \\(\\sigma\\), the field on the axis is \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\); as \\(R\\to\\infty\\) it approaches the infinite uniform plane result \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\), independent of distance.",
+      "半径为 \\(R\\)、线电荷密度为 \\(\\lambda\\) 的半圆弧在圆心处的场为 \\(E=\\dfrac{2k\\lambda}{R}=\\dfrac{2kQ}{\\pi R^{2}}\\)，方向沿对称轴、由正电荷指向外；整圆在圆心处的场为零。 · For a semicircular arc of radius \\(R\\) and linear charge density \\(\\lambda\\), the field at the center is \\(E=\\dfrac{2k\\lambda}{R}=\\dfrac{2kQ}{\\pi R^{2}}\\), directed along the symmetry axis away from positive charge; a complete ring produces zero field at its center.",
+      "无限长均匀带电直线的场为 \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}=\\dfrac{2k\\lambda}{r}\\)，方向垂直于直线；它既可由库仑定律积分得到，也可由柱对称高斯面得到。 · An infinitely long uniformly charged line produces \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}=\\dfrac{2k\\lambda}{r}\\), perpendicular to the line; it can be obtained either by integrating Coulomb's law or by using a cylindrical Gaussian surface.",
+      "对无限长均匀带电圆柱，外部（\\(r>R\\)）的场与同轴线电荷密度的无限长直线相同：\\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\)；内部场需另行积分或用高斯定律，均匀体电荷时为 \\(E=\\dfrac{\\rho r}{2\\varepsilon_0}\\)。 · For an infinitely long uniformly charged cylinder, the exterior field (\\(r>R\\)) is the same as that of an infinite line with the same linear charge density: \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\); the interior field requires a separate integral or Gauss's law, and for uniform volume charge it is \\(E=\\dfrac{\\rho r}{2\\varepsilon_0}\\)."
+    ],
+    "definition": "连续电荷分布的电场积分：把带电体分割成电荷元 \\(\\mathrm{d}q\\)，每个元在空间点产生 \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\)；总场为所有微元的矢量和，即 \\(\\vec E=\\int\\mathrm{d}\\vec E\\)。电荷元可按线、面、体分别写成 \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\)、\\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\)、\\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\)。积分前先用对称性判断哪些分量相消，通常只需计算沿对称轴的一个分量；积分后要用中心、远场和无限大极限检查结果，并补回方向。 · Electric field by integration for a continuous charge distribution: divide the charged body into charge elements \\(\\mathrm{d}q\\), each producing \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\) at a field point; the total field is the vector sum of all elements, \\(\\vec E=\\int\\mathrm{d}\\vec E\\). Charge elements are written \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\), \\(\\mathrm{d}q=\\sigma\\,\\mathrm{d}A\\), or \\(\\mathrm{d}q=\\rho\\,\\mathrm{d}V\\) for line, surface, or volume distributions. Before integrating, use symmetry to identify which components cancel; usually only one component along the symmetry axis must be evaluated. After integrating, check the result with center, far-field, and infinite-size limits, and restore the direction.",
+    "intuition": "把连续带电体想成无数个极小的点电荷：每个小电荷都按库仑定律向场点发出一支小箭头 \\(\\mathrm{d}\\vec E\\)，总场就是把这些箭头首尾相接。直接按矢量相加很麻烦，所以先看对称性：在圆环轴线上，左右两侧的横向箭头两两抵消，只剩沿轴的分量；在带电棒垂直平分线上，沿棒方向的分量也成对抵消，只剩垂直分量。于是三维矢量和退化成一个标量积分。积分时把几何关系写成同一个变量（如 \\(x\\)、\\(\\theta\\) 或 \\(r'\\)），再在带电区域上积分。最后用极限检查：点太远时，任何有限带电体都应像点电荷；无限长棒或无限大平面则给出与距离无关或按 \\(\\dfrac{1}{r}\\) 衰减的极限。 · Think of a continuous charged body as countless tiny point charges: each element sends a small field arrow \\(\\mathrm{d}\\vec E\\) to the field point according to Coulomb's law, and the total field is the chain of these arrows. Adding them as vectors is cumbersome, so first use symmetry: on the axis of a ring, transverse arrows from opposite sides cancel in pairs, leaving only the axial component; on the perpendicular bisector of a rod, components along the rod cancel in pairs, leaving only the perpendicular component. The three-dimensional vector sum then reduces to a scalar integral. Write the geometry in terms of one variable (such as \\(x\\), \\(\\theta\\), or \\(r'\\)) and integrate over the charged region. Finally, check limits: far away, any finite body should look like a point charge; an infinite rod or infinite plane gives a limit that falls as \\(\\dfrac{1}{r}\\) or stays constant.",
+    "formulas": [
+      {
+        "latex": "\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r",
+        "note": "连续分布的场强微元；\\(\\hat r\\) 从电荷元指向场点。 · Field element of a continuous distribution; \\(\\hat r\\) points from the charge element to the field point."
+      },
+      {
+        "latex": "\\vec E=\\int\\mathrm{d}\\vec E",
+        "note": "对整个带电区域作矢量积分。 · Vector integral over the entire charged region."
+      },
+      {
+        "latex": "\\mathrm{d}q=\\lambda\\,\\mathrm{d}l,\\qquad \\mathrm{d}q=\\sigma\\,\\mathrm{d}A,\\qquad \\mathrm{d}q=\\rho\\,\\mathrm{d}V",
+        "note": "线、面、体电荷元。 · Line, surface, and volume charge elements."
+      },
+      {
+        "latex": "E_{\\text{rod},\\perp}=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}",
+        "note": "有限长带电棒垂直平分线上的场；\\(d\\) 为到棒中心的距离。 · Field on the perpendicular bisector of a finite charged rod; \\(d\\) is the distance from the rod's center."
+      },
+      {
+        "latex": "E_{\\text{rod,axis}}=\\dfrac{k\\lambda L}{x(x+L)}",
+        "note": "有限长带电棒轴线上的场；\\(x\\) 为到近端的距离（棒外）。 · Field on the axis of a finite charged rod; \\(x\\) is the distance from the near end, outside the rod."
+      },
+      {
+        "latex": "E_{\\text{ring}}=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}",
+        "note": "均匀带电圆环轴线上的场；圆心处为零。 · Field on the axis of a uniformly charged ring; zero at the center."
+      },
+      {
+        "latex": "E_{\\text{disk}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)",
+        "note": "均匀带电圆盘轴线上的场；\\(R\\to\\infty\\) 时趋于 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)。 · Field on the axis of a uniformly charged disk; as \\(R\\to\\infty\\) it approaches \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)."
+      },
+      {
+        "latex": "E_{\\text{arc}}=\\dfrac{2k\\lambda}{R}=\\dfrac{2kQ}{\\pi R^{2}}",
+        "note": "半圆弧在圆心处的场；方向沿对称轴。 · Field at the center of a semicircular arc; directed along the symmetry axis."
+      },
+      {
+        "latex": "E_{\\text{line}}=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}=\\dfrac{2k\\lambda}{r}",
+        "note": "无限长均匀带电直线的场；\\(r\\) 为到直线的垂直距离。 · Field of an infinitely long uniformly charged line; \\(r\\) is the perpendicular distance to the line."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "库仑定律 · Coulomb's law",
+        "to": "场强微元 · Field element",
+        "note": "把带电体分成电荷元 \\(\\mathrm{d}q\\)，每个元近似为点电荷，产生 \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\)。 · Divide the body into charge elements \\(\\mathrm{d}q\\), treat each as a point charge, and write \\(\\mathrm{d}\\vec E=k\\dfrac{\\mathrm{d}q}{r^{2}}\\hat r\\)."
+      },
+      {
+        "from": "叠加原理 · Superposition",
+        "to": "矢量积分 · Vector integral",
+        "note": "总场是全部微元的矢量和；不能先把大小相加再补方向。 · The total field is the vector sum of all elements; do not add magnitudes first and attach a direction afterward."
+      },
+      {
+        "from": "对称性 · Symmetry",
+        "to": "一维标量积分 · One-dimensional scalar integral",
+        "note": "在圆环轴线或棒垂直平分线上，成对出现的横向分量相消，只需积分沿对称轴的分量。 · On a ring axis or a rod's perpendicular bisector, transverse components cancel in pairs, so only the component along the symmetry axis needs to be integrated."
+      },
+      {
+        "from": "圆环的几何关系 · Ring geometry",
+        "to": "圆环轴线场 · Ring-axis field",
+        "note": "每个电荷元到轴点的距离都是 \\(\\sqrt{z^{2}+R^{2}}\\)，轴向分量含因子 \\(\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\)，积分得 \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\)。 · Every element is at distance \\(\\sqrt{z^{2}+R^{2}}\\) from the axial point, and the axial component carries the factor \\(\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\), giving \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\)."
+      },
+      {
+        "from": "圆盘分成圆环 · Disk as rings",
+        "to": "圆盘轴线场 · Disk-axis field",
+        "note": "取半径 \\(r'\\)、宽 \\(\\mathrm{d}r'\\) 的圆环，\\(\\mathrm{d}q=\\sigma 2\\pi r'\\,\\mathrm{d}r'\\)，对 \\(r'\\) 从 0 积到 \\(R\\)，得 \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\)。 · Take a ring of radius \\(r'\\) and width \\(\\mathrm{d}r'\\), with \\(\\mathrm{d}q=\\sigma 2\\pi r'\\,\\mathrm{d}r'\\), and integrate \\(r'\\) from 0 to \\(R\\) to obtain \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\)."
+      },
+      {
+        "from": "有限长棒 · Finite rod",
+        "to": "垂直平分线与轴线 · Perpendicular bisector and axis",
+        "note": "垂直平分线上积分 \\(\\int\\dfrac{\\mathrm{d}x}{(x^{2}+d^{2})^{\\frac{3}{2}}}\\)；轴线上积分 \\(\\int\\dfrac{\\mathrm{d}x}{x^{2}}\\)，分别得到两个有限长结果。 · On the perpendicular bisector integrate \\(\\int\\dfrac{\\mathrm{d}x}{(x^{2}+d^{2})^{\\frac{3}{2}}}\\); on the axis integrate \\(\\int\\dfrac{\\mathrm{d}x}{x^{2}}\\), giving the two finite-rod results."
+      },
+      {
+        "from": "极限检验 · Limit checks",
+        "to": "无限长/无限大与点电荷 · Infinite sizes and point charge",
+        "note": "\\(L\\to\\infty\\) 给出无限长直线场；\\(R\\to\\infty\\) 给出无限大平面场；\\(z\\gg R\\) 或 \\(x\\gg L\\) 给出点电荷场。 · \\(L\\to\\infty\\) gives the infinite-line field; \\(R\\to\\infty\\) gives the infinite-plane field; \\(z\\gg R\\) or \\(x\\gg L\\) gives the point-charge field."
+      }
+    ],
+    "conditions": [
+      "电荷分布连续且静止；离散电荷的精确描述需要求和而不是积分。 · The charge distribution is continuous and at rest; discrete charges require a sum rather than an integral.",
+      "场点不在带电体内部；若场点落在电荷分布的奇异处，需单独处理或取极限。 · The field point lies outside the charged body; if it lies on a singularity of the distribution, treat it separately or take a limit.",
+      "在真空或空气中计算；在介质中把 \\(\\varepsilon_0\\) 换成介电率 \\(\\varepsilon\\)。 · Evaluate in vacuum or air; in a dielectric replace \\(\\varepsilon_0\\) with the permittivity \\(\\varepsilon\\).",
+      "\\(\\hat r\\) 必须从电荷元指向场点；方向写反会使积分结果整体差一个负号。 · \\(\\hat r\\) must point from the charge element to the field point; reversing it flips the sign of the entire result.",
+      "有限长、无限长、无限大平面都是理想模型，适用条件是相应的尺度比足够大或足够小。 · Finite rods, infinite lines, and infinite planes are ideal models; their validity requires the relevant length ratios to be sufficiently large or small.",
+      "叠加原理要求各电荷元的场互不影响；试探电荷不能改变原来的电荷分布。 · Superposition assumes the field of each element is unaffected by the others; a test charge must not alter the original distribution."
+    ],
+    "keyPoints": [
+      "先写 \\(\\mathrm{d}\\vec E\\)，再积分；不要一上来就把整个带电体当点电荷。 · Write \\(\\mathrm{d}\\vec E\\) first, then integrate; do not treat the whole body as a point charge from the start.",
+      "电荷元有三种写法：线 \\(\\lambda\\,\\mathrm{d}l\\)、面 \\(\\sigma\\,\\mathrm{d}A\\)、体 \\(\\rho\\,\\mathrm{d}V\\)。 · Charge elements have three forms: line \\(\\lambda\\,\\mathrm{d}l\\), surface \\(\\sigma\\,\\mathrm{d}A\\), and volume \\(\\rho\\,\\mathrm{d}V\\).",
+      "对称性先消去横向分量，把矢量积分变成一维标量积分。 · Use symmetry to cancel transverse components and reduce the vector integral to a one-dimensional scalar integral.",
+      "有限长棒：垂直平分线 \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\)，轴线 \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\)。 · Finite rod: perpendicular bisector \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\), axis \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\).",
+      "圆环轴线：\\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\)，圆心为零，远场为点电荷场。 · Ring axis: \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\), zero at the center and point-charge-like far away.",
+      "圆盘轴线：\\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\)，无限大平面极限为 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)。 · Disk axis: \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\), with infinite-plane limit \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\).",
+      "半圆弧圆心：\\(E=\\dfrac{2k\\lambda}{R}\\)；整圆圆心场为零。 · Semicircular arc center: \\(E=\\dfrac{2k\\lambda}{R}\\); a complete ring has zero field at its center.",
+      "无限长直线：\\(E=\\dfrac{2k\\lambda}{r}\\)，方向垂直于直线。 · Infinite line: \\(E=\\dfrac{2k\\lambda}{r}\\), perpendicular to the line.",
+      "每个结果都要做中心、远场、无限大和量纲检查。 · Check every result at the center, far field, infinite-size limit, and by dimensions."
+    ],
+    "misconceptions": [
+      "把有限大带电体直接当成位于几何中心的点电荷；只有远场或球对称外部才可以这样近似。 · Treating a finite charged body as a point charge at its geometric center; this is valid only far away or outside a spherically symmetric distribution.",
+      "把各电荷元的场强大小直接相加；电场是矢量，必须先分解再合成。 · Adding the magnitudes of element fields directly; the electric field is a vector and must be resolved before combining.",
+      "把 \\(r\\) 当成电荷元到原点的距离，而不是到场点的距离。 · Taking \\(r\\) as the distance from the charge element to the origin instead of to the field point.",
+      "在圆环圆心处套用轴线公式却忘记 \\(z=0\\) 使场为零，或误以为圆心场最大。 · Using the ring-axis formula at the center without setting \\(z=0\\), or assuming the center has the maximum field.",
+      "把无限长直线的 \\(E\\propto\\dfrac{1}{r}\\) 误用于有限长棒的近端；有限长棒的结果还依赖长度和端点位置。 · Applying the infinite-line \\(E\\propto\\dfrac{1}{r}\\) near the end of a finite rod; the finite-rod result also depends on length and endpoint position.",
+      "积分后只写大小而忘记方向，或把 \\(\\hat r\\) 的方向写反。 · Reporting only the magnitude after integration, or reversing the direction of \\(\\hat r\\).",
+      "把 \\(\\lambda\\)、\\(\\sigma\\)、\\(\\rho\\) 的单位混用；它们分别是 \\(\\mathrm{C\\,m^{-1}}\\)、\\(\\mathrm{C\\,m^{-2}}\\)、\\(\\mathrm{C\\,m^{-3}}\\)。 · Mixing the units of \\(\\lambda\\), \\(\\sigma\\), and \\(\\rho\\), which are \\(\\mathrm{C\\,m^{-1}}\\), \\(\\mathrm{C\\,m^{-2}}\\), and \\(\\mathrm{C\\,m^{-3}}\\).",
+      "对无限大平面结果感到意外：它不随距离变化，是因为平面在任意距离上都占据相同的立体角。 · Being surprised that the infinite-plane field is independent of distance; the plane subtends the same solid angle at every distance."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 有限长带电棒的垂直平分线 · Example 1: Perpendicular bisector of a finite charged rod",
+        "prompt": "一根长 \\(L=0.80\\,\\mathrm{m}\\) 的均匀带电棒，线电荷密度 \\(\\lambda=+2.0\\,\\mathrm{\\mu C\\,m^{-1}}\\)。求在垂直平分线上距棒中心 \\(d=0.30\\,\\mathrm{m}\\) 处的电场大小和方向。 · A uniformly charged rod of length \\(L=0.80\\,\\mathrm{m}\\) has linear charge density \\(\\lambda=+2.0\\,\\mathrm{\\mu C\\,m^{-1}}\\). Find the magnitude and direction of the field on the perpendicular bisector at distance \\(d=0.30\\,\\mathrm{m}\\) from the rod's center.",
+        "steps": [
+          "由对称性，沿棒方向的分量相消，总场垂直于棒。 · By symmetry, components along the rod cancel, so the net field is perpendicular to the rod.",
+          "代入 \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\)。 · Substitute into \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\).",
+          "\\(E=\\dfrac{(8.99\\times10^{9})(2.0\\times10^{-6})(0.80)}{(0.30)\\sqrt{(0.30)^{2}+\\dfrac{(0.80)^{2}}{4}}}\\)。 · \\(E=\\dfrac{(8.99\\times10^{9})(2.0\\times10^{-6})(0.80)}{(0.30)\\sqrt{(0.30)^{2}+\\dfrac{(0.80)^{2}}{4}}}\\).",
+          "分母中的根式为 \\(\\sqrt{0.09+0.16}=0.50\\)，所以 \\(E\\approx9.6\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)。 · The root in the denominator is \\(\\sqrt{0.09+0.16}=0.50\\), so \\(E\\approx9.6\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)."
+        ],
+        "solution": "\\(E\\approx9.6\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)，方向垂直于棒、背离正电荷。 · \\(E\\approx9.6\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\), perpendicular to the rod and away from the positive charge.",
+        "solutionLatex": "E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\approx9.6\\times10^{4}\\,\\mathrm{N\\,C^{-1}}"
+      },
+      {
+        "title": "例 2 · 有限长带电棒的轴线 · Example 2: Axis of a finite charged rod",
+        "prompt": "同一根棒（\\(L=0.80\\,\\mathrm{m}\\)，\\(\\lambda=+2.0\\,\\mathrm{\\mu C\\,m^{-1}}\\)）放在轴线上，场点距近端 \\(x=0.20\\,\\mathrm{m}\\)。求场强大小和方向。 · The same rod (\\(L=0.80\\,\\mathrm{m}\\), \\(\\lambda=+2.0\\,\\mathrm{\\mu C\\,m^{-1}}\\)) is viewed on its axis, with the field point \\(x=0.20\\,\\mathrm{m}\\) from the near end. Find the magnitude and direction of the field.",
+        "steps": [
+          "轴线上各电荷元的场都沿同一方向，可直接作标量积分。 · On the axis, all element fields point in the same direction, so the integral is scalar.",
+          "\\(E=\\dfrac{k\\lambda L}{x(x+L)}\\)。 · \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\).",
+          "\\(E=\\dfrac{(8.99\\times10^{9})(2.0\\times10^{-6})(0.80)}{(0.20)(0.20+0.80)}\\approx7.2\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E=\\dfrac{(8.99\\times10^{9})(2.0\\times10^{-6})(0.80)}{(0.20)(0.20+0.80)}\\approx7.2\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)."
+        ],
+        "solution": "\\(E\\approx7.2\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\)，方向沿轴线、背离正电荷。 · \\(E\\approx7.2\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\), along the axis away from the positive charge.",
+        "solutionLatex": "E=\\dfrac{k\\lambda L}{x(x+L)}\\approx7.2\\times10^{4}\\,\\mathrm{N\\,C^{-1}}"
+      },
+      {
+        "title": "例 3 · 带电圆环轴线 · Example 3: Axis of a charged ring",
+        "prompt": "一个半径 \\(R=0.10\\,\\mathrm{m}\\) 的均匀带电圆环带总电荷 \\(Q=+5.0\\,\\mathrm{\\mu C}\\)。求轴线上 \\(z=0.20\\,\\mathrm{m}\\) 处的场强，并说明圆心处的场。 · A uniformly charged ring of radius \\(R=0.10\\,\\mathrm{m}\\) carries total charge \\(Q=+5.0\\,\\mathrm{\\mu C}\\). Find the field on the axis at \\(z=0.20\\,\\mathrm{m}\\), and state the field at the center.",
+        "steps": [
+          "圆环上各电荷元到轴点的距离相同，横向分量相消，只剩轴向分量。 · Every element is at the same distance from the axial point; transverse components cancel, leaving only the axial component.",
+          "\\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\)。 · \\(E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\).",
+          "\\(z^{2}+R^{2}=(0.20)^{2}+(0.10)^{2}=0.050\\,\\mathrm{m^{2}}\\)，所以 \\((z^{2}+R^{2})^{\\frac{3}{2}}\\approx0.0112\\,\\mathrm{m^{3}}\\)。 · \\(z^{2}+R^{2}=(0.20)^{2}+(0.10)^{2}=0.050\\,\\mathrm{m^{2}}\\), so \\((z^{2}+R^{2})^{\\frac{3}{2}}\\approx0.0112\\,\\mathrm{m^{3}}\\).",
+          "\\(E=\\dfrac{(8.99\\times10^{9})(5.0\\times10^{-6})(0.20)}{0.0112}\\approx8.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E=\\dfrac{(8.99\\times10^{9})(5.0\\times10^{-6})(0.20)}{0.0112}\\approx8.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\).",
+          "圆心处 \\(z=0\\)，公式给出 \\(E=0\\)，与对称性一致。 · At the center \\(z=0\\), the formula gives \\(E=0\\), consistent with symmetry."
+        ],
+        "solution": "\\(E\\approx8.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)，沿轴线背离圆环；圆心处为零。 · \\(E\\approx8.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\), along the axis away from the ring; zero at the center.",
+        "solutionLatex": "E=\\dfrac{kQz}{(z^{2}+R^{2})^{\\frac{3}{2}}}\\approx8.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}},\\qquad E(z=0)=0"
+      },
+      {
+        "title": "例 4 · 半圆弧圆心处的场 · Example 4: Field at the center of a semicircular arc",
+        "prompt": "一段半径 \\(R=0.050\\,\\mathrm{m}\\) 的半圆弧均匀带电，总电荷 \\(Q=+3.0\\,\\mathrm{\\mu C}\\)。求圆心处的电场大小和方向。 · A semicircular arc of radius \\(R=0.050\\,\\mathrm{m}\\) carries a uniform total charge \\(Q=+3.0\\,\\mathrm{\\mu C}\\). Find the magnitude and direction of the field at the center.",
+        "steps": [
+          "线电荷密度 \\(\\lambda=\\dfrac{Q}{\\pi R}\\)。 · Linear charge density \\(\\lambda=\\dfrac{Q}{\\pi R}\\).",
+          "由对称性，垂直于对称轴的分量相消；沿对称轴的分量为 \\(E=\\dfrac{2k\\lambda}{R}\\)。 · By symmetry, components perpendicular to the symmetry axis cancel; the component along it is \\(E=\\dfrac{2k\\lambda}{R}\\).",
+          "\\(E=\\dfrac{2kQ}{\\pi R^{2}}=\\dfrac{2(8.99\\times10^{9})(3.0\\times10^{-6})}{\\pi(0.050)^{2}}\\)。 · \\(E=\\dfrac{2kQ}{\\pi R^{2}}=\\dfrac{2(8.99\\times10^{9})(3.0\\times10^{-6})}{\\pi(0.050)^{2}}\\).",
+          "\\(E\\approx6.9\\times10^{6}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E\\approx6.9\\times10^{6}\\,\\mathrm{N\\,C^{-1}}\\)."
+        ],
+        "solution": "\\(E\\approx6.9\\times10^{6}\\,\\mathrm{N\\,C^{-1}}\\)，沿对称轴背离正电荷。 · \\(E\\approx6.9\\times10^{6}\\,\\mathrm{N\\,C^{-1}}\\), along the symmetry axis away from the positive charge.",
+        "solutionLatex": "E=\\dfrac{2kQ}{\\pi R^{2}}\\approx6.9\\times10^{6}\\,\\mathrm{N\\,C^{-1}}"
+      },
+      {
+        "title": "例 5 · 带电圆盘轴线与无限大平面极限 · Example 5: Charged-disk axis and the infinite-plane limit",
+        "prompt": "一个半径 \\(R=0.15\\,\\mathrm{m}\\) 的均匀带电圆盘，面电荷密度 \\(\\sigma=+4.0\\,\\mathrm{\\mu C\\,m^{-2}}\\)。求轴线上 \\(z=0.10\\,\\mathrm{m}\\) 处的场强，并求 \\(R\\to\\infty\\) 时的极限。 · A uniformly charged disk of radius \\(R=0.15\\,\\mathrm{m}\\) has surface charge density \\(\\sigma=+4.0\\,\\mathrm{\\mu C\\,m^{-2}}\\). Find the field on the axis at \\(z=0.10\\,\\mathrm{m}\\), and the limit as \\(R\\to\\infty\\).",
+        "steps": [
+          "\\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\)。 · \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}\\left(1-\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}\\right)\\).",
+          "\\(\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}=\\dfrac{0.10}{\\sqrt{0.010+0.0225}}\\approx0.555\\)。 · \\(\\dfrac{z}{\\sqrt{z^{2}+R^{2}}}=\\dfrac{0.10}{\\sqrt{0.010+0.0225}}\\approx0.555\\).",
+          "\\(\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{4.0\\times10^{-6}}{2(8.85\\times10^{-12})}\\approx2.26\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{4.0\\times10^{-6}}{2(8.85\\times10^{-12})}\\approx2.26\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\).",
+          "\\(E\\approx(2.26\\times10^{5})(1-0.555)\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)；当 \\(R\\to\\infty\\) 时 \\(E\\to2.26\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E\\approx(2.26\\times10^{5})(1-0.555)\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\); as \\(R\\to\\infty\\), \\(E\\to2.26\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)."
+        ],
+        "solution": "\\(E\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)；无限大平面极限为 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\approx2.3\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\); the infinite-plane limit is \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\approx2.3\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\).",
+        "solutionLatex": "E\\approx1.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}},\\qquad E_{R\\to\\infty}=\\dfrac{\\sigma}{2\\varepsilon_0}\\approx2.3\\times10^{5}\\,\\mathrm{N\\,C^{-1}}"
+      },
+      {
+        "title": "例 6 · 无限长带电直线：积分与高斯定律对照 · Example 6: Infinite charged line—integration versus Gauss's law",
+        "prompt": "一根无限长均匀带电直线，线电荷密度 \\(\\lambda=+3.0\\,\\mathrm{\\mu C\\,m^{-1}}\\)。求距直线 \\(r=0.12\\,\\mathrm{m}\\) 处的场强，并说明如何用高斯定律复核。 · An infinitely long uniformly charged line has linear charge density \\(\\lambda=+3.0\\,\\mathrm{\\mu C\\,m^{-1}}\\). Find the field at distance \\(r=0.12\\,\\mathrm{m}\\) from the line, and explain how to check it with Gauss's law.",
+        "steps": [
+          "取直线沿 \\(y\\) 轴，场点在 \\(x=r\\) 处；每个电荷元 \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}y\\) 的 \\(x\\) 分量相加，\\(y\\) 分量相消。 · Put the line along the \\(y\\) axis and the field point at \\(x=r\\); the \\(x\\) components of the elements \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}y\\) add while the \\(y\\) components cancel.",
+          "\\(E=\\int_{-\\infty}^{\\infty}k\\lambda\\dfrac{r\\,\\mathrm{d}y}{(r^{2}+y^{2})^{\\frac{3}{2}}}=\\dfrac{2k\\lambda}{r}\\)。 · \\(E=\\int_{-\\infty}^{\\infty}k\\lambda\\dfrac{r\\,\\mathrm{d}y}{(r^{2}+y^{2})^{\\frac{3}{2}}}=\\dfrac{2k\\lambda}{r}\\).",
+          "\\(E=\\dfrac{2(8.99\\times10^{9})(3.0\\times10^{-6})}{0.12}\\approx4.5\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。 · \\(E=\\dfrac{2(8.99\\times10^{9})(3.0\\times10^{-6})}{0.12}\\approx4.5\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\).",
+          "用半径为 \\(r\\)、长为 \\(L\\) 的柱形高斯面：\\(E(2\\pi rL)=\\dfrac{\\lambda L}{\\varepsilon_0}\\)，同样得到 \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\)。 · Use a cylindrical Gaussian surface of radius \\(r\\) and length \\(L\\): \\(E(2\\pi rL)=\\dfrac{\\lambda L}{\\varepsilon_0}\\), which again gives \\(E=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\)."
+        ],
+        "solution": "\\(E\\approx4.5\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)，方向垂直于直线、背离正电荷；积分与高斯定律结果一致。 · \\(E\\approx4.5\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\), perpendicular to the line and away from the positive charge; integration and Gauss's law agree.",
+        "solutionLatex": "E=\\dfrac{2k\\lambda}{r}=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\approx4.5\\times10^{5}\\,\\mathrm{N\\,C^{-1}}"
+      }
+    ],
+    "examTips": [
+      "先在图上标出 \\(\\mathrm{d}q\\)、\\(r\\) 和 \\(\\hat r\\)，再写 \\(\\mathrm{d}\\vec E\\)；方向错是最常见的失分点。 · Mark \\(\\mathrm{d}q\\), \\(r\\), and \\(\\hat r\\) on the diagram before writing \\(\\mathrm{d}\\vec E\\); a wrong direction is the most common lost point.",
+      "先找对称性，能消去的分量一定先消去，再积分；不要一开始就写三维矢量积分。 · Look for symmetry first and cancel components before integrating; do not start with a full three-dimensional vector integral.",
+      "把 \\(r\\) 和积分变量统一：圆环用 \\(\\theta\\) 或直接利用等距，圆盘用 \\(r'\\)，有限长棒用 \\(x\\)。 · Express \\(r\\) and the integration variable consistently: use \\(\\theta\\) for a ring, \\(r'\\) for a disk, and \\(x\\) for a finite rod.",
+      "积分完成后再把方向补回，并用单位、中心值、远场和无限大极限检查。 · Restore the direction after integrating, and check units, center value, far field, and infinite-size limits.",
+      "记住三个常用极限：\\(L\\to\\infty\\) 的直线、\\(R\\to\\infty\\) 的平面、\\(z\\gg R\\) 或 \\(x\\gg L\\) 的点电荷。 · Remember three useful limits: the infinite line as \\(L\\to\\infty\\), the infinite plane as \\(R\\to\\infty\\), and the point charge as \\(z\\gg R\\) or \\(x\\gg L\\).",
+      "写答案时区分“场强大小”和“电场方向”，并说明是哪个电荷产生的场。 · In the final answer, distinguish field magnitude from direction and state which charge distribution produces the field."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.2",
+        "title": "电场 · Electric Fields",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.3",
+        "title": "电场叠加 · Electric Field of Charge Distributions",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.5",
+        "title": "高斯定律 · Gauss's Law",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.11",
+        "title": "电荷密度与包围电荷积分 · Charge Density and Enclosed Charge",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [
+      {
+        "id": "electric-field",
+        "title": "电场线与等势 · Field lines and equipotentials"
+      }
+    ],
+    "practiceHref": "#/em/practice/em-u8",
+    "connections": [
+      "上游：8.1 的库仑定律给出点电荷场，8.2 定义电场，8.3 建立电场叠加；本节把这些工具推广到连续电荷分布。 · Upstream: Coulomb's law in 8.1 gives the point-charge field, 8.2 defines the electric field, and 8.3 establishes superposition; this topic extends those tools to continuous distributions.",
+      "下游：8.5 高斯定律在球、柱、平面对称情形下提供更快的求场方法，可与本节积分结果互相校验。 · Downstream: Gauss's law in 8.5 gives a faster route for spherical, cylindrical, and planar symmetry and can be used to cross-check the integrals here.",
+      "跨主题：8.11 把 \\(\\lambda\\)、\\(\\sigma\\)、\\(\\rho\\) 与包围电荷写成积分，是本节电荷元语言的自然延伸。 · Cross-topic: 8.11 expresses \\(\\lambda\\), \\(\\sigma\\), and \\(\\rho\\) and enclosed charge as integrals, a natural extension of the charge-element language used here.",
+      "跨单元：9.3 用同样的积分思想求连续电荷分布的电势，只需把 \\(\\mathrm{d}E\\) 换成 \\(\\mathrm{d}V\\)。 · Cross-unit: 9.3 applies the same integration strategy to the potential of continuous distributions, replacing \\(\\mathrm{d}E\\) with \\(\\mathrm{d}V\\)."
+    ],
+    "intuitionDetailed": "连续电荷分布的题，难点通常不在积分技巧，而在建模：先把带电体切成什么形状的电荷元，再把电荷元到场点的距离写成同一个变量。对圆环，所有电荷元到轴点的距离相同，横向分量成对抵消，只剩轴向分量；对圆盘，先切成半径 \\(r'\\)、宽 \\(\\mathrm{d}r'\\) 的细圆环，再把圆环的轴线场对 \\(r'\\) 积分；对有限长棒，垂直平分线上的横向分量相消，轴线上则所有分量同向。每一步都要问：我选的 \\(\\mathrm{d}q\\) 是什么？\\(r\\) 怎么表示？哪个分量会抵消？积分限是什么？算完后用三个极限检查：场点移到中心时结果是否符合对称性；场点移到很远时是否回到点电荷；带电体变成无限长或无限大时是否得到已知的均匀场。只要这三个检查通过，符号和数量级通常就不会有大问题。 · The difficulty in continuous-distribution problems is usually modeling, not integration technique: first decide what shape of charge element to cut, then express the distance from that element to the field point in a single variable. For a ring, all elements are equally distant from the axial point, transverse components cancel in pairs, and only the axial component remains; for a disk, cut it into thin rings of radius \\(r'\\) and width \\(\\mathrm{d}r'\\), then integrate the ring-axis field over \\(r'\\); for a finite rod, transverse components cancel on the perpendicular bisector, while on the axis all contributions point the same way. At each step ask: what is my \\(\\mathrm{d}q\\)? How is \\(r\\) expressed? Which component cancels? What are the limits? After integrating, check three limits: does the result at the center respect symmetry; does it reduce to a point charge far away; does it give the known uniform field when the body becomes infinitely long or infinitely large? If these checks pass, signs and orders of magnitude are usually sound.",
+    "development": [
+      "从库仑定律出发，把带电体分割成电荷元，写出 \\(\\mathrm{d}\\vec E\\)。 · Starting from Coulomb's law, divide the body into charge elements and write \\(\\mathrm{d}\\vec E\\).",
+      "根据线、面、体分布选择 \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\)、\\(\\sigma\\,\\mathrm{d}A\\) 或 \\(\\rho\\,\\mathrm{d}V\\)。 · Choose \\(\\mathrm{d}q=\\lambda\\,\\mathrm{d}l\\), \\(\\sigma\\,\\mathrm{d}A\\), or \\(\\rho\\,\\mathrm{d}V\\) according to the line, surface, or volume distribution.",
+      "用对称性判断哪些分量相消，选择最方便的积分变量。 · Use symmetry to decide which components cancel and choose the most convenient integration variable.",
+      "完成有限长棒、圆环、圆盘、半圆弧和无限长直线的积分，并写出方向。 · Carry out the integrals for the finite rod, ring, disk, semicircular arc, and infinite line, and state the direction.",
+      "用中心、远场、无限大极限和量纲检查每个结果。 · Check each result with center, far-field, infinite-size limits, and dimensions."
+    ],
+    "checks": [
+      "为什么连续电荷分布的电场要用积分而不是直接把总电荷代入库仑定律？ · Why must the field of a continuous distribution be found by integration instead of substituting the total charge into Coulomb's law directly?",
+      "在圆环轴线和有限长棒的垂直平分线上，分别是哪个分量相消？为什么？ · On a ring axis and on a finite rod's perpendicular bisector, which components cancel, and why?",
+      "有限长棒的垂直平分线结果在 \\(L\\gg d\\) 时变成什么？在 \\(d\\gg L\\) 时又变成什么？ · What does the finite-rod perpendicular-bisector result become for \\(L\\gg d\\)? For \\(d\\gg L\\)?",
+      "圆环轴线上圆心处和远场处的场分别是什么？中间哪里最大？ · What is the ring-axis field at the center and far away, and where is it maximum in between?",
+      "为什么无限大均匀平面的场与距离无关？圆盘结果如何过渡到这个极限？ · Why is the field of an infinite uniform plane independent of distance, and how does the disk result approach this limit?",
+      "半圆弧在圆心处的场为什么不是零？整圆为什么是零？ · Why is the field at the center of a semicircular arc nonzero, while that of a complete ring is zero?",
+      "无限长均匀带电圆柱的外部场为什么与同轴线电荷密度的直线相同？内部场又如何随 \\(r\\) 变化？ · Why is the exterior field of an infinitely long uniformly charged cylinder the same as that of a line with the same linear charge density, and how does the interior field vary with \\(r\\)?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "连续电荷分布",
+        "termEn": "continuous charge distribution",
+        "defZh": "电荷连续分布在线、面或体积中的带电体；需用积分而不是逐个点电荷求和。",
+        "defEn": "A charged body whose charge is spread continuously along a line, surface, or volume; its field requires integration rather than a sum over individual point charges."
+      },
+      {
+        "termZh": "电荷元",
+        "termEn": "charge element",
+        "defZh": "连续分布中取出的无穷小电荷 \\(\\mathrm{d}q\\)，可近似为点电荷。",
+        "defEn": "An infinitesimal charge \\(\\mathrm{d}q\\) taken from a continuous distribution, treated as a point charge."
+      },
+      {
+        "termZh": "线电荷密度",
+        "termEn": "linear charge density",
+        "defZh": "单位长度的电荷量 \\(\\lambda=\\dfrac{\\mathrm{d}q}{\\mathrm{d}l}\\)，单位为 \\(\\mathrm{C\\,m^{-1}}\\)。",
+        "defEn": "Charge per unit length, \\(\\lambda=\\dfrac{\\mathrm{d}q}{\\mathrm{d}l}\\), in \\(\\mathrm{C\\,m^{-1}}\\)."
+      },
+      {
+        "termZh": "面电荷密度",
+        "termEn": "surface charge density",
+        "defZh": "单位面积的电荷量 \\(\\sigma=\\dfrac{\\mathrm{d}q}{\\mathrm{d}A}\\)，单位为 \\(\\mathrm{C\\,m^{-2}}\\)。",
+        "defEn": "Charge per unit area, \\(\\sigma=\\dfrac{\\mathrm{d}q}{\\mathrm{d}A}\\), in \\(\\mathrm{C\\,m^{-2}}\\)."
+      },
+      {
+        "termZh": "体电荷密度",
+        "termEn": "volume charge density",
+        "defZh": "单位体积的电荷量 \\(\\rho=\\dfrac{\\mathrm{d}q}{\\mathrm{d}V}\\)，单位为 \\(\\mathrm{C\\,m^{-3}}\\)。",
+        "defEn": "Charge per unit volume, \\(\\rho=\\dfrac{\\mathrm{d}q}{\\mathrm{d}V}\\), in \\(\\mathrm{C\\,m^{-3}}\\)."
+      },
+      {
+        "termZh": "对称性",
+        "termEn": "symmetry",
+        "defZh": "电荷分布在某些变换下保持不变的性质；可用来判断哪些场分量相消。",
+        "defEn": "A property of a charge distribution that remains unchanged under certain transformations; it identifies which field components cancel."
+      },
+      {
+        "termZh": "叠加原理",
+        "termEn": "superposition principle",
+        "defZh": "多个电荷产生的电场等于各自电场的矢量和，是连续分布积分的基础。",
+        "defEn": "The electric field of several charges is the vector sum of their individual fields, the basis for integrating a continuous distribution."
+      },
+      {
+        "termZh": "电场积分",
+        "termEn": "electric-field integral",
+        "defZh": "把全部电荷元的场强微元按矢量累加，\\(\\vec E=\\int\\mathrm{d}\\vec E\\)。",
+        "defEn": "The vector accumulation of all charge-element field contributions, \\(\\vec E=\\int\\mathrm{d}\\vec E\\)."
+      }
+    ]
+  },
   "8.8": {
     "id": "em/em-u8/8.8",
     "subject": "em",
@@ -1261,11 +1608,12 @@ export const TOPICS = {
     "titleZh": "电力、引力与宏观物性",
     "titleEn": "Electric and Gravitational Forces in Matter",
     "layer": "ap",
-    "summary": "电力与引力都按平方反比衰减，但电磁耦合比引力强约 \\(10^{20}\\) 倍以上；宏观物体近似电中性，所以大尺度上天体运动由引力主导，而日常接触力与材料性质仍来自大量微观电磁相互作用。 · Electric and gravitational forces both fall off as inverse squares, but the electromagnetic coupling is more than twenty orders of magnitude stronger than gravity; macroscopic matter is nearly neutral, so gravity dominates astronomical scales while everyday contact forces and material properties still arise from countless microscopic electromagnetic interactions.",
+    "summary": "电力可吸引也可排斥，引力总是吸引；两者都按平方反比衰减，但电磁耦合比引力强约 \\(10^{20}\\) 倍以上。宏观物体近似电中性，所以大尺度上天体运动由引力主导，而日常接触力与材料性质仍来自大量微观电磁相互作用。 · Electric forces can attract or repel, whereas gravity always attracts; both fall off as inverse squares, but the electromagnetic coupling is more than twenty orders of magnitude stronger than gravity. Macroscopic matter is nearly neutral, so gravity dominates astronomical scales while everyday contact forces and material properties still arise from countless microscopic electromagnetic interactions.",
     "learningObjectives": [
       "能解释支持力、摩擦力、张力、弹性和材料强度等宏观性质如何来自大量微观电磁相互作用的平均。 · Explain how normal force, friction, tension, elasticity, and material strength arise from averages of countless microscopic electromagnetic interactions.",
       "能比较两个带质量与电荷物体所受的电力与引力，计算 \\(\\dfrac{F_e}{F_g}\\) 并判断哪种力更重要。 · Compare the electric and gravitational forces on two objects with mass and charge, calculate \\(\\dfrac{F_e}{F_g}\\), and decide which force is more important.",
-      "能解释为什么引力在原子尺度可忽略，却在天体尺度主导运动，并用宏观电中性论证。 · Explain why gravity is negligible at atomic scales yet dominates astronomical motion, using macroscopic electrical neutrality as evidence."
+      "能解释为什么引力在原子尺度可忽略，却在天体尺度主导运动，并用宏观电中性论证。 · Explain why gravity is negligible at atomic scales yet dominates astronomical motion, using macroscopic electrical neutrality as evidence.",
+      "能说明带质量带电物体之间电力与引力的方向规则：电力可吸引或排斥，引力总是吸引，并用电子—电子、电子—质子等例子比较两种力。 · State the direction rules for electric and gravitational forces between charged objects with mass: electric forces can attract or repel while gravity always attracts, and compare the two forces for cases such as electron–electron and electron–proton."
     ],
     "essentialKnowledge": [
       "宏观物体的支持力、摩擦力、张力、弹力、黏附、表面张力和材料强度，本质上都是原子和分子间电磁相互作用的集体表现；由于粒子数极大，逐项求和不现实，因此用宏观力模型描述。 · Normal force, friction, tension, elasticity, adhesion, surface tension, and material strength are collective manifestations of electromagnetic interactions among atoms and molecules; because the number of particles is enormous, summing each interaction is impractical, so macroscopic force models are used.",
@@ -1275,7 +1623,9 @@ export const TOPICS = {
       "大尺度系统（行星、恒星、星系）近似电中性，净电荷与质量相比极小；残余电力被屏蔽或平均掉，而引力虽弱却随质量单调累加，因此主导天体运动。 · Large-scale systems (planets, stars, galaxies) are nearly electrically neutral, with negligible net charge compared with mass; residual electric forces are screened or average out, while weak gravity adds monotonically with mass and therefore dominates astronomical motion.",
       "若宏观物体带有显著净电荷，电力会远大于引力；例如两个各带 \\(1.0\\,\\mathrm{\\mu C}\\)、质量 \\(1.0\\,\\mathrm{g}\\)、相距 \\(0.10\\,\\mathrm{m}\\) 的小球，电力约为引力的 \\(10^{14}\\) 倍。 · If macroscopic objects carry significant net charge, electric forces greatly exceed gravity; for two \\(1.0\\,\\mathrm{g}\\) spheres each with \\(1.0\\,\\mathrm{\\mu C}\\) separated by \\(0.10\\,\\mathrm{m}\\), the electric force is about \\(10^{14}\\) times the gravitational force.",
       "宏观电中性不等于没有电荷：物体内部有大量正负电荷，只是代数和接近零；接触力、化学键、弹性和摩擦都来自这些电荷的相互作用。 · Macroscopic neutrality does not mean no charge: objects contain enormous positive and negative charge whose sum is nearly zero; contact forces, chemical bonds, elasticity, and friction all arise from these charges.",
-      "在极大尺度上，电磁力还可能被等离子体中的自由电荷屏蔽（德拜屏蔽），而引力无法被屏蔽。 · On very large scales, electromagnetic forces can also be screened by free charges in a plasma (Debye screening), whereas gravity cannot be screened."
+      "在极大尺度上，电磁力还可能被等离子体中的自由电荷屏蔽（德拜屏蔽），而引力无法被屏蔽。 · On very large scales, electromagnetic forces can also be screened by free charges in a plasma (Debye screening), whereas gravity cannot be screened.",
+      "两个带质量且带电的物体同时受到电力和引力：电力方向由电荷符号决定（同号相斥、异号相吸），引力方向总是相互吸引；两者都沿连线，大小都按 \\(\\dfrac{1}{r^{2}}\\) 衰减。 · Two objects that have both mass and charge experience both electric and gravitational forces: the electric direction depends on the signs (like charges repel, opposite charges attract), while gravity always attracts; both act along the line joining them and fall off as \\(\\dfrac{1}{r^{2}}\\).",
+      "同号电荷时，电力与引力方向相反，净力是二者的矢量和；异号电荷时两者都吸引，但电力通常强得多。比较方向时必须先判断电荷符号，再判断哪种力占优。 · For like charges, the electric and gravitational forces point in opposite directions and the net force is their vector sum; for opposite charges both attract, but the electric force is usually far stronger. To compare directions, first determine the signs and then decide which force dominates."
     ],
     "definition": "电力与引力都是存在于两个物体之间的平方反比力。电力由电荷产生，可吸引或排斥；引力由质量产生，总是吸引。对两个带质量与电荷的物体，电力与引力的大小之比为 \\(\\dfrac{F_e}{F_g}=\\dfrac{k|q_1q_2|}{Gm_1m_2}\\)。虽然电磁耦合远强于引力，但宏观物体和天体通常近似电中性，净电力很小，因此在大尺度上天体运动由引力主导；而日常接触力与材料性质仍是大量微观电磁相互作用的宏观表现。 · Electric and gravitational forces are both inverse-square forces between two objects. Electric forces arise from charge and can attract or repel; gravitational forces arise from mass and always attract. For two objects with mass and charge, the ratio of electric to gravitational force is \\(\\dfrac{F_e}{F_g}=\\dfrac{k|q_1q_2|}{Gm_1m_2}\\). Although the electromagnetic coupling is far stronger, macroscopic objects and astronomical bodies are nearly neutral, so the net electric force is small; gravity therefore dominates on large scales, while everyday contact forces and material properties remain macroscopic manifestations of countless microscopic electromagnetic interactions.",
     "intuition": "把引力想成「只加不减的弱胶水」，把电力想成「很强但正负可抵消的弹簧」。在原子内部，电力把电子和原子核绑在一起；到了行星尺度，正负电荷几乎配对，净电力所剩无几，只有质量带来的引力还在累加。 · Think of gravity as a weak glue that only adds, and electric force as a very strong spring that can cancel because charges come in both signs. Inside atoms, electric forces bind electrons to nuclei; at planetary scales, positive and negative charges almost pair up, leaving little net electric force, while gravity from mass keeps adding.",
@@ -1407,6 +1757,18 @@ export const TOPICS = {
         ],
         "solution": "说法错误。两个质子之间 \\(\\dfrac{F_e}{F_g}\\approx1.2\\times10^{36}\\)；引力主导太阳系是因为天体近似电中性和质量巨大。 · The claim is false. For two protons, \\(\\dfrac{F_e}{F_g}\\approx1.2\\times10^{36}\\); gravity governs the solar system because astronomical bodies are nearly neutral and extremely massive.",
         "solutionLatex": "\\dfrac{F_e}{F_g}=\\dfrac{k e^{2}}{Gm_p^{2}}\\approx1.2\\times10^{36}"
+      },
+      {
+        "title": "例 5 · 两个电子的电力与引力方向 · Example 5: Directions of electric and gravitational forces between two electrons",
+        "prompt": "两个电子相距 \\(1.0\\,\\mathrm{nm}\\)。分别求它们之间电力与引力的大小和方向，并比较两种力。 · Two electrons are \\(1.0\\,\\mathrm{nm}\\) apart. Find the magnitude and direction of the electric and gravitational forces between them, and compare the two.",
+        "steps": [
+          "电子带同号负电荷，电力相斥；电子有质量，引力总是相吸。两种力方向相反。 · The electrons have the same negative charge, so the electric force is repulsive; they have mass, so gravity is always attractive. The two forces point in opposite directions.",
+          "电力 \\(F_e=k\\dfrac{e^{2}}{r^{2}}=(8.99\\times10^{9})\\dfrac{(1.60\\times10^{-19})^{2}}{(1.0\\times10^{-9})^{2}}\\approx2.3\\times10^{-10}\\,\\mathrm{N}\\)。 · Electric force \\(F_e=k\\dfrac{e^{2}}{r^{2}}=(8.99\\times10^{9})\\dfrac{(1.60\\times10^{-19})^{2}}{(1.0\\times10^{-9})^{2}}\\approx2.3\\times10^{-10}\\,\\mathrm{N}\\).",
+          "引力 \\(F_g=G\\dfrac{m_e^{2}}{r^{2}}=(6.67\\times10^{-11})\\dfrac{(9.11\\times10^{-31})^{2}}{(1.0\\times10^{-9})^{2}}\\approx5.5\\times10^{-53}\\,\\mathrm{N}\\)。 · Gravitational force \\(F_g=G\\dfrac{m_e^{2}}{r^{2}}=(6.67\\times10^{-11})\\dfrac{(9.11\\times10^{-31})^{2}}{(1.0\\times10^{-9})^{2}}\\approx5.5\\times10^{-53}\\,\\mathrm{N}\\).",
+          "比值 \\(\\dfrac{F_e}{F_g}\\approx4.2\\times10^{42}\\)，电力远强于引力；但两者方向相反，净力几乎就是斥力。 · The ratio is \\(\\dfrac{F_e}{F_g}\\approx4.2\\times10^{42}\\), so the electric force is far stronger; because the two forces point in opposite directions, the net force is essentially the repulsive electric force."
+        ],
+        "solution": "电力约 \\(2.3\\times10^{-10}\\,\\mathrm{N}\\)，相斥；引力约 \\(5.5\\times10^{-53}\\,\\mathrm{N}\\)，相吸；电力约为引力的 \\(4.2\\times10^{42}\\) 倍。 · Electric force about \\(2.3\\times10^{-10}\\,\\mathrm{N}\\), repulsive; gravitational force about \\(5.5\\times10^{-53}\\,\\mathrm{N}\\), attractive; the electric force is about \\(4.2\\times10^{42}\\) times gravity.",
+        "solutionLatex": "F_e\\approx2.3\\times10^{-10}\\,\\mathrm{N}\\ (\\text{repulsive}),\\quad F_g\\approx5.5\\times10^{-53}\\,\\mathrm{N}\\ (\\text{attractive}),\\quad \\dfrac{F_e}{F_g}\\approx4.2\\times10^{42}"
       }
     ],
     "examTips": [
@@ -1465,7 +1827,9 @@ export const TOPICS = {
       "两个带电物体的电力与引力之比与距离有关吗？为什么？ · Does the ratio of electric to gravitational force between two charged objects depend on distance? Why?",
       "「宏观电中性」是否意味着物体内部没有电荷？ · Does “macroscopically neutral” mean there is no charge inside an object?",
       "支持力和摩擦力为什么可以看作电磁力？ · Why can normal force and friction be regarded as electromagnetic forces?",
-      "如果地球带有显著净电荷，月球运动还会由引力主导吗？ · If Earth had a significant net charge, would the Moon's motion still be governed by gravity?"
+      "如果地球带有显著净电荷，月球运动还会由引力主导吗？ · If Earth had a significant net charge, would the Moon's motion still be governed by gravity?",
+      "两个同号带电的物体之间，电力与引力的方向相同还是相反？异号呢？ · For two objects with like charges, do the electric and gravitational forces point in the same or opposite directions? What about opposite charges?",
+      "为什么说「引力总是吸引」而电力可以排斥？这与电荷的符号有什么关系？ · Why is gravity always attractive while electric forces can repel? How does this relate to the signs of charge?"
     ],
     "vocabulary": [
       {
@@ -1515,6 +1879,318 @@ export const TOPICS = {
         "termEn": "screening",
         "defZh": "自由电荷重新分布以削弱外部电场的效果；等离子体中的德拜屏蔽是典型例子。",
         "defEn": "The redistribution of free charges that weakens an external electric field; Debye screening in a plasma is a typical example."
+      }
+    ]
+  },
+  "8.9": {
+    "id": "em/em-u8/8.9",
+    "subject": "em",
+    "chapterId": "em-u8",
+    "unitCode": "8",
+    "unitTitleZh": "电荷、电场与高斯定律",
+    "unitTitleEn": "Electric Charges, Fields, and Gauss's Law",
+    "code": "8.9",
+    "titleZh": "介电率与电极化",
+    "titleEn": "Permittivity and Electric Polarization",
+    "layer": "ap",
+    "summary": "介电率（电容率）\\(\\varepsilon\\) 描述材料在外电场中被极化的程度，也决定材料内部电场与电容的大小。真空介电率 \\(\\varepsilon_0\\) 是常数；材料介电率 \\(\\varepsilon=\\kappa\\varepsilon_0\\)，相对介电常数 \\(\\kappa\\ge1\\)，由材料的组成与结构、电子改变构型的难易决定。极化产生束缚电荷，其反向场削弱材料内部场，使 \\(E=\\dfrac{E_0}{\\kappa}\\)、\\(C=\\kappa C_0\\)；导体中自由电荷可自由移动，绝缘体中电荷难以移动，因此二者的介电响应不同。 · Electric permittivity \\(\\varepsilon\\) describes how strongly a material is polarized by an applied field and determines the internal field and capacitance. The vacuum permittivity \\(\\varepsilon_0\\) is a constant; a material's permittivity is \\(\\varepsilon=\\kappa\\varepsilon_0\\), with relative permittivity \\(\\kappa\\ge1\\) set by composition, structure, and the ease with which electrons can change configurations. Polarization produces bound charge whose opposing field weakens the internal field, giving \\(E=\\dfrac{E_0}{\\kappa}\\) and \\(C=\\kappa C_0\\); conductors have freely moving charge carriers while insulators do not, so their dielectric responses differ.",
+    "learningObjectives": [
+      "能把介电率定义为材料在外电场中极化程度的量度，并区分真空介电率 \\(\\varepsilon_0\\)、材料介电率 \\(\\varepsilon\\) 和相对介电常数 \\(\\kappa\\)。 · Define permittivity as a measure of how strongly a material is polarized by an applied field, and distinguish the vacuum permittivity \\(\\varepsilon_0\\), the material permittivity \\(\\varepsilon\\), and the relative permittivity \\(\\kappa\\).",
+      "能说明材料的组成、结构和电子改变构型的难易如何决定介电率，并区分导体与绝缘体的介电响应。 · Explain how composition, structure, and the ease with which electrons can change configurations determine permittivity, and distinguish the dielectric responses of conductors and insulators.",
+      "能用 \\(\\varepsilon=\\kappa\\varepsilon_0\\)、\\(E=\\dfrac{E_0}{\\kappa}\\)、\\(C=\\kappa C_0\\) 和 \\(P=\\varepsilon_0\\chi_e E\\) 计算极化、内部场与电容，并分析孤立电容器与接电源电容器的能量变化。 · Use \\(\\varepsilon=\\kappa\\varepsilon_0\\), \\(E=\\dfrac{E_0}{\\kappa}\\), \\(C=\\kappa C_0\\), and \\(P=\\varepsilon_0\\chi_e E\\) to calculate polarization, internal field, and capacitance, and analyze energy changes in isolated versus battery-connected capacitors."
+    ],
+    "essentialKnowledge": [
+      "介电率是材料在外电场中极化程度的量度：\\(\\varepsilon\\) 越大，材料越容易被极化，束缚电荷对内部场的削弱越强。 · Permittivity measures how strongly a material is polarized by an applied field: a larger \\(\\varepsilon\\) means easier polarization and stronger weakening of the internal field by bound charge.",
+      "真空介电率是常数 \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)，出现在库仑常数 \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\) 和高斯定律中。 · The vacuum permittivity is the constant \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\), appearing in Coulomb's constant \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\) and in Gauss's law.",
+      "材料的介电率与真空不同，差异来自材料的组成和结构：\\(\\varepsilon=\\kappa\\varepsilon_0\\)，相对介电常数 \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\)；空气的 \\(\\kappa\\) 接近 1，玻璃约为 4–10，水约为 80。 · A material's permittivity differs from the vacuum value because of its composition and structure: \\(\\varepsilon=\\kappa\\varepsilon_0\\), with relative permittivity \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\); air has \\(\\kappa\\) near 1, glass about 4–10, and water about 80.",
+      "在给定材料中，介电率由电子改变构型的难易决定：电子被束缚得越紧、越难随外场重排，极化响应越弱、\\(\\kappa\\) 越小；极性分子容易取向、电子云容易变形，\\(\\kappa\\) 较大。 · In a given material, permittivity is determined by the ease with which electrons can change configurations: the more tightly bound the electrons and the harder they are to rearrange, the weaker the polarization response and the smaller \\(\\kappa\\); polar molecules that align easily and electron clouds that deform easily give larger \\(\\kappa\\).",
+      "导体由电荷载流子容易移动的导电材料制成；静电平衡时导体内部 \\(E=0\\)，自由电荷分布在表面，因此不能用一个静态的相对介电常数来描述导体。 · Conductors are made of conducting materials whose charge carriers move easily; in electrostatic equilibrium \\(E=0\\) inside, free charge resides on the surface, so a conductor is not described by a static relative permittivity.",
+      "绝缘体由电荷载流子难以移动的非导电材料制成；外电场使束缚电荷发生微小相对位移或使分子偶极取向，产生电极化，但电荷不能宏观迁移。 · Insulators are made of nonconducting materials whose charge carriers cannot move easily; an applied field slightly displaces bound charge or aligns molecular dipoles, producing electric polarization without macroscopic charge transport.",
+      "电极化可模型化为外电场引起的电子重排与分子偶极取向，导致材料内部正负电荷中心分离；极化产生的束缚电荷在材料表面形成面电荷，其反向场削弱外场。 · Electric polarization can be modeled as field-induced electron rearrangement and molecular-dipole alignment, separating positive and negative charge centers within the material; the resulting bound charge forms surface charge whose opposing field weakens the applied field.",
+      "线性、均匀、各向同性介质的内部场为 \\(E=\\dfrac{E_0}{\\kappa}\\)，其中 \\(E_0\\) 是自由电荷在真空中产生的场；极化强度 \\(P=\\varepsilon_0\\chi_e E\\)，电极化率 \\(\\chi_e=\\kappa-1\\)。 · For a linear, homogeneous, isotropic dielectric, the internal field is \\(E=\\dfrac{E_0}{\\kappa}\\), where \\(E_0\\) is the field the free charge would produce in vacuum; the polarization density is \\(P=\\varepsilon_0\\chi_e E\\), with electric susceptibility \\(\\chi_e=\\kappa-1\\).",
+      "填满介质的平行板电容器电容为 \\(C=\\kappa C_0=\\dfrac{\\kappa\\varepsilon_0 A}{d}\\)；孤立电容器 \\(Q\\) 不变，插入介质后 \\(V=\\dfrac{V_0}{\\kappa}\\)、储能减小；接电源时 \\(V\\) 不变，\\(Q=\\kappa Q_0\\)、储能增大。 · A parallel-plate capacitor filled with a dielectric has \\(C=\\kappa C_0=\\dfrac{\\kappa\\varepsilon_0 A}{d}\\); for an isolated capacitor \\(Q\\) is fixed, so inserting the dielectric gives \\(V=\\dfrac{V_0}{\\kappa}\\) and stored energy decreases; with a battery connected \\(V\\) is fixed, so \\(Q=\\kappa Q_0\\) and stored energy increases.",
+      "介电率不是对所有材料、所有条件都严格常数：它可随频率、温度和场强变化，强场下还可能发生击穿；在 AP 题中通常按给定的 \\(\\kappa\\) 作线性近似。 · Permittivity is not strictly constant for every material and condition: it can vary with frequency, temperature, and field strength, and strong fields can cause breakdown; AP problems normally use the given \\(\\kappa\\) as a linear approximation."
+    ],
+    "definition": "介电率（电容率）\\(\\varepsilon\\) 是描述材料在外电场中极化响应的物理量：\\(\\varepsilon\\) 越大，材料越容易被极化，内部场被束缚电荷削弱得越多。真空介电率 \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\) 是常数；材料介电率 \\(\\varepsilon=\\kappa\\varepsilon_0\\)，其中 \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\) 为相对介电常数。极化是外场引起的电子重排与分子偶极取向，产生束缚电荷；束缚电荷的反向场使材料内部 \\(E=\\dfrac{E_0}{\\kappa}\\)。介电率由材料组成与结构决定，尤其取决于电子改变构型的难易：导体中载流子可自由移动，绝缘体中载流子难以移动。 · Electric permittivity \\(\\varepsilon\\) describes a material's polarization response to an applied field: a larger \\(\\varepsilon\\) means easier polarization and stronger weakening of the internal field by bound charge. The vacuum permittivity \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\) is constant; a material's permittivity is \\(\\varepsilon=\\kappa\\varepsilon_0\\), where \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\) is the relative permittivity. Polarization is field-induced electron rearrangement and molecular-dipole alignment, producing bound charge whose opposing field gives \\(E=\\dfrac{E_0}{\\kappa}\\) inside. Permittivity is set by composition and structure, especially by the ease with which electrons can change configurations: charge carriers move freely in conductors but not easily in insulators.",
+    "intuition": "把介质想成一群可拉伸的小偶极子：外电场一来，电子云向一边偏、原子核向另一边偏，分子也尝试转向，材料内部就出现一层层“被拉开”的正负电荷。这些束缚电荷在材料表面形成与自由电荷相反的电荷层，产生一个反向场，把外场抵消掉一部分；所以介质内部的场总比真空中小，\\(E=\\dfrac{E_0}{\\kappa}\\)。介电率就是描述“这种拉扯有多容易”的材料参数：电子被束缚得越紧、分子越难转向，\\(\\kappa\\) 越小；极性分子或容易变形的电子云则给出较大的 \\(\\kappa\\)。导体完全不同：它的自由电子会一直移动到内部场为零，所以导体没有静态的 \\(\\kappa\\)，而是把净电荷分布在表面。 · Think of a dielectric as a collection of stretchable little dipoles: when an external field appears, electron clouds shift one way and nuclei the other, and molecules try to rotate, creating layers of separated positive and negative charge inside the material. This bound charge forms surface layers opposite to the free charge and produces an opposing field that cancels part of the applied field; the field inside is therefore always smaller than in vacuum, \\(E=\\dfrac{E_0}{\\kappa}\\). Permittivity describes how easily this stretching happens: tightly bound electrons and molecules that cannot rotate give small \\(\\kappa\\), while polar molecules or easily deformed electron clouds give large \\(\\kappa\\). A conductor is completely different: its free electrons keep moving until the internal field is zero, so a conductor has no static \\(\\kappa\\) and instead puts its net charge on the surface.",
+    "formulas": [
+      {
+        "latex": "\\varepsilon=\\kappa\\varepsilon_0",
+        "note": "材料介电率与真空介电率的关系。 · Relation between a material's permittivity and the vacuum permittivity."
+      },
+      {
+        "latex": "\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1",
+        "note": "相对介电常数；真空为 1，材料通常大于 1。 · Relative permittivity; equal to 1 in vacuum and usually greater than 1 in matter."
+      },
+      {
+        "latex": "\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}",
+        "note": "真空介电率，也是 \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\) 中的常数。 · Vacuum permittivity, the constant in \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\)."
+      },
+      {
+        "latex": "E=\\dfrac{E_0}{\\kappa}",
+        "note": "线性均匀介质内部场；\\(E_0\\) 为自由电荷在真空中的场。 · Internal field of a linear homogeneous dielectric; \\(E_0\\) is the free-charge field in vacuum."
+      },
+      {
+        "latex": "C=\\kappa C_0=\\dfrac{\\kappa\\varepsilon_0 A}{d}",
+        "note": "填满介质的平行板电容器。 · Parallel-plate capacitor filled with a dielectric."
+      },
+      {
+        "latex": "P=\\varepsilon_0\\chi_e E,\\qquad \\chi_e=\\kappa-1",
+        "note": "极化强度与电极化率；\\(P\\) 是单位体积的偶极矩。 · Polarization density and electric susceptibility; \\(P\\) is dipole moment per unit volume."
+      },
+      {
+        "latex": "\\sigma_b=\\vec P\\cdot\\hat n",
+        "note": "介质表面的束缚面电荷密度；\\(\\hat n\\) 为外法线。 · Bound surface charge density on a dielectric; \\(\\hat n\\) is the outward normal."
+      },
+      {
+        "latex": "\\vec D=\\varepsilon\\vec E,\\qquad \\oint\\vec D\\cdot\\mathrm{d}\\vec A=Q_{\\mathrm{free}}",
+        "note": "电位移矢量与介质中的高斯定律；只对自由电荷积分。 · Electric displacement and Gauss's law in a dielectric; only free charge is enclosed."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "外电场 · Applied field",
+        "to": "电极化 · Electric polarization",
+        "note": "外场使电子云相对原子核位移、使分子偶极转向，材料内部正负电荷中心分离。 · The applied field displaces electron clouds relative to nuclei and rotates molecular dipoles, separating positive and negative charge centers inside the material."
+      },
+      {
+        "from": "束缚电荷 · Bound charge",
+        "to": "反向场 · Opposing field",
+        "note": "极化在介质表面形成束缚面电荷，其场与自由电荷场方向相反，使净场减小。 · Polarization creates bound surface charge whose field opposes the free-charge field, reducing the net field."
+      },
+      {
+        "from": "线性介质 · Linear dielectric",
+        "to": "介电率 · Permittivity",
+        "note": "极化强度与场强成正比 \\(P=\\varepsilon_0\\chi_e E\\)，定义 \\(\\varepsilon=\\varepsilon_0(1+\\chi_e)=\\kappa\\varepsilon_0\\)。 · Polarization is proportional to the field, \\(P=\\varepsilon_0\\chi_e E\\), and \\(\\varepsilon=\\varepsilon_0(1+\\chi_e)=\\kappa\\varepsilon_0\\)."
+      },
+      {
+        "from": "电容定义 · Capacitance definition",
+        "to": "介质电容 · Dielectric capacitance",
+        "note": "\\(C=\\dfrac{Q}{V}\\)；填满介质后 \\(V\\) 变为 \\(\\dfrac{V_0}{\\kappa}\\)（\\(Q\\) 不变）或 \\(Q\\) 变为 \\(\\kappa Q_0\\)（\\(V\\) 不变），故 \\(C=\\kappa C_0\\)。 · \\(C=\\dfrac{Q}{V}\\); with a dielectric \\(V\\) becomes \\(\\dfrac{V_0}{\\kappa}\\) when \\(Q\\) is fixed, or \\(Q\\) becomes \\(\\kappa Q_0\\) when \\(V\\) is fixed, so \\(C=\\kappa C_0\\)."
+      },
+      {
+        "from": "材料组成与结构 · Composition and structure",
+        "to": "介电率大小 · Size of permittivity",
+        "note": "电子改变构型越容易、极性分子越多，极化响应越强，\\(\\kappa\\) 越大；电子被紧紧束缚的材料 \\(\\kappa\\) 较小。 · The easier electrons can change configurations and the more polar the molecules, the stronger the polarization response and the larger \\(\\kappa\\); materials with tightly bound electrons have smaller \\(\\kappa\\)."
+      },
+      {
+        "from": "导体与绝缘体 · Conductors and insulators",
+        "to": "不同响应 · Different responses",
+        "note": "导体中自由电荷宏观迁移直到内部 \\(E=0\\)；绝缘体中电荷被束缚，只能微小位移形成极化。 · Free charge in a conductor migrates macroscopically until \\(E=0\\) inside; charge in an insulator is bound and can only shift slightly to form polarization."
+      }
+    ],
+    "conditions": [
+      "线性、均匀、各向同性介质；\\(\\kappa\\) 在同一材料中近似为常数。 · Linear, homogeneous, isotropic dielectric; \\(\\kappa\\) is approximately constant within the material.",
+      "介质未击穿；强场下会发生介电击穿，线性关系失效。 · The dielectric is not broken down; strong fields cause dielectric breakdown and the linear relation fails.",
+      "\\(\\kappa\\) 可能随频率、温度和场强变化；题目给定 \\(\\kappa\\) 时按该值计算。 · \\(\\kappa\\) may vary with frequency, temperature, and field strength; use the value given in the problem.",
+      "导体在静电平衡时内部 \\(E=0\\)，不能用一个静态 \\(\\kappa\\) 描述；介电率模型适用于绝缘介质。 · A conductor in electrostatic equilibrium has \\(E=0\\) inside and is not described by a static \\(\\kappa\\); the permittivity model applies to insulating dielectrics.",
+      "若介质只部分填充电容器，需按串联、并联或分层模型处理，不能直接整个用 \\(C=\\kappa C_0\\)。 · If the dielectric only partially fills a capacitor, use series, parallel, or layered models; do not apply \\(C=\\kappa C_0\\) to the whole capacitor.",
+      "区分自由电荷与束缚电荷：外加电场和电路提供的是自由电荷，极化产生的是束缚电荷。 · Distinguish free from bound charge: external fields and circuits supply free charge, while polarization produces bound charge."
+    ],
+    "keyPoints": [
+      "介电率衡量材料被外电场极化的程度；\\(\\varepsilon\\) 越大，极化越强。 · Permittivity measures how strongly a material is polarized by an applied field; larger \\(\\varepsilon\\) means stronger polarization.",
+      "真空介电率 \\(\\varepsilon_0\\) 是常数；材料介电率 \\(\\varepsilon=\\kappa\\varepsilon_0\\)，\\(\\kappa\\ge1\\)。 · The vacuum permittivity \\(\\varepsilon_0\\) is constant; a material's permittivity is \\(\\varepsilon=\\kappa\\varepsilon_0\\), with \\(\\kappa\\ge1\\).",
+      "介电率差异来自材料组成和结构，尤其取决于电子改变构型的难易。 · Differences in permittivity come from composition and structure, especially the ease with which electrons can change configurations.",
+      "导体中自由电荷可宏观迁移，静电平衡时内部 \\(E=0\\)；绝缘体中电荷被束缚，只能极化。 · Free charge in a conductor can migrate macroscopically, giving \\(E=0\\) inside at equilibrium; charge in an insulator is bound and can only polarize.",
+      "极化产生束缚电荷，其反向场使介质内部 \\(E=\\dfrac{E_0}{\\kappa}\\)。 · Polarization produces bound charge whose opposing field gives \\(E=\\dfrac{E_0}{\\kappa}\\) inside the dielectric.",
+      "填满介质的电容器 \\(C=\\kappa C_0\\)；孤立时 \\(Q\\) 不变、\\(V\\) 降低、储能减小；接电源时 \\(V\\) 不变、\\(Q\\) 增大、储能增大。 · A filled capacitor has \\(C=\\kappa C_0\\); when isolated, \\(Q\\) is fixed, \\(V\\) drops, and stored energy decreases; with a battery, \\(V\\) is fixed, \\(Q\\) increases, and stored energy increases.",
+      "极化强度 \\(P=\\varepsilon_0\\chi_e E\\)，\\(\\chi_e=\\kappa-1\\)；束缚面电荷密度为 \\(\\sigma_b=\\vec P\\cdot\\hat n\\)。 · Polarization density \\(P=\\varepsilon_0\\chi_e E\\) with \\(\\chi_e=\\kappa-1\\); bound surface charge density is \\(\\sigma_b=\\vec P\\cdot\\hat n\\).",
+      "介电率不是绝对常数，可随频率、温度和场强变化。 · Permittivity is not an absolute constant; it can vary with frequency, temperature, and field strength."
+    ],
+    "misconceptions": [
+      "把介电率与极化混为一谈：\\(\\varepsilon\\) 是材料属性，\\(P\\) 是给定场强下的极化强度。 · Confusing permittivity with polarization: \\(\\varepsilon\\) is a material property, while \\(P\\) is the polarization density at a given field.",
+      "认为插入介质会增强内部电场；束缚电荷的反向场使内部场减弱为 \\(\\dfrac{E_0}{\\kappa}\\)。 · Thinking a dielectric increases the internal field; bound charge produces an opposing field and reduces it to \\(\\dfrac{E_0}{\\kappa}\\).",
+      "认为普通介电材料的 \\(\\kappa\\) 可以小于 1；通常 \\(\\kappa\\ge1\\)，真空为 1。 · Thinking ordinary dielectrics can have \\(\\kappa<1\\); normally \\(\\kappa\\ge1\\), with vacuum equal to 1.",
+      "把导体也用一个静态 \\(\\kappa\\) 描述；导体中自由电荷会移动直到内部 \\(E=0\\)。 · Describing a conductor with a static \\(\\kappa\\); its free charge moves until \\(E=0\\) inside.",
+      "认为 \\(\\varepsilon\\) 与 \\(\\varepsilon_0\\) 只是符号不同；两者数值和物理含义都不同，\\(\\varepsilon=\\kappa\\varepsilon_0\\)。 · Thinking \\(\\varepsilon\\) and \\(\\varepsilon_0\\) differ only in notation; they differ in value and meaning, with \\(\\varepsilon=\\kappa\\varepsilon_0\\).",
+      "认为插入介质总是增加电容器储能；孤立电容器的储能减小，接电源时才增加。 · Thinking inserting a dielectric always increases stored energy; energy decreases for an isolated capacitor and increases only when connected to a battery.",
+      "把束缚电荷当成自由电荷，或认为介质中的总电场只由自由电荷决定。 · Treating bound charge as free charge, or thinking the total field in a dielectric is set only by free charge.",
+      "认为 \\(\\kappa\\) 对所有频率和温度都一样；极化机制有时间响应，\\(\\kappa\\) 会随频率和温度变化。 · Thinking \\(\\kappa\\) is the same at all frequencies and temperatures; polarization mechanisms have response times, so \\(\\kappa\\) varies."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 由电容求相对介电常数 · Example 1: Finding relative permittivity from capacitance",
+        "prompt": "一个平行板电容器在真空中的电容为 \\(C_0=2.0\\,\\mathrm{pF}\\)。填满某种介质后电容变为 \\(C=7.0\\,\\mathrm{pF}\\)。求该介质的 \\(\\kappa\\) 和介电率 \\(\\varepsilon\\)。 · A parallel-plate capacitor has vacuum capacitance \\(C_0=2.0\\,\\mathrm{pF}\\). Filled with a dielectric, its capacitance becomes \\(C=7.0\\,\\mathrm{pF}\\). Find \\(\\kappa\\) and the permittivity \\(\\varepsilon\\) of the dielectric.",
+        "steps": [
+          "填满介质时 \\(C=\\kappa C_0\\)，所以 \\(\\kappa=\\dfrac{C}{C_0}\\)。 · With a filled dielectric, \\(C=\\kappa C_0\\), so \\(\\kappa=\\dfrac{C}{C_0}\\).",
+          "\\(\\kappa=\\dfrac{7.0}{2.0}=3.5\\)。 · \\(\\kappa=\\dfrac{7.0}{2.0}=3.5\\).",
+          "\\(\\varepsilon=\\kappa\\varepsilon_0=(3.5)(8.85\\times10^{-12})\\approx3.1\\times10^{-11}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)。 · \\(\\varepsilon=\\kappa\\varepsilon_0=(3.5)(8.85\\times10^{-12})\\approx3.1\\times10^{-11}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)."
+        ],
+        "solution": "\\(\\kappa=3.5\\)，\\(\\varepsilon\\approx3.1\\times10^{-11}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)。 · \\(\\kappa=3.5\\), \\(\\varepsilon\\approx3.1\\times10^{-11}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\).",
+        "solutionLatex": "\\kappa=\\dfrac{C}{C_0}=3.5,\\qquad \\varepsilon=\\kappa\\varepsilon_0\\approx3.1\\times10^{-11}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}"
+      },
+      {
+        "title": "例 2 · 介质内部场的削弱 · Example 2: Reduction of the internal field in a dielectric",
+        "prompt": "某区域若为真空，自由电荷产生的场为 \\(E_0=1.2\\times10^{5}\\,\\mathrm{V\\,m^{-1}}\\)。填入 \\(\\kappa=2.5\\) 的均匀介质后，求介质内部场以及束缚电荷产生的反向场。 · In a region that would be vacuum, free charge produces \\(E_0=1.2\\times10^{5}\\,\\mathrm{V\\,m^{-1}}\\). After filling the region with a uniform dielectric of \\(\\kappa=2.5\\), find the internal field and the opposing field due to bound charge.",
+        "steps": [
+          "介质内部场 \\(E=\\dfrac{E_0}{\\kappa}\\)。 · The internal field is \\(E=\\dfrac{E_0}{\\kappa}\\).",
+          "\\(E=\\dfrac{1.2\\times10^{5}}{2.5}=4.8\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)。 · \\(E=\\dfrac{1.2\\times10^{5}}{2.5}=4.8\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\).",
+          "束缚电荷的反向场大小 \\(E_b=E_0-E=(1.2-0.48)\\times10^{5}=7.2\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)，方向与 \\(E_0\\) 相反。 · The bound-charge opposing field has magnitude \\(E_b=E_0-E=(1.2-0.48)\\times10^{5}=7.2\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\), opposite to \\(E_0\\)."
+        ],
+        "solution": "\\(E=4.8\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)，\\(E_b=7.2\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\) 且与 \\(E_0\\) 反向。 · \\(E=4.8\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\), and \\(E_b=7.2\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\) opposite to \\(E_0\\).",
+        "solutionLatex": "E=\\dfrac{E_0}{\\kappa}=4.8\\times10^{4}\\,\\mathrm{V\\,m^{-1}},\\qquad E_b=E_0-E=7.2\\times10^{4}\\,\\mathrm{V\\,m^{-1}}"
+      },
+      {
+        "title": "例 3 · 极化强度与束缚面电荷 · Example 3: Polarization density and bound surface charge",
+        "prompt": "某线性介质 \\(\\kappa=3.0\\)，内部场 \\(E=4.0\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)。求电极化率 \\(\\chi_e\\)、极化强度 \\(P\\)、束缚面电荷密度 \\(\\sigma_b\\) 和电位移 \\(D\\)。 · A linear dielectric has \\(\\kappa=3.0\\) and internal field \\(E=4.0\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\). Find the susceptibility \\(\\chi_e\\), polarization density \\(P\\), bound surface charge density \\(\\sigma_b\\), and electric displacement \\(D\\).",
+        "steps": [
+          "\\(\\chi_e=\\kappa-1=2.0\\)。 · \\(\\chi_e=\\kappa-1=2.0\\).",
+          "\\(P=\\varepsilon_0\\chi_e E=(8.85\\times10^{-12})(2.0)(4.0\\times10^{4})\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)。 · \\(P=\\varepsilon_0\\chi_e E=(8.85\\times10^{-12})(2.0)(4.0\\times10^{4})\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\).",
+          "在垂直于 \\(\\vec P\\) 的表面，\\(\\sigma_b=P\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)。 · On a surface perpendicular to \\(\\vec P\\), \\(\\sigma_b=P\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\).",
+          "\\(D=\\varepsilon E=\\kappa\\varepsilon_0E=(3.0)(8.85\\times10^{-12})(4.0\\times10^{4})\\approx1.1\\times10^{-6}\\,\\mathrm{C\\,m^{-2}}\\)。 · \\(D=\\varepsilon E=\\kappa\\varepsilon_0E=(3.0)(8.85\\times10^{-12})(4.0\\times10^{4})\\approx1.1\\times10^{-6}\\,\\mathrm{C\\,m^{-2}}\\)."
+        ],
+        "solution": "\\(\\chi_e=2.0\\)，\\(P\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)，\\(\\sigma_b\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)，\\(D\\approx1.1\\times10^{-6}\\,\\mathrm{C\\,m^{-2}}\\)。 · \\(\\chi_e=2.0\\), \\(P\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\), \\(\\sigma_b\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\), and \\(D\\approx1.1\\times10^{-6}\\,\\mathrm{C\\,m^{-2}}\\).",
+        "solutionLatex": "\\chi_e=2.0,\\quad P\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}},\\quad \\sigma_b\\approx7.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}},\\quad D\\approx1.1\\times10^{-6}\\,\\mathrm{C\\,m^{-2}}"
+      },
+      {
+        "title": "例 4 · 孤立与接电源电容器的能量 · Example 4: Energy of isolated versus battery-connected capacitors",
+        "prompt": "一个 \\(C_0=4.0\\,\\mathrm{\\mu F}\\) 的平行板电容器先充电到 \\(V_0=12\\,\\mathrm{V}\\)。然后插入 \\(\\kappa=3.0\\) 的介质。(a) 若充电后断开电源，求新电容、电压和储能；(b) 若始终接在 12 V 电源上，求新电容、电荷和储能。 · A \\(C_0=4.0\\,\\mathrm{\\mu F}\\) parallel-plate capacitor is charged to \\(V_0=12\\,\\mathrm{V}\\). A dielectric with \\(\\kappa=3.0\\) is then inserted. (a) If the battery is disconnected after charging, find the new capacitance, voltage, and stored energy. (b) If the battery remains connected at 12 V, find the new capacitance, charge, and stored energy.",
+        "steps": [
+          "(a) 孤立时 \\(Q=C_0V_0=(4.0\\times10^{-6})(12)=48\\,\\mathrm{\\mu C}\\) 不变。 · (a) When isolated, \\(Q=C_0V_0=(4.0\\times10^{-6})(12)=48\\,\\mathrm{\\mu C}\\) is fixed.",
+          "\\(C=\\kappa C_0=12\\,\\mathrm{\\mu F}\\)，\\(V=\\dfrac{Q}{C}=4.0\\,\\mathrm{V}\\)。 · \\(C=\\kappa C_0=12\\,\\mathrm{\\mu F}\\), and \\(V=\\dfrac{Q}{C}=4.0\\,\\mathrm{V}\\).",
+          "原来储能 \\(U_0=\\dfrac{1}{2}C_0V_0^{2}=\\dfrac{1}{2}(4.0\\times10^{-6})(12)^{2}=2.88\\times10^{-4}\\,\\mathrm{J}\\)。 · The original stored energy is \\(U_0=\\dfrac{1}{2}C_0V_0^{2}=\\dfrac{1}{2}(4.0\\times10^{-6})(12)^{2}=2.88\\times10^{-4}\\,\\mathrm{J}\\).",
+          "插入后 \\(U=\\dfrac{Q^{2}}{2C}=\\dfrac{(48\\times10^{-6})^{2}}{2(12\\times10^{-6})}\\approx9.6\\times10^{-5}\\,\\mathrm{J}\\)，小于 \\(U_0\\)。 · After insertion, \\(U=\\dfrac{Q^{2}}{2C}=\\dfrac{(48\\times10^{-6})^{2}}{2(12\\times10^{-6})}\\approx9.6\\times10^{-5}\\,\\mathrm{J}\\), less than \\(U_0\\).",
+          "(b) 接电源时 \\(V=12\\,\\mathrm{V}\\) 不变，\\(C=12\\,\\mathrm{\\mu F}\\)，\\(Q=CV=144\\,\\mathrm{\\mu C}\\)。 · (b) With the battery connected, \\(V=12\\,\\mathrm{V}\\) is fixed, \\(C=12\\,\\mathrm{\\mu F}\\), and \\(Q=CV=144\\,\\mathrm{\\mu C}\\).",
+          "\\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}(12\\times10^{-6})(12)^{2}\\approx8.6\\times10^{-4}\\,\\mathrm{J}\\)，大于原来的储能。 · \\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}(12\\times10^{-6})(12)^{2}\\approx8.6\\times10^{-4}\\,\\mathrm{J}\\), greater than the original energy."
+        ],
+        "solution": "(a) \\(C=12\\,\\mathrm{\\mu F}\\)，\\(V=4.0\\,\\mathrm{V}\\)，\\(U\\approx9.6\\times10^{-5}\\,\\mathrm{J}\\)；(b) \\(C=12\\,\\mathrm{\\mu F}\\)，\\(Q=144\\,\\mathrm{\\mu C}\\)，\\(U\\approx8.6\\times10^{-4}\\,\\mathrm{J}\\)。 · (a) \\(C=12\\,\\mathrm{\\mu F}\\), \\(V=4.0\\,\\mathrm{V}\\), \\(U\\approx9.6\\times10^{-5}\\,\\mathrm{J}\\); (b) \\(C=12\\,\\mathrm{\\mu F}\\), \\(Q=144\\,\\mathrm{\\mu C}\\), \\(U\\approx8.6\\times10^{-4}\\,\\mathrm{J}\\).",
+        "solutionLatex": "\\text{(a)}\\ C=12\\,\\mathrm{\\mu F},\\ V=4.0\\,\\mathrm{V},\\ U\\approx9.6\\times10^{-5}\\,\\mathrm{J};\\qquad \\text{(b)}\\ Q=144\\,\\mathrm{\\mu C},\\ U\\approx8.6\\times10^{-4}\\,\\mathrm{J}"
+      },
+      {
+        "title": "例 5 · 导体与绝缘体的介电响应 · Example 5: Dielectric response of a conductor versus an insulator",
+        "prompt": "把一块铜和一块玻璃分别放进同一个外电场中。描述两者内部电荷的行为、内部电场和是否能定义静态 \\(\\kappa\\)。 · A copper block and a glass block are placed in the same external field. Describe the behavior of charge inside each, the internal field, and whether a static \\(\\kappa\\) can be defined.",
+        "steps": [
+          "铜是导体，自由电子在外场作用下宏观迁移，直到内部场为零；净电荷分布在表面。 · Copper is a conductor; free electrons migrate macroscopically under the external field until the internal field is zero, and net charge resides on the surface.",
+          "玻璃是绝缘体，电子被束缚，只能发生微小位移或分子偶极取向，形成极化；内部场减弱但不为零。 · Glass is an insulator; electrons are bound and can only shift slightly or align molecular dipoles, producing polarization; the internal field is reduced but not zero.",
+          "因此铜不能用静态 \\(\\kappa\\) 描述，而玻璃可以用 \\(\\varepsilon=\\kappa\\varepsilon_0\\) 和 \\(E=\\dfrac{E_0}{\\kappa}\\) 描述。 · Therefore copper is not described by a static \\(\\kappa\\), while glass can be described by \\(\\varepsilon=\\kappa\\varepsilon_0\\) and \\(E=\\dfrac{E_0}{\\kappa}\\)."
+        ],
+        "solution": "铜：自由电荷迁移到表面，内部 \\(E=0\\)，无静态 \\(\\kappa\\)；玻璃：束缚电荷极化，内部 \\(E=\\dfrac{E_0}{\\kappa}\\)，可用 \\(\\kappa\\) 描述。 · Copper: free charge moves to the surface, \\(E=0\\) inside, no static \\(\\kappa\\); glass: bound charge polarizes, \\(E=\\dfrac{E_0}{\\kappa}\\) inside, described by \\(\\kappa\\).",
+        "solutionLatex": "\\text{conductor: }E_{\\mathrm{inside}}=0;\\qquad \\text{dielectric: }E_{\\mathrm{inside}}=\\dfrac{E_0}{\\kappa}"
+      },
+      {
+        "title": "例 6 · 材料组成如何影响介电率 · Example 6: How composition affects permittivity",
+        "prompt": "空气、玻璃和水的相对介电常数分别约为 1、5 和 80。用电子改变构型的难易和分子极性解释这个顺序，并说明为什么 \\(\\kappa\\) 不是所有材料都相同。 · The relative permittivities of air, glass, and water are approximately 1, 5, and 80. Explain this ordering using the ease of electron configuration changes and molecular polarity, and explain why \\(\\kappa\\) is not the same for all materials.",
+        "steps": [
+          "空气分子稀疏且极性很弱，电子云几乎不被外场改变，所以 \\(\\kappa\\approx1\\)。 · Air molecules are sparse and weakly polar, and their electron clouds are hardly deformed by the field, so \\(\\kappa\\approx1\\).",
+          "玻璃中的电子被束缚，但离子和电子云可以在外场中发生较小位移，极化响应中等，\\(\\kappa\\approx5\\)。 · Electrons in glass are bound, but ions and electron clouds can shift slightly in the field, giving a moderate polarization response and \\(\\kappa\\approx5\\).",
+          "水是极性分子，永偶极矩可以在外场中转向，且电子云容易变形，所以 \\(\\kappa\\approx80\\)。 · Water consists of polar molecules whose permanent dipoles can rotate in the field and whose electron clouds deform easily, so \\(\\kappa\\approx80\\).",
+          "因此介电率由材料组成、结构和电子改变构型的难易决定，不能用一个通用值代替。 · Thus permittivity is set by composition, structure, and the ease of electron configuration changes; no universal value can replace the material-specific one."
+        ],
+        "solution": "极化响应从弱到强：空气 < 玻璃 < 水；\\(\\kappa\\) 由材料组成、结构和极性决定。 · Polarization response increases from air to glass to water; \\(\\kappa\\) is set by composition, structure, and molecular polarity.",
+        "solutionLatex": "\\kappa_{\\mathrm{air}}\\approx1<\\kappa_{\\mathrm{glass}}\\approx5<\\kappa_{\\mathrm{water}}\\approx80"
+      }
+    ],
+    "examTips": [
+      "先问“材料还是真空”：真空用 \\(\\varepsilon_0\\)，材料用 \\(\\varepsilon=\\kappa\\varepsilon_0\\)。 · First ask “material or vacuum”: use \\(\\varepsilon_0\\) for vacuum and \\(\\varepsilon=\\kappa\\varepsilon_0\\) for matter.",
+      "见到“插入介质”先判断电容器是孤立（\\(Q\\) 不变）还是接电源（\\(V\\) 不变），再决定用哪个能量公式。 · When a dielectric is inserted, first decide whether the capacitor is isolated (\\(Q\\) fixed) or connected to a battery (\\(V\\) fixed), then choose the energy formula.",
+      "介电率是材料属性，极化强度 \\(P\\) 是给定场下的响应；不要把二者混用。 · Permittivity is a material property, while polarization density \\(P\\) is the response at a given field; do not confuse them.",
+      "导体在静电平衡时内部 \\(E=0\\)，不要给导体硬套 \\(E=\\dfrac{E_0}{\\kappa}\\)。 · A conductor in electrostatic equilibrium has \\(E=0\\) inside; do not force \\(E=\\dfrac{E_0}{\\kappa}\\) onto a conductor.",
+      "涉及表面束缚电荷时，用 \\(\\sigma_b=\\vec P\\cdot\\hat n\\)，并注意法线方向决定正负。 · For bound surface charge, use \\(\\sigma_b=\\vec P\\cdot\\hat n\\) and pay attention to how the normal sets the sign.",
+      "用极限检查：真空 \\(\\kappa=1\\) 应回到无介质结果；\\(\\kappa\\) 越大，内部场越小。 · Check limits: \\(\\kappa=1\\) should recover the vacuum result; larger \\(\\kappa\\) gives a smaller internal field."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.1",
+        "title": "电荷与力 · Electric Charge and Force",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.5",
+        "title": "高斯定律 · Gauss's Law",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.10",
+        "title": "绝缘体电荷与内部电场 · Charge and Fields inside Insulators",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u10",
+        "code": "10.4",
+        "title": "电介质 · Dielectrics",
+        "relation": "后续 · next"
+      }
+    ],
+    "modules": [],
+    "practiceHref": "#/em/practice/em-u8",
+    "connections": [
+      "上游：8.1 的库仑定律中出现 \\(\\varepsilon_0\\)，8.5 的高斯定律把包围电荷与 \\(\\varepsilon_0\\) 联系起来；本节解释材料中 \\(\\varepsilon_0\\) 为什么要换成 \\(\\varepsilon\\)。 · Upstream: Coulomb's law in 8.1 contains \\(\\varepsilon_0\\), and Gauss's law in 8.5 relates enclosed charge to \\(\\varepsilon_0\\); this topic explains why \\(\\varepsilon_0\\) is replaced by \\(\\varepsilon\\) in matter.",
+      "下游：8.10 讨论绝缘体中电荷的分布与内部场，本节提供极化与介电率的微观解释。 · Downstream: 8.10 discusses charge distribution and internal fields in insulators, and this topic supplies the microscopic explanation through polarization and permittivity.",
+      "跨单元：10.3 的电容器与 10.4 的电介质把 \\(C=\\kappa C_0\\)、\\(E=\\dfrac{E_0}{\\kappa}\\) 用于具体器件和能量分析。 · Cross-unit: capacitors in 10.3 and dielectrics in 10.4 apply \\(C=\\kappa C_0\\) and \\(E=\\dfrac{E_0}{\\kappa}\\) to devices and energy analysis.",
+      "跨学科：水的高介电率影响电解质溶解、生物膜电容和微波加热；材料工程用介电率设计绝缘与储能器件。 · Cross-disciplinary: water's high permittivity affects electrolyte dissolution, membrane capacitance, and microwave heating; materials engineering uses permittivity to design insulators and energy-storage devices."
+    ],
+    "intuitionDetailed": "介电率最容易和“极化”混淆。可以这样分工：\\(\\varepsilon\\) 是材料的“软硬程度”，说明它在给定外场下能被极化到什么程度；\\(P\\) 是在某个具体场强下实际产生的极化强度。对线性介质，两者由 \\(P=\\varepsilon_0(\\kappa-1)E\\) 联系。微观上，极化有三种常见来源：电子云相对原子核的位移、离子晶体中正负离子的相对位移、极性分子偶极子的转向。电子被束缚得越紧，位移越小；分子越容易转向，\\(\\kappa\\) 越大。极化产生的束缚电荷在介质表面形成与自由电荷相反的电荷层，其反向场把内部场从 \\(E_0\\) 削弱到 \\(\\dfrac{E_0}{\\kappa}\\)。对电容器，这表现为电容增大为 \\(\\kappa\\) 倍；但能量是增加还是减少，要看电容器是否接电源：孤立时电荷没有来源，电压下降，储能减小；接电源时电压固定，电源补充电荷，储能增大。导体没有静态 \\(\\kappa\\)，因为自由电荷会一直移动到内部场为零，而不是像束缚电荷那样只做微小位移。 · Permittivity is easily confused with polarization. A useful division of labor: \\(\\varepsilon\\) is the material's “softness,” describing how strongly it can be polarized by a given applied field; \\(P\\) is the actual polarization density at a specific field strength. For a linear dielectric they are related by \\(P=\\varepsilon_0(\\kappa-1)E\\). Microscopically, polarization has three common sources: displacement of electron clouds relative to nuclei, relative displacement of positive and negative ions in ionic crystals, and rotation of polar molecular dipoles. The more tightly bound the electrons, the smaller the displacement; the more easily molecules rotate, the larger \\(\\kappa\\). Bound charge produced by polarization forms surface layers opposite to the free charge, and its opposing field reduces the internal field from \\(E_0\\) to \\(\\dfrac{E_0}{\\kappa}\\). For a capacitor this appears as a capacitance increase by a factor \\(\\kappa\\); whether the stored energy increases or decreases depends on whether the capacitor remains connected to a battery: isolated, there is no source of charge, the voltage drops, and the stored energy decreases; connected, the voltage is fixed, the battery supplies charge, and the stored energy increases. A conductor has no static \\(\\kappa\\), because free charge keeps moving until the internal field is zero rather than shifting slightly like bound charge.",
+    "development": [
+      "从真空介电率 \\(\\varepsilon_0\\) 和库仑常数 \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\) 出发，引入材料介电率 \\(\\varepsilon\\)。 · Start from the vacuum permittivity \\(\\varepsilon_0\\) and Coulomb's constant \\(k=\\dfrac{1}{4\\pi\\varepsilon_0}\\), then introduce the material permittivity \\(\\varepsilon\\).",
+      "用外场下电子云位移和分子偶极取向说明电极化，并引入极化强度 \\(P\\)。 · Explain electric polarization through electron-cloud displacement and molecular-dipole alignment in an applied field, and introduce the polarization density \\(P\\).",
+      "说明束缚电荷的反向场如何把内部场削弱为 \\(E=\\dfrac{E_0}{\\kappa}\\)，并定义 \\(\\varepsilon=\\kappa\\varepsilon_0\\)。 · Explain how the opposing field of bound charge reduces the internal field to \\(E=\\dfrac{E_0}{\\kappa}\\), and define \\(\\varepsilon=\\kappa\\varepsilon_0\\).",
+      "把介电率与材料组成、结构、电子改变构型的难易联系起来，比较空气、玻璃和水。 · Connect permittivity to composition, structure, and the ease of electron configuration changes, comparing air, glass, and water.",
+      "对比导体与绝缘体的响应：导体内部 \\(E=0\\)，绝缘体内部 \\(E=\\dfrac{E_0}{\\kappa}\\)。 · Contrast conductors and insulators: \\(E=0\\) inside a conductor, while \\(E=\\dfrac{E_0}{\\kappa}\\) inside a dielectric.",
+      "把结果用于平行板电容器，分析孤立与接电源两种情形下的电容、电荷、电压和能量。 · Apply the results to a parallel-plate capacitor and analyze capacitance, charge, voltage, and energy for isolated and battery-connected cases."
+    ],
+    "checks": [
+      "介电率衡量的是什么？它和极化强度 \\(P\\) 有什么区别？ · What does permittivity measure, and how does it differ from polarization density \\(P\\)?",
+      "为什么材料的介电率与真空不同？在给定材料中，哪些微观因素决定 \\(\\kappa\\) 的大小？ · Why does a material's permittivity differ from the vacuum value, and which microscopic factors determine \\(\\kappa\\) in a given material?",
+      "导体和绝缘体在外电场中的内部场和电荷行为有什么不同？为什么导体没有静态 \\(\\kappa\\)？ · How do conductors and insulators differ in internal field and charge behavior under an external field, and why does a conductor have no static \\(\\kappa\\)?",
+      "插入介质后，孤立电容器和接电源电容器的电压、电荷和储能分别如何变化？ · How do voltage, charge, and stored energy change after inserting a dielectric into an isolated capacitor and into a battery-connected capacitor?",
+      "为什么 \\(\\kappa\\) 会随频率和温度变化？举一个生活中的例子。 · Why can \\(\\kappa\\) vary with frequency and temperature? Give an everyday example.",
+      "如果 \\(\\kappa=1\\)，本节所有公式是否回到真空结果？请逐式检查。 · If \\(\\kappa=1\\), do all formulas in this topic reduce to the vacuum results? Check each one."
+    ],
+    "vocabulary": [
+      {
+        "termZh": "介电率",
+        "termEn": "permittivity",
+        "defZh": "描述材料在外电场中极化程度的物理量，记作 \\(\\varepsilon\\)，单位为 \\(\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)。",
+        "defEn": "A measure of how strongly a material is polarized by an applied field, denoted \\(\\varepsilon\\), in \\(\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)."
+      },
+      {
+        "termZh": "真空介电率",
+        "termEn": "vacuum permittivity",
+        "defZh": "真空的介电率常数 \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)。",
+        "defEn": "The constant permittivity of free space, \\(\\varepsilon_0\\approx8.85\\times10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}\\)."
+      },
+      {
+        "termZh": "相对介电常数",
+        "termEn": "relative permittivity",
+        "defZh": "材料介电率与真空介电率之比 \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\)。",
+        "defEn": "The ratio of a material's permittivity to the vacuum permittivity, \\(\\kappa=\\dfrac{\\varepsilon}{\\varepsilon_0}\\ge1\\)."
+      },
+      {
+        "termZh": "电极化",
+        "termEn": "electric polarization",
+        "defZh": "外电场使材料内部正负电荷中心发生相对位移或使分子偶极取向的过程。",
+        "defEn": "The process in which an applied field separates positive and negative charge centers or aligns molecular dipoles within a material."
+      },
+      {
+        "termZh": "极化强度",
+        "termEn": "polarization density",
+        "defZh": "单位体积的偶极矩，记作 \\(P\\)，线性介质中 \\(P=\\varepsilon_0\\chi_e E\\)。",
+        "defEn": "Dipole moment per unit volume, denoted \\(P\\); for a linear dielectric \\(P=\\varepsilon_0\\chi_e E\\)."
+      },
+      {
+        "termZh": "束缚电荷",
+        "termEn": "bound charge",
+        "defZh": "极化过程中在材料表面或内部出现的、不能自由移动的电荷。",
+        "defEn": "Charge that appears on or within a material during polarization and cannot move freely."
+      },
+      {
+        "termZh": "自由电荷",
+        "termEn": "free charge",
+        "defZh": "由外电源或外部电场提供、可以在导体中移动的电荷；介质中的高斯定律只对自由电荷积分。",
+        "defEn": "Charge supplied by an external source or field that can move in a conductor; Gauss's law in a dielectric encloses only free charge."
+      },
+      {
+        "termZh": "电极化率",
+        "termEn": "electric susceptibility",
+        "defZh": "描述材料极化响应强弱的无量纲量 \\(\\chi_e=\\kappa-1\\)。",
+        "defEn": "A dimensionless measure of a material's polarization response, \\(\\chi_e=\\kappa-1\\)."
       }
     ]
   },
