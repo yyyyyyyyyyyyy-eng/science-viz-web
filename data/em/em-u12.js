@@ -606,7 +606,8 @@ export const TOPICS = {
       "能比较铁磁、顺磁、抗磁材料在成分、磁畴/偶极排列、对外磁场的响应以及撤场后是否保留磁性方面的差异。 · Compare ferromagnetic, paramagnetic, and diamagnetic materials in composition, domain/dipole arrangement, response to an external field, and whether magnetization survives removal of the field.",
       "能用磁畴对齐解释铁磁材料的永久磁化、充磁与退磁，并说明居里温度的作用。 · Use domain alignment to explain permanent magnetization, magnetization, and demagnetization of ferromagnetic materials, including the role of the Curie temperature.",
       "能把地球磁场近似为磁偶极，区分地理极与地磁极，并解释指南针指向与磁偏角。 · Model Earth's magnetic field as a magnetic dipole, distinguish geographic poles from magnetic poles, and explain compass direction and magnetic declination.",
-      "能定性或定量使用 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) 与 \\(U=-\\vec\\mu\\cdot\\vec B\\) 分析磁偶极在匀强磁场中的转动与能量。 · Use \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) and \\(U=-\\vec\\mu\\cdot\\vec B\\) qualitatively or quantitatively to analyze the rotation and energy of a magnetic dipole in a uniform field."
+      "能定性或定量使用 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) 与 \\(U=-\\vec\\mu\\cdot\\vec B\\) 分析磁偶极在匀强磁场中的转动与能量。 · Use \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) and \\(U=-\\vec\\mu\\cdot\\vec B\\) qualitatively or quantitatively to analyze the rotation and energy of a magnetic dipole in a uniform field.",
+      "能解释指南针等磁偶极在外磁场中因力矩而转向 \\(\\vec B\\)、趋向对齐，并区分 \\(\\theta=0\\) 的稳定平衡与 \\(\\theta=180^\\circ\\) 的不稳定平衡。 · Explain how a compass or other magnetic dipole turns toward \\(\\vec B\\) because of the magnetic torque and tends to align with the field, distinguishing stable equilibrium at \\(\\theta=0\\) from unstable equilibrium at \\(\\theta=180^\\circ\\)."
     ],
     "essentialKnowledge": [
       "磁偶极可看作一个微小的电流环：它有两个磁极，但不存在孤立的磁单极子，外部磁感线从 N 极附近回到 S 极附近，内部闭合。 · A magnetic dipole can be modeled as a tiny current loop: it has two magnetic poles, but no isolated magnetic monopole exists, and external field lines return from near the N pole to near the S pole while remaining closed inside.",
@@ -618,7 +619,9 @@ export const TOPICS = {
       "（ii）顺磁材料（如铝、铂）的微观偶极在外场中部分转向外场方向，表现为弱吸引；热运动使排列很快随机化，撤场后几乎不保留磁性，相对磁导率仅略大于 1。 · (ii) In paramagnetic materials (such as aluminum and platinum) microscopic dipoles partially align with an external field, producing weak attraction; thermal motion quickly randomizes them, almost no magnetization remains after the field is removed, and the relative permeability is only slightly greater than 1.",
       "（iii）抗磁材料（如铜、水、铋）没有永久微观偶极；外磁场感生出与外场方向相反的偶极矩，表现为弱排斥，撤场后磁性消失，相对磁导率略小于 1。 · (iii) Diamagnetic materials (such as copper, water, and bismuth) have no permanent microscopic dipoles; an external field induces dipole moments opposite the field, producing weak repulsion, the magnetism disappears when the field is removed, and the relative permeability is slightly less than 1.",
       "地球磁场可近似为一个倾斜的磁偶极，其偶极轴与地球自转轴约有 11° 的夹角；靠近地理北极的磁极在物理上是磁南极，因此指南针的 N 极指向地理北方。 · Earth's magnetic field is approximately a tilted magnetic dipole whose axis makes an angle of about 11° with Earth's rotation axis; the magnetic pole near the geographic North Pole is physically a magnetic south pole, so a compass needle's N pole points toward geographic north.",
-      "磁偶极在匀强磁场中受到力矩 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)，趋向于使 \\(\\vec\\mu\\) 与 \\(\\vec B\\) 平行；势能 \\(U=-\\vec\\mu\\cdot\\vec B\\) 在平行时最小，在反平行时最大。 · A magnetic dipole in a uniform field experiences a torque \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) that tends to align \\(\\vec\\mu\\) with \\(\\vec B\\); the potential energy \\(U=-\\vec\\mu\\cdot\\vec B\\) is minimum when they are parallel and maximum when they are antiparallel."
+      "磁偶极在匀强磁场中受到力矩 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\)，趋向于使 \\(\\vec\\mu\\) 与 \\(\\vec B\\) 平行；势能 \\(U=-\\vec\\mu\\cdot\\vec B\\) 在平行时最小，在反平行时最大。 · A magnetic dipole in a uniform field experiences a torque \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) that tends to align \\(\\vec\\mu\\) with \\(\\vec B\\); the potential energy \\(U=-\\vec\\mu\\cdot\\vec B\\) is minimum when they are parallel and maximum when they are antiparallel.",
+      "指南针可看作磁偶极：把它放在外磁场中，若 \\(\\vec\\mu\\) 与 \\(\\vec B\\) 有夹角，力矩 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) 使它转向 \\(\\vec B\\)；\\(\\theta=0\\) 时势能最低、力矩为零，是稳定平衡；\\(\\theta=180^\\circ\\) 时势能最高、任何微小扰动都会使它转走，是不稳定平衡。 · A compass can be modeled as a magnetic dipole: when it is placed in an external field and \\(\\vec\\mu\\) makes an angle with \\(\\vec B\\), the torque \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) turns it toward \\(\\vec B\\). At \\(\\theta=0\\) the potential energy is lowest and the torque is zero, so this is stable equilibrium; at \\(\\theta=180^\\circ\\) the potential energy is highest and any small disturbance turns it away, so this is unstable equilibrium.",
+      "实际指南针释放后会围绕 \\(\\vec B\\) 方向阻尼振荡：力矩使它加速转向平衡，惯性使它越过平衡位置，空气阻力和轴承摩擦最终耗散能量，使它停在 \\(\\vec\\mu\\parallel\\vec B\\)。 · A real compass released from rest oscillates about the \\(\\vec B\\) direction with damping: the torque accelerates it toward equilibrium, inertia carries it past, and air drag and pivot friction eventually dissipate the energy so that it rests at \\(\\vec\\mu\\parallel\\vec B\\)."
     ],
     "definition": "磁偶极（magnetic dipole）是一个具有磁偶极矩的电流环或电荷运动系统，其远场与一根微小条形磁铁相同。磁偶极矩 \\(\\vec\\mu=I\\vec A\\) 的大小等于电流乘环面积，方向沿环面法线并由右手定则确定；\\(N\\) 匝线圈的磁偶极矩为 \\(\\vec\\mu=NIA\\hat n\\)。材料中的磁性来自电子轨道运动与自旋形成的微观磁偶极，以及这些偶极在磁畴中的排列方式。铁磁材料（如铁、镍、钴）的磁畴可被外场强烈对齐并保留部分排列，因而能永久磁化；顺磁材料只有微弱、暂时的同向排列；抗磁材料则感生出与外场反向的微弱磁矩。地球磁场在远离地表处可近似为一个磁偶极。 · A magnetic dipole is a current loop or charge-motion system with a magnetic dipole moment whose far field is the same as that of a tiny bar magnet. The magnetic dipole moment \\(\\vec\\mu=I\\vec A\\) has magnitude equal to current times loop area and direction along the loop normal fixed by the right-hand rule; for \\(N\\) turns, \\(\\vec\\mu=NIA\\hat n\\). Magnetism in matter comes from microscopic dipoles produced by electron orbital motion and spin, and from the way those dipoles are arranged in magnetic domains. Ferromagnetic materials (such as iron, nickel, and cobalt) have domains that can be strongly aligned by an external field and partly retain that alignment, so they can be permanently magnetized; paramagnetic materials show only a weak, temporary alignment with the field; diamagnetic materials acquire a weak induced moment opposite the field. Earth's magnetic field is approximately a magnetic dipole far from its surface.",
     "intuition": "把一个通电小线圈想成一根微型条形磁铁：线圈正面看电流逆时针时，磁场从纸面射出，那一面就是 N 极。材料里的电子轨道和自旋就是无数这样的微型磁铁；外磁场像一只看不见的手，把这些小磁针转向同一方向。铁磁材料的小磁针会“记住”这个方向，顺磁材料转身后又散开，抗磁材料则被外场推着产生相反的小磁针。 · Think of a small current loop as a tiny bar magnet: if the current looks counterclockwise, the field comes out of the page and that face is the N pole. Electron orbits and spins inside matter are countless such tiny magnets; an external field is an invisible hand that turns them toward one direction. Ferromagnetic tiny magnets “remember” that direction, paramagnetic ones scatter again after the field is removed, and diamagnetic ones are pushed to create tiny magnets pointing opposite the field.",
@@ -695,7 +698,9 @@ export const TOPICS = {
       "铁磁材料的磁化不是“创造磁荷”，而是磁畴排列程度的改变。 · Magnetizing a ferromagnet does not “create magnetic charge”; it changes the degree of domain alignment.",
       "居里温度以上热运动破坏磁畴有序，铁磁体失去永久磁性。 · Above the Curie temperature, thermal motion destroys domain order and the ferromagnet loses permanent magnetism.",
       "地球的“北磁极”在物理上是磁南极，指南针 N 极被它吸引。 · Earth's “north magnetic pole” is physically a magnetic south pole, which attracts the N pole of a compass.",
-      "磁感线始终闭合；偶极外部的 N→S 与内部的 S→N 共同构成闭合回路。 · Magnetic field lines are always closed; the external N-to-S pattern and the internal S-to-N pattern together form closed loops."
+      "磁感线始终闭合；偶极外部的 N→S 与内部的 S→N 共同构成闭合回路。 · Magnetic field lines are always closed; the external N-to-S pattern and the internal S-to-N pattern together form closed loops.",
+      "指南针的 N 极沿当地 \\(\\vec B\\) 方向，不是被“拉”向地理北；外场力矩使它转到 \\(\\vec\\mu\\parallel\\vec B\\)，磁偏角再使磁北偏离地理北。 · A compass N pole points along the local \\(\\vec B\\), not “pulled” toward geographic north; the external torque turns it to \\(\\vec\\mu\\parallel\\vec B\\), and magnetic declination then makes magnetic north differ from geographic north.",
+      "力矩在 \\(\\theta=90^\\circ\\) 时最大、在 \\(\\theta=0\\) 或 \\(180^\\circ\\) 时为零；因此指南针在平衡位置附近有恢复力矩，偏角越大（到 \\(90^\\circ\\) 前）恢复力矩越大。 · The torque is maximum at \\(\\theta=90^\\circ\\) and zero at \\(\\theta=0\\) or \\(180^\\circ\\), so a compass near equilibrium has a restoring torque that grows with angular displacement up to \\(90^\\circ\\)."
     ],
     "misconceptions": [
       "认为磁性材料里存在独立的“磁荷”或磁单极子；实际上磁偶极由电流或电荷运动产生。 · Believing that magnetic materials contain isolated “magnetic charge” or monopoles; in fact magnetic dipoles arise from currents or charge motion.",
@@ -704,7 +709,9 @@ export const TOPICS = {
       "认为抗磁材料“没有磁性”；抗磁材料有与外场反向的微弱感生磁矩。 · Believing diamagnetic materials have “no magnetism”; they have a weak induced moment opposite the field.",
       "把地球的北磁极当作磁北极；物理上它是磁南极，否则指南针的 N 极不会指向北方。 · Treating Earth's north magnetic pole as a magnetic north pole; physically it is a magnetic south pole, otherwise a compass N pole would not point north.",
       "把磁偶极矩 \\(\\mu\\) 与磁导率 \\(\\mu\\) 混为一谈；前者描述电流环的磁性强弱，后者描述材料对外场的磁化响应。 · Confusing the magnetic dipole moment \\(\\mu\\) with magnetic permeability \\(\\mu\\); the former describes the strength of a current-loop magnet, the latter a material's response to an external field.",
-      "认为磁偶极在磁场中一定受到合力；在匀强磁场中合力为零，只有力矩。 · Believing a magnetic dipole always feels a net force; in a uniform field the net force is zero and only a torque acts."
+      "认为磁偶极在磁场中一定受到合力；在匀强磁场中合力为零，只有力矩。 · Believing a magnetic dipole always feels a net force; in a uniform field the net force is zero and only a torque acts.",
+      "认为指南针的 N 极总是指向地理北方；它实际沿当地 \\(\\vec B\\) 方向，磁偏角使磁北与地理北有夹角。 · Believing a compass N pole always points to geographic north; it actually points along the local \\(\\vec B\\), and magnetic declination makes magnetic north differ from geographic north.",
+      "认为指南针一到平衡位置就立刻静止；它通常围绕平衡位置阻尼振荡，需要摩擦力或阻尼才能最终停下。 · Believing a compass stops instantly on reaching equilibrium; it usually oscillates about equilibrium with damping and needs friction or another damping mechanism to come to rest."
     ],
     "examples": [
       {
@@ -750,6 +757,17 @@ export const TOPICS = {
         ],
         "solution": "A：铁磁；B：顺磁；C：抗磁。判断依据是磁化强度大小、是否饱和、撤场后是否保留磁性，以及磁化方向与外场相同还是相反。 · A: ferromagnetic; B: paramagnetic; C: diamagnetic. The evidence is the size of the magnetization, whether it saturates, whether it survives removal of the field, and whether it is parallel or antiparallel to the field.",
         "solutionLatex": "\\text{A: ferro},\\qquad \\text{B: para},\\qquad \\text{C: dia}"
+      },
+      {
+        "title": "例 5 · 指南针的力矩与对齐 · Example 5: Torque and alignment of a compass needle",
+        "prompt": "某指南针的磁偶极矩大小为 \\(\\mu=0.080\\,\\mathrm{A\\,m^{2}}\\)，放在 \\(B=5.0\\times10^{-5}\\,\\mathrm{T}\\) 的地磁场中，指针与 \\(\\vec B\\) 的夹角为 \\(60^\\circ\\)。求磁场对指针的力矩大小和势能；释放后指针如何运动，最终停在什么方向？ · A compass needle has magnetic moment \\(\\mu=0.080\\,\\mathrm{A\\,m^{2}}\\) in Earth's field \\(B=5.0\\times10^{-5}\\,\\mathrm{T}\\), with the needle at \\(60^\\circ\\) to \\(\\vec B\\). Find the torque magnitude and potential energy, and describe its motion after release and its final direction.",
+        "steps": [
+          "\\(\\tau=\\mu B\\sin\\theta=(0.080)(5.0\\times10^{-5})\\sin60^\\circ=3.5\\times10^{-6}\\,\\mathrm{N\\,m}\\)。 · \\(\\tau=\\mu B\\sin\\theta=(0.080)(5.0\\times10^{-5})\\sin60^\\circ=3.5\\times10^{-6}\\,\\mathrm{N\\,m}\\).",
+          "\\(U=-\\mu B\\cos\\theta=-(0.080)(5.0\\times10^{-5})\\cos60^\\circ=-2.0\\times10^{-6}\\,\\mathrm{J}\\)。 · \\(U=-\\mu B\\cos\\theta=-(0.080)(5.0\\times10^{-5})\\cos60^\\circ=-2.0\\times10^{-6}\\,\\mathrm{J}\\).",
+          "力矩方向由 \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) 给出，使 \\(\\vec\\mu\\) 转向 \\(\\vec B\\)；指针获得角速度后越过平衡位置，在阻尼作用下围绕 \\(\\vec B\\) 摆动，最终停在 \\(\\vec\\mu\\parallel\\vec B\\)（\\(\\theta=0\\)，势能最小）。 · The torque direction from \\(\\vec\\tau=\\vec\\mu\\times\\vec B\\) turns \\(\\vec\\mu\\) toward \\(\\vec B\\); after gaining angular speed the needle overshoots and oscillates about \\(\\vec B\\) with damping, finally resting at \\(\\vec\\mu\\parallel\\vec B\\) (\\(\\theta=0\\), minimum potential energy)."
+        ],
+        "solution": "\\(\\tau\\approx3.5\\times10^{-6}\\,\\mathrm{N\\,m}\\)，\\(U\\approx-2.0\\times10^{-6}\\,\\mathrm{J}\\)；指针阻尼振荡后沿 \\(\\vec B\\) 对齐，N 极指向 \\(\\vec B\\) 方向。 · \\(\\tau\\approx3.5\\times10^{-6}\\,\\mathrm{N\\,m}\\), \\(U\\approx-2.0\\times10^{-6}\\,\\mathrm{J}\\); the needle oscillates with damping and finally aligns with \\(\\vec B\\), with its N pole along \\(\\vec B\\).",
+        "solutionLatex": "\\tau=\\mu B\\sin60^\\circ=3.5\\times10^{-6}\\,\\mathrm{N\\,m},\\qquad U=-\\mu B\\cos60^\\circ=-2.0\\times10^{-6}\\,\\mathrm{J}"
       }
     ],
     "examTips": [
@@ -758,7 +776,9 @@ export const TOPICS = {
       "材料分类题用“是否强吸引、是否可永久磁化、撤场后是否保留、\\(\\mu_r\\) 略大于/略小于 1”四条证据组织答案。 · For material-classification questions, organize the answer around four pieces of evidence: strong versus weak attraction, permanent versus temporary magnetization, whether magnetism survives removal of the field, and whether \\(\\mu_r\\) is slightly greater or less than 1.",
       "解释铁磁现象时把“磁畴转向/长大”和“畴壁钉扎”写进因果链，不要只说“材料有磁性”。 · When explaining ferromagnetism, include “domain rotation/growth” and “domain-wall pinning” in the causal chain; do not merely say “the material is magnetic.”",
       "地球磁场题注意“地理北极附近是磁南极”，并说明磁偏角是地理北与磁北之间的夹角。 · In Earth's-field questions, remember that the magnetic pole near geographic north is a magnetic south pole, and that magnetic declination is the angle between geographic north and magnetic north.",
-      "力矩题先判断 \\(\\vec\\mu\\) 与 \\(\\vec B\\) 的夹角，再用 \\(\\tau=\\mu B\\sin\\theta\\)；势能题用 \\(U=-\\mu B\\cos\\theta\\)。 · For torque, find the angle between \\(\\vec\\mu\\) and \\(\\vec B\\), then use \\(\\tau=\\mu B\\sin\\theta\\); for energy, use \\(U=-\\mu B\\cos\\theta\\)."
+      "力矩题先判断 \\(\\vec\\mu\\) 与 \\(\\vec B\\) 的夹角，再用 \\(\\tau=\\mu B\\sin\\theta\\)；势能题用 \\(U=-\\mu B\\cos\\theta\\)。 · For torque, find the angle between \\(\\vec\\mu\\) and \\(\\vec B\\), then use \\(\\tau=\\mu B\\sin\\theta\\); for energy, use \\(U=-\\mu B\\cos\\theta\\).",
+      "指南针题先画 \\(\\vec\\mu\\) 与 \\(\\vec B\\)，用右手定则判断力矩方向；稳定平衡 \\(\\theta=0\\)，不稳定平衡 \\(\\theta=180^\\circ\\)。 · For compass questions, draw \\(\\vec\\mu\\) and \\(\\vec B\\) and use the right-hand rule for the torque direction; stable equilibrium is \\(\\theta=0\\) and unstable equilibrium is \\(\\theta=180^\\circ\\).",
+      "若题目问“最终指向”，答沿当地 \\(\\vec B\\)（N 极沿 \\(\\vec B\\)），不要答地理北；地理北只是地磁场近似偶极的结果。 · If a question asks for the final direction, answer along the local \\(\\vec B\\) (N pole along \\(\\vec B\\)), not geographic north; geographic north is only a consequence of Earth's approximately dipolar field."
     ],
     "related": [
       {
@@ -815,7 +835,8 @@ export const TOPICS = {
       "定义磁偶极矩 \\(\\vec\\mu=I\\vec A\\)，用矩形环推导力矩，再推广到任意平面环。 · Define \\(\\vec\\mu=I\\vec A\\), derive the torque for a rectangular loop, and generalize to any planar loop.",
       "由力矩做功引入势能 \\(U=-\\vec\\mu\\cdot\\vec B\\)，用平行/反平行检查符号。 · Introduce \\(U=-\\vec\\mu\\cdot\\vec B\\) from the work done by torque, and check signs with parallel and antiparallel orientations.",
       "把微观电子轨道与自旋磁矩和磁畴模型连接起来，解释铁磁、顺磁、抗磁的差异。 · Connect microscopic orbital and spin moments to the domain model, and use it to explain ferromagnetic, paramagnetic, and diamagnetic differences.",
-      "用地球偶极模型解释指南针、磁偏角和地磁极反转，并用“地理北极附近是磁南极”做自检。 · Use the Earth-dipole model to explain compasses, declination, and magnetic pole reversals, and self-check with “the pole near geographic north is a magnetic south pole.”"
+      "用地球偶极模型解释指南针、磁偏角和地磁极反转，并用“地理北极附近是磁南极”做自检。 · Use the Earth-dipole model to explain compasses, declination, and magnetic pole reversals, and self-check with “the pole near geographic north is a magnetic south pole.”",
+      "用指南针演示偶极对齐：画 \\(\\vec\\mu\\)、\\(\\vec B\\) 与 \\(\\vec\\tau\\)，说明 \\(\\theta=0\\) 的稳定平衡、\\(\\theta=180^\\circ\\) 的不稳定平衡，以及阻尼振荡如何耗散能量。 · Use a compass to demonstrate dipole alignment: draw \\(\\vec\\mu\\), \\(\\vec B\\), and \\(\\vec\\tau\\), and explain stable equilibrium at \\(\\theta=0\\), unstable equilibrium at \\(\\theta=180^\\circ\\), and how damped oscillation dissipates energy."
     ],
     "checks": [
       "一个电流环的磁偶极矩方向如何确定？如果从纸面外看电流是顺时针，\\(\\vec\\mu\\) 指向纸面内还是纸面外？ · How is the direction of a current loop's magnetic dipole moment determined? If the current looks clockwise when viewed from outside the page, does \\(\\vec\\mu\\) point into or out of the page?",
@@ -823,7 +844,10 @@ export const TOPICS = {
       "一块铁磁体被加热到居里温度以上后，它的 \\(\\mu_r\\) 会怎样变化？为什么？ · What happens to the relative permeability of a ferromagnet when it is heated above its Curie temperature? Why?",
       "地球的“北磁极”为什么在物理上是磁南极？用指南针受力说明。 · Why is Earth's “north magnetic pole” physically a magnetic south pole? Explain using the force on a compass needle.",
       "在匀强磁场中，磁偶极受到的合力为零，为什么它还会转动？ · In a uniform field the net force on a magnetic dipole is zero; why can it still rotate?",
-      "把一块条形磁铁切成两半，能否得到单独的 N 极或 S 极？用磁偶极模型解释。 · If a bar magnet is cut in half, can you obtain an isolated N pole or S pole? Explain with the magnetic-dipole model."
+      "把一块条形磁铁切成两半，能否得到单独的 N 极或 S 极？用磁偶极模型解释。 · If a bar magnet is cut in half, can you obtain an isolated N pole or S pole? Explain with the magnetic-dipole model.",
+      "把指南针从 \\(\\theta=60^\\circ\\) 释放，为什么它会来回摆动而不是立刻停住？什么效应使它最终停下？ · Why does a compass released at \\(\\theta=60^\\circ\\) oscillate instead of stopping immediately, and what eventually damps it?",
+      "指南针的 N 极指向 \\(\\vec B\\) 还是指向地理北？在什么情况下两者不一致？ · Does a compass N pole point along \\(\\vec B\\) or toward geographic north? When do the two differ?",
+      "在 \\(\\theta=0\\) 与 \\(\\theta=180^\\circ\\) 两个位置，力矩和势能分别是多少？哪个是稳定平衡？ · What are the torque and potential energy at \\(\\theta=0\\) and \\(\\theta=180^\\circ\\), and which is stable equilibrium?"
     ],
     "vocabulary": [
       {
@@ -1159,6 +1183,308 @@ export const TOPICS = {
       }
     ]
   },
+  "12.7": {
+    "id": "em/em-u12/12.7",
+    "subject": "em",
+    "chapterId": "em-u12",
+    "unitCode": "12",
+    "unitTitleZh": "磁场与电磁学",
+    "unitTitleEn": "Magnetic Fields and Electromagnetism",
+    "code": "12.7",
+    "titleZh": "运动电荷产生的磁场",
+    "titleEn": "Magnetic Field of a Moving Charge",
+    "layer": "ap",
+    "summary": "单个运动电荷在空间产生磁场 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\)：大小与 \\(|q|\\)、\\(v\\)、\\(\\sin\\theta\\) 成正比，与 \\(r^{2}\\) 成反比；方向由 \\(q\\vec v\\times\\hat r\\) 的右手定则确定；场线是绕速度轴的同心圆，多个电荷的磁场按矢量叠加。 · A single moving charge produces \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\): the magnitude scales with \\(|q|\\), \\(v\\), and \\(\\sin\\theta\\) and falls as \\(r^{2}\\); the direction follows the right-hand rule for \\(q\\vec v\\times\\hat r\\); the field lines are circles about the velocity axis; and the fields of multiple charges add as vectors.",
+    "learningObjectives": [
+      "能写出单个运动电荷产生磁场的矢量式，并说明 \\(\\hat r\\) 从源电荷指向场点。 · Write the vector expression for the magnetic field of a single moving charge and explain that \\(\\hat r\\) points from the source charge to the field point.",
+      "能计算 \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\) 并判断方向：正电荷沿 \\(\\vec v\\times\\hat r\\)，负电荷反向。 · Calculate \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\) and determine the direction: along \\(\\vec v\\times\\hat r\\) for a positive charge and opposite for a negative charge.",
+      "能说明 \\(B\\) 对 \\(q\\)、\\(v\\)、\\(r\\)、\\(\\theta\\) 的依赖，并做比例推理（如 \\(r\\) 加倍则 \\(B\\) 变为四分之一）。 · Explain how \\(B\\) depends on \\(q\\), \\(v\\), \\(r\\), and \\(\\theta\\), and do proportional reasoning such as quartering \\(B\\) when \\(r\\) doubles.",
+      "能说明运动电荷的磁感线是绕速度轴的同心圆，磁场没有沿速度方向或径向的分量。 · Explain that the field lines of a moving charge are circles about the velocity axis, with no component along the velocity or along the radial direction.",
+      "能把多个运动电荷的磁场矢量叠加，并说明电流的磁场是大量运动电荷磁场的宏观结果。 · Superpose the fields of multiple moving charges and explain that the field of a current is the macroscopic result of many moving charges.",
+      "能区分运动电荷的电场与磁场，并说明公式在 \\(v\\ll c\\) 时适用。 · Distinguish the electric and magnetic fields of a moving charge and state that the formula applies for \\(v\\ll c\\)."
+    ],
+    "essentialKnowledge": [
+      "静止电荷只产生电场；运动电荷同时产生电场和磁场。单个运动电荷的磁场由 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\) 给出，其中 \\(\\hat r\\) 从电荷指向场点。 · A charge at rest produces only an electric field; a moving charge produces both an electric and a magnetic field. The field of a single moving charge is \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\), where \\(\\hat r\\) points from the charge to the field point.",
+      "磁场大小 \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\)，\\(\\theta\\) 是 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角；\\(\\dfrac{\\mu_0}{4\\pi}=1.0\\times10^{-7}\\,\\mathrm{T\\,m\\,A^{-1}}\\)。 · The magnitude is \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\), where \\(\\theta\\) is the angle between \\(\\vec v\\) and \\(\\hat r\\), and \\(\\dfrac{\\mu_0}{4\\pi}=1.0\\times10^{-7}\\,\\mathrm{T\\,m\\,A^{-1}}\\).",
+      "方向：正电荷的 \\(\\vec B\\) 沿 \\(\\vec v\\times\\hat r\\)；负电荷反向。右手四指从 \\(\\vec v\\) 转向 \\(\\hat r\\)，拇指给出正电荷的 \\(\\vec B\\) 方向。 · Direction: for a positive charge \\(\\vec B\\) is along \\(\\vec v\\times\\hat r\\); for a negative charge it is reversed. Curl the right fingers from \\(\\vec v\\) toward \\(\\hat r\\), and the thumb gives the direction for a positive charge.",
+      "因为 \\(\\vec B\\) 同时垂直于 \\(\\vec v\\) 和 \\(\\hat r\\)，磁感线是绕速度轴的同心圆；在包含速度轴的平面内没有磁场分量，\\(\\vec B\\) 也没有沿 \\(\\vec v\\) 的分量。 · Because \\(\\vec B\\) is perpendicular to both \\(\\vec v\\) and \\(\\hat r\\), the field lines are circles about the velocity axis; there is no field component in any plane containing the velocity axis and no component along \\(\\vec v\\).",
+      "当场点位于速度轴上（\\(\\theta=0\\) 或 \\(180^\\circ\\)）时 \\(\\sin\\theta=0\\)，该点的磁场为零；\\(\\theta=90^\\circ\\) 时磁场最大。 · On the velocity axis (\\(\\theta=0\\) or \\(180^\\circ\\)), \\(\\sin\\theta=0\\) and the field is zero; the field is maximum at \\(\\theta=90^\\circ\\).",
+      "比例关系：\\(B\\propto|q|\\)、\\(B\\propto v\\)、\\(B\\propto\\sin\\theta\\)、\\(B\\propto\\dfrac{1}{r^{2}}\\)。电荷或速率加倍则 \\(B\\) 加倍；距离加倍则 \\(B\\) 变为四分之一。 · Proportionality: \\(B\\propto|q|\\), \\(B\\propto v\\), \\(B\\propto\\sin\\theta\\), and \\(B\\propto\\dfrac{1}{r^{2}}\\). Doubling the charge or speed doubles \\(B\\); doubling the distance quarters \\(B\\).",
+      "多个运动电荷同时存在时，总磁场是各电荷磁场的矢量和 \\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\)；每个电荷的场按上式独立计算。 · With several moving charges, the total field is the vector sum \\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\); each charge's field is computed independently from the expression above.",
+      "导线中的电流是大量电荷的定向运动；把每个运动电荷的磁场叠加，就得到电流元的毕奥–萨伐尔定律和长直导线的 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)。 · A current in a wire is the directed motion of many charges; superposing their fields gives the Biot–Savart law for a current element and the long-wire result \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\).",
+      "运动电荷同时有电场 \\(\\vec E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q\\hat r}{r^{2}}\\)；在非相对论极限下，磁场与电场的大小之比约为 \\(\\dfrac{v\\sin\\theta}{c^{2}}\\)（\\(c\\) 为光速），所以低速时磁场通常比电场弱得多。 · A moving charge also has an electric field \\(\\vec E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q\\hat r}{r^{2}}\\); in the nonrelativistic limit the ratio of the magnetic to electric field is about \\(\\dfrac{v\\sin\\theta}{c^{2}}\\) (with \\(c\\) the speed of light), so at low speed the magnetic field is usually much weaker than the electric field.",
+      "公式适用于匀速运动的点电荷且 \\(v\\ll c\\)；加速电荷会辐射电磁波，磁场还包含辐射场，不能只用该式。 · The formula applies to a uniformly moving point charge with \\(v\\ll c\\); an accelerating charge radiates electromagnetic waves, and its field includes a radiation part not captured by this expression."
+    ],
+    "definition": "单个运动电荷产生的磁场由 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\) 给出：\\(q\\) 为源电荷，\\(\\vec v\\) 为它的速度，\\(\\hat r\\) 从电荷指向场点，\\(r\\) 为两者距离。大小 \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\)，其中 \\(\\theta\\) 是 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角；方向由 \\(q\\vec v\\times\\hat r\\) 的右手定则确定，负电荷反向。磁场与电场同时存在，磁场是电荷运动产生的相对论效应；在低速极限下，场线是绕速度轴的同心圆。多个运动电荷的总磁场按矢量叠加。 · The magnetic field of a single moving charge is \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\), where \\(q\\) is the source charge, \\(\\vec v\\) its velocity, \\(\\hat r\\) the unit vector from the charge to the field point, and \\(r\\) their separation. The magnitude is \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}\\), where \\(\\theta\\) is the angle between \\(\\vec v\\) and \\(\\hat r\\); the direction follows the right-hand rule for \\(q\\vec v\\times\\hat r\\) and reverses for a negative charge. The magnetic field coexists with the electric field and is a relativistic effect of charge motion; in the low-speed limit its field lines are circles about the velocity axis. The total field of several moving charges is a vector sum.",
+    "intuition": "把运动电荷想成一支“会扫出磁场的小箭头”：它跑得越快、电荷越大，扫出的磁场越强；场点越远，磁场按平方反比迅速减弱。磁场不沿速度方向，也不沿连线方向，而是同时垂直于两者，像围绕速度轴的一圈圈同心圆。正电荷和负电荷扫出的圆圈绕行方向相反。 · Think of a moving charge as a little arrow that sweeps out a magnetic field: the faster it moves and the larger its charge, the stronger the field; the farther the field point, the faster the field falls off as an inverse square. The field is neither along the velocity nor along the line of sight but perpendicular to both, like concentric circles around the velocity axis. Positive and negative charges sweep the circles in opposite senses.",
+    "formulas": [
+      {
+        "latex": "\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}",
+        "note": "单个运动电荷的磁场矢量式；\\(\\hat r\\) 从源电荷指向场点。 · Vector magnetic field of a single moving charge; \\(\\hat r\\) points from the source charge to the field point."
+      },
+      {
+        "latex": "B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}",
+        "note": "磁场大小；\\(\\theta\\) 为 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角。 · Field magnitude; \\(\\theta\\) is the angle between \\(\\vec v\\) and \\(\\hat r\\)."
+      },
+      {
+        "latex": "\\dfrac{\\mu_0}{4\\pi}=1.0\\times10^{-7}\\,\\mathrm{T\\,m\\,A^{-1}}",
+        "note": "真空中的比例常数。 · Proportionality constant in vacuum."
+      },
+      {
+        "latex": "\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i",
+        "note": "多个运动电荷的磁场按矢量叠加。 · Fields of multiple moving charges add as vectors."
+      },
+      {
+        "latex": "\\vec E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q\\hat r}{r^{2}}",
+        "note": "同一运动电荷的电场；方向沿 \\(\\hat r\\)（正电荷）。 · Electric field of the same moving charge; along \\(\\hat r\\) for a positive charge."
+      },
+      {
+        "latex": "\\dfrac{B}{E}=\\dfrac{v\\sin\\theta}{c^{2}}",
+        "note": "非相对论极限下磁场与电场的大小之比。 · Ratio of the magnetic to electric field in the nonrelativistic limit."
+      },
+      {
+        "latex": "B=\\dfrac{\\mu_0I}{2\\pi r}",
+        "note": "大量运动电荷沿长直导线定向运动时的宏观结果。 · Macroscopic result when many moving charges drift along a long straight wire."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "实验事实 · Experimental facts",
+        "to": "磁场大小 · Field magnitude",
+        "note": "运动电荷的磁场与 \\(q\\)、\\(v\\)、\\(\\sin\\theta\\) 成正比、与 \\(r^{2}\\) 成反比；方向垂直于 \\(\\vec v\\) 与 \\(\\hat r\\)。 · The field of a moving charge is proportional to \\(q\\), \\(v\\), and \\(\\sin\\theta\\) and inversely proportional to \\(r^{2}\\); its direction is perpendicular to \\(\\vec v\\) and \\(\\hat r\\)."
+      },
+      {
+        "from": "叉积 · Cross product",
+        "to": "方向 · Direction",
+        "note": "\\(\\vec v\\times\\hat r\\) 同时垂直于速度和连线；右手四指从 \\(\\vec v\\) 转向 \\(\\hat r\\)，拇指给出正电荷的 \\(\\vec B\\)。 · \\(\\vec v\\times\\hat r\\) is perpendicular to both the velocity and the line of sight; curl the right fingers from \\(\\vec v\\) to \\(\\hat r\\) and the thumb gives \\(\\vec B\\) for a positive charge."
+      },
+      {
+        "from": "单个运动电荷 · Single moving charge",
+        "to": "电流元 · Current element",
+        "note": "把 \\(q\\vec v\\) 换成 \\(I\\,\\mathrm{d}\\vec\\ell\\)，对导线中大量载流子求和，得到毕奥–萨伐尔定律。 · Replace \\(q\\vec v\\) by \\(I\\,\\mathrm{d}\\vec\\ell\\) and sum over the many carriers in a wire to obtain the Biot–Savart law."
+      },
+      {
+        "from": "叠加原理 · Superposition",
+        "to": "多电荷/电流 · Multiple charges or currents",
+        "note": "各电荷的磁场独立计算后矢量相加；电流的磁场是这些微观磁场的宏观平均。 · Compute each charge's field independently and add the vectors; the magnetic field of a current is the macroscopic average of these microscopic fields."
+      },
+      {
+        "from": "匀速运动 · Uniform motion",
+        "to": "同心圆场线 · Concentric field lines",
+        "note": "\\(\\vec B\\) 同时垂直于 \\(\\vec v\\) 与 \\(\\hat r\\)，所以场线绕速度轴闭合，没有径向或沿速度的分量。 · Because \\(\\vec B\\) is perpendicular to both \\(\\vec v\\) and \\(\\hat r\\), the field lines close around the velocity axis and have no radial or along-velocity component."
+      },
+      {
+        "from": "非相对论极限 · Nonrelativistic limit",
+        "to": "适用条件 · Validity",
+        "note": "\\(v\\ll c\\) 时可忽略辐射场；加速电荷会辐射电磁波，磁场还包含辐射项。 · For \\(v\\ll c\\) the radiation field is negligible; an accelerating charge radiates electromagnetic waves and its field includes a radiation term."
+      }
+    ],
+    "conditions": [
+      "源电荷可视为点电荷，观察点不在电荷上（\\(r>0\\)）。 · The source charge can be treated as a point charge, and the observation point is not on the charge (\\(r>0\\)).",
+      "源电荷匀速运动，且 \\(v\\ll c\\)；加速电荷需包含辐射场。 · The source charge moves uniformly with \\(v\\ll c\\); an accelerating charge requires the radiation field.",
+      "真空或线性磁介质；介质中把 \\(\\mu_0\\) 换成 \\(\\mu=\\mu_r\\mu_0\\)。 · Vacuum or a linear magnetic medium; in a medium replace \\(\\mu_0\\) by \\(\\mu=\\mu_r\\mu_0\\).",
+      "多个电荷同时存在时，各磁场按矢量叠加；非线性介质中叠加失效。 · With several charges, their fields add as vectors; superposition fails in a nonlinear medium.",
+      "\\(\\theta\\) 是 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角，\\(\\hat r\\) 必须从源电荷指向场点。 · \\(\\theta\\) is the angle between \\(\\vec v\\) and \\(\\hat r\\), and \\(\\hat r\\) must point from the source charge to the field point.",
+      "磁场方向按正电荷判断；负电荷取反。 · Determine the direction for a positive charge; reverse it for a negative charge."
+    ],
+    "keyPoints": [
+      "静止电荷只有电场；运动电荷同时有电场和磁场。 · A charge at rest has only an electric field; a moving charge has both an electric and a magnetic field.",
+      "单个运动电荷的磁场 \\(B\\propto\\dfrac{|q|v\\sin\\theta}{r^{2}}\\)。 · The field of a single moving charge is \\(B\\propto\\dfrac{|q|v\\sin\\theta}{r^{2}}\\).",
+      "方向沿 \\(q\\vec v\\times\\hat r\\)：正电荷用右手定则，负电荷反向。 · The direction is along \\(q\\vec v\\times\\hat r\\): right-hand rule for a positive charge, reversed for a negative charge.",
+      "场线是绕速度轴的同心圆，没有沿速度或径向的分量。 · The field lines are circles about the velocity axis, with no along-velocity or radial component.",
+      "轴线上（\\(\\theta=0\\) 或 \\(180^\\circ\\)）磁场为零；\\(\\theta=90^\\circ\\) 时最大。 · The field is zero on the velocity axis (\\(\\theta=0\\) or \\(180^\\circ\\)) and maximum at \\(\\theta=90^\\circ\\).",
+      "距离加倍，\\(B\\) 变为四分之一；电荷或速率加倍，\\(B\\) 加倍。 · Doubling the distance quarters \\(B\\); doubling the charge or speed doubles \\(B\\).",
+      "多个运动电荷的磁场按矢量叠加；电流的磁场是大量载流子磁场的宏观结果。 · Fields of multiple moving charges add as vectors; a current's field is the macroscopic result of many carriers.",
+      "低速条件 \\(v\\ll c\\)；加速电荷辐射电磁波。 · The low-speed condition is \\(v\\ll c\\); an accelerating charge radiates electromagnetic waves."
+    ],
+    "misconceptions": [
+      "认为静止电荷也产生磁场；静止电荷只有电场。 · Believing a charge at rest produces a magnetic field; a charge at rest has only an electric field.",
+      "把 \\(\\vec B\\) 画成沿 \\(\\vec v\\) 或沿 \\(\\hat r\\) 的方向；\\(\\vec B\\) 同时垂直于两者。 · Drawing \\(\\vec B\\) along \\(\\vec v\\) or along \\(\\hat r\\); \\(\\vec B\\) is perpendicular to both.",
+      "误以为单个运动电荷的磁场按 \\(\\dfrac{1}{r}\\) 衰减；点电荷磁场按 \\(\\dfrac{1}{r^{2}}\\) 衰减（长直导线的 \\(\\dfrac{1}{r}\\) 是许多电荷叠加的结果）。 · Mistaking the point-charge field to fall as \\(\\dfrac{1}{r}\\); it falls as \\(\\dfrac{1}{r^{2}}\\) (the \\(\\dfrac{1}{r}\\) of a long wire comes from superposing many charges).",
+      "距离加倍时把 \\(B\\) 减半；正确结果是变为四分之一。 · Halving \\(B\\) when the distance doubles; the correct factor is one quarter.",
+      "对负电荷用完右手定则后忘记反向。 · Forgetting to reverse the right-hand-rule result for a negative charge.",
+      "把 \\(\\theta\\) 当成 \\(\\vec v\\) 与 \\(\\vec B\\) 的夹角；\\(\\theta\\) 是 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角。 · Treating \\(\\theta\\) as the angle between \\(\\vec v\\) and \\(\\vec B\\); it is the angle between \\(\\vec v\\) and \\(\\hat r\\).",
+      "认为运动电荷只有磁场、没有电场；运动电荷同时带有电场。 · Believing a moving charge has only a magnetic field and no electric field; it has both.",
+      "把多个电荷的磁场大小直接相加而不看方向；叠加是矢量叠加。 · Adding the magnitudes of several charges' fields without regard to direction; superposition is vector addition.",
+      "把单个匀速电荷的公式用于任意加速运动；加速电荷的场还包含辐射项。 · Applying the uniform-motion formula to arbitrary acceleration; an accelerating charge's field also includes radiation."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 质子的磁场 · Example 1: Field of a proton",
+        "prompt": "一个质子沿 \\(+x\\) 方向以 \\(v=2.0\\times10^{6}\\,\\mathrm{m\\,s^{-1}}\\) 运动。求在质子上方 \\(r=0.010\\,\\mathrm{m}\\) 处（\\(+y\\) 方向）的磁场大小和方向。 · A proton moves along \\(+x\\) with \\(v=2.0\\times10^{6}\\,\\mathrm{m\\,s^{-1}}\\). Find the magnetic field magnitude and direction \\(r=0.010\\,\\mathrm{m}\\) above it (along \\(+y\\)).",
+        "steps": [
+          "质子电荷 \\(q=1.6\\times10^{-19}\\,\\mathrm{C}\\)，\\(\\theta=90^\\circ\\)。 · For a proton \\(q=1.6\\times10^{-19}\\,\\mathrm{C}\\) and \\(\\theta=90^\\circ\\).",
+          "\\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{qv}{r^{2}}=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(2.0\\times10^{6})}{(0.010)^{2}}\\)。 · \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{qv}{r^{2}}=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(2.0\\times10^{6})}{(0.010)^{2}}\\).",
+          "\\(B=3.2\\times10^{-16}\\,\\mathrm{T}\\)。 · \\(B=3.2\\times10^{-16}\\,\\mathrm{T}\\).",
+          "\\(\\vec v=+x\\)，\\(\\hat r=+y\\)，\\(\\vec v\\times\\hat r=+z\\)，所以 \\(\\vec B\\) 沿 \\(+z\\)（垂直纸面向外）。 · \\(\\vec v=+x\\), \\(\\hat r=+y\\), \\(\\vec v\\times\\hat r=+z\\), so \\(\\vec B\\) points along \\(+z\\) (out of the page)."
+        ],
+        "solution": "\\(B\\approx3.2\\times10^{-16}\\,\\mathrm{T}\\)，沿 \\(+z\\) 方向。 · \\(B\\approx3.2\\times10^{-16}\\,\\mathrm{T}\\), along \\(+z\\).",
+        "solutionLatex": "B=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(2.0\\times10^{6})}{(0.010)^{2}}=3.2\\times10^{-16}\\,\\mathrm{T}"
+      },
+      {
+        "title": "例 2 · 电子的磁场 · Example 2: Field of an electron",
+        "prompt": "一个电子沿 \\(+x\\) 方向以 \\(v=1.5\\times10^{7}\\,\\mathrm{m\\,s^{-1}}\\) 运动。场点 \\(P\\) 到电子的距离为 \\(r=0.020\\,\\mathrm{m}\\)，\\(\\vec v\\) 与 \\(\\hat r\\) 的夹角为 \\(60^\\circ\\)，且 \\(\\hat r\\) 在 \\(xy\\) 平面内。求 \\(P\\) 点磁场的大小和方向。 · An electron moves along \\(+x\\) with \\(v=1.5\\times10^{7}\\,\\mathrm{m\\,s^{-1}}\\). Field point \\(P\\) is a distance \\(r=0.020\\,\\mathrm{m}\\) away, the angle between \\(\\vec v\\) and \\(\\hat r\\) is \\(60^\\circ\\), and \\(\\hat r\\) lies in the \\(xy\\) plane. Find the field magnitude and direction at \\(P\\).",
+        "steps": [
+          "\\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(1.5\\times10^{7})(0.866)}{(0.020)^{2}}\\)。 · \\(B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v\\sin\\theta}{r^{2}}=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(1.5\\times10^{7})(0.866)}{(0.020)^{2}}\\).",
+          "\\(B=5.2\\times10^{-16}\\,\\mathrm{T}\\)。 · \\(B=5.2\\times10^{-16}\\,\\mathrm{T}\\).",
+          "\\(\\vec v=+x\\)，\\(\\hat r\\) 在 \\(xy\\) 平面内从 \\(+x\\) 向上转 \\(60^\\circ\\)，所以 \\(\\vec v\\times\\hat r\\) 沿 \\(+z\\)。 · \\(\\vec v=+x\\) and \\(\\hat r\\) is rotated \\(60^\\circ\\) upward from \\(+x\\) in the \\(xy\\) plane, so \\(\\vec v\\times\\hat r\\) points along \\(+z\\).",
+          "电子带负电，磁场方向与 \\(\\vec v\\times\\hat r\\) 相反，即沿 \\(-z\\)（垂直纸面向里）。 · The electron is negative, so the field is opposite to \\(\\vec v\\times\\hat r\\), i.e., along \\(-z\\) (into the page)."
+        ],
+        "solution": "\\(B\\approx5.2\\times10^{-16}\\,\\mathrm{T}\\)，沿 \\(-z\\) 方向。 · \\(B\\approx5.2\\times10^{-16}\\,\\mathrm{T}\\), along \\(-z\\).",
+        "solutionLatex": "B=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(1.5\\times10^{7})(0.866)}{(0.020)^{2}}=5.2\\times10^{-16}\\,\\mathrm{T}"
+      },
+      {
+        "title": "例 3 · 比例推理 · Example 3: Proportional reasoning",
+        "prompt": "某运动电荷在 \\(\\theta=90^\\circ\\) 的场点产生 \\(B=8.0\\times10^{-6}\\,\\mathrm{T}\\)。求下列改变后的磁场：(a) 速率变为 2 倍；(b) 距离变为 2 倍；(c) 电荷变为 2 倍且距离变为 3 倍；(d) \\(\\theta\\) 从 \\(90^\\circ\\) 变为 \\(30^\\circ\\)。 · A moving charge produces \\(B=8.0\\times10^{-6}\\,\\mathrm{T}\\) at a field point with \\(\\theta=90^\\circ\\). Find the new field when (a) the speed doubles; (b) the distance doubles; (c) the charge doubles and the distance triples; (d) \\(\\theta\\) changes from \\(90^\\circ\\) to \\(30^\\circ\\).",
+        "steps": [
+          "\\(B\\propto\\dfrac{|q|v\\sin\\theta}{r^{2}}\\)。 · \\(B\\propto\\dfrac{|q|v\\sin\\theta}{r^{2}}\\).",
+          "(a) \\(B'=2B=1.6\\times10^{-5}\\,\\mathrm{T}\\)。 · (a) \\(B'=2B=1.6\\times10^{-5}\\,\\mathrm{T}\\).",
+          "(b) \\(B'=\\dfrac{B}{4}=2.0\\times10^{-6}\\,\\mathrm{T}\\)。 · (b) \\(B'=\\dfrac{B}{4}=2.0\\times10^{-6}\\,\\mathrm{T}\\).",
+          "(c) \\(B'=B\\times\\dfrac{2}{9}=1.8\\times10^{-6}\\,\\mathrm{T}\\)。 · (c) \\(B'=B\\times\\dfrac{2}{9}=1.8\\times10^{-6}\\,\\mathrm{T}\\).",
+          "(d) \\(\\sin30^\\circ=0.5\\)，所以 \\(B'=0.5B=4.0\\times10^{-6}\\,\\mathrm{T}\\)。 · (d) \\(\\sin30^\\circ=0.5\\), so \\(B'=0.5B=4.0\\times10^{-6}\\,\\mathrm{T}\\)."
+        ],
+        "solution": "(a) \\(1.6\\times10^{-5}\\,\\mathrm{T}\\)；(b) \\(2.0\\times10^{-6}\\,\\mathrm{T}\\)；(c) \\(1.8\\times10^{-6}\\,\\mathrm{T}\\)；(d) \\(4.0\\times10^{-6}\\,\\mathrm{T}\\)。 · (a) \\(1.6\\times10^{-5}\\,\\mathrm{T}\\); (b) \\(2.0\\times10^{-6}\\,\\mathrm{T}\\); (c) \\(1.8\\times10^{-6}\\,\\mathrm{T}\\); (d) \\(4.0\\times10^{-6}\\,\\mathrm{T}\\).",
+        "solutionLatex": "B'=B\\times\\dfrac{2}{9}=1.8\\times10^{-6}\\,\\mathrm{T}\\quad\\text{(part c)}"
+      },
+      {
+        "title": "例 4 · 两个运动电荷的叠加 · Example 4: Superposition of two moving charges",
+        "prompt": "两个质子都沿 \\(+x\\) 方向以 \\(v=1.0\\times10^{6}\\,\\mathrm{m\\,s^{-1}}\\) 运动，它们沿 \\(y\\) 方向相距 \\(0.020\\,\\mathrm{m}\\)。求两质子连线中点处的合磁场。若把其中一个质子换成沿同一方向运动的电子，合磁场变为多少？ · Two protons move along \\(+x\\) with \\(v=1.0\\times10^{6}\\,\\mathrm{m\\,s^{-1}}\\) and are separated by \\(0.020\\,\\mathrm{m}\\) along \\(y\\). Find the net field at the midpoint of the line joining them. If one proton is replaced by an electron moving in the same direction, what is the net field?",
+        "steps": [
+          "中点到每个电荷的距离都是 \\(r=0.010\\,\\mathrm{m}\\)，且 \\(\\theta=90^\\circ\\)。 · The midpoint is \\(r=0.010\\,\\mathrm{m}\\) from each charge, with \\(\\theta=90^\\circ\\).",
+          "每个质子在两质子中点产生的磁场大小 \\(B_1=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(1.0\\times10^{6})}{(0.010)^{2}}=1.6\\times10^{-16}\\,\\mathrm{T}\\)。 · Each proton produces \\(B_1=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(1.0\\times10^{6})}{(0.010)^{2}}=1.6\\times10^{-16}\\,\\mathrm{T}\\) at the midpoint.",
+          "上方质子的 \\(\\hat r\\) 指向 \\(-y\\)，\\(\\vec v\\times\\hat r=+x\\times(-y)=-z\\)；下方质子的 \\(\\hat r\\) 指向 \\(+y\\)，\\(\\vec v\\times\\hat r=+x\\times(+y)=+z\\)。两场等大反向，所以中点合磁场为零。 · For the upper proton \\(\\hat r\\) points along \\(-y\\), so \\(\\vec v\\times\\hat r=+x\\times(-y)=-z\\); for the lower proton \\(\\hat r\\) points along \\(+y\\), so \\(\\vec v\\times\\hat r=+x\\times(+y)=+z\\). The fields are equal and opposite, so the net field at the midpoint is zero.",
+          "若把下方质子换成电子，电子沿 \\(+x\\) 运动但带负电，其磁场方向与 \\(\\vec v\\times\\hat r\\) 相反，即沿 \\(-z\\)；与上方质子的 \\(-z\\) 场同向叠加，合磁场为 \\(2B_1=3.2\\times10^{-16}\\,\\mathrm{T}\\)，沿 \\(-z\\)。 · If the lower proton is replaced by an electron moving along \\(+x\\), its negative charge reverses the field relative to \\(\\vec v\\times\\hat r\\), giving \\(-z\\); this adds to the upper proton's \\(-z\\) field, so the net field is \\(2B_1=3.2\\times10^{-16}\\,\\mathrm{T}\\) along \\(-z\\)."
+        ],
+        "solution": "两质子：中点合磁场为零。一质子一电子：\\(3.2\\times10^{-16}\\,\\mathrm{T}\\)，沿 \\(-z\\)。 · Two protons: the net field at the midpoint is zero. One proton and one electron: \\(3.2\\times10^{-16}\\,\\mathrm{T}\\) along \\(-z\\).",
+        "solutionLatex": "B_{\\mathrm{net}}=2(1.6\\times10^{-16})=3.2\\times10^{-16}\\,\\mathrm{T}\\quad\\text{(proton + electron)}"
+      }
+    ],
+    "examTips": [
+      "先画 \\(\\vec v\\) 和 \\(\\hat r\\)，并确认 \\(\\hat r\\) 从源电荷指向场点；不要画反。 · First draw \\(\\vec v\\) and \\(\\hat r\\), and confirm that \\(\\hat r\\) points from the source charge to the field point; do not reverse it.",
+      "用右手从 \\(\\vec v\\) 转向 \\(\\hat r\\)，拇指给出正电荷的 \\(\\vec B\\)；负电荷再把方向反过来。 · Curl the right hand from \\(\\vec v\\) toward \\(\\hat r\\); the thumb gives \\(\\vec B\\) for a positive charge, and reverse it for a negative charge.",
+      "\\(\\theta\\) 是 \\(\\vec v\\) 与 \\(\\hat r\\) 的夹角，不是 \\(\\vec v\\) 与 \\(\\vec B\\) 的夹角（\\(\\vec B\\) 与两者都垂直）。 · \\(\\theta\\) is the angle between \\(\\vec v\\) and \\(\\hat r\\), not between \\(\\vec v\\) and \\(\\vec B\\) (\\(\\vec B\\) is perpendicular to both).",
+      "\\(B\\propto\\dfrac{1}{r^{2}}\\)：距离加倍，\\(B\\) 变为四分之一；不要把点电荷的平方反比与长直导线的 \\(\\dfrac{1}{r}\\) 混淆。 · \\(B\\propto\\dfrac{1}{r^{2}}\\): doubling the distance quarters \\(B\\); do not confuse the point-charge inverse square with the \\(\\dfrac{1}{r}\\) of a long wire.",
+      "速度轴线上 \\(\\theta=0\\) 或 \\(180^\\circ\\)，\\(B=0\\)；垂直于速度的方向上 \\(B\\) 最大。 · On the velocity axis \\(\\theta=0\\) or \\(180^\\circ\\) and \\(B=0\\); perpendicular to the velocity, \\(B\\) is maximum.",
+      "多个电荷先分别算 \\(\\vec B_i\\)，再矢量相加；不要直接加大小。 · For several charges, compute each \\(\\vec B_i\\) separately, then add vectors; do not add magnitudes directly.",
+      "检查 \\(v\\ll c\\)；若题目涉及加速电荷或辐射，不能只用单个匀速电荷的公式。 · Check \\(v\\ll c\\); if the problem involves an accelerating charge or radiation, the single uniform-motion formula is not enough."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.1",
+        "title": "磁场 · Magnetic Fields",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.2",
+        "title": "运动电荷与磁场 · Magnetism and Moving Charges",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.3",
+        "title": "毕奥–萨伐尔定律 · Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.9",
+        "title": "毕奥–萨伐尔积分与电流几何 · Biot–Savart Integration and Current Geometry",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.10",
+        "title": "多电流磁场叠加 · Superposition of Magnetic Fields",
+        "relation": "后续 · downstream"
+      }
+    ],
+    "modules": [
+      {
+        "id": "charged-particle-B",
+        "title": "磁场中的带电粒子 · Charged particles in magnetic fields"
+      }
+    ],
+    "practiceHref": "#/em/practice/em-u12",
+    "connections": [
+      "上游：12.1 的磁场定义与 12.2 的洛伦兹力给出描述语言；运动电荷的磁场是电流磁场的微观来源。 · Upstream: 12.1's field definition and 12.2's Lorentz force provide the language; the field of a moving charge is the microscopic origin of current magnetic fields.",
+      "下游：把大量运动电荷叠加得到 12.3 的毕奥–萨伐尔定律和 12.9 的积分结果；12.10 用叠加原理处理多电流。 · Downstream: superposing many moving charges gives 12.3's Biot–Savart law and 12.9's integrated results; 12.10 applies superposition to multiple currents.",
+      "跨学科：同步辐射、粒子加速器和等离子体中的磁场都源于运动电荷；阴极射线管用磁场偏转电子。 · Cross-disciplinary: synchrotron radiation, particle accelerators, and plasma magnetic fields all originate from moving charges; cathode-ray tubes deflect electrons with magnetic fields."
+    ],
+    "intuitionDetailed": "先抓住三件事：源、速度、场点。源电荷 \\(q\\) 和速度 \\(\\vec v\\) 决定“磁场源”的强弱和方向，场点相对源的位置 \\(\\hat r\\) 决定距离和夹角。把 \\(\\vec v\\) 与 \\(\\hat r\\) 画出来，右手四指从 \\(\\vec v\\) 转向 \\(\\hat r\\)，拇指就是正电荷的 \\(\\vec B\\)；负电荷反向。因为 \\(\\vec B\\) 同时垂直于 \\(\\vec v\\) 和 \\(\\hat r\\)，它绕着速度轴转圈，既不指向电荷也不沿着运动方向，所以场线是同心圆。距离加倍时，平方反比使 \\(B\\) 只剩四分之一；在速度轴上 \\(\\sin\\theta=0\\)，磁场为零；垂直于速度的方向上磁场最大。把许多运动电荷的磁场矢量相加，就得到导线电流的磁场；这也是毕奥–萨伐尔定律的微观来源。 · Focus on three things: the source, its velocity, and the field point. The source charge \\(q\\) and velocity \\(\\vec v\\) set the strength and orientation of the “magnetic source,” while the position \\(\\hat r\\) of the field point sets the distance and angle. Draw \\(\\vec v\\) and \\(\\hat r\\), curl the right fingers from \\(\\vec v\\) toward \\(\\hat r\\), and the thumb gives \\(\\vec B\\) for a positive charge; reverse it for a negative charge. Because \\(\\vec B\\) is perpendicular to both \\(\\vec v\\) and \\(\\hat r\\), it circles the velocity axis: it points neither toward the charge nor along the motion, so the field lines are concentric circles. Doubling the distance leaves only one quarter of \\(B\\) because of the inverse-square law; on the velocity axis \\(\\sin\\theta=0\\) and the field vanishes; perpendicular to the velocity the field is maximum. Adding the field vectors of many moving charges gives the field of a current, which is the microscopic origin of the Biot–Savart law.",
+    "development": [
+      "复习 12.1 的磁场定义与 12.2 的洛伦兹力，确认静止电荷只有电场、运动电荷才有磁场。 · Review the field definition in 12.1 and the Lorentz force in 12.2, confirming that a charge at rest has only an electric field while a moving charge has a magnetic field.",
+      "写出 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\)，在图上标出 \\(\\vec v\\)、\\(\\hat r\\) 和 \\(\\vec B\\) 三个矢量。 · Write \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\) and mark \\(\\vec v\\), \\(\\hat r\\), and \\(\\vec B\\) on a diagram.",
+      "讨论 \\(B\\) 对 \\(q\\)、\\(v\\)、\\(r\\)、\\(\\theta\\) 的依赖，检查 \\(\\theta=0\\)、\\(90^\\circ\\)、\\(180^\\circ\\) 三个极限。 · Discuss how \\(B\\) depends on \\(q\\), \\(v\\), \\(r\\), and \\(\\theta\\), and check the limits \\(\\theta=0\\), \\(90^\\circ\\), and \\(180^\\circ\\).",
+      "画出绕速度轴的同心圆场线，说明为什么没有径向和沿速度的分量。 · Draw the concentric field lines about the velocity axis and explain why there is no radial or along-velocity component.",
+      "把多个运动电荷的磁场矢量相加，再过渡到电流元与毕奥–萨伐尔定律。 · Add the fields of several moving charges as vectors, then transition to the current element and the Biot–Savart law.",
+      "说明 \\(v\\ll c\\) 的适用条件，并指出加速电荷会辐射。 · State the \\(v\\ll c\\) condition and note that an accelerating charge radiates."
+    ],
+    "checks": [
+      "静止电荷产生磁场吗？运动电荷呢？ · Does a charge at rest produce a magnetic field? What about a moving charge?",
+      "在 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\) 中，\\(\\hat r\\) 从哪指向哪？ · In \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\), from where to where does \\(\\hat r\\) point?",
+      "距离加倍时 \\(B\\) 如何变化？速度加倍呢？ · How does \\(B\\) change when the distance doubles? When the speed doubles?",
+      "为什么速度轴上的磁场为零？ · Why is the field zero on the velocity axis?",
+      "两个同向平行运动的正电荷在中点产生的磁场为什么可能相消？ · Why can the fields of two parallel positive charges moving in the same direction cancel at the midpoint?",
+      "公式在什么速度条件下适用？加速电荷的磁场还缺什么？ · Under what speed condition does the formula apply? What is missing from the field of an accelerating charge?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "运动电荷的磁场",
+        "termEn": "magnetic field of a moving charge",
+        "defZh": "运动电荷在空间产生的磁场，由 \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\) 描述。",
+        "defEn": "The magnetic field produced by a moving charge, described by \\(\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}\\)."
+      },
+      {
+        "termZh": "源电荷",
+        "termEn": "source charge",
+        "defZh": "产生磁场的运动电荷，记作 \\(q\\)。",
+        "defEn": "The moving charge that produces the field, denoted \\(q\\)."
+      },
+      {
+        "termZh": "场点",
+        "termEn": "field point",
+        "defZh": "要计算磁场的空间位置；\\(\\hat r\\) 从源电荷指向场点。",
+        "defEn": "The point in space where the field is evaluated; \\(\\hat r\\) points from the source charge to the field point."
+      },
+      {
+        "termZh": "位置单位矢量",
+        "termEn": "unit position vector",
+        "defZh": "从源电荷指向场点的单位矢量 \\(\\hat r\\)。",
+        "defEn": "The unit vector \\(\\hat r\\) from the source charge to the field point."
+      },
+      {
+        "termZh": "右手定则",
+        "termEn": "right-hand rule",
+        "defZh": "四指从 \\(\\vec v\\) 转向 \\(\\hat r\\)，拇指给出正电荷的 \\(\\vec B\\) 方向。",
+        "defEn": "Curl the right fingers from \\(\\vec v\\) toward \\(\\hat r\\); the thumb gives the direction of \\(\\vec B\\) for a positive charge."
+      },
+      {
+        "termZh": "叠加原理",
+        "termEn": "superposition principle",
+        "defZh": "多个运动电荷的磁场按矢量相加得到总磁场。",
+        "defEn": "The total field is the vector sum of the fields produced by individual moving charges."
+      },
+      {
+        "termZh": "非相对论极限",
+        "termEn": "nonrelativistic limit",
+        "defZh": "源电荷速度远小于光速 \\(v\\ll c\\) 的近似。",
+        "defEn": "The approximation in which the source speed is much less than the speed of light, \\(v\\ll c\\)."
+      },
+      {
+        "termZh": "辐射场",
+        "termEn": "radiation field",
+        "defZh": "加速电荷发出的、随距离按 \\(\\dfrac{1}{r}\\) 衰减的磁场部分。",
+        "defEn": "The part of the field emitted by an accelerating charge that falls off as \\(\\dfrac{1}{r}\\)."
+      }
+    ]
+  },
   "12.8": {
     "id": "em/em-u12/12.8",
     "subject": "em",
@@ -1477,7 +1803,9 @@ export const TOPICS = {
       "能对圆环中心、圆弧中心和有限直导线建立积分，得到相应磁场公式。 · Set up and evaluate the integrals for the center of a circular loop, the center of a circular arc, and a finite straight wire.",
       "能说明角度、半径和积分限的几何意义，并在无限长导线等极限下检查结果。 · Explain the geometric meaning of the angles, radius, and integration limits, and check results in limits such as the infinitely long wire.",
       "能用叠加原理求由直线段、圆弧和径向段组合而成的电流分布的磁场。 · Use superposition to find the magnetic field of current distributions made of straight segments, arcs, and radial segments.",
-      "能判断磁场方向并避免把 \\(R\\)、\\(r\\)、\\(\\theta\\) 的角色混淆。 · Determine the field direction and avoid confusing the roles of \\(R\\), \\(r\\), and \\(\\theta\\)."
+      "能判断磁场方向并避免把 \\(R\\)、\\(r\\)、\\(\\theta\\) 的角色混淆。 · Determine the field direction and avoid confusing the roles of \\(R\\), \\(r\\), and \\(\\theta\\).",
+      "能用 \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\) 做比例推理，预测电流、距离或夹角改变时磁场如何变化。 · Use \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\) for proportional reasoning and predict how the field changes when the current, distance, or angle changes.",
+      "能说明电流元周围的磁场矢量与以导线为轴的同心圆相切，且没有指向导线、背离导线或沿导线方向的分量。 · Explain that the magnetic field vectors around a current element are tangent to concentric circles about the wire axis and have no component toward the wire, away from it, or along the wire."
     ],
     "essentialKnowledge": [
       "毕奥–萨伐尔定律：\\(\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\)，其中 \\(\\mathrm{d}\\vec\\ell\\) 沿电流方向，\\(\\hat r\\) 从电流元指向观察点；总场是各电流元贡献的矢量和。 · Biot–Savart law: \\(\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\), where \\(\\mathrm{d}\\vec\\ell\\) points along the current and \\(\\hat r\\) points from the current element to the observation point; the total field is the vector sum of all element contributions.",
@@ -1489,7 +1817,11 @@ export const TOPICS = {
       "当两端都趋于无穷远时 \\(\\theta_1=\\theta_2=90^\\circ\\)，有限直导线公式化为无限长导线 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)；半无限长导线给出 \\(B=\\dfrac{\\mu_0I}{4\\pi r}\\)。 · When both ends recede to infinity, \\(\\theta_1=\\theta_2=90^\\circ\\) and the finite-wire formula becomes the infinite-wire result \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\); a semi-infinite wire gives \\(B=\\dfrac{\\mu_0I}{4\\pi r}\\).",
       "若观察点与直导线两端在同一侧，两个角度应使用带符号形式或把导线分成两段叠加，不能盲目相加。 · If the observation point and both ends lie on the same side of the perpendicular foot, use signed angles or split the wire into segments and superpose; do not add the angles blindly.",
       "对组合电流分布，先分别求每段的磁场，再按矢量叠加；径向段（电流沿半径方向）在圆心产生的磁场为零，因为 \\(\\mathrm{d}\\vec\\ell\\) 与 \\(\\hat r\\) 平行。 · For a composite current distribution, find the field of each segment separately and add vectorially; a radial segment (current along the radius) produces zero field at the center because \\(\\mathrm{d}\\vec\\ell\\) is parallel to \\(\\hat r\\).",
-      "在磁介质中，若材料线性且未饱和，可把 \\(\\mu_0\\) 换成 \\(\\mu=\\mu_r\\mu_0\\)；方向仍由电流几何决定。 · In a linear, unsaturated magnetic medium, replace \\(\\mu_0\\) by \\(\\mu=\\mu_r\\mu_0\\); the direction is still set by the current geometry."
+      "在磁介质中，若材料线性且未饱和，可把 \\(\\mu_0\\) 换成 \\(\\mu=\\mu_r\\mu_0\\)；方向仍由电流几何决定。 · In a linear, unsaturated magnetic medium, replace \\(\\mu_0\\) by \\(\\mu=\\mu_r\\mu_0\\); the direction is still set by the current geometry.",
+      "电流元磁场的标量形式：\\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\)，所以 \\(\\mathrm{d}B\\propto I\\)、\\(\\mathrm{d}B\\propto\\mathrm{d}\\ell\\)、\\(\\mathrm{d}B\\propto\\sin\\theta\\)、\\(\\mathrm{d}B\\propto\\dfrac{1}{r^{2}}\\)。 · Scalar form of the current-element field: \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\), so \\(\\mathrm{d}B\\propto I\\), \\(\\mathrm{d}B\\propto\\mathrm{d}\\ell\\), \\(\\mathrm{d}B\\propto\\sin\\theta\\), and \\(\\mathrm{d}B\\propto\\dfrac{1}{r^{2}}\\).",
+      "比例推理：电流加倍则 \\(B\\) 加倍；距离加倍则 \\(B\\) 变为四分之一；\\(\\theta\\) 从 \\(90^\\circ\\) 变为 \\(30^\\circ\\) 时 \\(B\\) 减半；对圆环中心 \\(B\\propto\\dfrac{I}{R}\\)，对圆弧中心 \\(B\\propto\\dfrac{I\\theta}{R}\\)。 · Proportional reasoning: doubling the current doubles \\(B\\); doubling the distance quarters \\(B\\); changing \\(\\theta\\) from \\(90^\\circ\\) to \\(30^\\circ\\) halves \\(B\\); at a loop center \\(B\\propto\\dfrac{I}{R}\\), and at an arc center \\(B\\propto\\dfrac{I\\theta}{R}\\).",
+      "电流元周围的磁场矢量与以导线为中心的同心圆相切：\\(\\mathrm{d}\\vec B\\) 同时垂直于 \\(\\mathrm{d}\\vec\\ell\\) 和 \\(\\hat r\\)，因此没有指向导线或背离导线的径向分量，也没有沿导线方向的分量。 · The field vectors around a current element are tangent to concentric circles centered on the wire: \\(\\mathrm{d}\\vec B\\) is perpendicular to both \\(\\mathrm{d}\\vec\\ell\\) and \\(\\hat r\\), so it has no radial component toward or away from the wire and no component along the wire.",
+      "在垂直于导线的平面内，磁感线是同心圆，圆上各点的 \\(\\mathrm{d}B\\) 大小相同、方向沿切线；电流反向时，圆的绕行方向也反向。 · In a plane perpendicular to the wire, the field lines are concentric circles; every point on a circle has the same \\(\\mathrm{d}B\\) magnitude with a tangent direction, and reversing the current reverses the sense around the circles."
     ],
     "definition": "毕奥–萨伐尔定律（Biot–Savart law）给出电流元 \\(I\\,\\mathrm{d}\\vec\\ell\\) 在空间某点产生的磁场：\\(\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\)，其中 \\(\\hat r\\) 是从电流元指向观察点的单位矢量，\\(r\\) 是两者距离。对有限电流分布积分 \\(\\vec B=\\int\\mathrm{d}\\vec B\\) 即可求总磁场。对圆环中心，积分给出 \\(B=\\dfrac{\\mu_0I}{2R}\\)；对圆心角为 \\(\\theta\\) 的圆弧，\\(B=\\dfrac{\\mu_0I\\theta}{4\\pi R}\\)；对有限直导线，\\(B=\\dfrac{\\mu_0I}{4\\pi r}(\\sin\\theta_1+\\sin\\theta_2)\\)。这些结果都体现了“电流元贡献按距离平方衰减、方向由右手定则决定、总场按矢量叠加”的统一结构。 · The Biot–Savart law gives the magnetic field produced by a current element \\(I\\,\\mathrm{d}\\vec\\ell\\) at a point in space: \\(\\mathrm{d}\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\), where \\(\\hat r\\) is the unit vector from the element to the observation point and \\(r\\) is the distance. Integrating over a finite current distribution, \\(\\vec B=\\int\\mathrm{d}\\vec B\\), gives the total field. For the center of a circular loop the integral gives \\(B=\\dfrac{\\mu_0I}{2R}\\); for an arc of central angle \\(\\theta\\), \\(B=\\dfrac{\\mu_0I\\theta}{4\\pi R}\\); for a finite straight wire, \\(B=\\dfrac{\\mu_0I}{4\\pi r}(\\sin\\theta_1+\\sin\\theta_2)\\). These results share the same structure: each current element contributes with an inverse-square distance factor, the direction follows the right-hand rule, and the total field is a vector superposition.",
     "intuition": "把导线想成由无数小箭头 \\(I\\,\\mathrm{d}\\vec\\ell\\) 组成，每个小箭头都在观察点放出一支垂直于“小箭头—观察点”连线的小磁针。圆环中心很特殊：所有小箭头到中心的距离相同，方向又都与连线垂直，所以每支小磁针都指向同一方向，积分只剩“把弧长加起来”。圆弧只是圆环的一部分，磁场按角度比例缩小。有限直导线则要看两端张开的角：两端越接近无限远，角度越接近 \\(90^\\circ\\)，磁场越接近无限长导线的值。 · Think of a wire as countless little arrows \\(I\\,\\mathrm{d}\\vec\\ell\\), each contributing a tiny magnetic field perpendicular to the line joining it to the observation point. The center of a circular loop is special: every element is the same distance away and perpendicular to its radius, so all contributions point the same way and the integral reduces to adding up the arc length. An arc is just part of a loop, so its field scales with angle. For a finite straight wire, look at the angles subtended by the ends: the closer they are to infinity, the closer the angles are to \\(90^\\circ\\), and the field approaches the infinite-wire value.",
@@ -1568,7 +1900,9 @@ export const TOPICS = {
       "\\(\\theta_1=\\theta_2=90^\\circ\\) 还原无限长导线 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)，这是最好的自检。 · Setting \\(\\theta_1=\\theta_2=90^\\circ\\) recovers the infinite-wire result \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\), the best self-check.",
       "径向段对圆心磁场贡献为零；组合图形先拆段、再矢量叠加。 · Radial segments contribute zero at the center; split composite shapes into segments and add vectorially.",
       "\\(N\\) 匝线圈的磁场是单匝的 \\(N\\) 倍（同向、紧密时）。 · An \\(N\\)-turn coil's field is \\(N\\) times the single-turn field when the turns are close and same-direction.",
-      "方向永远由右手定则决定：四指沿电流弯曲，拇指指向环内/环轴磁场方向。 · Direction always follows the right-hand rule: curl the fingers along the current and the thumb gives the field direction inside the loop/along the axis."
+      "方向永远由右手定则决定：四指沿电流弯曲，拇指指向环内/环轴磁场方向。 · Direction always follows the right-hand rule: curl the fingers along the current and the thumb gives the field direction inside the loop/along the axis.",
+      "电流元磁场按 \\(\\mathrm{d}B\\propto\\dfrac{I\\sin\\theta}{r^{2}}\\) 变化：平方反比、正弦角依赖；比例题先写这条式子。 · The current-element field scales as \\(\\mathrm{d}B\\propto\\dfrac{I\\sin\\theta}{r^{2}}\\): inverse-square in distance and sinusoidal in angle; write this relation first in proportional-reasoning problems.",
+      "电流元周围的场线是同心圆：\\(\\mathrm{d}\\vec B\\) 与圆相切，没有径向分量，也没有沿导线方向的分量。 · The field lines around a current element are concentric circles: \\(\\mathrm{d}\\vec B\\) is tangent, with no radial component and no component along the wire."
     ],
     "misconceptions": [
       "把圆环中心公式写成 \\(B=\\dfrac{\\mu_0I}{2\\pi R}\\)；正确结果是 \\(B=\\dfrac{\\mu_0I}{2R}\\)。 · Writing the loop-center field as \\(B=\\dfrac{\\mu_0I}{2\\pi R}\\); the correct result is \\(B=\\dfrac{\\mu_0I}{2R}\\).",
@@ -1578,7 +1912,10 @@ export const TOPICS = {
       "认为径向段也会在圆心产生磁场；径向段 \\(\\mathrm{d}\\vec\\ell\\parallel\\hat r\\)，贡献为零。 · Believing radial segments produce a field at the center; for a radial segment \\(\\mathrm{d}\\vec\\ell\\parallel\\hat r\\), so the contribution is zero.",
       "把各段的磁场大小直接相加而不考虑方向；叠加是矢量叠加，方向相反时要相减。 · Adding the magnitudes of segment fields without considering direction; superposition is vector addition, so opposite directions subtract.",
       "认为 \\(B\\) 沿导线方向；\\(\\mathrm{d}\\vec B\\) 垂直于 \\(\\mathrm{d}\\vec\\ell\\) 与 \\(\\hat r\\)，圆环中心的 \\(\\vec B\\) 沿环轴。 · Believing \\(B\\) points along the wire; \\(\\mathrm{d}\\vec B\\) is perpendicular to both \\(\\mathrm{d}\\vec\\ell\\) and \\(\\hat r\\), and the field at a loop center points along the axis.",
-      "在磁介质中直接把 \\(\\mu_0\\) 换成 \\(\\mu\\) 而不检查饱和；铁磁材料非线性时不能这样简单替换。 · Replacing \\(\\mu_0\\) by \\(\\mu\\) in a magnetic medium without checking saturation; for a nonlinear ferromagnet this simple replacement fails."
+      "在磁介质中直接把 \\(\\mu_0\\) 换成 \\(\\mu\\) 而不检查饱和；铁磁材料非线性时不能这样简单替换。 · Replacing \\(\\mu_0\\) by \\(\\mu\\) in a magnetic medium without checking saturation; for a nonlinear ferromagnet this simple replacement fails.",
+      "认为电流元的磁场有指向导线、背离导线或沿导线的分量；\\(\\mathrm{d}\\vec B\\) 垂直于 \\(\\mathrm{d}\\vec\\ell\\) 与 \\(\\hat r\\)，只有切向分量。 · Believing the field of a current element has a component toward the wire, away from it, or along the wire; \\(\\mathrm{d}\\vec B\\) is perpendicular to both \\(\\mathrm{d}\\vec\\ell\\) and \\(\\hat r\\), so only the tangential component exists.",
+      "把 \\(\\theta\\) 当作电流方向与磁场方向的夹角；\\(\\theta\\) 是 \\(\\mathrm{d}\\vec\\ell\\) 与 \\(\\hat r\\) 的夹角，而 \\(\\mathrm{d}\\vec B\\) 又与两者都垂直。 · Treating \\(\\theta\\) as the angle between the current and the field; \\(\\theta\\) is the angle between \\(\\mathrm{d}\\vec\\ell\\) and \\(\\hat r\\), while \\(\\mathrm{d}\\vec B\\) is perpendicular to both.",
+      "认为电流加倍而距离不变时 \\(B\\) 不变，或距离加倍时 \\(B\\) 只减半；\\(B\\propto I\\) 且 \\(B\\propto\\dfrac{1}{r^{2}}\\)。 · Believing \\(B\\) is unchanged when the current doubles at fixed distance, or that doubling the distance only halves \\(B\\); in fact \\(B\\propto I\\) and \\(B\\propto\\dfrac{1}{r^{2}}\\)."
     ],
     "examples": [
       {
@@ -1624,6 +1961,31 @@ export const TOPICS = {
         ],
         "solution": "\\(B\\approx4.2\\times10^{-6}\\,\\mathrm{T}\\)，方向垂直于半圆平面，由右手定则确定；直径段不贡献。 · \\(B\\approx4.2\\times10^{-6}\\,\\mathrm{T}\\), perpendicular to the semicircle plane according to the right-hand rule; the diameter contributes nothing.",
         "solutionLatex": "B=\\dfrac{\\mu_0I}{4R}=\\dfrac{(4\\pi\\times10^{-7})(2.0)}{4(0.15)}=4.19\\times10^{-6}\\,\\mathrm{T}"
+      },
+      {
+        "title": "例 5 · 电流元磁场的比例推理 · Example 5: Proportional reasoning for a current element",
+        "prompt": "某电流元在 \\(\\theta=90^\\circ\\)、\\(r=0.20\\,\\mathrm{m}\\) 的场点产生 \\(B=6.0\\times10^{-7}\\,\\mathrm{T}\\)。分别求下列改变后的磁场：(a) 电流变为 3 倍；(b) 距离变为 2 倍；(c) \\(\\theta\\) 变为 \\(30^\\circ\\)；(d) 电流变为 3 倍且距离变为 2 倍。 · A current element produces \\(B=6.0\\times10^{-7}\\,\\mathrm{T}\\) at a field point with \\(\\theta=90^\\circ\\) and \\(r=0.20\\,\\mathrm{m}\\). Find the new field when (a) the current triples; (b) the distance doubles; (c) \\(\\theta\\) becomes \\(30^\\circ\\); (d) the current triples and the distance doubles.",
+        "steps": [
+          "由 \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\)，\\(\\mathrm{d}B\\propto I\\)、\\(\\mathrm{d}B\\propto\\sin\\theta\\)、\\(\\mathrm{d}B\\propto\\dfrac{1}{r^{2}}\\)。 · From \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\), \\(\\mathrm{d}B\\propto I\\), \\(\\mathrm{d}B\\propto\\sin\\theta\\), and \\(\\mathrm{d}B\\propto\\dfrac{1}{r^{2}}\\).",
+          "(a) \\(B'=3B=1.8\\times10^{-6}\\,\\mathrm{T}\\)。 · (a) \\(B'=3B=1.8\\times10^{-6}\\,\\mathrm{T}\\).",
+          "(b) \\(B'=\\dfrac{B}{4}=1.5\\times10^{-7}\\,\\mathrm{T}\\)。 · (b) \\(B'=\\dfrac{B}{4}=1.5\\times10^{-7}\\,\\mathrm{T}\\).",
+          "(c) \\(\\sin30^\\circ=0.5\\)，所以 \\(B'=0.5B=3.0\\times10^{-7}\\,\\mathrm{T}\\)。 · (c) \\(\\sin30^\\circ=0.5\\), so \\(B'=0.5B=3.0\\times10^{-7}\\,\\mathrm{T}\\).",
+          "(d) \\(B'=3\\times\\dfrac{B}{4}=4.5\\times10^{-7}\\,\\mathrm{T}\\)。 · (d) \\(B'=3\\times\\dfrac{B}{4}=4.5\\times10^{-7}\\,\\mathrm{T}\\)."
+        ],
+        "solution": "(a) \\(1.8\\times10^{-6}\\,\\mathrm{T}\\)；(b) \\(1.5\\times10^{-7}\\,\\mathrm{T}\\)；(c) \\(3.0\\times10^{-7}\\,\\mathrm{T}\\)；(d) \\(4.5\\times10^{-7}\\,\\mathrm{T}\\)。 · (a) \\(1.8\\times10^{-6}\\,\\mathrm{T}\\); (b) \\(1.5\\times10^{-7}\\,\\mathrm{T}\\); (c) \\(3.0\\times10^{-7}\\,\\mathrm{T}\\); (d) \\(4.5\\times10^{-7}\\,\\mathrm{T}\\).",
+        "solutionLatex": "B'=3\\times\\dfrac{6.0\\times10^{-7}}{4}=4.5\\times10^{-7}\\,\\mathrm{T}\\quad\\text{(part d)}"
+      },
+      {
+        "title": "例 6 · 电流元周围的同心圆场 · Example 6: Concentric field around a current element",
+        "prompt": "一短电流元沿 \\(+z\\) 方向放置在原点，电流为 \\(I\\)。分别判断场点 \\(P_1\\) 在 \\(+x\\) 轴、\\(P_2\\) 在 \\(-x\\) 轴、\\(P_3\\) 在 \\(+z\\) 轴（电流元正前方）处的磁场方向；并说明这些点附近磁感线的形状。 · A short current element at the origin points along \\(+z\\) and carries current \\(I\\). Determine the field direction at \\(P_1\\) on the \\(+x\\) axis, \\(P_2\\) on the \\(-x\\) axis, and \\(P_3\\) on the \\(+z\\) axis (directly ahead of the element), and describe the shape of the field lines near these points.",
+        "steps": [
+          "规定 \\(\\mathrm{d}\\vec\\ell\\) 沿 \\(+z\\)。在 \\(P_1\\)，\\(\\hat r=+x\\)，\\(\\mathrm{d}\\vec\\ell\\times\\hat r=z\\times x=+y\\)，所以 \\(\\mathrm{d}\\vec B\\) 沿 \\(+y\\)。 · Take \\(\\mathrm{d}\\vec\\ell\\) along \\(+z\\). At \\(P_1\\), \\(\\hat r=+x\\), so \\(\\mathrm{d}\\vec\\ell\\times\\hat r=z\\times x=+y\\) and \\(\\mathrm{d}\\vec B\\) points along \\(+y\\).",
+          "在 \\(P_2\\)，\\(\\hat r=-x\\)，\\(z\\times(-x)=-y\\)，所以 \\(\\mathrm{d}\\vec B\\) 沿 \\(-y\\)。 · At \\(P_2\\), \\(\\hat r=-x\\), \\(z\\times(-x)=-y\\), so \\(\\mathrm{d}\\vec B\\) points along \\(-y\\).",
+          "在 \\(P_3\\)，\\(\\hat r=+z\\) 与 \\(\\mathrm{d}\\vec\\ell\\) 平行，\\(\\mathrm{d}\\vec\\ell\\times\\hat r=0\\)，所以 \\(\\mathrm{d}\\vec B=0\\)。 · At \\(P_3\\), \\(\\hat r=+z\\) is parallel to \\(\\mathrm{d}\\vec\\ell\\), so \\(\\mathrm{d}\\vec\\ell\\times\\hat r=0\\) and \\(\\mathrm{d}\\vec B=0\\).",
+          "在垂直于 \\(z\\) 轴的平面内，磁感线是以 \\(z\\) 轴为圆心的同心圆；\\(P_1\\)、\\(P_2\\) 处的场沿圆的切线，没有沿 \\(x\\) 轴的径向分量，也没有沿 \\(z\\) 轴的分量。 · In a plane perpendicular to the \\(z\\) axis, the field lines are concentric circles centered on the \\(z\\) axis; at \\(P_1\\) and \\(P_2\\) the field is tangent to the circle, with no radial component along \\(x\\) and no component along \\(z\\)."
+        ],
+        "solution": "\\(P_1\\)：\\(+y\\)；\\(P_2\\)：\\(-y\\)；\\(P_3\\)：\\(0\\)。磁感线为绕 \\(z\\) 轴的同心圆，方向由右手定则确定。 · \\(P_1\\): \\(+y\\); \\(P_2\\): \\(-y\\); \\(P_3\\): \\(0\\). The field lines are concentric circles about the \\(z\\) axis, with the sense given by the right-hand rule.",
+        "solutionLatex": "P_1:\\,+y,\\qquad P_2:\\,-y,\\qquad P_3:\\,0"
       }
     ],
     "examTips": [
@@ -1632,7 +1994,9 @@ export const TOPICS = {
       "有限直导线题先在图上标出 \\(r\\) 和两个角 \\(\\theta_1,\\theta_2\\)，确认两端在垂足两侧，再代公式。 · For a finite-wire problem, mark \\(r\\) and the two angles \\(\\theta_1,\\theta_2\\) on the diagram, confirm the ends are on opposite sides of the foot, then substitute.",
       "用无限长导线的极限检查有限直导线结果：\\(\\theta_1=\\theta_2=90^\\circ\\) 时应得到 \\(\\dfrac{\\mu_0I}{2\\pi r}\\)。 · Check a finite-wire result with the infinite-wire limit: setting \\(\\theta_1=\\theta_2=90^\\circ\\) should give \\(\\dfrac{\\mu_0I}{2\\pi r}\\).",
       "组合图形先拆成直线段、圆弧和径向段；径向段在圆心贡献为零，其余段按矢量叠加。 · Split composite shapes into straight segments, arcs, and radial segments; radial segments contribute zero at the center, and the rest add vectorially.",
-      "角度用弧度制代入圆弧公式；计算器模式要与题目单位一致。 · Use radians in the arc formula and keep the calculator mode consistent with the units in the problem."
+      "角度用弧度制代入圆弧公式；计算器模式要与题目单位一致。 · Use radians in the arc formula and keep the calculator mode consistent with the units in the problem.",
+      "比例题先写 \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\)，再按因子相乘；不要只记结论。 · For proportional reasoning, write \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\) first, then multiply the factors; do not rely on memorized conclusions.",
+      "画电流元磁场时先画以导线为轴的同心圆，再在圆上画切线箭头；不要画径向箭头或沿导线的箭头。 · When drawing the field of a current element, first draw concentric circles about the wire axis, then tangent arrows on the circles; never draw radial or along-wire arrows."
     ],
     "related": [
       {
@@ -1690,7 +2054,9 @@ export const TOPICS = {
       "把圆环结果按弧长比例推广到圆弧，得到 \\(B=\\dfrac{\\mu_0I\\theta}{4\\pi R}\\)，并用半圆和整圆检查。 · Generalize the loop result to an arc by arc-length scaling, obtaining \\(B=\\dfrac{\\mu_0I\\theta}{4\\pi R}\\), and check with a semicircle and a full circle.",
       "对有限直导线建立坐标，把 \\(x\\) 换成角度，完成积分并定义 \\(\\theta_1,\\theta_2\\)。 · Set up coordinates for a finite straight wire, change variables from \\(x\\) to angle, complete the integral, and define \\(\\theta_1,\\theta_2\\).",
       "用无限长、半无限长极限检查有限直导线公式，讨论两端同侧时的符号处理。 · Check the finite-wire formula with infinite and semi-infinite limits, and discuss sign handling when both ends are on the same side.",
-      "用叠加原理分析半圆加直径、两段圆弧加径向段等组合图形，画方向图并求矢量和。 · Use superposition to analyze composites such as a semicircle plus diameter or two arcs plus radial segments, draw the direction diagram, and find the vector sum."
+      "用叠加原理分析半圆加直径、两段圆弧加径向段等组合图形，画方向图并求矢量和。 · Use superposition to analyze composites such as a semicircle plus diameter or two arcs plus radial segments, draw the direction diagram, and find the vector sum.",
+      "用 \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\) 做比例推理：分别改变 \\(I\\)、\\(r\\)、\\(\\theta\\)，预测 \\(B\\) 的倍数并代入数值检验。 · Use \\(\\mathrm{d}B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,\\mathrm{d}\\ell\\sin\\theta}{r^{2}}\\) for proportional reasoning: change \\(I\\), \\(r\\), and \\(\\theta\\) one at a time, predict the factor for \\(B\\), and check numerically.",
+      "画电流元周围的同心圆场线，标出切向 \\(\\mathrm{d}\\vec B\\)，并说明为什么不存在径向和沿导线分量。 · Draw the concentric field lines around a current element, mark the tangent \\(\\mathrm{d}\\vec B\\), and explain why there is no radial or along-wire component."
     ],
     "checks": [
       "毕奥–萨伐尔定律中 \\(\\hat r\\) 的方向是从电流元指向观察点，还是反过来？ · In the Biot–Savart law, does \\(\\hat r\\) point from the current element to the observation point or the other way?",
@@ -1699,7 +2065,11 @@ export const TOPICS = {
       "有限直导线公式在什么极限下变成无限长导线公式？请写出极限过程。 · In what limit does the finite-wire formula become the infinite-wire formula? Describe the limit.",
       "如果观察点与直导线两端在同一侧，两个角度应相加还是相减？ · If the observation point and both ends of a straight wire are on the same side, should the two angles be added or subtracted?",
       "为什么径向段对圆心磁场没有贡献？ · Why does a radial segment contribute no field at the center?",
-      "两个同半径的半圆反向通电，圆心磁场是相加还是相消？ · If two semicircles of the same radius carry current in opposite directions, do their center fields add or cancel?"
+      "两个同半径的半圆反向通电，圆心磁场是相加还是相消？ · If two semicircles of the same radius carry current in opposite directions, do their center fields add or cancel?",
+      "把电流加倍、距离加倍，电流元的 \\(B\\) 变为原来的几倍？ · If the current doubles and the distance doubles, by what factor does the current element's \\(B\\) change?",
+      "在电流元正前方（沿电流方向）的场点，\\(B\\) 是多少？为什么？ · What is \\(B\\) at a field point directly ahead of the current element (along the current), and why?",
+      "电流元周围的磁场为什么没有径向分量和沿导线分量？ · Why does the field around a current element have no radial or along-wire component?",
+      "\\(\\theta\\) 是哪两个矢量的夹角？为什么 \\(\\theta=90^\\circ\\) 时 \\(B\\) 最大？ · Which two vectors define \\(\\theta\\), and why is \\(B\\) maximum at \\(\\theta=90^\\circ\\)?"
     ],
     "vocabulary": [
       {
@@ -1749,6 +2119,319 @@ export const TOPICS = {
         "termEn": "right-hand rule",
         "defZh": "用右手四指沿电流方向弯曲、拇指指向磁场方向的方向判定方法。",
         "defEn": "A direction rule in which the right fingers curl along the current and the thumb points along the magnetic field."
+      }
+    ]
+  },
+  "12.10": {
+    "id": "em/em-u12/12.10",
+    "subject": "em",
+    "chapterId": "em-u12",
+    "unitCode": "12",
+    "unitTitleZh": "磁场与电磁学",
+    "unitTitleEn": "Magnetic Fields and Electromagnetism",
+    "code": "12.10",
+    "titleZh": "多电流磁场叠加",
+    "titleEn": "Superposition of Magnetic Fields",
+    "layer": "ap",
+    "summary": "多个电流产生的磁场按矢量叠加：\\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\)。每根长直导线贡献 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，方向沿以该导线为轴的圆的切线；同向平行电流之间的磁场相消，反向平行电流之间的磁场相加，适当位置可出现零场点。 · Magnetic fields from several currents add as vectors, \\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\). Each long straight wire contributes \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\) tangent to circles centered on that wire; between parallel currents in the same direction the fields cancel, between opposite currents they add, and a zero-field point can occur at an appropriate location.",
+    "learningObjectives": [
+      "能陈述磁场叠加原理，并把多个电流的磁场按矢量相加。 · State the superposition principle for magnetic fields and add the fields of several currents as vectors.",
+      "能用安培定律求每根长直导线的 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，再判断各场方向。 · Use Ampère's law to find \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\) for each long straight wire, then determine each field direction.",
+      "能分析两根平行同向/反向电流的场叠加，判断两导线之间及外侧磁场是相加还是相消。 · Analyze the superposition of two parallel currents in the same or opposite directions and decide whether the fields between the wires and outside add or cancel.",
+      "能求两导线之间或外侧的零场点位置，并用 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\) 检查。 · Locate the zero-field point between or outside two wires and check it with \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\).",
+      "能把磁场分解为分量，求非共线电流（如垂直导线）在一点产生的合磁场。 · Resolve magnetic fields into components to find the net field at a point from noncollinear currents such as perpendicular wires.",
+      "能区分“大小相加”和“矢量相加”，并说明叠加原理在线性介质中的适用条件。 · Distinguish adding magnitudes from vector addition and state the conditions under which superposition holds in a linear medium."
+    ],
+    "essentialKnowledge": [
+      "磁场叠加原理：空间某点的总磁场等于各电流（或运动电荷）单独存在时在该点产生的磁场的矢量和，\\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\)。 · Superposition: the total magnetic field at a point equals the vector sum of the fields that each current (or moving charge) would produce there if it alone were present, \\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\).",
+      "每根长直导线在距离 \\(r_i\\) 处产生 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，方向沿以该导线为轴的圆的切线，由右手定则确定。 · Each long straight wire produces \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\) at distance \\(r_i\\), tangent to a circle about that wire, with the sense given by the right-hand rule.",
+      "安培定律描述大量运动载流子的集体磁场：穿过环路的净电流 \\(I_{\\mathrm{encl}}\\) 等于载流子的电荷通量，环流 \\(\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0I_{\\mathrm{encl}}\\) 只依赖净电流，不必逐个追踪载流子。 · Ampère's law describes the collective field of many moving charge carriers: the net current through the loop, \\(I_{\\mathrm{encl}}\\), is the charge flux of the carriers, and the circulation \\(\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0I_{\\mathrm{encl}}\\) depends only on the net current without tracking individual carriers.",
+      "两根平行导线电流同向时，两导线之间的磁场方向相反、相互减弱；两导线外侧的磁场方向相同、相互增强。 · For two parallel wires carrying current in the same direction, the fields between the wires point opposite ways and partly cancel; outside the pair the fields point the same way and add.",
+      "两根平行导线电流反向时，两导线之间的磁场方向相同、相互增强；两导线外侧的磁场方向相反、相互减弱。 · For two parallel wires carrying opposite currents, the fields between the wires point the same way and add; outside the pair they point opposite ways and partly cancel.",
+      "零场点：同向平行电流的零场点只能在两导线之间（位置由两电流大小决定），条件为 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\)；反向平行电流的零场点在两导线外侧、靠近电流较小的一侧。 · Zero-field point: for same-direction parallel currents it lies between the wires (its position set by the current magnitudes) and satisfies \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\); for opposite currents it lies outside the pair on the side of the smaller current.",
+      "在两导线连线的中点：同向平行电流的磁场方向相反、互相抵消（等大时为零）；反向平行电流的磁场方向相同、互相加强。 · At the midpoint of the line joining two parallel wires: for same-direction currents the fields point opposite ways and cancel (zero when equal); for opposite currents they point the same way and reinforce.",
+      "非共线电流的叠加要分解为 \\(x\\)、\\(y\\)、\\(z\\) 分量：\\(B_x=\\sum_i B_{ix}\\)，\\(B_y=\\sum_i B_{iy}\\)，\\(B_z=\\sum_i B_{iz}\\)，再合成 \\(B=\\sqrt{B_x^{2}+B_y^{2}+B_z^{2}}\\)。 · For noncollinear currents, resolve into \\(x\\), \\(y\\), and \\(z\\) components: \\(B_x=\\sum_i B_{ix}\\), \\(B_y=\\sum_i B_{iy}\\), \\(B_z=\\sum_i B_{iz}\\), then combine \\(B=\\sqrt{B_x^{2}+B_y^{2}+B_z^{2}}\\).",
+      "安培定律给出每个高对称电流的磁场（长直导线、螺线管、环面），叠加原理再把它们组合；对不具备高对称性的电流分布，需用毕奥–萨伐尔定律逐元积分。 · Ampère's law gives the field of each highly symmetric current (long wire, solenoid, toroid), and superposition combines them; for distributions without high symmetry, integrate element by element with the Biot–Savart law.",
+      "电流是大量运动电荷的定向运动；把每个载流子的磁场叠加，宏观上得到导线电流的磁场。 · A current is the directed motion of many charge carriers; superposing the fields of the individual carriers gives the macroscopic field of the current-carrying wire.",
+      "叠加原理只适用于线性介质：\\(\\vec B=\\mu\\vec H\\) 且 \\(\\mu\\) 为常数时，各电流的场可以独立相加；铁磁材料饱和后 \\(\\mu\\) 依赖 \\(H\\)，叠加不再成立。 · Superposition holds only in a linear medium: when \\(\\vec B=\\mu\\vec H\\) with constant \\(\\mu\\), the fields of separate currents add independently; after a ferromagnet saturates, \\(\\mu\\) depends on \\(H\\) and superposition fails.",
+      "零场点只是该点 \\(\\vec B=0\\)，并不表示电流为零；导线中的电流和附近其他点的磁场一般不为零，场线在该点附近改变方向。 · A zero-field point means only that \\(\\vec B=0\\) at that point; it does not mean the current vanishes, and the currents and the fields at nearby points are generally nonzero, with field lines changing direction around that point."
+    ],
+    "definition": "磁场叠加原理指出：空间某点的总磁场是各电流（或运动电荷）单独存在时在该点产生的磁场的矢量和，\\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\)。对长直导线，每根导线贡献 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，方向沿以该导线为轴的圆的切线。两根平行导线电流同向时，两导线之间的场相消、外侧的场增强；电流反向时，两导线之间的场增强、外侧的场相消。零场点要求各场矢量之和为零；对共线场，条件化为 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\)。叠加原理只在线性、未饱和介质中成立。 · The superposition principle states that the total magnetic field at a point is the vector sum of the fields that each current (or moving charge) would produce there alone, \\(\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i\\). For long straight wires, each wire contributes \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\), tangent to a circle about that wire. For two parallel wires with currents in the same direction, the fields between the wires cancel and the fields outside reinforce; for opposite currents, the fields between reinforce and those outside cancel. A zero-field point requires the vector sum to vanish; for collinear fields the condition reduces to \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\). Superposition holds only in a linear, unsaturated medium.",
+    "intuition": "把每根导线想成一个独立的“磁场源”，它只按自己的电流和距离产生 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，方向沿以它为轴的圆的切线。叠加原理说：先把每个源单独算清楚，再在观察点把箭头首尾相接。两导线电流同向时，中间点的两个箭头方向相反，互相抵消；外侧两个箭头方向相同，互相加强。反向电流则相反。零场点就是两个箭头恰好等大反向的位置。 · Think of each wire as an independent “field source” that produces \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\) according to its own current and distance, tangent to a circle about that wire. Superposition says: compute each source separately, then place the arrows tip to tail at the observation point. For same-direction currents, the two arrows between the wires point opposite ways and cancel, while outside they point the same way and reinforce; opposite currents reverse this pattern. A zero-field point is where the two arrows are equal and opposite.",
+    "formulas": [
+      {
+        "latex": "\\vec B_{\\mathrm{net}}=\\sum_i\\vec B_i",
+        "note": "磁场叠加原理：总磁场是各电流磁场的矢量和。 · Superposition: the net field is the vector sum of the individual fields."
+      },
+      {
+        "latex": "B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}",
+        "note": "第 \\(i\\) 根长直导线在距离 \\(r_i\\) 处的磁场大小。 · Field magnitude of the \\(i\\)-th long straight wire at distance \\(r_i\\)."
+      },
+      {
+        "latex": "\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}",
+        "note": "两共线磁场大小相等、方向相反时的零场点条件。 · Zero-field condition when two collinear fields have equal magnitudes and opposite directions."
+      },
+      {
+        "latex": "B_x=\\sum_i B_{ix},\\qquad B_y=\\sum_i B_{iy}",
+        "note": "非共线电流先分别求分量，再求和。 · For noncollinear currents, sum the components separately."
+      },
+      {
+        "latex": "B=\\sqrt{B_x^{2}+B_y^{2}}",
+        "note": "由分量合成合磁场大小（平面情形）。 · Magnitude of the net field from its components (planar case)."
+      },
+      {
+        "latex": "B_{\\mathrm{mid}}=\\dfrac{\\mu_0}{\\pi d}|I_1-I_2|",
+        "note": "两根同向平行导线（间距 \\(d\\)）中点处的合磁场大小。 · Net field magnitude at the midpoint of two same-direction parallel wires separated by \\(d\\)."
+      },
+      {
+        "latex": "B_{\\mathrm{mid}}=\\dfrac{\\mu_0}{\\pi d}(I_1+I_2)",
+        "note": "两根反向平行导线（间距 \\(d\\)）中点处的合磁场大小。 · Net field magnitude at the midpoint of two opposite parallel wires separated by \\(d\\)."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "线性叠加 · Linear superposition",
+        "to": "总磁场 · Net field",
+        "note": "磁场满足叠加原理；各电流的贡献独立计算后矢量相加。 · Magnetic fields obey superposition; compute each current's contribution independently and add the vectors."
+      },
+      {
+        "from": "安培定律 · Ampère's law",
+        "to": "单根长直导线 · Single long wire",
+        "note": "取半径为 \\(r\\) 的同心圆环路，\\(B(2\\pi r)=\\mu_0I\\)，得 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)。 · Take a circular Ampere loop of radius \\(r\\): \\(B(2\\pi r)=\\mu_0I\\), so \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)."
+      },
+      {
+        "from": "右手定则 · Right-hand rule",
+        "to": "每根导线的方向 · Direction of each wire",
+        "note": "四指沿电流弯曲，拇指给出磁场绕行方向；两导线在同一点的场方向可能相同或相反。 · Curl the right fingers along the current and the thumb gives the circulation sense of the field; at a given point the two wires' fields may point the same way or opposite ways."
+      },
+      {
+        "from": "两平行导线 · Two parallel wires",
+        "to": "场叠加 · Field superposition",
+        "note": "同向电流之间两场反向、外侧同向；反向电流之间两场同向、外侧反向。 · For same-direction currents the fields are opposite between the wires and same outside; for opposite currents they are same between and opposite outside."
+      },
+      {
+        "from": "零场条件 · Zero-field condition",
+        "to": "零场点 · Zero-field point",
+        "note": "令 \\(\\vec B_1+\\vec B_2=0\\)；共线时要求 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\)，再结合几何判断位置。 · Set \\(\\vec B_1+\\vec B_2=0\\); for collinear fields this requires \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\), and the geometry fixes the location."
+      },
+      {
+        "from": "非共线电流 · Noncollinear currents",
+        "to": "分量叠加 · Component superposition",
+        "note": "把每个 \\(\\vec B_i\\) 分解为 \\(x\\)、\\(y\\)、\\(z\\) 分量，分别求和后再合成。 · Resolve each \\(\\vec B_i\\) into \\(x\\), \\(y\\), and \\(z\\) components, sum each component, then recombine."
+      },
+      {
+        "from": "电流的微观图像 · Microscopic current",
+        "to": "宏观叠加 · Macroscopic superposition",
+        "note": "每个载流子的磁场叠加，宏观上等于导线电流的磁场。 · Superposing the fields of individual carriers gives the macroscopic field of the wire current."
+      },
+      {
+        "from": "线性介质 · Linear medium",
+        "to": "适用条件 · Validity",
+        "note": "只有 \\(\\mu\\) 为常数时才能独立叠加；铁磁饱和后 \\(\\mu\\) 依赖 \\(H\\)，叠加失效。 · Independent superposition requires constant \\(\\mu\\); after a ferromagnet saturates, \\(\\mu\\) depends on \\(H\\) and superposition fails."
+      }
+    ],
+    "conditions": [
+      "各电流稳恒或准稳态，磁场不随时间变化。 · Each current is steady or quasi-steady, so the field does not change with time.",
+      "观察点不在任何导线上；长直导线公式要求导线长度远大于到观察点的距离。 · The observation point is not on any wire; the long-wire formula requires the wire length to be much greater than the distance to the point.",
+      "真空或线性、各向同性、未饱和介质；铁磁材料饱和后叠加失效。 · Vacuum or a linear, isotropic, unsaturated medium; superposition fails after a ferromagnet saturates.",
+      "各电流的磁场在同一时刻、同一点计算，再按矢量相加。 · Compute each current's field at the same point and time, then add vectors.",
+      "忽略导线间磁相互作用对电流分布的影响（理想电流源）。 · Neglect the effect of magnetic interactions between wires on the current distribution (ideal current sources).",
+      "多个运动电荷叠加时采用准静态近似，忽略相对论延迟效应。 · When superposing several moving charges, use the quasi-static approximation and neglect relativistic retardation.",
+      "方向由每根导线的右手定则独立判断；电流反向时磁场反向。 · Determine each wire's field direction independently with the right-hand rule; reversing a current reverses its field."
+    ],
+    "keyPoints": [
+      "总磁场是矢量和，不是各磁场大小的和。 · The net field is a vector sum, not a sum of magnitudes.",
+      "同向平行电流：两导线之间相消、外侧增强；反向平行电流：两导线之间增强、外侧相消。 · Same-direction parallel currents: cancel between the wires and reinforce outside; opposite currents: reinforce between and cancel outside.",
+      "零场点条件 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\)：同向电流在中间，反向电流在外侧靠近小电流的一边。 · The zero-field condition is \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\): between the wires for same-direction currents and outside near the smaller current for opposite currents.",
+      "长直导线 \\(B\\propto\\dfrac{I}{r}\\)；离导线越近，贡献越大。 · For a long wire \\(B\\propto\\dfrac{I}{r}\\); the closer the wire, the larger its contribution.",
+      "非共线电流先分解为分量，再合成；不要直接加大小。 · For noncollinear currents, resolve into components first, then combine; do not add magnitudes directly.",
+      "安培定律求单根/高对称电流的场，叠加原理求组合；无对称性时用毕奥–萨伐尔积分。 · Ampère's law gives the field of a single highly symmetric current, superposition combines them, and the Biot–Savart integral is needed without symmetry.",
+      "零场点只是该点 \\(\\vec B=0\\)，导线中的电流和附近其他点的磁场并不为零。 · A zero-field point means only \\(\\vec B=0\\) there; the currents and the fields at nearby points are not zero.",
+      "叠加只在 \\(\\mu\\) 为常数的线性介质中成立；饱和铁磁体不满足。 · Superposition holds only in a linear medium with constant \\(\\mu\\); a saturated ferromagnet does not satisfy it."
+    ],
+    "misconceptions": [
+      "把各导线磁场的大小直接相加；应先判断方向，再矢量相加。 · Adding the magnitudes of the wires' fields directly; determine directions first, then add vectors.",
+      "认为同向平行电流之间的磁场一定加强；实际上两场方向相反、相互减弱。 · Believing the field between same-direction parallel currents is always stronger; the two fields point opposite ways and weaken each other.",
+      "认为反向平行电流之间没有零场点；零场点在两导线外侧、靠近电流较小的一侧。 · Believing opposite parallel currents have no zero-field point; it lies outside the pair, on the side of the smaller current.",
+      "认为零场点处没有电流；电流仍在，只是该点的合磁场为零。 · Believing there is no current at a zero-field point; the currents are still there, but the net field at that point is zero.",
+      "把安培定律直接用于不对称的多导线系统求某点磁场；安培定律给的是环流，求场需叠加或用毕奥–萨伐尔。 · Using Ampère's law directly to find the field at a point in an asymmetric multi-wire system; Ampère's law gives the circulation, so superposition or Biot–Savart is needed for the field.",
+      "忽略两导线到观察点距离不同，误以为电流大的导线贡献一定大；\\(B\\propto\\dfrac{I}{r}\\)，距离也重要。 · Ignoring that the wires are at different distances and assuming the larger current always dominates; \\(B\\propto\\dfrac{I}{r}\\), so distance matters too.",
+      "在铁磁材料饱和后仍把各电流的磁场简单相加；\\(\\mu\\) 非常数时叠加失效。 · Adding the fields of separate currents in a saturated ferromagnet; superposition fails when \\(\\mu\\) is not constant.",
+      "把电流方向与电子漂移方向混淆，导致右手定则方向判断错误。 · Confusing current direction with electron drift direction, which reverses the right-hand-rule result."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 同向平行电流的零场点 · Example 1: Zero-field point of same-direction parallel currents",
+        "prompt": "两根长直平行导线相距 \\(d=0.30\\,\\mathrm{m}\\)，电流同向，分别为 \\(I_1=2.0\\,\\mathrm{A}\\) 和 \\(I_2=4.0\\,\\mathrm{A}\\)。求两导线之间的零场点位置。 · Two long parallel wires are \\(d=0.30\\,\\mathrm{m}\\) apart and carry same-direction currents \\(I_1=2.0\\,\\mathrm{A}\\) and \\(I_2=4.0\\,\\mathrm{A}\\). Find the zero-field point between them.",
+        "steps": [
+          "同向电流在两导线之间产生的磁场方向相反，所以零场点只能在两导线之间。 · Same-direction currents produce opposite fields between the wires, so the zero-field point must lie between them.",
+          "设零场点到 \\(I_1\\) 的距离为 \\(x\\)，到 \\(I_2\\) 的距离为 \\(0.30-x\\)。 · Let the distance from the point to \\(I_1\\) be \\(x\\) and to \\(I_2\\) be \\(0.30-x\\).",
+          "令 \\(\\dfrac{I_1}{x}=\\dfrac{I_2}{0.30-x}\\)：\\(\\dfrac{2.0}{x}=\\dfrac{4.0}{0.30-x}\\)。 · Set \\(\\dfrac{I_1}{x}=\\dfrac{I_2}{0.30-x}\\): \\(\\dfrac{2.0}{x}=\\dfrac{4.0}{0.30-x}\\).",
+          "解得 \\(2.0(0.30-x)=4.0x\\)，即 \\(0.60-2.0x=4.0x\\)，所以 \\(x=0.10\\,\\mathrm{m}\\)。 · Solve \\(2.0(0.30-x)=4.0x\\), so \\(0.60-2.0x=4.0x\\) and \\(x=0.10\\,\\mathrm{m}\\)."
+        ],
+        "solution": "零场点在两导线之间，距 \\(I_1\\) 为 \\(0.10\\,\\mathrm{m}\\)、距 \\(I_2\\) 为 \\(0.20\\,\\mathrm{m}\\)。 · The zero-field point is between the wires, \\(0.10\\,\\mathrm{m}\\) from \\(I_1\\) and \\(0.20\\,\\mathrm{m}\\) from \\(I_2\\).",
+        "solutionLatex": "\\dfrac{2.0}{0.10}=\\dfrac{4.0}{0.20}=20\\,\\mathrm{A\\,m^{-1}}"
+      },
+      {
+        "title": "例 2 · 反向平行电流的零场点 · Example 2: Zero-field point of opposite parallel currents",
+        "prompt": "两根长直平行导线相距 \\(d=0.20\\,\\mathrm{m}\\)，电流反向，\\(I_1=3.0\\,\\mathrm{A}\\)，\\(I_2=1.0\\,\\mathrm{A}\\)。求零场点的位置。 · Two long parallel wires are \\(d=0.20\\,\\mathrm{m}\\) apart and carry opposite currents \\(I_1=3.0\\,\\mathrm{A}\\) and \\(I_2=1.0\\,\\mathrm{A}\\). Find the zero-field point.",
+        "steps": [
+          "反向电流在两导线之间产生的磁场方向相同、相互加强，所以零场点不在两导线之间，而在两导线外侧。 · Opposite currents produce same-direction fields between the wires, so the zero-field point is not between them but outside the pair.",
+          "零场点靠近电流较小的一侧（\\(I_2\\) 一侧）。设它到 \\(I_2\\) 的距离为 \\(x\\)，到 \\(I_1\\) 的距离为 \\(0.20+x\\)。 · The point lies on the side of the smaller current (\\(I_2\\)). Let its distance to \\(I_2\\) be \\(x\\) and to \\(I_1\\) be \\(0.20+x\\).",
+          "令 \\(\\dfrac{I_1}{0.20+x}=\\dfrac{I_2}{x}\\)：\\(\\dfrac{3.0}{0.20+x}=\\dfrac{1.0}{x}\\)。 · Set \\(\\dfrac{I_1}{0.20+x}=\\dfrac{I_2}{x}\\): \\(\\dfrac{3.0}{0.20+x}=\\dfrac{1.0}{x}\\).",
+          "解得 \\(3.0x=0.20+x\\)，即 \\(2.0x=0.20\\)，所以 \\(x=0.10\\,\\mathrm{m}\\)。 · Solve \\(3.0x=0.20+x\\), so \\(2.0x=0.20\\) and \\(x=0.10\\,\\mathrm{m}\\)."
+        ],
+        "solution": "零场点在 \\(I_2\\) 外侧，距 \\(I_2\\) 为 \\(0.10\\,\\mathrm{m}\\)、距 \\(I_1\\) 为 \\(0.30\\,\\mathrm{m}\\)。 · The zero-field point is outside \\(I_2\\), \\(0.10\\,\\mathrm{m}\\) from \\(I_2\\) and \\(0.30\\,\\mathrm{m}\\) from \\(I_1\\).",
+        "solutionLatex": "\\dfrac{3.0}{0.30}=\\dfrac{1.0}{0.10}=10\\,\\mathrm{A\\,m^{-1}}"
+      },
+      {
+        "title": "例 3 · 同向平行电流中点的合磁场 · Example 3: Net field at the midpoint of same-direction parallel currents",
+        "prompt": "两根长直平行导线相距 \\(d=0.30\\,\\mathrm{m}\\)，电流同向，\\(I_1=2.0\\,\\mathrm{A}\\)，\\(I_2=4.0\\,\\mathrm{A}\\)。求两导线中点处的合磁场大小和方向。 · Two long parallel wires are \\(d=0.30\\,\\mathrm{m}\\) apart and carry same-direction currents \\(I_1=2.0\\,\\mathrm{A}\\) and \\(I_2=4.0\\,\\mathrm{A}\\). Find the magnitude and direction of the net field at their midpoint.",
+        "steps": [
+          "中点距每根导线 \\(r=0.15\\,\\mathrm{m}\\)。 · The midpoint is \\(r=0.15\\,\\mathrm{m}\\) from each wire.",
+          "\\(B_1=\\dfrac{\\mu_0I_1}{2\\pi r}=(2.0\\times10^{-7})\\dfrac{2.0}{0.15}=2.67\\times10^{-6}\\,\\mathrm{T}\\)。 · \\(B_1=\\dfrac{\\mu_0I_1}{2\\pi r}=(2.0\\times10^{-7})\\dfrac{2.0}{0.15}=2.67\\times10^{-6}\\,\\mathrm{T}\\).",
+          "\\(B_2=\\dfrac{\\mu_0I_2}{2\\pi r}=(2.0\\times10^{-7})\\dfrac{4.0}{0.15}=5.33\\times10^{-6}\\,\\mathrm{T}\\)。 · \\(B_2=\\dfrac{\\mu_0I_2}{2\\pi r}=(2.0\\times10^{-7})\\dfrac{4.0}{0.15}=5.33\\times10^{-6}\\,\\mathrm{T}\\).",
+          "同向电流在两导线之间产生的两场方向相反，所以合磁场为 \\(B_2-B_1=2.67\\times10^{-6}\\,\\mathrm{T}\\)，方向与较大电流 \\(I_2\\) 的磁场方向相同。 · Same-direction currents produce opposite fields between the wires, so the net field is \\(B_2-B_1=2.67\\times10^{-6}\\,\\mathrm{T}\\), in the direction of the larger current \\(I_2\\)'s field."
+        ],
+        "solution": "\\(B_{\\mathrm{net}}\\approx2.7\\times10^{-6}\\,\\mathrm{T}\\)，方向与 \\(I_2\\) 在该点产生的磁场方向相同。 · \\(B_{\\mathrm{net}}\\approx2.7\\times10^{-6}\\,\\mathrm{T}\\), in the direction of the field produced by \\(I_2\\) at that point.",
+        "solutionLatex": "B_{\\mathrm{net}}=\\dfrac{\\mu_0}{\\pi d}|I_2-I_1|=\\dfrac{4\\pi\\times10^{-7}}{\\pi(0.30)}(2.0)=2.67\\times10^{-6}\\,\\mathrm{T}"
+      },
+      {
+        "title": "例 4 · 垂直导线的分量叠加 · Example 4: Component superposition of perpendicular wires",
+        "prompt": "一根长直导线沿 \\(x\\) 轴放置，电流 \\(I_1=2.0\\,\\mathrm{A}\\) 沿 \\(+x\\) 方向；另一根沿 \\(y\\) 轴放置，电流 \\(I_2=3.0\\,\\mathrm{A}\\) 沿 \\(+y\\) 方向。求点 \\(P(0.10\\,\\mathrm{m},0.20\\,\\mathrm{m})\\) 处的合磁场大小和方向。 · A long wire lies along the \\(x\\)-axis with current \\(I_1=2.0\\,\\mathrm{A}\\) in the \\(+x\\) direction; another lies along the \\(y\\)-axis with current \\(I_2=3.0\\,\\mathrm{A}\\) in the \\(+y\\) direction. Find the net field magnitude and direction at \\(P(0.10\\,\\mathrm{m},0.20\\,\\mathrm{m})\\).",
+        "steps": [
+          "对 \\(x\\) 轴导线，\\(P\\) 到导线的垂直距离为 \\(0.20\\,\\mathrm{m}\\)，\\(\\hat r=+y\\)，\\(\\vec v\\times\\hat r\\) 对应 \\(+x\\times+y=+z\\)，所以 \\(\\vec B_1\\) 沿 \\(+z\\)。 · For the \\(x\\)-axis wire, the perpendicular distance from \\(P\\) is \\(0.20\\,\\mathrm{m}\\), \\(\\hat r=+y\\), and the current direction cross \\(\\hat r\\) gives \\(+x\\times+y=+z\\), so \\(\\vec B_1\\) is along \\(+z\\).",
+          "\\(B_1=(2.0\\times10^{-7})\\dfrac{2.0}{0.20}=2.0\\times10^{-6}\\,\\mathrm{T}\\)。 · \\(B_1=(2.0\\times10^{-7})\\dfrac{2.0}{0.20}=2.0\\times10^{-6}\\,\\mathrm{T}\\).",
+          "对 \\(y\\) 轴导线，\\(P\\) 到导线的垂直距离为 \\(0.10\\,\\mathrm{m}\\)，\\(\\hat r=+x\\)，\\(+y\\times+x=-z\\)，所以 \\(\\vec B_2\\) 沿 \\(-z\\)。 · For the \\(y\\)-axis wire, the perpendicular distance from \\(P\\) is \\(0.10\\,\\mathrm{m}\\), \\(\\hat r=+x\\), and \\(+y\\times+x=-z\\), so \\(\\vec B_2\\) is along \\(-z\\).",
+          "\\(B_2=(2.0\\times10^{-7})\\dfrac{3.0}{0.10}=6.0\\times10^{-6}\\,\\mathrm{T}\\)。 · \\(B_2=(2.0\\times10^{-7})\\dfrac{3.0}{0.10}=6.0\\times10^{-6}\\,\\mathrm{T}\\).",
+          "两场都沿 \\(z\\) 轴，方向相反：\\(B_{\\mathrm{net}}=B_2-B_1=4.0\\times10^{-6}\\,\\mathrm{T}\\)，沿 \\(-z\\)。 · Both fields lie along the \\(z\\)-axis but point opposite ways: \\(B_{\\mathrm{net}}=B_2-B_1=4.0\\times10^{-6}\\,\\mathrm{T}\\), along \\(-z\\)."
+        ],
+        "solution": "\\(B_{\\mathrm{net}}=4.0\\times10^{-6}\\,\\mathrm{T}\\)，沿 \\(-z\\) 方向。 · \\(B_{\\mathrm{net}}=4.0\\times10^{-6}\\,\\mathrm{T}\\), along \\(-z\\).",
+        "solutionLatex": "B_{\\mathrm{net}}=6.0\\times10^{-6}-2.0\\times10^{-6}=4.0\\times10^{-6}\\,\\mathrm{T}\\quad(-z)"
+      }
+    ],
+    "examTips": [
+      "先标每根导线的电流方向，再画以该导线为轴的圆和切线方向；不要凭直觉画箭头。 · Mark each wire's current direction first, then draw circles about that wire and their tangent directions; do not guess the arrows.",
+      "同向平行电流：中间相消、外侧增强；反向：中间增强、外侧相消。 · Same-direction parallel currents cancel between and reinforce outside; opposite currents reinforce between and cancel outside.",
+      "零场点先判断在哪一区域（同向在中间，反向在外侧），再列 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\) 解几何。 · First decide the region of the zero-field point (between for same direction, outside for opposite), then solve the geometry with \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\).",
+      "非共线时先分解为 \\(x\\)、\\(y\\) 分量，再合成；不要直接加大小。 · For noncollinear wires, resolve into \\(x\\) and \\(y\\) components, then combine; never add magnitudes directly.",
+      "检查零场点结果：同向电流的零场点应在两导线之间，反向电流的零场点应在小电流外侧。 · Check the zero-field result: it should lie between the wires for same-direction currents and outside the smaller current for opposite currents.",
+      "只有线性、未饱和介质才能叠加；铁磁材料饱和后不能简单相加。 · Superposition requires a linear, unsaturated medium; do not simply add fields in a saturated ferromagnet."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.4",
+        "title": "安培定律 · Ampère's Law",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.3",
+        "title": "毕奥–萨伐尔定律 · Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law",
+        "relation": "前置 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.7",
+        "title": "运动电荷产生的磁场 · Magnetic Field of a Moving Charge",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.9",
+        "title": "毕奥–萨伐尔积分与电流几何 · Biot–Savart Integration and Current Geometry",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u12",
+        "code": "12.5",
+        "title": "磁偶极与磁性材料 · Magnetic Dipoles and Magnetic Materials",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [
+      {
+        "id": "charged-particle-B",
+        "title": "磁场中的带电粒子 · Charged particles in magnetic fields"
+      }
+    ],
+    "practiceHref": "#/em/practice/em-u12",
+    "connections": [
+      "上游：12.3 的毕奥–萨伐尔定律与 12.4 的安培定律给出单根导线或对称电流的磁场，12.7 给出单个运动电荷的磁场。 · Upstream: 12.3's Biot–Savart law and 12.4's Ampère law give the field of a single wire or symmetric current, and 12.7 gives the field of a single moving charge.",
+      "下游：12.5 的磁偶极、12.9 的电流几何积分和 13.x 的线圈磁场都依赖叠加；多导线与线圈的磁场设计是电磁铁和传感器的基础。 · Downstream: 12.5's magnetic dipoles, 12.9's current-geometry integrals, and 13.x coil fields all rely on superposition; multi-wire and coil field design underlies electromagnets and sensors.",
+      "跨学科：双绞线、母线、PCB 走线和 MRI 梯度线圈都需计算多电流叠加场；磁屏蔽利用反向电流或高磁导率材料抵消外场。 · Cross-disciplinary: twisted pairs, busbars, PCB traces, and MRI gradient coils all require multi-current field superposition; magnetic shielding uses opposing currents or high-permeability materials to cancel external fields."
+    ],
+    "intuitionDetailed": "把每根导线想成一个独立的“磁场源”，它只按自己的电流和距离产生 \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\)，方向沿以它为轴的圆的切线。叠加原理说：先把每个源单独算清楚，再在观察点把箭头首尾相接。两导线电流同向时，中间点的两个箭头方向相反，互相抵消；外侧两个箭头方向相同，互相加强。反向电流则相反。零场点就是两个箭头恰好等大反向的位置：同向电流只能在两导线之间找到，反向电流只能在两导线外侧、靠近小电流的一侧找到。非共线时，箭头不在同一直线上，要先把每个箭头分解成 \\(x\\)、\\(y\\) 分量，分别求和后再合成。注意叠加只对 \\(\\vec B\\) 成立，不能把大小直接相加；在铁磁材料饱和后，\\(\\mu\\) 不再是常数，叠加也会失效。 · Think of each wire as an independent “field source” that produces \\(B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}\\) according to its own current and distance, tangent to a circle about that wire. Superposition says: compute each source separately, then place the arrows tip to tail at the observation point. For same-direction currents, the two arrows between the wires point opposite ways and cancel, while outside they point the same way and reinforce; opposite currents reverse this pattern. A zero-field point is where the two arrows are equal and opposite: between the wires for same-direction currents, and outside the pair near the smaller current for opposite currents. When the wires are not collinear, the arrows are not on one line, so resolve each into \\(x\\) and \\(y\\) components, sum them, and recombine. Remember that superposition applies to \\(\\vec B\\), not to magnitudes; in a saturated ferromagnet \\(\\mu\\) is no longer constant and superposition fails.",
+    "development": [
+      "复习 12.4 的安培定律与右手定则，写出单根长直导线的 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)。 · Review Ampère's law and the right-hand rule from 12.4, and write the single-wire result \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\).",
+      "对每根导线分别计算观察点的 \\(B_i\\)，画出方向箭头。 · Compute \\(B_i\\) at the observation point for each wire and draw its direction arrow.",
+      "把箭头按矢量相加；先讨论同向/反向平行电流的中间与外侧区域。 · Add the arrows as vectors; first discuss the between and outside regions for same-direction and opposite currents.",
+      "令合磁场为零，推导零场点条件 \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\)，并判断零场点所在区域。 · Set the net field to zero, derive the zero-field condition \\(\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\), and determine the region where the point lies.",
+      "对非共线电流分解为 \\(x\\)、\\(y\\) 分量，求和后合成，检查方向与大小。 · Resolve noncollinear currents into \\(x\\) and \\(y\\) components, sum, recombine, and check magnitude and direction.",
+      "讨论线性介质、未饱和条件和零场点的物理意义。 · Discuss the linear-medium and unsaturated conditions and the physical meaning of a zero-field point."
+    ],
+    "checks": [
+      "两根同向平行导线之间的磁场为什么减弱？反向时为什么增强？ · Why is the field between two same-direction parallel wires weakened? Why is it strengthened for opposite currents?",
+      "两根反向平行导线的零场点在哪一侧？为什么不在两导线之间？ · On which side does the zero-field point of two opposite parallel currents lie? Why is it not between the wires?",
+      "两根电流相等、方向相同的平行导线，中点磁场是多少？ · What is the field at the midpoint of two equal parallel currents in the same direction?",
+      "为什么不能把 \\(B_1\\) 与 \\(B_2\\) 的大小直接相加？ · Why can't you simply add the magnitudes of \\(B_1\\) and \\(B_2\\)?",
+      "零场点是否意味着导线中没有电流？ · Does a zero-field point mean there is no current in the wires?",
+      "叠加原理在什么条件下失效？ · Under what conditions does superposition fail?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "叠加原理",
+        "termEn": "superposition principle",
+        "defZh": "多个电流或运动电荷的磁场按矢量相加得到总磁场。",
+        "defEn": "The total magnetic field is the vector sum of the fields produced by individual currents or moving charges."
+      },
+      {
+        "termZh": "合磁场",
+        "termEn": "net magnetic field",
+        "defZh": "某点各电流磁场矢量叠加后的总磁场 \\(\\vec B_{\\mathrm{net}}\\)。",
+        "defEn": "The total field \\(\\vec B_{\\mathrm{net}}\\) at a point after vector addition of the fields from all currents."
+      },
+      {
+        "termZh": "零场点",
+        "termEn": "zero-field point",
+        "defZh": "合磁场为零的空间点；不代表电流为零。",
+        "defEn": "A point in space where the net magnetic field is zero; it does not mean the current is zero."
+      },
+      {
+        "termZh": "平行电流",
+        "termEn": "parallel currents",
+        "defZh": "方向相同或相反的两根平行导线中的电流。",
+        "defEn": "Currents in two parallel wires that flow in the same or opposite directions."
+      },
+      {
+        "termZh": "分量",
+        "termEn": "vector component",
+        "defZh": "把磁场沿 \\(x\\)、\\(y\\)、\\(z\\) 方向分解得到的标量分量。",
+        "defEn": "A scalar component obtained by resolving the magnetic field along the \\(x\\), \\(y\\), or \\(z\\) direction."
+      },
+      {
+        "termZh": "磁感线",
+        "termEn": "magnetic field line",
+        "defZh": "处处与合磁场方向相切的曲线。",
+        "defEn": "A curve that is everywhere tangent to the net magnetic field."
+      },
+      {
+        "termZh": "线性介质",
+        "termEn": "linear medium",
+        "defZh": "\\(\\vec B=\\mu\\vec H\\) 且 \\(\\mu\\) 为常数的介质；只有这种介质中磁场可独立叠加。",
+        "defEn": "A medium in which \\(\\vec B=\\mu\\vec H\\) with constant \\(\\mu\\); only in such a medium can fields be superposed independently."
+      },
+      {
+        "termZh": "安培环路",
+        "termEn": "Ampère loop",
+        "defZh": "用于应用安培定律的闭合路径；对称时可由环流求磁场。",
+        "defEn": "A closed path used to apply Ampère's law; with symmetry, the circulation gives the field."
       }
     ]
   }
