@@ -38,6 +38,7 @@ import {
   applyInitialVelocity,
   attachBodyToPulley,
   fireLauncher,
+  getBody,
   attachBodyToHCircle,
   attachBodyToLoop,
   attachBodyToSurface,
@@ -61,6 +62,7 @@ import {
   quantizeAngle,
   quantizeValue,
   relativeVelocity,
+  removeBody,
   resetWorld,
   rodInertia,
   serializeScene,
@@ -84,6 +86,14 @@ import {
   tunnelPeriod,
   updateMountedApparatus,
 } from '../modules/physics/lab/physics.mjs';
+import {
+  canRedo,
+  canUndo,
+  createSceneHistory,
+  pushSceneHistory,
+  takeRedo,
+  takeUndo,
+} from '../modules/physics/lab/history.mjs';
 
 let passed = 0;
 let failed = 0;
@@ -824,6 +834,91 @@ check('scene serialization round-trips objects and parameters', () => {
   near(target.bodies[0].v0, 1.5, 1e-12, 'v0');
   near(target.surfaces[0].muS, 0.6, 1e-12, 'muS');
   if (target.bodies[0].attachment?.type !== 'surface') throw new Error('attachment lost');
+});
+
+check('undo/redo: mechanics add, move, parameter, attach, delete returns to exact scenes', () => {
+  const world = createWorld({ g: 9.8 });
+  const history = createSceneHistory();
+  const snap = () => serializeScene(world);
+  const states = [snap()];
+  const selections = [];
+  let now = 0;
+  const edit = (selected, fn) => {
+    pushSceneHistory(history, snap(), selected, { now: now += 1 });
+    fn();
+    selections.push(selected);
+    states.push(snap());
+  };
+
+  let surfaceId = null;
+  let blockId = null;
+  edit(null, () => {
+    const surface = addSurface(world, { angleDeg: 25, muS: 0.6, muK: 0.3, length: 12, x: 0, y: 3, width: 3 });
+    const block = addBlock(world, { mass: 1.2, x: 0, y: 5, z: 0 });
+    surfaceId = surface.id;
+    blockId = block.id;
+  });
+  edit({ type: 'body', id: blockId }, () => {
+    setBodyPosition(world, getBody(world, blockId), { x: 0.8, y: 4.2, z: 0.2 }, { snap: false });
+  });
+  edit({ type: 'body', id: blockId }, () => {
+    const block = getBody(world, blockId);
+    block.mass = 2.4;
+    block.cannon.mass = 2.4;
+    block.cannon.updateMassProperties();
+  });
+  edit({ type: 'body', id: blockId }, () => {
+    const block = getBody(world, blockId);
+    attachBodyToSurface(world, block, surfaceId, { localX: 2, localZ: 0 });
+    block.v0 = 0;
+    applyInitialVelocity(world, block);
+  });
+  edit({ type: 'surface', id: surfaceId }, () => {
+    removeBody(world, getBody(world, blockId));
+    world.bodies = world.bodies.filter((b) => b.id !== blockId);
+  });
+
+  if (!canUndo(history)) throw new Error('history has no undo entries');
+  const forward = states.map((data) => JSON.stringify(data));
+  let current = snap();
+  const exportScene = () => {
+    const target = createWorld({ g: 9.8 });
+    if (!deserializeScene(target, current)) throw new Error('deserialize failed during undo');
+    return JSON.stringify(serializeScene(target));
+  };
+  for (let i = states.length - 2; i >= 0; i -= 1) {
+    const entry = takeUndo(history, current, { type: 'body', id: blockId });
+    if (!entry) throw new Error(`undo entry missing at depth ${i}`);
+    current = entry.scene;
+    if (exportScene() !== forward[i]) throw new Error(`undo did not restore scene ${i}`);
+  }
+  if (canUndo(history)) throw new Error('undo stack not empty after rewinding');
+  if (!canRedo(history)) throw new Error('redo stack empty after rewinding');
+  for (let i = 1; i < states.length; i += 1) {
+    const entry = takeRedo(history, current, null);
+    if (!entry) throw new Error(`redo entry missing at depth ${i}`);
+    current = entry.scene;
+    if (exportScene() !== forward[i]) throw new Error(`redo did not restore scene ${i}`);
+  }
+  deserializeScene(world, current);
+  const restored = getBody(world, blockId);
+  if (restored) throw new Error('deleted body reappeared after redo');
+  if (world.surfaces.length !== 1) throw new Error('surface lost after redo');
+  console.log(`      ${states.length - 1} edits, ${states.length} exact scenes forward and back`);
+});
+
+check('scene history: coalesced slider edits and selection restore', () => {
+  const history = createSceneHistory();
+  const world = createWorld({ g: 9.8 });
+  const scene = serializeScene(world);
+  const pushed = pushSceneHistory(history, scene, { type: 'body', id: 'body-1' }, { key: 'mass', now: 10 });
+  const merged = pushSceneHistory(history, scene, { type: 'body', id: 'body-1' }, { key: 'mass', now: 210 });
+  const split = pushSceneHistory(history, scene, null, { key: 'mass', now: 2000 });
+  if (!pushed || merged || !split) throw new Error('coalescing window did not merge the slider run');
+  takeUndo(history, scene, null);
+  const entry = takeUndo(history, scene, null);
+  if (entry?.selected?.id !== 'body-1') throw new Error('undo did not restore the selected entity');
+  if (history.redo.length !== 2) throw new Error('redo entries not recorded');
 });
 
 function linearSlope(points, xKey, yKey) {

@@ -21,6 +21,7 @@ import {
   addParticle,
   addPlaneCharge,
   addPointCharge,
+  addProbe,
   addRail,
   addSolenoid,
   addUniformField,
@@ -34,6 +35,7 @@ import {
   forceOnWire,
   inductionCoilState,
   magneticFieldAt,
+  removeEMEntity,
   serializeEM,
   stepCircuit,
   stepParticle,
@@ -46,6 +48,13 @@ import {
   serializeScene,
   stepWorld,
 } from '../modules/physics/lab/physics.mjs';
+import {
+  canUndo,
+  createSceneHistory,
+  pushSceneHistory,
+  takeRedo,
+  takeUndo,
+} from '../modules/physics/lab/history.mjs';
 
 let passed = 0;
 let failed = 0;
@@ -656,6 +665,75 @@ check('E&M scene round-trips through serialize/deserialize', () => {
   eq('capacitor C drive', restored.capacitors[0].kappa, 2, 1e-12);
   eq('coil x', restored.inductionCoils[0].x, 1.25, 1e-12);
   console.log(`      restored ${restored.charges.length} charge, ${restored.capacitors.length} capacitor, ${restored.inductionCoils.length} coil`);
+});
+
+check('undo/redo: E&M add, move, parameter, circuit and delete restore exact scenes', () => {
+  const world = createWorld({ g: 9.8 });
+  world.em.mode = 'em';
+  const history = createSceneHistory();
+  const snap = () => serializeScene(world);
+  const states = [snap()];
+  let now = 0;
+  const edit = (selected, fn) => {
+    pushSceneHistory(history, snap(), selected, { now: now += 1 });
+    fn();
+    states.push(snap());
+  };
+
+  let chargeId = null;
+  let probeId = null;
+  edit(null, () => {
+    const charge = addPointCharge(world.em, { x: -1, y: 1.5, z: 0, q: 5e-9 });
+    const probe = addProbe(world.em, { x: 0.5, y: 1.5, z: 0.8 });
+    chargeId = charge.id;
+    probeId = probe.id;
+  });
+  edit({ type: 'emProbe', id: probeId }, () => {
+    const probe = world.em.probes.find((p) => p.id === probeId);
+    probe.x = 1.4;
+    probe.z = 0.6;
+  });
+  edit({ type: 'emCharge', id: chargeId }, () => {
+    const charge = world.em.charges.find((c) => c.id === chargeId);
+    charge.q = -3e-9;
+  });
+  edit(null, () => {
+    const circuit = addCircuit(world.em);
+    const battery = addCircuitComponent(circuit, 'battery', { emf: 9 });
+    const resistor = addCircuitComponent(circuit, 'resistor', { R: 10 });
+    const capacitor = addCircuitComponent(circuit, 'capacitor', { C: 0.001 });
+    connectCircuit(circuit, { comp: battery.id, term: 1 }, { comp: resistor.id, term: 0 });
+    connectCircuit(circuit, { comp: resistor.id, term: 1 }, { comp: capacitor.id, term: 0 });
+    connectCircuit(circuit, { comp: capacitor.id, term: 1 }, { comp: battery.id, term: 0 });
+  });
+  edit({ type: 'emCharge', id: chargeId }, () => {
+    removeEMEntity(world.em, world.em.charges.find((c) => c.id === chargeId));
+  });
+
+  if (!canUndo(history)) throw new Error('no E&M undo entries');
+  const forward = states.map((data) => JSON.stringify(data));
+  let current = snap();
+  const checked = () => {
+    const target = createWorld({ g: 9.8 });
+    if (!deserializeScene(target, current)) throw new Error('E&M deserialize failed during undo');
+    return JSON.stringify(serializeScene(target));
+  };
+  for (let i = states.length - 2; i >= 0; i -= 1) {
+    const entry = takeUndo(history, current, { type: 'emCharge', id: chargeId });
+    if (!entry) throw new Error(`E&M undo entry missing at ${i}`);
+    current = entry.scene;
+    if (checked() !== forward[i]) throw new Error(`E&M undo did not restore scene ${i}`);
+  }
+  for (let i = 1; i < states.length; i += 1) {
+    const entry = takeRedo(history, current, null);
+    if (!entry) throw new Error(`E&M redo entry missing at ${i}`);
+    current = entry.scene;
+    if (checked() !== forward[i]) throw new Error(`E&M redo did not restore scene ${i}`);
+  }
+  deserializeScene(world, current);
+  if (world.em.charges.length !== 0) throw new Error('deleted charge reappeared after redo');
+  if (world.em.circuits[0]?.wires.length !== 3) throw new Error('circuit wires lost after redo');
+  console.log(`      ${states.length - 1} E&M edits, ${states.length} exact scenes forward and back; 3 wires intact`);
 });
 
 console.log('\n' + results.join('\n'));

@@ -119,6 +119,16 @@ import {
 } from './physics.mjs';
 import { createLabView } from './view.js';
 import {
+  canRedo,
+  canUndo,
+  createSceneHistory,
+  historyDepth,
+  pushSceneHistory,
+  takeRedo,
+  takeUndo,
+  truncateSceneHistory,
+} from './history.mjs';
+import {
   addCapacitor,
   addChargedSphere,
   addCircuit,
@@ -947,10 +957,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let sensorTableNodes = [];
   let lastSensorTableAt = 0;
   let lastPointer = null;
-  let undoCoalesceKey = '';
-  let undoCoalesceAt = 0;
-  const undoStack = [];
-  const redoStack = [];
+  let angleDragUndoArmed = false;
+  let velocityDragUndoArmed = false;
+  const sceneHistory = createSceneHistory({ limit: 80 });
   const HISTORY_LIMIT = 200;
   let history = [];
   let scrubIndex = -1;
@@ -1587,26 +1596,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function updateUndoButtons() {
-    undoBtn.disabled = undoStack.length === 0;
-    redoBtn.disabled = redoStack.length === 0;
+    undoBtn.disabled = !canUndo(sceneHistory);
+    redoBtn.disabled = !canRedo(sceneHistory);
   }
 
   function pushUndo(key = '') {
-    const now = performance.now();
-    if (key && key === undoCoalesceKey && now - undoCoalesceAt < 550) {
-      undoCoalesceAt = now;
-      return;
-    }
-    undoCoalesceKey = key;
-    undoCoalesceAt = now;
-    undoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
-    if (undoStack.length > 80) undoStack.shift();
-    redoStack.length = 0;
+    pushSceneHistory(sceneHistory, serializeScene(world), currentSelectionRef(), {
+      key,
+      now: performance.now(),
+    });
     updateUndoButtons();
   }
 
   function applySceneState(data, { runtime = false, keepInitial = false, selection = null } = {}) {
     const initial = world.initial;
+    // The circuit panel keeps direct references to the old circuit object;
+    // close it before deserializing so no stale wires survive an undo.
+    circuitPanel?.close();
     deserializeScene(world, data, { runtime });
     if (keepInitial) world.initial = initial;
     else captureInitial(world);
@@ -1618,7 +1624,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     emModeBtn.classList.toggle('active', mode === 'em');
     mechModeBtn.setAttribute('aria-pressed', mode === 'mechanics' ? 'true' : 'false');
     emModeBtn.setAttribute('aria-pressed', mode === 'em' ? 'true' : 'false');
-    if (mode === 'mechanics') circuitPanel?.close();
+    homeCircuitPanel();
     syncEMSettingsUI();
     if (selected) view.setSelection({ type: selected.type, id: selected.id });
     else view.setSelection(null);
@@ -1633,25 +1639,35 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     view.clearTrail();
   }
 
+  function homeCircuitPanel() {
+    if (mode === 'em' && selected?.type === 'emCircuit') {
+      const circuit = entityById('emCircuit', selected.id);
+      if (circuit) {
+        world.em.activeCircuitId = circuit.id;
+        circuitPanel?.open(circuit);
+        return;
+      }
+    }
+    circuitPanel?.close();
+  }
+
   function undo() {
-    if (!undoStack.length) {
+    const entry = takeUndo(sceneHistory, serializeScene(world), currentSelectionRef());
+    if (!entry) {
       setStatus('没有可撤销的操作。 · Nothing to undo.', true);
       return;
     }
-    const entry = undoStack.pop();
-    redoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
     applySceneState(entry.scene, { selection: entry.selected });
     updateUndoButtons();
     setStatus('已撤销。 · Undone.');
   }
 
   function redo() {
-    if (!redoStack.length) {
+    const entry = takeRedo(sceneHistory, serializeScene(world), currentSelectionRef());
+    if (!entry) {
       setStatus('没有可重做的操作。 · Nothing to redo.', true);
       return;
     }
-    const entry = redoStack.pop();
-    undoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
     applySceneState(entry.scene, { selection: entry.selected });
     updateUndoButtons();
     setStatus('已重做。 · Redone.');
@@ -2496,7 +2512,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       numeric: '',
       changed: false,
       snapshot: serializeScene(world),
-      undoDepth: undoStack.length,
+      undoDepth: historyDepth(sceneHistory),
     };
     view.setGizmoVisible(false);
     view.orbit.enabled = false;
@@ -2525,10 +2541,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function confirmModal() {
     if (!modal) return;
     if (modal.numeric) applyModalTransform();
-    if (!modal.changed) {
-      undoStack.length = modal.undoDepth;
-      redoStack.length = 0;
-    }
+    if (!modal.changed) truncateSceneHistory(sceneHistory, modal.undoDepth);
     finishModal();
     setStatus('变换已应用。 · Transform applied.');
   }
@@ -2538,8 +2551,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const snap = modal.snapshot;
     const ref = modal.ref;
     const changed = modal.changed;
-    undoStack.length = modal.undoDepth;
-    redoStack.length = 0;
+    truncateSceneHistory(sceneHistory, modal.undoDepth);
     modal = null;
     modalHud.hidden = true;
     delete root.dataset.modal;
@@ -3445,6 +3457,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function handleVelocityDrag(entityRef, point, phase) {
     const entity = entityById(entityRef?.type, entityRef?.id);
     if (!entity || entity.type !== 'body' || !point) return;
+    if (phase === 'move' && !velocityDragUndoArmed) {
+      pushUndo(`velocity-drag:${entity.id}`);
+      velocityDragUndoArmed = true;
+    }
     const p = entity.cannon.position;
     const dx = point.x - p.x;
     const dz = point.z - p.z;
@@ -3458,6 +3474,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (azInput) azInput.value = fmtInput(entity.azimuth);
     view.sync(world);
     if (phase === 'end') {
+      velocityDragUndoArmed = false;
       captureInitial(world);
       buildInspector();
       setStatus(`初速度 · Initial speed: ${fmt(entity.v0)} m/s · ${fmt(entity.azimuth)}°`);
@@ -3467,12 +3484,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function handleAngleDrag(entityRef, angle, phase) {
     const entity = entityById(entityRef?.type, entityRef?.id);
     if (!entity || entity.type !== 'surface') return;
+    if (phase === 'move' && !angleDragUndoArmed) {
+      pushUndo(`angle-drag:${entity.id}`);
+      angleDragUndoArmed = true;
+    }
     const next = snapOn && !shiftHeld ? quantizeAngle(angle, angleStepDeg) : angle;
     setSurfaceAngle(world, entity, Math.max(-60, Math.min(60, next)));
     view.sync(world);
     const input = inspectorBody.querySelector('[data-field="angle"]');
     if (input) input.value = fmtInput(entity.angle);
     if (phase === 'end') {
+      angleDragUndoArmed = false;
       captureInitial(world);
       buildInspector();
       setStatus(`倾角 · Incline angle: ${fmt(entity.angle)}°`);
@@ -3825,7 +3847,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         selected: String(value) === String(val),
       }));
     }
-    select.addEventListener('change', () => onChange(select.value));
+    select.addEventListener('change', () => {
+      pushUndo(`select:${testid || text}`);
+      onChange(select.value);
+    });
     wrap.appendChild(select);
     parent.appendChild(wrap);
     return select;
@@ -4050,6 +4075,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           ...world.bodies.filter((b) => !b.transient).map((b) => [b.id, b.name || entityFallbackName(b)]),
         ],
         onChange: (value) => {
+          pushUndo(`sensorTarget:${entity.id}`);
           setSensorTarget(world, entity, value || null);
           buildInspector();
           setStatus(value
@@ -5455,6 +5481,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const actions = el('div', { className: 'plab-tool-row' });
       const snap = el('button', { type: 'button', className: 'plab-action hit-target', text: '吸附 · Snap' });
       snap.addEventListener('click', () => {
+        pushUndo('snap-body');
         prepareEdit();
         if (snapBodyToNearest(world, entity, { maxDistance: 5 })) {
           captureInitial(world);
@@ -5470,6 +5497,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (entity.attachment) {
         const detach = el('button', { type: 'button', className: 'plab-action hit-target', text: '脱离 · Detach' });
         detach.addEventListener('click', () => {
+          pushUndo('detach-body');
           prepareEdit();
           detachBody(world, entity);
           captureInitial(world);
@@ -5594,6 +5622,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           }));
         }
         select.addEventListener('change', () => {
+          pushUndo(`pulleyEndpoint:${entity.id}:${side}`);
           const body = select.value ? getBody(world, select.value) : null;
           if (body) {
             attachBodyToPulley(world, body, entity.id, side);
@@ -6550,6 +6579,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (isMobile() && root.dataset.inspectorOpen === '1') { openInspector(false); return; }
     }
     if (editing) return;
+    // A modal owns the scene snapshot; do not unwind history underneath it.
+    if (modal) return;
     const mod = e.ctrlKey || e.metaKey;
     if (mod && key.toLowerCase() === 'z') {
       e.preventDefault();
@@ -6662,6 +6693,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     get graphsOn() { return graphsOn; },
     get graphData() { return graphData; },
     get frameBodyId() { return frameBodyId; },
+    get undoDepth() { return sceneHistory.undo.length; },
+    get redoDepth() { return sceneHistory.redo.length; },
     setMode: (next) => setMode(next),
     addEM: (kind) => addEMApparatus(kind),
   };
