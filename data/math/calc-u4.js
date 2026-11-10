@@ -1217,11 +1217,12 @@ export const TOPICS = {
     "titleZh": "局部线性近似",
     "titleEn": "Approximating Values of a Function Using Local Linearity and Linearization",
     "layer": "ap",
-    "summary": "在 \\(x=a\\) 附近，可微函数 \\(f\\) 的切线 \\(L(x)=f(a)+f'(a)(x-a)\\) 是 \\(f\\) 的局部线性近似：当 \\(x\\) 接近 \\(a\\) 时，\\(f(x)\\approx L(x)\\)。切线就是局部线性近似的图像；近似误差随 \\(|x-a|\\) 增大而增大，并可由凹凸性判断是高估还是低估。 · Near \\(x=a\\), the tangent line \\(L(x)=f(a)+f'(a)(x-a)\\) is the local linear approximation of a differentiable function \\(f\\): for \\(x\\) close to \\(a\\), \\(f(x)\\approx L(x)\\). The tangent line is the graph of this locally linear approximation; the error grows with \\(|x-a|\\), and concavity tells whether the approximation is an overestimate or an underestimate.",
+    "summary": "在 \\(x=a\\) 附近，可微函数 \\(f\\) 的切线 \\(L(x)=f(a)+f'(a)(x-a)\\) 是 \\(f\\) 的局部线性近似：当 \\(x\\) 接近 \\(a\\) 时，\\(f(x)\\approx L(x)\\)。切线就是局部线性近似的图像；近似误差随 \\(|x-a|\\) 增大而增大，并可由凹凸性判断是高估还是低估。切点附近的函数行为决定高估或低估：若 \\(f''>0\\)（或 \\(f'\\) 递增），切线在曲线下方，线性化低估；若 \\(f''<0\\)（或 \\(f'\\) 递减），切线在曲线上方，线性化高估；若凹凸性在切点两侧改变，则同一切线在一侧高估、另一侧低估。 · Near \\(x=a\\), the tangent line \\(L(x)=f(a)+f'(a)(x-a)\\) is the local linear approximation of a differentiable function \\(f\\): for \\(x\\) close to \\(a\\), \\(f(x)\\approx L(x)\\). The tangent line is the graph of this locally linear approximation; the error grows with \\(|x-a|\\), and concavity tells whether the approximation is an overestimate or an underestimate. The function's behavior near the point of tangency decides the direction: if \\(f''>0\\) (or \\(f'\\) is increasing) near \\(a\\), the tangent lies below the curve and the linearization underestimates; if \\(f''<0\\) (or \\(f'\\) is decreasing), the tangent lies above and it overestimates. When concavity changes across the point of tangency, the same tangent overestimates on one side and underestimates on the other.",
     "learningObjectives": [
       "能写出 \\(f\\) 在 \\(a\\) 处的切线或线性化 \\(L(x)\\)，并说明它就是局部线性近似的图像。 · Write the tangent line or linearization \\(L(x)\\) of \\(f\\) at \\(a\\), and explain that it is the graph of the local linear approximation.",
       "能用 \\(L(x)\\) 估计 \\(f(a+\\Delta x)\\)，并计算或比较近似误差。 · Use \\(L(x)\\) to estimate \\(f(a+\\Delta x)\\), and compute or compare the approximation error.",
       "能根据凹凸性判断切线近似是高估还是低估。 · Use concavity to decide whether a tangent-line approximation is an overestimate or an underestimate.",
+      "能依据切点附近 \\(f''\\) 的符号或 \\(f'\\) 的增减判断高估/低估，并处理凹凸性在切点两侧改变的情形。 · Use the sign of \\(f''\\) or the monotonicity of \\(f'\\) near the point of tangency to decide overestimate versus underestimate, including cases where concavity changes across the point of tangency.",
       "能解释“局部”的含义：只在 \\(a\\) 附近有效，离得越远误差通常越大。 · Explain the meaning of “local”: the approximation is valid only near \\(a\\), and the error usually grows farther away."
     ],
     "essentialKnowledge": [
@@ -1232,10 +1233,13 @@ export const TOPICS = {
       "局部线性：把曲线不断放大，在切点附近它看起来像一条直线。 · Local linearity: zooming in on the curve near the point of tangency makes it look like a straight line.",
       "误差随 \\(|x-a|\\) 增大而增大；离切点越远，线性化通常越不可靠。 · The error grows with \\(|x-a|\\); the farther from the point of tangency, the less reliable the linearization usually is.",
       "凹凸性决定误差符号：凹向上时切线在曲线下方，线性化低估；凹向下时切线在曲线上方，线性化高估。 · Concavity determines the sign of the error: when concave up the tangent lies below the curve and the linearization underestimates; when concave down the tangent lies above and it overestimates.",
+      "切点附近的函数行为决定高估或低估（CHA-3.F.2）：若在 \\(a\\) 的某邻域内 \\(f''>0\\)（\\(f'\\) 递增、曲线凹向上），则切线位于曲线下方，\\(L(x)\\le f(x)\\)，线性化为低估；若 \\(f''<0\\)（\\(f'\\) 递减、曲线凹向下），则切线位于曲线上方，\\(L(x)\\ge f(x)\\)，线性化为高估。 · Behavior near the point of tangency determines overestimate versus underestimate (CHA-3.F.2): if \\(f''>0\\) on a neighborhood of \\(a\\) (\\(f'\\) increasing, concave up), the tangent lies below the curve, so \\(L(x)\\le f(x)\\) and the linearization underestimates; if \\(f''<0\\) (\\(f'\\) decreasing, concave down), the tangent lies above, so \\(L(x)\\ge f(x)\\) and it overestimates.",
+      "三条等价判据必须一致：切点附近 \\(f''\\) 的符号、\\(f'\\) 的单调性（递增/递减）、曲线在切线的上方还是下方；AP 答题时选最方便的一条并说明理由。 · Three equivalent tests must agree: the sign of \\(f''\\) near the point of tangency, the monotonicity of \\(f'\\) (increasing/decreasing), and whether the curve lies above or below the tangent; in an AP response, use the most convenient test and justify it.",
+      "若凹凸性在切点处改变（例如 \\(f(x)=x^{3}\\) 在 \\(a=0\\)），切线会穿过曲线：同一线性化在 \\(a\\) 的一侧高估、另一侧低估，必须分别讨论 \\(x<a\\) 与 \\(x>a\\)。 · If concavity changes at the point of tangency (for example, \\(f(x)=x^{3}\\) at \\(a=0\\)), the tangent crosses the curve: the same linearization overestimates on one side of \\(a\\) and underestimates on the other, so discuss \\(x<a\\) and \\(x>a\\) separately.",
       "线性化可用于估计根号、幂、三角函数与对数等函数值，但要选好 \\(a\\) 并检查合理性。 · Linearization can estimate square roots, powers, trigonometric functions, and logarithms, but choose \\(a\\) carefully and check reasonableness."
     ],
-    "definition": "设 \\(f\\) 在 \\(x=a\\) 处可导。\\(f\\) 在 \\(a\\) 处的线性化是 \\(L(x)=f(a)+f'(a)(x-a)\\)，其图像就是曲线 \\(y=f(x)\\) 在点 \\((a,f(a))\\) 处的切线。由于切线在切点附近与曲线非常接近，当 \\(x\\) 接近 \\(a\\) 时可用 \\(L(x)\\) 近似 \\(f(x)\\)：\\(f(a+\\Delta x)\\approx f(a)+f'(a)\\Delta x\\)。这里的“局部”强调近似只在 \\(a\\) 的邻域内可靠；\\(|x-a|\\) 越大，误差通常越大。 · Let \\(f\\) be differentiable at \\(x=a\\). The linearization of \\(f\\) at \\(a\\) is \\(L(x)=f(a)+f'(a)(x-a)\\), whose graph is the tangent line to \\(y=f(x)\\) at \\((a,f(a))\\). Because the tangent line stays close to the curve near the point of tangency, for \\(x\\) near \\(a\\) we may approximate \\(f(x)\\) by \\(L(x)\\): \\(f(a+\\Delta x)\\approx f(a)+f'(a)\\Delta x\\). The word “local” emphasizes that the approximation is reliable only in a neighborhood of \\(a\\); the error typically grows with \\(|x-a|\\).",
-    "intuition": "把曲线不断放大：在切点附近，曲线看起来几乎就是一条直线，这条直线就是切线。线性化就是用这条“放大后看到的直线”代替曲线。凹凸性告诉你直线在曲线的哪一侧：凹向上时切线在下方，所以近似值偏小；凹向下时切线在上方，所以近似值偏大。 · Zoom in on the curve: near the point of tangency it looks almost like a straight line, and that line is the tangent. Linearization replaces the curve by this “line seen after zooming in.”Concavity tells which side the line lies on: when the curve is concave up the tangent lies below, so the approximation is too small; when it is concave down the tangent lies above, so the approximation is too large.",
+    "definition": "设 \\(f\\) 在 \\(x=a\\) 处可导。\\(f\\) 在 \\(a\\) 处的线性化是 \\(L(x)=f(a)+f'(a)(x-a)\\)，其图像就是曲线 \\(y=f(x)\\) 在点 \\((a,f(a))\\) 处的切线。由于切线在切点附近与曲线非常接近，当 \\(x\\) 接近 \\(a\\) 时可用 \\(L(x)\\) 近似 \\(f(x)\\)：\\(f(a+\\Delta x)\\approx f(a)+f'(a)\\Delta x\\)。这里的“局部”强调近似只在 \\(a\\) 的邻域内可靠；\\(|x-a|\\) 越大，误差通常越大。切点附近的凹凸性决定近似的方向：\\(f''>0\\) 时切线在曲线下方，\\(L(x)\\le f(x)\\)，为低估；\\(f''<0\\) 时切线在曲线上方，\\(L(x)\\ge f(x)\\)，为高估。若 \\(f''\\) 在 \\(a\\) 两侧变号，切线穿过曲线，高估/低估的结论要按 \\(x\\) 位于 \\(a\\) 的哪一侧分别给出。 · Let \\(f\\) be differentiable at \\(x=a\\). The linearization of \\(f\\) at \\(a\\) is \\(L(x)=f(a)+f'(a)(x-a)\\), whose graph is the tangent line to \\(y=f(x)\\) at \\((a,f(a))\\). Because the tangent line stays close to the curve near the point of tangency, for \\(x\\) near \\(a\\) we may approximate \\(f(x)\\) by \\(L(x)\\): \\(f(a+\\Delta x)\\approx f(a)+f'(a)\\Delta x\\). The word “local” emphasizes that the approximation is reliable only in a neighborhood of \\(a\\); the error typically grows with \\(|x-a|\\). Concavity near the point of tangency determines the direction of the approximation: when \\(f''>0\\) the tangent lies below the curve, \\(L(x)\\le f(x)\\), an underestimate; when \\(f''<0\\) the tangent lies above, \\(L(x)\\ge f(x)\\), an overestimate. If \\(f''\\) changes sign across \\(a\\), the tangent crosses the curve, and the overestimate/underestimate conclusion must be given separately for each side of \\(a\\).",
+    "intuition": "把曲线不断放大：在切点附近，曲线看起来几乎就是一条直线，这条直线就是切线。线性化就是用这条“放大后看到的直线”代替曲线。凹凸性告诉你直线在曲线的哪一侧：凹向上时切线在下方，所以近似值偏小；凹向下时切线在上方，所以近似值偏大。判断方向时不要只看 \\(f(a)\\) 或 \\(f'(a)\\)，而要看曲线在切点附近向哪边弯：向上弯则切线托在下方（低估），向下弯则切线盖在上方（高估）；若弯曲方向在切点两侧不同，切线会穿过曲线，必须分侧讨论。 · Zoom in on the curve: near the point of tangency it looks almost like a straight line, and that line is the tangent. Linearization replaces the curve by this “line seen after zooming in.”Concavity tells which side the line lies on: when the curve is concave up the tangent lies below, so the approximation is too small; when it is concave down the tangent lies above, so the approximation is too large. To determine the direction, do not look only at \\(f(a)\\) or \\(f'(a)\\); look at which way the curve bends near the point of tangency: bending upward puts the tangent below (underestimate), bending downward puts it above (overestimate); if the bending direction differs on the two sides, the tangent crosses the curve and the sides must be discussed separately.",
     "formulas": [
       {
         "latex": "L(x)=f(a)+f'(a)(x-a)",
@@ -1252,6 +1256,10 @@ export const TOPICS = {
       {
         "latex": "\\text{误差}=f(x)-L(x)",
         "note": "近似误差；在切点附近，凹向上时为正，凹向下时为负。 · Approximation error; near the point of tangency it is positive when concave up and negative when concave down."
+      },
+      {
+        "latex": "f''>0\\ \\text{near }a\\ \\Rightarrow\\ L(x)\\le f(x);\\quad f''<0\\ \\text{near }a\\ \\Rightarrow\\ L(x)\\ge f(x)",
+        "note": "切点附近的凹凸性决定切线在高估还是低估：凹向上时切线在下方（低估），凹向下时切线在上方（高估）。 · Concavity near the point of tangency decides overestimate versus underestimate: concave up puts the tangent below (underestimate), concave down puts it above (overestimate)."
       }
     ],
     "derivationNotes": [
@@ -1274,12 +1282,29 @@ export const TOPICS = {
         "from": "二阶导数 · second derivative",
         "to": "误差符号 · sign of the error",
         "note": "凹向上（\\(f''>0\\)）时切线在曲线下方，\\(f(x)-L(x)\\ge0\\)；凹向下（\\(f''<0\\)）时切线在曲线上方，\\(f(x)-L(x)\\le0\\)。 · When concave up (\\(f''>0\\)) the tangent lies below the curve and \\(f(x)-L(x)\\ge0\\); when concave down (\\(f''<0\\)) the tangent lies above and \\(f(x)-L(x)\\le0\\)."
+      },
+      {
+        "from": "切点附近的行为 · behavior near \\(a\\)",
+        "to": "高估/低估 · overestimate or underestimate",
+        "note": "在 \\(a\\) 的邻域内比较切线与曲线：若曲线在切线上方（\\(f>L\\)），切线的值偏小，是低估；若曲线在切线下方（\\(f<L\\)），切线的值偏大，是高估。 · Compare the curve and the tangent on a neighborhood of \\(a\\): if the curve lies above the tangent (\\(f>L\\)), the tangent value is too small (underestimate); if the curve lies below the tangent (\\(f<L\\)), the tangent value is too large (overestimate)."
+      },
+      {
+        "from": "\\(f'\\) 的增减 · monotonicity of \\(f'\\)",
+        "to": "凹向上/凹向下 · concave up/down",
+        "note": "\\(f'\\) 在 \\(a\\) 附近递增说明斜率越来越大，曲线凹向上，切线在下方，所以线性化低估；\\(f'\\) 递减说明曲线凹向下，切线在上方，所以线性化高估。 · If \\(f'\\) is increasing near \\(a\\), slopes are getting larger, the curve is concave up, the tangent lies below, and the linearization underestimates; if \\(f'\\) is decreasing, the curve is concave down, the tangent lies above, and the linearization overestimates."
+      },
+      {
+        "from": "凹凸性改变 · concavity change",
+        "to": "切线穿过曲线 · tangent crosses the curve",
+        "note": "若 \\(f''\\) 在 \\(a\\) 两侧异号，切线在 \\(a\\) 处穿过曲线；例如 \\(f(x)=x^{3}\\) 在 \\(a=0\\) 的切线为 \\(y=0\\)，在 \\(x>0\\) 时 \\(f>L\\)（低估），在 \\(x<0\\) 时 \\(f<L\\)（高估）。 · If \\(f''\\) has opposite signs on the two sides of \\(a\\), the tangent crosses the curve at \\(a\\); for example, the tangent to \\(f(x)=x^{3}\\) at \\(a=0\\) is \\(y=0\\), and for \\(x>0\\), \\(f>L\\) (underestimate), while for \\(x<0\\), \\(f<L\\) (overestimate)."
       }
     ],
     "conditions": [
       "\\(f\\) 在 \\(a\\) 处可导，且 \\(a\\) 在定义域内；切线斜率 \\(f'(a)\\) 有限。 · \\(f\\) is differentiable at \\(a\\), \\(a\\) is in the domain, and the tangent slope \\(f'(a)\\) is finite.",
       "\\(x\\) 要接近 \\(a\\)；“局部”近似不能外推到很远的地方。 · \\(x\\) must be close to \\(a\\); a “local” approximation cannot be extrapolated far away.",
       "用凹凸性判断高估或低估时，需要 \\(f''\\) 在区间上的符号或图像信息。 · Deciding overestimate versus underestimate from concavity requires the sign of \\(f''\\) on the interval or graphical information.",
+      "判断高估/低估要看 \\(f''\\) 在切点的一个邻域内的符号；只知道 \\(f''(a)\\) 一个值不够，因为凹凸性可能在 \\(a\\) 处改变。 · To decide overestimate versus underestimate, examine the sign of \\(f''\\) on a neighborhood of the point of tangency; knowing only \\(f''(a)\\) is not enough, because concavity may change at \\(a\\).",
+      "若 \\(f''\\) 在 \\(a\\) 两侧异号，必须把 \\(x<a\\) 与 \\(x>a\\) 分开讨论，不能写一个统一结论。 · If \\(f''\\) has opposite signs on the two sides of \\(a\\), discuss \\(x<a\\) and \\(x>a\\) separately; do not give one unified conclusion.",
       "估计值要与真实值或计算器值比较，并注明“approximately”。 · Compare the estimate with the true or calculator value, and state “approximately.”",
       "线性化保持 \\(f\\) 的单位；改变量 \\(f'(a)\\Delta x\\) 的单位与 \\(f\\) 相同。 · Linearization preserves the units of \\(f\\); the change \\(f'(a)\\Delta x\\) has the same units as \\(f\\).",
       "在不可导点或竖直切线处不能使用线性化。 · Linearization cannot be used at a point where the function is not differentiable or where the tangent is vertical."
@@ -1291,6 +1316,9 @@ export const TOPICS = {
       "“局部”意味着离 \\(a\\) 越近越好。 · “Local” means the approximation is best close to \\(a\\).",
       "凹向上时切线在下方，线性化低估。 · When concave up, the tangent lies below and the linearization underestimates.",
       "凹向下时切线在上方，线性化高估。 · When concave down, the tangent lies above and the linearization overestimates.",
+      "等价判据：切点附近 \\(f''>0\\)、\\(f'\\) 递增、曲线在切线上方，三者都推出低估；反过来都推出高估。 · Equivalent tests: near the point of tangency, \\(f''>0\\), \\(f'\\) increasing, and the curve above the tangent all imply an underestimate; the reverse implications give an overestimate.",
+      "凹凸性改变时，同一切线在一侧高估、另一侧低估。 · When concavity changes, the same tangent overestimates on one side and underestimates on the other.",
+      "高估/低估是切点附近的局部性质，不是整条曲线的全局性质。 · Overestimate/underestimate is a local property near the point of tangency, not a global property of the whole curve.",
       "误差通常随 \\(|x-a|\\) 增大而增大。 · The error usually grows with \\(|x-a|\\).",
       "选择 \\(a\\) 时，要让 \\(f(a)\\) 与 \\(f'(a)\\) 都容易计算。 · Choose \\(a\\) so that both \\(f(a)\\) and \\(f'(a)\\) are easy to compute."
     ],
@@ -1299,6 +1327,9 @@ export const TOPICS = {
       "把 \\(L(x)\\) 与 \\(f(x)\\) 混为一谈；忘记 \\(L(a)=f(a)\\)。 · Confusing \\(L(x)\\) with \\(f(x)\\); forgetting that \\(L(a)=f(a)\\).",
       "认为切线近似总是高估或总是低估；应由凹凸性判断。 · Assuming a tangent-line approximation always overestimates or always underestimates; concavity decides.",
       "把凹凸性与高估/低估的对应关系记反。 · Reversing the correspondence between concavity and overestimate or underestimate.",
+      "只根据 \\(f'(a)\\) 的符号判断高估/低估；\\(f'\\) 的符号说明增减，凹凸性才决定切线在曲线的哪一侧。 · Deciding overestimate versus underestimate from the sign of \\(f'(a)\\); the sign of \\(f'\\) tells increasing or decreasing, while concavity decides which side of the curve the tangent lies on.",
+      "只看 \\(f''(a)\\) 一个点就断言整个邻域都同向；若凹凸性在 \\(a\\) 两侧改变，切线会穿过曲线。 · Using only \\(f''(a)\\) to claim the same direction on the whole neighborhood; if concavity changes across \\(a\\), the tangent crosses the curve.",
+      "把“高估”理解为误差 \\(f(x)-L(x)>0\\)；实际上 \\(L(x)>f(x)\\) 才是高估。 · Misreading “overestimate” as \\(f(x)-L(x)>0\\); in fact \\(L(x)>f(x)\\) is the overestimate.",
       "用错切点 \\(a\\)，或把 \\(L(x)\\) 写成 \\(f(a)+f'(a)x\\)，忘记减去 \\(a\\)。 · Using the wrong \\(a\\), or writing \\(L(x)=f(a)+f'(a)x\\) and forgetting to subtract \\(a\\).",
       "把 \\(\\mathrm{d}x\\) 与 \\(\\Delta x\\) 完全等同；它们在线性化中可互换作近似，但概念不同。 · Treating \\(\\mathrm{d}x\\) and \\(\\Delta x\\) as identical; they may be interchanged in linearization as an approximation, but they are conceptually different.",
       "认为误差为零，或认为误差与 \\(|x-a|\\) 无关。 · Assuming the error is zero or independent of \\(|x-a|\\).",
@@ -1381,6 +1412,29 @@ export const TOPICS = {
         ],
         "solution": "\\((1.02)^{10}\\approx1.2\\)，真实值约为 1.2190；因为 \\(x^{10}\\) 在 \\(x=1\\) 附近凹向上，线性化低估了真实值约 0.019。 · \\((1.02)^{10}\\approx1.2\\), while the true value is about 1.2190; because \\(x^{10}\\) is concave up near \\(x=1\\), the linearization underestimates the true value by about 0.019.",
         "solutionLatex": "L(1.02)=1.2,\\quad (1.02)^{10}\\approx1.2190"
+      },
+      {
+        "title": "例 7 · 凹凸性在切点改变 · Concavity Changes at the Point of Tangency",
+        "prompt": "设 \\(f(x)=x^{3}\\)。求 \\(a=0\\) 处的线性化 \\(L(x)\\)，分别估计 \\(f(0.1)\\) 与 \\(f(-0.1)\\)，并判断这两个线性化值是高估还是低估。 · Let \\(f(x)=x^{3}\\). Find the linearization \\(L(x)\\) at \\(a=0\\), estimate \\(f(0.1)\\) and \\(f(-0.1)\\), and decide whether each linearization value is an overestimate or an underestimate.",
+        "steps": [
+          "\\(f(0)=0\\)，\\(f'(x)=3x^{2}\\)，所以 \\(f'(0)=0\\)，\\(L(x)=0\\)。 · \\(f(0)=0\\) and \\(f'(x)=3x^{2}\\), so \\(f'(0)=0\\) and \\(L(x)=0\\).",
+          "\\(f(0.1)=0.001>L(0.1)=0\\)，所以 \\(L(0.1)\\) 是低估。 · \\(f(0.1)=0.001>L(0.1)=0\\), so \\(L(0.1)\\) is an underestimate.",
+          "\\(f(-0.1)=-0.001<L(-0.1)=0\\)，所以 \\(L(-0.1)\\) 是高估。 · \\(f(-0.1)=-0.001<L(-0.1)=0\\), so \\(L(-0.1)\\) is an overestimate.",
+          "\\(f''(x)=6x\\) 在 \\(x=0\\) 两侧变号：\\(x>0\\) 时凹向上，\\(x<0\\) 时凹向下，因此切线 \\(y=0\\) 在切点处穿过曲线。 · \\(f''(x)=6x\\) changes sign across \\(x=0\\): concave up for \\(x>0\\) and concave down for \\(x<0\\), so the tangent \\(y=0\\) crosses the curve at the point of tangency."
+        ],
+        "solution": "\\(L(x)=0\\)；在 \\(x=0.1\\) 处 \\(f(0.1)=0.001>L(0.1)\\)，是低估；在 \\(x=-0.1\\) 处 \\(f(-0.1)=-0.001<L(-0.1)\\)，是高估。同一个线性化在切点两侧方向不同，原因是 \\(f''\\) 在 \\(0\\) 两侧变号。 · \\(L(x)=0\\); at \\(x=0.1\\), \\(f(0.1)=0.001>L(0.1)\\), an underestimate; at \\(x=-0.1\\), \\(f(-0.1)=-0.001<L(-0.1)\\), an overestimate. The same linearization has opposite directions on the two sides because \\(f''\\) changes sign at \\(0\\).",
+        "solutionLatex": "L(0.1)=0<0.001=f(0.1),\\quad L(-0.1)=0>-0.001=f(-0.1)"
+      },
+      {
+        "title": "例 8 · 由 f′ 判断方向 · Using the Graph of f′",
+        "prompt": "已知 \\(f\\) 在 \\(x=2\\) 附近可导，且 \\(f'(x)\\) 在 \\(x=2\\) 附近递增。若用 \\(f\\) 在 \\(a=2\\) 处的切线估计 \\(f(2.1)\\)，这个估计是高估还是低估？再用 \\(f(x)=e^{x}\\) 在 \\(a=0\\) 附近做数值验证。 · Suppose \\(f\\) is differentiable near \\(x=2\\) and \\(f'(x)\\) is increasing near \\(x=2\\). If the tangent line at \\(a=2\\) is used to estimate \\(f(2.1)\\), is the estimate an overestimate or an underestimate? Then verify numerically with \\(f(x)=e^{x}\\) near \\(a=0\\).",
+        "steps": [
+          "\\(f'\\) 递增意味着 \\(f''>0\\)，曲线在 \\(a=2\\) 附近凹向上。 · \\(f'\\) increasing means \\(f''>0\\), so the curve is concave up near \\(a=2\\).",
+          "凹向上时切线在曲线下方，所以 \\(L(2.1)<f(2.1)\\)，是低估。 · When concave up, the tangent lies below the curve, so \\(L(2.1)<f(2.1)\\), an underestimate.",
+          "数值验证：\\(f(x)=e^{x}\\) 在 \\(a=0\\) 处 \\(L(x)=1+x\\)，\\(L(0.1)=1.1\\)，而 \\(e^{0.1}\\approx1.10517\\)，所以 \\(L(0.1)\\) 确实是低估。 · Numerical check: for \\(f(x)=e^{x}\\) at \\(a=0\\), \\(L(x)=1+x\\) and \\(L(0.1)=1.1\\), while \\(e^{0.1}\\approx1.10517\\), so \\(L(0.1)\\) is indeed an underestimate."
+        ],
+        "solution": "\\(f'\\) 在 \\(a\\) 附近递增 \\(\\Rightarrow f''>0\\Rightarrow\\) 曲线凹向上 \\(\\Rightarrow\\) 切线在曲线下方 \\(\\Rightarrow\\) 线性化低估。\\(e^{0.1}\\) 的例子验证了这一点：\\(L(0.1)=1.1<1.10517\\approx e^{0.1}\\)。 · \\(f'\\) increasing near \\(a\\) \\(\\Rightarrow f''>0\\Rightarrow\\) concave up \\(\\Rightarrow\\) tangent below the curve \\(\\Rightarrow\\) the linearization underestimates. The example \\(e^{0.1}\\) confirms it: \\(L(0.1)=1.1<1.10517\\approx e^{0.1}\\).",
+        "solutionLatex": "L(0.1)=1.1<1.10517\\approx e^{0.1}"
       }
     ],
     "examTips": [
@@ -1388,6 +1442,8 @@ export const TOPICS = {
       "选择 \\(a\\) 使 \\(f(a)\\) 与 \\(f'(a)\\) 都容易算，如 \\(4\\)、\\(1\\)、\\(0\\)、\\(\\dfrac{\\pi}{6}\\)。 · Choose \\(a\\) so that both \\(f(a)\\) and \\(f'(a)\\) are easy to compute, such as \\(4\\), \\(1\\), \\(0\\), or \\(\\dfrac{\\pi}{6}\\).",
       "估计题要写 “approximately”，并与计算器值比较。 · Write “approximately” in estimation problems and compare with the calculator value.",
       "判断高估或低估：看 \\(f''\\) 或图像凹凸性；凹向上低估，凹向下高估。 · Decide overestimate versus underestimate from \\(f''\\) or the graph's concavity: concave up means underestimate, concave down means overestimate.",
+      "若题目给出 \\(f'\\) 的图像，先看 \\(f'\\) 在切点附近递增还是递减：递增等价于 \\(f''>0\\)，对应低估；递减对应高估。 · If the problem gives the graph of \\(f'\\), first check whether \\(f'\\) is increasing or decreasing near the point of tangency: increasing is equivalent to \\(f''>0\\) and gives an underestimate, while decreasing gives an overestimate.",
+      "若凹凸性在切点两侧改变，分别写 \\(x<a\\) 与 \\(x>a\\) 的结论，并明确“在哪一侧”高估或低估。 · If concavity changes across the point of tangency, state the conclusions for \\(x<a\\) and \\(x>a\\) separately and specify “on which side” the estimate overestimates or underestimates.",
       "误差随 \\(|x-a|\\) 增大；不要外推太远。 · The error grows with \\(|x-a|\\); do not extrapolate too far.",
       "线性化保持 \\(f\\) 的单位；改变量 \\(f'(a)\\Delta x\\) 与 \\(f\\) 同单位。 · Linearization preserves the units of \\(f\\); the change \\(f'(a)\\Delta x\\) has the same units as \\(f\\)."
     ],
@@ -1428,19 +1484,25 @@ export const TOPICS = {
       "后续：4.7 洛必达法则、5.6 凹凸性与 10.11 泰勒多项式都把线性化推广到更高阶近似。 · Follow-up: 4.7 L'Hospital's rule, 5.6 concavity, and 10.11 Taylor polynomials extend linearization to higher-order approximations.",
       "跨学科：物理中的小角近似 \\(\\sin\\theta\\approx\\theta\\)、工程中的局部线性化与误差分析。 · Cross-disciplinary: the small-angle approximation \\(\\sin\\theta\\approx\\theta\\) in physics and local linearization and error analysis in engineering."
     ],
-    "intuitionDetailed": "线性化的核心是“以直代曲”。在切点处，函数值与导数值都匹配，所以直线与曲线相切；离开切点后，二阶导数控制弯曲方向，从而控制误差符号。实际估计时，先把 \\(x\\) 写成 \\(a+\\Delta x\\)，再用 \\(f(a)+f'(a)\\Delta x\\)；\\(\\Delta x\\) 越小，近似越好。 · The core idea of linearization is “replace the curve by a line.” At the point of tangency the line matches both the function value and the derivative, so it is tangent to the curve; away from that point, the second derivative controls the bending and therefore the sign of the error. To estimate, write \\(x=a+\\Delta x\\) and use \\(f(a)+f'(a)\\Delta x\\); the smaller \\(\\Delta x\\) is, the better the approximation.",
+    "intuitionDetailed": "线性化的核心是“以直代曲”。在切点处，函数值与导数值都匹配，所以直线与曲线相切；离开切点后，二阶导数控制弯曲方向，从而控制误差符号。实际估计时，先把 \\(x\\) 写成 \\(a+\\Delta x\\)，再用 \\(f(a)+f'(a)\\Delta x\\)；\\(\\Delta x\\) 越小，近似越好。更细一层：决定高估/低估的是切点附近的弯曲方向，而不是切点处的函数值或斜率大小。\\(f''>0\\)（\\(f'\\) 递增）时曲线向上弯，切线在下方，线性化偏小；\\(f''<0\\)（\\(f'\\) 递减）时曲线向下弯，切线在上方，线性化偏大。若凹凸性在切点两侧改变，切线会穿过曲线，必须分侧讨论。 · The core idea of linearization is “replace the curve by a line.” At the point of tangency the line matches both the function value and the derivative, so it is tangent to the curve; away from that point, the second derivative controls the bending and therefore the sign of the error. To estimate, write \\(x=a+\\Delta x\\) and use \\(f(a)+f'(a)\\Delta x\\); the smaller \\(\\Delta x\\) is, the better the approximation. A finer point: what decides overestimate versus underestimate is the bending direction near the point of tangency, not the function value or the size of the slope at the point. When \\(f''>0\\) (\\(f'\\) increasing), the curve bends upward, the tangent lies below, and the linearization is too small; when \\(f''<0\\) (\\(f'\\) decreasing), the curve bends downward, the tangent lies above, and the linearization is too large. If concavity changes on the two sides of the point of tangency, the tangent crosses the curve, so discuss the sides separately.",
     "development": [
       "选切点 \\(a\\)，算 \\(f(a)\\) 与 \\(f'(a)\\)。 · Choose the point of tangency \\(a\\) and compute \\(f(a)\\) and \\(f'(a)\\).",
       "写出切线或线性化 \\(L(x)\\)。 · Write the tangent line or linearization \\(L(x)\\).",
       "把目标值写成 \\(a+\\Delta x\\)，代入 \\(L\\)。 · Write the target value as \\(a+\\Delta x\\) and substitute into \\(L\\).",
       "与真实值比较，计算误差。 · Compare with the true value and compute the error.",
       "用 \\(f''\\) 或图像判断高估或低估。 · Use \\(f''\\) or the graph to decide overestimate or underestimate.",
+      "在切点两侧各取一个测试点，比较 \\(L(x)\\) 与 \\(f(x)\\) 的大小，确认高估/低估。 · Pick a test point on each side of the point of tangency and compare \\(L(x)\\) with \\(f(x)\\) to confirm overestimate or underestimate.",
+      "把 \\(f''\\) 的符号、\\(f'\\) 的增减、切线与曲线的上下位置对应起来，形成判断链。 · Connect the sign of \\(f''\\), the increase or decrease of \\(f'\\), and the tangent's position relative to the curve into a reasoning chain.",
+      "若凹凸性在切点改变，分别写出两侧结论，避免用一个结论概括整个邻域。 · If concavity changes at the point of tangency, write separate conclusions for the two sides instead of one conclusion for the whole neighborhood.",
       "检查“局部”范围与单位，避免外推太远。 · Check the “local” range and units, and avoid extrapolating too far."
     ],
     "checks": [
       "\\(L(x)\\) 与 \\(f(x)\\) 在 \\(x=a\\) 处有什么关系？ · How are \\(L(x)\\) and \\(f(x)\\) related at \\(x=a\\)?",
       "为什么线性化只在 \\(a\\) 附近可靠？ · Why is a linearization reliable only near \\(a\\)?",
       "凹向上时切线近似是高估还是低估？ · When concave up, is a tangent-line approximation an overestimate or an underestimate?",
+      "若 \\(f'\\) 在 \\(a\\) 附近递增，切线近似在 \\(a\\) 附近是高估还是低估？为什么？ · If \\(f'\\) is increasing near \\(a\\), is the tangent-line approximation near \\(a\\) an overestimate or an underestimate? Why?",
+      "\\(f''(a)=0\\) 但 \\(f''\\) 在 \\(a\\) 两侧异号时，能否用一个结论概括整个邻域？ · If \\(f''(a)=0\\) but \\(f''\\) changes sign across \\(a\\), can one conclusion describe the whole neighborhood?",
+      "对 \\(f(x)=x^{3}\\) 在 \\(a=0\\) 的切线，\\(L(0.1)\\) 与 \\(L(-0.1)\\) 分别是高估还是低估？ · For the tangent to \\(f(x)=x^{3}\\) at \\(a=0\\), are \\(L(0.1)\\) and \\(L(-0.1)\\) overestimates or underestimates?",
       "估计 \\(\\sqrt{4.41}\\) 时为什么选 \\(a=4\\)？ · Why choose \\(a=4\\) when estimating \\(\\sqrt{4.41}\\)?",
       "如果 \\(|x-a|\\) 变大，误差通常怎样变化？ · What usually happens to the error as \\(|x-a|\\) increases?"
     ],
@@ -1484,14 +1546,14 @@ export const TOPICS = {
       {
         "termZh": "高估与低估",
         "termEn": "overestimate and underestimate",
-        "defZh": "凹向下时切线在上方，线性化高估；凹向上时切线在下方，线性化低估。",
-        "defEn": "When concave down the tangent lies above and the linearization overestimates; when concave up the tangent lies below and it underestimates."
+        "defZh": "线性化值 \\(L(x)\\) 大于真实值 \\(f(x)\\) 为高估，小于为低估；切点附近凹向下时高估、凹向上时低估，凹凸性改变时按 \\(x\\) 所在的一侧分别判断。",
+        "defEn": "The linearization overestimates when \\(L(x)>f(x)\\) and underestimates when \\(L(x)<f(x)\\); near the point of tangency, concave down gives an overestimate and concave up gives an underestimate, and a concavity change requires a side-by-side conclusion."
       },
       {
         "termZh": "凹凸性",
         "termEn": "concavity",
-        "defZh": "由 \\(f''\\) 的符号决定曲线弯曲方向，从而决定线性化误差的符号。",
-        "defEn": "The bending direction of the curve determined by the sign of \\(f''\\), which determines the sign of the linearization error."
+        "defZh": "由 \\(f''\\) 的符号决定曲线弯曲方向；切点附近凹向上时切线在下方（低估），凹向下时切线在上方（高估）。",
+        "defEn": "The bending direction of the curve determined by the sign of \\(f''\\); near the point of tangency, concave up puts the tangent below (underestimate) and concave down puts it above (overestimate)."
       }
     ]
   },
