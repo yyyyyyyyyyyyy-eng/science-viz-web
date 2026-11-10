@@ -341,7 +341,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const modalHud = el('div', { className: 'plab-modal', hidden: true, role: 'status', 'aria-live': 'polite' });
   canvasHost.appendChild(modalHud);
 
-  stage.append(stageBar, editBar, scrub, canvasHost, legend, energy, graphSection);
+  stage.append(stageBar, canvasHost, editBar, scrub, legend, energy, graphSection);
 
   const side = el('aside', { className: 'plab-side', 'aria-label': '器材与属性 · Apparatus and inspector' });
   const mobileTabs = el('div', { className: 'plab-mobile-tabs', role: 'tablist' });
@@ -508,6 +508,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let rulerMode = false;
   let rulerFirst = null;
   let modal = null;
+  let lastPointer = null;
   let undoCoalesceKey = '';
   let undoCoalesceAt = 0;
   const undoStack = [];
@@ -1445,8 +1446,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       start: { pos: entityPosition(entity), quat, dims: captureDimensions(entity) },
       dx: 0,
       dy: 0,
-      lastX: null,
-      lastY: null,
+      lastX: lastPointer ? lastPointer.x : null,
+      lastY: lastPointer ? lastPointer.y : null,
       axis: null,
       numeric: '',
       changed: false,
@@ -1516,6 +1517,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function onModalPointerMove(e) {
+    lastPointer = { x: e.clientX, y: e.clientY };
     if (!modal) return;
     if (!canvasHost.contains(e.target)) return;
     if (modal.lastX == null) {
