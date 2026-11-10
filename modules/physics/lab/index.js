@@ -145,7 +145,6 @@ import {
   sharePayloadFromHash,
 } from './scene-share.mjs';
 import {
-  PRESETS,
   PRESET_UNITS,
   getPreset,
   presetsFor,
