@@ -24,6 +24,7 @@ import {
   clearWorld,
   createWorld,
   DEG,
+  deserializeScene,
   detachBody,
   disposeWorld,
   energyBreakdown,
@@ -37,13 +38,16 @@ import {
   loopPoint,
   repositionSurfaceBody,
   resetWorld,
+  serializeScene,
   setBodyMass,
+  setBlockSize,
   setCartInertia,
   setCartRadius,
   setHCircleRadius,
   setLoopRadius,
   setSurfaceAngle,
   setSurfaceLength,
+  setSurfaceWidth,
   setTurntableDrive,
   setTurntableRadius,
   snapBodyToNearest,
@@ -212,6 +216,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   [
     ['translate', '移动 · Move'],
     ['rotate', '旋转 · Rotate'],
+    ['scale', '缩放 · Scale'],
     ['off', '关闭 · Off'],
   ].forEach(([key, text]) => {
     gizmoGroup.appendChild(el('button', {
@@ -243,6 +248,40 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   const clock = el('span', { className: 'plab-clock', text: 't = 0 s', 'data-readout': 'time' });
   stageBar.append(viewGroup, gizmoGroup, forceLabel, timeScaleWrap, clock);
+
+  const editBar = el('div', { className: 'plab-editbar' });
+  const editGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '编辑 · Edit' });
+  editGroup.appendChild(el('span', { className: 'plab-tool-label', text: '编辑 · Edit' }));
+  const undoBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '撤销 · Undo', 'data-action': 'undo' });
+  const redoBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '重做 · Redo', 'data-action': 'redo' });
+  const dupBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '复制 · Duplicate', 'data-action': 'duplicate' });
+  const frameBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '聚焦 · Frame', 'data-action': 'frame' });
+  const rulerBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '尺子 · Ruler', 'data-action': 'ruler' });
+  editGroup.append(undoBtn, redoBtn, dupBtn, frameBtn, rulerBtn);
+
+  const viewTools = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '显示 · Display' });
+  viewTools.appendChild(el('span', { className: 'plab-tool-label', text: '显示 · Display' }));
+  const snapToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '吸附 · Snap', 'data-action': 'snap-toggle', 'aria-pressed': 'false' });
+  const trailToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '轨迹 · Trail', 'data-action': 'trail', 'aria-pressed': 'false' });
+  const graphToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '曲线 · Graphs', 'data-action': 'graphs', 'aria-pressed': 'false' });
+  const rulerReadout = el('output', { className: 'plab-ruler-readout', text: '尺子关闭 · Ruler off', 'data-readout': 'ruler' });
+  viewTools.append(snapToggleBtn, trailToggleBtn, graphToggleBtn, rulerReadout);
+  editBar.append(editGroup, viewTools);
+
+  const scrub = el('label', { className: 'plab-scrub' }, [
+    el('span', { className: 'plab-scrub-label', text: '时间回拖 · Time scrub' }),
+    el('input', {
+      type: 'range',
+      min: '0',
+      max: '0',
+      step: '1',
+      value: '0',
+      'data-field': 'scrub',
+      'aria-label': '时间回拖 · Time scrub',
+    }),
+    el('output', { className: 'plab-scrub-time', text: '0.0 s', 'data-readout': 'scrub' }),
+  ]);
+  scrub.appendChild(el('span', { className: 'plab-scrub-hint', text: '缓冲 20 s · 20 s buffer' }));
 
   const canvasHost = el('div', { className: 'plab-canvas-host', 'data-canvas-host': 'on' });
   const emptyHint = el('div', { className: 'plab-empty', 'data-empty': 'on' }, [
@@ -291,7 +330,18 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     text: '总能量 = 机械能 + 摩擦热；外力与驱动功单独列出。 · Total = mechanical + thermal; applied and drive work are listed separately.',
   }));
 
-  stage.append(stageBar, canvasHost, legend, energy);
+  const graphSection = el('section', { className: 'plab-graphs', 'aria-label': '实时曲线 · Live graphs', hidden: true });
+  const graphLegend = el('div', { className: 'plab-graph-legend' });
+  for (const text of ['位置 x · Position', '速率 v · Speed', '加速度 a · Accel', '能量 E · Energy']) {
+    graphLegend.appendChild(el('span', { text }));
+  }
+  const graphCanvas = el('canvas', { className: 'plab-graph-canvas', 'aria-label': '实时曲线 · Live graphs' });
+  graphSection.append(graphLegend, graphCanvas);
+
+  const modalHud = el('div', { className: 'plab-modal', hidden: true, role: 'status', 'aria-live': 'polite' });
+  canvasHost.appendChild(modalHud);
+
+  stage.append(stageBar, editBar, scrub, canvasHost, legend, energy, graphSection);
 
   const side = el('aside', { className: 'plab-side', 'aria-label': '器材与属性 · Apparatus and inspector' });
   const mobileTabs = el('div', { className: 'plab-mobile-tabs', role: 'tablist' });
@@ -378,17 +428,65 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const tools = el('section', { className: 'plab-subpanel' });
   tools.appendChild(el('h3', { className: 'plab-group-title', text: '工具 · Tools' }));
   const toolRow = el('div', { className: 'plab-tool-row' });
-  const snapBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '吸附所选 · Snap selected', 'data-action': 'snap' });
+  const snapSelBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '吸附所选 · Snap selected', 'data-action': 'snap' });
   const detachBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '脱离表面 · Detach', 'data-action': 'detach' });
-  toolRow.append(snapBtn, detachBtn);
+  snapSelBtn.addEventListener('click', () => {
+    const b = selectedBody();
+    if (!b) {
+      setStatus('先在场景中选择一个方块或小车。 · Select a block or cart first.', true);
+      return;
+    }
+    pushUndo();
+    prepareEdit();
+    const hit = snapBodyToNearest(world, b, { maxDistance: 5 });
+    if (hit) {
+      captureInitial(world);
+      view.sync(world);
+      buildInspector();
+      setStatus('已吸附到最近的装置。 · Snapped to the nearest apparatus.');
+    } else {
+      setStatus('附近没有可吸附的表面、圆环或转盘。 · No surface, loop or turntable nearby.', true);
+    }
+  });
+  detachBtn.addEventListener('click', () => {
+    const b = selectedBody();
+    if (!b) return;
+    pushUndo();
+    prepareEdit();
+    detachBody(world, b);
+    captureInitial(world);
+    view.sync(world);
+    buildInspector();
+    setStatus('已脱离约束，物体成为自由刚体。 · Detached; the body is now free.');
+  });
+  toolRow.append(snapSelBtn, detachBtn);
   tools.appendChild(toolRow);
+
+  const sceneRow = el('div', { className: 'plab-tool-row' });
+  const saveBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '保存场景 · Save', 'data-action': 'save' });
+  const loadBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '读取场景 · Load', 'data-action': 'load' });
+  const exportBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '导出 JSON · Export', 'data-action': 'export' });
+  const importBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '导入 JSON · Import', 'data-action': 'import' });
+  const importInput = el('input', { type: 'file', accept: '.json,application/json', hidden: true, 'data-field': 'import' });
+  sceneRow.append(saveBtn, loadBtn, exportBtn, importBtn, importInput);
+  tools.appendChild(sceneRow);
+  tools.appendChild(el('p', { className: 'plab-field-hint', text: '只保存你自己的场景 · Saves only your own scene.' }));
   palette.appendChild(tools);
 
   const inspector = el('section', { className: 'plab-panel plab-inspector', 'data-panel': 'inspector' });
   const inspectorBody = el('div', { className: 'plab-inspector-body' });
   inspector.appendChild(inspectorBody);
 
-  side.append(mobileTabs, palette, inspector);
+  const outliner = el('section', { className: 'plab-outliner', 'aria-label': '对象列表 · Outliner' });
+  const outlinerHead = el('div', { className: 'plab-outliner-head' }, [
+    el('h2', { className: 'plab-panel-title', text: '对象列表 · Outliner' }),
+    el('span', { className: 'plab-outliner-count', text: '0', 'data-readout': 'outlinerCount' }),
+  ]);
+  const outlinerList = el('div', { className: 'plab-outliner-list' });
+  const outlinerHint = el('p', { className: 'plab-outliner-hint', text: '空场景 · Empty scene. 双击名称可重命名。 · Double-click a name to rename.' });
+  outliner.append(outlinerHead, outlinerHint, outlinerList);
+
+  side.append(outliner, mobileTabs, palette, inspector);
   bodyGrid.append(stage, side);
   root.append(head, bodyGrid);
 
@@ -404,15 +502,36 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let lastFrame = performance.now();
   let lastReadout = 0;
   const liveNodes = new Map();
+  let snapOn = false;
+  let trailOn = false;
+  let graphsOn = false;
+  let rulerMode = false;
+  let rulerFirst = null;
+  let modal = null;
+  let undoCoalesceKey = '';
+  let undoCoalesceAt = 0;
+  const undoStack = [];
+  const redoStack = [];
+  const HISTORY_LIMIT = 200;
+  let history = [];
+  let scrubIndex = -1;
+  const graphData = [];
+  let graphBodyId = null;
 
   const view = createLabView(canvasHost, {
     getForces: (w, b) => forceVectors(w, b),
     onPick: (hit, event) => handlePick(hit, event),
-    onDragStart: () => {
+    onDragStart: (entityRef) => {
       if (running) return;
+      pushUndo('gizmo');
+      const entity = entityRef ? entityById(entityRef.type, entityRef.id) : null;
+      scaleSession = gizmoMode === 'scale' && entity ? { ref: entityRef, start: captureDimensions(entity) } : null;
     },
     onTransform: (entityRef, object) => handleTransform(entityRef, object),
-    onDragEnd: (entityRef) => handleDragEnd(entityRef),
+    onDragEnd: (entityRef) => {
+      scaleSession = null;
+      handleDragEnd(entityRef);
+    },
   });
   view.resize();
 
@@ -443,13 +562,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function select(entity) {
+    const prevKey = selected ? `${selected.type}:${selected.id}` : '';
     selected = entity || null;
     if (selected) {
       view.setSelection({ type: selected.type, id: selected.id });
     } else {
       view.setSelection(null);
     }
+    const nextKey = selected ? `${selected.type}:${selected.id}` : '';
+    if (nextKey !== prevKey) resetGraphs();
     buildInspector();
+    updateOutlinerSelection();
   }
 
   function isEmpty() {
@@ -538,7 +661,934 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return getBody(world, selected.id);
   }
 
+  function entityKindText(entity) {
+    const [zh, en] = kindLabel(entity);
+    return labelText(zh, en);
+  }
+
+  function entityFallbackName(entity) {
+    const num = String(entity.id || '').split('-').pop();
+    return `${entityKindText(entity)} #${num}`;
+  }
+
+  function sceneEntities() {
+    return [
+      ...world.surfaces,
+      ...world.loops,
+      ...world.turntables,
+      ...world.hcircles,
+      ...world.bodies,
+      ...world.links,
+    ];
+  }
+
+  function renderOutliner() {
+    clear(outlinerList);
+    const entities = sceneEntities();
+    const countNode = outliner.querySelector('[data-readout="outlinerCount"]');
+    if (countNode) countNode.textContent = String(entities.length);
+    outlinerHint.hidden = entities.length > 0;
+    for (const entity of entities) {
+      const isSel = selected?.type === entity.type && selected?.id === entity.id;
+      const row = el('div', { className: 'plab-outliner-row' });
+      const item = el('button', {
+        type: 'button',
+        className: `plab-outliner-item hit-target${isSel ? ' active' : ''}`,
+        'aria-current': isSel ? 'true' : 'false',
+        'aria-label': `${entity.name || entityFallbackName(entity)} · ${entityKindText(entity)}`,
+      }, [
+        el('span', { className: 'plab-outliner-name', text: entity.name || entityFallbackName(entity) }),
+        el('span', { className: 'plab-outliner-kind', text: entity.name ? entityKindText(entity) : `#${String(entity.id).split('-').pop()}` }),
+      ]);
+      item.dataset.entityType = entity.type;
+      item.dataset.entityId = entity.id;
+      item.addEventListener('click', () => {
+        select(entity);
+        setMobileTab('inspector');
+      });
+      item.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        startRename(row, entity);
+      });
+      const del = el('button', {
+        type: 'button',
+        className: 'plab-outliner-del hit-target',
+        text: '删 · Del',
+        'aria-label': `删除 ${entity.name || entityFallbackName(entity)} · Delete`,
+      });
+      del.addEventListener('click', () => deleteEntity(entity));
+      row.append(item, del);
+      outlinerList.appendChild(row);
+    }
+  }
+
+  function updateOutlinerSelection() {
+    outlinerList.querySelectorAll('.plab-outliner-item').forEach((item) => {
+      const isSel = selected?.type === item.dataset.entityType && selected?.id === item.dataset.entityId;
+      item.classList.toggle('active', isSel);
+      item.setAttribute('aria-current', isSel ? 'true' : 'false');
+    });
+  }
+
+  function startRename(row, entity) {
+    const input = el('input', {
+      type: 'text',
+      className: 'plab-outliner-rename',
+      value: entity.name || '',
+      'aria-label': '名称 · Name',
+      placeholder: entityFallbackName(entity),
+    });
+    const first = row.firstChild;
+    if (!first) return;
+    row.replaceChild(input, first);
+    input.focus();
+    input.select();
+    let done = false;
+    const commit = () => {
+      if (done) return;
+      done = true;
+      pushUndo('rename');
+      entity.name = input.value.trim();
+      renderOutliner();
+      setStatus('已重命名 · Renamed.');
+    };
+    const cancel = () => {
+      if (done) return;
+      done = true;
+      renderOutliner();
+    };
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); commit(); }
+      else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+    });
+    input.addEventListener('blur', commit);
+  }
+
+  function currentSelectionRef() {
+    return selected ? { type: selected.type, id: selected.id } : null;
+  }
+
+  function updateUndoButtons() {
+    undoBtn.disabled = undoStack.length === 0;
+    redoBtn.disabled = redoStack.length === 0;
+  }
+
+  function pushUndo(key = '') {
+    const now = performance.now();
+    if (key && key === undoCoalesceKey && now - undoCoalesceAt < 550) {
+      undoCoalesceAt = now;
+      return;
+    }
+    undoCoalesceKey = key;
+    undoCoalesceAt = now;
+    undoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
+    if (undoStack.length > 80) undoStack.shift();
+    redoStack.length = 0;
+    updateUndoButtons();
+  }
+
+  function applySceneState(data, { runtime = false, keepInitial = false, selection = null } = {}) {
+    const initial = world.initial;
+    deserializeScene(world, data, { runtime });
+    if (keepInitial) world.initial = initial;
+    else captureInitial(world);
+    selected = selection ? entityById(selection.type, selection.id) : null;
+    if (selected) view.setSelection({ type: selected.type, id: selected.id });
+    else view.setSelection(null);
+    view.sync(world);
+    updateEmpty();
+    updateTransport();
+    buildInspector();
+    renderOutliner();
+    updateLive();
+    clearHistory();
+    resetGraphs();
+    view.clearTrail();
+  }
+
+  function undo() {
+    if (!undoStack.length) {
+      setStatus('没有可撤销的操作。 · Nothing to undo.', true);
+      return;
+    }
+    const entry = undoStack.pop();
+    redoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
+    applySceneState(entry.scene, { selection: entry.selected });
+    updateUndoButtons();
+    setStatus('已撤销。 · Undone.');
+  }
+
+  function redo() {
+    if (!redoStack.length) {
+      setStatus('没有可重做的操作。 · Nothing to redo.', true);
+      return;
+    }
+    const entry = redoStack.pop();
+    undoStack.push({ scene: serializeScene(world), selected: currentSelectionRef() });
+    applySceneState(entry.scene, { selection: entry.selected });
+    updateUndoButtons();
+    setStatus('已重做。 · Redone.');
+  }
+
+  function deleteEntity(entity) {
+    if (!entity) return;
+    const wasSelected = selected?.type === entity.type && selected?.id === entity.id;
+    pushUndo();
+    prepareEdit();
+    if (entity.type === 'body') {
+      world.engine.removeBody(entity.cannon);
+      world.bodies = world.bodies.filter((b) => b.id !== entity.id);
+      world.links = world.links.filter((l) => !(
+        (l.a.type === 'body' && l.a.id === entity.id)
+        || (l.b.type === 'body' && l.b.id === entity.id)
+      ));
+    } else if (entity.type === 'surface') {
+      world.engine.removeBody(entity.body);
+      world.surfaces = world.surfaces.filter((s) => s.id !== entity.id);
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'surface' && b.attachment.id === entity.id) detachBody(world, b);
+      }
+    } else if (entity.type === 'turntable') {
+      world.engine.removeBody(entity.body);
+      world.turntables = world.turntables.filter((t) => t.id !== entity.id);
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'turntable' && b.attachment.id === entity.id) detachBody(world, b);
+      }
+    } else if (entity.type === 'loop') {
+      world.loops = world.loops.filter((l) => l.id !== entity.id);
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'loop' && b.attachment.id === entity.id) detachBody(world, b);
+      }
+    } else if (entity.type === 'hcircle') {
+      world.hcircles = world.hcircles.filter((c) => c.id !== entity.id);
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'hcircle' && b.attachment.id === entity.id) detachBody(world, b);
+      }
+    } else if (entity.type === 'link') {
+      world.links = world.links.filter((l) => l.id !== entity.id);
+    }
+    if (wasSelected) {
+      selected = null;
+      view.setSelection(null);
+    }
+    view.sync(world);
+    captureInitial(world);
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    clearHistory();
+    setStatus('已删除所选。 · Selection deleted.');
+  }
+
+  function captureDimensions(entity) {
+    if (!entity) return null;
+    return {
+      type: entity.type,
+      kind: entity.kind,
+      size: entity.size,
+      radius: entity.radius,
+      length: entity.length,
+      width: entity.width,
+      rest: entity.rest,
+    };
+  }
+
+  function applyScaleFrom(start, factor, axis = null) {
+    if (!start || !Number.isFinite(factor) || factor <= 0) return;
+    const entity = entityById(selected?.type, selected?.id);
+    if (!entity) return;
+    const f = Math.max(0.05, factor);
+    if (entity.type === 'body') {
+      if (entity.kind === 'cart') setCartRadius(world, entity, start.radius * f);
+      else setBlockSize(world, entity, start.size * f);
+    } else if (entity.type === 'surface') {
+      if (axis === 'z') setSurfaceWidth(world, entity, start.width * f);
+      else if (axis === 'x') setSurfaceLength(world, entity, start.length * f);
+      else {
+        setSurfaceLength(world, entity, start.length * f);
+        setSurfaceWidth(world, entity, start.width * f);
+      }
+    } else if (entity.type === 'loop') {
+      setLoopRadius(world, entity, start.radius * f);
+    } else if (entity.type === 'turntable') {
+      setTurntableRadius(world, entity, start.radius * f);
+    } else if (entity.type === 'hcircle') {
+      setHCircleRadius(world, entity, start.radius * f);
+    } else if (entity.type === 'link') {
+      entity.rest = Math.max(0.05, Math.min(20, start.rest * f));
+    }
+    view.sync(world);
+  }
+
+  function duplicateSelected() {
+    if (!selected) {
+      setStatus('先选择一个对象。 · Select an object first.', true);
+      return;
+    }
+    const entity = entityById(selected.type, selected.id);
+    if (!entity) return;
+    pushUndo();
+    prepareEdit();
+    let copy = null;
+    if (entity.type === 'body') {
+      const offset = 0.8;
+      let spawn = { x: entity.cannon.position.x + offset, y: entity.cannon.position.y, z: entity.cannon.position.z + offset };
+      let att = null;
+      if (entity.attachment?.type === 'surface') att = { ...entity.attachment, localX: entity.attachment.localX + 0.8 };
+      else if (entity.attachment?.type === 'loop') att = { ...entity.attachment, theta: entity.attachment.theta + 0.35 };
+      else if (entity.attachment?.type === 'turntable') att = { ...entity.attachment, phi: entity.attachment.phi + 0.35 };
+      else if (entity.attachment?.type === 'hcircle') att = { ...entity.attachment, phi: entity.attachment.phi + 0.35 };
+      const opts = {
+        mass: entity.mass,
+        x: spawn.x,
+        y: spawn.y,
+        z: spawn.z,
+        v0: entity.v0,
+        azimuth: entity.azimuth,
+        elevation: entity.elevation,
+        name: entity.name ? `${entity.name} 副本` : '',
+        brake: entity.brake,
+        motor: entity.motor ? { ...entity.motor } : undefined,
+      };
+      if (entity.kind === 'cart') {
+        copy = addCart(world, { ...opts, radius: entity.radius, I: entity.I, width: entity.width });
+      } else {
+        copy = addBlock(world, { ...opts, size: entity.size });
+      }
+      copy.appliedMag = entity.appliedMag;
+      copy.appliedAzimuth = entity.appliedAzimuth;
+      copy.appliedElevation = entity.appliedElevation;
+      if (att?.type === 'surface') attachBodyToSurface(world, copy, att.id, { localX: att.localX, localZ: att.localZ });
+      else if (att?.type === 'loop') attachBodyToLoop(world, copy, att.id, { theta: att.theta });
+      else if (att?.type === 'turntable') attachBodyToTurntable(world, copy, att.id, { r: att.r, phi: att.phi });
+      else if (att?.type === 'hcircle') attachBodyToHCircle(world, copy, att.id, { phi: att.phi });
+      else {
+        copy.cannon.position.set(spawn.x, spawn.y, spawn.z);
+        applyInitialVelocity(world, copy);
+      }
+    } else if (entity.type === 'surface') {
+      copy = addSurface(world, {
+        kind: entity.kind,
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: nextPlacement(entity.kind),
+        y: entity.body.position.y,
+        z: entity.body.position.z,
+        angleDeg: entity.angle,
+        length: entity.length,
+        width: entity.width,
+        thickness: entity.thickness,
+        muS: entity.muS,
+        muK: entity.muK,
+      });
+    } else if (entity.type === 'loop') {
+      copy = addLoop(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: nextPlacement('loop'), y: entity.y, z: entity.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
+      });
+    } else if (entity.type === 'turntable') {
+      copy = addTurntable(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: nextPlacement('turntable'), y: entity.body.position.y, z: entity.body.position.z,
+        radius: entity.radius, omega: entity.omega, targetOmega: entity.targetOmega,
+        torque: entity.torque, I: entity.I, drive: entity.drive, muS: entity.muS, muK: entity.muK,
+      });
+    } else if (entity.type === 'hcircle') {
+      copy = addHCircle(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: nextPlacement('hcircle'), y: entity.y, z: entity.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
+      });
+    } else if (entity.type === 'link') {
+      copy = addLink(world, { a: { ...entity.a }, b: { ...entity.b }, k: entity.k, beta: entity.beta, rest: entity.rest, meter: entity.meter });
+    }
+    if (!copy) {
+      setStatus('此对象无法复制。 · This object could not be duplicated.', true);
+      return;
+    }
+    captureInitial(world);
+    view.sync(world);
+    select(copy);
+    updateEmpty();
+    renderOutliner();
+    setStatus('已复制所选对象。 · Selection duplicated.');
+  }
+
+  /* ------------------------- live graphs ------------------------- */
+
+  function resetGraphs() {
+    graphData.length = 0;
+    graphBodyId = selected?.type === 'body' ? selected.id : null;
+    if (graphsOn) drawGraphs();
+  }
+
+  function pushGraphSample() {
+    const entity = selectedBody();
+    if (!entity || !running) return;
+    if (graphBodyId !== entity.id) {
+      graphData.length = 0;
+      graphBodyId = entity.id;
+    }
+    const d = bodyDiagnostics(world, entity);
+    const v = entity.cannon.velocity.length();
+    const rot = entity.kind === 'cart' ? 0.5 * entity.I * entity.cannon.angularVelocity.z ** 2 : 0;
+    const energy = 0.5 * entity.mass * v * v + rot + entity.mass * world.g * entity.cannon.position.y;
+    graphData.push({
+      t: world.time,
+      x: entity.cannon.position.x,
+      v: d.speed,
+      a: d.accel,
+      e: energy,
+    });
+    if (graphData.length > 1200) graphData.shift();
+    if (graphsOn) drawGraphs();
+  }
+
+  function drawGraphs() {
+    if (!graphsOn) return;
+    const rect = graphCanvas.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.round(rect.width * dpr);
+    const h = Math.round(rect.height * dpr);
+    if (graphCanvas.width !== w || graphCanvas.height !== h) {
+      graphCanvas.width = w;
+      graphCanvas.height = h;
+    }
+    const ctx = graphCanvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, w, h);
+    const css = getComputedStyle(document.documentElement);
+    const accent = css.getPropertyValue('--accent').trim() || '#5b6cff';
+    const text = css.getPropertyValue('--text-muted').trim() || '#6b6a64';
+    const border = css.getPropertyValue('--border').trim() || '#d6d4cc';
+    ctx.font = `${11 * dpr}px monospace`;
+    if (graphData.length < 2) {
+      ctx.fillStyle = text;
+      ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
+      return;
+    }
+    const series = [
+      { key: 'x', label: 'x', unit: 'm' },
+      { key: 'v', label: 'v', unit: 'm/s' },
+      { key: 'a', label: 'a', unit: 'm/s²' },
+      { key: 'e', label: 'E', unit: 'J' },
+    ];
+    const strip = h / series.length;
+    const t0 = graphData[0].t;
+    const t1 = graphData[graphData.length - 1].t;
+    for (let s = 0; s < series.length; s += 1) {
+      const { key, label, unit } = series[s];
+      let min = Infinity;
+      let max = -Infinity;
+      for (const row of graphData) {
+        min = Math.min(min, row[key]);
+        max = Math.max(max, row[key]);
+      }
+      if (!Number.isFinite(min) || !Number.isFinite(max)) continue;
+      if (max - min < 1e-9) { max += 0.5; min -= 0.5; }
+      const top = s * strip + 4 * dpr;
+      const bottom = (s + 1) * strip - 6 * dpr;
+      ctx.strokeStyle = border;
+      ctx.lineWidth = dpr;
+      ctx.beginPath();
+      ctx.moveTo(0, top);
+      ctx.lineTo(w, top);
+      ctx.stroke();
+      ctx.fillStyle = text;
+      ctx.fillText(`${label} (${unit})`, 6 * dpr, top + 11 * dpr);
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.5 * dpr;
+      ctx.beginPath();
+      for (let i = 0; i < graphData.length; i += 1) {
+        const row = graphData[i];
+        const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
+        const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 16 * dpr);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+  }
+
+  function setGraphs(value) {
+    graphsOn = !!value;
+    graphSection.hidden = !graphsOn;
+    graphToggleBtn.classList.toggle('active', graphsOn);
+    graphToggleBtn.setAttribute('aria-pressed', graphsOn ? 'true' : 'false');
+    if (graphsOn) drawGraphs();
+  }
+
+  /* ------------------------ time history ------------------------ */
+
+  function clearHistory() {
+    history = [];
+    scrubIndex = -1;
+    const input = root.querySelector('[data-field="scrub"]');
+    const out = root.querySelector('[data-readout="scrub"]');
+    if (input) { input.max = '0'; input.value = '0'; }
+    if (out) out.textContent = '0.0 s';
+  }
+
+  function recordHistory() {
+    if (!running) return;
+    const input = root.querySelector('[data-field="scrub"]');
+    const out = root.querySelector('[data-readout="scrub"]');
+    if (!history.length || world.time - history[history.length - 1].time >= 0.1) {
+      history.push({ time: world.time, data: serializeScene(world, { runtime: true }) });
+      if (history.length > HISTORY_LIMIT) history.shift();
+      if (input) {
+        input.max = String(history.length - 1);
+        input.value = String(history.length - 1);
+      }
+      if (out) out.textContent = `${world.time.toFixed(1)} s`;
+    }
+  }
+
+  function scrubTo(index) {
+    if (!history.length) return;
+    const i = Math.max(0, Math.min(history.length - 1, index));
+    scrubIndex = i;
+    running = false;
+    const initial = world.initial;
+    const prev = currentSelectionRef();
+    deserializeScene(world, history[i].data, { runtime: true });
+    world.initial = initial;
+    selected = prev ? entityById(prev.type, prev.id) : null;
+    if (selected) view.setSelection({ type: selected.type, id: selected.id });
+    else view.setSelection(null);
+    view.sync(world);
+    updateTransport();
+    buildInspector();
+    renderOutliner();
+    updateLive();
+    const out = root.querySelector('[data-readout="scrub"]');
+    if (out) out.textContent = `${history[i].time.toFixed(1)} s`;
+    setStatus(`已回拖到 t = ${history[i].time.toFixed(2)} s。 · Scrubbed to t = ${history[i].time.toFixed(2)} s.`);
+  }
+
+  /* ------------------------ scene save/load ---------------------- */
+
+  const SCENE_KEY = 'plab-scene-v1';
+
+  function loadSceneData(data, { quiet = false } = {}) {
+    pushUndo();
+    running = false;
+    selected = null;
+    view.setSelection(null);
+    deserializeScene(world, data);
+    captureInitial(world);
+    layoutReset();
+    view.sync(world);
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    updateTransport();
+    updateLive();
+    clearHistory();
+    resetGraphs();
+    view.clearTrail();
+    view.clearRuler();
+    if (!quiet) setStatus('场景已读取。 · Scene loaded.');
+  }
+
+  function saveScene() {
+    try {
+      localStorage.setItem(SCENE_KEY, JSON.stringify(serializeScene(world)));
+      setStatus('已保存到本机。 · Saved to this browser.');
+    } catch (err) {
+      setStatus('保存失败：浏览器存储不可用。 · Save failed: browser storage unavailable.', true);
+    }
+  }
+
+  function loadSavedScene() {
+    let raw = null;
+    try { raw = localStorage.getItem(SCENE_KEY); } catch (_) { raw = null; }
+    if (!raw) {
+      setStatus('本机没有保存的场景。 · No saved scene in this browser.', true);
+      return;
+    }
+    try {
+      loadSceneData(JSON.parse(raw));
+    } catch (err) {
+      setStatus('保存的场景无法解析。 · The saved scene could not be parsed.', true);
+    }
+  }
+
+  function exportScene() {
+    const blob = new Blob([JSON.stringify(serializeScene(world), null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'physics-lab-scene.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    setStatus('已导出 JSON。 · JSON exported.');
+  }
+
+  function importSceneFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        loadSceneData(JSON.parse(String(reader.result)));
+        setStatus(`已导入 ${file.name}。 · Imported ${file.name}.`);
+      } catch (err) {
+        setStatus('导入失败：JSON 无效。 · Import failed: invalid JSON.', true);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function layoutReset() {
+    // The current layout is derived from the loaded apparatus positions, so
+    // there is no persistent counter to reset. Kept as a hook for clarity.
+  }
+
+  /* ----------------------- Blender-style G/R/S ------------------- */
+
+  function entityPosition(entity) {
+    if (entity.type === 'body') {
+      const p = entity.cannon.position;
+      return { x: p.x, y: p.y, z: p.z };
+    }
+    if (entity.type === 'surface') {
+      const p = entity.body.position;
+      return { x: p.x, y: p.y, z: p.z };
+    }
+    return { x: entity.x, y: entity.y, z: entity.z };
+  }
+
+  function setEntityPosition(entity, p) {
+    if (entity.type === 'body') {
+      if (entity.attachment) detachBody(world, entity);
+      entity.cannon.position.set(p.x, p.y, p.z);
+      entity.cannon.velocity.setZero();
+      entity.cannon.angularVelocity.setZero();
+      entity.cannon.aabbNeedsUpdate = true;
+    } else if (entity.type === 'surface') {
+      entity.body.position.set(p.x, p.y, p.z);
+      entity.body.aabbNeedsUpdate = true;
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'surface' && b.attachment.id === entity.id) repositionSurfaceBody(world, b);
+      }
+    } else if (entity.type === 'loop') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'loop' && b.attachment.id === entity.id) {
+          b.cannon.position.copy(loopPoint(entity, b.attachment.theta));
+        }
+      }
+    } else if (entity.type === 'turntable') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      entity.body.position.set(p.x, p.y, p.z);
+      entity.body.aabbNeedsUpdate = true;
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'turntable' && b.attachment.id === entity.id) {
+          b.cannon.position.set(
+            entity.x + b.attachment.r * Math.cos(b.attachment.phi),
+            entity.y + 0.06 + b.halfHeight,
+            entity.z + b.attachment.r * Math.sin(b.attachment.phi),
+          );
+        }
+      }
+    } else if (entity.type === 'hcircle') {
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'hcircle' && b.attachment.id === entity.id) {
+          b.cannon.position.set(
+            entity.x + entity.radius * Math.cos(b.attachment.phi),
+            entity.y + b.halfHeight + 0.01,
+            entity.z + entity.radius * Math.sin(b.attachment.phi),
+          );
+        }
+      }
+    }
+  }
+
+  function quatFromAxis(axis, angle) {
+    const half = angle / 2;
+    const s = Math.sin(half);
+    const c = Math.cos(half);
+    if (axis === 'x') return { x: s, y: 0, z: 0, w: c };
+    if (axis === 'z') return { x: 0, y: 0, z: s, w: c };
+    return { x: 0, y: s, z: 0, w: c };
+  }
+
+  function quatMul(a, b) {
+    return {
+      x: a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+      y: a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+      z: a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+      w: a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z,
+    };
+  }
+
+  function setEntityQuaternion(entity, q) {
+    const h = Math.hypot(q.x, q.y, q.z, q.w) || 1;
+    const n = { x: q.x / h, y: q.y / h, z: q.z / h, w: q.w / h };
+    if (entity.type === 'body') {
+      if (entity.attachment) detachBody(world, entity);
+      entity.cannon.quaternion.set(n.x, n.y, n.z, n.w);
+      entity.cannon.velocity.setZero();
+      entity.cannon.angularVelocity.setZero();
+      entity.cannon.aabbNeedsUpdate = true;
+    } else if (entity.type === 'surface') {
+      entity.body.quaternion.set(n.x, n.y, n.z, n.w);
+      entity.angle = (zAngle(n) * 180) / Math.PI;
+      entity.body.aabbNeedsUpdate = true;
+      for (const b of world.bodies) {
+        if (b.attachment?.type === 'surface' && b.attachment.id === entity.id) repositionSurfaceBody(world, b);
+      }
+    }
+  }
+
+  function modalAxisVector(axis) {
+    if (axis === 'y') return { x: 0, y: 1, z: 0 };
+    if (axis === 'z') return { x: 0, y: 0, z: 1 };
+    return { x: 1, y: 0, z: 0 };
+  }
+
+  function updateModalHud() {
+    if (!modal) {
+      modalHud.hidden = true;
+      return;
+    }
+    modalHud.hidden = false;
+    const modeText = modal.mode === 'translate' ? '移动 · Move'
+      : modal.mode === 'rotate' ? '旋转 · Rotate' : '缩放 · Scale';
+    const axisText = modal.axis ? `轴 ${modal.axis.toUpperCase()} · Axis ${modal.axis.toUpperCase()}` : '自由 · Free';
+    const entry = modal.numeric ? `输入 ${modal.numeric} · Type ${modal.numeric}` : '拖动鼠标 · Drag';
+    modalHud.textContent = `${modeText}  ${axisText}  ${entry}  · Enter 确认 · Esc 取消`;
+  }
+
+  function applyModalTransform() {
+    if (!modal) return;
+    const entity = entityById(modal.ref.type, modal.ref.id);
+    if (!entity) return;
+    const start = modal.start;
+    if (modal.mode === 'translate') {
+      let delta;
+      if (modal.numeric) {
+        const value = Number(modal.numeric);
+        if (!Number.isFinite(value)) return;
+        const axis = modalAxisVector(modal.axis || 'x');
+        delta = { x: axis.x * value, y: axis.y * value, z: axis.z * value };
+      } else {
+        const d = view.screenDeltaToWorld(modal.dx, modal.dy, start.pos);
+        delta = modal.axis
+          ? (() => {
+            const axis = modalAxisVector(modal.axis);
+            const amount = d.x * axis.x + d.y * axis.y + d.z * axis.z;
+            const snapped = snapOn ? Math.round(amount / 0.25) * 0.25 : amount;
+            return { x: axis.x * snapped, y: axis.y * snapped, z: axis.z * snapped };
+          })()
+          : d;
+        if (snapOn && !modal.axis) {
+          delta = {
+            x: Math.round(delta.x / 0.25) * 0.25,
+            y: Math.round(delta.y / 0.25) * 0.25,
+            z: Math.round(delta.z / 0.25) * 0.25,
+          };
+        }
+      }
+      setEntityPosition(entity, {
+        x: start.pos.x + delta.x,
+        y: start.pos.y + delta.y,
+        z: start.pos.z + delta.z,
+      });
+    } else if (modal.mode === 'rotate') {
+      const axis = modal.axis || (entity.type === 'surface' ? 'z' : 'y');
+      let angle = modal.numeric ? (Number(modal.numeric) * Math.PI) / 180 : modal.dx * 0.008;
+      if (!Number.isFinite(angle)) return;
+      if (snapOn) angle = Math.round(angle / (Math.PI / 12)) * (Math.PI / 12);
+      setEntityQuaternion(entity, quatMul(quatFromAxis(axis, angle), start.quat));
+    } else if (modal.mode === 'scale') {
+      let factor = modal.numeric ? Number(modal.numeric) : 1 + (modal.dx - modal.dy) * 0.006;
+      if (!Number.isFinite(factor)) return;
+      factor = Math.max(0.05, Math.min(20, factor));
+      if (snapOn) factor = Math.max(0.1, Math.round(factor * 10) / 10);
+      applyScaleFrom(start.dims, factor, modal.axis);
+    }
+    modal.changed = true;
+    view.sync(world);
+  }
+
+  function startModal(mode) {
+    if (running) {
+      setStatus('先暂停再变换。 · Pause before transforming.', true);
+      return;
+    }
+    if (!selected) {
+      setStatus('先选择一个对象。 · Select an object first.', true);
+      return;
+    }
+    const entity = entityById(selected.type, selected.id);
+    if (!entity) return;
+    if (entity.type === 'link' && mode !== 'scale') {
+      setStatus('连接只支持缩放。 · Links support scale only.', true);
+      return;
+    }
+    if (mode === 'rotate' && entity.type !== 'body' && entity.type !== 'surface') {
+      setStatus('此装置只支持移动或缩放。 · This apparatus supports move or scale only.', true);
+      return;
+    }
+    pushUndo('modal');
+    const quat = entity.type === 'body'
+      ? { x: entity.cannon.quaternion.x, y: entity.cannon.quaternion.y, z: entity.cannon.quaternion.z, w: entity.cannon.quaternion.w }
+      : entity.type === 'surface'
+        ? { x: entity.body.quaternion.x, y: entity.body.quaternion.y, z: entity.body.quaternion.z, w: entity.body.quaternion.w }
+        : null;
+    modal = {
+      mode,
+      ref: { type: entity.type, id: entity.id },
+      start: { pos: entityPosition(entity), quat, dims: captureDimensions(entity) },
+      dx: 0,
+      dy: 0,
+      lastX: null,
+      lastY: null,
+      axis: null,
+      numeric: '',
+      changed: false,
+      snapshot: serializeScene(world),
+      undoDepth: undoStack.length,
+    };
+    view.setGizmoVisible(false);
+    view.orbit.enabled = false;
+    root.dataset.modal = mode;
+    updateModalHud();
+    setStatus(`${mode === 'translate' ? '移动' : mode === 'rotate' ? '旋转' : '缩放'}：拖动鼠标，X/Y/Z 锁定轴，输入数字后 Enter。 · Drag; X/Y/Z locks an axis; type a number then Enter.`);
+  }
+
+  function finishModal() {
+    modal = null;
+    modalHud.hidden = true;
+    delete root.dataset.modal;
+    view.orbit.enabled = true;
+    view.setGizmoVisible(!running && gizmoMode !== 'off');
+    updateTransport();
+    captureInitial(world);
+    view.sync(world);
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    clearHistory();
+    resetGraphs();
+    updateUndoButtons();
+  }
+
+  function confirmModal() {
+    if (!modal) return;
+    if (modal.numeric) applyModalTransform();
+    if (!modal.changed) {
+      undoStack.length = modal.undoDepth;
+      redoStack.length = 0;
+    }
+    finishModal();
+    setStatus('变换已应用。 · Transform applied.');
+  }
+
+  function cancelModal() {
+    if (!modal) return;
+    const snap = modal.snapshot;
+    const ref = modal.ref;
+    undoStack.length = modal.undoDepth;
+    redoStack.length = 0;
+    modal = null;
+    modalHud.hidden = true;
+    delete root.dataset.modal;
+    view.orbit.enabled = true;
+    deserializeScene(world, snap);
+    captureInitial(world);
+    selected = entityById(ref.type, ref.id);
+    if (selected) view.setSelection({ type: selected.type, id: selected.id });
+    else view.setSelection(null);
+    view.sync(world);
+    updateTransport();
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    updateLive();
+    clearHistory();
+    resetGraphs();
+    updateUndoButtons();
+    setStatus('已取消变换。 · Transform cancelled.');
+  }
+
+  function onModalPointerMove(e) {
+    if (!modal) return;
+    if (!canvasHost.contains(e.target)) return;
+    if (modal.lastX == null) {
+      modal.lastX = e.clientX;
+      modal.lastY = e.clientY;
+      return;
+    }
+    modal.dx += e.clientX - modal.lastX;
+    modal.dy += e.clientY - modal.lastY;
+    modal.lastX = e.clientX;
+    modal.lastY = e.clientY;
+    if (!modal.numeric) applyModalTransform();
+    updateModalHud();
+  }
+
+  function onModalPointerDown(e) {
+    if (!modal) return;
+    if (e.button === 2) {
+      e.preventDefault();
+      cancelModal();
+      return;
+    }
+    if (e.button !== 0) return;
+    if (canvasHost.contains(e.target)) {
+      e.preventDefault();
+      e.stopPropagation();
+      confirmModal();
+      return;
+    }
+    if (e.target.closest && e.target.closest('button, input, select, label')) {
+      cancelModal();
+    }
+  }
+
+  function handleModalKey(e) {
+    if (!modal) return false;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      cancelModal();
+      return true;
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      confirmModal();
+      return true;
+    }
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      modal.numeric = modal.numeric.slice(0, -1);
+      updateModalHud();
+      return true;
+    }
+    if (/^[0-9.-]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      modal.numeric += e.key;
+      updateModalHud();
+      return true;
+    }
+    const axisKey = e.key.toLowerCase();
+    if ((axisKey === 'x' || axisKey === 'y' || axisKey === 'z') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      modal.axis = axisKey;
+      applyModalTransform();
+      updateModalHud();
+      return true;
+    }
+    return false;
+  }
+
+  let scaleSession = null;
+
   function addApparatus(kind) {
+    pushUndo('add');
     prepareEdit();
     let entity = null;
     if (kind === 'incline') {
@@ -566,6 +1616,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else if (target?.type === 'hcircle') {
         spawn = { x: target.x + target.radius, y: target.y + 0.7, z: target.z };
       } else if (selected?.type === 'body') {
+        // Duplicating next to an already-selected body is convenient, but the
+        // new object still falls back to the nearest apparatus if one is in
+        // range.
         spawn = { x: selected.cannon.position.x + 0.8, y: selected.cannon.position.y + 0.8, z: selected.cannon.position.z };
       }
       entity = kind === 'cart'
@@ -591,6 +1644,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     captureInitial(world);
     view.sync(world);
     select(entity);
+    renderOutliner();
     updateEmpty();
     updateTransport();
     setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 拖动工具可移动，属性面板可调参数。`);
@@ -615,6 +1669,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function handlePick(hit, event) {
+    if (modal) return;
+    if (rulerMode) {
+      const point = hit?.point || view.groundPoint(event.clientX, event.clientY);
+      const p = { x: point.x, y: Math.max(0, point.y), z: point.z };
+      if (!rulerFirst) {
+        rulerFirst = p;
+        setStatus('尺子：点击第二个点。 · Ruler: click the second point.');
+      } else {
+        const distance = view.setRuler(rulerFirst, p);
+        rulerFirst = null;
+        rulerMode = false;
+        rulerBtn.classList.remove('active');
+        rulerBtn.setAttribute('aria-pressed', 'false');
+        rulerReadout.textContent = `距离 · Distance: ${fmt(distance)} m`;
+        setStatus(`距离 · Distance: ${fmt(distance)} m。 · 再次点击尺子可清除。 · Click Ruler again to clear.`);
+      }
+      return;
+    }
     if (pendingLink) {
       let endpoint;
       if (hit?.entity?.type === 'body') {
@@ -639,6 +1711,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }
       const meter = pendingLink.kind === 'meter';
       const nonlinear = pendingLink.kind === 'nonlinear';
+      pushUndo('link');
       const link = addLink(world, {
         a: first,
         b: endpoint,
@@ -655,6 +1728,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       captureInitial(world);
       view.sync(world);
       select(link);
+      renderOutliner();
       updateEmpty();
       setStatus('连接已创建，可在属性面板调节 k、β 与原长。 · Link created; adjust k, β and rest length in the inspector.');
       return;
@@ -663,6 +1737,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const entity = entityById(hit.entity.type, hit.entity.id);
       if (entity) {
         select(entity);
+        renderOutliner();
         setMobileTab('inspector');
         setStatus(`已选择：${labelText(...kindLabel(entity))}`);
       }
@@ -676,6 +1751,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!entityRef) return;
     const entity = entityById(entityRef.type, entityRef.id);
     if (!entity) return;
+    if (gizmoMode === 'scale' && scaleSession && scaleSession.start) {
+      const x = Math.abs(object.scale.x);
+      const y = Math.abs(object.scale.y);
+      const z = Math.abs(object.scale.z);
+      const factor = Math.max(0.05, (x + y + z) / 3);
+      applyScaleFrom(scaleSession.start, factor, null);
+      object.scale.set(1, 1, 1);
+      return;
+    }
     if (entity.type === 'surface') {
       entity.body.position.set(object.position.x, object.position.y, object.position.z);
       entity.body.quaternion.set(object.quaternion.x, object.quaternion.y, object.quaternion.z, object.quaternion.w);
@@ -743,72 +1827,50 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     captureInitial(world);
     view.sync(world);
     buildInspector();
+    renderOutliner();
     updateEmpty();
+    clearHistory();
+    updateUndoButtons();
   }
 
   function deleteSelected() {
     if (!selected) return;
-    prepareEdit();
     const entity = entityById(selected.type, selected.id);
     if (!entity) return;
-    if (entity.type === 'body') {
-      world.engine.removeBody(entity.cannon);
-      world.bodies = world.bodies.filter((b) => b.id !== entity.id);
-      world.links = world.links.filter((l) => !(
-        (l.a.type === 'body' && l.a.id === entity.id)
-        || (l.b.type === 'body' && l.b.id === entity.id)
-      ));
-    } else if (entity.type === 'surface') {
-      world.engine.removeBody(entity.body);
-      world.surfaces = world.surfaces.filter((s) => s.id !== entity.id);
-      for (const b of world.bodies) {
-        if (b.attachment?.type === 'surface' && b.attachment.id === entity.id) detachBody(world, b);
-      }
-    } else if (entity.type === 'turntable') {
-      world.engine.removeBody(entity.body);
-      world.turntables = world.turntables.filter((t) => t.id !== entity.id);
-      for (const b of world.bodies) {
-        if (b.attachment?.type === 'turntable' && b.attachment.id === entity.id) detachBody(world, b);
-      }
-    } else if (entity.type === 'loop') {
-      world.loops = world.loops.filter((l) => l.id !== entity.id);
-      for (const b of world.bodies) {
-        if (b.attachment?.type === 'loop' && b.attachment.id === entity.id) detachBody(world, b);
-      }
-    } else if (entity.type === 'hcircle') {
-      world.hcircles = world.hcircles.filter((c) => c.id !== entity.id);
-      for (const b of world.bodies) {
-        if (b.attachment?.type === 'hcircle' && b.attachment.id === entity.id) detachBody(world, b);
-      }
-    } else if (entity.type === 'link') {
-      world.links = world.links.filter((l) => l.id !== entity.id);
-    }
-    selected = null;
-    view.setSelection(null);
-    view.sync(world);
-    captureInitial(world);
-    buildInspector();
-    updateEmpty();
-    setStatus('已删除所选。 · Selection deleted.');
+    deleteEntity(entity);
   }
 
   function clearScene() {
+    pushUndo();
     running = false;
     clearWorld(world);
     captureInitial(world);
     selected = null;
     pendingLink = null;
     view.setSelection(null);
+    view.clearTrail();
+    view.clearRuler();
     view.sync(world);
     buildInspector();
+    renderOutliner();
     updateEmpty();
     updateTransport();
+    clearHistory();
+    resetGraphs();
     setStatus('场景已清空。 · Scene cleared. 从面板添加器材重新开始。');
   }
 
   function play() {
     if (running) return;
     if (!world.initial) captureInitial(world);
+    if (scrubIndex >= 0 && scrubIndex < history.length - 1) {
+      history = history.slice(0, scrubIndex + 1);
+    }
+    scrubIndex = -1;
+    if (world.time === 0) {
+      view.clearTrail();
+      resetGraphs();
+    }
     running = true;
     lastFrame = performance.now();
     updateTransport();
@@ -823,9 +1885,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     running = false;
     resetWorld(world);
     view.sync(world);
+    view.clearTrail();
     updateTransport();
     buildInspector();
     updateLive();
+    clearHistory();
+    resetGraphs();
     setStatus('已回到你设置的初始条件。 · Reset to your initial conditions.');
   }
   function step() {
@@ -864,32 +1929,79 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     timeScaleOut.textContent = `×${timeScale.toFixed(2)}`;
   });
 
-  snapBtn.addEventListener('click', () => {
-    const b = selectedBody();
-    if (!b) {
-      setStatus('先在场景中选择一个方块或小车。 · Select a block or cart first.', true);
-      return;
-    }
-    prepareEdit();
-    const hit = snapBodyToNearest(world, b, { maxDistance: 5 });
-    if (hit) {
-      captureInitial(world);
-      view.sync(world);
-      buildInspector();
-      setStatus('已吸附到最近的装置。 · Snapped to the nearest apparatus.');
+  undoBtn.addEventListener('click', undo);
+  redoBtn.addEventListener('click', redo);
+  dupBtn.addEventListener('click', duplicateSelected);
+  frameBtn.addEventListener('click', () => {
+    if (view.frameSelected()) setStatus('已聚焦所选对象。 · Framed selection.');
+    else setStatus('场景中没有可聚焦的对象。 · Nothing to frame.', true);
+  });
+  rulerBtn.addEventListener('click', () => {
+    if (rulerMode) {
+      rulerMode = false;
+      rulerFirst = null;
+      view.clearRuler();
+      rulerBtn.classList.remove('active');
+      rulerBtn.setAttribute('aria-pressed', 'false');
+      rulerReadout.textContent = '尺子关闭 · Ruler off';
+      setStatus('尺子已关闭。 · Ruler off.');
     } else {
-      setStatus('附近没有可吸附的表面、圆环或转盘。 · No surface, loop or turntable nearby.', true);
+      rulerMode = true;
+      rulerFirst = null;
+      rulerBtn.classList.add('active');
+      rulerBtn.setAttribute('aria-pressed', 'true');
+      rulerReadout.textContent = '点击两点 · Click two points';
+      setStatus('尺子：点击两个点测量距离。 · Ruler: click two points to measure the distance.');
     }
   });
-  detachBtn.addEventListener('click', () => {
-    const b = selectedBody();
-    if (!b) return;
-    prepareEdit();
-    detachBody(world, b);
-    captureInitial(world);
-    view.sync(world);
-    buildInspector();
-    setStatus('已脱离约束，物体成为自由刚体。 · Detached; the body is now free.');
+  snapToggleBtn.addEventListener('click', () => {
+    snapOn = !snapOn;
+    snapToggleBtn.classList.toggle('active', snapOn);
+    snapToggleBtn.setAttribute('aria-pressed', snapOn ? 'true' : 'false');
+    view.transform.translationSnap = snapOn ? 0.25 : null;
+    view.transform.rotationSnap = snapOn ? Math.PI / 12 : null;
+    view.transform.scaleSnap = snapOn ? 0.1 : null;
+    setStatus(snapOn ? '手柄吸附已开启：0.25 m / 15°。 · Gizmo snap on: 0.25 m / 15°.' : '手柄吸附已关闭。 · Gizmo snap off.');
+  });
+  trailToggleBtn.addEventListener('click', () => {
+    trailOn = !trailOn;
+    trailToggleBtn.classList.toggle('active', trailOn);
+    trailToggleBtn.setAttribute('aria-pressed', trailOn ? 'true' : 'false');
+    view.setTrailVisible(trailOn);
+    if (!trailOn) setStatus('轨迹已关闭。 · Trail off.');
+    else setStatus('轨迹已开启：运行后记录所选物体的路径。 · Trail on: records the selected body path while running.');
+  });
+  graphToggleBtn.addEventListener('click', () => {
+    setGraphs(!graphsOn);
+    if (graphsOn) {
+      resetGraphs();
+      setStatus('实时曲线已开启。 · Live graphs on.');
+    } else {
+      setStatus('实时曲线已关闭。 · Live graphs off.');
+    }
+  });
+
+  saveBtn.addEventListener('click', saveScene);
+  loadBtn.addEventListener('click', loadSavedScene);
+  exportBtn.addEventListener('click', exportScene);
+  importBtn.addEventListener('click', () => importInput.click());
+  importInput.addEventListener('change', () => {
+    importSceneFile(importInput.files?.[0]);
+    importInput.value = '';
+  });
+
+  const scrubInput = root.querySelector('[data-field="scrub"]');
+  scrubInput?.addEventListener('input', () => {
+    if (!history.length) return;
+    scrubTo(Number(scrubInput.value));
+  });
+
+  window.addEventListener('pointermove', onModalPointerMove);
+  window.addEventListener('pointerdown', onModalPointerDown, true);
+  window.addEventListener('contextmenu', (e) => {
+    if (!modal) return;
+    e.preventDefault();
+    cancelModal();
   });
 
   root.querySelectorAll('[data-add]').forEach((btn) => {
@@ -944,6 +2056,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       out.textContent = fmt(next);
       range.value = String(Math.max(min, Math.min(max, next)));
       if (fromRange || document.activeElement !== number) number.value = fmtInput(next);
+      pushUndo(`field:${testid || text}`);
       onChange(next);
     };
     range.addEventListener('input', () => apply(Number(range.value), true));
@@ -1092,6 +2205,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       frictionFields(inspectorBody, entity);
       const flip = el('button', { type: 'button', className: 'plab-btn hit-target', text: '翻转坡度 · Flip slope' });
       flip.addEventListener('click', () => {
+        pushUndo('flip');
         prepareEdit();
         setSurfaceAngle(world, entity, -entity.angle);
         captureInitial(world);
@@ -1144,23 +2258,26 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         const disc = el('button', { type: 'button', className: 'plab-btn hit-target', text: '圆盘 · Disc' });
         const hoop = el('button', { type: 'button', className: 'plab-btn hit-target', text: '圆环 · Hoop' });
         disc.addEventListener('click', () => {
+          pushUndo('inertia');
           setCartInertia(world, entity, 0.5 * entity.mass * entity.radius ** 2);
           buildInspector();
         });
         hoop.addEventListener('click', () => {
+          pushUndo('inertia');
           setCartInertia(world, entity, entity.mass * entity.radius ** 2);
           buildInspector();
         });
         quick.append(disc, hoop);
         inspectorBody.appendChild(quick);
         const brakeCheck = el('input', { type: 'checkbox', checked: !!entity.brake, 'data-field': 'brake' });
-        brakeCheck.addEventListener('change', () => { entity.brake = brakeCheck.checked; });
+        brakeCheck.addEventListener('change', () => { pushUndo('brake'); entity.brake = brakeCheck.checked; });
         inspectorBody.appendChild(el('label', { className: 'plab-check hit-target' }, [
           brakeCheck,
           el('span', { text: '刹车（锁定车轴） · Brake (lock axle)' }),
         ]));
         const motorCheck = el('input', { type: 'checkbox', checked: !!entity.motor?.on, 'data-field': 'motor' });
         motorCheck.addEventListener('change', () => {
+          pushUndo('motor');
           entity.motor = entity.motor || { on: false, target: 0, force: 2 };
           entity.motor.on = motorCheck.checked;
         });
@@ -1526,23 +2643,53 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function onKeyDown(e) {
+    if (handleModalKey(e)) return;
     const tag = (e.target && e.target.tagName) || '';
     const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
-    if (e.key === 'Escape' && pendingLink) {
+    if (editing) return;
+    const mod = e.ctrlKey || e.metaKey;
+    const key = e.key;
+    if (mod && key.toLowerCase() === 'z') {
+      e.preventDefault();
+      if (e.shiftKey) redo();
+      else undo();
+      return;
+    }
+    if (mod && key.toLowerCase() === 'y') {
+      e.preventDefault();
+      redo();
+      return;
+    }
+    if ((mod && key.toLowerCase() === 'd') || (!mod && e.shiftKey && key === 'D')) {
+      e.preventDefault();
+      duplicateSelected();
+      return;
+    }
+    if (key === 'Escape' && pendingLink) {
       pendingLink = null;
       setStatus('已取消连接。 · Link cancelled.');
       return;
     }
-    if (editing) return;
-    if ((e.key === 'Delete' || e.key === 'Backspace') && selected) {
+    if ((key === 'Delete' || key === 'Backspace') && selected) {
       e.preventDefault();
       deleteSelected();
       return;
     }
-    if (e.code === 'Space' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (e.code === 'Space' && !mod && !e.altKey) {
       e.preventDefault();
       if (running) pause();
       else play();
+      return;
+    }
+    if (!mod && !e.altKey && !e.repeat) {
+      if (key === 'g' || key === 'G') { e.preventDefault(); startModal('translate'); return; }
+      if (key === 'r' || key === 'R') { e.preventDefault(); startModal('rotate'); return; }
+      if (key === 's' || key === 'S') { e.preventDefault(); startModal('scale'); return; }
+      if (key === 'f' || key === 'F' || e.code === 'NumpadDecimal') {
+        e.preventDefault();
+        if (view.frameSelected()) setStatus('已聚焦所选对象。 · Framed selection.');
+        else setStatus('场景中没有可聚焦的对象。 · Nothing to frame.', true);
+      }
     }
   }
   document.addEventListener('keydown', onKeyDown);
@@ -1553,13 +2700,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     let dt = (now - lastFrame) / 1000;
     lastFrame = now;
     if (dt > 0.1) dt = 0.1;
-    if (running) stepWorld(world, dt, { timeScale });
+    if (running) {
+      stepWorld(world, dt, { timeScale });
+      recordHistory();
+    }
     view.resize();
     view.sync(world);
     view.render();
     if (now - lastReadout > 100) {
       lastReadout = now;
       updateLive();
+      pushGraphSample();
     }
   });
 
@@ -1569,6 +2720,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     destroyed = true;
     if (typeof stopLoop === 'function') stopLoop();
     document.removeEventListener('keydown', onKeyDown);
+    window.removeEventListener('pointermove', onModalPointerMove);
+    window.removeEventListener('pointerdown', onModalPointerDown, true);
     view.destroy();
     disposeWorld(world);
     const style = document.getElementById(STYLE_ID);
@@ -1581,6 +2734,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   updateEmpty();
   updateTransport();
   buildInspector();
+  renderOutliner();
+  updateUndoButtons();
+  setGraphs(false);
   updateLive();
 
   // Small read-only QA hook: no student-facing controls depend on it.
