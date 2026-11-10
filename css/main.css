@@ -2639,6 +2639,9 @@ body { font-feature-settings: "ss01" on, "cv11" on; letter-spacing: -0.011em; }
   margin-top: 0.35rem;
   max-width: min(100%, 480px);
   overflow-x: auto;
+  /* overflow-x:auto forces overflow-y:auto; reserve room for KaTeX
+     fraction descenders so they are not clipped at the bottom edge. */
+  padding-bottom: 0.5rem;
   color: var(--text-muted);
 }
 
