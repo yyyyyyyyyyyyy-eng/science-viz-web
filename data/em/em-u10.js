@@ -1214,5 +1214,360 @@ export const TOPICS = {
         "defEn": "The phenomenon in which a hollow conductor shields its cavity from external fields (the cavity field is zero when the cavity contains no charge)."
       }
     ]
+  },
+  "10.7": {
+    "id": "em/em-u10/10.7",
+    "subject": "em",
+    "chapterId": "em-u10",
+    "unitCode": "10",
+    "unitTitleZh": "导体与电容器",
+    "unitTitleEn": "Conductors and Capacitors",
+    "code": "10.7",
+    "titleZh": "平行板电容的电场与充电功",
+    "titleEn": "Parallel-Plate Fields and Charging Work",
+    "layer": "ap",
+    "summary": "平行板电容器由两块平行、分离的导体极板组成，两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)，净电荷为零。忽略边缘效应时，板间是匀强电场，方向由正极板指向负极板，大小 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{Q}{\\varepsilon_0A}\\)；孤立（\\(Q\\) 不变）填入电介质后 \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\)。充电时外力把电荷从一块极板搬到另一块，克服电势差做功 \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)，这份功全部转化为储存的电场能 \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)。 · A parallel-plate capacitor consists of two separated parallel conducting plates carrying equal and opposite charges \\(+Q\\) and \\(-Q\\), with zero net charge. Neglecting fringing, the field between the plates is uniform, directed from the positive to the negative plate, with magnitude \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{Q}{\\varepsilon_0A}\\); with a dielectric, \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\). Charging moves charge from one plate to the other against a potential difference; the external work \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\) becomes the stored electric potential energy \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\).",
+    "learningObjectives": [
+      "能描述平行板电容器的构造与物理性质：两块平行、分离的导体极板，面积 \\(A\\)、间距 \\(d\\)，两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)，净电荷为零；理解 \\(C\\) 只由几何与电介质决定。 · Describe the construction and physical properties of a parallel-plate capacitor: two parallel, separated conducting plates of area \\(A\\) and separation \\(d\\), carrying equal and opposite charges \\(+Q\\) and \\(-Q\\) with zero net charge; understand that \\(C\\) is set only by geometry and the dielectric.",
+      "能用单层无限大带电面的场 \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\) 叠加，说明两板之间场强为 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)、方向由正板指向负板，而板外场相互抵消为零。 · Use superposition of the field of a single infinite charged sheet, \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\), to show that between the plates the field is \\(\\dfrac{\\sigma}{\\varepsilon_0}\\) directed from the positive to the negative plate, while outside the plates the fields cancel to zero.",
+      "能说明板间电场在大小和方向上都是常量（匀强场），并指出边缘效应使有限极板边缘处场线弯曲、公式 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) 在 \\(d\\) 远小于极板线度时才是好近似。 · Explain that the field between the plates is constant in both magnitude and direction (a uniform field), and that fringing makes field lines bend near the edges of finite plates, so \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) is a good approximation only when \\(d\\) is much smaller than the plate dimensions.",
+      "能由 \\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon}\\) 与 \\(V=Ed\\) 推出 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)，并区分孤立电容器（\\(Q\\) 不变）与接电源（\\(V\\) 不变）两种情形。 · Derive \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) from \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon}\\), and \\(V=Ed\\), and distinguish an isolated capacitor (fixed \\(Q\\)) from one connected to a battery (fixed \\(V\\)).",
+      "能把充电功写成积分 \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)，并说明它等于储存的电场能 \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)；会用 \\(V\\)–\\(q\\) 图面积解释为什么不是 \\(QV\\)。 · Write the charging work as the integral \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\) and show that it equals the stored electric energy \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\); use the area under a \\(V\\)–\\(q\\) graph to explain why it is not \\(QV\\)."
+    ],
+    "essentialKnowledge": [
+      "平行板电容器由两块平行、分离的导体极板组成：每块极板面积为 \\(A\\)，间距为 \\(d\\)，极板间充满真空、空气或相对介电常数为 \\(\\kappa\\) 的电介质。两板带等量异号电荷：一板 \\(+Q\\)，另一板 \\(-Q\\)，整个电容器净电荷为零。 · A parallel-plate capacitor consists of two parallel, separated conducting plates, each of area \\(A\\), separated by a distance \\(d\\), with vacuum, air, or a dielectric of relative permittivity \\(\\kappa\\) between them. The plates carry equal and opposite charges: \\(+Q\\) on one plate and \\(-Q\\) on the other, so the capacitor as a whole has zero net charge.",
+      "等量异号不是近似，而是充电方式的结果：把电容器接上电源时，电源把电子从一块极板搬到另一块极板，一块极板失去 \\(Q\\) 的电子、另一块得到同样多的电子。若初始中性，最终两板电荷严格等量异号；若初始已有净电荷，则需把净电荷单独计入，标准平行板模型讨论的是等量异号部分。 · Equal and opposite charges are not an approximation but a consequence of how the capacitor is charged: a battery moves electrons from one plate to the other, so one plate loses charge \\(Q\\) and the other gains the same amount. Starting from neutral plates, the final charges are exactly equal and opposite; if the plates initially carry a net charge, that net charge must be tracked separately, while the standard parallel-plate model describes the equal-and-opposite part.",
+      "在理想平行板模型中（\\(d\\) 远小于极板线度、忽略边缘效应），电荷可视为均匀分布在两块相对的内表面上，面电荷密度大小 \\(\\sigma=\\dfrac{Q}{A}\\)。两板的外表面没有净电荷，因为板外电场相互抵消。 · In the ideal parallel-plate model (\\(d\\) much smaller than the plate dimensions, fringing neglected), charge is uniformly distributed on the two facing inner surfaces with surface charge density magnitude \\(\\sigma=\\dfrac{Q}{A}\\). The outer surfaces carry no net charge because the fields outside the plates cancel.",
+      "一块无限大、均匀带电的平面（面电荷密度 \\(\\sigma\\)）在两侧产生的电场大小都是 \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\)，方向背离正电荷面、指向负电荷面。这里把每块极板的内表面电荷看成这样一层带电面；不要把它与孤立导体板两个表面都带电荷的情形混淆。 · An infinite uniformly charged sheet with surface charge density \\(\\sigma\\) produces a field of magnitude \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\) on both sides, pointing away from a positive sheet and toward a negative sheet. Here each plate's inner-surface charge is modeled as such a sheet; do not confuse this with an isolated conducting plate, whose charge is shared by two surfaces.",
+      "叠加：在两板之间，正极板产生的场与负极板产生的场方向相同（都由正板指向负板），大小相加，得 \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}+\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{\\sigma}{\\varepsilon_0}\\)。在两板外侧，两个场的方向相反、大小相等，合场为零。 · Superposition: between the plates the fields of the positive and negative plates point in the same direction (from the positive to the negative plate), so their magnitudes add: \\(E=\\dfrac{\\sigma}{2\\varepsilon_0}+\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{\\sigma}{\\varepsilon_0}\\). Outside the plates the two fields point in opposite directions with equal magnitudes and cancel to zero.",
+      "因此板间电场是匀强电场：在远离边缘的区域内，场的大小和方向都处处相同，场线是平行、等距的直线，从正极板垂直指向负极板；极板是导体等势面，场线与极板垂直。 · The field between the plates is therefore uniform: away from the edges its magnitude and direction are the same everywhere, the field lines are parallel, equally spaced straight lines running perpendicularly from the positive plate to the negative plate, and the conducting plates are equipotential surfaces perpendicular to the field lines.",
+      "匀强场中电势差与场强的关系为 \\(V=Ed\\)，其中 \\(E\\) 是板间场强、\\(d\\) 是板间距。沿场线方向电势降低，因此正极板电势高、负极板电势低；等势面是平行于极板的一系列平面，电势随离正极板的距离线性变化。 · In a uniform field the potential difference is \\(V=Ed\\), where \\(E\\) is the field between the plates and \\(d\\) the separation. Potential decreases along the field direction, so the positive plate is at higher potential; equipotential surfaces are planes parallel to the plates, and the potential varies linearly with distance from the positive plate.",
+      "电容定义 \\(C=\\dfrac{Q}{V}\\)；把 \\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)（真空）与 \\(V=Ed\\) 代入，得 \\(C=\\dfrac{\\varepsilon_0A}{d}\\)。有电介质时为 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)。电容只由极板面积、间距和电介质决定，与所带电荷量、电压无关。电容器可以反复充电、放电，是储存电荷与电场能的元件。 · The capacitance is defined by \\(C=\\dfrac{Q}{V}\\); substituting \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) (vacuum), and \\(V=Ed\\) gives \\(C=\\dfrac{\\varepsilon_0A}{d}\\). With a dielectric, \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\). Capacitance is set only by plate area, separation, and dielectric, not by the stored charge or voltage. A capacitor can be charged and discharged repeatedly and is a device for storing charge and electric-field energy.",
+      "电介质的影响取决于连接方式。孤立电容器（\\(Q\\) 不变）填入 \\(\\kappa\\) 的介质后，板间场变为 \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\)，电压变为 \\(V=\\dfrac{Qd}{\\kappa\\varepsilon_0A}\\)，都减小为原来的 \\(\\dfrac{1}{\\kappa}\\)。接在恒压电源上（\\(V\\) 不变）时，场仍为 \\(E=\\dfrac{V}{d}\\)，但自由电荷增加为 \\(Q=\\kappa C_0V\\)。 · The dielectric's effect depends on the connection. For an isolated capacitor (fixed \\(Q\\)), filling the gap with a dielectric of constant \\(\\kappa\\) changes the field to \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\) and the voltage to \\(V=\\dfrac{Qd}{\\kappa\\varepsilon_0A}\\), both reduced by a factor \\(\\kappa\\). For a capacitor held at fixed voltage by a battery, the field remains \\(E=\\dfrac{V}{d}\\), but the free charge increases to \\(Q=\\kappa C_0V\\).",
+      "有限极板有边缘效应：板间中心区域仍近似匀强，但边缘处场线向外弯曲（边缘场，fringing field），场强和方向都不再均匀；边缘效应使实际电容略大于 \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\)。当 \\(d\\) 远小于极板的最小线度、且观察点远离边缘时，理想公式才是好近似。 · Finite plates show fringing: the central region is still approximately uniform, but near the edges the field lines bulge outward (the fringing field), so the field is no longer uniform in magnitude or direction; fringing makes the actual capacitance slightly larger than \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\). The ideal formula is a good approximation when \\(d\\) is much smaller than the smallest plate dimension and the point of interest is far from the edges.",
+      "充电功：设某时刻正极板电荷为 \\(q\\)、负极板为 \\(-q\\)，板间电势差为 \\(v=\\dfrac{q}{C}\\)。把少量正电荷 \\(\\mathrm{d}q\\) 从负极板搬到正极板，外力必须克服电势差做功 \\(\\mathrm{d}W_{\\mathrm{ext}}=v\\,\\mathrm{d}q=\\dfrac{q}{C}\\,\\mathrm{d}q\\)。从 0 积到 \\(Q\\)，得 \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\)。 · Charging work: suppose at some instant the positive plate carries \\(q\\) and the negative plate \\(-q\\), so the potential difference is \\(v=\\dfrac{q}{C}\\). Moving a small positive charge \\(\\mathrm{d}q\\) from the negative to the positive plate requires external work \\(\\mathrm{d}W_{\\mathrm{ext}}=v\\,\\mathrm{d}q=\\dfrac{q}{C}\\,\\mathrm{d}q\\). Integrating from 0 to \\(Q\\) gives \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\).",
+      "这份外力做的功全部转化为电容器的电场势能：\\(U=W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}\\)。这就是“储存的电场能等于外力分离电荷所做的功”的定量含义。电场力在充电过程中做负功，电势能增加。 · This external work becomes the capacitor's stored electric potential energy: \\(U=W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}\\). This is the quantitative meaning of “the stored electric energy equals the work done by an external force to separate the charges.” The field does negative work during charging, so the potential energy increases.",
+      "能量也可以写成电场能量密度的体积分：真空中 \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\)，线性电介质中 \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\)。板间体积为 \\(Ad\\)，故 \\(U=uAd=\\dfrac{1}{2}\\varepsilon_0E^{2}Ad=\\dfrac{1}{2}CV^{2}\\)，与充电功的结果一致。 · The energy can also be written as a volume integral of the electric-field energy density: \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\) in vacuum and \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\) in a linear dielectric. The field volume is \\(Ad\\), so \\(U=uAd=\\dfrac{1}{2}\\varepsilon_0E^{2}Ad=\\dfrac{1}{2}CV^{2}\\), consistent with the charging-work result.",
+      "用恒压电源充电时，电源做的功是 \\(QV\\)，而电容器只储存 \\(\\dfrac{1}{2}QV\\)；其余 \\(\\dfrac{1}{2}QV\\) 在充电回路的电阻中以热耗散（理想无耗散情形下由电磁辐射等机制带走）。若用可逆的外接电源极缓慢充电，外力做的功才是 \\(\\dfrac{1}{2}QV\\)，没有这笔额外耗散。 · When charging from a constant-voltage source, the battery does work \\(QV\\), while the capacitor stores only \\(\\dfrac{1}{2}QV\\); the other \\(\\dfrac{1}{2}QV\\) is dissipated as heat in the charging circuit's resistance (or carried away by radiation in an idealized lossless case). Only for reversible, extremely slow charging by an adjustable external source is the external work exactly \\(\\dfrac{1}{2}QV\\), with no extra dissipation.",
+      "插入电介质时能量变化也取决于约束。孤立（\\(Q\\) 不变）插入介质：\\(C\\) 增大为 \\(\\kappa C_0\\)，\\(V\\) 与 \\(U=\\dfrac{Q^{2}}{2C}\\) 都减小为 \\(\\dfrac{1}{\\kappa}\\)；减少的能量通过电场把介质拉入的机械功释放。接电源（\\(V\\) 不变）插入介质：\\(C\\) 与 \\(Q\\) 都增大为 \\(\\kappa\\) 倍，\\(U=\\dfrac{1}{2}CV^{2}\\) 增大为 \\(\\kappa\\) 倍，电源额外做功 \\(V\\Delta Q=2\\Delta U\\)，其中一半增加储能，另一半转化为机械功或耗散。 · Energy changes on inserting a dielectric also depend on the constraint. For an isolated capacitor (fixed \\(Q\\)), \\(C\\) increases to \\(\\kappa C_0\\) while \\(V\\) and \\(U=\\dfrac{Q^{2}}{2C}\\) decrease by a factor \\(\\kappa\\); the lost energy is released as mechanical work by the field pulling the dielectric in. For a battery-connected capacitor (fixed \\(V\\)), \\(C\\) and \\(Q\\) both increase by a factor \\(\\kappa\\), \\(U=\\dfrac{1}{2}CV^{2}\\) increases by \\(\\kappa\\), and the battery does extra work \\(V\\Delta Q=2\\Delta U\\), half of which raises the stored energy and half becomes mechanical work or dissipation.",
+      "\\(V\\)–\\(q\\) 图是一条过原点的直线，斜率 \\(\\dfrac{1}{C}\\)；从 0 到 \\(Q\\) 曲线下的三角形面积为 \\(\\dfrac{1}{2}QV\\)，就是充电功和储存能量。矩形 \\(QV\\) 不是储能，而是恒压电源在整段充电中提供的总功。 · A \\(V\\)–\\(q\\) graph is a straight line through the origin with slope \\(\\dfrac{1}{C}\\); the triangular area under it from 0 to \\(Q\\) is \\(\\dfrac{1}{2}QV\\), the charging work and stored energy. The rectangle \\(QV\\) is not the stored energy; it is the total work supplied by a constant-voltage source over the whole charging process."
+    ],
+    "definition": "平行板电容器由两块平行、分离的导体极板组成，极板面积 \\(A\\)、间距 \\(d\\)，两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)，净电荷为零。忽略边缘效应时，电荷均匀分布在相对的内表面上，\\(\\sigma=\\dfrac{Q}{A}\\)；每块极板的电荷可看成无限大带电面，板间场由两者的场叠加为 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{Q}{\\varepsilon_0A}\\)，方向由正板指向负板，大小和方向处处相同；板外两场相消为零。板间电势差 \\(V=Ed\\)，故 \\(C=\\dfrac{Q}{V}=\\dfrac{\\varepsilon_0A}{d}\\)，填满电介质时为 \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\)。充电时外力把电荷从一板搬到另一板，克服电势差做功 \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)，这份功等于储存的电场能 \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)。 · A parallel-plate capacitor consists of two parallel, separated conducting plates of area \\(A\\) and separation \\(d\\), carrying equal and opposite charges \\(+Q\\) and \\(-Q\\) with zero net charge. Neglecting fringing, charge is uniformly distributed on the facing inner surfaces with \\(\\sigma=\\dfrac{Q}{A}\\); each plate's charge acts like an infinite charged sheet, and their superposed field between the plates is \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{Q}{\\varepsilon_0A}\\), directed from the positive to the negative plate and constant in both magnitude and direction; outside the plates the two fields cancel to zero. The potential difference is \\(V=Ed\\), so \\(C=\\dfrac{Q}{V}=\\dfrac{\\varepsilon_0A}{d}\\), or \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\) when the gap is filled with a dielectric. Charging moves charge from one plate to the other; the external work against the potential difference is \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\), which equals the stored electric energy \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\).",
+    "intuition": "把平行板电容器想成两个平行的浅水槽，中间只隔一层很薄的绝缘膜。充电就像用泵把水从一槽搬到另一槽：开始时两槽水位相同，很容易搬；随着水位差增大，每搬一点水都要克服更大的水位差，所以总功是“水位差–水量”图上的三角形面积，而不是最后的矩形。板间电场像被拉开的弹簧，储存的能量与场强的平方成正比；电介质像在弹簧之间插入一层会极化的材料，削弱板间场、增大电容。 · Think of a parallel-plate capacitor as two shallow water tanks separated by a thin insulating membrane. Charging is like pumping water from one tank to the other: at first the levels are equal and it is easy, but as the level difference grows, each additional bit of water requires more work, so the total work is the triangular area under the level-difference-versus-charge graph, not the final rectangle. The field between the plates is like a stretched spring, with stored energy proportional to the square of the field; a dielectric is like a polarizable layer inserted between the springs, weakening the field and increasing capacitance.",
+    "intuitionDetailed": "先抓住“两板带等量异号电荷”这一点：电容器不是整体带电的物体，而是把 \\(+Q\\) 和 \\(-Q\\) 分开存放的装置，净电荷为零。把每块极板的内表面电荷看成一层无限大带电面，每层单独产生的场是 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)；在两板之间，两层场的箭头同向，叠加成 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)，所以板间场比单层场强一倍；在两板外侧，两层场的箭头反向，正好抵消。因为每层场的强度与距离无关，叠加后的板间场在大小和方向上都恒定，直到靠近边缘才因场线向外弯曲而破坏。匀强场中电势沿场线线性下降，\\(V=Ed\\)，等势面是一组平行于极板的平面。电容公式不是新的实验定律，而是 \\(C=\\dfrac{Q}{V}\\)、\\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)、\\(V=Ed\\) 的合并结果。充电时，电压随已搬电荷 \\(q\\) 线性增大，所以每一小份 \\(\\mathrm{d}q\\) 要做的功 \\(v\\,\\mathrm{d}q\\) 越来越大；把 \\(\\dfrac{q}{C}\\) 从 0 积到 \\(Q\\) 得到 \\(\\dfrac{Q^{2}}{2C}\\)，这正是 \\(V\\)–\\(q\\) 直线下三角形的面积。若用恒压电池充电，电池提供 \\(QV\\) 的总功，但只有一半进入电容器，另一半在回路电阻中变成热；不要把电池的总功误当成储存能量。插入电介质时，先问“\\(Q\\) 不变还是 \\(V\\) 不变”：孤立时 \\(Q\\) 固定，\\(C\\) 增大使 \\(V\\)、\\(E\\)、\\(U\\) 都减小；接电源时 \\(V\\) 固定，\\(C\\) 增大使 \\(Q\\)、\\(U\\) 增大，而板间 \\(E=\\dfrac{V}{d}\\) 不变。 · Start with the key point that the plates carry equal and opposite charges: a capacitor is not a net-charged object but a device that stores \\(+Q\\) and \\(-Q\\) separately, with zero net charge. Treat each plate's inner-surface charge as an infinite charged sheet; one sheet alone produces \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\). Between the plates the two field arrows point the same way and add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\), so the field is twice that of a single sheet; outside the plates the arrows point in opposite directions and cancel. Because each sheet's field is independent of distance, the superposed field between the plates is constant in both magnitude and direction, until fringing bends the lines near the edges. In a uniform field the potential decreases linearly along the field lines, \\(V=Ed\\), and the equipotentials are planes parallel to the plates. The capacitance formula is not a new law; it combines \\(C=\\dfrac{Q}{V}\\), \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\), and \\(V=Ed\\). During charging the voltage grows linearly with the charge \\(q\\) already moved, so each additional \\(\\mathrm{d}q\\) requires more work \\(v\\,\\mathrm{d}q\\); integrating \\(\\dfrac{q}{C}\\) from 0 to \\(Q\\) gives \\(\\dfrac{Q^{2}}{2C}\\), the triangular area under the \\(V\\)–\\(q\\) line. A constant-voltage battery supplies total work \\(QV\\), but only half enters the capacitor; the other half becomes heat in the circuit resistance, so do not mistake the battery's total work for the stored energy. When a dielectric is inserted, first ask whether \\(Q\\) or \\(V\\) is held fixed: at fixed \\(Q\\), increasing \\(C\\) lowers \\(V\\), \\(E\\), and \\(U\\); at fixed \\(V\\), increasing \\(C\\) raises \\(Q\\) and \\(U\\), while the field \\(E=\\dfrac{V}{d}\\) stays the same.",
+    "formulas": [
+      {
+        "latex": "C=\\dfrac{Q}{V}",
+        "note": "电容定义式，适用于任何电容器；\\(Q\\) 取一个极板电荷量的绝对值。 · Definition of capacitance, valid for any capacitor; \\(Q\\) is the magnitude of the charge on one plate."
+      },
+      {
+        "latex": "C=\\dfrac{\\kappa\\varepsilon_0A}{d}",
+        "note": "平行板电容器，极板面积 \\(A\\)、间距 \\(d\\)，电介质填满极板间。 · Parallel-plate capacitor with plate area \\(A\\), separation \\(d\\), and a dielectric filling the gap."
+      },
+      {
+        "latex": "\\sigma=\\dfrac{Q}{A}",
+        "note": "极板内表面的面电荷密度大小；忽略边缘效应时均匀分布。 · Magnitude of the surface charge density on a plate's inner surface; uniform when fringing is neglected."
+      },
+      {
+        "latex": "E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}",
+        "note": "单层无限大均匀带电面产生的场强；叠加时每块极板贡献这一项。 · Field of a single infinite uniformly charged sheet; each plate contributes this term in the superposition."
+      },
+      {
+        "latex": "E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{Q}{\\varepsilon_0A}",
+        "note": "真空中两板之间的合场强，方向由正板指向负板；孤立（\\(Q\\) 不变）填入 \\(\\kappa\\) 的介质后为 \\(\\dfrac{Q}{\\kappa\\varepsilon_0A}\\)。 · Net field between the plates in vacuum, directed from positive to negative; for an isolated capacitor (fixed \\(Q\\)) with a dielectric of constant \\(\\kappa\\), it becomes \\(\\dfrac{Q}{\\kappa\\varepsilon_0A}\\)."
+      },
+      {
+        "latex": "V=Ed",
+        "note": "匀强场中沿场线方向的电势差；正极板电势高、负极板电势低。 · Potential difference along the field in a uniform field; the positive plate is at higher potential."
+      },
+      {
+        "latex": "W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}",
+        "note": "外力缓慢分离电荷、给电容器充电所做的功；等于 \\(V\\)–\\(q\\) 图下的三角形面积。 · External work to slowly separate charge and charge the capacitor; equal to the triangular area under the \\(V\\)–\\(q\\) graph."
+      },
+      {
+        "latex": "U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}",
+        "note": "电容器储存的电场势能；三种写法在相应变量已知时等价。 · Electric potential energy stored in the capacitor; the three forms are equivalent depending on which variables are known."
+      },
+      {
+        "latex": "u=\\dfrac{1}{2}\\varepsilon_0E^{2},\\qquad U=uAd",
+        "note": "真空中的电场能量密度；线性电介质中 \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\)，板间体积为 \\(Ad\\)。 · Electric-field energy density in vacuum; in a linear dielectric \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\), and the field volume is \\(Ad\\)."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "充电转移电子 · Charging transfers electrons",
+        "to": "两板等量异号 · Equal and opposite plate charges",
+        "note": "电源把电子从一块极板搬到另一块；一块失去 \\(Q\\)、另一块得到 \\(Q\\)，所以两板电荷为 \\(+Q\\) 与 \\(-Q\\)，净电荷为零。 · A battery moves electrons from one plate to the other; one plate loses \\(Q\\) and the other gains \\(Q\\), so the plates carry \\(+Q\\) and \\(-Q\\) with zero net charge."
+      },
+      {
+        "from": "单层带电面 · Single charged sheet",
+        "to": "单层场强 · Field of one sheet",
+        "note": "取跨过带电面的高斯柱，两侧对称，得到 \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\)，方向背离正电荷面。 · Take a Gaussian pillbox crossing the sheet; symmetry gives \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\), pointing away from a positive sheet."
+      },
+      {
+        "from": "叠加 · Superposition",
+        "to": "板间与板外 · Between and outside",
+        "note": "板间两层场同向，\\(E=2\\times\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{\\sigma}{\\varepsilon_0}\\)；板外两层场反向，合场为零。 · Between the plates the two fields are parallel and add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\); outside they are antiparallel and cancel."
+      },
+      {
+        "from": "匀强场 · Uniform field",
+        "to": "电势差 · Potential difference",
+        "note": "沿垂直于极板的路径积分 \\(V=\\int E\\,\\mathrm{d}x=Ed\\)；极板是等势面，等势面平行于极板。 · Integrating along a path perpendicular to the plates gives \\(V=\\int E\\,\\mathrm{d}x=Ed\\); the plates are equipotentials and the equipotential surfaces are parallel to them."
+      },
+      {
+        "from": "定义式 · Definition",
+        "to": "平行板公式 · Parallel-plate formula",
+        "note": "由 \\(C=\\dfrac{Q}{V}\\)、\\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)、\\(V=Ed\\) 消去 \\(Q\\)、\\(\\sigma\\)、\\(E\\)、\\(V\\)，得 \\(C=\\dfrac{\\varepsilon_0A}{d}\\)；有介质时 \\(\\varepsilon_0\\to\\kappa\\varepsilon_0\\)。 · Eliminate \\(Q\\), \\(\\sigma\\), \\(E\\), and \\(V\\) from \\(C=\\dfrac{Q}{V}\\), \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\), and \\(V=Ed\\) to obtain \\(C=\\dfrac{\\varepsilon_0A}{d}\\); with a dielectric replace \\(\\varepsilon_0\\) by \\(\\kappa\\varepsilon_0\\)."
+      },
+      {
+        "from": "充电过程 · Charging process",
+        "to": "功的积分 · Work integral",
+        "note": "某时刻电压 \\(v=\\dfrac{q}{C}\\)，搬 \\(\\mathrm{d}q\\) 做功 \\(\\mathrm{d}W=v\\,\\mathrm{d}q\\)；积分得 \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\)。 · At a given instant \\(v=\\dfrac{q}{C}\\); moving \\(\\mathrm{d}q\\) requires \\(\\mathrm{d}W=v\\,\\mathrm{d}q\\), and integration gives \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\)."
+      },
+      {
+        "from": "电场能量密度 · Field energy density",
+        "to": "与储能一致 · Consistency with stored energy",
+        "note": "把 \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\) 乘以体积 \\(Ad\\)，并用 \\(E=\\dfrac{V}{d}\\) 与 \\(C=\\dfrac{\\varepsilon_0A}{d}\\)，得 \\(U=\\dfrac{1}{2}CV^{2}\\)，与充电功一致。 · Multiply \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\) by the volume \\(Ad\\), then use \\(E=\\dfrac{V}{d}\\) and \\(C=\\dfrac{\\varepsilon_0A}{d}\\) to obtain \\(U=\\dfrac{1}{2}CV^{2}\\), consistent with the charging work."
+      },
+      {
+        "from": "有限极板 · Finite plates",
+        "to": "边缘效应与适用范围 · Fringing and validity",
+        "note": "边缘处场线向外弯曲，中心区域才近似匀强；当 \\(d\\) 远小于极板线度时，边缘区域占比小，\\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) 是好近似，实际电容略大。 · Field lines bulge near the edges, so only the central region is approximately uniform; when \\(d\\) is much smaller than the plate dimensions, the edge region is a small fraction, \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) is a good approximation, and the actual capacitance is slightly larger."
+      }
+    ],
+    "conditions": [
+      "两块极板平行、平整，面积均为 \\(A\\)，间距为 \\(d\\)，且 \\(d\\) 远小于极板的最小线度；观察区域远离边缘，才可忽略边缘效应。 · The two plates are parallel and flat, each of area \\(A\\), separated by \\(d\\) much smaller than the smallest plate dimension; the region of interest is far from the edges so fringing can be neglected.",
+      "电介质填满极板间，且为线性、均匀、各向同性介质，未发生击穿；真空或空气可近似取 \\(\\kappa=1\\)。 · The dielectric fills the gap and is linear, homogeneous, and isotropic, with no breakdown; vacuum or air can be approximated by \\(\\kappa=1\\).",
+      "两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)，净电荷为零；若系统还有净电荷，必须把它与等量异号部分分开处理。 · The plates carry equal and opposite charges \\(+Q\\) and \\(-Q\\) with zero net charge; if the system also has a net charge, it must be treated separately from the equal-and-opposite part.",
+      "极板处于静电平衡：极板内部场强为零，整个极板是等势体，电荷分布在相对的内表面上。 · The plates are in electrostatic equilibrium: the field inside each plate is zero, each plate is an equipotential body, and charge resides on the facing inner surfaces.",
+      "面电荷密度在远离边缘处均匀；若极板形状或间距使电荷分布明显不均匀，就不能把 \\(\\sigma\\) 当作常量。 · The surface charge density is uniform away from the edges; if the plate shape or spacing makes the distribution strongly nonuniform, \\(\\sigma\\) cannot be treated as constant.",
+      "忽略外部电场和其他导体的影响（杂散电容可忽略）；否则板间场不再是两板电荷单独叠加的结果。 · External fields and nearby conductors are negligible (stray capacitance is negligible); otherwise the field is not simply the superposition of the two plates' charges.",
+      "充电过程足够缓慢（准静态），以便用 \\(v=\\dfrac{q}{C}\\) 逐时刻计算功；若用恒压电源快速充电，还要把回路电阻中的焦耳热计入能量账。 · Charging is slow enough (quasistatic) to use \\(v=\\dfrac{q}{C}\\) at each instant; for fast charging from a constant-voltage source, include Joule heating in the circuit resistance in the energy account.",
+      "讨论电场能量密度时，电介质应是线性介质，\\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\) 才成立；铁电体、非线性介质或存在滞回时需用更一般的 \\(u=\\int\\vec E\\cdot\\mathrm{d}\\vec D\\)。 · For the field-energy density \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\), the dielectric should be linear; for ferroelectrics, nonlinear media, or hysteresis, use the more general \\(u=\\int\\vec E\\cdot\\mathrm{d}\\vec D\\)."
+    ],
+    "keyPoints": [
+      "平行板电容器是两块平行、分离的导体极板，两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)，整体净电荷为零。 · A parallel-plate capacitor is two parallel, separated conducting plates carrying equal and opposite charges \\(+Q\\) and \\(-Q\\), with zero net charge overall.",
+      "理想模型中电荷均匀分布在相对的内表面上，\\(\\sigma=\\dfrac{Q}{A}\\)；外表面没有净电荷。 · In the ideal model charge is uniform on the facing inner surfaces, \\(\\sigma=\\dfrac{Q}{A}\\); the outer surfaces carry no net charge.",
+      "单层带电面产生 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)；板间两层场同向叠加为 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)，板外两层场反向相消为零。 · One sheet produces \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\); between the plates the two fields add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\), while outside they cancel to zero.",
+      "板间是匀强电场：大小和方向处处相同，场线平行、等距、垂直于极板，方向由正板指向负板。 · The field between the plates is uniform: same magnitude and direction everywhere, with parallel, equally spaced field lines perpendicular to the plates, directed from positive to negative.",
+      "匀强场中 \\(V=Ed\\)；极板是等势面，等势面平行于极板，电势沿场线线性降低。 · In the uniform field \\(V=Ed\\); the plates are equipotentials, equipotential surfaces are parallel to the plates, and potential decreases linearly along the field.",
+      "\\(C=\\dfrac{Q}{V}=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) 只由几何与电介质决定，与 \\(Q\\)、\\(V\\) 无关。 · \\(C=\\dfrac{Q}{V}=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) is set only by geometry and the dielectric, independent of \\(Q\\) and \\(V\\).",
+      "充电功 \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)，等于储存能量 \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}\\)。 · Charging work \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\) equals the stored energy \\(U=\\dfrac{1}{2}QV=\\dfrac{1}{2}CV^{2}\\).",
+      "\\(V\\)–\\(q\\) 图是过原点的直线，面积 \\(\\dfrac{1}{2}QV\\) 是储能；矩形 \\(QV\\) 是恒压电源提供的总功，不是储能。 · The \\(V\\)–\\(q\\) graph is a straight line through the origin; the area \\(\\dfrac{1}{2}QV\\) is the stored energy, while the rectangle \\(QV\\) is the total work supplied by a constant-voltage source, not the stored energy.",
+      "能量也可写成 \\(U=uAd\\)，真空中 \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\)，线性电介质中 \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\)。 · Energy can also be written \\(U=uAd\\), with \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\) in vacuum and \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\) in a linear dielectric.",
+      "边缘效应使有限极板边缘处场线弯曲、场不再均匀，实际电容略大于理想公式；\\(d\\) 远小于极板线度时误差才小。 · Fringing bends the field lines near the edges of finite plates and makes the field nonuniform, so the actual capacitance is slightly larger than the ideal formula; the error is small only when \\(d\\) is much smaller than the plate dimensions.",
+      "插入介质先问 \\(Q\\) 还是 \\(V\\) 不变：孤立时 \\(Q\\) 固定，\\(V\\)、\\(E\\)、\\(U\\) 减小；接电源时 \\(V\\) 固定，\\(Q\\)、\\(U\\) 增大而 \\(E=\\dfrac{V}{d}\\) 不变。 · When inserting a dielectric, first ask whether \\(Q\\) or \\(V\\) is fixed: at fixed \\(Q\\), \\(V\\), \\(E\\), and \\(U\\) decrease; at fixed \\(V\\), \\(Q\\) and \\(U\\) increase while \\(E=\\dfrac{V}{d}\\) stays the same."
+    ],
+    "misconceptions": [
+      "说“电容器整体带电”；电容器储存的是等量异号的分离电荷，整体净电荷为零。 · Saying “the capacitor is charged as a whole”; a capacitor stores equal and opposite separated charges and has zero net charge overall.",
+      "认为电容 \\(C\\) 随所带电荷 \\(Q\\) 或电压 \\(V\\) 改变；对于给定几何和电介质，\\(C\\) 是常量。 · Thinking \\(C\\) changes with the stored charge \\(Q\\) or voltage \\(V\\); for fixed geometry and dielectric, \\(C\\) is constant.",
+      "把板间场强写成 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)，只算了一块极板的场；两块极板的场同向叠加，总场是 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)。 · Writing the field between the plates as \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\) and counting only one plate; the two plates' fields add in the same direction to give \\(\\dfrac{\\sigma}{\\varepsilon_0}\\).",
+      "认为板外场强与板间相同；理想等量异号平行板外侧两层场相消为零（有限极板边缘附近除外）。 · Thinking the field outside the plates equals the field inside; for ideal equal-and-opposite plates the two outside fields cancel to zero (except near the edges of finite plates).",
+      "认为板间场在所有位置都严格匀强，包括边缘；边缘处场线弯曲，匀强场只是远离边缘的近似。 · Thinking the field is strictly uniform everywhere, including the edges; field lines bend there, and uniformity is only an approximation away from the edges.",
+      "把储存能量写成 \\(QV\\)；正确的储能是 \\(\\dfrac{1}{2}QV\\)，\\(QV\\) 是恒压电源提供的总功。 · Writing the stored energy as \\(QV\\); the correct value is \\(\\dfrac{1}{2}QV\\), while \\(QV\\) is the total work supplied by a constant-voltage source.",
+      "认为充电时电场力做正功；电场力阻碍电荷分离，做负功，外力做正功，电势能增加。 · Thinking the field does positive work during charging; the field opposes charge separation and does negative work, while the external agent does positive work and the potential energy increases.",
+      "认为插入电介质一定使储能增加；只有接电源（\\(V\\) 不变）时才增加，孤立（\\(Q\\) 不变）时储能减小。 · Thinking inserting a dielectric always increases the stored energy; it increases only at fixed \\(V\\) (battery connected) and decreases at fixed \\(Q\\) (isolated).",
+      "认为插入电介质一定使板间场强减小；孤立时 \\(E\\) 减小为 \\(\\dfrac{1}{\\kappa}\\)，接电源时 \\(E=\\dfrac{V}{d}\\) 不变。 · Thinking a dielectric always reduces the field between the plates; at fixed \\(Q\\) the field drops by \\(\\kappa\\), but at fixed \\(V\\) the field \\(E=\\dfrac{V}{d}\\) is unchanged.",
+      "认为电荷平均分布在极板的内外两个表面；理想平行板模型中，等量异号电荷集中在相对的内表面，外表面没有净电荷。 · Thinking charge is spread equally over both the inner and outer surfaces; in the ideal parallel-plate model the equal-and-opposite charge resides on the facing inner surfaces, leaving no net charge outside.",
+      "把 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) 当成所有电容器的公式；它只适用于平行板电容器，其他形状要用定义式或相应几何公式。 · Treating \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) as universal; it applies only to a parallel-plate capacitor, while other shapes need the definition or their own geometric formula.",
+      "认为电池做的功全部变成电容器的储能；恒压充电时电池做功 \\(QV\\)，储能只有 \\(\\dfrac{1}{2}QV\\)，另一半在回路中耗散。 · Thinking all of a battery's work becomes stored energy; during constant-voltage charging the battery does \\(QV\\), only \\(\\dfrac{1}{2}QV\\) is stored, and the rest is dissipated in the circuit."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 平行板几何与等量异号电荷 · Example 1: Parallel-plate geometry and equal-and-opposite charge",
+        "prompt": "一个平行板电容器极板面积 \\(A=0.020\\,\\mathrm{m^{2}}\\)、间距 \\(d=0.50\\,\\mathrm{mm}\\)，极板间为空气。接在 \\(V=12\\,\\mathrm{V}\\) 的电源上。求电容 \\(C\\)、每板电荷量 \\(Q\\)、面电荷密度 \\(\\sigma\\) 与板间场强 \\(E\\)，并说明两板电荷的关系。 · A parallel-plate capacitor has plate area \\(A=0.020\\,\\mathrm{m^{2}}\\), separation \\(d=0.50\\,\\mathrm{mm}\\), and air between the plates. It is connected to a \\(12\\,\\mathrm{V}\\) source. Find the capacitance, the charge magnitude on each plate, the surface charge density, and the field between the plates, and describe the relation between the two plate charges.",
+        "steps": [
+          "空气近似 \\(\\kappa=1\\)，\\(C=\\dfrac{\\varepsilon_0A}{d}=\\dfrac{(8.85\\times10^{-12})(0.020)}{5.0\\times10^{-4}}=3.54\\times10^{-10}\\,\\mathrm{F}\\)，约 \\(354\\,\\mathrm{pF}\\)。 · With air, \\(\\kappa\\approx1\\), so \\(C=\\dfrac{\\varepsilon_0A}{d}=\\dfrac{(8.85\\times10^{-12})(0.020)}{5.0\\times10^{-4}}=3.54\\times10^{-10}\\,\\mathrm{F}\\), about \\(354\\,\\mathrm{pF}\\).",
+          "每板电荷量 \\(Q=CV=(3.54\\times10^{-10})(12)=4.25\\times10^{-9}\\,\\mathrm{C}\\)，约 \\(4.2\\,\\mathrm{nC}\\)。 · The charge magnitude on each plate is \\(Q=CV=(3.54\\times10^{-10})(12)=4.25\\times10^{-9}\\,\\mathrm{C}\\), about \\(4.2\\,\\mathrm{nC}\\).",
+          "两板带等量异号电荷：一板 \\(+4.2\\,\\mathrm{nC}\\)，另一板 \\(-4.2\\,\\mathrm{nC}\\)，净电荷为零；充电时电源把 \\(4.2\\,\\mathrm{nC}\\) 的电子从正极板搬到负极板。 · The plates carry equal and opposite charges: \\(+4.2\\,\\mathrm{nC}\\) on one and \\(-4.2\\,\\mathrm{nC}\\) on the other, with zero net charge; charging moved \\(4.2\\,\\mathrm{nC}\\) of electron charge from the positive plate to the negative plate.",
+          "面电荷密度 \\(\\sigma=\\dfrac{Q}{A}=\\dfrac{4.25\\times10^{-9}}{0.020}=2.12\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)。 · The surface charge density is \\(\\sigma=\\dfrac{Q}{A}=\\dfrac{4.25\\times10^{-9}}{0.020}=2.12\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\).",
+          "板间场强 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{2.12\\times10^{-7}}{8.85\\times10^{-12}}=2.4\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)；用 \\(E=\\dfrac{V}{d}=\\dfrac{12}{5.0\\times10^{-4}}\\) 检查，结果相同。 · The field is \\(E=\\dfrac{\\sigma}{\\varepsilon_0}=\\dfrac{2.12\\times10^{-7}}{8.85\\times10^{-12}}=2.4\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\); the check \\(E=\\dfrac{V}{d}=\\dfrac{12}{5.0\\times10^{-4}}\\) gives the same value."
+        ],
+        "solution": "\\(C\\approx3.5\\times10^{-10}\\,\\mathrm{F}\\)，\\(Q\\approx4.2\\,\\mathrm{nC}\\)，\\(\\sigma\\approx2.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)，\\(E\\approx2.4\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)；两板带等量异号电荷，净电荷为零。 · \\(C\\approx3.5\\times10^{-10}\\,\\mathrm{F}\\), \\(Q\\approx4.2\\,\\mathrm{nC}\\), \\(\\sigma\\approx2.1\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\), and \\(E\\approx2.4\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\); the plates carry equal and opposite charges with zero net charge.",
+        "solutionLatex": "C=\\dfrac{\\varepsilon_0A}{d}=3.54\\times10^{-10}\\,\\mathrm{F},\\qquad Q=CV=4.25\\times10^{-9}\\,\\mathrm{C},\\qquad E=\\dfrac{V}{d}=2.4\\times10^{4}\\,\\mathrm{V\\,m^{-1}}"
+      },
+      {
+        "title": "例 2 · 两无限大带电面的场叠加 · Example 2: Superposition of two infinite charged sheets",
+        "prompt": "两块无限大平行平板分别带面电荷密度 \\(+\\sigma\\) 和 \\(-\\sigma\\)，\\(\\sigma=2.0\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\)，间距 \\(d=1.0\\,\\mathrm{mm}\\)。求两板之间和两板外侧的合场强，并求两板间的电势差。 · Two infinite parallel sheets carry surface charge densities \\(+\\sigma\\) and \\(-\\sigma\\), with \\(\\sigma=2.0\\times10^{-7}\\,\\mathrm{C\\,m^{-2}}\\), separated by \\(d=1.0\\,\\mathrm{mm}\\). Find the net field between the sheets, outside them, and the potential difference between them.",
+        "steps": [
+          "单层带电面的场强 \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{2.0\\times10^{-7}}{2(8.85\\times10^{-12})}=1.13\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)。 · Each sheet alone produces \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}=\\dfrac{2.0\\times10^{-7}}{2(8.85\\times10^{-12})}=1.13\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\).",
+          "两板之间：正板场指向负板，负板场也指向负板，方向相同，故 \\(E=2E_{\\mathrm{sheet}}=2.26\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)，方向由正板指向负板。 · Between the plates both fields point toward the negative plate, so they add: \\(E=2E_{\\mathrm{sheet}}=2.26\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\), directed from positive to negative.",
+          "两板外侧：正板场背离正板，负板场指向负板，两者方向相反、大小相等，合场为零。 · Outside the plates the positive sheet's field points away from it, while the negative sheet's field points toward it; the two are equal and opposite, so the net field is zero.",
+          "电势差 \\(V=Ed=(2.26\\times10^{4})(1.0\\times10^{-3})=22.6\\,\\mathrm{V}\\)，正板电势高。 · The potential difference is \\(V=Ed=(2.26\\times10^{4})(1.0\\times10^{-3})=22.6\\,\\mathrm{V}\\), with the positive plate at higher potential."
+        ],
+        "solution": "板间 \\(E\\approx2.3\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\)，方向由正板指向负板；板外 \\(E=0\\)；\\(V\\approx23\\,\\mathrm{V}\\)。 · Between the plates, \\(E\\approx2.3\\times10^{4}\\,\\mathrm{V\\,m^{-1}}\\) from positive to negative; outside, \\(E=0\\); \\(V\\approx23\\,\\mathrm{V}\\).",
+        "solutionLatex": "E_{\\mathrm{between}}=2\\left(\\dfrac{\\sigma}{2\\varepsilon_0}\\right)=\\dfrac{\\sigma}{\\varepsilon_0}=2.26\\times10^{4}\\,\\mathrm{V\\,m^{-1}},\\qquad E_{\\mathrm{outside}}=0,\\qquad V=Ed=22.6\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 3 · 孤立电容器插入电介质 · Example 3: Inserting a dielectric into an isolated capacitor",
+        "prompt": "一个 \\(C_0=100\\,\\mathrm{pF}\\) 的空气电容器充电到 \\(V_0=12\\,\\mathrm{V}\\) 后与电源断开，然后插入 \\(\\kappa=3.0\\) 的电介质填满极板间。求 \\(Q\\)、\\(C\\)、\\(V\\)、板间场强之比与储能 \\(U\\)。 · An air capacitor with \\(C_0=100\\,\\mathrm{pF}\\) is charged to \\(V_0=12\\,\\mathrm{V}\\), disconnected from the source, and then filled with a dielectric of \\(\\kappa=3.0\\). Find \\(Q\\), \\(C\\), \\(V\\), the field ratio, and the stored energy \\(U\\).",
+        "steps": [
+          "断开后 \\(Q\\) 不变：\\(Q=C_0V_0=(1.00\\times10^{-10})(12)=1.2\\times10^{-9}\\,\\mathrm{C}\\)。 · After disconnecting, \\(Q\\) is fixed: \\(Q=C_0V_0=(1.00\\times10^{-10})(12)=1.2\\times10^{-9}\\,\\mathrm{C}\\).",
+          "插入介质后 \\(C=\\kappa C_0=3.0(100\\,\\mathrm{pF})=300\\,\\mathrm{pF}\\)。 · With the dielectric, \\(C=\\kappa C_0=3.0(100\\,\\mathrm{pF})=300\\,\\mathrm{pF}\\).",
+          "电压 \\(V=\\dfrac{Q}{C}=\\dfrac{1.2\\times10^{-9}}{3.00\\times10^{-10}}=4.0\\,\\mathrm{V}\\)，是原来的 \\(\\dfrac{1}{3}\\)。 · The voltage is \\(V=\\dfrac{Q}{C}=\\dfrac{1.2\\times10^{-9}}{3.00\\times10^{-10}}=4.0\\,\\mathrm{V}\\), one third of the original.",
+          "场强 \\(E=\\dfrac{V}{d}\\)，故 \\(\\dfrac{E}{E_0}=\\dfrac{1}{3}\\)；也可由 \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\) 直接看出减小为 \\(\\dfrac{1}{\\kappa}\\)。 · Since \\(E=\\dfrac{V}{d}\\), the field ratio is \\(\\dfrac{1}{3}\\); equivalently \\(E=\\dfrac{Q}{\\kappa\\varepsilon_0A}\\) shows the reduction by \\(\\kappa\\).",
+          "储能 \\(U=\\dfrac{Q^{2}}{2C}=\\dfrac{(1.2\\times10^{-9})^{2}}{2(3.00\\times10^{-10})}=2.4\\times10^{-9}\\,\\mathrm{J}\\)，是原来的 \\(\\dfrac{1}{3}\\)。 · The stored energy is \\(U=\\dfrac{Q^{2}}{2C}=\\dfrac{(1.2\\times10^{-9})^{2}}{2(3.00\\times10^{-10})}=2.4\\times10^{-9}\\,\\mathrm{J}\\), one third of the original."
+        ],
+        "solution": "\\(Q=1.2\\,\\mathrm{nC}\\) 不变，\\(C=300\\,\\mathrm{pF}\\)，\\(V=4.0\\,\\mathrm{V}\\)，\\(E\\) 与 \\(U\\) 都减小为原来的 \\(\\dfrac{1}{3}\\)。 · \\(Q=1.2\\,\\mathrm{nC}\\) stays fixed, \\(C=300\\,\\mathrm{pF}\\), \\(V=4.0\\,\\mathrm{V}\\), and both \\(E\\) and \\(U\\) drop to one third of their original values.",
+        "solutionLatex": "Q=1.2\\times10^{-9}\\,\\mathrm{C},\\qquad C=300\\,\\mathrm{pF},\\qquad V=4.0\\,\\mathrm{V},\\qquad \\dfrac{U}{U_0}=\\dfrac{1}{3}"
+      },
+      {
+        "title": "例 4 · 充电功与电池的能量账 · Example 4: Charging work and the battery energy account",
+        "prompt": "一个 \\(C=470\\,\\mu\\mathrm{F}\\) 的电容器由 \\(V=9.0\\,\\mathrm{V}\\) 的恒压电源从零充到满。求电荷量 \\(Q\\)、储能 \\(U\\)、外力可逆分离电荷所做的功、电源做的总功，以及回路中耗散的能量。 · A \\(470\\,\\mu\\mathrm{F}\\) capacitor is charged from zero to \\(9.0\\,\\mathrm{V}\\) by a constant-voltage source. Find the charge \\(Q\\), the stored energy \\(U\\), the reversible work done by an external agent to separate the charge, the total work done by the source, and the energy dissipated in the circuit.",
+        "steps": [
+          "\\(Q=CV=(470\\times10^{-6})(9.0)=4.23\\times10^{-3}\\,\\mathrm{C}\\)。 · \\(Q=CV=(470\\times10^{-6})(9.0)=4.23\\times10^{-3}\\,\\mathrm{C}\\).",
+          "储能 \\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}(470\\times10^{-6})(9.0)^{2}=1.90\\times10^{-2}\\,\\mathrm{J}\\)。 · Stored energy \\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}(470\\times10^{-6})(9.0)^{2}=1.90\\times10^{-2}\\,\\mathrm{J}\\).",
+          "外力可逆地把电荷从一板搬到另一板，克服电势差做功 \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}=U=1.90\\times10^{-2}\\,\\mathrm{J}\\)。 · Reversibly moving charge from one plate to the other, the external agent does \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}=U=1.90\\times10^{-2}\\,\\mathrm{J}\\).",
+          "恒压电源做的总功 \\(W_{\\mathrm{battery}}=QV=(4.23\\times10^{-3})(9.0)=3.81\\times10^{-2}\\,\\mathrm{J}\\)。 · The constant-voltage source does total work \\(W_{\\mathrm{battery}}=QV=(4.23\\times10^{-3})(9.0)=3.81\\times10^{-2}\\,\\mathrm{J}\\).",
+          "耗散能量 \\(W_{\\mathrm{battery}}-U=1.90\\times10^{-2}\\,\\mathrm{J}\\)，正好是电源总功的一半，在充电回路的电阻中变为热。 · The dissipated energy is \\(W_{\\mathrm{battery}}-U=1.90\\times10^{-2}\\,\\mathrm{J}\\), exactly half the source's total work, appearing as heat in the circuit resistance."
+        ],
+        "solution": "\\(Q\\approx4.2\\times10^{-3}\\,\\mathrm{C}\\)，\\(U\\approx1.9\\times10^{-2}\\,\\mathrm{J}\\)；外力可逆做功也是 \\(1.9\\times10^{-2}\\,\\mathrm{J}\\)；电源总功 \\(3.8\\times10^{-2}\\,\\mathrm{J}\\)，其中一半储存、一半耗散。 · \\(Q\\approx4.2\\times10^{-3}\\,\\mathrm{C}\\), \\(U\\approx1.9\\times10^{-2}\\,\\mathrm{J}\\); the reversible external work is also \\(1.9\\times10^{-2}\\,\\mathrm{J}\\); the source does \\(3.8\\times10^{-2}\\,\\mathrm{J}\\), half stored and half dissipated.",
+        "solutionLatex": "U=\\dfrac{1}{2}CV^{2}=1.90\\times10^{-2}\\,\\mathrm{J},\\qquad W_{\\mathrm{battery}}=QV=3.81\\times10^{-2}\\,\\mathrm{J},\\qquad W_{\\mathrm{diss}}=1.90\\times10^{-2}\\,\\mathrm{J}"
+      },
+      {
+        "title": "例 5 · 几何变化、比例推理与边缘效应 · Example 5: Geometry change, proportional reasoning, and fringing",
+        "prompt": "一个空气平行板电容器由边长 \\(L=0.10\\,\\mathrm{m}\\) 的正方形极板和间距 \\(d=2.0\\,\\mathrm{mm}\\) 组成。求 \\(C_0\\)。若把间距减半并填入 \\(\\kappa=4.0\\) 的介质，求新的 \\(C\\)。若电容器孤立且原电压为 \\(V_0\\)，求新电压与储能之比。最后判断 \\(d\\ll L\\) 的近似是否合理，并说明边缘效应使实际值偏大还是偏小。 · An air parallel-plate capacitor has square plates of side \\(L=0.10\\,\\mathrm{m}\\) separated by \\(d=2.0\\,\\mathrm{mm}\\). Find \\(C_0\\). If the separation is halved and a dielectric of \\(\\kappa=4.0\\) fills the gap, find the new \\(C\\). For an isolated capacitor initially at \\(V_0\\), find the new voltage and the energy ratio. Finally, judge whether \\(d\\ll L\\) is a reasonable approximation and state whether fringing makes the actual value larger or smaller.",
+        "steps": [
+          "\\(A=L^{2}=1.0\\times10^{-2}\\,\\mathrm{m^{2}}\\)，\\(C_0=\\dfrac{\\varepsilon_0A}{d}=\\dfrac{(8.85\\times10^{-12})(1.0\\times10^{-2})}{2.0\\times10^{-3}}=4.4\\times10^{-11}\\,\\mathrm{F}\\)，约 \\(44\\,\\mathrm{pF}\\)。 · \\(A=L^{2}=1.0\\times10^{-2}\\,\\mathrm{m^{2}}\\), so \\(C_0=\\dfrac{\\varepsilon_0A}{d}=\\dfrac{(8.85\\times10^{-12})(1.0\\times10^{-2})}{2.0\\times10^{-3}}=4.4\\times10^{-11}\\,\\mathrm{F}\\), about \\(44\\,\\mathrm{pF}\\).",
+          "间距减半使 \\(C\\) 变为 2 倍，填入 \\(\\kappa=4.0\\) 再变为 4 倍，所以 \\(C=8C_0=3.5\\times10^{-10}\\,\\mathrm{F}\\)，约 \\(350\\,\\mathrm{pF}\\)。 · Halving the separation doubles \\(C\\), and the dielectric multiplies it by 4, so \\(C=8C_0=3.5\\times10^{-10}\\,\\mathrm{F}\\), about \\(350\\,\\mathrm{pF}\\).",
+          "孤立时 \\(Q\\) 不变，\\(V=\\dfrac{Q}{C}\\)，故 \\(V=\\dfrac{V_0}{8}\\)；\\(U=\\dfrac{Q^{2}}{2C}\\)，故 \\(U=\\dfrac{U_0}{8}\\)。 · For an isolated capacitor \\(Q\\) is fixed, so \\(V=\\dfrac{Q}{C}=\\dfrac{V_0}{8}\\) and \\(U=\\dfrac{Q^{2}}{2C}=\\dfrac{U_0}{8}\\).",
+          "\\(d=2.0\\,\\mathrm{mm}\\)，\\(L=0.10\\,\\mathrm{m}\\)，\\(\\dfrac{d}{L}=0.020\\ll1\\)，中心区域近似匀强，平行板公式合理；但边缘处场线外弯，实际电容略大于 \\(350\\,\\mathrm{pF}\\)。 · With \\(d=2.0\\,\\mathrm{mm}\\) and \\(L=0.10\\,\\mathrm{m}\\), \\(\\dfrac{d}{L}=0.020\\ll1\\), so the central field is approximately uniform and the parallel-plate formula is reasonable; near the edges, however, field lines bulge outward and the actual capacitance is slightly larger than \\(350\\,\\mathrm{pF}\\)."
+        ],
+        "solution": "\\(C_0\\approx44\\,\\mathrm{pF}\\)，\\(C\\approx3.5\\times10^{-10}\\,\\mathrm{F}=8C_0\\)；孤立时 \\(V=\\dfrac{V_0}{8}\\)、\\(U=\\dfrac{U_0}{8}\\)；\\(\\dfrac{d}{L}=0.020\\)，近似合理，边缘效应使实际电容略偏大。 · \\(C_0\\approx44\\,\\mathrm{pF}\\) and \\(C\\approx3.5\\times10^{-10}\\,\\mathrm{F}=8C_0\\); for the isolated capacitor \\(V=\\dfrac{V_0}{8}\\) and \\(U=\\dfrac{U_0}{8}\\); \\(\\dfrac{d}{L}=0.020\\), so the approximation is reasonable and fringing makes the actual capacitance slightly larger.",
+        "solutionLatex": "C_0=\\dfrac{\\varepsilon_0L^{2}}{d}=4.4\\times10^{-11}\\,\\mathrm{F},\\qquad C=8C_0=3.5\\times10^{-10}\\,\\mathrm{F},\\qquad V=\\dfrac{V_0}{8},\\qquad U=\\dfrac{U_0}{8}"
+      }
+    ],
+    "examTips": [
+      "先写清两板带等量异号电荷 \\(+Q\\) 与 \\(-Q\\)、净电荷为零；不要把电容器说成“整体带电”。 · Start by stating that the plates carry equal and opposite charges \\(+Q\\) and \\(-Q\\) with zero net charge; never describe the capacitor as “charged as a whole.”",
+      "求板间场强时用叠加：单层 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)，两层同向叠加为 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)；不要漏掉另一块极板。 · For the field between the plates use superposition: one sheet gives \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\), and the two add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\); do not omit the other plate.",
+      "板外场为零只对理想等量异号无限大平板成立；有限极板边缘有边缘场，远处接近偶极场。 · The zero field outside holds only for ideal equal-and-opposite infinite plates; finite plates have fringing near the edges and a dipole-like field far away.",
+      "用 \\(E=\\dfrac{V}{d}\\) 时确认处于匀强区域；方向由正板指向负板，电势沿场线降低。 · Use \\(E=\\dfrac{V}{d}\\) only in the uniform region; the field points from positive to negative, and potential decreases along it.",
+      "电容公式 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) 只适用于平行板；\\(C\\) 由几何与介质决定，与 \\(Q\\)、\\(V\\) 无关。 · The formula \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) applies only to a parallel-plate capacitor; \\(C\\) is set by geometry and dielectric, not by \\(Q\\) or \\(V\\).",
+      "充电功是 \\(V\\)–\\(q\\) 图下的三角形面积 \\(\\dfrac{1}{2}QV\\)；恒压电池总功是矩形 \\(QV\\)，两者不要混淆。 · The charging work is the triangular area \\(\\dfrac{1}{2}QV\\) under the \\(V\\)–\\(q\\) graph; a constant-voltage battery supplies the rectangular work \\(QV\\). Do not confuse the two.",
+      "插入介质先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）”，再决定 \\(E\\)、\\(V\\)、\\(U\\) 的变化方向。 · When a dielectric is inserted, first decide “isolated (fixed \\(Q\\))” or “battery-connected (fixed \\(V\\))”, then determine how \\(E\\), \\(V\\), and \\(U\\) change.",
+      "检查单位与量纲：\\(\\mathrm{F}=\\mathrm{C\\,V^{-1}}\\)，\\(\\sigma\\) 用 \\(\\mathrm{C\\,m^{-2}}\\)，\\(E\\) 用 \\(\\mathrm{V\\,m^{-1}}\\) 或 \\(\\mathrm{N\\,C^{-1}}\\)，\\(U\\) 用 \\(\\mathrm{J}\\)。 · Check units and dimensions: \\(\\mathrm{F}=\\mathrm{C\\,V^{-1}}\\), \\(\\sigma\\) in \\(\\mathrm{C\\,m^{-2}}\\), \\(E\\) in \\(\\mathrm{V\\,m^{-1}}\\) or \\(\\mathrm{N\\,C^{-1}}\\), and \\(U\\) in \\(\\mathrm{J}\\)."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u10",
+        "code": "10.3",
+        "title": "电容器 · Capacitors",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u10",
+        "code": "10.4",
+        "title": "电介质 · Dielectrics",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u9",
+        "code": "9.1",
+        "title": "电势能 · Electric Potential Energy",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u9",
+        "code": "9.2",
+        "title": "电势 · Electric Potential",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.5",
+        "title": "高斯定律 · Gauss's Law",
+        "relation": "方法类比 · method analogy"
+      }
+    ],
+    "modules": [
+      {
+        "id": "capacitor",
+        "title": "平行板电容器"
+      }
+    ],
+    "practiceHref": "#/em/practice/em-u10",
+    "connections": [
+      "上游：10.3 给出电容定义与平行板公式；9.1 的电势能和 9.2 的电势差给出“功—能”语言；8.5 的高斯定律用来求单层带电面的场。 · Upstream: 10.3 supplies the definition of capacitance and the parallel-plate formula; electric potential energy in 9.1 and potential difference in 9.2 provide the work–energy language; Gauss's law in 8.5 gives the field of a single charged sheet.",
+      "下游：10.4 用电介质极化解释 \\(\\kappa\\) 与场强减弱；11.8 的 RC 电路用本节储能与电压关系描述充放电；13.x 的电场能量与电磁波也沿用 \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\)。 · Downstream: 10.4 explains \\(\\kappa\\) and field reduction through dielectric polarization; RC circuits in 11.8 use the stored energy and voltage relations from this topic; electric-field energy and electromagnetic waves later reuse \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\).",
+      "数学：场的叠加、沿场线的线积分 \\(V=\\int E\\,\\mathrm{d}x\\)、\\(V\\)–\\(q\\) 图面积与能量密度的体积分 \\(U=\\int u\\,\\mathrm{d}V\\)。 · Mathematics: superposition of fields, the line integral \\(V=\\int E\\,\\mathrm{d}x\\) along a field line, the area under a \\(V\\)–\\(q\\) graph, and the volume integral \\(U=\\int u\\,\\mathrm{d}V\\) of energy density.",
+      "跨学科与应用：相机闪光灯、除颤器、超级电容器和 MEMS 传感器都利用平行板电容储能；生物膜的薄绝缘层也可用平行板模型估算膜电容。 · Cross-disciplinary and applications: camera flashes, defibrillators, supercapacitors, and MEMS sensors all use parallel-plate energy storage; the thin insulating bilayer of a biological membrane can also be modeled as a parallel-plate capacitor to estimate membrane capacitance."
+    ],
+    "intuitionDetailed": "先抓住“两板带等量异号电荷”这一点：电容器不是整体带电的物体，而是把 \\(+Q\\) 和 \\(-Q\\) 分开存放的装置，净电荷为零。把每块极板的内表面电荷看成一层无限大带电面，每层单独产生的场是 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)；在两板之间，两层场的箭头同向，叠加成 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)，所以板间场比单层场强一倍；在两板外侧，两层场的箭头反向，正好抵消。因为每层场的强度与距离无关，叠加后的板间场在大小和方向上都恒定，直到靠近边缘才因场线向外弯曲而破坏。匀强场中电势沿场线线性下降，\\(V=Ed\\)，等势面是一组平行于极板的平面。电容公式不是新的实验定律，而是 \\(C=\\dfrac{Q}{V}\\)、\\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)、\\(V=Ed\\) 的合并结果。充电时，电压随已搬电荷 \\(q\\) 线性增大，所以每一小份 \\(\\mathrm{d}q\\) 要做的功 \\(v\\,\\mathrm{d}q\\) 越来越大；把 \\(\\dfrac{q}{C}\\) 从 0 积到 \\(Q\\) 得到 \\(\\dfrac{Q^{2}}{2C}\\)，这正是 \\(V\\)–\\(q\\) 直线下三角形的面积。若用恒压电池充电，电池提供 \\(QV\\) 的总功，但只有一半进入电容器，另一半在回路电阻中变成热；不要把电池的总功误当成储存能量。插入电介质时，先问“\\(Q\\) 不变还是 \\(V\\) 不变”：孤立时 \\(Q\\) 固定，\\(C\\) 增大使 \\(V\\)、\\(E\\)、\\(U\\) 都减小；接电源时 \\(V\\) 固定，\\(C\\) 增大使 \\(Q\\)、\\(U\\) 增大，而板间 \\(E=\\dfrac{V}{d}\\) 不变。 · Start with the key point that the plates carry equal and opposite charges: a capacitor is not a net-charged object but a device that stores \\(+Q\\) and \\(-Q\\) separately, with zero net charge. Treat each plate's inner-surface charge as an infinite charged sheet; one sheet alone produces \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\). Between the plates the two field arrows point the same way and add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\), so the field is twice that of a single sheet; outside the plates the arrows point in opposite directions and cancel. Because each sheet's field is independent of distance, the superposed field between the plates is constant in both magnitude and direction, until fringing bends the lines near the edges. In a uniform field the potential decreases linearly along the field lines, \\(V=Ed\\), and the equipotentials are planes parallel to the plates. The capacitance formula is not a new law; it combines \\(C=\\dfrac{Q}{V}\\), \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\), and \\(V=Ed\\). During charging the voltage grows linearly with the charge \\(q\\) already moved, so each additional \\(\\mathrm{d}q\\) requires more work \\(v\\,\\mathrm{d}q\\); integrating \\(\\dfrac{q}{C}\\) from 0 to \\(Q\\) gives \\(\\dfrac{Q^{2}}{2C}\\), the triangular area under the \\(V\\)–\\(q\\) line. A constant-voltage battery supplies total work \\(QV\\), but only half enters the capacitor; the other half becomes heat in the circuit resistance, so do not mistake the battery's total work for the stored energy. When a dielectric is inserted, first ask whether \\(Q\\) or \\(V\\) is held fixed: at fixed \\(Q\\), increasing \\(C\\) lowers \\(V\\), \\(E\\), and \\(U\\); at fixed \\(V\\), increasing \\(C\\) raises \\(Q\\) and \\(U\\), while the field \\(E=\\dfrac{V}{d}\\) stays the same.",
+    "development": [
+      "从两块中性极板开始，用电源把电子从一板搬到另一板，得到 \\(+Q\\) 与 \\(-Q\\)，强调净电荷为零。 · Start with two neutral plates and use a source to move electrons from one to the other, producing \\(+Q\\) and \\(-Q\\) while emphasizing zero net charge.",
+      "把每块极板的内表面看成无限大带电面，用高斯定律得到 \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\)。 · Model each inner surface as an infinite charged sheet and use Gauss's law to obtain \\(E_{\\mathrm{sheet}}=\\dfrac{\\sigma}{2\\varepsilon_0}\\).",
+      "叠加两层场：板间同向相加得 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\)，板外反向相消为零；说明板间场是匀强场。 · Superpose the two fields: between the plates they add to \\(\\dfrac{\\sigma}{\\varepsilon_0}\\), while outside they cancel to zero; conclude that the field between the plates is uniform.",
+      "沿垂直极板的路径积分得到 \\(V=Ed\\)，并画出平行于极板的等势面。 · Integrate along a path perpendicular to the plates to obtain \\(V=Ed\\), and sketch the equipotential surfaces parallel to the plates.",
+      "由 \\(C=\\dfrac{Q}{V}\\)、\\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)、\\(V=Ed\\) 推出 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)，并讨论 \\(d\\ll L\\) 与边缘效应。 · Derive \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) from the four relations, and discuss \\(d\\ll L\\) and fringing.",
+      "从 \\(v=\\dfrac{q}{C}\\) 出发积分充电功，得到 \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\)，用 \\(V\\)–\\(q\\) 图面积解释 \\(\\dfrac{1}{2}QV\\)。 · Integrate the charging work from \\(v=\\dfrac{q}{C}\\) to obtain \\(W_{\\mathrm{ext}}=\\dfrac{Q^{2}}{2C}\\), and explain the factor \\(\\dfrac{1}{2}\\) with the area of the \\(V\\)–\\(q\\) graph.",
+      "用能量密度 \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\) 乘体积 \\(Ad\\) 检查储能公式，并区分恒压电源总功与可逆外力功。 · Check the stored-energy formula with the energy density times the volume \\(Ad\\), and distinguish the total work of a constant-voltage source from the reversible external work.",
+      "讨论插入介质时孤立（\\(Q\\) 不变）与接电源（\\(V\\) 不变）的差异，并用能量守恒解释减少或增加的能量去向。 · Discuss the difference between isolated (fixed \\(Q\\)) and battery-connected (fixed \\(V\\)) dielectric insertion, and use energy conservation to explain where the energy goes."
+    ],
+    "checks": [
+      "为什么平行板电容器的两板必须带等量异号电荷？如果两板还有净电荷，标准模型会怎样改变？ · Why must the two plates carry equal and opposite charges? How does the standard model change if the plates also have a net charge?",
+      "单层带电面的场是 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)，为什么板间总场是 \\(\\dfrac{\\sigma}{\\varepsilon_0}\\) 而不是 \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)？ · A single sheet produces \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\); why is the total field between the plates \\(\\dfrac{\\sigma}{\\varepsilon_0}\\) rather than \\(\\dfrac{\\sigma}{2\\varepsilon_0}\\)?",
+      "为什么理想等量异号平行板外侧的合场为零？有限极板在哪些地方偏离这个结论？ · Why is the net field outside ideal equal-and-opposite plates zero? Where do finite plates deviate from this conclusion?",
+      "板间场为什么在大小和方向上都恒定？什么条件下这个“匀强场”近似失效？ · Why is the field between the plates constant in both magnitude and direction? Under what conditions does the uniform-field approximation fail?",
+      "不看书能否从 \\(\\sigma=\\dfrac{Q}{A}\\)、\\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 与 \\(V=Ed\\) 推出 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)？ · Can you derive \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\) from \\(\\sigma=\\dfrac{Q}{A}\\), \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\), and \\(V=Ed\\) without looking?",
+      "为什么储能是 \\(\\dfrac{1}{2}QV\\) 而不是 \\(QV\\)？请用 \\(V\\)–\\(q\\) 图的面积解释。 · Why is the stored energy \\(\\dfrac{1}{2}QV\\) rather than \\(QV\\)? Explain with the area under the \\(V\\)–\\(q\\) graph.",
+      "恒压电池充电时，电池做的功与电容器储能相差多少？差额去了哪里？ · When charging from a constant-voltage battery, how much work does the battery do compared with the stored energy, and where does the difference go?",
+      "插入电介质时，孤立电容器与接电源电容器的 \\(Q\\)、\\(V\\)、\\(E\\)、\\(U\\) 分别如何变化？ · When a dielectric is inserted, how do \\(Q\\), \\(V\\), \\(E\\), and \\(U\\) change for an isolated capacitor and for a battery-connected capacitor?",
+      "为什么边缘效应使实际电容略大于 \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\)？\\(d\\) 与极板线度满足什么关系时近似最好？ · Why does fringing make the actual capacitance slightly larger than \\(\\dfrac{\\kappa\\varepsilon_0A}{d}\\)? What relation between \\(d\\) and the plate dimensions gives the best approximation?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "平行板电容器",
+        "termEn": "parallel-plate capacitor",
+        "defZh": "由两块平行、分离的导体极板组成的电容器，极板面积 \\(A\\)、间距 \\(d\\)，两板带等量异号电荷。",
+        "defEn": "A capacitor made of two parallel, separated conducting plates of area \\(A\\) and separation \\(d\\), carrying equal and opposite charges."
+      },
+      {
+        "termZh": "极板",
+        "termEn": "plate",
+        "defZh": "电容器中的导体表面；理想平行板模型中，等量异号电荷分布在两块相对的内表面上。",
+        "defEn": "A conducting surface in a capacitor; in the ideal parallel-plate model, the equal and opposite charges reside on the two facing inner surfaces."
+      },
+      {
+        "termZh": "面电荷密度",
+        "termEn": "surface charge density",
+        "defZh": "单位面积上的电荷量 \\(\\sigma=\\dfrac{Q}{A}\\)；板间场强由它决定。",
+        "defEn": "Charge per unit area, \\(\\sigma=\\dfrac{Q}{A}\\); it determines the field between the plates."
+      },
+      {
+        "termZh": "匀强电场",
+        "termEn": "uniform electric field",
+        "defZh": "大小和方向在区域内处处相同的电场；理想平行板之间（远离边缘）的场就是匀强场。",
+        "defEn": "An electric field with the same magnitude and direction everywhere in a region; the field between ideal parallel plates away from the edges is uniform."
+      },
+      {
+        "termZh": "边缘效应",
+        "termEn": "fringing (edge) effect",
+        "defZh": "有限极板边缘处场线向外弯曲、场不再均匀的现象；它使实际电容略大于理想平行板公式。",
+        "defEn": "The bending of field lines and loss of uniformity near the edges of finite plates; it makes the actual capacitance slightly larger than the ideal parallel-plate formula."
+      },
+      {
+        "termZh": "充电功",
+        "termEn": "charging work",
+        "defZh": "外力把电荷从一块极板搬到另一块、克服电势差所做的功，\\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)。",
+        "defEn": "The work done by an external agent moving charge from one plate to the other against the potential difference, \\(W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,\\mathrm{d}q=\\dfrac{Q^{2}}{2C}\\)."
+      },
+      {
+        "termZh": "电场能量密度",
+        "termEn": "electric-field energy density",
+        "defZh": "单位体积储存的电场能，真空中 \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\)，线性电介质中 \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\)。",
+        "defEn": "Electric-field energy per unit volume, \\(u=\\dfrac{1}{2}\\varepsilon_0E^{2}\\) in vacuum and \\(u=\\dfrac{1}{2}\\kappa\\varepsilon_0E^{2}\\) in a linear dielectric."
+      },
+      {
+        "termZh": "相对介电常数",
+        "termEn": "relative permittivity (dielectric constant)",
+        "defZh": "描述电介质使电容增大倍数的无量纲量 \\(\\kappa\\)；填满极板间时 \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)。",
+        "defEn": "The dimensionless factor \\(\\kappa\\) by which a dielectric increases capacitance; when it fills the gap, \\(C=\\dfrac{\\kappa\\varepsilon_0A}{d}\\)."
+      }
+    ]
   }
 };
