@@ -297,21 +297,21 @@ export const TOPICS = {
         "chapterId": "bio-u3",
         "code": "3.1",
         "title": "酶催化 · Enzyme Catalysis",
-        "relation": "prerequisite"
+        "relation": "先修 · prerequisite"
       },
       {
         "subject": "bio",
         "chapterId": "bio-u3",
         "code": "3.7",
         "title": "酶变性与复性 · Enzyme Denaturation and Renaturation",
-        "relation": "related"
+        "relation": "相关 · related"
       },
       {
         "subject": "bio",
         "chapterId": "bio-u1",
         "code": "1.6",
         "title": "酶结构与功能 · Structure and Function of Enzymes",
-        "relation": "related"
+        "relation": "相关 · related"
       }
     ],
     "modules": [],
@@ -1096,21 +1096,21 @@ export const TOPICS = {
         "chapterId": "bio-u3",
         "code": "3.2",
         "title": "环境影响酶 · Environmental Impacts on Enzyme Function",
-        "relation": "prerequisite"
+        "relation": "先修 · prerequisite"
       },
       {
         "subject": "bio",
         "chapterId": "bio-u3",
         "code": "3.1",
         "title": "酶催化 · Enzyme Catalysis",
-        "relation": "prerequisite"
+        "relation": "先修 · prerequisite"
       },
       {
         "subject": "bio",
         "chapterId": "bio-u1",
         "code": "1.6",
         "title": "酶结构与功能 · Structure and Function of Enzymes",
-        "relation": "related"
+        "relation": "相关 · related"
       }
     ],
     "modules": [],
