@@ -7,7 +7,7 @@ import * as THREE from '../../../vendor/three/three.module.js';
 import { OrbitControls } from '../../../vendor/three/controls/OrbitControls.js';
 import { TransformControls } from '../../../vendor/three/controls/TransformControls.js';
 import { themeColors } from '../../../js/theme.js';
-import { getSurface, getTurntable, surfaceFrame } from './physics.mjs';
+import { DEG, getSurface, getTurntable, surfaceFrame, surfaceTopPoint } from './physics.mjs';
 
 const NO_PICK = { noPick: true };
 
@@ -253,6 +253,170 @@ export function createLabView(host, opts = {}) {
     rulerDots[1].visible = false;
   }
 
+  // Direct-manipulation handles: a velocity arrow on bodies and an angle
+  // handle at the high edge of a selected surface. These are intentionally
+  // separate from the transform gizmo so dragging works without choosing a
+  // gizmo mode first.
+  const handleGroup = new THREE.Group();
+  handleGroup.userData = { ...NO_PICK };
+  scene.add(handleGroup);
+  const velocityMaterial = new THREE.LineBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.95 });
+  const velocityArrow = new THREE.ArrowHelper(
+    new THREE.Vector3(1, 0, 0),
+    new THREE.Vector3(),
+    1,
+    theme.accent,
+    0.22,
+    0.1,
+  );
+  velocityArrow.userData = { ...NO_PICK };
+  handleGroup.add(velocityArrow);
+  const velocityPick = new THREE.Mesh(
+    new THREE.SphereGeometry(0.2, 12, 10),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+  );
+  velocityPick.userData = { handle: 'velocity', noPick: true };
+  handleGroup.add(velocityPick);
+  const velocityDot = new THREE.Mesh(
+    new THREE.SphereGeometry(0.065, 10, 8),
+    new THREE.MeshBasicMaterial({ color: theme.accent, depthTest: false }),
+  );
+  velocityDot.userData = { ...NO_PICK };
+  handleGroup.add(velocityDot);
+
+  const angleGeo = new THREE.BufferGeometry();
+  angleGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+  const angleLine = new THREE.Line(angleGeo, velocityMaterial);
+  angleLine.userData = { ...NO_PICK };
+  handleGroup.add(angleLine);
+  const angleDot = new THREE.Mesh(
+    new THREE.SphereGeometry(0.11, 12, 10),
+    new THREE.MeshBasicMaterial({ color: theme.accent, depthTest: false }),
+  );
+  angleDot.userData = { ...NO_PICK };
+  handleGroup.add(angleDot);
+  const anglePick = new THREE.Mesh(
+    new THREE.SphereGeometry(0.34, 12, 10),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+  );
+  anglePick.userData = { handle: 'angle', noPick: true };
+  handleGroup.add(anglePick);
+
+  const snapGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(-0.65, 0, -0.65),
+    new THREE.Vector3(0.65, 0, -0.65),
+    new THREE.Vector3(0.65, 0, 0.65),
+    new THREE.Vector3(-0.65, 0, 0.65),
+  ]);
+  const snapHint = new THREE.LineLoop(
+    snapGeo,
+    new THREE.LineBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.95, depthTest: false }),
+  );
+  snapHint.userData = { ...NO_PICK };
+  snapHint.renderOrder = 1000;
+  snapHint.visible = false;
+  scene.add(snapHint);
+  let snapHintUntil = 0;
+
+  function flashSnap(position, quaternion) {
+    if (!position) return;
+    snapHint.position.set(position.x, position.y, position.z);
+    if (quaternion) snapHint.quaternion.set(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+    else snapHint.quaternion.identity();
+    snapHint.visible = true;
+    snapHintUntil = performance.now() + 1100;
+  }
+
+  let handlesVisible = true;
+  let lastWorld = null;
+
+  function selectedEntity(type) {
+    if (!selected || !lastWorld) return null;
+    if (type === 'body') return lastWorld.bodies.find((b) => b.id === selected.id) || null;
+    if (type === 'surface') return lastWorld.surfaces.find((s) => s.id === selected.id) || null;
+    return null;
+  }
+
+  function updateHandles() {
+    const body = selected?.type === 'body' ? selectedEntity('body') : null;
+    const surface = selected?.type === 'surface' ? selectedEntity('surface') : null;
+    const showBody = !!body && handlesVisible;
+    const showSurface = !!surface && handlesVisible && !body;
+    velocityArrow.visible = showBody;
+    velocityPick.visible = showBody;
+    velocityDot.visible = showBody;
+    angleLine.visible = showSurface;
+    angleDot.visible = showSurface;
+    anglePick.visible = showSurface;
+    if (body) {
+      const p = body.cannon.position;
+      const az = (body.azimuth || 0) * DEG;
+      const el = (body.elevation || 0) * DEG;
+      const dir = new THREE.Vector3(
+        Math.cos(el) * Math.cos(az),
+        Math.sin(el),
+        Math.cos(el) * Math.sin(az),
+      );
+      if (dir.lengthSq() < 1e-8) dir.set(1, 0, 0);
+      dir.normalize();
+      const length = 0.9 + Math.min(2.6, Math.max(0, body.v0 || 0) * 0.22);
+      velocityArrow.position.set(p.x, p.y, p.z);
+      velocityArrow.setDirection(dir);
+      velocityArrow.setLength(length, Math.min(0.26, length * 0.3), Math.min(0.1, length * 0.12));
+      velocityPick.position.set(p.x + dir.x * length, p.y + dir.y * length, p.z + dir.z * length);
+      velocityDot.position.copy(velocityPick.position);
+    }
+    if (surface) {
+      const center = surfaceTopPoint(surface, 0, 0);
+      const edge = surfaceTopPoint(surface, surface.length / 2 - 0.2, 0);
+      const attr = angleGeo.getAttribute('position');
+      attr.setXYZ(0, center.x, center.y + 0.05, center.z);
+      attr.setXYZ(1, edge.x, edge.y + 0.05, edge.z);
+      attr.needsUpdate = true;
+      angleGeo.computeBoundingSphere();
+      angleDot.position.set(edge.x, edge.y + 0.05, edge.z);
+      anglePick.position.set(edge.x, edge.y + 0.05, edge.z);
+    }
+  }
+
+  function setHandleVisibility(value) {
+    handlesVisible = !!value;
+    updateHandles();
+  }
+
+  function placementPoint() {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const ndc = new THREE.Vector2(0, 0);
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(ndc, camera);
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const point = new THREE.Vector3();
+    if (raycaster.ray.intersectPlane(plane, point)) {
+      const d = Math.hypot(point.x, point.z);
+      if (d > 16) {
+        point.x *= 16 / d;
+        point.z *= 16 / d;
+      }
+      return point;
+    }
+    const dir = new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    if (Math.abs(dir.y) < 1e-4) dir.y = -0.1;
+    const t = -camera.position.y / dir.y;
+    return camera.position.clone().add(dir.multiplyScalar(Math.max(1, t)));
+  }
+
+  function projectPoint(p) {
+    if (!p) return null;
+    const rect = renderer.domElement.getBoundingClientRect();
+    const v = new THREE.Vector3(p.x, p.y, p.z).project(camera);
+    return {
+      x: rect.left + (v.x * 0.5 + 0.5) * rect.width,
+      y: rect.top + (-v.y * 0.5 + 0.5) * rect.height,
+      visible: v.z > -1 && v.z < 1,
+    };
+  }
+
   const visuals = new Map();
   let selected = null;
   let selectedKey = null;
@@ -281,6 +445,11 @@ export function createLabView(host, opts = {}) {
     trailMaterial.color.set(t.accent);
     rulerMaterial.color.set(t.warn);
     selectionHelper.material.color.set(t.accent);
+    if (typeof velocityMaterial !== 'undefined') velocityMaterial.color.set(t.accent);
+    if (typeof velocityArrow !== 'undefined') velocityArrow.setColor(new THREE.Color(t.accent));
+    if (typeof angleDot !== 'undefined') angleDot.material.color.set(t.accent);
+    if (typeof velocityDot !== 'undefined') velocityDot.material.color.set(t.accent);
+    if (typeof snapHint !== 'undefined') snapHint.material.color.set(t.accent);
     axes.material.color?.set?.(t.axis || t.muted);
     const gridColors = [t.axis, t.axis];
     if (grid) {
@@ -604,6 +773,7 @@ export function createLabView(host, opts = {}) {
 
   function sync(world) {
     if (destroyed) return;
+    lastWorld = world;
     const seen = new Set();
     const entities = [
       ...world.surfaces,
@@ -664,6 +834,8 @@ export function createLabView(host, opts = {}) {
     syncSelection(world);
     syncForces(world);
     updateTrail(world);
+    updateHandles();
+    if (snapHint.visible && performance.now() > snapHintUntil) snapHint.visible = false;
   }
 
   function syncSelection(world) {
@@ -736,6 +908,7 @@ export function createLabView(host, opts = {}) {
       }
     }
     applyGizmoVisibility();
+    updateHandles();
   }
 
   function updateGizmoAxes() {
@@ -767,6 +940,7 @@ export function createLabView(host, opts = {}) {
       }
     }
     applyGizmoVisibility();
+    updateHandles();
   }
 
   function setGizmoVisible(visible) {
@@ -780,6 +954,7 @@ export function createLabView(host, opts = {}) {
       }
     }
     applyGizmoVisibility();
+    updateHandles();
   }
 
   function setForceVisible(value) {
@@ -868,7 +1043,7 @@ export function createLabView(host, opts = {}) {
     return null;
   }
 
-  function groundPoint(clientX, clientY) {
+  function rayPointOnPlane(clientX, clientY, height = 0) {
     const rect = renderer.domElement.getBoundingClientRect();
     const ndc = new THREE.Vector2(
       ((clientX - rect.left) / rect.width) * 2 - 1,
@@ -876,10 +1051,14 @@ export function createLabView(host, opts = {}) {
     );
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(ndc, camera);
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -height);
     const point = new THREE.Vector3();
     if (raycaster.ray.intersectPlane(plane, point)) return point;
     return raycaster.ray.at(8, new THREE.Vector3());
+  }
+
+  function groundPoint(clientX, clientY) {
+    return rayPointOnPlane(clientX, clientY, 0);
   }
 
   function getObject(entity) {
@@ -906,6 +1085,129 @@ export function createLabView(host, opts = {}) {
 
   renderer.domElement.addEventListener('pointerdown', onPointerDown);
   window.addEventListener('pointerup', onPointerUp);
+
+  function pickHandleAt(clientX, clientY) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const ndc = new THREE.Vector2(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -((clientY - rect.top) / rect.height) * 2 + 1,
+    );
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(ndc, camera);
+    const hits = raycaster.intersectObjects([velocityPick, anglePick], false);
+    for (const hit of hits) {
+      const handle = hit.object?.userData?.handle;
+      if (handle) return handle;
+    }
+    return null;
+  }
+
+  let directCandidate = null;
+  let directDragging = false;
+  let velocityDrag = null;
+  let angleDrag = null;
+
+  function onDirectPointerDown(e) {
+    if (e.button != null && e.button !== 0) return;
+    if (opts.canDirectDrag && !opts.canDirectDrag()) return;
+    const handle = pickHandleAt(e.clientX, e.clientY);
+    if (handle === 'velocity' && selected?.type === 'body') {
+      e.preventDefault();
+      e.stopPropagation();
+      orbit.enabled = false;
+      velocityDrag = { ref: { ...selected }, last: null };
+      renderer.domElement.style.cursor = 'grabbing';
+      return;
+    }
+    if (handle === 'angle' && selected?.type === 'surface') {
+      const surface = selectedEntity('surface');
+      if (!surface) return;
+      e.preventDefault();
+      e.stopPropagation();
+      orbit.enabled = false;
+      angleDrag = { ref: { ...selected }, startY: e.clientY, startAngle: surface.angle, lastAngle: surface.angle };
+      renderer.domElement.style.cursor = 'grabbing';
+      return;
+    }
+    if (transform.dragging || transform.axis) return;
+    const hit = pickAt(e.clientX, e.clientY);
+    if (hit?.entity?.type === 'body') {
+      directCandidate = { ref: { ...hit.entity }, startX: e.clientX, startY: e.clientY };
+    }
+  }
+
+  renderer.domElement.addEventListener('pointerdown', onDirectPointerDown, true);
+
+  let lastHoverAt = 0;
+  function onDirectPointerMove(e) {
+    if (!velocityDrag && !angleDrag && !directCandidate && !transform.dragging) {
+      const now = performance.now();
+      if (now - lastHoverAt > 90 && e.target === renderer.domElement) {
+        lastHoverAt = now;
+        const hover = pickAt(e.clientX, e.clientY);
+        renderer.domElement.style.cursor = hover?.entity?.type === 'body' ? 'grab' : 'crosshair';
+      }
+    }
+    if (velocityDrag) {
+      const body = selectedEntity('body');
+      const point = rayPointOnPlane(e.clientX, e.clientY, body ? body.cannon.position.y : 0);
+      velocityDrag.last = point;
+      if (opts.onVelocityDrag) opts.onVelocityDrag(velocityDrag.ref, point, 'move');
+      return;
+    }
+    if (angleDrag) {
+      const angle = Math.max(-60, Math.min(60, angleDrag.startAngle + (angleDrag.startY - e.clientY) * 0.35));
+      angleDrag.lastAngle = angle;
+      if (opts.onAngleDrag) opts.onAngleDrag(angleDrag.ref, angle, 'move');
+      return;
+    }
+    if (!directCandidate) return;
+    const dx = e.clientX - directCandidate.startX;
+    const dy = e.clientY - directCandidate.startY;
+    if (!directDragging) {
+      if (Math.hypot(dx, dy) < 5) return;
+      if (transform.axis || transform.dragging) { directCandidate = null; return; }
+      directDragging = true;
+      orbit.enabled = false;
+      renderer.domElement.style.cursor = 'grabbing';
+      if (opts.onDirectDragStart) opts.onDirectDragStart(directCandidate.ref);
+    }
+    const body = selectedEntity('body');
+    const point = rayPointOnPlane(e.clientX, e.clientY, body ? body.cannon.position.y : 0);
+    if (opts.onDirectDrag) opts.onDirectDrag(directCandidate.ref, point);
+  }
+
+  function onDirectPointerUp() {
+    if (velocityDrag) {
+      if (velocityDrag.last && opts.onVelocityDrag) opts.onVelocityDrag(velocityDrag.ref, velocityDrag.last, 'end');
+      velocityDrag = null;
+      orbit.enabled = true;
+      renderer.domElement.style.cursor = '';
+    }
+    if (angleDrag) {
+      if (opts.onAngleDrag) opts.onAngleDrag(angleDrag.ref, angleDrag.lastAngle, 'end');
+      angleDrag = null;
+      orbit.enabled = true;
+      renderer.domElement.style.cursor = '';
+    }
+    if (directDragging) {
+      if (opts.onDirectDragEnd) opts.onDirectDragEnd(directCandidate.ref);
+      directDragging = false;
+      orbit.enabled = true;
+      renderer.domElement.style.cursor = '';
+    }
+    directCandidate = null;
+  }
+
+  window.addEventListener('pointermove', onDirectPointerMove);
+  window.addEventListener('pointerup', onDirectPointerUp);
+
+  renderer.domElement.addEventListener('dblclick', (e) => {
+    const hit = pickAt(e.clientX, e.clientY);
+    if (!hit?.entity) return;
+    if (opts.onPick) opts.onPick(hit, e);
+    frameSelected();
+  });
 
   let dragEntity = null;
   transform.addEventListener('dragging-changed', (e) => {
@@ -940,7 +1242,10 @@ export function createLabView(host, opts = {}) {
     destroyed = true;
     window.removeEventListener('themechange', onTheme);
     window.removeEventListener('pointerup', onPointerUp);
+    window.removeEventListener('pointerup', onDirectPointerUp);
+    window.removeEventListener('pointermove', onDirectPointerMove);
     renderer.domElement.removeEventListener('pointerdown', onPointerDown);
+    renderer.domElement.removeEventListener('pointerdown', onDirectPointerDown, true);
     transform.detach();
     transform.dispose();
     scene.remove(transformHelper);
@@ -975,6 +1280,10 @@ export function createLabView(host, opts = {}) {
     setForceVisible,
     setView,
     setTrailVisible,
+    setHandleVisibility,
+    flashSnap,
+    placementPoint,
+    projectPoint,
     clearTrail,
     setRuler,
     clearRuler,
@@ -982,6 +1291,7 @@ export function createLabView(host, opts = {}) {
     screenDeltaToWorld,
     pickAt,
     groundPoint,
+    rayPointOnPlane,
     getObject,
     destroy,
     get selectedKey() { return selectedKey; },

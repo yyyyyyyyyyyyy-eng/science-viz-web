@@ -1,6 +1,8 @@
 /**
  * 物理实验室 · Physics Lab — free-exploration 3D sandbox.
- * Empty start, add apparatus from the palette, build, run and measure.
+ * Start empty, add apparatus from Add, build, run and measure.
+ * Simple first: transport + slim inspector on the main screen, expert
+ * parameters and tools in More settings.
  */
 import { startAnimLoop } from '../../anim-loop.js';
 import { el, clear } from '../../../js/ui-shared.js';
@@ -153,143 +155,126 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     ]),
     el('p', { className: 'plab-sub', text: '自由探索 · Free exploration' }),
   ]);
-  const transport = el('div', {
-    className: 'plab-transport',
-    role: 'group',
-    'aria-label': '模拟控制 · Simulation controls',
-  });
+
+  const primary = el('div', { className: 'plab-primary', role: 'toolbar', 'aria-label': '实验室操作 · Lab controls' });
   const playBtn = el('button', {
     type: 'button',
-    className: 'plab-btn plab-btn-primary hit-target',
+    className: 'plab-action plab-action-primary hit-target',
     text: '播放 · Play',
     'data-action': 'play',
-  });
-  const pauseBtn = el('button', {
-    type: 'button',
-    className: 'plab-btn hit-target',
-    text: '暂停 · Pause',
-    'data-action': 'pause',
-  });
-  const stepBtn = el('button', {
-    type: 'button',
-    className: 'plab-btn hit-target',
-    text: '单步 1/60 s · Step',
-    'data-action': 'step',
+    'aria-pressed': 'false',
   });
   const resetBtn = el('button', {
     type: 'button',
-    className: 'plab-btn hit-target',
+    className: 'plab-action hit-target',
     text: '重置 · Reset',
     'data-action': 'reset',
   });
-  const clearBtn = el('button', {
+  const addBtn = el('button', {
     type: 'button',
-    className: 'plab-btn plab-btn-quiet hit-target',
-    text: '清空场景 · Clear scene',
-    'data-action': 'clear',
+    className: 'plab-action plab-action-add hit-target',
+    text: '添加器材 · Add',
+    'data-action': 'add',
+    'aria-haspopup': 'menu',
+    'aria-expanded': 'false',
   });
-  transport.append(playBtn, pauseBtn, stepBtn, resetBtn, clearBtn);
-  head.append(title, transport);
+  const undoBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '撤销 · Undo', 'data-action': 'undo' });
+  const redoBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '重做 · Redo', 'data-action': 'redo' });
+  const moreBtn = el('button', {
+    type: 'button',
+    className: 'plab-action plab-action-more hit-target',
+    text: '更多设置 · More settings',
+    'data-action': 'more',
+    'aria-haspopup': 'dialog',
+    'aria-expanded': 'false',
+  });
+  const clock = el('span', { className: 'plab-clock', text: 't = 0 s', 'data-readout': 'time' });
+
+  const paletteGroups = [
+    {
+      title: label('表面与轨道', 'Surfaces & tracks'),
+      items: [
+        ['incline', '斜面', 'Incline'],
+        ['surface', '水平面 / 倾斜面', 'Horizontal surface'],
+        ['track', '直线轨道', 'Straight track'],
+      ],
+    },
+    {
+      title: label('物体', 'Bodies'),
+      items: [
+        ['block', '方块', 'Block'],
+        ['cart', '小车', 'Cart'],
+      ],
+    },
+    {
+      title: label('连接与测量', 'Links & meters'),
+      items: [
+        ['spring', '线性弹簧', 'Linear spring'],
+        ['nonlinear', '非线性弹簧', 'Nonlinear spring'],
+        ['meter', '测力计', 'Force meter'],
+      ],
+    },
+    {
+      title: label('旋转与圆周', 'Rotation & circles'),
+      items: [
+        ['turntable', '转盘', 'Turntable'],
+        ['loop', '竖直圆环', 'Vertical loop'],
+        ['hcircle', '水平圆周轨道', 'Horizontal circle'],
+      ],
+    },
+  ];
+
+  const addMenu = el('div', {
+    className: 'plab-addmenu',
+    role: 'menu',
+    'aria-label': '添加器材 · Add apparatus',
+    hidden: true,
+    'data-add-menu': 'on',
+  });
+  addMenu.appendChild(el('div', { className: 'plab-addmenu-head' }, [
+    el('h2', { className: 'plab-panel-title', text: '添加器材 · Add apparatus' }),
+    el('p', { className: 'plab-addmenu-sub', text: '放在镜头前方，自动避让已有装置。 · Placed in front of the camera, clear of existing apparatus.' }),
+  ]));
+  for (const group of paletteGroups) {
+    addMenu.appendChild(el('h3', { className: 'plab-group-title', text: labelText(group.title.zh, group.title.en) }));
+    const grid = el('div', { className: 'plab-add-grid' });
+    for (const [key, zh, en] of group.items) {
+      grid.appendChild(el('button', {
+        type: 'button',
+        className: 'plab-add hit-target',
+        'data-add': key,
+        role: 'menuitem',
+      }, [
+        el('span', { className: 'plab-add-zh', text: zh }),
+        el('span', { className: 'plab-add-en', text: en }),
+      ]));
+    }
+    addMenu.appendChild(grid);
+  }
+  const addWrap = el('div', { className: 'plab-add-wrap' }, [addBtn, addMenu]);
+
+  primary.append(playBtn, resetBtn, addWrap, undoBtn, redoBtn, moreBtn, clock);
+
+  const headActions = el('div', { className: 'plab-head-actions' }, [primary]);
+  head.append(title, headActions);
 
   const bodyGrid = el('div', { className: 'plab-body' });
   const stage = el('section', { className: 'plab-stage', 'aria-label': '三维场景 · 3D scene' });
-  const stageBar = el('div', { className: 'plab-stagebar' });
-
-  const viewGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '相机 · Camera' });
-  viewGroup.appendChild(el('span', { className: 'plab-tool-label', text: '视角 · View' }));
-  [
-    ['perspective', '透视 · Persp'],
-    ['front', '前视 · Front'],
-    ['side', '侧视 · Side'],
-    ['top', '俯视 · Top'],
-  ].forEach(([key, text]) => {
-    viewGroup.appendChild(el('button', {
-      type: 'button',
-      className: 'plab-tool hit-target',
-      text,
-      'data-view': key,
-    }));
-  });
-
-  const gizmoGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '变换工具 · Transform' });
-  gizmoGroup.appendChild(el('span', { className: 'plab-tool-label', text: '工具 · Gizmo' }));
-  [
-    ['translate', '移动 · Move'],
-    ['rotate', '旋转 · Rotate'],
-    ['scale', '缩放 · Scale'],
-    ['off', '关闭 · Off'],
-  ].forEach(([key, text]) => {
-    gizmoGroup.appendChild(el('button', {
-      type: 'button',
-      className: `plab-tool hit-target${key === 'translate' ? ' active' : ''}`,
-      text,
-      'data-gizmo': key,
-    }));
-  });
-
-  const forceLabel = el('label', { className: 'plab-check hit-target' }, [
-    el('input', { type: 'checkbox', checked: true, 'data-force-toggle': 'on' }),
-    el('span', { text: '显示力矢量 · Show force vectors' }),
-  ]);
-
-  const timeScaleWrap = el('label', { className: 'plab-timescale hit-target' }, [
-    el('span', { text: '时间倍率 · Time scale' }),
-    el('input', {
-      type: 'range',
-      min: '0.1',
-      max: '2',
-      step: '0.05',
-      value: '1',
-      'data-field': 'timeScale',
-      'aria-label': '时间倍率 · Time scale',
-    }),
-    el('output', { text: '×1.00', 'data-readout': 'timeScale' }),
-  ]);
-
-  const clock = el('span', { className: 'plab-clock', text: 't = 0 s', 'data-readout': 'time' });
-  stageBar.append(viewGroup, gizmoGroup, forceLabel, timeScaleWrap, clock);
-
-  const editBar = el('div', { className: 'plab-editbar' });
-  const editGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '编辑 · Edit' });
-  editGroup.appendChild(el('span', { className: 'plab-tool-label', text: '编辑 · Edit' }));
-  const undoBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '撤销 · Undo', 'data-action': 'undo' });
-  const redoBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '重做 · Redo', 'data-action': 'redo' });
-  const dupBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '复制 · Duplicate', 'data-action': 'duplicate' });
-  const frameBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '聚焦 · Frame', 'data-action': 'frame' });
-  const rulerBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '尺子 · Ruler', 'data-action': 'ruler' });
-  editGroup.append(undoBtn, redoBtn, dupBtn, frameBtn, rulerBtn);
-
-  const viewTools = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '显示 · Display' });
-  viewTools.appendChild(el('span', { className: 'plab-tool-label', text: '显示 · Display' }));
-  const snapToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '吸附 · Snap', 'data-action': 'snap-toggle', 'aria-pressed': 'false' });
-  const trailToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '轨迹 · Trail', 'data-action': 'trail', 'aria-pressed': 'false' });
-  const graphToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '曲线 · Graphs', 'data-action': 'graphs', 'aria-pressed': 'false' });
-  const rulerReadout = el('output', { className: 'plab-ruler-readout', text: '尺子关闭 · Ruler off', 'data-readout': 'ruler' });
-  viewTools.append(snapToggleBtn, trailToggleBtn, graphToggleBtn, rulerReadout);
-  editBar.append(editGroup, viewTools);
-
-  const scrub = el('label', { className: 'plab-scrub' }, [
-    el('span', { className: 'plab-scrub-label', text: '时间回拖 · Time scrub' }),
-    el('input', {
-      type: 'range',
-      min: '0',
-      max: '0',
-      step: '1',
-      value: '0',
-      'data-field': 'scrub',
-      'aria-label': '时间回拖 · Time scrub',
-    }),
-    el('output', { className: 'plab-scrub-time', text: '0.0 s', 'data-readout': 'scrub' }),
-  ]);
-  scrub.appendChild(el('span', { className: 'plab-scrub-hint', text: '缓冲 20 s · 20 s buffer' }));
-
   const canvasHost = el('div', { className: 'plab-canvas-host', 'data-canvas-host': 'on' });
   const emptyHint = el('div', { className: 'plab-empty', 'data-empty': 'on' }, [
     el('p', { className: 'plab-empty-title', text: '自由实验室 · Free lab' }),
-    el('p', { className: 'plab-empty-text', text: '从器材面板添加物体，自己搭建场景。 · Add apparatus from the palette and build your own scene.' }),
-    el('p', { className: 'plab-empty-sub', text: '拖动旋转视角，滚轮缩放，右键或双指平移。 · Drag to orbit, scroll to zoom, right-drag or two-finger pan.' }),
+    el('p', { className: 'plab-empty-text', text: '从上方「添加器材」开始，自己搭建场景。 · Start with Add above and build your own scene.' }),
+    el('p', { className: 'plab-empty-sub', text: '拖动旋转视角，滚轮缩放，右键或双指平移，双击聚焦。 · Drag to orbit, scroll to zoom, right-drag or two-finger pan, double-click to focus.' }),
   ]);
   canvasHost.appendChild(emptyHint);
+
+  const status = el('p', { className: 'plab-status', 'data-status': 'on', role: 'status', 'aria-live': 'polite' });
+  status.textContent = '自由实验室：添加器材开始搭建。 · Free lab: add apparatus to begin.';
+  const hintLine = el('p', {
+    className: 'plab-hintline',
+    text: '拖动自动吸附 · Drag to auto-snap · 按住 Shift 暂停吸附 · Hold Shift to disable',
+  });
+  const canvasHud = el('div', { className: 'plab-canvas-hud' }, [status, hintLine]);
 
   const legend = el('div', { className: 'plab-legend', 'aria-label': '力矢量图例 · Force vector legend' });
   [
@@ -339,97 +324,265 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   graphSection.append(graphLegend, graphCanvas);
 
   const modalHud = el('div', { className: 'plab-modal', hidden: true, role: 'status', 'aria-live': 'polite' });
-  canvasHost.appendChild(modalHud);
+  canvasHost.append(modalHud, canvasHud);
 
-  stage.append(stageBar, canvasHost, editBar, scrub, legend, energy, graphSection);
+  const scrub = el('label', { className: 'plab-scrub' }, [
+    el('span', { className: 'plab-scrub-label', text: '时间回拖 · Time scrub' }),
+    el('input', {
+      type: 'range',
+      min: '0',
+      max: '0',
+      step: '1',
+      value: '0',
+      'data-field': 'scrub',
+      'aria-label': '时间回拖 · Time scrub',
+    }),
+    el('output', { className: 'plab-scrub-time', text: '0.0 s', 'data-readout': 'scrub' }),
+  ]);
+  scrub.appendChild(el('span', { className: 'plab-scrub-hint', text: '缓冲 20 s · 20 s buffer' }));
 
-  const side = el('aside', { className: 'plab-side', 'aria-label': '器材与属性 · Apparatus and inspector' });
-  const mobileTabs = el('div', { className: 'plab-mobile-tabs', role: 'tablist' });
-  const tabPalette = el('button', {
-    type: 'button',
-    className: 'plab-mobile-tab active hit-target',
-    text: '添加器材 · Palette',
-    role: 'tab',
-    'aria-selected': 'true',
-    'data-tab': 'palette',
+  const timeScaleWrap = el('label', { className: 'plab-timescale hit-target' }, [
+    el('span', { text: '时间倍率 · Time scale' }),
+    el('input', {
+      type: 'range',
+      min: '0.1',
+      max: '2',
+      step: '0.05',
+      value: '1',
+      'data-field': 'timeScale',
+      'aria-label': '时间倍率 · Time scale',
+    }),
+    el('output', { text: '×1.00', 'data-readout': 'timeScale' }),
+  ]);
+
+  const gizmoGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '变换工具 · Transform' });
+  gizmoGroup.appendChild(el('span', { className: 'plab-tool-label', text: '工具 · Gizmo' }));
+  [
+    ['translate', '移动 · Move'],
+    ['rotate', '旋转 · Rotate'],
+    ['scale', '缩放 · Scale'],
+    ['off', '关闭 · Off'],
+  ].forEach(([key, text]) => {
+    gizmoGroup.appendChild(el('button', {
+      type: 'button',
+      className: `plab-tool hit-target${key === 'translate' ? ' active' : ''}`,
+      text,
+      'data-gizmo': key,
+    }));
   });
-  const tabInspector = el('button', {
-    type: 'button',
-    className: 'plab-mobile-tab hit-target',
-    text: '属性 · Inspector',
-    role: 'tab',
-    'aria-selected': 'false',
-    'data-tab': 'inspector',
+
+  const viewGroup = el('div', { className: 'plab-toolgroup', role: 'group', 'aria-label': '相机 · Camera' });
+  viewGroup.appendChild(el('span', { className: 'plab-tool-label', text: '视角 · View' }));
+  [
+    ['perspective', '透视 · Persp'],
+    ['front', '前视 · Front'],
+    ['side', '侧视 · Side'],
+    ['top', '俯视 · Top'],
+  ].forEach(([key, text]) => {
+    viewGroup.appendChild(el('button', {
+      type: 'button',
+      className: 'plab-tool hit-target',
+      text,
+      'data-view': key,
+    }));
   });
-  mobileTabs.append(tabPalette, tabInspector);
 
-  const palette = el('section', { className: 'plab-panel plab-palette', 'data-panel': 'palette' });
-  palette.appendChild(el('h2', { className: 'plab-panel-title', text: '添加器材 · Add apparatus' }));
-  const status = el('p', { className: 'plab-status', 'data-status': 'on', role: 'status', 'aria-live': 'polite' });
-  status.textContent = '自由实验室：从面板添加器材。 · Free lab: add apparatus from the palette.';
-  palette.appendChild(status);
+  const forceLabel = el('label', { className: 'plab-check hit-target' }, [
+    el('input', { type: 'checkbox', checked: true, 'data-force-toggle': 'on' }),
+    el('span', { text: '显示力矢量 · Show force vectors' }),
+  ]);
 
-  const paletteGroups = [
-    {
-      title: label('表面与轨道', 'Surfaces & tracks'),
-      items: [
-        ['incline', '斜面', 'Incline'],
-        ['surface', '水平面 / 倾斜面', 'Horizontal surface'],
-        ['track', '直线轨道', 'Straight track'],
-      ],
-    },
-    {
-      title: label('物体', 'Bodies'),
-      items: [
-        ['block', '方块', 'Block'],
-        ['cart', '小车', 'Cart'],
-      ],
-    },
-    {
-      title: label('连接与测量', 'Links & meters'),
-      items: [
-        ['spring', '线性弹簧', 'Linear spring'],
-        ['nonlinear', '非线性弹簧', 'Nonlinear spring'],
-        ['meter', '测力计', 'Force meter'],
-      ],
-    },
-    {
-      title: label('旋转与圆周', 'Rotation & circles'),
-      items: [
-        ['turntable', '转盘', 'Turntable'],
-        ['loop', '竖直圆环', 'Vertical loop'],
-        ['hcircle', '水平圆周轨道', 'Horizontal circle'],
-      ],
-    },
-  ];
-  for (const group of paletteGroups) {
-    palette.appendChild(el('h3', { className: 'plab-group-title', text: labelText(group.title.zh, group.title.en) }));
-    const grid = el('div', { className: 'plab-add-grid' });
-    for (const [key, zh, en] of group.items) {
-      const btn = el('button', {
-        type: 'button',
-        className: 'plab-add hit-target',
-        'data-add': key,
-      }, [
-        el('span', { className: 'plab-add-zh', text: zh }),
-        el('span', { className: 'plab-add-en', text: en }),
-      ]);
-      grid.appendChild(btn);
-    }
-    palette.appendChild(grid);
-  }
+  const dupBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '复制 · Duplicate', 'data-action': 'duplicate' });
+  const frameBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '聚焦 · Frame', 'data-action': 'frame' });
+  const rulerBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '尺子 · Ruler', 'data-action': 'ruler', 'aria-pressed': 'false' });
+  const rulerReadout = el('output', { className: 'plab-ruler-readout', text: '尺子关闭 · Ruler off', 'data-readout': 'ruler' });
+  const stepBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '单步 1/60 s · Step', 'data-action': 'step' });
+  const clearBtn = el('button', { type: 'button', className: 'plab-action plab-action-quiet hit-target', text: '清空场景 · Clear scene', 'data-action': 'clear' });
+
+  const trailToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '轨迹 · Trail', 'data-action': 'trail', 'aria-pressed': 'false' });
+  const graphToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '曲线 · Graphs', 'data-action': 'graphs', 'aria-pressed': 'false' });
+  const snapToggleBtn = el('button', { type: 'button', className: 'plab-tool hit-target', text: '吸附 · Snap', 'data-action': 'snap-toggle', 'aria-pressed': 'true' });
+  const snapSelBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '吸附所选 · Snap selected', 'data-action': 'snap' });
+  const detachBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '脱离表面 · Detach', 'data-action': 'detach' });
+
+  const saveBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '保存场景 · Save', 'data-action': 'save' });
+  const loadBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '读取场景 · Load', 'data-action': 'load' });
+  const exportBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '导出 JSON · Export', 'data-action': 'export' });
+  const importBtn = el('button', { type: 'button', className: 'plab-action hit-target', text: '导入 JSON · Import', 'data-action': 'import' });
+  const importInput = el('input', { type: 'file', accept: '.json,application/json', hidden: true, 'data-field': 'import' });
 
   const environment = el('section', { className: 'plab-subpanel' });
   environment.appendChild(el('h3', { className: 'plab-group-title', text: '环境 · Environment' }));
   const gHost = el('div');
   environment.appendChild(gHost);
-  palette.appendChild(environment);
 
-  const tools = el('section', { className: 'plab-subpanel' });
-  tools.appendChild(el('h3', { className: 'plab-group-title', text: '工具 · Tools' }));
-  const toolRow = el('div', { className: 'plab-tool-row' });
-  const snapSelBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '吸附所选 · Snap selected', 'data-action': 'snap' });
-  const detachBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '脱离表面 · Detach', 'data-action': 'detach' });
+  const outliner = el('section', { className: 'plab-outliner', 'aria-label': '对象列表 · Outliner' });
+  const outlinerHead = el('div', { className: 'plab-outliner-head' }, [
+    el('h2', { className: 'plab-panel-title', text: '对象列表 · Outliner' }),
+    el('span', { className: 'plab-outliner-count', text: '0', 'data-readout': 'outlinerCount' }),
+  ]);
+  const outlinerList = el('div', { className: 'plab-outliner-list' });
+  const outlinerHint = el('p', { className: 'plab-outliner-hint', text: '空场景 · Empty scene. 双击名称可重命名。 · Double-click a name to rename.' });
+  outliner.append(outlinerHead, outlinerHint, outlinerList);
+
+  const inspector = el('section', { className: 'plab-panel plab-inspector', 'data-panel': 'inspector' });
+  const inspectorHead = el('div', { className: 'plab-sheet-head' }, [
+    el('h2', { className: 'plab-panel-title', text: '属性 · Inspector' }),
+    el('button', {
+      type: 'button',
+      className: 'plab-sheet-close hit-target',
+      text: '关闭 · Close',
+      'data-action': 'inspector-close',
+    }),
+  ]);
+  const inspectorBody = el('div', { className: 'plab-inspector-body' });
+  inspector.append(inspectorHead, inspectorBody);
+
+  const side = el('aside', { className: 'plab-side', 'aria-label': '属性 · Inspector' });
+  side.append(inspector);
+
+  const moreBackdrop = el('div', { className: 'plab-backdrop', hidden: true, 'data-action': 'backdrop' });
+  const morePanel = el('aside', {
+    className: 'plab-more',
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': '更多设置 · More settings',
+    hidden: true,
+  });
+  const moreHead = el('div', { className: 'plab-more-head' }, [
+    el('div', {}, [
+      el('h2', { className: 'plab-more-title', text: '更多设置 · More settings' }),
+      el('p', { className: 'plab-more-sub', text: '专业参数与工具 · Expert parameters and tools' }),
+    ]),
+    el('button', {
+      type: 'button',
+      className: 'plab-sheet-close hit-target',
+      text: '关闭 · Close',
+      'data-action': 'more-close',
+    }),
+  ]);
+  const moreBody = el('div', { className: 'plab-more-body' });
+  morePanel.append(moreHead, moreBody);
+
+  function moreSection(zh, en) {
+    const section = el('section', { className: 'plab-more-section' });
+    section.appendChild(el('h3', { className: 'plab-group-title', text: labelText(zh, en) }));
+    moreBody.appendChild(section);
+    return section;
+  }
+
+  const assistSection = moreSection('辅助', 'Assists');
+  const assistList = el('div', { className: 'plab-assist-list' });
+  function assistToggle(zh, en, key, checked = true) {
+    const input = el('input', { type: 'checkbox', checked, 'data-assist': key });
+    const labelEl = el('label', { className: 'plab-check hit-target plab-assist' }, [
+      input,
+      el('span', {}, [
+        el('span', { className: 'plab-assist-zh', text: zh }),
+        el('span', { className: 'plab-assist-en', text: en }),
+      ]),
+    ]);
+    assistList.appendChild(labelEl);
+    return input;
+  }
+  const autoSnapToggle = assistToggle('自动吸附表面', 'Auto-snap to surfaces', 'snap');
+  const autoConnectToggle = assistToggle('自动连接端点', 'Auto-connect endpoints', 'connect');
+  const autoPlaceToggle = assistToggle('智能放置', 'Smart placement', 'placement');
+  const directToggle = assistToggle('直接拖动', 'Direct manipulation', 'direct');
+  assistSection.appendChild(assistList);
+  assistSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '吸附开启时按住 Shift 可临时关闭。 · Hold Shift during a drag to bypass snapping.',
+  }));
+
+  const snapConfig = el('div', { className: 'plab-more-grid' });
+  snapConfig.appendChild(el('label', { className: 'plab-inline-field' }, [
+    el('span', { text: '网格步长 · Grid step (m)' }),
+    el('input', {
+      type: 'number',
+      min: '0.01',
+      max: '2',
+      step: '0.01',
+      value: '0.1',
+      'data-field': 'gridStep',
+      'aria-label': '网格步长 · Grid step (m)',
+    }),
+  ]));
+  snapConfig.appendChild(el('label', { className: 'plab-inline-field' }, [
+    el('span', { text: '角度步长 · Angle step (°)' }),
+    el('input', {
+      type: 'number',
+      min: '1',
+      max: '45',
+      step: '1',
+      value: '5',
+      'data-field': 'angleStep',
+      'aria-label': '角度步长 · Angle step (°)',
+    }),
+  ]));
+  assistSection.appendChild(snapConfig);
+
+  const transformSection = moreSection('变换与视图', 'Transform & view');
+  transformSection.appendChild(gizmoGroup);
+  const cameraRow = el('div', { className: 'plab-tool-row' });
+  cameraRow.append(frameBtn, rulerBtn, stepBtn);
+  transformSection.appendChild(cameraRow);
+  transformSection.appendChild(rulerReadout);
+  transformSection.appendChild(viewGroup);
+  transformSection.appendChild(snapToggleBtn);
+
+  const displaySection = moreSection('显示', 'Display');
+  displaySection.appendChild(forceLabel);
+  const displayToggles = el('div', { className: 'plab-tool-row' });
+  const energyToggleLabel = el('label', { className: 'plab-check hit-target' }, [
+    el('input', { type: 'checkbox', checked: true, 'data-toggle': 'energy' }),
+    el('span', { text: '能量表 · Energy table' }),
+  ]);
+  displayToggles.append(energyToggleLabel, trailToggleBtn, graphToggleBtn);
+  displaySection.appendChild(displayToggles);
+  displaySection.appendChild(legend);
+  displaySection.appendChild(energy);
+  displaySection.appendChild(graphSection);
+
+  const timeSection = moreSection('时间', 'Time');
+  timeSection.appendChild(timeScaleWrap);
+  timeSection.appendChild(scrub);
+  const stepSizeWrap = el('label', { className: 'plab-inline-field' }, [
+    el('span', { text: '物理步长 · Physics step' }),
+    el('select', { className: 'plab-select', 'data-field': 'stepSize', 'aria-label': '物理步长 · Physics step' }, [
+      el('option', { value: '0.0041667', text: '1/240 s · 标准 · Standard' }),
+      el('option', { value: '0.0020833', text: '1/480 s · 精细 · Fine' }),
+      el('option', { value: '0.0083333', text: '1/120 s · 快速 · Fast' }),
+    ]),
+  ]);
+  timeSection.appendChild(stepSizeWrap);
+
+  const advancedSection = moreSection('所选对象', 'Selected object');
+  const moreAdvanced = el('div', { className: 'plab-more-advanced' });
+  advancedSection.appendChild(moreAdvanced);
+
+  const sceneSection = moreSection('场景', 'Scene');
+  const sceneRow = el('div', { className: 'plab-tool-row' });
+  sceneRow.append(saveBtn, loadBtn, exportBtn, importBtn, importInput);
+  sceneSection.appendChild(sceneRow);
+  const editRow = el('div', { className: 'plab-tool-row' });
+  editRow.append(dupBtn, snapSelBtn, detachBtn);
+  sceneSection.appendChild(editRow);
+  const clearRow = el('div', { className: 'plab-tool-row' });
+  clearRow.append(clearBtn);
+  sceneSection.appendChild(clearRow);
+  sceneSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '只保存你自己的场景 · Saves only your own scenes.',
+  }));
+  sceneSection.appendChild(environment);
+
+  const outlinerSection = moreSection('对象列表', 'Outliner');
+  outlinerSection.appendChild(outliner);
+
+  bodyGrid.append(stage, side);
+  root.append(head, bodyGrid, moreBackdrop, morePanel);
+
   snapSelBtn.addEventListener('click', () => {
     const b = selectedBody();
     if (!b) {
@@ -459,36 +612,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     buildInspector();
     setStatus('已脱离约束，物体成为自由刚体。 · Detached; the body is now free.');
   });
-  toolRow.append(snapSelBtn, detachBtn);
-  tools.appendChild(toolRow);
-
-  const sceneRow = el('div', { className: 'plab-tool-row' });
-  const saveBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '保存场景 · Save', 'data-action': 'save' });
-  const loadBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '读取场景 · Load', 'data-action': 'load' });
-  const exportBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '导出 JSON · Export', 'data-action': 'export' });
-  const importBtn = el('button', { type: 'button', className: 'plab-btn hit-target', text: '导入 JSON · Import', 'data-action': 'import' });
-  const importInput = el('input', { type: 'file', accept: '.json,application/json', hidden: true, 'data-field': 'import' });
-  sceneRow.append(saveBtn, loadBtn, exportBtn, importBtn, importInput);
-  tools.appendChild(sceneRow);
-  tools.appendChild(el('p', { className: 'plab-field-hint', text: '只保存你自己的场景 · Saves only your own scene.' }));
-  palette.appendChild(tools);
-
-  const inspector = el('section', { className: 'plab-panel plab-inspector', 'data-panel': 'inspector' });
-  const inspectorBody = el('div', { className: 'plab-inspector-body' });
-  inspector.appendChild(inspectorBody);
-
-  const outliner = el('section', { className: 'plab-outliner', 'aria-label': '对象列表 · Outliner' });
-  const outlinerHead = el('div', { className: 'plab-outliner-head' }, [
-    el('h2', { className: 'plab-panel-title', text: '对象列表 · Outliner' }),
-    el('span', { className: 'plab-outliner-count', text: '0', 'data-readout': 'outlinerCount' }),
-  ]);
-  const outlinerList = el('div', { className: 'plab-outliner-list' });
-  const outlinerHint = el('p', { className: 'plab-outliner-hint', text: '空场景 · Empty scene. 双击名称可重命名。 · Double-click a name to rename.' });
-  outliner.append(outlinerHead, outlinerHint, outlinerList);
-
-  side.append(outliner, mobileTabs, palette, inspector);
-  bodyGrid.append(stage, side);
-  root.append(head, bodyGrid);
+  stage.appendChild(canvasHost);
 
   if (!isCurrent()) return { destroy() {} };
 
@@ -497,12 +621,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let running = false;
   let timeScale = 1;
   let selected = null;
-  let gizmoMode = 'translate';
+  let gizmoMode = 'off';
   let pendingLink = null;
   let lastFrame = performance.now();
   let lastReadout = 0;
   const liveNodes = new Map();
-  let snapOn = false;
+  let inspectorSummary = null;
+  let snapOn = true;
   let trailOn = false;
   let graphsOn = false;
   let rulerMode = false;
@@ -518,10 +643,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let scrubIndex = -1;
   const graphData = [];
   let graphBodyId = null;
+  let gridStep = 0.1;
+  let angleStepDeg = 5;
+  let shiftHeld = false;
+  const assists = { snap: true, connect: true, placement: true, direct: true };
+  const mobileQuery = window.matchMedia('(max-width: 760px)');
 
   const view = createLabView(canvasHost, {
     getForces: (w, b) => forceVectors(w, b),
     onPick: (hit, event) => handlePick(hit, event),
+    canDirectDrag: () => assists.direct && !running && !modal,
+    onDirectDragStart: (entityRef) => handleDirectDragStart(entityRef),
+    onDirectDrag: (entityRef, point) => handleDirectDrag(entityRef, point),
+    onDirectDragEnd: (entityRef) => handleDirectDragEnd(entityRef),
+    onVelocityDrag: (entityRef, point, phase) => handleVelocityDrag(entityRef, point, phase),
+    onAngleDrag: (entityRef, angle, phase) => handleAngleDrag(entityRef, angle, phase),
     onDragStart: (entityRef) => {
       if (running) return;
       pushUndo('gizmo');
@@ -535,22 +671,94 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     },
   });
   view.resize();
+  applySnapSettings();
+  root.querySelectorAll('[data-gizmo]').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.gizmo === gizmoMode);
+  });
 
   function setStatus(text, warn = false) {
     status.textContent = text;
     status.dataset.warn = warn ? '1' : '0';
   }
 
-  function setMobileTab(name) {
-    root.dataset.mobileTab = name;
-    tabPalette.classList.toggle('active', name === 'palette');
-    tabInspector.classList.toggle('active', name === 'inspector');
-    tabPalette.setAttribute('aria-selected', name === 'palette' ? 'true' : 'false');
-    tabInspector.setAttribute('aria-selected', name === 'inspector' ? 'true' : 'false');
+  function isMobile() {
+    return mobileQuery.matches;
   }
-  setMobileTab('palette');
-  tabPalette.addEventListener('click', () => setMobileTab('palette'));
-  tabInspector.addEventListener('click', () => setMobileTab('inspector'));
+
+  function openAddMenu() {
+    closeMore();
+    addMenu.hidden = false;
+    addBtn.setAttribute('aria-expanded', 'true');
+    root.dataset.addOpen = '1';
+    const first = addMenu.querySelector('[data-add]');
+    if (first) first.focus({ preventScroll: true });
+    if (isMobile()) moreBackdrop.hidden = false;
+  }
+
+  function closeAddMenu() {
+    addMenu.hidden = true;
+    addBtn.setAttribute('aria-expanded', 'false');
+    delete root.dataset.addOpen;
+    if (morePanel.hidden) moreBackdrop.hidden = true;
+  }
+
+  function openMore() {
+    closeAddMenu();
+    openInspector(false);
+    buildMoreAdvanced();
+    morePanel.hidden = false;
+    moreBackdrop.hidden = false;
+    root.dataset.moreOpen = '1';
+    moreBtn.setAttribute('aria-expanded', 'true');
+    const close = morePanel.querySelector('[data-action="more-close"]');
+    if (close) close.focus({ preventScroll: true });
+  }
+
+  function closeMore() {
+    const hadFocus = document.activeElement && morePanel.contains(document.activeElement);
+    morePanel.hidden = true;
+    moreBackdrop.hidden = true;
+    delete root.dataset.moreOpen;
+    moreBtn.setAttribute('aria-expanded', 'false');
+    if (hadFocus) moreBtn.focus({ preventScroll: true });
+  }
+
+  function openInspector(open) {
+    const next = !!open;
+    if (next) closeAddMenu();
+    root.dataset.inspectorOpen = next ? '1' : '0';
+  }
+
+  function closeAllPanels() {
+    closeAddMenu();
+    closeMore();
+    openInspector(false);
+  }
+
+  function onMobileChange() {
+    if (!isMobile()) {
+      openInspector(false);
+      closeAddMenu();
+      closeMore();
+    } else if (selected) {
+      openInspector(true);
+    }
+  }
+  if (mobileQuery.addEventListener) mobileQuery.addEventListener('change', onMobileChange);
+  else if (mobileQuery.addListener) mobileQuery.addListener(onMobileChange);
+
+  function onDocPointerDown(e) {
+    if (!addMenu.hidden && !addWrap.contains(e.target) && !e.target.closest?.('[data-add-menu]')) {
+      closeAddMenu();
+    }
+  }
+  document.addEventListener('pointerdown', onDocPointerDown, true);
+
+  function onBackdrop() {
+    closeAddMenu();
+    closeMore();
+  }
+  moreBackdrop.addEventListener('click', onBackdrop);
 
   function entityById(type, id) {
     if (type === 'body') return getBody(world, id);
@@ -567,8 +775,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     selected = entity || null;
     if (selected) {
       view.setSelection({ type: selected.type, id: selected.id });
+      if (isMobile()) openInspector(true);
     } else {
       view.setSelection(null);
+      if (isMobile()) openInspector(false);
     }
     const nextKey = selected ? `${selected.type}:${selected.id}` : '';
     if (nextKey !== prevKey) resetGraphs();
@@ -592,14 +802,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function updateTransport() {
-    playBtn.disabled = running;
-    pauseBtn.disabled = !running;
-    playBtn.textContent = running ? '运行中 · Running' : '播放 · Play';
+    playBtn.textContent = running ? '暂停 · Pause' : '播放 · Play';
     playBtn.setAttribute('aria-pressed', running ? 'true' : 'false');
     root.dataset.running = running ? '1' : '0';
     view.transform.enabled = !running && gizmoMode !== 'off';
     if (view.setGizmoVisible) view.setGizmoVisible(!running && gizmoMode !== 'off');
     view.setGizmoMode(gizmoMode);
+    view.setHandleVisibility?.(!running && assists.direct);
   }
 
   function prepareEdit() {
@@ -621,6 +830,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     loop: { halfX: 1.8, halfZ: 0.2 },
     turntable: { halfX: 2, halfZ: 2 },
     hcircle: { halfX: 2, halfZ: 2 },
+    block: { halfX: 0.5, halfZ: 0.5 },
+    cart: { halfX: 0.6, halfZ: 0.6 },
   };
 
   function apparatusBoxes() {
@@ -633,28 +844,40 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     for (const l of world.loops) boxes.push({ x: l.x, z: l.z, halfX: l.radius, halfZ: 0.2 });
     for (const t of world.turntables) boxes.push({ x: t.x, z: t.z, halfX: t.radius, halfZ: t.radius });
     for (const c of world.hcircles) boxes.push({ x: c.x, z: c.z, halfX: c.radius, halfZ: c.radius });
+    for (const b of world.bodies) {
+      const p = b.cannon?.position;
+      if (!p) continue;
+      const half = (b.kind === 'cart' ? Math.max(0.45, b.radius) : (b.size || 0.5) / 2) + 0.35;
+      boxes.push({ x: p.x, z: p.z, halfX: half, halfZ: half });
+    }
     return boxes;
   }
 
-  function placementClear(x, halfX, halfZ, boxes) {
+  function placementClear(x, z, halfX, halfZ, boxes) {
     const margin = 0.6;
     for (const box of boxes) {
       const overlapX = Math.abs(x - box.x) < halfX + box.halfX + margin;
-      const overlapZ = Math.abs(0 - box.z) < halfZ + box.halfZ + margin;
+      const overlapZ = Math.abs(z - box.z) < halfZ + box.halfZ + margin;
       if (overlapX && overlapZ) return false;
     }
     return true;
   }
 
-  function nextPlacement(kind) {
+  function nextPlacement(kind, base = null) {
     const extent = APPARATUS_EXTENT[kind] || { halfX: 1, halfZ: 1 };
     const boxes = apparatusBoxes();
-    for (let i = 0; i < 240; i += 1) {
-      const mag = Math.ceil(i / 2) * 0.5;
-      const x = i === 0 ? 0 : (i % 2 === 1 ? mag : -mag);
-      if (placementClear(x, extent.halfX, extent.halfZ, boxes)) return x;
+    const anchor = base || view.placementPoint?.() || { x: 0, y: 0, z: 0 };
+    const bx = Number.isFinite(anchor.x) ? anchor.x : 0;
+    const bz = Number.isFinite(anchor.z) ? anchor.z : 0;
+    const ring = [0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, 3.2, -3.2];
+    for (let i = 0; i < ring.length; i += 1) {
+      for (let j = 0; j < ring.length; j += 1) {
+        const x = bx + ring[i];
+        const z = bz + ring[j];
+        if (placementClear(x, z, extent.halfX, extent.halfZ, boxes)) return { x, z };
+      }
     }
-    return 0;
+    return { x: bx, z: bz };
   }
 
   function selectedBody() {
@@ -704,8 +927,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       item.dataset.entityType = entity.type;
       item.dataset.entityId = entity.id;
       item.addEventListener('click', () => {
+        if (isMobile()) closeMore();
         select(entity);
-        setMobileTab('inspector');
       });
       item.addEventListener('dblclick', (event) => {
         event.preventDefault();
@@ -968,12 +1191,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         applyInitialVelocity(world, copy);
       }
     } else if (entity.type === 'surface') {
+      const spot = nextPlacement(entity.kind);
       copy = addSurface(world, {
         kind: entity.kind,
         name: entity.name ? `${entity.name} 副本` : '',
-        x: nextPlacement(entity.kind),
+        x: spot.x,
         y: entity.body.position.y,
-        z: entity.body.position.z,
+        z: spot.z,
         angleDeg: entity.angle,
         length: entity.length,
         width: entity.width,
@@ -982,21 +1206,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         muK: entity.muK,
       });
     } else if (entity.type === 'loop') {
+      const spot = nextPlacement('loop');
       copy = addLoop(world, {
         name: entity.name ? `${entity.name} 副本` : '',
-        x: nextPlacement('loop'), y: entity.y, z: entity.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
+        x: spot.x, y: entity.y, z: spot.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
       });
     } else if (entity.type === 'turntable') {
+      const spot = nextPlacement('turntable');
       copy = addTurntable(world, {
         name: entity.name ? `${entity.name} 副本` : '',
-        x: nextPlacement('turntable'), y: entity.body.position.y, z: entity.body.position.z,
+        x: spot.x, y: entity.body.position.y, z: spot.z,
         radius: entity.radius, omega: entity.omega, targetOmega: entity.targetOmega,
         torque: entity.torque, I: entity.I, drive: entity.drive, muS: entity.muS, muK: entity.muK,
       });
     } else if (entity.type === 'hcircle') {
+      const spot = nextPlacement('hcircle');
       copy = addHCircle(world, {
         name: entity.name ? `${entity.name} 副本` : '',
-        x: nextPlacement('hcircle'), y: entity.y, z: entity.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
+        x: spot.x, y: entity.y, z: spot.z, radius: entity.radius, muS: entity.muS, muK: entity.muK,
       });
     } else if (entity.type === 'link') {
       copy = addLink(world, { a: { ...entity.a }, b: { ...entity.b }, k: entity.k, beta: entity.beta, rest: entity.rest, meter: entity.meter });
@@ -1605,26 +1832,49 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   let scaleSession = null;
 
+  function flashSeat(entity) {
+    if (!entity || !view.flashSnap) return;
+    let pos = null;
+    let quat = null;
+    if (entity.type === 'body') pos = entity.cannon.position;
+    else if (entity.type === 'surface') pos = entity.body.position;
+    else pos = { x: entity.x, y: entity.y, z: entity.z };
+    if (entity.type === 'body' && entity.attachment?.type === 'surface') {
+      const surface = getSurface(world, entity.attachment.id);
+      if (surface) quat = surface.body.quaternion;
+    } else if (entity.type === 'surface') {
+      quat = entity.body.quaternion;
+    }
+    view.flashSnap(pos, quat);
+  }
+
   function addApparatus(kind) {
+    closeAddMenu();
     pushUndo('add');
     prepareEdit();
     let entity = null;
     if (kind === 'incline') {
-      entity = addSurface(world, { kind: 'incline', x: nextPlacement(kind), y: 1.35, z: 0, angleDeg: 20, length: 8, width: 2.4, muS: 0.5, muK: 0.35 });
+      const spot = nextPlacement(kind);
+      entity = addSurface(world, { kind: 'incline', x: spot.x, y: 1.35, z: spot.z, angleDeg: 20, length: 8, width: 2.4, muS: 0.3, muK: 0.2 });
     } else if (kind === 'surface') {
-      entity = addSurface(world, { kind: 'surface', x: nextPlacement(kind), y: 0.55, z: 0, angleDeg: 0, length: 9, width: 2.4, muS: 0.5, muK: 0.35 });
+      const spot = nextPlacement(kind);
+      entity = addSurface(world, { kind: 'surface', x: spot.x, y: 0.55, z: spot.z, angleDeg: 0, length: 9, width: 2.4, muS: 0.45, muK: 0.28 });
     } else if (kind === 'track') {
-      entity = addSurface(world, { kind: 'track', x: nextPlacement(kind), y: 0.55, z: 0, angleDeg: 0, length: 10, width: 2.4, muS: 0.3, muK: 0.2 });
+      const spot = nextPlacement(kind);
+      entity = addSurface(world, { kind: 'track', x: spot.x, y: 0.55, z: spot.z, angleDeg: 0, length: 10, width: 2.4, muS: 0.3, muK: 0.2 });
     } else if (kind === 'loop') {
-      entity = addLoop(world, { x: nextPlacement(kind), y: 2.7, z: 0, radius: 1.8 });
+      const spot = nextPlacement(kind);
+      entity = addLoop(world, { x: spot.x, y: 2.7, z: spot.z, radius: 1.8 });
     } else if (kind === 'turntable') {
-      entity = addTurntable(world, { x: nextPlacement(kind), y: 0.62, z: 0, radius: 2, omega: 1.2, targetOmega: 1.2, I: 8, drive: 'target', muS: 0.5, muK: 0.35 });
+      const spot = nextPlacement(kind);
+      entity = addTurntable(world, { x: spot.x, y: 0.62, z: spot.z, radius: 2, omega: 1.2, targetOmega: 1.2, I: 8, drive: 'target', muS: 0.5, muK: 0.35 });
     } else if (kind === 'hcircle') {
-      entity = addHCircle(world, { x: nextPlacement(kind), z: 0, y: 0.12, radius: 2, muS: 0.55, muK: 0.35 });
+      const spot = nextPlacement(kind);
+      entity = addHCircle(world, { x: spot.x, z: spot.z, y: 0.12, radius: 2, muS: 0.55, muK: 0.35 });
     } else if (kind === 'block' || kind === 'cart') {
-      let spawn = { x: 0, y: 2.5, z: 0 };
       const target = selected?.type === 'surface' || selected?.type === 'loop'
         || selected?.type === 'turntable' || selected?.type === 'hcircle' ? selected : null;
+      let spawn;
       if (target?.type === 'surface') {
         spawn = { x: target.body.position.x, y: target.body.position.y + 1.1, z: target.body.position.z };
       } else if (target?.type === 'loop') {
@@ -1633,15 +1883,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         spawn = { x: target.x + target.radius * 0.55, y: target.y + 0.9, z: target.z };
       } else if (target?.type === 'hcircle') {
         spawn = { x: target.x + target.radius, y: target.y + 0.7, z: target.z };
-      } else if (selected?.type === 'body') {
-        // Duplicating next to an already-selected body is convenient, but the
-        // new object still falls back to the nearest apparatus if one is in
-        // range.
-        spawn = { x: selected.cannon.position.x + 0.8, y: selected.cannon.position.y + 0.8, z: selected.cannon.position.z };
+      } else if (assists.placement) {
+        const spot = nextPlacement(kind);
+        spawn = { x: spot.x, y: 1.0, z: spot.z };
+      } else {
+        spawn = { x: 0, y: 2.5, z: 0 };
       }
       entity = kind === 'cart'
-        ? addCart(world, { mass: 1, radius: 0.3, x: spawn.x, y: spawn.y, z: spawn.z })
-        : addBlock(world, { mass: 1, size: 0.5, x: spawn.x, y: spawn.y, z: spawn.z });
+        ? addCart(world, { mass: 1, radius: 0.3, x: spawn.x, y: spawn.y, z: spawn.z, brake: false })
+        : addBlock(world, { mass: 1, size: 0.5, x: spawn.x, y: spawn.y, z: spawn.z, brake: false });
       if (target?.type === 'surface') {
         attachBodyToSurface(world, entity, target.id, { localX: 0, localZ: 0 });
       } else if (target?.type === 'loop') {
@@ -1651,21 +1901,28 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else if (target?.type === 'hcircle') {
         attachBodyToHCircle(world, entity, target.id, { phi: 0 });
       } else {
-        snapBodyToNearest(world, entity, { maxDistance: 5 });
+        let seated = null;
+        if (assists.snap) seated = snapBodyToNearest(world, entity, { maxDistance: 6 });
+        if (seated) {
+          flashSeat(entity);
+        } else {
+          entity.cannon.position.set(spawn.x, entity.halfHeight + 0.02, spawn.z);
+          applyInitialVelocity(world, entity);
+        }
       }
     } else if (kind === 'spring' || kind === 'nonlinear' || kind === 'meter') {
       startLink(kind);
       return;
     }
     if (!entity) return;
-    snapNearbyBodies(world, 4);
+    snapNearbyBodies(world, 2.4);
     captureInitial(world);
     view.sync(world);
     select(entity);
     renderOutliner();
     updateEmpty();
     updateTransport();
-    setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 拖动工具可移动，属性面板可调参数。`);
+    setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 直接拖动即可移动，吸附默认开启。 · Drag it directly; auto-snap is on.`);
   }
 
   function startLink(kind) {
@@ -1683,7 +1940,30 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     setStatus(body
       ? '已选起点：点击第二个端点（物体或地面锚点）。 · First endpoint set: click the second endpoint (body or ground anchor).'
       : '点击第一个端点（物体或地面锚点）。 · Click the first endpoint (body or ground anchor).');
-    setMobileTab('palette');
+  }
+
+  function nearestBodyToPoint(point, maxDistance = 1.8) {
+    let best = null;
+    let bestD = maxDistance;
+    for (const body of world.bodies) {
+      const p = body.cannon.position;
+      const d = Math.hypot(point.x - p.x, point.y - p.y, point.z - p.z);
+      if (d < bestD) { bestD = d; best = body; }
+    }
+    return best;
+  }
+
+  function nearestAnchorToPoint(point, maxDistance = 1.2) {
+    let best = null;
+    let bestD = maxDistance;
+    for (const link of world.links) {
+      for (const end of [link.a, link.b]) {
+        if (end?.type !== 'anchor') continue;
+        const d = Math.hypot(point.x - end.x, point.y - end.y, point.z - end.z);
+        if (d < bestD) { bestD = d; best = { type: 'anchor', x: end.x, y: end.y, z: end.z }; }
+      }
+    }
+    return best;
   }
 
   function handlePick(hit, event) {
@@ -1707,14 +1987,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     if (pendingLink) {
       let endpoint;
+      const point = hit?.point || view.groundPoint(event.clientX, event.clientY);
       if (hit?.entity?.type === 'body') {
         endpoint = { type: 'body', id: hit.entity.id };
+      } else if (assists.connect) {
+        const nearBody = nearestBodyToPoint(point, 1.8);
+        const nearAnchor = nearestAnchorToPoint(point, 1.2);
+        if (nearBody) endpoint = { type: 'body', id: nearBody.id };
+        else if (nearAnchor) endpoint = nearAnchor;
+        else endpoint = addAnchor(point.x, Math.max(0, point.y), point.z);
       } else {
-        const point = hit?.point || view.groundPoint(event.clientX, event.clientY);
         endpoint = addAnchor(point.x, Math.max(0, point.y), point.z);
       }
       if (!pendingLink.first) {
         pendingLink.first = endpoint;
+        if (endpoint.type === 'body') {
+          const b = getBody(world, endpoint.id);
+          if (b) view.flashSnap?.(b.cannon.position);
+        }
         setStatus('点击第二个端点（物体或地面锚点）。 · Click the second endpoint (body or ground anchor).');
         return;
       }
@@ -1748,7 +2038,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       select(link);
       renderOutliner();
       updateEmpty();
-      setStatus('连接已创建，可在属性面板调节 k、β 与原长。 · Link created; adjust k, β and rest length in the inspector.');
+      const pa = endpoint.type === 'anchor' ? endpoint : getBody(world, endpoint.id)?.cannon.position;
+      if (pa) view.flashSnap?.(pa);
+      setStatus('连接已创建；更多设置中可调节 k、β 与原长。 · Link created; adjust k, β and rest length in More settings.');
       return;
     }
     if (hit?.entity) {
@@ -1756,13 +2048,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (entity) {
         select(entity);
         renderOutliner();
-        setMobileTab('inspector');
-        setStatus(`已选择：${labelText(...kindLabel(entity))}`);
+        setStatus(`已选择：${labelText(...kindLabel(entity))} · 拖动可直接移动 · Drag to move directly`);
       }
       return;
     }
     select(null);
-    setStatus('自由实验室：从面板添加器材。 · Free lab: add apparatus from the palette.');
+    setStatus('自由实验室：从上方「添加器材」开始。 · Free lab: start with Add above.');
   }
 
   function handleTransform(entityRef, object) {
@@ -1837,8 +2128,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const entity = entityById(entityRef.type, entityRef.id);
     if (!entity) return;
     if (entity.type === 'body') {
-      const hit = snapBodyToNearest(world, entity, { maxDistance: 2.4 });
-      if (hit) setStatus('已吸附到装置。 · Snapped to apparatus.');
+      const hit = assists.snap && !shiftHeld ? snapBodyToNearest(world, entity, { maxDistance: 2.4 }) : null;
+      if (hit) {
+        flashSeat(entity);
+        setStatus('已自动吸附到装置。 · Auto-snapped to apparatus.');
+      }
     } else if (entity.type === 'surface' || entity.type === 'loop' || entity.type === 'turntable' || entity.type === 'hcircle') {
       snapNearbyBodies(world, 2);
     }
@@ -1849,6 +2143,85 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     updateEmpty();
     clearHistory();
     updateUndoButtons();
+  }
+
+  function handleDirectDragStart(entityRef) {
+    if (!entityRef || running) return;
+    const entity = entityById(entityRef.type, entityRef.id);
+    if (!entity || entity.type !== 'body') return;
+    select(entity);
+    pushUndo('direct-drag');
+    prepareEdit();
+    if (entity.attachment) detachBody(world, entity);
+    entity.cannon.velocity.setZero();
+    entity.cannon.angularVelocity.setZero();
+    setStatus('拖动中：松开后自动吸附 · Dragging; release to auto-snap');
+  }
+
+  function handleDirectDrag(entityRef, point) {
+    const entity = entityById(entityRef?.type, entityRef?.id);
+    if (!entity || entity.type !== 'body' || !point) return;
+    entity.cannon.position.set(point.x, Math.max(entity.halfHeight + 0.02, point.y), point.z);
+    entity.cannon.aabbNeedsUpdate = true;
+    view.sync(world);
+  }
+
+  function handleDirectDragEnd(entityRef) {
+    const entity = entityById(entityRef?.type, entityRef?.id);
+    if (!entity || entity.type !== 'body') return;
+    const hit = assists.snap && !shiftHeld ? snapBodyToNearest(world, entity, { maxDistance: 2.4 }) : null;
+    if (hit) {
+      flashSeat(entity);
+      setStatus('已自动吸附到最近表面。 · Auto-snapped to the nearest surface.');
+    } else {
+      entity.cannon.position.y = entity.halfHeight + 0.02;
+      entity.cannon.velocity.setZero();
+      applyInitialVelocity(world, entity);
+      setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+    }
+    captureInitial(world);
+    view.sync(world);
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    clearHistory();
+    updateUndoButtons();
+  }
+
+  function handleVelocityDrag(entityRef, point, phase) {
+    const entity = entityById(entityRef?.type, entityRef?.id);
+    if (!entity || entity.type !== 'body' || !point) return;
+    const p = entity.cannon.position;
+    const dx = point.x - p.x;
+    const dz = point.z - p.z;
+    entity.v0 = Math.max(0, Math.min(20, Math.hypot(dx, dz)));
+    entity.azimuth = (Math.atan2(dz, dx) * 180) / Math.PI;
+    entity.elevation = 0;
+    if (!running && world.time === 0) applyInitialVelocity(world, entity);
+    const v0Input = inspectorBody.querySelector('[data-field="v0"]');
+    const azInput = inspectorBody.querySelector('[data-field="azimuth"]');
+    if (v0Input) v0Input.value = fmtInput(entity.v0);
+    if (azInput) azInput.value = fmtInput(entity.azimuth);
+    view.sync(world);
+    if (phase === 'end') {
+      captureInitial(world);
+      buildInspector();
+      setStatus(`初速度 · Initial speed: ${fmt(entity.v0)} m/s · ${fmt(entity.azimuth)}°`);
+    }
+  }
+
+  function handleAngleDrag(entityRef, angle, phase) {
+    const entity = entityById(entityRef?.type, entityRef?.id);
+    if (!entity || entity.type !== 'surface') return;
+    setSurfaceAngle(world, entity, Math.max(-60, Math.min(60, angle)));
+    view.sync(world);
+    const input = inspectorBody.querySelector('[data-field="angle"]');
+    if (input) input.value = fmtInput(entity.angle);
+    if (phase === 'end') {
+      captureInitial(world);
+      buildInspector();
+      setStatus(`倾角 · Incline angle: ${fmt(entity.angle)}°`);
+    }
   }
 
   function deleteSelected() {
@@ -1920,11 +2293,63 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     updateLive();
   }
 
-  playBtn.addEventListener('click', play);
-  pauseBtn.addEventListener('click', pause);
+  playBtn.addEventListener('click', () => { if (running) pause(); else play(); });
   stepBtn.addEventListener('click', step);
   resetBtn.addEventListener('click', reset);
   clearBtn.addEventListener('click', clearScene);
+  addBtn.addEventListener('click', () => { if (addMenu.hidden) openAddMenu(); else closeAddMenu(); });
+  moreBtn.addEventListener('click', () => { if (morePanel.hidden) openMore(); else closeMore(); });
+  root.querySelector('[data-action="more-close"]')?.addEventListener('click', closeMore);
+  root.querySelector('[data-action="inspector-close"]')?.addEventListener('click', () => openInspector(false));
+
+  function applySnapSettings() {
+    const active = snapOn && !shiftHeld;
+    view.transform.translationSnap = active ? gridStep : null;
+    view.transform.rotationSnap = active ? (angleStepDeg * Math.PI) / 180 : null;
+    view.transform.scaleSnap = active ? 0.1 : null;
+    snapToggleBtn.classList.toggle('active', snapOn);
+    snapToggleBtn.setAttribute('aria-pressed', snapOn ? 'true' : 'false');
+  }
+
+  autoSnapToggle.addEventListener('change', () => {
+    assists.snap = autoSnapToggle.checked;
+    setStatus(assists.snap ? '自动吸附已开启。 · Auto-snap on.' : '自动吸附已关闭。 · Auto-snap off.');
+  });
+  autoConnectToggle.addEventListener('change', () => {
+    assists.connect = autoConnectToggle.checked;
+    setStatus(assists.connect ? '自动连接已开启。 · Auto-connect on.' : '自动连接已关闭。 · Auto-connect off.');
+  });
+  autoPlaceToggle.addEventListener('change', () => {
+    assists.placement = autoPlaceToggle.checked;
+    setStatus(assists.placement ? '智能放置已开启。 · Smart placement on.' : '智能放置已关闭。 · Smart placement off.');
+  });
+  directToggle.addEventListener('change', () => {
+    assists.direct = directToggle.checked;
+    view.setHandleVisibility?.(!running && assists.direct);
+    setStatus(assists.direct ? '直接拖动已开启。 · Direct manipulation on.' : '直接拖动已关闭。 · Direct manipulation off.');
+  });
+  root.querySelector('[data-field="gridStep"]')?.addEventListener('change', (e) => {
+    const value = Number(e.target.value);
+    if (Number.isFinite(value) && value > 0) gridStep = value;
+    applySnapSettings();
+  });
+  root.querySelector('[data-field="angleStep"]')?.addEventListener('change', (e) => {
+    const value = Number(e.target.value);
+    if (Number.isFinite(value) && value > 0) angleStepDeg = value;
+    applySnapSettings();
+  });
+  const energyToggle = root.querySelector('[data-toggle="energy"]');
+  energyToggle?.addEventListener('change', () => {
+    energy.hidden = !energyToggle.checked;
+  });
+  const stepSizeSelect = root.querySelector('[data-field="stepSize"]');
+  stepSizeSelect?.addEventListener('change', () => {
+    const value = Number(stepSizeSelect.value);
+    if (Number.isFinite(value) && value > 0) {
+      world.h = value;
+      setStatus(`物理步长：${value.toFixed(5)} s。 · Physics step: ${value.toFixed(5)} s.`);
+    }
+  });
 
   root.querySelectorAll('[data-view]').forEach((btn) => {
     btn.addEventListener('click', () => view.setView(btn.dataset.view));
@@ -1933,6 +2358,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     btn.addEventListener('click', () => {
       gizmoMode = btn.dataset.gizmo;
       root.querySelectorAll('[data-gizmo]').forEach((b) => b.classList.toggle('active', b === btn));
+      view.transform.enabled = !running && gizmoMode !== 'off';
       view.setGizmoMode(gizmoMode);
     });
   });
@@ -1970,16 +2396,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       rulerBtn.setAttribute('aria-pressed', 'true');
       rulerReadout.textContent = '点击两点 · Click two points';
       setStatus('尺子：点击两个点测量距离。 · Ruler: click two points to measure the distance.');
+      closeMore();
     }
   });
   snapToggleBtn.addEventListener('click', () => {
     snapOn = !snapOn;
-    snapToggleBtn.classList.toggle('active', snapOn);
-    snapToggleBtn.setAttribute('aria-pressed', snapOn ? 'true' : 'false');
-    view.transform.translationSnap = snapOn ? 0.25 : null;
-    view.transform.rotationSnap = snapOn ? Math.PI / 12 : null;
-    view.transform.scaleSnap = snapOn ? 0.1 : null;
-    setStatus(snapOn ? '手柄吸附已开启：0.25 m / 15°。 · Gizmo snap on: 0.25 m / 15°.' : '手柄吸附已关闭。 · Gizmo snap off.');
+    applySnapSettings();
+    setStatus(snapOn
+      ? `手柄吸附已开启：${gridStep} m / ${angleStepDeg}°。 · Gizmo snap on.`
+      : '手柄吸附已关闭。 · Gizmo snap off.');
   });
   trailToggleBtn.addEventListener('click', () => {
     trailOn = !trailOn;
@@ -2017,11 +2442,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   window.addEventListener('pointermove', onModalPointerMove);
   window.addEventListener('pointerdown', onModalPointerDown, true);
   document.addEventListener('focusin', onFocusIn);
-  window.addEventListener('contextmenu', (e) => {
+  function onContextMenu(e) {
     if (!modal) return;
     e.preventDefault();
     cancelModal();
-  });
+  }
+  window.addEventListener('contextmenu', onContextMenu);
 
   root.querySelectorAll('[data-add]').forEach((btn) => {
     btn.addEventListener('click', () => addApparatus(btn.dataset.add));
@@ -2172,13 +2598,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function buildInspector() {
     clear(inspectorBody);
-    liveNodes.clear();
+    inspectorSummary = null;
     if (!selected) {
-      inspectorBody.appendChild(el('h2', { className: 'plab-panel-title', text: '属性 · Inspector' }));
       inspectorBody.appendChild(el('p', {
         className: 'plab-inspector-empty',
-        text: '未选择 · Nothing selected. 点击场景中的物体查看并调整参数。 · Click an object in the scene to inspect and edit it.',
+        text: '未选择 · Nothing selected. 点击场景中的物体查看常用参数。 · Click an object to see its common parameters.',
       }));
+      buildMoreAdvanced();
       return;
     }
     const entity = entityById(selected.type, selected.id);
@@ -2189,9 +2615,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     inspectorHeading(inspectorBody, entity);
     const geoDisabled = running;
+    const common = el('div', { className: 'plab-inspector-common' });
+    inspectorBody.appendChild(common);
 
     if (entity.type === 'surface') {
-      field(inspectorBody, {
+      field(common, {
         label: '斜面倾角 · Incline angle',
         value: entity.angle,
         min: -60,
@@ -2206,7 +2634,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           view.sync(world);
         },
       });
-      field(inspectorBody, {
+      field(common, {
         label: '表面长度 · Surface length',
         value: entity.length,
         min: 1,
@@ -2221,23 +2649,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           view.sync(world);
         },
       });
-      frictionFields(inspectorBody, entity);
-      const flip = el('button', { type: 'button', className: 'plab-btn hit-target', text: '翻转坡度 · Flip slope' });
-      flip.addEventListener('click', () => {
-        pushUndo('flip');
-        prepareEdit();
-        setSurfaceAngle(world, entity, -entity.angle);
-        captureInitial(world);
-        view.sync(world);
-        buildInspector();
-      });
-      inspectorBody.appendChild(flip);
-      if (geoDisabled) inspectorBody.appendChild(el('p', { className: 'plab-field-hint', text: '暂停后可调整几何 · Pause to edit geometry.' }));
-      formula(inspectorBody, 'N=mg\\cos\\theta,\\qquad |f_{s}|\\le \\mu_{s}N');
-    }
-
-    if (entity.type === 'body') {
-      field(inspectorBody, {
+    } else if (entity.type === 'body') {
+      field(common, {
         label: '质量 · Mass',
         value: entity.mass,
         min: 0.1,
@@ -2247,8 +2660,174 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'mass',
         onChange: (v) => { setBodyMass(world, entity, v); },
       });
+      field(common, {
+        label: '初速度 · Initial speed',
+        value: entity.v0,
+        min: 0,
+        max: 20,
+        step: 0.1,
+        unit: 'm/s',
+        testid: 'v0',
+        hint: '重置后生效 · Applies on reset.',
+        onChange: (v) => {
+          entity.v0 = v;
+          if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
+        },
+      });
+      field(common, {
+        label: '方向方位角 · Direction azimuth',
+        value: entity.azimuth,
+        min: 0,
+        max: 360,
+        step: 1,
+        unit: '°',
+        testid: 'azimuth',
+        onChange: (v) => {
+          entity.azimuth = v;
+          if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
+        },
+      });
+    } else if (entity.type === 'loop') {
+      field(common, {
+        label: '圆环半径 · Loop radius',
+        value: entity.radius,
+        min: 0.4,
+        max: 5,
+        step: 0.05,
+        unit: 'm',
+        disabled: geoDisabled,
+        testid: 'radius',
+        onChange: (v) => { setLoopRadius(world, entity, v); view.sync(world); },
+      });
+    } else if (entity.type === 'turntable') {
+      field(common, {
+        label: '转盘半径 · Radius',
+        value: entity.radius,
+        min: 0.5,
+        max: 6,
+        step: 0.05,
+        unit: 'm',
+        disabled: geoDisabled,
+        testid: 'radius',
+        onChange: (v) => { setTurntableRadius(world, entity, v); view.sync(world); },
+      });
+      field(common, {
+        label: '目标角速度 · Target ω',
+        value: entity.targetOmega,
+        min: -12,
+        max: 12,
+        step: 0.1,
+        unit: 'rad/s',
+        testid: 'targetOmega',
+        onChange: (v) => {
+          entity.targetOmega = v;
+          if (entity.drive === 'target') entity.omega = v;
+        },
+      });
+    } else if (entity.type === 'hcircle') {
+      field(common, {
+        label: '轨道半径 · Track radius',
+        value: entity.radius,
+        min: 0.5,
+        max: 6,
+        step: 0.05,
+        unit: 'm',
+        disabled: geoDisabled,
+        testid: 'radius',
+        onChange: (v) => { setHCircleRadius(world, entity, v); view.sync(world); },
+      });
+    } else if (entity.type === 'link') {
+      field(common, {
+        label: '劲度系数 k · Spring constant',
+        value: entity.k,
+        min: 0.1,
+        max: 800,
+        step: 0.5,
+        unit: 'N/m',
+        testid: 'k',
+        onChange: (v) => { entity.k = Math.max(0, v); },
+      });
+      field(common, {
+        label: '原长 · Rest length',
+        value: entity.rest,
+        min: 0.05,
+        max: 20,
+        step: 0.05,
+        unit: 'm',
+        disabled: geoDisabled,
+        testid: 'rest',
+        onChange: (v) => { entity.rest = Math.max(0.02, v); },
+      });
+    }
+
+    inspectorSummary = el('p', { className: 'plab-inspector-live', 'aria-live': 'polite', text: '—' });
+    inspectorBody.appendChild(inspectorSummary);
+    if (entity.type === 'body') {
+      inspectorBody.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '按住物体直接拖动；抓住箭头设初速度。 · Drag the body itself; grab the arrow to set initial velocity.',
+      }));
+    }
+    const openAdvanced = el('button', {
+      type: 'button',
+      className: 'plab-inspector-more hit-target',
+      text: '更多参数 · More parameters',
+      'data-action': 'inspector-more',
+    });
+    openAdvanced.addEventListener('click', openMore);
+    inspectorBody.appendChild(openAdvanced);
+    buildMoreAdvanced();
+  }
+
+  function moreHeading(parent, entity) {
+    const [zh, en] = kindLabel(entity);
+    parent.appendChild(el('div', { className: 'plab-more-objecthead' }, [
+      el('strong', { text: labelText(zh, en) }),
+      el('span', { text: entity.name || entityFallbackName(entity) }),
+    ]));
+  }
+
+  function buildMoreAdvanced() {
+    clear(moreAdvanced);
+    liveNodes.clear();
+    if (!selected) {
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-inspector-empty',
+        text: '未选择 · Nothing selected. 选中物体后在这里编辑全部参数。 · Select an object to edit every parameter here.',
+      }));
+      return;
+    }
+    const entity = entityById(selected.type, selected.id);
+    if (!entity) {
+      selected = null;
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-inspector-empty',
+        text: '未选择 · Nothing selected.',
+      }));
+      return;
+    }
+    moreHeading(moreAdvanced, entity);
+    const geoDisabled = running;
+
+    if (entity.type === 'surface') {
+      frictionFields(moreAdvanced, entity);
+      const flip = el('button', { type: 'button', className: 'plab-action hit-target', text: '翻转坡度 · Flip slope' });
+      flip.addEventListener('click', () => {
+        pushUndo('flip');
+        prepareEdit();
+        setSurfaceAngle(world, entity, -entity.angle);
+        captureInitial(world);
+        view.sync(world);
+        buildInspector();
+      });
+      moreAdvanced.appendChild(flip);
+      if (geoDisabled) moreAdvanced.appendChild(el('p', { className: 'plab-field-hint', text: '暂停后可调整几何 · Pause to edit geometry.' }));
+      formula(moreAdvanced, 'N=mg\\cos\\theta,\\qquad |f_{s}|\\le \\mu_{s}N');
+    }
+
+    if (entity.type === 'body') {
       if (entity.kind === 'cart') {
-        field(inspectorBody, {
+        field(moreAdvanced, {
           label: '半径 · Radius',
           value: entity.radius,
           min: 0.12,
@@ -2263,7 +2842,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             view.sync(world);
           },
         });
-        field(inspectorBody, {
+        field(moreAdvanced, {
           label: '转动惯量 I · Moment of inertia',
           value: entity.I,
           min: 0,
@@ -2274,8 +2853,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           onChange: (v) => { setCartInertia(world, entity, v); },
         });
         const quick = el('div', { className: 'plab-tool-row' });
-        const disc = el('button', { type: 'button', className: 'plab-btn hit-target', text: '圆盘 · Disc' });
-        const hoop = el('button', { type: 'button', className: 'plab-btn hit-target', text: '圆环 · Hoop' });
+        const disc = el('button', { type: 'button', className: 'plab-action hit-target', text: '圆盘 · Disc' });
+        const hoop = el('button', { type: 'button', className: 'plab-action hit-target', text: '圆环 · Hoop' });
         disc.addEventListener('click', () => {
           pushUndo('inertia');
           setCartInertia(world, entity, 0.5 * entity.mass * entity.radius ** 2);
@@ -2287,10 +2866,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           buildInspector();
         });
         quick.append(disc, hoop);
-        inspectorBody.appendChild(quick);
+        moreAdvanced.appendChild(quick);
         const brakeCheck = el('input', { type: 'checkbox', checked: !!entity.brake, 'data-field': 'brake' });
         brakeCheck.addEventListener('change', () => { pushUndo('brake'); entity.brake = brakeCheck.checked; });
-        inspectorBody.appendChild(el('label', { className: 'plab-check hit-target' }, [
+        moreAdvanced.appendChild(el('label', { className: 'plab-check hit-target' }, [
           brakeCheck,
           el('span', { text: '刹车（锁定车轴） · Brake (lock axle)' }),
         ]));
@@ -2300,12 +2879,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           entity.motor = entity.motor || { on: false, target: 0, force: 2 };
           entity.motor.on = motorCheck.checked;
         });
-        inspectorBody.appendChild(el('label', { className: 'plab-check hit-target' }, [
+        moreAdvanced.appendChild(el('label', { className: 'plab-check hit-target' }, [
           motorCheck,
           el('span', { text: '电机 · Motor' }),
         ]));
-        field(inspectorBody, {
-          label: '目标速度 · Target speed',
+        field(moreAdvanced, {
+          label: '目标速度 · Motor target',
           value: entity.motor?.target ?? 0,
           min: -10,
           max: 10,
@@ -2317,7 +2896,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             entity.motor.target = v;
           },
         });
-        field(inspectorBody, {
+        field(moreAdvanced, {
           label: '最大驱动力 · Max drive force',
           value: entity.motor?.force ?? 2,
           min: 0,
@@ -2330,36 +2909,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             entity.motor.force = Math.max(0, v);
           },
         });
-        formula(inspectorBody, 'a=\\dfrac{F_{t}}{m+\\dfrac{I}{R^{2}}}');
       }
-      field(inspectorBody, {
-        label: '初速度 · Initial speed',
-        value: entity.v0,
-        min: 0,
-        max: 20,
-        step: 0.1,
-        unit: 'm/s',
-        testid: 'v0',
-        hint: '初速度在重置后生效 · Initial velocity applies on reset.',
-        onChange: (v) => {
-          entity.v0 = v;
-          if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
-        },
-      });
-      field(inspectorBody, {
-        label: '方向方位角 · Direction azimuth',
-        value: entity.azimuth,
-        min: 0,
-        max: 360,
-        step: 1,
-        unit: '°',
-        testid: 'azimuth',
-        onChange: (v) => {
-          entity.azimuth = v;
-          if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
-        },
-      });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '方向仰角 · Direction elevation',
         value: entity.elevation,
         min: -90,
@@ -2372,7 +2923,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
         },
       });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '外力大小 · Applied force',
         value: entity.appliedMag,
         min: 0,
@@ -2382,7 +2933,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'appliedMag',
         onChange: (v) => { entity.appliedMag = v; },
       });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '外力方位角 · Applied azimuth',
         value: entity.appliedAzimuth,
         min: -180,
@@ -2392,7 +2943,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'appliedAzimuth',
         onChange: (v) => { entity.appliedAzimuth = v; },
       });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '外力仰角 · Applied elevation',
         value: entity.appliedElevation,
         min: -90,
@@ -2402,7 +2953,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'appliedElevation',
         onChange: (v) => { entity.appliedElevation = v; },
       });
-      inspectorBody.appendChild(el('h3', { className: 'plab-section-title', text: '实时读数 · Live readouts' }));
+      moreAdvanced.appendChild(el('h4', { className: 'plab-section-title', text: '实时读数 · Live readouts' }));
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '速率 · Speed', 'speed', 'm/s');
       addLive(readouts, '加速度 · Acceleration', 'accel', 'm/s²');
@@ -2410,15 +2961,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '摩擦力 · Friction', 'friction', 'N');
       addLive(readouts, '接触 · Contact', 'contact', '');
       addLive(readouts, '状态 · State', 'state', '');
-      inspectorBody.appendChild(readouts);
-      contactControls(inspectorBody, entity);
+      moreAdvanced.appendChild(readouts);
+      contactControls(moreAdvanced, entity);
       const actions = el('div', { className: 'plab-tool-row' });
-      const snap = el('button', { type: 'button', className: 'plab-btn hit-target', text: '吸附 · Snap' });
+      const snap = el('button', { type: 'button', className: 'plab-action hit-target', text: '吸附 · Snap' });
       snap.addEventListener('click', () => {
         prepareEdit();
         if (snapBodyToNearest(world, entity, { maxDistance: 5 })) {
           captureInitial(world);
           view.sync(world);
+          flashSeat(entity);
           buildInspector();
           setStatus('已吸附到最近的装置。 · Snapped to the nearest apparatus.');
         } else {
@@ -2427,7 +2979,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       actions.appendChild(snap);
       if (entity.attachment) {
-        const detach = el('button', { type: 'button', className: 'plab-btn hit-target', text: '脱离 · Detach' });
+        const detach = el('button', { type: 'button', className: 'plab-action hit-target', text: '脱离 · Detach' });
         detach.addEventListener('click', () => {
           prepareEdit();
           detachBody(world, entity);
@@ -2437,9 +2989,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         });
         actions.appendChild(detach);
       }
-      inspectorBody.appendChild(actions);
+      moreAdvanced.appendChild(actions);
       const contact = entity.attachment?.type === 'surface' ? 'incline' : entity.attachment?.type || 'free';
-      formula(inspectorBody, contact === 'loop'
+      formula(moreAdvanced, contact === 'loop'
         ? 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta'
         : contact === 'turntable'
           ? 'f_{s}=m\\omega^{2}r\\le \\mu_{s}N'
@@ -2449,34 +3001,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
 
     if (entity.type === 'loop') {
-      field(inspectorBody, {
-        label: '圆环半径 · Loop radius',
-        value: entity.radius,
-        min: 0.4,
-        max: 5,
-        step: 0.05,
-        unit: 'm',
-        disabled: geoDisabled,
-        testid: 'radius',
-        onChange: (v) => { setLoopRadius(world, entity, v); view.sync(world); },
-      });
-      formula(inspectorBody, 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta');
-      inspectorBody.appendChild(el('p', { className: 'plab-field-hint', text: 'N < 0 时物体离开轨道成为抛体。 · When N < 0 the body leaves the track and becomes a projectile.' }));
+      formula(moreAdvanced, 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta');
+      moreAdvanced.appendChild(el('p', { className: 'plab-field-hint', text: 'N < 0 时物体离开轨道成为抛体。 · When N < 0 the body leaves the track and becomes a projectile.' }));
     }
 
     if (entity.type === 'turntable') {
-      field(inspectorBody, {
-        label: '转盘半径 · Radius',
-        value: entity.radius,
-        min: 0.5,
-        max: 6,
-        step: 0.05,
-        unit: 'm',
-        disabled: geoDisabled,
-        testid: 'radius',
-        onChange: (v) => { setTurntableRadius(world, entity, v); view.sync(world); },
-      });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '转动惯量 I · Moment of inertia',
         value: entity.I,
         min: 0.01,
@@ -2502,21 +3032,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         buildInspector();
       });
       driveWrap.appendChild(driveSelect);
-      inspectorBody.appendChild(driveWrap);
-      field(inspectorBody, {
-        label: '目标角速度 · Target ω',
-        value: entity.targetOmega,
-        min: -12,
-        max: 12,
-        step: 0.1,
-        unit: 'rad/s',
-        testid: 'targetOmega',
-        onChange: (v) => {
-          entity.targetOmega = v;
-          if (entity.drive === 'target') entity.omega = v;
-        },
-      });
-      field(inspectorBody, {
+      moreAdvanced.appendChild(driveWrap);
+      field(moreAdvanced, {
         label: '驱动力矩 · Drive torque',
         value: entity.torque,
         min: -80,
@@ -2526,42 +3043,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'torque',
         onChange: (v) => { entity.torque = v; },
       });
-      frictionFields(inspectorBody, entity);
+      frictionFields(moreAdvanced, entity);
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '角速度 ω · Angular speed', 'omega', 'rad/s');
       addLive(readouts, '转角 · Angle', 'tableAngle', 'rad');
-      inspectorBody.appendChild(readouts);
-      formula(inspectorBody, 'f_{s}=m\\omega^{2}r\\le \\mu_{s}N');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'f_{s}=m\\omega^{2}r\\le \\mu_{s}N');
     }
 
     if (entity.type === 'hcircle') {
-      field(inspectorBody, {
-        label: '轨道半径 · Track radius',
-        value: entity.radius,
-        min: 0.5,
-        max: 6,
-        step: 0.05,
-        unit: 'm',
-        disabled: geoDisabled,
-        testid: 'radius',
-        onChange: (v) => { setHCircleRadius(world, entity, v); view.sync(world); },
-      });
-      frictionFields(inspectorBody, entity);
-      formula(inspectorBody, '\\dfrac{mv^{2}}{R}\\le \\mu_{s}N');
+      frictionFields(moreAdvanced, entity);
+      formula(moreAdvanced, '\\dfrac{mv^{2}}{R}\\le \\mu_{s}N');
     }
 
     if (entity.type === 'link') {
-      field(inspectorBody, {
-        label: '劲度系数 k · Spring constant',
-        value: entity.k,
-        min: 0.1,
-        max: 800,
-        step: 0.5,
-        unit: 'N/m',
-        testid: 'k',
-        onChange: (v) => { entity.k = Math.max(0, v); },
-      });
-      field(inspectorBody, {
+      field(moreAdvanced, {
         label: '非线性系数 β · Nonlinear coefficient',
         value: entity.beta,
         min: 0,
@@ -2571,30 +3067,19 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         testid: 'beta',
         onChange: (v) => { entity.beta = Math.max(0, v); },
       });
-      field(inspectorBody, {
-        label: '原长 · Rest length',
-        value: entity.rest,
-        min: 0.05,
-        max: 20,
-        step: 0.05,
-        unit: 'm',
-        disabled: geoDisabled,
-        testid: 'rest',
-        onChange: (v) => { entity.rest = Math.max(0.02, v); },
-      });
       const readouts = el('div', { className: 'plab-readouts' });
       addLive(readouts, '轴向读数 · Axial reading', 'reading', 'N');
-      inspectorBody.appendChild(readouts);
-      formula(inspectorBody, entity.meter
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, entity.meter
         ? 'F=\\left|kx+\\beta x^{3}\\right|'
         : 'F=-kx-\\beta x^{3},\\qquad U=\\dfrac{1}{2}kx^{2}+\\dfrac{1}{4}\\beta x^{4}');
     }
 
-    const actions = el('div', { className: 'plab-inspector-actions' });
-    const del = el('button', { type: 'button', className: 'plab-btn plab-btn-quiet hit-target', text: '删除所选 · Delete selected', 'data-action': 'delete' });
+    const actions = el('div', { className: 'plab-tool-row' });
+    const del = el('button', { type: 'button', className: 'plab-action plab-action-quiet hit-target', text: '删除所选 · Delete selected', 'data-action': 'delete' });
     del.addEventListener('click', deleteSelected);
     actions.appendChild(del);
-    inspectorBody.appendChild(actions);
+    moreAdvanced.appendChild(actions);
   }
 
   function updateLive() {
@@ -2624,6 +3109,20 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('omega', `${fmt(entity.omega)} rad/s`);
       setLive('tableAngle', `${fmt(entity.angle)} rad`);
     }
+    if (inspectorSummary) {
+      if (entity?.type === 'body') {
+        const d = bodyDiagnostics(world, entity);
+        inspectorSummary.textContent = `速率 · Speed ${fmt(d.speed)} m/s · ${contactLabel(d.contact || d.mode)}`;
+      } else if (entity?.type === 'link') {
+        inspectorSummary.textContent = `轴向读数 · Reading ${fmt(linkReading(world, entity))} N`;
+      } else if (entity?.type === 'turntable') {
+        inspectorSummary.textContent = `角速度 · ω ${fmt(entity.omega)} rad/s`;
+      } else if (entity?.type === 'surface') {
+        inspectorSummary.textContent = `倾角 · Angle ${fmt(entity.angle)}° · μs ${fmt(entity.muS)} · μk ${fmt(entity.muK)}`;
+      } else {
+        inspectorSummary.textContent = '—';
+      }
+    }
     const e = energyBreakdown(world);
     const energyMap = {
       translational: e.translational,
@@ -2643,7 +3142,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (clockNode) clockNode.textContent = `t = ${fmt(world.time)} s`;
   }
 
-  // g control lives in the palette's environment section.
+  // Environment controls live in More settings.
   field(gHost, {
     label: '重力加速度 g · Gravity',
     value: world.g,
@@ -2657,17 +3156,41 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       world.engine.gravity.set(0, -v, 0);
     },
   });
+  field(gHost, {
+    label: '碰撞恢复系数 · Restitution',
+    value: world.engine.defaultContactMaterial.restitution,
+    min: 0,
+    max: 1,
+    step: 0.01,
+    testid: 'restitution',
+    onChange: (v) => {
+      world.engine.defaultContactMaterial.restitution = Math.max(0, Math.min(1, v));
+    },
+  });
   if (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) {
     root.dataset.mobile = '1';
   }
+
+  function onShiftKey(e) {
+    if (e.key !== 'Shift') return;
+    shiftHeld = e.type === 'keydown';
+    applySnapSettings();
+  }
+  document.addEventListener('keydown', onShiftKey);
+  document.addEventListener('keyup', onShiftKey);
 
   function onKeyDown(e) {
     if (handleModalKey(e)) return;
     const tag = (e.target && e.target.tagName) || '';
     const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
+    const key = e.key;
+    if (key === 'Escape') {
+      if (!addMenu.hidden) { closeAddMenu(); return; }
+      if (!morePanel.hidden) { closeMore(); return; }
+      if (isMobile() && root.dataset.inspectorOpen === '1') { openInspector(false); return; }
+    }
     if (editing) return;
     const mod = e.ctrlKey || e.metaKey;
-    const key = e.key;
     if (mod && key.toLowerCase() === 'z') {
       e.preventDefault();
       if (e.shiftKey) redo();
@@ -2739,8 +3262,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     destroyed = true;
     if (typeof stopLoop === 'function') stopLoop();
     document.removeEventListener('keydown', onKeyDown);
+    document.removeEventListener('keydown', onShiftKey);
+    document.removeEventListener('keyup', onShiftKey);
+    document.removeEventListener('pointerdown', onDocPointerDown, true);
+    if (mobileQuery.removeEventListener) mobileQuery.removeEventListener('change', onMobileChange);
+    else if (mobileQuery.removeListener) mobileQuery.removeListener(onMobileChange);
     window.removeEventListener('pointermove', onModalPointerMove);
     window.removeEventListener('pointerdown', onModalPointerDown, true);
+    window.removeEventListener('contextmenu', onContextMenu);
     document.removeEventListener('focusin', onFocusIn);
     view.destroy();
     disposeWorld(world);
