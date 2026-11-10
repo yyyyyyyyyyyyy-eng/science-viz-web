@@ -1,4 +1,4 @@
-/** Chinese titles for the 202 math exam figures (shown before the English title/caption). */
+/** Chinese titles for the 210 math exam figures (shown before the English title/caption). */
 export const FIGURE_ZH = {
   'riemann-left': "左黎曼和",
   'riemann-right': "右黎曼和",
@@ -87,8 +87,10 @@ export const FIGURE_ZH = {
   'separable': "分离变量：dy/dx = xy",
   'logistic': "逻辑斯谛增长 dP/dt = kP(1 − P/M)",
   'avg-value': "函数的平均值",
+  'avg-value-slices': "平均值：竖条与等面积矩形",
   'disp-dist': "位移与总路程",
   'rate-in-out': "流入/流出速率与累积",
+  'accumulation-function-area': "变化率面积与累积函数",
   'area-x': "曲线间面积（dx）",
   'area-y': "曲线间面积（dy）",
   'area-multi': "多交点情形下的面积",
@@ -299,8 +301,10 @@ export const FIGURE_CAP_ZH = {
   'separable': '分离变量后两边积分，再由初始条件确定常数。',
   'logistic': '逻辑斯谛增长先加速后减速，最终趋近环境容纳量。',
   'avg-value': '函数的平均值等于同面积矩形的高度。',
+  'avg-value-slices': '把曲线下的面积切成竖条再重排成等宽矩形，矩形高度就是平均值；连续函数必在某点取到该平均高度。',
   'disp-dist': '位移是速度的有向积分，总路程对速度绝对值积分。',
   'rate-in-out': '流入与流出速率相等时累积量达到最大。',
+  'accumulation-function-area': '变化率曲线下的有向面积就是累积量；累积函数的斜率等于速率，速率变号处是累积量的峰或谷。',
   'area-x': '曲线间面积等于上曲线减下曲线的定积分。',
   'area-y': '对 y 积分时用右曲线减左曲线。',
   'area-multi': '多交点处要分段积分，并取绝对值避免面积抵消。',

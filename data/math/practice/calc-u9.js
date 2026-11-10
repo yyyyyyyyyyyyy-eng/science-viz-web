@@ -1554,5 +1554,31 @@ export const problems = [
         "solutionLatex": "A=\\dfrac{1}{2}\\int_0^{2\\pi}(1+\\cos\\theta)^{2}\\,\\mathrm{d}\\theta=\\dfrac{1}{2}(2\\pi+\\pi)=\\dfrac{3\\pi}{2}"
       }
     ]
+  },
+  {
+    "id": "calc-u9-b09-q1",
+    "title": "9.4 向量值函数的速率 · Speed of a vector-valued function",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "向量值函数 r(t)=⟨2cos t, sin 2t⟩。求 t=π/6 时的速率 ‖r′(t)‖。 · For the vector-valued function r(t)=⟨2cos t, sin 2t⟩, find the speed ‖r′(t)‖ at t=π/6.",
+    "expected": 1.4142135623730951,
+    "tol": 0.01,
+    "answerLatex": "\\sqrt{2}",
+    "solution": "逐分量求导：r′(t)=⟨−2sin t, 2cos 2t⟩。在 t=π/6，r′(π/6)=⟨−1, 1⟩，速率是速度向量的大小 ‖r′‖=√(1+1)=√2≈1.414。速度是向量，速率是非负标量。 · Differentiate componentwise: r′(t)=⟨−2sin t, 2cos 2t⟩. At t=π/6, r′(π/6)=⟨−1, 1⟩, so the speed is √(1²+1²)=√2. Velocity is a vector; speed is a nonnegative scalar.",
+    "solutionLatex": "\\vec r'(t)=\\langle-2\\sin t,\\ 2\\cos 2t\\rangle,\\qquad \\vec r'\\!\\left(\\dfrac{\\pi}{6}\\right)=\\langle-1,\\ 1\\rangle,\\qquad \\|\\vec r'\\|=\\sqrt{2}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 9.4 向量值函数逐分量求导与速率。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u9/9.4",
+        "label": "9.4 向量值函数",
+        "topicId": "calc-u9:9.4"
+      }
+    ]
   }
 ];

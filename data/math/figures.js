@@ -393,6 +393,41 @@ idef('logistic', 'Logistic growth dP/dt = kP(1 − P/M)', '', (v) => {
 /* ---------- applications of integration ---------- */
 def('avg-value', 'Average value of a function', '\\(f_{avg}=\\dfrac{1}{\\pi-0}\\int_0^\\pi\\sin x\\,dx=\\dfrac{2}{\\pi}\\approx0.637\\); the rectangle of height \\(\\dfrac2\\pi\\) has the same area (2).', () =>
   plot({ x: [0, PI + 0.3], y: [0, 1.2], piX: 0.25, ystep: 0.2, rects: [{ x0: 0, x1: PI, y: 2 / PI, color: C.b, op: 0.18 }], fills: [{ f: sin, dom: [0, PI] }], curves: [{ f: sin, dom: [0, PI], color: C.ink }], hlines: [{ y: 2 / PI, label: '2/π' }] }));
+idef('avg-value-slices', 'Average value: strips and the equal-area rectangle', '', (v) => {
+  const P = {
+    sin: { f: sin, a: 0, b: PI, tex: '\\sin x', name: 'sin x', c: PI / 2, area: 2, piX: 0.5, ymax: 1.15, ystep: 0.25, labelAt: [2.45, 0.98] },
+    x2: { f: (x) => x * x, a: 0, b: 3, tex: 'x^{2}', name: 'x²', c: sqrt(3), area: 9, xstep: 1, ymax: 9.6, ystep: 2, labelAt: [2.35, 7.9] },
+  };
+  const q = P[v.preset] || P.sin, { f, a, b } = q, n = v.n, dx = (b - a) / n;
+  const area = simpson(f, a, b, 800), avg = area / (b - a), rYmax = avg * 1.5;
+  const vl = [];
+  for (let i = 1; i < n; i++) vl.push({ x: a + i * dx, color: C.grid, dash: '2 3' });
+  const left = plot({ W: 360, H: 300, x: [a, b], y: [0, q.ymax], piX: q.piX, xstep: q.xstep, ystep: q.ystep, fills: [{ f, dom: [a, b], color: C.a, op: 0.2 }], curves: [{ f, color: C.ink, label: q.name, labelAt: q.labelAt }], vlines: vl, hlines: [{ y: avg, label: `f_avg ≈ ${fmt(avg, 3)}` }], points: [{ x: q.c, y: f(q.c), color: C.b, label: `c ≈ ${fmt(q.c, 3)}` }], texts: [[a + (b - a) * 0.5, avg * 0.45, `area = ${fmt(area, 3)}`, C.a]] });
+  const inner = left.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+  const W = 660, H = 330, ox = 400, oy = 270, dw = 220, dh = 200, ytop = oy - dh;
+  const Yr = (y) => oy - (y / rYmax) * dh;
+  let s = inner;
+  s += line(ox, oy, ox + dw + 12, oy, { arrow: true }) + line(ox, oy, ox, ytop - 12, { arrow: true });
+  s += text(ox + dw + 8, oy + 16, 'x', { size: 11, color: C.muted }) + text(ox - 8, ytop - 16, 'y', { size: 11, color: C.muted, anchor: 'end' });
+  s += rect(ox, Yr(avg), dw, oy - Yr(avg), { fill: C.a, op: 0.18, stroke: C.a, dash: '5 3' });
+  for (let i = 1; i < n; i++) s += line(ox + (i * dw) / n, Yr(avg), ox + (i * dw) / n, oy, { color: C.grid, w: 0.8 });
+  s += line(ox, Yr(avg), ox + dw, Yr(avg), { color: C.a, dash: '5 3', w: 1.2 });
+  s += text(ox + dw / 2, Yr(avg) - 12, `height = f_avg ≈ ${fmt(avg, 3)}`, { size: 10.5, color: C.a });
+  s += text(ox + dw / 2, oy + 18, `width = b − a = ${fmt(b - a, 3)}`, { size: 10.5, color: C.muted });
+  s += text(ox + dw / 2, oy + 38, `same area = ${fmt(area, 3)}`, { size: 10.5 });
+  s += text(W / 2, 318, `n = ${n} strips · 竖条重排为等面积矩形`, { size: 10.5, color: C.muted });
+  return svg(W, H, s, 'average value strips and equal-area rectangle');
+}, [
+  { key: 'preset', type: 'buttons', label: '函数与区间', options: [{ value: 'sin', label: 'sin x, [0, π]' }, { value: 'x2', label: 'x², [0, 3]' }], value: 'sin' },
+  { key: 'n', label: '竖条数 n', min: 4, max: 64, step: 4, value: 8 },
+], (v) => {
+  const x2 = v.preset === 'x2', avg = x2 ? 3 : 2 / PI;
+  const exact = x2
+    ? '\\(f_{avg}=\\dfrac{1}{3-0}\\int_0^3x^2\\,dx=3\\)'
+    : '\\(f_{avg}=\\dfrac{1}{\\pi-0}\\int_0^\\pi\\sin x\\,dx=\\dfrac{2}{\\pi}\\approx0.637\\)';
+  const width = x2 ? '3' : '\\pi';
+  return `${exact}. With \\(n=${v.n}\\) strips, the equal-area rectangle has width \\(${width}\\) and height \\(${fmt(avg, 3)}\\).`;
+});
 def('disp-dist', 'Displacement vs total distance', '\\(v(t)=t^2-4t+3\\) on \\([0,4]\\): displacement \\(\\int_0^4 v\\,dt=\\dfrac43\\); distance \\(\\int_0^4|v|\\,dt=\\dfrac43+\\dfrac43+\\dfrac43=4\\).', () =>
   plot({ x: [-0.2, 4.3], y: [-1.5, 3.5], fills: [{ f: (t) => t * t - 4 * t + 3, dom: [0, 1] }, { f: (t) => t * t - 4 * t + 3, dom: [1, 3], color: C.e }, { f: (t) => t * t - 4 * t + 3, dom: [3, 4] }], curves: [{ f: (t) => t * t - 4 * t + 3, dom: [0, 4], color: C.ink, label: 'v(t)', labelAt: [3.6, 2.9] }], fracs: [[0.35, 0.55, '4', '3', C.a], [2, -0.45, '4', '3', C.e, '−'], [3.7, 0.55, '4', '3', C.a]] }));
 def('rate-in-out', 'Rate in / rate out accumulation', '', () => {
@@ -400,6 +435,28 @@ def('rate-in-out', 'Rate in / rate out accumulation', '', () => {
   const net = simpson((t) => Rin(t) - Rout(t), 0, tmax);
   setCap('rate-in-out', `Water enters at \\(R(t)=10+5\\sin\\dfrac{t}{2}\\) and leaves at \\(D(t)=2+t\\). The amount is maximal when \\(R=D\\): \\(t^*\\approx${fmt(tmax, 3)}\\); net gain \\(\\int_0^{t^*}(R-D)\\,dt\\approx${fmt(net, 2)}\\).`);
   return plot({ x: [0, 12], y: [0, 16], xlabel: 't (h)', fills: [{ f: Rin, g: Rout, dom: [0, tmax], color: C.c }], curves: [{ f: Rin, color: C.a, label: 'R(t) in', labelAt: [1.5, 14.8] }, { f: Rout, color: C.e, label: 'D(t) out', labelAt: [10.2, 13.3] }], vlines: [{ x: tmax, label: 't*' }] });
+});
+idef('accumulation-function-area', 'Rate area and the accumulation function', '', (v) => {
+  const x = v.x, A0 = v.A0, r = (t) => t - 3, A = (t) => A0 + t * t / 2 - 3 * t;
+  const neg = x > 0 ? simpson(r, 0, Math.min(x, 3), 400) : 0;
+  const pos = x > 3 ? simpson(r, 3, x, 400) : 0;
+  const total = simpson((t) => abs(r(t)), 0, x, 800);
+  const top = plot({ W: 480, H: 170, x: [0, 4], y: [-3.4, 1.4], xstep: 1, ystep: 1, fills: [
+    ...(x > 0 ? [{ f: r, dom: [0, Math.min(x, 3)], color: C.e, op: 0.22 }] : []),
+    ...(x > 3 ? [{ f: r, dom: [3, x], color: C.a, op: 0.22 }] : []),
+  ], curves: [{ f: r, color: C.ink, label: 'r(t) = t − 3', labelAt: [0.2, -2.3] }], vlines: [{ x, label: `x = ${fmt(x, 1)}` }], points: [{ x, y: r(x), color: C.b }], texts: [[3.35, 1.05, 'r > 0', C.a], [1.15, -2.55, 'r < 0', C.e], [2.05, 0.75, `signed area = ${fmt(neg + pos, 2)}`, C.ink]], ylabel: 'r(t)' });
+  const ymin = Math.min(A(0), A(3), A(4), A(x)) - 0.8, ymax = Math.max(A(0), A(3), A(4), A(x)) + 0.8;
+  const bot = plot({ W: 480, H: 170, x: [0, 4], y: [ymin, ymax], xstep: 1, ystep: 2, curves: [{ f: A, color: C.a, label: 'A(t)', labelAt: [0.2, A(0) - 1.2] }], vlines: [{ x: 3, label: 'r = 0: min', color: C.c }], hlines: [{ y: A0, label: 'A(0)', dash: '3 3' }], points: [{ x, y: A(x), color: C.b, label: `A(${fmt(x, 1)}) ≈ ${fmt(A(x), 2)}`, dy: 14 }], ylabel: 'A(t)', xlabel: 't' });
+  const topInner = top.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+  const botInner = bot.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+  return svg(480, 340, topInner + `<g transform="translate(0,170)">${botInner}</g>`, 'rate area and accumulation function');
+}, [
+  { key: 'x', label: '上限 x', min: 0, max: 4, step: 0.1, value: 4 },
+  { key: 'A0', label: '初值 A(0)', min: -2, max: 2, step: 0.5, value: 0 },
+], (v) => {
+  const x = v.x, A0 = v.A0, r = (t) => t - 3, A = (t) => A0 + t * t / 2 - 3 * t;
+  const area = A(x) - A0, total = simpson((t) => abs(r(t)), 0, x, 800);
+  return `\\(A(x)=A(0)+\\int_0^x(t-3)\\,dt=${fmt(A0, 2)}${area >= 0 ? '+' : '-'}${fmt(abs(area), 3)}\\). At \\(x=${fmt(x, 1)}\\), signed area \\(=${fmt(area, 3)}\\) and total change \\(\\displaystyle\\int_0^x|t-3|\\,dt=${fmt(total, 3)}\\); \\(A\\) has a minimum at \\(t=3\\) where \\(r=0\\).`;
 });
 def('area-x', 'Area between curves (dx)', '\\(\\int_0^1(x-x^2)\\,dx=\\dfrac12-\\dfrac13=\\dfrac16\\): top minus bottom.', () =>
   plot({ x: [-0.2, 1.3], y: [-0.2, 1.3], xstep: 0.25, ystep: 0.25, fills: [{ f: (x) => x, g: (x) => x * x, dom: [0, 1] }], curves: [{ f: (x) => x, color: C.a, label: 'y = x', labelAt: [1.05, 1.18] }, { f: (x) => x * x, color: C.b, label: 'y = x²', labelAt: [1.06, 0.95] }], fracs: [[0.5, 0.36, '1', '6', C.a, 'A =']] }));
@@ -1283,7 +1340,7 @@ export const TOPIC_FIGURES = {
   'calc-u6:6.6': ['integral-props', 'ftc-area', 'integral-error-band'], 'calc-u6:6.7': ['ftc-area', 'ftc-accum'], 'calc-u6:6.8': ['antideriv-family', 'u-sub'], 'calc-u6:6.9': ['u-sub', 'antideriv-family'], 'calc-u6:6.10': ['ibp', 'u-sub'], 'calc-u6:6.11': ['partial-frac', 'u-sub'], 'calc-u6:6.12': ['improper', 'p-series'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],
   'calc-u7:7.1': ['exp-model', 'logistic'], 'calc-u7:7.2': ['de-verify', 'separable'], 'calc-u7:7.3': ['sf-xy', 'sf-xy2', 'sf-logistic', 'sf-x-over-y'], 'calc-u7:7.4': ['sf-xy', 'sf-logistic'], 'calc-u7:7.5': ['euler', 'euler-steps'],
   'calc-u7:7.6': ['separable', 'exp-model'], 'calc-u7:7.7': ['separable', 'sf-x-over-y'], 'calc-u7:7.8': ['exp-model', 'logistic'], 'calc-u7:7.9': ['logistic', 'sf-logistic'],
-  'calc-u8:8.1': ['avg-value', 'mvt'], 'calc-u8:8.2': ['disp-dist', 'accum-velocity'], 'calc-u8:8.3': ['rate-in-out', 'accum-velocity'], 'calc-u8:8.4': ['area-x', 'area-y'], 'calc-u8:8.5': ['area-y', 'area-x'], 'calc-u8:8.6': ['area-multi', 'area-x'],
+  'calc-u8:8.1': ['avg-value', 'mvt', 'avg-value-slices'], 'calc-u8:8.2': ['disp-dist', 'accum-velocity'], 'calc-u8:8.3': ['rate-in-out', 'accum-velocity', 'accumulation-function-area'], 'calc-u8:8.4': ['area-x', 'area-y'], 'calc-u8:8.5': ['area-y', 'area-x'], 'calc-u8:8.6': ['area-multi', 'area-x'],
   'calc-u8:8.7': ['xsec-square'], 'calc-u8:8.8': ['xsec-tri', 'xsec-semi'], 'calc-u8:8.9': ['disc-x', 'washer-x'], 'calc-u8:8.10': ['disc-other', 'disc-x'], 'calc-u8:8.11': ['washer-x', 'disc-x'], 'calc-u8:8.12': ['washer-other', 'washer-x'], 'calc-u8:8.13': ['arc-length', 'cycloid'],
   'calc-u9:9.1': ['param-curve', 'param-concavity'], 'calc-u9:9.2': ['param-concavity', 'param-curve'], 'calc-u9:9.3': ['cycloid', 'arc-length'], 'calc-u9:9.4': ['vector-motion', 'vector-integral'], 'calc-u9:9.5': ['vector-integral', 'vector-motion'], 'calc-u9:9.6': ['vector-motion', 'param-curve'],
   'calc-u9:9.7': ['polar-basic', 'polar-limacon'], 'calc-u9:9.8': ['polar-area', 'polar-basic'], 'calc-u9:9.9': ['polar-two', 'polar-area'],

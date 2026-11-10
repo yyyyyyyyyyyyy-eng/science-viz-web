@@ -1823,5 +1823,31 @@ export const problems = [
       "topicId": "calc-u6:6.6"
     }
   ]
+},
+{
+  "id": "calc-u6-b09-q1",
+  "title": "6.1 用几何面积求累积 · Accumulation from a geometric area",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "某水箱的进水速率 r(t) 从 t=0 时的 0 L/min 线性增加到 t=4 时的 6 L/min，随后保持 6 L/min 直到 t=6。求 0≤t≤6 内注入的总水量（L）。 · Water enters a tank at a rate r(t) that increases linearly from 0 L/min at t=0 to 6 L/min at t=4, then stays at 6 L/min until t=6. Find the total volume added on 0≤t≤6 (L).",
+  "expected": 24,
+  "tol": 0.01,
+  "answerLatex": "24\\,\\mathrm{L}",
+  "solution": "0≤t≤4 的图像是底 4、高 6 的三角形，面积为 12；4≤t≤6 是底 2、高 6 的矩形，面积为 12；合计 24 L。单位是 (L/min)·min=L，正好说明变化率的面积给出累积量。 · The graph on 0≤t≤4 is a triangle of base 4 and height 6, with area 12; on 4≤t≤6 it is a rectangle of base 2 and height 6, with area 12; the total is 24 L. The unit (L/min)·min=L confirms that area under a rate gives accumulation.",
+  "solutionLatex": "\\int_0^6 r(t)\\,dt=\\dfrac{1}{2}(4)(6)+(2)(6)=12+12=24\\,\\mathrm{L}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 6.1 几何面积、累积量与单位。",
+  "topicLinks": [
+    {
+      "href": "#/t/math/calc-u6/6.1",
+      "label": "6.1 累积变化探查",
+      "topicId": "calc-u6:6.1"
+    }
+  ]
 }
 ];

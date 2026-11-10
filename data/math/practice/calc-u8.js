@@ -1826,5 +1826,161 @@ export const problems = [
         "solutionLatex": "r=\\dfrac{\\sqrt{x}}{2},\\qquad A(x)=\\dfrac{1}{2}\\pi\\left(\\dfrac{\\sqrt{x}}{2}\\right)^{2}=\\dfrac{\\pi}{8}x,\\qquad V=\\dfrac{\\pi}{8}\\cdot8=\\pi"
       }
     ]
+  },
+  {
+    "id": "calc-u8-b09-q1",
+    "title": "8.1 区间平均值 · Average value on an interval",
+    "type": "frq",
+    "difficulty": "易",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "求 f(x)=x² 在 [0,3] 上的平均值。 · Find the average value of f(x)=x² on [0,3].",
+    "expected": 3,
+    "tol": 0.01,
+    "answerLatex": "3",
+    "solution": "平均值为区间长度分之定积分：1/(3−0)·∫₀³x²dx=1/3·9=3。它等于同面积矩形的高度，而不是函数在端点的平均值。 · The average value is the definite integral divided by the interval length: 1/(3−0)·∫₀³x² dx=1/3·9=3. It is the height of the equal-area rectangle, not the average of the endpoint values.",
+    "solutionLatex": "f_{avg}=\\dfrac{1}{3-0}\\int_0^3x^2\\,dx=\\dfrac{1}{3}\\left[\\dfrac{x^3}{3}\\right]_0^3=\\dfrac{9}{3}=3",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.1 平均值与等面积矩形。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.1",
+        "label": "8.1 积分求平均",
+        "topicId": "calc-u8:8.1"
+      }
+    ]
+  },
+  {
+    "id": "calc-u8-b09-q2",
+    "title": "8.3 净变化与总变化 · Net change versus total change",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "质点沿直线运动，速度 v(t)=t−3（m/s），0≤t≤4。求 0≤t≤4 内的位移（m，带符号）。 · A particle moves along a line with velocity v(t)=t−3 (m/s), 0≤t≤4. Find its displacement on 0≤t≤4 (m, with sign).",
+    "expected": -4,
+    "tol": 0.01,
+    "answerLatex": "-4\\,\\mathrm{m}",
+    "solution": "位移是速度的定积分：∫₀⁴(t−3)dt=[t²/2−3t]₀⁴=8−12=−4 m。若问总路程，则 ∫₀⁴|t−3|dt=4.5+0.5=5 m；净变化与总变化不同。 · Displacement is the definite integral of velocity: ∫₀⁴(t−3)dt=8−12=−4 m. Total distance would be ∫₀⁴|t−3|dt=4.5+0.5=5 m; net change differs from total change.",
+    "solutionLatex": "\\int_0^4(t-3)\\,dt=\\left[\\dfrac{t^2}{2}-3t\\right]_0^4=8-12=-4\\,\\mathrm{m}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.3 净变化定理与总变化对比。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.3",
+        "label": "8.3 累积变化率",
+        "topicId": "calc-u8:8.3"
+      }
+    ]
+  },
+  {
+    "id": "calc-u8-b09-q3",
+    "title": "8.7 正方形截面体积 · Volume with square cross sections",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "区域由 y=√x 与 y=−√x 围成，0≤x≤4。垂直于 x 轴的截面是正方形，边长等于上下曲线的距离。求立体体积。 · The region is bounded by y=√x and y=−√x for 0≤x≤4. Cross sections perpendicular to the x-axis are squares whose side equals the distance between the curves. Find the volume.",
+    "expected": 32,
+    "tol": 0.01,
+    "answerLatex": "32",
+    "solution": "边长 s=2√x，截面积 A(x)=s²=4x，所以 V=∫₀⁴4x dx=[2x²]₀⁴=32。 · The side is s=2√x, so A(x)=s²=4x and V=∫₀⁴4x dx=[2x²]₀⁴=32.",
+    "solutionLatex": "s(x)=2\\sqrt{x},\\qquad A(x)=s^2=4x,\\qquad V=\\int_0^4 4x\\,dx=\\left[2x^2\\right]_0^4=32",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.7 正方形截面与对称底面。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.7",
+        "label": "8.7 截面法：正方形与矩形",
+        "topicId": "calc-u8:8.7"
+      }
+    ]
+  },
+  {
+    "id": "calc-u8-b09-q4",
+    "title": "8.8 半圆截面体积 · Volume with semicircular cross sections",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "区域由 y=√x 与 y=−√x 围成，0≤x≤4。垂直于 x 轴的截面是以上下曲线距离为直径的半圆。求体积（精确值）。 · The region is bounded by y=√x and y=−√x for 0≤x≤4. Cross sections perpendicular to the x-axis are semicircles with diameter equal to the distance between the curves. Find the volume (exact).",
+    "expected": 12.566370614359172,
+    "tol": 0.01,
+    "answerLatex": "4\\pi",
+    "solution": "直径 s=2√x，半径 s/2=√x，半圆面积 A=1/2·π(√x)²=πx/2，所以 V=∫₀⁴πx/2 dx=π/2·8=4π≈12.566。 · The diameter is s=2√x, so the radius is √x; the semicircle area is A=1/2·π(√x)²=πx/2, so V=∫₀⁴πx/2 dx=π/2·8=4π.",
+    "solutionLatex": "A(x)=\\dfrac{1}{2}\\pi\\left(\\dfrac{s}{2}\\right)^2=\\dfrac{\\pi}{8}s^2=\\dfrac{\\pi}{2}x,\\qquad V=\\int_0^4\\dfrac{\\pi x}{2}\\,dx=4\\pi",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.8 半圆截面面积与体积。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.8",
+        "label": "8.8 已知截面体积",
+        "topicId": "calc-u8:8.8"
+      }
+    ]
+  },
+  {
+    "id": "calc-u8-b09-q5",
+    "title": "8.10 绕其他水平线的圆盘法 · Disc method about y=−1",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "将区域 0≤x≤1、0≤y≤x² 绕水平线 y=−1 旋转。用圆盘法求体积（精确值）。 · Revolve the region 0≤x≤1, 0≤y≤x² about the horizontal line y=−1. Use the disc method to find the volume (exact).",
+    "expected": 5.8643062867009474,
+    "tol": 0.01,
+    "answerLatex": "\\dfrac{28\\pi}{15}",
+    "solution": "旋转半径等于曲线到旋转轴的距离：R=x²−(−1)=x²+1，所以 V=π∫₀¹(x²+1)²dx=π(1/5+2/3+1)=28π/15≈5.864。 · The radius is the distance from the curve to the axis: R=x²+1, so V=π∫₀¹(x²+1)²dx=28π/15.",
+    "solutionLatex": "V=\\pi\\int_0^1(x^2+1)^2\\,dx=\\pi\\left[\\dfrac{x^5}{5}+\\dfrac{2x^3}{3}+x\\right]_0^1=\\dfrac{28\\pi}{15}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.10 绕其他水平线的圆盘法半径。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.10",
+        "label": "8.10 圆盘法其他轴",
+        "topicId": "calc-u8:8.10"
+      }
+    ]
+  },
+  {
+    "id": "calc-u8-b09-q6",
+    "title": "8.12 绕其他水平线的垫圈法 · Washer method about y=2",
+    "type": "frq",
+    "difficulty": "难",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "将区域 0≤x≤1、x²≤y≤x 绕水平线 y=2 旋转。用垫圈法求体积（精确值）。 · Revolve the region 0≤x≤1, x²≤y≤x about the horizontal line y=2. Use the washer method to find the volume (exact).",
+    "expected": 1.6755160819145565,
+    "tol": 0.01,
+    "answerLatex": "\\dfrac{8\\pi}{15}",
+    "solution": "外半径 R=2−x²，内半径 r=2−x，两者都是到同一条旋转轴的距离。V=π∫₀¹[(2−x²)²−(2−x)²]dx=π∫₀¹(x⁴−5x²+4x)dx=8π/15≈1.676。 · The outer radius is R=2−x² and the inner radius is r=2−x, both measured to the same axis. V=π∫₀¹(x⁴−5x²+4x)dx=8π/15.",
+    "solutionLatex": "V=\\pi\\int_0^1\\left[(2-x^2)^2-(2-x)^2\\right]dx=\\pi\\int_0^1\\left(x^4-5x^2+4x\\right)dx=\\dfrac{8\\pi}{15}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 8.12 垫圈法其他轴的内外半径。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u8/8.12",
+        "label": "8.12 垫圈法其他轴",
+        "topicId": "calc-u8:8.12"
+      }
+    ]
   }
 ];

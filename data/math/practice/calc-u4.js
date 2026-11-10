@@ -1424,5 +1424,44 @@ export const problems = [
         "topicId": "calc-u4:4.6"
       }
     ]
+  },
+  {
+    "id": "calc-u4-b09-q1",
+    "title": "4.6 切线近似的过高或过低估计 · Over- or under-estimate from concavity",
+    "type": "mcq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "设 f 在 a=2 附近二阶可导，且 f′(x) 在 a 附近严格递增。用 a=2 处的切线 L(x) 近似 f(2.1)。下列哪项正确？ · Let f be twice differentiable near a=2 and suppose f′(x) is strictly increasing near a. Use the tangent line L(x) at a=2 to approximate f(2.1). Which statement is correct?",
+    "choices": [
+      {
+        "text": "L(2.1) 是低估，因为 f″(2)>0，曲线在切线之上 · L(2.1) is an underestimate because f″(2)>0 and the curve lies above the tangent",
+        "correct": true
+      },
+      {
+        "text": "L(2.1) 是高估，因为 f′ 递增 · L(2.1) is an overestimate because f′ is increasing",
+        "correct": false
+      },
+      {
+        "text": "无法判断，必须知道 f(2) 的值 · Cannot decide without knowing f(2)",
+        "correct": false
+      },
+      {
+        "text": "L(2.1)=f(2.1)，因为切线在 a 处与曲线相切 · L(2.1)=f(2.1) because the tangent touches the curve at a",
+        "correct": false
+      }
+    ],
+    "solution": "f′ 递增意味着 f″>0，曲线在 a 附近凹向上，切线位于曲线下方，所以 L(2.1)≤f(2.1)，是低估。f(2) 只影响切线的高度，不改变凹凸性判断。 · f′ increasing means f″>0, so the curve is concave up near a and the tangent lies below it; hence L(2.1)≤f(2.1), an underestimate. The value f(2) shifts the tangent but does not change the concavity conclusion.",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 4.6 局部线性近似与凹凸性判定。",
+    "topicLinks": [
+      {
+        "href": "#/t/math/calc-u4/4.6",
+        "label": "4.6 局部线性近似",
+        "topicId": "calc-u4:4.6"
+      }
+    ]
   }
 ];
