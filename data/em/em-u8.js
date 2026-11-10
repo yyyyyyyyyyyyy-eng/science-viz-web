@@ -165,6 +165,13 @@ export const TOPICS = {
       {
         "subject": "em",
         "chapterId": "em-u8",
+        "code": "8.6",
+        "title": "电荷性质与电荷守恒 · Properties and Conservation of Charge",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
         "code": "8.8",
         "title": "电力、引力与宏观物性 · Electric and Gravitational Forces in Matter",
         "relation": "相关 · related"
@@ -179,6 +186,7 @@ export const TOPICS = {
     "practiceHref": "#/em/practice/em-u8",
     "connections": [
       "上游：电荷的量子化与守恒是库仑定律和整个电磁学的基础。 · Upstream: quantization and conservation of charge underpin Coulomb's law and all of electromagnetism.",
+      "相关：电荷作为物质基本属性、量子化与守恒的完整讨论见 8.6；本节侧重库仑力的计算与矢量叠加。 · Related: the full discussion of charge as a fundamental property of matter, its quantization, and conservation is in 8.6; this topic focuses on Coulomb-force calculations and vector superposition.",
       "下游：把库仑力除以试探电荷得到电场，进入 8.2；多个电荷的矢量叠加进入 8.3。 · Downstream: dividing the Coulomb force by a test charge gives the electric field in 8.2; vector superposition of several charges leads to 8.3.",
       "跨主题：宏观接触力与材料性质是大量微观电磁作用的集体表现，详见 8.8。 · Cross-topic: macroscopic contact forces and material properties are collective effects of countless microscopic electromagnetic interactions, developed in 8.8.",
       "跨学科：化学键、摩擦、黏附、表面张力和生物分子识别都建立在电磁相互作用之上。 · Cross-disciplinary: chemical bonds, friction, adhesion, surface tension, and biomolecular recognition all rest on electromagnetic interactions."
@@ -946,6 +954,299 @@ export const TOPICS = {
         "termEn": "insulator",
         "defZh": "电荷不能在宏观尺度自由移动的材料；多余电荷可分布在内部和表面，内部电场可以不为零。",
         "defEn": "A material in which charge cannot move freely on macroscopic scales; excess charge can be distributed in the interior and on the surface, and the internal field may be nonzero."
+      }
+    ]
+  },
+  "8.6": {
+    "id": "em/em-u8/8.6",
+    "subject": "em",
+    "chapterId": "em-u8",
+    "unitCode": "8",
+    "unitTitleZh": "电荷、电场与高斯定律",
+    "unitTitleEn": "Electric Charges, Fields, and Gauss's Law",
+    "code": "8.6",
+    "titleZh": "电荷性质与电荷守恒",
+    "titleEn": "Properties and Conservation of Charge",
+    "layer": "ap",
+    "summary": "电荷是物质的一种基本属性：一切物质由带正电的质子与带负电的电子组成，电荷不是外加的「流体」，而是粒子本身的属性。电荷只有正、负两种，同种相斥、异种相吸；中性物体只是正负电荷代数和为零。电荷量量子化为 \\(q=ne\\)，孤立系统的总电荷守恒，摩擦起电、接触起电和感应起电都只是电荷的转移或重新分布。两个带电体之间的电力由库仑定律描述，其大小与电荷量乘积成正比、与距离平方成反比，因此可用比例推理预测电荷或距离改变后的新力值。 · Electric charge is a fundamental property of matter: all matter is made of positively charged protons and negatively charged electrons, and charge is not an added “fluid” but a property of the particles themselves. Charge comes in only two signs; like charges repel and opposite charges attract, and a neutral object simply has zero algebraic sum of positive and negative charge. Charge is quantized as \\(q=ne\\), and the total charge of an isolated system is conserved: charging by friction, contact, or induction only transfers or redistributes charge. The electric force between two charged objects is described by Coulomb's law, proportional to the product of the charges and inversely proportional to the square of the distance, so proportional reasoning predicts the new force when charges or separation change.",
+    "learningObjectives": [
+      "能说明电荷是物质的基本属性，区分「带电」与「中性」，并解释中性物体内部仍有大量正负电荷。 · Explain that charge is a fundamental property of matter, distinguish “charged” from “neutral,” and explain that a neutral object still contains enormous positive and negative charge.",
+      "能用 \\(q=ne\\) 计算元电荷数，并用电荷守恒分析摩擦起电、接触起电、感应起电和粒子反应中的电荷转移。 · Use \\(q=ne\\) to count elementary charges and apply conservation of charge to friction, contact, induction, and particle reactions.",
+      "能用库仑定律 \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) 及比例关系预测电荷量或距离改变时电力的大小与方向变化，并说明电力是带电体之间的相互作用。 · Use Coulomb's law \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\) and ratio reasoning to predict changes in magnitude and direction when charges or separation change, and explain that the electric force is an interaction between charged objects."
+    ],
+    "essentialKnowledge": [
+      "电荷是物质的基本属性：物质由带正电的质子、带负电的电子和中性粒子组成；电荷描述粒子参与电磁相互作用的性质，是粒子本身的属性，不是可以独立盛放或添加的「流体」。 · Charge is a fundamental property of matter: matter consists of positively charged protons, negatively charged electrons, and neutral particles; charge describes a particle's property of participating in electromagnetic interactions. It is a property of the particle itself, not a separable “fluid” that can be stored or added independently.",
+      "电荷只有正、负两种；同种电荷相斥，异种电荷相吸，力沿两电荷的连线。中性物体正负电荷的代数和为零，但内部仍含有大量正负电荷。 · There are only two signs of charge; like charges repel and opposite charges attract, with the force along the line joining them. A neutral object has zero algebraic sum of positive and negative charge but still contains enormous amounts of both.",
+      "电荷量子化：任何可观测的电荷量都是基本电荷 \\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\) 的整数倍，\\(q=ne\\)，其中 \\(n\\) 为整数；宏观带电体的 \\(n\\) 极大。 · Charge is quantized: every observable charge is an integer multiple of the elementary charge \\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\), \\(q=ne\\) with integer \\(n\\); a macroscopic charged body has an enormous \\(n\\).",
+      "电荷守恒：孤立系统的总电荷保持不变。摩擦起电是电子从一个物体转移到另一个物体；接触起电是电荷在导体间重新分配；感应起电是电荷在物体内部重新分布，三者都没有创造或消灭净电荷。 · Charge is conserved: the total charge of an isolated system remains constant. Charging by friction transfers electrons from one object to another; charging by contact redistributes charge between conductors; charging by induction redistributes charge within an object—none of these creates or destroys net charge.",
+      "在粒子反应中，电荷也按代数和守恒：例如高能光子产生一对正负电子时，反应前总电荷为零，反应后 \\((+e)+(-e)=0\\)。 · Charge is also conserved algebraically in particle reactions: for example, when a high-energy photon produces an electron–positron pair, the total charge is zero before and \\((+e)+(-e)=0\\) after.",
+      "两个带电体之间的电力由库仑定律给出：\\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，方向沿连线；两个电荷受到等大反向的力，符合牛顿第三定律。 · The electric force between two charged objects is given by Coulomb's law, \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), directed along the line joining them; the two charges feel equal and opposite forces, consistent with Newton's third law.",
+      "库仑定律的函数依赖可用于比例推理：\\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\)。若 \\(q_1\\) 变为 \\(a\\) 倍、\\(q_2\\) 变为 \\(b\\) 倍、\\(r\\) 变为 \\(c\\) 倍，则 \\(F\\) 变为 \\(\\dfrac{ab}{c^{2}}\\) 倍。 · The functional dependence of Coulomb's law supports ratio reasoning: \\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\). If \\(q_1\\) becomes \\(a\\) times, \\(q_2\\) becomes \\(b\\) times, and \\(r\\) becomes \\(c\\) times, then \\(F\\) becomes \\(\\dfrac{ab}{c^{2}}\\) times its original value.",
+      "对由多个带电体组成的系统，系统内各电荷对目标电荷的电力按矢量叠加；对球对称带电体，外部电场等效于全部电荷集中在球心。 · For a system of several charged objects, the electric forces from the individual charges on a target charge add as vectors; outside a spherically symmetric charged body, the field is equivalent to all charge concentrated at its center."
+    ],
+    "definition": "电荷是物质的一种基本属性，分为正电荷与负电荷；同种相斥、异种相吸。电荷量是量子化的，\\(q=ne\\)，且孤立系统的总电荷守恒。带电体之间的相互作用表现为电力：真空中两个静止点电荷之间的力由库仑定律给出，\\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，方向沿连线；同号相斥、异号相吸。电荷守恒并不意味着电荷不能移动：摩擦、接触和感应都可使电荷在物体之间或物体内部转移，但孤立系统的电荷代数和保持不变。 · Electric charge is a fundamental property of matter, occurring as positive or negative; like charges repel and opposite charges attract. Charge is quantized, \\(q=ne\\), and the total charge of an isolated system is conserved. The interaction between charged objects appears as an electric force: in vacuum the force between two stationary point charges is given by Coulomb's law, \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), directed along the line joining them, with like signs repelling and opposite signs attracting. Conservation of charge does not mean charge cannot move: friction, contact, and induction can transfer charge between objects or redistribute it within an object, but the algebraic sum for an isolated system stays constant.",
+    "intuition": "把电荷想成粒子的「电磁标签」：质子天生带正标签，电子天生带负标签，物体带电只是正负标签没有完全配对。摩擦起电不是「制造」电荷，而是把电子从一个物体搬到另一个物体；因此一个物体得到多少负电荷，另一个就失去多少负电荷。中性也不是「没有电荷」，而是正负标签数量相等。库仑力像一条「按标签强弱和距离平方缩放」的相互作用：电荷乘积越大，力越强；距离越远，力按平方迅速减小。 · Think of charge as a particle's “electromagnetic label”: protons carry a positive label and electrons a negative one, and a charged object simply has an imbalance of labels. Rubbing does not “create” charge; it moves electrons from one object to another, so whatever negative charge one object gains, the other loses. Neutral does not mean “no charge” but equal numbers of positive and negative labels. The Coulomb force is an interaction “scaled by the charge product and the square of the distance”: a larger charge product gives a stronger force, and a larger separation makes the force fall off rapidly as the square.",
+    "formulas": [
+      {
+        "latex": "q=ne",
+        "note": "电荷量子化；\\(e\\) 为基本电荷，\\(n\\) 为整数。 · Charge quantization; \\(e\\) is the elementary charge and \\(n\\) is an integer."
+      },
+      {
+        "latex": "e=1.60\\times10^{-19}\\,\\mathrm{C}",
+        "note": "基本电荷的大小，等于一个电子或质子所带电荷量的绝对值。 · Magnitude of the elementary charge, equal to the absolute charge of one electron or proton."
+      },
+      {
+        "latex": "F=k\\dfrac{|q_1q_2|}{r^{2}}",
+        "note": "库仑定律：真空中两个点电荷间的作用力大小。 · Coulomb's law: the magnitude of the force between two point charges in vacuum."
+      },
+      {
+        "latex": "k=\\dfrac{1}{4\\pi\\varepsilon_0}\\approx8.99\\times10^{9}\\,\\mathrm{N\\,m^{2}\\,C^{-2}}",
+        "note": "库仑常数与真空介电常数的关系。 · Relation between Coulomb's constant and the vacuum permittivity."
+      },
+      {
+        "latex": "F\\propto\\dfrac{|q_1q_2|}{r^{2}}",
+        "note": "比例关系：电荷量乘积加倍则力加倍，距离加倍则力变为四分之一。 · Proportionality: doubling the charge product doubles the force, while doubling the distance makes the force one quarter."
+      },
+      {
+        "latex": "F_{\\mathrm{new}}=F_{0}\\dfrac{a b}{c^{2}}",
+        "note": "若两个电荷分别变为 \\(a\\)、\\(b\\) 倍，距离变为 \\(c\\) 倍，则新力等于原力乘以 \\(\\dfrac{ab}{c^{2}}\\)。 · If the two charges become \\(a\\) and \\(b\\) times their original values and the distance becomes \\(c\\) times, the new force is the original force times \\(\\dfrac{ab}{c^{2}}\\)."
+      },
+      {
+        "latex": "\\vec F_{\\mathrm{net}}=\\sum_i\\vec F_i",
+        "note": "多个电荷对同一电荷的作用力按矢量叠加。 · Forces from several charges on one charge add as vectors."
+      },
+      {
+        "latex": "\\vec F_{12}=-\\vec F_{21}",
+        "note": "两个电荷之间的作用力等大反向，符合牛顿第三定律。 · The forces two charges exert on each other are equal and opposite, consistent with Newton's third law."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "实验事实 · Experimental fact",
+        "to": "库仑定律 · Coulomb's law",
+        "note": "扭秤实验表明：力与两电荷量的乘积成正比，与距离平方成反比，方向沿连线。 · Torsion-balance experiments show that the force is proportional to the product of the two charges, inversely proportional to the square of the distance, and directed along the line joining them."
+      },
+      {
+        "from": "电荷的离散性 · Discrete nature of charge",
+        "to": "电荷量子化 · Charge quantization",
+        "note": "密立根油滴实验等表明，油滴电荷总是 \\(e\\) 的整数倍，因此可观测电荷量满足 \\(q=ne\\)。 · Millikan's oil-drop experiment and related evidence show that droplet charges are always integer multiples of \\(e\\), so observable charge satisfies \\(q=ne\\)."
+      },
+      {
+        "from": "起电实验 · Charging experiments",
+        "to": "电荷守恒 · Conservation of charge",
+        "note": "摩擦后两物体带等量异号电荷，接触后电荷重新分配，但把参与过程的物体都包括在内时，总电荷不变。 · After rubbing, two objects carry equal and opposite charge; after contact, charge is redistributed, but the total charge stays constant when all objects involved are included."
+      },
+      {
+        "from": "比例关系 · Proportionality",
+        "to": "新力值 · New force value",
+        "note": "由 \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，若 \\(q_1'=a q_1\\)、\\(q_2'=b q_2\\)、\\(r'=c r\\)，则 \\(F'=F\\dfrac{ab}{c^{2}}\\)；比例推理不需要重复代入常数 \\(k\\)。 · From \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), if \\(q_1'=a q_1\\), \\(q_2'=b q_2\\), and \\(r'=c r\\), then \\(F'=F\\dfrac{ab}{c^{2}}\\); ratio reasoning avoids re-substituting the constant \\(k\\)."
+      },
+      {
+        "from": "相互作用 · Interaction",
+        "to": "牛顿第三定律 · Newton's third law",
+        "note": "电荷之间的力是相互的：\\(q_1\\) 对 \\(q_2\\) 的力与 \\(q_2\\) 对 \\(q_1\\) 的力等大反向，与两电荷的大小是否相同无关。 · The force between charges is mutual: the force of \\(q_1\\) on \\(q_2\\) and that of \\(q_2\\) on \\(q_1\\) are equal in magnitude and opposite in direction, regardless of whether the charges have equal magnitude."
+      }
+    ],
+    "conditions": [
+      "库仑定律适用于点电荷，或球对称分布电荷的外部；\\(r\\) 应远大于带电体自身尺度。 · Coulomb's law applies to point charges or outside a spherically symmetric charge distribution; \\(r\\) must be much larger than the size of each charged body.",
+      "库仑定律在真空中形式最简单；在空气中也近似成立，在介质中需用介电常数。 · Coulomb's law is simplest in vacuum; it also holds approximately in air, and in a medium the permittivity must be used.",
+      "电荷静止或速度远小于光速；运动电荷还会产生磁场和磁力。 · Charges are at rest or moving much slower than light; moving charges also produce magnetic fields and magnetic forces.",
+      "电荷守恒只适用于孤立系统；若系统与外界有电荷交换，必须把交换的电荷计入总账。 · Conservation of charge applies to an isolated system; if charge crosses the system boundary, the exchanged charge must be included in the accounting.",
+      "电荷量子化针对可观测的电荷量；夸克带分数电荷，但不能被单独观测到。 · Quantization applies to observable charge; quarks carry fractional charge but are never observed in isolation.",
+      "中性物体的净电荷为零，但仍可能因极化而受到带电体的吸引；净电荷为零不等于不受电力。 · A neutral object has zero net charge but can still be attracted by a charged body because of polarization; zero net charge does not mean zero electric force.",
+      "用库仑定律计算大小时代入电荷量的绝对值，方向由电荷符号另行判断。 · Use absolute values of charge when calculating the magnitude with Coulomb's law, and determine direction separately from the signs."
+    ],
+    "keyPoints": [
+      "电荷是物质的基本属性；物质由带正电的质子、带负电的电子和中性粒子组成。 · Charge is a fundamental property of matter; matter consists of positive protons, negative electrons, and neutral particles.",
+      "电荷只有正、负两种；同种相斥、异种相吸，力沿两电荷连线。 · There are only two signs of charge; like charges repel and opposite charges attract, with the force along the line joining them.",
+      "中性表示正负电荷代数和为零，不表示物体内部没有电荷。 · Neutral means the algebraic sum of positive and negative charge is zero, not that the object contains no charge.",
+      "电荷量子化：\\(q=ne\\)，\\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\)。 · Charge is quantized: \\(q=ne\\), with \\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\).",
+      "电荷守恒：孤立系统的总电荷不变；摩擦、接触、感应起电只是电荷转移或重新分布。 · Charge is conserved: the total charge of an isolated system is constant; friction, contact, and induction only transfer or redistribute charge.",
+      "库仑力大小 \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\)，与电荷量乘积成正比、与距离平方成反比。 · The Coulomb force has magnitude \\(F=k\\dfrac{|q_1q_2|}{r^{2}}\\), proportional to the charge product and inversely proportional to the square of the distance.",
+      "比例推理：\\(q_1\\)、\\(q_2\\)、\\(r\\) 分别变为 \\(a\\)、\\(b\\)、\\(c\\) 倍时，\\(F\\) 变为 \\(\\dfrac{ab}{c^{2}}\\) 倍。 · Ratio reasoning: when \\(q_1\\), \\(q_2\\), and \\(r\\) become \\(a\\), \\(b\\), and \\(c\\) times their original values, \\(F\\) becomes \\(\\dfrac{ab}{c^{2}}\\) times its original value.",
+      "两个电荷之间的力等大反向；多个电荷对同一电荷的力按矢量叠加。 · The forces between two charges are equal and opposite; forces from several charges on one charge add as vectors."
+    ],
+    "misconceptions": [
+      "认为摩擦起电创造了电荷；实际上只是电子从一个物体转移到另一个物体，总电荷守恒。 · Thinking rubbing creates charge; it only transfers electrons from one object to another, and the total charge is conserved.",
+      "认为中性物体内部没有电荷；中性只表示正负电荷的代数和为零。 · Thinking a neutral object contains no charge; neutrality only means the algebraic sum of positive and negative charge is zero.",
+      "认为电荷量可以取任意连续值；可观测电荷是基本电荷的整数倍。 · Thinking charge can take any continuous value; observable charge is an integer multiple of the elementary charge.",
+      "认为电荷是一种可以独立添加的「流体」；电荷是粒子本身的属性，与粒子不可分割。 · Thinking charge is a “fluid” that can be added independently; charge is a property of the particle itself and cannot be separated from it.",
+      "认为两个电荷中电荷量大的一个施加的力更大；两个电荷受到的力大小相等、方向相反。 · Thinking the charge with the larger magnitude exerts a larger force; the two charges feel forces equal in magnitude and opposite in direction.",
+      "认为距离加倍时力减半；平方反比意味着距离加倍时力变为四分之一。 · Thinking doubling the distance halves the force; the inverse-square law makes the force one quarter.",
+      "认为净电荷为零的物体一定不受电力；中性物体可以被带电体极化，从而受到吸引力。 · Thinking an object with zero net charge cannot feel an electric force; a neutral object can be polarized by a charged body and attracted.",
+      "认为电荷守恒意味着电荷不能移动；电荷可以在物体之间或物体内部转移，只是孤立系统的总电荷不变。 · Thinking conservation of charge means charge cannot move; charge can transfer between objects or within an object, while the total charge of an isolated system stays constant."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 电荷是物质的基本属性 · Example 1: Charge as a property of matter",
+        "prompt": "一块铜块整体电中性。它内部是否含有电荷？「中性」是否等于「没有电荷」？ · A copper block is electrically neutral overall. Does it contain charge inside? Does “neutral” mean “no charge”?",
+        "steps": [
+          "铜原子由带正电的原子核和带负电的电子组成，因此铜块内部有大量正电荷和负电荷。 · Copper atoms consist of positively charged nuclei and negatively charged electrons, so the block contains enormous amounts of positive and negative charge.",
+          "整体电中性表示正电荷总量与负电荷总量相等，代数和为零，而不是内部没有电荷。 · Overall neutrality means the total positive charge equals the total negative charge, so the algebraic sum is zero—not that there is no charge inside.",
+          "当铜块与其他物体接触时，表面原子间的电磁相互作用产生支持力、摩擦力等宏观接触力。 · When the block touches another object, electromagnetic interactions between surface atoms produce macroscopic contact forces such as normal force and friction."
+        ],
+        "solution": "铜块内部有大量正负电荷；中性只表示正负电荷代数和为零。 · The copper block contains enormous positive and negative charge; neutral only means their algebraic sum is zero.",
+        "solutionLatex": "Q_{\\mathrm{net}}=\\sum_i q_i=0"
+      },
+      {
+        "title": "例 2 · 电荷量子化与电子数 · Example 2: Charge quantization and counting electrons",
+        "prompt": "一个物体带电荷量 \\(q=-4.8\\,\\mathrm{\\mu C}\\)。它比中性状态多了多少个电子？ · An object has charge \\(q=-4.8\\,\\mathrm{\\mu C}\\). How many extra electrons does it have compared with its neutral state?",
+        "steps": [
+          "每个电子带电荷 \\(-e=-1.60\\times10^{-19}\\,\\mathrm{C}\\)。 · Each electron carries charge \\(-e=-1.60\\times10^{-19}\\,\\mathrm{C}\\).",
+          "电子数 \\(n=\\dfrac{|q|}{e}=\\dfrac{4.8\\times10^{-6}}{1.60\\times10^{-19}}\\)。 · Number of electrons: \\(n=\\dfrac{|q|}{e}=\\dfrac{4.8\\times10^{-6}}{1.60\\times10^{-19}}\\).",
+          "\\(n=3.0\\times10^{13}\\)，是整数，符合电荷量子化。 · \\(n=3.0\\times10^{13}\\), an integer, consistent with charge quantization."
+        ],
+        "solution": "约 \\(3.0\\times10^{13}\\) 个额外电子。 · About \\(3.0\\times10^{13}\\) extra electrons.",
+        "solutionLatex": "n=\\dfrac{|q|}{e}=\\dfrac{4.8\\times10^{-6}}{1.60\\times10^{-19}}=3.0\\times10^{13}"
+      },
+      {
+        "title": "例 3 · 接触起电与电荷守恒 · Example 3: Charging by contact and conservation of charge",
+        "prompt": "两个相同的导体小球，一个带 \\(+8.0\\,\\mathrm{\\mu C}\\)，另一个带 \\(-2.0\\,\\mathrm{\\mu C}\\)。让它们接触后再分开，求每个小球的电荷量。 · Two identical conducting spheres carry \\(+8.0\\,\\mathrm{\\mu C}\\) and \\(-2.0\\,\\mathrm{\\mu C}\\). They touch and then separate. Find the charge on each sphere.",
+        "steps": [
+          "把两个小球作为一个孤立系统，总电荷守恒：\\(Q_{\\mathrm{total}}=+8.0-2.0=+6.0\\,\\mathrm{\\mu C}\\)。 · Treat the two spheres as one isolated system; total charge is conserved: \\(Q_{\\mathrm{total}}=+8.0-2.0=+6.0\\,\\mathrm{\\mu C}\\).",
+          "两个小球完全相同，接触后电荷平均分配。 · The spheres are identical, so after contact the charge is shared equally.",
+          "每个小球带 \\(\\dfrac{+6.0}{2}=+3.0\\,\\mathrm{\\mu C}\\)。 · Each sphere carries \\(\\dfrac{+6.0}{2}=+3.0\\,\\mathrm{\\mu C}\\)."
+        ],
+        "solution": "每个小球带 \\(+3.0\\,\\mathrm{\\mu C}\\)，总电荷仍为 \\(+6.0\\,\\mathrm{\\mu C}\\)。 · Each sphere carries \\(+3.0\\,\\mathrm{\\mu C}\\), and the total charge remains \\(+6.0\\,\\mathrm{\\mu C}\\).",
+        "solutionLatex": "Q_{\\mathrm{each}}=\\dfrac{+8.0\\,\\mathrm{\\mu C}+(-2.0\\,\\mathrm{\\mu C})}{2}=+3.0\\,\\mathrm{\\mu C}"
+      },
+      {
+        "title": "例 4 · 库仑力的比例推理 · Example 4: Ratio reasoning with Coulomb's law",
+        "prompt": "两个点电荷之间的库仑力为 \\(0.40\\,\\mathrm{N}\\)。若一个电荷量变为原来的 \\(2\\) 倍，另一个变为原来的 \\(3\\) 倍，距离变为原来的 \\(2\\) 倍，求新的力。 · The Coulomb force between two point charges is \\(0.40\\,\\mathrm{N}\\). If one charge becomes \\(2\\) times its original value, the other becomes \\(3\\) times, and the distance becomes \\(2\\) times, find the new force.",
+        "steps": [
+          "由 \\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\)，写出比例因子 \\(\\dfrac{ab}{c^{2}}\\)。 · From \\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\), write the factor \\(\\dfrac{ab}{c^{2}}\\).",
+          "代入 \\(a=2\\)、\\(b=3\\)、\\(c=2\\)：因子为 \\(\\dfrac{(2)(3)}{2^{2}}=\\dfrac{6}{4}=1.5\\)。 · Substitute \\(a=2\\), \\(b=3\\), and \\(c=2\\): the factor is \\(\\dfrac{(2)(3)}{2^{2}}=\\dfrac{6}{4}=1.5\\).",
+          "新力 \\(F'=0.40\\times1.5=0.60\\,\\mathrm{N}\\)。 · The new force is \\(F'=0.40\\times1.5=0.60\\,\\mathrm{N}\\)."
+        ],
+        "solution": "新的力为 \\(0.60\\,\\mathrm{N}\\)。 · The new force is \\(0.60\\,\\mathrm{N}\\).",
+        "solutionLatex": "F'=F\\dfrac{ab}{c^{2}}=0.40\\dfrac{(2)(3)}{2^{2}}=0.60\\,\\mathrm{N}"
+      },
+      {
+        "title": "例 5 · 中性物体的极化吸引 · Example 5: Polarization attraction of a neutral object",
+        "prompt": "用毛皮摩擦过的气球带负电，能吸引电中性的墙壁。电荷守恒在这里如何体现？墙壁不带电为什么还会被吸引？ · A balloon rubbed with fur becomes negatively charged and attracts a neutral wall. How is charge conservation reflected here, and why is the neutral wall attracted?",
+        "steps": [
+          "摩擦使电子从毛皮转移到气球，气球得到多少负电荷，毛皮就失去多少电子；把气球和毛皮作为系统，总电荷不变。 · Rubbing transfers electrons from the fur to the balloon; the balloon gains exactly the negative charge the fur loses, so the total charge of the balloon–fur system is unchanged.",
+          "墙壁整体中性，但气球靠近时，墙内电子云被排斥、正电荷中心被吸引，发生极化，使靠近气球的一侧出现正电荷。 · The wall is neutral overall, but when the balloon approaches, its electron clouds are repelled and its positive charge centers are attracted, producing polarization and a positive charge on the near side.",
+          "气球与墙壁近侧的正电荷之间的吸引力大于与远侧负电荷之间的排斥力，因此净力表现为吸引。 · The attraction between the balloon and the positive near-side charge is stronger than the repulsion from the distant negative charge, so the net force is attractive."
+        ],
+        "solution": "摩擦只是转移电子，总电荷守恒；中性墙壁被极化后受到净吸引力。 · Rubbing only transfers electrons, so total charge is conserved; the neutral wall is polarized and then feels a net attractive force.",
+        "solutionLatex": "Q_{\\mathrm{balloon}}+Q_{\\mathrm{fur}}=\\mathrm{constant}"
+      }
+    ],
+    "examTips": [
+      "先判断题目问的是电荷的「性质」还是「数量」；性质题要说明电荷是物质的基本属性、只有正负两种。 · First decide whether a question asks about the property of charge or its amount; for the property, explain that charge is a fundamental property of matter with only two signs.",
+      "遇到「中性」不要理解为「没有电荷」；中性意味着正负电荷代数和为零，内部仍有大量电荷。 · Do not read “neutral” as “no charge”; neutrality means zero algebraic sum of positive and negative charge, while enormous charge remains inside.",
+      "用电荷守恒时，先明确系统边界；把参与接触、摩擦或反应的所有物体都包括进来，再写总电荷不变。 · When using conservation of charge, define the system boundary first; include every object involved in contact, friction, or reaction before setting the total charge constant.",
+      "比例题直接用 \\(F'=F\\dfrac{ab}{c^{2}}\\)，不要重复代入 \\(k\\) 和全部数据；这样更快也不易算错。 · For ratio problems use \\(F'=F\\dfrac{ab}{c^{2}}\\) directly instead of re-substituting \\(k\\) and all data; it is faster and less error-prone.",
+      "计算库仑力大小时用绝对值，方向由「同号相斥、异号相吸」另行判断。 · Use absolute values for the Coulomb force magnitude and determine direction separately from “like repels, opposite attracts.”",
+      "两个电荷受到的力总是等大反向；不要因为一个电荷更大就认为它施加的力更大。 · The forces on the two charges are always equal and opposite; do not assume the larger charge exerts a larger force.",
+      "把 \\(\\mathrm{\\mu C}\\) 换成 \\(10^{-6}\\,\\mathrm{C}\\)、把 \\(\\mathrm{cm}\\) 换成 \\(\\mathrm{m}\\)，并在最后检查数量级和单位。 · Convert \\(\\mathrm{\\mu C}\\) to \\(10^{-6}\\,\\mathrm{C}\\) and \\(\\mathrm{cm}\\) to \\(\\mathrm{m}\\), then check the order of magnitude and units."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.1",
+        "title": "电荷与力 · Electric Charge and Force",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.2",
+        "title": "电场 · Electric Fields",
+        "relation": "后续 · next"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.8",
+        "title": "电力、引力与宏观物性 · Electric and Gravitational Forces in Matter",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u8",
+        "code": "8.10",
+        "title": "绝缘体电荷与内部电场 · Charge and Fields inside Insulators",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [],
+    "practiceHref": "#/em/practice/em-u8",
+    "connections": [
+      "上游：8.1 已建立电荷的两种类型、库仑定律和矢量叠加；本节把「电荷是物质的基本属性」、量子化与守恒讲完整。 · Upstream: 8.1 establishes the two types of charge, Coulomb's law, and vector superposition; this topic completes the account of charge as a fundamental property of matter, its quantization, and its conservation.",
+      "下游：把库仑力除以试探电荷得到电场（8.2）；多个电荷的电场叠加进入 8.3，高斯定律（8.5）则从通量角度重新表述电荷与场的关系。 · Downstream: dividing the Coulomb force by a test charge gives the electric field (8.2); superposition of fields from several charges leads to 8.3, and Gauss's law (8.5) restates the relation between charge and field through flux.",
+      "跨主题：8.8 比较电力与引力，并解释宏观接触力如何来自微观电磁作用；8.10 讨论导体与绝缘体中电荷的分布和转移。 · Cross-topic: 8.8 compares electric and gravitational forces and explains how macroscopic contact forces arise from microscopic electromagnetic interactions; 8.10 discusses charge distribution and transfer in conductors and insulators.",
+      "跨学科：化学键、分子间作用力、生物膜电位和材料带电现象都建立在电荷及其守恒之上。 · Cross-disciplinary: chemical bonds, intermolecular forces, membrane potentials in biology, and charging phenomena in materials all rest on charge and its conservation.",
+      "科学本质：电荷守恒和电荷量子化是物理学中最精确、最普遍的守恒律与量子化规律之一。 · Nature of science: conservation of charge and charge quantization are among the most precise and universal conservation and quantization laws in physics."
+    ],
+    "intuitionDetailed": "电荷概念最容易出错的地方，是把「带电」当成一种可以单独盛放的东西。更准确的图像是：每个质子自带一个正电荷属性，每个电子自带一个负电荷属性；物体是否带电，只看正负属性是否配平。摩擦起电时，电子只是从一种材料跑到另一种材料，原来的总量并没有增加或减少；所以一个物体带负电，另一个必然带等量正电。中性物体内部依旧有海量正负电荷，只是数目相等；当带电体靠近时，这些电荷会发生微小位移（极化），近端出现异号电荷，远端出现同号电荷，净效果可能是吸引，这就是气球吸墙、梳子吸纸屑的原因。库仑定律则给出相互作用的定量规律：\\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\)。做比例题时，不必每次代入 \\(k\\)：把新电荷和新距离相对于旧值的倍数找出来，力就按 \\(\\dfrac{ab}{c^{2}}\\) 缩放。还要记住，电荷之间的力是相互的；无论两个电荷量是否相等，它们受到的力总是等大反向。 · The most common mistake about charge is to treat “charged” as a separable substance that an object can hold. A more accurate picture is that every proton carries a positive charge property and every electron carries a negative one; whether an object is charged depends only on whether these properties are balanced. When rubbing transfers electrons from one material to another, the total amount is not increased or decreased; whatever negative charge one object gains, the other must lose as positive charge. A neutral object still contains enormous positive and negative charge in equal numbers; when a charged body approaches, these charges shift slightly (polarization), producing opposite charge on the near side and like charge on the far side. The net effect can be attraction—this is why a balloon sticks to a wall and a comb attracts bits of paper. Coulomb's law gives the quantitative interaction, \\(F\\propto\\dfrac{|q_1q_2|}{r^{2}}\\). For ratio problems, there is no need to substitute \\(k\\) every time: find the factors by which the charges and distance change, and the force scales by \\(\\dfrac{ab}{c^{2}}\\). Also remember that the force between charges is mutual; whether or not the two charges are equal, the forces they feel are always equal in magnitude and opposite in direction.",
+    "development": [
+      "从物质由质子、电子和中性粒子组成出发，说明电荷是粒子本身的属性。 · Start from the fact that matter consists of protons, electrons, and neutral particles, and explain that charge is a property of the particles themselves.",
+      "区分「带电」与「中性」，用正负电荷代数和解释中性物体内部仍有大量电荷。 · Distinguish “charged” from “neutral,” and use the algebraic sum of positive and negative charge to explain why a neutral object still contains enormous charge.",
+      "由密立根油滴实验等证据引入电荷量子化 \\(q=ne\\)。 · Introduce charge quantization \\(q=ne\\) from evidence such as Millikan's oil-drop experiment.",
+      "用摩擦、接触、感应三种起电过程分析电荷转移，并写出电荷守恒方程。 · Analyze charge transfer in friction, contact, and induction, and write the conservation-of-charge equation.",
+      "由实验事实写出库仑定律，说明平方反比和方向规则。 · Write Coulomb's law from experimental facts and state the inverse-square dependence and direction rule.",
+      "用比例因子 \\(\\dfrac{ab}{c^{2}}\\) 预测电荷量或距离改变后的新力值，并用极限和符号检查结果。 · Use the factor \\(\\dfrac{ab}{c^{2}}\\) to predict the new force when charges or separation change, and check the result with limits and signs."
+    ],
+    "checks": [
+      "电荷是物质的一种「属性」还是一种可以单独添加的「物质」？为什么？ · Is charge a “property” of matter or a separately added “substance”? Why?",
+      "中性物体内部是否含有电荷？「中性」的准确含义是什么？ · Does a neutral object contain charge inside? What does “neutral” mean precisely?",
+      "摩擦起电是否创造了电荷？请用总电荷守恒解释。 · Does rubbing create charge? Explain using conservation of total charge.",
+      "一个物体带 \\(q=-3.2\\,\\mathrm{\\mu C}\\)，它比中性状态多了多少个电子？ · An object has \\(q=-3.2\\,\\mathrm{\\mu C}\\); how many extra electrons does it have compared with its neutral state?",
+      "两个点电荷的距离变为原来的 \\(3\\) 倍，力变为原来的多少倍？ · If the distance between two point charges becomes \\(3\\) times its original value, by what factor does the force change?",
+      "两个电荷量不相等的电荷之间的力是否等大？为什么？ · Are the forces between two charges of unequal magnitude equal? Why?",
+      "净电荷为零的物体是否一定不受电力？举一个反例。 · Must an object with zero net charge feel zero electric force? Give a counterexample."
+    ],
+    "vocabulary": [
+      {
+        "termZh": "电荷",
+        "termEn": "electric charge",
+        "defZh": "物质的一种基本属性，分为正电荷与负电荷，决定电磁相互作用的强弱和方向。",
+        "defEn": "A fundamental property of matter, occurring as positive or negative charge, that determines the strength and direction of electromagnetic interactions."
+      },
+      {
+        "termZh": "电荷量子化",
+        "termEn": "quantization of charge",
+        "defZh": "任何可观测电荷量都是基本电荷 \\(e\\) 的整数倍，\\(q=ne\\)。",
+        "defEn": "Every observable charge is an integer multiple of the elementary charge \\(e\\), \\(q=ne\\)."
+      },
+      {
+        "termZh": "基本电荷",
+        "termEn": "elementary charge",
+        "defZh": "一个电子或质子所带电荷量的绝对值，\\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\)。",
+        "defEn": "The absolute value of the charge carried by one electron or proton, \\(e=1.60\\times10^{-19}\\,\\mathrm{C}\\)."
+      },
+      {
+        "termZh": "电荷守恒",
+        "termEn": "conservation of charge",
+        "defZh": "孤立系统的总电荷保持不变；起电过程只是电荷转移或重新分布。",
+        "defEn": "The total charge of an isolated system remains constant; charging processes only transfer or redistribute charge."
+      },
+      {
+        "termZh": "摩擦起电",
+        "termEn": "charging by friction",
+        "defZh": "两种不同材料摩擦时，电子从一个物体转移到另一个物体，使两物体带等量异号电荷。",
+        "defEn": "When two different materials rub, electrons transfer from one object to the other, leaving the two objects with equal and opposite charge."
+      },
+      {
+        "termZh": "感应起电",
+        "termEn": "charging by induction",
+        "defZh": "带电体使导体内部自由电荷重新分布；不接地时导体总电荷不变，接地时可从大地获得或失去电子。",
+        "defEn": "A charged body redistributes free charge within a conductor; without grounding the conductor's total charge is unchanged, while grounding allows it to gain or lose electrons."
+      },
+      {
+        "termZh": "极化",
+        "termEn": "polarization",
+        "defZh": "中性绝缘体内部正负电荷在外电场中发生微小相对位移，使表面出现局部电荷，从而可能被带电体吸引。",
+        "defEn": "A slight relative displacement of positive and negative charge in a neutral insulator under an external field, producing local surface charge and possible attraction to a charged body."
+      },
+      {
+        "termZh": "库仑定律",
+        "termEn": "Coulomb's law",
+        "defZh": "真空中两个点电荷间的作用力与电荷量乘积成正比、与距离平方成反比，方向沿连线。",
+        "defEn": "The force between two point charges in vacuum is proportional to the product of the charges, inversely proportional to the square of the distance, and directed along the line joining them."
       }
     ]
   },
