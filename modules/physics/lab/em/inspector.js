@@ -383,14 +383,22 @@ export function buildEMInspector({ entity, world, api }) {
       testid: 'emRailR',
       onChange: (v) => { entity.R = Math.max(1e-4, v); },
     });
+    api.selectField(common, {
+      label: '驱动方式 · Drive',
+      value: entity.drive || 'force',
+      options: [['force', '外力 F · Applied force'], ['gravity', '重力 mg · Gravity']],
+      testid: 'emRailDriveMode',
+      onChange: (v) => { entity.drive = v === 'gravity' ? 'gravity' : 'force'; },
+    });
     api.field(common, {
-      label: '驱动力 F · Driving force',
+      label: '外力 F · Applied force',
       value: entity.F,
       min: -10,
       max: 10,
       step: 0.01,
       unit: 'N',
       testid: 'emRailF',
+      hint: '重力驱动时取 F=mg，此值不参与计算。 · In gravity drive F=mg; this value is ignored.',
       onChange: (v) => { entity.F = v; },
     });
     const live = readouts(api, common);
@@ -398,6 +406,8 @@ export function buildEMInspector({ entity, world, api }) {
     api.addLive(live, '感应电动势 ε · emf', 'emRailEmf', 'V');
     api.addLive(live, '感应电流 I · Current', 'emRailI', 'A');
     api.addLive(live, '磁力 F_B · Magnetic force', 'emRailForce', 'N');
+    api.addLive(live, '驱动力 F · Drive force', 'emRailDrive', 'N');
+    api.addLive(live, '终端速度 v_t · Terminal speed', 'emRailVt', 'm/s');
     api.formula(common, '\\varepsilon=B\\ell v,\\qquad I=\\dfrac{\\varepsilon}{R},\\qquad F_{B}=-\\dfrac{B^{2}\\ell^{2}v}{R}');
     note(api, common, '水平导轨；楞次定律 · Lenz’s law 使磁力总是阻碍相对运动。 · Horizontal rails; the magnetic force always opposes motion.');
   } else if (entity.type === 'emInductionCoil') {
@@ -549,6 +559,8 @@ export function buildEMMore({ entity, world, api }) {
       onChange: (v) => { entity.length = Math.max(0.4, v); },
     });
     api.formula(parent, 'v_{\\text{terminal}}=\\dfrac{FR}{B^{2}\\ell^{2}}');
+    note(api, parent, '靠重力下滑时取 F=mg，得 · When sliding under gravity, take F=mg, giving');
+    api.formula(parent, 'v_{t}=\\dfrac{mgR}{B^{2}\\ell^{2}}');
   } else if (entity.type === 'emInductionCoil') {
     api.field(parent, {
       label: '匝数 N · Turns', value: entity.turns, min: 1, max: 500, step: 1, testid: 'emCoilTurnsMore',

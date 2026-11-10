@@ -58,6 +58,7 @@ import {
   energyBreakdown,
   entityMount,
   floorRestHeight,
+  forceVectors,
   leastSquaresSlope,
   mountApparatus,
   migrateScene,
@@ -66,6 +67,7 @@ import {
   orbitKeplerPeriod,
   oscillatorAnalyticAmplitude,
   oscillatorRegime,
+  pendulumPeriod,
   quantizeAngle,
   quantizeValue,
   relativeVelocity,
@@ -1329,6 +1331,70 @@ check('tunnel: period through a uniform sphere matches 2*pi*sqrt(R^3/GM) within 
   if (!(tunnel.measuredPeriod > 0)) throw new Error('no tunnel period recorded');
   near(tunnel.measuredPeriod, expected, expected * 0.01, 'tunnel period');
   console.log(`      R=4 m, GM=8: T=${tunnel.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s (${((Math.abs(tunnel.measuredPeriod - expected) / expected) * 100).toFixed(4)}%)`);
+});
+
+/* -------------------------- gravity audit -------------------------- */
+
+check('g=0: a free block does not fall and weight reads zero', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  const block = addBlock(world, { mass: 2, size: 0.5, x: 0, y: 3, z: 0 });
+  advance(world, 1, 1 / 240);
+  near(block.cannon.position.y, 3, 1e-9, 'free y at g=0', ' m');
+  near(block.cannon.velocity.y, 0, 1e-12, 'free vy at g=0', ' m/s');
+  const weight = forceVectors(world, block).find((v) => v.type === 'weight');
+  near(weight.magnitude, 0, 1e-12, 'weight at g=0', ' N');
+  console.log(`      g=0: y=${block.cannon.position.y.toFixed(9)} m after 1 s, weight=${weight.magnitude} N`);
+});
+
+check('custom g=1.6: free fall a=g, N=mg, pendulum/elevator/air-drag follow g', () => {
+  const g = 1.6;
+  const world = createWorld({ g, h: 1 / 240 });
+  const body = addProjectile(world, { x: 0, y: 100, z: 0, mass: 2.5, radius: 0.02, drag: 'none' });
+  advance(world, 1, 1 / 240);
+  near(-body.cannon.velocity.y, g, 1e-9, 'free-fall a=g', ' m/s²');
+  near(body.cannon.position.y, 100 - 0.5 * g, 0.01, 'free-fall y', ' m');
+  const weight = forceVectors(world, body).find((v) => v.type === 'weight');
+  near(weight.magnitude, body.mass * g, 1e-12, 'weight N=mg', ' N');
+  near(pendulumPeriod({ length: 1.2 }, g), 2 * Math.PI * Math.sqrt(1.2 / g), 1e-12, 'pendulum period', ' s');
+  near(carriageTilt(g, g), Math.PI / 4, 1e-12, 'carriage tilt at a=g', ' rad');
+  const lift = addElevator(world, { mass: 3, accel: 0 });
+  near(elevatorReading(world, lift), 3 * g, 1e-12, 'elevator reading', ' N');
+
+  const dragWorld = createWorld({ g, h: 1 / 240 });
+  const drag = addProjectile(dragWorld, {
+    x: 0, y: 1000, z: 0, mass: 1, radius: 0.02, drag: 'linear', dragB: 0.5,
+  });
+  advance(dragWorld, 12, 1 / 240);
+  const vt = (1 * g) / 0.5;
+  near(-drag.cannon.velocity.y, vt, vt * 0.01, 'linear terminal speed v_t=mg/b', ' m/s');
+  console.log(`      g=1.6: a=${(-body.cannon.velocity.y).toFixed(6)} m/s², N=${weight.magnitude.toFixed(6)} N, T=${pendulumPeriod({ length: 1.2 }, g).toFixed(6)} s, lift=${elevatorReading(world, lift).toFixed(6)} N, drag v_t=${(-drag.cannon.velocity.y).toFixed(6)} m/s vs ${vt.toFixed(6)} m/s`);
+});
+
+check('motion-sensor acceleration follows world.g at 0 and 1.6', () => {
+  for (const g of [0, 1.6]) {
+    const world = createWorld({ g, h: 1 / 240 });
+    const sensor = addSensor(world, { kind: 'motion', x: 0, y: 2.5, z: 0, range: 20, face: 1 });
+    addBlock(world, { mass: 1, size: 0.4, x: 2, y: 3, z: 0 });
+    stepWorld(world, 1 / 240, { h: 1 / 240 });
+    const sample = sensor.samples[0];
+    if (!sample) throw new Error(`no motion sample at g=${g}`);
+    near(sample.ay, -g, 1e-9, `sensor ay at g=${g}`, ' m/s²');
+    near(sample.a, g, 1e-9, `sensor |a| at g=${g}`, ' m/s²');
+    console.log(`      g=${g}: sensor ay=${sample.ay.toFixed(9)} m/s², |a|=${sample.a.toFixed(9)} m/s²`);
+  }
+});
+
+check('g=0 and custom g=1.6 serialize and restore with the scene', () => {
+  for (const g of [0, 1.6]) {
+    const world = createWorld({ g });
+    const data = serializeScene(world);
+    near(data.g, g, 1e-12, 'serialized g');
+    const target = createWorld({ g: 9.8 });
+    if (!deserializeScene(target, data)) throw new Error('deserializeScene returned false');
+    near(target.g, g, 1e-12, `restored g=${g}`);
+    near(target.engine.gravity.y, -g, 1e-12, `engine gravity at g=${g}`, ' m/s²');
+    console.log(`      g=${g}: scene.g and engine.gravity survive serialize/deserialize`);
+  }
 });
 
 /* ---------------------- FAIL fixes: snap steps, time ---------------- */

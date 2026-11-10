@@ -5049,7 +5049,7 @@ function resetTunnel(tunnel) {
 
 export function substep(world, h) {
   if (world.em?.mode === 'em') {
-    stepEM(world.em, h);
+    stepEM(world.em, h, world.g);
     updateMountedApparatus(world);
     world.time += h;
     return;

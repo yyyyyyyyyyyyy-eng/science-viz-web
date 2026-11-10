@@ -36,6 +36,8 @@ import {
   inductionCoilState,
   magneticFieldAt,
   removeEMEntity,
+  railDrivingForce,
+  railTerminalSpeed,
   serializeEM,
   stepCircuit,
   stepParticle,
@@ -591,6 +593,39 @@ check('magnetic-drag terminal velocity matches F R/(B²ℓ²) within 1%', () => 
   near('terminal v', rail.v, vTerm, 0.01, ' m/s');
   near('terminal force balance', Math.abs(rail.force), F, 0.01, ' N');
   console.log(`      v_term=${rail.v.toFixed(6)} m/s vs ${vTerm.toFixed(6)} m/s; ε=${rail.emf.toFixed(6)} V, I=${rail.current.toFixed(6)} A`);
+});
+
+check('gravity-driven rail: g=0 gives no drive and zero terminal speed', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  world.em.mode = 'em';
+  const rail = addRail(world.em, {
+    x: 0, y: 0, z: 0, ell: 1.2, length: 500, B: 0.5, R: 2, mass: 0.2, drive: 'gravity',
+  });
+  near('F=mg at g=0', railDrivingForce(rail, world.g), 0, 1e-12, ' N');
+  near('v_t at g=0', railTerminalSpeed(rail, world.g), 0, 1e-12, ' m/s');
+  for (let i = 0; i < 240; i += 1) stepWorld(world, 1 / 240, { h: 1 / 240 });
+  eq('rod speed stays zero', rail.v, 0);
+  eq('rod displacement stays zero', rail.xRod, 0);
+  console.log(`      g=0: F=${railDrivingForce(rail, world.g)} N, v=${rail.v} m/s, x=${rail.xRod} m after 1 s`);
+});
+
+check('gravity-driven rail terminal speed is mgR/(B²ℓ²) at custom g=1.6', () => {
+  const g = 1.6;
+  const B = 0.5;
+  const ell = 1.2;
+  const R = 2;
+  const mass = 0.2;
+  const world = createWorld({ g, h: 1 / 240 });
+  world.em.mode = 'em';
+  const rail = addRail(world.em, {
+    x: 0, y: 0, z: 0, ell, length: 500, B, R, mass, drive: 'gravity',
+  });
+  for (let i = 0; i < 240 * 40; i += 1) stepWorld(world, 1 / 240, { h: 1 / 240 });
+  const vTerm = (mass * g * R) / (B * B * ell * ell);
+  near('terminal v', rail.v, vTerm, 0.01, ' m/s');
+  near('analytic v_t=mgR/(B²ℓ²)', railTerminalSpeed(rail, g), vTerm, 1e-12, ' m/s');
+  near('terminal force balance F=mg', Math.abs(rail.force), mass * g, 0.01, ' N');
+  console.log(`      g=${g}: v_term=${rail.v.toFixed(6)} m/s vs ${vTerm.toFixed(6)} m/s; F_B=${rail.force.toFixed(6)} N vs mg=${(mass * g).toFixed(6)} N`);
 });
 
 /* ------------------------------------------------------------------ */

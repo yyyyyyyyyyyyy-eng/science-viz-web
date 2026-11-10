@@ -191,6 +191,8 @@ import {
   inductionCoilState,
   magneticFieldAt,
   electricFieldAt,
+  railDrivingForce,
+  railTerminalSpeed,
   removeEMEntity,
   resetEM,
 } from './em/physics.mjs';
@@ -729,6 +731,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   environment.appendChild(el('h3', { className: 'plab-group-title', text: '环境 · Environment' }));
   const gHost = el('div');
   environment.appendChild(gHost);
+  let gField = null;
   let floorFrictionField = null;
   let floorRestitutionField = null;
 
@@ -1787,6 +1790,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const gridInput = root.querySelector('[data-field="gridStep"]');
     if (gridInput) gridInput.value = fmtInput(gridStep);
     view.setGridStep?.(gridStep);
+    setFieldValue(gField, world.g, 0, 30);
     setFieldValue(floorFrictionField, world.floorFriction, 0, 1.5);
     setFieldValue(floorRestitutionField, world.floorRestitution, 0, 1);
     if (keepInitial) world.initial = initial;
@@ -6705,6 +6709,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         setLive('emRailEmf', `${fmt(entity.emf)} V`);
         setLive('emRailI', `${fmt(Math.abs(entity.current))} A`);
         setLive('emRailForce', `${fmt(entity.force)} N`);
+        setLive('emRailDrive', `${fmt(railDrivingForce(entity, world.g))} N`);
+        setLive('emRailVt', `${fmt(railTerminalSpeed(entity, world.g))} m/s`);
       } else if (entity.type === 'emInductionCoil') {
         const st = inductionCoilState(entity);
         setLive('emCoilFlux', `${fmt(st.flux)} Wb`);
@@ -6940,7 +6946,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   // Environment controls live in More settings.
-  field(gHost, {
+  gField = field(gHost, {
     label: '重力加速度 g · Gravity',
     value: world.g,
     min: 0,

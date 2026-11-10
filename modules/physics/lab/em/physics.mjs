@@ -590,6 +590,7 @@ export function addRail(em, opts = {}) {
     R: Math.max(1e-6, opts.R ?? 2),
     mass: Math.max(1e-6, opts.mass ?? 0.2),
     F: opts.F ?? 0,
+    drive: opts.drive === 'gravity' ? 'gravity' : 'force',
     v: opts.v ?? 0,
     xRod: opts.xRod ?? 0,
     time: 0,
@@ -601,9 +602,18 @@ export function addRail(em, opts = {}) {
   return rail;
 }
 
-export function stepRail(rail, h) {
+export function railDrivingForce(rail, g = 0) {
+  return rail.drive === 'gravity' ? rail.mass * g : rail.F;
+}
+
+export function railTerminalSpeed(rail, g = 0) {
   const k = (rail.B * rail.B * rail.ell * rail.ell) / (rail.mass * rail.R);
-  const a0 = rail.F / rail.mass;
+  return k > 1e-15 ? railDrivingForce(rail, g) / (rail.mass * k) : 0;
+}
+
+export function stepRail(rail, h, g = 0) {
+  const k = (rail.B * rail.B * rail.ell * rail.ell) / (rail.mass * rail.R);
+  const a0 = railDrivingForce(rail, g) / rail.mass;
   const vTerm = k > 1e-15 ? a0 / k : 0;
   let nextV;
   let dx;
@@ -711,9 +721,9 @@ export function stepParticle(em, particle, h) {
   }
 }
 
-export function stepEM(em, h) {
+export function stepEM(em, h, g = 0) {
   for (const particle of em.particles) stepParticle(em, particle, h);
-  for (const rail of em.rails) stepRail(rail, h);
+  for (const rail of em.rails) stepRail(rail, h, g);
   for (const coil of em.inductionCoils) stepInductionCoil(coil, h);
   for (const circuit of em.circuits) stepCircuit(circuit, h);
   em.time += h;
@@ -1146,7 +1156,7 @@ export function duplicateEMEntity(em, entity, offset = 0.8) {
   if (entity.type === 'emRail') {
     return addRail(em, {
       ...base, ell: entity.ell, length: entity.length, B: entity.B, R: entity.R,
-      mass: entity.mass, F: entity.F, v: entity.v,
+      mass: entity.mass, F: entity.F, drive: entity.drive, v: entity.v,
     });
   }
   if (entity.type === 'emInductionCoil') {
