@@ -1493,25 +1493,30 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!modal) return;
     const snap = modal.snapshot;
     const ref = modal.ref;
+    const changed = modal.changed;
     undoStack.length = modal.undoDepth;
     redoStack.length = 0;
     modal = null;
     modalHud.hidden = true;
     delete root.dataset.modal;
     view.orbit.enabled = true;
-    deserializeScene(world, snap);
-    captureInitial(world);
-    selected = entityById(ref.type, ref.id);
-    if (selected) view.setSelection({ type: selected.type, id: selected.id });
-    else view.setSelection(null);
-    view.sync(world);
+    if (changed) {
+      deserializeScene(world, snap);
+      captureInitial(world);
+      selected = entityById(ref.type, ref.id);
+      if (selected) view.setSelection({ type: selected.type, id: selected.id });
+      else view.setSelection(null);
+      view.sync(world);
+      buildInspector();
+      renderOutliner();
+      updateEmpty();
+      updateLive();
+      clearHistory();
+      resetGraphs();
+    } else {
+      view.sync(world);
+    }
     updateTransport();
-    buildInspector();
-    renderOutliner();
-    updateEmpty();
-    updateLive();
-    clearHistory();
-    resetGraphs();
     updateUndoButtons();
     setStatus('已取消变换。 · Transform cancelled.');
   }
@@ -1548,6 +1553,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     if (e.target.closest && e.target.closest('button, input, select, label')) {
+      cancelModal();
+    }
+  }
+
+  function onFocusIn(e) {
+    if (!modal) return;
+    const target = e.target;
+    if (target && target.closest && target.closest('input, textarea, select, [contenteditable="true"]')) {
       cancelModal();
     }
   }
@@ -2003,6 +2016,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   window.addEventListener('pointermove', onModalPointerMove);
   window.addEventListener('pointerdown', onModalPointerDown, true);
+  document.addEventListener('focusin', onFocusIn);
   window.addEventListener('contextmenu', (e) => {
     if (!modal) return;
     e.preventDefault();
@@ -2727,6 +2741,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     document.removeEventListener('keydown', onKeyDown);
     window.removeEventListener('pointermove', onModalPointerMove);
     window.removeEventListener('pointerdown', onModalPointerDown, true);
+    document.removeEventListener('focusin', onFocusIn);
     view.destroy();
     disposeWorld(world);
     const style = document.getElementById(STYLE_ID);
