@@ -162,18 +162,25 @@ export const TOPICS = {
     "titleZh": "力与势能",
     "titleEn": "Forces and Potential Energy",
     "layer": "ap",
-    "summary": "保守力做功只与始末位置有关，因此可定义势能 \\(U\\)，满足 \\(\\Delta U=-W_{\\mathrm{cons}}\\)；一维中力是势能曲线的负斜率 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)。多物体系统的总势能是各相互作用对势能之和：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)，每对只计一次。 · A conservative force does work that depends only on the endpoints, so a potential energy \\(U\\) exists with \\(\\Delta U=-W_{\\mathrm{cons}}\\); in one dimension the force is the negative slope of the potential-energy curve, \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\). For a system of more than two objects, the total potential energy is the sum of the potential energy of each interacting pair, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\), with each pair counted once.",
+    "summary": "保守力做功只与始末位置有关，因此可定义势能 \\(U\\)，满足 \\(\\Delta U=-W_{\\mathrm{cons}}\\)；一维中力是势能曲线的负斜率 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)。多物体系统的总势能是各相互作用对势能之和：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)，每对只计一次。选定系统后先列能量清单：只含一个对象（视为质点）的系统只有动能；系统包含多个相互作用对象或可逆形变时，才可能有势能。 · A conservative force does work that depends only on the endpoints, so a potential energy \\(U\\) exists with \\(\\Delta U=-W_{\\mathrm{cons}}\\); in one dimension the force is the negative slope of the potential-energy curve, \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\). For a system of more than two objects, the total potential energy is the sum of the potential energy of each interacting pair, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\), with each pair counted once. After selecting a system, list its energies first: a system composed of only a single object (treated as a point object) has only kinetic energy, while a system with multiple interacting objects or a reversible deformation may also have potential energy.",
     "learningObjectives": [
       "能区分保守力与非保守力，说明为什么势能只对保守力定义，并且属于相互作用的系统（或物体对）而不是单个物体。 · Distinguish conservative from nonconservative forces, explain why potential energy is defined only for conservative forces, and recognize that it belongs to the interacting system (or pair), not to a single object.",
       "能用 \\(\\Delta U=-W_{\\mathrm{cons}}\\) 和 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\) 在势能、力与功之间转换，并由 \\(U(x)\\) 的斜率判断力的方向。 · Convert among potential energy, work, and force using \\(\\Delta U=-W_{\\mathrm{cons}}\\) and \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\), and use the slope of \\(U(x)\\) to determine the force direction.",
       "能计算近地重力势能 \\(U_g=mgh\\) 与理想弹簧势能 \\(U_s=\\dfrac{1}{2}kx^{2}\\)，并在同一问题中一致地选择势能零点。 · Compute near-Earth gravitational potential energy \\(U_g=mgh\\) and ideal-spring potential energy \\(U_s=\\dfrac{1}{2}kx^{2}\\), choosing one consistent zero of potential energy per problem.",
       "能对三个及以上物体的系统写出 \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)，列出全部无序对，避免把同一对算两次。 · For a system of three or more objects, write \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\), list every unordered pair, and avoid counting the same pair twice.",
-      "能用总势能分析稳定与不稳定平衡、转折点，并用 \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 守恒解决 AP 风格的能量问题。 · Use total potential energy to analyze stable and unstable equilibrium and turning points, and solve AP-style energy problems with conservation of \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\)."
+      "能用总势能分析稳定与不稳定平衡、转折点，并用 \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 守恒解决 AP 风格的能量问题。 · Use total potential energy to analyze stable and unstable equilibrium and turning points, and solve AP-style energy problems with conservation of \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\).",
+      "能列出选定系统所具有的能量：只含一个对象（视为质点）的系统只能有动能；包含多个相互作用对象的系统可以有动能与势能。 · List the energies present in a selected system: a system composed of only a single object (treated as a point object) can only have kinetic energy, while a system containing multiple interacting objects can have both kinetic and potential energy.",
+      "能说明系统边界的选择如何把同一相互作用在“系统势能”与“外力做功”之间重新记账，并用能量守恒或功能原理得到同一结果。 · Explain how the choice of system boundary re-books the same interaction as either system potential energy or external work, and use energy conservation or the work–energy principle to obtain the same result."
     ],
     "essentialKnowledge": [
       "保守力做功与路径无关，沿任意闭合路径做功为零；因此可以定义只依赖位置的势能函数。 · The work done by a conservative force is path-independent and zero around any closed path, so a position-only potential-energy function can be defined.",
       "势能变化等于保守力做功的负值：\\(\\Delta U=-W_{\\mathrm{cons}}\\)；只有势能差有物理意义，势能零点可任选但同题中必须一致。 · The change in potential energy is the negative of conservative work, \\(\\Delta U=-W_{\\mathrm{cons}}\\); only differences are physical, and the zero may be chosen freely but must stay consistent within a problem.",
       "势能属于相互作用的系统：\\(U_g=mgh\\) 属于物体—地球系统，\\(U_s=\\dfrac{1}{2}kx^{2}\\) 属于物体—弹簧系统，不能说某个物体“单独拥有”势能。 · Potential energy belongs to the interacting system: \\(U_g=mgh\\) belongs to the object–Earth system and \\(U_s=\\dfrac{1}{2}kx^{2}\\) to the object–spring system; a single object does not “own” potential energy by itself.",
+      "系统能量清单由系统边界决定：动能 \\(K\\) 描述系统整体运动，势能 \\(U\\) 只记录系统内保守相互作用对，内能 \\(E_{\\mathrm{int}}\\) 记录系统内部微观运动与形变；三者可以同时存在。 · The energy inventory of a system is set by its boundary: kinetic energy \\(K\\) describes the bulk motion of the system, potential energy \\(U\\) records only conservative interacting pairs inside the system, and internal energy \\(E_{\\mathrm{int}}\\) records microscopic motion and deformation inside the system; all three may be present.",
+      "CED 3.4.A.1：只含一个对象（视为质点）的系统只能有动能；势能至少需要两个相互作用的对象，因此单对象系统没有势能项，也没有可单独归属的内能项。 · CED 3.4.A.1: a system composed of only a single object (treated as a point object) can only have kinetic energy; potential energy requires at least two interacting objects, so a single-object system has no potential-energy term and no separately bookkept internal-energy term.",
+      "系统选择改变记账：把地球排除在系统外，重力做外功，单物块系统只有 \\(K\\)；把地球纳入系统，重力成为内力，系统可有 \\(U_g\\) 与 \\(K\\)。两种选择对下落快慢等物理预测完全一致。 · System selection changes the bookkeeping: with Earth outside the system, gravity does external work and the single-block system has only \\(K\\); with Earth included, gravity is internal and the system can have both \\(U_g\\) and \\(K\\). Both choices give identical physical predictions such as the falling speed.",
+      "摩擦等非保守过程把机械能转化为内能：若系统包含两个接触表面，可写 \\(\\Delta E_{\\mathrm{int}}=f_kd\\)；若系统只含一个质点，摩擦是外力做负功，写 \\(\\Delta K=W_f<0\\)。 · Nonconservative processes such as friction convert mechanical energy into internal energy: if the system contains both contacting surfaces, write \\(\\Delta E_{\\mathrm{int}}=f_kd\\); if the system is only a single point object, friction is an external force doing negative work, so \\(\\Delta K=W_f<0\\).",
+      "机械能只是系统总能量的一部分：\\(E_{\\mathrm{mech}}=K+U\\)，\\(E_{\\mathrm{sys}}=E_{\\mathrm{mech}}+E_{\\mathrm{int}}\\)；只有内能变化可忽略时，才把机械能当作全部能量。 · Mechanical energy is only part of a system's total energy: \\(E_{\\mathrm{mech}}=K+U\\) and \\(E_{\\mathrm{sys}}=E_{\\mathrm{mech}}+E_{\\mathrm{int}}\\); only when changes in internal energy are negligible may mechanical energy be treated as the whole energy.",
       "一维保守力是势能曲线的负斜率：\\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)；力总指向势能降低的方向，斜率越陡力越大。 · In one dimension the conservative force is the negative slope of the potential-energy curve, \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\); the force points toward decreasing potential energy, and a steeper slope means a larger force.",
       "反过来，由力可以积分恢复势能：\\(U(x)=-\\int F_x\\,\\mathrm{d}x+U_0\\)；\\(U_0\\) 由势能零点决定。 · Conversely, the potential follows from integrating the force, \\(U(x)=-\\int F_x\\,\\mathrm{d}x+U_0\\), with \\(U_0\\) set by the chosen zero.",
       "多物体系统的总势能按每一对相互作用求和：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；\\(N\\) 个物体共有 \\(\\dfrac{N(N-1)}{2}\\) 个无序对。 · The total potential energy of a system with more than two objects is the sum over each interacting pair, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) unordered pairs.",
@@ -181,8 +188,8 @@ export const TOPICS = {
       "弹性势能按每个弹簧（每条连接对）写为 \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\)，多个弹簧的势能直接相加；同一对物体之间的弹簧只计一次。 · Elastic potential energy is written for each spring (each connected pair) as \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\), and the energies of multiple springs add directly; a spring between the same two objects is counted once.",
       "求和时不能把 \\(U_{ij}\\) 与 \\(U_{ji}\\) 都加上，也不能因为“不相邻”就漏掉一对；只要两物体间存在相互作用，就要计入对应的对势能。 · Do not add both \\(U_{ij}\\) and \\(U_{ji}\\), and do not omit a pair merely because the objects are not adjacent; whenever two objects interact, their pair potential energy must be included."
     ],
-    "definition": "保守力（conservative force）是做功只依赖始末位置、与路径无关的力；因此可以定义势能 \\(U\\)，使 \\(\\Delta U=-W_{\\mathrm{cons}}\\)，一维情形下 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)。势能不是单个物体的属性，而是属于相互作用的系统：近地重力势能 \\(U_g=mgh\\) 属于物体—地球系统，弹簧势能 \\(U_s=\\dfrac{1}{2}kx^{2}\\) 属于物体—弹簧系统。若系统含两个以上物体，总势能是每一对相互作用势能之和：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；每一对只计一次，\\(N\\) 个物体共有 \\(\\dfrac{N(N-1)}{2}\\) 对。 · A conservative force does work that depends only on the initial and final positions, not on the path, so a potential energy \\(U\\) can be defined with \\(\\Delta U=-W_{\\mathrm{cons}}\\); in one dimension \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\). Potential energy is not a property of a single object but of an interacting system: near-Earth gravitational potential energy \\(U_g=mgh\\) belongs to the object–Earth system, and spring potential energy \\(U_s=\\dfrac{1}{2}kx^{2}\\) belongs to the object–spring system. If a system contains more than two objects, its total potential energy is the sum over each interacting pair, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); each pair is counted once, and \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) pairs.",
-    "intuition": "把势能想成“储存在构型里的能量”：举高物体或压缩弹簧时，外力做功把能量存进系统；松手后保守力做功又把能量还回来。多物体系统像一张“成对账单”：每两个有相互作用的物体之间有一条账目，总势能就是把所有账目加起来，同一笔账不能记两次。 · Think of potential energy as energy stored in a configuration: lifting an object or compressing a spring stores energy through external work, and conservative forces return that energy when released. A multi-object system is like a ledger of pairwise accounts: every interacting pair has one entry, and the total potential energy is the sum of all entries, with no entry counted twice.",
+    "definition": "保守力（conservative force）是做功只依赖始末位置、与路径无关的力；因此可以定义势能 \\(U\\)，使 \\(\\Delta U=-W_{\\mathrm{cons}}\\)，一维情形下 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)。势能不是单个物体的属性，而是属于相互作用的系统：近地重力势能 \\(U_g=mgh\\) 属于物体—地球系统，弹簧势能 \\(U_s=\\dfrac{1}{2}kx^{2}\\) 属于物体—弹簧系统。若系统含两个以上物体，总势能是每一对相互作用势能之和：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；每一对只计一次，\\(N\\) 个物体共有 \\(\\dfrac{N(N-1)}{2}\\) 对。就系统能量而言，只含一个对象（视为质点）的系统只能有动能；只有包含两个或更多相互作用对象（或可逆形变）的系统才可能有势能。 · A conservative force does work that depends only on the initial and final positions, not on the path, so a potential energy \\(U\\) can be defined with \\(\\Delta U=-W_{\\mathrm{cons}}\\); in one dimension \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\). Potential energy is not a property of a single object but of an interacting system: near-Earth gravitational potential energy \\(U_g=mgh\\) belongs to the object–Earth system, and spring potential energy \\(U_s=\\dfrac{1}{2}kx^{2}\\) belongs to the object–spring system. If a system contains more than two objects, its total potential energy is the sum over each interacting pair, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); each pair is counted once, and \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) pairs. As for the energies of a system, a system consisting of only a single object (modeled as a point object) can only have kinetic energy; only a system containing two or more interacting objects (or a reversible deformation) can have potential energy.",
+    "intuition": "把势能想成“储存在构型里的能量”：举高物体或压缩弹簧时，外力做功把能量存进系统；松手后保守力做功又把能量还回来。多物体系统像一张“成对账单”：每两个有相互作用的物体之间有一条账目，总势能就是把所有账目加起来，同一笔账不能记两次。选系统就是选“谁的能量算进来”：只选一个质点，只有动能；把地球或弹簧拉进来，才有势能。 · Think of potential energy as energy stored in a configuration: lifting an object or compressing a spring stores energy through external work, and conservative forces return that energy when released. A multi-object system is like a ledger of pairwise accounts: every interacting pair has one entry, and the total potential energy is the sum of all entries, with no entry counted twice. Choosing a system is choosing whose energy counts: a single point object has only kinetic energy, and Earth or a spring must be included before potential energy appears.",
     "formulas": [
       {
         "latex": "\\Delta U=-W_{\\mathrm{cons}}=-\\int_{x_i}^{x_f}F_x\\,\\mathrm{d}x",
@@ -215,6 +222,26 @@ export const TOPICS = {
       {
         "latex": "F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}",
         "note": "多物体系统中第 \\(i\\) 个物体受的力：固定其他物体坐标，对总势能求偏导。 · Force on object \\(i\\) in a multi-object system: hold the other coordinates fixed and differentiate the total potential with respect to \\(x_i\\)."
+      },
+      {
+        "latex": "E_{\\mathrm{sys}}=K+U+E_{\\mathrm{int}}",
+        "note": "系统总能量清单；机械能只含前两项。 · Total energy inventory of a system; mechanical energy contains only the first two terms."
+      },
+      {
+        "latex": "E_{\\mathrm{mech}}=K+U",
+        "note": "机械能；只有系统内保守力做功时守恒。 · Mechanical energy; conserved when only internal conservative forces do work."
+      },
+      {
+        "latex": "K=\\dfrac{1}{2}mv^{2},\\quad K_{\\mathrm{rot}}=\\dfrac{1}{2}I\\omega^{2}",
+        "note": "单个对象的平动动能与转动动能；质点模型只保留平动项。 · Translational and rotational kinetic energy of a single object; the point-object model keeps only the translational term."
+      },
+      {
+        "latex": "\\Delta E_{\\mathrm{mech}}=W_{\\mathrm{ext}}+W_{\\mathrm{int,nc}}",
+        "note": "机械能变化等于外力做功加内部非保守力做功；摩擦热对应后一项。 · Change in mechanical energy equals external work plus internal nonconservative work; frictional heating corresponds to the latter."
+      },
+      {
+        "latex": "\\Delta E_{\\mathrm{int}}=f_kd",
+        "note": "两个接触表面都在系统内时，摩擦使内能增加 \\(f_kd\\)。 · When both contacting surfaces are inside the system, friction increases internal energy by \\(f_kd\\)."
       }
     ],
     "derivationNotes": [
@@ -247,6 +274,21 @@ export const TOPICS = {
         "from": "总势能 · Total potential energy",
         "to": "单个物体受力 · Force on one object",
         "note": "固定其他物体坐标，对 \\(U_{\\mathrm{total}}\\) 关于 \\(x_i\\) 求偏导，得 \\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\)；成对势能给出的两力等大反向，体现牛顿第三定律。 · Holding the other coordinates fixed and differentiating \\(U_{\\mathrm{total}}\\) with respect to \\(x_i\\) gives \\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\); a pair potential gives equal and opposite forces, consistent with Newton's third law."
+      },
+      {
+        "from": "系统边界 · System boundary",
+        "to": "能量清单 · Energy inventory",
+        "note": "只选一个质点：没有内部相互作用对，\\(U=0\\)，所以 \\(E_{\\mathrm{sys}}=K\\)。 · With only one point object there is no internal interacting pair, so \\(U=0\\) and \\(E_{\\mathrm{sys}}=K\\)."
+      },
+      {
+        "from": "单对象系统 · Single-object system",
+        "to": "多对象系统 · Multi-object system",
+        "note": "把地球或弹簧纳入系统后，原来作为外力的重力/弹力变为内力，出现 \\(U_g\\) 或 \\(U_s\\)；外功项相应减少。 · After including Earth or the spring in the system, gravity or the spring force changes from an external force into an internal force, so \\(U_g\\) or \\(U_s\\) appears and the external-work term decreases accordingly."
+      },
+      {
+        "from": "机械能 · Mechanical energy",
+        "to": "内能 · Internal energy",
+        "note": "摩擦使两个表面温度升高：\\(f_kd\\) 从机械能流向内能；若两个表面都在系统内，\\(\\Delta E_{\\mathrm{int}}=f_kd\\)。 · Friction warms both surfaces: \\(f_kd\\) flows from mechanical energy into internal energy; if both surfaces are inside the system, \\(\\Delta E_{\\mathrm{int}}=f_kd\\)."
       }
     ],
     "conditions": [
@@ -256,7 +298,10 @@ export const TOPICS = {
       "\\(U_g=mgh\\) 要求 \\(h\\ll R_{\\oplus}\\) 且 \\(g\\) 近似恒定；高度很大时应使用 \\(U=-\\dfrac{GMm}{r}\\)。 · \\(U_g=mgh\\) requires \\(h\\ll R_{\\oplus}\\) and approximately constant \\(g\\); at large heights use \\(U=-\\dfrac{GMm}{r}\\).",
       "弹簧势能要求弹簧理想、形变在弹性限度内；每个弹簧对应一对连接物体，多个弹簧的势能直接相加。 · Spring potential energy requires an ideal spring within its elastic limit; each spring corresponds to one connected pair, and energies of multiple springs add directly.",
       "总势能是标量代数和，必须带符号相加；引力对势能通常为负，弹性势能非负。 · Total potential energy is a scalar algebraic sum, so signs must be kept; gravitational pair energies are usually negative and elastic potential energies are nonnegative.",
-      "对连续体或球对称质量分布，应积分或使用壳层定理；质点公式 \\(-G\\dfrac{m_im_j}{r_{ij}}\\) 适用于球外或质点。 · For continuous or spherically symmetric mass distributions, integrate or use the shell theorem; the point-mass formula \\(-G\\dfrac{m_im_j}{r_{ij}}\\) applies outside spheres or for point masses."
+      "对连续体或球对称质量分布，应积分或使用壳层定理；质点公式 \\(-G\\dfrac{m_im_j}{r_{ij}}\\) 适用于球外或质点。 · For continuous or spherically symmetric mass distributions, integrate or use the shell theorem; the point-mass formula \\(-G\\dfrac{m_im_j}{r_{ij}}\\) applies outside spheres or for point masses.",
+      "单对象系统只有动能，适用于把对象视为质点（无内部结构、无转动）的模型；有转动的刚体还可有 \\(K_{\\mathrm{rot}}\\)。 · A single-object system has only kinetic energy in the point-object model (no internal structure and no rotation); a rotating rigid body may also have \\(K_{\\mathrm{rot}}\\).",
+      "要写势能，系统边界必须包含相互作用的一对（多体时包含每一对）；系统外物体的作用只能作为外力做功。 · To write potential energy, the system boundary must include the interacting pair (every pair in a multi-object system); the influence of an outside object can only be treated as external work.",
+      "摩擦热属于包含两个接触表面的系统；只选一个物体为系统时，摩擦是外力做负功，不能同时再写内能项。 · Frictional heating belongs to a system that includes both contacting surfaces; when only one object is the system, friction is an external force doing negative work, and an internal-energy term must not be added at the same time."
     ],
     "keyPoints": [
       "势能储存在系统（或物体对）的构型中，不属于单个物体；先选系统，再写势能项。 · Potential energy is stored in the configuration of a system (or pair), not in a single object; choose the system before writing potential-energy terms.",
@@ -265,7 +310,10 @@ export const TOPICS = {
       "多物体系统：\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；\\(N\\) 个物体有 \\(\\dfrac{N(N-1)}{2}\\) 对，每对只计一次。 · Multi-object system: \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) pairs, each counted once.",
       "引力对势能取无穷远为零时为负值；近地多物体系统用 \\(U_g=g\\sum_i m_ih_i\\)，共同零高度。 · Gravitational pair energy is negative with zero at infinity; for a near-Earth multi-object system use \\(U_g=g\\sum_i m_ih_i\\) with a common reference height.",
       "每个弹簧贡献 \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\)，多个弹簧直接相加；压缩与伸长平方后都为正。 · Each spring contributes \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\), and multiple springs add directly; compression and extension both give positive energy after squaring.",
-      "只有内部保守力做功时 \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 守恒；外力或非保守内力做功会改变这个总和。 · \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) is conserved when only internal conservative forces do work; external or nonconservative internal work changes the total."
+      "只有内部保守力做功时 \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 守恒；外力或非保守内力做功会改变这个总和。 · \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) is conserved when only internal conservative forces do work; external or nonconservative internal work changes the total.",
+      "先数系统里的对象与相互作用，再列能量：单对象质点系统只有 \\(K\\)；有保守相互作用对才写 \\(U\\)。 · Count the objects and interactions in the system before listing energies: a single point-object system has only \\(K\\), and \\(U\\) is written only when a conservative interacting pair is included.",
+      "系统选择只是记账方式：地球、弹簧或桌面在系统内还是系统外，决定该项写成 \\(U\\) 还是 \\(W_{\\mathrm{ext}}\\)；不能两边都算。 · System selection is bookkeeping: whether Earth, a spring, or a table is inside or outside the system decides whether its effect is written as \\(U\\) or \\(W_{\\mathrm{ext}}\\), never both.",
+      "摩擦生热：包含两个表面时记 \\(\\Delta E_{\\mathrm{int}}=f_kd\\)；只含单物块时记 \\(\\Delta K=W_f<0\\)。 · Frictional heating: with both surfaces included, book \\(\\Delta E_{\\mathrm{int}}=f_kd\\); with only the block included, book \\(\\Delta K=W_f<0\\)."
     ],
     "misconceptions": [
       "认为势能属于单个物体；实际上 \\(U_g\\) 属于物体—地球系统，\\(U_s\\) 属于物体—弹簧系统。 · Thinking potential energy belongs to a single object; \\(U_g\\) belongs to the object–Earth system and \\(U_s\\) to the object–spring system.",
@@ -275,7 +323,11 @@ export const TOPICS = {
       "把稳定平衡与不稳定平衡弄反：势能谷底稳定，峰顶不稳定。 · Reversing stable and unstable equilibrium: a potential-energy valley is stable and a hilltop is unstable.",
       "重复计算同一对相互作用，例如把 \\(U_{12}\\) 与 \\(U_{21}\\) 都加上，或把三个物体的六种有序配对都当成独立对。 · Double-counting the same interaction, such as adding both \\(U_{12}\\) and \\(U_{21}\\), or treating all six ordered pairs of three objects as independent pairs.",
       "把对势能当成矢量相加，或在引力势能求和中丢掉负号。 · Adding pair potential energies as vectors, or dropping the negative signs in a gravitational potential-energy sum.",
-      "把系统外物体的相互作用直接算进系统总势能，却没有把该物体纳入系统。 · Counting an interaction with an outside object as internal potential energy without including that object in the system."
+      "把系统外物体的相互作用直接算进系统总势能，却没有把该物体纳入系统。 · Counting an interaction with an outside object as internal potential energy without including that object in the system.",
+      "认为单个物体本身“拥有”势能；势能是相互作用系统（或物体对）的属性，单对象质点系统只有动能。 · Thinking a single object itself “owns” potential energy; potential energy belongs to an interacting system (or pair), and a single point-object system has only kinetic energy.",
+      "换系统边界时把原来的外功项和新的势能项同时保留，造成重复记账。 · Keeping both the original external-work term and the new potential-energy term after changing the system boundary, double-counting energy.",
+      "认为摩擦让能量“消失”了；能量转化为内能，仍属于包含两个表面的更大系统。 · Thinking friction makes energy “disappear”; the energy becomes internal energy and remains in the larger system that includes both surfaces.",
+      "把“单对象系统只能有动能”绝对化为“任何单个物体永远没有内能”；真实物体有内部结构，若要追踪其内能，应把它的组成部分纳入系统。 · Turning “a single-object system can only have kinetic energy” into “any single object can never have internal energy”; a real object has internal structure, and to track its internal energy, include its parts in the system."
     ],
     "examples": [
       {
@@ -338,6 +390,42 @@ export const TOPICS = {
         ],
         "solution": "\\(F_x=4x-4x^{3}\\)；\\(x=0\\) 不稳定，\\(x=\\pm1\\,\\mathrm{m}\\) 稳定；偶函数 \\(U\\) 对应奇函数 \\(F_x\\)。 · \\(F_x=4x-4x^{3}\\); \\(x=0\\) is unstable and \\(x=\\pm1\\,\\mathrm{m}\\) are stable; even \\(U\\) corresponds to odd \\(F_x\\).",
         "solutionLatex": "F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}=4x-4x^{3}=4x(1-x^{2}),\\qquad x=0\\ \\text{unstable},\\quad x=\\pm1\\ \\text{stable}"
+      },
+      {
+        "title": "例 6 · 单物块系统与系统选择 · Example 6: Single-block system and system selection",
+        "prompt": "质量 \\(m=0.50\\,\\mathrm{kg}\\) 的物块从静止下落 \\(h=1.8\\,\\mathrm{m}\\)，忽略空气阻力。先以“只含物块”为系统：(a) 列出系统具有的能量；(b) 用外力做功求落地速度；(c) 再把地球纳入系统，重新列出能量并说明两种记账的关系。取 \\(g=9.8\\,\\mathrm{m/s^{2}}\\)。 · A block of mass \\(m=0.50\\,\\mathrm{kg}\\) falls from rest through \\(h=1.8\\,\\mathrm{m}\\), ignoring air drag. First take “the block alone” as the system: (a) list the energies the system has; (b) use external work to find the landing speed; (c) then include Earth in the system, list the energies again, and explain how the two bookkeepings are related. Take \\(g=9.8\\,\\mathrm{m/s^{2}}\\).",
+        "steps": [
+          "只含物块（视为质点）时系统只有动能 \\(K\\)；重力是系统外地球施加的外力。 · With only the block (treated as a point object), the system has only kinetic energy \\(K\\); gravity is an external force exerted by Earth outside the system.",
+          "重力做正功 \\(W_g=mgh=(0.50)(9.8)(1.8)=8.82\\,\\mathrm{J}\\)，所以 \\(K_f=W_g=8.82\\,\\mathrm{J}\\)。 · Gravity does positive work \\(W_g=mgh=(0.50)(9.8)(1.8)=8.82\\,\\mathrm{J}\\), so \\(K_f=W_g=8.82\\,\\mathrm{J}\\).",
+          "\\(v_f=\\sqrt{\\dfrac{2K_f}{m}}=\\sqrt{2gh}=\\sqrt{2(9.8)(1.8)}=5.94\\,\\mathrm{m/s}\\)。 · \\(v_f=\\sqrt{\\dfrac{2K_f}{m}}=\\sqrt{2gh}=\\sqrt{2(9.8)(1.8)}=5.94\\,\\mathrm{m/s}\\).",
+          "把地球纳入系统后，重力成为内力，系统有 \\(K\\) 与 \\(U_g\\)；取地面为零，初态 \\(E_i=U_i=mgh=8.82\\,\\mathrm{J}\\)、\\(K_i=0\\)，末态 \\(U_f=0\\)、\\(K_f=8.82\\,\\mathrm{J}\\)，机械能守恒。两种选择给出同一速度；8.82 J 从“外功”重新记为“势能减少”。 · After including Earth, gravity is internal and the system has both \\(K\\) and \\(U_g\\); with zero at the ground, the initial state has \\(E_i=U_i=mgh=8.82\\,\\mathrm{J}\\) and \\(K_i=0\\), while the final state has \\(U_f=0\\) and \\(K_f=8.82\\,\\mathrm{J}\\), so mechanical energy is conserved. Both choices give the same speed; the 8.82 J is re-booked from external work to a decrease in potential energy."
+        ],
+        "solution": "单物块系统只有 \\(K\\)，重力外功使其增加 8.82 J，落地速度 \\(5.94\\,\\mathrm{m/s}\\)；把地球纳入后，同一能量记为 \\(U_g\\) 的减少，速度不变。 · The single-block system has only \\(K\\); external work by gravity increases it by 8.82 J, giving a landing speed of \\(5.94\\,\\mathrm{m/s}\\). With Earth included, the same energy is booked as a decrease in \\(U_g\\), and the speed is unchanged.",
+        "solutionLatex": "K_f=mgh=8.82\\,\\mathrm{J},\\qquad v_f=\\sqrt{2gh}=5.94\\,\\mathrm{m/s}"
+      },
+      {
+        "title": "例 7 · 摩擦热与系统边界 · Example 7: Frictional heating and the system boundary",
+        "prompt": "质量 \\(m=2.0\\,\\mathrm{kg}\\) 的物块以 \\(v_0=4.0\\,\\mathrm{m/s}\\) 在水平桌面上滑行，动摩擦因数 \\(\\mu_k=0.30\\)，最终停下。取 \\(g=9.8\\,\\mathrm{m/s^{2}}\\)。(a) 以物块为系统，求摩擦力做功与动能变化；(b) 以物块+桌面为系统，求内能增加量并解释能量去向。 · A block of mass \\(m=2.0\\,\\mathrm{kg}\\) slides on a horizontal table with initial speed \\(v_0=4.0\\,\\mathrm{m/s}\\) and coefficient of kinetic friction \\(\\mu_k=0.30\\), then stops. Take \\(g=9.8\\,\\mathrm{m/s^{2}}\\). (a) With the block as the system, find the work done by friction and the change in kinetic energy; (b) with block + table as the system, find the increase in internal energy and explain where the energy goes.",
+        "steps": [
+          "\\(K_i=\\dfrac{1}{2}mv_0^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}\\)，\\(K_f=0\\)，所以 \\(\\Delta K=-16\\,\\mathrm{J}\\)。 · \\(K_i=\\dfrac{1}{2}mv_0^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}\\), \\(K_f=0\\), so \\(\\Delta K=-16\\,\\mathrm{J}\\).",
+          "摩擦力 \\(f_k=\\mu_kN=\\mu_kmg=(0.30)(2.0)(9.8)=5.88\\,\\mathrm{N}\\)。 · The friction force is \\(f_k=\\mu_kN=\\mu_kmg=(0.30)(2.0)(9.8)=5.88\\,\\mathrm{N}\\).",
+          "滑行距离 \\(d=\\dfrac{v_0^{2}}{2\\mu_kg}=\\dfrac{(4.0)^{2}}{2(0.30)(9.8)}=2.72\\,\\mathrm{m}\\)；\\(W_f=-f_kd=-5.88(2.72)=-16\\,\\mathrm{J}\\)。 · The stopping distance is \\(d=\\dfrac{v_0^{2}}{2\\mu_kg}=\\dfrac{(4.0)^{2}}{2(0.30)(9.8)}=2.72\\,\\mathrm{m}\\), so \\(W_f=-f_kd=-5.88(2.72)=-16\\,\\mathrm{J}\\).",
+          "以物块为系统：摩擦是外力，\\(\\Delta K=W_f=-16\\,\\mathrm{J}\\)，物块机械能减少 16 J。以物块+桌面为系统：摩擦是内部非保守力，\\(\\Delta E_{\\mathrm{int}}=f_kd=+16\\,\\mathrm{J}\\)，机械能减少的 16 J 转化为内能，总能量不变。 · With the block as the system, friction is external and \\(\\Delta K=W_f=-16\\,\\mathrm{J}\\), so the block's mechanical energy decreases by 16 J. With block + table as the system, friction is an internal nonconservative force and \\(\\Delta E_{\\mathrm{int}}=f_kd=+16\\,\\mathrm{J}\\): the lost 16 J of mechanical energy becomes internal energy, and the total energy is unchanged."
+        ],
+        "solution": "物块系统中 \\(W_f=\\Delta K=-16\\,\\mathrm{J}\\)；物块+桌面系统中内能增加 \\(16\\,\\mathrm{J}\\)，机械能没有消失而是转化为内能。 · In the block system, \\(W_f=\\Delta K=-16\\,\\mathrm{J}\\); in the block + table system, internal energy increases by \\(16\\,\\mathrm{J}\\), so the mechanical energy is converted rather than lost.",
+        "solutionLatex": "W_f=-f_kd=-16\\,\\mathrm{J},\\qquad \\Delta E_{\\mathrm{int}}=f_kd=+16\\,\\mathrm{J}"
+      },
+      {
+        "title": "例 8 · 弹簧—物块：系统边界决定势能项 · Example 8: Spring–block system boundary determines the potential-energy term",
+        "prompt": "光滑水平面上，质量 \\(m=0.20\\,\\mathrm{kg}\\) 的物块与理想弹簧 \\(k=50\\,\\mathrm{N/m}\\) 相连，弹簧被压缩 \\(x=0.10\\,\\mathrm{m}\\) 后从静止释放。(a) 以物块为系统，弹簧力做多少功？(b) 以物块+弹簧为系统，总能量是多少？(c) 求物块回到弹簧原长时的速度。 · On a frictionless horizontal surface, a block of mass \\(m=0.20\\,\\mathrm{kg}\\) is attached to an ideal spring with \\(k=50\\,\\mathrm{N/m}\\). The spring is compressed by \\(x=0.10\\,\\mathrm{m}\\) and released from rest. (a) With the block as the system, how much work does the spring force do? (b) With block + spring as the system, what is the total energy? (c) Find the block's speed when the spring returns to its natural length.",
+        "steps": [
+          "以物块为系统：弹簧在系统外，弹簧力是外力；势能不属于单物块系统。 · With the block as the system, the spring is outside and the spring force is external; potential energy does not belong to the single-block system.",
+          "\\(W_s=\\dfrac{1}{2}kx^{2}=\\dfrac{1}{2}(50)(0.10)^{2}=0.25\\,\\mathrm{J}\\)，所以 \\(\\Delta K=0.25\\,\\mathrm{J}\\)。 · \\(W_s=\\dfrac{1}{2}kx^{2}=\\dfrac{1}{2}(50)(0.10)^{2}=0.25\\,\\mathrm{J}\\), so \\(\\Delta K=0.25\\,\\mathrm{J}\\).",
+          "以物块+弹簧为系统：\\(K_i=0\\)，\\(U_i=\\dfrac{1}{2}kx^{2}=0.25\\,\\mathrm{J}\\)，总能量 \\(E=0.25\\,\\mathrm{J}\\)；原长时 \\(U_f=0\\)，\\(K_f=0.25\\,\\mathrm{J}\\)。 · With block + spring as the system, \\(K_i=0\\) and \\(U_i=\\dfrac{1}{2}kx^{2}=0.25\\,\\mathrm{J}\\), so the total energy is \\(E=0.25\\,\\mathrm{J}\\); at natural length \\(U_f=0\\) and \\(K_f=0.25\\,\\mathrm{J}\\).",
+          "\\(v=\\sqrt{\\dfrac{2K_f}{m}}=\\sqrt{\\dfrac{2(0.25)}{0.20}}=1.58\\,\\mathrm{m/s}\\)。 · \\(v=\\sqrt{\\dfrac{2K_f}{m}}=\\sqrt{\\dfrac{2(0.25)}{0.20}}=1.58\\,\\mathrm{m/s}\\)."
+        ],
+        "solution": "单物块系统中弹簧力做外功 \\(0.25\\,\\mathrm{J}\\)；物块+弹簧系统中同一能量记为弹性势能 \\(0.25\\,\\mathrm{J}\\)，原长时速度 \\(1.58\\,\\mathrm{m/s}\\)。 · In the single-block system, the spring force does \\(0.25\\,\\mathrm{J}\\) of external work; in the block + spring system the same energy is elastic potential energy, and the speed at natural length is \\(1.58\\,\\mathrm{m/s}\\).",
+        "solutionLatex": "W_s=U_s=\\dfrac{1}{2}(50)(0.10)^{2}=0.25\\,\\mathrm{J},\\qquad v=\\sqrt{\\dfrac{2(0.25)}{0.20}}=1.58\\,\\mathrm{m/s}"
       }
     ],
     "examTips": [
@@ -346,7 +434,10 @@ export const TOPICS = {
       "先明确系统边界：要把地球、弹簧或其他物体纳入系统，才能把相应相互作用写成势能；否则应按外力做功处理。 · Define the system boundary first: include Earth, the spring, or the other object in the system to write the interaction as potential energy; otherwise treat it as external work.",
       "引力势能取无穷远为零时为负值，求和时保留负号；近地问题可用 \\(g\\sum_i m_ih_i\\)。 · Gravitational potential energy is negative with zero at infinity, so keep the signs in the sum; near Earth, \\(g\\sum_i m_ih_i\\) is often convenient.",
       "弹簧题用每个弹簧自己的伸长或压缩量，不要用物块位移代替；多个弹簧的势能逐项相加。 · In spring problems, use each spring's own extension or compression rather than a block displacement; add the potential energy of each spring separately.",
-      "由 \\(U\\) 求力时先写 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)，再用“力指向势能降低方向”检查符号；稳定性看 \\(U''\\)。 · When finding force from \\(U\\), start with \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\), check the sign with “force points toward lower potential energy,” and use \\(U''\\) for stability."
+      "由 \\(U\\) 求力时先写 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\)，再用“力指向势能降低方向”检查符号；稳定性看 \\(U''\\)。 · When finding force from \\(U\\), start with \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\), check the sign with “force points toward lower potential energy,” and use \\(U''\\) for stability.",
+      "被问“系统中有哪些能量”时，先数对象和相互作用：单对象质点系统只有 \\(K\\)；有保守相互作用对才写 \\(U\\)。 · When asked “which energies are in the system,” count objects and interactions first: a single point-object system has only \\(K\\); write \\(U\\) only when a conservative interacting pair is included.",
+      "系统边界是记账选择：地球、弹簧或桌面在系统内写成 \\(U\\) 或 \\(E_{\\mathrm{int}}\\)，在系统外写成 \\(W_{\\mathrm{ext}}\\)；同一项不能算两次。 · The system boundary is a bookkeeping choice: Earth, a spring, or a table inside the system is written as \\(U\\) or \\(E_{\\mathrm{int}}\\), while outside it is written as \\(W_{\\mathrm{ext}}\\); the same term must not be counted twice.",
+      "涉及摩擦生热时，先明确系统是否包含两个接触表面，再决定写 \\(\\Delta E_{\\mathrm{int}}=f_kd\\) 还是 \\(\\Delta K=W_f\\)。 · For frictional heating, first state whether the system includes both contacting surfaces, then decide between \\(\\Delta E_{\\mathrm{int}}=f_kd\\) and \\(\\Delta K=W_f\\)."
     ],
     "related": [
       {
@@ -383,6 +474,13 @@ export const TOPICS = {
         "code": "3.5",
         "title": "变力做功与势能函数 · Work by Variable Forces and Potential Energy Functions",
         "relation": "相关 · related"
+      },
+      {
+        "subject": "mech",
+        "chapterId": "mech-u6",
+        "code": "6.1",
+        "title": "转动动能 · Rotational Kinetic Energy",
+        "relation": "相关 · related"
       }
     ],
     "modules": [
@@ -396,11 +494,14 @@ export const TOPICS = {
       "上游：3.1 的动能定理给出 \\(W_{\\mathrm{net}}=\\Delta K\\)；2.6 的万有引力与 2.8 的弹簧力提供具体的对势能模型。 · Upstream: the work–energy theorem in 3.1 gives \\(W_{\\mathrm{net}}=\\Delta K\\), while gravitation in 2.6 and spring forces in 2.8 provide concrete pair-potential models.",
       "下游：3.3 用 \\(U_{\\mathrm{total}}\\) 写机械能守恒；3.5 把 \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\) 推广到变力与势能曲线。 · Downstream: 3.3 uses \\(U_{\\mathrm{total}}\\) in conservation of mechanical energy, and 3.5 extends \\(F_x=-\\dfrac{\\mathrm{d}U}{\\mathrm{d}x}\\) to variable forces and potential-energy curves.",
       "系统边界：同一物理情境中选择不同系统，势能项与外功项会重新分配，但物理结果不变。 · System boundary: choosing a different system in the same situation redistributes terms between potential energy and external work, but the physical result is unchanged.",
-      "跨学科：分子间势能、化学键能、天体多体问题和弹簧网络都用“按对求和”的同一套语言。 · Cross-disciplinary: intermolecular potentials, chemical bond energies, gravitational few-body problems, and spring networks all use the same “sum over pairs” language."
+      "系统选择与能量清单：3.4.A.1 的单对象结论是系统记账规则的最简情形；把地球或弹簧移入/移出系统，只在 \\(U\\) 与 \\(W_{\\mathrm{ext}}\\) 之间重新记账。 · System selection and energy inventory: the single-object statement in 3.4.A.1 is the simplest case of the bookkeeping rule; moving Earth or a spring into or out of the system only re-books energy between \\(U\\) and \\(W_{\\mathrm{ext}}\\).",
+      "跨学科：分子间势能、化学键能、天体多体问题和弹簧网络都用“按对求和”的同一套语言。 · Cross-disciplinary: intermolecular potentials, chemical bond energies, gravitational few-body problems, and spring networks all use the same “sum over pairs” language.",
+      "跨学科：把摩擦热、化学键能或生物体代谢能计入系统时，同样要先把相应组成部分纳入边界。 · Cross-disciplinary: when including frictional heat, chemical bond energy, or metabolic energy, first bring the relevant components inside the system boundary."
     ],
-    "intuitionDetailed": "先选系统，再谈势能：把地球和物体一起纳入系统，重力才是内力，才能写 \\(U_g\\)；把弹簧和物块一起纳入，弹力才能写 \\(U_s\\)。势能是“构型的能量”，不是单个物体的标签。对多物体系统，把每一对有相互作用的物体看成一条边：三个物体有三条边，四个物体有六条边，\\(N\\) 个物体有 \\(\\dfrac{N(N-1)}{2}\\) 条边。总势能就是这些边上的标量账目之和，\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；同一条边不能从两端各记一次。求某个物体受力时，把其他物体位置固定，对总势能关于该物体坐标求偏导，\\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\)，这样得到的成对力自然等大反向。最后用 \\(U\\)–\\(x\\) 曲线检查：斜率给出力，谷底稳定，峰顶不稳定；只有内部保守力做功时，\\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 保持不变。 · Choose the system before talking about potential energy: include Earth with the object so gravity is internal and \\(U_g\\) can be written; include the spring with the block so the spring force can be described by \\(U_s\\). Potential energy is energy of a configuration, not a label attached to one object. For a multi-object system, treat each interacting pair as an edge: three objects have three edges, four objects have six, and \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) edges. The total potential energy is the scalar sum of those edge entries, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); the same edge must not be counted once from each end. To find the force on one object, hold the others fixed and take the partial derivative of the total potential with respect to that object's coordinate, \\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\); the resulting pair forces are equal and opposite. Finally, check with the \\(U\\)–\\(x\\) curve: the slope gives the force, valleys are stable, hilltops are unstable, and when only internal conservative forces do work, \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) stays constant.",
+    "intuitionDetailed": "先选系统，再谈势能：把地球和物体一起纳入系统，重力才是内力，才能写 \\(U_g\\)；把弹簧和物块一起纳入，弹力才能写 \\(U_s\\)。势能是“构型的能量”，不是单个物体的标签。对多物体系统，把每一对有相互作用的物体看成一条边：三个物体有三条边，四个物体有六条边，\\(N\\) 个物体有 \\(\\dfrac{N(N-1)}{2}\\) 条边。总势能就是这些边上的标量账目之和，\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)；同一条边不能从两端各记一次。求某个物体受力时，把其他物体位置固定，对总势能关于该物体坐标求偏导，\\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\)，这样得到的成对力自然等大反向。最后用 \\(U\\)–\\(x\\) 曲线检查：斜率给出力，谷底稳定，峰顶不稳定；只有内部保守力做功时，\\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) 保持不变。能量清单随系统边界改变，但物理不变：只选下落物块，系统只有动能，重力做外功；把地球选进来，系统有动能和重力势能，重力成为内力。单对象质点模型没有“内部结构”，所以既没有势能项也没有内能项；真实物体若要把内能算进来，就要把它看成由许多部分组成的多对象系统。摩擦生热也是这样：只选物块时摩擦是外力做负功，把桌面一起选进来时机械能转化为内能。 · Choose the system before talking about potential energy: include Earth with the object so gravity is internal and \\(U_g\\) can be written; include the spring with the block so the spring force can be described by \\(U_s\\). Potential energy is energy of a configuration, not a label attached to one object. For a multi-object system, treat each interacting pair as an edge: three objects have three edges, four objects have six, and \\(N\\) objects have \\(\\dfrac{N(N-1)}{2}\\) edges. The total potential energy is the scalar sum of those edge entries, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\); the same edge must not be counted once from each end. To find the force on one object, hold the others fixed and take the partial derivative of the total potential with respect to that object's coordinate, \\(F_{i,x}=-\\dfrac{\\partial U_{\\mathrm{total}}}{\\partial x_i}\\); the resulting pair forces are equal and opposite. Finally, check with the \\(U\\)–\\(x\\) curve: the slope gives the force, valleys are stable, hilltops are unstable, and when only internal conservative forces do work, \\(K_{\\mathrm{total}}+U_{\\mathrm{total}}\\) stays constant. The energy inventory changes with the system boundary, but the physics does not: with only the falling block selected, the system has only kinetic energy and gravity does external work; include Earth and the system has kinetic plus gravitational potential energy, with gravity internal. A single point-object model has no internal structure, so it has neither a potential-energy nor an internal-energy term; to include a real object's internal energy, model it as a multi-part system. The same logic applies to friction: with only the block selected, friction is an external force doing negative work; include the table and mechanical energy converts to internal energy.",
     "development": [
       "先划定系统边界，列出系统内所有物体及它们之间的相互作用。 · First define the system boundary and list all objects inside it and the interactions among them.",
+      "然后列能量清单：单对象质点系统只有 \\(K\\)，多对象系统还可有 \\(U\\)，摩擦等过程还可有 \\(E_{\\mathrm{int}}\\)。 · Then list the energy inventory: a single point-object system has only \\(K\\), a multi-object system may also have \\(U\\), and processes such as friction may also involve \\(E_{\\mathrm{int}}\\).",
       "判断哪些力是保守力；只有保守相互作用才能写成势能项，非保守力做功单独记账。 · Decide which forces are conservative; only conservative interactions become potential-energy terms, while nonconservative work is tracked separately.",
       "为每个保守相互作用选择势能表达式并对齐零点：引力用 \\(-G\\dfrac{m_im_j}{r_{ij}}\\)，弹簧用 \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\)，近地重力用 \\(mgh\\)。 · Choose a potential expression and a common zero for each conservative interaction: \\(-G\\dfrac{m_im_j}{r_{ij}}\\) for gravity, \\(\\dfrac{1}{2}k(\\Delta x)^{2}\\) for a spring, and \\(mgh\\) near Earth.",
       "列出所有无序对并对势能求和，用 \\(\\dfrac{N(N-1)}{2}\\) 检查项数；每对只写一次。 · List every unordered pair and sum the pair energies, using \\(\\dfrac{N(N-1)}{2}\\) to check the number of terms; write each pair once.",
@@ -412,9 +513,18 @@ export const TOPICS = {
       "如果把 \\(U_{12}\\) 和 \\(U_{21}\\) 都相加，总势能会怎样？为什么只算一次？ · What happens to the total potential energy if both \\(U_{12}\\) and \\(U_{21}\\) are added? Why count the pair only once?",
       "三个等质量质点位于等边三角形顶点，总引力势能是几项？如果只加“相邻”两对，错在哪里？ · Three equal masses sit at the vertices of an equilateral triangle. How many terms are in the total gravitational potential energy? What is wrong with adding only the two “adjacent” pairs?",
       "若系统外的一个物体与系统内物体有引力作用，能否把这对势能直接算进系统总势能？应如何处理？ · If an object outside the system gravitationally interacts with an object inside, can that pair energy be counted directly in the system's total potential energy? What should be done?",
-      "由 \\(U_{\\mathrm{total}}\\) 求某个物体的受力时，为什么要对其他坐标求偏导？ · Why is a partial derivative with respect to one coordinate used when finding the force on one object from \\(U_{\\mathrm{total}}\\)?"
+      "由 \\(U_{\\mathrm{total}}\\) 求某个物体的受力时，为什么要对其他坐标求偏导？ · Why is a partial derivative with respect to one coordinate used when finding the force on one object from \\(U_{\\mathrm{total}}\\)?",
+      "一个只含下落小球的系统（地球在系统外）具有哪些能量？重力做功如何改变这些能量？ · What energies does a system containing only a falling ball (with Earth outside) have? How does gravity's work change them?",
+      "把地球纳入系统后，重力势能与外力做功如何重新记账？为什么两种选择给出同一速度？ · After including Earth in the system, how are gravitational potential energy and external work re-booked? Why do both choices give the same speed?",
+      "摩擦生热时，为什么必须说明系统是否包含桌面？单物块系统中 \\(f_kd\\) 应记为什么？ · Why must you state whether the table is included when discussing frictional heating? In a single-block system, what should \\(f_kd\\) be booked as?"
     ],
     "vocabulary": [
+      {
+        "termZh": "系统与系统边界",
+        "termEn": "system and system boundary",
+        "defZh": "为分析而选定的一组对象及其假想边界；边界内对象间的相互作用可写成势能，跨边界的相互作用按外力做功处理。",
+        "defEn": "A chosen collection of objects and an imaginary boundary; interactions among objects inside may be written as potential energy, while interactions crossing the boundary are treated as external work."
+      },
       {
         "termZh": "保守力",
         "termEn": "conservative force",
@@ -430,38 +540,32 @@ export const TOPICS = {
       {
         "termZh": "势能",
         "termEn": "potential energy",
-        "defZh": "储存在相互作用系统构型中的能量，满足 \\(\\Delta U=-W_{\\mathrm{cons}}\\)。",
-        "defEn": "Energy stored in the configuration of an interacting system, satisfying \\(\\Delta U=-W_{\\mathrm{cons}}\\)."
+        "defZh": "储存在相互作用系统构型中的能量，满足 \\(\\Delta U=-W_{\\mathrm{cons}}\\)；零点可任选，但同一问题中必须一致。",
+        "defEn": "Energy stored in the configuration of an interacting system, satisfying \\(\\Delta U=-W_{\\mathrm{cons}}\\); the zero is arbitrary but must be consistent within a problem."
       },
       {
-        "termZh": "势能零点",
-        "termEn": "zero of potential energy",
-        "defZh": "人为选定的参考构型，该处势能取零；只有势能差有物理意义。",
-        "defEn": "A chosen reference configuration at which potential energy is set to zero; only potential-energy differences are physical."
-      },
-      {
-        "termZh": "重力势能",
-        "termEn": "gravitational potential energy",
-        "defZh": "物体—地球系统的势能；近地近似为 \\(U_g=mgh\\)，远离地球时为 \\(-\\dfrac{GMm}{r}\\)。",
-        "defEn": "Potential energy of the object–Earth system; near Earth \\(U_g=mgh\\), and far from Earth \\(-\\dfrac{GMm}{r}\\)."
-      },
-      {
-        "termZh": "弹性势能",
-        "termEn": "elastic potential energy",
-        "defZh": "弹簧或弹性体形变储存的能量；理想弹簧为 \\(\\dfrac{1}{2}kx^{2}\\)。",
-        "defEn": "Energy stored by deformation of a spring or elastic body; for an ideal spring it is \\(\\dfrac{1}{2}kx^{2}\\)."
+        "termZh": "重力势能与弹性势能",
+        "termEn": "gravitational and elastic potential energy",
+        "defZh": "物体—地球系统的近地势能 \\(U_g=mgh\\)，以及物体—弹簧系统的势能 \\(U_s=\\dfrac{1}{2}kx^{2}\\)；二者都成对属于相互作用系统。",
+        "defEn": "Near-Earth potential energy of the object–Earth system, \\(U_g=mgh\\), and potential energy of the object–spring system, \\(U_s=\\dfrac{1}{2}kx^{2}\\); both belong to their interacting systems."
       },
       {
         "termZh": "对势能",
         "termEn": "pair potential energy",
-        "defZh": "一对相互作用物体所共有的势能，如 \\(U_{ij}=-G\\dfrac{m_im_j}{r_{ij}}\\)。",
-        "defEn": "Potential energy shared by one interacting pair, such as \\(U_{ij}=-G\\dfrac{m_im_j}{r_{ij}}\\)."
+        "defZh": "一对相互作用物体所共有的势能，如 \\(U_{ij}=-G\\dfrac{m_im_j}{r_{ij}}\\)；多体系统总势能是各对之和 \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)，每对只计一次。",
+        "defEn": "Potential energy shared by one interacting pair, such as \\(U_{ij}=-G\\dfrac{m_im_j}{r_{ij}}\\); a multi-body system's total potential energy is the sum over pairs, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\), with each pair counted once."
       },
       {
-        "termZh": "系统总势能",
-        "termEn": "total potential energy of a system",
-        "defZh": "系统内所有相互作用对势能之和，\\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\)，每对只计一次。",
-        "defEn": "The sum of the pair potential energies of all interacting pairs in a system, \\(U_{\\mathrm{total}}=\\sum_{i<j}U_{ij}\\), with each pair counted once."
+        "termZh": "机械能",
+        "termEn": "mechanical energy",
+        "defZh": "系统动能与势能之和 \\(E_{\\mathrm{mech}}=K+U\\)；只有系统内保守力做功时守恒，摩擦等会把它转化为内能。",
+        "defEn": "The sum of a system's kinetic and potential energies, \\(E_{\\mathrm{mech}}=K+U\\); conserved when only internal conservative forces do work, while friction and similar processes convert it into internal energy."
+      },
+      {
+        "termZh": "内能",
+        "termEn": "internal energy",
+        "defZh": "系统内部微观运动、转动与形变对应的能量；摩擦生热时 \\(\\Delta E_{\\mathrm{int}}=f_kd\\)，属于包含两个接触表面的系统。",
+        "defEn": "Energy associated with microscopic motion, rotation, and deformation inside a system; for frictional heating \\(\\Delta E_{\\mathrm{int}}=f_kd\\), belonging to the system that contains both contacting surfaces."
       }
     ]
   },
