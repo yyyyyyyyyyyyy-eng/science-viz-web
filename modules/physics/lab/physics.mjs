@@ -1469,7 +1469,10 @@ export function bodyDiagnostics(world, body) {
     d.mode = 'free';
     d.contact = '';
     d.speed = body.cannon.velocity.length();
-    d.force.setZero();
+    const ext = externalForceOn(world, body);
+    const net = ext.vadd(V(0, -body.mass * world.g, 0));
+    d.accel = net.length() / body.mass;
+    d.force.copy(ext);
   }
   return d;
 }
