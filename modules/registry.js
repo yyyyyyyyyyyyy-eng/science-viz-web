@@ -52,7 +52,7 @@ export const MODULES = [
   // —— Bio ——
   {
     id: 'enzyme-activity',
-    subject: 'bio', chapterId: 'bio-u1', topicCodes: ['1.6', '3.2'],
+    subject: 'bio', chapterId: 'bio-u1', topicCodes: ['1.6', '3.2', '3.7'],
     title: '酶活性与温度/pH · Enzyme Activity vs Temperature/pH',
     summary: '温度与 pH 如何改变酶反应速率。 · How temperature and pH change enzyme reaction rates.',
     explanation: '酶有最适温度与最适 pH；偏离会导致活性下降，过高温度可使酶变性。 · Enzymes have optimal temperature and pH; deviations lower activity, and excessive heat can denature them.',
@@ -348,7 +348,7 @@ export const MODULES = [
   },
   {
     id: 'gauss-law',
-    subject: 'em', chapterId: 'em-u8', topicCodes: ['8.4', '8.5'],
+    subject: 'em', chapterId: 'em-u8', topicCodes: ['8.4', '8.5', '8.10', '8.11'],
     title: '高斯定律 · Gauss’s Law',
     summary: '对称电荷分布的电通量与封闭曲面。 · Electric flux and closed surfaces for symmetric charge distributions.',
     explanation: '通过闭合曲面的电通量等于包围电荷除以 ε₀；球对称时面外场按 r⁻² 衰减。 · Electric flux through a closed surface equals enclosed charge divided by ε₀; outside a spherically symmetric charge the field falls off as r⁻².',
@@ -368,7 +368,7 @@ export const MODULES = [
   },
   {
     id: 'capacitor',
-    subject: 'em', chapterId: 'em-u10', topicCodes: ['10.3', '10.4'],
+    subject: 'em', chapterId: 'em-u10', topicCodes: ['10.3', '10.4', '8.9'],
     title: '平行板电容器 · Parallel-Plate Capacitor',
     summary: '电容、电场与电介质。 · Capacitance, electric field, and dielectrics.',
     explanation: 'C = κε₀A·d⁻¹；插入电介质增大 C。 · C = κε₀A·d⁻¹; inserting a dielectric increases C.',
@@ -547,17 +547,22 @@ export function withChapterLabel(mod) {
   return { ...mod, chapterName: getChapterName(mod.subject, mod.chapterId) };
 }
 
-/** Topics for a chapter annotated with covering modules (or 待上线). */
+/**
+ * Topics for a chapter annotated with covering modules. A topic with a course
+ * title already has lesson content, so lacking a simulation does not make it
+ * pending; `pending` is reserved for placeholder rows with no course content.
+ */
 export function getChapterTopicRows(subject, chapterId) {
   const ch = getChapter(subject, chapterId);
   if (!ch) return [];
   const mods = getModulesByChapter(subject, chapterId);
   return (ch.topics || []).map((t) => {
     const covering = mods.filter((m) => (m.topicCodes || []).includes(t.code));
+    const hasLesson = Boolean(t.titleZh || t.titleEn);
     return {
       ...t,
       modules: covering,
-      pending: covering.length === 0,
+      pending: covering.length === 0 && !hasLesson,
     };
   });
 }

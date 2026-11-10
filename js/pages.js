@@ -260,16 +260,17 @@ export function renderSubjectLanding(main, subject) {
     group.chapters.forEach((ch) => {
       const tp = topicProgress(subject, ch);
       const modules = getModulesByChapter(subject, ch.id);
-      const meta = [
-        `${(ch.topics || []).length} 知识点`,
-        modules.length ? `${modules.length} 实验` : '实验待上线',
-      ].join(' · ');
+      const topicCount = (ch.topics || []).length;
+      const meta = [`${topicCount} 知识点`];
+      if (modules.length) meta.push(`${modules.length} 实验`);
+      else if (!topicCount) meta.push('实验待上线');
+      const metaText = meta.join(' · ');
       list.appendChild(
         el('a', { className: 'unit-row hit-target', href: `#/${subject}/${ch.id}` }, [
           el('span', { className: 'unit-code', text: ch.unitCode || '' }),
           el('div', { className: 'unit-main' }, [
             el('h3', { text: ch.titleZh || chapterTitle(ch) }),
-            el('p', { className: 'unit-meta', text: meta }),
+            el('p', { className: 'unit-meta', text: metaText }),
           ]),
           el('span', { className: 'unit-progress' }, [
             el('span', { className: 'unit-progress-label', text: tp.label }),
