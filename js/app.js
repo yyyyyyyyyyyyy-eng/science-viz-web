@@ -26,6 +26,7 @@ import { getChapter } from '../modules/registry.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { initNav, setActiveNav, closeMenus, isMenuOpen } from './nav.js';
 import { openPalette, closePalette, togglePalette, isPaletteOpen } from './palette.js';
+import { initSearch } from './search.js';
 import {
   markVisited,
   markCompleted,
@@ -48,6 +49,7 @@ let currentPrevNext = { prev: null, next: null };
 let completeTimer = null;
 
 initNav();
+initSearch();
 themeToggle?.addEventListener('click', () => toggleTheme());
 searchTrigger?.addEventListener('click', () => {
   closeMenus();
@@ -341,12 +343,6 @@ document.addEventListener('keydown', (e) => {
     if (isMenuOpen()) { closeMenus({ focus: true }); return; }
   }
   if (editing) return;
-  if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    closeMenus();
-    openPalette();
-    return;
-  }
   if (activeModuleId && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
