@@ -503,7 +503,12 @@ export function createLabView(host, opts = {}) {
     const sig = signatureOf(entity);
     const existing = visuals.get(entity.id);
     if (existing && existing.sig === sig) return existing;
-    if (existing) removeVisual(entity.id);
+    if (existing) {
+      // A live TransformControls drag must keep the attached root in the scene
+      // graph; rebuild it once the drag ends instead of detaching the gizmo.
+      if (transform.dragging && selected && selected.id === entity.id) return existing;
+      removeVisual(entity.id);
+    }
     let visual;
     if (entity.type === 'surface') visual = makeSurface(entity);
     else if (entity.type === 'loop') visual = makeLoop(entity);
