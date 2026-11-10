@@ -74,6 +74,7 @@ export const UNITS = {
         { code: '3.4', titleZh: '光合作用', titleEn: 'Photosynthesis' },
         { code: '3.5', titleZh: '细胞呼吸', titleEn: 'Cellular Respiration' },
         { code: '3.6', titleZh: '适应与能量', titleEn: 'Fitness' },
+        { code: '3.7', titleZh: '酶变性与复性', titleEn: 'Enzyme Denaturation and Renaturation' },
       ],
     },
     {
@@ -140,6 +141,7 @@ export const UNITS = {
         { code: '8.5', titleZh: '群落生态', titleEn: 'Community Ecology' },
         { code: '8.6', titleZh: '生物多样性', titleEn: 'Biodiversity' },
         { code: '8.7', titleZh: '生态系统扰动', titleEn: 'Disruptions to Ecosystems' },
+        { code: '8.10', titleZh: '生态层级与物质循环', titleEn: 'Ecological Organization and Biogeochemical Cycles' },
       ],
     },
   ],
@@ -386,6 +388,9 @@ export const UNITS = {
         { code: '8.3', titleZh: '电场叠加', titleEn: 'Electric Field of Charge Distributions' },
         { code: '8.4', titleZh: '电通量', titleEn: 'Electric Flux' },
         { code: '8.5', titleZh: '高斯定律', titleEn: "Gauss's Law" },
+        { code: '8.8', titleZh: '电力、引力与宏观物性', titleEn: 'Electric and Gravitational Forces in Matter' },
+        { code: '8.10', titleZh: '绝缘体电荷与内部电场', titleEn: 'Charge and Fields inside Insulators' },
+        { code: '8.11', titleZh: '电荷密度与包围电荷积分', titleEn: 'Charge Density and Enclosed Charge' },
       ],
     },
     {
@@ -417,6 +422,7 @@ export const UNITS = {
         { code: '11.6', titleZh: '基尔霍夫环路', titleEn: "Kirchhoff's Loop Rule" },
         { code: '11.7', titleZh: '基尔霍夫结点', titleEn: "Kirchhoff's Junction Rule" },
         { code: '11.8', titleZh: 'RC 电路', titleEn: 'Resistor–Capacitor (RC) Circuits' },
+        { code: '11.9', titleZh: '电流密度与截面积分', titleEn: 'Current Density and Surface Integration' },
       ],
     },
     {
@@ -426,6 +432,10 @@ export const UNITS = {
         { code: '12.2', titleZh: '运动电荷与磁场', titleEn: 'Magnetism and Moving Charges' },
         { code: '12.3', titleZh: '毕奥–萨伐尔定律', titleEn: 'Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law' },
         { code: '12.4', titleZh: '安培定律', titleEn: "Ampère's Law" },
+        { code: '12.5', titleZh: '磁偶极与磁性材料', titleEn: 'Magnetic Dipoles and Magnetic Materials' },
+        { code: '12.6', titleZh: '磁导率与材料响应', titleEn: 'Magnetic Permeability and Material Response' },
+        { code: '12.8', titleZh: '复合场与霍尔效应', titleEn: 'Crossed Fields and the Hall Effect' },
+        { code: '12.9', titleZh: '毕奥–萨伐尔积分与电流几何', titleEn: 'Biot–Savart Integration and Current Geometry' },
       ],
     },
     {
@@ -437,6 +447,7 @@ export const UNITS = {
         { code: '13.4', titleZh: '电感', titleEn: 'Inductance' },
         { code: '13.5', titleZh: 'LR 电路', titleEn: 'Circuits with Resistors and Inductors (LR Circuits)' },
         { code: '13.6', titleZh: 'LC 电路', titleEn: 'Circuits with Capacitors and Inductors (LC Circuits)' },
+        { code: '13.7', titleZh: '麦克斯韦方程与电磁波', titleEn: 'Maxwell Equations and Electromagnetic Waves' },
       ],
     },
   ],

@@ -398,7 +398,7 @@ export const MODULES = [
   },
   {
     id: 'faraday-induction',
-    subject: 'em', chapterId: 'em-u13', topicCodes: ['13.1', '13.2', '13.3'],
+    subject: 'em', chapterId: 'em-u13', topicCodes: ['13.1', '13.2', '13.3', '13.7'],
     title: '法拉第电磁感应 · Faraday’s Law of Induction',
     summary: '磁通量变化产生感应电动势。 · Changing magnetic flux induces an emf.',
     explanation: '感应电动势 ε = −dΦ/dt，等于磁通量变化率的负值；楞次定律决定感应电流方向。 · The induced emf ε = −dΦ/dt is the negative rate of change of magnetic flux; Lenz’s law sets the current direction.',
