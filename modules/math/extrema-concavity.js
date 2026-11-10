@@ -1,5 +1,6 @@
-import { el, slider, select, checkbox, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -40,7 +41,5 @@ export function create(viz, controls) {
     readouts.replaceChildren();
     readouts.appendChild(el('span', { text: "f=x³−3x；临界点 ±1；f'' 变号于 0" }));
   }
-  observeSize(wrap, draw);
-  const loop = () => { draw(); requestAnimationFrame(loop); }; loop();
-  return { destroy() {} };
+  return startAnimLoop(wrap, draw);
 }

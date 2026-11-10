@@ -1,5 +1,6 @@
-import { el, slider, select, checkbox, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -50,8 +51,5 @@ export function create(viz, controls) {
     readouts.appendChild(el('span', { text: `相对速率 ${r0.toFixed(2)}` }));
     readouts.appendChild(el('span', { text: `T=${temp}°C  pH=${pH.toFixed(1)}` }));
   }
-  observeSize(wrap, draw);
-  const loop = () => { draw(); requestAnimationFrame(loop); };
-  loop();
-  return { destroy() {} };
+  return startAnimLoop(wrap, draw);
 }

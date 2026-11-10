@@ -1,6 +1,7 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -31,9 +32,7 @@ function createBase(viz, controls) {
     readouts.appendChild(el('span', { text: `Φ=${flux.toFixed(2)}  ε=${emf.toFixed(2)}` }));
     readouts.appendChild(el('span', { text: 'ε=−dΦ/dt · 楞次定方向' }));
   }
-  observeSize(wrap, draw);
-  const loop = () => { draw(); requestAnimationFrame(loop); }; loop();
-  return { destroy() {} };
+  return startAnimLoop(wrap, draw);
 }
 
 export function create(viz, controls) {

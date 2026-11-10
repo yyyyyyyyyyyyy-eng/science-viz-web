@@ -1,6 +1,16 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+
+const SUP = { '-': '⁻', '+': '', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+function sci(x) {
+  if (!Number.isFinite(x)) return String(x);
+  if (x === 0) return '0';
+  const [mantissa, exponent] = x.toExponential(2).split('e');
+  const exp = exponent.replace(/[+\-0-9]/g, (c) => SUP[c] ?? c);
+  return `${mantissa}×10${exp}`;
+}
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -21,24 +31,32 @@ function createBase(viz, controls) {
     ctx.strokeStyle = T.accent; ctx.setLineDash([6, 4]); ctx.beginPath(); ctx.arc(cx, cy, rg, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
     const k = 1; // geometric units
     const E = rg >= R ? k * Q / (rg * rg) : k * Q * rg / (R * R * R);
-    // E vs r plot
+    // E vs r plot, auto-scaled to the surface field (the maximum of this curve)
     const px = w * 0.62, py = 40, pw = w * 0.32, ph = h - 80;
+    const eMax = (k * Q) / (R * R);
     ctx.strokeStyle = T.border; ctx.strokeRect(px, py, pw, ph);
-    ctx.strokeStyle = T.accent; ctx.beginPath();
+    // mark the charged-sphere radius on the r axis
+    const xR = px + ((R - 5) / 200) * pw;
+    ctx.strokeStyle = rgba(T.muted, 0.6); ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(xR, py); ctx.lineTo(xR, py + ph); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = T.muted; ctx.font = '11px sans-serif';
+    ctx.fillText('E', px + 4, py + 13);
+    ctx.fillText('r', px + pw - 8, py + ph + 13);
+    ctx.fillText('R', xR - 3, py + ph + 13);
+    ctx.strokeStyle = T.accent; ctx.lineWidth = 1.5; ctx.beginPath();
     for (let i = 0; i <= 80; i++) {
       const r = 5 + (i / 80) * 200;
       const e = r >= R ? k * Q / (r * r) : k * Q * r / (R * R * R);
-      const X = px + (i / 80) * pw, Y = py + ph - Math.min(e, 0.05) / 0.05 * ph;
+      const X = px + (i / 80) * pw, Y = py + ph - (e / eMax) * ph * 0.92;
       if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `E(r)=${E.toFixed(4)} (几何单位)` }));
-    readouts.appendChild(el('span', { text: rg >= R ? '面外 ~ 点电荷' : '面内 ~ r（均匀球）' }));
+    readouts.appendChild(el('span', { text: `E(r)=${sci(E)}（几何单位 / geometric units）` }));
+    readouts.appendChild(el('span', { text: `E_max=${sci(eMax)}` }));
+    readouts.appendChild(el('span', { text: rg >= R ? '面外 ~ 点电荷 · outside: point-charge field' : '面内 ~ r（均匀球） · inside: ∝ r' }));
   }
-  observeSize(wrap, draw);
-  const loop = () => { draw(); requestAnimationFrame(loop); }; loop();
-  return { destroy() {} };
+  return startAnimLoop(wrap, draw);
 }
 
 export function create(viz, controls) {

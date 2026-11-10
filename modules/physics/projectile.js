@@ -27,9 +27,12 @@ function createBase(viz, controls) {
   let raf = 0;
   let last = performance.now();
 
-  // world scale
-  const worldW = 60; // meters across
-  const worldH = 35;
+  // world scale (auto-expanded to the ideal flight envelope)
+  let worldW = 60; // meters across
+  let worldH = 35;
+  let idealR = 1;
+  let idealH = 1;
+  let landedX = null;
 
   controls.appendChild(el('h2', { text: '发射参数' }));
   slider(controls, {
@@ -133,8 +136,22 @@ function createBase(viz, controls) {
     vx = speed * Math.cos(th);
     vy = speed * Math.sin(th);
     trail = [{ x, y }];
+    landedX = null;
+    idealR = Math.max(idealRange(), 0.5);
+    idealH = Math.max(idealHeight(), 0.5);
+    updateWorld();
   }
   syncIdeal();
+
+  // Size the world from the ideal range/height with margin, keeping an equal
+  // metres-per-pixel scale on both axes so the trajectory is not distorted.
+  function updateWorld() {
+    const drawW = Math.max(1, w * 0.92);
+    const drawH = Math.max(1, h * 0.8);
+    const ppm = Math.max(idealR / drawW, idealH / drawH) * 1.12;
+    worldW = ppm * drawW;
+    worldH = ppm * drawH;
+  }
 
   function launch() {
     syncIdeal();
@@ -147,6 +164,7 @@ function createBase(viz, controls) {
     w = cw;
     h = ch;
     fitCanvas(canvas, w, h);
+    updateWorld();
   }
   const unobserve = observeSize(wrap, resize);
 
@@ -188,6 +206,7 @@ function createBase(viz, controls) {
     const T = themeColors();
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, w, h);
+    updateWorld();
 
     // ground
     const ground = h * 0.88;
@@ -199,6 +218,29 @@ function createBase(viz, controls) {
     ctx.moveTo(0, ground);
     ctx.lineTo(w, ground);
     ctx.stroke();
+
+    // ideal landing marker (R) and the actual landing point once it lands
+    const lx = mapX(idealR);
+    ctx.strokeStyle = T.bio;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(lx, ground); ctx.lineTo(lx, ground - 14); ctx.stroke();
+    ctx.fillStyle = T.bio;
+    ctx.beginPath();
+    ctx.moveTo(lx, ground - 14);
+    ctx.lineTo(lx - 5, ground - 22);
+    ctx.lineTo(lx + 5, ground - 22);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = T.muted;
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('R', lx, ground - 27);
+    ctx.textAlign = 'left';
+    if (landedX != null) {
+      ctx.fillStyle = T.warn;
+      ctx.beginPath();
+      ctx.arc(mapX(landedX), ground - 2, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     // launcher
     const th = (angleDeg * Math.PI) / 180;
@@ -267,6 +309,7 @@ function createBase(viz, controls) {
         t += hdt;
         if (y < 0 && t > 0.05) {
           y = 0;
+          landedX = x;
           running = false;
           fireBtn.textContent = '再次发射';
           break;
