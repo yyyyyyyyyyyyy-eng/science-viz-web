@@ -2190,12 +2190,12 @@ export const problems = [
   "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
   "id": "mech-u1-q044",
   "title": "1.2 三维运动的投影距离",
-  "stem": "无人机初速度 v₀=(1.0, 2.0, −1.0) m/s，恒定加速度 a=(0.50, −0.25, 0.75) m/s²。求 t=4.0 s 时到原点的距离（m）。",
+  "stem": "无人机从原点出发（r₀=(0, 0, 0) m），初速度 v₀=(1.0, 2.0, −1.0) m/s，恒定加速度 a=(0.50, −0.25, 0.75) m/s²。求 t=4.0 s 时到原点的距离（m）。 · A drone starts from the origin with initial position r₀=(0, 0, 0) m, initial velocity v₀=(1.0, 2.0, −1.0) m/s, and constant acceleration a=(0.50, −0.25, 0.75) m/s². Find its distance from the origin at t=4.0 s (m).",
   "expected": 10.2,
   "tol": 0.02,
   "answerLatex": "10.2\\,\\mathrm{m}",
-  "solution": "r=(8.0, 6.0, 2.0) m；|r|=√(8²+6²+2²)=10.2 m。",
-  "solutionLatex": "\\vec r=\\vec v_0t+\\dfrac12\\vec at^{2}=(8.0,6.0,2.0)\\,\\mathrm{m},\\quad |\\vec r|=10.2\\,\\mathrm{m}",
+  "solution": "从原点出发（r₀=0），r=(8.0, 6.0, 2.0) m；|r|=√(8²+6²+2²)=10.2 m。",
+  "solutionLatex": "\\vec r_0=\\vec 0,\\quad \\vec r=\\vec v_0t+\\dfrac12\\vec at^{2}=(8.0,6.0,2.0)\\,\\mathrm{m},\\quad |\\vec r|=10.2\\,\\mathrm{m}",
   "topicLinks": [
     {
       "href": "#/t/mech/mech-u1/1.2",
