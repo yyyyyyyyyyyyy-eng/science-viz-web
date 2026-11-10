@@ -1367,7 +1367,17 @@ export const TOPICS = {
       {
         "from": "有限长棒 · Finite rod",
         "to": "垂直平分线与轴线 · Perpendicular bisector and axis",
-        "note": "垂直平分线上积分 \\(\\int\\dfrac{\\mathrm{d}x}{(x^{2}+d^{2})^{\\frac{3}{2}}}\\)；轴线上积分 \\(\\int\\dfrac{\\mathrm{d}x}{x^{2}}\\)，分别得到两个有限长结果。 · On the perpendicular bisector integrate \\(\\int\\dfrac{\\mathrm{d}x}{(x^{2}+d^{2})^{\\frac{3}{2}}}\\); on the axis integrate \\(\\int\\dfrac{\\mathrm{d}x}{x^{2}}\\), giving the two finite-rod results."
+        "note": "垂直平分线：\\(\\mathrm{d}E_y=\\dfrac{k\\lambda d\\,\\mathrm{d}s}{(s^{2}+d^{2})^{\\frac{3}{2}}}\\)，从 \\(s=-\\dfrac{L}{2}\\) 到 \\(\\dfrac{L}{2}\\) 积分，利用 \\(\\int\\dfrac{\\mathrm{d}s}{(s^{2}+d^{2})^{\\frac{3}{2}}}=\\dfrac{s}{d^{2}\\sqrt{s^{2}+d^{2}}}\\)，得 \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\)；轴线：\\(\\mathrm{d}E=\\dfrac{k\\lambda\\,\\mathrm{d}s}{(x+s)^{2}}\\)，从 \\(s=0\\) 到 \\(L\\) 积分得 \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\)。 · Perpendicular bisector: \\(\\mathrm{d}E_y=\\dfrac{k\\lambda d\\,\\mathrm{d}s}{(s^{2}+d^{2})^{\\frac{3}{2}}}\\), integrate from \\(s=-\\dfrac{L}{2}\\) to \\(\\dfrac{L}{2}\\) using \\(\\int\\dfrac{\\mathrm{d}s}{(s^{2}+d^{2})^{\\frac{3}{2}}}=\\dfrac{s}{d^{2}\\sqrt{s^{2}+d^{2}}}\\) to obtain \\(E=\\dfrac{k\\lambda L}{d\\sqrt{d^{2}+\\dfrac{L^{2}}{4}}}\\); axis: \\(\\mathrm{d}E=\\dfrac{k\\lambda\\,\\mathrm{d}s}{(x+s)^{2}}\\), integrate from \\(s=0\\) to \\(L\\) to obtain \\(E=\\dfrac{k\\lambda L}{x(x+L)}\\)."
+      },
+      {
+        "from": "半圆弧 · Semicircular arc",
+        "to": "圆心场 · Field at the center",
+        "note": "\\(\\mathrm{d}E_x=\\dfrac{k\\lambda}{R}\\cos\\theta\\,\\mathrm{d}\\theta\\)，从 \\(-\\dfrac{\\pi}{2}\\) 到 \\(\\dfrac{\\pi}{2}\\) 积分，垂直分量两两相消，得 \\(E=\\dfrac{2k\\lambda}{R}=\\dfrac{2kQ}{\\pi R^{2}}\\)。 · \\(\\mathrm{d}E_x=\\dfrac{k\\lambda}{R}\\cos\\theta\\,\\mathrm{d}\\theta\\), integrated from \\(-\\dfrac{\\pi}{2}\\) to \\(\\dfrac{\\pi}{2}\\), with perpendicular components cancelling in pairs, gives \\(E=\\dfrac{2k\\lambda}{R}=\\dfrac{2kQ}{\\pi R^{2}}\\)."
+      },
+      {
+        "from": "无限长直线 · Infinite line",
+        "to": "垂直距离 r 处的场 · Field at perpendicular distance r",
+        "note": "\\(\\mathrm{d}E_x=\\dfrac{k\\lambda r\\,\\mathrm{d}y}{(r^{2}+y^{2})^{\\frac{3}{2}}}\\)，从 \\(y=-\\infty\\) 到 \\(\\infty\\) 积分得 \\(E=\\dfrac{2k\\lambda}{r}=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\)；圆柱外部与同轴线电荷密度的直线相同。 · \\(\\mathrm{d}E_x=\\dfrac{k\\lambda r\\,\\mathrm{d}y}{(r^{2}+y^{2})^{\\frac{3}{2}}}\\), integrated from \\(y=-\\infty\\) to \\(\\infty\\), gives \\(E=\\dfrac{2k\\lambda}{r}=\\dfrac{\\lambda}{2\\pi\\varepsilon_0 r}\\); a cylinder's exterior field equals that of a line with the same linear charge density."
       },
       {
         "from": "极限检验 · Limit checks",
