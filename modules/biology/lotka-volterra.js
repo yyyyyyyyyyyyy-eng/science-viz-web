@@ -12,11 +12,11 @@ export function create(viz, controls) {
 
   const charts = el('div', { className: 'chart-row' });
   const timeWrap = el('div');
-  timeWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '时间序列（猎物 / 捕食者）' }));
+  timeWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '时间序列（猎物 / 捕食者） · Time series (prey / predator)' }));
   const timeCanvas = el('canvas', { className: 'mini-chart' });
   timeWrap.appendChild(timeCanvas);
   const phaseWrap = el('div');
-  phaseWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '相图（猎物 x — 捕食者 y）' }));
+  phaseWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '相图（猎物 x — 捕食者 y） · Phase portrait (prey x — predator y)' }));
   const phaseCanvas = el('canvas', { className: 'mini-chart' });
   phaseWrap.appendChild(phaseCanvas);
   charts.append(timeWrap, phaseWrap);
@@ -138,11 +138,12 @@ export function create(viz, controls) {
 
     ctx.fillStyle = T.text;
     ctx.font = '12px sans-serif';
-    ctx.fillText(`平衡点 ≈ (${eqX.toFixed(2)}, ${eqY.toFixed(2)})`, 12, 20);
+    ctx.fillText(`平衡点 · Equilibrium ≈ (${eqX.toFixed(2)}, ${eqY.toFixed(2)})`, 12, 20);
     ctx.fillStyle = T.bio;
-    ctx.fillText('猎物', 12, h - 16);
+    const preyLabel = '猎物 · Prey';
+    ctx.fillText(preyLabel, 12, h - 16);
     ctx.fillStyle = T.physics;
-    ctx.fillText('捕食者', 70, h - 16);
+    ctx.fillText('捕食者 · Predator', 12 + ctx.measureText(preyLabel).width + 24, h - 16);
   }
 
   function drawTime() {

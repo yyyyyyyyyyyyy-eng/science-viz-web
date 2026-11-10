@@ -40,9 +40,9 @@ function createBase(viz, controls) {
     step: () => { physics(SIM_STEP); draw(); },
     onReset: () => { s = 0; v = 0; measure(); },
   });
-  slider(controls, { label: '倾角 · Incline angle', unit: '°', min: 0, max: 60, step: 1, value: theta, format: (v) => String(Math.round(v)), onChange: (val) => { theta = val; s = 0; v = 0; } });
-  slider(controls, { label: 'μ（μs=μk） · friction coefficient', min: 0, max: 0.8, step: 0.01, value: mu, format: (v) => v.toFixed(2), onChange: (val) => { mu = val; s = 0; v = 0; } });
-  slider(controls, { label: '质量 · Mass', unit: 'kg', min: 0.5, max: 5, step: 0.1, value: m, format: (v) => v.toFixed(1), onChange: (val) => { m = val; } });
+  slider(controls, { label: '倾角 · Incline angle', unit: '°', min: 0, max: 60, step: 1, value: theta, format: (v) => String(Math.round(v)), onChange: (val) => { theta = val; s = 0; v = 0; measure(); draw(); } });
+  slider(controls, { label: 'μ（μs=μk） · friction coefficient', min: 0, max: 0.8, step: 0.01, value: mu, format: (v) => v.toFixed(2), onChange: (val) => { mu = val; s = 0; v = 0; measure(); draw(); } });
+  slider(controls, { label: '质量 · Mass', unit: 'kg', min: 0.5, max: 5, step: 0.1, value: m, format: (v) => v.toFixed(1), onChange: (val) => { m = val; measure(); draw(); } });
   measure();
 
   function draw() {
