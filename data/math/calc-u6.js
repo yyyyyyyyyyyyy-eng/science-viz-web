@@ -1052,28 +1052,28 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.2",
-        "title": "黎曼和近似",
+        "title": "黎曼和近似 · Approximating Areas with Riemann Sums",
         "relation": "prerequisite"
       },
       {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.5",
-        "title": "定积分解释",
+        "title": "定积分解释 · Interpreting the Behavior of Accumulation Functions Involving Graphs",
         "relation": "prerequisite"
       },
       {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.7",
-        "title": "定积分求值",
+        "title": "定积分求值 · The Fundamental Theorem of Calculus and Definite Integrals",
         "relation": "related"
       },
       {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.12",
-        "title": "反常积分",
+        "title": "反常积分 · Evaluating Improper Integrals",
         "relation": "related"
       }
     ],
