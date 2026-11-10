@@ -7,8 +7,17 @@ import { renderDiagram } from './diagrams.js';
  * from science-viz-completed so a wrong item can keep its own state until a
  * later correct attempt replaces it.
  */
-const PRACTICE_STORE_KEY = 'science-viz-practice-v1';
+export const PRACTICE_STORE_KEY = 'science-viz-practice-v1';
 const PRACTICE_STYLE_ID = 'practice-extras-style';
+const PRACTICE_STORE_VERSION = 2;
+const DAY_MS = 86400000;
+const REVIEW_INTERVAL_DAYS = [1, 3, 7];
+const PRACTICE_SUBJECTS = [
+  ['bio', '生物', 'Biology'],
+  ['math', '微积分', 'Calculus'],
+  ['mech', '力学', 'Mechanics'],
+  ['em', '电磁', 'E&M'],
+];
 
 function ensurePracticeStyle() {
   if (document.getElementById(PRACTICE_STYLE_ID)) return;
@@ -23,23 +32,134 @@ function emptyPracticeBank() {
   return { answers: {}, lastIndex: 0 };
 }
 
-function readPracticeStore() {
+function isRecordObject(value) {
+  return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+
+/**
+ * Answer records gain optional spaced-review fields:
+ *   intervalDays: 1 | 3 | 7 (days until the next review)
+ *   dueAt: epoch ms; <= now means the item belongs in 今日复习
+ *   reps: successful review count
+ * Legacy wrong records without a schedule become due immediately at interval 1.
+ * Legacy right records stay out of the queue until a schedule exists.
+ */
+function migrateAnswerRecord(record) {
+  if (!isRecordObject(record)) return record;
+  const out = { ...record };
+  if (out.status === 'wrong') {
+    if (!Number.isFinite(out.intervalDays)) out.intervalDays = 1;
+    if (!Number.isFinite(out.dueAt)) out.dueAt = 0;
+    if (!Number.isFinite(out.reps)) out.reps = 0;
+  }
+  return out;
+}
+
+/** Pure, additive migration. Never throws and never drops banks or answers. */
+export function migratePracticeStore(raw) {
+  let source = raw;
+  if (typeof source === 'string') {
+    try {
+      source = JSON.parse(source);
+    } catch (_) {
+      return { v: PRACTICE_STORE_VERSION, banks: {} };
+    }
+  }
+  if (!isRecordObject(source)) return { v: PRACTICE_STORE_VERSION, banks: {} };
+  const sourceBanks = isRecordObject(source.banks) ? source.banks : {};
+  const banks = {};
+  for (const [bankKey, bank] of Object.entries(sourceBanks)) {
+    if (!isRecordObject(bank)) {
+      banks[bankKey] = bank;
+      continue;
+    }
+    const nextBank = { ...bank };
+    const answers = {};
+    if (isRecordObject(bank.answers)) {
+      for (const [answerId, record] of Object.entries(bank.answers)) {
+        answers[answerId] = migrateAnswerRecord(record);
+      }
+    }
+    nextBank.answers = answers;
+    if (!Number.isInteger(nextBank.lastIndex) || nextBank.lastIndex < 0) nextBank.lastIndex = 0;
+    banks[bankKey] = nextBank;
+  }
+  return { ...source, v: PRACTICE_STORE_VERSION, banks };
+}
+
+/**
+ * Update one answer record after an attempt.
+ * - wrong: interval 1, due immediately (a wrong review also resets to this).
+ * - correct review: 1 -> 3 -> 7 -> 7, due after intervalDays.
+ * - correct first attempt: stays out of the review queue (no schedule fields).
+ */
+export function scheduleAfterAttempt(record, ok, now = Date.now()) {
+  const base = isRecordObject(record) ? { ...record } : {};
+  const at = Number.isFinite(now) ? now : Date.now();
+  if (!ok) {
+    return { ...base, status: 'wrong', intervalDays: 1, dueAt: at, reps: 0 };
+  }
+  const hasSchedule = Number.isFinite(base.dueAt) || Number.isFinite(base.intervalDays);
+  if (!hasSchedule) {
+    const out = { ...base, status: 'right' };
+    delete out.intervalDays;
+    delete out.dueAt;
+    delete out.reps;
+    return out;
+  }
+  const previous = Number(base.intervalDays);
+  const intervalDays = !Number.isFinite(previous) || previous < 3
+    ? REVIEW_INTERVAL_DAYS[1]
+    : REVIEW_INTERVAL_DAYS[2];
+  const reps = (Number.isFinite(base.reps) ? base.reps : 0) + 1;
+  return {
+    ...base,
+    status: 'right',
+    intervalDays,
+    dueAt: at + intervalDays * DAY_MS,
+    reps,
+  };
+}
+
+/** True when an answer record carries a schedule that is due at `now`. */
+export function isReviewDue(record, now = Date.now()) {
+  if (!isRecordObject(record)) return false;
+  const dueAt = Number(record.dueAt);
+  return Number.isFinite(dueAt) && dueAt <= (Number.isFinite(now) ? now : Date.now());
+}
+
+/** All due records across every bank in the store. */
+export function dueReviews(store, now = Date.now()) {
+  const migrated = migratePracticeStore(store);
+  const at = Number.isFinite(now) ? now : Date.now();
+  const due = [];
+  for (const [bankKey, bank] of Object.entries(migrated.banks)) {
+    if (!isRecordObject(bank) || !isRecordObject(bank.answers)) continue;
+    for (const [id, record] of Object.entries(bank.answers)) {
+      if (isReviewDue(record, at)) due.push({ bankKey, id, record });
+    }
+  }
+  due.sort((a, b) => (
+    a.record.dueAt - b.record.dueAt
+    || a.bankKey.localeCompare(b.bankKey)
+    || a.id.localeCompare(b.id)
+  ));
+  return due;
+}
+
+export function readPracticeStore() {
   try {
     const raw = localStorage.getItem(PRACTICE_STORE_KEY);
-    const parsed = raw ? JSON.parse(raw) : null;
-    if (!parsed || typeof parsed !== 'object') return { v: 1, banks: {} };
-    return {
-      v: 1,
-      banks: parsed.banks && typeof parsed.banks === 'object' ? parsed.banks : {},
-    };
+    if (!raw) return migratePracticeStore(null);
+    return migratePracticeStore(JSON.parse(raw));
   } catch (_) {
-    return { v: 1, banks: {} };
+    return migratePracticeStore(null);
   }
 }
 
 function writePracticeStore(store) {
   try {
-    localStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify(store));
+    localStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify(migratePracticeStore(store)));
   } catch (_) { /* storage may be unavailable */ }
 }
 
@@ -66,15 +186,17 @@ function updatePracticeBankState(bankKey, mutate) {
   writePracticeStore(store);
 }
 
-function recordPracticeAttempt(bankKey, id, ok, lastAnswer) {
-  if (!bankKey || !id) return;
+export function recordPracticeAttempt(bankKey, id, ok, lastAnswer, now = Date.now()) {
+  if (!bankKey || !id) return null;
+  const at = Number.isFinite(now) ? now : Date.now();
+  let nextRecord = null;
   updatePracticeBankState(bankKey, (bank) => {
-    bank.answers[id] = {
-      status: ok ? 'right' : 'wrong',
-      lastAnswer: String(lastAnswer ?? '').slice(0, 240),
-      at: Date.now(),
-    };
+    nextRecord = scheduleAfterAttempt(bank.answers[id], ok, at);
+    nextRecord.lastAnswer = String(lastAnswer ?? '').slice(0, 240);
+    nextRecord.at = at;
+    bank.answers[id] = nextRecord;
   });
+  return nextRecord;
 }
 
 function clearPracticeAttempt(bankKey, id) {
@@ -719,6 +841,579 @@ function cardState(card, done) {
   }
 }
 
+function practiceSubjectLabels(subject) {
+  const entry = PRACTICE_SUBJECTS.find(([key]) => key === subject);
+  if (entry) return { zh: entry[1], en: entry[2] };
+  return { zh: SUBJECT_LABEL[subject] || subject, en: subject };
+}
+
+function parsePracticeBankKey(bankKey) {
+  const text = String(bankKey || '');
+  const slash = text.indexOf('/');
+  if (slash < 0) return { subject: text, unitId: '' };
+  return { subject: text.slice(0, slash), unitId: text.slice(slash + 1) };
+}
+
+function questionIdFromProgressId(id) {
+  const parts = String(id || '').split('/');
+  return parts[parts.length - 1] || String(id || '');
+}
+
+function renderPracticeProgress(section) {
+  clear(section);
+  const store = readPracticeStore();
+  const stats = new Map(PRACTICE_SUBJECTS.map(([key]) => [key, { attempted: 0, correct: 0 }]));
+  for (const [bankKey, bank] of Object.entries(store.banks)) {
+    const { subject } = parsePracticeBankKey(bankKey);
+    const stat = stats.get(subject);
+    if (!stat || !isRecordObject(bank) || !isRecordObject(bank.answers)) continue;
+    for (const record of Object.values(bank.answers)) {
+      if (!isRecordObject(record)) continue;
+      if (record.status !== 'right' && record.status !== 'wrong') continue;
+      stat.attempted += 1;
+      if (record.status === 'right') stat.correct += 1;
+    }
+  }
+
+  section.appendChild(
+    el('div', { className: 'practice-progress-head' }, [
+      el('h2', { text: '进度总览 · Progress' }),
+      el('p', { className: 'practice-progress-note', text: '按练习作答统计 · From practice attempts' }),
+    ]),
+  );
+
+  const maxAttempted = Math.max(1, ...[...stats.values()].map((stat) => stat.attempted));
+  PRACTICE_SUBJECTS.forEach(([key, zh, en]) => {
+    const stat = stats.get(key);
+    const accuracy = stat.attempted ? Math.round((stat.correct / stat.attempted) * 100) : 0;
+    const attemptedWidth = Math.round((stat.attempted / maxAttempted) * 100);
+    const row = el('div', { className: 'practice-progress-row', 'data-subject': key });
+    row.appendChild(
+      el('div', { className: 'practice-progress-course' }, [
+        el('span', { className: 'practice-progress-zh', text: zh }),
+        el('span', { className: 'practice-progress-course-sep', text: '·' }),
+        el('span', { className: 'practice-progress-en', text: en }),
+      ]),
+    );
+    const data = el('div', { className: 'practice-progress-data' });
+    data.appendChild(
+      el('p', { className: 'practice-progress-stat' }, [
+        el('span', { className: 'practice-progress-stat-zh', text: `已答 ${stat.attempted} · 正确 ${stat.correct} · 正确率 ${accuracy}%` }),
+        el('span', { className: 'practice-progress-stat-sep', text: '·' }),
+        el('span', { className: 'practice-progress-stat-en', text: `${stat.attempted} answered · ${stat.correct} correct · ${accuracy}% accuracy` }),
+      ]),
+    );
+    const addBar = (label, width, kind) => {
+      const track = el('span', {
+        className: `practice-bar practice-bar-${kind}`,
+        'aria-hidden': 'true',
+      }, [
+        el('span', { className: 'practice-bar-fill', style: `width:${Math.max(0, Math.min(100, width))}%` }),
+      ]);
+      data.appendChild(
+        el('div', { className: 'practice-bar-line' }, [
+          el('span', { className: 'practice-bar-label', text: label }),
+          track,
+        ]),
+      );
+    };
+    addBar('已答 · Attempted', attemptedWidth, 'attempted');
+    addBar('正确率 · Accuracy', accuracy, 'accuracy');
+    row.appendChild(data);
+    section.appendChild(row);
+  });
+}
+
+function isQuizGradable(prob) {
+  if (!isRecordObject(prob) || (Array.isArray(prob.parts) && prob.parts.length)) return false;
+  if (prob.type === 'mcq' && Array.isArray(prob.choices) && prob.choices.length) return true;
+  if (prob.check === 'numeric') return Number.isFinite(Number(prob.expected)) && String(prob.expected).trim() !== '';
+  if (prob.check === 'symbolic') {
+    return (prob.expected != null && String(prob.expected).trim() !== '')
+      || (prob.answerLatex != null && String(prob.answerLatex).trim() !== '')
+      || (prob.answer != null && String(prob.answer).trim() !== '');
+  }
+  return false;
+}
+
+/**
+ * Flatten a bank into auto-gradable quiz candidates while keeping the same
+ * progress ids as normal cards. Generated items are frozen to one instance.
+ */
+function buildQuizPool(bank, bankKey, subject, unitId) {
+  const pool = [];
+  let flatIndex = 0;
+  const pid = (id) => `practice:${subject}/${unitId}/${id}`;
+  for (const item of bank.problems || []) {
+    if (item.kind === 'set') {
+      const setStimulus = item.stimulus || item._stimulus || null;
+      for (const q of item.questions || []) {
+        const qid = q.id || fallbackQuestionId(q, flatIndex, bankKey);
+        flatIndex += 1;
+        if (!isQuizGradable(q)) continue;
+        pool.push({
+          grading: q,
+          source: { ...q, stimulus: q.stimulus || setStimulus },
+          progressId: pid(qid),
+          title: q.title || '题目 · Question',
+          typeLabel: typeLabel(q),
+          difficulty: q.difficulty || '中',
+        });
+      }
+    } else {
+      const qid = item.id || fallbackQuestionId(item, flatIndex, bankKey);
+      flatIndex += 1;
+      let instance = item;
+      if (typeof item.generate === 'function') {
+        instance = {
+          ...item.generate(),
+          id: item.id,
+          title: item.title,
+          difficulty: item.difficulty || undefined,
+        };
+      }
+      if (!isQuizGradable(instance)) continue;
+      pool.push({
+        grading: instance,
+        source: instance,
+        progressId: pid(qid),
+        title: item.title || instance.title || '题目 · Question',
+        typeLabel: item.generator ? 'GEN' : typeLabel(instance),
+        difficulty: instance.difficulty || item.difficulty || '中',
+      });
+    }
+  }
+  return pool;
+}
+
+function sampleQuizPool(pool, count) {
+  const shuffled = pool.slice();
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, Math.max(0, Math.min(count, shuffled.length)));
+}
+
+function formatQuizCountdown(ms) {
+  const total = Math.max(0, Math.ceil(ms / 1000));
+  const minutes = Math.floor(total / 60);
+  const seconds = total % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function quizAnswerText(entry) {
+  const prob = entry.grading;
+  if (prob.type === 'mcq' && prob.choices) {
+    if (entry.state.selected < 0) return '';
+    const choice = prob.choices[entry.state.selected] || {};
+    return `${String.fromCharCode(65 + entry.state.selected)}. ${choice.text || ''}`;
+  }
+  return String(entry.state.text || '').trim();
+}
+
+function quizEntryCorrect(entry) {
+  const prob = entry.grading;
+  if (prob.type === 'mcq' && prob.choices) {
+    if (entry.state.selected < 0) return false;
+    return !!(prob.choices[entry.state.selected]?.correct || entry.state.selected === prob.answerIndex);
+  }
+  const raw = String(entry.state.text || '').trim();
+  if (!raw) return false;
+  if (prob.check === 'numeric') return checkNumeric(raw, prob.expected, prob.tol ?? 0.02);
+  if (prob.check === 'symbolic') {
+    return checkSymbolic(raw, prob.expected || prob.answerLatex || prob.answer, { tol: prob.tol });
+  }
+  return false;
+}
+
+function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGraded }) {
+  let active = false;
+  let quiz = null;
+
+  function stopTimer() {
+    if (quiz && quiz.timerId) {
+      clearInterval(quiz.timerId);
+      quiz.timerId = 0;
+    }
+  }
+
+  function isActive() {
+    return active;
+  }
+
+  function leave() {
+    if (quiz && !quiz.submitted) {
+      const confirmed = window.confirm('退出小测？本次作答不会保存。 · Leave the quiz? Your answers will not be saved.');
+      if (!confirmed) return;
+    }
+    stopTimer();
+    quiz = null;
+    active = false;
+    clear(panel);
+    panel.hidden = true;
+    page.classList.remove('is-quizzing');
+  }
+
+  function showSetup() {
+    stopTimer();
+    quiz = null;
+    active = true;
+    page.classList.add('is-quizzing');
+    panel.hidden = false;
+    clear(panel);
+    const pool = buildQuizPool(bank, bankKey, subject, unitId);
+
+    const head = el('div', { className: 'practice-quiz-head' }, [
+      el('div', {}, [
+        el('h2', { text: '单元小测 · Unit quiz' }),
+        el('p', { className: 'practice-quiz-lead', text: '从本单元题库随机抽题，提交后统一显示分数与解析。 · Random questions from this unit; answers and score appear only after you submit.' }),
+      ]),
+    ]);
+    panel.appendChild(head);
+
+    if (!pool.length) {
+      panel.appendChild(el('p', {
+        className: 'practice-quiz-empty',
+        text: '本单元暂无可自动判分的题目 · No auto-graded questions in this unit',
+      }));
+      const actions = el('div', { className: 'practice-quiz-actions' });
+      const back = el('button', { type: 'button', className: 'btn hit-target', text: '返回练习列表 · Back to practice' });
+      back.addEventListener('click', leave);
+      actions.appendChild(back);
+      panel.appendChild(actions);
+      return;
+    }
+
+    const counts = [...new Set([Math.min(5, pool.length), Math.min(10, pool.length), pool.length])]
+      .filter((n) => n > 0)
+      .sort((a, b) => a - b);
+    let selectedCount = counts[0];
+    let selectedTimer = 0;
+
+    const setup = el('div', { className: 'practice-quiz-setup' });
+    const countGroup = el('fieldset', { className: 'practice-quiz-group' });
+    countGroup.appendChild(el('legend', { text: '题数 · Questions' }));
+    const countOptions = el('div', { className: 'practice-quiz-options', role: 'group', 'aria-label': '题数 · Questions' });
+    const countButtons = new Map();
+    counts.forEach((count) => {
+      const label = count === pool.length ? `全部 ${count} 题 · All ${count}` : `${count} 题 · ${count} questions`;
+      const btn = el('button', {
+        type: 'button',
+        className: 'practice-quiz-option hit-target',
+        text: label,
+        'aria-pressed': count === selectedCount ? 'true' : 'false',
+      });
+      btn.addEventListener('click', () => {
+        selectedCount = count;
+        countButtons.forEach((b, value) => b.setAttribute('aria-pressed', value === count ? 'true' : 'false'));
+      });
+      countButtons.set(count, btn);
+      countOptions.appendChild(btn);
+    });
+    countGroup.appendChild(countOptions);
+    setup.appendChild(countGroup);
+
+    const timerGroup = el('fieldset', { className: 'practice-quiz-group' });
+    timerGroup.appendChild(el('legend', { text: '计时 · Timer' }));
+    const timerOptions = el('div', { className: 'practice-quiz-options', role: 'group', 'aria-label': '计时 · Timer' });
+    const timerButtons = new Map();
+    [[0, '不计时 · Off'], [10, '10 分钟 · 10 min'], [20, '20 分钟 · 20 min']].forEach(([minutes, label]) => {
+      const btn = el('button', {
+        type: 'button',
+        className: 'practice-quiz-option hit-target',
+        text: label,
+        'aria-pressed': minutes === selectedTimer ? 'true' : 'false',
+      });
+      btn.addEventListener('click', () => {
+        selectedTimer = minutes;
+        timerButtons.forEach((b, value) => b.setAttribute('aria-pressed', value === minutes ? 'true' : 'false'));
+      });
+      timerButtons.set(minutes, btn);
+      timerOptions.appendChild(btn);
+    });
+    timerGroup.appendChild(timerOptions);
+    setup.appendChild(timerGroup);
+    panel.appendChild(setup);
+
+    const actions = el('div', { className: 'practice-quiz-actions' });
+    const start = el('button', { type: 'button', className: 'btn primary hit-target', text: '开始小测 · Start quiz' });
+    start.addEventListener('click', () => startQuiz(selectedCount, selectedTimer));
+    const cancel = el('button', { type: 'button', className: 'btn hit-target', text: '返回练习列表 · Back to practice' });
+    cancel.addEventListener('click', leave);
+    actions.append(start, cancel);
+    panel.appendChild(actions);
+  }
+
+  function startQuiz(count, minutes) {
+    stopTimer();
+    const pool = buildQuizPool(bank, bankKey, subject, unitId);
+    if (!pool.length) {
+      showSetup();
+      return;
+    }
+    const entries = sampleQuizPool(pool, count).map((entry) => ({
+      ...entry,
+      state: { selected: -1, text: '' },
+      ok: null,
+      itemEl: null,
+      resultEl: null,
+    }));
+    if (!entries.length) return;
+    quiz = {
+      entries,
+      minutes,
+      endsAt: minutes ? Date.now() + minutes * 60000 : 0,
+      timerId: 0,
+      submitted: false,
+      timerEl: null,
+    };
+
+    active = true;
+    page.classList.add('is-quizzing');
+    panel.hidden = false;
+    clear(panel);
+
+    const leaveBtn = el('button', { type: 'button', className: 'btn hit-target', text: '退出小测 · Leave quiz' });
+    leaveBtn.addEventListener('click', leave);
+    const timerEl = el('span', {
+      className: 'practice-quiz-timer',
+      text: minutes ? `剩余 ${formatQuizCountdown(minutes * 60000)} · Time left` : '不计时 · Untimed',
+    });
+    quiz.timerEl = timerEl;
+    panel.appendChild(
+      el('div', { className: 'practice-quiz-head' }, [
+        el('div', {}, [
+          el('h2', { text: '单元小测 · Unit quiz' }),
+          el('p', {
+            className: 'practice-quiz-lead',
+            text: `共 ${entries.length} 题 · ${entries.length} questions · ${minutes ? `${minutes} 分钟 · ${minutes} min` : '不计时 · Untimed'}`,
+          }),
+        ]),
+        el('div', { className: 'practice-quiz-head-actions' }, [timerEl, leaveBtn]),
+      ]),
+    );
+
+    const summary = el('div', { className: 'practice-quiz-summary', hidden: true });
+    panel.appendChild(summary);
+
+    const list = el('div', { className: 'practice-quiz-list' });
+    entries.forEach((entry, index) => {
+      list.appendChild(renderQuizItem(entry, index));
+    });
+    panel.appendChild(list);
+
+    const actions = el('div', { className: 'practice-quiz-actions' });
+    const submitBtn = el('button', { type: 'button', className: 'btn primary hit-target', text: '提交小测 · Submit quiz' });
+    submitBtn.addEventListener('click', () => submitQuiz(false));
+    actions.appendChild(submitBtn);
+    panel.appendChild(actions);
+    quiz.actionsEl = actions;
+    quiz.summaryEl = summary;
+
+    if (minutes) {
+      quiz.timerId = setInterval(() => {
+        if (!quiz || quiz.submitted) return;
+        const left = quiz.endsAt - Date.now();
+        if (left <= 0) {
+          timerEl.textContent = '00:00';
+          timerEl.classList.add('is-urgent');
+          submitQuiz(true);
+          return;
+        }
+        timerEl.textContent = `剩余 ${formatQuizCountdown(left)} · Time left`;
+        timerEl.classList.toggle('is-urgent', left <= 60000);
+      }, 250);
+    }
+  }
+
+  function renderQuizItem(entry, index) {
+    const prob = entry.source;
+    const item = el('article', {
+      className: 'practice-quiz-item',
+      'data-qid': entry.progressId,
+      'data-index': String(index),
+    });
+    const resultEl = el('span', { className: 'practice-quiz-result' });
+    item.appendChild(
+      el('header', { className: 'practice-quiz-item-head' }, [
+        el('span', { className: 'practice-quiz-number', text: String(index + 1).padStart(2, '0') }),
+        el('div', { className: 'practice-quiz-item-title' }, [
+          el('h3', { text: entry.title }),
+          el('div', { className: 'practice-tags' }, [
+            el('span', { className: 'tag', text: entry.typeLabel }),
+            el('span', { className: 'tag', text: entry.difficulty }),
+          ]),
+        ]),
+        resultEl,
+      ]),
+    );
+    const body = el('div', { className: 'practice-quiz-item-body' });
+    if (prob.stimulus) body.appendChild(renderStimulus(prob.stimulus));
+    if (prob.stem || prob.stemLatex) {
+      const stem = el('div', { className: 'practice-stem' });
+      if (prob.stemLatex) stem.appendChild(tex(prob.stemLatex, true));
+      if (prob.stem) stem.appendChild(el('p', { text: prob.stem }));
+      body.appendChild(stem);
+    }
+    body.appendChild(renderQuizAnswer(entry));
+    item.appendChild(body);
+    entry.itemEl = item;
+    entry.resultEl = resultEl;
+    return item;
+  }
+
+  function renderQuizAnswer(entry) {
+    const box = el('div', { className: 'practice-answer-ui' });
+    const prob = entry.grading;
+    if (prob.type === 'mcq' && prob.choices) {
+      const group = el('div', { className: 'mcq-group', role: 'radiogroup', 'aria-label': '选项 · Choices' });
+      const buttons = [];
+      prob.choices.forEach((choice, index) => {
+        const btn = el('button', {
+          type: 'button',
+          className: 'mcq-choice hit-target',
+          role: 'radio',
+          'aria-checked': 'false',
+          tabIndex: index === 0 ? 0 : -1,
+        }, [
+          el('span', { className: 'mcq-letter', text: String.fromCharCode(65 + index) }),
+          el('span', { className: 'mcq-text', text: choice.text }),
+        ]);
+        const select = () => {
+          entry.state.selected = index;
+          buttons.forEach((b, i) => {
+            b.classList.toggle('is-selected', i === index);
+            b.setAttribute('aria-checked', i === index ? 'true' : 'false');
+            b.tabIndex = i === index ? 0 : -1;
+          });
+        };
+        btn.addEventListener('click', select);
+        btn.addEventListener('keydown', (e) => {
+          if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+          e.preventDefault();
+          const next = e.key === 'ArrowDown'
+            ? (index + 1) % buttons.length
+            : (index - 1 + buttons.length) % buttons.length;
+          entry.state.selected = next;
+          buttons.forEach((b, i) => {
+            b.classList.toggle('is-selected', i === next);
+            b.setAttribute('aria-checked', i === next ? 'true' : 'false');
+            b.tabIndex = i === next ? 0 : -1;
+          });
+          buttons[next].focus();
+        });
+        buttons.push(btn);
+        group.appendChild(btn);
+      });
+      box.appendChild(group);
+      return box;
+    }
+
+    const symbolic = prob.check === 'symbolic';
+    let preview = null;
+    const input = el('input', {
+      className: 'hit-target value-edit',
+      type: 'text',
+      placeholder: symbolic ? '符号答案，如 2*x · Symbolic answer, e.g. 2*x' : '数值答案 · Numeric answer',
+      'aria-label': symbolic ? '符号答案 · Symbolic answer' : '数值答案 · Numeric answer',
+      autocomplete: 'off',
+    });
+    input.addEventListener('input', () => {
+      entry.state.text = input.value;
+      if (symbolic) renderPracticePreview(preview, input.value);
+    });
+    const form = el('div', { className: 'answer-form practice-quiz-answer-form' }, [input]);
+    box.appendChild(form);
+    if (symbolic) {
+      preview = createPracticePreview();
+      box.appendChild(preview);
+    }
+    return box;
+  }
+
+  function submitQuiz(auto) {
+    if (!quiz || quiz.submitted) return;
+    quiz.submitted = true;
+    stopTimer();
+    if (quiz.timerEl) {
+      quiz.timerEl.classList.remove('is-urgent');
+      quiz.timerEl.textContent = auto ? '时间到 · Time is up' : '已提交 · Submitted';
+    }
+    let correct = 0;
+    for (const entry of quiz.entries) {
+      const ok = quizEntryCorrect(entry);
+      entry.ok = ok;
+      if (ok) correct += 1;
+      const answerText = quizAnswerText(entry);
+      recordPracticeAttempt(bankKey, entry.progressId, ok, answerText);
+      if (ok) markCompleted(entry.progressId);
+      lockQuizEntry(entry);
+      const resultText = !answerText && !ok
+        ? '未作答 · Unanswered'
+        : ok ? '正确 · Correct' : '答错 · Incorrect';
+      entry.resultEl.textContent = resultText;
+      entry.resultEl.className = `practice-quiz-result ${ok ? 'ok' : 'bad'}`;
+      const solution = el('div', { className: 'practice-quiz-solution' });
+      if (solutionHasContent(entry.grading)) {
+        solution.appendChild(buildSolutionBody(entry.grading));
+      } else {
+        solution.appendChild(el('p', {
+          className: 'practice-sol-empty',
+          text: '暂无解析 · No solution provided',
+        }));
+      }
+      entry.itemEl.appendChild(solution);
+    }
+
+    const total = quiz.entries.length;
+    const percent = total ? Math.round((correct / total) * 100) : 0;
+    const summary = quiz.summaryEl;
+    clear(summary);
+    summary.hidden = false;
+    summary.appendChild(el('p', { className: 'practice-quiz-score-label', text: '得分 · Score' }));
+    summary.appendChild(el('p', {
+      className: 'practice-quiz-score',
+      role: 'status',
+      'aria-live': 'polite',
+      text: `${correct} / ${total} · ${percent}%`,
+    }));
+    if (auto) {
+      summary.appendChild(el('p', {
+        className: 'practice-quiz-note',
+        text: '时间到，已自动提交；未作答按错误计入。 · Time is up; unanswered items count as incorrect.',
+      }));
+    }
+
+    const actions = quiz.actionsEl;
+    clear(actions);
+    const back = el('button', { type: 'button', className: 'btn hit-target', text: '返回练习列表 · Back to practice' });
+    back.addEventListener('click', leave);
+    const retake = el('button', { type: 'button', className: 'btn hit-target', text: '再测一次 · Retake quiz' });
+    retake.addEventListener('click', showSetup);
+    actions.append(back, retake);
+
+    onGraded?.(quiz.entries);
+  }
+
+  function lockQuizEntry(entry) {
+    entry.itemEl.querySelectorAll('input, button').forEach((node) => {
+      node.disabled = true;
+    });
+  }
+
+  return {
+    open: showSetup,
+    leave,
+    isActive,
+    destroy() {
+      stopTimer();
+      quiz = null;
+      active = false;
+    },
+  };
+}
+
 export function renderPracticeUnit(main, { subject, unit, bank }) {
   clear(main);
   ensurePracticeStyle();
@@ -763,6 +1458,55 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     ]),
   );
 
+  const reviewCount = el('span', { className: 'practice-tool-count', hidden: true });
+  const reviewBtn = el('button', {
+    type: 'button',
+    className: 'practice-tool-btn hit-target',
+    'aria-expanded': 'false',
+    'aria-controls': 'practice-review-panel',
+  }, [
+    el('span', { text: '今日复习 · Review today' }),
+    reviewCount,
+  ]);
+  const quizBtn = el('button', {
+    type: 'button',
+    className: 'practice-tool-btn hit-target',
+    'aria-controls': 'practice-quiz-panel',
+    text: '单元小测 · Unit quiz',
+  });
+  page.appendChild(
+    el('div', {
+      className: 'practice-quickbar',
+      role: 'group',
+      'aria-label': '练习工具 · Practice tools',
+    }, [reviewBtn, quizBtn]),
+  );
+
+  const reviewPanel = el('section', {
+    id: 'practice-review-panel',
+    className: 'practice-review',
+    hidden: true,
+    tabindex: '-1',
+    'aria-label': '今日复习 · Review today',
+  });
+  page.appendChild(reviewPanel);
+
+  const progressSection = el('section', {
+    className: 'practice-progress',
+    'aria-label': '进度总览 · Progress',
+  });
+  page.appendChild(progressSection);
+
+  const quizPanel = el('section', {
+    id: 'practice-quiz-panel',
+    className: 'practice-quiz',
+    hidden: true,
+    'aria-label': '单元小测 · Unit quiz',
+  });
+  page.appendChild(quizPanel);
+  let quizCtl = null;
+  let reviewOpen = false;
+
   const layout = el('div', { className: 'practice-layout' });
   const rail = el('aside', { className: 'practice-rail', 'aria-label': '题目导航' });
   const mainCol = el('div', { className: 'practice-main' });
@@ -796,6 +1540,24 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
       list.appendChild(renderProblemCard(item, idx, subject, unit, (id) => `practice:${subject}/${unit.id}/${id}`, ctx));
       idx += 1;
     }
+  });
+
+  quizCtl = createPracticeQuiz({
+    panel: quizPanel,
+    page,
+    bankKey,
+    subject,
+    unitId: unit.id,
+    bank,
+    onGraded(entries) {
+      const correctIds = new Set(entries.filter((entry) => entry.ok).map((entry) => entry.progressId));
+      ctx.cards.forEach((item) => {
+        if (correctIds.has(item.progressId)) cardState(item.card, true);
+      });
+      updateProgress();
+      refreshReviewButton();
+      renderPracticeProgress(progressSection);
+    },
   });
 
   // Build the rail after cards so numbers, types and states are known.
@@ -837,6 +1599,110 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   ctx.onDone = (card) => {
     updateProgress();
   };
+
+  function reviewItemFor(answerId) {
+    return ctx.cards.find((item) => (
+      item.progressId === answerId || (item.answerIds || []).includes(answerId)
+    )) || null;
+  }
+
+  function renderReviewPanel() {
+    clear(reviewPanel);
+    const due = dueReviews(readPracticeStore(), Date.now());
+    const current = due.filter((entry) => entry.bankKey === bankKey);
+    const others = due.filter((entry) => entry.bankKey !== bankKey);
+    const ordered = [...current, ...others];
+    reviewPanel.appendChild(
+      el('div', { className: 'practice-review-head' }, [
+        el('h2', { text: '今日复习 · Review today' }),
+        el('span', {
+          className: 'practice-review-count',
+          text: `${ordered.length} 道待复习 · ${ordered.length} due`,
+        }),
+      ]),
+    );
+    if (!ordered.length) {
+      reviewPanel.appendChild(
+        el('p', {
+          className: 'practice-review-empty',
+          text: '今天没有待复习的题目 · No items are due for review today',
+        }),
+      );
+      return;
+    }
+    const listEl = el('ul', { className: 'practice-review-list' });
+    ordered.forEach(({ bankKey: entryBankKey, id, record }) => {
+      const parsed = parsePracticeBankKey(entryBankKey);
+      const labels = practiceSubjectLabels(parsed.subject);
+      const href = `#/${parsed.subject}/practice/${parsed.unitId}`;
+      const cardItem = entryBankKey === bankKey ? reviewItemFor(id) : null;
+      let title;
+      let meta;
+      if (cardItem) {
+        title = cardItem.card.querySelector('.practice-card-title h2')?.textContent?.trim()
+          || `第 ${cardItem.number + 1} 题 · Question ${cardItem.number + 1}`;
+        meta = `本单元第 ${cardItem.number + 1} 题 · This unit, Q${cardItem.number + 1}`;
+      } else {
+        title = `${labels.zh} · ${parsed.unitId}`;
+        meta = `${questionIdFromProgressId(id)} · ${record.status === 'right'
+          ? '到期复习 · Due review'
+          : '上次答错 · Last answer wrong'}`;
+      }
+      const link = el('a', {
+        className: 'practice-review-item hit-target',
+        href,
+        'data-qid': id,
+      }, [
+        el('span', { className: 'practice-review-title', text: title }),
+        el('span', { className: 'practice-review-meta', text: meta }),
+        el('span', { className: 'practice-review-go', text: '复习 · Review' }),
+      ]);
+      if (cardItem) {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          jumpTo(cardItem);
+        });
+      }
+      listEl.appendChild(el('li', {}, [link]));
+    });
+    reviewPanel.appendChild(listEl);
+  }
+
+  function refreshReviewButton() {
+    const due = dueReviews(readPracticeStore(), Date.now());
+    reviewCount.textContent = due.length ? String(due.length) : '';
+    reviewCount.hidden = due.length === 0;
+    reviewBtn.classList.toggle('has-due', due.length > 0);
+    reviewBtn.setAttribute(
+      'aria-label',
+      due.length
+        ? `今日复习 · Review today，${due.length} 道待复习 · ${due.length} due`
+        : '今日复习 · Review today',
+    );
+    if (reviewOpen) renderReviewPanel();
+  }
+
+  function setReviewOpen(open) {
+    reviewOpen = open;
+    reviewPanel.hidden = !open;
+    reviewBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      renderReviewPanel();
+      reviewPanel.focus({ preventScroll: true });
+    }
+  }
+
+  reviewBtn.addEventListener('click', () => setReviewOpen(!reviewOpen));
+  quizBtn.addEventListener('click', () => {
+    if (reviewOpen) setReviewOpen(false);
+    quizCtl?.open();
+  });
+  ctx.onAttempt = () => {
+    refreshReviewButton();
+    renderPracticeProgress(progressSection);
+  };
+  refreshReviewButton();
+  renderPracticeProgress(progressSection);
 
   // Add previous / next movement at the end of every card (used on narrow screens).
   ctx.cards.forEach((item, i) => {
@@ -1007,6 +1873,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   }
 
   const onKeyDown = (e) => {
+    if (quizCtl?.isActive()) return;
     if (e.defaultPrevented || e.isComposing) return;
     if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
@@ -1048,6 +1915,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   window.addEventListener('resize', redrawGraphs);
 
   return () => {
+    quizCtl?.destroy();
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('keydown', onKeyDown);
     mainCol.removeEventListener('focusin', onCardFocus);
@@ -1131,6 +1999,11 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
     cardState(card, true);
     ctx.onDone?.(card);
   };
+  const attemptOpts = {
+    bankKey: ctx.bankKey,
+    answerIds,
+    onAttempt: (ok, id) => ctx.onAttempt?.(ok, id),
+  };
 
   if (typeof prob.generate === 'function') {
     let instance = prob.generate();
@@ -1141,19 +2014,20 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
       clearPracticeAttempt(ctx.bankKey, progressId);
       cardState(card, false);
       ctx.onDone?.(card);
+      ctx.onAttempt?.(false, progressId);
     };
     const redraw = () => {
       clear(mount);
       instance = prob.generate();
       clear(answerIds);
       resetDone();
-      mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true, bankKey: ctx.bankKey, answerIds }));
+      mount.appendChild(renderInstanceBody(instance, progressId, markDone, { ...attemptOpts, instanceStem: true }));
     };
     regen.addEventListener('click', redraw);
     body.append(regen, mount);
-    mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true, bankKey: ctx.bankKey, answerIds }));
+    mount.appendChild(renderInstanceBody(instance, progressId, markDone, { ...attemptOpts, instanceStem: true }));
   } else {
-    body.appendChild(renderInstanceBody(prob, progressId, markDone, { bankKey: ctx.bankKey, answerIds }));
+    body.appendChild(renderInstanceBody(prob, progressId, markDone, attemptOpts));
   }
   card.appendChild(body);
 
@@ -1352,6 +2226,7 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
   const solution = createSolutionDetails(prob, gated);
   const recordAttempt = (ok, answerText) => {
     recordPracticeAttempt(opts.bankKey, progressId, ok, answerText);
+    opts.onAttempt?.(ok, progressId);
   };
 
   if (prob.type === 'mcq' && prob.choices) {

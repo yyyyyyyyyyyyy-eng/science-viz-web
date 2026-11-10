@@ -5,6 +5,7 @@
  * Covers:
  *   UI-02  symbolic equivalence must not shadow math functions
  *   MATH-07 numeric tolerance must be relative for exact-value items
+ *   Review scheduling migration (1/3/7-day due queue) and store writes
  *
  * Run: node scripts/test-practice-checkers.mjs
  */
@@ -20,7 +21,43 @@ const math = require('../vendor/mathjs/math.min.js');
 
 // js/practice.js reads window.math. Set it before importing the module.
 globalThis.window = { math };
-const { checkSymbolic, checkNumeric } = await import('../js/practice.js');
+const {
+  checkSymbolic,
+  checkNumeric,
+  migratePracticeStore,
+  scheduleAfterAttempt,
+  isReviewDue,
+  dueReviews,
+  readPracticeStore,
+  recordPracticeAttempt,
+  PRACTICE_STORE_KEY,
+} = await import('../js/practice.js');
+
+function createStorage(initial = {}) {
+  const data = new Map(Object.entries(initial));
+  let writes = 0;
+  return {
+    getItem(key) {
+      return data.has(key) ? data.get(key) : null;
+    },
+    setItem(key, value) {
+      writes += 1;
+      data.set(key, String(value));
+    },
+    removeItem(key) {
+      data.delete(key);
+    },
+    clear() {
+      data.clear();
+    },
+    resetWrites() {
+      writes = 0;
+    },
+    get writes() {
+      return writes;
+    },
+  };
+}
 
 // Deterministic random samples keep the equivalence checks reproducible.
 let seed = 0x2f6e2b1;
@@ -95,6 +132,126 @@ ok('relative tolerance still accepts a 0.8% miss for 0.5', checkNumeric('0.504',
 ok('relative tolerance rejects a 2% miss for 0.5', checkNumeric('0.51', 0.5, 0.01), false);
 ok('expected 0 accepts exact 0', checkNumeric('0', 0, 0.01));
 ok('expected 0 rejects a non-tiny absolute error', checkNumeric('0.001', 0, 0.01), false);
+
+console.log('\nPractice store migration and review scheduling');
+const NOW = 1_800_000_000_000;
+const DAY = 86400000;
+const legacyStore = {
+  v: 1,
+  keptTop: 'yes',
+  banks: {
+    'bio/bio-u1': {
+      answers: {
+        'practice:bio/bio-u1/q1': { status: 'wrong', lastAnswer: 'A', at: 11, note: 'keep' },
+        'practice:bio/bio-u1/q2': { status: 'right', lastAnswer: 'B', at: 12, custom: 7 },
+      },
+      lastIndex: 3,
+      keptBank: 'yes',
+    },
+    'math/calc-u2': {
+      answers: {
+        'practice:math/calc-u2/q1': { status: 'right', lastAnswer: 'C', at: 13 },
+      },
+      lastIndex: 2,
+    },
+  },
+};
+
+const migrated = migratePracticeStore(legacyStore);
+ok('migration bumps the store version', migrated.v, 2);
+ok('migration keeps every bank', Object.keys(migrated.banks).sort().join(','), 'bio/bio-u1,math/calc-u2');
+ok('migration keeps every answer', Object.keys(migrated.banks['bio/bio-u1'].answers).length, 2);
+ok('migration keeps lastIndex', migrated.banks['bio/bio-u1'].lastIndex, 3);
+ok('migration keeps unknown top-level fields', migrated.keptTop, 'yes');
+ok('migration keeps unknown bank fields', migrated.banks['bio/bio-u1'].keptBank, 'yes');
+ok('migration keeps unknown answer fields', migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q1'].note, 'keep');
+ok('migration keeps lastAnswer and at', migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q1'].lastAnswer, 'A');
+ok('legacy wrong becomes interval 1', migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q1'].intervalDays, 1);
+ok('legacy wrong is due now', isReviewDue(migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q1'], NOW));
+ok('legacy right is not due', isReviewDue(migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q2'], NOW), false);
+ok('legacy right gains no schedule', 'dueAt' in migrated.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q2'], false);
+
+for (const bad of ['{broken', 'null', null, 42, [], true]) {
+  const safe = migratePracticeStore(bad);
+  ok(`migration does not throw or invent banks for ${JSON.stringify(bad)}`, Object.keys(safe.banks).length, 0);
+}
+
+const corruptStorage = createStorage();
+globalThis.localStorage = corruptStorage;
+corruptStorage.setItem(PRACTICE_STORE_KEY, '{not valid json');
+corruptStorage.resetWrites();
+const corruptRead = readPracticeStore();
+ok('corrupt local store reads as empty', Object.keys(corruptRead.banks).length, 0);
+ok('corrupt local store is not written back', corruptStorage.writes, 0);
+ok('corrupt local store keeps its bytes', corruptStorage.getItem(PRACTICE_STORE_KEY), '{not valid json');
+
+const scheduleWrong = scheduleAfterAttempt(undefined, false, NOW);
+ok('wrong attempt is status wrong', scheduleWrong.status, 'wrong');
+ok('wrong attempt has interval 1', scheduleWrong.intervalDays, 1);
+ok('wrong attempt is due immediately', scheduleWrong.dueAt, NOW);
+ok('wrong attempt appears in the due list', isReviewDue(scheduleWrong, NOW));
+
+const review1 = scheduleAfterAttempt(scheduleWrong, true, NOW);
+ok('first correct review advances 1 -> 3', review1.intervalDays, 3);
+ok('first correct review is not due yet', isReviewDue(review1, NOW), false);
+ok('first correct review dueAt is now + 3 days', review1.dueAt, NOW + 3 * DAY);
+const review2 = scheduleAfterAttempt(review1, true, NOW);
+ok('second correct review advances 3 -> 7', review2.intervalDays, 7);
+const review3 = scheduleAfterAttempt(review2, true, NOW);
+ok('third correct review stays at 7', review3.intervalDays, 7);
+ok('correct reviews keep unknown fields', scheduleAfterAttempt({ ...scheduleWrong, note: 'kept' }, true, NOW).note, 'kept');
+
+const reviewReset = scheduleAfterAttempt(review3, false, NOW + 5 * DAY);
+ok('wrong review resets status to wrong', reviewReset.status, 'wrong');
+ok('wrong review resets interval to 1', reviewReset.intervalDays, 1);
+ok('wrong review is due immediately', reviewReset.dueAt, NOW + 5 * DAY);
+ok('wrong review resets reps', reviewReset.reps, 0);
+
+const firstRight = scheduleAfterAttempt(undefined, true, NOW);
+ok('first correct attempt is status right', firstRight.status, 'right');
+ok('first correct attempt stays out of the queue', 'dueAt' in firstRight, false);
+ok('first correct attempt is not due', isReviewDue(firstRight, NOW + 365 * DAY), false);
+
+const dueStore = {
+  v: 1,
+  banks: {
+    'bio/bio-u1': {
+      answers: {
+        dueWrong: { status: 'wrong', lastAnswer: 'A', at: 1 },
+        futureRight: { status: 'right', lastAnswer: 'B', at: 2, intervalDays: 3, dueAt: NOW + 1000, reps: 1 },
+        dueRight: { status: 'right', lastAnswer: 'C', at: 3, intervalDays: 3, dueAt: NOW - 1, reps: 1 },
+      },
+    },
+    'math/calc-u2': {
+      answers: {
+        otherWrong: { status: 'wrong', lastAnswer: 'D', at: 4 },
+      },
+    },
+  },
+};
+const due = dueReviews(dueStore, NOW);
+ok('due list includes due records from every bank', due.length, 3);
+ok('due list excludes future dueAt', due.some((entry) => entry.id === 'futureRight'), false);
+ok('due list includes dueAt <= now', due.some((entry) => entry.id === 'dueRight'));
+ok('due list includes migrated legacy wrongs', due.some((entry) => entry.id === 'dueWrong' && entry.bankKey === 'bio/bio-u1'));
+ok('due list carries the bank key', due.find((entry) => entry.id === 'otherWrong')?.bankKey, 'math/calc-u2');
+
+const writeStorage = createStorage();
+globalThis.localStorage = writeStorage;
+writeStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify(legacyStore));
+writeStorage.resetWrites();
+recordPracticeAttempt('math/calc-u2', 'practice:math/calc-u2/q9', true, 'new answer', NOW);
+const persisted = JSON.parse(writeStorage.getItem(PRACTICE_STORE_KEY));
+ok('write after migration keeps the other bank', Object.keys(persisted.banks).sort().join(','), 'bio/bio-u1,math/calc-u2');
+ok('write after migration keeps that bank answers', Object.keys(persisted.banks['bio/bio-u1'].answers).length, 2);
+ok('write after migration keeps legacy wrong schedule', persisted.banks['bio/bio-u1'].answers['practice:bio/bio-u1/q1'].dueAt, 0);
+ok('write after migration keeps unknown fields', persisted.banks['bio/bio-u1'].keptBank, 'yes');
+ok('write after migration records the new right answer', persisted.banks['math/calc-u2'].answers['practice:math/calc-u2/q9'].status, 'right');
+ok('write after migration keeps right first attempts out of the queue', 'dueAt' in persisted.banks['math/calc-u2'].answers['practice:math/calc-u2/q9'], false);
+recordPracticeAttempt('bio/bio-u1', 'practice:bio/bio-u1/new', false, 'wrong', NOW);
+const persistedWrong = JSON.parse(writeStorage.getItem(PRACTICE_STORE_KEY));
+ok('a newly recorded wrong is due now', persistedWrong.banks['bio/bio-u1'].answers['practice:bio/bio-u1/new'].dueAt, NOW);
+ok('a newly recorded wrong has interval 1', persistedWrong.banks['bio/bio-u1'].answers['practice:bio/bio-u1/new'].intervalDays, 1);
 
 const practiceDir = new URL('../data/math/practice/', import.meta.url);
 const banks = [];
