@@ -3873,9 +3873,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u10",
     "unitCode": "10",
     "code": "10.14",
-    "titleZh": "函数表示为幂级数",
+    "titleZh": "求函数的泰勒或麦克劳林级数",
     "titleEn": "Finding Taylor or Maclaurin Series for a Function",
-    "definition": "函数表示为幂级数（Finding Taylor or Maclaurin Series for a Function）给出分析变化与累积的形式化工具。",
+    "definition": "求函数的泰勒或麦克劳林级数（Finding Taylor or Maclaurin Series for a Function）给出分析变化与累积的形式化工具。",
     "formulas": [
       "\\sum_{n=1}^{\\infty}a_n"
     ],
@@ -3885,7 +3885,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 函数表示为幂级数 类问题的第一步。",
+      "q": "指出求解 求函数的泰勒或麦克劳林级数 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": [

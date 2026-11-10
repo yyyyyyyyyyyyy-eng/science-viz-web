@@ -308,7 +308,7 @@ export const UNITS = {
         { code: '10.11', titleZh: '泰勒多项式导论', titleEn: 'Finding Taylor Polynomial Approximations of Functions' },
         { code: '10.12', titleZh: '拉格朗日误差界', titleEn: 'Lagrange Error Bound' },
         { code: '10.13', titleZh: '半径与区间', titleEn: 'Radius and Interval of Convergence of Power Series' },
-        { code: '10.14', titleZh: '函数表示为幂级数', titleEn: 'Finding Taylor or Maclaurin Series for a Function' },
+        { code: '10.14', titleZh: '求函数的泰勒或麦克劳林级数', titleEn: 'Finding Taylor or Maclaurin Series for a Function' },
         { code: '10.15', titleZh: '函数表示为幂级数', titleEn: 'Representing Functions as Power Series' },
       ],
     },

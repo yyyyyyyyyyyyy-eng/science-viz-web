@@ -383,6 +383,18 @@ export const ENRICHMENTS = {
 
   'mech/mech-u3/3.1': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能区分恒力功与变力功，并用 \\(W=\\int \\mathbf F\\cdot\\mathrm{d}\\mathbf r\\) 计算变力做功。 · Distinguish work by constant and variable forces, and compute variable-force work with the line integral shown.',
+      '能陈述并应用功–动能定理 \\(W_{\\mathrm{net}}=\\Delta K\\)，说明只有合功等于动能变化。 · State and apply the work–kinetic-energy theorem, explaining that only the net work equals the change in kinetic energy.',
+      '能判断功的正负与动能变化方向，并用能量法解多步力学题。 · Determine the sign of work and the direction of kinetic-energy change, and solve multi-step mechanics problems with energy methods.',
+    ],
+    essentialKnowledge: [
+      '功是力沿位移的标量积累；力与位移垂直时不做功。 · Work is the scalar accumulation of force along displacement; a force perpendicular to the displacement does no work.',
+      '合外力做功等于动能变化；单个分力的功一般不等于 \\(\\Delta K\\)。 · The net work equals the change in kinetic energy; the work done by one component force generally does not.',
+      '变力功由 \\(\\int F_x\\,\\mathrm{d}x\\) 给出，在 \\(F\\text{–}x\\) 图上等于曲线下面积。 · Variable-force work is given by the integral shown and equals the area under the force–position graph.',
+      '摩擦等非保守力做负功时机械能减少，应使用功能原理而非机械能守恒。 · When nonconservative forces such as friction do negative work, mechanical energy decreases; use the work–energy principle instead of conservation of mechanical energy.',
+      '动能 \\(K=\\dfrac{1}{2}mv^{2}\\) 是标量，其值依赖参考系。 · Kinetic energy is a scalar and its value depends on the reference frame.',
+    ],
     definition: '功–动能定理：合外力对质点做的功等于动能的改变\n\\[\nW_{\\mathrm{net}}=\\Delta K=K_f-K_i=\\dfrac{1}{2}mv_f^{2}-\\dfrac{1}{2}mv_i^{2}.\n\\]\n对变力，\\(W=\\int\\mathbf{F}\\cdot\\mathrm{d}\\mathbf{r}\\)。',
     intuition: '推得越狠、位移越大，动能增加越多；阻力做负功则动能减少。',
     intuitionDetailed: '由牛顿第二定律 \\(F=ma\\) 与链式法则 \\(a=v\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}\\)，积分得 \\(W=\\Delta K\\)。',
@@ -453,6 +465,17 @@ export const ENRICHMENTS = {
 
   'mech/mech-u2/2.5': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能陈述牛顿第三定律，并区分作用–反作用力与同一物体上的平衡力。 · State Newton\'s third law and distinguish action–reaction pairs from balanced forces on the same object.',
+      '能在受力分析中只画作用在该物体上的力，不把反作用力画进同一物体。 · In a free-body diagram, draw only the forces acting on that object, not their reaction partners.',
+      '能用第三定律解释行走、游泳、火箭推进等常见现象。 · Use the third law to explain walking, swimming, rocket propulsion, and similar phenomena.',
+    ],
+    essentialKnowledge: [
+      '两物体相互作用时，作用力与反作用力等大、反向、共线，分别作用在两个不同物体上。 · For two interacting objects, the action and reaction forces are equal in magnitude, opposite in direction, collinear, and act on different objects.',
+      '作用力与反作用力同时产生、同时消失，不能相互抵消。 · Action–reaction pairs arise and vanish together and cannot cancel each other.',
+      '平衡力作用在同一物体上且可抵消；作用–反作用力作用在不同物体上，不可抵消。 · Balanced forces act on the same object and can cancel; action–reaction pairs act on different objects and cannot.',
+      '第三定律对接触力与场力（引力、电磁力）都成立。 · The third law holds for contact forces and field forces such as gravity and electromagnetic forces.',
+    ],
     definition: '牛顿第三定律：两物体相互作用时，力总是成对出现，大小相等、方向相反、作用在不同物体上、沿同一直线：\n\\[\n\\mathbf{F}_{12}=-\\mathbf{F}_{21}.\n\\]',
     intuition: '你推墙，墙也推你；火箭排气向后，气体推火箭向前。',
     intuitionDetailed: '作用力与反作用力同时产生、同时消失，永不作用在同一物体上，因此不会“抵消”。',
@@ -512,6 +535,18 @@ export const ENRICHMENTS = {
 
   'em/em-u10/10.3': {
     enrichedAt: 'batch1-fix',
+    learningObjectives: [
+      '能用电容定义式 \\(C=\\dfrac{Q}{V}\\) 与平行板公式计算电容。 · Compute capacitance from the definition and the parallel-plate formula.',
+      '能求串联、并联电容器的等效电容，并与电阻的组合规则区分。 · Find the equivalent capacitance of series and parallel combinations and distinguish the rules from those for resistors.',
+      '能分析插入电介质时“孤立（\\(Q\\) 不变）”与“接电源（\\(V\\) 不变）”两种情形下 \\(Q\\)、\\(V\\)、\\(U\\) 的变化。 · Analyze how charge, voltage, and stored energy change when a dielectric is inserted, for an isolated capacitor and for one connected to a battery.',
+    ],
+    essentialKnowledge: [
+      '电容由极板几何与电介质决定，与所带电荷量和电压无关。 · Capacitance is set by plate geometry and the dielectric, not by the stored charge or voltage.',
+      '平行板电容器 \\(C=\\dfrac{\\kappa\\varepsilon_0 A}{d}\\)，间距远小于极板尺寸时适用。 · A parallel-plate capacitor has the capacitance shown, valid when the separation is much smaller than the plate dimensions.',
+      '串联时 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum\\dfrac{1}{C_i}\\)，并联时 \\(C_{\\mathrm{eq}}=\\sum C_i\\)。 · For series combinations the reciprocals add; for parallel combinations the capacitances add.',
+      '储能 \\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)，两种写法在相应条件下等价。 · Stored energy can be written in either form; the two expressions are equivalent under the corresponding conditions.',
+      '孤立电容器电荷量不变；接在电源上的电容器电压不变。 · An isolated capacitor keeps its charge fixed; a capacitor connected to a battery keeps its voltage fixed.',
+    ],
     definition: '电容器由两片导体极板夹一层电介质构成。平行板电容器的电容为 \\(C=\\dfrac{\\kappa\\varepsilon_0 A}{d}\\)，定义式为 \\(C=\\dfrac{Q}{V}\\)：给定电压下能储存的电荷量由几何与电介质决定。',
     intuition: '电容器是电荷的临时仓库：极板面积越大、间距越小、介质越好，仓库越大。',
     intuitionDetailed: '接上电源时，电源把电子从一个极板搬到另一个极板，极板间建立电场并储存能量；断开电源后电荷被“锁”在极板上，电压随电容改变。',
@@ -521,7 +556,7 @@ export const ENRICHMENTS = {
       { latex: 'U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}', note: '储存的电场能。' },
     ],
     derivationNotes: [
-      { from: '定义式', to: '平行板公式', note: '由 \\(E=\\sigma/\\varepsilon\\)、\\(V=Ed\\) 与 \\(\\sigma=Q/A\\) 得 \\(C=\\varepsilon A/d\\)。' },
+      { from: '定义式', to: '平行板公式', note: '由 \\(E=\\dfrac{\\sigma}{\\varepsilon}\\)、\\(V=Ed\\) 与 \\(\\sigma=\\dfrac{Q}{A}\\) 得 \\(C=\\dfrac{\\varepsilon A}{d}\\)。' },
     ],
     conditions: ['平行板近似：间距远小于极板尺寸，忽略边缘效应', '电介质填满极板间；\\(\\kappa\\) 为相对介电常数', '\\(Q\\) 取一个极板电荷量的绝对值'],
     keyPoints: ['\\(C\\) 由几何与电介质决定，与 \\(Q\\)、\\(V\\) 无关', '串联 \\(\\dfrac{1}{C_\\mathrm{eq}}=\\sum\\dfrac{1}{C_i}\\)，并联 \\(C_\\mathrm{eq}=\\sum C_i\\)', '插入电介质使 \\(C\\) 增大；孤立电容器 \\(Q\\) 不变，接电源 \\(V\\) 不变'],
@@ -535,7 +570,7 @@ export const ENRICHMENTS = {
         title: '例 1 · 平行板',
         prompt: '\\(A=0.01\\,\\mathrm{m^2}\\)、\\(d=1\\,\\mathrm{mm}\\)、真空，求 \\(C\\)。',
         steps: [
-          '\\(C=\\varepsilon_0 A/d=8.85\\times10^{-12}\\cdot0.01/10^{-3}\\)。',
+          '\\(C=\\dfrac{\\varepsilon_0 A}{d}=\\dfrac{8.85\\times10^{-12}\\cdot0.01}{10^{-3}}\\)。',
           '\\(C\\approx8.85\\times10^{-11}\\,\\mathrm{F}=88.5\\,\\mathrm{pF}\\)。',
         ],
         solution: '约 \\(88.5\\,\\mathrm{pF}\\)。',
@@ -556,13 +591,13 @@ export const ENRICHMENTS = {
         steps: [
           '孤立 → \\(Q\\) 不变。',
           '\\(C\\) 变为 \\(2C\\)。',
-          '\\(V=Q/C\\) 变为 \\(V/2\\)。',
-          '\\(U=Q^{2}/(2C)\\) 变为 \\(U/2\\)。',
+          '\\(V=\\dfrac{Q}{C}\\) 变为 \\(\\dfrac{V}{2}\\)。',
+          '\\(U=\\dfrac{Q^{2}}{2C}\\) 变为 \\(\\dfrac{U}{2}\\)。',
         ],
-        solution: '\\(Q\\) 不变，\\(C\\times2\\)，\\(V\\div2\\)，\\(U\\div2\\)。',
+        solution: '\\(Q\\) 不变，\\(C\\) 变为 \\(2C\\)，\\(V\\) 与 \\(U\\) 均减半。',
       },
     ],
-    examTips: ['CED Unit 10：导体、电容、电介质', '先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）”', '能量变化可用 \\(U=Q^{2}/(2C)\\) 或 \\(\\dfrac{1}{2}CV^{2}\\) 判断'],
+    examTips: ['CED Unit 10：导体、电容、电介质', '先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）”', '能量变化可用 \\(U=\\dfrac{Q^{2}}{2C}\\) 或 \\(\\dfrac{1}{2}CV^{2}\\) 判断'],
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
       { subject: 'em', chapterId: 'em-u10', code: '10.4', title: '电介质', relation: '后续' },
@@ -575,6 +610,18 @@ export const ENRICHMENTS = {
 
   'em/em-u11/11.1': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能用 \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\) 计算平均电流与瞬时电流。 · Compute average and instantaneous current from the charge flow rate.',
+      '能用电荷密度、漂移速度与截面积解释微观电流。 · Explain current microscopically using carrier density, drift speed, and cross-sectional area.',
+      '能正确判断约定电流方向与电子运动方向的关系。 · Correctly relate the conventional current direction to the motion of electrons.',
+    ],
+    essentialKnowledge: [
+      '电流是电荷随时间的变化率，单位安培 \\(\\mathrm{A}=\\mathrm{C/s}\\)。 · Current is the time rate of charge flow, measured in amperes.',
+      '微观表达式 \\(I=nqv_dA\\)，其中 \\(n\\) 为载流子数密度、\\(v_d\\) 为漂移速度、\\(A\\) 为截面积。 · The microscopic expression contains carrier density, drift speed, and cross-sectional area.',
+      '约定正电流方向与正电荷运动方向相同，电子运动方向与之相反。 · Conventional current points in the direction of positive-charge motion, opposite to electron motion.',
+      '稳恒电路中串联各处电流相同；漂移速度很慢，但电场建立接近光速。 · In a steady circuit the current is the same in series; drift speeds are very slow, while the electric field is established near light speed.',
+      '电流是标量，电路分析中按支路约定方向。 · Current is a scalar; in circuit analysis, assign a direction to each branch.',
+    ],
     definition: '电流是电荷的定向流动。平均电流\n\\[\nI_{\\mathrm{avg}}=\\dfrac{\\Delta Q}{\\Delta t},\\qquad I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}.\n\\]\n单位：安培 \\(\\mathrm{A}=\\mathrm{C/s}\\)。约定正电流方向与正电荷运动方向相同。',
     intuition: '像水流过管道；单位时间流过截面的电荷量就是电流。',
     intuitionDetailed: '微观：\\(I=nqv_d A\\)，其中 \\(n\\) 载流子数密度，\\(v_d\\) 漂移速度，\\(A\\) 截面积。',
@@ -630,6 +677,23 @@ export const ENRICHMENTS = {
 
   'bio/bio-u3/3.1': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能解释酶如何降低活化能而不改变 \\(\\Delta G\\) 与平衡。 · Explain how enzymes lower activation energy without changing \\(\\Delta G\\) or the equilibrium position.',
+      '能区分竞争性与非竞争性抑制对 \\(K_m\\) 与 \\(V_{\\max}\\) 的影响。 · Distinguish the effects of competitive and noncompetitive inhibition on \\(K_m\\) and \\(V_{\\max}\\).',
+      '能设计或解读温度、pH、底物浓度对酶活性影响的实验。 · Design or interpret experiments on how temperature, pH, and substrate concentration affect enzyme activity.',
+    ],
+    essentialKnowledge: [
+      '酶是生物催化剂，绝大多数为蛋白质，少数为 RNA（核酶）。 · Enzymes are biological catalysts; most are proteins and a few are RNA ribozymes.',
+      '活性位点以特异性方式结合底物，形成酶–底物复合物；诱导契合使结合更紧密。 · The active site binds substrates specifically to form an enzyme–substrate complex; induced fit tightens the interaction.',
+      '酶降低正逆反应的活化能，加快反应速率，但不改变平衡常数。 · Enzymes lower the activation energy of both forward and reverse reactions, speeding the reaction without changing the equilibrium constant.',
+      '高温与极端 pH 会破坏非共价相互作用，使酶变性失活；最适条件因酶而异。 · High temperature and extreme pH disrupt noncovalent interactions and denature the enzyme; optimum conditions vary by enzyme.',
+      '竞争性抑制增大表观 \\(K_m\\) 而 \\(V_{\\max}\\) 不变；非竞争性抑制降低 \\(V_{\\max}\\)。 · Competitive inhibition raises the apparent \\(K_m\\) without changing \\(V_{\\max}\\); noncompetitive inhibition lowers \\(V_{\\max}\\).',
+    ],
+    connections: [
+      '先修：1.6 酶结构与功能 \\(\\to\\) 活性位点与特异性。 · Prerequisite: enzyme structure and function introduce the active site and specificity.',
+      '后续：3.2 环境影响酶；3.5 细胞呼吸中的酶促步骤。 · Follow-up: environmental effects on enzymes and the enzyme-catalyzed steps of cellular respiration.',
+      '应用：工业酶、洗涤剂与医学抑制剂的设计。 · Application: industrial enzymes, detergents, and the design of medical inhibitors.',
+    ],
     definition: '酶是生物催化剂（多数为蛋白质，少数为核酶），通过降低活化能 \\(E_a\\) 加快反应速率，但不改变 \\(\\Delta G\\) 与平衡点。活性位点与底物特异性结合形成酶–底物复合物。',
     intuition: '酶像精确模具：把底物摆成易反应的取向，降低“翻山”所需能量。',
     intuitionDetailed: '诱导契合：结合可引起构象微调。温度、pH、抑制剂影响活性。',
@@ -688,6 +752,22 @@ export const ENRICHMENTS = {
 
   'bio/bio-u5/5.1': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能比较有丝分裂与减数分裂的 DNA 复制次数、分裂次数与染色体数变化。 · Compare mitosis and meiosis in DNA replication, number of divisions, and chromosome number.',
+      '能说明交叉互换与独立分配如何产生遗传多样性。 · Explain how crossing over and independent assortment generate genetic diversity.',
+      '能追踪减数分裂各阶段的染色体数与 DNA 含量。 · Track chromosome number and DNA content through the stages of meiosis.',
+    ],
+    essentialKnowledge: [
+      '减数分裂经历一次 DNA 复制、两次连续分裂，使二倍体细胞产生单倍体配子。 · Meiosis has one DNA replication followed by two divisions, producing haploid gametes from diploid cells.',
+      '减数第一次分裂同源染色体分离；减数第二次分裂姐妹染色单体分离。 · Homologs separate in meiosis I; sister chromatids separate in meiosis II.',
+      '前期 I 的交叉互换与中期 I 的独立分配是遗传多样性的两个主要来源。 · Crossing over in prophase I and independent assortment in metaphase I are the two main sources of genetic diversity.',
+      '精子发生产生 4 个精细胞；卵发生产生 1 个卵细胞和 3 个退化的极体。 · Spermatogenesis yields four sperm cells; oogenesis yields one ovum and three polar bodies that degenerate.',
+    ],
+    connections: [
+      '先修：4.7 有丝分裂 \\(\\to\\) 姐妹染色单体分离机制。 · Prerequisite: mitosis introduces sister-chromatid separation.',
+      '后续：5.2 减数分裂与遗传多样性；5.3 孟德尔遗传。 · Follow-up: meiotic diversity and Mendelian genetics.',
+      '应用：非整倍体与出生缺陷的染色体基础。 · Application: the chromosomal basis of aneuploidy and birth defects.',
+    ],
     definition: '减数分裂是产生配子的分裂：一次 DNA 复制，两次分裂，结果染色体数减半（二倍体 \\(\\to\\) 单倍体）。减数第一次分裂同源染色体分离；减数第二次分裂类似有丝分裂分离姐妹染色单体。',
     intuition: '有性生殖需要单倍体配子，受精后再恢复二倍体——减数分裂负责“减半”。',
     intuitionDetailed: '前期 I 联会与交叉互换增加遗传多样性；独立分配也产生多样性。',
@@ -735,6 +815,22 @@ export const ENRICHMENTS = {
 
   'bio/bio-u4/4.6': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能说明 G1/S、G2/M 与纺锤体检查点各自监测什么。 · Explain what the G1/S, G2/M, and spindle checkpoints monitor.',
+      '能解释周期蛋白–CDK 复合物如何推进细胞周期。 · Explain how cyclin–CDK complexes drive progression through the cell cycle.',
+      '能区分原癌基因与肿瘤抑制基因在癌症发生中的角色。 · Distinguish the roles of proto-oncogenes and tumor-suppressor genes in cancer.',
+    ],
+    essentialKnowledge: [
+      '检查点监测 DNA 完整性、复制完成与纺锤体正确附着，防止错误遗传给子细胞。 · Checkpoints monitor DNA integrity, completion of replication, and correct spindle attachment to prevent errors from passing to daughter cells.',
+      '周期蛋白浓度周期性升降，激活 CDK；CDK 磷酸化靶蛋白推动周期进程。 · Cyclin levels rise and fall periodically and activate CDKs, which phosphorylate target proteins to drive the cycle.',
+      'p53 等肿瘤抑制基因在 DNA 损伤时阻滞周期、启动修复或触发凋亡。 · Tumor suppressors such as p53 arrest the cycle, start repair, or trigger apoptosis after DNA damage.',
+      '原癌基因促进增殖，突变后可能变成癌基因；肿瘤抑制基因通常需两个拷贝失活。 · Proto-oncogenes promote proliferation and can become oncogenes when mutated; tumor suppressors usually require loss of both copies.',
+    ],
+    connections: [
+      '先修：4.5 细胞周期 \\(\\to\\) 各阶段与时长。 · Prerequisite: the phases and timing of the cell cycle.',
+      '后续：4.7 有丝分裂 \\(\\to\\) 染色体分离与检查点。 · Follow-up: mitosis and chromosome segregation.',
+      '应用：癌症靶向治疗与检查点抑制剂。 · Application: targeted cancer therapy and checkpoint inhibitors.',
+    ],
     definition: '细胞周期检查点（尤其 G1、G2、M）确保 DNA 完好、复制完成、纺锤体正确附着后才继续分裂。肿瘤抑制基因（如 p53）与原癌基因失衡可导致失控增殖。',
     intuition: '检查点是细胞分裂的“安检门”；失灵则可能癌变。',
     intuitionDetailed: 'G1：环境与 DNA 损伤；G2：复制完成；M（纺锤体）：着丝粒–微管连接。',
@@ -784,6 +880,22 @@ export const ENRICHMENTS = {
 
   'bio/bio-u6/6.2': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能说明 DNA 半保留复制及 Meselson–Stahl 实验证据。 · Explain semiconservative DNA replication and the Meselson–Stahl evidence.',
+      '能按 \\(5\\prime\\to3\\prime\\) 方向解释前导链与滞后链的合成差异。 · Explain leading- and lagging-strand synthesis in terms of the \\(5\\prime\\to3\\prime\\) direction.',
+      '能列举复制叉中的关键酶并说明其功能。 · List the key enzymes at the replication fork and describe their functions.',
+    ],
+    essentialKnowledge: [
+      '每条旧链作模板合成互补新链，产生两个各含一条旧链的 DNA 分子。 · Each old strand serves as a template for a complementary new strand, producing two DNA molecules that each retain one old strand.',
+      '解旋酶解开双链，单链结合蛋白稳定单链，引物酶合成 RNA 引物。 · Helicase unwinds the duplex, single-strand binding proteins stabilize the separated strands, and primase synthesizes RNA primers.',
+      'DNA 聚合酶只能沿 \\(5\\prime\\to3\\prime\\) 延伸，因此滞后链分段形成冈崎片段。 · DNA polymerase extends only in the \\(5\\prime\\to3\\prime\\) direction, so the lagging strand is made in Okazaki fragments.',
+      'DNA 连接酶封闭磷酸二酯键缺口；校对活性降低复制错误率。 · DNA ligase seals the phosphodiester nicks, and proofreading lowers the replication error rate.',
+    ],
+    connections: [
+      '先修：6.1 DNA 与 RNA 结构 \\(\\to\\) 碱基配对与反向平行双链。 · Prerequisite: DNA/RNA structure, base pairing, and antiparallel strands.',
+      '后续：6.3 转录与 RNA 加工。 · Follow-up: transcription and RNA processing.',
+      '应用：PCR、DNA 测序与分子克隆。 · Application: PCR, DNA sequencing, and molecular cloning.',
+    ],
     definition: 'DNA 复制为半保留复制：每条链作模板，合成互补新链。关键酶：解旋酶、单链结合蛋白、引物酶、DNA 聚合酶、连接酶。复制方向 \\(5\'\\to 3\'\\)，导致前导链连续、滞后链冈崎片段。',
     intuition: '拉链拉开，两边各配上新链；因为酶只能单向合成，一边顺畅一边分段。',
     intuitionDetailed: '碱基配对 A–T、G–C 保证遗传信息精确传递；校对降低突变率。',
@@ -837,6 +949,22 @@ export const ENRICHMENTS = {
 
   'bio/bio-u1/1.1': {
     enrichedAt: 'batch1',
+    learningObjectives: [
+      '能用极性与氢键解释水的内聚、黏附、高比热、高汽化热与溶剂性。 · Use polarity and hydrogen bonding to explain cohesion, adhesion, high specific heat, high heat of vaporization, and solvent behavior.',
+      '能解释冰的密度小于液态水对水生生态的意义。 · Explain the ecological significance of ice being less dense than liquid water.',
+      '能把水的性质与细胞、生理或生态现象联系起来。 · Connect water\'s properties to cellular, physiological, or ecological phenomena.',
+    ],
+    essentialKnowledge: [
+      'O–H 键的极性使水分子带部分电荷，分子间形成氢键网络。 · Polar O–H bonds give water partial charges and a hydrogen-bond network between molecules.',
+      '氢键网络赋予水高比热、高汽化热、表面张力以及内聚与黏附。 · The hydrogen-bond network gives water high specific heat, high heat of vaporization, surface tension, cohesion, and adhesion.',
+      '冰的氢键晶格较空旷，密度小于液态水，因此冰浮在水面并保护水下生命。 · The open hydrogen-bond lattice of ice is less dense than liquid water, so ice floats and insulates life below.',
+      '水是极性溶剂，能水合离子与极性分子，并参与水解与脱水缩合。 · Water is a polar solvent that hydrates ions and polar molecules and participates in hydrolysis and dehydration synthesis.',
+    ],
+    connections: [
+      '先修：元素与大分子 \\(\\to\\) 共价键与电负性。 · Prerequisite: elements and macromolecules, covalent bonds, and electronegativity.',
+      '后续：1.3 生物大分子导论；2.7 渗透与水势。 · Follow-up: biological macromolecules and osmosis/water potential.',
+      '应用：蒸腾作用、体温调节与气候缓冲。 · Application: transpiration, thermoregulation, and climate buffering.',
+    ],
     definition: '水的极性与氢键赋予其高比热、高汽化热、内聚/黏附、表面张力及作为溶剂的能力，使水成为生命的介质。',
     intuition: '水分子像小磁铁（正负端），彼此拉扯形成氢键网络。',
     intuitionDetailed: '比热高 → 体温/气候稳定；冰密度小于液态水 → 水体表面结冰保护水下生命。',

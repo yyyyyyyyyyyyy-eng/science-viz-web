@@ -237,7 +237,7 @@ export const problems = [
         "topicLinks": [
           {
             "href": "#/t/bio/bio-u6/6.6",
-            "label": "6.6 基因突变",
+            "label": "6.6 基因表达与细胞特化",
             "topicId": "bio-u6:6.6"
           }
         ]
@@ -528,7 +528,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -559,7 +559,7 @@ export const problems = [
     "title": "6.6 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「基因突变」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「基因表达与细胞特化」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -781,7 +781,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -881,7 +881,7 @@ export const problems = [
       },
       "text": "据图作答。"
     },
-    "stem": "与「基因突变」最直接相关的正确陈述是？",
+    "stem": "与「基因表达与细胞特化」最直接相关的正确陈述是？",
     "choices": [
       {
         "text": "图示结构/关系支持该知识点的核心机制",
@@ -1119,7 +1119,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -1150,7 +1150,7 @@ export const problems = [
     "title": "6.6 论证",
     "type": "frq",
     "difficulty": "易",
-    "stem": "用 CED 语言解释「基因突变」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「基因表达与细胞特化」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -1372,7 +1372,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -1403,7 +1403,7 @@ export const problems = [
     "title": "6.6 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「基因突变」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「基因表达与细胞特化」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -1625,7 +1625,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -1725,7 +1725,7 @@ export const problems = [
       },
       "text": "据图作答。"
     },
-    "stem": "与「基因突变」最直接相关的正确陈述是？",
+    "stem": "与「基因表达与细胞特化」最直接相关的正确陈述是？",
     "choices": [
       {
         "text": "图示结构/关系支持该知识点的核心机制",
@@ -1963,7 +1963,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u6/6.6",
-        "label": "6.6 基因突变",
+        "label": "6.6 基因表达与细胞特化",
         "topicId": "bio-u6:6.6"
       }
     ]
@@ -1994,7 +1994,7 @@ export const problems = [
     "title": "6.6 论证",
     "type": "frq",
     "difficulty": "易",
-    "stem": "用 CED 语言解释「基因突变」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「基因表达与细胞特化」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",

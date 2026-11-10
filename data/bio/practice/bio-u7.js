@@ -486,7 +486,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]
@@ -770,7 +770,7 @@ export const problems = [
     "title": "7.12 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「生命起源多样性」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「种群变异」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -929,7 +929,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]
@@ -1214,8 +1214,8 @@ export const problems = [
     "type": "frq",
     "difficulty": "易",
     "stimulus": {
-      "title": "生命起源多样性 实验数据",
-      "text": "研究小组记录与「生命起源多样性」相关的测量。",
+      "title": "种群变异 实验数据",
+      "text": "研究小组记录与「种群变异」相关的测量。",
       "table": {
         "headers": [
           "条件",
@@ -1372,7 +1372,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]
@@ -1725,7 +1725,7 @@ export const problems = [
       },
       "text": "据图作答。"
     },
-    "stem": "与「生命起源多样性」最直接相关的正确陈述是？",
+    "stem": "与「种群变异」最直接相关的正确陈述是？",
     "choices": [
       {
         "text": "图示结构/关系支持该知识点的核心机制",
@@ -1815,7 +1815,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]
@@ -2184,7 +2184,7 @@ export const problems = [
     "title": "7.12 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「生命起源多样性」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「种群变异」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -2258,7 +2258,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]
@@ -2627,7 +2627,7 @@ export const problems = [
     "title": "7.12 论证",
     "type": "frq",
     "difficulty": "易",
-    "stem": "用 CED 语言解释「生命起源多样性」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「种群变异」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -2763,7 +2763,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u7/7.12",
-        "label": "7.12 生命起源多样性",
+        "label": "7.12 种群变异",
         "topicId": "bio-u7:7.12"
       }
     ]

@@ -62,10 +62,10 @@ export const MATH_FORMULA_GROUPS = [
     titleEn: 'Series & Maclaurin',
     rows: [
       { id: 's-geo', latex: '\\sum_{n=0}^{\\infty}ar^n=\\dfrac{a}{1-r}\\quad(|r|<1)', symbols: [{ s: 'r', m: '公比' }], conditions: '|r|<1', derivation: '部分和极限。', example: { q: '\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^n', a: '2' }, related: ['#/t/math/calc-u10/10.2'] },
-      { id: 's-expm', latex: 'e^x=\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}', symbols: [], conditions: '全实数', derivation: '泰勒在 0 展开。', example: { q: 'e^x 的前三项', a: '1+x+\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
-      { id: 's-sinm', latex: '\\sin x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\sin x 到 x^3', a: 'x-\\dfrac{x^3}{6}' }, related: ['#/t/math/calc-u10/10.14'] },
-      { id: 's-cosm', latex: '\\cos x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\cos x 到 x^2', a: '1-\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
-      { id: 's-ratio', latex: '\\text{比值审敛：}L=\\lim\\left|\\dfrac{a_{n+1}}{a_n}\\right|', symbols: [{ s: 'L', m: '极限' }], conditions: 'L<1 绝对收敛；L>1 发散；L=1 时无法判定', derivation: '与几何级数比较。', example: { q: '\\sum \\dfrac{n!}{n^n}', a: '用比值审敛判定收敛' }, related: ['#/t/math/calc-u10/10.8'] },
+      { id: 's-expm', latex: 'e^x=\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}', symbols: [], conditions: '全实数', derivation: '泰勒在 0 展开。', example: { q: 'e^x\ \text{的前三项}', a: '1+x+\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-sinm', latex: '\\sin x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\sin x\\ \\text{到}\\ x^3', a: 'x-\\dfrac{x^3}{6}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-cosm', latex: '\\cos x=\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}', symbols: [], conditions: '全实数', derivation: '麦克劳林。', example: { q: '\\cos x\\ \\text{到}\\ x^2', a: '1-\\dfrac{x^2}{2}' }, related: ['#/t/math/calc-u10/10.14'] },
+      { id: 's-ratio', latex: '\\text{比值审敛：}L=\\lim\\left|\\dfrac{a_{n+1}}{a_n}\\right|', symbols: [{ s: 'L', m: '极限' }], conditions: 'L<1 绝对收敛；L>1 发散；L=1 时无法判定', derivation: '与几何级数比较。', example: { q: '\\sum \\dfrac{n!}{n^n}', a: '\text{用比值审敛判定收敛}' }, related: ['#/t/math/calc-u10/10.8'] },
     ],
   },
   {
@@ -74,7 +74,7 @@ export const MATH_FORMULA_GROUPS = [
     titleEn: 'Parametric & Polar',
     rows: [
       { id: 'p-dy', latex: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{y\'(t)}{x\'(t)}', symbols: [{ s: 't', m: '参数' }], conditions: 'x\'(t) ≠ 0', derivation: '链式法则。', example: { q: 'x=\\cos t,y=\\sin t', a: '\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=-\\dfrac{\\cos t}{\\sin t}=-\\cot t' }, related: ['#/t/math/calc-u9/9.1'] },
-      { id: 'p-arc', latex: 'L=\\int_{t_1}^{t_2}\\sqrt{[x\'(t)]^2+[y\'(t)]^2}\\,\\mathrm{d}t', symbols: [], conditions: '光滑曲线', derivation: '弧长微元。', example: { q: '单位圆一周', a: '2\\pi' }, related: ['#/t/math/calc-u9/9.3'] },
+      { id: 'p-arc', latex: 'L=\\int_{t_1}^{t_2}\\sqrt{[x\'(t)]^2+[y\'(t)]^2}\\,\\mathrm{d}t', symbols: [], conditions: '光滑曲线', derivation: '弧长微元。', example: { q: '\text{单位圆一周}', a: '2\\pi' }, related: ['#/t/math/calc-u9/9.3'] },
       { id: 'p-area', latex: 'A=\\dfrac{1}{2}\\int_{\\alpha}^{\\beta}[r(\\theta)]^2\\,\\mathrm{d}\\theta', symbols: [{ s: 'r', m: '极径' }], conditions: '单叶区域', derivation: '扇形面积积分。', example: { q: 'r=1,\\ 0\\le\\theta\\le 2\\pi', a: '\\pi' }, related: ['#/t/math/calc-u9/9.8'] },
     ],
   },

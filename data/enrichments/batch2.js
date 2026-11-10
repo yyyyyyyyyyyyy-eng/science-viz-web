@@ -1803,7 +1803,7 @@ export const ENRICHMENTS = {
     examTips: [
       'CED Unit 13：自感、电感、LR 与 LC 电路',
       '先判断电流在增大还是减小，再用楞次定律定感应电动势方向',
-      '单位换算：\\(1\\,\\mathrm{H}=1\\,\\mathrm{Wb\,A^{-1}}=1\\,\\mathrm{V\\,s\\,A^{-1}}\\)',
+      '单位换算：\\(1\\,\\mathrm{H}=1\\,\\mathrm{Wb\\,A^{-1}}=1\\,\\mathrm{V\\,s\\,A^{-1}}\\)',
       '注意 \\(N\\) 匝与磁链 \\(N\\Phi_B\\) 的区别，别把单匝磁通当成总磁链',
     ],
     related: [
@@ -1858,23 +1858,23 @@ export const ENRICHMENTS = {
         title: '例 1 · 两木块',
         prompt: '光滑水平面上，\\(m_1=2.0\\,\\mathrm{kg}\\) 与 \\(m_2=3.0\\,\\mathrm{kg}\\) 紧靠。水平力 \\(F=10\\,\\mathrm{N}\\) 作用在 \\(m_1\\) 上。求加速度与 \\(m_1\\) 对 \\(m_2\\) 的推力。',
         steps: [
-          '取两木块为系统：水平方向只有 \\(F\\) 是外力，\\(a=\\dfrac{F}{m_1+m_2}=\\dfrac{10}{5.0}=2.0\\,\\mathrm{m\,s^{-2}}\\)。',
+          '取两木块为系统：水平方向只有 \\(F\\) 是外力，\\(a=\\dfrac{F}{m_1+m_2}=\\dfrac{10}{5.0}=2.0\\,\\mathrm{m\\,s^{-2}}\\)。',
           '对 \\(m_2\\) 单独分析：水平方向只受接触力 \\(F_{12}\\)，故 \\(F_{12}=m_2a=3.0\\times2.0=6.0\\,\\mathrm{N}\\)。',
           '检验：对 \\(m_1\\)，\\(F-F_{21}=10-6=4\\,\\mathrm{N}=m_1a\\)，一致。',
         ],
-        solution: '\\(a=2.0\\,\\mathrm{m\,s^{-2}}\\)，接触力 \\(6.0\\,\\mathrm{N}\\)。',
-        solutionLatex: 'a=2.0\\,\\mathrm{m\,s^{-2}},\\;F_{12}=6.0\\,\\mathrm{N}',
+        solution: '\\(a=2.0\\,\\mathrm{m\\,s^{-2}}\\)，接触力 \\(6.0\\,\\mathrm{N}\\)。',
+        solutionLatex: 'a=2.0\\,\\mathrm{m\\,s^{-2}},\\;F_{12}=6.0\\,\\mathrm{N}',
       },
       {
         title: '例 2 · 爆炸',
-        prompt: '静止的 \\(2.0\\,\\mathrm{kg}\\) 物体炸成 \\(0.50\\,\\mathrm{kg}\\) 与 \\(1.5\\,\\mathrm{kg}\\) 两块。轻块以 \\(12\\,\\mathrm{m\,s^{-1}}\\) 向右运动，求重块速度，并说明动能来源。',
+        prompt: '静止的 \\(2.0\\,\\mathrm{kg}\\) 物体炸成 \\(0.50\\,\\mathrm{kg}\\) 与 \\(1.5\\,\\mathrm{kg}\\) 两块。轻块以 \\(12\\,\\mathrm{m\\,s^{-1}}\\) 向右运动，求重块速度，并说明动能来源。',
         steps: [
           '爆炸内力远大于外力，系统总动量守恒：\\(0=0.50(12)+1.5v\\)。',
-          '\\(v=-\\dfrac{6.0}{1.5}=-4.0\\,\\mathrm{m\,s^{-1}}\\)，即向左 \\(4.0\\,\\mathrm{m\,s^{-1}}\\)。',
+          '\\(v=-\\dfrac{6.0}{1.5}=-4.0\\,\\mathrm{m\\,s^{-1}}\\)，即向左 \\(4.0\\,\\mathrm{m\\,s^{-1}}\\)。',
           '初动能为零，末动能 \\(=\\dfrac12(0.50)(12)^{2}+\\dfrac12(1.5)(4.0)^{2}=36+12=48\\,\\mathrm{J}\\)，来自内部化学能。',
         ],
-        solution: '重块向左 \\(4.0\\,\\mathrm{m\,s^{-1}}\\)；动能来自内部能量。',
-        solutionLatex: 'v_2=-4.0\\,\\mathrm{m\,s^{-1}},\\;\\Delta K=48\\,\\mathrm{J}',
+        solution: '重块向左 \\(4.0\\,\\mathrm{m\\,s^{-1}}\\)；动能来自内部能量。',
+        solutionLatex: 'v_2=-4.0\\,\\mathrm{m\\,s^{-1}},\\;\\Delta K=48\\,\\mathrm{J}',
       },
       {
         title: '例 3 · 人在车上走',
@@ -1933,7 +1933,7 @@ export const ENRICHMENTS = {
       { from: '能量守恒', to: '效率', note: '有用输出功率总小于输入功率，差额为损耗。' },
     ],
     conditions: ['瞬时功率必须用同一时刻的力与速度', '功率是标量，可正可负：力与速度夹角大于 \\(90^\\circ\\) 时为负', '额定功率是最大持续输出，不保证任何时刻都达到', '效率计算要明确“有用输出”和“总输入”'],
-    keyPoints: ['\\(1\\,\\mathrm{W}=1\\,\\mathrm{J\,s^{-1}}\\)；\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\)', '恒定功率下 \\(F\\) 与 \\(v\\) 成反比', '阻力做负功时功率为负', '串联与并联电路中功率分配不同，不能只凭电阻大小判断', '转动功率 \\(P=\\tau\\omega\\) 与平动 \\(P=Fv\\) 对应'],
+    keyPoints: ['\\(1\\,\\mathrm{W}=1\\,\\mathrm{J\\,s^{-1}}\\)；\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\)', '恒定功率下 \\(F\\) 与 \\(v\\) 成反比', '阻力做负功时功率为负', '串联与并联电路中功率分配不同，不能只凭电阻大小判断', '转动功率 \\(P=\\tau\\omega\\) 与平动 \\(P=Fv\\) 对应'],
     misconceptions: [
       '把功率与功混为一谈：功率大不等于做功多，还要看时间',
       '认为额定功率下牵引力恒定（实际 \\(F=\\dfrac{P}{v}\\) 随速度变化）',
@@ -1943,7 +1943,7 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 起重机',
-        prompt: '起重机以 \\(0.50\\,\\mathrm{m\,s^{-1}}\\) 匀速吊起 \\(20\\,\\mathrm{kg}\\) 物体。求有用功率。',
+        prompt: '起重机以 \\(0.50\\,\\mathrm{m\\,s^{-1}}\\) 匀速吊起 \\(20\\,\\mathrm{kg}\\) 物体。求有用功率。',
         steps: [
           '匀速时拉力等于重力：\\(F=mg=20\\times9.8=196\\,\\mathrm{N}\\)。',
           '\\(P=Fv=196\\times0.50=98\\,\\mathrm{W}\\)。',
@@ -1953,7 +1953,7 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 2 · 恒定功率',
-        prompt: '汽车发动机输出 \\(40\\,\\mathrm{kW}\\)。在 \\(20\\,\\mathrm{m\,s^{-1}}\\) 时牵引力多大？若速度降为 \\(10\\,\\mathrm{m\,s^{-1}}\\)，牵引力多大？',
+        prompt: '汽车发动机输出 \\(40\\,\\mathrm{kW}\\)。在 \\(20\\,\\mathrm{m\\,s^{-1}}\\) 时牵引力多大？若速度降为 \\(10\\,\\mathrm{m\\,s^{-1}}\\)，牵引力多大？',
         steps: [
           '\\(F=\\dfrac{P}{v}=\\dfrac{4.0\\times10^{4}}{20}=2.0\\times10^{3}\\,\\mathrm{N}\\)。',
           '速度减半时，若功率不变，\\(F\\) 加倍，即 \\(4.0\\times10^{3}\\,\\mathrm{N}\\)。',
@@ -1963,7 +1963,7 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 3 · 瞬时功率',
-        prompt: '某物体受力 \\(F_x=3t\\,\\mathrm{N}\\)，速度 \\(v_x=2t\\,\\mathrm{m\,s^{-1}}\\)。求 \\(t=2.0\\,\\mathrm{s}\\) 时的功率。',
+        prompt: '某物体受力 \\(F_x=3t\\,\\mathrm{N}\\)，速度 \\(v_x=2t\\,\\mathrm{m\\,s^{-1}}\\)。求 \\(t=2.0\\,\\mathrm{s}\\) 时的功率。',
         steps: [
           '\\(P=F_xv_x=(3t)(2t)=6t^{2}\\)。',
           '代入 \\(t=2.0\\,\\mathrm{s}\\)：\\(P=6(4)=24\\,\\mathrm{W}\\)。',
@@ -2039,9 +2039,9 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 2 · 滚动动能',
-        prompt: '质量 \\(1.0\\,\\mathrm{kg}\\)、半径 \\(0.10\\,\\mathrm{m}\\) 的实心球以 \\(2.0\\,\\mathrm{m\,s^{-1}}\\) 无滑动滚动。求总动能。',
+        prompt: '质量 \\(1.0\\,\\mathrm{kg}\\)、半径 \\(0.10\\,\\mathrm{m}\\) 的实心球以 \\(2.0\\,\\mathrm{m\\,s^{-1}}\\) 无滑动滚动。求总动能。',
         steps: [
-          '\\(\\omega=\\dfrac{v}{R}=\\dfrac{2.0}{0.10}=20\\,\\mathrm{rad\,s^{-1}}\\)。',
+          '\\(\\omega=\\dfrac{v}{R}=\\dfrac{2.0}{0.10}=20\\,\\mathrm{rad\\,s^{-1}}\\)。',
           '实心球 \\(I=\\dfrac25mR^{2}\\)，故 \\(\\dfrac12I\\omega^{2}=\\dfrac12\\cdot\\dfrac25mR^{2}\\cdot\\dfrac{v^{2}}{R^{2}}=\\dfrac15mv^{2}\\)。',
           '\\(K=\\dfrac12mv^{2}+\\dfrac15mv^{2}=0.70mv^{2}=0.70(1.0)(4.0)=2.8\\,\\mathrm{J}\\)。',
         ],
@@ -2052,12 +2052,12 @@ export const ENRICHMENTS = {
         title: '例 3 · 斜面静摩擦',
         prompt: '质量 \\(1.0\\,\\mathrm{kg}\\) 的实心圆柱沿 \\(30^\\circ\\) 斜面无滑动下滚。求加速度与静摩擦大小。',
         steps: [
-          '\\(a=\\dfrac{g\\sin30^\\circ}{1+\\dfrac12}=\\dfrac{9.8\\times0.50}{1.5}=3.27\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(a=\\dfrac{g\\sin30^\\circ}{1+\\dfrac12}=\\dfrac{9.8\\times0.50}{1.5}=3.27\\,\\mathrm{m\\,s^{-2}}\\)。',
           '\\(f=\\dfrac{Ia}{R^{2}}=\\dfrac{\\dfrac12MR^{2}a}{R^{2}}=\\dfrac12Ma=0.50(1.0)(3.27)=1.63\\,\\mathrm{N}\\)。',
           '方向沿斜面向上。',
         ],
-        solution: '\\(a\\approx3.3\\,\\mathrm{m\,s^{-2}}\\)，\\(f_s\\approx1.6\\,\\mathrm{N}\\) 沿斜面向上。',
-        solutionLatex: 'a\\approx3.3\\,\\mathrm{m\,s^{-2}},\\;f_s\\approx1.6\\,\\mathrm{N}',
+        solution: '\\(a\\approx3.3\\,\\mathrm{m\\,s^{-2}}\\)，\\(f_s\\approx1.6\\,\\mathrm{N}\\) 沿斜面向上。',
+        solutionLatex: 'a\\approx3.3\\,\\mathrm{m\\,s^{-2}},\\;f_s\\approx1.6\\,\\mathrm{N}',
       },
     ],
     examTips: [
@@ -2117,14 +2117,14 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 近地轨道',
-        prompt: '国际空间站轨道半径约 \\(6.8\\times10^{6}\\,\\mathrm{m}\\)。取 \\(GM=3.99\\times10^{14}\\,\\mathrm{m^{3}\,s^{-2}}\\)，估算速度与周期。',
+        prompt: '国际空间站轨道半径约 \\(6.8\\times10^{6}\\,\\mathrm{m}\\)。取 \\(GM=3.99\\times10^{14}\\,\\mathrm{m^{3}\\,s^{-2}}\\)，估算速度与周期。',
         steps: [
-          '\\(v=\\sqrt{\\dfrac{GM}{r}}=\\sqrt{\\dfrac{3.99\\times10^{14}}{6.8\\times10^{6}}}\\approx7.7\\times10^{3}\\,\\mathrm{m\,s^{-1}}\\)。',
+          '\\(v=\\sqrt{\\dfrac{GM}{r}}=\\sqrt{\\dfrac{3.99\\times10^{14}}{6.8\\times10^{6}}}\\approx7.7\\times10^{3}\\,\\mathrm{m\\,s^{-1}}\\)。',
           '\\(T=2\\pi\\sqrt{\\dfrac{r^{3}}{GM}}\\approx2\\pi\\sqrt{\\dfrac{(6.8\\times10^{6})^{3}}{3.99\\times10^{14}}}\\approx5.6\\times10^{3}\\,\\mathrm{s}\\)。',
           '约 \\(93\\,\\mathrm{min}\\)。',
         ],
-        solution: '\\(v\\approx7.7\\,\\mathrm{km\,s^{-1}}\\)，\\(T\\approx93\\,\\mathrm{min}\\)。',
-        solutionLatex: 'v\\approx7.7\\times10^{3}\\,\\mathrm{m\,s^{-1}},\\;T\\approx93\\,\\mathrm{min}',
+        solution: '\\(v\\approx7.7\\,\\mathrm{km\\,s^{-1}}\\)，\\(T\\approx93\\,\\mathrm{min}\\)。',
+        solutionLatex: 'v\\approx7.7\\times10^{3}\\,\\mathrm{m\\,s^{-1}},\\;T\\approx93\\,\\mathrm{min}',
       },
       {
         title: '例 2 · 地球同步轨道',
@@ -2142,10 +2142,10 @@ export const ENRICHMENTS = {
         prompt: '求地球表面的逃逸速度。地球半径 \\(6.37\\times10^{6}\\,\\mathrm{m}\\)，\\(GM=3.99\\times10^{14}\\)。',
         steps: [
           '\\(v_{\\mathrm{esc}}=\\sqrt{\\dfrac{2GM}{R}}\\)。',
-          '\\(v_{\\mathrm{esc}}=\\sqrt{\\dfrac{2(3.99\\times10^{14})}{6.37\\times10^{6}}}\\approx1.12\\times10^{4}\\,\\mathrm{m\,s^{-1}}\\)。',
+          '\\(v_{\\mathrm{esc}}=\\sqrt{\\dfrac{2(3.99\\times10^{14})}{6.37\\times10^{6}}}\\approx1.12\\times10^{4}\\,\\mathrm{m\\,s^{-1}}\\)。',
         ],
-        solution: '\\(v_{\\mathrm{esc}}\\approx11.2\\,\\mathrm{km\,s^{-1}}\\)。',
-        solutionLatex: 'v_{\\mathrm{esc}}\\approx1.12\\times10^{4}\\,\\mathrm{m\,s^{-1}}',
+        solution: '\\(v_{\\mathrm{esc}}\\approx11.2\\,\\mathrm{km\\,s^{-1}}\\)。',
+        solutionLatex: 'v_{\\mathrm{esc}}\\approx1.12\\times10^{4}\\,\\mathrm{m\\,s^{-1}}',
       },
     ],
     examTips: [
@@ -2205,7 +2205,7 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 周期',
-        prompt: '摆长 \\(L=1.0\\,\\mathrm{m}\\)，取 \\(g=9.8\\,\\mathrm{m\,s^{-2}}\\)，小角度摆动。求周期。',
+        prompt: '摆长 \\(L=1.0\\,\\mathrm{m}\\)，取 \\(g=9.8\\,\\mathrm{m\\,s^{-2}}\\)，小角度摆动。求周期。',
         steps: [
           '\\(T=2\\pi\\sqrt{\\dfrac{L}{g}}=2\\pi\\sqrt{\\dfrac{1.0}{9.8}}\\)。',
           '\\(T\\approx2.0\\,\\mathrm{s}\\)。',
@@ -2218,21 +2218,21 @@ export const ENRICHMENTS = {
         prompt: '某单摆 \\(L=0.64\\,\\mathrm{m}\\)，测得周期 \\(T=1.60\\,\\mathrm{s}\\)。求当地 \\(g\\)。',
         steps: [
           '由 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\) 得 \\(g=\\dfrac{4\\pi^{2}L}{T^{2}}\\)。',
-          '\\(g=\\dfrac{4\\pi^{2}(0.64)}{(1.60)^{2}}\\approx9.9\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(g=\\dfrac{4\\pi^{2}(0.64)}{(1.60)^{2}}\\approx9.9\\,\\mathrm{m\\,s^{-2}}\\)。',
         ],
-        solution: '\\(g\\approx9.9\\,\\mathrm{m\,s^{-2}}\\)。',
-        solutionLatex: 'g\\approx9.9\\,\\mathrm{m\,s^{-2}}',
+        solution: '\\(g\\approx9.9\\,\\mathrm{m\\,s^{-2}}\\)。',
+        solutionLatex: 'g\\approx9.9\\,\\mathrm{m\\,s^{-2}}',
       },
       {
         title: '例 3 · 能量与张力',
         prompt: '\\(L=1.0\\,\\mathrm{m}\\)、\\(m=0.20\\,\\mathrm{kg}\\) 的单摆从 \\(\\theta_0=0.10\\,\\mathrm{rad}\\) 由静止释放。求最低点速度与绳张力。',
         steps: [
           '高度差 \\(h=L(1-\\cos\\theta_0)\\approx1.0(1-0.9950)=5.0\\times10^{-3}\\,\\mathrm{m}\\)。',
-          '\\(v=\\sqrt{2gh}=\\sqrt{2(9.8)(5.0\\times10^{-3})}\\approx0.31\\,\\mathrm{m\,s^{-1}}\\)。',
+          '\\(v=\\sqrt{2gh}=\\sqrt{2(9.8)(5.0\\times10^{-3})}\\approx0.31\\,\\mathrm{m\\,s^{-1}}\\)。',
           '\\(T=mg+\\dfrac{mv^{2}}{L}=0.20(9.8)+\\dfrac{0.20(0.31)^{2}}{1.0}\\approx2.0\\,\\mathrm{N}\\)。',
         ],
-        solution: '\\(v\\approx0.31\\,\\mathrm{m\,s^{-1}}\\)，\\(T\\approx2.0\\,\\mathrm{N}\\)。',
-        solutionLatex: 'v\\approx0.31\\,\\mathrm{m\,s^{-1}},\\;T\\approx2.0\\,\\mathrm{N}',
+        solution: '\\(v\\approx0.31\\,\\mathrm{m\\,s^{-1}}\\)，\\(T\\approx2.0\\,\\mathrm{N}\\)。',
+        solutionLatex: 'v\\approx0.31\\,\\mathrm{m\\,s^{-1}},\\;T\\approx2.0\\,\\mathrm{N}',
       },
     ],
     examTips: [
@@ -2435,7 +2435,7 @@ export const ENRICHMENTS = {
       { from: '磁感线闭合', to: '无磁单极', note: '穿过任意闭合曲面的净磁通为零，磁感线没有起点和终点。' },
     ],
     conditions: ['洛伦兹力只作用于运动电荷；静止电荷不受磁力', '力垂直于 \\(\\mathbf v\\) 与 \\(\\mathbf B\\)，大小 \\(qvB\\sin\\theta\\)', '磁场由电流、磁体或变化的电场产生', '\\(\\mathbf B\\) 的方向定义为小磁针 N 极的指向'],
-    keyPoints: ['磁场是矢量场，单位特斯拉', '磁感线闭合，无磁单极子', '磁场力不做功，不改变电荷速率', '电荷沿 \\(\\mathbf B\\) 方向运动时不受磁力', '负电荷受力方向与正电荷相反', '\\(1\\,\\mathrm{T}=1\\,\\mathrm{Wb\,m^{-2}}\\)'],
+    keyPoints: ['磁场是矢量场，单位特斯拉', '磁感线闭合，无磁单极子', '磁场力不做功，不改变电荷速率', '电荷沿 \\(\\mathbf B\\) 方向运动时不受磁力', '负电荷受力方向与正电荷相反', '\\(1\\,\\mathrm{T}=1\\,\\mathrm{Wb\\,m^{-2}}\\)'],
     misconceptions: [
       '认为磁场对静止电荷有力的作用',
       '认为磁感线从 N 极出发、到 S 极终止（外部看似如此，内部闭合）',
@@ -2446,7 +2446,7 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 电子',
-        prompt: '电子以 \\(2.0\\times10^{6}\\,\\mathrm{m\,s^{-1}}\\) 垂直射入 \\(B=0.50\\,\\mathrm{T}\\) 的匀强磁场。求磁力大小，并说明方向如何确定。',
+        prompt: '电子以 \\(2.0\\times10^{6}\\,\\mathrm{m\\,s^{-1}}\\) 垂直射入 \\(B=0.50\\,\\mathrm{T}\\) 的匀强磁场。求磁力大小，并说明方向如何确定。',
         steps: [
           '\\(F=qvB\\sin90^\\circ=(1.6\\times10^{-19})(2.0\\times10^{6})(0.50)\\)。',
           '\\(F=1.6\\times10^{-13}\\,\\mathrm{N}\\)。',
@@ -2507,7 +2507,7 @@ export const ENRICHMENTS = {
       '电场强度与试探电荷无关；导体内部静电平衡时 \\(\\mathbf E=0\\)。',
       '\\(\\mathrm{N\\,C^{-1}}\\) 与 \\(\\mathrm{V\\,m^{-1}}\\) 是等价的场强单位。'
     ],
-    definition: '电场是电荷周围空间的矢量场，定义为单位正试探电荷所受的力：\\(\\mathbf E=\\dfrac{\\mathbf F}{q_0}\\)。点电荷场 \\(E=k\\dfrac{|q|}{r^{2}}\\)，方向沿径向，正电荷向外、负电荷向内。场强单位 \\(\\mathrm{N\,C^{-1}}=\\mathrm{V\,m^{-1}}\\)。',
+    definition: '电场是电荷周围空间的矢量场，定义为单位正试探电荷所受的力：\\(\\mathbf E=\\dfrac{\\mathbf F}{q_0}\\)。点电荷场 \\(E=k\\dfrac{|q|}{r^{2}}\\)，方向沿径向，正电荷向外、负电荷向内。场强单位 \\(\\mathrm{N\\,C^{-1}}=\\mathrm{V\\,m^{-1}}\\)。',
     intuition: '电场是“力的地图”：把试探电荷放到某点，它受到的力除以电荷量，就是该点的场强。',
     intuitionDetailed: '电场由源电荷产生，与试探电荷无关；多个源电荷的场按矢量叠加。电场线从正电荷出发、到负电荷终止，线的密度表示强弱，切线表示方向；电场线不相交。',
     formulas: [
@@ -2522,7 +2522,7 @@ export const ENRICHMENTS = {
       { from: '电场线', to: '场强方向', note: '电场线切线方向即 \\(\\mathbf E\\) 方向，密度表示大小。' },
     ],
     conditions: ['试探电荷足够小，不扰动源电荷分布', '点电荷公式要求电荷尺度远小于距离 \\(r\\)', '叠加原理在线性介质中成立', '电场方向定义为正电荷受力方向'],
-    keyPoints: ['电场是矢量，方向为正电荷受力方向', '电场强度与试探电荷无关', '场线不相交；密度大处场强大', '导体内部静电平衡时 \\(\\mathbf E=0\\)', '\\(\\mathrm{N\,C^{-1}}\\) 与 \\(\\mathrm{V\,m^{-1}}\\) 等价'],
+    keyPoints: ['电场是矢量，方向为正电荷受力方向', '电场强度与试探电荷无关', '场线不相交；密度大处场强大', '导体内部静电平衡时 \\(\\mathbf E=0\\)', '\\(\\mathrm{N\\,C^{-1}}\\) 与 \\(\\mathrm{V\\,m^{-1}}\\) 等价'],
     misconceptions: [
       '认为电场方向是负电荷受力方向',
       '认为电场强度与试探电荷电量有关',
@@ -2536,10 +2536,10 @@ export const ENRICHMENTS = {
         prompt: '点电荷 \\(q=2.0\\,\\mu\\mathrm{C}\\)，求距其 \\(0.30\\,\\mathrm{m}\\) 处的场强。',
         steps: [
           '\\(E=k\\dfrac{|q|}{r^{2}}=(9.0\\times10^{9})\\dfrac{2.0\\times10^{-6}}{(0.30)^{2}}\\)。',
-          '\\(E=2.0\\times10^{5}\\,\\mathrm{N\,C^{-1}}\\)，方向背离正电荷。',
+          '\\(E=2.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)，方向背离正电荷。',
         ],
-        solution: '\\(E=2.0\\times10^{5}\\,\\mathrm{N\,C^{-1}}\\)。',
-        solutionLatex: 'E=2.0\\times10^{5}\\,\\mathrm{N\,C^{-1}}',
+        solution: '\\(E=2.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}\\)。',
+        solutionLatex: 'E=2.0\\times10^{5}\\,\\mathrm{N\\,C^{-1}}',
       },
       {
         title: '例 2 · 等量同号电荷',
@@ -2553,14 +2553,14 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 3 · 电子加速',
-        prompt: '电子置于 \\(E=1.0\\times10^{4}\\,\\mathrm{N\,C^{-1}}\\) 的匀强电场中。求电场力与加速度。',
+        prompt: '电子置于 \\(E=1.0\\times10^{4}\\,\\mathrm{N\\,C^{-1}}\\) 的匀强电场中。求电场力与加速度。',
         steps: [
           '\\(F=eE=(1.6\\times10^{-19})(1.0\\times10^{4})=1.6\\times10^{-15}\\,\\mathrm{N}\\)。',
           '方向与电场相反（电子带负电）。',
-          '\\(a=\\dfrac{F}{m_e}=\\dfrac{1.6\\times10^{-15}}{9.11\\times10^{-31}}\\approx1.8\\times10^{15}\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(a=\\dfrac{F}{m_e}=\\dfrac{1.6\\times10^{-15}}{9.11\\times10^{-31}}\\approx1.8\\times10^{15}\\,\\mathrm{m\\,s^{-2}}\\)。',
         ],
-        solution: '\\(F=1.6\\times10^{-15}\\,\\mathrm{N}\\)，\\(a\\approx1.8\\times10^{15}\\,\\mathrm{m\,s^{-2}}\\)。',
-        solutionLatex: 'F=1.6\\times10^{-15}\\,\\mathrm{N},\\;a\\approx1.8\\times10^{15}\\,\\mathrm{m\,s^{-2}}',
+        solution: '\\(F=1.6\\times10^{-15}\\,\\mathrm{N}\\)，\\(a\\approx1.8\\times10^{15}\\,\\mathrm{m\\,s^{-2}}\\)。',
+        solutionLatex: 'F=1.6\\times10^{-15}\\,\\mathrm{N},\\;a\\approx1.8\\times10^{15}\\,\\mathrm{m\\,s^{-2}}',
       },
     ],
     examTips: [
@@ -2594,7 +2594,7 @@ export const ENRICHMENTS = {
       '电场是电势的负梯度：\\(E_x=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}\\)。',
       '电势差与路径无关，只与始末位置有关；零势点可任选。'
     ],
-    definition: '电势是单位电荷的电势能：\\(V=\\dfrac{U}{q}\\)，也可由 \\(V=-\\int_{\\infty}^{r}\\mathbf E\\cdot\\mathrm{d}\\mathbf r\\) 定义（取无穷远为零）。点电荷电势 \\(V=k\\dfrac{q}{r}\\)，是标量，可代数相加。单位伏特 \\(\\mathrm{V}=\\mathrm{J\,C^{-1}}\\)。',
+    definition: '电势是单位电荷的电势能：\\(V=\\dfrac{U}{q}\\)，也可由 \\(V=-\\int_{\\infty}^{r}\\mathbf E\\cdot\\mathrm{d}\\mathbf r\\) 定义（取无穷远为零）。点电荷电势 \\(V=k\\dfrac{q}{r}\\)，是标量，可代数相加。单位伏特 \\(\\mathrm{V}=\\mathrm{J\\,C^{-1}}\\)。',
     intuition: '电势像“高度”：正电荷自然从高电势滑向低电势，负电荷相反；真正可测量的是两点间的电势差。',
     intuitionDetailed: '电势是标量，叠加时直接带符号相加，比电场矢量叠加简单。电场指向电势降低最快的方向，等势面与电场线垂直；沿等势面移动电荷不做功。',
     formulas: [
@@ -2609,7 +2609,7 @@ export const ENRICHMENTS = {
       { from: '电场做功', to: '电势差', note: '\\(W_{\\mathrm{field}}=-\\Delta U=-q\\Delta V\\)。' },
     ],
     conditions: ['零势点可任选；点电荷通常取无穷远为零', '电势是标量，叠加不带方向', '电场与电势的梯度关系要求静电场（无旋场）', '电势差与路径无关，只与始末位置有关'],
-    keyPoints: ['电势是标量，电势能是电荷乘电势', '正电荷沿电场方向电势降低', '等势面上移动电荷电场力不做功', '导体静电平衡时整体等势', '\\(1\\,\\mathrm{V\,m^{-1}}=1\\,\\mathrm{N\,C^{-1}}\\)'],
+    keyPoints: ['电势是标量，电势能是电荷乘电势', '正电荷沿电场方向电势降低', '等势面上移动电荷电场力不做功', '导体静电平衡时整体等势', '\\(1\\,\\mathrm{V\\,m^{-1}}=1\\,\\mathrm{N\\,C^{-1}}\\)'],
     misconceptions: [
       '把电势与电势能混淆（后者依赖电荷）',
       '认为电势是矢量，需要分解',
@@ -2716,7 +2716,7 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 2 · 米尺',
-        prompt: '长 \\(1.0\\,\\mathrm{m}\\) 的均匀米尺一端悬挂，取 \\(g=9.8\\,\\mathrm{m\,s^{-2}}\\)。求周期。',
+        prompt: '长 \\(1.0\\,\\mathrm{m}\\) 的均匀米尺一端悬挂，取 \\(g=9.8\\,\\mathrm{m\\,s^{-2}}\\)。求周期。',
         steps: [
           '用 \\(T=2\\pi\\sqrt{\\dfrac{2L}{3g}}\\)。',
           '\\(T=2\\pi\\sqrt{\\dfrac{2(1.0)}{3(9.8)}}\\approx1.64\\,\\mathrm{s}\\)。',
@@ -2937,7 +2937,7 @@ export const ENRICHMENTS = {
       '电池内部消耗 \\(P_r=I^{2}r\\)；电能表测能量，不测功率。',
       '\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\) 是能量单位。'
     ],
-    definition: '电功率是电能转化为其他形式能量的速率。对元件 \\(P=IV\\)；对纯电阻 \\(P=I^{2}R=\\dfrac{V^{2}}{R}\\)。单位瓦特 \\(\\mathrm{W}=\\mathrm{J\,s^{-1}}\\)。电能 \\(E=\\int P\\,\\mathrm{d}t\\)，常用千瓦时 \\(\\mathrm{kW\\,h}\\)。',
+    definition: '电功率是电能转化为其他形式能量的速率。对元件 \\(P=IV\\)；对纯电阻 \\(P=I^{2}R=\\dfrac{V^{2}}{R}\\)。单位瓦特 \\(\\mathrm{W}=\\mathrm{J\\,s^{-1}}\\)。电能 \\(E=\\int P\\,\\mathrm{d}t\\)，常用千瓦时 \\(\\mathrm{kW\\,h}\\)。',
     intuition: '电压是“每库仑电荷的能量”，电流是“每秒流过多少库仑”，两者相乘就是每秒转化的能量。',
     intuitionDetailed: '电阻中电能不可逆地转化为内能；电动机把大部分电能转化为机械能，电池把化学能转化为电能。效率 \\(\\eta=\\dfrac{P_{\\mathrm{useful}}}{P_{\\mathrm{in}}}\\)，实际器件总有损耗。',
     formulas: [
@@ -3138,7 +3138,7 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 平面通量',
-        prompt: '\\(E=200\\,\\mathrm{N\,C^{-1}}\\)，面积 \\(A=0.50\\,\\mathrm{m^{2}}\\)。求面法线与电场成 \\(0^\\circ\\) 和 \\(60^\\circ\\) 时的电通量。',
+        prompt: '\\(E=200\\,\\mathrm{N\\,C^{-1}}\\)，面积 \\(A=0.50\\,\\mathrm{m^{2}}\\)。求面法线与电场成 \\(0^\\circ\\) 和 \\(60^\\circ\\) 时的电通量。',
         steps: [
           '垂直时 \\(\\theta=0\\)：\\(\\Phi_E=EA=200(0.50)=100\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
           '成 \\(60^\\circ\\) 时 \\(\\Phi_E=100\\cos60^\\circ=50\\,\\mathrm{N\\,m^{2}\\,C^{-1}}\\)。',
@@ -3225,18 +3225,18 @@ export const ENRICHMENTS = {
     examples: [
       {
         title: '例 1 · 滑冰收臂',
-        prompt: '滑冰者转动惯量由 \\(4.0\\) 降到 \\(1.0\\,\\mathrm{kg\\,m^{2}}\\)，初角速度 \\(2.0\\,\\mathrm{rad\,s^{-1}}\\)。求末角速度与动能变化。',
+        prompt: '滑冰者转动惯量由 \\(4.0\\) 降到 \\(1.0\\,\\mathrm{kg\\,m^{2}}\\)，初角速度 \\(2.0\\,\\mathrm{rad\\,s^{-1}}\\)。求末角速度与动能变化。',
         steps: [
           '无外力矩，角动量守恒：\\(I_i\\omega_i=I_f\\omega_f\\)。',
-          '\\(\\omega_f=\\dfrac{4.0(2.0)}{1.0}=8.0\\,\\mathrm{rad\,s^{-1}}\\)。',
+          '\\(\\omega_f=\\dfrac{4.0(2.0)}{1.0}=8.0\\,\\mathrm{rad\\,s^{-1}}\\)。',
           '\\(K_i=\\dfrac12(4.0)(2.0)^{2}=8.0\\,\\mathrm{J}\\)，\\(K_f=\\dfrac12(1.0)(8.0)^{2}=32\\,\\mathrm{J}\\)，动能增加来自肌肉做功。',
         ],
-        solution: '\\(\\omega_f=8.0\\,\\mathrm{rad\,s^{-1}}\\)，动能由 \\(8.0\\,\\mathrm{J}\\) 增至 \\(32\\,\\mathrm{J}\\)。',
-        solutionLatex: '\\omega_f=8.0\\,\\mathrm{rad\,s^{-1}},\\;K_f=32\\,\\mathrm{J}',
+        solution: '\\(\\omega_f=8.0\\,\\mathrm{rad\\,s^{-1}}\\)，动能由 \\(8.0\\,\\mathrm{J}\\) 增至 \\(32\\,\\mathrm{J}\\)。',
+        solutionLatex: '\\omega_f=8.0\\,\\mathrm{rad\\,s^{-1}},\\;K_f=32\\,\\mathrm{J}',
       },
       {
         title: '例 2 · 质点角动量',
-        prompt: '质量 \\(0.50\\,\\mathrm{kg}\\) 的质点距参考点 \\(2.0\\,\\mathrm{m}\\)，以 \\(3.0\\,\\mathrm{m\,s^{-1}}\\) 垂直于位矢运动。求角动量。',
+        prompt: '质量 \\(0.50\\,\\mathrm{kg}\\) 的质点距参考点 \\(2.0\\,\\mathrm{m}\\)，以 \\(3.0\\,\\mathrm{m\\,s^{-1}}\\) 垂直于位矢运动。求角动量。',
         steps: [
           '\\(\\mathbf r\\perp\\mathbf v\\)，\\(L=mvr\\)。',
           '\\(L=(0.50)(3.0)(2.0)=3.0\\,\\mathrm{kg\\,m^{2}\\,s^{-1}}\\)。',
@@ -3248,12 +3248,12 @@ export const ENRICHMENTS = {
         title: '例 3 · 角冲量',
         prompt: '圆盘 \\(I=0.20\\,\\mathrm{kg\\,m^{2}}\\) 静止，受恒定力矩 \\(0.60\\,\\mathrm{N\\,m}\\) 作用 \\(3.0\\,\\mathrm{s}\\)。求末角速度。',
         steps: [
-          '\\(\\alpha=\\dfrac{\\tau}{I}=\\dfrac{0.60}{0.20}=3.0\\,\\mathrm{rad\,s^{-2}}\\)。',
-          '\\(\\omega=\\alpha t=3.0(3.0)=9.0\\,\\mathrm{rad\,s^{-1}}\\)。',
+          '\\(\\alpha=\\dfrac{\\tau}{I}=\\dfrac{0.60}{0.20}=3.0\\,\\mathrm{rad\\,s^{-2}}\\)。',
+          '\\(\\omega=\\alpha t=3.0(3.0)=9.0\\,\\mathrm{rad\\,s^{-1}}\\)。',
           '验证角冲量：\\(\\tau t=0.60(3.0)=1.8\\,\\mathrm{N\\,m\\,s}=L=I\\omega=1.8\\)。',
         ],
-        solution: '\\(\\omega=9.0\\,\\mathrm{rad\,s^{-1}}\\)。',
-        solutionLatex: '\\omega=9.0\\,\\mathrm{rad\,s^{-1}}',
+        solution: '\\(\\omega=9.0\\,\\mathrm{rad\\,s^{-1}}\\)。',
+        solutionLatex: '\\omega=9.0\\,\\mathrm{rad\\,s^{-1}}',
       },
     ],
     examTips: [
@@ -3493,20 +3493,20 @@ export const ENRICHMENTS = {
         prompt: '地球质量 \\(5.97\\times10^{24}\\,\\mathrm{kg}\\)，半径 \\(6.37\\times10^{6}\\,\\mathrm{m}\\)。求表面重力加速度。',
         steps: [
           '\\(g=\\dfrac{GM}{R^{2}}\\)。',
-          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.37\\times10^{6})^{2}}\\approx9.8\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.37\\times10^{6})^{2}}\\approx9.8\\,\\mathrm{m\\,s^{-2}}\\)。',
         ],
-        solution: '\\(g\\approx9.8\\,\\mathrm{m\,s^{-2}}\\)。',
-        solutionLatex: 'g\\approx9.8\\,\\mathrm{m\,s^{-2}}',
+        solution: '\\(g\\approx9.8\\,\\mathrm{m\\,s^{-2}}\\)。',
+        solutionLatex: 'g\\approx9.8\\,\\mathrm{m\\,s^{-2}}',
       },
       {
         title: '例 2 · 高空 g',
         prompt: '求距地面 \\(400\\,\\mathrm{km}\\) 处的 \\(g\\)。',
         steps: [
           '\\(r=R+h=6.37\\times10^{6}+4.0\\times10^{5}=6.77\\times10^{6}\\,\\mathrm{m}\\)。',
-          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.77\\times10^{6})^{2}}\\approx8.7\\,\\mathrm{m\,s^{-2}}\\)。',
+          '\\(g=\\dfrac{(6.67\\times10^{-11})(5.97\\times10^{24})}{(6.77\\times10^{6})^{2}}\\approx8.7\\,\\mathrm{m\\,s^{-2}}\\)。',
         ],
-        solution: '\\(g\\approx8.7\\,\\mathrm{m\,s^{-2}}\\)，约为地面的 \\(89\\%\\)。',
-        solutionLatex: 'g\\approx8.7\\,\\mathrm{m\,s^{-2}}',
+        solution: '\\(g\\approx8.7\\,\\mathrm{m\\,s^{-2}}\\)，约为地面的 \\(89\\%\\)。',
+        solutionLatex: 'g\\approx8.7\\,\\mathrm{m\\,s^{-2}}',
       },
       {
         title: '例 3 · 两物体间引力',
@@ -4805,7 +4805,7 @@ export const ENRICHMENTS = {
       "角量方程与线量方程一一对应",
       "同一刚体各点角速度相同、线速度不同",
       "\\(a_t\\) 改变速率，\\(a_c\\) 改变方向",
-      "转速 \\(n\\)（rpm）换角速度：\\(\\omega=2\\pi n/60\\)",
+      "转速 \\(n\\)（rpm）换角速度：\\(\\omega=\\dfrac{2\\pi n}{60}\\)",
       "弧度制是 \\(s=r\\theta\\) 成立的前提"
     ],
     connections: [
@@ -4823,7 +4823,7 @@ export const ENRICHMENTS = {
       { latex: 'a_c=\\omega^{2}r=\\dfrac{v^{2}}{r}', note: '向心加速度。' },
     ],
     conditions: ['定轴转动；转轴固定', '角量必须用弧度', '匀角加速方程仅适用于 \\(\\alpha\\) 恒定', '\\(v=r\\omega\\) 中的 \\(r\\) 是该点到轴的距离', '皮带/齿轮传动时边缘线速度相同，角速度与半径成反比'],
-    keyPoints: ['角量方程与线量方程一一对应', '同一刚体各点角速度相同、线速度不同', '\\(a_t\\) 改变速率，\\(a_c\\) 改变方向', '转速 \\(n\\)（rpm）换角速度：\\(\\omega=2\\pi n/60\\)', '弧度制是 \\(s=r\\theta\\) 成立的前提'],
+    keyPoints: ['角量方程与线量方程一一对应', '同一刚体各点角速度相同、线速度不同', '\\(a_t\\) 改变速率，\\(a_c\\) 改变方向', '转速 \\(n\\)（rpm）换角速度：\\(\\omega=\\dfrac{2\\pi n}{60}\\)', '弧度制是 \\(s=r\\theta\\) 成立的前提'],
     misconceptions: [
       '用角度制代入 \\(s=r\\theta\\) 或 \\(v=r\\omega\\)',
       '认为同一刚体上各点线速度相同',
@@ -4887,7 +4887,7 @@ export const ENRICHMENTS = {
     derivationNotes: [
       { from: '力矩定义', to: '转动牛顿第二定律', note: '\\(\\tau_{\\mathrm{net}}=I\\alpha\\) 与 \\(F=ma\\) 对应。' },
       { from: '质量分布', to: '转动惯量', note: '\\(I=\\sum m_ir_i^{2}\\)；平行轴定理 \\(I=I_{\\mathrm{cm}}+Md^{2}\\)。' },
-      { from: '力矩做功', to: '转动动能', note: '\\(W=\\int\\tau\,\\mathrm{d}\\theta\\)，\\(K_{\\mathrm{rot}}=\\dfrac{1}{2}I\\omega^{2}\\)。' },
+      { from: '力矩做功', to: '转动动能', note: '\\(W=\\int\\tau\\,\\mathrm{d}\\theta\\)，\\(K_{\\mathrm{rot}}=\\dfrac{1}{2}I\\omega^{2}\\)。' },
     ],
     connections: [
       '先修：5.1 力矩与 5.2 转动运动学。',
@@ -4923,7 +4923,7 @@ export const ENRICHMENTS = {
       {
         title: '例 2 · 滑轮与物块',
         prompt: '\\(0.20\\,\\mathrm{kg}\\) 的物块挂在绳上，绳绕在质量 \\(0.50\\,\\mathrm{kg}\\)、半径 \\(0.10\\,\\mathrm{m}\\) 的圆盘滑轮边缘。求物块加速度（忽略轴摩擦）。',
-        steps: ['物块：\\(mg-T=ma\\)；滑轮：\\(TR=I\\alpha\\)，\\(a=R\\alpha\\)。', '\\(I=\\dfrac{1}{2}(0.50)(0.10)^{2}=2.5\\times10^{-3}\\,\\mathrm{kg\\,m^{2}}\\)，\\(I/R^{2}=0.25\\,\\mathrm{kg}\\)。', '\\(a=\\dfrac{mg}{m+I/R^{2}}=\\dfrac{0.20(9.8)}{0.20+0.25}=4.36\\,\\mathrm{m/s^{2}}\\)。'],
+        steps: ['物块：\\(mg-T=ma\\)；滑轮：\\(TR=I\\alpha\\)，\\(a=R\\alpha\\)。', '\\(I=\\dfrac{1}{2}(0.50)(0.10)^{2}=2.5\\times10^{-3}\\,\\mathrm{kg\\,m^{2}}\\)，\\(\\dfrac{I}{R^{2}}=0.25\\,\\mathrm{kg}\\)。', '\\(a=\\dfrac{mg}{m+\\dfrac{I}{R^{2}}}=\\dfrac{0.20(9.8)}{0.20+0.25}=4.36\\,\\mathrm{m/s^{2}}\\)。'],
         solution: '\\(a\\approx 4.4\\,\\mathrm{m/s^{2}}\\)，\\(T\\approx 1.1\\,\\mathrm{N}\\)。',
         solutionLatex: 'a\\approx 4.4\\,\\mathrm{m/s^{2}}',
       },
@@ -4963,7 +4963,7 @@ export const ENRICHMENTS = {
       "\\(I\\) 越大、\\(\\omega\\) 越大，转动动能越大",
       "平行轴定理中 \\(Md^{2}\\) 总是增加 \\(I\\)",
       "纯滚动总动能 = 平动 + 绕质心转动",
-      "质量分布越靠外，\\(I/MR^{2}\\) 越大"
+      "质量分布越靠外，\\(\\dfrac{I}{MR^{2}}\\) 越大"
     ],
     connections: [
       "先修：5.3 转动动力学",
@@ -4980,7 +4980,7 @@ export const ENRICHMENTS = {
       { latex: 'K=\\dfrac{1}{2}Mv_{\\mathrm{cm}}^{2}+\\dfrac{1}{2}I_{\\mathrm{cm}}\\omega^{2}', note: '刚体一般运动的总动能。' },
     ],
     conditions: ['\\(I\\) 必须关于所讨论的转轴', '平行轴定理要求两轴平行，且其中一轴过质心', '刚体；\\(I\\) 不随运动改变', '纯滚动时 \\(v_{\\mathrm{cm}}=R\\omega\\)，无滑动', '总动能分解要求 \\(v_{\\mathrm{cm}}\\) 与 \\(\\omega\\) 关于质心'],
-    keyPoints: ['转动动能是标量', '\\(I\\) 越大、\\(\\omega\\) 越大，转动动能越大', '平行轴定理中 \\(Md^{2}\\) 总是增加 \\(I\\)', '纯滚动总动能 = 平动 + 绕质心转动', '质量分布越靠外，\\(I/MR^{2}\\) 越大'],
+    keyPoints: ['转动动能是标量', '\\(I\\) 越大、\\(\\omega\\) 越大，转动动能越大', '平行轴定理中 \\(Md^{2}\\) 总是增加 \\(I\\)', '纯滚动总动能 = 平动 + 绕质心转动', '质量分布越靠外，\\(\\dfrac{I}{MR^{2}}\\) 越大'],
     misconceptions: [
       '把转动动能写成 \\(\\dfrac{1}{2}mv^{2}\\)',
       '认为 \\(I\\) 与转轴无关',
@@ -5006,7 +5006,7 @@ export const ENRICHMENTS = {
       {
         title: '例 3 · 纯滚动',
         prompt: '实心球从高 \\(1.0\\,\\mathrm{m}\\) 的斜面由静止纯滚动到底端。求质心速率（\\(g=9.8\\,\\mathrm{m/s^{2}}\\)）。',
-        steps: ['能量：\\(mgh=\\dfrac{1}{2}mv^{2}+\\dfrac{1}{2}I\\omega^{2}\\)，\\(\\omega=v/R\\)。', '\\(I=\\dfrac{2}{5}mR^{2}\\Rightarrow mgh=\\dfrac{1}{2}mv^{2}+\\dfrac{1}{5}mv^{2}=\\dfrac{7}{10}mv^{2}\\)。', '\\(v=\\sqrt{\\dfrac{10gh}{7}}=\\sqrt{\\dfrac{98}{7}}=3.74\\,\\mathrm{m/s}\\)。'],
+        steps: ['能量：\\(mgh=\\dfrac{1}{2}mv^{2}+\\dfrac{1}{2}I\\omega^{2}\\)，\\(\\omega=\\dfrac{v}{R}\\)。', '\\(I=\\dfrac{2}{5}mR^{2}\\Rightarrow mgh=\\dfrac{1}{2}mv^{2}+\\dfrac{1}{5}mv^{2}=\\dfrac{7}{10}mv^{2}\\)。', '\\(v=\\sqrt{\\dfrac{10gh}{7}}=\\sqrt{\\dfrac{98}{7}}=3.74\\,\\mathrm{m/s}\\)。'],
         solution: '\\(v\\approx 3.7\\,\\mathrm{m/s}\\)。',
         solutionLatex: 'v\\approx 3.7\\,\\mathrm{m/s}',
       },
@@ -5046,9 +5046,9 @@ export const ENRICHMENTS = {
       "后续：7.2 单摆",
       "后续：7.3 复摆"
     ],
-    definition: '周期运动是状态随时间重复的运动。简谐运动（SHM）的回复力与位移成正比且方向相反：\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{k/m}\\)，周期 \\(T=2\\pi\\sqrt{m/k}\\)。',
+    definition: '周期运动是状态随时间重复的运动。简谐运动（SHM）的回复力与位移成正比且方向相反：\\(F=-kx\\)，因此 \\(a=-\\omega^{2}x\\)。运动学解为 \\(x=A\\cos(\\omega t+\\phi)\\)，其中 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)，周期 \\(T=2\\pi\\sqrt{\\dfrac{m}{k}}\\)。',
     intuition: 'SHM 是“被拉回平衡位置”的运动：离平衡越远，回复力越大，加速度越大；在平衡位置速度最大、加速度为零。',
-    intuitionDetailed: '\\(x\\text{-}t\\) 图是正弦/余弦，\\(v\\text{-}t\\) 与 \\(a\\text{-}t\\) 分别相位超前 \\(\\pi/2\\) 与 \\(\\pi\\)。能量在动能与弹性势能之间转化，总能量 \\(E=\\dfrac{1}{2}kA^{2}\\) 恒定。振幅不影响周期，周期只由 \\(m\\) 与 \\(k\\) 决定。',
+    intuitionDetailed: '\\(x\\text{-}t\\) 图是正弦/余弦，\\(v\\text{-}t\\) 与 \\(a\\text{-}t\\) 分别相位超前 \\(\\dfrac{\\pi}{2}\\) 与 \\(\\pi\\)。能量在动能与弹性势能之间转化，总能量 \\(E=\\dfrac{1}{2}kA^{2}\\) 恒定。振幅不影响周期，周期只由 \\(m\\) 与 \\(k\\) 决定。',
     formulas: [
       { latex: 'F=-kx,\\quad a=-\\omega^{2}x', note: 'SHM 的动力学判据。' },
       { latex: 'x=A\\cos(\\omega t+\\phi),\\quad v=-A\\omega\\sin(\\omega t+\\phi)', note: '位移与速度。' },
@@ -5081,7 +5081,7 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 3 · 能量分配',
-        prompt: 'SHM 中当位移 \\(x=A/2\\) 时，动能与势能各占总能量的多少？',
+        prompt: 'SHM 中当位移 \\(x=\\dfrac{A}{2}\\) 时，动能与势能各占总能量的多少？',
         steps: ['\\(U=\\dfrac{1}{2}k\\left(\\dfrac{A}{2}\\right)^{2}=\\dfrac{1}{4}\\left(\\dfrac{1}{2}kA^{2}\\right)=\\dfrac{1}{4}E\\)。', '故 \\(K=E-U=\\dfrac{3}{4}E\\)。'],
         solution: '\\(K:E=3:1\\)。',
         solutionLatex: 'K:E=3:1',
@@ -5089,7 +5089,7 @@ export const ENRICHMENTS = {
     ],
     examTips: [
       'CED Unit 7：周期运动',
-      '先确认 \\(F=-kx\\)，再写 \\(\\omega=\\sqrt{k/m}\\)',
+      '先确认 \\(F=-kx\\)，再写 \\(\\omega=\\sqrt{\\dfrac{k}{m}}\\)',
       '运动学题先由初始条件定 \\(A\\) 与 \\(\\phi\\)',
       '能量题用 \\(E=\\dfrac{1}{2}kA^{2}\\) 最省事',
     ],
@@ -8499,7 +8499,7 @@ export const ENRICHMENTS = {
         subject: "math",
         chapterId: "calc-u10",
         code: "10.14",
-        title: "函数表示为幂级数 · Representing Functions as Power Series",
+        title: "求函数的泰勒或麦克劳林级数 · Finding Taylor or Maclaurin Series for a Function",
         relation: "应用 · Application"
       }
     ],
@@ -9258,7 +9258,7 @@ export const ENRICHMENTS = {
     essentialKnowledge: [
       'LC 回路：\\(L\\dfrac{\\mathrm{d}^{2}q}{\\mathrm{d}t^{2}}+\\dfrac{q}{C}=0\\)。',
       '角频率：\\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)；周期 \\(T=2\\pi\\sqrt{LC}\\)。',
-      '电荷与电流相位差 \\(\\pi/2\\)：\\(q\\) 最大时 \\(i=0\\)，\\(i\\) 最大时 \\(q=0\\)。',
+      '电荷与电流相位差 \\(\\dfrac{\\pi}{2}\\)：\\(q\\) 最大时 \\(i=0\\)，\\(i\\) 最大时 \\(q=0\\)。',
       '能量在 \\(U_C=\\dfrac{q^{2}}{2C}\\) 与 \\(U_L=\\dfrac{1}{2}Li^{2}\\) 之间转化。',
       '总能量：\\(\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}\\)。',
     ],
@@ -9317,7 +9317,7 @@ export const ENRICHMENTS = {
       'CED Unit 13：LC 振荡',
       '先算 \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)，再求 \\(f\\)、\\(T\\)',
       '能量守恒用 \\(\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}\\)',
-      '\\(q\\) 与 \\(i\\) 相位差 \\(\\pi/2\\)',
+      '\\(q\\) 与 \\(i\\) 相位差 \\(\\dfrac{\\pi}{2}\\)',
       '实际电路有阻尼，振幅衰减',
     ],
     related: [
@@ -11433,7 +11433,7 @@ export const ENRICHMENTS = {
     related: [
       { subject: 'math', chapterId: 'calc-u10', code: '10.8', title: '比值检验 · Ratio Test for Convergence', relation: '先修 · Prerequisite' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.7', title: '交替级数 · Alternating Series Test for Convergence', relation: '端点工具 · Endpoint tool' },
-      { subject: 'math', chapterId: 'calc-u10', code: '10.14', title: '函数表示为幂级数 · Finding Taylor or Maclaurin Series for a Function', relation: '后续 · Follow-up' },
+      { subject: 'math', chapterId: 'calc-u10', code: '10.14', title: '求函数的泰勒或麦克劳林级数 · Finding Taylor or Maclaurin Series for a Function', relation: '后续 · Follow-up' },
       { subject: 'math', chapterId: 'calc-u10', code: '10.15', title: '函数表示为幂级数 · Representing Functions as Power Series', relation: '后续 · Follow-up' },
     ],
     development: ['幂级数的中心与系数 · Center and coefficients', '比值检验 · Ratio test', '收敛半径 · Radius of convergence', '端点检验 · Endpoint checks', '收敛区间记号 · Interval notation'],
