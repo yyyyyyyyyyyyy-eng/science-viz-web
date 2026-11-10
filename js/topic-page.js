@@ -3,8 +3,20 @@ import { getChapter, getSubjectTree } from '../modules/registry.js';
 import { markVisited, markCompleted, isCompleted, isVisited } from './progress.js';
 import { loadCourseData } from '../data/courses.js';
 import { pastPapersForTopic } from '../data/shared/pastpapers.js';
-import { mountTopicExamFigures } from '../modules/physics/exam-figures.js';
+import { mountTopicExamFigures, enhanceExamFigures } from '../modules/physics/exam-figures.js';
 import { renderFigures } from '../data/math/figlib.js';
+
+const STYLE_ID = 'topic-extras-style';
+const STYLE_HREF = 'css/topic-extras.css';
+
+function ensureStyle() {
+  if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return;
+  const link = document.createElement('link');
+  link.id = STYLE_ID;
+  link.rel = 'stylesheet';
+  link.href = STYLE_HREF;
+  document.head.appendChild(link);
+}
 
 function topicId(subject, chapterId, code) {
   return `topic:${subject}/${chapterId}/${code}`;
@@ -50,8 +62,12 @@ function appendMathText(parent, text, className) {
   return wrap;
 }
 
-function appendMathLi(ul, text) {
+function appendMathLi(ul, text, options = {}) {
   const li = el('li');
+  if (options.badge) {
+    li.appendChild(el('span', { className: 'topic-dont-write', text: options.badge }));
+    li.appendChild(document.createTextNode(' '));
+  }
   const s = String(text ?? '');
   const re = /(\\\[[\s\S]+?\\\])|(\\\([\s\S]+?\\\))/g;
   let last = 0;
@@ -72,6 +88,234 @@ function navHeight() {
   return parseFloat(value) || 60;
 }
 
+/* ---------- PHYS-08: slash-fraction counterexamples ---------- */
+const SLASH_COUNTEREXAMPLE = /\d\s*\/\s*[0-9A-Za-z]/;
+
+function isSlashCounterexample(text) {
+  const s = String(text ?? '');
+  return SLASH_COUNTEREXAMPLE.test(s) && /斜线|slash/i.test(s);
+}
+
+/* ---------- Vocabulary popovers on first body occurrence ---------- */
+let activeVocabTip = null;
+let suppressVocabFocus = 0;
+let vocabHideTimer = 0;
+
+function scheduleVocabClose(delay = 180) {
+  clearTimeout(vocabHideTimer);
+  vocabHideTimer = setTimeout(() => {
+    vocabHideTimer = 0;
+    if (!activeVocabTip || activeVocabTip.hovering) return;
+    if (activeVocabTip.tip.contains(document.activeElement)) return;
+    if (activeVocabTip.source === 'click') return;
+    closeVocabTip({ restoreFocus: false });
+  }, delay);
+}
+
+function vocabWordPattern(term) {
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const left = /^[A-Za-z0-9]/.test(term) ? '(?<![A-Za-z0-9])' : '';
+  const right = /[A-Za-z0-9]$/.test(term) ? '(?![A-Za-z0-9])' : '';
+  return `${left}${escaped}${right}`;
+}
+
+function firstVocabMatch(blocks, regex) {
+  for (const block of blocks) {
+    const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        if (parent.closest('#topic-sec-vocabulary, .exam-figures, .topic-vocab-term, .katex, .tex, .tex-inline, script, style, a, button, h1, h2, h3, summary, .topic-outline, .topic-pager')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      const match = regex.exec(node.nodeValue);
+      if (match) return { node, match };
+    }
+  }
+  return null;
+}
+
+function closeVocabTip({ restoreFocus = true } = {}) {
+  if (!activeVocabTip) return;
+  const { term, tip, onPointerDown, onKeydown, onScroll } = activeVocabTip;
+  activeVocabTip = null;
+  clearTimeout(vocabHideTimer);
+  vocabHideTimer = 0;
+  term.setAttribute('aria-expanded', 'false');
+  tip.remove();
+  document.removeEventListener('pointerdown', onPointerDown, true);
+  document.removeEventListener('keydown', onKeydown, true);
+  window.removeEventListener('scroll', onScroll);
+  window.removeEventListener('resize', onScroll);
+  if (restoreFocus && term.isConnected) {
+    suppressVocabFocus = Date.now() + 350;
+    try { term.focus({ preventScroll: true }); } catch (_) { term.focus(); }
+  }
+}
+
+function positionVocabTip(tip, term) {
+  const rect = term.getBoundingClientRect();
+  const gap = 10;
+  const margin = 8;
+  tip.style.visibility = 'hidden';
+  tip.style.left = '0px';
+  tip.style.top = '0px';
+  const width = tip.offsetWidth;
+  const height = tip.offsetHeight;
+  const vw = document.documentElement.clientWidth || window.innerWidth;
+  const vh = window.innerHeight;
+  let left = Math.min(Math.max(margin, rect.left), Math.max(margin, vw - width - margin));
+  let top = rect.bottom + gap;
+  if (top + height > vh - margin) top = rect.top - height - gap;
+  if (top < margin) top = margin;
+  tip.style.left = `${Math.round(left)}px`;
+  tip.style.top = `${Math.round(top)}px`;
+  tip.style.visibility = '';
+}
+
+function openVocabTip(term, item, { moveFocus = false, source = 'click' } = {}) {
+  closeVocabTip({ restoreFocus: false });
+  const tip = el('div', { className: 'topic-vocab-tip', role: 'dialog', 'aria-modal': 'false' });
+  tip.setAttribute('aria-label', `${item.termZh || item.termEn} 释义 · Definition`);
+  const head = el('div', { className: 'topic-vocab-tip-head' });
+  head.appendChild(el('p', { className: 'topic-vocab-tip-term', text: `${item.termZh || ''} · ${item.termEn || ''}` }));
+  const close = el('button', { type: 'button', className: 'topic-vocab-tip-close', 'aria-label': '关闭 · Close', text: '关闭 · Close' });
+  head.appendChild(close);
+  tip.appendChild(head);
+  const body = el('div', { className: 'topic-vocab-tip-body' });
+  if (item.defZh) appendMathText(body, item.defZh, 'topic-vocab-def zh');
+  if (item.defEn) appendMathText(body, item.defEn, 'topic-vocab-def en');
+  tip.appendChild(body);
+  document.body.appendChild(tip);
+  positionVocabTip(tip, term);
+  term.setAttribute('aria-expanded', 'true');
+
+  const onPointerDown = (event) => {
+    if (tip.contains(event.target) || term.contains(event.target)) return;
+    closeVocabTip({ restoreFocus: false });
+  };
+  const onKeydown = (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      closeVocabTip();
+    }
+  };
+  const onScroll = () => closeVocabTip({ restoreFocus: false });
+  close.addEventListener('click', () => closeVocabTip());
+  tip.addEventListener('pointerenter', () => {
+    if (!activeVocabTip) return;
+    activeVocabTip.hovering = true;
+    clearTimeout(vocabHideTimer);
+  });
+  tip.addEventListener('pointerleave', () => {
+    if (!activeVocabTip) return;
+    activeVocabTip.hovering = false;
+    scheduleVocabClose();
+  });
+  document.addEventListener('pointerdown', onPointerDown, true);
+  document.addEventListener('keydown', onKeydown, true);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+
+  activeVocabTip = {
+    term,
+    tip,
+    onPointerDown,
+    onKeydown,
+    onScroll,
+    source,
+    hovering: false,
+  };
+  if (moveFocus) close.focus({ preventScroll: true });
+}
+
+function enhanceVocabulary(content, vocabulary) {
+  if (!Array.isArray(vocabulary) || !vocabulary.length) return;
+  const blocks = [...content.querySelectorAll('.topic-block')]
+    .filter((block) => block.id !== 'topic-sec-vocabulary' && !block.classList.contains('exam-figures'));
+  if (!blocks.length) return;
+  const items = vocabulary
+    .map((item) => {
+      const words = [item.termZh, item.termEn].filter(Boolean).sort((a, b) => b.length - a.length);
+      if (!words.length) return null;
+      return {
+        item,
+        regex: new RegExp(words.map(vocabWordPattern).join('|'), 'i'),
+        length: words[0].length,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+
+  for (const { item, regex } of items) {
+    const found = firstVocabMatch(blocks, regex);
+    if (!found) continue;
+    const { node, match } = found;
+    const text = node.nodeValue;
+    const before = text.slice(0, match.index);
+    const after = text.slice(match.index + match[0].length);
+    const term = el('button', {
+      type: 'button',
+      className: 'topic-vocab-term',
+      'aria-expanded': 'false',
+      'aria-haspopup': 'dialog',
+      text: match[0],
+    });
+    term.setAttribute('aria-label', `${match[0]} · ${item.termZh || item.termEn}`);
+    const parent = node.parentNode;
+    if (!parent) continue;
+    if (before) parent.insertBefore(document.createTextNode(before), node);
+    parent.insertBefore(term, node);
+    if (after) parent.insertBefore(document.createTextNode(after), node);
+    parent.removeChild(node);
+
+    term.addEventListener('pointerenter', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (activeVocabTip?.term === term) return;
+      openVocabTip(term, item, { source: 'hover' });
+    });
+    term.addEventListener('pointerleave', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (activeVocabTip?.term !== term) return;
+      scheduleVocabClose();
+    });
+    term.addEventListener('focus', () => {
+      if (Date.now() < suppressVocabFocus) return;
+      if (activeVocabTip?.term === term) return;
+      openVocabTip(term, item, { source: 'focus' });
+    });
+    term.addEventListener('blur', () => {
+      if (activeVocabTip?.term !== term) return;
+      if (activeVocabTip.tip.contains(document.activeElement)) return;
+      setTimeout(() => {
+        if (!activeVocabTip || activeVocabTip.term !== term) return;
+        if (activeVocabTip.tip.contains(document.activeElement)) return;
+        closeVocabTip({ restoreFocus: false });
+      }, 0);
+    });
+    term.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (activeVocabTip?.term === term) {
+        if (activeVocabTip.source !== 'click') {
+          activeVocabTip.source = 'click';
+          if (event.detail === 0) activeVocabTip.tip.querySelector('.topic-vocab-tip-close')?.focus();
+          return;
+        }
+        closeVocabTip();
+        return;
+      }
+      openVocabTip(term, item, { moveFocus: event.detail === 0, source: 'click' });
+    });
+  }
+}
+
 function topicOrder(data, subject) {
   const all = data.allTopics?.() || [];
   const out = [];
@@ -85,6 +329,7 @@ function topicOrder(data, subject) {
 }
 
 export async function renderTopicPage(main, { subject, chapterId, code, isCurrent = () => true }) {
+  ensureStyle();
   clear(main);
   main.appendChild(el('div', { className: 'page-loading' }, [
     el('span', { className: 'loading-line', text: '加载知识点…' }),
@@ -135,14 +380,14 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   );
 
   const layout = el('div', { className: 'topic-layout' });
-  const rail = el('aside', { className: 'topic-rail', 'aria-label': '本页导航' });
+  const rail = el('aside', { className: 'topic-rail', 'aria-label': '本页导航 · Page navigation' });
   const content = el('div', { className: 'topic-content' });
   layout.append(rail, content);
   main.appendChild(layout);
 
   const outline = [];
   const makeOutlineNav = (className = 'topic-outline') => {
-    const nav = el('nav', { className, 'aria-label': '页内目录' });
+    const nav = el('nav', { className, 'aria-label': '页内目录 · On this page' });
     outline.forEach((item) => {
       const b = el('button', {
         type: 'button',
@@ -205,10 +450,10 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   content.appendChild(header);
 
   const mobileNav = el('details', { className: 'topic-outline-mobile' });
-  mobileNav.appendChild(el('summary', { className: 'hit-target', text: '本页目录' }));
+  mobileNav.appendChild(el('summary', { className: 'hit-target', text: '本页目录 · On this page' }));
   content.appendChild(mobileNav);
 
-  const defSec = block('definition', '定义');
+  const defSec = block('definition', '定义 · Definition');
   appendMathText(defSec, topic.definition);
   if (topic.intuition) appendMathText(defSec, topic.intuition, 'muted');
 
@@ -223,17 +468,17 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.essentialKnowledge?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.essentialKnowledge.forEach((c) => appendMathLi(ul, c));
-    block('essential', '本质知识（教学改写）').appendChild(ul);
+    block('essential', '本质知识 · Essential Knowledge').appendChild(ul);
   }
 
   if (topic.learningObjectives?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.learningObjectives.forEach((c) => appendMathLi(ul, c));
-    block('objectives', '学习目标').appendChild(ul);
+    block('objectives', '学习目标 · Learning Objectives').appendChild(ul);
   }
 
   if (topic.formulas?.length) {
-    const box = block('formulas', '公式');
+    const box = block('formulas', '公式 · Formulas');
     topic.formulas.forEach((f) => {
       box.appendChild(renderKatex(f.latex, true));
       if (f.note) appendMathText(box, f.note, 'formula-note');
@@ -243,29 +488,32 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.derivationNotes?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.derivationNotes.forEach((d) => appendMathLi(ul, `${d.from} → ${d.note}`));
-    block('derivation', '推导要点').appendChild(ul);
+    block('derivation', '推导要点 · Derivation').appendChild(ul);
   }
 
   if (topic.conditions?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.conditions.forEach((c) => appendMathLi(ul, c));
-    block('conditions', '条件与假设').appendChild(ul);
+    block('conditions', '条件与假设 · Conditions').appendChild(ul);
   }
 
   if (topic.keyPoints?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.keyPoints.forEach((c) => appendMathLi(ul, c));
-    block('keypoints', '要点').appendChild(ul);
+    block('keypoints', '要点 · Key Points').appendChild(ul);
   }
 
   if (topic.misconceptions?.length) {
     const ul = el('ul', { className: 'topic-list' });
-    topic.misconceptions.forEach((c) => appendMathLi(ul, c));
-    block('misconceptions', '常见误解').appendChild(ul);
+    topic.misconceptions.forEach((c) => {
+      const badge = isSlashCounterexample(c) ? "不要这样写 · Don't write" : '';
+      appendMathLi(ul, c, badge ? { badge } : {});
+    });
+    block('misconceptions', '常见误解 · Misconceptions').appendChild(ul);
   }
 
   if (topic.examples?.length) {
-    const sec = block('examples', '例题');
+    const sec = block('examples', '例题 · Examples');
     topic.examples.forEach((ex) => {
       sec.appendChild(el('h3', { text: ex.title || '例题' }));
       appendMathText(sec, ex.prompt);
@@ -282,11 +530,11 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.examTips?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.examTips.forEach((c) => appendMathLi(ul, c));
-    block('tips', 'AP 提示').appendChild(ul);
+    block('tips', 'AP 提示 · Exam Tips').appendChild(ul);
   }
 
   if (topic.modules?.length) {
-    const sec = block('modules', '可视化实验');
+    const sec = block('modules', '可视化实验 · Simulations');
     topic.modules.forEach((m) => {
       sec.appendChild(el('a', { className: 'entry-row hit-target', href: `#/m/${m.id}` }, [
         el('h3', { text: m.title }),
@@ -297,11 +545,11 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.connections?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.connections.forEach((c) => appendMathLi(ul, c));
-    block('connections', '知识联系').appendChild(ul);
+    block('connections', '知识联系 · Connections').appendChild(ul);
   }
 
   if (topic.related?.length) {
-    const sec = block('related', '相关知识点');
+    const sec = block('related', '相关知识点 · Related Topics');
     topic.related.forEach((r) => {
       const label = r.titleZh || r.title || '';
       const rel = r.relation ? `${r.relation} · ` : '';
@@ -316,20 +564,20 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   }
 
   if (topic.intuitionDetailed) {
-    appendMathText(block('intuition', '直觉理解'), topic.intuitionDetailed);
+    appendMathText(block('intuition', '直觉理解 · Intuition'), topic.intuitionDetailed);
   }
   if (topic.development?.length) {
     const ol = el('ol', { className: 'topic-list' });
     topic.development.forEach((s) => appendMathLi(ol, s));
-    block('development', '循序展开').appendChild(ol);
+    block('development', '循序展开 · Development').appendChild(ol);
   }
   if (topic.checks?.length) {
     const ul = el('ul', { className: 'topic-list' });
     topic.checks.forEach((s) => appendMathLi(ul, s));
-    block('checks', '自测').appendChild(ul);
+    block('checks', '自测 · Self-check').appendChild(ul);
   }
   if (topic.summary) {
-    appendMathText(block('summary', '小结'), topic.summary);
+    appendMathText(block('summary', '小结 · Summary'), topic.summary);
   }
 
   // Exam figures — physics via module/topic maps; bio/math via topic.figures.
@@ -342,14 +590,15 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     }
     if (figSec) {
       figSec.id = 'topic-sec-figures';
-      outline.push({ id: figSec.id, label: '图示' });
+      outline.push({ id: figSec.id, label: '图示 · Figures' });
+      enhanceExamFigures(figSec);
     }
   } catch (_) {}
 
   try {
     const papers = pastPapersForTopic(`${chapterId}:${code}`);
     if (papers?.length) {
-      const sec = block('pastpapers', '历年真题');
+      const sec = block('pastpapers', '历年真题 · Past Papers');
       sec.appendChild(el('p', { className: 'muted', text: '仅官方 PDF 链接与原创复述，不含试题原文。' }));
       papers.slice(0, 12).forEach((e) => {
         const row = el('div', { className: 'pastpaper-row' });
@@ -365,21 +614,37 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     }
   } catch (_) {}
 
+  enhanceVocabulary(content, topic.vocabulary);
+
   mobileNav.appendChild(makeOutlineNav('topic-outline topic-outline-inline'));
 
-  const pager = el('nav', { className: 'page-pager topic-pager', 'aria-label': '知识点导航' }, [
+  const pager = el('nav', { className: 'page-pager topic-pager', 'aria-label': '知识点导航 · Topic navigation' }, [
     prev
-      ? el('a', { className: 'pager-link prev hit-target', href: `#/t/${subject}/${prev.chapterId}/${prev.code}` }, [
-          el('span', { className: 'pager-label', text: '上一知识点' }),
+      ? el('a', {
+          className: 'pager-link prev hit-target',
+          href: `#/t/${subject}/${prev.chapterId}/${prev.code}`,
+          'aria-label': `上一知识点 · Previous: ${prev.code} ${prev.titleZh}`,
+        }, [
+          el('span', { className: 'pager-label', text: '上一知识点 · Previous' }),
           el('span', { className: 'pager-title', text: `${prev.code} ${prev.titleZh}` }),
         ])
-      : el('span', { className: 'pager-link prev disabled' }),
+      : el('span', { className: 'pager-link prev disabled', 'aria-disabled': 'true' }, [
+          el('span', { className: 'pager-label', text: '上一知识点 · Previous' }),
+          el('span', { className: 'pager-title', text: '已到开头 · Start' }),
+        ]),
     next
-      ? el('a', { className: 'pager-link next hit-target', href: `#/t/${subject}/${next.chapterId}/${next.code}` }, [
-          el('span', { className: 'pager-label', text: '下一知识点' }),
+      ? el('a', {
+          className: 'pager-link next hit-target',
+          href: `#/t/${subject}/${next.chapterId}/${next.code}`,
+          'aria-label': `下一知识点 · Next: ${next.code} ${next.titleZh}`,
+        }, [
+          el('span', { className: 'pager-label', text: '下一知识点 · Next' }),
           el('span', { className: 'pager-title', text: `${next.code} ${next.titleZh}` }),
         ])
-      : el('span', { className: 'pager-link next disabled' }),
+      : el('span', { className: 'pager-link next disabled', 'aria-disabled': 'true' }, [
+          el('span', { className: 'pager-label', text: '下一知识点 · Next' }),
+          el('span', { className: 'pager-title', text: '已到末尾 · End' }),
+        ]),
   ]);
   content.appendChild(pager);
 
@@ -401,9 +666,17 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     }
     if (current === activeId) return;
     activeId = current;
-    outlines.forEach((b) => b.classList.toggle('active', b.dataset.target === activeId));
+    paintActive();
   }
-  outlines.forEach((b) => b.classList.toggle('active', b.dataset.target === activeId));
+  function paintActive() {
+    outlines.forEach((b) => {
+      const on = b.dataset.target === activeId;
+      b.classList.toggle('active', on);
+      if (on) b.setAttribute('aria-current', 'location');
+      else b.removeAttribute('aria-current');
+    });
+  }
+  paintActive();
   let raf = 0;
   const onScroll = () => {
     if (raf) return;
@@ -419,6 +692,7 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
 
   return () => {
     clearTimeout(completeTimer);
+    closeVocabTip({ restoreFocus: false });
     window.removeEventListener('scroll', onScroll);
     if (raf) cancelAnimationFrame(raf);
   };

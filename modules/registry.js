@@ -411,8 +411,8 @@ export const MODULES = [
 export const PATHS = [
   {
     id: 'ap-bio',
-    title: 'AP Biology 通览',
-    summary: '从分子到生态的八单元主线。',
+    title: '生物学通览 · AP Biology Overview',
+    summary: '从分子到生态的八单元主线。 · Eight units from molecules to ecosystems.',
     moduleIds: [
       'enzyme-activity', 'membrane-transport', 'energy-flow', 'mitosis',
       'mendel-punnett', 'dna-replication', 'hardy-weinberg', 'lotka-volterra',
@@ -420,8 +420,8 @@ export const PATHS = [
   },
   {
     id: 'ap-calc-bc',
-    title: 'AP Calculus BC 主线',
-    summary: '极限 → 导数 → 积分 → 级数。',
+    title: '微积分 BC 主线 · AP Calculus BC Path',
+    summary: '极限 → 导数 → 积分 → 级数。 · Limits → derivatives → integrals → series.',
     moduleIds: [
       'limit-epsilon', 'derivative-tangent', 'chain-rule', 'motion-sva',
       'extrema-concavity', 'riemann-sum', 'slope-field-euler', 'solid-revolution',
@@ -430,8 +430,8 @@ export const PATHS = [
   },
   {
     id: 'ap-mech',
-    title: 'AP Physics C 力学',
-    summary: '运动学到振动的力学链。',
+    title: '力学 · AP Physics C Mechanics',
+    summary: '运动学到振动的力学链。 · A mechanics chain from kinematics to oscillations.',
     moduleIds: [
       'projectile', 'newton-incline', 'work-energy', 'collision-momentum',
       'rigid-rotation', 'gravity-orbit', 'shm',
@@ -439,8 +439,8 @@ export const PATHS = [
   },
   {
     id: 'ap-em',
-    title: 'AP Physics C 电磁',
-    summary: '从电场到电磁感应。',
+    title: '电磁学 · AP Physics C E&M',
+    summary: '从电场到电磁感应。 · From electric fields to electromagnetic induction.',
     moduleIds: [
       'electric-field', 'gauss-law', 'electric-potential', 'capacitor',
       'rc-circuit', 'charged-particle-B', 'faraday-induction',

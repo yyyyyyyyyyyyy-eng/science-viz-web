@@ -8195,9 +8195,9 @@ export const ENRICHMENTS = {
       "能判断何时需要改用垫圈法。 · Decide when the washer method is required."
     ],
     essentialKnowledge: [
-      "圆盘法把旋转体切成薄圆盘，体积微元为 \\(\\mathrm{d}V=\\pi R^{2},\\mathrm{d}x\\)。 · The disk method slices a solid of revolution into thin disks, with volume element \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\).",
-      "绕 \\(x\\) 轴：\\(V=\\pi\\int_{a}^{b}[R(x)]^{2},\\mathrm{d}x\\)。 · About the \\(x\\)-axis: \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\).",
-      "绕 \\(y\\) 轴：把曲线解成 \\(x=R(y)\\)，\\(V=\\pi\\int_{c}^{d}[R(y)]^{2},\\mathrm{d}y\\)。 · About the \\(y\\)-axis: solve the curve for \\(x=R(y)\\), then \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\).",
+      "圆盘法把旋转体切成薄圆盘，体积微元为 \\(\\mathrm{d}V=\\pi R^{2}\\mathrm{d}x\\)。 · The disk method slices a solid of revolution into thin disks, with volume element \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\).",
+      "绕 \\(x\\) 轴：\\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\mathrm{d}x\\)。 · About the \\(x\\)-axis: \\(V=\\pi\\int_{a}^{b}[R(x)]^{2}\\,\\mathrm{d}x\\).",
+      "绕 \\(y\\) 轴：把曲线解成 \\(x=R(y)\\)，\\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\mathrm{d}y\\)。 · About the \\(y\\)-axis: solve the curve for \\(x=R(y)\\), then \\(V=\\pi\\int_{c}^{d}[R(y)]^{2}\\,\\mathrm{d}y\\).",
       "半径是曲线到旋转轴的垂直距离，必须平方。 · The radius is the perpendicular distance from the curve to the axis of rotation and must be squared.",
       "区域与旋转轴之间有空洞时用垫圈法，不能直接用圆盘法。 · If there is a hole between the region and the axis, use the washer method instead of the disk method."
     ],
@@ -8210,7 +8210,7 @@ export const ENRICHMENTS = {
       {
         from: "圆盘面积 · Disk area",
         to: "体积微元 · Volume element",
-        note: "\\(\\mathrm{d}V=\\pi R^{2},\\mathrm{d}x\\)。 · The volume element is \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\)."
+        note: "\\(\\mathrm{d}V=\\pi R^{2}\\mathrm{d}x\\)。 · The volume element is \\(\\mathrm{d}V=\\pi R^{2}\\,\\mathrm{d}x\\)."
       },
       {
         from: "旋转轴 · Axis of rotation",

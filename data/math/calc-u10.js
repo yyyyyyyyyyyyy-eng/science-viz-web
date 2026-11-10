@@ -2407,7 +2407,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u10",
         "code": "10.15",
-        "title": "求函数的泰勒或麦克劳林级数",
+        "title": "函数表示为幂级数",
         "relation": "related"
       }
     ],

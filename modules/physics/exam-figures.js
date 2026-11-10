@@ -902,20 +902,20 @@ def('capacitor-dielectric-partial', '部分填充电介质：并联型 / 串联�
 });
 
 /* ======================= DC circuits ======================= */
-defI('circuit-series', '串联电路 · Series circuit', 'R_{eq}=R_1+R_2+R_3,\\; I=\\dfrac{\\varepsilon}{R_{eq}}', [
+defI('circuit-series', '串联电路 · Series circuit', 'R_{eq}=R_1+R_2+R_3,\\; I=\\dfrac{\\mathcal{E}}{R_{eq}}', [
   { key: 'r1', label: 'R₁', min: 1, max: 8, step: 0.5, value: 2, unit: ' Ω' },
   { key: 'r2', label: 'R₂', min: 1, max: 8, step: 0.5, value: 3, unit: ' Ω' },
   { key: 'r3', label: 'R₃', min: 1, max: 8, step: 0.5, value: 4, unit: ' Ω' },
 ], (p) => {
   const req = (p.r1 ?? 2) + (p.r2 ?? 3) + (p.r3 ?? 4), ik = Math.max(0.35, Math.min(1.8, 9 / req));
-  const L = 60, R = 290, T = 50, B = 180; let s = battery(L, B, L, T, 'ε', true) + resistor(L, T, 175, T, 'R₁') + resistor(175, T, R, T, 'R₂') + resistor(R, T, R, B, 'R₃') + ln(R, B, L, B);
+  const L = 60, R = 290, T = 50, B = 180; let s = battery(L, B, L, T, 'ℰ', true) + resistor(L, T, 175, T, 'R₁') + resistor(175, T, R, T, 'R₂') + resistor(R, T, R, B, 'R₃') + ln(R, B, L, B);
   s += arr(100, T + 14, 100 + 30 * ik, T + 14, 'I', 1.6) + tx(115, T + 30, 'I', { c: 'I', anchor: 'middle' }) + arr(R - 14, 100, R - 14, 100 + 30 * ik, 'I', 1.6) + arr(200, B - 12, 200 - 40 * ik, B - 12, 'I', 1.6);
-  s += tx(320, 90, '各处电流', { it: false, fs: 11 }) + tx(320, 106, '相同', { it: false, fs: 11 }) + eq(40, 230, ['R_{eq} = R₁ + R₂ + R₃']) + eq(260, 230, ['I = ', { n: 'ε', d: 'R_{eq}' }]);
+  s += tx(320, 90, '各处电流', { it: false, fs: 11 }) + tx(320, 106, '相同', { it: false, fs: 11 }) + eq(40, 230, ['R_{eq} = R₁ + R₂ + R₃']) + eq(260, 230, ['I = ', { n: 'ℰ', d: 'R_{eq}' }]);
   return s;
 }, {
   status: (p) => {
     const req = (p.r1 ?? 2) + (p.r2 ?? 3) + (p.r3 ?? 4);
-    return `R_eq = ${r1(req)} Ω，I = ε/${r1(req)}（各电阻 I 相同）`;
+    return `R_eq = ${r1(req)} Ω，I 等于 ℰ 除以 R_eq（各电阻 I 相同）`;
   },
 });
 defI('circuit-parallel', '并联电路 · Parallel circuit', '\\dfrac{1}{R_{eq}}=\\dfrac{1}{R_1}+\\dfrac{1}{R_2},\\; I=I_1+I_2', [
@@ -1996,6 +1996,215 @@ export function figuresForTopic(topicOrId) {
   return [];
 }
 
+/* ======================= exam-figure lightbox ======================= */
+
+const EXTRAS_STYLE_ID = 'topic-extras-style';
+const EXTRAS_STYLE_HREF = 'css/topic-extras.css';
+
+function ensureExtrasStyle() {
+  if (typeof document === 'undefined' || document.getElementById(EXTRAS_STYLE_ID)) return;
+  const link = document.createElement('link');
+  link.id = EXTRAS_STYLE_ID;
+  link.rel = 'stylesheet';
+  link.href = EXTRAS_STYLE_HREF;
+  document.head.appendChild(link);
+}
+
+let lightbox = null;
+let lightboxTrigger = null;
+let lightboxBodyOverflow = '';
+let lightboxOnKeydown = null;
+
+function focusableIn(root) {
+  return [...root.querySelectorAll('button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+    .filter((node) => node.getClientRects().length > 0);
+}
+
+function closeFigureLightbox({ restoreFocus = true } = {}) {
+  if (!lightbox || lightbox.overlay.hidden) return;
+  lightbox.overlay.hidden = true;
+  document.body.style.overflow = lightboxBodyOverflow;
+  lightboxBodyOverflow = '';
+  if (lightboxOnKeydown) {
+    document.removeEventListener('keydown', lightboxOnKeydown);
+    lightboxOnKeydown = null;
+  }
+  const trigger = lightboxTrigger;
+  lightboxTrigger = null;
+  if (restoreFocus && trigger && trigger.isConnected) {
+    try { trigger.focus({ preventScroll: true }); } catch (_) { trigger.focus(); }
+  }
+}
+
+function ensureLightbox() {
+  ensureExtrasStyle();
+  if (lightbox) return lightbox;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'exam-figure-lightbox';
+  overlay.hidden = true;
+
+  const dialog = document.createElement('div');
+  dialog.className = 'exam-figure-lightbox-dialog';
+  dialog.setAttribute('role', 'dialog');
+  dialog.setAttribute('aria-modal', 'true');
+  dialog.tabIndex = -1;
+
+  const head = document.createElement('div');
+  head.className = 'exam-figure-lightbox-head';
+  const kicker = document.createElement('p');
+  kicker.className = 'exam-figure-lightbox-kicker';
+  kicker.textContent = '图示放大 · Figure zoom';
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'exam-figure-lightbox-close hit-target';
+  close.setAttribute('aria-label', '关闭 · Close');
+  close.textContent = '关闭 · Close';
+  close.addEventListener('click', () => closeFigureLightbox());
+  head.append(kicker, close);
+
+  const body = document.createElement('div');
+  body.className = 'exam-figure-lightbox-body';
+  const figure = document.createElement('div');
+  figure.className = 'exam-figure-lightbox-figure';
+  const caption = document.createElement('div');
+  caption.className = 'exam-figure-lightbox-caption';
+  body.append(figure, caption);
+
+  dialog.append(head, body);
+  overlay.appendChild(dialog);
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) closeFigureLightbox();
+  });
+  document.body.appendChild(overlay);
+
+  lightbox = { overlay, dialog, kicker, close, figure, caption };
+  window.addEventListener('hashchange', () => closeFigureLightbox({ restoreFocus: false }));
+  return lightbox;
+}
+
+function uniqueCloneIds(root) {
+  const map = new Map();
+  root.querySelectorAll('[id]').forEach((node) => {
+    const old = node.id;
+    if (!old) return;
+    const next = `${old}--lightbox`;
+    map.set(old, next);
+    node.id = next;
+  });
+  if (!map.size) return;
+  const urlAttr = /url\(#([^)]+)\)/g;
+  root.querySelectorAll('*').forEach((node) => {
+    for (const attr of ['marker-end', 'marker-start', 'marker-mid', 'fill', 'stroke', 'clip-path', 'mask', 'filter']) {
+      const value = node.getAttribute(attr);
+      if (!value || !value.includes('url(#')) continue;
+      node.setAttribute(attr, value.replace(urlAttr, (match, id) => (map.has(id) ? `url(#${map.get(id)})` : match)));
+    }
+    const labelledBy = node.getAttribute('aria-labelledby');
+    if (labelledBy) {
+      node.setAttribute('aria-labelledby', labelledBy.split(/\s+/).map((id) => map.get(id) || id).join(' '));
+    }
+  });
+}
+
+function openFigureLightbox(fig, trigger) {
+  const box = fig.querySelector('.exam-figure-box');
+  if (!box) return;
+  const lb = ensureLightbox();
+  const cap = fig.querySelector('.exam-figure-cap');
+  const title = fig.dataset.lightboxTitle || cap?.querySelector('div')?.textContent || '图示 · Figure';
+
+  lb.kicker.textContent = '图示放大 · Figure zoom';
+  lb.dialog.setAttribute('aria-label', `图示放大 · Figure zoom: ${title}`);
+  lb.figure.replaceChildren();
+  lb.caption.replaceChildren();
+
+  const boxClone = box.cloneNode(true);
+  boxClone.removeAttribute('id');
+  boxClone.classList.add('exam-figure-lightbox-box');
+  boxClone.style.maxWidth = '';
+  boxClone.querySelectorAll('[tabindex]').forEach((node) => node.removeAttribute('tabindex'));
+  boxClone.querySelectorAll('[role="button"]').forEach((node) => node.removeAttribute('role'));
+  uniqueCloneIds(boxClone);
+  lb.figure.appendChild(boxClone);
+
+  if (cap) {
+    const capClone = cap.cloneNode(true);
+    capClone.removeAttribute('id');
+    capClone.querySelectorAll('.exam-figure-zoom').forEach((node) => node.remove());
+    capClone.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+    capClone.querySelectorAll('[tabindex]').forEach((node) => node.removeAttribute('tabindex'));
+    lb.caption.appendChild(capClone);
+  }
+
+  lightboxTrigger = trigger || box;
+  lightboxBodyOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+  lb.overlay.hidden = false;
+
+  lightboxOnKeydown = (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeFigureLightbox();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusables = focusableIn(lb.dialog);
+    if (!focusables.length) {
+      event.preventDefault();
+      lb.dialog.focus();
+      return;
+    }
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement;
+    if (event.shiftKey && (active === first || !lb.dialog.contains(active))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (active === last || !lb.dialog.contains(active))) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+  document.addEventListener('keydown', lightboxOnKeydown);
+  lb.close.focus({ preventScroll: true });
+}
+
+/** Add click-to-zoom to every rendered exam figure under `root` (idempotent). */
+export function enhanceExamFigures(root) {
+  if (!root) return;
+  ensureExtrasStyle();
+  root.querySelectorAll('.exam-figure').forEach((fig) => {
+    if (fig.dataset.lightboxReady === '1') return;
+    const box = fig.querySelector('.exam-figure-box');
+    if (!box) return;
+    fig.dataset.lightboxReady = '1';
+    const cap = fig.querySelector('.exam-figure-cap');
+    const title = fig.dataset.figTitle || cap?.querySelector('div')?.textContent || box.querySelector('svg')?.getAttribute('aria-label') || '图示 · Figure';
+    fig.dataset.lightboxTitle = title;
+
+    let zoom = cap?.querySelector('.exam-figure-zoom');
+    if (!zoom && cap) {
+      zoom = document.createElement('button');
+      zoom.type = 'button';
+      zoom.className = 'exam-figure-zoom hit-target';
+      zoom.textContent = '放大 · Zoom';
+      zoom.setAttribute('aria-label', `放大图示 · Zoom figure: ${title}`);
+      cap.appendChild(zoom);
+    }
+
+    box.style.cursor = 'zoom-in';
+    box.setAttribute('title', '点击放大 · Click to zoom');
+    box.addEventListener('click', (event) => {
+      if (event.target.closest('.fig-part')) return;
+      openFigureLightbox(fig, zoom || box);
+    });
+    zoom?.addEventListener('click', () => openFigureLightbox(fig, zoom));
+  });
+}
+
+export { closeFigureLightbox };
+
 function buildFigureGallery(ids, datasetKey, datasetVal) {
   if (!ids?.length) return null;
   const sec = document.createElement('section');
@@ -2009,6 +2218,7 @@ function buildFigureGallery(ids, datasetKey, datasetVal) {
     const f = F[id]; if (!f) return;
     const fig = document.createElement('figure');
     fig.className = 'exam-figure'; fig.dataset.fig = id;
+    fig.dataset.figTitle = f.title || id;
     const box = document.createElement('div');
     box.className = 'exam-figure-box';
     box.innerHTML = renderFigureSVG(id);
@@ -2038,6 +2248,7 @@ function buildFigureGallery(ids, datasetKey, datasetVal) {
     fig.append(cap); grid.appendChild(fig);
   });
   sec.append(h, grid);
+  enhanceExamFigures(sec);
   return sec;
 }
 

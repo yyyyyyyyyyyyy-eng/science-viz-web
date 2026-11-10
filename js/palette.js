@@ -268,11 +268,13 @@ function renderResults(q) {
         meta: `${sub?.name || ''} / ${ch ? chapterTitle(ch) : t.chapterId}`,
         href: `#/t/${t.subject}/${t.chapterId}/${t.code}`,
       });
-      if (hits.length >= 30) break;
+      if (hits.length >= 31) break;
     }
     if (hits.length) {
-      addGroup('知识点', hits.length);
-      hits.forEach(addItem);
+      const capped = hits.length > 30;
+      const shown = capped ? hits.slice(0, 30) : hits;
+      addGroup('知识点', capped ? '30+' : shown.length);
+      shown.forEach(addItem);
     }
   } else if (needle && !topicCache) {
     listEl.appendChild(el('div', { className: 'palette-loading', text: '载入知识点…' }));

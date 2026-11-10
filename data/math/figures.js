@@ -4,7 +4,7 @@
  * FIGURES: id → {title, caption, build}. TOPIC_FIGURES: "chapterId:code" → [figure ids].
  */
 import { plot, bars, table, svg, text, frac, line, rect, circle, path, box, arrow, C, PAL, simpson, mulberry, fact, range } from './figlib.js';
-import { FIGURE_ZH } from './figure-zh.js';
+import { FIGURE_ZH, FIGURE_CAP_ZH } from './figure-zh.js';
 
 const { PI, E, sin, cos, tan, exp, log, sqrt, abs, atan, atan2, asin } = Math;
 const F = {};
@@ -1198,18 +1198,22 @@ export const TOPIC_FIGURES = {
 };
 export const FIGURES = F;
 const cache = {};
+function mathCaption(id, zh, raw) {
+  const zhCap = FIGURE_CAP_ZH[id];
+  let base = raw || '';
+  if (zh && base.startsWith(`${zh} ·`)) base = base.slice(zh.length + 3).trim();
+  if (zhCap) return base ? `${zhCap} · ${base}` : zhCap;
+  return zh && base && !base.startsWith(`${zh} ·`) ? `${zh} · ${base}` : base;
+}
 export function buildFigure(id) {
   if (!cache[id]) {
     const f = F[id]; if (!f) return null;
     const zh = FIGURE_ZH[id];
     const s = f.build();
     const cap = f.caption || '';
-    const caption = zh && cap && !cap.startsWith(`${zh} ·`) ? `${zh} · ${cap}` : cap;
+    const caption = mathCaption(id, zh, cap);
     const captionFor = f.captionFor
-      ? (v) => {
-        const c = f.captionFor(v);
-        return zh && c && !c.startsWith(`${zh} ·`) ? `${zh} · ${c}` : c;
-      }
+      ? (v) => mathCaption(id, zh, f.captionFor(v))
       : undefined;
     cache[id] = { id, title: zh ? `${zh} · ${f.title}` : f.title, caption, svg: s, controls: f.controls, defaults: f.defaults, rebuild: f.rebuild, captionFor };
   }

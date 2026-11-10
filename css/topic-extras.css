@@ -1,0 +1,267 @@
+/*
+  Wave 3 topic extras — scoped to topic pages and the exam-figure lightbox.
+  Square corners, theme tokens only, 44px minimum hit targets.
+*/
+
+/* ---------- On-page table of contents ---------- */
+.topic-layout .topic-outline button {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.topic-layout .topic-outline button.active {
+  color: var(--text-strong);
+}
+.topic-layout .topic-outline-mobile > summary {
+  gap: 0.5rem;
+}
+.topic-layout .topic-outline-inline {
+  padding-top: 0.1rem;
+}
+
+/* ---------- Previous / next topic ---------- */
+.topic-page .topic-pager .pager-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.03em;
+}
+.topic-page .topic-pager .pager-link.disabled .pager-title {
+  color: var(--text-dim);
+  font-weight: 500;
+}
+@media (max-width: 520px) {
+  .topic-page .topic-pager {
+    gap: 0.75rem;
+  }
+  .topic-page .topic-pager .pager-title {
+    font-size: 0.84rem;
+  }
+}
+
+/* ---------- PHYS-08: visible counterexample label ---------- */
+.topic-page .topic-dont-write {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.08rem 0.35rem;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  vertical-align: 0.08em;
+  white-space: nowrap;
+}
+
+/* ---------- First-occurrence vocabulary hint ---------- */
+.topic-page .topic-vocab-term {
+  display: inline;
+  margin: 0;
+  padding: 0 0.04em;
+  border: 0;
+  border-bottom: 1px dotted var(--subject-accent, var(--accent));
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: help;
+}
+.topic-page .topic-vocab-term:hover,
+.topic-page .topic-vocab-term:focus-visible {
+  color: var(--text-strong);
+  border-bottom-style: solid;
+}
+.topic-page .topic-vocab-term[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--subject-accent, var(--accent)) 11%, transparent);
+}
+
+.topic-vocab-tip {
+  position: fixed;
+  z-index: 4000;
+  width: min(92vw, 360px);
+  max-height: min(70dvh, 440px);
+  overflow: auto;
+  padding: 0.7rem 0.85rem 0.85rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--text);
+}
+.topic-vocab-tip-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+.topic-vocab-tip-term {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.topic-vocab-tip-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.topic-vocab-tip-close:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.topic-vocab-tip-body .topic-vocab-def {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.58;
+  overflow-wrap: anywhere;
+}
+.topic-vocab-tip-body .topic-vocab-def.en {
+  color: var(--text-muted);
+}
+
+/* ---------- Exam-figure zoom trigger ---------- */
+.exam-figures .exam-figure-cap .exam-figure-zoom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 0.35rem;
+  padding: 0 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  cursor: zoom-in;
+}
+.exam-figures .exam-figure-cap .exam-figure-zoom:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+/* ---------- Exam-figure lightbox ---------- */
+.exam-figure-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 4100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  background: rgba(8, 8, 7, 0.72);
+}
+[data-theme="dark"] .exam-figure-lightbox {
+  background: rgba(0, 0, 0, 0.82);
+}
+.exam-figure-lightbox[hidden] {
+  display: none;
+}
+.exam-figure-lightbox-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(96vw, 1000px);
+  max-height: 92dvh;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--text);
+}
+.exam-figure-lightbox-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.exam-figure-lightbox-kicker {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+.exam-figure-lightbox-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.exam-figure-lightbox-close:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-soft);
+}
+.exam-figure-lightbox-body {
+  min-height: 0;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  overflow: auto;
+}
+.exam-figure-lightbox-figure {
+  display: flex;
+  justify-content: center;
+}
+.exam-figure-lightbox-box {
+  width: 100%;
+  max-width: min(100%, 900px) !important;
+  height: auto;
+  aspect-ratio: 400 / 260;
+  border: 1px solid var(--border);
+  background: var(--canvas-plot);
+}
+.exam-figure-lightbox-box svg {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+}
+.exam-figure-lightbox-caption {
+  margin-top: 0.9rem;
+}
+.exam-figure-lightbox .exam-figure-cap {
+  max-width: 100%;
+  padding-bottom: 0;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+.exam-figure-lightbox .exam-figure-tex {
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+.exam-figure-lightbox .exam-figure-credit {
+  min-height: 44px;
+}
+.exam-figure-lightbox .exam-figure-zoom {
+  display: none;
+}
