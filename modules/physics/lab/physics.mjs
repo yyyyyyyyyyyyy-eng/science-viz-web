@@ -1054,97 +1054,231 @@ function postLoop(world, body, h) {
   }
 }
 
+function hcircleTangent(phi) {
+  return V(-Math.sin(phi), 0, Math.cos(phi));
+}
+
+/** Normal force available at the horizontal ring (other vertical forces included). */
+function hcircleNormal(world, body) {
+  const ext = externalForceOn(world, body);
+  return Math.max(0, body.mass * world.g - ext.y);
+}
+
+function releaseHCircle(world, body, circle, phi, speed, required, N, reason) {
+  const y = circle.y + body.halfHeight + 0.01;
+  body.attachment = null;
+  body.skid = {
+    muK: circle.muK,
+    muS: circle.muS,
+    y,
+    circleId: circle.id,
+  };
+  // The ring no longer constrains the body. Keep only the tangential velocity:
+  // from here on it is free to move outward and tangent while kinetic friction
+  // acts on the horizontal plane.
+  body.cannon.position.set(
+    circle.x + circle.radius * Math.cos(phi),
+    y,
+    circle.z + circle.radius * Math.sin(phi),
+  );
+  body.cannon.velocity.copy(hcircleTangent(phi).scale(speed));
+  body.cannon.angularVelocity.setZero();
+  body.diagnostics.normal = N;
+  body.diagnostics.friction = circle.muK * N;
+  body.diagnostics.requiredFriction = required;
+  body.diagnostics.static = false;
+  body.diagnostics.speed = Math.abs(speed);
+  body.diagnostics.mode = 'hcircle';
+  body.diagnostics.contact = 'hcircle';
+  if (N > EPS) {
+    const f = circle.muK * N;
+    const v = body.cannon.velocity;
+    const sp = Math.hypot(v.x, v.z);
+    if (sp > 1e-4) {
+      body.diagnostics.force.copy(V((-f * v.x) / sp, 0, (-f * v.z) / sp));
+    } else {
+      body.diagnostics.force.setZero();
+    }
+  } else {
+    body.diagnostics.force.setZero();
+  }
+  world.events.push({
+    type: 'leave-hcircle',
+    bodyId: body.id,
+    time: world.time,
+    required,
+    available: circle.muS * N,
+    normal: N,
+    speed,
+    muS: circle.muS,
+    muK: circle.muK,
+    reason,
+  });
+}
+
 function preHCircle(world, body, h) {
   const circle = getHCircle(world, body.attachment.id);
   if (!circle) return;
   const att = body.attachment;
-  const N = body.mass * world.g;
-  const required = body.mass * att.speed * att.speed / circle.radius;
-  if (required > circle.muS * N + 1e-9) {
-    // The static friction limit is exceeded: the body skids off the ring and
-    // kinetic friction now acts on the horizontal plane. Keeping a skid state
-    // (rather than silently detaching) is what makes mu_k visible.
+  const tangent = hcircleTangent(att.phi);
+  // Measure the speed that the body actually has, not a stale cached value.
+  const speed = body.cannon.velocity.dot(tangent);
+  att.speed = speed;
+  const N = hcircleNormal(world, body);
+  const required = body.mass * speed * speed / circle.radius;
+  const available = circle.muS * N;
+
+  if (N <= EPS) {
+    // External forces have lifted the body off the ring: it is a free body now.
     body.attachment = null;
-    body.skid = {
-      muK: circle.muK,
-      y: circle.y + body.halfHeight + 0.01,
-      circleId: circle.id,
-    };
-    body.cannon.velocity.copy(V(-Math.sin(att.phi), 0, Math.cos(att.phi)).scale(att.speed));
+    body.skid = null;
     world.events.push({
       type: 'leave-hcircle',
       bodyId: body.id,
       time: world.time,
       required,
-      available: circle.muS * N,
+      available,
+      normal: N,
+      speed,
+      reason: 'no-contact',
     });
     return;
   }
-  // The ring is horizontal: cancel gravity while the body is constrained.
-  body.cannon.applyForce(V(0, body.mass * world.g, 0));
-  const tangent = V(-Math.sin(att.phi), 0, Math.cos(att.phi));
+
+  if (required > available + 1e-9) {
+    // Static friction can no longer supply m v^2 / r. Drop the kinematic
+    // circle constraint and let kinetic friction take over immediately.
+    releaseHCircle(world, body, circle, att.phi, speed, required, N, 'static-limit');
+    applySkidFriction(world, body, h);
+    return;
+  }
+
+  // The ring is horizontal: the track normal balances gravity and any other
+  // vertical force. Static friction is purely radial and does no work, so the
+  // tangential speed is preserved exactly.
+  body.cannon.applyForce(V(0, N, 0));
   body.cannon.position.set(
     circle.x + circle.radius * Math.cos(att.phi),
     circle.y + body.halfHeight + 0.01,
     circle.z + circle.radius * Math.sin(att.phi),
   );
-  body.cannon.velocity.copy(tangent.scale(att.speed));
+  body.cannon.velocity.copy(tangent.scale(speed));
   body.cannon.angularVelocity.setZero();
   body.diagnostics.normal = N;
   body.diagnostics.friction = required;
   body.diagnostics.requiredFriction = required;
   body.diagnostics.static = true;
-  body.diagnostics.speed = Math.abs(att.speed);
+  body.diagnostics.speed = Math.abs(speed);
   body.diagnostics.mode = 'hcircle';
   body.diagnostics.contact = 'hcircle';
+  body.diagnostics.force.copy(V(-Math.cos(att.phi) * required, 0, -Math.sin(att.phi) * required));
 }
 
 function postHCircle(world, body, h) {
   const circle = getHCircle(world, body.attachment.id);
   if (!circle) return;
   const att = body.attachment;
-  const p = body.cannon.position;
-  const phi = Math.atan2(p.z - circle.z, p.x - circle.x);
-  const tangent = V(-Math.sin(phi), 0, Math.cos(phi));
-  let speed = body.cannon.velocity.dot(tangent);
-  if (speed !== 0) att.speed = speed;
+  // Use the tangent at the pre-step angle. Projecting the engine velocity onto
+  // the already-rotated tangent would bleed speed by cos(dphi) every substep.
+  const speed = body.cannon.velocity.dot(hcircleTangent(att.phi));
+  // Advance the circle angle analytically. Re-deriving it from the engine's
+  // straight-line chord would make the angular rate atan(omega h)/(omega h)
+  // low by O((omega h)^2) every step.
+  const phi = att.phi + (0.5 * (att.speed + speed) * h) / circle.radius;
+  const N = hcircleNormal(world, body);
+  const required = body.mass * speed * speed / circle.radius;
+  const available = circle.muS * N;
+
+  if (N <= EPS) {
+    body.attachment = null;
+    body.skid = null;
+    world.events.push({
+      type: 'leave-hcircle',
+      bodyId: body.id,
+      time: world.time,
+      required,
+      available,
+      normal: N,
+      speed,
+      reason: 'no-contact',
+    });
+    return;
+  }
+
+  if (required > available + 1e-9) {
+    // A tangential force (spring/applied force) can push the body past the
+    // static limit during the engine step. Release it now instead of holding
+    // it on the circle for one extra substep.
+    releaseHCircle(world, body, circle, phi, speed, required, N, 'static-limit');
+    return;
+  }
+
   att.phi = phi;
+  att.speed = speed;
   body.cannon.position.set(
     circle.x + circle.radius * Math.cos(phi),
     circle.y + body.halfHeight + 0.01,
     circle.z + circle.radius * Math.sin(phi),
   );
-  body.cannon.velocity.copy(tangent.scale(att.speed));
+  body.cannon.velocity.copy(hcircleTangent(phi).scale(speed));
+  body.cannon.angularVelocity.setZero();
+  body.diagnostics.normal = N;
+  body.diagnostics.friction = required;
+  body.diagnostics.requiredFriction = required;
+  body.diagnostics.static = true;
+  body.diagnostics.speed = Math.abs(speed);
+  body.diagnostics.mode = 'hcircle';
+  body.diagnostics.contact = 'hcircle';
+  body.diagnostics.force.copy(V(-Math.cos(phi) * required, 0, -Math.sin(phi) * required));
 }
 
 function applySkidFriction(world, body, h) {
   const skid = body.skid;
   if (!skid) return;
+  const N = hcircleNormal(world, body);
+  if (N <= EPS) {
+    // No contact with the track: no normal force, therefore no kinetic friction.
+    body.skid = null;
+    body.diagnostics.normal = 0;
+    body.diagnostics.friction = 0;
+    body.diagnostics.requiredFriction = 0;
+    body.diagnostics.speed = Math.hypot(body.cannon.velocity.x, body.cannon.velocity.z);
+    body.diagnostics.static = false;
+    body.diagnostics.mode = 'free';
+    body.diagnostics.contact = '';
+    body.diagnostics.force.setZero();
+    return;
+  }
   body.cannon.position.y = skid.y;
   body.cannon.velocity.y = 0;
+  body.cannon.applyForce(V(0, N, 0));
   const vx = body.cannon.velocity.x;
   const vz = body.cannon.velocity.z;
   const speed = Math.hypot(vx, vz);
-  const N = body.mass * world.g;
   const f = Math.max(0, skid.muK) * N;
   if (speed > 1e-4) {
-    body.cannon.applyForce(V((-f * vx) / speed, 0, (-f * vz) / speed));
+    const friction = V((-f * vx) / speed, 0, (-f * vz) / speed);
+    body.cannon.applyForce(friction);
     world.thermal += f * speed * h;
     body.diagnostics.normal = N;
     body.diagnostics.friction = f;
+    body.diagnostics.requiredFriction = 0;
     body.diagnostics.speed = speed;
     body.diagnostics.static = false;
     body.diagnostics.mode = 'hcircle';
     body.diagnostics.contact = 'hcircle';
+    body.diagnostics.force.copy(friction);
   } else {
     body.cannon.velocity.x = 0;
     body.cannon.velocity.z = 0;
     body.diagnostics.normal = N;
     body.diagnostics.friction = 0;
+    body.diagnostics.requiredFriction = 0;
     body.diagnostics.speed = 0;
     body.diagnostics.static = true;
     body.diagnostics.mode = 'hcircle';
     body.diagnostics.contact = 'hcircle';
+    body.diagnostics.force.setZero();
   }
 }
 
@@ -1451,7 +1585,11 @@ export function bodyDiagnostics(world, body) {
     const circle = getHCircle(world, body.attachment.id);
     if (circle) {
       const speed = body.attachment.speed;
-      d.normal = body.mass * world.g;
+      const p = body.cannon.position;
+      const dx = p.x - circle.x;
+      const dz = p.z - circle.z;
+      const r = Math.hypot(dx, dz) || 1;
+      d.normal = hcircleNormal(world, body);
       d.requiredFriction = body.mass * speed * speed / circle.radius;
       d.friction = d.requiredFriction;
       d.static = d.requiredFriction <= circle.muS * d.normal;
@@ -1460,10 +1598,11 @@ export function bodyDiagnostics(world, body) {
       d.contact = 'hcircle';
       d.accel = 0;
       d.rolling = false;
+      d.force.copy(V((-dx / r) * d.friction, 0, (-dz / r) * d.friction));
     }
   } else if (body.skid) {
     const speed = Math.hypot(body.cannon.velocity.x, body.cannon.velocity.z);
-    d.normal = body.mass * world.g;
+    d.normal = hcircleNormal(world, body);
     d.requiredFriction = 0;
     d.friction = speed > 1e-4 ? body.skid.muK * d.normal : 0;
     d.static = speed <= 1e-4;
@@ -1472,6 +1611,11 @@ export function bodyDiagnostics(world, body) {
     d.contact = 'hcircle';
     d.accel = speed > 1e-4 ? -body.skid.muK * world.g : 0;
     d.rolling = false;
+    if (d.friction > 0) {
+      d.force.copy(V((-d.friction * body.cannon.velocity.x) / speed, 0, (-d.friction * body.cannon.velocity.z) / speed));
+    } else {
+      d.force.setZero();
+    }
   } else if (body.attachment?.type === 'turntable') {
     const table = getTurntable(world, body.attachment.id);
     if (table) {

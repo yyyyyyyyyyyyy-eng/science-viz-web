@@ -379,6 +379,139 @@ check('loop: detach angle matches theory within 1 degree', () => {
   near(measured, expected, 1.0, 'detach angle');
 });
 
+check('horizontal circle: static friction holds a body below the slip limit (constant r)', () => {
+  const R = 2.4;
+  const muS = 0.6;
+  const muK = 0.35;
+  const mass = 1.5;
+  const g = 9.8;
+  const world = createWorld({ g });
+  const circle = addHCircle(world, { radius: R, muS, muK });
+  const block = addBlock(world, { mass, x: R, y: 0.5 });
+  // Flat horizontal circle: the slip threshold is v^2 / R = mu_s g.
+  const vSlip = Math.sqrt(muS * g * R);
+  const v0 = 0.82 * vSlip;
+  block.v0 = v0;
+  attachBodyToHCircle(world, block, circle.id, { phi: 0 });
+
+  const h = 1 / 240;
+  const duration = 1.6; // clearly longer than 1 s
+  const steps = Math.round(duration / h);
+  let minR = Infinity;
+  let maxR = -Infinity;
+  let maxSpeedError = 0;
+  let unwrapped = 0;
+  let prevPhi = Math.atan2(block.cannon.position.z, block.cannon.position.x);
+  for (let i = 0; i < steps; i += 1) {
+    stepWorld(world, h, { h });
+    const p = block.cannon.position;
+    const r = Math.hypot(p.x, p.z);
+    minR = Math.min(minR, r);
+    maxR = Math.max(maxR, r);
+    const speed = Math.hypot(block.cannon.velocity.x, block.cannon.velocity.z);
+    maxSpeedError = Math.max(maxSpeedError, Math.abs(speed - v0) / v0);
+    const phi = Math.atan2(p.z, p.x);
+    let dPhi = phi - prevPhi;
+    if (dPhi > Math.PI) dPhi -= Math.PI * 2;
+    if (dPhi < -Math.PI) dPhi += Math.PI * 2;
+    unwrapped += dPhi;
+    prevPhi = phi;
+  }
+  if (block.attachment?.type !== 'hcircle') throw new Error('block left the circle below the static limit');
+  if (block.skid) throw new Error('block entered a kinetic skid below the static limit');
+  if (world.events.some((e) => e.type === 'leave-hcircle')) {
+    throw new Error('leave-hcircle fired below the static limit');
+  }
+  near(maxR - minR, 0, 1e-9, `radius spread over ${duration} s (r=${minR}..${maxR})`);
+  near((minR + maxR) / 2, R, 1e-9, 'mean radius');
+  if (maxSpeedError > 1e-9) {
+    throw new Error(`speed is not uniform: max relative error ${maxSpeedError.toExponential(3)} (v0=${v0})`);
+  }
+  near(unwrapped / duration, v0 / R, 1e-5, 'uniform angular rate (rad/s)');
+  const diag = bodyDiagnostics(world, block);
+  near(diag.normal, mass * g, 1e-9, 'normal');
+  near(diag.friction, (mass * v0 * v0) / R, 1e-9, 'static friction m v^2 / R');
+  if (!diag.static) throw new Error('diagnostics did not report static circle contact');
+  console.log(`      below limit: R=${R} m, v0=${v0.toFixed(6)} m/s < v_slip=${vSlip.toFixed(6)} m/s, r=${minR.toFixed(12)}..${maxR.toFixed(12)} m, max speed rel err ${maxSpeedError.toExponential(2)}, f_s=${diag.friction.toFixed(6)} N vs mu_s N=${(muS * mass * g).toFixed(6)} N`);
+});
+
+check('horizontal circle: exceeding mu_s N releases the body and mu_k sets kinetic friction', () => {
+  const R = 2;
+  const muS = 0.5;
+  const muK = 0.28;
+  const mass = 1.2;
+  const g = 9.8;
+  const vSlip = Math.sqrt(muS * g * R);
+  const v0 = 1.25 * vSlip;
+  const world = createWorld({ g });
+  const circle = addHCircle(world, { radius: R, muS, muK });
+  const block = addBlock(world, { mass, x: R, y: 0.5 });
+  block.v0 = v0;
+  attachBodyToHCircle(world, block, circle.id, { phi: 0 });
+
+  const h = 1 / 240;
+  stepWorld(world, h, { h });
+  const leave = world.events.find((e) => e.type === 'leave-hcircle');
+  if (!leave) throw new Error('static limit was never exceeded');
+  if (!(leave.required > leave.available)) {
+    throw new Error(`released without exceeding mu_s N: required ${leave.required}, available ${leave.available}`);
+  }
+  if (block.attachment) throw new Error('body is still constrained to the circle after slip');
+  if (!block.skid) throw new Error('body did not enter the kinetic-contact state');
+
+  const r1 = Math.hypot(block.cannon.position.x, block.cannon.position.z);
+  if (!(r1 > R + 1e-6)) throw new Error(`radius was clamped at the circle after slip (r=${r1})`);
+  const N = mass * g;
+  let diag = bodyDiagnostics(world, block);
+  near(diag.normal, N, 1e-9, 'normal while sliding');
+  near(diag.friction, muK * N, 1e-9, 'kinetic friction mu_k N');
+  if (diag.static) throw new Error('sliding contact reported as static');
+
+  const v1 = Math.hypot(block.cannon.velocity.x, block.cannon.velocity.z);
+  advance(world, 0.25, h);
+  const v2 = Math.hypot(block.cannon.velocity.x, block.cannon.velocity.z);
+  near((v2 - v1) / 0.25, -muK * g, 1e-6, 'kinetic deceleration (m/s^2)');
+  const r2 = Math.hypot(block.cannon.position.x, block.cannon.position.z);
+  if (!(r2 > R + 0.1)) throw new Error(`radius stayed near the circle (r=${r2})`);
+  diag = bodyDiagnostics(world, block);
+  near(diag.friction, muK * N, 1e-9, 'kinetic friction after 0.25 s');
+  console.log(`      above limit: R=${R} m, v0=${v0.toFixed(6)} m/s > v_slip=${vSlip.toFixed(6)} m/s, required=${leave.required.toFixed(6)} N > mu_s N=${leave.available.toFixed(6)} N, r=${r1.toFixed(6)} m -> ${r2.toFixed(6)} m after 0.25 s, f_k=${diag.friction.toFixed(6)} N vs mu_k N=${(muK * N).toFixed(6)} N, v=${v1.toFixed(4)} -> ${v2.toFixed(4)} m/s`);
+});
+
+check('horizontal circle: mu_k changes the sliding motion (zero vs nonzero)', () => {
+  function run(muK) {
+    const R = 2;
+    const muS = 0.5;
+    const mass = 1;
+    const g = 9.8;
+    const world = createWorld({ g });
+    const circle = addHCircle(world, { radius: R, muS, muK });
+    const block = addBlock(world, { mass, x: R, y: 0.5 });
+    block.v0 = 1.3 * Math.sqrt(muS * g * R);
+    attachBodyToHCircle(world, block, circle.id, { phi: 0 });
+    advance(world, 0.3, 1 / 240);
+    const diag = bodyDiagnostics(world, block);
+    return {
+      block,
+      radius: Math.hypot(block.cannon.position.x, block.cannon.position.z),
+      speed: Math.hypot(block.cannon.velocity.x, block.cannon.velocity.z),
+      friction: diag.friction,
+      normal: diag.normal,
+    };
+  }
+  const noFriction = run(0);
+  const rough = run(0.35);
+  near(noFriction.friction, 0, 1e-9, 'mu_k = 0 friction');
+  near(rough.friction, 0.35 * rough.normal, 1e-9, 'mu_k = 0.35 friction');
+  if (!(rough.speed < noFriction.speed - 0.2)) {
+    throw new Error(`mu_k did not slow the body: zero ${noFriction.speed}, rough ${rough.speed}`);
+  }
+  if (!(rough.radius < noFriction.radius - 0.02)) {
+    throw new Error(`mu_k did not change the path: zero r=${noFriction.radius}, rough r=${rough.radius}`);
+  }
+  console.log(`      mu_k sweep after 0.3 s: mu_k=0 -> f=${noFriction.friction.toFixed(6)} N, r=${noFriction.radius.toFixed(6)} m, v=${noFriction.speed.toFixed(4)} m/s; mu_k=0.35 -> f=${rough.friction.toFixed(6)} N, r=${rough.radius.toFixed(6)} m, v=${rough.speed.toFixed(4)} m/s`);
+});
+
 check('horizontal circle: mu_k decelerates a skidding body', () => {
   const R = 2;
   const muS = 0.55;
@@ -394,8 +527,13 @@ check('horizontal circle: mu_k decelerates a skidding body', () => {
   const speed = Math.hypot(block.cannon.velocity.x, block.cannon.velocity.z);
   if (!world.events.some((e) => e.type === 'leave-hcircle')) throw new Error('expected the block to leave the static-friction limit');
   if (!block.skid) throw new Error('expected a kinetic skid state');
+  if (block.attachment) throw new Error('the skid was still constrained to the circle');
+  const radius = Math.hypot(block.cannon.position.x, block.cannon.position.z);
+  if (!(radius > R + 0.3)) throw new Error(`radius was clamped to the circle (r=${radius})`);
   const expected = v0 - muK * 9.8 * 0.5;
-  near(speed, expected, 0.15, 'skid speed after 0.5 s');
+  near(speed, expected, 0.01, 'skid speed after 0.5 s');
+  const diag = bodyDiagnostics(world, block);
+  near(diag.friction, muK * 9.8, 1e-9, 'kinetic friction mu_k N');
 });
 
 check('friction pair helper enforces mu_k <= mu_s', () => {
