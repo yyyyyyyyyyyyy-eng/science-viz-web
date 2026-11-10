@@ -1479,26 +1479,26 @@ export const TOPICS = {
     ],
     "vocabulary": [
       {
-        "termZh": "正弦的导数",
+        "termZh": "正弦导数",
         "termEn": "derivative of sine",
         "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\)，在弧度制下成立。",
         "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\sin x]=\\cos x\\), valid in radians."
       },
       {
-        "termZh": "余弦的导数",
+        "termZh": "余弦导数",
         "termEn": "derivative of cosine",
         "defZh": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\)，负号不能漏。",
         "defEn": "\\(\\dfrac{\\mathrm{d}}{\\mathrm{d}x}[\\cos x]=-\\sin x\\); the negative sign is essential."
       },
       {
-        "termZh": "自然指数函数",
-        "termEn": "natural exponential function",
+        "termZh": "自然指数",
+        "termEn": "natural exponential",
         "defZh": "\\(e^{x}\\)，其导数仍为 \\(e^{x}\\)。",
         "defEn": "\\(e^{x}\\), whose derivative is again \\(e^{x}\\)."
       },
       {
-        "termZh": "自然对数函数",
-        "termEn": "natural logarithm function",
+        "termZh": "自然对数",
+        "termEn": "natural logarithm",
         "defZh": "\\(\\ln x\\)，定义域 \\(x>0\\)，导数为 \\(\\dfrac{1}{x}\\)。",
         "defEn": "\\(\\ln x\\), defined for \\(x>0\\), with derivative \\(\\dfrac{1}{x}\\)."
       },
@@ -1509,22 +1509,22 @@ export const TOPICS = {
         "defEn": "Angle measure with a full turn equal to \\(2\\pi\\); the trigonometric derivative formulas hold only in this measure."
       },
       {
-        "termZh": "一般指数函数",
-        "termEn": "general exponential function",
+        "termZh": "一般指数",
+        "termEn": "general exponential",
         "defZh": "\\(a^{x}\\)（\\(a>0\\)，\\(a\\neq1\\)），导数为 \\(a^{x}\\ln a\\)。",
         "defEn": "\\(a^{x}\\) for \\(a>0\\), \\(a\\neq1\\), with derivative \\(a^{x}\\ln a\\)."
       },
       {
-        "termZh": "一般对数函数",
-        "termEn": "general logarithmic function",
+        "termZh": "一般对数",
+        "termEn": "general logarithm",
         "defZh": "\\(\\log_{a}x\\)（\\(a>0\\)，\\(a\\neq1\\)），导数为 \\(\\dfrac{1}{x\\ln a}\\)。",
         "defEn": "\\(\\log_{a}x\\) for \\(a>0\\), \\(a\\neq1\\), with derivative \\(\\dfrac{1}{x\\ln a}\\)."
       },
       {
-        "termZh": "导数循环",
-        "termEn": "derivative cycle",
-        "defZh": "\\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\) 的四步循环。",
-        "defEn": "The four-step cycle \\(\\sin\\to\\cos\\to-\\sin\\to-\\cos\\to\\sin\\)."
+        "termZh": "链式法则",
+        "termEn": "chain rule",
+        "defZh": "复合函数求导时乘以内层函数的导数；求 \\(\\sin(2x)\\)、\\(e^{3x}\\)、\\(\\ln(x^{2}+1)\\) 等复合函数的导数时使用。",
+        "defEn": "Differentiating a composition by multiplying by the derivative of the inner function; used for composites such as \\(\\sin(2x)\\), \\(e^{3x}\\), and \\(\\ln(x^{2}+1)\\)."
       }
     ]
   },
@@ -2199,16 +2199,16 @@ export const TOPICS = {
         "defEn": "Differentiating \\(\\dfrac{1}{v}\\) gives \\(-\\dfrac{v'}{v^{2}}\\), requiring \\(v\\neq0\\)."
       },
       {
-        "termZh": "毕达哥拉斯恒等式",
-        "termEn": "Pythagorean identity",
-        "defZh": "\\(\\sin^{2}x+\\cos^{2}x=1\\)，以及 \\(1+\\tan^{2}x=\\sec^{2}x\\)、\\(1+\\cot^{2}x=\\csc^{2}x\\)。",
-        "defEn": "\\(\\sin^{2}x+\\cos^{2}x=1\\), together with \\(1+\\tan^{2}x=\\sec^{2}x\\) and \\(1+\\cot^{2}x=\\csc^{2}x\\)."
+        "termZh": "三角恒等式",
+        "termEn": "trigonometric identity",
+        "defZh": "用于改写三角表达式并化简导数，例如 \\(\\sin^{2}x+\\cos^{2}x=1\\)、\\(1+\\tan^{2}x=\\sec^{2}x\\)、\\(1+\\cot^{2}x=\\csc^{2}x\\)。",
+        "defEn": "An identity used to rewrite trigonometric expressions and simplify derivatives, such as \\(\\sin^{2}x+\\cos^{2}x=1\\), \\(1+\\tan^{2}x=\\sec^{2}x\\), and \\(1+\\cot^{2}x=\\csc^{2}x\\)."
       },
       {
-        "termZh": "定义域限制",
-        "termEn": "domain restriction",
-        "defZh": "使原函数有定义的自变量范围；\\(\\tan\\)、\\(\\sec\\) 排除 \\(\\cos x=0\\)，\\(\\cot\\)、\\(\\csc\\) 排除 \\(\\sin x=0\\)。",
-        "defEn": "The set of inputs where the original function is defined; \\(\\tan\\) and \\(\\sec\\) exclude \\(\\cos x=0\\), while \\(\\cot\\) and \\(\\csc\\) exclude \\(\\sin x=0\\)."
+        "termZh": "平方正割",
+        "termEn": "secant squared",
+        "defZh": "\\(\\sec^{2}x=\\dfrac{1}{\\cos^{2}x}=1+\\tan^{2}x\\)，是 \\(\\tan x\\) 的导数，且恒有 \\(\\sec^{2}x\\ge1\\)。",
+        "defEn": "\\(\\sec^{2}x=\\dfrac{1}{\\cos^{2}x}=1+\\tan^{2}x\\), the derivative of \\(\\tan x\\), always satisfying \\(\\sec^{2}x\\ge1\\)."
       }
     ]
   }
