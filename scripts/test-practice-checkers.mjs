@@ -69,6 +69,22 @@ ok('treats x(x+1) as multiplication, not a call', checkSymbolic('x(x+1)', 'x^2+x
 ok('still rejects cot(t) when -cot(t) is expected', checkSymbolic('cot(t)', '-cot(t)'), false);
 ok('still rejects sin x when cos(x) is expected', checkSymbolic('sin x', 'cos(x)'), false);
 
+console.log('\nGlued functions and arbitrary constant C');
+ok('accepts sinx without a space', checkSymbolic('sinx', 'sin(x)'));
+ok('accepts 2sinx without a space', checkSymbolic('2sinx', '2*sin(x)'));
+ok('accepts cosx and tanx without spaces', checkSymbolic('cosx+tanx', 'cos(x)+tan(x)'));
+ok('accepts sinhx with the longer function name', checkSymbolic('sinhx', 'sinh(x)'));
+ok('accepts lnx as natural log', checkSymbolic('lnx', 'log(x)'));
+ok('still rejects sinx when cosx is expected', checkSymbolic('sinx', 'cos(x)'), false);
+ok('accepts Ce^(2x) for C*e^(2*x)', checkSymbolic('Ce^(2x)', 'C*e^(2*x)'));
+ok('accepts C e^(2x) with a space', checkSymbolic('C e^(2x)', 'C*e^(2*x)'));
+ok('accepts Ce^(0.05t) for C*e^(0.05*t)', checkSymbolic('Ce^(0.05t)', 'C*e^(0.05*t)'));
+ok('accepts x^3+C', checkSymbolic('x^3+C', 'x^3+C'));
+ok('rejects Ce^(2x) when the key has no C', checkSymbolic('Ce^(2x)', 'e^(2*x)'), false);
+ok('rejects C*e^(2x) when the key has no C', checkSymbolic('C*e^(2x)', 'e^(2*x)'), false);
+ok('rejects a leading C on x^3 when the key has no C', checkSymbolic('Cx^3', 'x^3'), false);
+ok('rejects x^3+C when the key has no C', checkSymbolic('x^3+C', 'x^3'), false);
+
 console.log('\nMATH-07 numeric tolerance (calc-u10-q002, expected 1/64, tol 0.01)');
 ok('1/128 is rejected', checkNumeric('1/128', 0.015625, 0.01), false);
 ok('0.02 is rejected', checkNumeric('0.02', 0.015625, 0.01), false);

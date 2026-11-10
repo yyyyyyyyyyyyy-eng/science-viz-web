@@ -1,0 +1,100 @@
+/* Wave 3 practice extras — scoped to the practice page only. */
+
+.practice-page .practice-sol[hidden] { display: none; }
+
+.practice-page .practice-sol > summary {
+  gap: 0.5rem;
+  line-height: 1.35;
+}
+
+.practice-page .practice-sol:not([hidden]) > summary {
+  color: var(--text);
+}
+
+.practice-page .practice-sol-body {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.practice-page .practice-sol-label {
+  margin: 0.55rem 0 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.practice-page .practice-sol-body > .practice-sol-label:first-child { margin-top: 0.2rem; }
+
+.practice-page .practice-sol-steps {
+  margin: 0.2rem 0 0.45rem;
+  padding-left: 1.35rem;
+  line-height: 1.65;
+}
+
+.practice-page .practice-sol-steps li {
+  margin: 0.2rem 0;
+  padding-left: 0.15rem;
+}
+
+.practice-page .practice-sol-steps li::marker {
+  font-family: var(--mono);
+  font-size: 0.8em;
+  color: var(--text-dim);
+}
+
+.practice-page .practice-sol-body p { line-height: 1.65; }
+.practice-page .practice-sol-body .katex-display { margin: 0.45rem 0; }
+.practice-page .practice-sol-empty { color: var(--text-muted); }
+
+.practice-page .practice-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.55rem;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0.15rem 0;
+  padding: 0.3rem 0 0.3rem 0.65rem;
+  border-left: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.practice-page .practice-preview[hidden] { display: none; }
+
+.practice-page .practice-preview-label {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.practice-page .practice-preview-tex {
+  flex: 1 1 8rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.practice-page .practice-preview-tex .katex { font-size: 1em; }
+
+.practice-page .practice-preview.is-raw .practice-preview-tex {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .practice-page .practice-preview { padding-left: 0.5rem; }
+}

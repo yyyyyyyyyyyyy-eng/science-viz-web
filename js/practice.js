@@ -2,6 +2,124 @@ import { el, clear, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
 import { markVisited, markCompleted, clearCompleted, isCompleted, progressForIds } from './progress.js';
 import { renderDiagram } from './diagrams.js';
 
+/**
+ * Per-bank answer marks and the last viewed card position. This is separate
+ * from science-viz-completed so a wrong item can keep its own state until a
+ * later correct attempt replaces it.
+ */
+const PRACTICE_STORE_KEY = 'science-viz-practice-v1';
+const PRACTICE_STYLE_ID = 'practice-extras-style';
+
+function ensurePracticeStyle() {
+  if (document.getElementById(PRACTICE_STYLE_ID)) return;
+  const link = document.createElement('link');
+  link.id = PRACTICE_STYLE_ID;
+  link.rel = 'stylesheet';
+  link.href = 'css/practice-extras.css';
+  document.head.appendChild(link);
+}
+
+function emptyPracticeBank() {
+  return { answers: {}, lastIndex: 0 };
+}
+
+function readPracticeStore() {
+  try {
+    const raw = localStorage.getItem(PRACTICE_STORE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (!parsed || typeof parsed !== 'object') return { v: 1, banks: {} };
+    return {
+      v: 1,
+      banks: parsed.banks && typeof parsed.banks === 'object' ? parsed.banks : {},
+    };
+  } catch (_) {
+    return { v: 1, banks: {} };
+  }
+}
+
+function writePracticeStore(store) {
+  try {
+    localStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify(store));
+  } catch (_) { /* storage may be unavailable */ }
+}
+
+function getPracticeBankState(bankKey) {
+  if (!bankKey) return emptyPracticeBank();
+  const bank = readPracticeStore().banks[bankKey];
+  if (!bank || typeof bank !== 'object') return emptyPracticeBank();
+  return {
+    answers: bank.answers && typeof bank.answers === 'object' ? bank.answers : {},
+    lastIndex: Number.isInteger(bank.lastIndex) && bank.lastIndex > 0 ? bank.lastIndex : 0,
+  };
+}
+
+function updatePracticeBankState(bankKey, mutate) {
+  if (!bankKey) return;
+  const store = readPracticeStore();
+  if (!store.banks || typeof store.banks !== 'object') store.banks = {};
+  const current = store.banks[bankKey];
+  const bank = current && typeof current === 'object' ? current : {};
+  if (!bank.answers || typeof bank.answers !== 'object') bank.answers = {};
+  if (!Number.isInteger(bank.lastIndex) || bank.lastIndex < 0) bank.lastIndex = 0;
+  mutate(bank);
+  store.banks[bankKey] = bank;
+  writePracticeStore(store);
+}
+
+function recordPracticeAttempt(bankKey, id, ok, lastAnswer) {
+  if (!bankKey || !id) return;
+  updatePracticeBankState(bankKey, (bank) => {
+    bank.answers[id] = {
+      status: ok ? 'right' : 'wrong',
+      lastAnswer: String(lastAnswer ?? '').slice(0, 240),
+      at: Date.now(),
+    };
+  });
+}
+
+function clearPracticeAttempt(bankKey, id) {
+  if (!bankKey || !id) return;
+  updatePracticeBankState(bankKey, (bank) => {
+    for (const key of Object.keys(bank.answers)) {
+      if (key === id || key.startsWith(`${id}:`)) delete bank.answers[key];
+    }
+  });
+}
+
+function practiceAnswerMap(bankKey) {
+  return getPracticeBankState(bankKey).answers;
+}
+
+function readPracticeLastIndex(bankKey) {
+  return getPracticeBankState(bankKey).lastIndex;
+}
+
+function savePracticeLastIndex(bankKey, index) {
+  if (!bankKey || !Number.isInteger(index) || index < 0) return;
+  if (readPracticeLastIndex(bankKey) === index) return;
+  updatePracticeBankState(bankKey, (bank) => {
+    bank.lastIndex = index;
+  });
+}
+
+function hashText(input) {
+  let hash = 2166136261;
+  const text = String(input || '');
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
+}
+
+/** Stable fallback for a problem without an id; bank + card index + stem hash. */
+function fallbackQuestionId(prob, idx, bankKey) {
+  const seed = prob.generator
+    ? `gen:${prob.generator}`
+    : `${prob.stemLatex || ''}|${prob.stem || ''}|${prob.title || ''}`;
+  return `auto-${idx + 1}-${hashText(`${bankKey}|${seed}`)}`;
+}
+
 function tex(latex, display = false) {
   const span = el('span', { className: display ? 'tex' : 'tex-inline' });
   if (window.katex) {
@@ -34,6 +152,44 @@ function isFunctionName(name) {
   if (FUNCTION_NAMES.has(name)) return true;
   const m = mathEngine();
   return !!m && typeof m[name] === 'function';
+}
+
+function startsWithFunctionName(word) {
+  for (let cut = word.length - 1; cut >= 2; cut--) {
+    if (isFunctionName(word.slice(0, cut))) return true;
+  }
+  return false;
+}
+
+/**
+ * Split glued identifiers students commonly type:
+ *   sinx -> sin x, sinhx -> sinh x, lnx -> log x (tokenizer maps ln),
+ *   Ce^(2x) -> C * e^(2x), Cx -> C * x.
+ * Only known function names and the arbitrary constant C are split.
+ */
+function splitIdentifierToken(value) {
+  if (isFunctionName(value) || RESERVED_SYMBOLS.has(value)) {
+    return [{ type: 'id', value }];
+  }
+  for (let cut = value.length - 1; cut >= 2; cut--) {
+    const rest = value.slice(cut);
+    if (rest.length === 1 && /[A-Za-z]/.test(rest) && isFunctionName(value.slice(0, cut))) {
+      const fn = value.slice(0, cut);
+      return [{ type: 'id', value: fn === 'ln' ? 'log' : fn }, ...splitIdentifierToken(rest)];
+    }
+  }
+  const rest = value.slice(1);
+  const splitC = value.length > 1
+    && value[0] === 'C'
+    && (/^[A-Za-z]$/.test(rest) || rest === 'pi' || rest === 'PI' || startsWithFunctionName(rest));
+  if (splitC) {
+    return [{ type: 'id', value: 'C' }, ...splitIdentifierToken(rest)];
+  }
+  return [{ type: 'id', value }];
+}
+
+function splitIdentifierTokens(tokens) {
+  return tokens.flatMap((tok) => (tok.type === 'id' ? splitIdentifierToken(tok.value) : [tok]));
 }
 
 function isOp(tok, value) {
@@ -190,7 +346,7 @@ export function normalizeExpression(raw) {
     .replace(/÷/g, '/')
     .replace(/（/g, '(')
     .replace(/）/g, ')');
-  const tokens = insertImplicitMultiplication(applyFunctionApplication(tokenizeExpr(text)));
+  const tokens = insertImplicitMultiplication(applyFunctionApplication(splitIdentifierTokens(tokenizeExpr(text))));
   return tokens.map((t) => t.value).join('');
 }
 
@@ -565,11 +721,21 @@ function cardState(card, done) {
 
 export function renderPracticeUnit(main, { subject, unit, bank }) {
   clear(main);
+  ensurePracticeStyle();
+  const bankKey = `${subject}/${unit.id}`;
   const flatIds = [];
   const setsCount = bank.problems.filter((p) => p.kind === 'set').length;
+  let flatIndex = 0;
   for (const item of bank.problems) {
-    if (item.kind === 'set') item.questions.forEach((q) => flatIds.push(`practice:${subject}/${unit.id}/${q.id}`));
-    else flatIds.push(`practice:${subject}/${unit.id}/${item.id}`);
+    if (item.kind === 'set') {
+      item.questions.forEach((q) => {
+        flatIds.push(`practice:${subject}/${unit.id}/${q.id || fallbackQuestionId(q, flatIndex, bankKey)}`);
+        flatIndex += 1;
+      });
+    } else {
+      flatIds.push(`practice:${subject}/${unit.id}/${item.id || fallbackQuestionId(item, flatIndex, bankKey)}`);
+      flatIndex += 1;
+    }
   }
   const prog = progressForIds(flatIds);
 
@@ -611,10 +777,12 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
 
   const list = el('div', { className: 'practice-list' });
   mainCol.appendChild(list);
-  const empty = el('div', { className: 'empty-state', hidden: true, text: '该筛选下没有题目。' });
+  const empty = el('div', { className: 'empty-state', hidden: true, text: '该筛选下没有题目 · No questions match this filter' });
   mainCol.appendChild(empty);
 
+  const savedLastIndex = readPracticeLastIndex(bankKey);
   const ctx = {
+    bankKey,
     cards: [],
     sets: [],
     onDone: null,
@@ -688,6 +856,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
 
   function jumpTo(item) {
     if (item.card.hidden) setFilter('all');
+    savePracticeLastIndex(bankKey, item.number);
     const top = item.card.getBoundingClientRect().top + window.scrollY - 84;
     window.scrollTo({ top, behavior: 'smooth' });
     setTimeout(() => item.card.querySelector('.practice-stem, h2')?.focus?.({ preventScroll: true }), 420);
@@ -701,6 +870,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     ['易', '易'],
     ['中', '中'],
     ['难', '难'],
+    ['wrong', '只看错题 · Wrong only'],
   ];
   const filterButtons = new Map();
   let activeFilter = 'all';
@@ -711,12 +881,18 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
       b.classList.toggle('active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    const answers = practiceAnswerMap(bankKey);
     ctx.cards.forEach((item) => {
       const card = item.card;
       const type = card.dataset.type || '';
       const diff = card.dataset.diff || '';
       let show = true;
-      if (key !== 'all') show = type === key || diff === key;
+      if (key === 'wrong') {
+        const ids = item.answerIds && item.answerIds.length ? item.answerIds : [item.progressId];
+        show = ids.some((id) => answers[id]?.status === 'wrong');
+      } else if (key !== 'all') {
+        show = type === key || diff === key;
+      }
       card.hidden = !show;
     });
     ctx.sets.forEach((set) => {
@@ -731,13 +907,15 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     });
     // Graphs in cards that were hidden while the theme changed need a redraw now.
     requestAnimationFrame(() => {
+      if (!page.isConnected) return;
+      paintActive();
       main.querySelectorAll('.stim-graph').forEach((canvas) => {
         if (canvas._graph && canvas.clientWidth > 0) drawGraph(canvas, canvas._graph);
       });
     });
   }
   filterDefs.forEach(([key, label]) => {
-    const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: label });
+    const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: label, 'data-filter': key });
     b.setAttribute('aria-pressed', key === 'all' ? 'true' : 'false');
     b.addEventListener('click', () => setFilter(key));
     filterButtons.set(key, b);
@@ -748,16 +926,25 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   // Keep the rail question highlighted while scrolling.
   let activeIndex = -1;
   let raf = 0;
+  let positionRestored = savedLastIndex <= 0;
   function paintActive() {
-    let current = 0;
+    let current = -1;
     for (let i = 0; i < ctx.cards.length; i++) {
       if (ctx.cards[i].card.hidden) continue;
       const top = ctx.cards[i].card.getBoundingClientRect().top;
       if (top <= 140) current = i;
+      else if (current === -1) current = i;
       else break;
     }
     if (current === activeIndex) return;
     activeIndex = current;
+    if (positionRestored) {
+      const focusedCard = document.activeElement instanceof Element
+        ? document.activeElement.closest('.practice-card')
+        : null;
+      const focusedItem = focusedCard ? ctx.cards.find((entry) => entry.card === focusedCard) : null;
+      savePracticeLastIndex(bankKey, focusedItem ? focusedItem.number : current);
+    }
     jumpGrid.querySelectorAll('.practice-jump').forEach((b, i) => {
       b.classList.toggle('active', i === current);
     });
@@ -771,6 +958,77 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   paintActive();
+
+  const onCardFocus = (e) => {
+    const cardEl = e.target instanceof Element ? e.target.closest('.practice-card') : null;
+    if (!cardEl) return;
+    const item = ctx.cards.find((entry) => entry.card === cardEl);
+    if (item) savePracticeLastIndex(bankKey, item.number);
+  };
+  mainCol.addEventListener('focusin', onCardFocus);
+
+  // Restore the last viewed card in this bank, after the route has scrolled to top.
+  if (savedLastIndex > 0 && savedLastIndex < ctx.cards.length) {
+    requestAnimationFrame(() => {
+      if (!page.isConnected) return;
+      const target = ctx.cards[savedLastIndex];
+      if (target && !target.card.hidden) {
+        const top = target.card.getBoundingClientRect().top + window.scrollY - 84;
+        try {
+          window.scrollTo({ top: Math.max(0, top), left: 0, behavior: 'instant' });
+        } catch (_) {
+          window.scrollTo(0, Math.max(0, top));
+        }
+      }
+      positionRestored = true;
+      paintActive();
+    });
+  } else {
+    positionRestored = true;
+  }
+
+  function activeVisiblePosition() {
+    const list = ctx.cards.filter((item) => !item.card.hidden);
+    if (!list.length) return { list, index: -1 };
+    if (list[0].card.getBoundingClientRect().top > 160) return { list, index: -1 };
+    let index = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].card.getBoundingClientRect().top <= 160) index = i;
+      else break;
+    }
+    return { list, index };
+  }
+
+  function isEditableNode(node) {
+    if (!(node instanceof Element)) return false;
+    if (node.isContentEditable) return true;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(node.tagName)) return true;
+    return !!node.closest('input, textarea, select, [contenteditable], [role="textbox"]');
+  }
+
+  const onKeyDown = (e) => {
+    if (e.defaultPrevented || e.isComposing) return;
+    if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const dialogOpen = [...document.querySelectorAll('[role="dialog"][aria-modal="true"], dialog[open]')]
+      .some((node) => !node.hidden && node.getClientRects().length > 0);
+    if (dialogOpen) return;
+    if (document.documentElement.classList.contains('nav-mobile-open')) return;
+    if (isEditableNode(e.target) || isEditableNode(document.activeElement)) return;
+    const { list, index } = activeVisiblePosition();
+    if (!list.length) return;
+    let next = index;
+    if (e.key === 'ArrowLeft') {
+      if (index <= 0) return;
+      next = index - 1;
+    } else {
+      next = index < 0 ? 0 : index + 1;
+      if (next >= list.length) return;
+    }
+    e.preventDefault();
+    jumpTo(list[next]);
+  };
+  window.addEventListener('keydown', onKeyDown);
 
   // Stimulus graphs are drawn once from live theme tokens; redraw them when the
   // theme changes or the viewport resizes so the bitmap stays in sync.
@@ -791,6 +1049,8 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
 
   return () => {
     window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('keydown', onKeyDown);
+    mainCol.removeEventListener('focusin', onCardFocus);
     window.removeEventListener('themechange', redrawGraphs);
     window.removeEventListener('resize', redrawGraphs);
     if (raf) cancelAnimationFrame(raf);
@@ -818,8 +1078,10 @@ function renderSharedSet(set, startIdx, subject, unit, pidFn, ctx) {
 }
 
 function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
-  const progressId = pidFn(prob.id);
+  const qid = prob.id || fallbackQuestionId(prob, idx, ctx.bankKey);
+  const progressId = pidFn(qid);
   markVisited(progressId);
+  const answerIds = [];
   const type = prob.type || (prob.generator ? 'gen' : 'frq');
   const card = el('article', {
     className: 'practice-card',
@@ -876,24 +1138,26 @@ function renderProblemCard(prob, idx, subject, unit, pidFn, ctx) {
     const mount = el('div', { className: 'practice-gen-mount' });
     const resetDone = () => {
       clearCompleted(progressId);
+      clearPracticeAttempt(ctx.bankKey, progressId);
       cardState(card, false);
       ctx.onDone?.(card);
     };
     const redraw = () => {
       clear(mount);
       instance = prob.generate();
+      clear(answerIds);
       resetDone();
-      mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true }));
+      mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true, bankKey: ctx.bankKey, answerIds }));
     };
     regen.addEventListener('click', redraw);
     body.append(regen, mount);
-    mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true }));
+    mount.appendChild(renderInstanceBody(instance, progressId, markDone, { instanceStem: true, bankKey: ctx.bankKey, answerIds }));
   } else {
-    body.appendChild(renderInstanceBody(prob, progressId, markDone));
+    body.appendChild(renderInstanceBody(prob, progressId, markDone, { bankKey: ctx.bankKey, answerIds }));
   }
   card.appendChild(body);
 
-  ctx.cards.push({ card, number: idx, progressId });
+  ctx.cards.push({ card, number: idx, progressId, answerIds });
   return card;
 }
 
@@ -902,14 +1166,17 @@ function renderInstanceBody(prob, progressId, onDone, opts = {}) {
   if (prob.parts) {
     prob.parts.forEach((part, i) => {
       const partWrap = el('div', { className: 'practice-part' });
+      const partId = `${progressId}:${i}`;
+      opts.answerIds?.push(partId);
       partWrap.appendChild(el('h3', { text: `(${String.fromCharCode(97 + i)})` }));
       if (part.stem) partWrap.appendChild(el('p', { text: part.stem }));
       if (part.stemLatex) partWrap.appendChild(tex(part.stemLatex, true));
       partWrap.appendChild(
         renderAnswerUI(
           { ...prob, ...part, type: part.type || prob.type, parts: undefined },
-          progressId + ':' + i,
+          partId,
           onDone,
+          opts,
         ),
       );
       wrap.appendChild(partWrap);
@@ -922,12 +1189,170 @@ function renderInstanceBody(prob, progressId, onDone, opts = {}) {
     if (prob.stem) stem.appendChild(el('p', { text: prob.stem }));
     wrap.appendChild(stem);
   }
-  wrap.appendChild(renderAnswerUI(prob, progressId, onDone));
+  opts.answerIds?.push(progressId);
+  wrap.appendChild(renderAnswerUI(prob, progressId, onDone, opts));
   return wrap;
 }
 
-function renderAnswerUI(prob, progressId, onDone) {
+function hasStepsContent(steps) {
+  if (Array.isArray(steps)) return steps.length > 0;
+  return steps != null && String(steps).trim() !== '';
+}
+
+function solutionHasContent(prob) {
+  return !!(
+    prob.hint
+    || prob.solution
+    || prob.solutionLatex
+    || hasStepsContent(prob.steps)
+    || prob.answer
+    || prob.answerLatex
+  );
+}
+
+function appendSolutionText(body, value, display = true) {
+  if (value == null || value === '') return;
+  if (typeof value === 'string' || typeof value === 'number') {
+    body.appendChild(el('p', { text: String(value) }));
+    return;
+  }
+  if (typeof value !== 'object') return;
+  const text = value.text ?? value.zh ?? value.en;
+  if (text) body.appendChild(el('p', { text: String(text) }));
+  if (value.latex) body.appendChild(tex(String(value.latex), display));
+}
+
+function renderSolutionSteps(steps) {
+  const items = Array.isArray(steps) ? steps : [steps];
+  const ol = el('ol', { className: 'practice-sol-steps' });
+  items.forEach((step) => {
+    if (step == null || step === '') return;
+    const li = el('li');
+    if (typeof step === 'string' || typeof step === 'number') {
+      li.textContent = String(step);
+    } else if (typeof step === 'object') {
+      if (step.latex) li.appendChild(tex(String(step.latex), false));
+      const text = step.text ?? step.zh ?? step.en ?? step.title;
+      if (text) {
+        if (li.firstChild) li.appendChild(document.createTextNode(' '));
+        li.appendChild(document.createTextNode(String(text)));
+      }
+    }
+    if (li.firstChild) ol.appendChild(li);
+  });
+  return ol.childNodes.length ? ol : null;
+}
+
+function buildSolutionBody(prob) {
+  const body = el('div', { className: 'practice-sol-body' });
+  const addLabel = (text) => body.appendChild(el('p', { className: 'practice-sol-label', text }));
+  if (prob.hint) {
+    addLabel('提示 · Hint');
+    appendSolutionText(body, prob.hint);
+  }
+  const steps = renderSolutionSteps(prob.steps);
+  if (steps) {
+    addLabel('步骤 · Steps');
+    body.appendChild(steps);
+  }
+  if (prob.answer || prob.answerLatex) {
+    addLabel('答案 · Answer');
+    if (prob.answerLatex) body.appendChild(tex(prob.answerLatex, true));
+    if (prob.answer) body.appendChild(el('p', { text: prob.answer }));
+  }
+  if (prob.solution || prob.solutionLatex) {
+    addLabel('解析 · Solution');
+    if (prob.solution) body.appendChild(el('p', { text: prob.solution }));
+    if (prob.solutionLatex) body.appendChild(tex(prob.solutionLatex, true));
+  }
+  return body;
+}
+
+/**
+ * The expander is hidden until the first checked answer when the item has a
+ * checker. Items without a checker keep the old collapsed-but-available peek.
+ */
+function createSolutionDetails(prob, gated) {
+  const hasContent = solutionHasContent(prob);
+  if (!hasContent && !gated) return null;
+  const details = el('details', { className: 'practice-sol' });
+  details.appendChild(el('summary', {
+    className: 'hit-target',
+    text: gated ? '查看解析 · View solution' : '答案与解析 · Answer & solution',
+  }));
+  let built = false;
+  const build = () => {
+    if (built) return;
+    built = true;
+    details.appendChild(
+      hasContent
+        ? buildSolutionBody(prob)
+        : el('div', { className: 'practice-sol-body' }, [
+          el('p', { className: 'practice-sol-empty', text: '暂无解析 · No solution provided' }),
+        ]),
+    );
+  };
+  details.addEventListener('toggle', () => {
+    if (details.open) build();
+  });
+  if (gated) details.hidden = true;
+  else build();
+  return {
+    details,
+    reveal() {
+      build();
+      details.hidden = false;
+    },
+  };
+}
+
+function createPracticePreview() {
+  return el('div', {
+    className: 'practice-preview',
+    hidden: true,
+    'aria-label': '答案预览 · Answer preview',
+  });
+}
+
+/** Display-only KaTeX preview; invalid TeX falls back to muted raw text. */
+function renderPracticePreview(target, raw) {
+  if (!target || !target.isConnected) return;
+  const text = String(raw || '').trim();
+  clear(target);
+  target.classList.remove('is-raw');
+  if (!text) {
+    target.hidden = true;
+    return;
+  }
+  target.hidden = false;
+  const label = el('span', { className: 'practice-preview-label', text: '预览 · Preview' });
+  const content = el('span', { className: 'practice-preview-tex' });
+  let rendered = false;
+  if (window.katex && typeof window.katex.renderToString === 'function') {
+    try {
+      content.innerHTML = window.katex.renderToString(text, {
+        throwOnError: true,
+        displayMode: false,
+        strict: 'ignore',
+        trust: false,
+      });
+      rendered = true;
+    } catch (_) { /* incomplete TeX falls through to raw text */ }
+  }
+  if (!rendered) {
+    target.classList.add('is-raw');
+    content.textContent = text;
+  }
+  target.append(label, content);
+}
+
+function renderAnswerUI(prob, progressId, onDone, opts = {}) {
   const box = el('div', { className: 'practice-answer-ui' });
+  const gated = (prob.type === 'mcq' && prob.choices) || prob.check === 'numeric' || prob.check === 'symbolic';
+  const solution = createSolutionDetails(prob, gated);
+  const recordAttempt = (ok, answerText) => {
+    recordPracticeAttempt(opts.bankKey, progressId, ok, answerText);
+  };
 
   if (prob.type === 'mcq' && prob.choices) {
     const group = el('div', { className: 'mcq-group', role: 'radiogroup', 'aria-label': '选项' });
@@ -947,18 +1372,16 @@ function renderAnswerUI(prob, progressId, onDone) {
       ]);
       btn.addEventListener('click', () => {
         if (group.dataset.locked === 'true') return;
-        selected = i;
-        buttons.forEach((b, j) => {
-          b.classList.toggle('is-selected', j === i);
-          b.classList.remove('is-wrong');
-          b.setAttribute('aria-checked', j === i ? 'true' : 'false');
-          b.tabIndex = j === i ? 0 : -1;
-        });
-        fb.textContent = '';
-        fb.className = 'practice-feedback';
-        checkBtn.disabled = false;
+        selectChoice(i);
       });
       btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (group.dataset.locked === 'true') return;
+          selectChoice(i);
+          checkSelection();
+          return;
+        }
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
         e.preventDefault();
         const next = e.key === 'ArrowDown'
@@ -971,9 +1394,23 @@ function renderAnswerUI(prob, progressId, onDone) {
       group.appendChild(btn);
     });
     const checkBtn = el('button', { type: 'button', className: 'btn hit-target', text: '检查答案', disabled: true });
-    checkBtn.addEventListener('click', () => {
+    function selectChoice(i) {
+      selected = i;
+      buttons.forEach((b, j) => {
+        b.classList.toggle('is-selected', j === i);
+        b.classList.remove('is-wrong');
+        b.setAttribute('aria-checked', j === i ? 'true' : 'false');
+        b.tabIndex = j === i ? 0 : -1;
+      });
+      fb.textContent = '';
+      fb.className = 'practice-feedback';
+      checkBtn.disabled = false;
+    }
+    function checkSelection() {
       if (selected < 0) return;
       const ok = prob.choices[selected].correct || selected === prob.answerIndex;
+      const choiceText = prob.choices[selected].text || '';
+      recordAttempt(ok, `${String.fromCharCode(65 + selected)}. ${choiceText}`);
       buttons.forEach((b) => b.classList.remove('is-correct', 'is-wrong'));
       if (ok) {
         buttons[selected].classList.add('is-correct');
@@ -990,7 +1427,9 @@ function renderAnswerUI(prob, progressId, onDone) {
         fb.className = 'practice-feedback bad';
         checkBtn.disabled = false;
       }
-    });
+      solution?.reveal();
+    }
+    checkBtn.addEventListener('click', checkSelection);
     box.append(group, el('div', { className: 'answer-actions' }, [checkBtn]), fb);
   } else if (prob.check === 'symbolic') {
     const form = el('form', { className: 'answer-form', novalidate: true });
@@ -998,14 +1437,37 @@ function renderAnswerUI(prob, progressId, onDone) {
       className: 'hit-target value-edit',
       type: 'text',
       placeholder: '符号答案，如 2*x 或 (x^2-1)/(x-1)',
-      'aria-label': '符号答案',
+      'aria-label': '符号答案 · Symbolic answer',
       autocomplete: 'off',
     });
     const btn = el('button', { type: 'submit', className: 'btn hit-target', text: '检查等价' });
     const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
+    const preview = createPracticePreview();
+    let previewTimer = 0;
+    input.addEventListener('input', () => {
+      if (previewTimer) clearTimeout(previewTimer);
+      previewTimer = setTimeout(() => {
+        previewTimer = 0;
+        renderPracticePreview(preview, input.value);
+      }, 90);
+    });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const ok = checkSymbolic(input.value, prob.expected || prob.answerLatex || prob.answer, { tol: prob.tol });
+      if (previewTimer) {
+        clearTimeout(previewTimer);
+        previewTimer = 0;
+      }
+      renderPracticePreview(preview, input.value);
+      const raw = input.value.trim();
+      if (!raw) {
+        fb.textContent = '请先输入答案 · Enter an answer first';
+        fb.className = 'practice-feedback';
+        form.dataset.state = '';
+        input.focus();
+        return;
+      }
+      const ok = checkSymbolic(raw, prob.expected || prob.answerLatex || prob.answer, { tol: prob.tol });
+      recordAttempt(ok, raw);
       fb.textContent = ok ? '等价正确' : '与标准形式不等价，请化简后再试';
       fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
       form.dataset.state = ok ? 'ok' : 'bad';
@@ -1014,23 +1476,33 @@ function renderAnswerUI(prob, progressId, onDone) {
         btn.disabled = true;
         onDone?.();
       }
+      solution?.reveal();
     });
     form.append(input, btn);
-    box.append(form, fb);
+    box.append(form, preview, fb);
   } else if (prob.check === 'numeric') {
     const form = el('form', { className: 'answer-form', novalidate: true });
     const input = el('input', {
       className: 'hit-target value-edit',
       type: 'text',
       placeholder: '数值答案',
-      'aria-label': '数值答案',
+      'aria-label': '数值答案 · Numeric answer',
       autocomplete: 'off',
     });
     const btn = el('button', { type: 'submit', className: 'btn hit-target', text: '检查' });
     const fb = el('p', { className: 'practice-feedback', role: 'status', 'aria-live': 'polite' });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const ok = checkNumeric(input.value, prob.expected, prob.tol ?? 0.02);
+      const raw = input.value.trim();
+      if (!raw) {
+        fb.textContent = '请先输入答案 · Enter an answer first';
+        fb.className = 'practice-feedback';
+        form.dataset.state = '';
+        input.focus();
+        return;
+      }
+      const ok = checkNumeric(raw, prob.expected, prob.tol ?? 0.02);
+      recordAttempt(ok, raw);
       fb.textContent = ok ? '正确' : '不在容差内';
       fb.className = `practice-feedback ${ok ? 'ok' : 'bad'}`;
       form.dataset.state = ok ? 'ok' : 'bad';
@@ -1039,20 +1511,13 @@ function renderAnswerUI(prob, progressId, onDone) {
         btn.disabled = true;
         onDone?.();
       }
+      solution?.reveal();
     });
     form.append(input, btn);
     box.append(form, fb);
   }
 
-  const sol = el('details', { className: 'practice-sol' });
-  sol.appendChild(el('summary', { className: 'hit-target', text: '答案与解析' }));
-  const solBody = el('div');
-  if (prob.answerLatex) solBody.appendChild(tex(prob.answerLatex, true));
-  if (prob.answer) solBody.appendChild(el('p', { text: prob.answer }));
-  if (prob.solution) solBody.appendChild(el('p', { text: prob.solution }));
-  if (prob.solutionLatex) solBody.appendChild(tex(prob.solutionLatex, true));
-  sol.appendChild(solBody);
-  box.appendChild(sol);
+  if (solution) box.appendChild(solution.details);
   return box;
 }
 
