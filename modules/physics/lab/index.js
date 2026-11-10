@@ -8,23 +8,33 @@ import { startAnimLoop } from '../../anim-loop.js';
 import { el, clear } from '../../../js/ui-shared.js';
 import {
   addAnchor,
+  addAngularTable,
   addBall,
   addBarrier,
   addBlock,
+  addCarriage,
   addCart,
   addCylinder,
+  addElevator,
+  addFan,
   addHCircle,
   addLauncher,
   addLink,
   addLoop,
-  addFan,
+  addOrbit,
+  addOscillator,
   addPendulum,
   addProjectile,
   addPulley,
+  addRod,
   addSensor,
   addSurface,
+  addTorsionPendulum,
+  addTunnel,
   addTurntable,
   addWedge,
+  angularTableMoment,
+  angularTableMomentum,
   applyInitialVelocity,
   attachBodyToPulley,
   attachBodyToHCircle,
@@ -33,6 +43,7 @@ import {
   attachBodyToTurntable,
   bodyDiagnostics,
   captureInitial,
+  carriageTilt,
   clampMuPair,
   clearWorld,
   createWorld,
@@ -40,6 +51,8 @@ import {
   deserializeScene,
   detachBody,
   disposeWorld,
+  dropAngularBlock,
+  elevatorReading,
   energyBreakdown,
   fireLauncher,
   forceVectors,
@@ -52,11 +65,22 @@ import {
   launcherPrediction,
   linkReading,
   loopPoint,
+  orbitArealVelocity,
+  orbitEscapeSpeed,
+  orbitKeplerPeriod,
+  orbitSemiMajor,
+  oscillatorAnalyticAmplitude,
+  oscillatorDampedOmega,
+  oscillatorDampingRatio,
+  oscillatorEnvelope,
+  oscillatorRegime,
   pendulumPeriod,
   rebuildWedge,
+  relativeVelocity,
   repositionSurfaceBody,
   resetPendulum,
   resetWorld,
+  rodInertia,
   serializeScene,
   setBarrierRestitution,
   setBarrierSize,
@@ -80,6 +104,8 @@ import {
   snapNearbyBodies,
   stepOnce,
   stepWorld,
+  torsionPeriod,
+  tunnelPeriod,
 } from './physics.mjs';
 import { createLabView } from './view.js';
 
@@ -118,6 +144,14 @@ const ZH_EN = {
   photogate: ['光电门', 'Photogate'],
   motion: ['运动传感器', 'Motion sensor'],
   fan: ['风扇附件', 'Fan attachment'],
+  oscillator: ['阻尼与受迫振动', 'Damped & driven oscillation'],
+  torsion: ['扭摆', 'Torsion pendulum'],
+  elevator: ['升降机', 'Elevator'],
+  carriage: ['加速车厢', 'Accelerating carriage'],
+  angularTable: ['角动量转盘', 'Angular momentum turntable'],
+  rod: ['杆受力矩', 'Rod under torque'],
+  orbit: ['引力与轨道', 'Gravity & orbits'],
+  tunnel: ['穿球隧道', 'Sphere tunnel'],
 };
 
 function label(zh, en) {
@@ -154,6 +188,14 @@ function kindLabel(entity) {
   if (entity.type === 'wedge') return ZH_EN.wedge;
   if (entity.type === 'sensor') return ZH_EN[entity.kind] || ZH_EN.photogate;
   if (entity.type === 'fan') return ZH_EN.fan;
+  if (entity.type === 'oscillator') return ZH_EN.oscillator;
+  if (entity.type === 'torsion') return ZH_EN.torsion;
+  if (entity.type === 'elevator') return ZH_EN.elevator;
+  if (entity.type === 'carriage') return ZH_EN.carriage;
+  if (entity.type === 'angularTable') return ZH_EN.angularTable;
+  if (entity.type === 'rod') return ZH_EN.rod;
+  if (entity.type === 'orbit') return ZH_EN.orbit;
+  if (entity.type === 'tunnel') return ZH_EN.tunnel;
   return ['物体', 'Object'];
 }
 
@@ -279,6 +321,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['loop', '竖直圆环', 'Vertical loop'],
         ['hcircle', '水平圆周轨道', 'Horizontal circle'],
         ['pendulum', '单摆', 'Pendulum'],
+      ],
+    },
+    {
+      title: label('振动与角动量', 'Oscillation & angular momentum'),
+      items: [
+        ['oscillator', '阻尼与受迫振动', 'Damped & driven'],
+        ['torsion', '扭摆', 'Torsion pendulum'],
       ],
     },
   ];
@@ -832,6 +881,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (type === 'wedge') return world.wedges.find((w) => w.id === id) || null;
     if (type === 'sensor') return world.sensors.find((s) => s.id === id) || null;
     if (type === 'fan') return world.fans.find((f) => f.id === id) || null;
+    if (type === 'oscillator') return world.oscillators.find((o) => o.id === id) || null;
+    if (type === 'torsion') return world.torsionPendulums.find((p) => p.id === id) || null;
+    if (type === 'elevator') return world.elevators.find((e) => e.id === id) || null;
+    if (type === 'carriage') return world.carriages.find((c) => c.id === id) || null;
+    if (type === 'angularTable') return world.angularTables.find((t) => t.id === id) || null;
+    if (type === 'rod') return world.rods.find((r) => r.id === id) || null;
+    if (type === 'orbit') return world.orbits.find((o) => o.id === id) || null;
+    if (type === 'tunnel') return world.tunnels.find((t) => t.id === id) || null;
     if (type === 'link') return world.links.find((l) => l.id === id) || null;
     return null;
   }
@@ -865,6 +922,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       && world.wedges.length === 0
       && world.sensors.length === 0
       && world.fans.length === 0
+      && world.oscillators.length === 0
+      && world.torsionPendulums.length === 0
+      && world.elevators.length === 0
+      && world.carriages.length === 0
+      && world.angularTables.length === 0
+      && world.rods.length === 0
+      && world.orbits.length === 0
+      && world.tunnels.length === 0
       && world.links.length === 0;
   }
 
@@ -916,6 +981,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     photogate: { halfX: 0.4, halfZ: 1.2 },
     motion: { halfX: 0.5, halfZ: 0.5 },
     fan: { halfX: 0.8, halfZ: 0.8 },
+    oscillator: { halfX: 1.9, halfZ: 0.6 },
+    torsion: { halfX: 1, halfZ: 1 },
+    elevator: { halfX: 1.1, halfZ: 1.1 },
+    carriage: { halfX: 1.1, halfZ: 0.6 },
+    angtable: { halfX: 1.8, halfZ: 1.8 },
+    rod: { halfX: 1.3, halfZ: 0.5 },
+    orbit: { halfX: 3, halfZ: 3 },
+    tunnel: { halfX: 2.6, halfZ: 2.6 },
   };
 
   function apparatusBoxes() {
@@ -938,6 +1011,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const owner = f.bodyId ? world.bodies.find((b) => b.id === f.bodyId) : null;
       if (owner) boxes.push({ x: owner.cannon.position.x, z: owner.cannon.position.z, halfX: 0.7, halfZ: 0.7 });
     }
+    for (const o of world.oscillators) boxes.push({ x: o.x, z: o.z, halfX: 1.9, halfZ: 0.6 });
+    for (const p of world.torsionPendulums) boxes.push({ x: p.x, z: p.z, halfX: 1, halfZ: 1 });
+    for (const e of world.elevators) boxes.push({ x: e.x, z: e.z, halfX: 1.1, halfZ: 1.1 });
+    for (const c of world.carriages) boxes.push({ x: c.x, z: c.z, halfX: 1.1, halfZ: 0.6 });
+    for (const t of world.angularTables) boxes.push({ x: t.x, z: t.z, halfX: t.radius + 0.2, halfZ: t.radius + 0.2 });
+    for (const r of world.rods) boxes.push({ x: r.x, z: r.z, halfX: 1.3, halfZ: 0.5 });
+    for (const o of world.orbits) boxes.push({ x: o.x, z: o.z, halfX: 3, halfZ: 3 });
+    for (const t of world.tunnels) boxes.push({ x: t.x, z: t.z, halfX: t.R + 0.2, halfZ: t.R + 0.2 });
     for (const b of world.bodies) {
       const p = b.cannon?.position;
       if (!p) continue;
@@ -963,7 +1044,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const anchor = base || view.placementPoint?.() || { x: 0, y: 0, z: 0 };
     const bx = Number.isFinite(anchor.x) ? anchor.x : 0;
     const bz = Number.isFinite(anchor.z) ? anchor.z : 0;
-    const ring = [0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, 3.2, -3.2];
+    const ring = [0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, 3.2, -3.2, 4.2, -4.2, 5.2, -5.2, 6.4, -6.4];
     for (let i = 0; i < ring.length; i += 1) {
       for (let j = 0; j < ring.length; j += 1) {
         const x = bx + ring[i];
@@ -1002,6 +1083,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       ...world.wedges,
       ...world.sensors,
       ...world.fans,
+      ...world.oscillators,
+      ...world.torsionPendulums,
+      ...world.elevators,
+      ...world.carriages,
+      ...world.angularTables,
+      ...world.rods,
+      ...world.orbits,
+      ...world.tunnels,
       ...world.bodies.filter((b) => !b.transient),
       ...world.links,
     ];
@@ -2157,6 +2246,54 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity = addPendulum(world, {
         x: spot.x, y: 3.1, z: spot.z, length: 1.6, mass: 1, amplitude: 20, radius: 0.16,
       });
+    } else if (kind === 'oscillator') {
+      const spot = nextPlacement(kind);
+      entity = addOscillator(world, {
+        x: spot.x, y: 1.15, z: spot.z,
+        mass: 1, k: 4, damping: 0.35,
+        driveForce: 1, driveOmega: 2, driveOn: true, amplitude: 0.6,
+      });
+    } else if (kind === 'torsion') {
+      const spot = nextPlacement(kind);
+      entity = addTorsionPendulum(world, {
+        x: spot.x, y: 1.95, z: spot.z,
+        mass: 2.4, radius: 0.9, kappa: 0.9, amplitude: 15,
+      });
+    } else if (kind === 'angtable') {
+      const spot = nextPlacement(kind);
+      entity = addAngularTable(world, {
+        x: spot.x, y: 0.62, z: spot.z,
+        radius: 1.6, discMass: 8, blockMass: 1,
+        r: 1.05, omega: 2.2, radialMotor: false,
+      });
+    } else if (kind === 'rod') {
+      const spot = nextPlacement(kind);
+      entity = addRod(world, {
+        x: spot.x, y: 2.2, z: spot.z,
+        mass: 2, length: 2.2, pivot: 'end', torque: 1,
+      });
+    } else if (kind === 'orbit') {
+      const spot = nextPlacement(kind);
+      entity = addOrbit(world, {
+        x: spot.x, y: 2.3, z: spot.z,
+        M: 8, G: 1, r: 5, speedFactor: 1,
+      });
+    } else if (kind === 'tunnel') {
+      const spot = nextPlacement(kind);
+      entity = addTunnel(world, {
+        x: spot.x, y: 3.25, z: spot.z,
+        R: 3.2, M: 8, G: 1,
+      });
+    } else if (kind === 'elevator') {
+      const spot = nextPlacement(kind);
+      entity = addElevator(world, {
+        x: spot.x, y: 0, z: spot.z, mass: 2, accel: 2, height: 2.6, width: 1.7,
+      });
+    } else if (kind === 'carriage') {
+      const spot = nextPlacement(kind);
+      entity = addCarriage(world, {
+        x: spot.x, y: 0, z: spot.z, mass: 1.2, accel: 1.5, length: 1.25,
+      });
     } else if (kind === 'wedge') {
       const spot = nextPlacement(kind);
       entity = addWedge(world, {
@@ -3001,6 +3138,92 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     renderTex(node, tex);
   }
 
+  let resonanceCanvas = null;
+
+  function drawResonance(osc) {
+    const canvas = resonanceCanvas;
+    if (!canvas) return;
+    const css = getComputedStyle(root);
+    const ink = css.getPropertyValue('--text').trim() || '#222';
+    const muted = css.getPropertyValue('--text-muted').trim() || '#666';
+    const accent = css.getPropertyValue('--accent-active').trim() || '#1a56c4';
+    const paper = css.getPropertyValue('--canvas-plot').trim() || '#fff';
+    const border = css.getPropertyValue('--border').trim() || '#ccc';
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(180, Math.round(rect.width || 260));
+    const h = 180;
+    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, w, h);
+    const pad = { l: 40, r: 10, t: 12, b: 30 };
+    const plotW = w - pad.l - pad.r;
+    const plotH = h - pad.t - pad.b;
+    const w0 = osc.omega0 || 1;
+    const wMax = Math.max(1.6 * w0, osc.driveOmega * 1.25, 0.5);
+    let aMax = 0;
+    for (let i = 0; i <= 120; i += 1) {
+      const omega = (i / 120) * wMax;
+      aMax = Math.max(aMax, oscillatorAnalyticAmplitude(osc, omega));
+    }
+    aMax = Math.max(aMax, osc.measuredAmplitude || 0, 0.01) * 1.12;
+    const xOf = (omega) => pad.l + (omega / wMax) * plotW;
+    const yOf = (amp) => pad.t + plotH - (amp / aMax) * plotH;
+    ctx.strokeStyle = border;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t);
+    ctx.lineTo(pad.l, pad.t + plotH);
+    ctx.lineTo(pad.l + plotW, pad.t + plotH);
+    ctx.stroke();
+    ctx.fillStyle = muted;
+    ctx.font = '10px ui-monospace, monospace';
+    ctx.fillText('A (m)', 2, pad.t + 8);
+    ctx.fillText('ω (rad/s)', pad.l + plotW - 58, h - 6);
+    if (osc.driveOn && osc.driveF0 > 0) {
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      for (let i = 0; i <= 160; i += 1) {
+        const omega = (i / 160) * wMax;
+        const amp = oscillatorAnalyticAmplitude(osc, omega);
+        const x = xOf(omega);
+        const y = yOf(amp);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    // Natural frequency marker.
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = border;
+    ctx.beginPath();
+    ctx.moveTo(xOf(w0), pad.t);
+    ctx.lineTo(xOf(w0), pad.t + plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // Current driving frequency and measured amplitude.
+    const cx = xOf(Math.min(wMax, osc.driveOmega));
+    ctx.strokeStyle = muted;
+    ctx.beginPath();
+    ctx.moveTo(cx, pad.t);
+    ctx.lineTo(cx, pad.t + plotH);
+    ctx.stroke();
+    if (osc.measuredAmplitude > 0) {
+      const cy = yOf(osc.measuredAmplitude);
+      ctx.fillStyle = accent;
+      ctx.fillRect(cx - 3.5, cy - 3.5, 7, 7);
+    }
+    ctx.fillStyle = muted;
+    ctx.fillText('ω₀', xOf(w0) + 3, pad.t + 10);
+  }
+
   function inspectorHeading(parent, entity) {
     const [zh, en] = kindLabel(entity);
     parent.appendChild(el('div', { className: 'plab-inspector-head' }, [
@@ -3387,6 +3610,119 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
       addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
       common.appendChild(readouts);
+    } else if (entity.type === 'oscillator') {
+      resonanceCanvas = null;
+      field(common, {
+        label: '质量 m · Mass',
+        value: entity.mass,
+        min: 0.1,
+        max: 10,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'oscMass',
+        onChange: (v) => {
+          entity.mass = Math.max(0.05, v);
+          entity.omega0 = Math.sqrt(entity.k / entity.mass);
+        },
+      });
+      field(common, {
+        label: '劲度系数 k · Spring constant',
+        value: entity.k,
+        min: 0.5,
+        max: 60,
+        step: 0.5,
+        unit: 'N/m',
+        testid: 'oscK',
+        onChange: (v) => {
+          entity.k = Math.max(0, v);
+          entity.omega0 = Math.sqrt(entity.k / Math.max(0.01, entity.mass));
+        },
+      });
+      field(common, {
+        label: '阻尼 b · Damping',
+        value: entity.b,
+        min: 0,
+        max: 12,
+        step: 0.05,
+        unit: 'N·s/m',
+        testid: 'oscDamping',
+        onChange: (v) => { entity.b = Math.max(0, v); },
+      });
+      field(common, {
+        label: '驱动力幅值 F₀ · Drive force',
+        value: entity.driveF0,
+        min: 0,
+        max: 10,
+        step: 0.05,
+        unit: 'N',
+        testid: 'oscDriveForce',
+        onChange: (v) => { entity.driveF0 = Math.max(0, v); },
+      });
+      const curveWrap = el('div', { className: 'plab-resonance' });
+      curveWrap.appendChild(el('p', { className: 'plab-field-hint', text: '幅频曲线 · Amplitude–frequency curve（实测方块对应当前 ω · square = measured at current ω）' }));
+      resonanceCanvas = el('canvas', {
+        className: 'plab-resonance-canvas',
+        'aria-label': '共振曲线 · Resonance curve',
+      });
+      curveWrap.appendChild(resonanceCanvas);
+      common.appendChild(curveWrap);
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '当前振幅（实测）· Amplitude measured', 'oscAmplitude', 'm');
+      addLive(readouts, '稳态理论 A(ω) · Analytic A(ω)', 'oscAnalytic', 'm');
+      addLive(readouts, '固有频率 ω₀ · Natural ω₀', 'oscOmega0', 'rad/s');
+      addLive(readouts, '阻尼状态 · Damping regime', 'oscRegime', '');
+      addLive(readouts, '自由周期（实测）· Free period', 'oscPeriod', 's');
+      common.appendChild(readouts);
+      formula(common, 'A(\\omega)=\\dfrac{F_0}{\\sqrt{(k-m\\omega^2)^2+(b\\omega)^2}},\\qquad \\omega_0=\\sqrt{\\dfrac{k}{m}}');
+    } else if (entity.type === 'torsion') {
+      field(common, {
+        label: '转动惯量 I · Moment of inertia',
+        value: entity.I,
+        min: 0.05,
+        max: 8,
+        step: 0.01,
+        unit: 'kg·m²',
+        testid: 'torsionI',
+        onChange: (v) => { entity.I = Math.max(0.001, v); },
+      });
+      field(common, {
+        label: '扭转常数 κ · Torsion constant',
+        value: entity.kappa,
+        min: 0.05,
+        max: 8,
+        step: 0.01,
+        unit: 'N·m/rad',
+        testid: 'torsionKappa',
+        onChange: (v) => { entity.kappa = Math.max(0.001, v); },
+      });
+      field(common, {
+        label: '初始扭转角 · Initial twist',
+        value: (entity.theta0 * 180) / Math.PI,
+        min: 1,
+        max: 90,
+        step: 1,
+        unit: '°',
+        disabled: geoDisabled,
+        testid: 'torsionAmplitude',
+        onChange: (v) => {
+          entity.theta0 = (Math.max(1, Math.min(90, v)) * Math.PI) / 180;
+          if (!running && world.time === 0) {
+            entity.theta = entity.theta0;
+            entity.prevTheta = entity.theta;
+            entity.omega = 0;
+            entity.lastCross = null;
+            entity.measuredPeriod = 0;
+            captureInitial(world);
+          }
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'torsionMeasured', 's');
+      addLive(readouts, '理论周期 · 2π√(I/κ)', 'torsionTheory', 's');
+      addLive(readouts, '扭转角 · Twist angle', 'torsionAngle', 'rad');
+      addLive(readouts, '角速度 · Angular speed', 'torsionOmega', 'rad/s');
+      common.appendChild(readouts);
+      formula(common, 'T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}},\\qquad I=\\dfrac{1}{2}mR^2');
     } else if (entity.type === 'fan') {
       field(common, {
         label: '恒定推力 · Constant thrust',
@@ -4041,6 +4377,104 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'oscillator') {
+      field(moreAdvanced, {
+        label: '驱动角频率 ω · Drive frequency',
+        value: entity.driveOmega,
+        min: 0.1,
+        max: 12,
+        step: 0.01,
+        unit: 'rad/s',
+        testid: 'oscDriveOmega',
+        onChange: (v) => { entity.driveOmega = Math.max(0.01, v); },
+      });
+      field(moreAdvanced, {
+        label: '初始位移 · Initial displacement',
+        value: entity.initial?.u ?? entity.u,
+        min: 0,
+        max: 2,
+        step: 0.01,
+        unit: 'm',
+        disabled: geoDisabled,
+        testid: 'oscAmplitude0',
+        onChange: (v) => {
+          entity.initial = { u: Math.max(0, v), v: 0, time: 0 };
+          if (!running && world.time === 0) {
+            entity.u = entity.initial.u;
+            entity.v = 0;
+            entity.prevU = entity.u;
+          }
+          captureInitial(world);
+        },
+      });
+      const driveOn = el('input', { type: 'checkbox', checked: !!entity.driveOn, 'data-field': 'oscDriveOn' });
+      driveOn.addEventListener('change', () => {
+        pushUndo('osc-drive');
+        entity.driveOn = driveOn.checked;
+        entity.measuredAmplitude = 0;
+        entity.cycleIndex = -1;
+      });
+      moreAdvanced.appendChild(el('label', { className: 'plab-check hit-target' }, [
+        driveOn,
+        el('span', { text: '开启驱动力 · Driving on' }),
+      ]));
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '阻尼比 ζ · Damping ratio', 'oscZeta', '');
+      addLive(readouts, '阻尼角频率 ωd · Damped ωd', 'oscOmegaD', 'rad/s');
+      addLive(readouts, '稳态理论 A(ω) · Analytic A(ω)', 'oscAnalytic', 'm');
+      addLive(readouts, '理论固有周期 T₀ · Natural T₀', 'oscT0', 's');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, '\\zeta=\\dfrac{b}{2\\sqrt{km}},\\qquad \\omega_d=\\sqrt{\\omega_0^2-\\left(\\dfrac{b}{2m}\\right)^2},\\qquad T_0=\\dfrac{2\\pi}{\\omega_0}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '驱动力 F₀cos(ωt)；阻尼力 −bv。 · Driving force F₀cos(ωt); damping force −bv. 稳态振幅在瞬态衰减后测量。 · Steady amplitude is measured after the transient decays.',
+      }));
+    }
+
+    if (entity.type === 'torsion') {
+      field(moreAdvanced, {
+        label: '圆盘质量 · Disk mass',
+        value: entity.mass,
+        min: 0.1,
+        max: 20,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'torsionMass',
+        onChange: (v) => { entity.mass = Math.max(0.05, v); },
+      });
+      field(moreAdvanced, {
+        label: '圆盘半径 · Disk radius',
+        value: entity.radius,
+        min: 0.1,
+        max: 3,
+        step: 0.05,
+        unit: 'm',
+        testid: 'torsionRadius',
+        onChange: (v) => {
+          entity.radius = Math.max(0.05, v);
+          entity.I = 0.5 * entity.mass * entity.radius * entity.radius;
+        },
+      });
+      field(moreAdvanced, {
+        label: '阻尼系数 · Damping',
+        value: entity.damping,
+        min: 0,
+        max: 2,
+        step: 0.01,
+        testid: 'torsionDamping',
+        onChange: (v) => { entity.damping = Math.max(0, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '周期（实测）· Period measured', 'torsionMeasured', 's');
+      addLive(readouts, '理论周期 · 2π√(I/κ)', 'torsionTheory', 's');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'I\\ddot{\\theta}+\\kappa\\theta=0,\\qquad T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '实测周期按同向过零点计时。 · The measured period uses successive zero crossings in the same direction.',
+      }));
+    }
+
     if (entity.type === 'fan') {
       field(moreAdvanced, {
         label: '推力方位角 · Thrust azimuth',
@@ -4221,6 +4655,26 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     } else if (entity?.type === 'fan') {
       setLive('fanForce', `${fmt(entity.on ? entity.thrust : 0)} N`);
       setLive('fanState', entity.on ? '开启 · On' : '关闭 · Off');
+    } else if (entity?.type === 'oscillator') {
+      setLive('oscAmplitude', `${fmt(entity.measuredAmplitude)} m`);
+      setLive('oscAnalytic', `${fmt(oscillatorAnalyticAmplitude(entity))} m`);
+      setLive('oscOmega0', `${fmt(entity.omega0)} rad/s`);
+      const regime = oscillatorRegime(entity);
+      const regimeText = regime === 'undamped' ? '无阻尼 · Undamped'
+        : regime === 'under' ? '欠阻尼 · Underdamped'
+          : regime === 'critical' ? '临界阻尼 · Critical'
+            : '过阻尼 · Overdamped';
+      setLive('oscRegime', regimeText);
+      setLive('oscPeriod', entity.measuredPeriod ? `${fmt(entity.measuredPeriod)} s` : '—');
+      setLive('oscZeta', fmt(oscillatorDampingRatio(entity)));
+      setLive('oscOmegaD', `${fmt(oscillatorDampedOmega(entity))} rad/s`);
+      setLive('oscT0', `${fmt((2 * Math.PI) / Math.max(1e-6, entity.omega0))} s`);
+      drawResonance(entity);
+    } else if (entity?.type === 'torsion') {
+      setLive('torsionMeasured', entity.measuredPeriod ? `${fmt(entity.measuredPeriod)}` : '—');
+      setLive('torsionTheory', `${fmt(torsionPeriod(entity))}`);
+      setLive('torsionAngle', `${fmt(entity.theta)} rad`);
+      setLive('torsionOmega', `${fmt(entity.omega)} rad/s`);
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -4255,6 +4709,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           : (entity.lastDistance != null ? `距离 · Distance ${fmt(entity.lastDistance)} m · v=${fmt(entity.lastSpeed)} m/s` : '无目标 · no target');
       } else if (entity?.type === 'fan') {
         inspectorSummary.textContent = `${entity.on ? '开启 · On' : '关闭 · Off'} · ${fmt(entity.thrust)} N · ${fmt(entity.azimuth)}°`;
+      } else if (entity?.type === 'oscillator') {
+        inspectorSummary.textContent = `A ${fmt(entity.measuredAmplitude)} m · A(ω) ${fmt(oscillatorAnalyticAmplitude(entity))} m · ω₀ ${fmt(entity.omega0)} rad/s`;
+      } else if (entity?.type === 'torsion') {
+        inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 理论 · theory ${fmt(torsionPeriod(entity))} s`;
       } else {
         inspectorSummary.textContent = '—';
       }

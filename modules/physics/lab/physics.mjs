@@ -74,6 +74,14 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
     wedges: [],
     sensors: [],
     fans: [],
+    oscillators: [],
+    torsionPendulums: [],
+    elevators: [],
+    carriages: [],
+    angularTables: [],
+    rods: [],
+    orbits: [],
+    tunnels: [],
     bodies: [],
     links: [],
     events: [],
@@ -2533,6 +2541,704 @@ function updateTurntable(world, table, h) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Phase 2: oscillation, frames, angular momentum and gravity         */
+/* ------------------------------------------------------------------ */
+
+const TWO_PI = Math.PI * 2;
+
+function wrapAngle(a) {
+  let x = a;
+  while (x > Math.PI) x -= TWO_PI;
+  while (x < -Math.PI) x += TWO_PI;
+  return x;
+}
+
+/** Relative velocity in a frame moving at frameVelocity (display transform only). */
+export function relativeVelocity(velocity, frameVelocity) {
+  return {
+    x: (velocity?.x || 0) - (frameVelocity?.x || 0),
+    y: (velocity?.y || 0) - (frameVelocity?.y || 0),
+    z: (velocity?.z || 0) - (frameVelocity?.z || 0),
+  };
+}
+
+/* -------------------------- damped oscillator ---------------------- */
+
+export function addOscillator(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 1.15, z = 0,
+    mass = 1, k = 4, damping = 0.35,
+    driveForce = 1, driveOmega = 2, driveOn = true,
+    amplitude = 0.6,
+  } = opts;
+  const m = Math.max(0.01, mass);
+  const springK = Math.max(0, k);
+  const osc = {
+    type: 'oscillator',
+    id: assignId(world, 'osc', id),
+    name,
+    x, y, z,
+    mass: m,
+    k: springK,
+    b: Math.max(0, damping),
+    driveF0: Math.max(0, driveForce),
+    driveOmega: Math.max(0.01, driveOmega),
+    driveOn: !!driveOn,
+    u: amplitude,
+    v: 0,
+    time: 0,
+    initial: { u: amplitude, v: 0, time: 0 },
+    omega0: Math.sqrt(springK / m),
+    measuredPeriod: 0,
+    measuredAmplitude: 0,
+    peaks: [],
+    prevU: amplitude,
+    prevV: 0,
+    lastCross: null,
+    cycleIndex: -1,
+    cycleMin: amplitude,
+    cycleMax: amplitude,
+  };
+  world.oscillators.push(osc);
+  return osc;
+}
+
+export function getOscillator(world, id) {
+  return world.oscillators.find((o) => o.id === id) || null;
+}
+
+export function oscillatorDampingRatio(osc) {
+  return osc.b / Math.max(EPS, 2 * Math.sqrt(osc.mass * osc.k));
+}
+
+export function oscillatorDampedOmega(osc) {
+  const gamma = osc.b / (2 * osc.mass);
+  const w2 = osc.omega0 * osc.omega0 - gamma * gamma;
+  return w2 > 0 ? Math.sqrt(w2) : 0;
+}
+
+export function oscillatorRegime(osc) {
+  const bc = 2 * Math.sqrt(osc.k * osc.mass);
+  if (osc.b <= 1e-12) return 'undamped';
+  if (Math.abs(osc.b - bc) <= Math.max(1e-9, bc * 1e-6)) return 'critical';
+  return osc.b < bc ? 'under' : 'over';
+}
+
+/** Analytic steady-state amplitude A(ω) = F0 / sqrt((k - mω²)² + (bω)²). */
+export function oscillatorAnalyticAmplitude(osc, omega = osc.driveOmega) {
+  if (!osc.driveOn || osc.driveF0 <= 0) return 0;
+  const real = osc.k - osc.mass * omega * omega;
+  const imag = osc.b * omega;
+  return osc.driveF0 / Math.sqrt(real * real + imag * imag);
+}
+
+export function oscillatorEnvelope(osc) {
+  const gamma = osc.b / (2 * osc.mass);
+  const wd = oscillatorDampedOmega(osc);
+  if (wd <= 0) return Math.abs(osc.u);
+  return Math.hypot(osc.u, (osc.v + gamma * osc.u) / wd);
+}
+
+function resetOscillator(osc) {
+  osc.u = osc.initial?.u ?? 0;
+  osc.v = osc.initial?.v ?? 0;
+  osc.time = osc.initial?.time ?? 0;
+  osc.prevU = osc.u;
+  osc.prevV = osc.v;
+  osc.lastCross = null;
+  osc.measuredPeriod = 0;
+  osc.measuredAmplitude = 0;
+  osc.peaks = [];
+  osc.cycleIndex = -1;
+  osc.cycleMin = osc.u;
+  osc.cycleMax = osc.u;
+}
+
+export function stepOscillator(osc, h) {
+  const m = osc.mass;
+  const force = (u, v, t) => (
+    -osc.k * u - osc.b * v + (osc.driveOn ? osc.driveF0 * Math.cos(osc.driveOmega * t) : 0)
+  ) / m;
+  const u0 = osc.u;
+  const v0 = osc.v;
+  const t0 = osc.time;
+  const k1u = v0;
+  const k1v = force(u0, v0, t0);
+  const k2u = v0 + 0.5 * h * k1v;
+  const k2v = force(u0 + 0.5 * h * k1u, v0 + 0.5 * h * k1v, t0 + 0.5 * h);
+  const k3u = v0 + 0.5 * h * k2v;
+  const k3v = force(u0 + 0.5 * h * k2u, v0 + 0.5 * h * k2v, t0 + 0.5 * h);
+  const k4u = v0 + h * k3v;
+  const k4v = force(u0 + h * k3u, v0 + h * k3v, t0 + h);
+  const u1 = u0 + (h / 6) * (k1u + 2 * k2u + 2 * k3u + k4u);
+  const v1 = v0 + (h / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
+
+  // Upward zero crossing: gives the measured oscillation period.
+  if (osc.prevU <= 0 && u1 > 0 && osc.prevU !== u1) {
+    const frac = -osc.prevU / (u1 - osc.prevU);
+    const tc = t0 + frac * h;
+    if (osc.lastCross != null) {
+      const period = tc - osc.lastCross;
+      if (period > 1e-3) osc.measuredPeriod = period;
+    }
+    osc.lastCross = tc;
+  }
+  // Positive peaks feed the envelope-decay view.
+  if (osc.prevV > 0 && v1 <= 0 && osc.prevV !== v1) {
+    const frac = osc.prevV / (osc.prevV - v1);
+    osc.peaks.push({ t: t0 + frac * h, u: u0 + frac * (u1 - u0) });
+    if (osc.peaks.length > 240) osc.peaks.shift();
+  }
+
+  osc.u = u1;
+  osc.v = v1;
+  osc.time = t0 + h;
+  osc.prevU = u1;
+  osc.prevV = v1;
+
+  if (osc.driveOn) {
+    const idx = Math.floor((osc.time * osc.driveOmega) / TWO_PI);
+    if (idx !== osc.cycleIndex) {
+      if (osc.cycleIndex >= 0) {
+        osc.measuredAmplitude = Math.max(0, (osc.cycleMax - osc.cycleMin) / 2);
+      }
+      osc.cycleIndex = idx;
+      osc.cycleMin = u1;
+      osc.cycleMax = u1;
+    } else {
+      osc.cycleMin = Math.min(osc.cycleMin, u1);
+      osc.cycleMax = Math.max(osc.cycleMax, u1);
+    }
+  }
+}
+
+/* ---------------------------- torsion pendulum -------------------- */
+
+export function addTorsionPendulum(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 1.9, z = 0,
+    mass = 2.4, radius = 0.9, I = null, kappa = 0.9,
+    amplitude = 15, damping = 0,
+  } = opts;
+  const inertia = Math.max(1e-6, I ?? 0.5 * mass * radius * radius);
+  const pend = {
+    type: 'torsion',
+    id: assignId(world, 'tors', id),
+    name,
+    x, y, z,
+    mass,
+    radius,
+    I: inertia,
+    kappa: Math.max(1e-6, kappa),
+    damping: Math.max(0, damping),
+    theta0: (amplitude * Math.PI) / 180,
+    theta: (amplitude * Math.PI) / 180,
+    omega: 0,
+    time: 0,
+    initial: { theta: (amplitude * Math.PI) / 180, omega: 0, time: 0 },
+    measuredPeriod: 0,
+    prevTheta: (amplitude * Math.PI) / 180,
+    lastCross: null,
+  };
+  world.torsionPendulums.push(pend);
+  return pend;
+}
+
+export function getTorsionPendulum(world, id) {
+  return world.torsionPendulums.find((p) => p.id === id) || null;
+}
+
+export function torsionPeriod(pend) {
+  return TWO_PI * Math.sqrt(pend.I / pend.kappa);
+}
+
+export function stepTorsionPendulum(pend, h) {
+  const acc = (theta, omega) => (-pend.kappa * theta - pend.damping * omega) / pend.I;
+  const th0 = pend.theta;
+  const w0 = pend.omega;
+  const k1t = w0;
+  const k1w = acc(th0, w0);
+  const k2t = w0 + 0.5 * h * k1w;
+  const k2w = acc(th0 + 0.5 * h * k1t, w0 + 0.5 * h * k1w);
+  const k3t = w0 + 0.5 * h * k2w;
+  const k3w = acc(th0 + 0.5 * h * k2t, w0 + 0.5 * h * k2w);
+  const k4t = w0 + h * k3w;
+  const k4w = acc(th0 + h * k3t, w0 + h * k3w);
+  const th1 = th0 + (h / 6) * (k1t + 2 * k2t + 2 * k3t + k4t);
+  const w1 = w0 + (h / 6) * (k1w + 2 * k2w + 2 * k3w + k4w);
+  if (pend.prevTheta <= 0 && th1 > 0 && pend.prevTheta !== th1) {
+    const frac = -pend.prevTheta / (th1 - pend.prevTheta);
+    const tc = pend.time + frac * h;
+    if (pend.lastCross != null) {
+      const period = tc - pend.lastCross;
+      if (period > 1e-3) pend.measuredPeriod = period;
+    }
+    pend.lastCross = tc;
+  }
+  pend.theta = th1;
+  pend.omega = w1;
+  pend.time += h;
+  pend.prevTheta = th1;
+}
+
+function resetTorsion(pend) {
+  pend.theta = pend.initial?.theta ?? 0;
+  pend.omega = pend.initial?.omega ?? 0;
+  pend.time = pend.initial?.time ?? 0;
+  pend.prevTheta = pend.theta;
+  pend.lastCross = null;
+  pend.measuredPeriod = 0;
+}
+
+/* ------------------------ elevator and carriage -------------------- */
+
+/** Scale reading in an elevator: upward acceleration is positive. */
+export function apparentWeight(mass, g, accel) {
+  return mass * (g + accel);
+}
+
+export function addElevator(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 0, z = 0,
+    mass = 2, accel = 2, height = 2.6, width = 1.7,
+  } = opts;
+  const elevator = {
+    type: 'elevator',
+    id: assignId(world, 'lift', id),
+    name,
+    x, y, z,
+    mass: Math.max(0.01, mass),
+    accel,
+    height,
+    width,
+    time: 0,
+  };
+  world.elevators.push(elevator);
+  return elevator;
+}
+
+export function getElevator(world, id) {
+  return world.elevators.find((e) => e.id === id) || null;
+}
+
+export function elevatorReading(world, elevator) {
+  return apparentWeight(elevator.mass, world.g, elevator.accel);
+}
+
+/** Signed bob tilt magnitude (rearward positive) for a carriage accelerating at a. */
+export function carriageTilt(accel, g = 9.8) {
+  return Math.atan2(accel, g);
+}
+
+export function addCarriage(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 0, z = 0,
+    mass = 1.2, accel = 1.5, length = 1.25, damping = 1.6,
+  } = opts;
+  const carriage = {
+    type: 'carriage',
+    id: assignId(world, 'carriage', id),
+    name,
+    x, y, z,
+    mass,
+    accel,
+    length: Math.max(0.2, length),
+    damping: Math.max(0, damping),
+    theta: 0,
+    omega: 0,
+    time: 0,
+    initial: { theta: 0, omega: 0, time: 0 },
+  };
+  world.carriages.push(carriage);
+  return carriage;
+}
+
+export function getCarriage(world, id) {
+  return world.carriages.find((c) => c.id === id) || null;
+}
+
+export function stepCarriage(world, carriage, h) {
+  const g = world.g;
+  const L = carriage.length;
+  const acc = (theta, omega) => (
+    -(g / L) * Math.sin(theta) - (carriage.accel / L) * Math.cos(theta) - carriage.damping * omega
+  );
+  const th0 = carriage.theta;
+  const w0 = carriage.omega;
+  const k1t = w0;
+  const k1w = acc(th0, w0);
+  const k2t = w0 + 0.5 * h * k1w;
+  const k2w = acc(th0 + 0.5 * h * k1t, w0 + 0.5 * h * k1w);
+  const k3t = w0 + 0.5 * h * k2w;
+  const k3w = acc(th0 + 0.5 * h * k2t, w0 + 0.5 * h * k2w);
+  const k4t = w0 + h * k3w;
+  const k4w = acc(th0 + h * k3t, w0 + h * k3w);
+  carriage.theta = th0 + (h / 6) * (k1t + 2 * k2t + 2 * k3t + k4t);
+  carriage.omega = w0 + (h / 6) * (k1w + 2 * k2w + 2 * k3w + k4w);
+  carriage.time += h;
+}
+
+function resetCarriage(carriage) {
+  carriage.theta = carriage.initial?.theta ?? 0;
+  carriage.omega = carriage.initial?.omega ?? 0;
+  carriage.time = carriage.initial?.time ?? 0;
+}
+
+/* -------------------------- angular momentum ----------------------- */
+
+export function addAngularTable(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 0.55, z = 0,
+    radius = 1.6, discMass = 8, blockMass = 1,
+    r = 1.05, omega = 2.2, rSpeed = 0, radialMotor = false, blockOn = true,
+  } = opts;
+  const I = 0.5 * Math.max(0.01, discMass) * radius * radius;
+  const table = {
+    type: 'angularTable',
+    id: assignId(world, 'ang', id),
+    name,
+    x, y, z,
+    radius,
+    discMass,
+    blockMass: Math.max(0.01, blockMass),
+    I,
+    r,
+    r0: r,
+    rSpeed,
+    radialMotor: !!radialMotor,
+    blockOn: !!blockOn,
+    omega,
+    omega0: omega,
+    angle: 0,
+    L: 0,
+    ke: 0,
+    dropped: false,
+    time: 0,
+    initial: null,
+  };
+  table.L = (I + (table.blockOn ? table.blockMass * r * r : 0)) * omega;
+  table.ke = 0.5 * (I + (table.blockOn ? table.blockMass * r * r : 0)) * omega * omega;
+  table.initial = {
+    r, omega, angle: 0, blockOn: table.blockOn, L: table.L, ke: table.ke, dropped: false, time: 0,
+  };
+  world.angularTables.push(table);
+  return table;
+}
+
+export function getAngularTable(world, id) {
+  return world.angularTables.find((t) => t.id === id) || null;
+}
+
+export function angularTableMoment(table) {
+  return table.I + (table.blockOn ? table.blockMass * table.r * table.r : 0);
+}
+
+export function angularTableMomentum(table) {
+  return angularTableMoment(table) * table.omega;
+}
+
+export function dropAngularBlock(table) {
+  if (table.blockOn) return false;
+  table.blockOn = true;
+  table.dropped = true;
+  table.omega = table.L / angularTableMoment(table);
+  table.ke = 0.5 * angularTableMoment(table) * table.omega * table.omega;
+  return true;
+}
+
+export function stepAngularTable(table, h) {
+  if (table.blockOn && table.radialMotor) {
+    table.r = clamp(table.r + table.rSpeed * h, 0.15, table.radius * 0.98);
+  }
+  table.omega = table.L / Math.max(EPS, angularTableMoment(table));
+  table.angle += table.omega * h;
+  table.ke = 0.5 * angularTableMoment(table) * table.omega * table.omega;
+  table.time += h;
+}
+
+function resetAngularTable(table) {
+  const init = table.initial;
+  if (!init) return;
+  table.r = init.r;
+  table.omega = init.omega;
+  table.angle = init.angle;
+  table.blockOn = init.blockOn;
+  table.dropped = !!init.dropped;
+  table.L = init.L;
+  table.ke = init.ke;
+  table.time = init.time;
+}
+
+/* --------------------------- rod under torque ---------------------- */
+
+export function rodInertia(mass, length, pivot = 'end') {
+  return pivot === 'center'
+    ? (mass * length * length) / 12
+    : (mass * length * length) / 3;
+}
+
+export function addRod(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 2.2, z = 0,
+    mass = 2, length = 2.2, pivot = 'end', torque = 1, theta0 = 0,
+  } = opts;
+  const rod = {
+    type: 'rod',
+    id: assignId(world, 'rod', id),
+    name,
+    x, y, z,
+    mass: Math.max(0.01, mass),
+    length: Math.max(0.2, length),
+    pivot: pivot === 'center' ? 'center' : 'end',
+    torque,
+    I: rodInertia(Math.max(0.01, mass), Math.max(0.2, length), pivot),
+    theta: theta0,
+    omega: 0,
+    alpha: 0,
+    time: 0,
+    initial: { theta: theta0, omega: 0, time: 0 },
+  };
+  world.rods.push(rod);
+  return rod;
+}
+
+export function getRod(world, id) {
+  return world.rods.find((r) => r.id === id) || null;
+}
+
+export function stepRod(rod, h) {
+  rod.alpha = rod.torque / Math.max(EPS, rod.I);
+  rod.omega += rod.alpha * h;
+  rod.theta += rod.omega * h;
+  rod.time += h;
+}
+
+function resetRod(rod) {
+  rod.theta = rod.initial?.theta ?? 0;
+  rod.omega = rod.initial?.omega ?? 0;
+  rod.time = rod.initial?.time ?? 0;
+  rod.alpha = 0;
+}
+
+/* ---------------------------- gravity orbits ---------------------- */
+
+export function addOrbit(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 1, z = 0,
+    M = 8, G = 1, r = 6, phase = 0, speedFactor = 1, speed = null,
+  } = opts;
+  const mu = Math.max(1e-9, G * M);
+  const vc = Math.sqrt(mu / r);
+  const v0 = Number.isFinite(speed) ? speed : speedFactor * vc;
+  const px = r * Math.cos(phase);
+  const pz = r * Math.sin(phase);
+  const orbit = {
+    type: 'orbit',
+    id: assignId(world, 'orbit', id),
+    name,
+    x, y, z,
+    M, G, mu,
+    r0: r,
+    phase,
+    speedFactor,
+    px, pz,
+    vx: -Math.sin(phase) * v0,
+    vz: Math.cos(phase) * v0,
+    time: 0,
+    trail: [],
+    trailAt: -1,
+    unwrapped: 0,
+    prevAngle: phase,
+    periodMeasured: 0,
+    periodStart: 0,
+    nextPeriodAngle: TWO_PI,
+    radiusMax: r,
+    radiusMin: r,
+    arealMin: Infinity,
+    arealMax: -Infinity,
+    arealSum: 0,
+    arealCount: 0,
+    energy0: 0.5 * v0 * v0 - mu / r,
+    energy: 0.5 * v0 * v0 - mu / r,
+    energyDrift: 0,
+    initial: null,
+  };
+  orbit.initial = {
+    px, pz, vx: orbit.vx, vz: orbit.vz, time: 0,
+    energy0: orbit.energy0,
+  };
+  world.orbits.push(orbit);
+  return orbit;
+}
+
+export function getOrbit(world, id) {
+  return world.orbits.find((o) => o.id === id) || null;
+}
+
+export function orbitSemiMajor(orbit) {
+  if (!(orbit.energy < 0)) return Infinity;
+  return -orbit.mu / (2 * orbit.energy);
+}
+
+export function orbitKeplerPeriod(orbit) {
+  const a = orbitSemiMajor(orbit);
+  if (!Number.isFinite(a)) return Infinity;
+  return TWO_PI * Math.sqrt((a * a * a) / orbit.mu);
+}
+
+export function orbitEscapeSpeed(orbit, r = Math.hypot(orbit.px, orbit.pz)) {
+  return Math.sqrt((2 * orbit.mu) / Math.max(EPS, r));
+}
+
+export function orbitArealVelocity(orbit) {
+  return Math.abs(orbit.px * orbit.vz - orbit.pz * orbit.vx) / 2;
+}
+
+export function stepOrbit(orbit, h) {
+  const ax = (px, pz) => {
+    const r2 = px * px + pz * pz;
+    const r = Math.sqrt(r2);
+    const factor = -orbit.mu / Math.max(EPS, r2 * r);
+    return { x: factor * px, z: factor * pz };
+  };
+  const a0 = ax(orbit.px, orbit.pz);
+  orbit.vx += 0.5 * a0.x * h;
+  orbit.vz += 0.5 * a0.z * h;
+  orbit.px += orbit.vx * h;
+  orbit.pz += orbit.vz * h;
+  const a1 = ax(orbit.px, orbit.pz);
+  orbit.vx += 0.5 * a1.x * h;
+  orbit.vz += 0.5 * a1.z * h;
+  orbit.time += h;
+
+  const r = Math.hypot(orbit.px, orbit.pz);
+  orbit.radiusMax = Math.max(orbit.radiusMax, r);
+  orbit.radiusMin = Math.min(orbit.radiusMin, r);
+  orbit.energy = 0.5 * (orbit.vx * orbit.vx + orbit.vz * orbit.vz) - orbit.mu / r;
+  orbit.energyDrift = Math.abs(orbit.energy - orbit.energy0) / Math.max(EPS, Math.abs(orbit.energy0));
+
+  const areal = orbit.px * orbit.vz - orbit.pz * orbit.vx;
+  orbit.arealMin = Math.min(orbit.arealMin, areal);
+  orbit.arealMax = Math.max(orbit.arealMax, areal);
+  orbit.arealSum += areal;
+  orbit.arealCount += 1;
+
+  const angle = Math.atan2(orbit.pz, orbit.px);
+  orbit.unwrapped += wrapAngle(angle - orbit.prevAngle);
+  orbit.prevAngle = angle;
+  if (orbit.unwrapped >= orbit.nextPeriodAngle) {
+    const measured = orbit.time - orbit.periodStart;
+    if (measured > 1e-3) orbit.periodMeasured = measured;
+    orbit.periodStart = orbit.time;
+    orbit.nextPeriodAngle += TWO_PI;
+  }
+  if (orbit.time - orbit.trailAt >= 1 / 30) {
+    orbit.trail.push([orbit.px, orbit.pz]);
+    orbit.trailAt = orbit.time;
+    if (orbit.trail.length > 2400) orbit.trail.shift();
+  }
+}
+
+function resetOrbit(orbit) {
+  const init = orbit.initial;
+  if (!init) return;
+  orbit.px = init.px;
+  orbit.pz = init.pz;
+  orbit.vx = init.vx;
+  orbit.vz = init.vz;
+  orbit.time = 0;
+  orbit.trail = [];
+  orbit.trailAt = -1;
+  orbit.unwrapped = 0;
+  orbit.prevAngle = Math.atan2(orbit.pz, orbit.px);
+  orbit.periodMeasured = 0;
+  orbit.periodStart = 0;
+  orbit.nextPeriodAngle = TWO_PI;
+  orbit.radiusMax = Math.hypot(orbit.px, orbit.pz);
+  orbit.radiusMin = orbit.radiusMax;
+  orbit.arealMin = Infinity;
+  orbit.arealMax = -Infinity;
+  orbit.arealSum = 0;
+  orbit.arealCount = 0;
+  orbit.energy0 = init.energy0;
+  orbit.energy = init.energy0;
+  orbit.energyDrift = 0;
+}
+
+/* -------------------------- sphere tunnel -------------------------- */
+
+export function addTunnel(world, opts = {}) {
+  const {
+    id, name = '', x = 0, y = 3.1, z = 0,
+    R = 3.2, M = 8, G = 1, r0 = null,
+  } = opts;
+  const mu = Math.max(1e-9, G * M);
+  const tunnel = {
+    type: 'tunnel',
+    id: assignId(world, 'tunnel', id),
+    name,
+    x, y, z,
+    R, M, G, mu,
+    omega: Math.sqrt(mu / (R * R * R)),
+    s: r0 == null ? R : r0,
+    v: 0,
+    time: 0,
+    measuredPeriod: 0,
+    prevS: r0 == null ? R : r0,
+    lastCross: null,
+    initial: { s: r0 == null ? R : r0, v: 0, time: 0 },
+  };
+  world.tunnels.push(tunnel);
+  return tunnel;
+}
+
+export function getTunnel(world, id) {
+  return world.tunnels.find((t) => t.id === id) || null;
+}
+
+export function tunnelPeriod(tunnel) {
+  return TWO_PI / tunnel.omega;
+}
+
+export function stepTunnel(tunnel, h) {
+  const acc = (s) => -tunnel.omega * tunnel.omega * s;
+  const s0 = tunnel.s;
+  const v0 = tunnel.v;
+  const k1s = v0;
+  const k1v = acc(s0);
+  const k2s = v0 + 0.5 * h * k1v;
+  const k2v = acc(s0 + 0.5 * h * k1s);
+  const k3s = v0 + 0.5 * h * k2v;
+  const k3v = acc(s0 + 0.5 * h * k2s);
+  const k4s = v0 + h * k3v;
+  const k4v = acc(s0 + h * k3s);
+  const s1 = s0 + (h / 6) * (k1s + 2 * k2s + 2 * k3s + k4s);
+  const v1 = v0 + (h / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
+  if (tunnel.prevS <= 0 && s1 > 0 && tunnel.prevS !== s1) {
+    const frac = -tunnel.prevS / (s1 - tunnel.prevS);
+    const tc = tunnel.time + frac * h;
+    if (tunnel.lastCross != null) {
+      const period = tc - tunnel.lastCross;
+      if (period > 1e-3) tunnel.measuredPeriod = period;
+    }
+    tunnel.lastCross = tc;
+  }
+  tunnel.s = s1;
+  tunnel.v = v1;
+  tunnel.time += h;
+  tunnel.prevS = s1;
+}
+
+function resetTunnel(tunnel) {
+  tunnel.s = tunnel.initial?.s ?? tunnel.R;
+  tunnel.v = tunnel.initial?.v ?? 0;
+  tunnel.time = tunnel.initial?.time ?? 0;
+  tunnel.prevS = tunnel.s;
+  tunnel.lastCross = null;
+  tunnel.measuredPeriod = 0;
+}
+
+/* ------------------------------------------------------------------ */
 /* Fixed-step integration                                             */
 /* ------------------------------------------------------------------ */
 
@@ -2544,6 +3250,14 @@ export function substep(world, h) {
   applyDragForces(world);
   for (const pulley of world.pulleys) applyPulleyForces(world, pulley);
   for (const pendulum of world.pendulums) stepPendulum(world, pendulum, h);
+  for (const osc of world.oscillators) stepOscillator(osc, h);
+  for (const pend of world.torsionPendulums) stepTorsionPendulum(pend, h);
+  for (const carriage of world.carriages) stepCarriage(world, carriage, h);
+  for (const table of world.angularTables) stepAngularTable(table, h);
+  for (const rod of world.rods) stepRod(rod, h);
+  for (const orbit of world.orbits) stepOrbit(orbit, h);
+  for (const tunnel of world.tunnels) stepTunnel(tunnel, h);
+  for (const elevator of world.elevators) elevator.time += h;
 
   for (const body of world.bodies) {
     if (body.skid) applySkidFriction(world, body, h);
@@ -2842,6 +3556,29 @@ export function captureInitial(world) {
       velocity: [wedge.body.velocity.x, wedge.body.velocity.y, wedge.body.velocity.z],
       angularVelocity: [wedge.body.angularVelocity.x, wedge.body.angularVelocity.y, wedge.body.angularVelocity.z],
     })),
+    oscillators: world.oscillators.map((o) => ({
+      id: o.id, u: o.u, v: o.v, time: o.time,
+    })),
+    torsionPendulums: world.torsionPendulums.map((p) => ({
+      id: p.id, theta: p.theta, omega: p.omega, time: p.time,
+    })),
+    carriages: world.carriages.map((c) => ({
+      id: c.id, theta: c.theta, omega: c.omega, time: c.time,
+    })),
+    angularTables: world.angularTables.map((t) => ({
+      id: t.id, r: t.r, omega: t.omega, angle: t.angle, blockOn: t.blockOn,
+      L: t.L, ke: t.ke, dropped: t.dropped, time: t.time,
+    })),
+    rods: world.rods.map((r) => ({
+      id: r.id, theta: r.theta, omega: r.omega, time: r.time,
+    })),
+    orbits: world.orbits.map((o) => ({
+      id: o.id, px: o.px, pz: o.pz, vx: o.vx, vz: o.vz, time: o.time,
+      energy0: o.energy0,
+    })),
+    tunnels: world.tunnels.map((t) => ({
+      id: t.id, s: t.s, v: t.v, time: t.time,
+    })),
   };
 }
 
@@ -2895,6 +3632,55 @@ export function resetWorld(world) {
       table.frictionTorque = 0;
     }
   }
+
+  const oscState = new Map((init.oscillators || []).map((o) => [o.id, o]));
+  for (const osc of world.oscillators) {
+    const saved = oscState.get(osc.id);
+    if (saved) {
+      osc.u = saved.u;
+      osc.v = saved.v;
+      osc.time = saved.time;
+      osc.initial = { u: saved.u, v: saved.v, time: saved.time };
+    }
+    resetOscillator(osc);
+  }
+  const torsionState = new Map((init.torsionPendulums || []).map((p) => [p.id, p]));
+  for (const pend of world.torsionPendulums) {
+    const saved = torsionState.get(pend.id);
+    if (saved) pend.initial = { theta: saved.theta, omega: saved.omega, time: saved.time };
+    resetTorsion(pend);
+  }
+  const carriageState = new Map((init.carriages || []).map((c) => [c.id, c]));
+  for (const carriage of world.carriages) {
+    const saved = carriageState.get(carriage.id);
+    if (saved) carriage.initial = { theta: saved.theta, omega: saved.omega, time: saved.time };
+    resetCarriage(carriage);
+  }
+  const angularState = new Map((init.angularTables || []).map((t) => [t.id, t]));
+  for (const table of world.angularTables) {
+    const saved = angularState.get(table.id);
+    if (saved) table.initial = { ...saved };
+    resetAngularTable(table);
+  }
+  const rodState = new Map((init.rods || []).map((r) => [r.id, r]));
+  for (const rod of world.rods) {
+    const saved = rodState.get(rod.id);
+    if (saved) rod.initial = { theta: saved.theta, omega: saved.omega, time: saved.time };
+    resetRod(rod);
+  }
+  const orbitState = new Map((init.orbits || []).map((o) => [o.id, o]));
+  for (const orbit of world.orbits) {
+    const saved = orbitState.get(orbit.id);
+    if (saved) orbit.initial = { ...saved };
+    resetOrbit(orbit);
+  }
+  const tunnelState = new Map((init.tunnels || []).map((t) => [t.id, t]));
+  for (const tunnel of world.tunnels) {
+    const saved = tunnelState.get(tunnel.id);
+    if (saved) tunnel.initial = { s: saved.s, v: saved.v, time: saved.time };
+    resetTunnel(tunnel);
+  }
+  for (const elevator of world.elevators) elevator.time = 0;
   const byId = new Map(init.bodyStates.map((s) => [s.id, s]));
   for (const body of world.bodies) {
     const saved = byId.get(body.id);
@@ -2961,6 +3747,14 @@ export function clearWorld(world) {
   world.wedges = [];
   world.sensors = [];
   world.fans = [];
+  world.oscillators = [];
+  world.torsionPendulums = [];
+  world.elevators = [];
+  world.carriages = [];
+  world.angularTables = [];
+  world.rods = [];
+  world.orbits = [];
+  world.tunnels = [];
   world.links = [];
   world.events = [];
   world.pendingImpacts = [];
@@ -3317,6 +4111,50 @@ export function serializeScene(world, { runtime = false } = {}) {
       azimuth: f.azimuth,
       elevation: f.elevation,
     })),
+    oscillators: world.oscillators.map((o) => ({
+      id: o.id, name: o.name || '', x: o.x, y: o.y, z: o.z,
+      mass: o.mass, k: o.k, damping: o.b,
+      driveForce: o.driveF0, driveOmega: o.driveOmega, driveOn: o.driveOn,
+      amplitude: o.initial?.u ?? o.u,
+      u: o.u, v: o.v, time: o.time,
+    })),
+    torsionPendulums: world.torsionPendulums.map((p) => ({
+      id: p.id, name: p.name || '', x: p.x, y: p.y, z: p.z,
+      mass: p.mass, radius: p.radius, I: p.I, kappa: p.kappa,
+      damping: p.damping, amplitude: (p.theta0 * 180) / Math.PI,
+      theta: p.theta, omega: p.omega, time: p.time,
+    })),
+    elevators: world.elevators.map((e) => ({
+      id: e.id, name: e.name || '', x: e.x, y: e.y, z: e.z,
+      mass: e.mass, accel: e.accel, height: e.height, width: e.width,
+    })),
+    carriages: world.carriages.map((c) => ({
+      id: c.id, name: c.name || '', x: c.x, y: c.y, z: c.z,
+      mass: c.mass, accel: c.accel, length: c.length, damping: c.damping,
+      theta: c.theta, omega: c.omega, time: c.time,
+    })),
+    angularTables: world.angularTables.map((t) => ({
+      id: t.id, name: t.name || '', x: t.x, y: t.y, z: t.z,
+      radius: t.radius, discMass: t.discMass, blockMass: t.blockMass,
+      r: t.r, omega: t.omega, rSpeed: t.rSpeed, radialMotor: t.radialMotor,
+      blockOn: t.blockOn, L: t.L, ke: t.ke, dropped: t.dropped,
+      angle: t.angle, time: t.time,
+    })),
+    rods: world.rods.map((r) => ({
+      id: r.id, name: r.name || '', x: r.x, y: r.y, z: r.z,
+      mass: r.mass, length: r.length, pivot: r.pivot, torque: r.torque,
+      theta: r.theta, omega: r.omega, time: r.time,
+    })),
+    orbits: world.orbits.map((o) => ({
+      id: o.id, name: o.name || '', x: o.x, y: o.y, z: o.z,
+      M: o.M, G: o.G, r: o.r0, phase: o.phase, speedFactor: o.speedFactor,
+      px: o.px, pz: o.pz, vx: o.vx, vz: o.vz, time: o.time,
+      trail: o.trail.slice(-1200), energy0: o.energy0,
+    })),
+    tunnels: world.tunnels.map((t) => ({
+      id: t.id, name: t.name || '', x: t.x, y: t.y, z: t.z,
+      R: t.R, M: t.M, G: t.G, s: t.s, v: t.v, time: t.time,
+    })),
     bodies: world.bodies.filter((b) => !b.transient).map((b) => ({
       id: b.id,
       kind: b.kind,
@@ -3493,6 +4331,78 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
   }
   for (const f of data.fans || []) {
     addFan(world, { ...f });
+  }
+  for (const o of data.oscillators || []) {
+    const osc = addOscillator(world, { ...o });
+    if (runtime) {
+      osc.u = o.u ?? osc.u;
+      osc.v = o.v ?? 0;
+      osc.time = o.time ?? 0;
+      osc.prevU = osc.u;
+      osc.prevV = osc.v;
+    }
+  }
+  for (const p of data.torsionPendulums || []) {
+    const pend = addTorsionPendulum(world, { ...p });
+    if (runtime) {
+      pend.theta = p.theta ?? pend.theta;
+      pend.omega = p.omega ?? 0;
+      pend.time = p.time ?? 0;
+      pend.prevTheta = pend.theta;
+    }
+  }
+  for (const e of data.elevators || []) addElevator(world, { ...e });
+  for (const c of data.carriages || []) {
+    const carriage = addCarriage(world, { ...c });
+    if (runtime) {
+      carriage.theta = c.theta ?? 0;
+      carriage.omega = c.omega ?? 0;
+      carriage.time = c.time ?? 0;
+    }
+  }
+  for (const t of data.angularTables || []) {
+    const table = addAngularTable(world, { ...t });
+    if (runtime) {
+      table.r = t.r ?? table.r;
+      table.omega = t.omega ?? table.omega;
+      table.angle = t.angle ?? 0;
+      table.blockOn = !!t.blockOn;
+      table.L = t.L ?? table.L;
+      table.ke = t.ke ?? table.ke;
+      table.dropped = !!t.dropped;
+      table.time = t.time ?? 0;
+    }
+  }
+  for (const r of data.rods || []) {
+    const rod = addRod(world, { ...r });
+    if (runtime) {
+      rod.theta = r.theta ?? 0;
+      rod.omega = r.omega ?? 0;
+      rod.time = r.time ?? 0;
+    }
+  }
+  for (const o of data.orbits || []) {
+    const orbit = addOrbit(world, { ...o });
+    if (runtime) {
+      orbit.px = o.px ?? orbit.px;
+      orbit.pz = o.pz ?? orbit.pz;
+      orbit.vx = o.vx ?? orbit.vx;
+      orbit.vz = o.vz ?? orbit.vz;
+      orbit.time = o.time ?? 0;
+      orbit.trail = (o.trail || []).map((p) => [p[0], p[1]]);
+      orbit.prevAngle = Math.atan2(orbit.pz, orbit.px);
+      orbit.energy0 = o.energy0 ?? orbit.energy0;
+      orbit.energy = orbit.energy0;
+    }
+  }
+  for (const t of data.tunnels || []) {
+    const tunnel = addTunnel(world, { ...t });
+    if (runtime) {
+      tunnel.s = t.s ?? tunnel.s;
+      tunnel.v = t.v ?? 0;
+      tunnel.time = t.time ?? 0;
+      tunnel.prevS = tunnel.s;
+    }
   }
   for (const l of data.links || []) {
     addLink(world, {

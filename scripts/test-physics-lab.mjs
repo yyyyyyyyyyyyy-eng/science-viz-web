@@ -5,23 +5,33 @@
  */
 import {
   addAnchor,
+  addAngularTable,
   addBall,
   addBarrier,
   addBlock,
+  addCarriage,
   addCart,
   addCylinder,
+  addElevator,
   addFan,
   addHCircle,
   addLauncher,
   addLink,
   addLoop,
+  addOrbit,
+  addOscillator,
   addPendulum,
   addProjectile,
   addPulley,
+  addRod,
   addSensor,
   addSurface,
+  addTorsionPendulum,
+  addTunnel,
   addTurntable,
   addWedge,
+  angularTableMomentum,
+  apparentWeight,
   applyInitialVelocity,
   attachBodyToPulley,
   fireLauncher,
@@ -31,11 +41,21 @@ import {
   attachBodyToTurntable,
   bodyDiagnostics,
   captureInitial,
+  carriageTilt,
   clampMuPair,
   createWorld,
   deserializeScene,
+  dropAngularBlock,
+  elevatorReading,
   energyBreakdown,
+  orbitArealVelocity,
+  orbitEscapeSpeed,
+  orbitKeplerPeriod,
+  oscillatorAnalyticAmplitude,
+  oscillatorRegime,
+  relativeVelocity,
   resetWorld,
+  rodInertia,
   serializeScene,
   setBodyCollisionRestitution,
   springEnergyFromLength,
@@ -45,6 +65,8 @@ import {
   surfaceFrame,
   surfaceLocalPoint,
   surfaceTopPoint,
+  torsionPeriod,
+  tunnelPeriod,
 } from '../modules/physics/lab/physics.mjs';
 
 let passed = 0;
@@ -786,6 +808,286 @@ check('scene serialization round-trips objects and parameters', () => {
   near(target.bodies[0].v0, 1.5, 1e-12, 'v0');
   near(target.surfaces[0].muS, 0.6, 1e-12, 'muS');
   if (target.bodies[0].attachment?.type !== 'surface') throw new Error('attachment lost');
+});
+
+function linearSlope(points, xKey, yKey) {
+  const n = points.length;
+  const sx = points.reduce((s, p) => s + p[xKey], 0);
+  const sy = points.reduce((s, p) => s + p[yKey], 0);
+  const sxx = points.reduce((s, p) => s + p[xKey] * p[xKey], 0);
+  const sxy = points.reduce((s, p) => s + p[xKey] * p[yKey], 0);
+  const denom = n * sxx - sx * sx;
+  return denom === 0 ? 0 : (n * sxy - sx * sy) / denom;
+}
+
+function runUntilOrbitPeriod(orbit, world, maxSeconds) {
+  const h = 1 / 240;
+  const steps = Math.round(maxSeconds / h);
+  for (let i = 0; i < steps; i += 1) {
+    stepWorld(world, h, { h });
+    if (orbit.periodMeasured > 0) break;
+  }
+}
+
+function runUntilTunnelPeriod(tunnel, world, maxSeconds) {
+  const h = 1 / 240;
+  const steps = Math.round(maxSeconds / h);
+  for (let i = 0; i < steps; i += 1) {
+    stepWorld(world, h, { h });
+    if (tunnel.measuredPeriod > 0) break;
+  }
+}
+
+/* ------------------------- phase 2: oscillation --------------------- */
+
+check('oscillator: undamped free period matches 2*pi*sqrt(m/k) within 1%', () => {
+  for (const [mass, k] of [[1, 4], [2, 18]]) {
+    const world = createWorld({ g: 9.8 });
+    const osc = addOscillator(world, {
+      mass, k, damping: 0, driveOn: false, amplitude: 0.2,
+    });
+    advance(world, 8, 1 / 480);
+    const expected = 2 * Math.PI * Math.sqrt(mass / k);
+    if (!(osc.measuredPeriod > 0)) throw new Error(`m=${mass} k=${k}: no zero-crossing period recorded`);
+    near(osc.measuredPeriod, expected, expected * 0.01, `period m=${mass}, k=${k}`);
+    console.log(`      m=${mass} kg, k=${k} N/m: T=${osc.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s (${((Math.abs(osc.measuredPeriod - expected) / expected) * 100).toFixed(3)}%)`);
+  }
+});
+
+check('oscillator: underdamped envelope decays as exp(-b t / 2m) within 2%', () => {
+  const world = createWorld({ g: 9.8 });
+  const mass = 1;
+  const b = 0.8;
+  const osc = addOscillator(world, {
+    mass, k: 9, damping: b, driveOn: false, amplitude: 0.8,
+  });
+  advance(world, 14, 1 / 480);
+  const peaks = osc.peaks.filter((p) => p.u > 1e-4);
+  if (peaks.length < 4) throw new Error(`only ${peaks.length} positive peaks recorded`);
+  const logPeaks = peaks.map((p) => ({ t: p.t, y: Math.log(p.u) }));
+  const slope = linearSlope(logPeaks, 't', 'y');
+  const expected = -b / (2 * mass);
+  const rel = Math.abs(slope - expected) / Math.abs(expected);
+  if (rel > 0.02) throw new Error(`log-envelope slope ${slope.toExponential(5)} vs ${expected.toExponential(5)} (${(rel * 100).toFixed(2)}%)`);
+  console.log(`      ${peaks.length} peaks: fitted ln(A) slope=${slope.toFixed(6)} 1/s vs -b/2m=${expected.toFixed(6)} 1/s (${(rel * 100).toFixed(2)}%)`);
+});
+
+check('oscillator: driven steady-state amplitude matches A(omega) within 2% at three frequencies', () => {
+  const mass = 1;
+  const k = 4;
+  const b = 0.5;
+  const F0 = 1.2;
+  const results = [];
+  for (const omega of [1.2, 2.0, 2.9]) {
+    const world = createWorld({ g: 9.8 });
+    const osc = addOscillator(world, {
+      mass, k, damping: b, driveForce: F0, driveOmega: omega, driveOn: true, amplitude: 0,
+    });
+    advance(world, 40, 1 / 240);
+    const measured = osc.measuredAmplitude;
+    const expected = oscillatorAnalyticAmplitude(osc, omega);
+    if (!(measured > 0)) throw new Error(`omega=${omega}: no steady-state amplitude measured`);
+    near(measured, expected, expected * 0.02, `amplitude at omega=${omega}`);
+    results.push(`omega=${omega}: A=${measured.toFixed(5)} m vs ${expected.toFixed(5)} m`);
+  }
+  console.log(`      ${results.join('; ')}`);
+});
+
+check('oscillator: critical damping b = 2*sqrt(km) returns without overshoot', () => {
+  const world = createWorld({ g: 9.8 });
+  const mass = 1;
+  const k = 4;
+  const b = 2 * Math.sqrt(k * mass);
+  const osc = addOscillator(world, {
+    mass, k, damping: b, driveOn: false, amplitude: 0.8,
+  });
+  if (oscillatorRegime(osc) !== 'critical') throw new Error(`regime reported ${oscillatorRegime(osc)}`);
+  let minU = osc.u;
+  const h = 1 / 480;
+  for (let i = 0; i < Math.round(8 / h); i += 1) {
+    stepWorld(world, h, { h });
+    minU = Math.min(minU, osc.u);
+  }
+  if (minU < -1e-4) throw new Error(`critical damping overshot to u=${minU.toExponential(3)}`);
+  near(osc.u, 0, 0.01, 'displacement after 8 s');
+  console.log(`      b=${b.toFixed(6)} kg/s, regime=${oscillatorRegime(osc)}, min u=${minU.toExponential(3)} m (no sign reversal), u(8 s)=${osc.u.toExponential(3)} m`);
+});
+
+/* --------------------------- phase 2: torsion ----------------------- */
+
+check('torsion pendulum: period matches 2*pi*sqrt(I/kappa) within 1% for two pairs', () => {
+  for (const [I, kappa] of [[0.8, 1.2], [2.0, 0.5]]) {
+    const world = createWorld({ g: 9.8 });
+    const pend = addTorsionPendulum(world, { I, kappa, amplitude: 12 });
+    const expected = torsionPeriod(pend);
+    advance(world, expected * 1.8 + 0.5, 1 / 480);
+    if (!(pend.measuredPeriod > 0)) throw new Error(`I=${I}, kappa=${kappa}: no period recorded`);
+    near(pend.measuredPeriod, expected, expected * 0.01, `torsion period I=${I}, kappa=${kappa}`);
+    console.log(`      I=${I} kg·m², kappa=${kappa} N·m/rad: T=${pend.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s (${((Math.abs(pend.measuredPeriod - expected) / expected) * 100).toFixed(3)}%)`);
+  }
+});
+
+/* ---------------------- phase 2: frames and lifts ------------------- */
+
+check('elevator: apparent weight N = m(g + a) within 0.5% for a > 0, a < 0 and a = -g', () => {
+  const world = createWorld({ g: 9.8 });
+  const mass = 2;
+  const cases = [2, -3, -9.8];
+  const readings = [];
+  for (const accel of cases) {
+    const lift = addElevator(world, { mass, accel });
+    const expected = mass * (9.8 + accel);
+    near(elevatorReading(world, lift), expected, Math.max(1e-9, Math.abs(expected) * 0.005), `N at a=${accel}`);
+    if (accel === -9.8 && Math.abs(elevatorReading(world, lift)) > 1e-9) throw new Error('free-fall reading is not zero');
+    readings.push(`a=${accel}: N=${elevatorReading(world, lift).toFixed(4)} N vs ${expected.toFixed(4)} N`);
+  }
+  near(apparentWeight(3, 9.8, 0), 3 * 9.8, 1e-12, 'at rest');
+  console.log(`      ${readings.join('; ')}`);
+});
+
+check('carriage: hanging bob settles at tan(phi) = a/g within 1 degree', () => {
+  for (const accel of [1.5, -2.5]) {
+    const world = createWorld({ g: 9.8 });
+    const carriage = addCarriage(world, { accel, length: 1.25, damping: 1.8 });
+    advance(world, 10, 1 / 240);
+    const measured = -carriage.theta;
+    const expected = carriageTilt(accel, world.g);
+    const errDeg = Math.abs(measured - expected) * (180 / Math.PI);
+    if (errDeg > 1) throw new Error(`a=${accel}: tilt off by ${errDeg.toFixed(3)} deg`);
+    console.log(`      a=${accel} m/s²: phi=${((measured * 180) / Math.PI).toFixed(3)}° vs ${((expected * 180) / Math.PI).toFixed(3)}° (${errDeg.toFixed(3)}° error)`);
+  }
+});
+
+check('reference frame: v_rel = v - v_frame is exact for several bodies', () => {
+  const cases = [
+    [{ x: 3, y: 0, z: -1 }, { x: 1.5, y: 0, z: 2 }],
+    [{ x: -2, y: 4, z: 0 }, { x: -2, y: -1, z: 0.25 }],
+    [{ x: 0, y: 0, z: 0 }, { x: 5, y: -3, z: 7 }],
+  ];
+  for (const [v, frame] of cases) {
+    const rel = relativeVelocity(v, frame);
+    near(rel.x, v.x - frame.x, 0, 'v_rel x');
+    near(rel.y, v.y - frame.y, 0, 'v_rel y');
+    near(rel.z, v.z - frame.z, 0, 'v_rel z');
+  }
+  console.log('      3 velocity pairs transformed exactly: (v - v_frame) componentwise');
+});
+
+/* ---------------------- phase 2: angular momentum ------------------- */
+
+check('angular momentum: L conserved within 0.5% while a block moves radially', () => {
+  const world = createWorld({ g: 9.8 });
+  const table = addAngularTable(world, {
+    radius: 1.6, discMass: 8, blockMass: 1, r: 1.0, omega: 2.2,
+    radialMotor: true, rSpeed: 0.25,
+  });
+  const L0 = angularTableMomentum(table);
+  advance(world, 2.0, 1 / 240);
+  const L1 = angularTableMomentum(table);
+  const rel = Math.abs(L1 - L0) / Math.abs(L0);
+  if (rel > 0.005) throw new Error(`L drifted by ${(rel * 100).toFixed(3)}%`);
+  if (!(table.r > 1.4)) throw new Error(`block did not move radially: r=${table.r}`);
+  if (!(table.omega < 2.2)) throw new Error('omega did not drop as the block moved outward');
+  console.log(`      r ${1.0}→${table.r.toFixed(3)} m, omega ${2.2}→${table.omega.toFixed(4)} rad/s, L=${L1.toFixed(6)} vs ${L0.toFixed(6)} kg·m²/s (${(rel * 100).toFixed(4)}%)`);
+});
+
+check('angular momentum: dropping a block conserves L and lowers kinetic energy', () => {
+  const world = createWorld({ g: 9.8 });
+  const table = addAngularTable(world, {
+    radius: 1.6, discMass: 8, blockMass: 1, r: 1.05, omega: 2.2, blockOn: false,
+  });
+  const L0 = angularTableMomentum(table);
+  const ke0 = table.ke;
+  dropAngularBlock(table);
+  advance(world, 0.5, 1 / 240);
+  const L1 = angularTableMomentum(table);
+  const rel = Math.abs(L1 - L0) / Math.abs(L0);
+  if (rel > 0.005) throw new Error(`L changed by ${(rel * 100).toFixed(3)}%`);
+  if (!(table.ke < ke0)) throw new Error(`KE did not drop: ${ke0} -> ${table.ke}`);
+  console.log(`      L=${L0.toFixed(6)}→${L1.toFixed(6)} kg·m²/s (${(rel * 100).toFixed(4)}%), KE=${ke0.toFixed(3)}→${table.ke.toFixed(3)} J, omega=${table.omega.toFixed(4)} rad/s`);
+});
+
+check('rod under torque: alpha = tau/I within 0.5% for end and center pivots', () => {
+  for (const pivot of ['end', 'center']) {
+    const world = createWorld({ g: 9.8 });
+    const mass = 2;
+    const length = 2.4;
+    const torque = 3.2;
+    const rod = addRod(world, { mass, length, pivot, torque });
+    const expectedI = rodInertia(mass, length, pivot);
+    near(rod.I, expectedI, 1e-12, `inertia ${pivot}`);
+    advance(world, 0.5, 1 / 480);
+    const measured = rod.omega / rod.time;
+    const expected = torque / expectedI;
+    near(measured, expected, expected * 0.005, `alpha ${pivot}`);
+    console.log(`      pivot=${pivot}: I=${expectedI.toFixed(6)} kg·m², alpha=${measured.toFixed(6)} vs ${expected.toFixed(6)} rad/s²`);
+  }
+});
+
+/* -------------------------- phase 2: gravity ----------------------- */
+
+check('orbit: circular orbit keeps r constant and period matches 2*pi*sqrt(r^3/GM) within 0.5%', () => {
+  const world = createWorld({ g: 0 });
+  const orbit = addOrbit(world, { G: 1, M: 8, r: 6, speedFactor: 1 });
+  const expected = 2 * Math.PI * Math.sqrt(6 ** 3 / 8);
+  runUntilOrbitPeriod(orbit, world, expected * 1.15);
+  if (!(orbit.periodMeasured > 0)) throw new Error('no orbital period recorded');
+  const radiusError = (orbit.radiusMax - orbit.radiusMin) / orbit.r0;
+  if (radiusError > 0.005) throw new Error(`radius varied by ${(radiusError * 100).toFixed(3)}%`);
+  near(orbit.periodMeasured, expected, expected * 0.005, 'circular period');
+  near(orbitArealVelocity(orbit), 0.5 * Math.sqrt(8 * 6), 0.5 * Math.sqrt(8 * 6) * 0.005, 'areal velocity');
+  console.log(`      r=${orbit.r0} m: r range ${orbit.radiusMin.toFixed(6)}..${orbit.radiusMax.toFixed(6)} m (${(radiusError * 100).toFixed(4)}%), T=${orbit.periodMeasured.toFixed(6)} s vs ${expected.toFixed(6)} s`);
+});
+
+check('orbit: ellipse period matches Kepler, areal velocity is constant and energy is conserved', () => {
+  const world = createWorld({ g: 0 });
+  const orbit = addOrbit(world, { G: 1, M: 8, r: 6, speedFactor: 0.72 });
+  const expected = orbitKeplerPeriod(orbit);
+  runUntilOrbitPeriod(orbit, world, expected * 1.15);
+  if (!(orbit.periodMeasured > 0)) throw new Error('no elliptical period recorded');
+  near(orbit.periodMeasured, expected, expected * 0.01, 'Kepler period');
+  const areal = orbitArealVelocity(orbit);
+  const mean = Math.abs(orbit.arealSum / orbit.arealCount) / 2;
+  const arealRel = (orbit.arealMax - orbit.arealMin) / Math.abs(orbit.arealMax + orbit.arealMin);
+  if (arealRel > 0.01) throw new Error(`areal velocity varied by ${(arealRel * 100).toFixed(3)}%`);
+  if (orbit.energyDrift > 0.005) throw new Error(`specific energy drifted by ${(orbit.energyDrift * 100).toFixed(3)}%`);
+  console.log(`      a=${orbitSemiMajorSafe(orbit).toFixed(4)} m, T=${orbit.periodMeasured.toFixed(6)} s vs ${expected.toFixed(6)} s, areal rel spread ${(arealRel * 100).toFixed(4)}%, energy drift ${(orbit.energyDrift * 100).toFixed(4)}%, mean dA/dt=${mean.toFixed(6)} m²/s`);
+});
+
+function orbitSemiMajorSafe(orbit) {
+  const a = orbitKeplerPeriod(orbit);
+  return Number.isFinite(a) ? -orbit.mu / (2 * orbit.energy) : 0;
+}
+
+check('orbit: v slightly above escape escapes; slightly below stays bound', () => {
+  const above = createWorld({ g: 0 });
+  const escaping = addOrbit(above, { G: 1, M: 8, r: 4, speedFactor: 1.01 * Math.SQRT2 });
+  const rStart = Math.hypot(escaping.px, escaping.pz);
+  advance(above, 16, 1 / 240);
+  const rEnd = Math.hypot(escaping.px, escaping.pz);
+  if (!(rEnd > rStart * 2.5)) throw new Error(`escape orbit only reached r=${rEnd}`);
+  if (!(escaping.energy > 0)) throw new Error('escape orbit has negative specific energy');
+
+  const below = createWorld({ g: 0 });
+  const bound = addOrbit(below, { G: 1, M: 8, r: 4, speedFactor: 0.99 * Math.SQRT2 });
+  const boundStart = Math.hypot(bound.px, bound.pz);
+  if (!(orbitEscapeSpeed(bound) > 0)) throw new Error('escape speed readout missing');
+  advance(below, 16, 1 / 240);
+  const boundR = Math.hypot(bound.px, bound.pz);
+  if (!(bound.energy < 0)) throw new Error(`sub-escape orbit became unbound (energy ${bound.energy})`);
+  const rMax = -bound.mu / bound.energy;
+  if (!(boundR < rMax)) throw new Error(`bound orbit passed its apoapsis: r=${boundR} >= ${rMax}`);
+  console.log(`      above: r ${rStart.toFixed(3)}→${rEnd.toFixed(3)} m, E=${escaping.energy.toFixed(6)} J/kg; below: r ${boundStart.toFixed(3)}→${boundR.toFixed(3)} m, E=${bound.energy.toFixed(6)} J/kg, apoapsis ${rMax.toFixed(2)} m`);
+});
+
+check('tunnel: period through a uniform sphere matches 2*pi*sqrt(R^3/GM) within 1%', () => {
+  const world = createWorld({ g: 0 });
+  const tunnel = addTunnel(world, { G: 1, M: 8, R: 4 });
+  const expected = tunnelPeriod(tunnel);
+  runUntilTunnelPeriod(tunnel, world, expected * 1.95);
+  if (!(tunnel.measuredPeriod > 0)) throw new Error('no tunnel period recorded');
+  near(tunnel.measuredPeriod, expected, expected * 0.01, 'tunnel period');
+  console.log(`      R=4 m, GM=8: T=${tunnel.measuredPeriod.toFixed(6)} s vs ${expected.toFixed(6)} s (${((Math.abs(tunnel.measuredPeriod - expected) / expected) * 100).toFixed(4)}%)`);
 });
 
 console.log(results.join('\n'));
