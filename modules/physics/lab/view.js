@@ -8,6 +8,8 @@ import { OrbitControls } from '../../../vendor/three/controls/OrbitControls.js';
 import { TransformControls } from '../../../vendor/three/controls/TransformControls.js';
 import { themeColors } from '../../../js/theme.js';
 import { DEG, getSurface, getTurntable, pendulumBob, surfaceFrame, surfaceTopPoint } from './physics.mjs';
+import { createEMView } from './em/view.js';
+import { emEntityById } from './em/physics.mjs';
 
 const NO_PICK = { noPick: true };
 
@@ -99,6 +101,7 @@ export function createLabView(host, opts = {}) {
   scene.add(transformHelper);
 
   const theme = themeColors();
+  const emView = createEMView(scene, { theme });
   const materials = {
     surface: new THREE.MeshStandardMaterial({ color: theme.grid, roughness: 0.88, metalness: 0.02 }),
     track: new THREE.MeshStandardMaterial({ color: theme.grid, roughness: 0.9, metalness: 0.02 }),
@@ -473,6 +476,7 @@ export function createLabView(host, opts = {}) {
   }
 
   const visuals = new Map();
+  let mode = 'mechanics';
   let selected = null;
   let selectedKey = null;
   let gizmoMode = 'translate';
@@ -526,6 +530,7 @@ export function createLabView(host, opts = {}) {
       forceColors[key] = t[key === 'weight' ? 'text' : key === 'applied' ? 'danger' : key === 'friction' ? 'warn' : key === 'spring' ? 'ok' : 'accent'];
       arrows[key].setColor(new THREE.Color(forceColors[key]));
     }
+    if (emView) emView.setTheme(t);
   }
   setTheme();
 
@@ -1472,6 +1477,19 @@ export function createLabView(host, opts = {}) {
   function sync(world) {
     if (destroyed) return;
     lastWorld = world;
+    emView.sync(world.em, mode);
+    if (mode === 'em') {
+      for (const visual of visuals.values()) visual.root.visible = false;
+      trailLine.visible = false;
+      forceGroup.visible = false;
+      selectionHelper.visible = false;
+      transformHelper.visible = false;
+      if (typeof velocityArrow !== 'undefined') velocityArrow.visible = false;
+      if (typeof angleLine !== 'undefined') angleLine.visible = false;
+      return;
+    }
+    for (const visual of visuals.values()) visual.root.visible = true;
+    forceGroup.visible = true;
     const seen = new Set();
     const entities = [
       ...world.surfaces,
@@ -1674,6 +1692,11 @@ export function createLabView(host, opts = {}) {
   }
 
   function syncSelection(world) {
+    if (mode === 'em') {
+      emView.setSelection(selected);
+      selectionHelper.visible = false;
+      return;
+    }
     if (!selected) {
       selectionHelper.visible = false;
       return;
@@ -1754,6 +1777,12 @@ export function createLabView(host, opts = {}) {
     if (nextKey !== selectedKey) clearTrail();
     selected = entity ? { type: entity.type, id: entity.id } : null;
     selectedKey = nextKey;
+    if (mode === 'em') {
+      transform.detach();
+      emView.setSelection(selected);
+      applyGizmoVisibility();
+      return;
+    }
     if (!selected || gizmoMode === 'off' || selected.type === 'link' || selected.type === 'fan') {
       transform.detach();
     } else {
@@ -1819,11 +1848,13 @@ export function createLabView(host, opts = {}) {
 
   function frameSelected() {
     const box = new THREE.Box3();
-    if (selected) {
+    if (mode === 'em') {
+      box.setFromObject(emView.group);
+    } else if (selected) {
       const visual = visuals.get(selected.id);
       if (visual) box.setFromObject(visual.root);
     }
-    if (box.isEmpty()) {
+    if (box.isEmpty() && mode !== 'em') {
       for (const visual of visuals.values()) box.expandByObject(visual.root);
     }
     if (box.isEmpty()) return false;
@@ -1889,7 +1920,7 @@ export function createLabView(host, opts = {}) {
       let blocked = false;
       let entity = null;
       while (node) {
-        if (node.userData?.noPick) { blocked = true; break; }
+        if (node.visible === false) { blocked = true; break; }
         if (node.userData?.entity) { entity = node.userData.entity; break; }
         node = node.parent;
       }
@@ -1987,13 +2018,21 @@ export function createLabView(host, opts = {}) {
     }
     if (transform.dragging || transform.axis) return;
     const hit = pickAt(e.clientX, e.clientY);
-    if (hit?.entity && ['body', 'launcher', 'sensor', 'barrier'].includes(hit.entity.type)) {
+    if (hit?.entity && isDraggableType(hit.entity.type)) {
       directCandidate = { ref: { ...hit.entity }, startX: e.clientX, startY: e.clientY };
     }
   }
 
+  function isDraggableType(type) {
+    return ['body', 'launcher', 'sensor', 'barrier'].includes(type)
+      || (typeof type === 'string' && type.startsWith('em') && type !== 'emCircuit');
+  }
+
   function directRefEntity(ref) {
     if (!ref || !lastWorld) return null;
+    if (typeof ref.type === 'string' && ref.type.startsWith('em')) {
+      return emEntityById(lastWorld.em, ref.type, ref.id);
+    }
     if (ref.type === 'body') return lastWorld.bodies.find((b) => b.id === ref.id) || null;
     if (ref.type === 'launcher') return lastWorld.launchers.find((l) => l.id === ref.id) || null;
     if (ref.type === 'sensor') return lastWorld.sensors.find((s) => s.id === ref.id) || null;
@@ -2018,7 +2057,7 @@ export function createLabView(host, opts = {}) {
         lastHoverAt = now;
         const hover = pickAt(e.clientX, e.clientY);
         renderer.domElement.style.cursor = hover?.entity
-          && ['body', 'launcher', 'sensor', 'barrier'].includes(hover.entity.type) ? 'grab' : 'crosshair';
+          && isDraggableType(hover.entity.type) ? 'grab' : 'crosshair';
       }
     }
     if (velocityDrag) {
@@ -2106,6 +2145,18 @@ export function createLabView(host, opts = {}) {
     if (opts.onTransform) opts.onTransform(selected, visual.root);
   });
 
+  function setMode(next) {
+    mode = next === 'em' ? 'em' : 'mechanics';
+    if (!lastWorld) return;
+    sync(lastWorld);
+    if (mode === 'em') {
+      emView.setSelection(selected);
+    } else {
+      const visual = selected ? visuals.get(selected.id) : null;
+      if (visual && gizmoMode !== 'off' && selected.type !== 'link') transform.attach(visual.root);
+    }
+  }
+
   const onTheme = () => setTheme();
   window.addEventListener('themechange', onTheme);
 
@@ -2123,6 +2174,7 @@ export function createLabView(host, opts = {}) {
     scene.remove(transformHelper);
     orbit.dispose();
     for (const id of [...visuals.keys()]) removeVisual(id);
+    emView.destroy();
     disposeObject(scene);
     scene.remove(ground);
     if (grid) {
@@ -2151,6 +2203,8 @@ export function createLabView(host, opts = {}) {
     setGizmoMode,
     setGizmoVisible,
     setForceVisible,
+    setMode,
+    emView,
     setView,
     setTrailVisible,
     setHandleVisibility,

@@ -118,6 +118,41 @@ import {
   tunnelPeriod,
 } from './physics.mjs';
 import { createLabView } from './view.js';
+import {
+  addCapacitor,
+  addChargedSphere,
+  addCircuit,
+  addCircuitComponent,
+  addCurrentLoop,
+  addForceWire,
+  addInductionCoil,
+  addLineCharge,
+  addMagneticWire,
+  addParticle,
+  addPlaneCharge,
+  addPointCharge,
+  addProbe,
+  addRail,
+  addSolenoid,
+  addUniformField,
+  autoSeriesCircuit,
+  EPS0,
+  K_COULOMB,
+  MU0,
+  capacitorState,
+  circuitTimeConstant,
+  duplicateEMEntity,
+  emEntityById,
+  emSceneEntities,
+  forceOnWire,
+  inductionCoilState,
+  magneticFieldAt,
+  electricFieldAt,
+  removeEMEntity,
+  resetEM,
+} from './em/physics.mjs';
+import { buildEMMore, buildEMInspector, isEMType } from './em/inspector.js';
+import { createCircuitPanel } from './em/circuit-ui.js';
 
 const STYLE_ID = 'plab-style';
 const STYLE_HREF = 'modules/physics/lab/lab.css';
@@ -162,6 +197,21 @@ const ZH_EN = {
   rod: ['杆受力矩', 'Rod under torque'],
   orbit: ['引力与轨道', 'Gravity & orbits'],
   tunnel: ['穿球隧道', 'Sphere tunnel'],
+  emCharge: ['点电荷', 'Point charge'],
+  emSphere: ['带电球体', 'Charged sphere'],
+  emLine: ['均匀线电荷', 'Uniform line charge'],
+  emPlane: ['均匀面电荷', 'Uniform plane charge'],
+  emProbe: ['探测器', 'Probe'],
+  emParticle: ['带电粒子', 'Charged particle'],
+  emCapacitor: ['平行板电容器', 'Parallel-plate capacitor'],
+  emCircuit: ['电路', 'Circuit'],
+  emMagneticWire: ['长直导线', 'Long straight wire'],
+  emCurrentLoop: ['电流环', 'Current loop'],
+  emSolenoid: ['螺线管', 'Solenoid'],
+  emUniform: ['均匀场区', 'Uniform field region'],
+  emForceWire: ['载流导线', 'Current-carrying wire'],
+  emRail: ['滑轨与金属棒', 'Rail & sliding rod'],
+  emInductionCoil: ['感应线圈', 'Induction coil'],
 };
 
 function label(zh, en) {
@@ -185,6 +235,7 @@ function fmtInput(value) {
 }
 
 function kindLabel(entity) {
+  if (entity?.type && ZH_EN[entity.type]) return ZH_EN[entity.type];
   if (entity.type === 'body') return ZH_EN[entity.kind] || ZH_EN.block;
   if (entity.type === 'surface') return ZH_EN[entity.kind === 'track' ? 'track' : entity.kind === 'surface' ? 'surface' : 'incline'];
   if (entity.type === 'link') return entity.meter ? ZH_EN.meter : ZH_EN.spring;
@@ -353,6 +404,51 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     },
   ];
 
+  const emPaletteGroups = [
+    {
+      title: label('静电场', 'Electrostatics'),
+      items: [
+        ['emCharge', '点电荷', 'Point charge'],
+        ['emSphere', '带电球体', 'Charged sphere'],
+        ['emLine', '均匀线电荷', 'Line charge'],
+        ['emPlane', '均匀面电荷', 'Plane charge'],
+        ['emProbe', '探测器', 'Probe'],
+        ['emParticle', '带电粒子', 'Charged particle'],
+      ],
+    },
+    {
+      title: label('电容器与电路', 'Capacitor & circuits'),
+      items: [
+        ['emCapacitor', '平行板电容器', 'Parallel-plate capacitor'],
+        ['emCircuit', '电路图', 'Circuit sheet'],
+        ['emBattery', '电池', 'Battery'],
+        ['emResistor', '电阻', 'Resistor'],
+        ['emCapacitorComp', '电容元件', 'Capacitor part'],
+        ['emInductor', '电感', 'Inductor'],
+        ['emSwitch', '开关', 'Switch'],
+        ['emVoltmeter', '电压表', 'Voltmeter'],
+        ['emAmmeter', '电流表', 'Ammeter'],
+      ],
+    },
+    {
+      title: label('磁场', 'Magnetic fields'),
+      items: [
+        ['emMagneticWire', '长直导线', 'Long wire'],
+        ['emCurrentLoop', '电流环', 'Current loop'],
+        ['emSolenoid', '螺线管', 'Solenoid'],
+        ['emUniform', '均匀场区', 'Uniform field'],
+        ['emForceWire', '载流导线', 'Force on wire'],
+      ],
+    },
+    {
+      title: label('电磁感应', 'Induction'),
+      items: [
+        ['emRail', '滑轨与金属棒', 'Rail & rod'],
+        ['emInductionCoil', '感应线圈', 'Induction coil'],
+      ],
+    },
+  ];
+
   const addMenu = el('div', {
     className: 'plab-addmenu',
     role: 'menu',
@@ -380,12 +476,56 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     addMenu.appendChild(grid);
   }
-  const addWrap = el('div', { className: 'plab-add-wrap' }, [addBtn, addMenu]);
+  const emAddMenu = el('div', {
+    className: 'plab-addmenu plab-addmenu-em',
+    role: 'menu',
+    'aria-label': '添加电磁器材 · Add E&M apparatus',
+    hidden: true,
+    'data-add-menu': 'em',
+  });
+  emAddMenu.appendChild(el('div', { className: 'plab-addmenu-head' }, [
+    el('h2', { className: 'plab-panel-title', text: '添加电磁器材 · Add E&M apparatus' }),
+    el('p', { className: 'plab-addmenu-sub', text: '与力学器材共用同一场景；切换模式不会清空已有装置。 · Shares the scene with mechanics; switching modes never clears apparatus.' }),
+  ]));
+  for (const group of emPaletteGroups) {
+    emAddMenu.appendChild(el('h3', { className: 'plab-group-title', text: labelText(group.title.zh, group.title.en) }));
+    const grid = el('div', { className: 'plab-add-grid' });
+    for (const [key, zh, en] of group.items) {
+      grid.appendChild(el('button', {
+        type: 'button',
+        className: 'plab-add hit-target',
+        'data-add': key,
+        role: 'menuitem',
+      }, [
+        el('span', { className: 'plab-add-zh', text: zh }),
+        el('span', { className: 'plab-add-en', text: en }),
+      ]));
+    }
+    emAddMenu.appendChild(grid);
+  }
+  const addWrap = el('div', { className: 'plab-add-wrap' }, [addBtn, addMenu, emAddMenu]);
 
   primary.append(playBtn, resetBtn, addWrap, undoBtn, redoBtn, moreBtn, clock);
 
+  const modeGroup = el('div', { className: 'plab-modeswitch', role: 'group', 'aria-label': '实验模式 · Lab mode' });
+  const mechModeBtn = el('button', {
+    type: 'button',
+    className: 'plab-mode hit-target',
+    text: '力学 · Mechanics',
+    'data-mode': 'mechanics',
+    'aria-pressed': 'true',
+  });
+  const emModeBtn = el('button', {
+    type: 'button',
+    className: 'plab-mode hit-target',
+    text: '电磁 · E&M',
+    'data-mode': 'em',
+    'aria-pressed': 'false',
+  });
+  modeGroup.append(mechModeBtn, emModeBtn);
+
   const headActions = el('div', { className: 'plab-head-actions' }, [primary]);
-  head.append(title, headActions);
+  head.append(title, modeGroup, headActions);
 
   const bodyGrid = el('div', { className: 'plab-body' });
   const stage = el('section', { className: 'plab-stage', 'aria-label': '三维场景 · 3D scene' });
@@ -682,6 +822,34 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   displaySection.appendChild(energy);
   displaySection.appendChild(graphSection);
 
+  const emSection = moreSection('电磁显示', 'E&M display');
+  const emToggleRow = el('div', { className: 'plab-tool-row' });
+  const fieldLinesToggle = el('input', { type: 'checkbox', checked: true, 'data-em-toggle': 'fieldLines' });
+  const equipToggle = el('input', { type: 'checkbox', checked: false, 'data-em-toggle': 'equipotentials' });
+  const fieldLinesLabel = el('label', { className: 'plab-check hit-target' }, [
+    fieldLinesToggle, el('span', { text: '电场线 · Field lines' }),
+  ]);
+  const equipLabel = el('label', { className: 'plab-check hit-target' }, [
+    equipToggle, el('span', { text: '等势线 · Equipotentials' }),
+  ]);
+  emToggleRow.append(fieldLinesLabel, equipLabel);
+  emSection.appendChild(emToggleRow);
+  emSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '电场线默认开启；等势线按电势切片绘制。两种叠加都只显示在电磁模式。 · Field lines default on; equipotentials are potential contours. Both overlays appear only in E&M mode.',
+  }));
+  emSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: `k = ${K_COULOMB.toExponential(4)} N·m²/C² · ε₀ = ${EPS0.toExponential(4)} F/m · μ₀ = ${MU0.toExponential(4)} N/A²`,
+  }));
+  const emReset = el('button', {
+    type: 'button',
+    className: 'plab-action hit-target',
+    text: '重置电磁世界 · Reset E&M world',
+    'data-action': 'em-reset',
+  });
+  emSection.appendChild(emReset);
+
   const timeSection = moreSection('时间', 'Time');
   timeSection.appendChild(timeScaleWrap);
   timeSection.appendChild(scrub);
@@ -758,6 +926,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   captureInitial(world);
   let running = false;
   let timeScale = 1;
+  let mode = 'mechanics';
+  let circuitPanel = null;
   let selected = null;
   let gizmoMode = 'off';
   let pendingLink = null;
@@ -819,6 +989,26 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     btn.classList.toggle('active', btn.dataset.gizmo === gizmoMode);
   });
 
+  circuitPanel = createCircuitPanel({
+    host: canvasHost,
+    getCircuit: () => world.em.circuits.find((c) => c.id === world.em.activeCircuitId) || null,
+    onChange: (reason) => {
+      if (reason !== 'reset') {
+        if (running) pause();
+        pushUndo(`circuit:${reason}`);
+        captureInitial(world);
+        view.sync(world);
+      }
+      buildInspector();
+      renderOutliner();
+    },
+    onSelect: (circuit) => {
+      world.em.activeCircuitId = circuit.id;
+      const entity = entityById('emCircuit', circuit.id);
+      if (entity && entity !== selected) select(entity);
+    },
+  });
+
   function setStatus(text, warn = false) {
     status.textContent = text;
     status.dataset.warn = warn ? '1' : '0';
@@ -828,18 +1018,26 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return mobileQuery.matches;
   }
 
+  function activeAddMenu() {
+    return mode === 'em' ? emAddMenu : addMenu;
+  }
+
   function openAddMenu() {
     closeMore();
-    addMenu.hidden = false;
+    const menu = activeAddMenu();
+    addMenu.hidden = true;
+    emAddMenu.hidden = true;
+    menu.hidden = false;
     addBtn.setAttribute('aria-expanded', 'true');
     root.dataset.addOpen = '1';
-    const first = addMenu.querySelector('[data-add]');
+    const first = menu.querySelector('[data-add]');
     if (first) first.focus({ preventScroll: true });
     if (isMobile()) moreBackdrop.hidden = false;
   }
 
   function closeAddMenu() {
     addMenu.hidden = true;
+    emAddMenu.hidden = true;
     addBtn.setAttribute('aria-expanded', 'false');
     delete root.dataset.addOpen;
     if (morePanel.hidden) moreBackdrop.hidden = true;
@@ -991,7 +1189,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   else if (mobileQuery.addListener) mobileQuery.addListener(onMobileChange);
 
   function onDocPointerDown(e) {
-    if (!addMenu.hidden && !addWrap.contains(e.target) && !e.target.closest?.('[data-add-menu]')) {
+    if ((!addMenu.hidden || !emAddMenu.hidden) && !addWrap.contains(e.target) && !e.target.closest?.('[data-add-menu]')) {
       closeAddMenu();
     }
   }
@@ -1004,6 +1202,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   moreBackdrop.addEventListener('click', onBackdrop);
 
   function entityById(type, id) {
+    if (isEMType(type)) return emEntityById(world.em, type, id);
     if (type === 'body') return getBody(world, id);
     if (type === 'surface') return getSurface(world, id);
     if (type === 'loop') return getLoop(world, id);
@@ -1033,7 +1232,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     selected = entity || null;
     if (selected) {
       view.setSelection({ type: selected.type, id: selected.id });
-      if (isMobile()) openInspector(true);
+      if (selected.type === 'emCircuit') {
+        world.em.activeCircuitId = selected.id;
+        if (isMobile()) openInspector(false);
+        circuitPanel?.open(selected);
+      } else if (isMobile()) {
+        openInspector(true);
+      }
     } else {
       view.setSelection(null);
       if (isMobile()) openInspector(false);
@@ -1045,6 +1250,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function isEmpty() {
+    if (mode === 'em') return emSceneEntities(world.em).length === 0;
     return world.bodies.length === 0
       && world.surfaces.length === 0
       && world.loops.length === 0
@@ -1092,6 +1298,46 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (world.time > 0) resetWorld(world);
   }
 
+  function setMode(next, { announce = true } = {}) {
+    const target = next === 'em' ? 'em' : 'mechanics';
+    if (running) pause();
+    closeAllPanels();
+    mode = target;
+    world.em.mode = target;
+    root.dataset.mode = target;
+    selected = null;
+    view.setSelection(null);
+    view.setMode(target);
+    mechModeBtn.classList.toggle('active', target === 'mechanics');
+    emModeBtn.classList.toggle('active', target === 'em');
+    mechModeBtn.setAttribute('aria-pressed', target === 'mechanics' ? 'true' : 'false');
+    emModeBtn.setAttribute('aria-pressed', target === 'em' ? 'true' : 'false');
+    if (target === 'mechanics') circuitPanel?.close();
+    const titleNode = emptyHint.querySelector('.plab-empty-title');
+    const textNode = emptyHint.querySelector('.plab-empty-text');
+    const subNode = emptyHint.querySelector('.plab-empty-sub');
+    if (titleNode) titleNode.textContent = target === 'em' ? '电磁实验室 · E&M lab' : '自由实验室 · Free lab';
+    if (textNode) {
+      textNode.textContent = target === 'em'
+        ? '从「添加器材」放置电荷、探测器、电容器、电路或磁场源。 · Add charges, probes, capacitors, circuits or field sources.'
+        : '从上方「添加器材」开始，自己搭建场景。 · Start with Add above and build your own scene.';
+    }
+    if (subNode) {
+      subNode.textContent = target === 'em'
+        ? '力学与电磁共用同一场景；切换模式只隐藏另一层，不会删除。 · Mechanics and E&M share one scene; switching only hides the other layer.'
+        : '拖动旋转视角，滚轮缩放，右键或双指平移，双击聚焦。 · Drag to orbit, scroll to zoom, right-drag or two-finger pan, double-click to focus.';
+    }
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    updateTransport();
+    if (announce) {
+      setStatus(target === 'em'
+        ? '电磁模式：静电场、电容器、电路、磁场与感应。 · E&M mode: electrostatics, capacitors, circuits, magnetism and induction.'
+        : '力学模式：原有器材与场景保持不变。 · Mechanics mode: the existing apparatus and scene are unchanged.');
+    }
+  }
+
   function nextX() {
     return 0;
   }
@@ -1128,6 +1374,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function apparatusBoxes() {
     const boxes = [];
+    for (const entity of emSceneEntities(world.em)) {
+      if (entity.x == null) continue;
+      const half = entity.R || entity.radius || Math.max(0.4, (entity.width || entity.length || 1) / 2);
+      boxes.push({ x: entity.x, z: entity.z, halfX: half, halfZ: half });
+    }
     for (const s of world.surfaces) {
       const a = (s.angle || 0) * DEG;
       const halfX = Math.abs((s.length / 2) * Math.cos(a)) + Math.abs((s.thickness / 2) * Math.sin(a));
@@ -1206,6 +1457,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function sceneEntities() {
+    if (mode === 'em') return emSceneEntities(world.em);
     return [
       ...world.surfaces,
       ...world.loops,
@@ -1359,6 +1611,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (keepInitial) world.initial = initial;
     else captureInitial(world);
     selected = selection ? entityById(selection.type, selection.id) : null;
+    mode = world.em.mode === 'em' ? 'em' : 'mechanics';
+    root.dataset.mode = mode;
+    view.setMode(mode);
+    mechModeBtn.classList.toggle('active', mode === 'mechanics');
+    emModeBtn.classList.toggle('active', mode === 'em');
+    mechModeBtn.setAttribute('aria-pressed', mode === 'mechanics' ? 'true' : 'false');
+    emModeBtn.setAttribute('aria-pressed', mode === 'em' ? 'true' : 'false');
+    if (mode === 'mechanics') circuitPanel?.close();
+    syncEMSettingsUI();
     if (selected) view.setSelection({ type: selected.type, id: selected.id });
     else view.setSelection(null);
     view.sync(world);
@@ -1398,6 +1659,25 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function deleteEntity(entity) {
     if (!entity) return;
+    if (isEMType(entity.type)) {
+      const wasSelected = selected?.type === entity.type && selected?.id === entity.id;
+      pushUndo();
+      prepareEdit();
+      if (entity.type === 'emCircuit') circuitPanel?.close();
+      removeEMEntity(world.em, entity);
+      if (wasSelected) {
+        selected = null;
+        view.setSelection(null);
+      }
+      captureInitial(world);
+      view.sync(world);
+      buildInspector();
+      renderOutliner();
+      updateEmpty();
+      updateTransport();
+      setStatus('已删除所选电磁器材。 · E&M apparatus deleted.');
+      return;
+    }
     const wasSelected = selected?.type === entity.type && selected?.id === entity.id;
     pushUndo();
     prepareEdit();
@@ -1564,6 +1844,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!entity) return;
     pushUndo();
     prepareEdit();
+    if (isEMType(entity.type)) {
+      const copy = duplicateEMEntity(world.em, entity, 0.8);
+      if (!copy) return;
+      captureInitial(world);
+      view.sync(world);
+      select(copy);
+      renderOutliner();
+      updateEmpty();
+      setStatus('已复制电磁器材。 · E&M apparatus duplicated.');
+      return;
+    }
     let copy = null;
     if (entity.type === 'body') {
       const offset = 0.8;
@@ -2049,6 +2340,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.x = p.x; entity.y = p.y; entity.z = p.z;
     } else if (entity.type === 'fan') {
       // Fan attachments follow their body and are not moved independently.
+    } else if (isEMType(entity.type)) {
+      entity.x = p.x;
+      entity.y = p.y;
+      entity.z = p.z;
+      if (entity.type === 'emParticle') entity.trail = [];
     }
   }
 
@@ -2606,6 +2902,139 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 直接拖动即可移动，吸附默认开启。 · Drag it directly; auto-snap is on.`);
   }
 
+  function activeCircuit() {
+    return world.em.circuits.find((c) => c.id === world.em.activeCircuitId)
+      || world.em.circuits[0]
+      || null;
+  }
+
+  function ensureCircuit() {
+    const current = activeCircuit();
+    if (current) {
+      world.em.activeCircuitId = current.id;
+      return current;
+    }
+    const circuit = addCircuit(world.em, { name: 'RC 电路 · RC circuit' });
+    const battery = addCircuitComponent(circuit, 'battery', { emf: 9, r: 0, x: 110, y: 120 });
+    const resistor = addCircuitComponent(circuit, 'resistor', { R: 1000, x: 260, y: 120 });
+    const capacitor = addCircuitComponent(circuit, 'capacitor', { C: 1e-3, x: 430, y: 120 });
+    const switchPart = addCircuitComponent(circuit, 'switch', { closed: true, x: 580, y: 120 });
+    autoSeriesCircuit(circuit);
+    void battery;
+    void resistor;
+    void capacitor;
+    void switchPart;
+    return circuit;
+  }
+
+  function addCircuitPart(kind) {
+    const circuit = ensureCircuit();
+    const map = {
+      emBattery: ['battery', { emf: 9, r: 0 }],
+      emResistor: ['resistor', { R: 1000 }],
+      emCapacitorComp: ['capacitor', { C: 1e-3 }],
+      emInductor: ['inductor', { L: 1 }],
+      emSwitch: ['switch', { closed: false }],
+      emVoltmeter: ['voltmeter', {}],
+      emAmmeter: ['ammeter', {}],
+    };
+    const [partKind, opts] = map[kind] || ['resistor', { R: 1000 }];
+    const free = circuit.components.length;
+    addCircuitComponent(circuit, partKind, {
+      ...opts,
+      x: 110 + (free % 5) * 120,
+      y: 120 + Math.floor(free / 5) * 110,
+    });
+    const entity = entityById('emCircuit', circuit.id);
+    captureInitial(world);
+    view.sync(world);
+    if (entity) select(entity);
+    circuitPanel?.open(circuit);
+    renderOutliner();
+    updateEmpty();
+    setStatus(`已添加电路元件：${partKind} · Circuit part added.`);
+  }
+
+  function addEMApparatus(kind) {
+    closeAddMenu();
+    if (kind.startsWith('emBattery') || kind === 'emResistor' || kind === 'emCapacitorComp'
+      || kind === 'emInductor' || kind === 'emSwitch' || kind === 'emVoltmeter' || kind === 'emAmmeter') {
+      pushUndo('add-em-part');
+      prepareEdit();
+      addCircuitPart(kind);
+      updateTransport();
+      return;
+    }
+    pushUndo('add-em');
+    prepareEdit();
+    const spot = nextPlacement(kind);
+    let entity = null;
+    if (kind === 'emCharge') {
+      entity = addPointCharge(world.em, { x: spot.x, y: 1.5, z: spot.z, q: 5e-9 });
+    } else if (kind === 'emSphere') {
+      entity = addChargedSphere(world.em, { x: spot.x, y: 1.5, z: spot.z, R: 0.8, q: 2e-8, distribution: 'surface' });
+    } else if (kind === 'emLine') {
+      entity = addLineCharge(world.em, { x: spot.x, y: 1.3, z: spot.z, length: 4, q: 2e-8, axis: 'x' });
+    } else if (kind === 'emPlane') {
+      entity = addPlaneCharge(world.em, { x: spot.x, y: 1.5, z: spot.z, width: 3, height: 3, q: 2e-8, axis: 'x' });
+    } else if (kind === 'emProbe') {
+      entity = addProbe(world.em, { x: spot.x + 1.4, y: 1.5, z: spot.z });
+    } else if (kind === 'emParticle') {
+      const field = world.em.uniformFields[0];
+      entity = addParticle(world.em, {
+        x: field ? field.x : spot.x,
+        y: field ? field.y : 1.7,
+        z: field ? field.z : spot.z,
+        vx: 0.8, q: 1e-6, m: 1e-6,
+      });
+    } else if (kind === 'emCapacitor') {
+      entity = addCapacitor(world.em, {
+        x: spot.x, y: 1.5, z: spot.z, area: 1, d: 0.08, kappa: 1, drive: 'V', V: 500, axis: 'x',
+      });
+    } else if (kind === 'emCircuit') {
+      entity = ensureCircuit();
+      world.em.activeCircuitId = entity.id;
+      circuitPanel?.open(entity);
+    } else if (kind === 'emMagneticWire') {
+      entity = addMagneticWire(world.em, { x: spot.x, y: 1.6, z: spot.z, current: 5, length: 4 });
+    } else if (kind === 'emCurrentLoop') {
+      entity = addCurrentLoop(world.em, { x: spot.x, y: 1.4, z: spot.z, radius: 1, current: 5 });
+    } else if (kind === 'emSolenoid') {
+      entity = addSolenoid(world.em, {
+        x: spot.x, y: 1.6, z: spot.z, radius: 0.5, length: 2, turns: 200, current: 2,
+      });
+    } else if (kind === 'emUniform') {
+      const particle = world.em.particles[0];
+      entity = addUniformField(world.em, {
+        x: particle ? particle.x : spot.x,
+        y: particle ? particle.y : 1.6,
+        z: particle ? particle.z : spot.z,
+        size: 10, Bx: 0, By: 0.8, Bz: 0, Ex: 0, Ey: 0, Ez: 0,
+      });
+    } else if (kind === 'emForceWire') {
+      entity = addForceWire(world.em, {
+        x: spot.x, y: 1.6, z: spot.z, length: 1.5, current: 5, dirx: 1, diry: 0, dirz: 0,
+      });
+    } else if (kind === 'emRail') {
+      entity = addRail(world.em, {
+        x: spot.x, y: 1.2, z: spot.z, ell: 1.2, length: 8, B: 0.4, R: 2, mass: 0.2, F: 0.2, v: 0,
+      });
+    } else if (kind === 'emInductionCoil') {
+      entity = addInductionCoil(world.em, {
+        x: spot.x - 2.4, y: 1.5, z: spot.z, width: 1, height: 1, turns: 20,
+        B0: 0.4, Bdot: 0, vx: 1, regionMin: spot.x - 2, regionMax: spot.x + 2, R: 5,
+      });
+    }
+    if (!entity) return;
+    captureInitial(world);
+    view.sync(world);
+    select(entity);
+    renderOutliner();
+    updateEmpty();
+    updateTransport();
+    setStatus(`已添加：${labelText(...kindLabel(entity))} · Added E&M apparatus.`);
+  }
+
   function startLink(kind) {
     prepareEdit();
     if (!world.bodies.length) {
@@ -2904,6 +3333,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       pushUndo('direct-drag');
       prepareEdit();
       entity.mount = null;
+    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
+      select(entity);
+      pushUndo('direct-drag');
+      prepareEdit();
     } else {
       return;
     }
@@ -2930,6 +3363,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         entity.body.position.set(x, entity.y + entity.height / 2, z);
         entity.body.aabbNeedsUpdate = true;
       }
+      syncPositionFields(entity);
+    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
+      entity.x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
+      entity.y = Math.max(0, point.y);
+      entity.z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
+      if (entity.type === 'emParticle') entity.trail = [];
       syncPositionFields(entity);
     } else {
       return;
@@ -2986,6 +3425,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else {
         setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
       }
+    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
+      setStatus('电磁器材已放置。 · E&M apparatus placed.');
     } else if (entity.type === 'barrier') {
       const hit = assists.snap && !shiftHeld ? snapBarrierToNearest(world, entity, { maxDistance: 3 }) : null;
       setStatus(hit ? '已连接到轨道端。 · Attached to the track end.' : '已放置。 · Placed.');
@@ -3050,7 +3491,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     running = false;
     frameBodyId = null;
     view.setReferenceFrame(null);
+    circuitPanel?.close();
     clearWorld(world);
+    world.em.mode = mode;
     captureInitial(world);
     selected = null;
     pendingLink = null;
@@ -3091,6 +3534,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function reset() {
     running = false;
     resetWorld(world);
+    circuitPanel?.close();
+    syncEMSettingsUI();
     view.sync(world);
     view.clearTrail();
     updateTransport();
@@ -3109,6 +3554,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     updateLive();
   }
 
+  mechModeBtn.addEventListener('click', () => setMode('mechanics'));
+  emModeBtn.addEventListener('click', () => setMode('em'));
   playBtn.addEventListener('click', () => { if (running) pause(); else play(); });
   stepBtn.addEventListener('click', step);
   resetBtn.addEventListener('click', reset);
@@ -3158,6 +3605,31 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   energyToggle?.addEventListener('change', () => {
     energy.hidden = !energyToggle.checked;
   });
+  function syncEMSettingsUI() {
+    fieldLinesToggle.checked = world.em.settings.fieldLines !== false;
+    equipToggle.checked = !!world.em.settings.equipotentials;
+  }
+  fieldLinesToggle.addEventListener('change', () => {
+    world.em.settings.fieldLines = fieldLinesToggle.checked;
+    view.emView?.sync(world.em, mode);
+  });
+  equipToggle.addEventListener('change', () => {
+    world.em.settings.equipotentials = equipToggle.checked;
+    view.emView?.sync(world.em, mode);
+  });
+  emReset.addEventListener('click', () => {
+    pushUndo('em-reset');
+    resetEM(world.em);
+    selected = null;
+    view.setSelection(null);
+    view.sync(world);
+    syncEMSettingsUI();
+    buildInspector();
+    renderOutliner();
+    updateEmpty();
+    setStatus('电磁世界已回到初始条件；力学世界未受影响。 · E&M world reset; mechanics world untouched.');
+  });
+
   const stepSizeSelect = root.querySelector('[data-field="stepSize"]');
   stepSizeSelect?.addEventListener('change', () => {
     const value = Number(stepSizeSelect.value);
@@ -3266,7 +3738,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   window.addEventListener('contextmenu', onContextMenu);
 
   root.querySelectorAll('[data-add]').forEach((btn) => {
+    if (btn.closest('.plab-addmenu-em')) return;
     btn.addEventListener('click', () => addApparatus(btn.dataset.add));
+  });
+  emAddMenu.querySelectorAll('[data-add]').forEach((btn) => {
+    btn.addEventListener('click', () => addEMApparatus(btn.dataset.add));
   });
 
   function field(parent, cfg) {
@@ -3436,6 +3912,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     pushUndo(`field:position:${entity.id}`);
     prepareEdit();
+    if (isEMType(entity.type)) entity = entityById(entity.type, entity.id) || entity;
     let hit = null;
     if (entity.type === 'body') {
       hit = setBodyPosition(world, entity, p, { snap: assists.snap && !shiftHeld, maxDistance: 2.4 });
@@ -3803,6 +4280,42 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!entity) {
       selected = null;
       buildInspector();
+      return;
+    }
+    if (isEMType(entity.type)) {
+      const api = {
+        parent: inspectorBody,
+        field,
+        selectField,
+        formula,
+        addLive,
+        positionFields,
+        inspectorHeading,
+        openCircuit: (circuit) => {
+          world.em.activeCircuitId = circuit.id;
+          circuitPanel?.open(circuit);
+        },
+        afterCommon: (ent) => {
+          inspectorSummary = el('p', { className: 'plab-inspector-live', 'aria-live': 'polite', text: '—' });
+          inspectorBody.appendChild(inspectorSummary);
+          const more = el('button', {
+            type: 'button',
+            className: 'plab-inspector-more hit-target',
+            text: '更多参数 · More parameters',
+            'data-action': 'inspector-more',
+          });
+          more.addEventListener('click', openMore);
+          inspectorBody.appendChild(more);
+          if (ent.type === 'emParticle') {
+            inspectorBody.appendChild(el('p', {
+              className: 'plab-field-hint',
+              text: '拖动场景中的粒子手柄或输入 x/y/z；轨迹自动记录。 · Drag the particle handle or type x/y/z; the trail is recorded automatically.',
+            }));
+          }
+        },
+      };
+      buildMoreAdvanced();
+      buildEMInspector({ entity, world, api });
       return;
     }
     inspectorHeading(inspectorBody, entity);
@@ -4720,6 +5233,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     moreHeading(moreAdvanced, entity);
+    if (isEMType(entity.type)) {
+      buildEMMore({
+        entity,
+        world,
+        api: {
+          parent: moreAdvanced,
+          field,
+          selectField,
+          formula,
+        },
+      });
+      const actions = el('div', { className: 'plab-tool-row' });
+      const del = el('button', { type: 'button', className: 'plab-action plab-action-quiet hit-target', text: '删除所选 · Delete selected', 'data-action': 'delete' });
+      del.addEventListener('click', deleteSelected);
+      actions.appendChild(del);
+      moreAdvanced.appendChild(actions);
+      return;
+    }
     const geoDisabled = running;
 
     if (entity.type === 'surface') {
@@ -5690,7 +6221,93 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (cell) cell.node.textContent = value;
     };
     if (!morePanel.hidden) updateFrameReadout();
-    if (entity?.type === 'body') {
+    if (entity && isEMType(entity.type)) {
+      if (entity.type === 'emProbe') {
+        const f = electricFieldAt(world.em, { x: entity.x, y: entity.y, z: entity.z });
+        const B = magneticFieldAt(world.em, { x: entity.x, y: entity.y, z: entity.z });
+        setLive('emProbeE', `${fmt(Math.hypot(f.E.x, f.E.y, f.E.z))} V/m`);
+        setLive('emProbeEx', `${fmt(f.E.x)} V/m`);
+        setLive('emProbeEy', `${fmt(f.E.y)} V/m`);
+        setLive('emProbeEz', `${fmt(f.E.z)} V/m`);
+        setLive('emProbeV', `${fmt(f.V)} V`);
+        setLive('emProbeB', `${fmt(Math.hypot(B.x, B.y, B.z))} T`);
+      } else if (entity.type === 'emParticle') {
+        const speed = Math.hypot(entity.vx, entity.vy, entity.vz);
+        const B = magneticFieldAt(world.em, { x: entity.x, y: entity.y, z: entity.z });
+        const Bmag = Math.hypot(B.x, B.y, B.z);
+        const cross = Math.hypot(
+          entity.vy * B.z - entity.vz * B.y,
+          entity.vz * B.x - entity.vx * B.z,
+          entity.vx * B.y - entity.vy * B.x,
+        );
+        const radius = Bmag > 0 ? (entity.m * cross) / (Math.abs(entity.q) * Bmag * Bmag) : Infinity;
+        setLive('emParticleSpeed', `${fmt(speed)} m/s`);
+        setLive('emParticleQm', `${fmt(entity.q / entity.m)} C/kg`);
+        setLive('emParticleRadius', Number.isFinite(radius) ? `${fmt(radius)} m` : '直线 · straight');
+        setLive('emParticleTrail', `${entity.trail.length}`);
+      } else if (entity.type === 'emCapacitor') {
+        const st = capacitorState(entity);
+        setLive('emCapC', `${fmt(st.C)} F`);
+        setLive('emCapCharge', `${fmt(st.Q)} C`);
+        setLive('emCapVoltage', `${fmt(st.V)} V`);
+        setLive('emCapU', `${fmt(st.U)} J`);
+        setLive('emCapE', `${fmt(st.E)} V/m`);
+      } else if (entity.type === 'emCircuit') {
+        const last = entity.last;
+        const battery = entity.components.find((c) => c.kind === 'battery');
+        const cap = entity.components.find((c) => c.kind === 'capacitor');
+        const ind = entity.components.find((c) => c.kind === 'inductor');
+        setLive('emCircuitI', last && battery ? `${fmt(Math.abs(last.currents.get(battery.id) || 0))} A` : '—');
+        setLive('emCircuitVC', last && cap ? `${fmt(last.voltages.get(cap.id) || 0)} V` : '—');
+        setLive('emCircuitVL', last && ind ? `${fmt(last.voltages.get(ind.id) || 0)} V` : '—');
+        const tau = circuitTimeConstant(entity);
+        setLive('emCircuitTau', Number.isFinite(tau) ? `${fmt(tau)} s` : '—');
+        if (!circuitPanel.root.hidden) circuitPanel.refresh();
+      } else if (entity.type === 'emRail') {
+        setLive('emRailV', `${fmt(entity.v)} m/s`);
+        setLive('emRailEmf', `${fmt(entity.emf)} V`);
+        setLive('emRailI', `${fmt(Math.abs(entity.current))} A`);
+        setLive('emRailForce', `${fmt(entity.force)} N`);
+      } else if (entity.type === 'emInductionCoil') {
+        const st = inductionCoilState(entity);
+        setLive('emCoilFlux', `${fmt(st.flux)} Wb`);
+        setLive('emCoilEmf', `${fmt(st.emf)} V`);
+        setLive('emCoilI', `${fmt(st.current)} A`);
+      } else if (entity.type === 'emForceWire') {
+        const B = magneticFieldAt(world.em, { x: entity.x, y: entity.y, z: entity.z });
+        const F = forceOnWire(entity, B);
+        const mag = Math.hypot(F.x, F.y, F.z);
+        setLive('emForceMag', `${fmt(mag)} N`);
+        setLive('emForceDir', mag > 0 ? `F ∝ (${fmt(F.x / mag)}, ${fmt(F.y / mag)}, ${fmt(F.z / mag)})` : '—');
+      } else if (entity.type === 'emCharge') {
+        setLive('emChargeE', `${fmt((K_COULOMB * Math.abs(entity.q)) / 1)} V/m`);
+        setLive('emChargeV', `${fmt((K_COULOMB * entity.q) / 1)} V`);
+      } else if (entity.type === 'emSphere') {
+        const r = Math.max(0.05, entity.R * 0.5);
+        const inside = entity.distribution === 'volume'
+          ? (K_COULOMB * entity.q * r) / (entity.R ** 3)
+          : 0;
+        setLive('emSphereInside', `${fmt(inside)} V/m`);
+        setLive('emSphereSurfaceV', `${fmt((K_COULOMB * entity.q) / entity.R)} V`);
+      } else if (entity.type === 'emLine') {
+        setLive('emLineLambda', `${fmt(entity.lambda)} C/m`);
+        const ideal = Math.abs(entity.lambda) / (2 * Math.PI * EPS0 * 1);
+        setLive('emLineE', `${fmt(ideal)} V/m`);
+      } else if (entity.type === 'emPlane') {
+        setLive('emPlaneSigma', `${fmt(entity.sigma)} C/m²`);
+        setLive('emPlaneE', `${fmt(Math.abs(entity.sigma) / (2 * EPS0))} V/m`);
+      } else if (entity.type === 'emMagneticWire') {
+        setLive('emWireB', `${fmt((MU0 * Math.abs(entity.current)) / (2 * Math.PI))} T`);
+      } else if (entity.type === 'emCurrentLoop') {
+        setLive('emLoopB', `${fmt((MU0 * Math.abs(entity.current)) / (2 * entity.radius))} T`);
+      } else if (entity.type === 'emSolenoid') {
+        setLive('emSolB', `${fmt(MU0 * (entity.turns / entity.length) * Math.abs(entity.current))} T`);
+        setLive('emSolN', `${fmt(entity.turns / entity.length)} 1/m`);
+      } else if (entity.type === 'emUniform') {
+        setLive('emUniformBmag', `${fmt(Math.hypot(entity.Bx, entity.By, entity.Bz))} T`);
+        setLive('emUniformEmag', `${fmt(Math.hypot(entity.Ex, entity.Ey, entity.Ez))} V/m`);
+      }
+    } else if (entity?.type === 'body') {
       const d = bodyDiagnostics(world, entity);
       setLive('speed', `${fmt(d.speed)} m/s`);
       setLive('accel', `${fmt(d.accel)} m/s²`);
@@ -6014,6 +6631,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     window.removeEventListener('pointerdown', onModalPointerDown, true);
     window.removeEventListener('contextmenu', onContextMenu);
     document.removeEventListener('focusin', onFocusIn);
+    circuitPanel?.destroy();
     view.destroy();
     disposeWorld(world);
     const style = document.getElementById(STYLE_ID);
@@ -6029,17 +6647,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   renderOutliner();
   updateUndoButtons();
   setGraphs(false);
+  syncEMSettingsUI();
+  setMode(world.em.mode || 'mechanics', { announce: false });
   updateLive();
 
   // Small read-only QA hook: no student-facing controls depend on it.
   window.__PLAB__ = {
     world,
     view,
+    circuitPanel,
     get selected() { return selected; },
     get running() { return running; },
+    get mode() { return mode; },
     get graphsOn() { return graphsOn; },
     get graphData() { return graphData; },
     get frameBodyId() { return frameBodyId; },
+    setMode: (next) => setMode(next),
+    addEM: (kind) => addEMApparatus(kind),
   };
 
   return { destroy };

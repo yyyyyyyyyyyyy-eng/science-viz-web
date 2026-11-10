@@ -3,6 +3,8 @@
  * Headless physics checks for modules/physics/lab/physics.mjs.
  * Run: node scripts/test-physics-lab.mjs
  */
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import {
   buildSensorTables,
   addAnchor,
@@ -1452,5 +1454,9 @@ check('launcher rigidly mounted on a moving cart adds the cart velocity at fire'
 });
 
 console.log(results.join('\n'));
-console.log(`\n${passed} passed, ${failed} failed`);
-if (failed) process.exit(1);
+console.log(`\n${passed} passed, ${failed} failed (mechanics)`);
+
+// The E&M analytic suite is a sibling file so each domain stays readable.
+const emTest = fileURLToPath(new URL('./test-physics-lab-em.mjs', import.meta.url));
+const em = spawnSync(process.execPath, [emTest], { stdio: 'inherit' });
+if (failed || em.status !== 0) process.exit(1);

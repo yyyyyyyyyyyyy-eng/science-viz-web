@@ -10,6 +10,14 @@
  * This file has no DOM dependency and is imported by scripts/test-physics-lab.mjs.
  */
 import * as CANNON from '../../../vendor/cannon-es/cannon-es.js';
+import {
+  captureEMInitial,
+  createEMWorld,
+  deserializeEM,
+  resetEM,
+  serializeEM,
+  stepEM,
+} from './em/physics.mjs';
 
 export const DEG = Math.PI / 180;
 export const DEFAULT_H = 1 / 240;
@@ -103,6 +111,7 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
     appliedWork: 0,
     driveWork: 0,
     initial: null,
+    em: createEMWorld(),
   };
 }
 
@@ -3851,6 +3860,11 @@ function resetTunnel(tunnel) {
 /* ------------------------------------------------------------------ */
 
 export function substep(world, h) {
+  if (world.em?.mode === 'em') {
+    stepEM(world.em, h);
+    world.time += h;
+    return;
+  }
   world.engine.gravity.set(0, -world.g, 0);
   for (const table of world.turntables) updateTurntable(world, table, h);
   applySpringForces(world);
@@ -4190,6 +4204,7 @@ export function captureInitial(world) {
       id: t.id, s: t.s, v: t.v, time: t.time,
     })),
   };
+  captureEMInitial(world.em);
 }
 
 export function resetWorld(world) {
@@ -4345,6 +4360,7 @@ export function resetWorld(world) {
   world.appliedWork = 0;
   world.driveWork = 0;
   world.events = [];
+  resetEM(world.em);
 }
 
 export function clearWorld(world) {
@@ -4382,6 +4398,7 @@ export function clearWorld(world) {
   world.time = 0;
   world.accumulator = 0;
   world.initial = null;
+  world.em = createEMWorld();
 }
 
 export function disposeWorld(world) {
@@ -4586,6 +4603,7 @@ export function serializeScene(world, { runtime = false } = {}) {
     thermal: runtime ? world.thermal : 0,
     appliedWork: runtime ? world.appliedWork : 0,
     driveWork: runtime ? world.driveWork : 0,
+    em: serializeEM(world.em),
     surfaces: world.surfaces.map((s) => ({
       id: s.id,
       kind: s.kind,
@@ -4823,6 +4841,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
   world.g = Number.isFinite(data.g) ? data.g : 9.8;
   world.h = Number.isFinite(data.h) ? data.h : DEFAULT_H;
   world.engine.gravity.set(0, -world.g, 0);
+  deserializeEM(world.em, data.em || { mode: 'mechanics' });
 
   for (const s of data.surfaces || []) {
     const surface = addSurface(world, {

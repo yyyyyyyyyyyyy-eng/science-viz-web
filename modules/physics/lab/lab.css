@@ -1413,3 +1413,270 @@ html[data-route="lab"] .site-footer {
     width: auto;
   }
 }
+
+/* ------------------------------ mode switch ------------------------------ */
+
+.plab-modeswitch {
+  display: flex;
+  flex: 0 0 auto;
+  align-self: center;
+  border: 1px solid var(--border);
+  background: var(--border);
+  gap: 1px;
+}
+.plab-mode {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 0.8rem;
+  border: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.plab-mode:hover {
+  background: var(--bg-soft);
+  color: var(--text-strong);
+}
+.plab-mode.active {
+  background: var(--accent-active);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+.plab-root[data-mode="em"] .plab-energy,
+.plab-root[data-mode="em"] .plab-legend {
+  display: none;
+}
+.plab-root[data-mode="em"] .plab-hintline {
+  display: none;
+}
+
+/* ------------------------------ circuit sheet ------------------------------ */
+
+.plab-circuit-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem 0.65rem;
+  border: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+.plab-circuit-panel[hidden] {
+  display: none;
+}
+.plab-circuit-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+.plab-circuit-head .plab-sheet-close {
+  display: inline-flex;
+  align-items: center;
+}
+.plab-circuit-sub {
+  margin: 0.15rem 0 0;
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.plab-circuit-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 1px;
+  border: 1px solid var(--border);
+  background: var(--border);
+}
+.plab-circuit-toolbar .plab-action {
+  border-right: 1px solid var(--border);
+}
+.plab-circuit-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.55rem;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  line-height: 1.3;
+}
+.plab-circuit-svg {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 240px;
+  background: var(--canvas-plot);
+  border: 1px solid var(--border);
+  touch-action: none;
+  user-select: none;
+}
+.plab-circuit-svg .gridline {
+  stroke: var(--border-soft);
+  stroke-width: 0.5;
+  opacity: 0.55;
+}
+.plab-circuit-svg .wire {
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  cursor: pointer;
+}
+.plab-circuit-svg .wire.selected {
+  stroke: var(--accent-active);
+  stroke-width: 3;
+}
+.plab-circuit-svg .partbody {
+  fill: var(--bg);
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.plab-circuit-svg .plab-circuit-part.selected .partbody {
+  stroke: var(--accent-active);
+  stroke-width: 2;
+}
+.plab-circuit-svg .sym {
+  fill: none;
+  stroke: var(--text-strong);
+  stroke-width: 2;
+  stroke-linecap: square;
+  pointer-events: none;
+}
+.plab-circuit-svg .symfill {
+  fill: var(--text-strong);
+  pointer-events: none;
+}
+.plab-circuit-svg .symsymbol,
+.plab-circuit-svg .symlabel {
+  fill: var(--text-strong);
+  font-family: var(--mono);
+  font-size: 13px;
+  pointer-events: none;
+}
+.plab-circuit-svg .partlabel {
+  fill: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  pointer-events: none;
+}
+.plab-circuit-svg .partlive {
+  fill: var(--accent-active);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  pointer-events: none;
+}
+.plab-circuit-svg .terminalhit {
+  fill: transparent;
+  cursor: crosshair;
+  pointer-events: all;
+}
+.plab-circuit-svg .terminal {
+  fill: var(--accent-active);
+  stroke: var(--bg);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.plab-circuit-svg .terminal.pending {
+  fill: var(--warn);
+}
+.plab-circuit-graph {
+  flex: 0 0 118px;
+  width: 100%;
+  height: 118px;
+  border: 1px solid var(--border);
+  background: var(--canvas-plot);
+}
+.plab-em-circuit-links {
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 760px) {
+  .plab-modeswitch {
+    width: 100%;
+  }
+  .plab-mode {
+    flex: 1 1 50%;
+    padding: 0 0.35rem;
+    font-size: 0.68rem;
+  }
+  .plab-circuit-panel {
+    padding: 0.4rem 0.45rem 0.55rem;
+  }
+  .plab-circuit-svg {
+    min-height: 200px;
+  }
+  .plab-circuit-graph {
+    flex-basis: 96px;
+    height: 96px;
+  }
+  .plab-circuit-status {
+    flex: 1 1 100%;
+  }
+}
+
+@media (min-width: 1240px) {
+  .plab-primary {
+    flex-wrap: nowrap;
+  }
+  .plab-primary .plab-action {
+    padding: 0 0.62rem;
+  }
+  .plab-clock {
+    padding: 0 0.55rem;
+  }
+  .plab-mode {
+    padding: 0 0.62rem;
+    font-size: 0.7rem;
+  }
+}
+
+.plab-circuit-editor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.8rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+.plab-circuit-editor[hidden] {
+  display: none;
+}
+.plab-circuit-editor-title {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-strong);
+}
+.plab-circuit-editor-field {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-size: 0.64rem;
+  color: var(--text);
+}
+.plab-circuit-editor-field .plab-number {
+  width: 92px;
+  flex: 0 0 92px;
+}
+.plab-circuit-editor-check {
+  font-size: 0.66rem;
+}
+@media (max-width: 760px) {
+  .plab-circuit-editor {
+    gap: 0.3rem 0.5rem;
+  }
+  .plab-circuit-editor-field .plab-number {
+    width: 78px;
+    flex-basis: 78px;
+  }
+}
