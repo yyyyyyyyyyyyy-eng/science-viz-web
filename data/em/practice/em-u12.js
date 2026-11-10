@@ -2809,5 +2809,161 @@ export const problems = [
       "topicId": "em-u12:12.9"
     }
   ]
+},
+{
+  "id": "em-u12-q049",
+  "title": "12.7 运动质子的磁场",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": true,
+  "check": "numeric",
+  "stem": "质子以 v=2.0×10⁶ m/s 沿 +x 方向运动。求其正上方 r=0.10 m 处的磁感应强度大小（T）。 · A proton moves at 2.0×10⁶ m/s along +x. Find the magnetic field magnitude at a point 0.10 m directly above it (T).",
+  "expected": 3.2e-18,
+  "tol": 0.03,
+  "answerLatex": "3.2\\times10^{-18}\\,\\mathrm{T}",
+  "solution": "该点 r 与 v 垂直，sinθ=1。B=(μ₀/4π)|q|v/r²=(1.0×10⁻⁷)(1.6×10⁻¹⁹)(2.0×10⁶) ÷ (0.10)²=3.2×10⁻¹⁸ T，方向出纸面。 · With r perpendicular to v, B=3.2×10⁻¹⁸ T out of the page.",
+  "solutionLatex": "B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{|q|v}{r^{2}}=(1.0\\times10^{-7})\\dfrac{(1.6\\times10^{-19})(2.0\\times10^{6})}{(0.10)^{2}}=3.2\\times10^{-18}\\,\\mathrm{T}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.7 单运动电荷磁场。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.7",
+      "label": "12.7 运动电荷产生的磁场",
+      "topicId": "em-u12:12.7"
+    }
+  ]
+},
+{
+  "id": "em-u12-q050",
+  "title": "12.7 运动电荷磁场的比例推理",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "某运动电荷在观察点产生 B₀。若速度加倍、距离加倍、夹角由 90° 变为 30°，新磁场是 B₀ 的多少倍？ · A moving charge produces B₀ at a point. If v doubles, r doubles, and the angle changes from 90° to 30°, by what factor does B change?",
+  "expected": 0.25,
+  "tol": 0.02,
+  "answerLatex": "0.25\\,B_0",
+  "solution": "B∝v sinθ ÷ r²。速度因子 2，距离因子 1/4，角度因子 sin30°=0.5，故总因子 2×1/4×0.5=0.25。 · The factors are 2 for v, 1/4 for r², and 0.5 for sinθ, giving 0.25.",
+  "solutionLatex": "\\dfrac{B}{B_0}=2\\cdot\\dfrac{1}{2^{2}}\\cdot\\sin30^{\\circ}=2\\cdot\\dfrac{1}{4}\\cdot\\dfrac{1}{2}=0.25",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.7 比例推理。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.7",
+      "label": "12.7 运动电荷产生的磁场",
+      "topicId": "em-u12:12.7"
+    }
+  ]
+},
+{
+  "id": "em-u12-q051",
+  "title": "12.10 同向双导线的零点",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "两根平行长直导线相距 d=0.40 m，电流同向，I₁=3.0 A、I₂=1.0 A。求零点到 I₁ 的距离（m）。 · Two long parallel wires 0.40 m apart carry same-direction currents I₁=3.0 A and I₂=1.0 A. Find the distance from I₁ to the zero-field point (m).",
+  "expected": 0.3,
+  "tol": 0.02,
+  "answerLatex": "0.30\\,\\mathrm{m}",
+  "solution": "同向电流的零点在两线之间，满足 I₁ ÷ r₁=I₂ ÷ r₂，且 r₁+r₂=0.40 m。代入得 3 ÷ r₁=1 ÷ (0.40−r₁)，解得 r₁=0.30 m。 · The zero point lies between the wires, where 3/r₁=1/(0.40−r₁), giving r₁=0.30 m.",
+  "solutionLatex": "\\dfrac{3.0}{r_1}=\\dfrac{1.0}{0.40-r_1}\\;\\Longrightarrow\\;r_1=0.30\\,\\mathrm{m}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.10 同向双导线。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.10",
+      "label": "12.10 多电流磁场叠加",
+      "topicId": "em-u12:12.10"
+    }
+  ]
+},
+{
+  "id": "em-u12-q052",
+  "title": "12.10 反向双导线的零点",
+  "type": "frq",
+  "difficulty": "难",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "两根平行长直导线相距 d=0.30 m，电流反向，I₁=4.0 A、I₂=1.0 A。求零点到较小电流 I₂ 的距离（m）。 · Two long parallel wires 0.30 m apart carry opposite currents I₁=4.0 A and I₂=1.0 A. Find the distance from the smaller current I₂ to the zero-field point (m).",
+  "expected": 0.1,
+  "tol": 0.03,
+  "answerLatex": "0.10\\,\\mathrm{m}",
+  "solution": "反向电流的零点在较小电流外侧。设到 I₂ 外侧距离为 x，则 r₂=x，r₁=0.30+x。由 4 ÷ (0.30+x)=1 ÷ x 得 x=0.10 m。 · The zero point is outside the smaller current. Solving 4/(0.30+x)=1/x gives x=0.10 m.",
+  "solutionLatex": "\\dfrac{4.0}{0.30+x}=\\dfrac{1.0}{x}\\;\\Longrightarrow\\;x=0.10\\,\\mathrm{m}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.10 反向双导线。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.10",
+      "label": "12.10 多电流磁场叠加",
+      "topicId": "em-u12:12.10"
+    }
+  ]
+},
+{
+  "id": "em-u12-q053",
+  "title": "12.5 小磁针的磁力矩",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "磁偶极矩 μ=0.80 A·m² 的小磁针与匀强磁场 B=0.25 T 成 30°。求磁力矩大小（N·m）。 · A compass with magnetic moment 0.80 A·m² sits at 30° to a 0.25 T field. Find the torque magnitude (N·m).",
+  "expected": 0.1,
+  "tol": 0.02,
+  "answerLatex": "0.10\\,\\mathrm{N\\,m}",
+  "solution": "τ=μB sinθ=(0.80)(0.25)(0.50)=0.10 N·m，力矩使 μ 转向 B；阻尼后小磁针沿 B 停下。 · τ=0.10 N·m turns μ toward B; damping settles the needle along B.",
+  "solutionLatex": "\\tau=\\mu B\\sin\\theta=(0.80)(0.25)\\sin30^{\\circ}=0.10\\,\\mathrm{N\\,m}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.5 磁偶极对齐。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.5",
+      "label": "12.5 磁偶极与磁性材料",
+      "topicId": "em-u12:12.5"
+    }
+  ]
+},
+{
+  "id": "em-u12-q054",
+  "title": "12.9 电流元磁场的比例推理",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "某电流元在 θ=90° 处产生 dB₀。若电流加倍、距离加倍、θ 变为 30°，新磁场是 dB₀ 的多少倍？ · A current element produces dB₀ at θ=90°. If I doubles, r doubles, and θ becomes 30°, by what factor does dB change?",
+  "expected": 0.25,
+  "tol": 0.02,
+  "answerLatex": "0.25\\,dB_0",
+  "solution": "dB∝I sinθ ÷ r²。因子为 2×0.5×1/4=0.25。场线仍与以导线为中心的圆相切，无径向或沿导线分量。 · The factors are 2×0.5×1/4=0.25; the field remains tangent to circles centered on the wire, with no radial or along-wire component.",
+  "solutionLatex": "\\dfrac{dB}{dB_0}=2\\cdot\\sin30^{\\circ}\\cdot\\dfrac{1}{2^{2}}=2\\cdot\\dfrac{1}{2}\\cdot\\dfrac{1}{4}=0.25",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 12.9 电流元比例推理。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u12/12.9",
+      "label": "12.9 毕奥–萨伐尔积分与电流几何",
+      "topicId": "em-u12:12.9"
+    }
+  ]
 }
 ];

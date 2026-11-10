@@ -3433,5 +3433,70 @@ export const problems = [
         ]
       }
     ]
+  },
+  {
+    "id": "em-u13-q058",
+    "title": "13.7 变化磁场诱导的电场",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "半径 R=0.20 m 的圆形区域内磁场均匀且垂直纸面向里，dB/dt=0.50 T/s。求 r=0.10 m 处感应电场的大小（V/m）。 · A uniform magnetic field inside a 0.20 m radius region points into the page and increases at 0.50 T/s. Find the induced electric field at r=0.10 m (V/m).",
+    "expected": 0.025,
+    "tol": 0.03,
+    "answerLatex": "2.5\\times10^{-2}\\,\\mathrm{V/m}",
+    "solution": "r<R 时 E=(r/2)|dB/dt|=(0.10/2)(0.50)=0.025 V/m。感应电场沿同心圆切向，逆时针；即使没有导线也存在。 · For r<R, E=(r/2)|dB/dt|=0.025 V/m, tangent to the circle and counterclockwise; it exists even without a wire.",
+    "solutionLatex": "E=\\dfrac{r}{2}\\left|\\dfrac{dB}{dt}\\right|=\\dfrac{0.10}{2}(0.50)=2.5\\times10^{-2}\\,\\mathrm{V/m}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 13.7 第三麦克斯韦方程。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.7",
+        "label": "13.7 麦克斯韦方程与电磁波",
+        "topicId": "em-u13:13.7"
+      }
+    ]
+  },
+  {
+    "id": "em-u13-q059",
+    "title": "13.7 静电场与感应电场辨析",
+    "type": "mcq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "关于静电场与变化磁场诱导的电场，下列哪项正确？ · Which statement about electrostatic and induced electric fields is correct?",
+    "choices": [
+      {
+        "text": "感应电场线闭合，∮E·dl=−dΦ_B/dt≠0 · Induced field lines are closed and ∮E·dl=−dΦ_B/dt≠0",
+        "correct": true
+      },
+      {
+        "text": "感应电场是保守场，存在全局标量势 · The induced field is conservative and has a global scalar potential",
+        "correct": false
+      },
+      {
+        "text": "静电场绕任意闭合路径的环流不为零 · The electrostatic circulation around any closed path is nonzero",
+        "correct": false
+      },
+      {
+        "text": "只有存在导线时才会产生感应电场 · An induced field exists only when a wire is present",
+        "correct": false
+      }
+    ],
+    "solution": "感应电场由变化磁通量产生，场线闭合，环流等于磁通量变化率的负值，因此不是保守场、没有全局标量势；即使没有导线也存在。静电场由电荷产生，场线起止于电荷，环流为零。 · The induced field comes from changing flux, has closed field lines and nonzero circulation, and is nonconservative; it exists without a wire. The electrostatic field comes from charge, has field lines that start and end on charge, and has zero circulation.",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于 13.7 感应电场与静电场比较。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.7",
+        "label": "13.7 麦克斯韦方程与电磁波",
+        "topicId": "em-u13:13.7"
+      }
+    ]
   }
 ];

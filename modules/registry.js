@@ -368,7 +368,7 @@ export const MODULES = [
   },
   {
     id: 'capacitor',
-    subject: 'em', chapterId: 'em-u10', topicCodes: ['10.3', '10.4', '8.9'],
+    subject: 'em', chapterId: 'em-u10', topicCodes: ['10.3', '10.4', '10.7', '8.9'],
     title: '平行板电容器 · Parallel-Plate Capacitor',
     summary: '电容、电场与电介质。 · Capacitance, electric field, and dielectrics.',
     explanation: 'C = κε₀A·d⁻¹；插入电介质增大 C。 · C = κε₀A·d⁻¹; inserting a dielectric increases C.',

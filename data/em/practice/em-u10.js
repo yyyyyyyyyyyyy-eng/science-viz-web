@@ -2838,5 +2838,135 @@ export const problems = [
       "topicId": "em-u10:10.6"
     }
   ]
+},
+{
+  "id": "em-u10-q055",
+  "title": "10.7 平行板电容器的电荷特征",
+  "type": "mcq",
+  "difficulty": "易",
+  "calculator": false,
+  "stem": "下列哪项最准确地描述平行板电容器？ · Which statement best describes a parallel-plate capacitor?",
+  "choices": [
+    {
+      "text": "两片分离的平行导体板带等量异号电荷，净电荷为零 · Two separated parallel conducting plates carry equal and opposite charges, with zero net charge",
+      "correct": true
+    },
+    {
+      "text": "两片导体板带同号等量电荷 · The two plates carry equal same-sign charges",
+      "correct": false
+    },
+    {
+      "text": "只有一片导体板储存电荷 · Only one conducting plate stores charge",
+      "correct": false
+    },
+    {
+      "text": "电荷只能分布在极板外表面 · Charge resides only on the outer surfaces",
+      "correct": false
+    }
+  ],
+  "solution": "电容器由两片分离的平行导体板组成，充电时两板带等量异号电荷，整个电容器净电荷为零；电荷主要分布在相对的内表面。 · A capacitor has two separated parallel conductors with equal and opposite charges; the net charge is zero and charge resides mainly on the facing inner surfaces.",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 10.7 平行板电容器。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.7",
+      "label": "10.7 平行板电容的电场与充电功",
+      "topicId": "em-u10:10.7"
+    }
+  ]
+},
+{
+  "id": "em-u10-q056",
+  "title": "10.7 两无限大带电面的合场",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "两片无限大平行导体板分别带 +σ 与 −σ。板间与板外的合电场分别是？ · Two infinite parallel sheets carry +σ and −σ. What are the fields between and outside the plates?",
+  "choices": [
+    {
+      "text": "板间 σ ÷ ε₀，板外 0 · σ/ε₀ between, 0 outside",
+      "correct": true
+    },
+    {
+      "text": "板间 σ ÷ (2ε₀)，板外 0 · σ/(2ε₀) between, 0 outside",
+      "correct": false
+    },
+    {
+      "text": "板间 0，板外 σ ÷ ε₀ · 0 between, σ/ε₀ outside",
+      "correct": false
+    },
+    {
+      "text": "板间 σ ÷ ε₀，板外 2σ ÷ ε₀ · σ/ε₀ between, 2σ/ε₀ outside",
+      "correct": false
+    }
+  ],
+  "solution": "单层带电面产生 σ ÷ (2ε₀)。板间两场同向叠加为 σ ÷ ε₀；板外两场反向相消为零。 · Each sheet gives σ/(2ε₀); between the plates the fields add to σ/ε₀, while outside they cancel to zero.",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 10.7 平行板电场。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.7",
+      "label": "10.7 平行板电容的电场与充电功",
+      "topicId": "em-u10:10.7"
+    }
+  ]
+},
+{
+  "id": "em-u10-q057",
+  "title": "10.7 电容储能与充电功",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": true,
+  "check": "numeric",
+  "stem": "C=470 μF 的电容器充电到 V=9.0 V。求储存的电场能 U（J）。 · A 470 μF capacitor is charged to 9.0 V. Find the stored energy U in joules.",
+  "expected": 0.019,
+  "tol": 0.03,
+  "answerLatex": "1.9\\times10^{-2}\\,\\mathrm{J}",
+  "solution": "U=½CV²=½(470×10⁻⁶)(9.0)²=1.90×10⁻² J。可逆外力充电功等于储能；恒压电源总功 QV=3.81×10⁻² J，另一半耗散或转化为机械功。 · U=½CV²=1.90×10⁻² J. The reversible charging work equals the stored energy; a constant-voltage source supplies QV=3.81×10⁻² J, with half dissipated or converted to mechanical work.",
+  "solutionLatex": "U=\\dfrac{1}{2}CV^{2}=\\dfrac{1}{2}(470\\times10^{-6})(9.0)^{2}=1.9\\times10^{-2}\\,\\mathrm{J}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 10.7 充电功与储能。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.7",
+      "label": "10.7 平行板电容的电场与充电功",
+      "topicId": "em-u10:10.7"
+    }
+  ]
+},
+{
+  "id": "em-u10-q058",
+  "title": "10.7 孤立电容器插入电介质",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "C₀=100 pF 的电容器充电到 12 V 后断开电源，再插入 κ=3.0 的电介质。求插入后的电压 V（V）。 · A 100 pF capacitor is charged to 12 V, disconnected, then filled with a dielectric of κ=3.0. Find the final voltage V in volts.",
+  "expected": 4.0,
+  "tol": 0.02,
+  "answerLatex": "4.0\\,\\mathrm{V}",
+  "solution": "孤立时 Q 不变，C→κC=300 pF，故 V=Q ÷ C 变为原来的 1/κ=4.0 V；E 与 U 也降为原来的 1/3。 · With Q fixed, C→κC=300 pF, so V drops to 1/κ=4.0 V; E and U also fall to one third.",
+  "solutionLatex": "Q=C_0V_0=(100\\times10^{-12})(12)=1.2\\times10^{-9}\\,\\mathrm{C},\\qquad V=\\dfrac{Q}{\\kappa C_0}=\\dfrac{12}{3.0}=4.0\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 10.7 电介质与孤立约束。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u10/10.7",
+      "label": "10.7 平行板电容的电场与充电功",
+      "topicId": "em-u10:10.7"
+    }
+  ]
 }
 ];

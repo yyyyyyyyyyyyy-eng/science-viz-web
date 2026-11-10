@@ -532,6 +532,7 @@ export const ENRICHMENTS = {
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
       { subject: 'em', chapterId: 'em-u10', code: '10.4', title: '电介质', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.11', title: '电容网络与电荷守恒', relation: '后续' },
       { subject: 'em', chapterId: 'em-u11', code: '11.8', title: 'RC 电路', relation: '应用' },
     ],
     development: ['电容定义', '平行板公式', '电介质与 \\(\\kappa\\)', '储能与连接'],
@@ -599,6 +600,7 @@ export const ENRICHMENTS = {
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.1', title: '电荷与力', relation: '先修' },
       { subject: 'em', chapterId: 'em-u11', code: '11.2', title: '简单电路', relation: '后续' },
+      { subject: 'em', chapterId: 'em-u11', code: '11.9', title: '电流密度与截面积分', relation: '后续' },
       { subject: 'em', chapterId: 'em-u11', code: '11.3', title: '电阻与欧姆定律', relation: '相关' },
     ],
     development: ['宏观定义', '微观漂移', '方向约定', '进入欧姆定律'],

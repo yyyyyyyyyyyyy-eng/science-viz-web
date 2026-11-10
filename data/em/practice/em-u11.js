@@ -3742,5 +3742,122 @@ export const problems = [
       "topicId": "em-u11:11.9"
     }
   ]
+},
+{
+  "id": "em-u11-q062",
+  "title": "11.10 断路时断口电压",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "电池 ε=12 V、内阻 r=1 Ω，外接 R=5 Ω 与灯泡 6 Ω 串联，开关断开。理想电压表跨接在开关两端，读数是多少伏？ · A 12 V battery with 1 Ω internal resistance is in series with a 5 Ω resistor and a 6 Ω bulb; the switch is open. What does an ideal voltmeter across the switch read?",
+  "expected": 12,
+  "tol": 0.01,
+  "answerLatex": "12\\,\\mathrm{V}",
+  "solution": "开路时 I=0，各电阻无电压降，断口两端电压等于电源电动势 12 V。零电流不等于零电压。 · With I=0 there is no voltage drop across the resistors, so the gap voltage equals the emf, 12 V. Zero current does not mean zero voltage.",
+  "solutionLatex": "I=0,\\qquad V_{\\mathrm{gap}}=\\varepsilon-Ir=12-0=12\\,\\mathrm{V}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 11.10 开关与开路。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u11/11.10",
+      "label": "11.10 电路元件、开闭与拓扑",
+      "topicId": "em-u11:11.10"
+    }
+  ]
+},
+{
+  "id": "em-u11-q063",
+  "title": "11.10 共享支路电流",
+  "type": "frq",
+  "difficulty": "难",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "两个相邻回路共用 R_s=2 Ω。左回路另有 ε=12 V 与 R₂=2 Ω，右回路另有 R₃=2 Ω。求共享支路中电流的大小（A）。 · Two adjacent loops share a 2 Ω resistor. The left loop also has a 12 V battery and a 2 Ω resistor; the right loop has another 2 Ω resistor. Find the current magnitude in the shared branch (A).",
+  "expected": 2,
+  "tol": 0.02,
+  "answerLatex": "2.0\\,\\mathrm{A}",
+  "solution": "设左、右回路电流分别为 I₁、I₂，均取顺时针。左：12−2I₁−2(I₁−I₂)=0；右：−2I₂−2(I₂−I₁)=0。解得 I₁=4 A、I₂=2 A，共享支路电流 I_s=I₁−I₂=2 A。 · Solving the two loop equations gives I₁=4 A and I₂=2 A, so the shared branch carries 2 A.",
+  "solutionLatex": "I_1=4\\,\\mathrm{A},\\quad I_2=2\\,\\mathrm{A},\\quad I_s=I_1-I_2=2\\,\\mathrm{A}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 11.10 共享元件与多回路。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u11/11.10",
+      "label": "11.10 电路元件、开闭与拓扑",
+      "topicId": "em-u11:11.10"
+    }
+  ]
+},
+{
+  "id": "em-u11-q064",
+  "title": "11.11 串联电容的电荷",
+  "type": "frq",
+  "difficulty": "中",
+  "calculator": false,
+  "check": "numeric",
+  "stem": "3 μF 与 6 μF 两个电容器串联接在 12 V 电源上。求 3 μF 电容器上的电荷量（μC）。 · A 3 μF and a 6 μF capacitor are in series across 12 V. Find the charge on the 3 μF capacitor in microcoulombs.",
+  "expected": 24,
+  "tol": 0.02,
+  "answerLatex": "24\\,\\mu\\mathrm{C}",
+  "solution": "C_eq=(1/3+1/6)⁻¹=2 μF；串联电荷相同，Q=C_eqV=2 μF×12 V=24 μC。电压分配 V₁=Q ÷ C₁=8 V，V₂=4 V。 · The series equivalent is 2 μF; both capacitors carry Q=24 μC, with V₁=8 V and V₂=4 V.",
+  "solutionLatex": "C_{\\mathrm{eq}}=\\left(\\dfrac{1}{3}+\\dfrac{1}{6}\\right)^{-1}=2\\,\\mu\\mathrm{F},\\qquad Q=C_{\\mathrm{eq}}V=24\\,\\mu\\mathrm{C}",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 11.11 串联电容电荷守恒。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u11/11.11",
+      "label": "11.11 电容网络与电荷守恒",
+      "topicId": "em-u11:11.11"
+    }
+  ]
+},
+{
+  "id": "em-u11-q065",
+  "title": "11.11 浮置岛电荷守恒辨析",
+  "type": "mcq",
+  "difficulty": "中",
+  "calculator": false,
+  "stem": "4 μF 与 12 μF 电容器串联接在 16 V 电源上。某学生说“小电容的电荷是大电容的三分之一”。正确判断是？ · A 4 μF and a 12 μF capacitor are in series across 16 V. A student claims the smaller capacitor has one third the charge. Which is correct?",
+  "choices": [
+    {
+      "text": "错误：两电容电荷量相同，均为 48 μC · False: both carry the same 48 μC",
+      "correct": true
+    },
+    {
+      "text": "正确：小电容电荷为 16 μC · True: the smaller capacitor has 16 μC",
+      "correct": false
+    },
+    {
+      "text": "正确：电荷按电容反比分配 · True: charge divides inversely with capacitance",
+      "correct": false
+    },
+    {
+      "text": "无法判断，因为没有给出电阻 · Cannot tell without a resistor",
+      "correct": false
+    }
+  ],
+  "solution": "串联等效电容 C_eq=(1/4+1/12)⁻¹=3 μF，Q=C_eqV=3 μF×16 V=48 μC。中间浮置导体净电荷为零，但两侧极板分别带 +48 μC 与 −48 μC，因此每个电容的电荷量相同。电压按 1/C 分配：V₁=12 V，V₂=4 V。 · The series equivalent is 3 μF, so both capacitors carry 48 μC; the floating island has zero net charge while its two plates hold +48 μC and −48 μC. Voltages divide inversely with capacitance: 12 V and 4 V.",
+  "sourceId": "original",
+  "source": "Original AP-style item (this project)",
+  "license": "Project",
+  "sourceUrl": "",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 11.11 浮置中间导体。",
+  "topicLinks": [
+    {
+      "href": "#/t/em/em-u11/11.11",
+      "label": "11.11 电容网络与电荷守恒",
+      "topicId": "em-u11:11.11"
+    }
+  ]
 }
 ];

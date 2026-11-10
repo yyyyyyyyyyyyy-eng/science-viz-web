@@ -416,6 +416,7 @@ export const UNITS = {
         { code: '10.4', titleZh: '电介质', titleEn: 'Dielectrics' },
         { code: '10.5', titleZh: '接触再分布与感应接地', titleEn: 'Charge Redistribution and Grounding' },
         { code: '10.6', titleZh: '导体静电平衡的建立', titleEn: 'Establishing Electrostatic Equilibrium' },
+        { code: '10.7', titleZh: '平行板电容的电场与充电功', titleEn: 'Parallel-Plate Fields and Charging Work' },
       ],
     },
     {
@@ -430,6 +431,8 @@ export const UNITS = {
         { code: '11.7', titleZh: '基尔霍夫结点', titleEn: "Kirchhoff's Junction Rule" },
         { code: '11.8', titleZh: 'RC 电路', titleEn: 'Resistor–Capacitor (RC) Circuits' },
         { code: '11.9', titleZh: '电流密度与截面积分', titleEn: 'Current Density and Surface Integration' },
+        { code: '11.10', titleZh: '电路元件、开闭与拓扑', titleEn: 'Circuit Elements, Open Circuits, and Topology' },
+        { code: '11.11', titleZh: '电容网络与电荷守恒', titleEn: 'Capacitor Networks and Charge Conservation' },
       ],
     },
     {
@@ -441,8 +444,10 @@ export const UNITS = {
         { code: '12.4', titleZh: '安培定律', titleEn: "Ampère's Law" },
         { code: '12.5', titleZh: '磁偶极与磁性材料', titleEn: 'Magnetic Dipoles and Magnetic Materials' },
         { code: '12.6', titleZh: '磁导率与材料响应', titleEn: 'Magnetic Permeability and Material Response' },
+        { code: '12.7', titleZh: '运动电荷产生的磁场', titleEn: 'Magnetic Field of a Moving Charge' },
         { code: '12.8', titleZh: '复合场与霍尔效应', titleEn: 'Crossed Fields and the Hall Effect' },
         { code: '12.9', titleZh: '毕奥–萨伐尔积分与电流几何', titleEn: 'Biot–Savart Integration and Current Geometry' },
+        { code: '12.10', titleZh: '多电流磁场叠加', titleEn: 'Superposition of Magnetic Fields' },
       ],
     },
     {

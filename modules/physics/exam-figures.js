@@ -3425,6 +3425,349 @@ def('equilibrium-time', '导体静电平衡的建立时间 · Settling time to e
   return s;
 });
 
+/* ======================= Track B B07 additions ======================= */
+def('em-ppc-field-superposition', '平行板电容器：两无限大带电面的电场叠加 · Parallel-plate capacitor: superposition of two infinite charged sheets', 'E_{\\mathrm{between}}=\\dfrac{\\sigma}{\\varepsilon_0},\\qquad E_{\\mathrm{outside}}=0', () => {
+  const xL = 140, xR = 260, yT = 54, yB = 198;
+  let s = rect(xL - 5, yT, 10, yB - yT, { fill: COL.f, op: 0.16, c: 'f', w: 2 });
+  s += rect(xR - 5, yT, 10, yB - yT, { fill: COL.E, op: 0.16, c: 'E', w: 2 });
+  s += tx(xL, yT - 8, '+σ', { anchor: 'middle', fs: 12, c: 'f' });
+  s += tx(xR, yT - 8, '−σ', { anchor: 'middle', fs: 12, c: 'E' });
+  s += tx(xL - 14, 128, 'A', { anchor: 'end', fs: 11, c: 'f' });
+  s += tx(xR + 14, 128, 'A', { fs: 11, c: 'E' });
+  for (const y of [92, 128, 164]) {
+    s += arr(112, y, 78, y, 'E', 1.5) + arr(76, y + 8, 110, y + 8, 'B', 1.5);
+    s += arr(162, y, 196, y, 'E', 1.5) + arr(162, y + 8, 196, y + 8, 'B', 1.5);
+    s += arr(288, y, 254, y, 'E', 1.5) + arr(254, y + 8, 288, y + 8, 'B', 1.5);
+  }
+  s += tx(76, 76, 'E₊', { fs: 9, c: 'E', anchor: 'middle' }) + tx(92, 84, 'E₋', { fs: 9, c: 'B', anchor: 'middle' });
+  s += tx(179, 76, 'E₊ + E₋', { fs: 9, anchor: 'middle' }) + tx(270, 84, 'E₊', { fs: 9, c: 'E', anchor: 'middle' }) + tx(286, 92, 'E₋', { fs: 9, c: 'B', anchor: 'middle' });
+  s += tx(94, 222, 'E = 0（板外 · outside）', { anchor: 'middle', fs: 9.2, it: false });
+  s += tx(200, 222, 'E = σ ÷ ε₀（板间 · between）', { anchor: 'middle', fs: 9.2, it: false, c: 'E' });
+  s += tx(304, 222, 'E = 0（板外 · outside）', { anchor: 'middle', fs: 9.2, it: false });
+  s += tx(200, 234, '导体极板内部 E = 0；板间场线垂直于极板。', { anchor: 'middle', fs: 7.6, it: false, c: 'm' });
+  s += tx(200, 248, 'Inside the plates E = 0; the field is perpendicular to the plates.', { anchor: 'middle', fs: 6.8, it: false, c: 'm' });
+  return s;
+});
+def('em-ppc-fringing', '有限平行板电容器的边缘场 · Fringing field of finite parallel plates', 'C\\approx\\dfrac{\\kappa\\varepsilon_0A}{d}\\left(1+\\mathcal{O}\\left(\\dfrac{d}{L}\\right)\\right)', () => {
+  const x1 = 58, x2 = 342, yT = 78, yB = 178;
+  let s = rect(x1, yT - 5, x2 - x1, 10, { fill: COL.f, op: 0.18, c: 'f', w: 1.6 });
+  s += rect(x1, yB - 5, x2 - x1, 10, { fill: COL.E, op: 0.18, c: 'E', w: 1.6 });
+  s += tx(x1, yT - 12, '+σ', { fs: 10, c: 'f' }) + tx(x2, yB + 20, '−σ', { anchor: 'end', fs: 10, c: 'E' });
+  for (const x of [122, 162, 202, 242, 282]) s += arr(x, yT + 8, x, yB - 8, 'B', 1.5);
+  for (const [x, c1, c2] of [[104, 72, 74], [92, 48, 50], [298, 330, 328], [310, 352, 350]]) {
+    s += pathD(`M${x},${yT + 8} C${c1},${yT + 40} ${c2},${yB - 40} ${x},${yB - 8}`, { c: 'B', w: 1.3 });
+  }
+  s += pathD(`M58,${yT + 12} C38,${yT + 34} 34,${yB - 20} 18,${yB + 4}`, { c: 'B', w: 1.1, dash: '3 3' });
+  s += pathD(`M342,${yT + 12} C362,${yT + 34} 366,${yB - 20} 382,${yB + 4}`, { c: 'B', w: 1.1, dash: '3 3' });
+  s += tx(200, yT + 30, '匀强区：E = σ ÷ ε₀', { anchor: 'middle', fs: 9.2, it: false, c: 'E' });
+  s += tx(74, 218, '边缘场：场线外弯，大小与方向不再均匀。', { fs: 8.4, it: false });
+  s += tx(74, 232, 'Fringing: field lines bulge outward; E is no longer uniform.', { fs: 7.2, it: false, c: 'm' });
+  s += tx(74, 248, 'd ≪ L 时近似最好；实际 C 略大于 κε₀A ÷ d。 · Best when d ≪ L; the actual C is slightly larger.', { fs: 7.4, it: false, c: 'm' });
+  s += ln(350, yT, 350, yB, { c: 'm', w: 1, dash: '3 3' }) + tx(356, 132, 'd', { fs: 10 }) + tx(200, 204, 'L', { anchor: 'middle', fs: 10, it: false });
+  return s;
+});
+def('em-ppc-geometry', '平行板几何与电介质对电容的影响 · How plate geometry and dielectric set capacitance', 'C=\\dfrac{\\kappa\\varepsilon_0A}{d}', () => {
+  let s = tx(20, 18, 'A 真空 · vacuum', { it: false, fs: 9 });
+  s += ln(52, 88, 52, 152, { w: 3 }) + ln(82, 88, 82, 152, { w: 3 });
+  s += tx(52, 82, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(82, 82, '−', { anchor: 'middle', fs: 11, c: 'E' });
+  s += tx(67, 168, 'C₀ = ε₀A ÷ d', { anchor: 'middle', fs: 8.6, it: false });
+  s += tx(20, 190, 'B 面积加倍 · area ×2', { it: false, fs: 9 });
+  s += ln(152, 72, 152, 168, { w: 3 }) + ln(192, 72, 192, 168, { w: 3 });
+  s += tx(152, 66, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(192, 66, '−', { anchor: 'middle', fs: 11, c: 'E' });
+  s += tx(172, 184, 'C = 2C₀', { anchor: 'middle', fs: 8.6, it: false });
+  s += tx(226, 18, 'C 间距减半 + κ = 4 · d ÷ 2, κ = 4', { it: false, fs: 9 });
+  s += ln(266, 72, 266, 168, { w: 3 }) + ln(292, 72, 292, 168, { w: 3 });
+  s += rect(268, 72, 22, 96, { fill: COL.v, op: 0.18, c: 'v', w: 1 });
+  s += tx(266, 66, '+', { anchor: 'middle', fs: 11, c: 'f' }) + tx(292, 66, '−', { anchor: 'middle', fs: 11, c: 'E' });
+  s += tx(279, 184, 'C = 2 × 4C₀ = 8C₀', { anchor: 'middle', fs: 8.6, it: false });
+  s += tx(200, 214, 'C 随 A、κ 增大，随 d 减小；与 Q、V 无关。 · C grows with A and κ, shrinks with d; it is independent of Q and V.', { anchor: 'middle', fs: 7.8, it: false });
+  s += eq(112, 238, ['C = ', { n: 'κ ε₀ A', d: 'd' }], { fs: 12 });
+  s += tx(245, 242, '孤立：Q 不变；接电源：V 不变。', { fs: 7.8, it: false, c: 'm' });
+  return s;
+});
+def('em-ppc-dielectric-insert', '孤立与接电池时插入电介质 · Dielectric insertion: isolated versus battery-connected', 'U=\\dfrac{Q^{2}}{2C}\\;\\text{(isolated)},\\qquad U=\\dfrac{1}{2}CV^{2}\\;\\text{(battery)}', () => {
+  let s = tx(18, 18, '孤立（先断开） · isolated (Q fixed)', { it: false, fs: 9, c: 'f' });
+  s += ln(36, 78, 36, 144, { w: 3 }) + ln(72, 78, 72, 144, { w: 3 }) + rect(38, 78, 32, 66, { fill: COL.v, op: 0.16, c: 'v', w: 1, dash: '3 3' });
+  s += arr(96, 110, 78, 110, 'v', 1.6) + tx(100, 114, '插入 · insert', { fs: 7.6, it: false, c: 'v' });
+  s += tx(18, 164, 'Q → Q', { fs: 9, it: false }) + tx(18, 180, 'C → κC', { fs: 9, it: false }) + tx(18, 196, 'V → V ÷ κ', { fs: 9, it: false }) + tx(18, 212, 'E → E ÷ κ', { fs: 9, it: false }) + tx(18, 228, 'U → U ÷ κ', { fs: 9, it: false, c: 'f' });
+  s += tx(198, 18, '接电源（V 固定） · battery connected (V fixed)', { it: false, fs: 9, c: 'E' });
+  s += ln(216, 78, 216, 144, { w: 3 }) + ln(252, 78, 252, 144, { w: 3 }) + rect(218, 78, 32, 66, { fill: COL.v, op: 0.16, c: 'v', w: 1, dash: '3 3' });
+  s += arr(276, 110, 258, 110, 'v', 1.6) + tx(280, 114, '插入 · insert', { fs: 7.6, it: false, c: 'v' });
+  s += tx(198, 164, 'V → V', { fs: 9, it: false }) + tx(198, 180, 'C → κC', { fs: 9, it: false }) + tx(198, 196, 'Q → κQ', { fs: 9, it: false }) + tx(198, 212, 'E = V ÷ d（不变）', { fs: 9, it: false }) + tx(198, 228, 'U → κU', { fs: 9, it: false, c: 'E' });
+  s += tx(200, 248, '先问 Q 还是 V 不变。 · First decide whether Q or V is fixed.', { anchor: 'middle', fs: 8.2, it: false, c: 'm' });
+  return s;
+});
+def('em-ppc-charging-work', '充电功与 V–q 图 · Charging work and the V–q graph', 'W_{\\mathrm{ext}}=\\int_0^Q\\dfrac{q}{C}\\,dq=\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}QV', () => {
+  const g = graph(76, 44, 214, 144, { fns: [{ f: (x) => x }], t1: 1, ymin: 0, ymax: 1.25, xl: 'q', yl: 'v' });
+  let s = g.s;
+  const tri = [[g.X(0), g.Y(0)], [g.X(1), g.Y(0)], [g.X(1), g.Y(1)]];
+  s += poly(tri, { fill: COL.a, op: 0.2, c: 'a', w: 1.2 });
+  s += rect(g.X(0), g.Y(1), g.X(1) - g.X(0), g.Y(0) - g.Y(1), { fill: 'none', c: 'm', w: 1.1, dash: '4 3' });
+  s += tx(g.X(1) + 4, g.Y(0) + 14, 'Q', { fs: 10 }) + tx(g.X(0) - 6, g.Y(1) + 4, 'V', { fs: 10, anchor: 'end' });
+  s += tx(g.X(0) + 58, g.Y(0) - 22, '面积 = ½QV = U = W_ext', { fs: 8.8, it: false, c: 'a' });
+  s += tx(g.X(0) + 6, g.Y(1) + 22, '矩形 QV = 电池总功', { fs: 8.2, it: false, c: 'm' });
+  s += tx(20, 208, '斜率 = 1 ÷ C；三角形面积是外力可逆做功，等于储能。', { fs: 8.4, it: false });
+  s += tx(20, 224, '恒压电源总功 QV，一半储存，一半耗散或转化为机械功。', { fs: 8.4, it: false });
+  s += tx(20, 242, 'Field energy density u = ½ ε₀E²; volume Ad gives U = ½CV².', { fs: 7.2, it: false, c: 'm' });
+  s += eq(300, 86, ['U = ', { n: '1', d: '2' }, 'QV'], { fs: 12 });
+  s += eq(300, 128, ['= ', { n: 'Q^{2}', d: '2C' }], { fs: 12 });
+  s += eq(300, 170, ['= ', { n: '1', d: '2' }, 'CV^{2}'], { fs: 12 });
+  s += tx(300, 214, 'v = q ÷ C', { fs: 9, it: false, c: 'a' });
+  return s;
+});
+
+def('em-u11-circuit-topology', '电路元件、开关与拓扑 · Circuit elements, switches, and topology', '\\sum_{\\text{loop}}\\Delta V=0,\\qquad \\sum_{\\text{junction}}I=0', () => {
+  const loop = (x1, y1, x2, y2, open = false) => {
+    let o = ln(x1, y1, x2, y1, { w: 1.4 }) + ln(x2, y1, x2, y2, { w: 1.4 }) + ln(x2, y2, x1, y2, { w: 1.4 }) + ln(x1, y2, x1, y1, { w: 1.4 });
+    o += battery(x1, y2, x1, y1, 'ε', true);
+    o += resistor(x1, y1, x1 + 46, y1, 'R', { dy: -8 });
+    o += circ(x1 + 78, y1, 8, { w: 1.2 }) + tx(x1 + 78, y1 + 3, 'bulb', { anchor: 'middle', fs: 5.6, it: false });
+    o += capacitor(x2, y1 + 16, x2, y2 - 16, '');
+    o += tx(x2 - 8, y1 + 34, 'C', { anchor: 'end', fs: 9 });
+    o += inductor(x1 + 14, y2, x1 + 50, y2, 'L');
+    if (open) {
+      o += circ(x1 + 64, y2, 2.3, { fill: 'currentColor' }) + circ(x1 + 100, y2, 2.3, { fill: 'currentColor' });
+      o += ln(x1 + 64, y2, x1 + 92, y2 - 12, { w: 1.5 }) + tx(x1 + 82, y2 - 16, 'S', { anchor: 'middle', fs: 8 });
+    } else {
+      o += sw(x1 + 64, y2, x1 + 100, y2, 'S');
+    }
+    o += circ(x1 + 128, y2, 7.5, { w: 1.2 }) + tx(x1 + 128, y2 + 3, 'A', { anchor: 'middle', fs: 7, it: false });
+    return o;
+  };
+  let s = tx(16, 14, 'A 闭合 · closed', { it: false, fs: 8.6, c: 'a' });
+  s += loop(28, 36, 174, 102);
+  s += tx(16, 120, 'V 表并联（略）· V in parallel (not drawn)', { fs: 7, it: false, c: 'm' });
+  s += tx(210, 14, 'B 断开 · open', { it: false, fs: 8.6, c: 'f' });
+  s += loop(232, 36, 384, 102, true);
+  s += tx(210, 120, 'I = 0；V_gap = ε', { fs: 7, it: false, c: 'm' });
+
+  s += tx(16, 138, 'C 共享支路 · shared branch', { it: false, fs: 8.6, c: 'v' });
+  s += ln(28, 164, 180, 164, { w: 1.4 }) + ln(28, 232, 180, 232, { w: 1.4 });
+  s += ln(28, 164, 28, 232, { w: 1.4 }) + ln(180, 164, 180, 232, { w: 1.4 });
+  s += battery(28, 232, 28, 164, 'ε₁', true);
+  s += resistor(28, 164, 104, 164, '') + tx(66, 156, 'R₂', { anchor: 'middle', fs: 7.4, it: false });
+  s += resistor(104, 164, 180, 164, '') + tx(142, 156, 'R₃', { anchor: 'middle', fs: 7.4, it: false });
+  s += resistor(104, 164, 104, 232, 'R_s', { dx: 14, dy: -12 });
+  s += node(104, 164) + node(104, 232);
+  s += arr(38, 184, 60, 184, 'v', 1.1) + tx(49, 178, 'I₁', { fs: 7.2, c: 'v', anchor: 'middle' });
+  s += arr(118, 184, 140, 184, 'v', 1.1) + tx(129, 178, 'I₂', { fs: 7.2, c: 'v', anchor: 'middle' });
+  s += tx(112, 210, 'I_s', { fs: 7.4, c: 'v' });
+  s += tx(16, 250, 'I_s = I₁ − I₂', { fs: 7, it: false, c: 'm' });
+
+  s += tx(210, 138, 'D 拓扑等价 · same topology', { it: false, fs: 8.6, c: 'B' });
+  s += rect(222, 164, 66, 66, { c: 'B', w: 1.3 }) + rect(308, 164, 66, 66, { c: 'B', w: 1.3 });
+  s += circ(222, 164, 2.4, { fill: COL.B }) + circ(288, 164, 2.4, { fill: COL.B });
+  s += circ(308, 230, 2.4, { fill: COL.B }) + circ(374, 230, 2.4, { fill: COL.B });
+  s += ln(288, 164, 308, 164, { c: 'B', w: 1.2, dash: '3 3' }) + tx(298, 158, 'same nodes', { anchor: 'middle', fs: 6.4, it: false, c: 'B' });
+  s += tx(210, 250, '导线可重画 · reroute', { fs: 7, it: false, c: 'm' });
+  return s;
+});
+def('em-u11-meter-loading', '理想电表与实际电表的负载效应 · Ideal versus real meter loading', 'R_A=0,\\; R_V\\to\\infty\\;\\text{(ideal)}', () => {
+  const meterLoop = (x0, y0, real) => {
+    const x1 = x0, x2 = x0 + 150, y1 = y0, y2 = y0 + 66;
+    let o = ln(x1, y1, x2, y1, { w: 1.4 }) + ln(x2, y1, x2, y2, { w: 1.4 }) + ln(x2, y2, x1, y2, { w: 1.4 }) + ln(x1, y2, x1, y1, { w: 1.4 });
+    o += battery(x1, y2, x1, y1, 'ε', true) + resistor(x1, y1, x1 + 58, y1, 'R');
+    o += circ(x2 - 34, y2, 8, { w: 1.2 }) + tx(x2 - 34, y2 + 3, 'A', { anchor: 'middle', fs: 7, it: false });
+    o += ln(x1 + 76, y1, x1 + 76, y1 + 22, { c: 'm', w: 1, dash: '3 3' }) + ln(x1 + 76, y1 + 22, x1 + 128, y1 + 22, { c: 'm', w: 1, dash: '3 3' }) + ln(x1 + 128, y1 + 22, x1 + 128, y1, { c: 'm', w: 1, dash: '3 3' });
+    o += circ(x1 + 102, y1 + 22, 8, { w: 1.2, c: 'm' }) + tx(x1 + 102, y1 + 25, 'V', { anchor: 'middle', fs: 7, it: false });
+    if (real) {
+      o += tx(x2 - 34, y2 + 18, 'R_A > 0', { anchor: 'middle', fs: 7, it: false, c: 'f' });
+      o += tx(x1 + 102, y1 + 40, 'R_V finite', { anchor: 'middle', fs: 7, it: false, c: 'f' });
+    } else {
+      o += tx(x2 - 34, y2 + 18, 'R_A = 0', { anchor: 'middle', fs: 7, it: false, c: 'a' });
+      o += tx(x1 + 102, y1 + 40, 'R_V = ∞', { anchor: 'middle', fs: 7, it: false, c: 'a' });
+    }
+    return o;
+  };
+  let s = tx(18, 16, 'A 理想电表 · ideal meters', { it: false, fs: 9, c: 'a' });
+  s += meterLoop(24, 38, false);
+  s += tx(18, 136, '电流表串联且不降压；电压表并联且不分流。 · The ideal ammeter adds no series drop; the ideal voltmeter draws no current.', { fs: 7.4, it: false, c: 'm' });
+  s += tx(214, 16, 'B 实际电表 · real meters', { it: false, fs: 9, c: 'f' });
+  s += meterLoop(220, 38, true);
+  s += tx(214, 136, '有限 R_A 串联分压，有限 R_V 并联分流：读数偏离真实值。 · Finite R_A drops voltage; finite R_V shunts current; readings differ from the undisturbed values.', { fs: 7.4, it: false, c: 'm' });
+  s += tx(18, 168, '负载效应 · loading:', { it: false, fs: 9 });
+  s += tx(18, 184, 'V_meas = V_true − I R_A', { fs: 9, it: false });
+  s += tx(18, 200, 'I_meas = I_true − V ÷ R_V', { fs: 9, it: false });
+  s += tx(18, 222, '测量时尽量使 R_A → 0、R_V → ∞。 · Design meters so R_A is small and R_V is large.', { fs: 8, it: false, c: 'm' });
+  s += tx(18, 242, 'Ideal meters do not change the circuit they measure.', { fs: 7.2, it: false, c: 'm' });
+  return s;
+});
+def('em-u11-capacitor-network-island', '串联浮置岛与并联电容网络 · Series floating island and parallel capacitor network', 'C_{\\mathrm{series}}=\\left(\\sum\\dfrac{1}{C_i}\\right)^{-1},\\qquad C_{\\mathrm{parallel}}=\\sum C_i', () => {
+  let s = tx(16, 14, 'A 串联 · series', { it: false, fs: 8.6, c: 'v' });
+  s += ln(28, 54, 64, 54, { w: 1.4 }) + capacitor(64, 54, 104, 54, 'C₁') + ln(104, 54, 112, 54, { w: 1.4 });
+  s += ln(160, 54, 168, 54, { w: 1.4 }) + capacitor(168, 54, 208, 54, 'C₂') + ln(208, 54, 244, 54, { w: 1.4 });
+  s += rect(104, 38, 64, 30, { c: 'v', w: 1.1, dash: '4 3', fill: COL.v, op: 0.08 });
+  s += tx(116, 34, '+Q', { fs: 7.4, c: 'f' }) + tx(154, 34, '−Q', { fs: 7.4, c: 'E' });
+  s += tx(136, 80, '岛净电荷 = 0 · island net zero', { anchor: 'middle', fs: 7.2, it: false, c: 'v' });
+  s += tx(28, 100, 'Q 相同；V 按 1/C 分配。 · Same Q; V divides as 1/C.', { fs: 7.4, it: false, c: 'm' });
+  s += tx(28, 116, 'C_eq < C_min · series limit', { fs: 7, it: false, c: 'm' });
+
+  s += tx(252, 14, 'B 并联 · parallel', { it: false, fs: 8.6, c: 'E' });
+  s += ln(252, 54, 384, 54, { w: 1.4 }) + ln(252, 116, 384, 116, { w: 1.4 });
+  s += capacitor(300, 54, 300, 116, 'C₁') + capacitor(356, 54, 356, 116, 'C₂');
+  s += tx(252, 76, 'V₁ = V₂ = V', { fs: 7.4, it: false, c: 'E' });
+  s += tx(252, 92, 'Q₁ = C₁V', { fs: 7.2, it: false });
+  s += tx(252, 106, 'Q₂ = C₂V', { fs: 7.2, it: false });
+  s += tx(252, 136, 'Q_total = Q₁ + Q₂', { fs: 7.4, it: false, c: 'm' });
+  s += tx(252, 150, 'C_eq > C_max · parallel limit', { fs: 7, it: false, c: 'm' });
+
+  const g1 = graph(38, 184, 130, 58, { fns: [{ f: (x) => x, c: 'v' }], t1: 1, ymin: 0, ymax: 1.2, xl: '1/C_i', yl: 'V_i' });
+  const g2 = graph(242, 184, 130, 58, { fns: [{ f: (x) => x, c: 'E' }], t1: 1, ymin: 0, ymax: 1.2, xl: 'C_i', yl: 'Q_i' });
+  s += tx(28, 170, 'C 串联分压 · V_i ∝ 1/C_i', { fs: 7.4, it: false, c: 'v' });
+  s += tx(232, 170, 'D 并联分流 · Q_i ∝ C_i', { fs: 7.4, it: false, c: 'E' });
+  s += g1.s + g2.s;
+  return s;
+});
+def('em-u12-compass-dipole-alignment', '磁偶极在磁场中趋向对齐 · Magnetic dipole aligning with a magnetic field', '\\vec\\tau=\\vec\\mu\\times\\vec B,\\qquad U=-\\mu B\\cos\\theta', () => {
+  const cx = 112, cy = 126, r = 56;
+  let s = circ(cx, cy, r, { w: 1.4 });
+  for (let y = 74; y <= 178; y += 26) s += arr(24, y, 60, y, 'B', 1.4) + arr(164, y, 200, y, 'B', 1.4);
+  s += tx(206, 120, 'B', { fs: 12, c: 'B' });
+  const [nx, ny] = pt(cx, cy, r - 6, 32);
+  s += arr(cx, cy, nx, ny, 'f', 3) + tx(nx + 8, ny - 4, 'μ', { fs: 12, c: 'f' });
+  s += circ(cx, cy, 4, { fill: COL.g });
+  s += arc(cx, cy, 34, 2, 32, { c: 'v', w: 2, me: 'v' }) + tx(cx + 48, cy - 30, 'τ', { fs: 11, c: 'v' });
+  s += tx(18, 210, 'θ = 0：稳定平衡，U = −μB', { fs: 8.8, it: false, c: 'a' });
+  s += tx(18, 226, 'θ = 180°：不稳定平衡，U = +μB', { fs: 8.8, it: false, c: 'f' });
+  s += tx(18, 244, '阻尼后小磁针沿 B 停下，N 极指向 B。 · Damping settles the needle along B, with N toward B.', { fs: 7.6, it: false, c: 'm' });
+  s += tx(240, 44, '转矩最大：θ = 90°', { fs: 9, it: false, c: 'v' });
+  s += eq(240, 88, ['τ = μB sin θ'], { fs: 10.5 });
+  s += eq(240, 132, ['U = −μB cos θ'], { fs: 10.5 });
+  s += tx(240, 174, '稳定 · stable', { fs: 8.4, it: false, c: 'a' }) + arr(300, 184, 300, 204, 'B', 1.2) + tx(306, 198, 'B', { fs: 8, c: 'B' });
+  s += tx(240, 224, '不稳定 · unstable', { fs: 8.4, it: false, c: 'f' }) + arr(300, 234, 300, 214, 'v', 1.2) + tx(306, 228, 'μ', { fs: 8, c: 'v' });
+  return s;
+});
+def('em-u12-moving-charge-field', '单个运动电荷的磁场 · Magnetic field of a single moving charge', '\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{q\\vec v\\times\\hat r}{r^{2}}', () => {
+  const qx = 92, qy = 142, px = 274, py = 82;
+  let s = arr(qx, qy, qx + 86, qy, 'v', 2.2) + tx(qx + 88, qy + 14, 'v', { fs: 12, c: 'v' });
+  s += circ(qx, qy, 8, { fill: COL.E, c: 'E', op: 0.65 }) + tx(qx, qy + 4, '+q', { anchor: 'middle', fs: 8.4, it: false });
+  s += ln(qx, qy, px, py, { c: 'm', w: 1.2, dash: '4 3' }) + tx((qx + px) / 2 + 4, (qy + py) / 2 - 4, 'r', { fs: 11 });
+  s += arc(qx, qy, 48, 0, 19, { c: 'm', w: 1.1 }) + tx(qx + 52, qy - 10, 'θ', { fs: 10 });
+  s += dotB(px, py, 8, 'B') + tx(px + 12, py - 4, 'B ⊙', { fs: 10, c: 'B' });
+  s += tx(px - 8, py + 24, 'P', { fs: 10 });
+  s += tx(20, 32, 'B ⊥ v 且 B ⊥ r；B 绕速度轴成同心圆。 · B is perpendicular to v and r; field lines circle the velocity axis.', { fs: 8.2, it: false, c: 'B' });
+  s += tx(20, 54, 'θ = 0° 或 180°：B = 0；θ = 90°：B 最大。 · B = 0 on the axis; maximum at 90°.', { fs: 8.2, it: false });
+  s += eq(220, 160, ['B = ', { n: 'μ₀', d: '4π' }, { n: '|q|v sin θ', d: 'r^{2}' }], { fs: 10.5 });
+  s += tx(220, 206, 'r 加倍 → B 变为四分之一', { fs: 8.6, it: false, c: 'a' });
+  s += tx(220, 222, '负电荷 → B 反向', { fs: 8.6, it: false, c: 'f' });
+  s += tx(220, 238, 'v ≪ c 的非相对论近似。 · Nonrelativistic limit v ≪ c.', { fs: 7.4, it: false, c: 'm' });
+  return s;
+});
+def('em-u12-current-element-circles', '电流元周围的同心圆磁场 · Concentric magnetic field around a current element', 'd\\vec B=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,d\\vec\\ell\\times\\hat r}{r^{2}},\\qquad dB=\\dfrac{\\mu_0}{4\\pi}\\dfrac{I\\,d\\ell\\sin\\theta}{r^{2}}', () => {
+  const cx = 120, cy = 126;
+  let s = dotB(cx, cy, 9, 'I') + tx(cx, cy + 28, 'I dℓ ⊙', { anchor: 'middle', fs: 9, c: 'I' });
+  for (const r of [34, 58, 82]) {
+    s += circ(cx, cy, r, { c: 'B', w: 1.3 });
+    for (const a of [35, 215]) s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, a + 12), 'B', 1.4);
+  }
+  const [px, py] = pt(cx, cy, 58, 40);
+  s += ln(cx, cy, px, py, { c: 'm', w: 1, dash: '3 3' }) + tx(px - 18, py + 18, 'r', { fs: 10 });
+  s += tx(px + 10, py - 10, 'dB', { fs: 9.5, c: 'B' });
+  s += tx(20, 30, '场线与圆相切：无径向、无沿导线分量。 · Field vectors are tangent: no radial or along-wire component.', { fs: 8, it: false, c: 'B' });
+  s += tx(20, 48, '轴线上 dB = 0。 · On the element axis, dB = 0.', { fs: 8, it: false });
+  s += eq(220, 92, ['dB = ', { n: 'μ₀', d: '4π' }, { n: 'I dℓ sin θ', d: 'r^{2}' }], { fs: 10 });
+  s += tx(220, 144, 'θ = 90°：dB 最大', { fs: 8.4, it: false, c: 'a' });
+  s += tx(220, 160, '电流反向 → dB 反向', { fs: 8.4, it: false, c: 'f' });
+  s += tx(220, 176, '圆以导线为中心', { fs: 8.4, it: false });
+  s += tx(220, 198, '轴线特例 · axis case:', { fs: 8.2, it: false, c: 'm' });
+  s += ln(300, 214, 300, 244, { w: 2.2 }) + tx(308, 232, 'dB = 0', { fs: 8.4, it: false, c: 'm' });
+  s += tx(220, 252, 'Current element along the z axis; field circles close around it.', { fs: 7, it: false, c: 'm' });
+  return s;
+});
+def('em-u12-parallel-wire-superposition', '平行双导线磁场叠加 · Superposition of fields from two parallel wires', '\\vec B_{\\mathrm{net}}=\\vec B_1+\\vec B_2,\\qquad B_i=\\dfrac{\\mu_0I_i}{2\\pi r_i}', () => {
+  const wires = (y0, opposite) => {
+    let o = tx(20, y0 - 22, opposite ? '反向电流 · opposite currents' : '同向电流 · same-direction currents', { it: false, fs: 8.6, c: opposite ? 'f' : 'a' });
+    o += dotB(96, y0, 7, 'I') + (opposite ? crossB(286, y0, 7, 'I') : dotB(286, y0, 7, 'I'));
+    o += ln(40, y0, 78, y0, { c: 'I', w: 1.6 }) + ln(314, y0, 352, y0, { c: 'I', w: 1.6 });
+    o += tx(96, y0 + 22, 'I₁', { anchor: 'middle', fs: 8.4, c: 'I' }) + tx(286, y0 + 22, 'I₂', { anchor: 'middle', fs: 8.4, c: 'I' });
+    o += ln(96, y0, 286, y0, { c: 'm', w: 0.9, dash: '3 3' }) + tx(191, y0 - 6, 'd', { anchor: 'middle', fs: 8.4 });
+    if (!opposite) {
+      o += arr(178, y0 - 26, 178, y0 - 2, 'B', 1.6) + arr(204, y0 - 2, 204, y0 - 26, 'B', 1.6);
+      o += tx(191, y0 - 38, 'B₁ + B₂ = 0', { anchor: 'middle', fs: 8.2, it: false, c: 'B' });
+      o += arr(40, y0 - 26, 40, y0 - 2, 'B', 1.5) + arr(52, y0 + 8, 52, y0 + 32, 'B', 1.5);
+      o += tx(46, y0 + 46, '外侧增强', { anchor: 'middle', fs: 7.6, it: false });
+    } else {
+      o += arr(178, y0 - 26, 178, y0 - 2, 'B', 1.6) + arr(204, y0 - 2, 204, y0 - 26, 'B', 1.6);
+      o += tx(191, y0 - 38, '中间增强', { anchor: 'middle', fs: 8.2, it: false, c: 'B' });
+      o += arr(40, y0 - 26, 40, y0 - 2, 'B', 1.5) + arr(52, y0 + 8, 52, y0 + 32, 'B', 1.5);
+      o += tx(46, y0 + 46, '外侧可能为零', { anchor: 'middle', fs: 7.6, it: false });
+    }
+    return o;
+  };
+  let s = wires(70, false) + wires(184, true);
+  s += tx(20, 246, '同向：中间相消、外侧增强；反向：中间增强、外侧相消。 · Same direction: cancel between, add outside; opposite: add between, cancel outside.', { fs: 7.4, it: false, c: 'm' });
+  return s;
+});
+def('em-u12-two-wire-zero-point', '双导线磁场零点 · Zero-field point of two parallel wires', '\\dfrac{I_1}{r_1}=\\dfrac{I_2}{r_2}\\quad\\Longrightarrow\\quad B_{\\mathrm{net}}=0', () => {
+  const row = (y0, opposite) => {
+    let o = tx(20, y0 - 26, opposite ? '反向：零点在较小电流外侧 · opposite: outside the smaller current' : '同向：零点在两线之间 · same direction: between the wires', { it: false, fs: 8.2, c: opposite ? 'f' : 'a' });
+    o += ln(46, y0, 354, y0, { w: 1.2 });
+    o += dotB(132, y0, 7, 'I') + (opposite ? crossB(282, y0, 7, 'I') : dotB(282, y0, 7, 'I'));
+    o += tx(132, y0 + 20, 'I₁', { anchor: 'middle', fs: 8, c: 'I' }) + tx(282, y0 + 20, 'I₂', { anchor: 'middle', fs: 8, c: 'I' });
+    o += ln(132, y0, 282, y0, { c: 'm', w: 0.9, dash: '3 3' }) + tx(207, y0 - 6, 'd', { anchor: 'middle', fs: 8 });
+    const zx = opposite ? 58 : 207;
+    o += circ(zx, y0, 7, { fill: COL.a, c: 'a', op: 0.4 }) + tx(zx, y0 + 24, 'B = 0', { anchor: 'middle', fs: 8, c: 'a' });
+    if (!opposite) {
+      o += tx(169, y0 - 6, 'r₁', { fs: 7.4, c: 'm', anchor: 'middle' }) + tx(245, y0 - 6, 'r₂', { fs: 7.4, c: 'm', anchor: 'middle' });
+    } else {
+      o += tx(95, y0 - 6, 'r₁', { fs: 7.4, c: 'm', anchor: 'middle' }) + tx(170, y0 - 6, 'r₂', { fs: 7.4, c: 'm', anchor: 'middle' });
+    }
+    return o;
+  };
+  let s = row(68, false) + row(186, true);
+  s += tx(20, 244, '零点：I₁ ÷ r₁ = I₂ ÷ r₂；反向电流无中间零点。', { fs: 7.4, it: false, c: 'm' });
+  return s;
+});
+
+def('em-u13-induced-e-changing-b', '变化磁场诱导的环形电场 · Induced circular electric field from a changing magnetic field', '\\oint\\vec E\\cdot d\\vec l=-\\dfrac{d\\Phi_B}{dt},\\qquad E(r)=\\dfrac{r}{2}\\left|\\dfrac{dB}{dt}\\right|\\;(r\\le R)', () => {
+  const cx = 112, cy = 126, R = 72;
+  let s = circ(cx, cy, R, { fill: COL.B, op: 0.08, c: 'B', w: 1.4 });
+  for (let x = cx - 56; x <= cx + 56; x += 28) for (let y = cy - 56; y <= cy + 56; y += 28) {
+    if ((x - cx) ** 2 + (y - cy) ** 2 < (R - 8) ** 2) s += crossB(x, y, 3.4);
+  }
+  for (const r of [30, 50, 70]) {
+    s += circ(cx, cy, r, { c: 'E', w: 1.5 });
+    for (const a of [20, 140, 260]) s += arr(...pt(cx, cy, r, a), ...pt(cx, cy, r, a + 14), 'E', 1.6);
+  }
+  s += tx(cx, cy - R - 10, 'B ⊗ 增大 · increasing', { anchor: 'middle', fs: 8.6, it: false, c: 'B' });
+  s += tx(cx, cy + R + 18, 'E 逆时针 · CCW', { anchor: 'middle', fs: 8.6, it: false, c: 'E' });
+  s += tx(20, 24, '即使没有导线，变化磁场也在空间产生感应电场。 · A changing B produces E even with no wire present.', { fs: 7.8, it: false, c: 'm' });
+  const g = graph(232, 52, 136, 104, { fns: [{ f: (x) => (x <= 0.7 ? x / 0.7 : 0.7 / x), c: 'E' }], t1: 1.6, ymin: 0, ymax: 1.2, xl: 'r', yl: 'E', vmarks: [{ t: 0.7, label: 'R' }] });
+  s += g.s;
+  s += tx(232, 174, '内部线性 · linear inside', { fs: 7.8, it: false, c: 'E' });
+  s += tx(232, 190, '外部按 1 ÷ r · 1/r outside', { fs: 7.8, it: false, c: 'E' });
+  s += eq(232, 218, ['E = ', { n: 'R^{2}', d: '2r' }, '|dB/dt|'], { fs: 9.4 });
+  s += eq(232, 242, ['E = ', { n: 'r', d: '2' }, '|dB/dt|'], { fs: 9.4 });
+  return s;
+});
+def('em-u13-static-vs-induced-e', '静电场与感应电场的比较 · Electrostatic versus induced electric fields', '\\oint\\vec E_{\\mathrm{static}}\\cdot d\\vec l=0,\\qquad \\oint\\vec E_{\\mathrm{induced}}\\cdot d\\vec l=-\\dfrac{d\\Phi_B}{dt}', () => {
+  let s = tx(18, 16, '静电场 · electrostatic', { it: false, fs: 9, c: 'f' });
+  s += circ(56, 76, 7, { fill: COL.f, c: 'f', op: 0.6 }) + tx(56, 79, '+', { anchor: 'middle', fs: 8, it: false });
+  s += circ(136, 76, 7, { fill: COL.E, c: 'E', op: 0.6 }) + tx(136, 79, '−', { anchor: 'middle', fs: 8, it: false });
+  for (const y of [62, 76, 90]) {
+    s += pathD(`M62,${y} C80,${y - 12} 112,${y - 12} 130,${y}`, { c: 'f', w: 1.2, me: 'f' });
+  }
+  s += tx(18, 110, '场线起于 +、止于 −', { fs: 7.8, it: false });
+  s += tx(18, 126, '∮E·dl = 0；有标量势 V。', { fs: 7.8, it: false, c: 'a' });
+  s += circ(100, 152, 26, { c: 'v', w: 1.2, dash: '3 3' }) + tx(100, 156, 'closed', { anchor: 'middle', fs: 6.8, it: false, c: 'v' });
+  s += tx(206, 16, '感应电场 · induced', { it: false, fs: 9, c: 'B' });
+  s += circ(286, 78, 42, { fill: COL.B, op: 0.08, c: 'B', w: 1.3 });
+  for (const x of [262, 286, 310]) for (const y of [58, 78, 98]) s += crossB(x, y, 3.2);
+  for (const r of [24, 38]) {
+    s += circ(286, 78, r, { c: 'E', w: 1.3 });
+    for (const a of [30, 150, 270]) s += arr(...pt(286, 78, r, a), ...pt(286, 78, r, a + 16), 'E', 1.4);
+  }
+  s += tx(206, 130, '场线闭合，无起点终点', { fs: 7.8, it: false });
+  s += tx(206, 146, '∮E·dl = −dΦ_B/dt ≠ 0', { fs: 7.8, it: false, c: 'B' });
+  s += tx(206, 162, '无全局标量势 · nonconservative', { fs: 7.8, it: false, c: 'B' });
+  s += tx(18, 188, '比较 · comparison', { it: false, fs: 8.6 });
+  s += tx(18, 204, '源：电荷 vs 变化磁场 · source: charge vs changing B', { fs: 7.4, it: false });
+  s += tx(18, 218, '场线：起止 vs 闭合 · topology: start/end vs closed', { fs: 7.4, it: false });
+  s += tx(18, 232, '绕闭合路径做功：0 vs qε · work around loop: 0 vs qε', { fs: 7.4, it: false });
+  s += tx(18, 246, '电势：存在 vs 不存在 · potential: exists vs none', { fs: 7.4, it: false });
+  return s;
+});
+
 /* ======================= openly licensed reference media ======================= */
 defImg('atwood-apparatus', '阿特伍德机装置图（参考） · Atwood machine apparatus (reference)', 'a=\\dfrac{(m_2-m_1)g}{m_1+m_2}', 'modules/physics/media/atwood-machine.svg', 'MikeRun / Wikimedia Commons / CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Atwood-machine.svg');
 defImg('pendulum-apparatus', '单摆装置图（参考） · Simple pendulum apparatus (reference)', 'T=2\\pi\\sqrt{\\dfrac{L}{g}}', 'modules/physics/media/simple-pendulum.svg', 'Chetvorno / Wikimedia Commons / Public domain', 'https://commons.wikimedia.org/wiki/File:Simple_gravity_pendulum.svg');
@@ -3551,6 +3894,7 @@ export const TOPIC_FIGURES = {
   'em/em-u10/10.4': ['capacitor-dielectric', 'capacitor-dielectric-partial', 'capacitor-energy'],
   'em/em-u10/10.5': ['contact-spheres', 'charging-by-grounding', 'ground-reservoir', 'gauss-conductor'],
   'em/em-u10/10.6': ['conductor-polarization', 'equilibrium-time', 'gauss-conductor', 'gauss-shell'],
+  'em/em-u10/10.7': ['em-ppc-field-superposition', 'em-ppc-charging-work', 'em-ppc-fringing', 'em-ppc-geometry', 'em-ppc-dielectric-insert', 'capacitor-plate', 'capacitor-dielectric', 'capacitor-energy'],
   'em/em-u11/11.1': ['circuit-series'],
   'em/em-u11/11.2': ['circuit-series', 'circuit-parallel', 'circuit-equivalent', 'ammeter-voltmeter'],
   'em/em-u11/11.3': ['circuit-series', 'circuit-parallel', 'ohmic-nonohmic'],
@@ -3560,21 +3904,25 @@ export const TOPIC_FIGURES = {
   'em/em-u11/11.7': ['circuit-kirchhoff', 'circuit-parallel', 'kirchhoff-junction'],
   'em/em-u11/11.8': ['rc-circuit', 'rc-charging', 'rc-discharging', 'rc-energy'],
   'em/em-u11/11.9': ['current-density-annulus', 'circuit-series'],
+  'em/em-u11/11.10': ['em-u11-circuit-topology', 'em-u11-meter-loading', 'circuit-series', 'circuit-parallel', 'circuit-equivalent', 'ammeter-voltmeter', 'circuit-kirchhoff'],
+  'em/em-u11/11.11': ['em-u11-capacitor-network-island', 'capacitor-combinations', 'capacitor-plate', 'capacitor-energy'],
   'em/em-u12/12.1': ['wire-field', 'loop-field', 'solenoid-field'],
   'em/em-u12/12.2': ['particle-in-B', 'magnetic-force-rhr', 'cathode-ray-tube', 'velocity-selector', 'mass-spectrometer'],
   'em/em-u12/12.3': ['wire-field', 'loop-field', 'biot-savart'],
   'em/em-u12/12.4': ['ampere-wire', 'ampere-thick-wire', 'solenoid-field', 'line-charge'],
-  'em/em-u12/12.5': ['current-loop-dipole', 'loop-field', 'solenoid-field'],
+  'em/em-u12/12.5': ['em-u12-compass-dipole-alignment', 'current-loop-dipole', 'loop-field', 'solenoid-field'],
   'em/em-u12/12.6': ['wire-field', 'solenoid-field', 'ampere-wire', 'bh-curve', 'magnetic-force-rhr', 'permeability-temperature'],
+  'em/em-u12/12.7': ['em-u12-moving-charge-field', 'magnetic-force-rhr', 'wire-field', 'solenoid-field'],
   'em/em-u12/12.8': ['velocity-selector', 'hall-effect-polarity', 'particle-in-B', 'crossed-field-deflection'],
-  'em/em-u12/12.9': ['loop-field', 'biot-savart', 'arc-field', 'finite-wire-field'],
+  'em/em-u12/12.9': ['em-u12-current-element-circles', 'loop-field', 'biot-savart', 'arc-field', 'finite-wire-field'],
+  'em/em-u12/12.10': ['em-u12-parallel-wire-superposition', 'em-u12-two-wire-zero-point', 'wire-field', 'ampere-wire'],
   'em/em-u13/13.1': ['faraday-changing-B', 'magnetic-flux-angle'],
   'em/em-u13/13.2': ['faraday-rod', 'faraday-changing-B', 'flux-emf-graph'],
   'em/em-u13/13.3': ['faraday-rod', 'particle-in-B', 'magnetic-force-rhr', 'loop-entering-leaving-field'],
   'em/em-u13/13.4': ['rl-circuit', 'lc-circuit', 'inductor-energy'],
   'em/em-u13/13.5': ['rl-circuit', 'inductor-energy'],
   'em/em-u13/13.6': ['lc-circuit', 'lc-energy'],
-  'em/em-u13/13.7': ['displacement-current', 'em-wave-eb-triad', 'faraday-changing-B', 'em-wave-profile'],
+  'em/em-u13/13.7': ['em-u13-induced-e-changing-b', 'em-u13-static-vs-induced-e', 'displacement-current', 'em-wave-eb-triad', 'faraday-changing-B', 'em-wave-profile'],
 };
 
 /** Resolve figure ids for a topic object or topic id string. */
