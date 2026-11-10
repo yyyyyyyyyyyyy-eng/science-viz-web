@@ -690,7 +690,7 @@ export const TOPICS = {
       },
       {
         "from": "有序对求和 · Ordered-pair sum",
-        "to": "1/2 求和公式 · One-half sum formula",
+        "to": "二分之一求和公式 · One-half sum formula",
         "note": "若对每个 \\(i\\) 都加 \\(q_iV_i\\)，则每一对 \\((i,j)\\) 会被算两次（\\(i\\) 的式子中一次、\\(j\\) 的式子中一次），所以必须乘 \\(\\dfrac12\\)；自能项 \\(i=j\\) 不计。 · If \\(q_iV_i\\) is summed over every \\(i\\), each pair \\((i,j)\\) is counted twice—once in the term for \\(i\\) and once in the term for \\(j\\)—so the sum must be multiplied by \\(\\dfrac12\\); the self term \\(i=j\\) is excluded."
       },
       {
@@ -733,7 +733,7 @@ export const TOPICS = {
       "把 \\(n\\) 个电荷的配对数当成 \\(n(n-1)\\)；正确的配对数只有 \\(\\dfrac{n(n-1)}{2}\\)。 · Taking the number of pairs among \\(n\\) charges as \\(n(n-1)\\); the correct number is \\(\\dfrac{n(n-1)}{2}\\).",
       "认为电场力做正功时电势能增加；实际上 \\(W_{\\mathrm{field}}=-\\Delta U\\)，电场力做正功电势能减少。 · Thinking potential energy increases when the electric force does positive work; actually \\(W_{\\mathrm{field}}=-\\Delta U\\), so positive field work decreases potential energy.",
       "认为沿不同路径移动电荷电势能变化不同；静电场保守，结果与路径无关。 · Thinking different paths give different potential-energy changes; the electrostatic field is conservative, so the result is path-independent.",
-      "认为电势为零处电场一定为零；\\(V=0\\) 只是各贡献的代数和为零，电场是斜率或梯度，可能不为零。 · Thinking the field must be zero where the potential is zero; \\(V=0\\) only means the algebraic sum of contributions vanishes, while the field is a slope/gradient and may be nonzero.",
+      "认为电势为零处电场一定为零；\\(V=0\\) 只是各贡献的代数和为零，电场是斜率或梯度，可能不为零。 · Thinking the field must be zero where the potential is zero; \\(V=0\\) only means the algebraic sum of contributions vanishes, while the field is a slope or gradient and may be nonzero.",
       "把电势能与电势混淆；电势是单位电荷的势能，电势能还要乘电荷量并带符号。 · Confusing potential energy with potential; potential is energy per unit charge, while potential energy also includes the charge magnitude and sign.",
       "认为零势能点只能取无穷远；可以另选，但同一题中必须保持一致。 · Thinking the zero of potential energy must be at infinity; another choice is allowed but must be consistent within a problem."
     ],
