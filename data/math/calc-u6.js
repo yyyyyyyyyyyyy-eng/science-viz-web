@@ -18,160 +18,252 @@ export const TOPICS = {
     "titleZh": "累积变化探查",
     "titleEn": "Exploring Accumulations of Change",
     "layer": "ap",
-    "summary": "累积变化探查 · Exploring Accumulations of Change",
+    "summary": "变化率图像与横轴之间的面积给出累积变化；可用几何求值、由符号判断累积的正负，并按“变化率单位 × 自变量单位”报告单位。 · The area between a rate-of-change graph and the horizontal axis gives the accumulation of change; evaluate it with geometry, read its sign from the rate, and report units as the rate unit times the independent-variable unit.",
     "learningObjectives": [
-      "能陈述「累积变化探查」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能说明变化率图像与横轴之间的面积在具体情境中代表什么累积量（位移、体积、人口等）。 · Explain what the area between a rate-of-change graph and the horizontal axis represents in context (displacement, volume, population, and so on).",
+      "能把累积量写成定积分 \\(\\displaystyle\\int_a^b r(t)\\,\\mathrm{d}t\\) 或累积函数 \\(A(x)=\\displaystyle\\int_a^x r(t)\\,\\mathrm{d}t\\)，并解释上下限的含义。 · Write an accumulation as a definite integral or an accumulation function, and explain the meaning of the limits.",
+      "能在变化率为分段常值或分段线性时，用矩形、三角形、梯形等几何面积求累积量。 · Evaluate accumulations with rectangle, triangle, and trapezoid areas when the rate is piecewise constant or piecewise linear.",
+      "能由变化率的正负判断累积变化的符号与累积函数的增减，并区分净变化与总变化量。 · Use the sign of a rate to determine the sign of accumulated change and whether the accumulation function increases or decreases, distinguishing net change from total change.",
+      "能按“变化率单位 × 自变量单位”确定并检验累积量的单位（AP 技能 4.B）。 · Determine and check the unit of an accumulation as the rate unit times the independent-variable unit (AP Skill 4.B)."
     ],
     "essentialKnowledge": [
-      "Exploring Accumulations of Change：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「累积变化探查」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "CHA-4.A.1：变化率函数图像与横轴之间区域的面积给出累积变化；横轴上方的面积贡献为正，横轴下方的面积贡献为负。 · CHA-4.A.1: the area of the region between a rate-of-change graph and the horizontal axis gives the accumulation of change; area above the axis contributes positively and area below contributes negatively.",
+      "累积函数 \\(A(x)=\\displaystyle\\int_a^x r(t)\\,\\mathrm{d}t\\) 记录从起点 \\(a\\) 到当前点 \\(x\\) 的带符号累积；区间 \\([a,b]\\) 上的净累积为 \\(A(b)-A(a)=\\displaystyle\\int_a^b r(t)\\,\\mathrm{d}t\\)。 · The accumulation function records the signed accumulation from the starting point to the current point, and the net accumulation on an interval equals the definite integral over that interval.",
+      "CHA-4.A.2：当变化率图像由水平线段、直线段或圆弧等规则图形组成时，累积变化可以用矩形、三角形、梯形或圆的面积公式精确求出，不需要原函数。 · CHA-4.A.2: when the rate graph is built from horizontal segments, line segments, or circular arcs, the accumulation can be evaluated exactly with rectangle, triangle, trapezoid, or circle area formulas, without an antiderivative.",
+      "CHA-4.A.3：若变化率在区间上为正，则该区间上的累积变化为正；若变化率为负，则累积变化为负；正负混合时先分区间计算带符号面积，再相加。 · CHA-4.A.3: if a rate is positive on an interval, the accumulated change on that interval is positive; if the rate is negative, the accumulated change is negative; when signs are mixed, compute signed areas interval by interval and add them.",
+      "变化率的符号还决定累积函数的增减：\\(r(x)>0\\) 时 \\(A'(x)=r(x)>0\\)，\\(A\\) 递增；\\(r(x)<0\\) 时 \\(A\\) 递减；\\(r\\) 由正变负处 \\(A\\) 可能取得局部最大值。 · The sign of the rate also controls the accumulation function: it increases where the rate is positive, decreases where the rate is negative, and can have a local maximum where the rate changes from positive to negative.",
+      "CHA-4.A.4：由变化率定义的区域，其“面积”的单位等于变化率单位乘以自变量单位，例如 \\((\\mathrm{L/min})(\\mathrm{min})=\\mathrm{L}\\)、\\((\\mathrm{m/s})(\\mathrm{s})=\\mathrm{m}\\)、\\((\\mathrm{kg/h})(\\mathrm{h})=\\mathrm{kg}\\)；不要把情境中的累积量单位误写成平方单位。 · CHA-4.A.4: for a region defined by a rate of change, the unit of its “area” is the rate unit multiplied by the independent-variable unit, for example liters per minute times minutes gives liters; do not report the contextual accumulation in square units.",
+      "净变化与总变化量不同：净变化是带符号面积的代数和，总变化量（如总路程、总流量）用 \\(\\displaystyle\\int_a^b |r(t)|\\,\\mathrm{d}t\\) 或各区间绝对值之和计算。 · Net change differs from total change: net change is the algebraic sum of signed areas, while total change (total distance or total flow) uses the integral of the absolute rate or the sum of absolute areas.",
+      "若已知初始量 \\(A(a)\\)，则最终量 \\(A(b)=A(a)+\\displaystyle\\int_a^b r(t)\\,\\mathrm{d}t\\)；定积分只给出改变量，不自动包含初始值。 · Given an initial amount, the final amount equals the initial amount plus the definite integral; the integral itself gives only the change, not the starting value."
     ],
-    "definition": "累积变化探查（Exploring Accumulations of Change）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「累积变化探查」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "设 \\(r(t)\\) 是某量 \\(Q\\) 关于自变量 \\(t\\) 的变化率。则在区间 \\([a,b]\\) 上，\\(Q\\) 的净累积变化为\n\\[\\int_a^b r(t)\\,\\mathrm{d}t=A(b)-A(a),\\]\n其中 \\(A(x)=\\displaystyle\\int_a^x r(t)\\,\\mathrm{d}t\\) 是累积函数。几何上，这个定积分等于 \\(r\\) 的图像与横轴之间带符号的面积：轴上方的面积取正，轴下方的面积取负。 · Let \\(r(t)\\) be the rate of change of a quantity \\(Q\\) with respect to an independent variable \\(t\\). The net accumulation of \\(Q\\) on \\([a,b]\\) is the definite integral shown above, where the accumulation function is defined from the starting point to \\(x\\). Geometrically, the integral is the signed area between the graph of \\(r\\) and the horizontal axis: area above the axis is positive and area below is negative.",
+    "intuition": "把变化率想成“每单位自变量增加多少”，把面积想成“把这些小增量一块块累加”。正的变化率往上加，负的变化率往下减。 · Think of a rate as “how much is added per unit of input” and area as “adding up those small increments.” A positive rate adds upward, while a negative rate subtracts downward.",
+    "intuitionDetailed": "把横轴切成许多很窄的小段，每段宽度为 \\(\\Delta t\\)。在每一小段上，变化率近似为常数，贡献约为 \\(r(t)\\,\\Delta t\\)，它的单位正是“变化率单位 × 自变量单位”。把所有带符号的小贡献相加并取极限，就得到定积分；若图像由矩形、三角形或梯形组成，这些小贡献可以直接用几何面积精确求和。 · Slice the horizontal axis into narrow intervals of width \\(\\Delta t\\). On each interval the rate is approximately constant, so the contribution is approximately the rate times the width, with units of rate times input. Adding all signed contributions and taking the limit gives the definite integral; when the graph is made of rectangles, triangles, or trapezoids, the same contributions can be summed exactly with geometry.",
     "formulas": [
       {
-        "latex": "A(x)=\\int_a^x f(t)\\,\\mathrm{d}t,\\quad A'(x)=f(x)",
-        "note": "微积分基本定理：累积函数的导数是原函数。"
+        "latex": "A(x)=\\int_a^x r(t)\\,\\mathrm{d}t,\\quad A'(x)=r(x)",
+        "note": "累积函数及其导数：累积的瞬时增长率就是变化率。 · The accumulation function and its derivative: the instantaneous growth rate of the accumulation is the rate itself."
+      },
+      {
+        "latex": "\\int_a^b r(t)\\,\\mathrm{d}t=A(b)-A(a)",
+        "note": "区间上的净累积等于累积函数的净变化。 · The net accumulation on an interval equals the net change of the accumulation function."
+      },
+      {
+        "latex": "\\int_a^b r(t)\\,\\mathrm{d}t=S_{\\mathrm{above}}-S_{\\mathrm{below}}",
+        "note": "带符号面积：轴上方面积减轴下方面积（\\(S\\) 表示几何面积）。 · Signed area: area above the axis minus area below the axis, where \\(S\\) denotes geometric area."
+      },
+      {
+        "latex": "\\mathrm{unit}\\!\\left(\\int_a^b r(t)\\,\\mathrm{d}t\\right)=\\mathrm{unit}(r)\\cdot\\mathrm{unit}(t)",
+        "note": "单位规则：累积量单位 = 变化率单位 × 自变量单位（AP 技能 4.B）。 · Unit rule: the unit of the accumulation is the unit of the rate times the unit of the independent variable (AP Skill 4.B)."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「累积变化探查」的工作方程或机制链。"
+        "from": "分割区间 · Partition the interval",
+        "to": "小条贡献 · Strip contributions",
+        "note": "把 \\([a,b]\\) 分成宽度 \\(\\Delta t\\) 的小段；每段贡献约为 \\(r(t_i^*)\\,\\Delta t\\)，单位随之相乘。 · Divide the interval into strips of width \\(\\Delta t\\); each contributes approximately the rate times the width, and the units multiply."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "小条贡献 · Strip contributions",
+        "to": "黎曼和 · Riemann sum",
+        "note": "把所有小条按位置相加，得到 \\(\\displaystyle\\sum_i r(t_i^*)\\,\\Delta t\\)，正负号自动由 \\(r\\) 的符号决定。 · Add all strips to obtain the Riemann sum; the sign of each term is carried by the rate."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "黎曼和 · Riemann sum",
+        "to": "定积分与面积 · Definite integral and area",
+        "note": "令最大步长趋于零，黎曼和收敛为定积分，也就是带符号面积。 · Let the largest step size go to zero; the Riemann sum converges to the definite integral, the signed area."
+      },
+      {
+        "from": "定积分 · Definite integral",
+        "to": "几何求值 · Geometric evaluation",
+        "note": "若图像由矩形、三角形、梯形等组成，可用面积公式精确计算各区间的带符号贡献。 · If the graph is made of rectangles, triangles, trapezoids, and similar shapes, use their area formulas to compute each signed contribution exactly."
+      },
+      {
+        "from": "带符号面积 · Signed area",
+        "to": "情境结论 · Contextual conclusion",
+        "note": "按题目情境把面积解释为位移、体积、人口等，并用“变化率单位 × 自变量单位”报告结果。 · Interpret the area as displacement, volume, population, and so on, then report the result with units of rate times input."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "变化率 \\(r(t)\\) 在积分区间上连续；若只有有限个跳跃或分段定义，则需分段积分后再相加。 · The rate should be continuous on the interval; if it has finitely many jumps or is defined piecewise, integrate piece by piece and add the results.",
+      "横轴表示自变量、纵轴表示变化率；只有在这种“变化率–自变量”图中，面积才直接解释为累积量。 · The horizontal axis must be the independent variable and the vertical axis the rate; only in such a rate-versus-input graph does area directly represent accumulation.",
+      "横轴上方的面积按正贡献、下方的面积按负贡献处理；求净变化时不能把所有几何面积都取正。 · Treat area above the axis as positive and area below as negative; do not take every geometric area as positive when finding net change.",
+      "几何面积公式只适用于边界由直线段、水平线段或圆弧等规则图形组成的区域；曲线的一般情形需要定积分或数值方法。 · Geometric area formulas apply only when the region is bounded by line segments, horizontal segments, or circular arcs; a general curve requires a definite integral or a numerical method.",
+      "使用几何面积前要统一自变量单位（如 min 与 h 不能直接混用），再让面积数值带上乘积单位。 · Before using a geometric area, convert the input to one unit (do not mix minutes and hours), then attach the product unit to the numerical area.",
+      "定积分给出的是改变量；若要求最终量，必须另加初始值 \\(A(a)\\)。 · A definite integral gives a change; to find a final amount, add the initial value separately."
     ],
     "keyPoints": [
-      "掌握 6.1「累积变化探查」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "面积的意义由坐标轴决定：变化率–自变量图的面积是累积量，不是普通的平面面积。 · The meaning of area is set by the axes: area on a rate-versus-input graph is an accumulation, not ordinary planar area.",
+      "轴上面积正、轴下面积负；净变化是带符号面积之和，总变化量用绝对值。 · Area above the axis is positive and area below is negative; net change is the signed sum, while total change uses absolute values.",
+      "变化率为正（负）时，累积变化为正（负）；累积函数在 \\(r>0\\) 时递增、在 \\(r<0\\) 时递减。 · A positive rate produces positive accumulated change and a negative rate produces negative accumulated change; the accumulation function increases where the rate is positive and decreases where it is negative.",
+      "分段常值或分段线性的变化率可用矩形、三角形、梯形面积精确求累积。 · Piecewise constant or piecewise linear rates allow exact accumulations from rectangle, triangle, and trapezoid areas.",
+      "累积量单位 = 变化率单位 × 自变量单位；先换算单位再计算。 · The unit of accumulation is the rate unit times the input unit; convert units before computing.",
+      "最终量 = 初始量 + 净累积；不要漏掉初始条件。 · Final amount equals initial amount plus net accumulation; do not omit the initial condition."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「累积变化探查」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "把所有面积都当作正数，导致净变化算成总变化量。 · Treating every area as positive and thereby confusing net change with total change.",
+      "把情境中的累积量单位写成“平方单位”，忘记面积单位应为变化率单位乘自变量单位。 · Reporting square units for a contextual accumulation instead of the product of the rate unit and the input unit.",
+      "忽略横轴下方的面积应取负号，尤其在速度由正变负或变化率穿过零点时。 · Forgetting that area below the axis is negative, especially when a velocity or rate crosses zero.",
+      "曲线不是分段直线或圆弧时仍直接套用三角形、矩形面积公式。 · Applying triangle or rectangle formulas directly when the graph is not made of line segments or circular arcs.",
+      "把定积分 \\(\\displaystyle\\int_a^b r(t)\\,\\mathrm{d}t\\) 当成最终量，忘记加上初始值 \\(A(a)\\)。 · Treating the definite integral as the final amount and forgetting to add the initial value.",
+      "看到“面积为正”就断定变化率处处为正；实际上正面积可能来自负变化率区间取绝对值。 · Assuming a positive area means the rate is positive everywhere; a positive total can come from taking absolute values of negative-rate intervals.",
+      "单位未统一就相乘，例如把“L/min”直接乘以以小时为单位的时间。 · Multiplying without converting units, such as multiplying liters per minute by a time measured in hours.",
+      "把累积函数的增减与函数值正负混淆：\\(A\\) 递增只说明 \\(A'>0\\)，不说明 \\(A\\) 本身为正。 · Confusing the increase of an accumulation function with the sign of its value: an increasing accumulation can still be negative."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「累积变化探查」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 恒定速率与单位 · Example 1 · Constant rate and units",
+        "prompt": "水以 \\(r(t)=4.5\\) L/min 的恒定速率流入水箱，持续 8 min。求这段时间的累积进水量，并说明单位。 · Water flows into a tank at the constant rate \\(r(t)=4.5\\) L/min for 8 min. Find the accumulated volume and explain the unit.",
+        "steps": [
+          "累积量等于定积分 \\(\\displaystyle\\int_0^8 4.5\\,\\mathrm{d}t=4.5(8)=36\\)。 · The accumulation is the definite integral shown, which equals 36.",
+          "单位相乘：\\((\\mathrm{L/min})(\\mathrm{min})=\\mathrm{L}\\)。 · Multiply the units: liters per minute times minutes gives liters."
+        ],
+        "solution": "累积进水量为 36 L。 · The accumulated volume is 36 L.",
+        "solutionLatex": "\\int_0^8 4.5\\,\\mathrm{d}t=36\\ \\mathrm{L}"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)"
+        "title": "例 2 · 几何面积、位移与总路程 · Example 2 · Geometric areas, displacement, and total distance",
+        "prompt": "某质点的速度 \\(v(t)\\)（m/s）为：\\(0\\le t\\le3\\) 时 \\(v=2\\)；\\(3\\le t\\le5\\) 时从 2 线性降到 \\(-2\\)；\\(5\\le t\\le6\\) 时 \\(v=-2\\)。求 0 到 6 s 的位移与总路程。 · A particle has velocity \\(v(t)\\) in m/s: it is 2 on \\([0,3]\\), decreases linearly from 2 to \\(-2\\) on \\([3,5]\\), and is \\(-2\\) on \\([5,6]\\). Find the displacement and total distance from 0 to 6 s.",
+        "steps": [
+          "图像在 \\(t=4\\) 处穿过横轴。各区间的带符号面积：\\([0,3]\\) 矩形 \\(2(3)=6\\)；\\([3,4]\\) 三角形 \\(\\dfrac{1}{2}(1)(2)=1\\)；\\([4,5]\\) 三角形 \\(-\\dfrac{1}{2}(1)(2)=-1\\)；\\([5,6]\\) 矩形 \\((-2)(1)=-2\\)（单位均为 m）。 · The graph crosses the axis at \\(t=4\\). The signed areas are the rectangle 6, the positive triangle 1, the negative triangle \\(-1\\), and the negative rectangle \\(-2\\), all in meters.",
+          "位移 \\(=6+1-1-2=4\\) m；总路程 \\(=6+1+1+2=10\\) m。 · Displacement is the signed sum, 4 m; total distance uses the absolute areas and equals 10 m."
+        ],
+        "solution": "位移为 4 m，总路程为 10 m。 · The displacement is 4 m and the total distance is 10 m.",
+        "solutionLatex": "\\int_0^6 v\\,\\mathrm{d}t=4\\ \\mathrm{m},\\quad \\int_0^6 |v|\\,\\mathrm{d}t=10\\ \\mathrm{m}"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「累积变化探查」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 符号与净累积 · Example 3 · Sign and net accumulation",
+        "prompt": "某容器内液体的变化率为 \\(r(t)=6-2t\\) L/h，\\(0\\le t\\le5\\)。求净累积量、总变化量，并说明 \\(A(x)=\\displaystyle\\int_0^x r(t)\\,\\mathrm{d}t\\) 在哪些区间递增或递减。 · The rate of change of liquid in a container is \\(r(t)=6-2t\\) L/h for \\(0\\le t\\le5\\). Find the net accumulation and total change, and state where the accumulation function increases or decreases.",
+        "steps": [
+          "令 \\(r(t)=0\\) 得 \\(t=3\\)；\\(r>0\\) 于 \\([0,3)\\)，\\(r<0\\) 于 \\((3,5]\\)。 · Set the rate equal to zero to get \\(t=3\\); the rate is positive before 3 and negative after 3.",
+          "正面积 \\(\\dfrac{1}{2}(3)(6)=9\\) L；负面积 \\(-\\dfrac{1}{2}(2)(4)=-4\\) L。 · The positive triangular area is 9 L and the negative triangular area is \\(-4\\) L.",
+          "净累积 \\(=9-4=5\\) L；总变化量 \\(=9+4=13\\) L。由于 \\(A'(x)=r(x)\\)，\\(A\\) 在 \\([0,3]\\) 递增、在 \\([3,5]\\) 递减。 · The net accumulation is 5 L and the total change is 13 L. Because the derivative of the accumulation function is the rate, it increases on \\([0,3]\\) and decreases on \\([3,5]\\)."
+        ],
+        "solution": "净累积为 5 L；总变化量为 13 L；累积函数先增后减。 · The net accumulation is 5 L, the total change is 13 L, and the accumulation function first increases and then decreases.",
+        "solutionLatex": "\\int_0^5(6-2t)\\,\\mathrm{d}t=5\\ \\mathrm{L}"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「累积变化探查」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「累积变化探查」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 图像面积、初始量与单位 · Example 4 · Graph areas, initial value, and units",
+        "prompt": "函数 \\(r(t)\\) 表示水箱进水速率（gal/h）。已知 \\(r\\) 的图像与横轴围成的区域中，轴上方面积为 12 gal、轴下方面积为 5 gal，随后轴上方面积为 2 gal。若 \\(V(0)=40\\) gal，求 \\(V(7)\\) 以及这 7 h 内流过的总水量。 · The function \\(r(t)\\) is the inflow rate of a tank in gal/h. The regions between its graph and the axis have areas 12 gal above, 5 gal below, then 2 gal above. Given \\(V(0)=40\\) gal, find \\(V(7)\\) and the total volume that moved during the 7 h.",
+        "steps": [
+          "净累积 \\(=12-5+2=9\\) gal。 · The net accumulation is 9 gal.",
+          "\\(V(7)=V(0)+\\displaystyle\\int_0^7 r(t)\\,\\mathrm{d}t=40+9=49\\) gal。 · Add the initial volume to the net accumulation to get 49 gal.",
+          "总水量按绝对值计：\\(12+5+2=19\\) gal。 · The total volume moved uses absolute areas and equals 19 gal."
+        ],
+        "solution": "\\(V(7)=49\\) gal；总水量为 19 gal。 · \\(V(7)=49\\) gal and the total volume moved is 19 gal.",
+        "solutionLatex": "V(7)=40+\\int_0^7 r(t)\\,\\mathrm{d}t=49\\ \\mathrm{gal}"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "CED CHA-4.A.1–4：先判断“面积代表什么累积量”，再算数值。 · CED CHA-4.A.1–A.4: first decide what accumulation the area represents, then compute.",
+      "轴下方面积记负；位移与总路程、净变化与总变化量要分清。 · Count area below the axis as negative, and distinguish displacement from total distance and net change from total change.",
+      "单位 = 变化率单位 × 自变量单位；先统一时间单位再相乘（AP 技能 4.B）。 · Units equal the rate unit times the input unit; convert time units before multiplying (AP Skill 4.B).",
+      "能用矩形、三角形、梯形分解时，先画分区再加带符号面积。 · When rectangles, triangles, or trapezoids apply, partition the region first and then add signed areas.",
+      "题目给出初始值时，最终量 = 初始值 + 净累积；只问改变量时才只写积分。 · If an initial value is given, final amount equals initial value plus net accumulation; write only the integral when the question asks for the change.",
+      "AP 简答要写清“积分—面积—情境量”的对应关系，并给结果加单位。 · In AP free response, state the integral–area–context correspondence and attach units to the result."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.2",
-        "title": "黎曼和近似",
-        "relation": "related"
+        "title": "黎曼和近似 · Approximating Areas with Riemann Sums",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u6",
+        "code": "6.4",
+        "title": "微积分基本定理 · The Fundamental Theorem of Calculus and Accumulation Functions",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u6",
+        "code": "6.7",
+        "title": "定积分求值 · The Fundamental Theorem of Calculus and Definite Integrals",
+        "relation": "应用 · application"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u8",
+        "code": "8.3",
+        "title": "累积变化率 · Using Accumulation Functions and Definite Integrals in Applied Contexts",
+        "relation": "迁移 · transfer"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u6",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "先修：6.2 用黎曼和把面积离散化；本主题把极限面积解释为带单位的累积量。 · Prerequisite: Riemann sums discretize area; this topic interprets the limiting area as an accumulation with units.",
+      "后续：6.4–6.7 用微积分基本定理计算累积函数与定积分。 · Follow-up: the Fundamental Theorem of Calculus evaluates accumulation functions and definite integrals.",
+      "跨学科：速度–时间图面积为位移，功率–时间图面积为能量，流量–时间图面积为体积。 · Cross-disciplinary: area under velocity–time is displacement, under power–time is energy, and under flow–time is volume.",
+      "AP 技能 4.B：报告累积量时必须同时说明数值与“变化率单位 × 自变量单位”。 · AP Skill 4.B: report both the numerical value and the unit formed by the rate unit times the independent-variable unit."
     ],
-    "intuitionDetailed": "把「累积变化探查」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "“面积”只是几何语言，真正的主角是累积：每一小段上“变化率 × 宽度”就是这一小段的贡献，宽度带自变量的单位，变化率带自己的单位，相乘后得到累积量的单位。正的变化率往上加，负的变化率往下减；把所有小段加起来就得到净累积。若图形是矩形、三角形或梯形，几何公式只是把这些小段贡献一次性算完的快捷方式。 · “Area” is only geometric language; the real object is accumulation. On each narrow interval, rate times width is the contribution: the width carries the input unit, the rate carries its own unit, and the product carries the accumulation unit. Positive rates add upward and negative rates subtract downward; adding all strips gives the net accumulation. When the region is made of rectangles, triangles, or trapezoids, the geometric formulas simply compute all those contributions at once.",
     "development": [
-      "回顾先修：确认符号、单位与「累积变化探查」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "从“速率 × 时间 = 量”的算术出发，理解每个小条的贡献。 · Start from “rate times time equals amount” to understand each strip’s contribution.",
+      "用黎曼和把分段常值或线性变化率化为几何面积。 · Use Riemann sums to reduce piecewise constant or linear rates to geometric areas.",
+      "给面积加符号：轴上为正、轴下为负，得到净累积。 · Attach signs to areas: positive above the axis, negative below, to obtain net accumulation.",
+      "区分净变化、总变化量与最终量（最终量要加初始值）。 · Distinguish net change, total change, and final amount (which requires the initial value).",
+      "用单位乘法检查答案：变化率单位 × 自变量单位。 · Check the answer with unit multiplication: rate unit times input unit.",
+      "把同一结论分别用图像、积分式、表格与文字表述一次。 · Express the same conclusion as a graph, an integral, a table, and a sentence."
     ],
     "checks": [
-      "不看书能否复述「累积变化探查」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "速度–时间图在横轴下方的面积代表什么？位移与总路程分别怎样计算？ · What does area below a velocity–time axis represent? How are displacement and total distance computed?",
+      "若 \\(r(t)>0\\) 在 \\([2,6]\\) 上，\\(\\displaystyle\\int_2^6 r(t)\\,\\mathrm{d}t\\) 的符号是什么？累积函数在何处递增？ · If the rate is positive on \\([2,6]\\), what is the sign of the integral, and where is the accumulation function increasing?",
+      "变化率单位为 kg/day、自变量单位为 week 时，累积量的单位是什么？ · If the rate is in kg/day and the input is in weeks, what is the unit of the accumulation?",
+      "为什么曲线不是分段直线或圆弧时，不能直接用三角形、矩形面积公式？ · Why can triangle and rectangle formulas not be used directly when the curve is not made of line segments or circular arcs?",
+      "已知 \\(A(0)=20\\) 且区间上的净累积为 7，\\(A(5)\\) 是多少？ · Given \\(A(0)=20\\) and a net accumulation of 7 on the interval, what is \\(A(5)\\)?"
     ],
     "vocabulary": [
       {
-        "termZh": "累积",
-        "termEn": "accumulation",
-        "defZh": "变化率在一段区间上不断累加得到的总量。",
-        "defEn": "A total obtained by continually adding a rate of change over an interval."
+        "termZh": "累积变化",
+        "termEn": "accumulation of change",
+        "defZh": "把变化率在一段区间上不断累加得到的总改变量。",
+        "defEn": "The total change obtained by continually adding a rate of change over an interval."
       },
       {
-        "termZh": "累积函数",
-        "termEn": "accumulation function",
-        "defZh": "\\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\)，表示从 \\(a\\) 到 \\(x\\) 的累积量。",
-        "defEn": "\\(A(x)=\\int_a^x f(t)\\,\\mathrm{d}t\\), the accumulation from \\(a\\) to \\(x\\)."
+        "termZh": "带符号面积",
+        "termEn": "signed area",
+        "defZh": "横轴上方的面积取正、下方的面积取负后得到的代数和。",
+        "defEn": "The algebraic sum obtained by counting area above the horizontal axis as positive and area below as negative."
+      },
+      {
+        "termZh": "净变化",
+        "termEn": "net change",
+        "defZh": "最终量与初始量之差，等于变化率的定积分。",
+        "defEn": "The difference between the final and initial amounts, equal to the definite integral of the rate."
       },
       {
         "termZh": "变化率",
         "termEn": "rate of change",
-        "defZh": "被累积的量，如速度或功率。",
-        "defEn": "The quantity being accumulated, such as velocity or power."
+        "defZh": "单位自变量引起的量变化，例如速度或流量。",
+        "defEn": "The change in a quantity per unit of the independent variable, such as velocity or flow rate."
       },
       {
-        "termZh": "面积",
-        "termEn": "area",
-        "defZh": "函数图像与横轴之间带符号的面积，表示累积量。",
-        "defEn": "The signed area between a graph and the horizontal axis, representing accumulation."
+        "termZh": "累积函数",
+        "termEn": "accumulation function",
+        "defZh": "\\(A(x)=\\displaystyle\\int_a^x r(t)\\,\\mathrm{d}t\\)，表示从起点到当前点的带符号累积。",
+        "defEn": "The signed accumulation from the starting point to the current point, defined by the integral shown."
       },
       {
-        "termZh": "变上限",
-        "termEn": "variable upper limit",
-        "defZh": "累积函数中可变的积分上限 \\(x\\)。",
-        "defEn": "The variable upper limit \\(x\\) in an accumulation function."
+        "termZh": "位移",
+        "termEn": "displacement",
+        "defZh": "位置向量的净变化，等于速度的定积分，可为负。",
+        "defEn": "The net change in position, equal to the definite integral of velocity; it can be negative."
       },
       {
-        "termZh": "微积分基本定理",
-        "termEn": "Fundamental Theorem of Calculus",
-        "defZh": "累积函数的导数等于被积函数，即 \\(A'(x)=f(x)\\)。",
-        "defEn": "The derivative of an accumulation function equals the integrand, \\(A'(x)=f(x)\\)."
+        "termZh": "总路程",
+        "termEn": "total distance",
+        "defZh": "速率绝对值的累积，等于各段路程之和，非负。",
+        "defEn": "The accumulation of speed, equal to the sum of the path lengths; it is nonnegative."
+      },
+      {
+        "termZh": "单位",
+        "termEn": "unit",
+        "defZh": "累积量的单位等于变化率单位乘以自变量单位，例如 \\((\\mathrm{m/s})(\\mathrm{s})=\\mathrm{m}\\)。",
+        "defEn": "The unit of an accumulation is the rate unit times the input unit, for example meters per second times seconds gives meters."
       }
     ]
   },
