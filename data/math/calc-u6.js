@@ -1036,7 +1036,7 @@ export const TOPICS = {
           "\\(F(2)-F(0)=(2+4-2)-0=4\\)，与分段积分一致。 · Then \\(F(2)-F(0)=(2+4-2)-0=4\\), matching the split integral."
         ],
         "solution": "正确值为 \\(4\\)。论证要点：跳跃点必须拆区间；分段原函数只要连续，就可以逐段使用微积分基本定理。 · The correct value is \\(4\\). The key justification: split at the jump, and a continuous piecewise antiderivative may be used piece by piece in the Fundamental Theorem of Calculus.",
-        "solutionLatex": "\\int_0^2 f(x)\\,\\mathrm{d}x=\\dfrac{1}{2}+\\dfrac{7}{2}=4,\\qquad F(x)=\\begin{cases}\\dfrac{x^{2}}{2},&0\\le x\\le 1,\\\\[4pt] \\dfrac{x^{2}}{2}+2x-2,&1\\le x\\le 2,\\end{cases}\\quad F(2)-F(0)=4"
+        "solutionLatex": "\\int_0^2 f(x)\\,\\mathrm{d}x=\\dfrac{1}{2}+\\dfrac{7}{2}=4,\\qquad F(x)=\\begin{cases}\\dfrac{x^{2}}{2},&0\\le x\\le 1,\\\\ \\dfrac{x^{2}}{2}+2x-2,&1\\le x\\le 2,\\end{cases}\\quad F(2)-F(0)=4"
       }
     ],
     "examTips": [
