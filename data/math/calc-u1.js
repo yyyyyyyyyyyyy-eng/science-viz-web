@@ -18,160 +18,268 @@ export const TOPICS = {
     "titleZh": "瞬时变化导论",
     "titleEn": "Introducing Calculus: Can Change Occur at an Instant?",
     "layer": "ap",
-    "summary": "瞬时变化导论 · Introducing Calculus: Can Change Occur at an Instant?",
+    "summary": "平均变化率把两个变化量相除，只能描述一段区间；当自变量的变化量为零时，分母为零，它没有定义。极限让区间长度趋于零，把一列平均变化率压缩成一个数，从而定义瞬时变化率。 · An average rate of change divides one change by another and describes only an interval; when the change in the independent variable is zero, the denominator is zero and the rate is undefined. A limit lets the interval length shrink to zero and condenses a family of average rates into one number, defining the instantaneous rate of change.",
     "learningObjectives": [
-      "能陈述「瞬时变化导论」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "解释微积分为什么用极限刻画动态变化，并区分平均变化率与瞬时变化率。 · Explain why calculus uses limits to model dynamic change and distinguish average from instantaneous rates of change.",
+      "由函数、表格或图像计算区间上的平均变化率，并说明自变量的变化量为零时它为什么无定义。 · Compute an average rate of change from a function, table, or graph, and explain why it is undefined when the change in the independent variable is zero.",
+      "用差商的极限定义并计算一点处的瞬时变化率，说明极限存在才使定义成立。 · Define and compute an instantaneous rate of change as the limit of a difference quotient, explaining that the definition requires the limit to exist.",
+      "在图像上把割线斜率与切线斜率联系起来，并用数值表估计差商的极限。 · Connect secant slopes to tangent slopes graphically and estimate the limit of a difference quotient with a table.",
+      "用单位解释结果，并判断左右差商不一致时瞬时变化率不存在。 · Interpret results with units and decide that an instantaneous rate fails to exist when the left and right difference quotients disagree."
     ],
     "essentialKnowledge": [
-      "Introducing Calculus: Can Change Occur at an Instant?：准确陈述定义、适用范围与符号约定。",
-      "能在符号、图像、数值与文字四种表征间转换，并指出等价关系。",
-      "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
-      "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
-      "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「瞬时变化导论」，书写叠式分式。",
-      "能检验特例（常函数、线性、对称性）与量纲一致性。"
+      "CHA-1.A.1：微积分用极限理解和建模动态变化。平均变化率只回答“一段区间上平均多快”；要回答“某一瞬间多快”，必须让区间长度趋于零，用极限捕捉差商所逼近的值。 · CHA-1.A.1: Calculus uses limits to understand and model dynamic change. An average rate answers “how fast on average over an interval”; answering “how fast at an instant” requires shrinking the interval length to zero and using a limit to capture the value approached by the difference quotient.",
+      "平均变化率 \\(\\dfrac{f(b)-f(a)}{b-a}\\)（\\(b\\ne a\\)）是割线斜率，依赖区间端点；换一个区间，平均变化率通常就变了。 · The average rate of change \\(\\dfrac{f(b)-f(a)}{b-a}\\) with \\(b\\ne a\\) is the slope of a secant line and depends on the interval endpoints; changing the interval usually changes the average rate.",
+      "CHA-1.A.2：因为平均变化率是用一个变量的变化量除以另一个变量的变化量，当自变量的变化量为零（\\(b=a\\) 或 \\(h=0\\)）时，分母为零，平均变化率无定义。它不是 0；即使分子也为 0，\\(\\dfrac{0}{0}\\) 仍是未定式而不是一个变化率。 · CHA-1.A.2: Because an average rate of change divides the change in one variable by the change in another, when the change in the independent variable is zero (\\(b=a\\) or \\(h=0\\)), the denominator is zero and the average rate is undefined. It is not zero; even when the numerator is also zero, \\(\\dfrac{0}{0}\\) is an indeterminate form, not a rate.",
+      "差商 \\(\\dfrac{f(a+h)-f(a)}{h}\\)（\\(h\\ne0\\)）就是区间 \\([a,a+h]\\) 上的平均变化率；在图像上，它是以 \\((a,f(a))\\) 和 \\((a+h,f(a+h))\\) 为端点的割线斜率。 · The difference quotient \\(\\dfrac{f(a+h)-f(a)}{h}\\) with \\(h\\ne0\\) is the average rate of change on \\([a,a+h]\\); on a graph it is the slope of the secant line through \\((a,f(a))\\) and \\((a+h,f(a+h))\\).",
+      "CHA-1.A.3：极限概念让我们用平均变化率的极限定义瞬时变化率：\\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\)，前提是该双侧极限存在且为有限数。等价写法是 \\(f'(a)=\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}\\)。 · CHA-1.A.3: The limit concept lets us define the instantaneous rate of change as the limit of average rates: \\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\), provided the two-sided limit exists and is finite. An equivalent form is \\(f'(a)=\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}\\).",
+      "求极限时 \\(h\\) 始终不等于 0：先对 \\(h\\ne0\\) 化简差商，约去公因子 \\(h\\)，再令 \\(h\\to0\\)。把 \\(h=0\\) 直接代入会得到 \\(\\dfrac{0}{0}\\)，那不是求极限。 · While taking the limit, \\(h\\) is never equal to 0: first simplify the difference quotient for \\(h\\ne0\\), cancel the common factor \\(h\\), and only then let \\(h\\to0\\). Substituting \\(h=0\\) directly gives \\(\\dfrac{0}{0}\\), which is not how a limit is evaluated.",
+      "双侧极限要求左右一致：\\(h\\to0^{-}\\) 与 \\(h\\to0^{+}\\) 的差商必须趋于同一个有限值。若左右差商趋于不同的数，或差商无界，瞬时变化率不存在，图像上没有唯一的切线斜率。 · A two-sided limit requires agreement from both sides: the difference quotients as \\(h\\to0^{-}\\) and as \\(h\\to0^{+}\\) must approach the same finite value. If the left and right difference quotients approach different numbers, or the quotient is unbounded, the instantaneous rate does not exist and the graph has no unique tangent slope.",
+      "导数定义要求 \\(f\\) 在 \\(a\\) 及其附近有定义，因为差商中出现 \\(f(a)\\)。重新定义 \\(f(a)\\) 会改变差商，通常也会改变极限；所以“极限与函数值无关”只适用于一般函数极限，不能直接套到差商上。 · The derivative definition requires \\(f\\) to be defined at \\(a\\) and nearby, because \\(f(a)\\) appears in the difference quotient. Redefining \\(f(a)\\) changes the quotient and usually changes the limit; the slogan “a limit ignores the function value” applies to general limits, not blindly to difference quotients.",
+      "单位：\\(f'(a)\\) 的单位是 \\(f\\) 的单位除以自变量的单位；平均变化率与瞬时变化率单位相同。例如位置以米为单位、时间以秒为单位时，两者的单位都是 m/s。 · Units: the unit of \\(f'(a)\\) is the unit of \\(f\\) divided by the unit of the independent variable; average and instantaneous rates share the same units. For example, if position is measured in meters and time in seconds, both rates are in m/s.",
+      "图像与数值：割线斜率随 \\(h\\to0\\) 趋于切线斜率；从两侧取越来越接近 \\(a\\) 的输入，观察差商是否稳定到同一个数。图像只给估计，严格结论仍要回到极限。 · Graphs and tables: secant slopes approach the tangent slope as \\(h\\to0\\); take inputs closer and closer to \\(a\\) from both sides and watch whether the difference quotients settle at one number. A graph gives an estimate; a rigorous conclusion still returns to the limit."
     ],
-    "definition": "瞬时变化导论（Introducing Calculus: Can Change Occur at an Instant?）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「瞬时变化导论」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "设函数 \\(f\\) 在 \\(a\\) 及其附近有定义。\\(f\\) 在 \\(x=a\\) 处的瞬时变化率定义为差商的极限 \\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\)；若该双侧极限存在且为有限数，就说 \\(f\\) 在 \\(a\\) 处可导，这个数也是图像在 \\((a,f(a))\\) 处切线的斜率。平均变化率 \\(\\dfrac{f(b)-f(a)}{b-a}\\) 只在 \\(b\\ne a\\) 时有定义；当 \\(b=a\\)，即自变量的变化量为零时，分母为零，平均变化率无定义。因此“某一点的平均变化率”本身没有意义，只有“某一点处的瞬时变化率”由极限定义。物理上，平均速度是位移除以时间间隔，瞬时速度是时间间隔趋于零时平均速度的极限；两者单位相同，但含义不同。 · Let \\(f\\) be defined at and near \\(a\\). The instantaneous rate of change of \\(f\\) at \\(x=a\\) is defined as the limit of the difference quotient \\(f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}\\); if this two-sided limit exists and is finite, \\(f\\) is differentiable at \\(a\\), and the number is the slope of the tangent line at \\((a,f(a))\\). The average rate of change \\(\\dfrac{f(b)-f(a)}{b-a}\\) is defined only for \\(b\\ne a\\); when \\(b=a\\), that is, when the change in the independent variable is zero, the denominator is zero and the average rate is undefined. Thus an “average rate at a point” is meaningless; only the instantaneous rate at a point is defined, by a limit. In physics, average velocity is displacement divided by elapsed time, and instantaneous velocity is the limit of average velocity as the time interval tends to zero; the units agree, but the meanings differ.",
+    "intuition": "速度表显示的是“此刻”的速度，可你无法用“此刻”单独算出一个除法：某一瞬间的时间间隔是零，分母为零，平均速度没有定义。能算的是“一段时间内走了多远除以用了多久”。把这段时间越缩越短，平均速度会趋近一个数；速度表读的就是这个极限。数学上完全一样：先写区间上的平均变化率，再让区间长度 \\(h\\) 趋于零。图像上，割线的一个端点固定、另一个端点沿曲线滑向它，割线转动并趋于切线；切线斜率就是瞬时变化率。 · A speedometer shows speed “right now,” yet you cannot compute it with a single division at an instant: the time interval at an instant is zero, the denominator is zero, and average speed is undefined. What you can compute is distance traveled over an interval divided by the elapsed time. Shrink the interval and the average speed approaches a number; that limit is what the speedometer reads. The mathematics is identical: write the average rate on an interval, then let the interval length \\(h\\) tend to zero. On a graph, one endpoint of a secant is fixed while the other slides toward it; the secant rotates and approaches the tangent, whose slope is the instantaneous rate.",
     "formulas": [
       {
+        "latex": "\\dfrac{f(b)-f(a)}{b-a},\\quad b\\ne a",
+        "note": "区间上的平均变化率，也是割线斜率；自变量的变化量为零时分母为零，无定义。 · The average rate of change on an interval and the secant slope; it is undefined when the change in the independent variable is zero because the denominator is zero."
+      },
+      {
+        "latex": "\\dfrac{f(a+h)-f(a)}{h},\\quad h\\ne0",
+        "note": "以 \\(a\\) 为基点的差商，是 \\([a,a+h]\\) 上的平均变化率。 · The difference quotient based at \\(a\\), the average rate on \\([a,a+h]\\)."
+      },
+      {
         "latex": "f'(a)=\\lim_{h\\to0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义：差商的极限。"
+        "note": "瞬时变化率（导数）的定义：差商的双侧极限必须存在且有限。 · Definition of the instantaneous rate (derivative): the two-sided limit of the difference quotient must exist and be finite."
+      },
+      {
+        "latex": "f'(a)=\\lim_{x\\to a}\\dfrac{f(x)-f(a)}{x-a}",
+        "note": "等价写法：让动点 \\(x\\) 从两侧趋近定点 \\(a\\)。 · Equivalent form: let the moving point \\(x\\) approach the fixed point \\(a\\) from both sides."
+      },
+      {
+        "latex": "v(a)=s'(a)=\\lim_{h\\to0}\\dfrac{s(a+h)-s(a)}{h}",
+        "note": "位置 \\(s(t)\\) 对时间的瞬时变化率就是瞬时速度；单位是位置单位每秒。 · The instantaneous rate of position \\(s(t)\\) with respect to time is instantaneous velocity, in position units per second."
       }
     ],
     "derivationNotes": [
       {
-        "from": "定义/公理/实验事实",
-        "to": "核心关系",
-        "note": "由定义出发建立「瞬时变化导论」的工作方程或机制链。"
+        "from": "区间上的平均变化率 · Average rate on an interval",
+        "to": "差商 · Difference quotient",
+        "note": "令 \\(h=b-a\\)，则 \\(b=a+h\\)，平均变化率写成 \\(\\dfrac{f(a+h)-f(a)}{h}\\)，其中 \\(h\\ne0\\)。 · Set \\(h=b-a\\), so \\(b=a+h\\); the average rate becomes \\(\\dfrac{f(a+h)-f(a)}{h}\\) with \\(h\\ne0\\)."
       },
       {
-        "from": "核心关系",
-        "to": "特例",
-        "note": "取线性、稳态、均匀或对称特例检验。"
+        "from": "差商 · Difference quotient",
+        "to": "化简 · Simplify",
+        "note": "在 \\(h\\ne0\\) 的前提下展开分子、约去公因子 \\(h\\)；这一步是代数变形，不是把 \\(h\\) 当作 0。 · Under the condition \\(h\\ne0\\), expand the numerator and cancel the common factor \\(h\\); this is algebra, not setting \\(h\\) equal to 0."
       },
       {
-        "from": "特例",
-        "to": "一般情形",
-        "note": "恢复完整条件；注明误差来源。"
+        "from": "化简后的差商 · Simplified quotient",
+        "to": "瞬时变化率 · Instantaneous rate",
+        "note": "令 \\(h\\to0\\)，若左右两侧都趋于同一个有限数，就把它定义为 \\(f'(a)\\)，即切线斜率。 · Let \\(h\\to0\\); if both sides approach the same finite number, define it as \\(f'(a)\\), the tangent slope."
+      },
+      {
+        "from": "双侧检验 · Two-sided check",
+        "to": "存在性判断 · Existence test",
+        "note": "分别取 \\(h>0\\) 与 \\(h<0\\) 的数列；两侧极限不同或无界时，瞬时变化率不存在。 · Use sequences with \\(h>0\\) and with \\(h<0\\); if the two limits differ or are unbounded, the instantaneous rate does not exist."
+      },
+      {
+        "from": "单位 · Units",
+        "to": "物理解释 · Physical interpretation",
+        "note": "把 \\(f\\) 的单位除以自变量的单位，得到变化率的单位；符号表示增加或减少。 · Divide the unit of \\(f\\) by the unit of the independent variable to get the rate's unit; the sign indicates increase or decrease."
       }
     ],
     "conditions": [
-      "满足定理/定律条件",
-      "注意理想化假设"
+      "平均变化率要求区间端点不同：\\(b\\ne a\\)。当自变量的变化量为零时，分母为零，平均变化率无定义，不能写成 0。 · An average rate requires distinct endpoints, \\(b\\ne a\\). When the change in the independent variable is zero, the denominator is zero and the average rate is undefined; it is not zero.",
+      "差商要求 \\(h\\ne0\\)；求极限时 \\(h\\) 只是趋近 0，从不等于 0。 · A difference quotient requires \\(h\\ne0\\); in the limit, \\(h\\) approaches 0 but never equals 0.",
+      "\\(f\\) 必须在 \\(a\\) 及其附近有定义，差商才有意义；导数定义还要求 \\(f(a)\\) 存在。 · \\(f\\) must be defined at \\(a\\) and nearby for the difference quotient to make sense; the derivative definition also requires \\(f(a)\\) to exist.",
+      "差商的双侧极限必须存在且为有限数；左右极限不等或差商无界时，瞬时变化率不存在。 · The two-sided limit of the difference quotient must exist and be finite; if the one-sided limits differ or the quotient is unbounded, the instantaneous rate does not exist.",
+      "约去 \\(h\\) 只能在 \\(h\\ne0\\) 时进行；约去后再取极限，顺序不能颠倒。 · Canceling \\(h\\) is valid only when \\(h\\ne0\\); cancel first and take the limit afterward, never in the opposite order.",
+      "变化率的单位是输出单位每输入单位；平均变化率与瞬时变化率单位相同，但平均变化率依赖区间，瞬时变化率只依赖该点附近。 · The unit of a rate is output units per input unit; average and instantaneous rates share units, but the average rate depends on the interval while the instantaneous rate depends only on a neighborhood of the point."
     ],
     "keyPoints": [
-      "掌握 1.1「瞬时变化导论」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "平均变化率 = 割线斜率 = 两个变化量之比；它描述一整段区间。 · Average rate = secant slope = a ratio of two changes; it describes a whole interval.",
+      "自变量的变化量为零时，平均变化率的分母为零，所以无定义；不要把它说成 0 或无穷大。 · When the change in the independent variable is zero, the denominator of the average rate is zero, so the rate is undefined; do not call it 0 or infinity.",
+      "瞬时变化率 = 差商当 \\(h\\to0\\) 的极限；极限存在且有限才叫可导。 · Instantaneous rate = the limit of the difference quotient as \\(h\\to0\\); it exists only when the limit is finite.",
+      "求差商极限先化简再取极限：\\(h\\ne0\\) 时约去公因子，最后令 \\(h\\to0\\)。 · Simplify before taking the limit: cancel common factors for \\(h\\ne0\\), then let \\(h\\to0\\).",
+      "双侧检验：\\(h\\to0^{-}\\) 与 \\(h\\to0^{+}\\) 必须给出同一个有限值。 · Two-sided test: \\(h\\to0^{-}\\) and \\(h\\to0^{+}\\) must give the same finite value.",
+      "几何上割线趋于切线；物理上平均速度趋于瞬时速度。 · Geometrically, secants approach the tangent; physically, average velocity approaches instantaneous velocity.",
+      "单位是输出单位每输入单位；结果的符号表示函数在增加还是减少。 · Units are output units per input unit; the sign says whether the function is increasing or decreasing.",
+      "图像上的尖角、竖直切线或跳跃会使差商极限不存在，因而没有瞬时变化率。 · Corners, vertical tangents, or jumps on a graph make the difference-quotient limit fail, so no instantaneous rate exists."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「瞬时变化导论」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "“把 \\(h=0\\) 代入差商就得到瞬时变化率。”错误；那会得到 \\(\\dfrac{0}{0}\\)，必须先化简再取极限。 · “Substitute \\(h=0\\) into the difference quotient to get the instantaneous rate.” False; that gives \\(\\dfrac{0}{0}\\); simplify first, then take the limit.",
+      "“平均变化率在单独一点也有定义。”错误；自变量的变化量为零，分母为零，平均变化率无定义。 · “An average rate is defined at a single point.” False; the change in the independent variable is zero, so the denominator is zero and the average rate is undefined.",
+      "“分母为零就一定趋于无穷大。”错误；可能是 \\(\\dfrac{0}{0}\\) 型未定式，也可能根本无定义；要分别研究。 · “A zero denominator always means the value tends to infinity.” False; it may be a \\(\\dfrac{0}{0}\\) indeterminate form or simply undefined; analyze each case.",
+      "“区间取得足够小，平均变化率就等于瞬时变化率。”错误；再小的区间给出的仍是平均变化率，只是近似；定义用的是极限。 · “Take a small enough interval and the average rate equals the instantaneous rate.” False; any nonzero interval still gives an average rate, only an approximation; the definition uses a limit.",
+      "“极限值就是函数值 \\(f(a)\\)。”错误；一般极限与 \\(f(a)\\) 无关；但差商中出现 \\(f(a)\\)，所以导数定义要求 \\(f(a)\\) 存在。 · “The limit value is the function value \\(f(a)\\).” False; a general limit is independent of \\(f(a)\\), but \\(f(a)\\) appears in the difference quotient, so the derivative definition requires it to exist.",
+      "“只要从左侧逼近得到同一个数，瞬时变化率就存在。”错误；必须双侧一致。 · “If the left-hand approach gives a number, the instantaneous rate exists.” False; both sides must agree.",
+      "“平均变化率和瞬时变化率的单位不同。”错误；两者都是输出单位每输入单位，例如都是 m/s。 · “Average and instantaneous rates have different units.” False; both are output units per input unit, for example both are in m/s.",
+      "“图像看起来光滑就一定有切线斜率。”错误；光滑只是视觉判断，仍要检查差商极限是否存在且有限。 · “A graph that looks smooth must have a tangent slope.” False; smoothness is only a visual impression; check that the difference-quotient limit exists and is finite."
     ],
     "examples": [
       {
-        "title": "例 1 · 易",
-        "prompt": "写出「瞬时变化导论」的定义，并列出至少两条适用条件或假设。",
-        "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
+        "title": "例 1 · 从平均变化率到瞬时变化率 · Example 1: From average to instantaneous rate",
+        "prompt": "\\(f(x)=x^{2}\\)。(a) 求 \\(f\\) 在 \\([1,3]\\) 与 \\([2.9,3]\\) 上的平均变化率。(b) 写出以 \\(a=3\\) 为基点的差商并化简。(c) 求 \\(f'(3)\\)，并解释平均变化率如何趋近它。 · \\(f(x)=x^{2}\\). (a) Find the average rate of change on \\([1,3]\\) and on \\([2.9,3]\\). (b) Write and simplify the difference quotient based at \\(a=3\\). (c) Find \\(f'(3)\\) and explain how the average rates approach it.",
+        "steps": [
+          "(a) \\(\\dfrac{f(3)-f(1)}{3-1}=\\dfrac{9-1}{2}=4\\)；\\(\\dfrac{f(3)-f(2.9)}{3-2.9}=\\dfrac{9-8.41}{0.1}=5.9\\)。区间越短，平均变化率越接近 6。 · (a) \\(\\dfrac{f(3)-f(1)}{3-1}=\\dfrac{9-1}{2}=4\\); \\(\\dfrac{f(3)-f(2.9)}{3-2.9}=\\dfrac{9-8.41}{0.1}=5.9\\). The shorter the interval, the closer the average rate is to 6.",
+          "(b) \\(\\dfrac{f(3+h)-f(3)}{h}=\\dfrac{(3+h)^{2}-9}{h}=\\dfrac{9+6h+h^{2}-9}{h}=\\dfrac{6h+h^{2}}{h}=6+h\\)，其中 \\(h\\ne0\\)。 · (b) \\(\\dfrac{f(3+h)-f(3)}{h}=\\dfrac{(3+h)^{2}-9}{h}=\\dfrac{9+6h+h^{2}-9}{h}=\\dfrac{6h+h^{2}}{h}=6+h\\) for \\(h\\ne0\\).",
+          "(c) \\(\\lim_{h\\to0}(6+h)=6\\)，所以 \\(f'(3)=6\\)。平均变化率 \\(6+h\\) 随 \\(h\\to0\\) 趋于 6；几何上割线斜率趋于切线斜率 6。 · (c) \\(\\lim_{h\\to0}(6+h)=6\\), so \\(f'(3)=6\\). The average rate \\(6+h\\) approaches 6 as \\(h\\to0\\); geometrically, the secant slopes approach the tangent slope 6."
+        ],
+        "solution": "平均变化率分别为 4 与 5.9；差商为 \\(6+h\\)（\\(h\\ne0\\)）；\\(f'(3)=6\\)。 · The average rates are 4 and 5.9; the difference quotient is \\(6+h\\) for \\(h\\ne0\\); \\(f'(3)=6\\).",
+        "solutionLatex": "\\dfrac{f(3)-f(1)}{3-1}=4,\\quad \\dfrac{f(3)-f(2.9)}{3-2.9}=5.9,\\quad f'(3)=\\lim_{h\\to0}(6+h)=6"
       },
       {
-        "title": "例 2 · 中",
-        "prompt": "从核心关系出发完成一次代入或机制推理，并检查特例。",
-        "solution": "先写定律/定义，再代数或机制展开；用极端值验证符号与趋势。",
-        "solutionLatex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=f'(x)"
+        "title": "例 2 · 自变量的变化量为零 · Example 2: When the change in the independent variable is zero",
+        "prompt": "\\(f(x)=x^{2}\\)。某学生想求“\\(f\\) 在 \\(x=2\\) 处的平均变化率”，于是计算 \\(\\dfrac{f(2)-f(2)}{2-2}\\)。指出错误，并说明正确的做法。 · \\(f(x)=x^{2}\\). A student wants the “average rate of change of \\(f\\) at \\(x=2\\)” and computes \\(\\dfrac{f(2)-f(2)}{2-2}\\). Identify the error and explain the correct procedure.",
+        "steps": [
+          "分母 \\(2-2=0\\)，所以这个商没有定义；它不是 0，也不是 \\(\\infty\\)。 · The denominator is \\(2-2=0\\), so the quotient is undefined; it is not 0 and not \\(\\infty\\).",
+          "分子 \\(f(2)-f(2)=0\\)，因此形式上是 \\(\\dfrac{0}{0}\\) 型未定式；未定式必须通过化简或极限研究，不能直接赋值。 · The numerator is \\(f(2)-f(2)=0\\), so the form is the indeterminate type \\(\\dfrac{0}{0}\\); an indeterminate form must be studied by simplification or a limit, not assigned a value.",
+          "平均变化率必须用两个不同的输入：例如 \\([1.9,2]\\) 上为 \\(\\dfrac{f(2)-f(1.9)}{2-1.9}=\\dfrac{4-3.61}{0.1}=3.9\\)。 · An average rate must use two distinct inputs: for example, on \\([1.9,2]\\), \\(\\dfrac{f(2)-f(1.9)}{2-1.9}=\\dfrac{4-3.61}{0.1}=3.9\\).",
+          "若想要“\\(x=2\\) 处”的变化率，应求差商的极限：\\(\\dfrac{f(2+h)-f(2)}{h}=\\dfrac{4+4h+h^{2}-4}{h}=4+h\\)（\\(h\\ne0\\)），故 \\(f'(2)=4\\)。 · To get the rate “at \\(x=2\\),” take the limit of the difference quotient: \\(\\dfrac{f(2+h)-f(2)}{h}=\\dfrac{4+4h+h^{2}-4}{h}=4+h\\) for \\(h\\ne0\\), so \\(f'(2)=4\\)."
+        ],
+        "solution": "错误在于分母为零：平均变化率在 \\(x=2\\) 处无定义；应改用两个不同输入的区间，或求差商极限得到 \\(f'(2)=4\\)。 · The error is the zero denominator: the average rate at \\(x=2\\) is undefined; use an interval with two distinct inputs, or take the difference-quotient limit to get \\(f'(2)=4\\).",
+        "solutionLatex": "\\dfrac{f(2)-f(2)}{2-2}=\\dfrac{0}{0}\\ \\text{undefined};\\qquad f'(2)=\\lim_{h\\to0}(4+h)=4"
       },
       {
-        "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「瞬时变化导论」作答？指出瞬时量与平均量的区别。",
-        "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
+        "title": "例 3 · 有理函数的差商极限 · Example 3: A difference-quotient limit for a rational function",
+        "prompt": "设 \\(f(x)=\\dfrac{1}{x}\\)。用差商定义求 \\(f'(2)\\)，并写出 \\(f\\) 在 \\(x=2\\) 处切线的一个方程。 · Let \\(f(x)=\\dfrac{1}{x}\\). Use the difference-quotient definition to find \\(f'(2)\\), and write an equation of the tangent line at \\(x=2\\).",
+        "steps": [
+          "先写差商：\\(\\dfrac{f(2+h)-f(2)}{h}=\\dfrac{\\dfrac{1}{2+h}-\\dfrac{1}{2}}{h}\\)，其中 \\(h\\ne0\\)。 · Start with the difference quotient: \\(\\dfrac{f(2+h)-f(2)}{h}=\\dfrac{\\dfrac{1}{2+h}-\\dfrac{1}{2}}{h}\\) for \\(h\\ne0\\).",
+          "通分：\\(\\dfrac{1}{2+h}-\\dfrac{1}{2}=\\dfrac{2-(2+h)}{2(2+h)}=-\\dfrac{h}{2(2+h)}\\)。 · Combine the fractions: \\(\\dfrac{1}{2+h}-\\dfrac{1}{2}=\\dfrac{2-(2+h)}{2(2+h)}=-\\dfrac{h}{2(2+h)}\\).",
+          "除以 \\(h\\) 并约去：\\(\\dfrac{-h}{2h(2+h)}=-\\dfrac{1}{2(2+h)}\\)（\\(h\\ne0\\)）。 · Divide by \\(h\\) and cancel: \\(\\dfrac{-h}{2h(2+h)}=-\\dfrac{1}{2(2+h)}\\) for \\(h\\ne0\\).",
+          "取极限：\\(f'(2)=\\lim_{h\\to0}\\left(-\\dfrac{1}{2(2+h)}\\right)=-\\dfrac{1}{4}\\)。 · Take the limit: \\(f'(2)=\\lim_{h\\to0}\\left(-\\dfrac{1}{2(2+h)}\\right)=-\\dfrac{1}{4}\\).",
+          "切线过点 \\((2,\\dfrac{1}{2})\\)，斜率为 \\(-\\dfrac{1}{4}\\)，所以 \\(y-\\dfrac{1}{2}=-\\dfrac{1}{4}(x-2)\\)。 · The tangent passes through \\((2,\\dfrac{1}{2})\\) with slope \\(-\\dfrac{1}{4}\\), so \\(y-\\dfrac{1}{2}=-\\dfrac{1}{4}(x-2)\\)."
+        ],
+        "solution": "\\(f'(2)=-\\dfrac{1}{4}\\)；切线为 \\(y-\\dfrac{1}{2}=-\\dfrac{1}{4}(x-2)\\)。 · \\(f'(2)=-\\dfrac{1}{4}\\); the tangent is \\(y-\\dfrac{1}{2}=-\\dfrac{1}{4}(x-2)\\).",
+        "solutionLatex": "f'(2)=\\lim_{h\\to0}\\left(-\\dfrac{1}{2(2+h)}\\right)=-\\dfrac{1}{4}"
       },
       {
-        "title": "例 4 · 难",
-        "prompt": "指出学生在「瞬时变化导论」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「瞬时变化导论」；用斜线分式代替叠式分式导致歧义"
+        "title": "例 4 · 位置、速度与单位 · Example 4: Position, velocity, and units",
+        "prompt": "质点沿直线运动，位置 \\(s(t)=t^{2}+3t\\)（米），时间 \\(t\\) 以秒计。(a) 求 \\([2,2.5]\\) 上的平均速度。(b) 求 \\(t=2\\) 时的瞬时速度，并说明左右差商是否一致。(c) 解释 \\(7\\) m/s 的含义。 · A particle moves along a line with position \\(s(t)=t^{2}+3t\\) in meters and time \\(t\\) in seconds. (a) Find the average velocity on \\([2,2.5]\\). (b) Find the instantaneous velocity at \\(t=2\\) and check whether the left and right difference quotients agree. (c) Interpret \\(7\\) m/s.",
+        "steps": [
+          "(a) 平均速度为 \\(\\dfrac{s(2.5)-s(2)}{2.5-2}=\\dfrac{13.75-10}{0.5}=7.5\\) m/s。 · (a) The average velocity is \\(\\dfrac{s(2.5)-s(2)}{2.5-2}=\\dfrac{13.75-10}{0.5}=7.5\\) m/s.",
+          "(b) 差商为 \\(\\dfrac{s(2+h)-s(2)}{h}=\\dfrac{(2+h)^{2}+3(2+h)-10}{h}=\\dfrac{4+4h+h^{2}+6+3h-10}{h}=\\dfrac{7h+h^{2}}{h}=7+h\\)（\\(h\\ne0\\)）。 · (b) The difference quotient is \\(\\dfrac{s(2+h)-s(2)}{h}=\\dfrac{(2+h)^{2}+3(2+h)-10}{h}=\\dfrac{4+4h+h^{2}+6+3h-10}{h}=\\dfrac{7h+h^{2}}{h}=7+h\\) for \\(h\\ne0\\).",
+          "\\(h>0\\) 与 \\(h<0\\) 时都得到 \\(7+h\\)，所以 \\(\\lim_{h\\to0^{-}}(7+h)=\\lim_{h\\to0^{+}}(7+h)=7\\)；双侧极限存在，瞬时速度为 \\(7\\) m/s。 · For both \\(h>0\\) and \\(h<0\\) the quotient is \\(7+h\\), so \\(\\lim_{h\\to0^{-}}(7+h)=\\lim_{h\\to0^{+}}(7+h)=7\\); the two-sided limit exists and the instantaneous velocity is \\(7\\) m/s.",
+          "(c) 在 \\(t=2\\) s 时，位置关于时间的变化率为 \\(7\\) m/s：若速度在这一瞬间保持不变，位置每秒增加约 \\(7\\) 米。它不是 \\([2,2.5]\\) 上的平均速度 \\(7.5\\) m/s。 · (c) At \\(t=2\\) s the rate of change of position with respect to time is \\(7\\) m/s: if the velocity stayed constant at that instant, position would increase by about \\(7\\) meters each second. It is not the average velocity \\(7.5\\) m/s on \\([2,2.5]\\)."
+        ],
+        "solution": "(a) \\(7.5\\) m/s；(b) 左右差商都为 \\(7+h\\)，极限为 \\(7\\) m/s；(c) 瞬时速度为 \\(7\\) m/s。 · (a) \\(7.5\\) m/s; (b) both one-sided difference quotients equal \\(7+h\\), with limit \\(7\\) m/s; (c) the instantaneous velocity is \\(7\\) m/s.",
+        "solutionLatex": "\\bar v_{[2,2.5]}=7.5\\ \\text{m/s},\\qquad v(2)=\\lim_{h\\to0}(7+h)=7\\ \\text{m/s}"
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先问“是平均还是瞬时”：平均变化率用两个不同输入，瞬时变化率用差商的极限。 · First ask “average or instantaneous”: an average rate uses two distinct inputs, while an instantaneous rate uses the limit of a difference quotient.",
+      "看到 \\(\\dfrac{f(a)-f(a)}{a-a}\\) 立即停笔：分母为零，平均变化率无定义。 · If you see \\(\\dfrac{f(a)-f(a)}{a-a}\\), stop: the denominator is zero and the average rate is undefined.",
+      "差商先化简再取极限；在 \\(h\\ne0\\) 时约去公因子，最后才令 \\(h\\to0\\)。 · Simplify the difference quotient before taking the limit; cancel common factors for \\(h\\ne0\\), and only then let \\(h\\to0\\).",
+      "写极限时标明双侧：\\(h\\to0^{-}\\) 与 \\(h\\to0^{+}\\) 都要检查；两者不同就写“不存在”。 · Indicate both sides: check \\(h\\to0^{-}\\) and \\(h\\to0^{+}\\); if they differ, write “does not exist.”",
+      "几何题把差商解释为割线斜率、把极限解释为切线斜率；物理题把差商解释为平均速度、把极限解释为瞬时速度。 · In geometry, read the difference quotient as a secant slope and its limit as the tangent slope; in physics, read it as average velocity and its limit as instantaneous velocity.",
+      "答案必须带单位：输出单位每输入单位；先写数值，再写单位和方向/增减含义。 · Include units: output units per input unit; give the number, then the unit and the increasing/decreasing interpretation.",
+      "AP 简答用“主张—证据—推理”：主张是极限值，证据是化简后的差商或数值表，推理说明为何该极限就是瞬时变化率。 · In AP free response, use claim-evidence-reasoning: the claim is the limit value, the evidence is the simplified quotient or a table, and the reasoning explains why that limit is the instantaneous rate.",
+      "若图像有尖角、跳跃或竖直切线，不要硬写切线斜率；先判断差商极限是否存在。 · If the graph has a corner, jump, or vertical tangent, do not force a tangent slope; first decide whether the difference-quotient limit exists."
     ],
     "related": [
       {
         "subject": "math",
         "chapterId": "calc-u1",
         "code": "1.2",
-        "title": "极限定义与记号",
-        "relation": "related"
+        "title": "极限定义与记号 · Defining Limits and Using Limit Notation",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u1",
+        "code": "1.3",
+        "title": "由图像估计极限 · Estimating Limit Values from Graphs",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.1",
+        "title": "瞬时变化率 · Defining Average and Instantaneous Rates of Change",
+        "relation": "后续 · follow-up"
+      },
+      {
+        "subject": "math",
+        "chapterId": "calc-u2",
+        "code": "2.2",
+        "title": "导数定义 · Defining the Derivative of a Function and Using Derivative Notation",
+        "relation": "后续 · follow-up"
       }
     ],
     "modules": [],
     "practiceHref": "#/math/practice/calc-u1",
     "connections": [
-      "上游：本单元前置主题为后续推导提供定义或定律",
-      "下游：本主题结论用于后续问题的建模",
-      "跨学科：注意数学工具与科学情境的对应"
+      "上游：函数记号、直线斜率与割线概念给出“两个变化量之比”；平均速度是学生最熟悉的平均变化率。 · Upstream: function notation, slope, and secants supply the “ratio of two changes”; average velocity is the most familiar average rate.",
+      "下游：1.2 把“趋近”写成极限记号，1.3 用图像估计极限，2.1–2.2 正式建立平均变化率与导数定义。 · Downstream: 1.2 writes “approaches” in limit notation, 1.3 estimates limits from graphs, and 2.1–2.2 formalize average rates and the derivative definition.",
+      "数学内部：差商是代数与几何的桥梁；极限把一列割线斜率变成一个切线斜率。 · Within mathematics, the difference quotient bridges algebra and geometry; a limit turns a family of secant slopes into one tangent slope.",
+      "跨学科：速度表、冷却曲线、人口增长都给出瞬时变化率；报告结果时必须带单位并说明是瞬时还是平均。 · Across disciplines, speedometers, cooling curves, and population growth all provide instantaneous rates; reporting one requires units and a statement of whether it is instantaneous or average."
     ],
-    "intuitionDetailed": "把「瞬时变化导论」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "“瞬间有多快”听起来像一个悖论：要算速度就得用“路程除以时间”，可“瞬间”的时间间隔是零，除法没有定义。微积分的解决办法不是把零偷换成“很小”，而是研究一列越来越小的区间：区间长度 \\(h\\) 依次取 1、0.1、0.01、…，每次都算一个合法的平均变化率；如果这些数稳定地逼近同一个有限值，就把这个值定义为瞬时变化率。关键有两点：第一，\\(h\\) 永远不等于 0，所以每一步的除法都合法；第二，极限必须从左右两侧都逼近同一个值，否则只能说“不存在”。图像上，固定点 \\(P\\) 与动点 \\(Q\\) 的割线随 \\(Q\\) 滑向 \\(P\\) 而转动；如果它稳定到一条唯一的直线，这条直线就是切线，其斜率就是 \\(f'(a)\\)。数值上，表格两侧的差商若分别趋于不同的数，说明图像在 \\(a\\) 处有尖角或跳跃，没有唯一的切线斜率。 · “How fast is an instant?” sounds paradoxical: speed requires distance divided by time, but an instant has zero duration, so the division is undefined. Calculus does not sneakily replace zero with “very small”; it studies a family of shrinking intervals: let the interval length \\(h\\) take values 1, 0.1, 0.01, … and compute a legitimate average rate each time. If these numbers settle toward one finite value, that value is defined to be the instantaneous rate. Two points matter: first, \\(h\\) is never equal to 0, so every division is legal; second, the limit must approach the same value from both sides, or we must say it does not exist. On a graph, the secant through a fixed point \\(P\\) and a moving point \\(Q\\) rotates as \\(Q\\) slides toward \\(P\\); if it settles onto a unique line, that line is the tangent and its slope is \\(f'(a)\\). Numerically, if the difference quotients from the two sides of a table approach different numbers, the graph has a corner or jump at \\(a\\) and no unique tangent slope.",
     "development": [
-      "回顾先修：确认符号、单位与「瞬时变化导论」所需的前置定义已掌握。",
-      "正式定义：用一句话写清对象与关系，并列出适用条件。",
-      "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
-      "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
-      "迁移：换一个情境参数，重复一次完整推理。"
+      "先用一个具体区间算平均变化率：写出 \\(\\dfrac{f(b)-f(a)}{b-a}\\)，并说明它是割线斜率。 · Start with an average rate on a concrete interval: write \\(\\dfrac{f(b)-f(a)}{b-a}\\) and identify it as a secant slope.",
+      "检查分母：若 \\(b=a\\)，立即指出平均变化率无定义；不要继续代入。 · Check the denominator: if \\(b=a\\), state at once that the average rate is undefined; do not continue substituting.",
+      "令 \\(h=b-a\\)，把平均变化率写成以 \\(a\\) 为基点的差商，并注明 \\(h\\ne0\\)。 · Set \\(h=b-a\\), rewrite the average rate as a difference quotient based at \\(a\\), and record \\(h\\ne0\\).",
+      "在 \\(h\\ne0\\) 时展开、通分、约去公因子，得到化简后的差商。 · For \\(h\\ne0\\), expand, combine fractions, and cancel common factors to simplify the quotient.",
+      "分别令 \\(h\\to0^{-}\\) 与 \\(h\\to0^{+}\\)；两侧趋于同一有限值时，定义 \\(f'(a)\\)。 · Let \\(h\\to0^{-}\\) and \\(h\\to0^{+}\\); when both approach the same finite value, define \\(f'(a)\\).",
+      "把结果翻译成图像（切线斜率）或情境（瞬时速度），并写出单位与增减含义。 · Translate the result into a graph (tangent slope) or a context (instantaneous velocity), and state units and the increasing/decreasing meaning."
     ],
     "checks": [
-      "不看书能否复述「瞬时变化导论」的定义与两条适用条件？",
-      "给定图像/表格，能否指出瞬时量与平均量的区别？",
-      "若某假设不成立，结论哪一步失效？"
+      "\\(f(x)=x^{2}\\) 在 \\([2,2]\\) 上的平均变化率是多少？为什么这个问题本身不合法？ · What is the average rate of change of \\(f(x)=x^{2}\\) on \\([2,2]\\)? Why is the question itself invalid?",
+      "\\(f(x)=x^{2}\\) 在 \\(a=1\\) 处的差商化简后是什么？令 \\(h\\to0\\) 得到什么？ · What does the difference quotient of \\(f(x)=x^{2}\\) at \\(a=1\\) simplify to? What do you get as \\(h\\to0\\)?",
+      "若一张表给出 \\(x=1.9,1.99,2.01,2.1\\) 处的差商分别约为 \\(3.9,3.99,4.01,4.1\\)，能否估计 \\(f'(2)\\)？依据是什么？ · A table gives difference quotients about \\(3.9,3.99,4.01,4.1\\) at \\(x=1.9,1.99,2.01,2.1\\). Can you estimate \\(f'(2)\\)? On what basis?",
+      "若 \\(h\\to0^{-}\\) 时差商趋于 2，而 \\(h\\to0^{+}\\) 时差商趋于 4，瞬时变化率是否存在？图像可能是什么样？ · If the difference quotient tends to 2 as \\(h\\to0^{-}\\) but to 4 as \\(h\\to0^{+}\\), does the instantaneous rate exist? What might the graph look like?",
+      "位置 \\(s(t)\\) 以米计、时间以秒计，\\(s'(3)=5\\) 的单位和含义是什么？ · If position \\(s(t)\\) is in meters and time in seconds, what are the units and meaning of \\(s'(3)=5\\)?",
+      "为什么“取一个很小的 \\(h\\) 算平均变化率”不能代替瞬时变化率的定义？ · Why does “compute an average rate with a very small \\(h\\)” not replace the definition of the instantaneous rate?"
     ],
     "vocabulary": [
       {
         "termZh": "瞬时变化率",
         "termEn": "instantaneous rate of change",
-        "defZh": "函数在某一点处的变化率，等于该点切线的斜率。",
-        "defEn": "The rate at which a function changes at a single instant, equal to the slope of the tangent line there."
+        "defZh": "函数在某一点处的变化率，等于差商当 \\(h\\to0\\) 的极限，也就是该点切线的斜率。",
+        "defEn": "The rate at which a function changes at a point, equal to the limit of the difference quotient as \\(h\\to0\\), that is, the slope of the tangent line there."
       },
       {
         "termZh": "平均变化率",
         "termEn": "average rate of change",
-        "defZh": "在区间 \\([a,b]\\) 上等于 \\(\\dfrac{f(b)-f(a)}{b-a}\\)。",
-        "defEn": "Over an interval \\([a,b]\\), the quantity \\(\\dfrac{f(b)-f(a)}{b-a}\\)."
+        "defZh": "在区间 \\([a,b]\\) 上等于 \\(\\dfrac{f(b)-f(a)}{b-a}\\)，要求 \\(b\\ne a\\)；它是割线斜率。",
+        "defEn": "On an interval \\([a,b]\\), the quantity \\(\\dfrac{f(b)-f(a)}{b-a}\\) with \\(b\\ne a\\); it is the slope of a secant line."
       },
       {
         "termZh": "割线",
         "termEn": "secant line",
-        "defZh": "通过曲线上两点的直线，其斜率为区间上的平均变化率。",
-        "defEn": "A line through two points on a curve, whose slope is the average rate of change over the interval."
+        "defZh": "通过曲线上两个不同点的直线，其斜率为区间上的平均变化率。",
+        "defEn": "A line through two distinct points on a curve, whose slope is the average rate of change over the interval."
       },
       {
         "termZh": "切线",
         "termEn": "tangent line",
-        "defZh": "在一点处与曲线局部相切、斜率等于该点导数的直线。",
-        "defEn": "A line touching a curve locally at a point, with slope equal to the derivative there."
+        "defZh": "在一点处与曲线局部相切、斜率等于该点瞬时变化率的直线。",
+        "defEn": "A line touching a curve locally at a point, with slope equal to the instantaneous rate of change there."
       },
       {
         "termZh": "差商",
         "termEn": "difference quotient",
-        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)，用于估计瞬时变化率。",
-        "defEn": "The quotient \\(\\dfrac{f(a+h)-f(a)}{h}\\), used to estimate an instantaneous rate of change."
+        "defZh": "\\(\\dfrac{f(a+h)-f(a)}{h}\\)（\\(h\\ne0\\)），用于计算平均变化率并取极限得到瞬时变化率。",
+        "defEn": "The quotient \\(\\dfrac{f(a+h)-f(a)}{h}\\) with \\(h\\ne0\\), used to compute an average rate and, in the limit, an instantaneous rate."
       },
       {
         "termZh": "极限过程",
         "termEn": "limiting process",
-        "defZh": "令时间间隔或 \\(h\\) 趋于零，把平均变化率转化为瞬时变化率。",
-        "defEn": "Letting the time interval or \\(h\\) approach zero to turn an average rate into an instantaneous rate."
+        "defZh": "令区间长度 \\(h\\) 趋于零但不等于零，把一列平均变化率转化为瞬时变化率。",
+        "defEn": "Letting the interval length \\(h\\) approach zero without equaling zero, turning a family of average rates into an instantaneous rate."
+      },
+      {
+        "termZh": "瞬时速度",
+        "termEn": "instantaneous velocity",
+        "defZh": "位置对时间的瞬时变化率，等于平均速度当时间间隔趋于零的极限。",
+        "defEn": "The instantaneous rate of change of position with respect to time, the limit of average velocity as the time interval tends to zero."
+      },
+      {
+        "termZh": "自变量的变化量",
+        "termEn": "change in the independent variable",
+        "defZh": "区间端点之差 \\(b-a\\) 或 \\(h\\)；它为零时平均变化率的分母为零，因而无定义。",
+        "defEn": "The difference \\(b-a\\), or \\(h\\), between interval endpoints; when it is zero the denominator of the average rate is zero and the rate is undefined."
       }
     ]
   },
