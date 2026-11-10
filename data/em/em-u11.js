@@ -1206,6 +1206,7 @@ export const TOPICS = {
     ],
     "essentialKnowledge": [
       "电流密度 \\(\\vec J\\) 是矢量场：大小等于单位垂直面积上通过的电流，方向为该点正电荷运动（约定电流）的方向；单位是 \\(\\mathrm{A\\,m^{-2}}\\)。 · Current density \\(\\vec J\\) is a vector field: its magnitude is the current per unit perpendicular area and its direction is the direction of positive-charge motion (conventional current) at that point; its unit is \\(\\mathrm{A\\,m^{-2}}\\).",
+      "电流密度是电荷流动的面密度：每单位时间通过单位垂直面积的电荷为 \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\)，所以 \\(\\mathrm{A\\,m^{-2}}=\\mathrm{C\\,s^{-1}\\,m^{-2}}\\)；\\(\\vec J\\) 的方向逐点定义，不必与导体几何轴线平行，只有均匀直导线中才处处沿导线。 · Current density is the areal density of charge flow: the charge crossing unit perpendicular area per unit time is \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\), hence \\(\\mathrm{A\\,m^{-2}}=\\mathrm{C\\,s^{-1}\\,m^{-2}}\\); the direction of \\(\\vec J\\) is defined point by point and need not be parallel to the conductor's geometric axis—only in a uniform straight wire is it everywhere along the wire.",
       "若电流密度在截面上均匀且处处与截面垂直，则 \\(I=JA\\)，等价地 \\(J=\\dfrac{I}{A}\\)；这是平均值关系，不是非均匀情形下的局部值。 · If the current density is uniform over a cross-section and everywhere perpendicular to it, then \\(I=JA\\), equivalently \\(J=\\dfrac{I}{A}\\); this is an average relation, not the local value when \\(J\\) varies.",
       "一般情形下，总电流等于电流密度在截面上的通量积分：\\(I=\\int_S \\vec J\\cdot\\mathrm{d}\\vec A=\\int_S J\\cos\\theta\\,\\mathrm{d}A\\)，其中 \\(\\theta\\) 是 \\(\\vec J\\) 与面积元法向的夹角。 · In general, total current is the flux integral of current density over the surface: \\(I=\\int_S \\vec J\\cdot\\mathrm{d}\\vec A=\\int_S J\\cos\\theta\\,\\mathrm{d}A\\), where \\(\\theta\\) is the angle between \\(\\vec J\\) and the area-element normal.",
       "微观上 \\(\\vec J=nq\\vec v_d\\)：\\(n\\) 是载流子数密度，\\(q\\) 是每个载流子的电荷，\\(\\vec v_d\\) 是漂移速度。金属中电子带负电，电子漂移方向与 \\(\\vec J\\) 相反。 · Microscopically, \\(\\vec J=nq\\vec v_d\\), where \\(n\\) is the carrier number density, \\(q\\) is the charge per carrier, and \\(\\vec v_d\\) is the drift velocity. In a metal the electrons are negative, so their drift is opposite \\(\\vec J\\).",
@@ -1373,6 +1374,7 @@ export const TOPICS = {
     ],
     "examTips": [
       "先判断 \\(J\\) 是否均匀：均匀且垂直才可直接用 \\(I=JA\\)，否则写面积分。 · First decide whether \\(J\\) is uniform: use \\(I=JA\\) directly only when it is uniform and perpendicular; otherwise write the surface integral.",
+      "题目说“单位面积上的电荷流量”时，先写 \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\)，再过渡到 \\(I=\\int_S\\vec J\\cdot\\mathrm{d}\\vec A\\)，不要直接跳到 \\(J=\\dfrac{I}{A}\\)。 · When a prompt says “charge flow per unit area,” start from \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\) and then pass to \\(I=\\int_S\\vec J\\cdot\\mathrm{d}\\vec A\\); do not jump straight to \\(J=\\dfrac{I}{A}\\).",
       "圆柱截面先写 \\(\\mathrm{d}A=2\\pi r\\,\\mathrm{d}r\\)，再代 \\(J(r)\\)；不要漏掉 \\(r\\) 的权重。 · For a circular cross-section, write \\(\\mathrm{d}A=2\\pi r\\,\\mathrm{d}r\\) before substituting \\(J(r)\\); do not omit the factor \\(r\\).",
       "检查单位：\\(\\mathrm{A\\,m^{-2}}\\times\\mathrm{m^{2}}=\\mathrm{A}\\)；若结果不是安培，通常漏了面积因子。 · Check units: \\(\\mathrm{A\\,m^{-2}}\\times\\mathrm{m^{2}}=\\mathrm{A}\\); a result that is not in amperes usually means a missing area factor.",
       "用极限检验积分：令 \\(J\\) 为常量，积分应化为 \\(JA\\)；令 \\(R\\to0\\)，总电流应趋于零。 · Test the integral with limits: a constant \\(J\\) must reduce it to \\(JA\\), and \\(R\\to0\\) must make the total current approach zero.",
@@ -1432,7 +1434,8 @@ export const TOPICS = {
       "为什么 \\(J=\\dfrac{I}{A}\\) 不能用于非均匀电流密度的局部值？它什么时候才是每一点的值？ · Why can \\(J=\\dfrac{I}{A}\\) not give a local value for nonuniform current density? When does it equal the value at every point?",
       "同一稳恒电流通过粗细两段导线，若细段半径是粗段的一半，\\(J\\) 和 \\(v_d\\) 各变为几倍？ · For the same steady current through wide and narrow sections, if the narrow radius is half the wide radius, by what factors do \\(J\\) and \\(v_d\\) change?",
       "倾斜截面与 \\(\\vec J\\) 平行时，为什么穿过它的电流为零？ · Why is the current through a tilted surface zero when the surface is parallel to \\(\\vec J\\)?",
-      "如何用“令 \\(J\\) 为常量”的极限检查一个面积分结果是否漏掉面积权重？ · How can the limit of constant \\(J\\) reveal a missing area weight in a surface-integral result?"
+      "如何用“令 \\(J\\) 为常量”的极限检查一个面积分结果是否漏掉面积权重？ · How can the limit of constant \\(J\\) reveal a missing area weight in a surface-integral result?",
+      "从 \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\) 出发，如何说明 \\(\\vec J\\) 的单位必须是 \\(\\mathrm{A\\,m^{-2}}\\)，并与 \\(I=\\int_S\\vec J\\cdot\\mathrm{d}\\vec A\\) 的量纲一致？ · Starting from \\(J=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t\\,\\mathrm{d}A_{\\perp}}\\), explain why the unit of \\(\\vec J\\) must be \\(\\mathrm{A\\,m^{-2}}\\) and why this is dimensionally consistent with \\(I=\\int_S\\vec J\\cdot\\mathrm{d}\\vec A\\)."
     ],
     "vocabulary": [
       {
@@ -1482,6 +1485,669 @@ export const TOPICS = {
         "termEn": "average current density",
         "defZh": "总电流除以总面积 \\(J_{\\mathrm{avg}}=\\dfrac{I}{A}\\)，只在均匀分布时等于局部值。",
         "defEn": "Total current divided by total area, \\(J_{\\mathrm{avg}}=\\dfrac{I}{A}\\); it equals the local value only for a uniform distribution."
+      }
+    ]
+  },
+  "11.10": {
+    "id": "em/em-u11/11.10",
+    "subject": "em",
+    "chapterId": "em-u11",
+    "unitCode": "11",
+    "unitTitleZh": "电路",
+    "unitTitleEn": "Electric Circuits",
+    "code": "11.10",
+    "titleZh": "电路元件、开闭与拓扑",
+    "titleEn": "Circuit Elements, Open Circuits, and Topology",
+    "layer": "ap",
+    "summary": "电路由电气回路组成，可含导线、电池、电阻、灯泡、电容、电感、开关、电流表与电压表；闭路提供连续导电路径，开路中断路径。分析时先看拓扑（节点、支路、共享元件），再选欧姆定律、基尔霍夫定律或元件微分关系；电路图用标准符号表示连接关系，物理布局不改变拓扑。 · A circuit is composed of electrical loops that may contain wires, batteries, resistors, lightbulbs, capacitors, inductors, switches, ammeters, and voltmeters. A closed circuit provides a continuous conducting path, while an open circuit breaks it. Analyze the topology first (nodes, branches, shared elements), then choose Ohm’s law, Kirchhoff’s laws, or element differential relations; schematics use standard symbols for connections, and physical layout does not change topology.",
+    "learningObjectives": [
+      "能识别电路中的导线、电池、电阻、灯泡、电容、电感、开关、电流表与电压表，并说出各自的理想模型与电路图符号。 · Identify wires, batteries, resistors, lightbulbs, capacitors, inductors, switches, ammeters, and voltmeters in a circuit, and state each element’s ideal model and schematic symbol.",
+      "能区分闭路与开路，解释开路支路电流为零、开关改变拓扑，以及开路间隙仍可有电势差。 · Distinguish closed and open circuits, and explain why an open branch has zero current, how a switch changes topology, and why an open gap can still have a potential difference.",
+      "能用节点、支路、回路与共享元件描述电路拓扑，识别串联、并联与多回路连接。 · Describe circuit topology with nodes, branches, loops, and shared elements, and identify series, parallel, and multiloop connections.",
+      "能针对给定电路选择合适的定律或元件关系（欧姆定律、基尔霍夫环路/结点定律、电容与电感微分关系），并说明选择理由。 · Choose an appropriate law or element relation for a given circuit—Ohm’s law, Kirchhoff’s loop/junction rules, or capacitor/inductor differential relations—and justify the choice.",
+      "能读、画并等价改写电路图，区分物理布局与电气连接，用拓扑保持的变换化简电路。 · Read, draw, and equivalently redraw circuit schematics, distinguish physical layout from electrical connection, and simplify circuits with topology-preserving transformations."
+    ],
+    "essentialKnowledge": [
+      "电路由电气回路组成；一个回路是可沿导线绕行回到起点的闭合路径。回路中可包含导线、电池、电阻、灯泡、电容、电感、开关、电流表与电压表；每种元件用标准符号表示，并有其理想模型。 · A circuit is composed of electrical loops; a loop is a closed path along wires that returns to its starting point. Loops may contain wires, batteries, resistors, lightbulbs, capacitors, inductors, switches, ammeters, and voltmeters; each element has a standard symbol and an ideal model.",
+      "理想导线电阻为零，同一导线上的各点等电势；实际导线有小电阻。导线可以任意弯折或改画，只要连接关系不变，电路的电学性质就不变。 · An ideal wire has zero resistance, so all points on it are at the same potential; a real wire has small resistance. A wire may be bent or redrawn arbitrarily—electrical behavior depends on connectivity, not geometry.",
+      "电池提供电动势 \\(\\varepsilon\\)，可模型化为理想电压源串联内阻 \\(r\\)；端电压 \\(V_{\\mathrm{term}}=\\varepsilon-Ir\\)，放电时小于 \\(\\varepsilon\\)。 · A battery provides emf \\(\\varepsilon\\) and is modeled as an ideal voltage source in series with internal resistance \\(r\\); its terminal voltage is \\(V_{\\mathrm{term}}=\\varepsilon-Ir\\), less than \\(\\varepsilon\\) while discharging.",
+      "电阻和灯泡都是电阻性元件：欧姆元件满足 \\(V=IR\\)；灯泡的电阻随温度变化，通常按额定电压与功率给出的等效电阻处理。 · Resistors and lightbulbs are resistive elements: an ohmic element obeys \\(V=IR\\); a bulb’s resistance changes with temperature and is often modeled by the equivalent resistance implied by its rated voltage and power.",
+      "电容满足 \\(q=CV\\) 与 \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\)；直流稳态下理想电容相当于开路，但开关刚闭合或电压变化时可以有充电电流。 · A capacitor obeys \\(q=CV\\) and \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\); in DC steady state an ideal capacitor acts as an open circuit, but charging current can flow just after a switch closes or when the voltage changes.",
+      "电感满足 \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\)；直流稳态下理想电感相当于短路，但它会阻碍电流突变，开关断开的瞬间可能产生很大的感应电动势。 · An inductor obeys \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\); in DC steady state an ideal inductor acts as a short circuit, but it opposes sudden current changes and can produce a large induced emf at the instant a switch opens.",
+      "开关是可控的二态元件：闭合时近似为零电阻的连接，断开时近似为无限大电阻；切换开关会改变电路的拓扑，因此必须重新识别节点、支路与回路。 · A switch is a controllable two-state element: closed, it acts as a near-zero-resistance connection; open, it acts as a near-infinite resistance. Toggling a switch changes circuit topology, so nodes, branches, and loops must be re-identified.",
+      "理想电流表内阻为零，必须串联；理想电压表内阻无穷大，必须并联。实际电表有有限内阻，接入后会改变电路：电压表并联会分流，电流表串联会分压。 · An ideal ammeter has zero resistance and must be connected in series; an ideal voltmeter has infinite resistance and must be connected in parallel. Real meters have finite resistance and load the circuit: a voltmeter shunts current, and an ammeter drops voltage.",
+      "闭路（闭合电路）存在连续导电路径，电荷能够在电源驱动下持续流动；开路（断开电路）在某处断开，稳态下该支路电流为零。开路间隙两端可以有电势差，不能因为电流为零就认为电压为零。 · A closed circuit has a continuous conducting path, so charge can flow continuously under an emf; an open circuit has a break, and the steady current in that branch is zero. The open gap can still sustain a potential difference—zero current does not imply zero voltage.",
+      "一个元件可以同时属于多个回路（共享支路）。它的物理电流只有一个，但在每个回路的方程中都要按该回路的绕行方向计入，符号可能相反；结点定律保证共享支路与各回路之间的电荷守恒。 · One element can belong to several loops at once (a shared branch). It has only one physical current, and that current appears in each loop equation with the sign set by that loop’s traversal direction; the junction rule enforces charge conservation between the shared branch and the loops.",
+      "分析电路时先识别拓扑：哪些节点由理想导线相连、哪些元件串联（同一电流）、哪些并联（同一电压）、哪些支路被多个回路共享；再选择欧姆定律、基尔霍夫环路/结点定律或电容与电感的微分关系。 · When analyzing a circuit, identify the topology first: which nodes are joined by ideal wires, which elements are in series (same current), which are in parallel (same voltage), and which branches are shared by several loops; then choose Ohm’s law, Kirchhoff’s loop/junction rules, or the differential relations for capacitors and inductors.",
+      "电路图是电路的标准表示：用统一符号画出元件与连接关系，而不是元件的真实形状或位置。电路的性质由元件参数与连接拓扑决定；把导线画长、画短或弯折，只要不改变连接关系，性质就不变。 · A circuit schematic is the standard representation of a circuit: it uses standardized symbols for elements and connections, not the elements’ physical shapes or positions. Circuit properties depend on element values and connection topology; lengthening, shortening, or bending wires without changing connections does not change the behavior."
+    ],
+    "definition": "电路是由若干电气回路组成的系统，回路中可包含导线、电池、电阻、灯泡、电容、电感、开关、电流表与电压表。闭路提供连续导电路径，电荷可在电源驱动下流动；开路在某处断开，稳态下该处电流为零。电路图用标准符号表示元件和连接关系；电路行为由元件参数与连接拓扑共同决定，而不是由导线的物理位置决定。分析时先辨认节点、支路、串联/并联与共享元件，再选择欧姆定律、基尔霍夫定律或元件微分关系。 · A circuit is a system of electrical loops that may contain wires, batteries, resistors, lightbulbs, capacitors, inductors, switches, ammeters, and voltmeters. A closed circuit provides a continuous conducting path so charge can flow under an emf; an open circuit has a break, and the steady current there is zero. A schematic uses standard symbols for elements and connections; circuit behavior is set by element values and connection topology, not by the physical placement of wires. Begin by identifying nodes, branches, series/parallel relations, and shared elements, then choose Ohm’s law, Kirchhoff’s laws, or element differential relations.",
+    "intuition": "把电路想成城市道路网：导线是道路，节点是路口，开关是吊桥，电池提供“高度差”，电阻是限流路段。闭路时车辆（电荷）能绕行一圈；开路时吊桥升起，若必经之路被切断，整条路径都没有持续车流。一个元件被两条路线共用，就像一座桥同时属于两个街区环路：桥上的车流只有一份，但在两条环路的账本里都要登记。电路图是道路网的地图，不是城市的卫星照片：道路画成直线还是曲线不重要，重要的是哪些路口相连。 · Think of a circuit as a road network: wires are roads, nodes are intersections, switches are drawbridges, batteries provide a “height difference,” and resistors are limiting segments. In a closed circuit, cars (charge) can complete a loop; in an open circuit the drawbridge is up, and if a necessary link is cut, no steady traffic flows anywhere along that path. An element shared by two routes is like a bridge belonging to two neighborhood loops: there is only one traffic flow on the bridge, but it is recorded in both loop ledgers. A schematic is a road map, not a satellite photo: whether roads are drawn straight or curved matters less than which intersections are connected.",
+    "formulas": [
+      {
+        "latex": "\\varepsilon=I(R+r)",
+        "note": "单回路闭合电路：电动势等于外电阻与内阻上的电压降之和。 · Single closed loop: the emf equals the sum of the voltage drops across the external and internal resistances."
+      },
+      {
+        "latex": "V_{\\mathrm{term}}=\\varepsilon-Ir",
+        "note": "电池端电压；放电时小于电动势。 · Battery terminal voltage; it is less than the emf while discharging."
+      },
+      {
+        "latex": "R_{\\mathrm{series}}=\\sum_i R_i,\\qquad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum_i\\dfrac{1}{R_i}",
+        "note": "电阻串联与并联的等效电阻。 · Equivalent resistance for series and parallel resistors."
+      },
+      {
+        "latex": "q_C=CV_C,\\qquad i_C=C\\dfrac{\\mathrm{d}V_C}{\\mathrm{d}t}",
+        "note": "电容的电荷—电压关系与瞬时电流；直流稳态时 \\(i_C=0\\)。 · Capacitor charge–voltage relation and instantaneous current; in DC steady state \\(i_C=0\\)."
+      },
+      {
+        "latex": "V_L=L\\dfrac{\\mathrm{d}i_L}{\\mathrm{d}t}",
+        "note": "电感的电压—电流关系；直流稳态时 \\(V_L=0\\)。 · Inductor voltage–current relation; in DC steady state \\(V_L=0\\)."
+      },
+      {
+        "latex": "\\sum_{\\mathrm{loop}}\\Delta V=0",
+        "note": "基尔霍夫环路定律：闭合回路电势差代数和为零。 · Kirchhoff’s loop rule: the algebraic sum of potential differences around a closed loop is zero."
+      },
+      {
+        "latex": "\\sum_{\\mathrm{node}}I_{\\mathrm{in}}=\\sum_{\\mathrm{node}}I_{\\mathrm{out}}",
+        "note": "基尔霍夫结点定律：流入节点的电流等于流出节点的电流。 · Kirchhoff’s junction rule: current into a node equals current out of it."
+      },
+      {
+        "latex": "I_{\\mathrm{open}}=0",
+        "note": "理想开路支路的稳态电流为零；间隙电压由其余电路决定。 · The steady current in an ideal open branch is zero; the gap voltage is set by the rest of the circuit."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "元件理想模型 · Ideal element models",
+        "to": "电路方程 · Circuit equations",
+        "note": "把导线、电池、电阻、电容、电感、开关和电表分别用零电阻、电动势加内阻、电阻、\\(q=CV\\)、\\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\)、二态电阻和理想电表模型代替，再对节点与回路写方程。 · Replace wires, batteries, resistors, capacitors, inductors, switches, and meters by zero resistance, emf plus internal resistance, resistance, \\(q=CV\\), \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\), a two-state resistance, and ideal-meter models, then write node and loop equations."
+      },
+      {
+        "from": "能量守恒 · Energy conservation",
+        "to": "环路定律 · Loop rule",
+        "note": "电荷沿闭合回路绕行一周回到原电势，各元件电势差代数和为零；这是基尔霍夫环路定律。 · A charge that travels around a closed loop returns to its original potential, so the algebraic sum of potential differences is zero; this is Kirchhoff’s loop rule."
+      },
+      {
+        "from": "电荷守恒 · Charge conservation",
+        "to": "结点定律 · Junction rule",
+        "note": "稳态下节点不能积累电荷，流入电流必须等于流出电流；共享支路的电流因此在各回路之间守恒。 · In steady state a node cannot accumulate charge, so current in must equal current out; the current in a shared branch is therefore conserved among the loops."
+      },
+      {
+        "from": "开关断开 · Switch opened",
+        "to": "拓扑改变 · Topology change",
+        "note": "断开开关把一条支路变为开路：该支路稳态电流为零，但断点两端可承担其余电路剩余的电势差，通常等于电源电动势减去其他元件的电压降。 · Opening a switch turns a branch into an open circuit: its steady current is zero, but the gap can sustain the potential difference left by the rest of the circuit, usually the source emf minus the drops across the other elements."
+      },
+      {
+        "from": "电路图 · Schematic",
+        "to": "拓扑等价 · Topological equivalence",
+        "note": "电路图只保留节点与支路的连接关系；保持节点和支路不变地重画导线，不会改变任何电流或电压。 · A schematic keeps only the node-and-branch connectivity; redrawing wires while preserving nodes and branches changes no current or voltage."
+      },
+      {
+        "from": "直流稳态 · DC steady state",
+        "to": "元件极限 · Element limits",
+        "note": "恒定电压下电容电流为零，等效为开路；恒定电流下电感电压为零，等效为短路。含电容或电感的暂态过程必须用微分关系，不能直接用这两个极限。 · At constant voltage a capacitor carries zero current and acts as an open circuit; at constant current an inductor has zero voltage and acts as a short circuit. Transients involving capacitors or inductors require the differential relations, not these limits."
+      }
+    ],
+    "conditions": [
+      "集中参数近似：电路尺寸远小于电磁波波长，导线上的传播延迟可忽略。 · Lumped-parameter approximation: circuit size is much smaller than the electromagnetic wavelength, so propagation delay along wires is negligible.",
+      "直流或准静态条件：用代数欧姆定律与基尔霍夫定律时，电流和电压在关注的时间尺度内近似不变。 · DC or quasistatic conditions: algebraic Ohm’s law and Kirchhoff’s laws apply when currents and voltages are approximately constant on the time scale of interest.",
+      "理想导线与理想电表；实际导线、电表、开关和电源都有非零内阻，必要时需把它们计入电路。 · Ideal wires and meters; real wires, meters, switches, and sources have nonzero resistance and must be included when significant.",
+      "直流稳态下理想电容视为开路、理想电感视为短路；开关切换后的暂态必须用 \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) 与 \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\) 分析。 · In DC steady state an ideal capacitor is an open circuit and an ideal inductor is a short circuit; after a switch changes, transients must be analyzed with \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) and \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\).",
+      "开关视为理想二态元件；实际开关在切换瞬间可能有电弧、弹跳和有限过渡时间。 · Switches are treated as ideal two-state elements; real switches may arc, bounce, and have a finite transition time.",
+      "开路支路的稳态电流为零，但间隙电压由其余电路决定；不能用“电流为零”直接推出“电压为零”。 · The steady current in an open branch is zero, but the gap voltage is determined by the rest of the circuit; zero current does not imply zero voltage.",
+      "电路图只编码拓扑与元件参数，忽略导线电阻、寄生电容、寄生电感与接触电阻；高频或长线电路需要更完整的模型。 · A schematic encodes only topology and element values, ignoring wire resistance, stray capacitance, stray inductance, and contact resistance; high-frequency or long-line circuits need a fuller model."
+    ],
+    "keyPoints": [
+      "先看拓扑再选定律：节点、支路、串联/并联、共享元件决定用哪条方程。 · Read topology before choosing a law: nodes, branches, series/parallel relations, and shared elements determine which equation to use.",
+      "闭路提供连续导电路径；开路在某处断开，稳态下该支路电流为零。 · A closed circuit provides a continuous conducting path; an open circuit has a break, and the steady current in that branch is zero.",
+      "开路间隙可以有电势差，其大小由其余电路决定；零电流不等于零电压。 · An open gap can have a potential difference set by the rest of the circuit; zero current does not mean zero voltage.",
+      "开关切换会改变拓扑，必须重新画图、重新识别节点与回路。 · Toggling a switch changes topology, so redraw the circuit and re-identify nodes and loops.",
+      "共享元件的物理电流只有一份，但在每个回路方程中按绕行方向取符号。 · A shared element has only one physical current, but it enters each loop equation with the sign required by that loop’s traversal.",
+      "理想电流表串联、内阻为零；理想电压表并联、内阻无穷大；实际电表会加载电路。 · An ideal ammeter is in series with zero resistance; an ideal voltmeter is in parallel with infinite resistance; real meters load the circuit.",
+      "直流稳态下电容开路、电感短路；暂态过程必须用元件微分关系。 · In DC steady state a capacitor is an open circuit and an inductor is a short circuit; transients require the element differential relations.",
+      "电路图用标准符号表示连接关系；物理布局、导线长短和弯折不改变拓扑与电学性质。 · Schematics use standard symbols for connections; physical layout, wire length, and bending do not change topology or electrical behavior."
+    ],
+    "misconceptions": [
+      "认为开路时电池仍在“推”电荷，所以电路中还有电流；实际上开路支路的稳态电流为零，电池只维持断点两端的电势差。 · Thinking the battery still “pushes” charge through an open circuit, so current continues; in fact the steady current in an open branch is zero, and the battery only maintains a potential difference across the gap.",
+      "认为只要电路闭合就一定有电流；若没有电动势，闭合导线中的电荷很快达到静电平衡，稳态电流为零。 · Thinking any closed circuit must carry current; without an emf, charge in a closed wire reaches electrostatic equilibrium and the steady current is zero.",
+      "认为开关断开后断点两端电压一定为零；实际上断点常承担电源电动势减去其他元件电压降后的剩余电压。 · Assuming the voltage across an open switch is zero; the gap often sustains the source emf minus the drops across the other elements.",
+      "认为电容在任何情况下都完全断路；电容只在直流稳态下电流为零，电压变化时仍有充电电流。 · Treating a capacitor as a perfect open circuit at all times; its current is zero only in DC steady state, and charging current flows when the voltage changes.",
+      "认为电感在任何情况下都完全短路；电感只在直流稳态下电压为零，电流变化时会产生感应电动势。 · Treating an inductor as a perfect short at all times; its voltage is zero only in DC steady state, and a changing current produces an induced emf.",
+      "把电流表并联、电压表串联；理想电流表应串联测电流，理想电压表应并联测电压。 · Connecting an ammeter in parallel or a voltmeter in series; an ideal ammeter belongs in series and an ideal voltmeter in parallel.",
+      "认为共享元件在不同回路中有不同的电流；共享支路只有一个物理电流，各回路方程只是用不同符号记录它。 · Thinking a shared element carries different currents in different loops; the shared branch has one physical current, and the loop equations only record it with different signs.",
+      "认为导线画得越长、越弯，电阻就越大；在理想电路图中导线电阻为零，长度和形状不进入模型，实际导线才需另计电阻。 · Thinking longer or more bent wires always mean more resistance; in an ideal schematic wire resistance is zero and length or shape does not enter the model, while real wires require a separate resistance.",
+      "认为开关的位置只是物理摆放，不影响电路；开关的断开/闭合直接改变拓扑，位置与状态决定哪些支路导通。 · Treating switch placement as mere physical arrangement; opening or closing a switch changes topology, and its position and state determine which branches conduct."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 识别元件并选择定律 · Example 1: Identify elements and choose laws",
+        "prompt": "一个闭合电路由 \\(12\\,\\mathrm{V}\\) 电池（内阻 \\(1.0\\,\\Omega\\)）、\\(5.0\\,\\Omega\\) 电阻、额定 \\(6.0\\,\\mathrm{V}\\)、\\(6.0\\,\\mathrm{W}\\) 的灯泡、开关、电流表和电压表组成。开关闭合，灯泡正常发光。指出各元件的作用与电表接法，并求电流、灯泡电压和电池端电压。 · A closed circuit contains a \\(12\\,\\mathrm{V}\\) battery with internal resistance \\(1.0\\,\\Omega\\), a \\(5.0\\,\\Omega\\) resistor, a bulb rated \\(6.0\\,\\mathrm{V}\\), \\(6.0\\,\\mathrm{W}\\), a switch, an ammeter, and a voltmeter. The switch is closed and the bulb glows normally. Identify each element’s role and the meter connections, then find the current, bulb voltage, and battery terminal voltage.",
+        "steps": [
+          "灯泡额定电阻 \\(R_{\\mathrm{bulb}}=\\dfrac{V^{2}}{P}=\\dfrac{(6.0)^{2}}{6.0}=6.0\\,\\Omega\\)。 · The bulb’s rated resistance is \\(R_{\\mathrm{bulb}}=\\dfrac{V^{2}}{P}=\\dfrac{(6.0)^{2}}{6.0}=6.0\\,\\Omega\\).",
+          "开关闭合后形成单回路：电池、\\(5.0\\,\\Omega\\) 电阻、灯泡、开关和电流表串联；电压表并联在灯泡两端。 · Closing the switch forms a single loop: battery, \\(5.0\\,\\Omega\\) resistor, bulb, switch, and ammeter in series; the voltmeter is connected in parallel across the bulb.",
+          "总外电阻 \\(R=5.0+6.0=11\\,\\Omega\\)，用含内阻的闭合电路关系 \\(\\varepsilon=I(R+r)\\)：\\(I=\\dfrac{12}{11+1.0}=1.0\\,\\mathrm{A}\\)。 · Total external resistance is \\(R=5.0+6.0=11\\,\\Omega\\). Use \\(\\varepsilon=I(R+r)\\): \\(I=\\dfrac{12}{11+1.0}=1.0\\,\\mathrm{A}\\).",
+          "灯泡电压 \\(V_{\\mathrm{bulb}}=IR_{\\mathrm{bulb}}=(1.0)(6.0)=6.0\\,\\mathrm{V}\\)，正好等于额定电压；电阻电压为 \\(5.0\\,\\mathrm{V}\\)。 · Bulb voltage is \\(V_{\\mathrm{bulb}}=IR_{\\mathrm{bulb}}=(1.0)(6.0)=6.0\\,\\mathrm{V}\\), its rated voltage; the resistor drops \\(5.0\\,\\mathrm{V}\\).",
+          "电池端电压 \\(V_{\\mathrm{term}}=\\varepsilon-Ir=12-(1.0)(1.0)=11\\,\\mathrm{V}\\)；电流表读数 \\(1.0\\,\\mathrm{A}\\)，电压表读数 \\(6.0\\,\\mathrm{V}\\)。 · Terminal voltage is \\(V_{\\mathrm{term}}=\\varepsilon-Ir=12-(1.0)(1.0)=11\\,\\mathrm{V}\\); the ammeter reads \\(1.0\\,\\mathrm{A}\\) and the voltmeter reads \\(6.0\\,\\mathrm{V}\\)."
+        ],
+        "solution": "电流 \\(1.0\\,\\mathrm{A}\\)，灯泡电压 \\(6.0\\,\\mathrm{V}\\)，端电压 \\(11\\,\\mathrm{V}\\)；电流表串联、电压表并联。 · Current \\(1.0\\,\\mathrm{A}\\), bulb voltage \\(6.0\\,\\mathrm{V}\\), terminal voltage \\(11\\,\\mathrm{V}\\); ammeter in series, voltmeter in parallel.",
+        "solutionLatex": "I=\\dfrac{\\varepsilon}{R+r}=\\dfrac{12}{5.0+6.0+1.0}=1.0\\,\\mathrm{A},\\qquad V_{\\mathrm{bulb}}=6.0\\,\\mathrm{V},\\qquad V_{\\mathrm{term}}=11\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 2 · 开关断开：开路电流与间隙电压 · Example 2: Open switch—zero current, nonzero gap voltage",
+        "prompt": "在例 1 的电路中把开关断开，电压表改接在开关两端。求电路电流、开关两端电压和电压表读数。假设电压表理想。 · Open the switch in Example 1 and connect the voltmeter across the switch. Find the circuit current, the voltage across the switch, and the voltmeter reading. Assume an ideal voltmeter.",
+        "steps": [
+          "开关断开后，主回路上出现断点，成为开路；稳态下没有电荷能够跨过断点，故 \\(I=0\\)。 · Opening the switch creates a break in the main loop, so it is an open circuit; in steady state no charge crosses the gap, hence \\(I=0\\).",
+          "因为没有电流，\\(5.0\\,\\Omega\\) 电阻和灯泡上的电压降都为零：\\(V_R=IR=0\\)，\\(V_{\\mathrm{bulb}}=0\\)。 · With no current, the voltage drops across the \\(5.0\\,\\Omega\\) resistor and the bulb are both zero: \\(V_R=IR=0\\) and \\(V_{\\mathrm{bulb}}=0\\).",
+          "电池内阻上也没有电压降，所以电池端电压等于电动势 \\(12\\,\\mathrm{V}\\)。 · There is also no drop across the battery’s internal resistance, so the terminal voltage equals the emf, \\(12\\,\\mathrm{V}\\).",
+          "沿回路写电压代数和：断点两端必须承担全部 \\(12\\,\\mathrm{V}\\)，即 \\(V_{\\mathrm{switch}}=12\\,\\mathrm{V}\\)。 · Summing voltages around the loop, the gap must sustain the full \\(12\\,\\mathrm{V}\\), so \\(V_{\\mathrm{switch}}=12\\,\\mathrm{V}\\).",
+          "理想电压表内阻无穷大，不取电流，因此读数就是 \\(12\\,\\mathrm{V}\\)，而电流仍为零。 · An ideal voltmeter has infinite resistance and draws no current, so it reads \\(12\\,\\mathrm{V}\\) while the current remains zero."
+        ],
+        "solution": "\\(I=0\\)，开关两端电压和电压表读数均为 \\(12\\,\\mathrm{V}\\)。 · \\(I=0\\); the voltage across the switch and the voltmeter reading are both \\(12\\,\\mathrm{V}\\).",
+        "solutionLatex": "I_{\\mathrm{open}}=0,\\qquad V_{\\mathrm{switch}}=\\varepsilon-I(R+r)=12\\,\\mathrm{V},\\qquad V_{\\mathrm{voltmeter}}=12\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 3 · 共享支路属于两个回路 · Example 3: A shared branch in two loops",
+        "prompt": "两个相邻回路共用中间电阻 \\(R_1=2.0\\,\\Omega\\)。左回路还有 \\(\\varepsilon=12\\,\\mathrm{V}\\) 的理想电池和 \\(R_2=2.0\\,\\Omega\\)，右回路还有 \\(R_3=2.0\\,\\Omega\\)。设左、右回路的顺时针电流分别为 \\(I_1\\)、\\(I_2\\)，求三个电流并说明共享元件的处理。 · Two adjacent loops share a central resistor \\(R_1=2.0\\,\\Omega\\). The left loop also contains an ideal \\(12\\,\\mathrm{V}\\) battery and \\(R_2=2.0\\,\\Omega\\); the right loop contains \\(R_3=2.0\\,\\Omega\\). Let \\(I_1\\) and \\(I_2\\) be the clockwise currents in the left and right loops. Find all three currents and explain how the shared element is handled.",
+        "steps": [
+          "识别拓扑：\\(R_1\\) 是共享支路，同时属于左、右两个回路；它的物理电流只有一份，设向下为 \\(I_s=I_1-I_2\\)。 · Identify the topology: \\(R_1\\) is shared by the left and right loops. It has one physical current; take downward as \\(I_s=I_1-I_2\\).",
+          "左回路顺时针：\\(12-2.0I_1-2.0(I_1-I_2)=0\\)。 · Clockwise left loop: \\(12-2.0I_1-2.0(I_1-I_2)=0\\).",
+          "右回路顺时针：共享支路被向上绕行，与向下的 \\(I_s\\) 相反，所以电势变化为 \\(+2.0(I_1-I_2)\\)；再减去 \\(R_3\\) 上的电压降：\\(+2.0(I_1-I_2)-2.0I_2=0\\)。 · Clockwise right loop: the shared branch is traversed upward, opposite to the downward \\(I_s\\), so its potential change is \\(+2.0(I_1-I_2)\\); subtracting the drop across \\(R_3\\) gives \\(+2.0(I_1-I_2)-2.0I_2=0\\).",
+          "由右回路方程得 \\(I_1=2I_2\\)；代入左回路得 \\(12-2(2I_2)-2(2I_2-I_2)=0\\)，即 \\(12-4I_2-2I_2=0\\)，所以 \\(I_2=2.0\\,\\mathrm{A}\\)、\\(I_1=4.0\\,\\mathrm{A}\\)。 · The right-loop equation gives \\(I_1=2I_2\\); substituting into the left loop gives \\(12-2(2I_2)-2(2I_2-I_2)=0\\), or \\(12-4I_2-2I_2=0\\), so \\(I_2=2.0\\,\\mathrm{A}\\) and \\(I_1=4.0\\,\\mathrm{A}\\).",
+          "共享支路电流 \\(I_s=I_1-I_2=4.0-2.0=2.0\\,\\mathrm{A}\\)，方向向下；两个回路电流都为正，实际方向与假设的顺时针方向一致。 · The shared current is \\(I_s=I_1-I_2=4.0-2.0=2.0\\,\\mathrm{A}\\) downward; both loop currents are positive, so their actual directions match the assumed clockwise directions.",
+          "检查：共享电阻的 \\(I_s\\) 在左回路方程中以 \\(-2.0I_s\\) 出现（绕行方向与 \\(I_s\\) 相同），在右回路方程中以 \\(+2.0I_s\\) 出现（绕行方向与 \\(I_s\\) 相反）；同一个物理电流，符号由各回路的绕行方向决定。 · Check: \\(I_s\\) appears as \\(-2.0I_s\\) in the left-loop equation (traversal along \\(I_s\\)) and \\(+2.0I_s\\) in the right-loop equation (traversal opposite \\(I_s\\))—the same physical current with signs set by each loop’s direction."
+        ],
+        "solution": "\\(I_1=4.0\\,\\mathrm{A}\\)，\\(I_2=2.0\\,\\mathrm{A}\\)，共享支路向下 \\(2.0\\,\\mathrm{A}\\)。 · \\(I_1=4.0\\,\\mathrm{A}\\), \\(I_2=2.0\\,\\mathrm{A}\\), and the shared branch carries \\(2.0\\,\\mathrm{A}\\) downward.",
+        "solutionLatex": "I_1=4.0\\,\\mathrm{A},\\qquad I_2=2.0\\,\\mathrm{A},\\qquad I_s=I_1-I_2=2.0\\,\\mathrm{A}"
+      },
+      {
+        "title": "例 4 · 电路图与拓扑等价 · Example 4: Schematic and topological equivalence",
+        "prompt": "某电路图中 \\(R_1=6.0\\,\\Omega\\) 与 \\(R_2=3.0\\,\\Omega\\) 的两端分别接在同一对节点上，它们的并联组合再与 \\(R_3=4.0\\,\\Omega\\) 串联，接在 \\(12\\,\\mathrm{V}\\) 理想电池两端。求等效电阻与总电流，并说明把导线改画成长方形是否改变结果。 · In a schematic, \\(R_1=6.0\\,\\Omega\\) and \\(R_2=3.0\\,\\Omega\\) have both ends connected to the same pair of nodes; their parallel combination is in series with \\(R_3=4.0\\,\\Omega\\) across an ideal \\(12\\,\\mathrm{V}\\) battery. Find the equivalent resistance and total current, and explain whether redrawing the wires as rectangles changes the result.",
+        "steps": [
+          "识别节点：\\(R_1\\) 与 \\(R_2\\) 的两端分别接同一对节点，所以它们并联；并联组合与 \\(R_3\\) 串联。 · Identify nodes: \\(R_1\\) and \\(R_2\\) share both end nodes, so they are in parallel; the combination is in series with \\(R_3\\).",
+          "\\(\\dfrac{1}{R_{12}}=\\dfrac{1}{6.0}+\\dfrac{1}{3.0}=\\dfrac{1}{2.0}\\)，故 \\(R_{12}=2.0\\,\\Omega\\)。 · \\(\\dfrac{1}{R_{12}}=\\dfrac{1}{6.0}+\\dfrac{1}{3.0}=\\dfrac{1}{2.0}\\), so \\(R_{12}=2.0\\,\\Omega\\).",
+          "串联：\\(R_{\\mathrm{eq}}=2.0+4.0=6.0\\,\\Omega\\)。 · Series: \\(R_{\\mathrm{eq}}=2.0+4.0=6.0\\,\\Omega\\).",
+          "总电流 \\(I=\\dfrac{12}{6.0}=2.0\\,\\mathrm{A}\\)。 · Total current \\(I=\\dfrac{12}{6.0}=2.0\\,\\mathrm{A}\\).",
+          "把导线改画成长方形、缩短或拉长，只要 \\(R_1\\)、\\(R_2\\) 仍接同一对节点、\\(R_3\\) 仍与并联块串联，节点与支路关系不变，等效电阻和电流都不变。 · Redrawing wires as rectangles, shortening them, or lengthening them changes nothing as long as \\(R_1\\) and \\(R_2\\) still share the same two nodes and \\(R_3\\) remains in series with the parallel block—the node-and-branch relations are unchanged."
+        ],
+        "solution": "\\(R_{\\mathrm{eq}}=6.0\\,\\Omega\\)，\\(I=2.0\\,\\mathrm{A}\\)；改画导线不改变拓扑，因此结果不变。 · \\(R_{\\mathrm{eq}}=6.0\\,\\Omega\\) and \\(I=2.0\\,\\mathrm{A}\\); redrawing wires does not change topology, so the result is unchanged.",
+        "solutionLatex": "R_{12}=\\dfrac{(6.0)(3.0)}{6.0+3.0}=2.0\\,\\Omega,\\qquad R_{\\mathrm{eq}}=2.0+4.0=6.0\\,\\Omega,\\qquad I=\\dfrac{12}{6.0}=2.0\\,\\mathrm{A}"
+      },
+      {
+        "title": "例 5 · 电容与电感的直流稳态 · Example 5: Capacitor and inductor in DC steady state",
+        "prompt": "一个串联电路含 \\(12\\,\\mathrm{V}\\) 理想电池、\\(6.0\\,\\Omega\\) 电阻、电容 \\(C\\) 和电感 \\(L\\)，开关闭合很长时间。某学生说：“电容相当于开路、电感相当于短路，电路既断路又短路，无法判断。”请判断并求稳态电流、电阻电压、电感电压和电容电压。 · A series circuit contains an ideal \\(12\\,\\mathrm{V}\\) battery, a \\(6.0\\,\\Omega\\) resistor, a capacitor \\(C\\), and an inductor \\(L\\). The switch has been closed for a long time. A student says, “The capacitor is an open circuit and the inductor is a short circuit, so the circuit is both open and shorted; it cannot be analyzed.” Evaluate this statement and find the steady current, resistor voltage, inductor voltage, and capacitor voltage.",
+        "steps": [
+          "直流稳态下电流恒定，电容电流 \\(i_C=C\\dfrac{\\mathrm{d}V_C}{\\mathrm{d}t}=0\\)，所以电容相当于开路；电感电压 \\(V_L=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}=0\\)，所以电感相当于理想导线。 · In DC steady state the current is constant, so the capacitor current \\(i_C=C\\dfrac{\\mathrm{d}V_C}{\\mathrm{d}t}=0\\) and the capacitor acts as an open circuit; the inductor voltage \\(V_L=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}=0\\), so the inductor acts as an ideal wire.",
+          "串联路径被电容断开，稳态电流为零：\\(I=0\\)。 · The series path is broken by the capacitor, so the steady current is zero: \\(I=0\\).",
+          "电阻电压 \\(V_R=IR=0\\)；电感电压 \\(V_L=0\\)。 · Resistor voltage \\(V_R=IR=0\\); inductor voltage \\(V_L=0\\).",
+          "电容承担全部电源电压：\\(V_C=12\\,\\mathrm{V}\\)。 · The capacitor sustains the full source voltage: \\(V_C=12\\,\\mathrm{V}\\).",
+          "两个极限并不矛盾：电容“开路”决定串联路径无电流，电感“短路”只说明它两端没有电压降，并不表示它把电源短路。 · The two limits are not contradictory: the capacitor’s “open” sets the zero current in the series path, while the inductor’s “short” only means zero voltage across it, not that it shorts the source.",
+          "注意：开关刚闭合的暂态中，电容电压不能突变、电感电流不能突变，必须用微分关系分析，不能直接套用稳态极限。 · Note: just after the switch closes, the capacitor voltage and inductor current cannot change abruptly, so the transient must be analyzed with the differential relations rather than these steady-state limits."
+        ],
+        "solution": "\\(I=0\\)，\\(V_R=0\\)，\\(V_L=0\\)，\\(V_C=12\\,\\mathrm{V}\\)；两个极限分别描述不同元件，并不矛盾。 · \\(I=0\\), \\(V_R=0\\), \\(V_L=0\\), and \\(V_C=12\\,\\mathrm{V}\\); the two limits describe different elements and are not contradictory.",
+        "solutionLatex": "I=0,\\qquad V_R=IR=0,\\qquad V_L=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}=0,\\qquad V_C=12\\,\\mathrm{V}"
+      }
+    ],
+    "examTips": [
+      "先读电路图、标节点与支路，再判断串联、并联和共享元件；不要一上来就套公式。 · Read the schematic and label nodes and branches first, then identify series, parallel, and shared elements; do not plug into formulas immediately.",
+      "开关状态一变就重画电路：断开处是开路，闭合处是理想导线，拓扑可能完全不同。 · Redraw the circuit whenever a switch changes state: an open switch is a break and a closed switch is an ideal wire, so the topology may be completely different.",
+      "开路支路先写 \\(I=0\\)，再用环路定律求断点电压；零电流不等于零电压。 · For an open branch, write \\(I=0\\) first and then use the loop rule to find the gap voltage; zero current does not mean zero voltage.",
+      "共享元件只有一个物理电流；在每个回路方程中按绕行方向取正负，不要重复计算成两个独立电流。 · A shared element has only one physical current; give it a sign in each loop equation according to the traversal direction, and do not count it as two independent currents.",
+      "理想电流表串联、电压表并联；若题目给出电表内阻，就把它们当作电路中的电阻重新分析。 · Ideal ammeters go in series and voltmeters in parallel; if meter resistance is given, treat the meters as resistors and re-analyze the circuit.",
+      "直流稳态先判断电容开路、电感短路；涉及“刚闭合”“刚断开”时改用 \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) 与 \\(V=L\\dfrac{\\mathrm{d}i}{\\mathrm{d}t}\\)。 · In DC steady state, first apply the capacitor-open and inductor-short limits; for “just closed” or “just opened,” switch to the differential relations.",
+      "电路图只表达拓扑；导线画法、长度和物理位置不改变理想电路的性质，除非题目明确给出导线电阻。 · A schematic expresses topology only; wire drawing, length, and physical position do not change an ideal circuit unless the problem explicitly gives wire resistance."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.1",
+        "title": "电流 · Electric Current",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.2",
+        "title": "简单电路 · Simple Circuits",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.5",
+        "title": "复合直流电路 · Compound Direct Current Circuits",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.6",
+        "title": "基尔霍夫环路 · Kirchhoff's Loop Rule",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.7",
+        "title": "基尔霍夫结点 · Kirchhoff's Junction Rule",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.8",
+        "title": "RC 电路 · Resistor–Capacitor (RC) Circuits",
+        "relation": "应用 · application"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.11",
+        "title": "电容网络与电荷守恒 · Capacitor Networks and Charge Conservation",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [],
+    "practiceHref": "#/em/practice/em-u11",
+    "connections": [
+      "上游：11.1 的电流定义与 11.2 的串并联、电表接法给出基本语言；本主题把它们组织成“元件—节点—支路—回路”的拓扑分析框架。 · Upstream: the current definition in 11.1 and the series/parallel and meter conventions in 11.2 provide the basic language; this topic organizes them into a “element–node–branch–loop” topological framework.",
+      "下游：11.5 的复合直流电路、11.6 的环路定律与 11.7 的结点定律都建立在本主题的节点、支路和共享元件识别之上。 · Downstream: compound DC circuits in 11.5, the loop rule in 11.6, and the junction rule in 11.7 all build on the node, branch, and shared-element identification taught here.",
+      "元件暂态：11.8 的 RC 电路与 13.5、13.6 的 LR/LC 电路把本主题的电容、电感、开关模型扩展为时间相关过程。 · Element transients: the RC circuit in 11.8 and the LR/LC circuits in 13.5 and 13.6 extend this topic’s capacitor, inductor, and switch models to time-dependent processes.",
+      "实际应用：电路图是实验接线、故障排查与电子设计的通用语言；电表接法、开关状态和共享支路识别直接决定测量与诊断是否正确。 · Practical use: schematics are the common language of breadboarding, troubleshooting, and electronic design; meter connections, switch states, and shared-branch identification determine whether measurements and diagnoses are correct."
+    ],
+    "intuitionDetailed": "先画一张“拓扑地图”：把由理想导线直接相连的点合并成一个节点，把每个元件画成节点之间的一条支路，把回路画成支路围成的闭合路径。然后问三个问题：哪些支路串联（同一电流）？哪些并联（同一电压）？哪些支路被两个以上回路共用？串联像单行道，电流处处相同；并联像多条并行车道，电压相同而电流分配；共享支路像一座同时属于两个街区的桥，桥上的车流只有一份，但在两个街区的交通账本中都要出现，方向按各自的绕行方向取正负。开关是吊桥：断开时支路变成开路，稳态电流为零，但桥两端仍可能有高度差（电势差）；闭合时支路变成理想导线，拓扑随之改变。分析时先定拓扑，再选定律：单回路可用 \\(\\varepsilon=I(R+r)\\)，多回路用基尔霍夫环路与结点定律，含电容/电感且涉及“刚切换”时用微分关系。最后用极限检查：开路电流应为零，短路电压应为零，电容稳态电流应为零，电感稳态电压应为零。 · First draw a “topology map”: merge points joined directly by ideal wires into one node, draw each element as a branch between nodes, and draw each loop as a closed path of branches. Then ask three questions: which branches are in series (same current), which are in parallel (same voltage), and which branches are shared by two or more loops? Series is like a single-lane road with the same current everywhere; parallel is like several lanes with the same voltage and divided current; a shared branch is like a bridge belonging to two neighborhoods—there is one traffic flow, but it appears in both ledgers with signs set by each loop’s direction. A switch is a drawbridge: open, the branch becomes an open circuit with zero steady current but possibly a potential difference across the gap; closed, it becomes an ideal wire and the topology changes. Read topology first, then choose a law: a single loop may use \\(\\varepsilon=I(R+r)\\), multiloop circuits use Kirchhoff’s loop and junction rules, and “just switched” situations with capacitors or inductors require the differential relations. Check limits at the end: open-circuit current is zero, short-circuit voltage is zero, capacitor steady current is zero, and inductor steady voltage is zero.",
+    "development": [
+      "认识元件：把导线、电池、电阻、灯泡、电容、电感、开关、电流表、电压表与它们的标准符号、理想模型一一对应。 · Learn the elements: match wires, batteries, resistors, bulbs, capacitors, inductors, switches, ammeters, and voltmeters to their standard symbols and ideal models.",
+      "建立拓扑语言：把电路化成节点与支路，识别串联、并联、回路与共享支路。 · Build the topological language: reduce the circuit to nodes and branches, and identify series, parallel, loops, and shared branches.",
+      "分析开闭：用开关断开/闭合改变拓扑，写出开路支路的零电流与断点电压。 · Analyze open and closed states: change topology with the switch, and write the zero current and gap voltage for an open branch.",
+      "选择定律：单回路用欧姆定律与环路关系；多回路用基尔霍夫方程组；含电容/电感时区分稳态与暂态。 · Choose laws: use Ohm’s law and the loop relation for a single loop, Kirchhoff equations for multiple loops, and separate steady state from transients when capacitors or inductors are present.",
+      "读画电路图：用标准符号画图，做保持节点与支路不变的等价重画，再化简串并联。 · Read and draw schematics: use standard symbols, redraw equivalently while preserving nodes and branches, and then reduce series/parallel combinations.",
+      "检验与迁移：用极限、单位、电表读数和能量/电荷守恒检查结果，并迁移到含灯泡、开关或多回路的实际电路。 · Check and transfer: use limits, units, meter readings, and energy/charge conservation to check results, then transfer to real circuits with bulbs, switches, or multiple loops."
+    ],
+    "checks": [
+      "闭路与开路的区别是什么？为什么开路支路的稳态电流为零？ · What is the difference between a closed and an open circuit? Why is the steady current in an open branch zero?",
+      "开关断开时，断点两端电压是否一定为零？请用 \\(12\\,\\mathrm{V}\\) 电池、电阻和灯泡的例子说明。 · Is the voltage across an open switch necessarily zero? Explain with a \\(12\\,\\mathrm{V}\\) battery, a resistor, and a bulb.",
+      "一个电阻被两个回路共享，它的电流在两个回路方程中应如何写？为什么不是两个不同的电流？ · A resistor is shared by two loops. How should its current be written in the two loop equations, and why is it not two different currents?",
+      "理想电流表和理想电压表应如何接入？若电表有有限内阻，测量结果会如何改变？ · How are ideal ammeters and voltmeters connected? How do finite meter resistances change the measurement?",
+      "电容和电感在直流稳态分别相当于什么？为什么“刚闭合”时不能直接套用这两个极限？ · What do capacitors and inductors become in DC steady state, and why can those limits not be applied immediately after a switch closes?",
+      "把电路图中的导线改画成长方形或缩短，电路性质是否改变？什么情况下导线长度会影响结果？ · Does redrawing wires as rectangles or shortening them change circuit behavior? When does wire length matter?",
+      "给定一个含两个回路和一个共享电阻的电路图，如何判断哪些元件串联、哪些并联，并选择定律？ · Given a schematic with two loops and a shared resistor, how do you identify series and parallel elements and choose the appropriate law?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "电路元件",
+        "termEn": "circuit element",
+        "defZh": "电路中具有确定端电压—电流关系的部件，如电阻、电容、电感、电池、开关和电表。",
+        "defEn": "A component with a definite voltage–current relation, such as a resistor, capacitor, inductor, battery, switch, or meter."
+      },
+      {
+        "termZh": "电气回路",
+        "termEn": "electrical loop",
+        "defZh": "沿导线与元件绕行并回到起点的闭合路径；回路是基尔霍夫环路定律的应用对象。",
+        "defEn": "A closed path along wires and elements that returns to its starting point; a loop is the object to which Kirchhoff’s loop rule applies."
+      },
+      {
+        "termZh": "闭路",
+        "termEn": "closed circuit",
+        "defZh": "存在连续导电路径、电荷能够在电源驱动下流动的电路。",
+        "defEn": "A circuit with a continuous conducting path, so charge can flow under an emf."
+      },
+      {
+        "termZh": "开路",
+        "termEn": "open circuit",
+        "defZh": "在某处断开的电路；稳态下断开支路的电流为零，但断点两端可以有电势差。",
+        "defEn": "A circuit with a break; the steady current in the broken branch is zero, but a potential difference can exist across the gap."
+      },
+      {
+        "termZh": "节点",
+        "termEn": "node",
+        "defZh": "由理想导线直接相连、因而等电势的整个区域；节点定律在此应用。",
+        "defEn": "A whole region joined by ideal wires and therefore at one potential; the junction rule applies at a node."
+      },
+      {
+        "termZh": "电路图",
+        "termEn": "circuit schematic",
+        "defZh": "用标准符号表示元件与连接关系的电路表示；它编码拓扑，不表示真实物理布局。",
+        "defEn": "A representation of a circuit using standard symbols for elements and connections; it encodes topology, not physical layout."
+      },
+      {
+        "termZh": "开关",
+        "termEn": "switch",
+        "defZh": "可控的二态元件：闭合时近似为零电阻连接，断开时近似为无限大电阻，从而改变电路拓扑。",
+        "defEn": "A controllable two-state element: closed, it acts as a near-zero-resistance connection; open, it acts as a near-infinite resistance, thereby changing circuit topology."
+      },
+      {
+        "termZh": "理想电表",
+        "termEn": "ideal meter",
+        "defZh": "理想电流表内阻为零并串联；理想电压表内阻无穷大并并联，接入后不改变原电路。",
+        "defEn": "An ideal ammeter has zero resistance and is in series; an ideal voltmeter has infinite resistance and is in parallel, so neither changes the original circuit."
+      }
+    ]
+  },
+  "11.11": {
+    "id": "em/em-u11/11.11",
+    "subject": "em",
+    "chapterId": "em-u11",
+    "unitCode": "11",
+    "unitTitleZh": "电路",
+    "unitTitleEn": "Electric Circuits",
+    "code": "11.11",
+    "titleZh": "电容网络与电荷守恒",
+    "titleEn": "Capacitor Networks and Charge Conservation",
+    "layer": "ap",
+    "summary": "串联电容因电荷守恒而带等量电荷：每个电容极板电荷量大小相同，电压按 \\(V_i=\\dfrac{Q}{C_i}\\) 分配；并联电容电压相同，电荷按 \\(Q_i=C_iV\\) 分配。等效电容满足串联 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\)、并联 \\(C_{\\mathrm{eq}}=\\sum_i C_i\\)。关键图像是浮置中间导体：它与外界绝缘，净电荷不变（初始中性则为零），但相对两板可分别带 \\(+Q\\) 与 \\(-Q\\)。 · Series capacitors carry equal charge because of charge conservation: each capacitor has the same charge magnitude, and voltage divides as \\(V_i=\\dfrac{Q}{C_i}\\). Parallel capacitors share the same voltage, and charge divides as \\(Q_i=C_iV\\). Equivalent capacitance obeys \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\) for series and \\(C_{\\mathrm{eq}}=\\sum_i C_i\\) for parallel. The key picture is the floating intermediate conductor: isolated from the rest of the circuit, its net charge stays fixed (zero if initially neutral), yet its two facing plates can carry \\(+Q\\) and \\(-Q\\).",
+    "learningObjectives": [
+      "能用电荷守恒解释串联电容每个极板电荷量大小相等，并区分极板电荷与中间导体的净电荷。 · Use charge conservation to explain why every plate in a series capacitor network has the same charge magnitude, and distinguish plate charge from the net charge of the intermediate conductor.",
+      "能推导串联与并联的等效电容公式，并用极限检查结果。 · Derive the equivalent-capacitance formulas for series and parallel networks, and check the results with limiting cases.",
+      "能分析浮置中间导体：净电荷为零时，两个相对极板仍可分别带 \\(+Q\\) 与 \\(-Q\\)。 · Analyze a floating intermediate conductor: even when its net charge is zero, its two facing plates can carry \\(+Q\\) and \\(-Q\\).",
+      "能计算串并联网络中的电荷、电压、能量与分压，并处理初始带电电容连接后的电荷再分配。 · Compute charge, voltage, energy, and voltage division in series/parallel networks, and handle charge redistribution when initially charged capacitors are connected.",
+      "能比较电容网络与电阻网络的串并联公式，说明对偶关系并避免混用。 · Compare capacitor and resistor series/parallel formulas, explain the duality, and avoid mixing them up."
+    ],
+    "essentialKnowledge": [
+      "电容定义 \\(C=\\dfrac{Q}{V}\\)；\\(Q\\) 是一个极板电荷量的绝对值，两个极板分别带 \\(+Q\\) 与 \\(-Q\\)。给定电压下能储存的电荷量由几何与电介质决定。 · The capacitance is \\(C=\\dfrac{Q}{V}\\); \\(Q\\) is the magnitude of the charge on one plate, and the two plates carry \\(+Q\\) and \\(-Q\\). The charge stored at a given voltage is set by geometry and dielectric.",
+      "串联连接：电容器依次相连、中间没有分支，充电时同一电流依次通过各电容，因此每个电容极板电荷量大小相同：\\(Q_1=Q_2=\\cdots=Q\\)。 · Series connection: capacitors are connected one after another with no branch between them. During charging the same current passes through each, so every capacitor has the same plate charge magnitude: \\(Q_1=Q_2=\\cdots=Q\\).",
+      "串联等量电荷的根本原因是电荷守恒。连接两个电容的中间导体（浮置岛）与外界绝缘，净电荷保持不变；若初始中性，则净电荷为零。左电容右板得到 \\(-Q\\)（获得 \\(Q\\) 个电子）时，这些电子只能来自中间导体另一侧的右电容左板，使右电容左板带 \\(+Q\\)；于是每个电容都带等量异号电荷。 · The root cause of equal series charge is charge conservation. The intermediate conductor (floating island) between two capacitors is isolated, so its net charge stays constant—zero if initially neutral. When the right plate of the left capacitor acquires \\(-Q\\) (gains \\(Q\\) electrons), those electrons can only come from the left plate of the right capacitor on the other side of the island, leaving that plate with \\(+Q\\); thus every capacitor ends up with equal and opposite plate charges.",
+      "串联电压相加：\\(V=V_1+V_2+\\cdots\\)；由 \\(V_i=\\dfrac{Q}{C_i}\\) 得 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\)。串联等效电容小于任一个串联电容，也小于其中最小的电容。 · Series voltages add: \\(V=V_1+V_2+\\cdots\\). With \\(V_i=\\dfrac{Q}{C_i}\\), this gives \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\). The series equivalent capacitance is smaller than any individual capacitor and smaller than the smallest one.",
+      "并联连接：各电容的两端分别接在同一对节点上，所以电压相同：\\(V_1=V_2=\\cdots=V\\)。总电荷为各电容电荷之和：\\(Q_{\\mathrm{total}}=\\sum_i Q_i\\)，故 \\(C_{\\mathrm{eq}}=\\sum_i C_i\\)。并联等效电容大于任一支路电容。 · Parallel connection: each capacitor’s two ends connect to the same pair of nodes, so the voltages are equal: \\(V_1=V_2=\\cdots=V\\). Total charge is the sum \\(Q_{\\mathrm{total}}=\\sum_i Q_i\\), so \\(C_{\\mathrm{eq}}=\\sum_i C_i\\). The parallel equivalent capacitance is larger than any individual branch capacitance.",
+      "串联分压：\\(V_i=\\dfrac{Q}{C_i}\\)，所以电容越小分到的电压越大；两个电容满足 \\(\\dfrac{V_1}{V_2}=\\dfrac{C_2}{C_1}\\)。串联网络中最小电容承受最大电压，可能先达到击穿电压。 · Series voltage division: \\(V_i=\\dfrac{Q}{C_i}\\), so a smaller capacitance receives a larger voltage; for two capacitors \\(\\dfrac{V_1}{V_2}=\\dfrac{C_2}{C_1}\\). The smallest capacitor in a series string carries the largest voltage and may reach breakdown first.",
+      "并联电荷分配：\\(Q_i=C_iV\\)，所以电容越大储存的电荷越多；总电荷按电容比例分配。 · Parallel charge division: \\(Q_i=C_iV\\), so a larger capacitance stores more charge; total charge divides in proportion to capacitance.",
+      "电荷守恒适用于任何孤立导体系统：若几个电容连接前分别带电，连接后总电荷在孤立节点上守恒。求最终状态时，先写总电荷守恒，再结合“并联共同电压”或“串联共同电荷”求解。 · Charge conservation applies to any isolated conductor system: if capacitors carry initial charges before connection, the total charge on an isolated node is conserved after connection. To find the final state, write total-charge conservation first, then impose the common voltage for parallel or the common charge for series.",
+      "电容网络储存的能量为 \\(U=\\dfrac{1}{2}C_{\\mathrm{eq}}V^{2}=\\dfrac{Q^{2}}{2C_{\\mathrm{eq}}}\\)；对理想电容网络，它等于各电容能量之和。重新连接带电电容时，部分能量会以热、火花或电磁辐射形式耗散，不能假设能量守恒。 · The energy stored in a capacitor network is \\(U=\\dfrac{1}{2}C_{\\mathrm{eq}}V^{2}=\\dfrac{Q^{2}}{2C_{\\mathrm{eq}}}\\); for an ideal network it equals the sum of the individual energies. When charged capacitors are reconnected, some energy is dissipated as heat, sparks, or radiation, so energy is not necessarily conserved.",
+      "与电阻网络对比：电阻串联 \\(R_{\\mathrm{eq}}=\\sum R_i\\)、并联 \\(\\dfrac{1}{R_{\\mathrm{eq}}}=\\sum\\dfrac{1}{R_i}\\)；电容恰好相反——串联取倒数和、并联直接相加。电阻串联分压正比于 \\(R\\)，电容串联分压反比于 \\(C\\)。 · Contrast with resistor networks: resistors add directly in series and reciprocally in parallel, while capacitors do the opposite—reciprocal sum in series and direct sum in parallel. Series resistors divide voltage in proportion to \\(R\\), whereas series capacitors divide voltage inversely with \\(C\\)."
+    ],
+    "definition": "电容网络由多个电容器以串联、并联或混合方式连接。串联时，各电容依次相连，中间导体与外界绝缘；电荷守恒要求每个电容极板电荷量大小相同，\\(Q_1=Q_2=\\cdots=Q\\)，总电压为各电容电压之和。并联时，各电容接在同一对节点之间，电压相同，总电荷为各电容电荷之和。等效电容把整个网络化为一个电容：串联 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\)，并联 \\(C_{\\mathrm{eq}}=\\sum_i C_i\\)。 · A capacitor network connects several capacitors in series, parallel, or a mixture. In series, the capacitors are connected one after another and the intermediate conductors are isolated; charge conservation requires the same charge magnitude on every capacitor, and the total voltage is the sum of the capacitor voltages. In parallel, the capacitors share the same pair of nodes, so they have the same voltage and their charges add. The equivalent capacitance replaces the whole network by one capacitor: reciprocal sum for series, direct sum for parallel.",
+    "intuition": "串联电容像管道中串联的两块弹性膜：同样多的水（电荷）必须通过每一块膜，所以每块膜的形变（电荷）相同；但两块膜的劲度（电容倒数）不同，压力降（电压）就不同。中间那段封闭的水（浮置导体）总量不变：左边膜推走多少水，右边膜就得到多少水。并联电容像并排的多个气球接在同一根管上：每个气球承受相同压力（电压），大气球（大电容）存更多气（电荷）。 · Series capacitors are like two elastic membranes in series in a pipe: the same amount of water (charge) must pass through each membrane, so each membrane deflects by the same amount (charge); but membranes with different stiffness (reciprocal capacitance) produce different pressure drops (voltages). The sealed water between them (the floating conductor) has a fixed total amount: whatever the left membrane pushes out, the right membrane takes in. Parallel capacitors are like balloons connected side by side to the same pipe: each feels the same pressure (voltage), and a larger balloon (larger capacitance) stores more air (charge).",
+    "formulas": [
+      {
+        "latex": "C=\\dfrac{Q}{V}",
+        "note": "电容定义式；\\(Q\\) 为一个极板电荷量的绝对值。 · Capacitance definition; \\(Q\\) is the magnitude of the charge on one plate."
+      },
+      {
+        "latex": "Q_1=Q_2=\\cdots=Q",
+        "note": "串联电容的电荷约束，来源于浮置中间导体的电荷守恒。 · Charge constraint for series capacitors, from charge conservation on the floating intermediate conductors."
+      },
+      {
+        "latex": "\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}",
+        "note": "串联等效电容；结果小于最小电容。 · Series equivalent capacitance; the result is smaller than the smallest capacitor."
+      },
+      {
+        "latex": "V=V_1+V_2+\\cdots",
+        "note": "串联电压相加。 · Series voltages add."
+      },
+      {
+        "latex": "V_1=V_2=\\cdots=V",
+        "note": "并联电容的电压约束。 · Voltage constraint for parallel capacitors."
+      },
+      {
+        "latex": "C_{\\mathrm{eq}}=\\sum_i C_i",
+        "note": "并联等效电容；结果大于最大电容。 · Parallel equivalent capacitance; the result is larger than the largest capacitor."
+      },
+      {
+        "latex": "Q_{\\mathrm{total}}=\\sum_i Q_i",
+        "note": "并联总电荷为各电容电荷之和。 · Total parallel charge is the sum of the individual capacitor charges."
+      },
+      {
+        "latex": "V_i=\\dfrac{Q}{C_i}",
+        "note": "串联分压：电容越小，分到的电压越大。 · Series voltage division: a smaller capacitance receives a larger voltage."
+      },
+      {
+        "latex": "Q_i=C_iV",
+        "note": "并联电荷分配：电容越大，储存的电荷越多。 · Parallel charge division: a larger capacitance stores more charge."
+      },
+      {
+        "latex": "U=\\dfrac{1}{2}C_{\\mathrm{eq}}V^{2}=\\dfrac{Q^{2}}{2C_{\\mathrm{eq}}}",
+        "note": "等效电容储存的电场能；理想网络等于各电容能量之和。 · Electric energy stored in the equivalent capacitance; for an ideal network it equals the sum of the individual capacitor energies."
+      }
+    ],
+    "derivationNotes": [
+      {
+        "from": "电荷守恒 · Charge conservation",
+        "to": "串联等量电荷 · Equal series charge",
+        "note": "串联中间导体与外界绝缘，净电荷不变；左电容右板的 \\(-Q\\) 必须在中间导体另一侧留下 \\(+Q\\)，于是右电容左板带 \\(+Q\\)，逐级传递得到 \\(Q_1=Q_2=\\cdots=Q\\)。 · The intermediate conductor in a series string is isolated, so its net charge is fixed. The \\(-Q\\) on the right plate of one capacitor forces \\(+Q\\) on the other side of the island, so the next capacitor’s left plate carries \\(+Q\\); propagating this gives \\(Q_1=Q_2=\\cdots=Q\\)."
+      },
+      {
+        "from": "串联电压相加 · Series voltages add",
+        "to": "等效电容公式 · Equivalent-capacitance formula",
+        "note": "由 \\(V_i=\\dfrac{Q}{C_i}\\) 与 \\(V=\\sum_i V_i\\) 得 \\(V=Q\\sum_i\\dfrac{1}{C_i}\\)，与 \\(V=\\dfrac{Q}{C_{\\mathrm{eq}}}\\) 比较即得 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\)。 · From \\(V_i=\\dfrac{Q}{C_i}\\) and \\(V=\\sum_i V_i\\), \\(V=Q\\sum_i\\dfrac{1}{C_i}\\). Comparing with \\(V=\\dfrac{Q}{C_{\\mathrm{eq}}}\\) gives \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\)."
+      },
+      {
+        "from": "并联共同电压 · Common parallel voltage",
+        "to": "并联等效电容 · Parallel equivalent capacitance",
+        "note": "各电容电压相同，总电荷 \\(Q_{\\mathrm{total}}=\\sum_i Q_i=\\sum_i C_iV\\)，与 \\(Q_{\\mathrm{total}}=C_{\\mathrm{eq}}V\\) 比较得 \\(C_{\\mathrm{eq}}=\\sum_i C_i\\)。 · All parallel capacitors have the same voltage, so \\(Q_{\\mathrm{total}}=\\sum_i Q_i=\\sum_i C_iV\\); comparing with \\(Q_{\\mathrm{total}}=C_{\\mathrm{eq}}V\\) gives \\(C_{\\mathrm{eq}}=\\sum_i C_i\\)."
+      },
+      {
+        "from": "电荷再分配 · Charge redistribution",
+        "to": "初始带电网络 · Initially charged network",
+        "note": "把孤立节点上的初始电荷相加，得到总电荷；再令最终状态满足并联共同电压或串联共同电荷，解出最终电压与各电容电荷。 · Add the initial charges on an isolated node to get the total charge; then impose the final common voltage (parallel) or common charge (series) to solve for the final voltage and individual charges."
+      },
+      {
+        "from": "能量定义 · Energy definition",
+        "to": "网络能量 · Network energy",
+        "note": "把等效电容代入 \\(U=\\dfrac{1}{2}CV^{2}\\) 即得 \\(U=\\dfrac{Q^{2}}{2C_{\\mathrm{eq}}}\\)；检查时可用各电容能量之和验证理想网络。 · Substitute the equivalent capacitance into \\(U=\\dfrac{1}{2}CV^{2}\\) to obtain \\(U=\\dfrac{Q^{2}}{2C_{\\mathrm{eq}}}\\); for an ideal network, verify by summing the individual capacitor energies."
+      },
+      {
+        "from": "电阻—电容对偶 · Resistor–capacitor duality",
+        "to": "公式对照 · Formula comparison",
+        "note": "电阻串联相加、并联取倒数和；电容串联取倒数和、并联相加。把 \\(R\\) 换成 \\(\\dfrac{1}{C}\\) 即可看出对偶关系。 · Resistors add in series and add reciprocals in parallel; capacitors add reciprocals in series and add directly in parallel. Replacing \\(R\\) by \\(\\dfrac{1}{C}\\) reveals the duality."
+      }
+    ],
+    "conditions": [
+      "理想电容、无漏电；电介质线性且未击穿，电容值不随电压改变。 · Ideal capacitors with no leakage; the dielectric is linear and not broken down, so capacitance does not change with voltage.",
+      "串联等量电荷要求相邻电容之间的中间导体与外界绝缘；若中间节点接地、漏电或另有支路，等量电荷结论不再直接成立。 · Equal series charge requires the intermediate conductors between adjacent capacitors to be isolated; if an intermediate node is grounded, leaks, or has another branch, the equal-charge conclusion no longer applies directly.",
+      "并联共同电压要求各电容两端由理想导线连接在同一对节点上；导线电阻可忽略。 · Common parallel voltage requires ideal wires connecting both ends of every capacitor to the same pair of nodes; wire resistance is negligible.",
+      "讨论静电平衡或直流稳态；若电压随时间变化，需用 \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) 分析暂态。 · The analysis assumes electrostatic equilibrium or DC steady state; if voltages vary with time, use \\(i=C\\dfrac{\\mathrm{d}V}{\\mathrm{d}t}\\) for the transient.",
+      "忽略导线电容、寄生电容与边缘效应；这些在精密或高频电路中可能不可忽略。 · Ignore wire capacitance, stray capacitance, and fringing fields; these may matter in precision or high-frequency circuits.",
+      "初始电荷必须已知；题目未说明时默认所有电容初始不带电。 · Initial charges must be specified; if the problem does not state them, all capacitors are assumed initially uncharged.",
+      "重新连接带电电容时，电荷守恒仍成立，但机械功、火花与辐射可能带走能量；能量不一定守恒。 · When charged capacitors are reconnected, charge conservation still holds, but mechanical work, sparks, and radiation may remove energy; energy is not necessarily conserved."
+    ],
+    "keyPoints": [
+      "串联电容电荷量大小相同：\\(Q_1=Q_2=\\cdots=Q\\)；电压按 \\(V_i=\\dfrac{Q}{C_i}\\) 分配，电容越小分压越大。 · Series capacitors have the same charge magnitude, \\(Q_1=Q_2=\\cdots=Q\\); voltage divides as \\(V_i=\\dfrac{Q}{C_i}\\), so a smaller capacitance receives a larger voltage.",
+      "并联电容电压相同：\\(V_1=V_2=\\cdots=V\\)；电荷按 \\(Q_i=C_iV\\) 分配，电容越大储存电荷越多。 · Parallel capacitors have the same voltage, \\(V_1=V_2=\\cdots=V\\); charge divides as \\(Q_i=C_iV\\), so a larger capacitance stores more charge.",
+      "浮置中间导体净电荷为零，不等于两个极板没有电荷；两个相对极板可分别带 \\(+Q\\) 与 \\(-Q\\)。 · A floating intermediate conductor with zero net charge does not have chargeless plates; its two facing plates can carry \\(+Q\\) and \\(-Q\\).",
+      "串联等效电容小于最小电容；并联等效电容大于最大电容；用这两个极限快速检查答案。 · The series equivalent capacitance is smaller than the smallest capacitor, and the parallel equivalent capacitance is larger than the largest; use these limits as a quick check.",
+      "串联公式取倒数和、并联公式直接相加，恰好与电阻网络相反；不要混用。 · Series uses a reciprocal sum and parallel uses a direct sum—the opposite of resistor networks; do not mix them up.",
+      "初始带电电容连接时，先对孤立节点写总电荷守恒，再结合共同电压或共同电荷求最终状态。 · For initially charged capacitors, first write total-charge conservation on the isolated node, then use the common voltage or common charge to find the final state.",
+      "电容网络能量用等效电容计算；重新连接时机械功、火花和辐射可能耗散能量，不能盲目使用能量守恒。 · Compute network energy with the equivalent capacitance; reconnection can dissipate energy through work, sparks, and radiation, so do not apply energy conservation blindly.",
+      "与电阻对比：电阻串联分压正比于 \\(R\\)，电容串联分压反比于 \\(C\\)；电阻并联分流，电容并联分电荷。 · Contrast with resistors: series resistors divide voltage in proportion to \\(R\\), while series capacitors divide voltage inversely with \\(C\\); parallel resistors divide current, and parallel capacitors divide charge."
+    ],
+    "misconceptions": [
+      "认为串联电容的电荷量不同，因为电容值不同；实际上串联各电容的 \\(Q\\) 相同，不同的是电压 \\(V_i=\\dfrac{Q}{C_i}\\)。 · Thinking series capacitors carry different charges because their capacitances differ; in fact the series charge \\(Q\\) is the same, and the voltages \\(V_i=\\dfrac{Q}{C_i}\\) differ.",
+      "把浮置中间导体的“净电荷为零”误认为“两个极板都没有电荷”；净电荷是代数和，两个相对极板可以分别带 \\(+Q\\) 与 \\(-Q\\)。 · Confusing “zero net charge” on a floating conductor with “no charge on either plate”; net charge is an algebraic sum, and the two facing plates can carry \\(+Q\\) and \\(-Q\\).",
+      "把电阻的串联公式用于电容：\\(C_{\\mathrm{eq}}=\\sum C_i\\) 只适用于并联，串联必须取倒数和。 · Using the resistor series formula for capacitors: \\(C_{\\mathrm{eq}}=\\sum C_i\\) applies only to parallel capacitors; series requires a reciprocal sum.",
+      "把电阻的并联公式用于电容：\\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum\\dfrac{1}{C_i}\\) 只适用于串联，并联必须直接相加。 · Using the resistor parallel formula for capacitors: \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum\\dfrac{1}{C_i}\\) applies only to series; parallel capacitors add directly.",
+      "认为串联各电容电压相同；串联电压相加，且电容越小分压越大。 · Thinking series capacitors share the same voltage; series voltages add, and the smallest capacitance receives the largest voltage.",
+      "认为并联各电容电荷相同；并联电压相同，电荷按 \\(Q_i=C_iV\\) 分配，大电容带更多电荷。 · Thinking parallel capacitors store equal charge; they share the same voltage, and charge divides as \\(Q_i=C_iV\\), so the larger capacitance stores more.",
+      "认为串联等效电容大于最小电容，或并联等效电容小于最大电容；这两个结论都与极限检查矛盾。 · Thinking a series equivalent capacitance exceeds the smallest capacitor, or a parallel equivalent is smaller than the largest; both contradict the limiting checks.",
+      "忽略初始电荷，直接把所有电容当作从零开始充电；连接带电电容时必须把初始电荷计入总电荷守恒。 · Ignoring initial charges and treating every capacitor as starting from zero; when charged capacitors are connected, initial charges must be included in total-charge conservation.",
+      "认为电荷守恒意味着每个极板上的电荷固定不变；电荷守恒约束的是孤立导体的总电荷，电荷可以在相连的极板之间重新分配。 · Thinking charge conservation means each plate’s charge is fixed; conservation constrains the total charge on an isolated conductor, and charge can redistribute among connected plates."
+    ],
+    "examples": [
+      {
+        "title": "例 1 · 两个电容串联 · Example 1: Two capacitors in series",
+        "prompt": "\\(C_1=3.0\\,\\mu\\mathrm{F}\\) 与 \\(C_2=6.0\\,\\mu\\mathrm{F}\\) 串联接在 \\(12\\,\\mathrm{V}\\) 电源两端。求等效电容、每个电容的电荷量以及各自的电压。 · \\(C_1=3.0\\,\\mu\\mathrm{F}\\) and \\(C_2=6.0\\,\\mu\\mathrm{F}\\) are in series across a \\(12\\,\\mathrm{V}\\) source. Find the equivalent capacitance, the charge on each capacitor, and each voltage.",
+        "steps": [
+          "串联等效电容：\\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{3.0}+\\dfrac{1}{6.0}=\\dfrac{1}{2.0}\\)，所以 \\(C_{\\mathrm{eq}}=2.0\\,\\mu\\mathrm{F}\\)。 · Series equivalent: \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{3.0}+\\dfrac{1}{6.0}=\\dfrac{1}{2.0}\\), so \\(C_{\\mathrm{eq}}=2.0\\,\\mu\\mathrm{F}\\).",
+          "串联电荷相同：\\(Q=C_{\\mathrm{eq}}V=(2.0\\,\\mu\\mathrm{F})(12\\,\\mathrm{V})=24\\,\\mu\\mathrm{C}\\)，所以 \\(Q_1=Q_2=24\\,\\mu\\mathrm{C}\\)。 · Series charge is common: \\(Q=C_{\\mathrm{eq}}V=(2.0\\,\\mu\\mathrm{F})(12\\,\\mathrm{V})=24\\,\\mu\\mathrm{C}\\), so \\(Q_1=Q_2=24\\,\\mu\\mathrm{C}\\).",
+          "分压：\\(V_1=\\dfrac{Q}{C_1}=\\dfrac{24\\,\\mu\\mathrm{C}}{3.0\\,\\mu\\mathrm{F}}=8.0\\,\\mathrm{V}\\)，\\(V_2=\\dfrac{24\\,\\mu\\mathrm{C}}{6.0\\,\\mu\\mathrm{F}}=4.0\\,\\mathrm{V}\\)。 · Voltage division: \\(V_1=\\dfrac{Q}{C_1}=\\dfrac{24\\,\\mu\\mathrm{C}}{3.0\\,\\mu\\mathrm{F}}=8.0\\,\\mathrm{V}\\) and \\(V_2=\\dfrac{24\\,\\mu\\mathrm{C}}{6.0\\,\\mu\\mathrm{F}}=4.0\\,\\mathrm{V}\\).",
+          "检查：\\(V_1+V_2=12\\,\\mathrm{V}\\)，且小电容 \\(C_1\\) 分到更大电压，符合 \\(V\\propto\\dfrac{1}{C}\\)。 · Check: \\(V_1+V_2=12\\,\\mathrm{V}\\), and the smaller capacitor \\(C_1\\) takes the larger voltage, consistent with \\(V\\propto\\dfrac{1}{C}\\)."
+        ],
+        "solution": "\\(C_{\\mathrm{eq}}=2.0\\,\\mu\\mathrm{F}\\)，\\(Q_1=Q_2=24\\,\\mu\\mathrm{C}\\)，\\(V_1=8.0\\,\\mathrm{V}\\)，\\(V_2=4.0\\,\\mathrm{V}\\)。 · \\(C_{\\mathrm{eq}}=2.0\\,\\mu\\mathrm{F}\\), \\(Q_1=Q_2=24\\,\\mu\\mathrm{C}\\), \\(V_1=8.0\\,\\mathrm{V}\\), \\(V_2=4.0\\,\\mathrm{V}\\).",
+        "solutionLatex": "C_{\\mathrm{eq}}=2.0\\,\\mu\\mathrm{F},\\qquad Q_1=Q_2=24\\,\\mu\\mathrm{C},\\qquad V_1=8.0\\,\\mathrm{V},\\qquad V_2=4.0\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 2 · 三个电容串联 · Example 2: Three capacitors in series",
+        "prompt": "\\(C_1=2.0\\,\\mu\\mathrm{F}\\)、\\(C_2=3.0\\,\\mu\\mathrm{F}\\)、\\(C_3=6.0\\,\\mu\\mathrm{F}\\) 串联接在 \\(6.0\\,\\mathrm{V}\\) 电源两端。求等效电容、公共电荷和各电容电压。 · \\(C_1=2.0\\,\\mu\\mathrm{F}\\), \\(C_2=3.0\\,\\mu\\mathrm{F}\\), and \\(C_3=6.0\\,\\mu\\mathrm{F}\\) are in series across a \\(6.0\\,\\mathrm{V}\\) source. Find the equivalent capacitance, the common charge, and each voltage.",
+        "steps": [
+          "\\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{2.0}+\\dfrac{1}{3.0}+\\dfrac{1}{6.0}=1.0\\,\\mu\\mathrm{F}^{-1}\\)，所以 \\(C_{\\mathrm{eq}}=1.0\\,\\mu\\mathrm{F}\\)。 · \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{2.0}+\\dfrac{1}{3.0}+\\dfrac{1}{6.0}=1.0\\,\\mu\\mathrm{F}^{-1}\\), so \\(C_{\\mathrm{eq}}=1.0\\,\\mu\\mathrm{F}\\).",
+          "串联公共电荷 \\(Q=C_{\\mathrm{eq}}V=(1.0\\,\\mu\\mathrm{F})(6.0\\,\\mathrm{V})=6.0\\,\\mu\\mathrm{C}\\)。 · The common series charge is \\(Q=C_{\\mathrm{eq}}V=(1.0\\,\\mu\\mathrm{F})(6.0\\,\\mathrm{V})=6.0\\,\\mu\\mathrm{C}\\).",
+          "\\(V_1=\\dfrac{6.0\\,\\mu\\mathrm{C}}{2.0\\,\\mu\\mathrm{F}}=3.0\\,\\mathrm{V}\\)，\\(V_2=\\dfrac{6.0\\,\\mu\\mathrm{C}}{3.0\\,\\mu\\mathrm{F}}=2.0\\,\\mathrm{V}\\)，\\(V_3=\\dfrac{6.0\\,\\mu\\mathrm{C}}{6.0\\,\\mu\\mathrm{F}}=1.0\\,\\mathrm{V}\\)。 · \\(V_1=3.0\\,\\mathrm{V}\\), \\(V_2=2.0\\,\\mathrm{V}\\), and \\(V_3=1.0\\,\\mathrm{V}\\).",
+          "检查：\\(3.0+2.0+1.0=6.0\\,\\mathrm{V}\\)；最小电容 \\(C_1\\) 分到最大电压，符合串联分压规律。 · Check: \\(3.0+2.0+1.0=6.0\\,\\mathrm{V}\\); the smallest capacitor \\(C_1\\) takes the largest voltage, consistent with series voltage division."
+        ],
+        "solution": "\\(C_{\\mathrm{eq}}=1.0\\,\\mu\\mathrm{F}\\)，\\(Q=6.0\\,\\mu\\mathrm{C}\\)，\\(V_1=3.0\\,\\mathrm{V}\\)，\\(V_2=2.0\\,\\mathrm{V}\\)，\\(V_3=1.0\\,\\mathrm{V}\\)。 · \\(C_{\\mathrm{eq}}=1.0\\,\\mu\\mathrm{F}\\), \\(Q=6.0\\,\\mu\\mathrm{C}\\), \\(V_1=3.0\\,\\mathrm{V}\\), \\(V_2=2.0\\,\\mathrm{V}\\), \\(V_3=1.0\\,\\mathrm{V}\\).",
+        "solutionLatex": "C_{\\mathrm{eq}}=1.0\\,\\mu\\mathrm{F},\\qquad Q=6.0\\,\\mu\\mathrm{C},\\qquad V_1=3.0\\,\\mathrm{V},\\qquad V_2=2.0\\,\\mathrm{V},\\qquad V_3=1.0\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 3 · 两个电容并联 · Example 3: Two capacitors in parallel",
+        "prompt": "\\(C_1=3.0\\,\\mu\\mathrm{F}\\) 与 \\(C_2=6.0\\,\\mu\\mathrm{F}\\) 并联接在 \\(12\\,\\mathrm{V}\\) 电源两端。求等效电容、各电容电荷和总电荷。 · \\(C_1=3.0\\,\\mu\\mathrm{F}\\) and \\(C_2=6.0\\,\\mu\\mathrm{F}\\) are in parallel across a \\(12\\,\\mathrm{V}\\) source. Find the equivalent capacitance, each charge, and the total charge.",
+        "steps": [
+          "并联等效电容：\\(C_{\\mathrm{eq}}=3.0+6.0=9.0\\,\\mu\\mathrm{F}\\)。 · Parallel equivalent: \\(C_{\\mathrm{eq}}=3.0+6.0=9.0\\,\\mu\\mathrm{F}\\).",
+          "并联电压相同，均为 \\(12\\,\\mathrm{V}\\)。 · Parallel voltages are equal, both \\(12\\,\\mathrm{V}\\).",
+          "\\(Q_1=C_1V=(3.0\\,\\mu\\mathrm{F})(12\\,\\mathrm{V})=36\\,\\mu\\mathrm{C}\\)，\\(Q_2=C_2V=(6.0\\,\\mu\\mathrm{F})(12\\,\\mathrm{V})=72\\,\\mu\\mathrm{C}\\)。 · \\(Q_1=36\\,\\mu\\mathrm{C}\\) and \\(Q_2=72\\,\\mu\\mathrm{C}\\).",
+          "总电荷 \\(Q_{\\mathrm{total}}=36+72=108\\,\\mu\\mathrm{C}\\)，也等于 \\(C_{\\mathrm{eq}}V=(9.0)(12)=108\\,\\mu\\mathrm{C}\\)。 · Total charge \\(Q_{\\mathrm{total}}=36+72=108\\,\\mu\\mathrm{C}\\), also \\(C_{\\mathrm{eq}}V=(9.0)(12)=108\\,\\mu\\mathrm{C}\\).",
+          "检查：\\(C_{\\mathrm{eq}}=9.0\\,\\mu\\mathrm{F}\\) 大于任一支路，大电容 \\(C_2\\) 带更多电荷，符合并联规律。 · Check: \\(C_{\\mathrm{eq}}=9.0\\,\\mu\\mathrm{F}\\) exceeds either branch, and the larger capacitor \\(C_2\\) carries more charge, consistent with parallel behavior."
+        ],
+        "solution": "\\(C_{\\mathrm{eq}}=9.0\\,\\mu\\mathrm{F}\\)，\\(Q_1=36\\,\\mu\\mathrm{C}\\)，\\(Q_2=72\\,\\mu\\mathrm{C}\\)，\\(Q_{\\mathrm{total}}=108\\,\\mu\\mathrm{C}\\)。 · \\(C_{\\mathrm{eq}}=9.0\\,\\mu\\mathrm{F}\\), \\(Q_1=36\\,\\mu\\mathrm{C}\\), \\(Q_2=72\\,\\mu\\mathrm{C}\\), \\(Q_{\\mathrm{total}}=108\\,\\mu\\mathrm{C}\\).",
+        "solutionLatex": "C_{\\mathrm{eq}}=9.0\\,\\mu\\mathrm{F},\\qquad Q_1=36\\,\\mu\\mathrm{C},\\qquad Q_2=72\\,\\mu\\mathrm{C},\\qquad Q_{\\mathrm{total}}=108\\,\\mu\\mathrm{C}"
+      },
+      {
+        "title": "例 4 · 串联等量电荷的主张—证据—推理 · Example 4: Equal series charge, claim–evidence–reasoning",
+        "prompt": "\\(C_1=4.0\\,\\mu\\mathrm{F}\\) 与 \\(C_2=12\\,\\mu\\mathrm{F}\\) 串联接在 \\(16\\,\\mathrm{V}\\) 电源两端。某学生说：“\\(C_1\\) 的电容是 \\(C_2\\) 的三分之一，所以 \\(C_1\\) 的电荷也是 \\(C_2\\) 的三分之一。”请判断并给出定量论证，说明浮置中间导体的作用。 · \\(C_1=4.0\\,\\mu\\mathrm{F}\\) and \\(C_2=12\\,\\mu\\mathrm{F}\\) are in series across a \\(16\\,\\mathrm{V}\\) source. A student claims, “\\(C_1\\) has one-third the capacitance of \\(C_2\\), so it also has one-third the charge.” Evaluate the claim quantitatively and explain the role of the floating intermediate conductor.",
+        "steps": [
+          "主张错误。串联等效电容 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{4.0}+\\dfrac{1}{12}=\\dfrac{1}{3.0}\\)，所以 \\(C_{\\mathrm{eq}}=3.0\\,\\mu\\mathrm{F}\\)。 · The claim is wrong. The series equivalent is \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\dfrac{1}{4.0}+\\dfrac{1}{12}=\\dfrac{1}{3.0}\\), so \\(C_{\\mathrm{eq}}=3.0\\,\\mu\\mathrm{F}\\).",
+          "公共电荷 \\(Q=C_{\\mathrm{eq}}V=(3.0\\,\\mu\\mathrm{F})(16\\,\\mathrm{V})=48\\,\\mu\\mathrm{C}\\)，因此 \\(Q_1=Q_2=48\\,\\mu\\mathrm{C}\\)，并非三分之一关系。 · The common charge is \\(Q=C_{\\mathrm{eq}}V=(3.0\\,\\mu\\mathrm{F})(16\\,\\mathrm{V})=48\\,\\mu\\mathrm{C}\\), so \\(Q_1=Q_2=48\\,\\mu\\mathrm{C}\\), not a one-third relation.",
+          "电压才按电容反比分配：\\(V_1=\\dfrac{48\\,\\mu\\mathrm{C}}{4.0\\,\\mu\\mathrm{F}}=12\\,\\mathrm{V}\\)，\\(V_2=\\dfrac{48\\,\\mu\\mathrm{C}}{12\\,\\mu\\mathrm{F}}=4.0\\,\\mathrm{V}\\)。 · Voltage, not charge, divides inversely with capacitance: \\(V_1=12\\,\\mathrm{V}\\) and \\(V_2=4.0\\,\\mathrm{V}\\).",
+          "证据：两个电容之间的中间导体由 \\(C_1\\) 的右板和 \\(C_2\\) 的左板通过导线相连构成，整体与外界绝缘，净电荷为零。\\(C_1\\) 右板带 \\(-48\\,\\mu\\mathrm{C}\\)；为保持中间导体净电荷为零，\\(C_2\\) 左板必须带 \\(+48\\,\\mu\\mathrm{C}\\)（电子从 \\(C_2\\) 左板转移到 \\(C_1\\) 右板）。 · Evidence: the intermediate conductor between the capacitors consists of the right plate of \\(C_1\\) and the left plate of \\(C_2\\) joined by a wire; it is isolated and has zero net charge. The right plate of \\(C_1\\) carries \\(-48\\,\\mu\\mathrm{C}\\); to keep the island neutral, the left plate of \\(C_2\\) must carry \\(+48\\,\\mu\\mathrm{C}\\) (electrons move from the left plate of \\(C_2\\) to the right plate of \\(C_1\\)).",
+          "推理：电荷守恒把每个电容的电荷“锁”成同一大小；电容值只决定同样电荷下产生多大电压，不决定电荷多少。串联最小电容承受最大电压，因此更容易先击穿。 · Reasoning: charge conservation locks every capacitor to the same charge magnitude; capacitance only sets the voltage produced by that charge. The smallest series capacitor takes the largest voltage and is therefore the first at risk of breakdown."
+        ],
+        "solution": "学生把电容比误当成电荷比。\\(Q_1=Q_2=48\\,\\mu\\mathrm{C}\\)，\\(V_1=12\\,\\mathrm{V}\\)，\\(V_2=4.0\\,\\mathrm{V}\\)；浮置中间导体净电荷为零，但两侧极板分别带 \\(+48\\,\\mu\\mathrm{C}\\) 与 \\(-48\\,\\mu\\mathrm{C}\\)。 · The student confused the capacitance ratio with a charge ratio. \\(Q_1=Q_2=48\\,\\mu\\mathrm{C}\\), \\(V_1=12\\,\\mathrm{V}\\), and \\(V_2=4.0\\,\\mathrm{V}\\); the floating island has zero net charge but its two plates carry \\(+48\\,\\mu\\mathrm{C}\\) and \\(-48\\,\\mu\\mathrm{C}\\).",
+        "solutionLatex": "C_{\\mathrm{eq}}=3.0\\,\\mu\\mathrm{F},\\qquad Q_1=Q_2=48\\,\\mu\\mathrm{C},\\qquad V_1=12\\,\\mathrm{V},\\qquad V_2=4.0\\,\\mathrm{V}"
+      },
+      {
+        "title": "例 5 · 初始带电电容并联后的电荷再分配 · Example 5: Charge redistribution after connecting charged capacitors",
+        "prompt": "\\(C_1=2.0\\,\\mu\\mathrm{F}\\) 先充电到 \\(10\\,\\mathrm{V}\\)，\\(C_2=3.0\\,\\mu\\mathrm{F}\\) 初始不带电。把 \\(C_1\\) 的正极板接到 \\(C_2\\) 的一个极板、负极板接到另一个极板，形成并联。求最终共同电压与各电容电荷。 · \\(C_1=2.0\\,\\mu\\mathrm{F}\\) is charged to \\(10\\,\\mathrm{V}\\), and \\(C_2=3.0\\,\\mu\\mathrm{F}\\) is initially uncharged. Connect the positive plate of \\(C_1\\) to one plate of \\(C_2\\) and the negative plate to the other, forming a parallel combination. Find the final common voltage and each charge.",
+        "steps": [
+          "初始总电荷在孤立节点上守恒：\\(Q_{\\mathrm{total}}=C_1V_0=(2.0\\,\\mu\\mathrm{F})(10\\,\\mathrm{V})=20\\,\\mu\\mathrm{C}\\)；\\(C_2\\) 初始电荷为零。 · Total charge on the isolated node is conserved: \\(Q_{\\mathrm{total}}=C_1V_0=(2.0\\,\\mu\\mathrm{F})(10\\,\\mathrm{V})=20\\,\\mu\\mathrm{C}\\); \\(C_2\\) starts with zero charge.",
+          "并联后两电容电压相同，设为 \\(V_f\\)；总电容 \\(C_{\\mathrm{eq}}=2.0+3.0=5.0\\,\\mu\\mathrm{F}\\)。 · After connection the capacitors share the same voltage \\(V_f\\), and the total capacitance is \\(C_{\\mathrm{eq}}=2.0+3.0=5.0\\,\\mu\\mathrm{F}\\).",
+          "由 \\(Q_{\\mathrm{total}}=C_{\\mathrm{eq}}V_f\\) 得 \\(V_f=\\dfrac{20\\,\\mu\\mathrm{C}}{5.0\\,\\mu\\mathrm{F}}=4.0\\,\\mathrm{V}\\)。 · From \\(Q_{\\mathrm{total}}=C_{\\mathrm{eq}}V_f\\), \\(V_f=\\dfrac{20\\,\\mu\\mathrm{C}}{5.0\\,\\mu\\mathrm{F}}=4.0\\,\\mathrm{V}\\).",
+          "最终电荷：\\(Q_1=C_1V_f=(2.0)(4.0)=8.0\\,\\mu\\mathrm{C}\\)，\\(Q_2=C_2V_f=(3.0)(4.0)=12\\,\\mu\\mathrm{C}\\)。 · Final charges: \\(Q_1=8.0\\,\\mu\\mathrm{C}\\) and \\(Q_2=12\\,\\mu\\mathrm{C}\\).",
+          "检查电荷守恒：\\(8.0+12=20\\,\\mu\\mathrm{C}\\)，与初始总电荷一致。能量从初始 \\(\\dfrac{1}{2}C_1V_0^{2}=100\\,\\mu\\mathrm{J}\\) 降为最终 \\(\\dfrac{1}{2}C_{\\mathrm{eq}}V_f^{2}=40\\,\\mu\\mathrm{J}\\)，差值在连接过程中以热、火花或辐射耗散。 · Check charge conservation: \\(8.0+12=20\\,\\mu\\mathrm{C}\\), matching the initial total. Energy drops from \\(100\\,\\mu\\mathrm{J}\\) initially to \\(40\\,\\mu\\mathrm{J}\\) finally; the difference is dissipated as heat, sparks, or radiation during connection."
+        ],
+        "solution": "\\(V_f=4.0\\,\\mathrm{V}\\)，\\(Q_1=8.0\\,\\mu\\mathrm{C}\\)，\\(Q_2=12.0\\,\\mu\\mathrm{C}\\)；总电荷 \\(20\\,\\mu\\mathrm{C}\\) 守恒。 · \\(V_f=4.0\\,\\mathrm{V}\\), \\(Q_1=8.0\\,\\mu\\mathrm{C}\\), \\(Q_2=12.0\\,\\mu\\mathrm{C}\\); the total charge \\(20\\,\\mu\\mathrm{C}\\) is conserved.",
+        "solutionLatex": "Q_{\\mathrm{total}}=20\\,\\mu\\mathrm{C},\\qquad C_{\\mathrm{eq}}=5.0\\,\\mu\\mathrm{F},\\qquad V_f=4.0\\,\\mathrm{V},\\qquad Q_1=8.0\\,\\mu\\mathrm{C},\\qquad Q_2=12\\,\\mu\\mathrm{C}"
+      }
+    ],
+    "examTips": [
+      "先判断串联还是并联：串联看“同一路径、同一电荷”，并联看“同一对节点、同一电压”。 · First decide series versus parallel: series means one path and one common charge; parallel means one pair of nodes and one common voltage.",
+      "串联先写 \\(Q_1=Q_2=\\cdots=Q\\)，再用 \\(V_i=\\dfrac{Q}{C_i}\\) 求分压；不要先假设电压相同。 · For series, write \\(Q_1=Q_2=\\cdots=Q\\) first, then use \\(V_i=\\dfrac{Q}{C_i}\\) for voltage division; do not assume equal voltages.",
+      "并联先写 \\(V_1=V_2=\\cdots=V\\)，再用 \\(Q_i=C_iV\\) 求电荷；不要先假设电荷相同。 · For parallel, write \\(V_1=V_2=\\cdots=V\\) first, then use \\(Q_i=C_iV\\) for charge; do not assume equal charges.",
+      "串联等效电容用倒数和，结果应小于最小电容；并联直接相加，结果应大于最大电容。用这两个极限检查。 · Series equivalent uses a reciprocal sum and must be smaller than the smallest capacitor; parallel adds directly and must exceed the largest. Use these limits as checks.",
+      "浮置中间导体的净电荷为零，但两个极板可带 \\(+Q\\) 与 \\(-Q\\)；论证题要把这一点写成电荷守恒的证据。 · A floating intermediate conductor has zero net charge, but its two plates can carry \\(+Q\\) and \\(-Q\\); in a CER response, use this as the evidence for charge conservation.",
+      "遇到“先充电再连接”的题，先算孤立节点上的初始总电荷，再令最终状态满足并联共同电压或串联共同电荷。 · For “charge first, connect later” problems, compute the initial total charge on the isolated node, then impose the final common voltage (parallel) or common charge (series).",
+      "能量在重新连接时不一定守恒；电荷守恒仍成立，但部分能量会以热、火花或辐射耗散。 · Energy is not necessarily conserved on reconnection; charge conservation still holds, but some energy is dissipated as heat, sparks, or radiation.",
+      "不要把电阻的串并联公式直接搬到电容：两者恰好对偶，串联/并联的倒数和位置相反。 · Do not copy resistor series/parallel formulas onto capacitors: the two are dual, with reciprocal sums in opposite positions."
+    ],
+    "related": [
+      {
+        "subject": "em",
+        "chapterId": "em-u10",
+        "code": "10.3",
+        "title": "电容器 · Capacitors",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u10",
+        "code": "10.4",
+        "title": "电介质 · Dielectrics",
+        "relation": "相关 · related"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.2",
+        "title": "简单电路 · Simple Circuits",
+        "relation": "先修 · prerequisite"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.8",
+        "title": "RC 电路 · Resistor–Capacitor (RC) Circuits",
+        "relation": "应用 · application"
+      },
+      {
+        "subject": "em",
+        "chapterId": "em-u11",
+        "code": "11.10",
+        "title": "电路元件、开闭与拓扑 · Circuit Elements, Open Circuits, and Topology",
+        "relation": "相关 · related"
+      }
+    ],
+    "modules": [],
+    "practiceHref": "#/em/practice/em-u11",
+    "connections": [
+      "上游：10.3 的 \\(C=\\dfrac{Q}{V}\\) 与极板电荷图像给出单个电容的定义；本主题把它推广到串联、并联与混合网络。 · Upstream: \\(C=\\dfrac{Q}{V}\\) and the plate-charge picture from 10.3 define a single capacitor; this topic extends them to series, parallel, and mixed networks.",
+      "下游：11.8 的 RC 充放电与 13.6 的 LC 振荡都要用等效电容、串联等量电荷和电荷守恒；本主题为这些暂态过程提供静电学基础。 · Downstream: RC charging/discharging in 11.8 and LC oscillations in 13.6 use equivalent capacitance, equal series charge, and charge conservation; this topic provides their electrostatic foundation.",
+      "方法：电荷守恒、节点电压约束与能量计算是解决电容网络的三把钥匙；与电阻网络的串并联公式对偶，可用于快速检查。 · Methods: charge conservation, node-voltage constraints, and energy accounting are the three keys to capacitor networks; the duality with resistor series/parallel formulas provides quick checks.",
+      "应用：相机闪光灯、除颤器、滤波与储能电容组都涉及串并联电容的电荷分配、分压与击穿风险。 · Applications: camera flashes, defibrillators, filters, and energy-storage banks all involve charge division, voltage sharing, and breakdown risk in series/parallel capacitor networks."
+    ],
+    "intuitionDetailed": "先画“电荷账本”。对串联网络，把两个电容之间的中间导体圈成一个孤岛：它不与外界交换电荷，所以净电荷固定；若初始中性，净电荷就是零。左电容的右板带 \\(-Q\\)，孤岛左板就带 \\(+Q\\)；孤岛右板必须带 \\(-Q\\) 才能保持净零，于是右电容左板带 \\(+Q\\)。这样一路推下去，每个电容的电荷量都相同。电压则像“压力降”：\\(V_i=\\dfrac{Q}{C_i}\\)，电容越小，同样的电荷产生越大的电压。对并联网络，把每个电容想象成接在同一对节点上的气球：电压相同，电荷按 \\(Q_i=C_iV\\) 分配，大电容存更多电荷。混合网络先化简并联块或串联块，再重复“先电荷、后电压”或“先电压、后电荷”的步骤。最后用两个极限检查：串联 \\(C_{\\mathrm{eq}}\\) 应小于最小电容，并联 \\(C_{\\mathrm{eq}}\\) 应大于最大电容；再用总电荷守恒和能量耗散解释“先充电再连接”的题目。 · First draw a “charge ledger.” For a series network, circle the intermediate conductor between two capacitors as an isolated island: it exchanges no charge with the outside, so its net charge is fixed—zero if initially neutral. The right plate of the left capacitor carries \\(-Q\\), so the island’s left plate carries \\(+Q\\); the island’s right plate must carry \\(-Q\\) to keep zero net charge, so the right capacitor’s left plate carries \\(+Q\\). Propagating this gives every capacitor the same charge magnitude. Voltage behaves like a pressure drop: \\(V_i=\\dfrac{Q}{C_i}\\), so a smaller capacitance produces a larger voltage for the same charge. For a parallel network, imagine each capacitor as a balloon connected to the same pair of nodes: the voltage is the same, charge divides as \\(Q_i=C_iV\\), and the larger capacitance stores more charge. For mixed networks, reduce parallel or series blocks first, then repeat “charge first, voltage second” or “voltage first, charge second.” Finish with two limit checks: the series \\(C_{\\mathrm{eq}}\\) should be smaller than the smallest capacitor, and the parallel \\(C_{\\mathrm{eq}}\\) should be larger than the largest; then use total-charge conservation and energy dissipation to explain “charge first, connect later” problems.",
+    "development": [
+      "复习单个电容：\\(C=\\dfrac{Q}{V}\\)，两个极板带等量异号电荷，\\(Q\\) 取一个极板的绝对值。 · Review a single capacitor: \\(C=\\dfrac{Q}{V}\\), the two plates carry equal and opposite charges, and \\(Q\\) is the magnitude on one plate.",
+      "建立串联电荷守恒图像：圈出浮置中间导体，追踪 \\(+Q\\) 与 \\(-Q\\) 的传递，得到 \\(Q_1=Q_2=\\cdots=Q\\)。 · Build the series charge-conservation picture: circle the floating intermediate conductor, track the transfer of \\(+Q\\) and \\(-Q\\), and obtain \\(Q_1=Q_2=\\cdots=Q\\).",
+      "推导串联等效电容：由 \\(V=\\sum_i V_i\\) 与 \\(V_i=\\dfrac{Q}{C_i}\\) 得倒数和公式，并检查 \\(C_{\\mathrm{eq}}<C_{\\min}\\)。 · Derive the series equivalent: from \\(V=\\sum_i V_i\\) and \\(V_i=\\dfrac{Q}{C_i}\\), obtain the reciprocal-sum formula and check \\(C_{\\mathrm{eq}}<C_{\\min}\\).",
+      "推导并联等效电容：由共同电压与 \\(Q_{\\mathrm{total}}=\\sum_i Q_i\\) 得直接相加公式，并检查 \\(C_{\\mathrm{eq}}>C_{\\max}\\)。 · Derive the parallel equivalent: from the common voltage and \\(Q_{\\mathrm{total}}=\\sum_i Q_i\\), obtain the direct-sum formula and check \\(C_{\\mathrm{eq}}>C_{\\max}\\).",
+      "处理混合网络：先化简明显的串联或并联块，再计算总电荷、分压与各电容电荷；用 \\(Q=CV\\) 和电荷守恒交叉检查。 · Handle mixed networks: reduce obvious series or parallel blocks, then compute total charge, voltage division, and individual charges; cross-check with \\(Q=CV\\) and charge conservation.",
+      "迁移到初始带电与能量：对孤立节点写总电荷守恒，求连接后的共同状态，并比较初末能量以识别耗散。 · Transfer to initially charged systems and energy: write total-charge conservation on the isolated node, find the common final state, and compare initial and final energies to identify dissipation."
+    ],
+    "checks": [
+      "为什么串联电容的电荷量大小相同？请用浮置中间导体的电荷守恒解释，而不是只背公式。 · Why do series capacitors have the same charge magnitude? Explain with charge conservation on the floating intermediate conductor, not just the formula.",
+      "浮置中间导体的净电荷为零，为什么它的两个极板还能分别带 \\(+Q\\) 与 \\(-Q\\)？ · Why can a floating intermediate conductor with zero net charge still have \\(+Q\\) on one plate and \\(-Q\\) on the other?",
+      "串联等效电容为什么小于最小电容？用 \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\) 说明。 · Why is a series equivalent capacitance smaller than the smallest capacitor? Explain with \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum_i\\dfrac{1}{C_i}\\).",
+      "并联等效电容为什么大于最大电容？用 \\(C_{\\mathrm{eq}}=\\sum_i C_i\\) 说明。 · Why is a parallel equivalent capacitance larger than the largest capacitor? Explain with \\(C_{\\mathrm{eq}}=\\sum_i C_i\\).",
+      "\\(C_1=2.0\\,\\mu\\mathrm{F}\\) 与 \\(C_2=8.0\\,\\mu\\mathrm{F}\\) 串联接在 \\(10\\,\\mathrm{V}\\) 电源上，各电容的电荷与电压是多少？ · \\(C_1=2.0\\,\\mu\\mathrm{F}\\) and \\(C_2=8.0\\,\\mu\\mathrm{F}\\) are in series across \\(10\\,\\mathrm{V}\\). What are the charges and voltages?",
+      "两个初始带电的电容并联后，总电荷如何守恒？最终共同电压如何求？ · When two initially charged capacitors are connected in parallel, how is total charge conserved, and how do you find the final common voltage?",
+      "电容串并联公式与电阻串并联公式有什么对偶关系？为什么不能直接套用电阻公式？ · What is the duality between capacitor and resistor series/parallel formulas, and why can you not simply reuse the resistor formulas?"
+    ],
+    "vocabulary": [
+      {
+        "termZh": "串联",
+        "termEn": "series connection",
+        "defZh": "电容依次相连、中间无分支的连接方式；各电容电荷量大小相同，电压相加。",
+        "defEn": "A connection in which capacitors are joined one after another with no branch between them; the charge magnitude is common and the voltages add."
+      },
+      {
+        "termZh": "并联",
+        "termEn": "parallel connection",
+        "defZh": "各电容两端接在同一对节点上的连接方式；各电容电压相同，电荷相加。",
+        "defEn": "A connection in which both ends of every capacitor attach to the same pair of nodes; the voltage is common and the charges add."
+      },
+      {
+        "termZh": "等效电容",
+        "termEn": "equivalent capacitance",
+        "defZh": "把整个电容网络化为一个电容后的电容值；串联取倒数和，并联直接相加。",
+        "defEn": "The single capacitance that replaces a whole capacitor network; reciprocal sum for series and direct sum for parallel."
+      },
+      {
+        "termZh": "电荷守恒",
+        "termEn": "conservation of charge",
+        "defZh": "孤立导体系统的总电荷保持不变；串联等量电荷和初始带电电容的再分配都由它决定。",
+        "defEn": "The total charge of an isolated conductor system stays constant; it governs equal series charge and the redistribution of initially charged capacitors."
+      },
+      {
+        "termZh": "浮置导体",
+        "termEn": "floating conductor",
+        "defZh": "与外界没有导电路径、净电荷保持不变的中间导体；串联电容之间常见的孤立岛。",
+        "defEn": "An intermediate conductor with no conducting path to the outside, so its net charge stays constant; the isolated island commonly found between series capacitors."
+      },
+      {
+        "termZh": "分压",
+        "termEn": "voltage division",
+        "defZh": "串联网络中总电压按各元件分配；电容串联时 \\(V_i=\\dfrac{Q}{C_i}\\)，电容越小分压越大。",
+        "defEn": "The division of a total voltage among series elements; for series capacitors \\(V_i=\\dfrac{Q}{C_i}\\), so a smaller capacitance takes a larger voltage."
+      },
+      {
+        "termZh": "节点",
+        "termEn": "node",
+        "defZh": "由理想导线相连、电势相同的区域；并联电容的两端分别接在同一对节点上。",
+        "defEn": "A region joined by ideal wires and therefore at one potential; parallel capacitors connect both ends to the same pair of nodes."
+      },
+      {
+        "termZh": "电荷再分配",
+        "termEn": "charge redistribution",
+        "defZh": "带电电容连接后，电荷在相连极板之间重新分配，但孤立节点的总电荷守恒。",
+        "defEn": "After charged capacitors are connected, charge redistributes among connected plates while the total charge on an isolated node is conserved."
       }
     ]
   }
