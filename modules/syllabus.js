@@ -330,6 +330,8 @@ export const UNITS = {
         { code: '2.4', titleZh: '圆周运动', titleEn: 'Circular Motion' },
         { code: '2.5', titleZh: '牛顿第三定律', titleEn: "Newton's Laws of Motion: Third Law" },
         { code: '2.6', titleZh: '万有引力', titleEn: 'Gravitation' },
+        { code: '2.7', titleZh: '阻力与终端速度', titleEn: 'Resistive Forces and Terminal Velocity' },
+        { code: '2.8', titleZh: '弹簧力与非理想弹簧', titleEn: 'Spring Forces and Nonideal Springs' },
       ],
     },
     {
@@ -339,6 +341,7 @@ export const UNITS = {
         { code: '3.2', titleZh: '力与势能', titleEn: 'Forces and Potential Energy' },
         { code: '3.3', titleZh: '机械能守恒', titleEn: 'Conservation of Energy' },
         { code: '3.4', titleZh: '功率', titleEn: 'Power' },
+        { code: '3.5', titleZh: '变力做功与势能函数', titleEn: 'Work by Variable Forces and Potential Energy Functions' },
       ],
     },
     {

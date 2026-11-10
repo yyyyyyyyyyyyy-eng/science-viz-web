@@ -26,7 +26,7 @@ export const CHAPTERS = Object.fromEntries(
       summary: u.titleEn,
       overview: `${u.titleZh} · ${u.titleEn}`,
       prerequisites: '',
-      concepts: u.topics.slice(0, 6).map((t) => t.code),
+      concepts: u.topics.map((t) => t.code),
       topics: u.topics,
       layer: u.layer || 'ap',
     })),
