@@ -1,0 +1,7 @@
+{
+  "name": "cannon-es",
+  "version": "0.20.0",
+  "description": "Vendored cannon-es 0.20.0 (MIT) for the physics lab.",
+  "type": "module",
+  "license": "MIT"
+}

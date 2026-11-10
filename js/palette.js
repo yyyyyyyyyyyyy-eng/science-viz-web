@@ -204,6 +204,7 @@ function pageHits(q) {
     if (sid === 'mech') add('力学公式表', 'AP Physics C', '#/mech/formulas', ['formula', '公式']);
     if (sid === 'em') add('电磁公式表', 'AP Physics C', '#/em/formulas', ['formula', '公式']);
   }
+  add('物理实验室 · Physics Lab', '自由探索 3D 物理沙盒', '#/physics/lab', ['lab', 'physics lab', '物理实验室', '3d']);
   return hits;
 }
 

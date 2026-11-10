@@ -253,6 +253,20 @@ async function showFormulas(kind) {
   }
 }
 
+async function showLab() {
+  const token = beginRoute('lab');
+  setActiveNav('mech');
+  const { renderLab } = await import('../modules/physics/lab/index.js');
+  if (token !== pageSeq) return;
+  const handle = renderLab(main, { isCurrent: () => token === pageSeq });
+  if (token !== pageSeq) {
+    if (handle && typeof handle.destroy === 'function') handle.destroy();
+    return;
+  }
+  mountDispose(handle);
+  document.title = '物理实验室 · Physics Lab · 科学可视化';
+}
+
 async function showPractice(subject, chapterId) {
   const token = beginRoute('practice');
   setActiveNav(subject);
@@ -282,6 +296,7 @@ async function showPractice(subject, chapterId) {
 onRoute(async (route) => {
   if (route.name === 'module') { await showModule(route.id); return; }
   if (route.name === 'formulas') { await showFormulas(route.kind); return; }
+  if (route.name === 'lab') { await showLab(); return; }
   if (route.name === 'practice') { await showPractice(route.subject, route.chapterId); return; }
   if (route.name === 'credits') {
     const token = beginRoute('credits');

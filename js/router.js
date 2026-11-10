@@ -15,6 +15,9 @@ export function parseHash() {
   if (parts[0] === 'physics' && parts[1] === 'formulas') {
     return { name: 'formulas', kind: 'physics' };
   }
+  if (parts[0] === 'physics' && parts[1] === 'lab') {
+    return { name: 'lab' };
+  }
   if (parts[0] === 'physics') {
     const rest = parts.slice(1);
     history.replaceState(null, '', rest.length ? `#/mech/${rest.join('/')}` : '#/mech');

@@ -235,6 +235,9 @@ export function renderSubjectLanding(main, subject) {
         subject === 'math' || subject === 'mech' || subject === 'em'
           ? el('a', { className: 'btn hit-target', href: `#/${subject}/formulas`, text: '公式表' })
           : null,
+        subject === 'mech' || subject === 'em'
+          ? el('a', { className: 'btn hit-target', href: '#/physics/lab', text: '物理实验室 · Physics Lab' })
+          : null,
         el('a', { className: 'btn hit-target', href: `#/pastpapers/${subject}`, text: '历年真题' }),
       ]),
     ]),

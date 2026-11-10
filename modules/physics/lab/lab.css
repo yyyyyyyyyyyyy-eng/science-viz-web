@@ -1,0 +1,725 @@
+/*
+  Scoped styles for 物理实验室 · Physics Lab.
+  Square geometry, flat surfaces, existing theme tokens only.
+*/
+
+html[data-route="lab"] .main {
+  max-width: 1560px;
+  padding: 1rem 1.25rem 3rem;
+}
+html[data-route="lab"] .site-footer {
+  display: none;
+}
+
+.plab-root,
+.plab-root *,
+.plab-root *::before,
+.plab-root *::after {
+  box-sizing: border-box;
+}
+
+.plab-root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  color: var(--text);
+}
+
+.plab-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.plab-title {
+  min-width: 0;
+}
+
+.plab-kicker {
+  margin: 0 0 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.plab-title h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.25rem);
+  font-weight: 620;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-strong);
+}
+
+.plab-title-en {
+  color: var(--text-muted);
+  font-weight: 480;
+}
+
+.plab-title-sep {
+  color: var(--text-dim);
+}
+
+.plab-sub {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.plab-transport {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+
+.plab-btn {
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  cursor: pointer;
+  min-width: 0;
+}
+.plab-btn:last-child {
+  border-right: 0;
+}
+.plab-btn:hover:not(:disabled) {
+  color: var(--accent);
+  background: var(--bg-soft);
+}
+.plab-btn:disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.plab-btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.plab-btn-primary:hover:not(:disabled) {
+  background: var(--accent-active);
+  color: var(--on-accent);
+}
+.plab-btn-quiet {
+  color: var(--text-muted);
+}
+
+.plab-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1.25rem;
+  align-items: start;
+  min-width: 0;
+}
+
+.plab-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.plab-stagebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.8rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.plab-toolgroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+
+.plab-tool-label {
+  padding: 0 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.plab-tool {
+  min-height: 44px;
+  padding: 0 0.65rem;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.plab-tool:hover {
+  color: var(--accent);
+  background: var(--bg-soft);
+}
+.plab-tool.active {
+  color: var(--accent);
+  background: var(--bg-soft);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.plab-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.plab-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.plab-timescale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.plab-timescale input[type="range"] {
+  width: 84px;
+  accent-color: var(--accent);
+}
+.plab-timescale output {
+  min-width: 3.2rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.plab-clock {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.plab-canvas-host {
+  position: relative;
+  width: 100%;
+  height: clamp(400px, calc(100vh - 390px), 700px);
+  min-height: 320px;
+  border: 1px solid var(--border);
+  background: var(--canvas-plot);
+  overflow: hidden;
+  touch-action: none;
+  contain: strict;
+}
+
+.plab-canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+.plab-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--canvas-plot) 88%, transparent) 0%, color-mix(in srgb, var(--canvas-plot) 40%, transparent) 55%, transparent 100%);
+}
+.plab-empty[hidden] {
+  display: none;
+}
+.plab-empty-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.plab-empty-text {
+  max-width: 32rem;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.plab-empty-sub {
+  margin: 0.25rem 0 0;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.plab-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  min-height: 1.5rem;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+.plab-legend[data-off="1"] {
+  opacity: 0.4;
+}
+.plab-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.plab-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  background: var(--text);
+}
+.plab-legend-item.normal .plab-swatch { background: var(--accent); }
+.plab-legend-item.friction .plab-swatch { background: var(--warn); }
+.plab-legend-item.spring .plab-swatch { background: var(--ok); }
+.plab-legend-item.applied .plab-swatch { background: var(--danger); }
+
+.plab-energy {
+  border-top: 1px solid var(--border);
+  padding-top: 0.45rem;
+}
+.plab-energy-head,
+.plab-panel-title,
+.plab-group-title,
+.plab-section-title {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.plab-energy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 0.35rem;
+  border-top: 1px solid var(--border-soft);
+}
+.plab-energy-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  padding: 0.45rem 0.55rem 0.45rem 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.plab-energy-label {
+  font-size: 0.66rem;
+  line-height: 1.3;
+  color: var(--text-dim);
+}
+.plab-energy-value {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+.plab-energy-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.64rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.plab-side {
+  min-width: 0;
+  border-left: 1px solid var(--border);
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.plab-panel {
+  min-width: 0;
+  padding: 0.2rem 0 0;
+}
+
+.plab-panel-title {
+  color: var(--text);
+  font-size: 0.68rem;
+  margin-bottom: 0.3rem;
+}
+
+.plab-status {
+  margin: 0 0 0.6rem;
+  min-height: 2.4rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.plab-status[data-warn="1"] {
+  color: var(--danger);
+}
+
+.plab-group-title {
+  display: block;
+  margin: 0.9rem 0 0.3rem;
+  color: var(--text-dim);
+}
+.plab-group-title:first-of-type {
+  margin-top: 0.3rem;
+}
+
+.plab-add-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid var(--border);
+  background: var(--border);
+}
+.plab-add {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.08rem;
+  min-height: 52px;
+  padding: 0.4rem 0.55rem;
+  border: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.plab-add:hover {
+  background: var(--bg-soft);
+  color: var(--accent);
+}
+.plab-add-zh {
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+.plab-add-en {
+  font-size: 0.64rem;
+  line-height: 1.2;
+  color: var(--text-muted);
+}
+
+.plab-subpanel {
+  margin-top: 0.9rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.plab-tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 0.3rem;
+  border: 1px solid var(--border);
+  border-right: 0;
+}
+.plab-tool-row .plab-btn {
+  flex: 1 1 auto;
+  border-right: 1px solid var(--border);
+}
+
+.plab-inspector-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+.plab-inspector-kind {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.plab-inspector-empty {
+  margin: 0.5rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.plab-section-title {
+  display: block;
+  margin: 0.9rem 0 0.3rem;
+  color: var(--text-dim);
+}
+
+.plab-field {
+  padding: 0.45rem 0 0.35rem;
+  border-top: 1px solid var(--border-soft);
+}
+.plab-field.is-disabled {
+  opacity: 0.55;
+}
+.plab-field-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  color: var(--text);
+}
+.plab-field-head label {
+  min-width: 0;
+}
+.plab-field-value {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.plab-field-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.1rem;
+}
+.plab-range {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  accent-color: var(--accent);
+}
+.plab-number {
+  flex: 0 0 82px;
+  width: 82px;
+  height: 44px;
+  padding: 0 0.4rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+}
+.plab-number:focus-visible,
+.plab-select:focus-visible,
+.plab-range:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.plab-field-hint {
+  margin: 0.15rem 0 0;
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.plab-select {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.2rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.74rem;
+}
+
+.plab-readouts {
+  border-top: 1px solid var(--border-soft);
+}
+.plab-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 34px;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.plab-readout-label {
+  font-size: 0.69rem;
+  color: var(--text-muted);
+}
+.plab-readout strong {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+}
+
+.plab-formula {
+  margin: 0.65rem 0 0;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.plab-formula .katex {
+  font-size: 0.92em;
+}
+
+.plab-inspector-actions {
+  margin-top: 0.9rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border);
+}
+.plab-inspector-actions .plab-btn {
+  width: 100%;
+  border: 1px solid var(--border);
+}
+
+.plab-mobile-tabs {
+  display: none;
+}
+.plab-mobile-tab {
+  min-height: 44px;
+  border: 0;
+  background: var(--bg);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+.plab-mobile-tab.active {
+  background: var(--bg-soft);
+  color: var(--accent);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.plab-root :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+@media (max-width: 980px) {
+  html[data-route="lab"] .main {
+    max-width: none;
+    padding: 0.85rem 0.9rem 2.2rem;
+  }
+  .plab-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+  .plab-transport {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .plab-transport .plab-btn {
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+    padding: 0 0.25rem;
+    font-size: 0.68rem;
+  }
+  .plab-transport .plab-btn:last-child {
+    border-right: 0;
+  }
+  .plab-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .plab-side {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 0.7rem;
+  }
+  .plab-canvas-host {
+    height: min(46vh, 430px);
+    min-height: 310px;
+  }
+  .plab-mobile-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    border: 1px solid var(--border);
+    background: var(--border);
+  }
+  .plab-root[data-mobile-tab="palette"] .plab-inspector {
+    display: none;
+  }
+  .plab-root[data-mobile-tab="inspector"] .plab-palette {
+    display: none;
+  }
+  .plab-energy-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .plab-clock {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  html[data-route="lab"] .main {
+    padding: 0.65rem 0.65rem 1.8rem;
+  }
+  .plab-title h1 {
+    font-size: 1.45rem;
+  }
+  .plab-title-en {
+    display: block;
+    font-size: 0.9rem;
+  }
+  .plab-title-sep {
+    display: none;
+  }
+  .plab-transport {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .plab-transport .plab-btn {
+    border-bottom: 1px solid var(--border);
+  }
+  .plab-canvas-host {
+    height: 42vh;
+    min-height: 290px;
+  }
+  .plab-stagebar {
+    gap: 0.15rem 0.4rem;
+  }
+  .plab-toolgroup {
+    flex: 1 1 100%;
+  }
+  .plab-tool {
+    flex: 1 1 auto;
+  }
+  .plab-tool-label {
+    flex: 1 1 100%;
+    padding: 0 0.2rem 0.15rem;
+  }
+  .plab-timescale {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .plab-timescale input[type="range"] {
+    flex: 1;
+    width: auto;
+  }
+  .plab-empty {
+    padding: 1rem;
+  }
+}

@@ -151,6 +151,13 @@ function buildMega(subjectId) {
     f.textContent = '公式表';
     actions.appendChild(f);
   }
+  if (subjectId === 'mech' || subjectId === 'em') {
+    const lab = document.createElement('a');
+    lab.className = 'hit-target';
+    lab.href = '#/physics/lab';
+    lab.textContent = '物理实验室 · Physics Lab';
+    actions.appendChild(lab);
+  }
   const pp = document.createElement('a');
   pp.className = 'hit-target';
   pp.href = `#/pastpapers/${subjectId}`;
@@ -287,6 +294,13 @@ function buildMobileNav() {
       f.href = `#/${sid}/formulas`;
       f.textContent = '公式表';
       links.appendChild(f);
+    }
+    if (sid === 'mech' || sid === 'em') {
+      const lab = document.createElement('a');
+      lab.className = 'mobile-subject-link hit-target';
+      lab.href = '#/physics/lab';
+      lab.textContent = '物理实验室 · Physics Lab';
+      links.appendChild(lab);
     }
     details.appendChild(links);
 
