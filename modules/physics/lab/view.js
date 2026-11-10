@@ -196,6 +196,29 @@ export function createLabView(host, opts = {}) {
     arrows[key] = arrow;
   }
 
+  // Relative-velocity arrows for the moving reference-frame view.
+  const relativeGroup = new THREE.Group();
+  relativeGroup.userData = { ...NO_PICK };
+  scene.add(relativeGroup);
+  const relativeArrows = [];
+  for (let i = 0; i < 12; i += 1) {
+    const arrow = new THREE.ArrowHelper(
+      new THREE.Vector3(0, 1, 0),
+      new THREE.Vector3(),
+      1,
+      theme.accent,
+      0.18,
+      0.08,
+    );
+    arrow.visible = false;
+    arrow.userData = { ...NO_PICK };
+    relativeGroup.add(arrow);
+    relativeArrows.push(arrow);
+  }
+  let frameBodyId = null;
+  let frameLastPos = null;
+  let frameTotal = new THREE.Vector3();
+
   // Selected-body trajectory trail.
   const TRAIL_MAX = 1600;
   const trailGeo = new THREE.BufferGeometry();
@@ -1373,6 +1396,60 @@ export function createLabView(host, opts = {}) {
     return q;
   }
 
+  /**
+   * Display-only inertial frame moving with a selected body's velocity.
+   * Physics keeps integrating in the ground frame; only the camera and the
+   * relative-velocity arrows change.
+   */
+  function setReferenceFrame(bodyId) {
+    const next = bodyId || null;
+    if (next === frameBodyId) return;
+    if (frameTotal.lengthSq() > 1e-12) {
+      camera.position.sub(frameTotal);
+      orbit.target.sub(frameTotal);
+      orbit.update();
+    }
+    frameBodyId = next;
+    frameLastPos = null;
+    frameTotal.set(0, 0, 0);
+    for (const arrow of relativeArrows) arrow.visible = false;
+  }
+
+  function updateReferenceFrame(world) {
+    const body = frameBodyId ? world.bodies.find((b) => b.id === frameBodyId) : null;
+    if (!body) {
+      for (const arrow of relativeArrows) arrow.visible = false;
+      return;
+    }
+    const pos = v3(body.cannon.position);
+    if (frameLastPos) {
+      const delta = pos.clone().sub(frameLastPos);
+      camera.position.add(delta);
+      orbit.target.add(delta);
+      frameTotal.add(delta);
+    }
+    frameLastPos = pos;
+    const vf = body.cannon.velocity;
+    let i = 0;
+    for (const other of world.bodies) {
+      if (other === body || other.transient || i >= relativeArrows.length) continue;
+      const rel = new THREE.Vector3(
+        other.cannon.velocity.x - vf.x,
+        other.cannon.velocity.y - vf.y,
+        other.cannon.velocity.z - vf.z,
+      );
+      const speed = rel.length();
+      if (speed < 0.03) continue;
+      const arrow = relativeArrows[i];
+      i += 1;
+      arrow.position.copy(v3(other.cannon.position));
+      arrow.setDirection(rel.normalize());
+      arrow.setLength(Math.min(2.6, 0.35 + speed * 0.28), 0.16, 0.07);
+      arrow.visible = true;
+    }
+    for (; i < relativeArrows.length; i += 1) relativeArrows[i].visible = false;
+  }
+
   function sync(world) {
     if (destroyed) return;
     lastWorld = world;
@@ -1567,6 +1644,7 @@ export function createLabView(host, opts = {}) {
     }
     syncSelection(world);
     syncForces(world);
+    updateReferenceFrame(world);
     updateTrail(world);
     updateHandles();
     if (snapHint.visible && performance.now() > snapHintUntil) snapHint.visible = false;
@@ -2030,6 +2108,7 @@ export function createLabView(host, opts = {}) {
     render,
     sync,
     setSelection,
+    setReferenceFrame,
     setGizmoMode,
     setGizmoVisible,
     setForceVisible,

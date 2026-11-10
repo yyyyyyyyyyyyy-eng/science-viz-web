@@ -330,6 +330,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['torsion', '扭摆', 'Torsion pendulum'],
       ],
     },
+    {
+      title: label('引力与参考系', 'Gravity & frames'),
+      items: [
+        ['elevator', '升降机', 'Elevator'],
+        ['carriage', '加速车厢', 'Accelerating carriage'],
+      ],
+    },
   ];
 
   const addMenu = el('div', {
@@ -639,6 +646,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   transformSection.appendChild(viewGroup);
   transformSection.appendChild(snapToggleBtn);
 
+  const frameSection = moreSection('参考系', 'Reference frame');
+  const frameHost = el('div', { className: 'plab-frame-controls' });
+  const frameReadoutHost = el('div', { className: 'plab-readouts', 'data-frame-readout': 'on' });
+  frameSection.append(frameHost, frameReadoutHost);
+  frameSection.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '相机与相对速度矢量跟随所选物体的当前速度；物理仍在实验室地面系积分。 · The camera and relative-velocity arrows follow the selected body’s current velocity; physics still integrates in the ground frame.',
+  }));
+
   const displaySection = moreSection('显示', 'Display');
   displaySection.appendChild(forceLabel);
   const displayToggles = el('div', { className: 'plab-tool-row' });
@@ -736,6 +752,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const liveNodes = new Map();
   let inspectorSummary = null;
   let snapOn = true;
+  let frameBodyId = null;
   let trailOn = false;
   let graphsOn = false;
   let rulerMode = false;
@@ -814,6 +831,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     closeAddMenu();
     openInspector(false);
     buildMoreAdvanced();
+    buildFrameControls();
+    updateFrameReadout();
     morePanel.hidden = false;
     moreBackdrop.hidden = false;
     root.dataset.moreOpen = '1';
@@ -829,6 +848,98 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     delete root.dataset.moreOpen;
     moreBtn.setAttribute('aria-expanded', 'false');
     if (hadFocus) moreBtn.focus({ preventScroll: true });
+  }
+
+  function frameBody() {
+    return frameBodyId ? world.bodies.find((b) => b.id === frameBodyId) || null : null;
+  }
+
+  function setFrameBody(id) {
+    const next = id && world.bodies.some((b) => b.id === id) ? id : null;
+    frameBodyId = next;
+    view.setReferenceFrame(next);
+    buildFrameControls();
+    updateFrameReadout();
+    const body = frameBody();
+    if (body) {
+      const label = body.name || `物体 · Body #${String(body.id).split('-').pop()}`;
+      setStatus(`参考系：随 ${label} 的当前速度移动。 · Frame: moving with ${label}'s current velocity.`);
+    } else {
+      setStatus('参考系：实验室地面系。 · Frame: lab ground frame.');
+    }
+    buildInspector();
+  }
+
+  function buildFrameControls() {
+    if (!frameHost) return;
+    clear(frameHost);
+    const row = el('div', { className: 'plab-frame-row' });
+    const select = el('select', {
+      className: 'plab-select hit-target',
+      'data-field': 'frameBody',
+      'aria-label': '参考系物体 · Reference-frame body',
+    });
+    select.appendChild(el('option', { value: '', text: '地面参考系 · Ground frame', selected: !frameBodyId }));
+    for (const body of world.bodies) {
+      if (body.transient) continue;
+      select.appendChild(el('option', {
+        value: body.id,
+        text: body.name || `物体 · Body #${String(body.id).split('-').pop()}`,
+        selected: body.id === frameBodyId,
+      }));
+    }
+    select.addEventListener('change', () => setFrameBody(select.value || null));
+    row.appendChild(select);
+    frameHost.appendChild(row);
+    const button = el('button', {
+      type: 'button',
+      className: 'plab-action hit-target plab-frame-follow',
+      text: frameBodyId ? '回到地面系 · Ground frame' : '跟随所选物体 · Follow selected',
+      'data-action': 'frame-follow',
+    });
+    button.addEventListener('click', () => {
+      if (frameBodyId) setFrameBody(null);
+      else if (selected?.type === 'body') setFrameBody(selected.id);
+      else setStatus('先选中一个物体，再设为参考系。 · Select a body first, then use it as the frame.', true);
+    });
+    frameHost.appendChild(button);
+  }
+
+  function updateFrameReadout() {
+    if (!frameReadoutHost) return;
+    clear(frameReadoutHost);
+    const body = frameBody();
+    if (!body) {
+      frameReadoutHost.appendChild(el('p', {
+        className: 'plab-inspector-empty',
+        text: '地面参考系：速度为 0。 · Ground frame: velocities are measured in the lab frame.',
+      }));
+      return;
+    }
+    const vf = body.cannon.velocity;
+    frameReadoutHost.appendChild(el('p', {
+      className: 'plab-field-hint',
+      text: `随动惯性系 · Moving inertial frame：${body.name || '物体 · Body'}（v = ${fmt(vf.length())} m/s）`,
+    }));
+    let count = 0;
+    for (const other of world.bodies) {
+      if (other === body || other.transient) continue;
+      const rel = relativeVelocity(other.cannon.velocity, vf);
+      const speed = Math.hypot(rel.x, rel.y, rel.z);
+      const row = el('div', { className: 'plab-readout' }, [
+        el('span', { className: 'plab-readout-label', text: `相对速度 · v_rel ${other.name || '物体 · Body'}` }),
+        el('strong', { text: `${fmt(speed)} m/s` }),
+      ]);
+      frameReadoutHost.appendChild(row);
+      count += 1;
+      if (count >= 6) break;
+    }
+    if (!count) {
+      frameReadoutHost.appendChild(el('p', {
+        className: 'plab-inspector-empty',
+        text: '没有其他物体可显示相对速度。 · No other bodies to show relative velocities for.',
+      }));
+    }
   }
 
   function openInspector(open) {
@@ -1313,12 +1424,36 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         if (body && body.fan === entity) body.fan = null;
       }
       world.fans = world.fans.filter((f) => f.id !== entity.id);
+    } else if (entity.type === 'oscillator') {
+      world.oscillators = world.oscillators.filter((o) => o.id !== entity.id);
+    } else if (entity.type === 'torsion') {
+      world.torsionPendulums = world.torsionPendulums.filter((p) => p.id !== entity.id);
+    } else if (entity.type === 'elevator') {
+      world.elevators = world.elevators.filter((e) => e.id !== entity.id);
+    } else if (entity.type === 'carriage') {
+      world.carriages = world.carriages.filter((c) => c.id !== entity.id);
+    } else if (entity.type === 'angularTable') {
+      world.angularTables = world.angularTables.filter((t) => t.id !== entity.id);
+    } else if (entity.type === 'rod') {
+      world.rods = world.rods.filter((r) => r.id !== entity.id);
+    } else if (entity.type === 'orbit') {
+      world.orbits = world.orbits.filter((o) => o.id !== entity.id);
+    } else if (entity.type === 'tunnel') {
+      world.tunnels = world.tunnels.filter((t) => t.id !== entity.id);
     } else if (entity.type === 'link') {
       world.links = world.links.filter((l) => l.id !== entity.id);
     }
     if (wasSelected) {
       selected = null;
       view.setSelection(null);
+    }
+    if (entity.type === 'body' && frameBodyId === entity.id) {
+      frameBodyId = null;
+      view.setReferenceFrame(null);
+    }
+    if (!morePanel.hidden) {
+      buildFrameControls();
+      updateFrameReadout();
     }
     view.sync(world);
     captureInitial(world);
@@ -2773,6 +2908,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function clearScene() {
     pushUndo();
     running = false;
+    frameBodyId = null;
+    view.setReferenceFrame(null);
     clearWorld(world);
     captureInitial(world);
     selected = null;
@@ -3336,6 +3473,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           if (!running && world.time === 0) { applyInitialVelocity(world, entity); captureInitial(world); }
         },
       });
+      const frameBtnBody = el('button', {
+        type: 'button',
+        className: 'plab-inspector-more plab-frame-set hit-target',
+        text: frameBodyId === entity.id ? '回到地面系 · Ground frame' : '设为参考系 · Set as reference frame',
+        'data-action': 'set-frame-body',
+      });
+      frameBtnBody.addEventListener('click', () => {
+        setFrameBody(frameBodyId === entity.id ? null : entity.id);
+      });
+      common.appendChild(frameBtnBody);
+      if (frameBodyId && frameBodyId !== entity.id) {
+        const rel = relativeVelocity(entity.cannon.velocity, frameBody()?.cannon.velocity || { x: 0, y: 0, z: 0 });
+        common.appendChild(el('p', {
+          className: 'plab-field-hint',
+          text: `相对参考系 · Relative speed ${fmt(Math.hypot(rel.x, rel.y, rel.z))} m/s`,
+        }));
+      }
     } else if (entity.type === 'loop') {
       field(common, {
         label: '圆环半径 · Loop radius',
@@ -3723,6 +3877,70 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '角速度 · Angular speed', 'torsionOmega', 'rad/s');
       common.appendChild(readouts);
       formula(common, 'T=2\\pi\\sqrt{\\dfrac{I}{\\kappa}},\\qquad I=\\dfrac{1}{2}mR^2');
+    } else if (entity.type === 'elevator') {
+      field(common, {
+        label: '乘客质量 m · Passenger mass',
+        value: entity.mass,
+        min: 0.1,
+        max: 20,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'elevatorMass',
+        onChange: (v) => { entity.mass = Math.max(0.05, v); },
+      });
+      field(common, {
+        label: '加速度 a（向上为正）· Acceleration upward +',
+        value: entity.accel,
+        min: -15,
+        max: 15,
+        step: 0.1,
+        unit: 'm/s²',
+        testid: 'elevatorAccel',
+        onChange: (v) => { entity.accel = v; },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '秤读数 N · Scale reading', 'liftNormal', 'N');
+      addLive(readouts, '静止重量 mg · Weight', 'liftWeight', 'N');
+      addLive(readouts, '视重比 N/mg · Apparent/true', 'liftRatio', '');
+      addLive(readouts, '重力加速度 g · Gravity', 'liftG', 'm/s²');
+      common.appendChild(readouts);
+      formula(common, 'N=m(g+a),\\qquad a>0\\ \\text{upward}');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '符号约定：a 向上为正。a = −g 时 N = 0（自由落体）。 · Sign convention: a is positive upward. At a = −g the scale reads zero (free fall).',
+      }));
+    } else if (entity.type === 'carriage') {
+      field(common, {
+        label: '车厢加速度 a · Carriage acceleration',
+        value: entity.accel,
+        min: -15,
+        max: 15,
+        step: 0.1,
+        unit: 'm/s²',
+        testid: 'carriageAccel',
+        onChange: (v) => { entity.accel = v; },
+      });
+      field(common, {
+        label: '摆长 L · Bob length',
+        value: entity.length,
+        min: 0.3,
+        max: 3,
+        step: 0.05,
+        unit: 'm',
+        testid: 'carriageLength',
+        onChange: (v) => { entity.length = Math.max(0.2, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '摆角（实测）· Tilt measured', 'carriageMeasured', '°');
+      addLive(readouts, '理论 tanφ = a/g · Theory', 'carriageTheory', '°');
+      addLive(readouts, '比值 a/g · Ratio', 'carriageRatio', '');
+      addLive(readouts, '角速度 · Angular speed', 'carriageOmega', 'rad/s');
+      common.appendChild(readouts);
+      formula(common, '\\tan\\varphi=\\dfrac{a}{g},\\qquad \\varphi=\\arctan\\!\\left(\\dfrac{a}{g}\\right)');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '摆球向加速度的反方向偏转；φ 取向后偏转角。 · The bob lags opposite the acceleration; φ is the rearward tilt.',
+      }));
     } else if (entity.type === 'fan') {
       field(common, {
         label: '恒定推力 · Constant thrust',
@@ -4377,6 +4595,71 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'elevator') {
+      field(moreAdvanced, {
+        label: '轿厢高度 · Cabin height',
+        value: entity.height,
+        min: 1.2,
+        max: 6,
+        step: 0.1,
+        unit: 'm',
+        testid: 'elevatorHeight',
+        onChange: (v) => { entity.height = Math.max(1, v); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '轿厢宽度 · Cabin width',
+        value: entity.width,
+        min: 0.8,
+        max: 4,
+        step: 0.1,
+        unit: 'm',
+        testid: 'elevatorWidth',
+        onChange: (v) => { entity.width = Math.max(0.6, v); view.sync(world); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '秤读数 N · Scale reading', 'liftNormal', 'N');
+      addLive(readouts, '静止重量 mg · Weight', 'liftWeight', 'N');
+      addLive(readouts, '视重比 N/mg · Apparent/true', 'liftRatio', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'N=m(g+a),\\qquad a=-g\\Rightarrow N=0');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: 'a 向上为正；读数由秤台支持力给出。 · a is positive upward; the reading is the scale’s normal force.',
+      }));
+    }
+
+    if (entity.type === 'carriage') {
+      field(moreAdvanced, {
+        label: '摆球质量 · Bob mass',
+        value: entity.mass,
+        min: 0.1,
+        max: 10,
+        step: 0.1,
+        unit: 'kg',
+        testid: 'carriageMass',
+        onChange: (v) => { entity.mass = Math.max(0.05, v); },
+      });
+      field(moreAdvanced, {
+        label: '阻尼 · Damping',
+        value: entity.damping,
+        min: 0,
+        max: 6,
+        step: 0.1,
+        unit: 's⁻¹',
+        testid: 'carriageDamping',
+        onChange: (v) => { entity.damping = Math.max(0, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '摆角（实测）· Tilt measured', 'carriageMeasured', '°');
+      addLive(readouts, '理论 tanφ = a/g · Theory', 'carriageTheory', '°');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, '\\ddot{\\theta}=-\\dfrac{g}{L}\\sin\\theta-\\dfrac{a}{L}\\cos\\theta-\\gamma\\dot{\\theta}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '稳定后 tanφ = a/g，摆球向后偏。 · At equilibrium tanφ = a/g and the bob lags rearward.',
+      }));
+    }
+
     if (entity.type === 'oscillator') {
       field(moreAdvanced, {
         label: '驱动角频率 ω · Drive frequency',
@@ -4590,11 +4873,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function updateLive() {
+    if (frameBodyId && !frameBody()) {
+      frameBodyId = null;
+      view.setReferenceFrame(null);
+    }
     const entity = selected ? entityById(selected.type, selected.id) : null;
     const setLive = (key, value) => {
       const cell = liveNodes.get(key);
       if (cell) cell.node.textContent = value;
     };
+    if (!morePanel.hidden) updateFrameReadout();
     if (entity?.type === 'body') {
       const d = bodyDiagnostics(world, entity);
       setLive('speed', `${fmt(d.speed)} m/s`);
@@ -4675,6 +4963,18 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('torsionTheory', `${fmt(torsionPeriod(entity))}`);
       setLive('torsionAngle', `${fmt(entity.theta)} rad`);
       setLive('torsionOmega', `${fmt(entity.omega)} rad/s`);
+    } else if (entity?.type === 'elevator') {
+      const n = elevatorReading(world, entity);
+      const w = entity.mass * world.g;
+      setLive('liftNormal', `${fmt(n)} N`);
+      setLive('liftWeight', `${fmt(w)} N`);
+      setLive('liftRatio', w > 0 ? fmt(n / w) : '—');
+      setLive('liftG', `${fmt(world.g)} m/s²`);
+    } else if (entity?.type === 'carriage') {
+      setLive('carriageMeasured', `${fmt((-entity.theta * 180) / Math.PI)}°`);
+      setLive('carriageTheory', `${fmt((carriageTilt(entity.accel, world.g) * 180) / Math.PI)}°`);
+      setLive('carriageRatio', fmt(entity.accel / Math.max(1e-9, world.g)));
+      setLive('carriageOmega', `${fmt(entity.omega)} rad/s`);
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -4713,6 +5013,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         inspectorSummary.textContent = `A ${fmt(entity.measuredAmplitude)} m · A(ω) ${fmt(oscillatorAnalyticAmplitude(entity))} m · ω₀ ${fmt(entity.omega0)} rad/s`;
       } else if (entity?.type === 'torsion') {
         inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 理论 · theory ${fmt(torsionPeriod(entity))} s`;
+      } else if (entity?.type === 'elevator') {
+        inspectorSummary.textContent = `N ${fmt(elevatorReading(world, entity))} N · mg ${fmt(entity.mass * world.g)} N · a ${fmt(entity.accel)} m/s²`;
+      } else if (entity?.type === 'carriage') {
+        inspectorSummary.textContent = `φ ${fmt((-entity.theta * 180) / Math.PI)}° · tanφ=a/g → ${fmt((carriageTilt(entity.accel, world.g) * 180) / Math.PI)}°`;
       } else {
         inspectorSummary.textContent = '—';
       }
@@ -4890,6 +5194,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     get running() { return running; },
     get graphsOn() { return graphsOn; },
     get graphData() { return graphData; },
+    get frameBodyId() { return frameBodyId; },
   };
 
   return { destroy };

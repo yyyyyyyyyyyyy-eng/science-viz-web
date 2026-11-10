@@ -519,7 +519,7 @@ html[data-route="lab"] .site-footer {
 .plab-inline-field input,
 .plab-inline-field select {
   width: 100px;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 0.35rem;
   border: 1px solid var(--border);
   background: var(--bg);
@@ -577,6 +577,29 @@ html[data-route="lab"] .site-footer {
   margin-top: 0.3rem;
   border: 1px solid var(--border-soft);
   background: var(--canvas-plot);
+}
+
+.plab-frame-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.25rem;
+}
+.plab-frame-row {
+  display: flex;
+  gap: 0.35rem;
+}
+.plab-frame-row .plab-select {
+  margin-top: 0;
+}
+.plab-frame-follow {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.plab-frame-set {
+  border-color: var(--accent);
+  color: var(--accent-active);
 }
 
 .plab-section-title {
