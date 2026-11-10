@@ -23,14 +23,59 @@ function setMainInert(on) {
   else main.removeAttribute('inert');
 }
 
+function setFooterInert(on) {
+  const footer = document.querySelector('.site-footer');
+  if (!footer) return;
+  try { footer.inert = on; } catch (_) {}
+  if (on) footer.setAttribute('inert', '');
+  else footer.removeAttribute('inert');
+}
+
+function syncMobileSubject() {
+  const panel = document.getElementById('mobile-nav');
+  if (!panel) return;
+  const here = location.hash || '#/';
+  panel.querySelectorAll('details.mobile-subject').forEach((details) => {
+    const sid = details.dataset.subject;
+    details.open = here === `#/${sid}` || here.startsWith(`#/${sid}/`);
+  });
+}
+
+function trapDrawerTab(e) {
+  if (e.key !== 'Tab') return;
+  const panel = document.getElementById('mobile-nav');
+  if (!panel || panel.hidden) return;
+  const focusables = [...panel.querySelectorAll(
+    'a[href], button:not([disabled]), summary, input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+  )].filter((node) => node.tabIndex >= 0 && node.getClientRects().length > 0);
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey) {
+    if (active === first || !panel.contains(active)) {
+      e.preventDefault();
+      last.focus();
+    }
+  } else if (active === last || !panel.contains(active)) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+
 function setMobile(open, { focus = true } = {}) {
   mobileOpen = open;
   document.documentElement.classList.toggle('nav-mobile-open', open);
   const btn = document.getElementById('nav-mobile-toggle');
-  if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (btn) {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? '关闭菜单 · Close menu' : '打开菜单');
+  }
   const panel = document.getElementById('mobile-nav');
   if (panel) panel.hidden = !open;
+  if (open) syncMobileSubject();
   setMainInert(open);
+  setFooterInert(open);
   if (open && focus) {
     requestAnimationFrame(() => {
       panel?.querySelector('.mobile-close, a, summary')?.focus?.();
@@ -172,12 +217,16 @@ function buildMobileNav() {
   const panel = document.getElementById('mobile-nav');
   if (!panel) return;
   panel.innerHTML = '';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-modal', 'true');
+  panel.setAttribute('aria-labelledby', 'mobile-nav-title');
 
   const head = document.createElement('div');
   head.className = 'mobile-nav-head';
   const title = document.createElement('span');
   title.className = 'mobile-nav-title';
-  title.textContent = '目录';
+  title.id = 'mobile-nav-title';
+  title.textContent = '目录 · Contents';
   const close = document.createElement('button');
   close.type = 'button';
   close.className = 'mobile-close hit-target';
@@ -208,7 +257,8 @@ function buildMobileNav() {
     const sub = SUBJECTS[sid];
     const details = document.createElement('details');
     details.className = 'mobile-subject';
-    if (here.startsWith(`#/${sid}`)) details.open = true;
+    details.dataset.subject = sid;
+    details.open = here === `#/${sid}` || here.startsWith(`#/${sid}/`);
     const summary = document.createElement('summary');
     summary.className = 'hit-target';
     const name = document.createElement('span');
@@ -332,6 +382,7 @@ export function initNav() {
   document.getElementById('mobile-nav')?.addEventListener('click', (e) => {
     if (e.target.closest('a') && mobileOpen) setMobile(false, { focus: false });
   });
+  document.getElementById('mobile-nav')?.addEventListener('keydown', trapDrawerTab);
 
   if (!resizeBound) {
     resizeBound = true;

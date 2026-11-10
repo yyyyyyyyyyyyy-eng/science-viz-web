@@ -55,6 +55,20 @@ ok('calc-u8 q003 rejects sqrt(1+4*x)', checkSymbolic('sqrt(1+4*x)', 'sqrt(1+4*x^
 ok('function-only expression cos(pi/6) equals sqrt(3)/2', checkSymbolic('cos(pi/6)', 'sqrt(3)/2'));
 ok('function names are not sampled as variables', checkSymbolic('sqrt(x^2+1)', 'sqrt(x^2+1)'));
 
+console.log('\nStudent-friendly symbolic input (UI-02 leftover)');
+ok('calc-u2 q011 accepts implicit product e^x(3x^2+x^3)', checkSymbolic('e^x(3x^2+x^3)', 'e^x*(3x^2+x^3)'));
+ok('calc-u2 q011 accepts explicit e^x*(3x^2+x^3)', checkSymbolic('e^x*(3x^2+x^3)', 'e^x*(3x^2+x^3)'));
+ok('calc-u2 q011 still rejects a missing term with implicit product', checkSymbolic('e^x(3x^2)', 'e^x*(3x^2+x^3)'), false);
+ok('accepts -cot t without parentheses', checkSymbolic('-cot t', '-cot(t)'));
+ok('accepts -cot(t)', checkSymbolic('-cot(t)', '-cot(t)'));
+ok('accepts sin x without parentheses', checkSymbolic('sin x', 'sin(x)'));
+ok('accepts ln x as natural log', checkSymbolic('ln x', 'log(x)'));
+ok('accepts -ln x as negative natural log', checkSymbolic('-ln x', '-log(x)'));
+ok('accepts sin 2x as sin(2x)', checkSymbolic('sin 2x', 'sin(2*x)'));
+ok('treats x(x+1) as multiplication, not a call', checkSymbolic('x(x+1)', 'x^2+x'));
+ok('still rejects cot(t) when -cot(t) is expected', checkSymbolic('cot(t)', '-cot(t)'), false);
+ok('still rejects sin x when cos(x) is expected', checkSymbolic('sin x', 'cos(x)'), false);
+
 console.log('\nMATH-07 numeric tolerance (calc-u10-q002, expected 1/64, tol 0.01)');
 ok('1/128 is rejected', checkNumeric('1/128', 0.015625, 0.01), false);
 ok('0.02 is rejected', checkNumeric('0.02', 0.015625, 0.01), false);

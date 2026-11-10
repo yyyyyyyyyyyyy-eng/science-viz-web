@@ -20,6 +20,180 @@ function mathEngine() {
 
 const RESERVED_SYMBOLS = new Set(['e', 'pi', 'E', 'PI', 'i', 'tau', 'phi', 'Infinity', 'NaN', 'true', 'false', 'null']);
 
+const FUNCTION_NAMES = new Set([
+  'sin', 'cos', 'tan', 'cot', 'sec', 'csc',
+  'asin', 'acos', 'atan', 'acot', 'asec', 'acsc',
+  'arcsin', 'arccos', 'arctan', 'arccot', 'arcsec', 'arccsc',
+  'sinh', 'cosh', 'tanh', 'coth', 'sech', 'csch',
+  'asinh', 'acosh', 'atanh', 'log', 'ln', 'lg', 'log10', 'sqrt', 'cbrt',
+  'exp', 'abs', 'sign', 'floor', 'ceil', 'round', 'trunc', 'factorial',
+  'gamma', 'erf', 'min', 'max', 'mod', 'gcd', 'lcm', 'hypot', 'nthRoot', 'pow',
+]);
+
+function isFunctionName(name) {
+  if (FUNCTION_NAMES.has(name)) return true;
+  const m = mathEngine();
+  return !!m && typeof m[name] === 'function';
+}
+
+function isOp(tok, value) {
+  return !!tok && tok.type === 'op' && tok.value === value;
+}
+
+/**
+ * Tokenize student math without trusting mathjs's implicit-call parsing.
+ * `ln` is normalised to mathjs's natural-log `log`.
+ */
+function tokenizeExpr(src) {
+  const tokens = [];
+  let i = 0;
+  while (i < src.length) {
+    const c = src[i];
+    if (/\s/.test(c)) { i += 1; continue; }
+    const rest = src.slice(i);
+    const number = rest.match(/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+    if (number) {
+      tokens.push({ type: 'num', value: number[0] });
+      i += number[0].length;
+      continue;
+    }
+    const ident = rest.match(/^[A-Za-z_][A-Za-z0-9_]*/);
+    if (ident) {
+      const value = ident[0] === 'ln' ? 'log' : ident[0];
+      tokens.push({ type: 'id', value });
+      i += ident[0].length;
+      continue;
+    }
+    if ('+-*/^(),'.includes(c)) {
+      tokens.push({ type: 'op', value: c });
+      i += 1;
+      continue;
+    }
+    tokens.push({ type: 'other', value: c });
+    i += 1;
+  }
+  return tokens;
+}
+
+function matchParen(tokens, openIndex) {
+  let depth = 0;
+  for (let i = openIndex; i < tokens.length; i++) {
+    if (isOp(tokens[i], '(')) depth += 1;
+    else if (isOp(tokens[i], ')')) {
+      depth -= 1;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+function parseAtomEnd(tokens, start) {
+  let i = start;
+  const tok = tokens[i];
+  if (!tok) return start;
+  if (tok.type === 'num') {
+    i += 1;
+  } else if (tok.type === 'id') {
+    i += 1;
+    if (isFunctionName(tok.value)) {
+      if (isOp(tokens[i], '(')) {
+        const close = matchParen(tokens, i);
+        if (close > i) i = close + 1;
+      } else {
+        const argEnd = parseFunctionArgEnd(tokens, i);
+        if (argEnd > i) i = argEnd;
+      }
+    }
+  } else if (isOp(tok, '(')) {
+    const close = matchParen(tokens, start);
+    if (close < 0) return start;
+    i = close + 1;
+  } else if (isOp(tok, '+') || isOp(tok, '-')) {
+    const after = parseAtomEnd(tokens, i + 1);
+    if (after <= i + 1) return start;
+    i = after;
+  } else {
+    return start;
+  }
+  while (isOp(tokens[i], '^')) {
+    const after = parseAtomEnd(tokens, i + 1);
+    if (after <= i + 1) break;
+    i = after;
+  }
+  return i;
+}
+
+/** Parse the unparenthesised argument of `sin x`, `ln 2x`, `cot t`, ... */
+function parseFunctionArgEnd(tokens, start) {
+  let i = start;
+  let consumed = false;
+  while (i < tokens.length) {
+    if (!consumed && (isOp(tokens[i], '+') || isOp(tokens[i], '-'))) {
+      i += 1;
+      if (!tokens[i] || !(tokens[i].type === 'num' || tokens[i].type === 'id' || isOp(tokens[i], '('))) return start;
+    }
+    if (!(tokens[i] && (tokens[i].type === 'num' || tokens[i].type === 'id' || isOp(tokens[i], '(')))) break;
+    if (consumed && tokens[i].type === 'id' && isFunctionName(tokens[i].value)) break;
+    const end = parseAtomEnd(tokens, i);
+    if (end <= i) break;
+    i = end;
+    consumed = true;
+  }
+  return consumed ? i : start;
+}
+
+function applyFunctionApplication(tokens) {
+  const out = [];
+  for (let i = 0; i < tokens.length; i++) {
+    const tok = tokens[i];
+    if (tok.type === 'id' && isFunctionName(tok.value) && !isOp(tokens[i + 1], '(')) {
+      const argEnd = parseFunctionArgEnd(tokens, i + 1);
+      if (argEnd > i + 1) {
+        const arg = applyFunctionApplication(tokens.slice(i + 1, argEnd));
+        out.push({ type: 'id', value: tok.value }, { type: 'op', value: '(' }, ...arg, { type: 'op', value: ')' });
+        i = argEnd - 1;
+        continue;
+      }
+    }
+    out.push(tok);
+  }
+  return out;
+}
+
+function insertImplicitMultiplication(tokens) {
+  const out = [];
+  for (const cur of tokens) {
+    const prev = out[out.length - 1];
+    let multiply = false;
+    if (prev) {
+      if (prev.type === 'num') {
+        multiply = cur.type === 'id' || isOp(cur, '(');
+      } else if (prev.type === 'id') {
+        if (cur.type === 'num') multiply = true;
+        else if (cur.type === 'id') multiply = !isFunctionName(prev.value);
+        else if (isOp(cur, '(')) multiply = !isFunctionName(prev.value);
+      } else if (isOp(prev, ')')) {
+        multiply = cur.type === 'num' || cur.type === 'id' || isOp(cur, '(');
+      }
+    }
+    if (multiply) out.push({ type: 'op', value: '*' });
+    out.push(cur);
+  }
+  return out;
+}
+
+/** Make student-friendly symbolic input parse the way a student means it. */
+export function normalizeExpression(raw) {
+  const text = String(raw || '')
+    .replace(/[−–—]/g, '-')
+    .replace(/[×·⋅]/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/（/g, '(')
+    .replace(/）/g, ')');
+  const tokens = insertImplicitMultiplication(applyFunctionApplication(tokenizeExpr(text)));
+  return tokens.map((t) => t.value).join('');
+}
+
 /** Collect only true variables: skip constants, function callees, and names that would shadow mathjs functions. */
 function collectSymbolicVariables(m, expr, vars) {
   try {
@@ -39,10 +213,10 @@ function collectSymbolicVariables(m, expr, vars) {
 /** Symbolic equivalence via simplify + random-point numeric sampling */
 export function checkSymbolic(userRaw, expectedRaw, opts = {}) {
   const m = mathEngine();
-  const user = String(userRaw || '').trim();
-  const expected = String(expectedRaw || '').trim();
+  const user = normalizeExpression(userRaw);
+  const expected = normalizeExpression(expectedRaw);
   if (!user || !expected) return false;
-  if (user.replace(/\s+/g, '') === expected.replace(/\s+/g, '')) return true;
+  if (user === expected) return true;
   if (!m) return checkNumeric(user, expected, opts.tol ?? 0.02);
   try {
     const su = m.simplify(user).toString();
@@ -98,6 +272,85 @@ export function checkNumeric(user, expected, tol = 0.02) {
   return Math.abs(u - e) <= tol * scale;
 }
 
+function normalizeGraphPoints(g) {
+  const pts = Array.isArray(g?.points) ? g.points : [];
+  return pts
+    .map((p) => (Array.isArray(p) ? [Number(p[0]), Number(p[1])] : [Number(p?.x), Number(p?.y)]))
+    .filter(([x, y]) => Number.isFinite(x) && Number.isFinite(y))
+    .sort((a, b) => a[0] - b[0]);
+}
+
+function interpolateGraphY(pts, x) {
+  const exact = pts.find((p) => Math.abs(p[0] - x) < 1e-9);
+  if (exact) return exact[1];
+  let left = null;
+  let right = null;
+  for (const p of pts) {
+    if (p[0] < x) left = p;
+    else if (p[0] > x && !right) right = p;
+  }
+  if (left && right && right[0] !== left[0]) {
+    const t = (x - left[0]) / (right[0] - left[0]);
+    return left[1] + t * (right[1] - left[1]);
+  }
+  return left ? left[1] : right ? right[1] : NaN;
+}
+
+/** `holes: [[2, 4]]`, `holes: [{ x: 2, y: 4 }]` or `holes: [2]` (y inferred). */
+function normalizeGraphHoles(g, pts) {
+  const raw = Array.isArray(g?.holes) ? g.holes : Array.isArray(g?.openCircles) ? g.openCircles : [];
+  const holes = [];
+  for (const h of raw) {
+    let x;
+    let y;
+    if (Array.isArray(h)) {
+      x = Number(h[0]);
+      y = h.length > 1 ? Number(h[1]) : NaN;
+    } else if (typeof h === 'number') {
+      x = Number(h);
+      y = NaN;
+    } else if (h && typeof h === 'object') {
+      x = Number(h.x);
+      y = Number(h.y);
+    }
+    if (!Number.isFinite(x)) continue;
+    if (!Number.isFinite(y)) y = interpolateGraphY(pts, x);
+    if (Number.isFinite(y)) holes.push({ x, y });
+  }
+  return holes;
+}
+
+function formatTick(v) {
+  if (!Number.isFinite(v)) return '';
+  const abs = Math.abs(v);
+  if (abs !== 0 && (abs >= 1e5 || abs < 1e-3)) return v.toExponential(1);
+  return String(Number(v.toPrecision(3)));
+}
+
+function niceStep(span, target = 4) {
+  if (!Number.isFinite(span) || span <= 0) return 1;
+  const raw = span / target;
+  const mag = 10 ** Math.floor(Math.log10(raw));
+  const norm = raw / mag;
+  const step = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
+  return step * mag;
+}
+
+function graphAriaLabel(g) {
+  const pts = normalizeGraphPoints(g);
+  const holes = normalizeGraphHoles(g, pts);
+  const xl = g?.xLabel || 'x';
+  const yl = g?.yLabel || 'y';
+  const xs = pts.map((p) => p[0]);
+  const ys = pts.map((p) => p[1]);
+  const range = pts.length
+    ? `，x ${formatTick(Math.min(...xs))}–${formatTick(Math.max(...xs))}，y ${formatTick(Math.min(...ys))}–${formatTick(Math.max(...ys))}`
+    : '';
+  const holeZh = holes.length ? `，${holes.length} 个空心点表示无定义` : '';
+  const holeEn = holes.length ? `, ${holes.length} open hole${holes.length > 1 ? 's' : ''}` : '';
+  return `数据图：横轴 ${xl}，纵轴 ${yl}，${pts.length} 个数据点${range}${holeZh} · Graph: ${xl} vs ${yl}, ${pts.length} data points${holeEn}`;
+}
+
 function renderStimulus(stim) {
   if (!stim) return null;
   const box = el('div', { className: 'stim-box' });
@@ -126,7 +379,11 @@ function renderStimulus(stim) {
     box.appendChild(wrap);
   }
   if (stim.graph) {
-    const canvas = el('canvas', { className: 'stim-graph' });
+    const canvas = el('canvas', {
+      className: 'stim-graph',
+      role: 'img',
+      'aria-label': graphAriaLabel(stim.graph),
+    });
     box.appendChild(canvas);
     requestAnimationFrame(() => drawGraph(canvas, stim.graph));
   }
@@ -155,38 +412,139 @@ function drawGraph(canvas, g) {
   const ctx = canvas.getContext('2d');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   const style = getComputedStyle(document.documentElement);
-  ctx.fillStyle = style.getPropertyValue('--canvas-plot').trim() || '#f7f5f0';
+  const bg = style.getPropertyValue('--canvas-plot').trim() || '#f7f5f0';
+  const border = style.getPropertyValue('--border').trim() || '#ccc';
+  const borderSoft = style.getPropertyValue('--border-soft').trim() || border;
+  const muted = style.getPropertyValue('--text-muted').trim() || '#888';
+  const accent = style.getPropertyValue('--accent').trim() || '#c45c26';
+  ctx.fillStyle = bg;
   ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = style.getPropertyValue('--border').trim() || '#ccc';
-  ctx.beginPath();
-  ctx.moveTo(32, h - 24);
-  ctx.lineTo(w - 8, h - 24);
-  ctx.moveTo(32, h - 24);
-  ctx.lineTo(32, 8);
-  ctx.stroke();
-  const pts = g.points || [];
-  if (pts.length < 2) return;
+
+  const pts = normalizeGraphPoints(g);
+  const holes = normalizeGraphHoles(g, pts);
+  const left = 46;
+  const right = w - 10;
+  const top = 10;
+  const bottom = h - 26;
+
+  if (pts.length < 2) {
+    if (g?.xLabel || g?.yLabel) {
+      ctx.fillStyle = muted;
+      ctx.font = '12px sans-serif';
+      ctx.fillText([g?.xLabel, g?.yLabel].filter(Boolean).join(' / '), left, h / 2);
+    }
+    return;
+  }
+
   const xs = pts.map((p) => p[0]);
-  const ys = pts.map((p) => p[1]);
-  const xmin = Math.min(...xs);
-  const xmax = Math.max(...xs);
-  const ymin = Math.min(0, ...ys);
-  const ymax = Math.max(...ys);
-  const mapX = (x) => 32 + ((x - xmin) / (xmax - xmin || 1)) * (w - 48);
-  const mapY = (y) => h - 24 - ((y - ymin) / (ymax - ymin || 1)) * (h - 40);
-  ctx.strokeStyle = style.getPropertyValue('--accent').trim() || '#c45c26';
+  const ys = pts.map((p) => p[1]).concat(holes.map((p) => p.y));
+  const xminRaw = Math.min(...xs);
+  const xmaxRaw = Math.max(...xs);
+  const yminRaw = Math.min(...ys);
+  const ymaxRaw = Math.max(...ys);
+  const xSpan = xmaxRaw - xminRaw || Math.max(1, Math.abs(xmaxRaw) * 0.1);
+  const ySpan = ymaxRaw - yminRaw || Math.max(1, Math.abs(ymaxRaw) * 0.1);
+  const xmin = xminRaw - xSpan * 0.04;
+  const xmax = xmaxRaw + xSpan * 0.04;
+  const ymin = yminRaw - ySpan * 0.14;
+  const ymax = ymaxRaw + ySpan * 0.14;
+  const mapX = (x) => left + ((x - xmin) / (xmax - xmin || 1)) * (right - left);
+  const mapY = (y) => bottom - ((y - ymin) / (ymax - ymin || 1)) * (bottom - top);
+
+  // Horizontal grid + y ticks.
+  const yStep = niceStep(ymax - ymin, 4);
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  const yTickVals = [];
+  for (let v = Math.ceil(ymin / yStep) * yStep; v <= ymax + yStep * 1e-6; v += yStep) {
+    yTickVals.push(Math.round(v * 1e9) / 1e9);
+  }
+  yTickVals.forEach((v) => {
+    const Y = mapY(v);
+    ctx.strokeStyle = borderSoft;
+    ctx.beginPath();
+    ctx.moveTo(left, Y);
+    ctx.lineTo(right, Y);
+    ctx.stroke();
+    ctx.strokeStyle = border;
+    ctx.beginPath();
+    ctx.moveTo(left - 3, Y);
+    ctx.lineTo(left, Y);
+    ctx.stroke();
+    ctx.fillStyle = muted;
+    ctx.fillText(formatTick(v), left - 6, Y);
+  });
+
+  // x ticks (marks only; the axis label sits below them).
+  const xStep = niceStep(xmax - xmin, 4);
+  ctx.strokeStyle = border;
+  ctx.beginPath();
+  for (let v = Math.ceil(xmin / xStep) * xStep; v <= xmax + xStep * 1e-6; v += xStep) {
+    const X = mapX(v);
+    ctx.moveTo(X, bottom);
+    ctx.lineTo(X, bottom + 3);
+  }
+  ctx.stroke();
+
+  // Axes.
+  ctx.strokeStyle = border;
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.stroke();
+
+  // Data line, broken across open holes so nothing is drawn through an undefined x.
+  const crossesHole = (a, b) => holes.some((hole) => {
+    const lo = Math.min(a[0], b[0]);
+    const hi = Math.max(a[0], b[0]);
+    return hole.x >= lo - 1e-9 && hole.x <= hi + 1e-9;
+  });
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 1.6;
   ctx.beginPath();
   pts.forEach((p, i) => {
     const X = mapX(p[0]);
     const Y = mapY(p[1]);
-    if (i === 0) ctx.moveTo(X, Y);
-    else ctx.lineTo(X, Y);
+    if (i === 0) {
+      ctx.moveTo(X, Y);
+    } else if (crossesHole(pts[i - 1], p)) {
+      ctx.moveTo(X, Y);
+    } else {
+      ctx.lineTo(X, Y);
+    }
   });
   ctx.stroke();
+
+  // Open circles for undefined points.
+  holes.forEach((hole) => {
+    const X = mapX(hole.x);
+    const Y = mapY(hole.y);
+    ctx.beginPath();
+    ctx.arc(X, Y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = bg;
+    ctx.fill();
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = muted;
+  ctx.font = '12px sans-serif';
   if (g.xLabel) {
-    ctx.fillStyle = style.getPropertyValue('--muted').trim() || '#888';
-    ctx.font = '12px sans-serif';
-    ctx.fillText(g.xLabel, w - 40, h - 8);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(g.xLabel, left + (right - left) / 2, h - 6);
+  }
+  if (g.yLabel) {
+    ctx.save();
+    ctx.translate(12, top + (bottom - top) / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(g.yLabel, 0, 0);
+    ctx.restore();
   }
 }
 

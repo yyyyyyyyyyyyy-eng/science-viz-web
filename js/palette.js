@@ -121,6 +121,25 @@ function ensureDom() {
   root.addEventListener('pointerdown', (e) => {
     if (e.target === root) closePalette();
   });
+  root.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const focusables = [...panel.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    )].filter((node) => node.tabIndex >= 0 && node.getClientRects().length > 0);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement;
+    if (e.shiftKey) {
+      if (active === first || !panel.contains(active)) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else if (active === last || !panel.contains(active)) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 }
 
 function paintActive() {
@@ -214,7 +233,7 @@ function renderResults(q) {
     }
     if (chapterHits.length) {
       addGroup('章节', chapterHits.length);
-      chapterHits.slice(0, 12).forEach(addItem);
+      chapterHits.forEach(addItem);
     }
   }
 
@@ -223,18 +242,14 @@ function renderResults(q) {
     const total = groups.reduce((n, g) => n + g.modules.length, 0);
     if (total) {
       addGroup('交互实验', total);
-      let shown = 0;
       for (const g of groups) {
         for (const m of g.modules) {
-          if (shown >= 20) break;
           addItem({
             title: m.title,
             meta: `${g.name} / ${m.chapter || ''}`,
             href: `#/m/${m.id}`,
           });
-          shown++;
         }
-        if (shown >= 20) break;
       }
     }
   }
@@ -303,9 +318,10 @@ export function closePalette() {
     app.removeAttribute('inert');
   }
   document.getElementById('search-trigger')?.setAttribute('aria-expanded', 'false');
-  if (lastFocus && lastFocus !== document.body && typeof lastFocus.focus === 'function' && lastFocus.isConnected) {
-    lastFocus.focus();
-  }
+  const restore = lastFocus && lastFocus !== document.body && typeof lastFocus.focus === 'function' && lastFocus.isConnected
+    ? lastFocus
+    : document.getElementById('search-trigger');
+  restore?.focus?.();
 }
 
 export function togglePalette() {

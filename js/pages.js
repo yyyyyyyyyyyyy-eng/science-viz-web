@@ -11,6 +11,7 @@ import {
   getChapterBySubjectAndId,
   getPathModules,
   getModule,
+  getChapter,
   getChapterTopicRows,
 } from '../modules/registry.js';
 import { el, clear, rowLink, breadcrumb, SUBJECT_LABEL } from './ui-shared.js';
@@ -23,6 +24,32 @@ import {
 
 function topicsOfChapter(chapter) {
   return (chapter?.topics || []).map((t) => t);
+}
+
+function topicInfoFromHref(href) {
+  const match = String(href || '').match(/^#\/t\/([^/]+)\/([^/]+)\/(.+)$/);
+  if (!match) return null;
+  return { subject: match[1], chapterId: match[2], code: match[3] };
+}
+
+function topicDisplayLabel(subject, chapterId, code) {
+  const chapter = getChapter(subject, chapterId);
+  const topic = (chapter?.topics || []).find((t) => String(t.code) === String(code));
+  if (!topic) return String(code);
+  const titleZh = topic.titleZh || topic.title || '';
+  const titleEn = topic.titleEn || '';
+  const title = [titleZh, titleEn].filter(Boolean).join(' · ');
+  return title ? `${code} ${title}` : String(code);
+}
+
+function topicLinkLabel(link) {
+  const info = topicInfoFromHref(link?.href);
+  if (info) {
+    const chapter = getChapter(info.subject, info.chapterId);
+    const topic = (chapter?.topics || []).find((t) => String(t.code) === String(info.code));
+    if (topic) return topicDisplayLabel(info.subject, info.chapterId, info.code);
+  }
+  return link?.label || link?.topicId || '';
 }
 
 function topicProgress(subject, chapter) {
@@ -115,7 +142,14 @@ export function renderStart(main) {
   });
   main.appendChild(secondary);
 
-  main.appendChild(el('p', { className: 'home-hint', text: 'Ctrl / Cmd + K 搜索知识点与模块' }));
+  const touchFirst = window.innerWidth <= 640
+    || window.matchMedia?.('(hover: none), (pointer: coarse)')?.matches;
+  main.appendChild(el('p', {
+    className: 'home-hint',
+    text: touchFirst
+      ? '点按右上角搜索 · Tap search in the top right'
+      : 'Ctrl / Cmd + K 搜索知识点与模块',
+  }));
   document.title = '科学可视化平台';
 }
 
@@ -434,11 +468,12 @@ export async function renderCredits(main, { isCurrent = () => true } = {}) {
 export async function renderPastPapers(main, { subject = null, year = null, isCurrent = () => true } = {}) {
   const { PAST_PAPERS } = await import('../data/shared/pastpapers.js');
   if (!isCurrent()) return null;
+  const initialSubject = subject && subject !== 'all' ? subject : null;
   clear(main);
   main.appendChild(
     breadcrumb([
       { href: '#/', label: '首页' },
-      ...(subject ? [{ href: `#/${subject}`, label: SUBJECT_LABEL[subject] || subject }] : []),
+      ...(initialSubject ? [{ href: `#/${initialSubject}`, label: SUBJECT_LABEL[initialSubject] || initialSubject }] : []),
       { label: '历年真题', current: true },
     ]),
   );
@@ -449,8 +484,24 @@ export async function renderPastPapers(main, { subject = null, year = null, isCu
     el('p', { className: 'muted', text: PAST_PAPERS.disclaimer }),
   ]));
 
-  let curSub = subject;
+  let curSub = initialSubject;
   let curYear = year ? Number(year) : null;
+
+  function filterHash() {
+    if (!curSub && !curYear) return '#/pastpapers';
+    if (!curSub) return `#/pastpapers/all/${curYear}`;
+    return `#/pastpapers/${curSub}${curYear ? `/${curYear}` : ''}`;
+  }
+
+  function syncFilterHash() {
+    const next = filterHash();
+    if (location.hash === next) return;
+    try {
+      history.replaceState(null, '', next);
+    } catch (_) {
+      location.hash = next;
+    }
+  }
 
   const filterWrap = el('div', { className: 'filter-block' });
   const courseFilters = el('div', { className: 'practice-filters', role: 'group', 'aria-label': '学科筛选' });
@@ -507,7 +558,7 @@ export async function renderPastPapers(main, { subject = null, year = null, isCu
           sol.appendChild(el('p', { text: typeof st === 'string' ? st : st.text }));
           const linksArr = (typeof st === 'object' && st.links) || e.solutionOutline.topicLinks || [];
           linksArr.forEach((lk) => {
-            sol.appendChild(el('a', { className: 'entry-row hit-target', href: lk.href, text: lk.label || lk.topicId }));
+            sol.appendChild(el('a', { className: 'entry-row hit-target', href: lk.href, text: topicLinkLabel(lk) }));
           });
         });
         card.appendChild(sol);
@@ -517,7 +568,8 @@ export async function renderPastPapers(main, { subject = null, year = null, isCu
         tops.appendChild(document.createTextNode('知识点：'));
         e.topics.forEach((tid) => {
           const [ch, code] = tid.split(':');
-          tops.appendChild(el('a', { className: 'hit-target text-link', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${tid} ` }));
+          const label = topicDisplayLabel(e.course, ch, code);
+          tops.appendChild(el('a', { className: 'hit-target text-link', href: `#/t/${e.course}/${ch}/${code}`, text: ` ${label} ` }));
         });
         card.appendChild(tops);
       }
@@ -542,13 +594,13 @@ export async function renderPastPapers(main, { subject = null, year = null, isCu
     { id: 'em', lab: '电磁' },
   ].forEach((c) => {
     const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: c.lab });
-    b.addEventListener('click', () => { curSub = c.id; paintFilters(); redraw(); });
+    b.addEventListener('click', () => { curSub = c.id; paintFilters(); redraw(); syncFilterHash(); });
     courseButtons.push(b);
     courseFilters.appendChild(b);
   });
   [null, 2026, 2025, 2024, 2023, 2020].forEach((y) => {
     const b = el('button', { type: 'button', className: 'filter-chip hit-target', text: y ? String(y) : '各年' });
-    b.addEventListener('click', () => { curYear = y; paintFilters(); redraw(); });
+    b.addEventListener('click', () => { curYear = y; paintFilters(); redraw(); syncFilterHash(); });
     yearButtons.push(b);
     yearFilters.appendChild(b);
   });

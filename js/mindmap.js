@@ -119,7 +119,52 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
   const tools = el('div', { className: 'map-tools' }, [search, zoomOut, zoomIn, fitBtn, multiBtn, clearBtn]);
   toolbar.append(title, tools);
   const stage = el('div', { className: 'map-stage', id: 'map-stage' });
-  const panel = el('aside', { className: 'map-panel', hidden: true, id: 'map-panel' });
+  const panel = el('aside', {
+    className: 'map-panel',
+    hidden: true,
+    id: 'map-panel',
+    role: 'dialog',
+    'aria-modal': 'false',
+    'aria-labelledby': 'map-panel-title',
+  });
+  const panelLive = el('p', {
+    className: 'map-panel-live',
+    role: 'status',
+    'aria-live': 'polite',
+    'aria-atomic': 'true',
+  });
+  panelLive.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;';
+  let lastPanelFocus = null;
+
+  function rememberPanelFocus() {
+    const active = document.activeElement;
+    if (active && active !== document.body && active.getClientRects().length > 0 && !panel.contains(active)) {
+      lastPanelFocus = active;
+    }
+  }
+
+  function announcePanel(title) {
+    panelLive.textContent = '';
+    requestAnimationFrame(() => {
+      if (panel.hidden) return;
+      panelLive.textContent = `详情面板已打开：${title} · Detail panel opened: ${title}`;
+    });
+  }
+
+  function focusPanel(closeBtn, title) {
+    requestAnimationFrame(() => {
+      if (panel.hidden) return;
+      closeBtn.focus({ preventScroll: true });
+      announcePanel(title);
+    });
+  }
+
+  function closePanel() {
+    panel.hidden = true;
+    focusId = null;
+    const target = lastPanelFocus && lastPanelFocus.isConnected ? lastPanelFocus : search;
+    target?.focus?.({ preventScroll: true });
+  }
   const tooltip = el('div', { className: 'map-tooltip', hidden: true, role: 'tooltip' });
   shell.append(toolbar, stage);
   main.appendChild(shell);
@@ -132,7 +177,7 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
     return { destroy() {} };
   }
   stage.textContent = '';
-  stage.append(tooltip, panel);
+  stage.append(tooltip, panel, panelLive);
   stage.appendChild(el('p', {
     className: 'map-hint',
     text: window.matchMedia('(hover: none)').matches
@@ -704,17 +749,20 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
     const a = ud.sourceNode;
     const b = ud.targetNode;
     focusId = null;
+    rememberPanelFocus();
     panel.hidden = false;
     clear(panel);
+    const title = rel?.titleZh || `${a.code} → ${b.code}`;
+    const closeBtn = el('button', {
+      className: 'map-panel-close hit-target',
+      type: 'button',
+      text: '关闭',
+      onclick: () => closePanel(),
+    });
     panel.append(
-      el('button', {
-        className: 'map-panel-close hit-target',
-        type: 'button',
-        text: '关闭',
-        onclick: () => { panel.hidden = true; },
-      }),
+      closeBtn,
       el('p', { className: 'topic-kicker', text: rel?.typeZh || ud.edge.type || '关系' }),
-      el('h2', { text: rel?.titleZh || `${a.code} → ${b.code}` }),
+      el('h2', { id: 'map-panel-title', text: title }),
       el('p', { text: rel?.summary || '两知识点之间存在课程图谱连接。' }),
     );
     if (rel?.why) panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '为何连接' }), el('p', { text: rel.why })]));
@@ -726,6 +774,7 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
     if (rel?.example) panel.appendChild(el('section', { className: 'topic-block' }, [el('h3', { text: '联结例' }), el('p', { text: rel.example })]));
     panel.appendChild(el('a', { className: 'entry-row hit-target', href: `#/t/${subject}/${a.chapterId}/${a.code}`, text: `打开 ${a.code} ${a.titleZh}` }));
     panel.appendChild(el('a', { className: 'entry-row hit-target', href: `#/t/${subject}/${b.chapterId}/${b.code}`, text: `打开 ${b.code} ${b.titleZh}` }));
+    focusPanel(closeBtn, title);
   }
 
   function relationsAmong(ids) {
@@ -812,23 +861,21 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
 
   function openDetail(n) {
     focusId = n.id;
+    rememberPanelFocus();
     panel.hidden = false;
     clear(panel);
     const closeBtn = el('button', {
       className: 'map-panel-close hit-target',
       type: 'button',
       text: '关闭',
-      onclick: () => {
-        panel.hidden = true;
-        focusId = null;
-      },
+      onclick: () => closePanel(),
     });
     if (n.tier === 'stage') {
       const kids = nodes.filter((x) => x.tier === 'unit' && x.stageId === n.id);
       panel.append(
         closeBtn,
         el('p', { className: 'topic-kicker', text: '课程阶段' }),
-        el('h2', { text: n.titleZh }),
+        el('h2', { id: 'map-panel-title', text: n.titleZh }),
         el('p', { className: 'muted', text: n.titleEn }),
         el('p', { text: `下属单元 ${kids.length} 个；点击单元或知识点可继续下钻。` }),
       );
@@ -842,6 +889,7 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
           }),
         );
       });
+      focusPanel(closeBtn, n.titleZh);
       return;
     }
     if (n.tier === 'unit') {
@@ -849,7 +897,7 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
       panel.append(
         closeBtn,
         el('p', { className: 'topic-kicker', text: `${n.layer === 'prep' ? '预备' : 'AP'} · 单元` }),
-        el('h2', { text: n.titleZh }),
+        el('h2', { id: 'map-panel-title', text: n.titleZh }),
         el('p', { className: 'muted', text: n.titleEn || n.chapterId }),
         el('p', { text: `本单元知识点 ${kids.length} 个。` }),
       );
@@ -863,12 +911,14 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
         );
       });
       if (kids.length > 24) panel.appendChild(el('p', { className: 'muted', text: `…另有 ${kids.length - 24} 个` }));
+      focusPanel(closeBtn, n.titleZh);
       return;
     }
+    const title = `${n.code} ${n.titleZh}`;
     panel.append(
       closeBtn,
       el('p', { className: 'topic-kicker', text: `${n.layer === 'prep' ? '预备' : 'AP'} · Unit ${n.unitCode}` }),
-      el('h2', { text: `${n.code} ${n.titleZh}` }),
+      el('h2', { id: 'map-panel-title', text: title }),
       el('p', { className: 'muted', text: n.titleEn }),
       el('a', {
         className: 'entry-row hit-target',
@@ -876,25 +926,27 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
         text: '打开知识点',
       }),
     );
+    focusPanel(closeBtn, title);
   }
 
   function openMultiPanel() {
     if (selected.size === 0) {
-      panel.hidden = true;
+      closePanel();
       return;
     }
+    rememberPanelFocus();
     panel.hidden = false;
     clear(panel);
+    const title = `已选 ${selected.size}`;
+    const closeBtn = el('button', {
+      className: 'map-panel-close hit-target',
+      type: 'button',
+      text: '关闭',
+      onclick: () => closePanel(),
+    });
     panel.append(
-      el('button', {
-        className: 'map-panel-close hit-target',
-        type: 'button',
-        text: '关闭',
-        onclick: () => {
-          panel.hidden = true;
-        },
-      }),
-      el('h2', { text: `已选 ${selected.size}` }),
+      closeBtn,
+      el('h2', { id: 'map-panel-title', text: title }),
     );
     for (const id of selected) {
       const n = byId.get(id);
@@ -927,13 +979,14 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
         );
       });
     }
+    focusPanel(closeBtn, title);
   }
 
   function clearSelection() {
     selected.clear();
     refreshSelectionVisual();
     if (focusId) openDetail(byId.get(focusId));
-    else panel.hidden = true;
+    else closePanel();
   }
 
   function toggleSelect(n) {
@@ -969,8 +1022,8 @@ export async function renderMindMap(main, subject, { isCurrent = () => true } = 
         e.preventDefault();
         clearSelection();
       } else if (!panel.hidden) {
-        panel.hidden = true;
-        focusId = null;
+        e.preventDefault();
+        closePanel();
       }
     }
   };
