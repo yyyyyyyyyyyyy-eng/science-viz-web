@@ -1,7 +1,8 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, simAxisColor } from '../sim-controls.js';
 
 const SUP = { '-': '⁻', '+': '', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
 function sci(x) {
@@ -17,15 +18,21 @@ function createBase(viz, controls) {
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let R = 80, Q = 2, rg = 120;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '球半径 R', min: 40, max: 120, step: 1, value: R, format: (v) => String(Math.round(v)), onChange: (v) => { R = v; } });
-  slider(controls, { label: '高斯面 r', min: 20, max: 180, step: 1, value: rg, format: (v) => String(Math.round(v)), onChange: (v) => { rg = v; } });
-  slider(controls, { label: 'Q', min: 0.5, max: 5, step: 0.1, value: Q, format: (v) => v.toFixed(1), onChange: (v) => { Q = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { R = 80; Q = 2; rg = 120; },
+  });
+  slider(controls, { label: '球半径 · Sphere radius R', unit: 'cm', min: 40, max: 120, step: 1, value: R, format: (v) => String(Math.round(v)), onChange: (v) => { R = v; } });
+  slider(controls, { label: '高斯面 · Gaussian surface r', unit: 'cm', min: 20, max: 180, step: 1, value: rg, format: (v) => String(Math.round(v)), onChange: (v) => { rg = v; } });
+  slider(controls, { label: '电荷 · Charge Q', unit: 'C', min: 0.5, max: 5, step: 0.1, value: Q, format: (v) => v.toFixed(1), onChange: (v) => { Q = v; } });
   function draw() {
     const T = themeColors();
     const { width: w, height: h } = fitCanvas(canvas, wrap);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
+    const axis = simAxisColor(T);
     // Keep the sphere/Gaussian surface inside a left-hand panel; the plot
     // occupies the right strip at every viewport.
     const plotW = Math.max(90, w * 0.32);
@@ -34,14 +41,14 @@ function createBase(viz, controls) {
     const maxR = 180;
     const sc = Math.min(1, (cx - 6) / maxR, (h / 2 - 12) / maxR);
     const Rp = R * sc, rgp = rg * sc;
-    ctx.strokeStyle = T.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, Rp, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, Rp, 0, Math.PI * 2); ctx.stroke();
     ctx.strokeStyle = T.accent; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, rgp, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
     const k = 1; // geometric units
     const E = rg >= R ? k * Q / (rg * rg) : k * Q * rg / (R * R * R);
     // E vs r plot, auto-scaled to the surface field (the maximum of this curve)
     const py = 40, pw = plotW, ph = h - 80;
     const eMax = (k * Q) / (R * R);
-    ctx.strokeStyle = T.axis; ctx.lineWidth = 1; ctx.strokeRect(px, py, pw, ph);
+    ctx.strokeStyle = axis; ctx.lineWidth = 1; ctx.strokeRect(px, py, pw, ph);
     // mark the charged-sphere radius on the r axis
     const xR = px + ((R - 5) / 200) * pw;
     ctx.strokeStyle = rgba(T.muted, 0.6); ctx.setLineDash([3, 3]);
@@ -59,11 +66,12 @@ function createBase(viz, controls) {
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `E(r)=${sci(E)}（几何单位 / geometric units）` }));
-    readouts.appendChild(el('span', { text: `E_max=${sci(eMax)}` }));
+    readouts.appendChild(el('span', { text: `场强 · E(r)=${sci(E)}（几何单位 · geometric units）` }));
+    readouts.appendChild(el('span', { text: `最大场强 · E_max=${sci(eMax)}` }));
     readouts.appendChild(el('span', { text: rg >= R ? '面外 ~ 点电荷 · outside: point-charge field' : '面内 ~ r（均匀球） · inside: ∝ r' }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

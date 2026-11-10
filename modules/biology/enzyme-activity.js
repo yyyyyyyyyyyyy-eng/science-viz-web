@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -9,9 +10,14 @@ export function create(viz, controls) {
   viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let temp = 37, pH = 7, w = 600, h = 400;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '温度 °C', min: 0, max: 80, step: 1, value: temp, format: (v) => String(v), onChange: (v) => { temp = v; } });
-  slider(controls, { label: 'pH', min: 2, max: 12, step: 0.1, value: pH, format: (v) => v.toFixed(1), onChange: (v) => { pH = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { temp = 37; pH = 7; },
+  });
+  slider(controls, { label: '温度 · Temperature', unit: '°C', min: 0, max: 80, step: 1, value: temp, format: (v) => String(v), onChange: (v) => { temp = v; } });
+  slider(controls, { label: '酸碱度 · pH', min: 2, max: 12, step: 0.1, value: pH, format: (v) => v.toFixed(1), onChange: (v) => { pH = v; } });
 
   function rate(T, ph) {
     const tOpt = 37, pOpt = 7;
@@ -48,8 +54,9 @@ export function create(viz, controls) {
     ctx.fillText('温度 →', pad + plotW - 48, pad + plotH + 28);
     ctx.save(); ctx.translate(16, pad + plotH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('相对速率', 0, 0); ctx.restore();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `相对速率 ${r0.toFixed(2)}` }));
-    readouts.appendChild(el('span', { text: `T=${temp}°C  pH=${pH.toFixed(1)}` }));
+    readouts.appendChild(el('span', { text: `相对速率 · Relative rate ${r0.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: `温度 · T=${temp}°C  pH=${pH.toFixed(1)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

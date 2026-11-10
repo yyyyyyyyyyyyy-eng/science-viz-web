@@ -144,14 +144,18 @@ export function setActiveNav(subject) {
   });
 }
 
-export function slider(parent, { label, min, max, step, value, format, onChange }) {
+export function slider(parent, { label, min, max, step, value, format, unit, onChange }) {
   const defaultValue = value;
   const group = el('div', { className: 'control-group control-slider' });
+  const unitEl = unit
+    ? el('span', { className: 'slider-unit', 'aria-hidden': 'true', text: unit })
+    : null;
+  const valueWrap = el('span', { className: 'slider-value' });
   const valueEl = el('input', {
     className: 'value value-edit hit-target',
     type: 'text',
     inputmode: 'decimal',
-    'aria-label': `${label} 数值`,
+    'aria-label': unit ? `${label}，${unit} 数值` : `${label} 数值`,
   });
   const fmt = format || ((v) => String(v));
   const parseNum = (raw) => {
@@ -171,8 +175,10 @@ export function slider(parent, { label, min, max, step, value, format, onChange 
 
   const lab = el('label', { className: 'slider-label hit-target', title: '双击恢复默认' }, [
     document.createTextNode(label),
-    valueEl,
   ]);
+  valueWrap.appendChild(valueEl);
+  if (unitEl) valueWrap.appendChild(unitEl);
+  lab.appendChild(valueWrap);
   const input = el('input', {
     type: 'range',
     className: 'range-input hit-target',
@@ -180,7 +186,7 @@ export function slider(parent, { label, min, max, step, value, format, onChange 
     max: String(max),
     step: String(step),
     value: String(value),
-    'aria-label': label,
+    'aria-label': unit ? `${label}，${unit}` : label,
   });
 
   let raf = 0;
@@ -266,6 +272,9 @@ export function slider(parent, { label, min, max, step, value, format, onChange 
   });
 
   group.append(lab, input);
+  // Additive hook for the shared simulator Reset button. It restores the
+  // initial value through the normal onChange path (clamp + snap included).
+  Object.defineProperty(group, '__simSliderReset', { value: resetDefault });
   parent.appendChild(group);
   return {
     input,

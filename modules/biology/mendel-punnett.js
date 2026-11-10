@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -9,9 +10,14 @@ export function create(viz, controls) {
   viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let p1 = 'Aa', p2 = 'Aa';
-  controls.appendChild(el('h2', { text: '控制' }));
-  select(controls, { label: '亲本 1', value: p1, options: ['AA','Aa','aa'].map((v) => ({ value: v, label: v })), onChange: (v) => { p1 = v; } });
-  select(controls, { label: '亲本 2', value: p2, options: ['AA','Aa','aa'].map((v) => ({ value: v, label: v })), onChange: (v) => { p2 = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { p1 = 'Aa'; p2 = 'Aa'; parent1.value = 'Aa'; parent2.value = 'Aa'; },
+  });
+  const parent1 = select(controls, { label: '亲本 1 · Parent 1', value: p1, options: ['AA','Aa','aa'].map((v) => ({ value: v, label: v })), onChange: (v) => { p1 = v; } });
+  const parent2 = select(controls, { label: '亲本 2 · Parent 2', value: p2, options: ['AA','Aa','aa'].map((v) => ({ value: v, label: v })), onChange: (v) => { p2 = v; } });
 
   function alleles(g) { return g === 'AA' ? ['A','A'] : g === 'aa' ? ['a','a'] : ['A','a']; }
   function combine(a, b) {
@@ -49,8 +55,9 @@ export function create(viz, controls) {
     }
     const dom = counts.AA + counts.Aa;
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `基因型 AA:${counts.AA} Aa:${counts.Aa} aa:${counts.aa}` }));
-    readouts.appendChild(el('span', { text: `表型显:隐 = ${dom}:${counts.aa}` }));
+    readouts.appendChild(el('span', { text: `基因型 · Genotype AA:${counts.AA} Aa:${counts.Aa} aa:${counts.aa}` }));
+    readouts.appendChild(el('span', { text: `表型比 · Phenotype ratio 显:隐 = ${dom}:${counts.aa}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

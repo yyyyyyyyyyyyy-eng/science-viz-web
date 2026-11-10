@@ -1,5 +1,7 @@
 import { el, slider, button, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 
 const BASE_PAIR = { A: 'T', T: 'A', G: 'C', C: 'G' };
@@ -24,55 +26,31 @@ export function create(viz, controls) {
 
   let n = 24;
   let template = randomStrand(n);
+  const initialTemplate = template.slice();
   let fork = 0; // how many base pairs unwound / replicated
-  let playing = true;
-  let speed = 1;
   let showLabels = true;
   let w = 600;
   let h = 420;
-  let raf = 0;
-  let last = performance.now();
   let helixPhase = 0;
 
-  controls.appendChild(el('h2', { text: '控制' }));
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); draw(canvas.getContext('2d')); },
+    onReset: () => { template = initialTemplate.slice(); fork = 0; helixPhase = 0; showLabels = true; labelsBox.checked = true; },
+  });
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
-  const playBtn = button(btnRow, {
-    text: '暂停',
-    className: 'primary',
-    onClick: () => {
-      playing = !playing;
-      playBtn.textContent = playing ? '暂停' : '播放';
-    },
-  });
   button(btnRow, {
-    text: '重新生成序列',
+    text: '重新生成序列 · New sequence',
     onClick: () => {
       template = randomStrand(n);
       fork = 0;
     },
   });
-  button(btnRow, {
-    text: '重置复制叉',
-    onClick: () => {
-      fork = 0;
-    },
-  });
 
-  slider(controls, {
-    label: '复制速度',
-    min: 0.2,
-    max: 3,
-    step: 0.05,
-    value: 1,
-    format: (v) => `${v.toFixed(2)}×`,
-    onChange: (v) => {
-      speed = v;
-    },
-  });
-
-  checkbox(controls, {
-    label: '显示碱基字母',
+  const labelsBox = checkbox(controls, {
+    label: '显示碱基字母 · Show base letters',
     checked: true,
     onChange: (v) => {
       showLabels = v;
@@ -82,7 +60,7 @@ export function create(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '解旋酶（紫色）打开双螺旋；新链按 A-T、G-C 配对延伸。',
+      text: '解旋酶（紫色）打开双螺旋；新链按 A-T、G-C 配对延伸。 · Helicase (purple) opens the helix; new strands extend by A–T and G–C pairing.',
     }),
   );
 
@@ -259,27 +237,30 @@ export function create(viz, controls) {
     ctx.globalAlpha = 1;
   }
 
-  function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
+  function update(dt) {
     helixPhase += dt * 1.2;
-    if (playing) {
-      fork += dt * 3.2 * speed;
-      if (fork > n + 2) fork = 0;
-    }
+    fork += dt * 3.2;
+    if (fork > n + 2) fork = 0;
+  }
+
+  function drawFrame() {
     draw(canvas.getContext('2d'));
     const done = Math.min(100, Math.round((fork / n) * 100));
     readouts.set([
-      ['复制进度', `${done}%`],
-      ['碱基数', String(n)],
-      ['配对规则', 'A–T · G–C'],
+      ['复制进度 · Replication progress', `${done}%`],
+      ['碱基数 · Bases', String(n)],
+      ['配对规则 · Pairing rule', 'A–T · G–C'],
     ]);
-    raf = requestAnimationFrame(tick);
   }
-  raf = requestAnimationFrame(tick);
 
+  const loop = startAnimLoop(wrap, drawFrame, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

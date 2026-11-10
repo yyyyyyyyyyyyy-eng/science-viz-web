@@ -1,7 +1,8 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -10,8 +11,13 @@ function createBase(viz, controls) {
   let v0 = 1.0, trail = [];
   let pos = { x: 1.2, y: 0 }, vel = { x: 0, y: 1.0 };
   const GM = 1;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '初速', min: 0.4, max: 1.6, step: 0.02, value: v0, format: (v) => v.toFixed(2), onChange: (v) => { v0 = v; pos = { x: 1.2, y: 0 }; vel = { x: 0, y: v0 }; trail = []; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { physics(SIM_STEP); draw(); },
+    onReset: () => { v0 = 1.0; pos = { x: 1.2, y: 0 }; vel = { x: 0, y: 1.0 }; trail = []; },
+  });
+  slider(controls, { label: '初速 · Initial speed v₀', min: 0.4, max: 1.6, step: 0.02, value: v0, format: (v) => v.toFixed(2), onChange: (v) => { v0 = v; pos = { x: 1.2, y: 0 }; vel = { x: 0, y: v0 }; trail = []; } });
 
   function physics(dt) {
     // Four substeps per fixed step keeps the orbit integration accurate.
@@ -39,11 +45,16 @@ function createBase(viz, controls) {
     readouts.replaceChildren();
     const E = 0.5 * speed * speed - GM / r;
     const vCirc = Math.sqrt(GM / r);
-    readouts.appendChild(el('span', { text: `r=${r.toFixed(2)}  v=${speed.toFixed(2)}` }));
-    readouts.appendChild(el('span', { text: `E=${E.toFixed(3)}  v_circ=${vCirc.toFixed(2)}` }));
-    readouts.appendChild(el('span', { text: 'E<0 椭圆；E=0 抛物；E>0 双曲（单位 GM=1）' }));
+    readouts.appendChild(el('span', { text: `半径 · r=${r.toFixed(2)}  速率 · v=${speed.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: `机械能 · E=${E.toFixed(3)}  圆轨道速度 · v_circ=${vCirc.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: 'E<0 椭圆 · ellipse；E=0 抛物 · parabola；E>0 双曲 · hyperbola（GM=1）' }));
   }
-  return startAnimLoop(wrap, draw, { step: 1 / 60, update: physics });
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update: physics,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

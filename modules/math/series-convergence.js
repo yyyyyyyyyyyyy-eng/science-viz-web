@@ -1,15 +1,21 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let r = 0.5, a = 1, N = 20;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '公比 r', min: -1.2, max: 1.2, step: 0.01, value: r, format: (v) => v.toFixed(2), onChange: (v) => { r = v; } });
-  slider(controls, { label: '项数 N', min: 5, max: 60, step: 1, value: N, format: (v) => String(Math.round(v)), onChange: (v) => { N = Math.round(v); } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { r = 0.5; a = 1; N = 20; },
+  });
+  slider(controls, { label: '公比 · Ratio r', min: -1.2, max: 1.2, step: 0.01, value: r, format: (v) => v.toFixed(2), onChange: (v) => { r = v; } });
+  slider(controls, { label: '项数 · Terms N', min: 5, max: 60, step: 1, value: N, format: (v) => String(Math.round(v)), onChange: (v) => { N = Math.round(v); } });
 
   function draw() {
     const T = themeColors();
@@ -33,8 +39,9 @@ export function create(viz, controls) {
     partial.forEach((y, i) => { const X = mapX(i), Y = mapY(y); if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y); });
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: conv ? `收敛 → ${target.toFixed(4)}` : '发散 (|r|≥1)' }));
-    readouts.appendChild(el('span', { text: `S_${N}=${s.toFixed(4)}` }));
+    readouts.appendChild(el('span', { text: conv ? `收敛 · converges → ${target.toFixed(4)}` : '发散 · diverges (|r|≥1)' }));
+    readouts.appendChild(el('span', { text: `部分和 · Partial sum S_${N}=${s.toFixed(4)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

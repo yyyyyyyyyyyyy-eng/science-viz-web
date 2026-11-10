@@ -1,7 +1,8 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP, simAxisColor } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -9,10 +10,15 @@ function createBase(viz, controls) {
   const readouts = readoutBar(viz);
   let v = 2, B = 1, q = 1, m = 1;
   let pos = { x: 0, y: 0 }, vel = { x: 2, y: 0 }, trail = [];
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'v', min: 0.5, max: 4, step: 0.1, value: v, format: (vv) => vv.toFixed(1), onChange: (vv) => { v = vv; reset(); } });
-  slider(controls, { label: 'B', min: 0.3, max: 2.5, step: 0.05, value: B, format: (vv) => vv.toFixed(2), onChange: (vv) => { B = vv; reset(); } });
-  slider(controls, { label: 'q', min: -2, max: 2, step: 0.1, value: q, format: (vv) => vv.toFixed(1), onChange: (vv) => { q = vv; reset(); } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { physics(SIM_STEP); draw(); },
+    onReset: () => { v = 2; B = 1; q = 1; reset(); },
+  });
+  slider(controls, { label: '速度 · Speed v', unit: 'm/s', min: 0.5, max: 4, step: 0.1, value: v, format: (vv) => vv.toFixed(1), onChange: (vv) => { v = vv; reset(); } });
+  slider(controls, { label: '磁感应强度 · Field B', unit: 'T', min: 0.3, max: 2.5, step: 0.05, value: B, format: (vv) => vv.toFixed(2), onChange: (vv) => { B = vv; reset(); } });
+  slider(controls, { label: '电荷 · Charge q', unit: 'C', min: -2, max: 2, step: 0.1, value: q, format: (vv) => vv.toFixed(1), onChange: (vv) => { q = vv; reset(); } });
   function reset() { pos = { x: 0, y: 0 }; vel = { x: v, y: 0 }; trail = []; }
 
   function physics(dt) {
@@ -49,7 +55,7 @@ function createBase(viz, controls) {
     }
     // Full orbit guide (dashed), then the actual trail.
     if (Number.isFinite(r)) {
-      ctx.strokeStyle = rgba(T.axis, 0.45); ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      ctx.strokeStyle = rgba(simAxisColor(T), 0.45); ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
       ctx.beginPath(); ctx.arc(cx, cy, r * sc, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
     }
     ctx.strokeStyle = T.accent; ctx.lineWidth = 2; ctx.beginPath();
@@ -64,10 +70,15 @@ function createBase(viz, controls) {
     const py = Number.isFinite(r) ? cy - (sign * r + pos.y) * sc : cy - pos.y * sc;
     ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: Number.isFinite(r) ? `r=mv/(|q|B)=${r.toFixed(2)}` : 'r=∞（q=0）' }));
-    readouts.appendChild(el('span', { text: `画布比例 · scale: 1 单位 = ${sc.toFixed(1)} px` }));
+    readouts.appendChild(el('span', { text: Number.isFinite(r) ? `回旋半径 · r=mv/(|q|B)=${r.toFixed(2)}` : '回旋半径 · r=∞（q=0）' }));
+    readouts.appendChild(el('span', { text: `画布比例 · scale: 1 单位 · unit = ${sc.toFixed(1)} px` }));
   }
-  return startAnimLoop(wrap, draw, { step: 1 / 60, update: physics });
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update: physics,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

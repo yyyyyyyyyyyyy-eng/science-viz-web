@@ -1,23 +1,30 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
-import { themeColors, rgba } from '../../js/theme.js';
+import { el, slider, select, fitCanvas, readoutBar } from '../../js/ui.js';
+import { themeColors } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
-  let R = 1000, C = 100e-6, mode = 'charge', t0 = performance.now();
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'R (Ω)', min: 200, max: 5000, step: 50, value: R, format: (v) => String(Math.round(v)), onChange: (v) => { R = v; t0 = performance.now(); } });
-  slider(controls, { label: 'C (μF)', min: 20, max: 300, step: 10, value: C * 1e6, format: (v) => String(Math.round(v)), onChange: (v) => { C = v * 1e-6; t0 = performance.now(); } });
-  select(controls, { label: '模式', value: mode, options: [{ value: 'charge', label: '充电' }, { value: 'discharge', label: '放电' }], onChange: (v) => { mode = v; t0 = performance.now(); } });
+  let R = 1000, C = 100e-6, mode = 'charge', simT = 0;
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { physics(SIM_STEP); draw(); },
+    onReset: () => { R = 1000; C = 100e-6; mode = 'charge'; modeSel.value = 'charge'; simT = 0; },
+  });
+  slider(controls, { label: '电阻 · Resistance R', unit: 'Ω', min: 200, max: 5000, step: 50, value: R, format: (v) => String(Math.round(v)), onChange: (v) => { R = v; simT = 0; } });
+  slider(controls, { label: '电容 · Capacitance C', unit: 'μF', min: 20, max: 300, step: 10, value: C * 1e6, format: (v) => String(Math.round(v)), onChange: (v) => { C = v * 1e-6; simT = 0; } });
+  const modeSel = select(controls, { label: '模式 · Mode', value: mode, options: [{ value: 'charge', label: '充电 · Charge' }, { value: 'discharge', label: '放电 · Discharge' }], onChange: (v) => { mode = v; simT = 0; } });
+  function physics(dt) { simT += dt; }
   function draw() {
     const T = themeColors();
     const { width: w, height: h } = fitCanvas(canvas, wrap);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
-    const tau = R * C, t = (performance.now() - t0) / 1000;
+    const tau = R * C, t = simT;
     const E = 5;
     const q = mode === 'charge' ? E * C * (1 - Math.exp(-t / tau)) : E * C * Math.exp(-t / tau);
     const qMax = E * C;
@@ -35,10 +42,15 @@ function createBase(viz, controls) {
     const yNow = 30 + (h - 80) * (1 - q / qMax);
     ctx.fillStyle = T.text; ctx.fillRect(xNow - 3, yNow - 3, 6, 6);
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `τ=RC=${tau.toFixed(3)} s` }));
-    readouts.appendChild(el('span', { text: `q/qmax=${(q / qMax).toFixed(3)}` }));
+    readouts.appendChild(el('span', { text: `时间常数 · τ=RC=${tau.toFixed(3)} s` }));
+    readouts.appendChild(el('span', { text: `电荷比 · q/qmax=${(q / qMax).toFixed(3)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update: physics,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

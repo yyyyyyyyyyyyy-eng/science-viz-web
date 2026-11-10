@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -8,9 +9,14 @@ export function create(viz, controls) {
   const readouts = readoutBar(viz);
   let a = 0, b = 2, n = 16;
   const f = (x) => 0.3 * x + 0.8;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '右端 b', min: 0.5, max: 3, step: 0.1, value: b, format: (v) => v.toFixed(1), onChange: (v) => { b = v; } });
-  slider(controls, { label: '圆盘数', min: 4, max: 40, step: 1, value: n, format: (v) => String(Math.round(v)), onChange: (v) => { n = Math.round(v); } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { b = 2; n = 16; },
+  });
+  slider(controls, { label: '右端 · Right end b', min: 0.5, max: 3, step: 0.1, value: b, format: (v) => v.toFixed(1), onChange: (v) => { b = v; } });
+  slider(controls, { label: '圆盘数 · Disks n', min: 4, max: 40, step: 1, value: n, format: (v) => String(Math.round(v)), onChange: (v) => { n = Math.round(v); } });
 
   function draw() {
     const T = themeColors();
@@ -40,8 +46,9 @@ export function create(viz, controls) {
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `圆盘法 V≈${V.toFixed(3)}` }));
-    readouts.appendChild(el('span', { text: `y=0.3x+0.8 绕 x 轴` }));
+    readouts.appendChild(el('span', { text: `圆盘法 · Disk method V≈${V.toFixed(3)}` }));
+    readouts.appendChild(el('span', { text: '曲线 y=0.3x+0.8 绕 x 轴 · about the x-axis' }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

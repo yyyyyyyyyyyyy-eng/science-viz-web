@@ -1,16 +1,22 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let Q = 2, probe = 100;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '源电荷 Q', min: -4, max: 4, step: 0.1, value: Q, format: (v) => v.toFixed(1), onChange: (v) => { Q = v; } });
-  slider(controls, { label: '探测距离', min: 30, max: 200, step: 1, value: probe, format: (v) => String(Math.round(v)), onChange: (v) => { probe = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { Q = 2; probe = 100; },
+  });
+  slider(controls, { label: '源电荷 · Source charge Q', unit: 'C', min: -4, max: 4, step: 0.1, value: Q, format: (v) => v.toFixed(1), onChange: (v) => { Q = v; } });
+  slider(controls, { label: '探测距离 · Probe distance', unit: 'cm', min: 30, max: 200, step: 1, value: probe, format: (v) => String(Math.round(v)), onChange: (v) => { probe = v; } });
   function draw() {
     const T = themeColors();
     const { width: w, height: h } = fitCanvas(canvas, wrap);
@@ -29,10 +35,11 @@ function createBase(viz, controls) {
     ctx.strokeStyle = T.text; ctx.beginPath(); ctx.arc(cx, cy, probe * sc, 0, Math.PI * 2); ctx.stroke();
     const V = k * Q / probe;
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `V≈${V.toFixed(1)} (相对单位)` }));
-    readouts.appendChild(el('span', { text: '圆 = 等势线' }));
+    readouts.appendChild(el('span', { text: `电势 · V≈${V.toFixed(1)}（相对单位 · relative units）` }));
+    readouts.appendChild(el('span', { text: '圆 = 等势线 · circle = equipotential' }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -9,9 +10,14 @@ export function create(viz, controls) {
   viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let p = 0.6, s = 0; // selection against aa
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '等位基因 p (A)', min: 0.05, max: 0.95, step: 0.01, value: p, format: (v) => v.toFixed(2), onChange: (v) => { p = v; } });
-  slider(controls, { label: '对 aa 的选择强度', min: 0, max: 1, step: 0.05, value: s, format: (v) => v.toFixed(2), onChange: (v) => { s = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { p = 0.6; s = 0; },
+  });
+  slider(controls, { label: '等位基因频率 · Allele frequency p (A)', min: 0.05, max: 0.95, step: 0.01, value: p, format: (v) => v.toFixed(2), onChange: (v) => { p = v; } });
+  slider(controls, { label: '对 aa 的选择强度 · Selection against aa', min: 0, max: 1, step: 0.05, value: s, format: (v) => v.toFixed(2), onChange: (v) => { s = v; } });
 
   function draw() {
     const T = themeColors();
@@ -41,8 +47,9 @@ export function create(viz, controls) {
       ctx.fillText(b.v.toFixed(3), x + bw / 2, base - bh - 8);
     });
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `平衡下 p²=${(p*p).toFixed(3)} 2pq=${(2*p*q).toFixed(3)} q²=${(q*q).toFixed(3)}` }));
-    readouts.appendChild(el('span', { text: `选择后 p′=${p2.toFixed(3)}` }));
+    readouts.appendChild(el('span', { text: `平衡下 · At equilibrium p²=${(p*p).toFixed(3)} 2pq=${(2*p*q).toFixed(3)} q²=${(q*q).toFixed(3)}` }));
+    readouts.appendChild(el('span', { text: `选择后 · After selection p′=${p2.toFixed(3)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -8,9 +9,14 @@ export function create(viz, controls) {
   const readouts = readoutBar(viz);
   let a = 1, L = 2, eps = 0.5, delta = 0.25;
   const f = (x) => x + 1; // lim x->1 of x+1 = 2
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'ε', min: 0.05, max: 1.5, step: 0.01, value: eps, format: (v) => v.toFixed(2), onChange: (v) => { eps = v; delta = Math.min(eps, 1.5); } });
-  slider(controls, { label: 'δ', min: 0.02, max: 1.5, step: 0.01, value: delta, format: (v) => v.toFixed(2), onChange: (v) => { delta = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { eps = 0.5; delta = 0.25; },
+  });
+  slider(controls, { label: 'ε（误差带 · error band）', min: 0.05, max: 1.5, step: 0.01, value: eps, format: (v) => v.toFixed(2), onChange: (v) => { eps = v; delta = Math.min(eps, 1.5); } });
+  slider(controls, { label: 'δ（邻域 · neighbourhood）', min: 0.02, max: 1.5, step: 0.01, value: delta, format: (v) => v.toFixed(2), onChange: (v) => { delta = v; } });
 
   function draw() {
     const T = themeColors();
@@ -43,8 +49,9 @@ export function create(viz, controls) {
     ctx.fillStyle = T.text; ctx.fillRect(mapX(a) - 3, mapY(L) - 3, 6, 6);
     const ok = delta <= eps + 1e-9; // for f'=1, need delta<=eps
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `f(x)=x+1 → L=${L} at a=${a}` }));
-    readouts.appendChild(el('span', { text: ok && delta <= eps ? 'δ≤ε 对本例充分' : '试减小 δ 或增大 ε' }));
+    readouts.appendChild(el('span', { text: `极限 · Limit f(x)=x+1 → L=${L} at a=${a}` }));
+    readouts.appendChild(el('span', { text: ok && delta <= eps ? 'δ≤ε 对本例充分 · sufficient here' : '试减小 δ 或增大 ε · decrease δ or increase ε' }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

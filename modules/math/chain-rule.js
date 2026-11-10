@@ -1,14 +1,20 @@
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
-import { themeColors, rgba } from '../../js/theme.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
+import { themeColors } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let x0 = 0.8;
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'x', min: -2, max: 2, step: 0.01, value: x0, format: (v) => v.toFixed(2), onChange: (v) => { x0 = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { x0 = 0.8; },
+  });
+  slider(controls, { label: '切点 x · Point x', min: -2, max: 2, step: 0.01, value: x0, format: (v) => v.toFixed(2), onChange: (v) => { x0 = v; } });
   // y = sin(x^2): outer sin, inner x^2
   const g = (x) => x * x, gp = (x) => 2 * x;
   const fp = (u) => Math.cos(u);
@@ -40,8 +46,9 @@ export function create(viz, controls) {
     ctx.lineTo(mapX(x2), mapY(y0 + m * (x2 - x0))); ctx.stroke();
     ctx.fillStyle = T.accent; ctx.fillRect(mapX(x0) - 3, mapY(y0) - 3, 6, 6);
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `y=sin(x²)` }));
-    readouts.appendChild(el('span', { text: `f'(g)·g' = ${fp(g(x0)).toFixed(2)}·${gp(x0).toFixed(2)} = ${m.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: `函数 · Function y=sin(x²)` }));
+    readouts.appendChild(el('span', { text: `链式法则 · Chain rule f'(g)·g' = ${fp(g(x0)).toFixed(2)}·${gp(x0).toFixed(2)} = ${m.toFixed(2)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

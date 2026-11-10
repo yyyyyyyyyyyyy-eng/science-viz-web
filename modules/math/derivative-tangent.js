@@ -1,5 +1,7 @@
 import { el, slider, select, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 
 const FUNCS = {
@@ -42,16 +44,20 @@ export function create(viz, controls) {
   let dragging = false;
   let w = 600;
   let h = 440;
-  let raf = 0;
 
   const xMin = -3.5;
   const xMax = 3.5;
   const yMin = -3;
   const yMax = 3;
 
-  controls.appendChild(el('h2', { text: '控制' }));
-  select(controls, {
-    label: '函数',
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { key = 'x3'; funcSel.value = 'x3'; },
+  });
+  const funcSel = select(controls, {
+    label: '函数 · Function',
     value: key,
     options: Object.entries(FUNCS).map(([k, v]) => ({ value: k, label: v.label })),
     onChange: (v) => {
@@ -59,7 +65,7 @@ export function create(viz, controls) {
     },
   });
   const xSlider = slider(controls, {
-    label: '切点 x₀',
+    label: '切点 · Tangent point x₀',
     min: xMin + 0.2,
     max: xMax - 0.2,
     step: 0.01,
@@ -72,7 +78,7 @@ export function create(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '拖动曲线上的黄点，或用滑块改变 x₀。',
+      text: '拖动曲线上的黄点，或用滑块改变 x₀。 · Drag the yellow point or change x₀ with the slider.',
     }),
   );
 
@@ -196,24 +202,20 @@ export function create(viz, controls) {
 
     ctx.fillStyle = T.text;
     ctx.font = '12px sans-serif';
-    ctx.fillText('蓝：f(x)　橙：切线　绿虚线：f′(x)', 12, 20);
+    ctx.fillText('蓝 · blue：f(x)　橙 · orange：切线 tangent　绿虚线 · green dashed：f′(x)', 12, 20);
 
     readouts.set([
-      ['x₀', x0.toFixed(3)],
-      ['f(x₀)', y0.toFixed(3)],
-      ["f′(x₀)", m.toFixed(3)],
-      ['切线', `y = ${m.toFixed(2)}(x − ${x0.toFixed(2)}) + ${y0.toFixed(2)}`],
+      ['切点 · x₀', x0.toFixed(3)],
+      ['函数值 · f(x₀)', y0.toFixed(3)],
+      ["导数 · f′(x₀)", m.toFixed(3)],
+      ['切线 · Tangent', `y = ${m.toFixed(2)}(x − ${x0.toFixed(2)}) + ${y0.toFixed(2)}`],
     ]);
   }
 
-  function loop() {
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-  raf = requestAnimationFrame(loop);
-
+  const loop = startAnimLoop(wrap, draw);
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

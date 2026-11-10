@@ -1,6 +1,8 @@
 import { mountExamFigures } from './exam-figures.js';
 import { el, slider, button, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP, simAxisColor } from '../sim-controls.js';
 
 
 function createBase(viz, controls) {
@@ -24,8 +26,6 @@ function createBase(viz, controls) {
   let vy = 0;
   let w = 600;
   let h = 420;
-  let raf = 0;
-  let last = performance.now();
 
   // world scale (auto-expanded to the ideal flight envelope)
   let worldW = 60; // meters across
@@ -34,45 +34,62 @@ function createBase(viz, controls) {
   let idealH = 1;
   let landedX = null;
 
-  controls.appendChild(el('h2', { text: '发射参数' }));
+  controls.appendChild(el('h2', { text: '发射参数 · Launch parameters' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); draw(); },
+    onReset: () => {
+      running = false;
+      t = 0;
+      trail = [];
+      drag = false;
+      dragBox.checked = false;
+      syncDragControls();
+      syncIdeal();
+      fireBtn.textContent = '发射 · Launch';
+    },
+  });
   slider(controls, {
-    label: '仰角 θ',
+    label: '仰角 · Launch angle θ',
+    unit: '°',
     min: 5,
     max: 85,
     step: 1,
     value: angleDeg,
-    format: (v) => `${Math.round(v)}°`,
+    format: (v) => String(Math.round(v)),
     onChange: (v) => {
       angleDeg = v;
       if (!running) syncIdeal();
     },
   });
   slider(controls, {
-    label: '初速 v₀',
+    label: '初速 · Initial speed v₀',
+    unit: 'm/s',
     min: 5,
     max: 45,
     step: 0.5,
     value: speed,
-    format: (v) => `${v.toFixed(1)} m/s`,
+    format: (v) => v.toFixed(1),
     onChange: (v) => {
       speed = v;
       if (!running) syncIdeal();
     },
   });
   slider(controls, {
-    label: '重力 g',
+    label: '重力 · Gravity g',
+    unit: 'm/s²',
     min: 1,
     max: 20,
     step: 0.1,
     value: g,
-    format: (v) => `${v.toFixed(1)} m/s²`,
+    format: (v) => v.toFixed(1),
     onChange: (v) => {
       g = v;
       if (!running) syncIdeal();
     },
   });
-  checkbox(controls, {
-    label: '空气阻力（−k v）',
+  const dragBox = checkbox(controls, {
+    label: '空气阻力（−k v） · Air resistance',
     checked: false,
     onChange: (v) => {
       drag = v;
@@ -81,7 +98,7 @@ function createBase(viz, controls) {
     },
   });
   const kSlider = slider(controls, {
-    label: '阻力系数 k',
+    label: '阻力系数 · Drag coefficient k',
     min: 0.02,
     max: 0.6,
     step: 0.01,
@@ -110,25 +127,15 @@ function createBase(viz, controls) {
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
   const fireBtn = button(btnRow, {
-    text: '发射',
+    text: '发射 · Launch',
     className: 'primary',
     onClick: () => launch(),
-  });
-  button(btnRow, {
-    text: '重置',
-    onClick: () => {
-      running = false;
-      t = 0;
-      trail = [];
-      syncIdeal();
-      fireBtn.textContent = '发射';
-    },
   });
 
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '虚线为理想无阻力预测轨迹。',
+      text: '虚线为理想无阻力预测轨迹。 · Dashed line: ideal drag-free trajectory.',
     }),
   );
 
@@ -173,7 +180,7 @@ function createBase(viz, controls) {
     syncIdeal();
     running = true;
     t = 0;
-    fireBtn.textContent = '飞行中…';
+    fireBtn.textContent = '飞行中… · In flight…';
   }
 
   function resize(cw, ch) {
@@ -198,7 +205,7 @@ function createBase(viz, controls) {
     const v0x = speed * Math.cos(th);
     const v0y = speed * Math.sin(th);
     ctx.setLineDash([5, 5]);
-    ctx.strokeStyle = rgba(T.axis, 0.55);
+    ctx.strokeStyle = rgba(simAxisColor(T), 0.55);
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     let started = false;
@@ -297,52 +304,48 @@ function createBase(viz, controls) {
     ctx.fillText(`理想射程 R≈${idealRange().toFixed(1)} m　最大高度 H≈${idealHeight().toFixed(1)} m`, 12, 20);
 
     readouts.set([
-      ['t', `${t.toFixed(2)} s`],
-      ['x', `${x.toFixed(2)} m`],
-      ['y', `${y.toFixed(2)} m`],
-      ['|v|', `${Math.hypot(vx, vy).toFixed(2)} m/s`],
-      ['理想落地', `${idealTime().toFixed(2)} s`],
+      ['时间 · t', `${t.toFixed(2)} s`],
+      ['水平位移 · x', `${x.toFixed(2)} m`],
+      ['高度 · y', `${y.toFixed(2)} m`],
+      ['速率 · |v|', `${Math.hypot(vx, vy).toFixed(2)} m/s`],
+      ['理想落地 · ideal landing', `${idealTime().toFixed(2)} s`],
     ]);
   }
 
-  function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    if (running) {
-      const steps = 4;
-      const hdt = dt / steps;
-      for (let i = 0; i < steps; i++) {
-        let ax = 0;
-        let ay = -g;
-        if (drag) {
-          ax += -k * vx;
-          ay += -k * vy;
-        }
-        vx += ax * hdt;
-        vy += ay * hdt;
-        x += vx * hdt;
-        y += vy * hdt;
-        t += hdt;
-        if (y < 0 && t > 0.05) {
-          y = 0;
-          landedX = x;
-          running = false;
-          fireBtn.textContent = '再次发射';
-          break;
-        }
+  function update(dt) {
+    if (!running) return;
+    const steps = 4;
+    const hdt = dt / steps;
+    for (let i = 0; i < steps; i++) {
+      let ax = 0;
+      let ay = -g;
+      if (drag) {
+        ax += -k * vx;
+        ay += -k * vy;
       }
-      trail.push({ x, y });
-      if (trail.length > 800) trail.shift();
+      vx += ax * hdt;
+      vy += ay * hdt;
+      x += vx * hdt;
+      y += vy * hdt;
+      t += hdt;
+      if (y < 0 && t > 0.05) {
+        y = 0;
+        landedX = x;
+        running = false;
+        fireBtn.textContent = '再次发射 · Launch again';
+        break;
+      }
     }
-    draw();
-    raf = requestAnimationFrame(tick);
+    trail.push({ x, y });
+    if (trail.length > 800) trail.shift();
   }
-  raf = requestAnimationFrame(tick);
 
-  return () => {
-    cancelAnimationFrame(raf);
-    unobserve();
-  };
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); unobserve(); };
 }
 
 export function create(viz, controls) {

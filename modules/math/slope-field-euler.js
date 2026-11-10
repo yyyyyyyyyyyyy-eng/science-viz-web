@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -8,9 +9,14 @@ export function create(viz, controls) {
   const readouts = readoutBar(viz);
   let h = 0.25, y0 = 1;
   const f = (x, y) => y; // y'=y
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '步长 h', min: 0.05, max: 0.5, step: 0.01, value: h, format: (v) => v.toFixed(2), onChange: (v) => { h = v; } });
-  slider(controls, { label: 'y(0)', min: 0.2, max: 2, step: 0.05, value: y0, format: (v) => v.toFixed(2), onChange: (v) => { y0 = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { h = 0.25; y0 = 1; },
+  });
+  slider(controls, { label: '步长 · Step h', min: 0.05, max: 0.5, step: 0.01, value: h, format: (v) => v.toFixed(2), onChange: (v) => { h = v; } });
+  slider(controls, { label: '初值 · Initial value y(0)', min: 0.2, max: 2, step: 0.05, value: y0, format: (v) => v.toFixed(2), onChange: (v) => { y0 = v; } });
 
   function draw() {
     const T = themeColors();
@@ -51,8 +57,9 @@ export function create(viz, controls) {
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `y′=y，精确解 y=${y0}eˣ` }));
-    readouts.appendChild(el('span', { text: `欧拉终点 y(${x.toFixed(2)})=${y.toFixed(3)}` }));
+    readouts.appendChild(el('span', { text: `微分方程 · ODE y′=y；精确解 · exact y=${y0}eˣ` }));
+    readouts.appendChild(el('span', { text: `欧拉终点 · Euler endpoint y(${x.toFixed(2)})=${y.toFixed(3)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

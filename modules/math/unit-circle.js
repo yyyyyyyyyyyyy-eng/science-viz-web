@@ -1,5 +1,7 @@
 import { el, slider, button, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP, simAxisColor } from '../sim-controls.js';
 
 
 export function create(viz, controls) {
@@ -10,18 +12,29 @@ export function create(viz, controls) {
   const readouts = readoutBar(viz);
 
   let theta = 0.7;
-  let playing = true;
-  let speed = 0.6;
+  let omega = 0.6;
   let showTan = true;
   let w = 600;
   let h = 420;
-  let raf = 0;
-  let last = performance.now();
   let wave = [];
 
-  controls.appendChild(el('h2', { text: '控制' }));
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); draw(); },
+    onReset: () => {
+      theta = 0.7;
+      omega = 0.6;
+      showTan = true;
+      tanBox.checked = true;
+      wave = [];
+      thetaSlider.set(0.7);
+      omegaSlider.set(0.6);
+    },
+  });
   const thetaSlider = slider(controls, {
-    label: '角度 θ（弧度）',
+    label: '角度 · Angle θ',
+    unit: 'rad',
     min: -Math.PI * 2,
     max: Math.PI * 2,
     step: 0.01,
@@ -29,23 +42,23 @@ export function create(viz, controls) {
     format: (v) => v.toFixed(2),
     onChange: (v) => {
       theta = v;
-      playing = false;
-      playBtn.textContent = '播放';
+      if (!sim.isResetting()) sim.setPlaying(false);
     },
   });
-  slider(controls, {
-    label: '角速度',
+  const omegaSlider = slider(controls, {
+    label: '角速度 · Angular speed ω',
+    unit: 'rad/s',
     min: 0.1,
     max: 2,
     step: 0.05,
-    value: speed,
+    value: omega,
     format: (v) => v.toFixed(2),
     onChange: (v) => {
-      speed = v;
+      omega = v;
     },
   });
-  checkbox(controls, {
-    label: '显示正切线',
+  const tanBox = checkbox(controls, {
+    label: '显示正切线 · Show tangent line',
     checked: true,
     onChange: (v) => {
       showTan = v;
@@ -54,19 +67,12 @@ export function create(viz, controls) {
 
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
-  const playBtn = button(btnRow, {
-    text: '暂停',
-    className: 'primary',
-    onClick: () => {
-      playing = !playing;
-      playBtn.textContent = playing ? '暂停' : '播放';
-    },
-  });
   button(btnRow, {
     text: 'θ = 0',
     onClick: () => {
       theta = 0;
       thetaSlider.set(0);
+      sim.setPlaying(false);
     },
   });
   button(btnRow, {
@@ -74,13 +80,14 @@ export function create(viz, controls) {
     onClick: () => {
       theta = Math.PI / 2;
       thetaSlider.set(theta);
+      sim.setPlaying(false);
     },
   });
 
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '左侧单位圆：点 P=(cos θ, sin θ)。',
+      text: '左侧单位圆：点 P=(cos θ, sin θ)。 · Left: unit circle with P=(cos θ, sin θ).',
     }),
   );
 
@@ -99,13 +106,19 @@ export function create(viz, controls) {
     if (px > split) return;
     const cx = split / 2;
     const cy = h / 2;
-    theta = Math.atan2(-(py - cy), px - cx); // screen y down
-    // atan2 with inverted y: want math angle
     theta = Math.atan2(cy - py, px - cx);
     thetaSlider.set(theta);
-    playing = false;
-    playBtn.textContent = '播放';
+    sim.setPlaying(false);
   });
+
+  function update(dt) {
+    theta += omega * dt;
+    if (theta > Math.PI * 2) theta -= Math.PI * 2;
+    if (theta < -Math.PI * 2) theta += Math.PI * 2;
+    thetaSlider.set(theta);
+    wave.push({ t: theta, s: Math.sin(theta), c: Math.cos(theta) });
+    if (wave.length > 400) wave.shift();
+  }
 
   function draw() {
     const T = themeColors();
@@ -124,7 +137,7 @@ export function create(viz, controls) {
     ctx.stroke();
 
     // axes
-    ctx.strokeStyle = T.axis;
+    ctx.strokeStyle = simAxisColor(T);
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(cx - R - 20, cy);
@@ -203,7 +216,7 @@ export function create(viz, controls) {
 
     ctx.fillStyle = T.text;
     ctx.font = '12px sans-serif';
-    ctx.fillText('单位圆', 12, 20);
+    ctx.fillText('单位圆 · unit circle', 12, 20);
 
     // wave panel
     const wx0 = split + 20;
@@ -211,26 +224,17 @@ export function create(viz, controls) {
     const wW = w - wx0 - 16;
     const amp = Math.min(80, h * 0.28);
 
-    ctx.strokeStyle = T.axis;
+    ctx.strokeStyle = simAxisColor(T);
     ctx.beginPath();
     ctx.moveTo(wx0, wy0);
     ctx.lineTo(wx0 + wW, wy0);
     ctx.stroke();
 
-    wave.push({ t: theta, s, c });
-    if (wave.length > 400) wave.shift();
-
-    const span = Math.PI * 4;
     const strokeWave = (pick, color) => {
       ctx.strokeStyle = color;
       ctx.lineWidth = 2;
       ctx.beginPath();
       let started = false;
-      for (const p of wave) {
-        const rel = (theta - p.t + span) % span;
-        // show recent history relative
-      }
-      // better: map by sample index
       wave.forEach((p, i) => {
         const x = wx0 + (i / Math.max(1, wave.length - 1)) * wW;
         const y = wy0 - pick(p) * amp;
@@ -255,33 +259,25 @@ export function create(viz, controls) {
     ctx.fill();
 
     ctx.fillStyle = T.text;
-    ctx.fillText('sin / cos 波形', wx0, 20);
+    ctx.fillText('sin / cos 波形 · waves', wx0, 20);
 
     const deg = (theta * 180) / Math.PI;
     readouts.set([
-      ['θ', `${theta.toFixed(3)} rad (${deg.toFixed(1)}°)`],
-      ['sin θ', s.toFixed(4)],
-      ['cos θ', c.toFixed(4)],
-      ['tan θ', Math.abs(c) < 1e-6 ? '∞' : (s / c).toFixed(4)],
+      ['角度 · θ', `${theta.toFixed(3)} rad (${deg.toFixed(1)}°)`],
+      ['正弦 · sin θ', s.toFixed(4)],
+      ['余弦 · cos θ', c.toFixed(4)],
+      ['正切 · tan θ', Math.abs(c) < 1e-6 ? '∞' : (s / c).toFixed(4)],
     ]);
   }
 
-  function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    if (playing) {
-      theta += speed * dt;
-      if (theta > Math.PI * 2) theta -= Math.PI * 2;
-      if (theta < -Math.PI * 2) theta += Math.PI * 2;
-      thetaSlider.set(theta);
-    }
-    draw();
-    raf = requestAnimationFrame(tick);
-  }
-  raf = requestAnimationFrame(tick);
-
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

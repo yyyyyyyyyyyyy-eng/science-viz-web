@@ -1,13 +1,15 @@
-import { el, slider, button, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, button, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 
 const PHASES = [
-  { id: 'interphase', name: '间期', desc: 'DNA 复制，染色质松散' },
-  { id: 'prophase', name: '前期', desc: '染色质凝缩为染色体，核膜开始解体' },
-  { id: 'metaphase', name: '中期', desc: '着丝粒排列于赤道板' },
-  { id: 'anaphase', name: '后期', desc: '姐妹染色单体分离并移向两极' },
-  { id: 'telophase', name: '末期', desc: '核膜重建，开始胞质分裂' },
+  { id: 'interphase', name: '间期 · Interphase', desc: 'DNA 复制，染色质松散 · DNA replicates, chromatin is loose' },
+  { id: 'prophase', name: '前期 · Prophase', desc: '染色质凝缩为染色体，核膜开始解体 · Chromatin condenses, nuclear envelope breaks down' },
+  { id: 'metaphase', name: '中期 · Metaphase', desc: '着丝粒排列于赤道板 · Centromeres align at the equator' },
+  { id: 'anaphase', name: '后期 · Anaphase', desc: '姐妹染色单体分离并移向两极 · Sister chromatids separate toward the poles' },
+  { id: 'telophase', name: '末期 · Telophase', desc: '核膜重建，开始胞质分裂 · Nuclear envelopes reform, cytokinesis begins' },
 ];
 
 export function create(viz, controls) {
@@ -19,14 +21,15 @@ export function create(viz, controls) {
 
   let phaseIdx = 0;
   let progress = 0; // 0..1 within phase animation
-  let playing = true;
-  let speed = 1;
   let w = 600;
   let h = 400;
-  let raf = 0;
-  let last = performance.now();
 
-  controls.appendChild(el('h2', { text: '控制' }));
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); draw(); },
+    onReset: () => { phaseIdx = 0; progress = 0; syncPills(); },
+  });
 
   const pills = el('div', { className: 'phase-pills' });
   PHASES.forEach((p, i) => {
@@ -47,47 +50,19 @@ export function create(viz, controls) {
 
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
-  const playBtn = button(btnRow, {
-    text: '暂停',
-    className: 'primary',
-    onClick: () => {
-      playing = !playing;
-      playBtn.textContent = playing ? '暂停' : '播放';
-    },
-  });
   button(btnRow, {
-    text: '下一步',
+    text: '下一步 · Next phase',
     onClick: () => {
       phaseIdx = (phaseIdx + 1) % PHASES.length;
       progress = 0;
       syncPills();
     },
   });
-  button(btnRow, {
-    text: '重置',
-    onClick: () => {
-      phaseIdx = 0;
-      progress = 0;
-      syncPills();
-    },
-  });
-
-  slider(controls, {
-    label: '动画速度',
-    min: 0.25,
-    max: 2.5,
-    step: 0.05,
-    value: 1,
-    format: (v) => `${v.toFixed(2)}×`,
-    onChange: (v) => {
-      speed = v;
-    },
-  });
 
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '点击阶段按钮可跳转；播放时自动依序演示染色体凝缩、排列、分离与胞质分裂。',
+      text: '点击阶段按钮可跳转；播放时自动依序演示染色体凝缩、排列、分离与胞质分裂。 · Click a phase to jump; playback walks through condensation, alignment, separation and cytokinesis.',
     }),
   );
 
@@ -275,30 +250,33 @@ export function create(viz, controls) {
     ctx.fillText(`${phase.name}：${phase.desc}`, 14, 22);
   }
 
-  function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    if (playing) {
-      progress += dt * 0.35 * speed;
-      if (progress >= 1) {
-        progress = 0;
-        phaseIdx = (phaseIdx + 1) % PHASES.length;
-        syncPills();
-      }
+  function update(dt) {
+    progress += dt * 0.35;
+    if (progress >= 1) {
+      progress = 0;
+      phaseIdx = (phaseIdx + 1) % PHASES.length;
+      syncPills();
     }
+  }
+
+  function draw() {
     drawCell(canvas.getContext('2d'));
     const phase = PHASES[phaseIdx];
     readouts.set([
-      ['阶段', phase.name],
-      ['进度', `${Math.round(progress * 100)}%`],
-      ['说明', phase.desc],
+      ['阶段 · Phase', phase.name],
+      ['进度 · Progress', `${Math.round(progress * 100)}%`],
+      ['说明 · Description', phase.desc],
     ]);
-    raf = requestAnimationFrame(tick);
   }
-  raf = requestAnimationFrame(tick);
 
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

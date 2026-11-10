@@ -1,19 +1,25 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let kind = 'rose', tMax = Math.PI * 2;
-  controls.appendChild(el('h2', { text: '控制' }));
-  select(controls, { label: '曲线', value: kind, options: [
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { kind = 'rose'; kindSel.value = 'rose'; tMax = Math.PI * 2; },
+  });
+  const kindSel = select(controls, { label: '曲线 · Curve', value: kind, options: [
     { value: 'rose', label: 'r=cos(2θ)' },
     { value: 'cardioid', label: 'r=1+cosθ' },
-    { value: 'param', label: '参数：圆摆线' },
+    { value: 'param', label: '参数：圆摆线 · parametric: cycloid' },
   ], onChange: (v) => { kind = v; } });
-  slider(controls, { label: '扫角', min: 0.5, max: 6.28, step: 0.05, value: tMax, format: (v) => v.toFixed(2), onChange: (v) => { tMax = v; } });
+  slider(controls, { label: '扫角 · Sweep angle', unit: 'rad', min: 0.5, max: 6.28, step: 0.05, value: tMax, format: (v) => v.toFixed(2), onChange: (v) => { tMax = v; } });
 
   function draw() {
     const T = themeColors();
@@ -38,7 +44,8 @@ export function create(viz, controls) {
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: kind === 'param' ? 'x=t−sin t, y=1−cos t' : '极坐标轨迹' }));
+    readouts.appendChild(el('span', { text: kind === 'param' ? '参数方程 · parametric x=t−sin t, y=1−cos t' : '极坐标轨迹 · polar curve' }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

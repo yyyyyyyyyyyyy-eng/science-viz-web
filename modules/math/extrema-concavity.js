@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -11,8 +12,13 @@ export function create(viz, controls) {
   const fp = (x) => 3 * x * x - 3;
   const fpp = (x) => 6 * x;
   let show = 'f';
-  controls.appendChild(el('h2', { text: '控制' }));
-  select(controls, { label: '显示', value: show, options: [{ value: 'f', label: 'f' }, { value: 'fp', label: "f'" }, { value: 'fpp', label: "f''" }], onChange: (v) => { show = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { show = 'f'; showSel.value = 'f'; },
+  });
+  const showSel = select(controls, { label: '显示 · Show', value: show, options: [{ value: 'f', label: 'f' }, { value: 'fp', label: "f'" }, { value: 'fpp', label: "f''" }], onChange: (v) => { show = v; } });
 
   function draw() {
     const T = themeColors();
@@ -37,9 +43,10 @@ export function create(viz, controls) {
       ctx.fillStyle = T.text; ctx.fillRect(mapX(c) - 3, mapY(f(c)) - 3, 6, 6);
     }
     ctx.fillStyle = T.textMuted; ctx.font = '12px sans-serif';
-    ctx.fillText('拐点 x=0', mapX(0) + 8, mapY(0) - 8);
+    ctx.fillText('拐点 · inflection x=0', mapX(0) + 8, mapY(0) - 8);
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: "f=x³−3x；临界点 ±1；f'' 变号于 0" }));
+    readouts.appendChild(el('span', { text: "函数 · f=x³−3x；临界点 · critical points ±1；拐点 · inflection x=0" }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

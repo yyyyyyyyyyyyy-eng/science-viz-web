@@ -1,17 +1,23 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP, simAxisColor } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
   const canvas = el('canvas'); wrap.appendChild(canvas); viz.appendChild(wrap);
   const readouts = readoutBar(viz);
   let m1 = 2, m2 = 1, u1 = 3, u2 = 0, e = 1, x1 = 0.2, x2 = 0.55, v1 = 3, v2 = 0, phase = 'run';
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'm₁', min: 0.5, max: 5, step: 0.1, value: m1, format: (v) => v.toFixed(1), onChange: (v) => { m1 = v; reset(); } });
-  slider(controls, { label: 'm₂', min: 0.5, max: 5, step: 0.1, value: m2, format: (v) => v.toFixed(1), onChange: (v) => { m2 = v; reset(); } });
-  slider(controls, { label: '恢复系数 e', min: 0, max: 1, step: 0.05, value: e, format: (v) => v.toFixed(2), onChange: (v) => { e = v; reset(); } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { physics(SIM_STEP); draw(); },
+    onReset: () => { reset(); },
+  });
+  slider(controls, { label: '质量 · Mass m₁', unit: 'kg', min: 0.5, max: 5, step: 0.1, value: m1, format: (v) => v.toFixed(1), onChange: (v) => { m1 = v; reset(); } });
+  slider(controls, { label: '质量 · Mass m₂', unit: 'kg', min: 0.5, max: 5, step: 0.1, value: m2, format: (v) => v.toFixed(1), onChange: (v) => { m2 = v; reset(); } });
+  slider(controls, { label: '恢复系数 · Restitution e', min: 0, max: 1, step: 0.05, value: e, format: (v) => v.toFixed(2), onChange: (v) => { e = v; reset(); } });
   function reset() { x1 = 0.2; x2 = 0.55; v1 = u1; v2 = u2; phase = 'run'; }
 
   function physics(dt) {
@@ -35,7 +41,7 @@ function createBase(viz, controls) {
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = T.canvasBg; ctx.fillRect(0, 0, w, h);
     const y = h * 0.42;
-    ctx.strokeStyle = T.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(40, y + 30); ctx.lineTo(w - 40, y + 30); ctx.stroke();
+    ctx.strokeStyle = simAxisColor(T); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(40, y + 30); ctx.lineTo(w - 40, y + 30); ctx.stroke();
     const drawBlock = (xf, m, label) => {
       const X = 40 + xf * (w - 80); const s = 20 + m * 6;
       ctx.fillStyle = T.accent; ctx.fillRect(X - s / 2, y - s / 2, s, s);
@@ -65,10 +71,15 @@ function createBase(viz, controls) {
       ctx.beginPath(); ctx.moveTo(zeroX, rowY - 2); ctx.lineTo(zeroX, rowY + rowH + 2); ctx.stroke();
     }
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `v₁=${v1.toFixed(2)}  v₂=${v2.toFixed(2)}` }));
-    readouts.appendChild(el('span', { text: `p₁=${p1.toFixed(2)}  p₂=${p2.toFixed(2)}  p=${pTotal.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: `速度 · v₁=${v1.toFixed(2)}  v₂=${v2.toFixed(2)}` }));
+    readouts.appendChild(el('span', { text: `动量 · p₁=${p1.toFixed(2)}  p₂=${p2.toFixed(2)}  p=${pTotal.toFixed(2)}` }));
   }
-  return startAnimLoop(wrap, draw, { step: 1 / 60, update: physics });
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update: physics,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

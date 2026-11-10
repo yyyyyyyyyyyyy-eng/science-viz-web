@@ -1,5 +1,7 @@
-import { el, slider, button, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
+import { el, slider, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 
 export function create(viz, controls) {
@@ -28,17 +30,21 @@ export function create(viz, controls) {
   let gamma = 0.4; // predator death
   let x = 10;
   let y = 5;
-  let playing = true;
-  let speed = 1;
   let trail = [];
   let timeSeries = [];
   let tSim = 0;
   let w = 600;
   let h = 280;
-  let raf = 0;
-  let last = performance.now();
 
-  controls.appendChild(el('h2', { text: '参数' }));
+  controls.appendChild(el('h2', { text: '参数 · Parameters' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); drawAll(); },
+    onReset: () => {
+      alpha = 1.1; beta = 0.4; delta = 0.1; gamma = 0.4;
+      x = 10; y = 5; tSim = 0; trail = []; timeSeries = [];
+    },
+  });
 
   const mk = (label, key, min, max, step, val, fmt) => {
     slider(controls, {
@@ -53,42 +59,19 @@ export function create(viz, controls) {
         if (key === 'beta') beta = v;
         if (key === 'delta') delta = v;
         if (key === 'gamma') gamma = v;
-        if (key === 'speed') speed = v;
       },
     });
   };
 
-  mk('猎物增长率 α', 'alpha', 0.1, 2.5, 0.05, alpha);
-  mk('捕食效率 β', 'beta', 0.05, 1.2, 0.05, beta);
-  mk('转化效率 δ', 'delta', 0.02, 0.5, 0.01, delta);
-  mk('捕食者死亡率 γ', 'gamma', 0.05, 1.5, 0.05, gamma);
-  mk('模拟速度', 'speed', 0.25, 4, 0.05, speed, (v) => `${v.toFixed(2)}×`);
-
-  const btnRow = el('div', { className: 'btn-row' });
-  controls.appendChild(btnRow);
-  const playBtn = button(btnRow, {
-    text: '暂停',
-    className: 'primary',
-    onClick: () => {
-      playing = !playing;
-      playBtn.textContent = playing ? '暂停' : '播放';
-    },
-  });
-  button(btnRow, {
-    text: '重置',
-    onClick: () => {
-      x = 10;
-      y = 5;
-      tSim = 0;
-      trail = [];
-      timeSeries = [];
-    },
-  });
+  mk('猎物增长率 · Prey growth α', 'alpha', 0.1, 2.5, 0.05, alpha);
+  mk('捕食效率 · Predation β', 'beta', 0.05, 1.2, 0.05, beta);
+  mk('转化效率 · Conversion δ', 'delta', 0.02, 0.5, 0.01, delta);
+  mk('捕食者死亡率 · Predator death γ', 'gamma', 0.05, 1.5, 0.05, gamma);
 
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '平衡点 (γ/δ, α/β)。',
+      text: '平衡点 (γ/δ, α/β)。 · Equilibrium (γ/δ, α/β).',
     }),
   );
 
@@ -238,36 +221,39 @@ export function create(viz, controls) {
     ctx.fill();
   }
 
-  function tick(now) {
-    const dtReal = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    if (playing) {
-      const steps = 4;
-      const dt = 0.02 * speed;
-      for (let i = 0; i < steps; i++) {
-        rk4(dt);
-        tSim += dt;
-      }
-      trail.push({ x, y });
-      if (trail.length > 1500) trail.shift();
-      timeSeries.push({ t: tSim, x, y });
-      if (timeSeries.length > 1500) timeSeries.shift();
+  function update() {
+    const steps = 4;
+    const dt = 0.02;
+    for (let i = 0; i < steps; i++) {
+      rk4(dt);
+      tSim += dt;
     }
+    trail.push({ x, y });
+    if (trail.length > 1500) trail.shift();
+    timeSeries.push({ t: tSim, x, y });
+    if (timeSeries.length > 1500) timeSeries.shift();
+  }
+
+  function drawAll() {
     drawMain(canvas.getContext('2d'));
     drawTime();
     drawPhase();
     readouts.set([
-      ['猎物 x', x.toFixed(2)],
-      ['捕食者 y', y.toFixed(2)],
-      ['t', tSim.toFixed(1)],
-      ['平衡', `(${(gamma / delta).toFixed(2)}, ${(alpha / beta).toFixed(2)})`],
+      ['猎物 · Prey x', x.toFixed(2)],
+      ['捕食者 · Predator y', y.toFixed(2)],
+      ['时间 · t', tSim.toFixed(1)],
+      ['平衡点 · Equilibrium', `(${(gamma / delta).toFixed(2)}, ${(alpha / beta).toFixed(2)})`],
     ]);
-    raf = requestAnimationFrame(tick);
   }
-  raf = requestAnimationFrame(tick);
 
+  const loop = startAnimLoop(wrap, drawAll, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

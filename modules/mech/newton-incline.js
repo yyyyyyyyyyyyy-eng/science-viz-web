@@ -1,7 +1,8 @@
 import { mountExamFigures } from '../physics/exam-figures.js';
-import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
-import { themeColors, rgba } from '../../js/theme.js';
+import { el, slider, fitCanvas, readoutBar } from '../../js/ui.js';
+import { themeColors } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP, simAxisColor } from '../sim-controls.js';
 
 function createBase(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -33,10 +34,15 @@ function createBase(viz, controls) {
     }
   }
 
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: '倾角 °', min: 0, max: 60, step: 1, value: theta, format: (v) => String(v), onChange: (v) => { theta = v; s = 0; v = 0; } });
-  slider(controls, { label: 'μ（μs=μk）', min: 0, max: 0.8, step: 0.01, value: mu, format: (v) => v.toFixed(2), onChange: (v) => { mu = v; s = 0; v = 0; } });
-  slider(controls, { label: '质量 kg', min: 0.5, max: 5, step: 0.1, value: m, format: (v) => v.toFixed(1), onChange: (v) => { m = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { physics(SIM_STEP); draw(); },
+    onReset: () => { s = 0; v = 0; measure(); },
+  });
+  slider(controls, { label: '倾角 · Incline angle', unit: '°', min: 0, max: 60, step: 1, value: theta, format: (v) => String(Math.round(v)), onChange: (val) => { theta = val; s = 0; v = 0; } });
+  slider(controls, { label: 'μ（μs=μk） · friction coefficient', min: 0, max: 0.8, step: 0.01, value: mu, format: (v) => v.toFixed(2), onChange: (val) => { mu = val; s = 0; v = 0; } });
+  slider(controls, { label: '质量 · Mass', unit: 'kg', min: 0.5, max: 5, step: 0.1, value: m, format: (v) => v.toFixed(1), onChange: (val) => { m = val; } });
   measure();
 
   function draw() {
@@ -47,7 +53,7 @@ function createBase(viz, controls) {
     const rad = (theta * Math.PI) / 180;
     const x0 = 40, y0 = h - 40, L = Math.min(w, h) * 0.85;
     const x1 = x0 + L * Math.cos(rad), y1 = y0 - L * Math.sin(rad);
-    ctx.strokeStyle = T.axis; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.lineTo(x1, y0); ctx.closePath(); ctx.stroke();
+    ctx.strokeStyle = simAxisColor(T); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.lineTo(x1, y0); ctx.closePath(); ctx.stroke();
     // Start near the top and move down-slope as s grows.
     const along = (0.04 + 0.92 * Math.min(s / TRACK_M, 1)) * L;
     const px = x1 - along * Math.cos(rad);
@@ -66,11 +72,16 @@ function createBase(viz, controls) {
     ctx.moveTo(bx, by); ctx.lineTo(bx - 30 * Math.sin(rad), by - 30 * Math.cos(rad));
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `a=${a.toFixed(2)} m/s²` }));
-    readouts.appendChild(el('span', { text: sliding ? `N=${N.toFixed(1)} N  f_k=${f.toFixed(1)} N` : `N=${N.toFixed(1)} N  f_s=${f.toFixed(1)} N` }));
-    readouts.appendChild(el('span', { text: sliding ? '滑动 · sliding（动摩擦 / kinetic）' : '静止 · static（静摩擦 / static friction）' }));
+    readouts.appendChild(el('span', { text: `加速度 · a=${a.toFixed(2)} m/s²  速度 · v=${v.toFixed(2)} m/s` }));
+    readouts.appendChild(el('span', { text: sliding ? `法向力 · N=${N.toFixed(1)} N  动摩擦 · f_k=${f.toFixed(1)} N` : `法向力 · N=${N.toFixed(1)} N  静摩擦 · f_s=${f.toFixed(1)} N` }));
+    readouts.appendChild(el('span', { text: sliding ? '滑动 · sliding（动摩擦 · kinetic）' : '静止 · static（静摩擦 · static friction）' }));
   }
-  return startAnimLoop(wrap, draw, { step: 1 / 60, update: physics });
+  const loop = startAnimLoop(wrap, draw, {
+    step: SIM_STEP,
+    update: physics,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); };
 }
 
 export function create(viz, controls) {

@@ -1,5 +1,7 @@
 import { el, slider, select, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 
 function factorial(n) {
@@ -59,15 +61,19 @@ export function create(viz, controls) {
   let showError = true;
   let w = 600;
   let h = 420;
-  let raf = 0;
   const xMin = -8;
   const xMax = 8;
   const yMin = -4;
   const yMax = 4;
 
-  controls.appendChild(el('h2', { text: '泰勒逼近' }));
-  select(controls, {
-    label: '目标函数（在 0 处展开）',
+  controls.appendChild(el('h2', { text: '泰勒逼近 · Taylor approximation' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { key = 'sin'; keySel.value = 'sin'; order = 5; showError = true; errorBox.checked = true; },
+  });
+  const keySel = select(controls, {
+    label: '目标函数 · Target（在 0 处展开 / expanded at 0）',
     value: key,
     options: Object.entries(TARGETS).map(([k, v]) => ({ value: k, label: v.label })),
     onChange: (v) => {
@@ -75,7 +81,7 @@ export function create(viz, controls) {
     },
   });
   slider(controls, {
-    label: '多项式阶数 n',
+    label: '多项式阶数 · Polynomial order n',
     min: 0,
     max: 20,
     step: 1,
@@ -85,8 +91,8 @@ export function create(viz, controls) {
       order = Math.round(v);
     },
   });
-  checkbox(controls, {
-    label: '显示误差带 |f−Pₙ|',
+  const errorBox = checkbox(controls, {
+    label: '显示误差带 · Show error band |f−Pₙ|',
     checked: true,
     onChange: (v) => {
       showError = v;
@@ -95,7 +101,7 @@ export function create(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '蓝线为原函数，橙线为 n 阶麦克劳林多项式。',
+      text: '蓝线为原函数，橙线为 n 阶麦克劳林多项式。 · Blue: target function; orange: nth Maclaurin polynomial.',
     }),
   );
 
@@ -190,20 +196,16 @@ export function create(viz, controls) {
     // sample error at x=2
     const err = Math.abs(T.f(2) - T.poly(2, order));
     readouts.set([
-      ['n', String(order)],
-      ['目标', T.label],
-      ['|f(2)−Pₙ(2)|', err.toExponential(2)],
+      ['阶数 · Order n', String(order)],
+      ['目标函数 · Target', T.label],
+      ['误差 · Error |f(2)−Pₙ(2)|', err.toExponential(2)],
     ]);
   }
 
-  function loop() {
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-  raf = requestAnimationFrame(loop);
-
+  const loop = startAnimLoop(wrap, draw);
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

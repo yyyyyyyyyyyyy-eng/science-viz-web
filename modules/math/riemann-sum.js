@@ -1,6 +1,7 @@
 import { el, slider, select, checkbox, fitCanvas, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
 import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 export function create(viz, controls) {
   const wrap = el('div', { className: 'canvas-wrap' });
@@ -9,9 +10,14 @@ export function create(viz, controls) {
   let n = 6, method = 'mid';
   const f = (x) => 0.15 * x * x + 0.5;
   const a = 0, b = 4, exact = (0.15 / 3) * 64 + 0.5 * 4; // ∫(0.15x^2+0.5)dx
-  controls.appendChild(el('h2', { text: '控制' }));
-  slider(controls, { label: 'n', min: 2, max: 40, step: 1, value: n, format: (v) => String(Math.round(v)), onChange: (v) => { n = Math.round(v); } });
-  select(controls, { label: '法则', value: method, options: [{ value: 'left', label: '左' }, { value: 'right', label: '右' }, { value: 'mid', label: '中点' }], onChange: (v) => { method = v; } });
+  controls.appendChild(el('h2', { text: '控制 · Controls' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => { n = 6; method = 'mid'; methodSel.value = 'mid'; },
+  });
+  slider(controls, { label: '区间数 · Intervals n', min: 2, max: 40, step: 1, value: n, format: (v) => String(Math.round(v)), onChange: (v) => { n = Math.round(v); } });
+  const methodSel = select(controls, { label: '法则 · Rule', value: method, options: [{ value: 'left', label: '左 · left' }, { value: 'right', label: '右 · right' }, { value: 'mid', label: '中点 · midpoint' }], onChange: (v) => { method = v; } });
 
   function draw() {
     const T = themeColors();
@@ -39,8 +45,9 @@ export function create(viz, controls) {
     }
     ctx.stroke();
     readouts.replaceChildren();
-    readouts.appendChild(el('span', { text: `黎曼和 ${sum.toFixed(4)}` }));
-    readouts.appendChild(el('span', { text: `真值 ≈ ${exact.toFixed(4)}  误差 ${(sum - exact).toFixed(4)}` }));
+    readouts.appendChild(el('span', { text: `黎曼和 · Riemann sum ${sum.toFixed(4)}` }));
+    readouts.appendChild(el('span', { text: `真值 · exact ≈ ${exact.toFixed(4)}  误差 · error ${(sum - exact).toFixed(4)}` }));
   }
-  return startAnimLoop(wrap, draw);
+  const loop = startAnimLoop(wrap, draw);
+  return () => { loop(); sim.destroy(); };
 }

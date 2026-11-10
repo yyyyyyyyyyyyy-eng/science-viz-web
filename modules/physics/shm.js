@@ -1,6 +1,8 @@
 import { mountExamFigures } from './exam-figures.js';
 import { el, slider, button, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls, SIM_STEP } from '../sim-controls.js';
 
 
 function createBase(viz, controls) {
@@ -11,13 +13,13 @@ function createBase(viz, controls) {
 
   const charts = el('div', { className: 'chart-row' });
   const xtWrap = el('div');
-  xtWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '位移–时间 x(t)' }));
+  xtWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '位移–时间 x(t) · displacement–time' }));
   const xtCanvas = el('canvas', {
     className: 'mini-chart',
   });
   xtWrap.appendChild(xtCanvas);
   const eWrap = el('div');
-  eWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '能量：动能 / 势能 / 总能' }));
+  eWrap.appendChild(el('div', { className: 'mini-canvas-label', text: '能量：动能 / 势能 / 总能 · kinetic / potential / total' }));
   const eCanvas = el('canvas', {
     className: 'mini-chart',
   });
@@ -32,38 +34,43 @@ function createBase(viz, controls) {
   let x = 1.2;
   let v = 0;
   let t = 0;
-  let playing = true;
   let history = [];
   let w = 600;
   let h = 260;
-  let raf = 0;
-  let last = performance.now();
 
-  controls.appendChild(el('h2', { text: '弹簧–质量' }));
+  controls.appendChild(el('h2', { text: '弹簧–质量 · Spring–mass' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => { update(SIM_STEP); drawAll(); },
+    onReset: () => { m = 1; kSpring = 8; cDamp = 0.15; x = 1.2; v = 0; t = 0; history = []; },
+  });
   slider(controls, {
-    label: '质量 m',
+    label: '质量 · Mass m',
+    unit: 'kg',
     min: 0.2,
     max: 5,
     step: 0.1,
     value: m,
-    format: (v) => `${v.toFixed(1)} kg`,
+    format: (v) => v.toFixed(1),
     onChange: (v) => {
       m = v;
     },
   });
   slider(controls, {
-    label: '劲度系数 k',
+    label: '劲度系数 · Spring constant k',
+    unit: 'N/m',
     min: 1,
     max: 30,
     step: 0.5,
     value: kSpring,
-    format: (v) => `${v.toFixed(1)} N/m`,
+    format: (v) => v.toFixed(1),
     onChange: (v) => {
       kSpring = v;
     },
   });
   slider(controls, {
-    label: '阻尼 c',
+    label: '阻尼 · Damping c',
+    unit: 'N·s/m',
     min: 0,
     max: 4,
     step: 0.05,
@@ -74,33 +81,25 @@ function createBase(viz, controls) {
     },
   });
   slider(controls, {
-    label: '初始位移 x₀',
+    label: '初始位移 · Initial displacement x₀',
+    unit: 'm',
     min: -2,
     max: 2,
     step: 0.05,
     value: x,
-    format: (v) => `${v.toFixed(2)} m`,
+    format: (v) => v.toFixed(2),
     onChange: (v) => {
-      if (!playing) x = v;
-      else {
-        x = v;
-        v = 0;
-      }
+      x = v;
+      v = 0;
+      t = 0;
+      history = [];
     },
   });
 
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
-  const playBtn = button(btnRow, {
-    text: '暂停',
-    className: 'primary',
-    onClick: () => {
-      playing = !playing;
-      playBtn.textContent = playing ? '暂停' : '播放';
-    },
-  });
   button(btnRow, {
-    text: '扰动',
+    text: '扰动 · Kick',
     onClick: () => {
       x = 1.5;
       v = 0;
@@ -112,7 +111,7 @@ function createBase(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '方程 mẍ = −kx − cẋ。',
+      text: '方程 mẍ = −kx − cẋ。 · Equation mẍ = −kx − cẋ.',
     }),
   );
 
@@ -128,7 +127,7 @@ function createBase(viz, controls) {
     return fitCanvas(c, Math.max(100, rect.width), cssH);
   }
 
-  function step(dt) {
+  function physics(dt) {
     // semi-implicit Euler
     const a = (-kSpring * x - cDamp * v) / m;
     v += a * dt;
@@ -197,7 +196,7 @@ function createBase(viz, controls) {
 
     ctx.fillStyle = T.text;
     ctx.font = '12px sans-serif';
-    ctx.fillText('平衡位置', eqX + 6, 28);
+    ctx.fillText('平衡位置 · equilibrium', eqX + 6, 28);
   }
 
   function drawXT() {
@@ -255,16 +254,13 @@ function createBase(viz, controls) {
     stroke((e) => e.tot, T.danger);
   }
 
-  function tick(now) {
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    if (playing) {
-      const steps = 5;
-      const hdt = dt / steps;
-      for (let i = 0; i < steps; i++) step(hdt);
-      history.push({ t, x, v });
-      if (history.length > 400) history.shift();
-    }
+  function update(dt) {
+    physics(dt);
+    history.push({ t, x, v });
+    if (history.length > 400) history.shift();
+  }
+
+  function drawAll() {
     drawMain(canvas.getContext('2d'));
     drawXT();
     drawE();
@@ -272,20 +268,20 @@ function createBase(viz, controls) {
     const ke = 0.5 * m * v * v;
     const pe = 0.5 * kSpring * x * x;
     readouts.set([
-      ['x', `${x.toFixed(3)} m`],
-      ['v', `${v.toFixed(3)} m/s`],
-      ['ω₀', `${omega.toFixed(2)} rad/s`],
-      ['T₀', `${((2 * Math.PI) / omega).toFixed(2)} s`],
-      ['E', `${(ke + pe).toFixed(3)} J`],
+      ['位移 · x', `${x.toFixed(3)} m`],
+      ['速度 · v', `${v.toFixed(3)} m/s`],
+      ['角频率 · ω₀', `${omega.toFixed(2)} rad/s`],
+      ['周期 · T₀', `${((2 * Math.PI) / omega).toFixed(2)} s`],
+      ['总能量 · E', `${(ke + pe).toFixed(3)} J`],
     ]);
-    raf = requestAnimationFrame(tick);
   }
-  raf = requestAnimationFrame(tick);
 
-  return () => {
-    cancelAnimationFrame(raf);
-    unobserve();
-  };
+  const loop = startAnimLoop(wrap, drawAll, {
+    step: SIM_STEP,
+    update,
+    getRate: () => (sim.isPlaying() ? sim.getRate() : 0),
+  });
+  return () => { loop(); sim.destroy(); unobserve(); };
 }
 
 export function create(viz, controls) {

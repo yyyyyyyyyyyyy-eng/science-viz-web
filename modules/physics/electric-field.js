@@ -1,6 +1,8 @@
 import { mountExamFigures } from './exam-figures.js';
 import { el, button, fitCanvas, observeSize, readoutBar, checkbox } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 
 const K = 1; // scaled Coulomb constant for visualization
@@ -24,9 +26,19 @@ function createBase(viz, controls) {
   let dragId = null;
   let w = 600;
   let h = 420;
-  let raf = 0;
+  const initialCharges = charges.map((c) => ({ ...c }));
 
-  controls.appendChild(el('h2', { text: '电荷' }));
+  controls.appendChild(el('h2', { text: '电荷 · Charges' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => {
+      charges = initialCharges.map((c) => ({ ...c }));
+      nextId = 3;
+      showLines = true; showEqui = true; showVectors = false;
+      linesBox.checked = true; equiBox.checked = true; vectorsBox.checked = false;
+    },
+  });
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
   button(btnRow, {
@@ -59,22 +71,22 @@ function createBase(viz, controls) {
     },
   });
 
-  checkbox(controls, {
-    label: '电场线',
+  const linesBox = checkbox(controls, {
+    label: '电场线 · Field lines',
     checked: true,
     onChange: (v) => {
       showLines = v;
     },
   });
-  checkbox(controls, {
-    label: '等势线',
+  const equiBox = checkbox(controls, {
+    label: '等势线 · Equipotentials',
     checked: true,
     onChange: (v) => {
       showEqui = v;
     },
   });
-  checkbox(controls, {
-    label: '场强矢量网格',
+  const vectorsBox = checkbox(controls, {
+    label: '场强矢量网格 · Field-vector grid',
     checked: false,
     onChange: (v) => {
       showVectors = v;
@@ -84,7 +96,7 @@ function createBase(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '拖动电荷。',
+      text: '拖动电荷。 · Drag the charges.',
     }),
   );
 
@@ -328,24 +340,20 @@ function createBase(viz, controls) {
 
     ctx.fillStyle = T.text;
     ctx.font = '12px sans-serif';
-    ctx.fillText('拖动电荷 · 红正蓝负', 12, 20);
+    ctx.fillText('拖动电荷 · drag charges；红正蓝负 · red positive, blue negative', 12, 20);
 
     const mid = fieldAt(0, 0);
     readouts.set([
-      ['电荷数', String(charges.length)],
-      ['E(0,0)', `${Math.hypot(mid.ex, mid.ey).toFixed(2)}`],
-      ['φ(0,0)', potentialAt(0, 0).toFixed(2)],
+      ['电荷数 · Charges', String(charges.length)],
+      ['场强 · E(0,0)', `${Math.hypot(mid.ex, mid.ey).toFixed(2)}`],
+      ['电势 · φ(0,0)', potentialAt(0, 0).toFixed(2)],
     ]);
   }
 
-  function loop() {
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-  raf = requestAnimationFrame(loop);
-
+  const loop = startAnimLoop(wrap, draw);
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }

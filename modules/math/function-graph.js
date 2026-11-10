@@ -1,5 +1,7 @@
 import { el, slider, button, select, fitCanvas, observeSize, readoutBar } from '../../js/ui.js';
 import { themeColors, rgba } from '../../js/theme.js';
+import { startAnimLoop } from '../anim-loop.js';
+import { mountSimControls } from '../sim-controls.js';
 
 
 const PRESETS = {
@@ -66,13 +68,28 @@ export function create(viz, controls) {
   let d = 0;
   let w = 600;
   let h = 420;
-  let raf = 0;
   let xHover = 0;
 
-  controls.appendChild(el('h2', { text: '函数与变换' }));
+  controls.appendChild(el('h2', { text: '函数与变换 · Function transformations' }));
+  const sim = mountSimControls(controls, {
+    host: controls.closest('.module-layout'),
+    step: () => draw(),
+    onReset: () => {
+      preset = 'sin';
+      presetSel.value = 'sin';
+      customFn = null;
+      customSrc = 'sin(x)';
+      exprInput.value = 'sin(x)';
+      a = 1; b = 1; c = 0; d = 0;
+      sliders.a.set(1);
+      sliders.b.set(1);
+      sliders.c.set(0);
+      sliders.d.set(0);
+    },
+  });
 
-  select(controls, {
-    label: '预设函数 f(u)',
+  const presetSel = select(controls, {
+    label: '预设函数 · Preset f(u)',
     value: preset,
     options: Object.entries(PRESETS).map(([k, v]) => ({ value: k, label: v.label })),
     onChange: (v) => {
@@ -82,7 +99,7 @@ export function create(viz, controls) {
   });
 
   const exprGroup = el('div', { className: 'control-group' });
-  exprGroup.appendChild(el('label', { text: '自定义 f(x)（可选）' }));
+  exprGroup.appendChild(el('label', { text: '自定义 · Custom f(x)（可选 / optional）' }));
   const exprInput = el('input', { type: 'text', value: customSrc, placeholder: '如 sin(x)+0.2*x' });
   exprGroup.appendChild(exprInput);
   controls.appendChild(exprGroup);
@@ -90,7 +107,7 @@ export function create(viz, controls) {
   const btnRow = el('div', { className: 'btn-row' });
   controls.appendChild(btnRow);
   button(btnRow, {
-    text: '应用表达式',
+    text: '应用表达式 · Apply',
     className: 'primary',
     onClick: () => {
       try {
@@ -101,23 +118,10 @@ export function create(viz, controls) {
       }
     },
   });
-  button(btnRow, {
-    text: '重置参数',
-    onClick: () => {
-      a = 1;
-      b = 1;
-      c = 0;
-      d = 0;
-      sliders.a.set(1);
-      sliders.b.set(1);
-      sliders.c.set(0);
-      sliders.d.set(0);
-    },
-  });
 
   const sliders = {};
   sliders.a = slider(controls, {
-    label: '振幅 / 纵向伸缩 a',
+    label: '振幅 / 纵向伸缩 · Vertical stretch a',
     min: -3,
     max: 3,
     step: 0.05,
@@ -128,7 +132,7 @@ export function create(viz, controls) {
     },
   });
   sliders.b = slider(controls, {
-    label: '横向伸缩 b',
+    label: '横向伸缩 · Horizontal stretch b',
     min: -3,
     max: 3,
     step: 0.05,
@@ -139,7 +143,7 @@ export function create(viz, controls) {
     },
   });
   sliders.c = slider(controls, {
-    label: '水平平移 c',
+    label: '水平平移 · Horizontal shift c',
     min: -6,
     max: 6,
     step: 0.05,
@@ -150,7 +154,7 @@ export function create(viz, controls) {
     },
   });
   sliders.d = slider(controls, {
-    label: '竖直平移 d',
+    label: '竖直平移 · Vertical shift d',
     min: -4,
     max: 4,
     step: 0.05,
@@ -164,7 +168,7 @@ export function create(viz, controls) {
   controls.appendChild(
     el('p', {
       className: 'hint',
-      text: '绘制 y = a · f(b(x − c)) + d。',
+      text: '绘制 y = a · f(b(x − c)) + d。 · Plots y = a · f(b(x − c)) + d.',
     }),
   );
 
@@ -274,19 +278,15 @@ export function create(viz, controls) {
     }
 
     readouts.set([
-      ['表达式', `y = ${a.toFixed(2)}·f(${b.toFixed(2)}(x−${c.toFixed(2)}))+${d.toFixed(2)}`],
-      ['f', customFn ? customSrc : PRESETS[preset].label],
+      ['表达式 · Expression', `y = ${a.toFixed(2)}·f(${b.toFixed(2)}(x−${c.toFixed(2)}))+${d.toFixed(2)}`],
+      ['函数 · f', customFn ? customSrc : PRESETS[preset].label],
     ]);
   }
 
-  function loop() {
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-  raf = requestAnimationFrame(loop);
-
+  const loop = startAnimLoop(wrap, draw);
   return () => {
-    cancelAnimationFrame(raf);
+    loop();
+    sim.destroy();
     unobserve();
   };
 }
