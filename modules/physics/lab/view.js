@@ -1198,7 +1198,7 @@ export function createLabView(host, opts = {}) {
     for (const id of [...visuals.keys()]) {
       if (!seen.has(id)) removeVisual(id);
     }
-    if (selected && gizmoMode !== 'off' && selected.type !== 'link' && !transform.dragging) {
+    if (selected && gizmoMode !== 'off' && selected.type !== 'link' && selected.type !== 'fan' && !transform.dragging) {
       const visual = visuals.get(selected.id);
       if (visual && transform.object !== visual.root) {
         transform.attach(visual.root);
@@ -1294,7 +1294,7 @@ export function createLabView(host, opts = {}) {
     if (nextKey !== selectedKey) clearTrail();
     selected = entity ? { type: entity.type, id: entity.id } : null;
     selectedKey = nextKey;
-    if (!selected || gizmoMode === 'off' || selected.type === 'link') {
+    if (!selected || gizmoMode === 'off' || selected.type === 'link' || selected.type === 'fan') {
       transform.detach();
     } else {
       const visual = visuals.get(selected.id);

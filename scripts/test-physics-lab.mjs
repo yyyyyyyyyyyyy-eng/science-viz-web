@@ -10,6 +10,7 @@ import {
   addBlock,
   addCart,
   addCylinder,
+  addFan,
   addHCircle,
   addLauncher,
   addLink,
@@ -17,6 +18,7 @@ import {
   addPendulum,
   addProjectile,
   addPulley,
+  addSensor,
   addSurface,
   addTurntable,
   addWedge,
@@ -732,6 +734,36 @@ check('movable wedge: block motion couples to the wedge on a frictionless floor'
   if (!(dxB < -0.02)) throw new Error(`block did not slide down the slope: dx=${dxB}`);
   if (Math.abs(wedge.body.velocity.x) < 0.1) throw new Error('wedge velocity stayed near zero');
   console.log(`      dx wedge=${dxW.toFixed(4)} m, dx block=${dxB.toFixed(4)} m, p=${p1.toFixed(6)} kg m/s`);
+});
+
+check('fan attachment applies a constant thrust (and can be switched off)', () => {
+  const world = createWorld({ g: 9.8 });
+  const surface = addSurface(world, { angleDeg: 0, muS: 0, muK: 0, length: 20, x: 0, y: 1, width: 3 });
+  const block = addBlock(world, { mass: 1, x: 0, y: 2, z: 0 });
+  attachBodyToSurface(world, block, surface.id, { localX: -5, localZ: 0 });
+  block.v0 = 0;
+  applyInitialVelocity(world, block);
+  const fan = addFan(world, { bodyId: block.id, thrust: 2, on: true, azimuth: 0 });
+  advance(world, 1.0, 1 / 960);
+  near(block.cannon.velocity.x, 2.0, 0.02, 'fan acceleration');
+  fan.on = false;
+  const v = block.cannon.velocity.x;
+  advance(world, 0.4, 1 / 960);
+  near(block.cannon.velocity.x, v, 1e-4, 'fan off keeps speed on frictionless surface');
+});
+
+check('photogate records a body crossing with time and speed', () => {
+  const world = createWorld({ g: 0 });
+  const gate = addSensor(world, { kind: 'photogate', x: 1, y: 0, z: 0, width: 2, height: 2 });
+  const block = addBlock(world, { mass: 1, x: 0, y: 1, z: 0, v0: 2, azimuth: 0 });
+  applyInitialVelocity(world, block);
+  advance(world, 1.0, 1 / 480);
+  if (!gate.lastCrossing) throw new Error('photogate did not trigger');
+  near(gate.lastCrossing.v, 2, 0.05, 'crossing speed');
+  if (!(gate.lastCrossing.t > 0.4 && gate.lastCrossing.t < 0.6)) {
+    throw new Error(`crossing time ${gate.lastCrossing.t} outside expected window`);
+  }
+  if (gate.samples.length < 1) throw new Error('photogate did not feed x-t samples');
 });
 
 check('stepOnce advances 1/60 s by default', () => {

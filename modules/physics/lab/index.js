@@ -17,9 +17,11 @@ import {
   addLauncher,
   addLink,
   addLoop,
+  addFan,
   addPendulum,
   addProjectile,
   addPulley,
+  addSensor,
   addSurface,
   addTurntable,
   addWedge,
@@ -256,6 +258,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['launcher', '抛射发射器', 'Projectile launcher'],
         ['wall', '挡板', 'Wall'],
         ['bumper', '碰撞缓冲器', 'Bumper'],
+        ['fan', '风扇小车', 'Fan cart'],
       ],
     },
     {
@@ -265,6 +268,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['nonlinear', '非线性弹簧', 'Nonlinear spring'],
         ['meter', '测力计', 'Force meter'],
         ['pulley', '滑轮与绳', 'Pulley & rope'],
+        ['photogate', '光电门', 'Photogate'],
+        ['motion', '运动传感器', 'Motion sensor'],
       ],
     },
     {
@@ -928,6 +933,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     for (const b of world.barriers) boxes.push({ x: b.x, z: b.z, halfX: (b.width || 0.7) / 2, halfZ: (b.width || 0.7) / 2 });
     for (const p of world.pendulums) boxes.push({ x: p.x, z: p.z, halfX: 0.8, halfZ: 0.8 });
     for (const w of world.wedges) boxes.push({ x: w.body.position.x, z: w.body.position.z, halfX: w.length / 2, halfZ: w.width / 2 });
+    for (const s of world.sensors) boxes.push({ x: s.x, z: s.z, halfX: Math.max(0.4, s.width / 2), halfZ: 0.4 });
+    for (const f of world.fans) {
+      const owner = f.bodyId ? world.bodies.find((b) => b.id === f.bodyId) : null;
+      if (owner) boxes.push({ x: owner.cannon.position.x, z: owner.cannon.position.z, halfX: 0.7, halfZ: 0.7 });
+    }
     for (const b of world.bodies) {
       const p = b.cannon?.position;
       if (!p) continue;
@@ -1407,6 +1417,20 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         length: entity.length, width: entity.width, mass: entity.mass,
         muFloor: entity.muFloor, blockMu: entity.blockMu,
       });
+    } else if (entity.type === 'sensor') {
+      const spot = nextPlacement(entity.kind);
+      copy = addSensor(world, {
+        kind: entity.kind,
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z,
+        width: entity.width, height: entity.height, range: entity.range, face: entity.face,
+      });
+    } else if (entity.type === 'fan') {
+      copy = addFan(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        bodyId: entity.bodyId, thrust: entity.thrust, on: entity.on,
+        azimuth: entity.azimuth, elevation: entity.elevation,
+      });
     } else if (entity.type === 'link') {
       copy = addLink(world, { a: { ...entity.a }, b: { ...entity.b }, k: entity.k, beta: entity.beta, rest: entity.rest, meter: entity.meter });
     }
@@ -1426,11 +1450,27 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function resetGraphs() {
     graphData.length = 0;
-    graphBodyId = selected?.type === 'body' ? selected.id : null;
+    graphBodyId = selected?.type === 'body' || selected?.type === 'sensor' ? selected.id : null;
     if (graphsOn) drawGraphs();
   }
 
   function pushGraphSample() {
+    if (selected?.type === 'sensor') {
+      const sensor = entityById('sensor', selected.id);
+      if (!sensor || !running) return;
+      if (graphBodyId !== sensor.id) {
+        graphData.length = 0;
+        graphBodyId = sensor.id;
+      }
+      const samples = sensor.samples.slice(-800);
+      if (!samples.length) return;
+      graphData.length = 0;
+      for (const row of samples) {
+        graphData.push({ t: row.t, x: row.x, v: row.v, a: row.a || 0, e: 0 });
+      }
+      if (graphsOn) drawGraphs();
+      return;
+    }
     const entity = selectedBody();
     if (!entity || !running) return;
     if (graphBodyId !== entity.id) {
@@ -2048,7 +2088,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     let quat = null;
     if (entity.type === 'body') pos = entity.cannon.position;
     else if (entity.type === 'surface' || entity.type === 'barrier' || entity.type === 'wedge') pos = entity.body.position;
-    else pos = { x: entity.x, y: entity.y, z: entity.z };
+    else if (entity.type === 'fan') {
+      const body = entity.bodyId ? getBody(world, entity.bodyId) : null;
+      pos = body ? body.cannon.position : null;
+    } else pos = { x: entity.x, y: entity.y, z: entity.z };
     if (entity.type === 'body' && entity.attachment?.type === 'surface') {
       const surface = getSurface(world, entity.attachment.id);
       if (surface) quat = surface.body.quaternion;
@@ -2119,6 +2162,57 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity = addWedge(world, {
         x: spot.x, baseY: 0, z: spot.z, angle: 25, length: 3, width: 1.6,
         mass: 4, muFloor: 0, blockMu: 0, restitution: 0,
+      });
+    } else if (kind === 'photogate' || kind === 'motion') {
+      const surface = selected?.type === 'surface' ? selected : null;
+      const body = selectedBody();
+      const spot = surface
+        ? { x: surface.body.position.x, z: surface.body.position.z }
+        : body
+          ? { x: body.cannon.position.x + (kind === 'photogate' ? 1 : -2), z: body.cannon.position.z }
+          : nextPlacement(kind);
+      const baseY = surface
+        ? surface.body.position.y
+        : body
+          ? Math.max(0, body.cannon.position.y - body.halfHeight)
+          : 0;
+      if (kind === 'photogate') {
+        entity = addSensor(world, {
+          kind: 'photogate',
+          x: spot.x,
+          y: baseY,
+          z: spot.z,
+          width: surface ? Math.min(2.2, surface.width * 0.85) : 1.8,
+          height: 1.3,
+        });
+      } else {
+        const half = surface ? surface.length / 2 : 0;
+        entity = addSensor(world, {
+          kind: 'motion',
+          x: surface ? spot.x - half + 0.35 : spot.x,
+          y: surface ? surface.body.position.y : baseY,
+          z: spot.z,
+          width: 1,
+          height: 1,
+          range: surface ? surface.length : 8,
+          face: 1,
+        });
+      }
+    } else if (kind === 'fan') {
+      let body = selectedBody();
+      if (!body) {
+        const spot = nextPlacement('fan');
+        body = addCart(world, {
+          mass: 1, radius: 0.3, x: spot.x, y: 1.0, z: spot.z, brake: false,
+        });
+        const seated = assists.snap ? snapBodyToNearest(world, body, { maxDistance: 6 }) : null;
+        if (!seated) {
+          body.cannon.position.set(spot.x, body.halfHeight + 0.02, spot.z);
+          applyInitialVelocity(world, body);
+        }
+      }
+      entity = addFan(world, {
+        bodyId: body.id, thrust: 3, on: true, azimuth: 0, elevation: 0,
       });
     } else if (kind === 'block' || kind === 'cart' || kind === 'ball' || kind === 'cylinder') {
       const target = selected?.type === 'surface' || selected?.type === 'loop'
@@ -3254,6 +3348,69 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '楔位移 · Wedge x', 'wedgeX', 'm');
       addLive(readouts, '地面摩擦 · Floor μ', 'wedgeMu', '');
       common.appendChild(readouts);
+    } else if (entity.type === 'sensor') {
+      if (entity.kind === 'photogate') {
+        field(common, {
+          label: '门宽 · Gate width',
+          value: entity.width,
+          min: 0.4,
+          max: 4,
+          step: 0.05,
+          unit: 'm',
+          testid: 'gateWidth',
+          onChange: (v) => { entity.width = Math.max(0.4, v); view.sync(world); },
+        });
+        field(common, {
+          label: '门高 · Gate height',
+          value: entity.height,
+          min: 0.3,
+          max: 3,
+          step: 0.05,
+          unit: 'm',
+          testid: 'gateHeight',
+          onChange: (v) => { entity.height = Math.max(0.3, v); view.sync(world); },
+        });
+      } else {
+        field(common, {
+          label: '量程 · Range',
+          value: entity.range,
+          min: 1,
+          max: 20,
+          step: 0.5,
+          unit: 'm',
+          testid: 'sensorRange',
+          onChange: (v) => { entity.range = Math.max(0.5, v); },
+        });
+      }
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, entity.kind === 'photogate' ? '通过时刻 · Crossing t' : '距离 · Distance', 'sensorPrimary', entity.kind === 'photogate' ? 's' : 'm');
+      addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
+      common.appendChild(readouts);
+    } else if (entity.type === 'fan') {
+      field(common, {
+        label: '恒定推力 · Constant thrust',
+        value: entity.thrust,
+        min: 0,
+        max: 40,
+        step: 0.1,
+        unit: 'N',
+        testid: 'fanThrust',
+        onChange: (v) => { entity.thrust = Math.max(0, v); },
+      });
+      const on = el('input', { type: 'checkbox', checked: !!entity.on, 'data-field': 'fanOn' });
+      on.addEventListener('change', () => {
+        pushUndo('fan-on');
+        entity.on = on.checked;
+      });
+      common.appendChild(el('label', { className: 'plab-check hit-target' }, [
+        on,
+        el('span', { text: '开启风扇 · Fan on' }),
+      ]));
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '推力 · Thrust', 'fanForce', 'N');
+      addLive(readouts, '状态 · State', 'fanState', '');
+      common.appendChild(readouts);
     } else if (entity.type === 'link') {
       field(common, {
         label: '劲度系数 k · Spring constant',
@@ -3823,6 +3980,99 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'sensor') {
+      if (entity.kind === 'photogate') {
+        field(moreAdvanced, {
+          label: '门宽 · Gate width',
+          value: entity.width,
+          min: 0.4,
+          max: 5,
+          step: 0.05,
+          unit: 'm',
+          testid: 'gateWidthAdvanced',
+          onChange: (v) => { entity.width = Math.max(0.4, v); view.sync(world); },
+        });
+        field(moreAdvanced, {
+          label: '门高 · Gate height',
+          value: entity.height,
+          min: 0.3,
+          max: 4,
+          step: 0.05,
+          unit: 'm',
+          testid: 'gateHeightAdvanced',
+          onChange: (v) => { entity.height = Math.max(0.3, v); view.sync(world); },
+        });
+      } else {
+        field(moreAdvanced, {
+          label: '量程 · Range',
+          value: entity.range,
+          min: 1,
+          max: 20,
+          step: 0.5,
+          unit: 'm',
+          testid: 'sensorRangeAdvanced',
+          onChange: (v) => { entity.range = Math.max(0.5, v); },
+        });
+        selectField(moreAdvanced, {
+          label: '朝向 · Facing',
+          value: String(entity.face),
+          testid: 'sensorFace',
+          options: [['1', '向右 +x · Right'], ['-1', '向左 −x · Left']],
+          onChange: (v) => { entity.face = Number(v) || 1; },
+        });
+      }
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, entity.kind === 'photogate' ? '通过时刻 · Crossing t' : '距离 · Distance', 'sensorPrimary', entity.kind === 'photogate' ? 's' : 'm');
+      addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
+      moreAdvanced.appendChild(readouts);
+      const events = el('div', { className: 'plab-readouts' });
+      const last = entity.crossings?.length ? entity.crossings[entity.crossings.length - 1] : null;
+      addLive(events, '最近事件 · Last event', 'sensorEvent', '');
+      moreAdvanced.appendChild(events);
+      formula(moreAdvanced, entity.kind === 'photogate'
+        ? 't_{\\text{gate}},\\qquad v=\\dfrac{\\Delta x}{\\Delta t}'
+        : 'x(t),\\qquad v_{x}=\\dfrac{dx}{dt}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: last
+          ? `最近通过 · Last crossing: t=${fmt(last.t)} s, v=${fmt(last.v)} m/s`
+          : '打开实时曲线后，选中传感器即可绘制 x–t。 · Open Graphs and select the sensor to plot x–t.',
+      }));
+    }
+
+    if (entity.type === 'fan') {
+      field(moreAdvanced, {
+        label: '推力方位角 · Thrust azimuth',
+        value: entity.azimuth,
+        min: -180,
+        max: 180,
+        step: 1,
+        unit: '°',
+        testid: 'fanAzimuth',
+        onChange: (v) => { entity.azimuth = v; },
+      });
+      field(moreAdvanced, {
+        label: '推力仰角 · Thrust elevation',
+        value: entity.elevation,
+        min: -90,
+        max: 90,
+        step: 1,
+        unit: '°',
+        testid: 'fanElevation',
+        onChange: (v) => { entity.elevation = v; },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '推力 · Thrust', 'fanForce', 'N');
+      addLive(readouts, '状态 · State', 'fanState', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'F_{\\text{fan}}=\\text{const},\\qquad a=\\dfrac{F_{\\text{fan}}-f}{m}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '可随时关闭；附着在所选小车或物体上。 · Switch it off anytime; it stays attached to the selected cart or body.',
+      }));
+    }
+
     if (entity.type === 'loop') {
       formula(moreAdvanced, 'N=\\dfrac{mv^{2}}{R}+mg\\cos\\theta');
       moreAdvanced.appendChild(el('p', { className: 'plab-field-hint', text: 'N < 0 时物体离开轨道成为抛体。 · When N < 0 the body leaves the track and becomes a projectile.' }));
@@ -3956,6 +4206,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('wedgeSpeed', `${fmt(entity.body.velocity.length())} m/s`);
       setLive('wedgeX', `${fmt(entity.body.position.x - entity.x)} m`);
       setLive('wedgeMu', fmt(entity.muFloor));
+    } else if (entity?.type === 'sensor') {
+      if (entity.kind === 'photogate') {
+        const last = entity.lastCrossing;
+        setLive('sensorPrimary', last ? `${fmt(last.t)}` : '—');
+        setLive('sensorSpeed', last ? `${fmt(last.v)}` : '—');
+        setLive('sensorEvent', last ? `t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '—');
+      } else {
+        setLive('sensorPrimary', entity.lastDistance != null ? `${fmt(entity.lastDistance)}` : '—');
+        setLive('sensorSpeed', entity.lastSpeed != null ? `${fmt(entity.lastSpeed)}` : '—');
+        setLive('sensorEvent', entity.lastDistance != null ? `x=${fmt(entity.lastDistance)} m` : '—');
+      }
+      setLive('sensorSamples', String(entity.samples.length));
+    } else if (entity?.type === 'fan') {
+      setLive('fanForce', `${fmt(entity.on ? entity.thrust : 0)} N`);
+      setLive('fanState', entity.on ? '开启 · On' : '关闭 · Off');
     }
     if (inspectorSummary) {
       if (entity?.type === 'body') {
@@ -3983,6 +4248,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 小角 · small-angle ${fmt(pendulumPeriod(entity, world.g))} s`;
       } else if (entity?.type === 'wedge') {
         inspectorSummary.textContent = `楔速度 · Wedge ${fmt(entity.body.velocity.length())} m/s · μ ${fmt(entity.muFloor)}`;
+      } else if (entity?.type === 'sensor') {
+        const last = entity.lastCrossing;
+        inspectorSummary.textContent = entity.kind === 'photogate'
+          ? (last ? `通过 · Crossing t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '等待通过 · waiting for a crossing')
+          : (entity.lastDistance != null ? `距离 · Distance ${fmt(entity.lastDistance)} m · v=${fmt(entity.lastSpeed)} m/s` : '无目标 · no target');
+      } else if (entity?.type === 'fan') {
+        inspectorSummary.textContent = `${entity.on ? '开启 · On' : '关闭 · Off'} · ${fmt(entity.thrust)} N · ${fmt(entity.azimuth)}°`;
       } else {
         inspectorSummary.textContent = '—';
       }
@@ -4158,6 +4430,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     view,
     get selected() { return selected; },
     get running() { return running; },
+    get graphsOn() { return graphsOn; },
+    get graphData() { return graphData; },
   };
 
   return { destroy };
