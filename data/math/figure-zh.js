@@ -203,6 +203,10 @@ export const FIGURE_ZH = {
   'conic-standard': "圆锥曲线标准形式与配方法",
   'identity-derivation': "由单位圆推导勾股恒等式",
   'vector-components': "向量分量、大小、方向与投影",
+  'limit-scale-window': "估计极限时的观察窗口：跳跃可被隐藏或显露",
+  'continuity-domain-family': "定义域限制与单侧极限：根式函数族",
+  'integral-error-band': "梯形近似与定积分：可见的误差带",
+  'series-error-band': "交错调和级数：部分和与误差带",
 };
 
 /** Chinese one-line captions, shown before the English caption. */
@@ -410,4 +414,8 @@ export const FIGURE_CAP_ZH = {
   'conic-standard': '配方法把一般二次方程化为圆锥曲线标准形式。',
   'identity-derivation': '由单位圆上的坐标关系可推出勾股恒等式与倍角公式。',
   'vector-components': '向量分量、大小、方向与投影由坐标与点积计算。',
+  'limit-scale-window': '同一跳跃函数在宽 y 视窗中看似连续；缩小 y 视窗后 0.01 的跳跃与两侧极限才可见。',
+  'continuity-domain-family': '根式函数族只在端点右侧有定义，因此端点只有单侧极限；内部点才谈双侧极限。',
+  'integral-error-band': '梯形折线与曲线之间的阴影面积就是估计遗漏的累积误差。',
+  'series-error-band': '每个阴影矩形为部分和加减下一项的绝对值，因此都包含级数的和。',
 };

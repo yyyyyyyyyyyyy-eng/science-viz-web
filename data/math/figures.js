@@ -1190,6 +1190,50 @@ idef('vector-components', 'Vector components, magnitude, direction and projectio
   const mag = Math.hypot(v.ux, v.uy), ang = atan2(v.uy, v.ux) * 180 / PI, dot = v.ux * v.vx;
   return `For \\(\\vec u=\\langle${fmt(v.ux, 0)},${fmt(v.uy, 0)}\\rangle\\), the components are ${fmt(v.ux, 0)} (horizontal) and ${fmt(v.uy, 0)} (vertical), so \\(|\\vec u|=\\sqrt{${fmt(v.ux, 0)}^2+${fmt(v.uy, 0)}^2}=${fmt(mag, 2)}\\) and \\(\\theta=\\arctan\\dfrac{${fmt(v.uy, 0)}}{${fmt(v.ux, 0)}}\\approx${fmt(ang, 1)}°\\). With \\(\\vec v=\\langle${fmt(v.vx, 0)},0\\rangle\\), \\(\\vec u\\cdot\\vec v=${fmt(dot, 0)}\\), so the projection of \\(\\vec u\\) onto \\(\\vec v\\) is \\(\\dfrac{\\vec u\\cdot\\vec v}{|\\vec v|^2}\\vec v=\\langle${fmt(v.ux, 0)},0\\rangle\\).`;
 });
+/* ---------- Track B follow-up: limits, continuity and error bands ---------- */
+const stripSvg = (p) => p.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+def('limit-scale-window', 'Viewing window when estimating limits: the same graph can hide or reveal a jump', '', () => {
+  const jump = (x) => (x < 1 ? x : x + 0.01);
+  const p1 = plot({ W: 230, H: 250, x: [0, 2], y: [0, 2], xstep: 0.5, ystep: 0.5, curves: [{ f: jump, color: C.a, w: 2.2 }], texts: [[0.55, 1.62, 'looks continuous', C.muted, 'start']] });
+  const p2 = plot({ W: 230, H: 250, x: [0.95, 1.05], y: [0.98, 1.02], xstep: 0.02, ystep: 0.01, curves: [{ f: (x) => x, dom: [0.95, 0.999], color: C.a, w: 2.2 }, { f: (x) => x + 0.01, dom: [1, 1.05], color: C.a, w: 2.2 }], points: [{ x: 1, y: 1, open: true, color: C.a, r: 3.5, label: 'lim⁻ = 1', dx: -12, dy: 28, anchor: 'end' }, { x: 1, y: 1.01, color: C.a, r: 3.5, label: 'lim⁺ = 1.01', dx: 8, dy: -24 }], vlines: [{ x: 1, dash: '3 3' }] });
+  let s = text(115, 16, '宽窗 [0,2]×[0,2] · wide', { size: 10.5, bold: true }) + text(355, 16, '窄窗 · narrow', { size: 10.5, bold: true });
+  s += `<g transform="translate(0,24)">${stripSvg(p1)}</g>`;
+  s += `<g transform="translate(250,24)">${stripSvg(p2)}</g>`;
+  s += text(10, 300, '左：0.01 的跳跃在宽视窗中被压到约一个像素；右：缩小 x、y 视窗后跳跃与两侧极限清晰可见。', { size: 9.3, anchor: 'start' });
+  s += text(10, 316, 'The jump is hidden at the wide scale; zooming both axes reveals it and the two one-sided limits.', { size: 8, anchor: 'start', color: C.muted });
+  setCap('limit-scale-window', `Take \\(f(x)=x\\) for \\(x<1\\) and \\(f(x)=x+0.01\\) for \\(x\\ge1\\). In the window \\([0,2]\\times[0,2]\\) the 0.01 jump is about one pixel, so the graph looks continuous. In \\([0.95,1.05]\\times[0.98,1.02]\\) the jump is clear: \\(\\lim_{x\\to1^-}f=1\\) and \\(\\lim_{x\\to1^+}f=1.01\\), so the two-sided limit does not exist.`);
+  return svg(480, 320, s, 'viewing window for limits');
+});
+def('continuity-domain-family', 'Domain restrictions and one-sided limits: families of square-root graphs', '', () => {
+  const p1 = plot({ W: 230, H: 250, x: [-0.5, 5], y: [-0.2, 2.6], xstep: 1, ystep: 0.5, curves: [{ f: sqrt, dom: [0, 4.8], color: C.a, label: 'a = 0', labelAt: [3.8, 2.28] }, { f: (x) => sqrt(x - 1), dom: [1, 4.8], color: C.b, label: 'a = 1', labelAt: [3.9, 1.66] }, { f: (x) => sqrt(x - 2), dom: [2, 4.8], color: C.c, label: 'a = 2', labelAt: [4.0, 1.05] }], points: [{ x: 0, y: 0, color: C.a }, { x: 1, y: 0, color: C.b }, { x: 2, y: 0, color: C.c }], texts: [[0.2, 2.45, 'right limit only', C.muted, 'start']] });
+  const p2 = plot({ W: 230, H: 250, x: [-2.7, 2.7], y: [-0.3, 2.4], xstep: 1, ystep: 0.5, curves: [{ f: (x) => sqrt(4 - x * x), dom: [-2, 2], color: C.a, w: 2.2 }], points: [{ x: -2, y: 0, color: C.a }, { x: 2, y: 0, color: C.a }, { x: 0, y: 2, color: C.b }], texts: [[-1.35, 0.42, 'one-sided', C.b], [1.35, 0.42, 'one-sided', C.b], [0.1, 2.27, 'two-sided at interior points', C.c, 'start']] });
+  let s = text(115, 16, '定义域从端点开始 · domain starts at a', { size: 10, bold: true }) + text(355, 16, '闭区间 [−2, 2] · closed interval', { size: 10, bold: true });
+  s += `<g transform="translate(0,24)">${stripSvg(p1)}</g>`;
+  s += `<g transform="translate(250,24)">${stripSvg(p2)}</g>`;
+  s += text(10, 300, 'y = √(x − a) 只在 x ≥ a 有定义：在端点只能取右极限；内部点两侧都在定义域内，才谈双侧极限。', { size: 9.3, anchor: 'start' });
+  s += text(10, 316, 'At an endpoint only the right-hand limit exists; a two-sided limit needs points on both sides inside the domain.', { size: 8, anchor: 'start', color: C.muted });
+  setCap('continuity-domain-family', `The family \\(y=\\sqrt{x-a}\\) is defined only for \\(x\\ge a\\). At the left endpoint \\(x=a\\) only \\(\\lim_{x\\to a^+}f\\) exists; continuity on the domain is one-sided there. For \\(y=\\sqrt{4-x^2}\\) on \\([-2,2]\\), interior points have two-sided limits, while each endpoint has only a one-sided limit. A two-sided limit requires the function to be defined on both sides of the point.`);
+  return svg(480, 320, s, 'domain restrictions and one-sided limits');
+});
+def('integral-error-band', 'Trapezoidal estimate vs exact integral: a visible error band', '', () => {
+  const f = (x) => 1 + 0.8 * sin((PI * x) / 4);
+  const nodes = [0, 1, 2, 3, 4];
+  const trap = (x) => { const i = Math.min(3, Math.floor(x)); return f(nodes[i]) + ((f(nodes[i + 1]) - f(nodes[i])) * (x - nodes[i])); };
+  const exact = simpson(f, 0, 4, 4000);
+  const T = (f(0) + f(4)) / 2 + f(1) + f(2) + f(3);
+  const err = abs(T - exact);
+  setCap('integral-error-band', `On \\([0,4]\\), \\(f(x)=1+0.8\\sin\\dfrac{\\pi x}{4}\\). Four trapezoids give \\(T_4=${fmt(T, 4)}\\), while \\(\\displaystyle\\int_0^4 f\\,dx=${fmt(exact, 4)}\\). The shaded band between the chords and the curve is the missed accumulation, \\(|T_4-\\int f|\\approx${fmt(err, 3)}\\). Refining the subdivision shrinks the band.`);
+  return plot({ W: 480, H: 320, x: [-0.1, 4.3], y: [0, 2.6], xstep: 0.5, ystep: 0.5, xlabel: 'x', ylabel: 'f(x)', fills: [{ f, g: trap, dom: [0, 4], color: C.b, op: 0.28 }], curves: [{ f, color: C.ink, w: 2.6 }, { f: trap, color: C.a, w: 1.8, dash: '6 3', label: 'T₄ chords', labelAt: [3.0, 1.18] }], points: nodes.map((x) => ({ x, y: f(x), color: C.a, r: 3 })), texts: [[0.7, 2.42, `T₄ = ${fmt(T, 3)}`, C.a], [2.55, 2.42, `∫ f = ${fmt(exact, 3)} (exact)`, C.ink], [1.65, 0.45, `shaded = |T₄ − ∫ f| ≈ ${fmt(err, 3)}`, C.b]] });
+});
+def('series-error-band', 'Alternating harmonic series: partial sums inside the remainder band', '', () => {
+  const N = 12, S = [];
+  let acc = 0; for (let n = 1; n <= N; n++) { acc += (-1) ** (n + 1) / n; S.push(acc); }
+  const L = log(2);
+  const bands = S.map((v, i) => { const n = i + 1, b = 1 / (n + 1); return i < 2 ? null : { pts: [[n - 0.32, v - b], [n + 0.32, v - b], [n + 0.32, v + b], [n - 0.32, v + b]], close: true, fill: C.c, color: C.c, op: 0.16 }; }).filter(Boolean);
+  setCap('series-error-band', `For \\(\\sum_{n=1}^\\infty\\dfrac{(-1)^{n+1}}{n}=\\ln2\\), the alternating-series bound gives \\(|S-S_n|\\le\\dfrac{1}{n+1}\\). Each shaded rectangle is \\(S_n\\pm\\dfrac{1}{n+1}\\) (drawn for \\(n\\ge3\\)), so every band contains the limit. At \\(n=10\\), \\(S_{10}=${fmt(S[9], 4)}\\) and the bound is \\(\\dfrac{1}{11}\\approx${fmt(1 / 11, 4)}\\); the actual error is \\(${fmt(abs(L - S[9]), 4)}\\).`);
+  return plot({ W: 480, H: 320, x: [0, 13], y: [0.35, 1.1], xstep: 1, ystep: 0.05, polys: bands, curves: [{ pts: S.map((v, i) => [i + 1, v]), color: C.a, w: 1.6 }], points: S.map((v, i) => ({ x: i + 1, y: v, color: C.a, r: 3.2 })), hlines: [{ y: L, label: 'ln 2' }], texts: [[1.0, 0.48, 'shaded: S_n ± 1/(n+1), n ≥ 3', C.c], [7.4, 0.48, '|S − S_n| ≤ 1/(n+1)', C.a]] });
+});
+
 export const TOPIC_FIGURES = {
   'math-prep-alg1:P1.1': ['numline', 'number-classes'], 'math-prep-alg1:P1.2': ['lin-eq', 'lin-eq-balance'], 'math-prep-alg1:P1.3': ['ineq-1d', 'ineq-2d'], 'math-prep-alg1:P1.4': ['vlt', 'fn-graphs'],
   'math-prep-alg1:P1.5': ['slope', 'slope-forms'], 'math-prep-alg1:P1.6': ['sys-one', 'sys-none', 'sys-inf'], 'math-prep-alg1:P1.7': ['exp-rules', 'exponent-rules'], 'math-prep-alg1:P1.8': ['area-model', 'poly-ops-table'],
@@ -1201,9 +1245,9 @@ export const TOPIC_FIGURES = {
   'math-prep-precalc:P4.1': ['rational-analysis', 'poly-mult'], 'math-prep-precalc:P4.2': ['exp-log-model', 'log-inverse'], 'math-prep-precalc:P4.3': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'], 'math-prep-precalc:P4.4': ['trig-eq', 'pythag-id'],
   'math-prep-precalc:P4.5': ['polar-points', 'polar-basic'], 'math-prep-precalc:P4.6': ['param-intro', 'cycloid'], 'math-prep-precalc:P4.7': ['vectors', 'vector-components'], 'math-prep-precalc:P4.8': ['matrix-transform', 'matrix-rot'], 'math-prep-precalc:P4.9': ['limit-sinx', 'limit-table'], 'math-prep-precalc:P4.10': ['rate-intuition', 'secant-tangent'],
   'calc-u0:0.1': ['parent-fns', 'fn-graphs'], 'calc-u0:0.2': ['unit-circle', 'sin-cos-graph', 'tan-graph', 'sinusoid'],
-  'calc-u1:1.1': ['secant-tangent', 'derivative-limit'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
+  'calc-u1:1.1': ['secant-tangent', 'derivative-limit'], 'calc-u1:1.2': ['limit-1sided', 'limit-hole', 'limit-table'], 'calc-u1:1.3': ['limit-jump', 'limit-hole', 'limit-hole-defined', 'limit-va', 'limit-osc', 'limit-1sided', 'limit-scale-window'], 'calc-u1:1.4': ['limit-table', 'limit-1sided'],
   'calc-u1:1.5': ['limit-algebra', 'limit-1sided'], 'calc-u1:1.6': ['limit-hole', 'limit-rationalize'], 'calc-u1:1.7': ['limit-rationalize', 'limit-sinx'], 'calc-u1:1.8': ['limit-squeeze', 'limit-sinx'], 'calc-u1:1.9': ['limit-table', 'limit-1sided', 'limit-hole'],
-  'calc-u1:1.10': ['disc-types', 'limit-jump', 'limit-hole', 'limit-va'], 'calc-u1:1.11': ['cont-3cond', 'cont-interval'], 'calc-u1:1.12': ['cont-interval', 'cont-3cond'], 'calc-u1:1.13': ['cont-remove', 'limit-hole'], 'calc-u1:1.14': ['limit-va', 'limit-ha'], 'calc-u1:1.15': ['limit-ha', 'limit-va'], 'calc-u1:1.16': ['ivt', 'cont-interval'],
+  'calc-u1:1.10': ['disc-types', 'limit-jump', 'limit-hole', 'limit-va'], 'calc-u1:1.11': ['cont-3cond', 'cont-interval'], 'calc-u1:1.12': ['cont-interval', 'cont-3cond', 'continuity-domain-family'], 'calc-u1:1.13': ['cont-remove', 'limit-hole'], 'calc-u1:1.14': ['limit-va', 'limit-ha'], 'calc-u1:1.15': ['limit-ha', 'limit-va'], 'calc-u1:1.16': ['ivt', 'cont-interval'],
   'calc-u2:2.1': ['avg-inst', 'secant-tangent'], 'calc-u2:2.2': ['diff-quotient', 'secant-tangent', 'derivative-limit'], 'calc-u2:2.3': ['deriv-table', 'diff-quotient', 'derivative-limit'], 'calc-u2:2.4': ['nondiff', 'limit-jump'], 'calc-u2:2.5': ['power-rule', 'secant-tangent'], 'calc-u2:2.6': ['sum-rule', 'power-rule'],
   'calc-u2:2.7': ['trig-deriv', 'exp-ln-deriv'], 'calc-u2:2.8': ['product-rule', 'area-model'], 'calc-u2:2.9': ['quotient-rule', 'product-rule'], 'calc-u2:2.10': ['tan-sec', 'trig-deriv'],
   'calc-u3:3.1': ['chain-rule', 'diff-quotient'], 'calc-u3:3.2': ['implicit-circle', 'implicit-folium'], 'calc-u3:3.3': ['inverse-deriv', 'inverse-trig'], 'calc-u3:3.4': ['inverse-trig', 'inverse-deriv'], 'calc-u3:3.5': ['chain-rule', 'quotient-rule'], 'calc-u3:3.6': ['higher-deriv', 'fff'],
@@ -1211,7 +1255,7 @@ export const TOPIC_FIGURES = {
   'calc-u5:5.1': ['mvt', 'secant-tangent'], 'calc-u5:5.2': ['evt', 'candidates'], 'calc-u5:5.3': ['inc-dec', 'fdt-chart'], 'calc-u5:5.4': ['fdt-chart', 'inc-dec'], 'calc-u5:5.5': ['candidates', 'evt'], 'calc-u5:5.6': ['concavity', 'fff-panels'], 'calc-u5:5.7': ['sdt', 'sdt-signchart', 'concavity'],
   'calc-u5:5.8': ['f-from-fprime', 'fff'], 'calc-u5:5.9': ['fff-panels', 'fff', 'f-from-fprime'], 'calc-u5:5.10': ['optimization-diagram', 'optimization'], 'calc-u5:5.11': ['optimization', 'optimization-diagram'], 'calc-u5:5.12': ['implicit-behavior', 'implicit-circle'],
   'calc-u6:6.1': ['accum-velocity', 'ftc-area'], 'calc-u6:6.2': ['riemann-left', 'riemann-right', 'riemann-mid', 'riemann-trap', 'riemann-table'], 'calc-u6:6.3': ['riemann-converge', 'riemann-left'], 'calc-u6:6.4': ['ftc-accum', 'ftc-area'], 'calc-u6:6.5': ['accum-graph', 'ftc-accum'],
-  'calc-u6:6.6': ['integral-props', 'ftc-area'], 'calc-u6:6.7': ['ftc-area', 'ftc-accum'], 'calc-u6:6.8': ['antideriv-family', 'u-sub'], 'calc-u6:6.9': ['u-sub', 'antideriv-family'], 'calc-u6:6.10': ['ibp', 'u-sub'], 'calc-u6:6.11': ['partial-frac', 'u-sub'], 'calc-u6:6.12': ['improper', 'p-series'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],
+  'calc-u6:6.6': ['integral-props', 'ftc-area', 'integral-error-band'], 'calc-u6:6.7': ['ftc-area', 'ftc-accum'], 'calc-u6:6.8': ['antideriv-family', 'u-sub'], 'calc-u6:6.9': ['u-sub', 'antideriv-family'], 'calc-u6:6.10': ['ibp', 'u-sub'], 'calc-u6:6.11': ['partial-frac', 'u-sub'], 'calc-u6:6.12': ['improper', 'p-series'], 'calc-u6:6.13': ['arctan-int', 'partial-frac'], 'calc-u6:6.14': ['u-sub', 'ibp', 'partial-frac'],
   'calc-u7:7.1': ['exp-model', 'logistic'], 'calc-u7:7.2': ['de-verify', 'separable'], 'calc-u7:7.3': ['sf-xy', 'sf-xy2', 'sf-logistic', 'sf-x-over-y'], 'calc-u7:7.4': ['sf-xy', 'sf-logistic'], 'calc-u7:7.5': ['euler', 'euler-steps'],
   'calc-u7:7.6': ['separable', 'exp-model'], 'calc-u7:7.7': ['separable', 'sf-x-over-y'], 'calc-u7:7.8': ['exp-model', 'logistic'], 'calc-u7:7.9': ['logistic', 'sf-logistic'],
   'calc-u8:8.1': ['avg-value', 'mvt'], 'calc-u8:8.2': ['disp-dist', 'accum-velocity'], 'calc-u8:8.3': ['rate-in-out', 'accum-velocity'], 'calc-u8:8.4': ['area-x', 'area-y'], 'calc-u8:8.5': ['area-y', 'area-x'], 'calc-u8:8.6': ['area-multi', 'area-x'],
@@ -1219,7 +1263,7 @@ export const TOPIC_FIGURES = {
   'calc-u9:9.1': ['param-curve', 'param-concavity'], 'calc-u9:9.2': ['param-concavity', 'param-curve'], 'calc-u9:9.3': ['cycloid', 'arc-length'], 'calc-u9:9.4': ['vector-motion', 'vector-integral'], 'calc-u9:9.5': ['vector-integral', 'vector-motion'], 'calc-u9:9.6': ['vector-motion', 'param-curve'],
   'calc-u9:9.7': ['polar-basic', 'polar-limacon'], 'calc-u9:9.8': ['polar-area', 'polar-basic'], 'calc-u9:9.9': ['polar-two', 'polar-area'],
   'calc-u10:10.1': ['conv-div', 'geo-series'], 'calc-u10:10.2': ['geo-series', 'conv-div'], 'calc-u10:10.3': ['nth-term', 'p-series'], 'calc-u10:10.4': ['integral-test', 'p-series'], 'calc-u10:10.5': ['p-series', 'conv-div'], 'calc-u10:10.6': ['comparison', 'p-series'],
-  'calc-u10:10.7': ['alt-series', 'abs-cond'], 'calc-u10:10.8': ['ratio-test', 'abs-cond'], 'calc-u10:10.9': ['abs-cond', 'alt-series'], 'calc-u10:10.10': ['alt-series', 'lagrange'], 'calc-u10:10.11': ['taylor-sin', 'taylor-exp'], 'calc-u10:10.12': ['lagrange', 'taylor-sin'],
+  'calc-u10:10.7': ['alt-series', 'abs-cond'], 'calc-u10:10.8': ['ratio-test', 'abs-cond'], 'calc-u10:10.9': ['abs-cond', 'alt-series', 'series-error-band'], 'calc-u10:10.10': ['alt-series', 'lagrange'], 'calc-u10:10.11': ['taylor-sin', 'taylor-exp'], 'calc-u10:10.12': ['lagrange', 'taylor-sin'],
   'calc-u10:10.13': ['interval-conv', 'geo-series'], 'calc-u10:10.14': ['maclaurin-cos', 'taylor-sin'], 'calc-u10:10.15': ['power-geo', 'geo-series'],
 };
 export const FIGURES = F;
