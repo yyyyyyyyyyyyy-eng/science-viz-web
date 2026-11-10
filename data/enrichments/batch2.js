@@ -4251,7 +4251,7 @@ export const ENRICHMENTS = {
     examTips: [
       'CED Unit 1：二维运动学',
       '先分解初速度，再分别写水平、竖直方程',
-      '落点高度不同时不要用 \\(R=v_0^{2}\\sin2\\theta/g\\)，回到时间方程',
+      '落点高度不同时不要用 \\(R=\\dfrac{v_0^{2}\\sin2\\theta}{g}\\)，回到时间方程',
       '求落地速率用速度分量合成，不要直接把速率当标量相加',
     ],
     related: [
@@ -8716,7 +8716,7 @@ export const ENRICHMENTS = {
       { latex: 'E_x=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x},\\quad \\vec E=-\\nabla V', note: '电场是电势的负梯度。' },
       { latex: '\\Delta V=-\\int_A^B\\vec E\\cdot\\mathrm{d}\\vec s', note: '电势差与电场线积分。' },
     ],
-    conditions: ['电势零点可任选；点电荷通常取无穷远为零', '电势是标量，叠加用代数和', '电场是矢量，叠加用分量', '\\(V=kq/r\\) 适用于点电荷或球外', '等势面与电场线垂直', '由 \\(V(x,y,z)\\) 求 \\(\\vec E\\) 时用偏导'],
+    conditions: ['电势零点可任选；点电荷通常取无穷远为零', '电势是标量，叠加用代数和', '电场是矢量，叠加用分量', '\\(V=\\dfrac{kq}{r}\\) 适用于点电荷或球外', '等势面与电场线垂直', '由 \\(V(x,y,z)\\) 求 \\(\\vec E\\) 时用偏导'],
     keyPoints: ['电势是标量，电场是矢量', '正电荷周围电势为正，负电荷周围为负', '电势沿电场方向降低', '\\(E=-\\mathrm{d}V/\\mathrm{d}x\\)：电势变化越快，场强越大', '沿等势面移动电荷不做功'],
     misconceptions: [
       '把电势与电势能混为一谈（\\(U=qV\\)）',
@@ -8749,7 +8749,7 @@ export const ENRICHMENTS = {
     ],
     examTips: [
       'CED Unit 9：电势；先判断标量叠加还是矢量叠加',
-      '电势题直接代 \\(V=kq/r\\)，注意正负号',
+      '电势题直接代 \\(V=\\dfrac{kq}{r}\\)，注意正负号',
       '由 \\(V\\) 求 \\(E\\) 用偏导并加负号',
       '等势面与电场线垂直，可用于判断场方向',
     ],
@@ -8761,7 +8761,7 @@ export const ENRICHMENTS = {
     ],
     development: ['电势定义', '点电荷电势', '标量叠加', '连续分布积分', '电势与电场梯度'],
     checks: ['电势与电势能有什么区别？', '为什么电势为零处电场不一定为零？', '如何由 \\(V(x)\\) 求 \\(E_x\\)？'],
-    summary: '电势是标量，点电荷 \\(V=kq/r\\)，叠加用代数和；电场是电势的负梯度，等势面与电场线垂直。',
+    summary: '电势是标量，点电荷 \\(V=\\dfrac{kq}{r}\\)，叠加用代数和；电场是电势的负梯度，等势面与电场线垂直。',
   },
 
   'em/em-u10/10.1': {
@@ -8809,8 +8809,8 @@ export const ENRICHMENTS = {
       {
         title: '例 1 · 实心导体球',
         prompt: '半径 \\(R\\) 的实心导体球带净电荷 \\(+Q\\)。求球内、球外的电场与电势。',
-        steps: ['电荷全部分布在表面。', '球内 \\(E=0\\)，电势等于表面电势 \\(V=kQ/R\\)。', '球外 \\(E=kQ/r^{2}\\)，\\(V=kQ/r\\)。'],
-        solution: '球内 \\(E=0\\)、\\(V=kQ/R\\)；球外 \\(E=kQ/r^{2}\\)、\\(V=kQ/r\\)。',
+        steps: ['电荷全部分布在表面。', '球内 \\(E=0\\)，电势等于表面电势 \\(V=\\dfrac{kQ}{R}\\)。', '球外 \\(E=\\dfrac{kQ}{r^{2}}\\)，\\(V=\\dfrac{kQ}{r}\\)。'],
+        solution: '球内 \\(E=0\\)、\\(V=\\dfrac{kQ}{R}\\)；球外 \\(E=\\dfrac{kQ}{r^{2}}\\)、\\(V=\\dfrac{kQ}{r}\\)。',
       },
       {
         title: '例 2 · 空腔导体',
@@ -8845,7 +8845,7 @@ export const ENRICHMENTS = {
   'em/em-u11/11.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用 \\(R=\\rho L/A\\) 计算导体的电阻。',
+      '能用 \\(R=\\dfrac{\\rho L}{A}\\) 计算导体的电阻。',
       '能区分电阻与电阻率，并分析长度/面积变化的影响。',
       '能判断欧姆定律的适用范围并计算串并联等效电阻。',
     ],
@@ -8909,7 +8909,7 @@ export const ENRICHMENTS = {
     ],
     examTips: [
       'CED Unit 11：电路',
-      '先判断材料/几何，再用 \\(R=\\rho L/A\\)',
+      '先判断材料/几何，再用 \\(R=\\dfrac{\\rho L}{A}\\)',
       '欧姆定律只对欧姆器件成立',
       '串联分压、并联分流',
       '拉伸/对折导线用体积不变分析',
@@ -8922,7 +8922,7 @@ export const ENRICHMENTS = {
     ],
     development: ['电阻与电阻率', '几何因素', '欧姆定律', '温度效应', '串并联等效'],
     checks: ['电阻与电阻率有什么区别？', '导线拉长 2 倍电阻为何变 4 倍？', '欧姆定律什么时候不适用？'],
-    summary: '电阻由材料与几何决定 \\(R=\\rho L/A\\)；欧姆定律 \\(V=IR\\) 只适用于欧姆器件，串并联等效电阻是电路化简基础。',
+    summary: '电阻由材料与几何决定 \\(R=\\dfrac{\\rho L}{A}\\)；欧姆定律 \\(V=IR\\) 只适用于欧姆器件，串并联等效电阻是电路化简基础。',
   },
 
   'em/em-u11/11.7': {
@@ -9015,7 +9015,7 @@ export const ENRICHMENTS = {
       '安培定律：\\(\\oint\\vec B\\cdot\\mathrm{d}\\vec l=\\mu_0 I_{\\mathrm{encl}}\\)。',
       '只有穿过安培环路的净电流贡献环流。',
       '长直导线：\\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)。',
-      '理想螺线管：\\(B=\\mu_0nI\\)，\\(n=N/L\\)。',
+      '理想螺线管：\\(B=\\mu_0nI\\)，\\(n=\\dfrac{N}{L}\\)。',
       '环面内部：\\(B=\\dfrac{\\mu_0NI}{2\\pi r}\\)。',
     ],
     derivationNotes: [
@@ -9038,7 +9038,7 @@ export const ENRICHMENTS = {
       { latex: 'B=\\dfrac{\\mu_0NI}{2\\pi r}', note: '环面（toroid）内部。' },
     ],
     conditions: ['稳恒电流（或准稳态）', '安培环路闭合', '只有穿过环路的净电流贡献环流', '对称性使 \\(B\\) 可提出积分号', '真空磁导率 \\(\\mu_0\\)；介质中换成 \\(\\mu\\)'],
-    keyPoints: ['安培定律 = 磁场环流与包围电流', '长直导线 \\(B\\propto I/r\\)', '螺线管内部近似均匀 \\(B=\\mu_0nI\\)', '环路外电流对环流贡献为零', '电流方向用右手定则'],
+    keyPoints: ['安培定律 = 磁场环流与包围电流', '长直导线 \\(B\\propto\\dfrac{I}{r}\\)', '螺线管内部近似均匀 \\(B=\\mu_0nI\\)', '环路外电流对环流贡献为零', '电流方向用右手定则'],
     misconceptions: [
       '把环路外的电流也算进 \\(I_{\\mathrm{encl}}\\)',
       '在不对称情形直接用 \\(B=\\mu_0I/(2\\pi r)\\)',
@@ -9072,8 +9072,8 @@ export const ENRICHMENTS = {
       'CED Unit 12：磁场',
       '先判断对称性，再选安培环路',
       '写清 \\(I_{\\mathrm{encl}}\\) 与环路方向',
-      '螺线管用 \\(n=N/L\\)，不是总匝数',
-      '长直导线 \\(B\\propto1/r\\)',
+      '螺线管用 \\(n=\\dfrac{N}{L}\\)，不是总匝数',
+      '长直导线 \\(B\\propto\\dfrac{1}{r}\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u12', code: '12.2', title: '运动电荷与磁场', relation: '先修' },
@@ -9199,11 +9199,11 @@ export const ENRICHMENTS = {
       { latex: 'I(t)=I_0e^{-t/\\tau}', note: '断开电源后的电流衰减。' },
       { latex: 'U_L=\\dfrac{1}{2}LI^{2}', note: '电感储能。' },
     ],
-    conditions: ['理想电感（无内阻）与恒定电阻', '开关动作在 \\(t=0\\)', '电流不能突变', '稳态时 \\(\\mathrm{d}I/\\mathrm{d}t=0\\)，\\(I=\\varepsilon/R\\)', '断开时需有续流路径，否则可能产生高压'],
-    keyPoints: ['\\(\\tau=L/R\\) 决定响应快慢', '\\(t=0\\) 电感相当于开路', '\\(t\\to\\infty\\) 电感相当于短路', '电流按指数上升/衰减', '电感储能 \\(\\dfrac{1}{2}LI^{2}\\)'],
+    conditions: ['理想电感（无内阻）与恒定电阻', '开关动作在 \\(t=0\\)', '电流不能突变', '稳态时 \\(\\mathrm{d}I/\\mathrm{d}t=0\\)，\\(I=\\dfrac{\\varepsilon}{R}\\)', '断开时需有续流路径，否则可能产生高压'],
+    keyPoints: ['\\(\\tau=\\dfrac{L}{R}\\) 决定响应快慢', '\\(t=0\\) 电感相当于开路', '\\(t\\to\\infty\\) 电感相当于短路', '电流按指数上升/衰减', '电感储能 \\(\\dfrac{1}{2}LI^{2}\\)'],
     misconceptions: [
       '认为电流可以瞬间跳到最终值',
-      '把 \\(\\tau\\) 写成 \\(R/L\\)',
+      '把 \\(\\tau\\) 写成 \\(\\dfrac{R}{L}\\)',
       '认为稳态时电感仍有电压降（理想电感为零）',
       '认为断开电源电流立刻为零',
       '忽略电感储能在断开时释放',
@@ -9233,9 +9233,9 @@ export const ENRICHMENTS = {
     ],
     examTips: [
       'CED Unit 13：电感与 LR 电路',
-      '先算 \\(\\tau=L/R\\)，再写指数式',
+      '先算 \\(\\tau=\\dfrac{L}{R}\\)，再写指数式',
       '\\(t=0\\) 电感开路，\\(t\\to\\infty\\) 短路',
-      '稳态电流 \\(\\varepsilon/R\\)',
+      '稳态电流 \\(\\dfrac{\\varepsilon}{R}\\)',
       '注意断开时的感应高压',
     ],
     related: [
@@ -9244,8 +9244,8 @@ export const ENRICHMENTS = {
       { subject: 'em', chapterId: 'em-u11', code: '11.8', title: 'RC 电路', relation: '对比' },
     ],
     development: ['电感对电流变化的阻碍', 'LR 回路方程', '时间常数', '上升与衰减', '电感储能'],
-    checks: ['为什么 \\(t=0\\) 时电感相当于开路？', '\\(\\tau=L/R\\) 的物理意义是什么？', '稳态时理想电感的电压降是多少？'],
-    summary: 'LR 电路中电流按指数上升/衰减，时间常数 \\(\\tau=L/R\\)；\\(t=0\\) 电感开路，稳态短路，储能 \\(\\dfrac{1}{2}LI^{2}\\)。',
+    checks: ['为什么 \\(t=0\\) 时电感相当于开路？', '\\(\\tau=\\dfrac{L}{R}\\) 的物理意义是什么？', '稳态时理想电感的电压降是多少？'],
+    summary: 'LR 电路中电流按指数上升/衰减，时间常数 \\(\\tau=\\dfrac{L}{R}\\)；\\(t=0\\) 电感开路，稳态短路，储能 \\(\\dfrac{1}{2}LI^{2}\\)。',
   },
 
   'em/em-u13/13.6': {
@@ -9307,7 +9307,7 @@ export const ENRICHMENTS = {
       },
       {
         title: '例 3 · 能量分配',
-        prompt: '当 \\(q=Q/2\\) 时，电容能量与电感能量各占总能量的多少？',
+        prompt: '当 \\(q=\\dfrac{Q}{2}\\) 时，电容能量与电感能量各占总能量的多少？',
         steps: ['\\(U_C=\\dfrac{(Q/2)^{2}}{2C}=\\dfrac{1}{4}\\dfrac{Q^{2}}{2C}=\\dfrac{1}{4}U\\)。', '\\(U_L=U-U_C=\\dfrac{3}{4}U\\)。'],
         solution: '\\(U_C:U_L=1:3\\)。',
         solutionLatex: 'U_C:U_L=1:3',
@@ -10436,7 +10436,7 @@ export const ENRICHMENTS = {
         prompt: "为什么镰状细胞等位基因在疟疾流行地区仍以较高频率存在？ · Why does the sickle-cell allele persist at relatively high frequency in regions where malaria is prevalent?",
         steps: [
           "\\(HbS\\) 纯合子常患严重贫血，适合度低。 · \\(HbS\\) homozygotes often have severe anemia and low fitness.",
-          "\\(HbA/HbS\\) 杂合子对疟疾有一定抵抗力，适合度较高。 · \\(HbA/HbS\\) heterozygotes have some resistance to malaria and higher fitness.",
+          "\\(\\mathrm{HbA}:\\mathrm{HbS}\\) 杂合子对疟疾有一定抵抗力，适合度较高。 · \\(\\mathrm{HbA}:\\mathrm{HbS}\\) heterozygotes have some resistance to malaria and higher fitness.",
           "杂合子优势使 \\(HbS\\) 等位基因在种群中维持。 · Heterozygote advantage maintains the \\(HbS\\) allele in the population."
         ],
         solution: "杂合子优势平衡了纯合子的适合度损失，维持遗传变异。 · Heterozygote advantage balances the fitness loss of homozygotes and maintains genetic variation."

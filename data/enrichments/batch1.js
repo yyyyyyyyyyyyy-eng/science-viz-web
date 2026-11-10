@@ -143,7 +143,7 @@ export const ENRICHMENTS = {
         title: '例 2 · 切线方程 · Example 2 · Tangent-line equation',
         prompt: '求 \\(y=\\sqrt{x}\\) 在 \\(x=4\\) 处的切线方程。 · Find the tangent line to the square-root curve at \\(x=4\\).',
         steps: [
-          '\\(f(x)=x^{1/2}\\)，\\(f(4)=2\\)。 · Evaluate the function at 4: the point is \\((4,2)\\).',
+          '\\(f(x)=\\sqrt{x}\\)，\\(f(4)=2\\)。 · Evaluate the function at 4: the point is \\((4,2)\\).',
           '差商：\\(\\dfrac{\\sqrt{4+h}-2}{h}\\)，有理化得 \\(\\dfrac{1}{\\sqrt{4+h}+2}\\)。 · Write the difference quotient and rationalize as shown above.',
           '极限 \\(h\\to 0\\)：\\(\\dfrac{1}{4}\\)，即斜率。 · The limit as \\(h\\to0\\) is the slope, one quarter.',
           '切线：\\(y-2=\\dfrac{1}{4}(x-4)\\)，即 \\(y=\\dfrac{1}{4}x+1\\)。 · Use point-slope form to get the tangent line shown above.',
@@ -210,7 +210,7 @@ export const ENRICHMENTS = {
     keyPoints: ['指数减一、前面乘原指数 · Decrease the exponent by one and multiply by the original exponent', '可与常数倍结合：\\((cx^n)\'=cnx^{n-1}\\) · It combines with constant multiples, as in the formula shown above'],
     misconceptions: [
       '误记成 \\(nx^{n+1}\\) 或 \\(n^{x-1}\\) · Misremembering the rule by increasing the exponent or moving the exponent incorrectly',
-      '对 \\(\\sqrt{x}\\) 忘记写成 \\(x^{1/2}\\) 再用幂法则 · Forgetting to rewrite the square root as a power before applying the rule',
+      '对 \\(\\sqrt{x}\\) 忘记写成 \\(\\sqrt{x}\\) 再用幂法则 · Forgetting to rewrite the square root as a power before applying the rule',
       '以为 \\((x^n)\'=x^{n-1}\\) 漏乘 \\(n\\) · Omitting the factor of \\(n\\) in the derivative',
     ],
     examples: [
@@ -227,7 +227,7 @@ export const ENRICHMENTS = {
         title: '例 2 · 根式 · Example 2 · Radical',
         prompt: '求 \\(y=\\sqrt[3]{x^2}\\) 的导数。 · Find the derivative of the cube-root expression shown above.',
         steps: [
-          '改写 \\(y=x^{2/3}\\)。 · Rewrite it as a fractional power, as shown above.',
+          '改写 \\(y=\\sqrt[3]{x^{2}}\\)。 · Rewrite it as a fractional power, as shown above.',
           '\\(y\'=\\dfrac{2}{3}x^{-1/3}=\\dfrac{2}{3\\sqrt[3]{x}}\\)（\\(x\\neq 0\\)）。 · Apply the power rule; the result is the expression shown above, valid for \\(x\\neq0\\).',
         ],
         solution: '在 \\(x=0\\) 需另议可导性；\\(x\\neq 0\\) 用上式。 · At \\(x=0\\), differentiability needs separate discussion; for \\(x\\neq0\\), use the result above.',
