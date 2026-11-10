@@ -2796,7 +2796,7 @@ export const problems = [
   "tol": 0.03,
   "answerLatex": "9.4\\times10^{-6}\\,\\mathrm{T}",
   "solution": "B=μ₀Iθ/(4πR)，θ=π/2，代入得 ≈9.4×10⁻⁶ T。",
-  "solutionLatex": "B=\\dfrac{\\mu_0I\\theta}{4\\pi R}=\\dfrac{(4\\pi\\times10^{-7})(3.0)(\\pi/2)}{4\\pi(0.050)}\\approx9.4\\times10^{-6}\\,\\mathrm{T}",
+  "solutionLatex": "B=\\dfrac{\\mu_0I\\theta}{4\\pi R}=\\dfrac{(4\\pi\\times10^{-7})(3.0)(\\frac{\\pi}{2})}{4\\pi(0.050)}\\approx9.4\\times10^{-6}\\,\\mathrm{T}",
   "sourceId": "original",
   "source": "Original AP-style item (this project)",
   "license": "Project",

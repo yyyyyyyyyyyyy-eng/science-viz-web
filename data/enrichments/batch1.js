@@ -33,7 +33,7 @@ export const ENRICHMENTS = {
       '以为 \\(f(a)\\) 必须有定义才谈极限 · Thinking \\(f(a)\\) must be defined before a limit can be discussed',
       '把 \\(\\dfrac{0}{0}\\) 写成“无意义”就停止，不进行因式分解/有理化 · Stopping after calling the indeterminate form “meaningless” instead of factoring or rationalizing',
       '左右极限不同却仍写双侧极限等于某数 · Writing a two-sided limit as some number even when the one-sided limits differ',
-      '用斜线分式 \\(1/2x\\) 引起歧义（应写 \\(\\dfrac{1}{2x}\\) 或 \\(\\dfrac{1}{2}x\\)） · Using a slash fraction such as the ambiguous form shown above (write the stacked fractions instead)',
+      '用斜线分式 \\(\\text{1/2x}\\) 引起歧义（应写 \\(\\dfrac{1}{2x}\\) 或 \\(\\dfrac{1}{2}x\\)） · Using a slash fraction such as the ambiguous form shown above (write the stacked fractions instead)',
     ],
     examples: [
       {
@@ -125,7 +125,7 @@ export const ENRICHMENTS = {
       '把平均速度当成瞬时速度 · Treating average velocity as instantaneous velocity',
       '认为连续就一定可导 · Assuming continuity guarantees differentiability',
       '差商未化简就对 \\(h=0\\) 代入 · Substituting \\(h=0\\) before simplifying the difference quotient',
-      '斜线书写 \\(dy/dx\\) 造成与 \\(d(y/dx)\\) 混淆——展示时用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) · Writing the derivative with a slash notation that is ambiguous; use the stacked Leibniz notation shown above',
+      '斜线书写 \\(\\text{dy/dx}\\) 造成与 \\(\\text{d(y/dx)}\\) 混淆——展示时用 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) · Writing the derivative with a slash notation that is ambiguous; use the stacked Leibniz notation shown above',
     ],
     examples: [
       {
@@ -228,10 +228,10 @@ export const ENRICHMENTS = {
         prompt: '求 \\(y=\\sqrt[3]{x^2}\\) 的导数。 · Find the derivative of the cube-root expression shown above.',
         steps: [
           '改写 \\(y=\\sqrt[3]{x^{2}}\\)。 · Rewrite it as a fractional power, as shown above.',
-          '\\(y\'=\\dfrac{2}{3}x^{-1/3}=\\dfrac{2}{3\\sqrt[3]{x}}\\)（\\(x\\neq 0\\)）。 · Apply the power rule; the result is the expression shown above, valid for \\(x\\neq0\\).',
+          '\\(y\'=\\dfrac{2}{3}x^{-\\frac{1}{3}}=\\dfrac{2}{3\\sqrt[3]{x}}\\)（\\(x\\neq 0\\)）。 · Apply the power rule; the result is the expression shown above, valid for \\(x\\neq0\\).',
         ],
         solution: '在 \\(x=0\\) 需另议可导性；\\(x\\neq 0\\) 用上式。 · At \\(x=0\\), differentiability needs separate discussion; for \\(x\\neq0\\), use the result above.',
-        solutionLatex: "y'=\\dfrac{2}{3}x^{-1/3}",
+        solutionLatex: "y'=\\dfrac{2}{3}x^{-\\frac{1}{3}}",
       },
       {
         title: '例 3 · 负指数 · Example 3 · Negative exponent',
@@ -412,7 +412,7 @@ export const ENRICHMENTS = {
       '以为单个力的功等于 \\(\\Delta K\\)',
       '漏掉负功（阻力）',
       '把功率与功混淆',
-      '用斜线写 \\(1/2 mv^2\\) —— 必须用 \\(\\dfrac{1}{2}mv^{2}\\)',
+      '用斜线写 \\(\\text{1/2 }mv^{2}\\) —— 必须用 \\(\\dfrac{1}{2}mv^{2}\\)',
     ],
     examples: [
       {
@@ -595,7 +595,7 @@ export const ENRICHMENTS = {
         solution: '约定电流向右。',
       },
     ],
-    examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\mathrm{d}Q/\\mathrm{d}t\\) 与微观式', '单位换算：mA、μA'],
+    examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\) 与微观式', '单位换算：mA、μA'],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.1', title: '电荷与力', relation: '先修' },
       { subject: 'em', chapterId: 'em-u11', code: '11.2', title: '简单电路', relation: '后续' },

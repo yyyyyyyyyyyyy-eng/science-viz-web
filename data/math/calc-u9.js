@@ -157,20 +157,20 @@ export const TOPICS = {
       {
         "termZh": "参数导数",
         "termEn": "parametric derivative",
-        "defZh": "\\(\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}\\)，其中 \\(dx/dt\\ne 0\\)。",
-        "defEn": "The slope \\(\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}\\), defined when \\(dx/dt\\ne 0\\)."
+        "defZh": "\\(\\dfrac{dy}{dx}=\\dfrac{\\frac{dy}{dt}}{\\frac{dx}{dt}}\\)，其中 \\(\\dfrac{dx}{dt}\\ne 0\\)。",
+        "defEn": "The slope \\(\\dfrac{dy}{dx}=\\dfrac{\\frac{dy}{dt}}{\\frac{dx}{dt}}\\), defined when \\(\\dfrac{dx}{dt}\\ne 0\\)."
       },
       {
         "termZh": "水平切线",
         "termEn": "horizontal tangent",
-        "defZh": "\\(dy/dt=0\\) 且 \\(dx/dt\\ne 0\\) 的点处切线水平。",
-        "defEn": "The tangent is horizontal at a point where \\(dy/dt=0\\) and \\(dx/dt\\ne 0\\)."
+        "defZh": "\\(\\dfrac{dy}{dt}=0\\) 且 \\(\\dfrac{dx}{dt}\\ne 0\\) 的点处切线水平。",
+        "defEn": "The tangent is horizontal at a point where \\(\\dfrac{dy}{dt}=0\\) and \\(\\dfrac{dx}{dt}\\ne 0\\)."
       },
       {
         "termZh": "竖直切线",
         "termEn": "vertical tangent",
-        "defZh": "\\(dx/dt=0\\) 且 \\(dy/dt\\ne 0\\) 的点处切线竖直。",
-        "defEn": "The tangent is vertical at a point where \\(dx/dt=0\\) and \\(dy/dt\\ne 0\\)."
+        "defZh": "\\(\\dfrac{dx}{dt}=0\\) 且 \\(\\dfrac{dy}{dt}\\ne 0\\) 的点处切线竖直。",
+        "defEn": "The tangent is vertical at a point where \\(\\dfrac{dx}{dt}=0\\) and \\(\\dfrac{dy}{dt}\\ne 0\\)."
       },
       {
         "termZh": "消参",

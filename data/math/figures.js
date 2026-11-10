@@ -140,7 +140,7 @@ def('deriv-table', 'Estimating f′ from a table', '', () => {
   setCap('deriv-table', `\\(f(x)=2^x\\) tabulated: \\(f'(2)\\approx\\dfrac{f(3)-f(1)}{3-1}=${est}\\); exact \\(f'(2)=4\\ln2\\approx${fmt(4 * log(2))}\\).`);
   return plot({ x: [-0.3, 4.5], y: [0, 17], curves: [{ f: (x) => 2 ** x, color: C.muted, dash: '4 3' }, { f: (x) => 4 + est * (x - 2), color: C.b, label: `symmetric slope ${est}`, labelAt: [2.9, 9.8] }, { f: (x) => 4 + 4 * log(2) * (x - 2), color: C.a, label: 'tangent', labelAt: [0.7, 0.8] }], points: xs.map((x, i) => ({ x, y: fx[i], label: `(${x}, ${fx[i]})`, anchor: 'end', dx: -8 })) });
 });
-def('nondiff', 'Where f is not differentiable', 'Corner \\(|x|\\), cusp \\(x^{2/3}\\), vertical tangent \\(x^{1/3}\\): each is continuous at 0 but \\(f\'(0)\\) does not exist. A jump discontinuity also rules out differentiability.', () =>
+def('nondiff', 'Where f is not differentiable', 'Corner \\(|x|\\), cusp \\(x^{\\frac{2}{3}}\\), vertical tangent \\(x^{\\frac{1}{3}}\\): each is continuous at 0 but \\(f\'(0)\\) does not exist. A jump discontinuity also rules out differentiability.', () =>
   plot({ x: [-2, 2], y: [-1.5, 2.2], xstep: 1, ystep: 1, curves: [{ f: abs, color: C.a, label: '|x|', labelAt: [1.6, 1.75] }, { f: (x) => Math.cbrt(x * x), color: C.b, label: 'x^(2/3)', labelAt: [-1.95, 1.85] }, { f: Math.cbrt, color: C.c, label: 'x^(1/3)', labelAt: [1.3, 0.85] }] }));
 def('power-rule', 'Power rule: f = x³, f′ = 3x²', '\\(\\dfrac{d}{dx}x^n=nx^{n-1}\\). Where \\(x^3\\) is steepest, \\(3x^2\\) is largest; \\(f\'(0)=0\\).', () =>
   plot({ x: [-2, 2], y: [-6, 8], curves: [{ f: (x) => x ** 3, color: C.a, label: 'f = x³', labelAt: [1.3, 2.8] }, { f: (x) => 3 * x * x, color: C.b, dash: '6 3', label: 'f′ = 3x²', labelAt: [-1.95, 6.8] }] }));
@@ -334,7 +334,7 @@ def('de-verify', 'Verifying solutions: y = Ce²ˣ solves y′ = 2y', 'Substituti
   plot({ x: [-2, 1.2], y: [-6, 6], field: { dydx: (x, y) => 2 * y, nx: 12, ny: 10 }, curves: [-1, -0.5, 0.5, 1].map((c, i) => ({ f: (x) => c * exp(2 * x), color: PAL[i] })) }));
 const SF = [
   ['sf-xy', 'dy/dx = x − y', '\\dfrac{dy}{dx}=x-y', (x, y) => x - y, { f: (x) => x - 1 + 2 * exp(-x) }, '\\(y=x-1+2e^{-x}\\) through \\((0,1)\\); the line \\(y=x-1\\) is itself a solution', [-3, 3]],
-  ['sf-xy2', 'dy/dx = xy', '\\dfrac{dy}{dx}=xy', (x, y) => x * y, { f: (x) => 0.5 * exp(x * x / 2) }, '\\(y=\\dfrac12e^{x^2/2}\\) through \\((0,\\dfrac12)\\); \\(y=0\\) is an equilibrium', [-3, 3]],
+  ['sf-xy2', 'dy/dx = xy', '\\dfrac{dy}{dx}=xy', (x, y) => x * y, { f: (x) => 0.5 * exp(x * x / 2) }, '\\(y=\\dfrac12e^{\\frac{x^2}{2}}\\) through \\((0,\\dfrac12)\\); \\(y=0\\) is an equilibrium', [-3, 3]],
   ['sf-logistic', 'dy/dx = y(4 − y)/4', '\\dfrac{dy}{dx}=\\dfrac{y(4-y)}{4}', (x, y) => (y * (4 - y)) / 4, { f: (x) => 4 / (1 + 3 * exp(-x)) }, '\\(y=\\dfrac{4}{1+3e^{-x}}\\) through \\((0,1)\\); equilibria \\(y=0\\) (unstable) and \\(y=4\\) (stable)', [-1, 5]],
   ['sf-x-over-y', 'dy/dx = −x/y', '\\dfrac{dy}{dx}=-\\dfrac{x}{y}', (x, y) => -x / y, { param: (t) => [2 * cos(t), 2 * sin(t)], dom: [0.02, PI - 0.02] }, 'upper semicircle \\(x^2+y^2=4\\) through \\((0,2)\\)', [-3, 3]],
 ];
@@ -349,7 +349,7 @@ def('euler', "Euler's method vs exact solution", '', () => {
 });
 def('euler-steps', "Euler's method: two steps on a slope field", 'From \\((1,2)\\) on \\(\\dfrac{dy}{dx}=x+y\\), \\(h=0.5\\): slope 3, so \\(y_1=2+0.5\\cdot3=3.5\\) at \\(x=1.5\\); slope 5 gives \\(y_2=6\\) at \\(x=2\\). Exact \\(y=4e^{x-1}-x-1\\), \\(y(2)\\approx7.873\\).', () =>
   plot({ x: [0.8, 2.2], y: [1, 8.5], xstep: 0.5, field: { dydx: (x, y) => x + y, nx: 7, ny: 7 }, curves: [{ pts: [[1, 2], [1.5, 3.5], [2, 6]], color: C.b }, { f: (x) => 4 * exp(x - 1) - x - 1, dom: [1, 2.2], color: C.a, label: 'exact', labelAt: [1.75, 6.6] }], points: [{ x: 1, y: 2, label: '(1, 2)' }, { x: 1.5, y: 3.5, color: C.b, label: '(1.5, 3.5)', dy: 14 }, { x: 2, y: 6, color: C.b, label: '(2, 6)', dy: 14 }] }));
-def('separable', 'Separation of variables: dy/dx = xy', '\\(\\dfrac{dy}{y}=x\\,dx\\Rightarrow\\ln|y|=\\dfrac{x^2}{2}+C\\Rightarrow y=Ae^{x^2/2}\\). Initial condition \\(y(0)=1\\Rightarrow A=1\\) (bold).', () =>
+def('separable', 'Separation of variables: dy/dx = xy', '\\(\\dfrac{dy}{y}=x\\,dx\\Rightarrow\\ln|y|=\\dfrac{x^2}{2}+C\\Rightarrow y=Ae^{\\frac{x^2}{2}}\\). Initial condition \\(y(0)=1\\Rightarrow A=1\\) (bold).', () =>
   plot({ x: [-2, 2], y: [-4, 4], field: { dydx: (x, y) => x * y, nx: 12, ny: 10 }, curves: [-1, -0.5, 0.25, 1].map((A, i) => ({ f: (x) => A * exp(x * x / 2), color: A === 1 ? C.a : PAL[i + 1], w: A === 1 ? 2.6 : 1.4 })), points: [{ x: 0, y: 1, color: C.a, label: '(0, 1)' }] }));
 idef('logistic', 'Logistic growth dP/dt = kP(1 − P/M)', '', (v) => {
   const k = v.k, M = v.M, P0 = v.P0, P0b = 1.2 * M;
@@ -437,7 +437,7 @@ crossSection('xsec-tri', 'Cross sections: equilateral triangles', 'Same base; \\
 crossSection('xsec-semi', 'Cross sections: semicircles', 'Same base, diameter \\(s=2\\sqrt x\\): \\(A(x)=\\dfrac{\\pi}{8}s^2=\\dfrac{\\pi x}{2}\\), \\(V=\\int_0^4\\dfrac{\\pi x}{2}dx=4\\pi\\approx12.566\\).', 'semi');
 def('arc-length', 'Arc length of y = x^(3/2)', '', () => {
   const L = simpson((x) => sqrt(1 + 2.25 * x), 0, 4), chord = [0, 1, 2, 3].reduce((s, i) => s + Math.hypot(1, (i + 1) ** 1.5 - i ** 1.5), 0);
-  setCap('arc-length', `\\(L=\\int_0^4\\sqrt{1+\\left(\\dfrac32\\sqrt x\\right)^2}\\,dx=\\dfrac{8}{27}\\left(10^{3/2}-1\\right)\\approx${fmt(L, 4)}\\); the 4-chord polygon (dashed) has length ${fmt(chord, 4)} — a lower bound.`);
+  setCap('arc-length', `\\(L=\\int_0^4\\sqrt{1+\\left(\\dfrac32\\sqrt x\\right)^2}\\,dx=\\dfrac{8}{27}\\left(10^{\\frac{3}{2}}-1\\right)\\approx${fmt(L, 4)}\\); the 4-chord polygon (dashed) has length ${fmt(chord, 4)} — a lower bound.`);
   return plot({ x: [-0.3, 4.4], y: [-0.5, 8.6], curves: [{ f: (x) => x ** 1.5, dom: [0, 4], color: C.a }, { pts: [0, 1, 2, 3, 4].map((x) => [x, x ** 1.5]), color: C.b, dash: '5 3' }], points: [0, 1, 2, 3, 4].map((x) => ({ x, y: x ** 1.5, r: 3, color: C.b })) });
 });
 
@@ -488,8 +488,8 @@ idef('polar-basic', 'Polar coordinates: cardioid r = 1 + cos θ', '', (v) => {
   const th = v.deg * D2R, r = 1 + cos(th), x = r * cos(th), y = r * sin(th);
   return `\\(x=r\\cos\\theta\\), \\(y=r\\sin\\theta\\). At \\(\\theta=${piTex(v.deg)}\\): \\(r=${fmt(r, 3)}\\), \\((x,y)=(${fmt(x, 3)},${fmt(y, 3)})\\). Slope \\(\\dfrac{dy}{dx}=\\dfrac{r'\\sin\\theta+r\\cos\\theta}{r'\\cos\\theta-r\\sin\\theta}\\).`;
 });
-def('polar-area', 'Polar area: one petal of r = sin 2θ', '\\(A=\\dfrac12\\int_0^{\\pi/2}\\sin^2 2\\theta\\,d\\theta=\\dfrac{\\pi}{8}\\approx0.3927\\) (shaded petal).', () => polarPlot([{ polar: (t) => sin(2 * t), dom: [0, 2 * PI], color: C.a }], 1, [], [{ outer: (t) => sin(2 * t), dom: [0, PI / 2] }]));
-def('polar-two', 'Area between two polar curves', '\\(r=3\\cos\\theta\\) and \\(r=1+\\cos\\theta\\) meet at \\(\\theta=\\pm\\dfrac{\\pi}{3}\\). Inside the circle, outside the cardioid: \\(A=\\dfrac12\\int_{-\\pi/3}^{\\pi/3}\\big[(3\\cos\\theta)^2-(1+\\cos\\theta)^2\\big]d\\theta=\\pi\\).', () => polarPlot([{ polar: (t) => 3 * cos(t), dom: [-PI / 2, PI / 2], color: C.a, label: 'r = 3cos θ', labelAt: [2.3, 1.75] }, { polar: (t) => 1 + cos(t), dom: [0, 2 * PI], color: C.b, label: 'r = 1 + cos θ', labelAt: [-1.2, 1.35] }], 3, [{ th: PI / 3, r: 1.5 }, { th: -PI / 3, r: 1.5 }], [{ outer: (t) => 3 * cos(t), inner: (t) => 1 + cos(t), dom: [-PI / 3, PI / 3] }]));
+def('polar-area', 'Polar area: one petal of r = sin 2θ', '\\(A=\\dfrac12\\int_0^{\\frac{\\pi}{2}}\\sin^2 2\\theta\\,d\\theta=\\dfrac{\\pi}{8}\\approx0.3927\\) (shaded petal).', () => polarPlot([{ polar: (t) => sin(2 * t), dom: [0, 2 * PI], color: C.a }], 1, [], [{ outer: (t) => sin(2 * t), dom: [0, PI / 2] }]));
+def('polar-two', 'Area between two polar curves', '\\(r=3\\cos\\theta\\) and \\(r=1+\\cos\\theta\\) meet at \\(\\theta=\\pm\\dfrac{\\pi}{3}\\). Inside the circle, outside the cardioid: \\(A=\\dfrac12\\int_{-\\frac{\\pi}{3}}^{\\frac{\\pi}{3}}\\big[(3\\cos\\theta)^2-(1+\\cos\\theta)^2\\big]d\\theta=\\pi\\).', () => polarPlot([{ polar: (t) => 3 * cos(t), dom: [-PI / 2, PI / 2], color: C.a, label: 'r = 3cos θ', labelAt: [2.3, 1.75] }, { polar: (t) => 1 + cos(t), dom: [0, 2 * PI], color: C.b, label: 'r = 1 + cos θ', labelAt: [-1.2, 1.35] }], 3, [{ th: PI / 3, r: 1.5 }, { th: -PI / 3, r: 1.5 }], [{ outer: (t) => 3 * cos(t), inner: (t) => 1 + cos(t), dom: [-PI / 3, PI / 3] }]));
 idef('polar-limacon', 'Limaçon with inner loop', '', (v) => {
   const a = v.a, t0 = a > 1 ? Math.acos(-1 / a) : PI, R = a + 1;
   return polarPlot([{ polar: (t) => 1 + a * cos(t), dom: [0, 2 * PI], color: C.a }], R, [], a > 1 ? [{ outer: (t) => 1 + a * cos(t), dom: [t0, 2 * PI - t0], color: C.b }] : []);
@@ -636,7 +636,7 @@ idef('matrix-rot', 'Rotation matrix', '', (v) => {
 ], (v) => `Rotation by \\(\\theta=${fmt(v.deg, 0)}°\\): \\(\\begin{bmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{bmatrix}\\), det = 1 (area preserved).`);
 def('rational-analysis', 'Rational function: asymptotes, hole, intercepts', '\\(f(x)=\\dfrac{(x-1)(x+3)}{(x-1)(x-2)}\\): hole at \\((1,-4)\\), vertical asymptote \\(x=2\\), horizontal asymptote \\(y=1\\), x-intercept \\(-3\\), y-intercept \\(f(0)=-\\dfrac32\\).', () =>
   plot({ x: [-6, 7], y: [-8, 8], vlines: [{ x: 2, label: 'x = 2' }], hlines: [{ y: 1, label: 'y = 1' }], curves: [{ f: (x) => (abs(x - 1) < 1e-9 ? NaN : ((x - 1) * (x + 3)) / ((x - 1) * (x - 2))), n: 1300, color: C.a }], points: [{ x: 1, y: -4, open: true, color: C.a, label: 'hole (1, −4)', anchor: 'start', dx: 10, dy: 14 }, { x: -3, y: 0, label: '(−3, 0)', anchor: 'end', dx: -8, dy: -12 }, { x: 0, y: -1.5, label: '(0, −3/2)', anchor: 'start', dx: 10, dy: 14 }] }));
-def('exp-log-model', 'Exponential decay model (half-life)', '\\(A(t)=100\\left(\\dfrac12\\right)^{t/5}\\): half-life 5, so A halves every 5 units. Taking logs, \\(\\ln A=\\ln100-\\dfrac{\\ln2}{5}t\\) is linear in t.', () =>
+def('exp-log-model', 'Exponential decay model (half-life)', '\\(A(t)=100\\left(\\dfrac12\\right)^{\\frac{t}{5}}\\): half-life 5, so A halves every 5 units. Taking logs, \\(\\ln A=\\ln100-\\dfrac{\\ln2}{5}t\\) is linear in t.', () =>
   plot({ x: [0, 21], y: [0, 110], xlabel: 't', ylabel: 'A', curves: [{ f: (t) => 100 * 0.5 ** (t / 5), color: C.a }], points: [0, 5, 10, 15, 20].map((t) => ({ x: t, y: 100 * 0.5 ** (t / 5), label: fmt(100 * 0.5 ** (t / 5), 2) })) }));
 def('rate-intuition', 'Rate of change intuition: shrinking intervals', 'Distance \\(d(t)=4.9t^2\\): average speeds on \\([1,2],[1,1.5],[1,1.1],[1,1.01]\\) are \\(14.7, 12.25, 10.29, 9.849\\) m/s, approaching the instantaneous speed \\(9.8\\) m/s at \\(t=1\\).', () =>
   bars({ bars: [2, 1.5, 1.1, 1.01].map((b, i) => ({ label: `[1, ${b}]`, v: (4.9 * b * b - 4.9) / (b - 1), color: PAL[i] })).concat([{ label: 'instant', v: 9.8, color: PAL[4] }]), showV: true, ylabel: 'average speed (m/s)', max: 17 }));
@@ -788,7 +788,7 @@ idef('vertex-form', 'Transformations: y = a(x − h)² + k', '', (v) => {
 ], (v) => `\\(y=${fmt(v.a, 1)}(x-${fmt(v.h, 1)})^2+${fmt(v.k, 1)}\\): ${v.a < 0 ? 'reflect in the x-axis, ' : ''}vertical ${Math.abs(v.a) < 1 ? 'compression' : Math.abs(v.a) > 1 ? 'stretch' : 'scale'} by \\(${fmt(Math.abs(v.a), 1)}\\), shift right ${fmt(v.h, 1)} and up ${fmt(v.k, 1)}; vertex \\((${fmt(v.h, 1)},${fmt(v.k, 1)})\\).`);
 def('poly-mult', 'Polynomial: zeros, multiplicity, end behavior', '\\(p(x)=(x+2)(x-1)^2(x-3)\\): crosses the axis at −2 and 3, touches (bounces) at 1 (multiplicity 2); degree 4 with positive leading coefficient ⇒ both ends rise.', () =>
   plot({ x: [-3, 4], y: [-14, 12], curves: [{ f: (x) => (x + 2) * (x - 1) ** 2 * (x - 3), color: C.a }], points: [{ x: -2, y: 0, label: '−2', anchor: 'end', dx: -8 }, { x: 1, y: 0, label: '1 (×2)' }, { x: 3, y: 0, label: '3', dy: 14 }] }));
-def('radical-fns', 'Radical functions √x and ∛x', '\\(x^{1/2}=\\sqrt x\\) is defined for \\(x\\ge0\\); \\(x^{1/3}=\\sqrt[3]x\\) for all reals; in general \\(x^{m/n}=\\left(\\sqrt[n]{x}\\right)^m\\).', () =>
+def('radical-fns', 'Radical functions √x and ∛x', '\\(x^{\\frac{1}{2}}=\\sqrt x\\) is defined for \\(x\\ge0\\); \\(x^{\\frac{1}{3}}=\\sqrt[3]x\\) for all reals; in general \\(x^{\\frac{m}{n}}=\\left(\\sqrt[n]{x}\\right)^m\\).', () =>
   plot({ x: [-8, 9], y: [-3, 3.5], curves: [{ f: sqrt, dom: [0, 9], color: C.a, label: '√x', labelAt: [6.3, 2.85] }, { f: Math.cbrt, color: C.b, label: '∛x', labelAt: [-7.2, -1.4] }] }));
 def('exp-family', 'Exponential families and asymptotes', '\\(y=a\\cdot b^x+k\\): \\(3\\cdot2^x\\) (y-intercept 3), \\(2^{x}-2\\) (asymptote \\(y=-2\\)), \\(e^{-x}\\) (decay).', () =>
   plot({ x: [-4, 4], y: [-3, 8], hlines: [{ y: -2, label: 'y = −2' }], curves: [{ f: (x) => 3 * 2 ** x, label: '3·2ˣ', labelAt: [0.75, 6.9] }, { f: (x) => 2 ** x - 2, label: '2ˣ − 2', labelAt: [3.05, 4.2] }, { f: (x) => exp(-x), label: 'e^(−x)', labelAt: [-2.9, 7] }] }));

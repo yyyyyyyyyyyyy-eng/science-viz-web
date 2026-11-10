@@ -1533,7 +1533,7 @@ export const TOPICS = {
       {
         "from": "电流元场 · Element field",
         "to": "有限直导线积分 · Finite-wire integral",
-        "note": "设观察点到导线的垂足为原点，导线沿 \\(x\\) 轴，\\(\\mathrm{d}\\ell=\\mathrm{d}x\\)；由几何关系把 \\(x\\) 换成角度，积分 \\(\\int\\dfrac{r\\,\\mathrm{d}x}{(x^{2}+r^{2})^{3/2}}\\) 得 \\(\\dfrac{1}{r}(\\sin\\theta_1+\\sin\\theta_2)\\)。 · Put the foot of the perpendicular at the origin and the wire along the \\(x\\)-axis, with \\(\\mathrm{d}\\ell=\\mathrm{d}x\\); change variables from \\(x\\) to angle and integrate \\(\\int\\dfrac{r\\,\\mathrm{d}x}{(x^{2}+r^{2})^{3/2}}\\) to obtain \\(\\dfrac{1}{r}(\\sin\\theta_1+\\sin\\theta_2)\\)."
+        "note": "设观察点到导线的垂足为原点，导线沿 \\(x\\) 轴，\\(\\mathrm{d}\\ell=\\mathrm{d}x\\)；由几何关系把 \\(x\\) 换成角度，积分 \\(\\int\\dfrac{r\\,\\mathrm{d}x}{(x^{2}+r^{2})^{\frac{3}{2}}}\\) 得 \\(\\dfrac{1}{r}(\\sin\\theta_1+\\sin\\theta_2)\\)。 · Put the foot of the perpendicular at the origin and the wire along the \\(x\\)-axis, with \\(\\mathrm{d}\\ell=\\mathrm{d}x\\); change variables from \\(x\\) to angle and integrate \\(\\int\\dfrac{r\\,\\mathrm{d}x}{(x^{2}+r^{2})^{\frac{3}{2}}}\\) to obtain \\(\\dfrac{1}{r}(\\sin\\theta_1+\\sin\\theta_2)\\)."
       },
       {
         "from": "有限直导线 · Finite wire",

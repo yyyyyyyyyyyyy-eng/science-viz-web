@@ -570,7 +570,7 @@ export const TOPICS = {
       "线框进入和离开磁场时，感应电流方向为什么相反？为什么磁力方向却不变？ · Why are the induced current directions opposite when a loop enters and leaves a field, and why does the magnetic force direction stay the same?",
       "线框完全进入匀强磁场后，为什么 \\(\\varepsilon=0\\)、\\(I=0\\)、\\(F_B=0\\)？ · Why are \\(\\varepsilon=0\\), \\(I=0\\), and \\(F_B=0\\) once a loop is fully inside a uniform field?",
       "撤去外力后，滑棒的动能去了哪里？如何由 \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\) 得到时间常数与总滑行距离？ · After the external force is removed, where does the bar's kinetic energy go? How do you obtain the time constant and total stopping distance from \\(m\\dfrac{\\mathrm{d}v}{\\mathrm{d}t}=-\\dfrac{B^2L^2v}{R}\\)?",
-      "通过导线截面的电荷量为什么只由 \\(\\Delta\\Phi_B/R\\) 决定，而与滑棒速度无关？ · Why is the charge passing a cross section determined only by \\(\\Delta\\Phi_B/R\\) and independent of the bar's speed?"
+      "通过导线截面的电荷量为什么只由 \\(\\dfrac{\\Delta\\Phi_B}{R}\\) 决定，而与滑棒速度无关？ · Why is the charge passing a cross section determined only by \\(\\dfrac{\\Delta\\Phi_B}{R}\\) and independent of the bar's speed?"
     ],
     "vocabulary": [
       {

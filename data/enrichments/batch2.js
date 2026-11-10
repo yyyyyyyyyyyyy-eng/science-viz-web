@@ -1913,7 +1913,7 @@ export const ENRICHMENTS = {
     essentialKnowledge: [
       '无滑动滚动时接触点瞬时静止，\\(v_{\\mathrm{cm}}=\\omega R\\)，\\(a_{\\mathrm{cm}}=\\alpha R\\)。',
       '滚动动能包含平动与绕质心转动：\\(K=\\dfrac12Mv_{\\mathrm{cm}}^{2}+\\dfrac12I_{\\mathrm{cm}}\\omega^{2}\\)。',
-      '沿斜面下滚时 \\(a_{\\mathrm{cm}}=\\dfrac{g\\sin\\theta}{1+I_{\\mathrm{cm}}/(MR^{2})}\\)。',
+      '沿斜面下滚时 \\(a_{\\mathrm{cm}}=\\dfrac{g\\sin\\theta}{1+\\frac{I_{\\mathrm{cm}}}{MR^{2}}}\\)。',
       '所需静摩擦 \\(f_s=\\dfrac{I_{\\mathrm{cm}}a_{\\mathrm{cm}}}{R^{2}}\\)，方向沿斜面向上。',
       '无滑动时静摩擦不做功，机械能守恒；打滑时 \\(v_{\\mathrm{cm}}\\ne\\omega R\\)。'
     ],
@@ -2592,7 +2592,7 @@ export const ENRICHMENTS = {
     ],
     essentialKnowledge: [
       '电功率是电能转化速率：\\(P=IV\\)。',
-      '纯电阻元件 \\(P=I^{2}R=\\dfrac{V^{2}}{R}\\)；非纯电阻不能用 \\(V^{2}/R\\) 求总功率。',
+      '纯电阻元件 \\(P=I^{2}R=\\dfrac{V^{2}}{R}\\)；非纯电阻不能用 \\(\\dfrac{V^{2}}{R}\\) 求总功率。',
       '串联时 \\(I\\) 相同，\\(P=I^{2}R\\) 大电阻功率大；并联时 \\(V\\) 相同，小电阻功率大。',
       '电池内部消耗 \\(P_r=I^{2}r\\)；电能表测能量，不测功率。',
       '\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\) 是能量单位。'
@@ -2944,8 +2944,8 @@ export const ENRICHMENTS = {
     ],
     essentialKnowledge: [
       'RC 电路时间常数 \\(\\tau=RC\\)，单位秒。',
-      '充电 \\(q(t)=C\\varepsilon\\left(1-e^{-t/\\tau}\\right)\\)，\\(I(t)=\\dfrac{\\varepsilon}{R}e^{-t/\\tau}\\)。',
-      '放电 \\(q(t)=Q_0e^{-t/\\tau}\\)，电流随时间指数衰减。',
+      '充电 \\(q(t)=C\\varepsilon\\left(1-e^{-\\frac{t}{\\tau}}\\right)\\)，\\(I(t)=\\dfrac{\\varepsilon}{R}e^{-\\frac{t}{\\tau}}\\)。',
+      '放电 \\(q(t)=Q_0e^{-\\frac{t}{\\tau}}\\)，电流随时间指数衰减。',
       '\\(t=\\tau\\) 时充电至 \\(63.2\\%\\)，放电剩 \\(36.8\\%\\)；约 \\(5\\tau\\) 后基本达到稳态。',
       '稳态时电容相当于断路，\\(I=0\\)；电容电压连续，电流可以突变。'
     ],
@@ -3694,7 +3694,7 @@ export const ENRICHMENTS = {
       "冲量是力对时间的累积，功是力对空间的累积",
       "\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化",
       "延长作用时间可减小平均力",
-      "\\(K=p^{2}/(2m)\\) 联系动量与动能"
+      "\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能"
     ],
     connections: [
       "后续：4.2 动量守恒与碰撞",
@@ -3711,7 +3711,7 @@ export const ENRICHMENTS = {
       { latex: 'K=\\dfrac{p^{2}}{2m}', note: '动量与动能的关系。' },
     ],
     conditions: ['冲量是矢量，必须按方向分解', '\\(\\vec J=\\Delta\\vec p\\) 中的力是合外力', '碰撞时间很短时，可忽略重力等有限外力的冲量', '质量恒定；变质量系统需用更一般的动量方程', '面积法适用于任意 \\(F(t)\\)，不要求恒力'],
-    keyPoints: ['动量是矢量，动能是标量', '冲量是力对时间的累积，功是力对空间的累积', '\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化', '延长作用时间可减小平均力', '\\(K=p^{2}/(2m)\\) 联系动量与动能'],
+    keyPoints: ['动量是矢量，动能是标量', '冲量是力对时间的累积，功是力对空间的累积', '\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化', '延长作用时间可减小平均力', '\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能'],
     misconceptions: [
       '把冲量与功混为一谈',
       '认为动量相同则动能相同',
@@ -3737,7 +3737,7 @@ export const ENRICHMENTS = {
       {
         title: '例 3 · 安全气囊',
         prompt: '乘客动量变化相同，为什么安全气囊能减小受伤风险？',
-        steps: ['\\(\\Delta p\\) 由碰撞前后的速度决定，基本相同。', '气囊延长接触时间 \\(\\Delta t\\)。', '由 \\(F_{\\mathrm{avg}}=\\Delta p/\\Delta t\\)，时间越长平均力越小。'],
+        steps: ['\\(\\Delta p\\) 由碰撞前后的速度决定，基本相同。', '气囊延长接触时间 \\(\\Delta t\\)。', '由 \\(F_{\\mathrm{avg}}=\\dfrac{\\Delta p}{\\Delta t}\\)，时间越长平均力越小。'],
         solution: '延长作用时间以减小平均力，冲量不变。',
       },
     ],
@@ -4996,10 +4996,10 @@ export const ENRICHMENTS = {
         steps: [
           "分离：\\(\\dfrac{\\mathrm{d}y}{y}=x\\,\\mathrm{d}x\\)（\\(y\\neq0\\)）。 · Separate: \\(\\dfrac{\\mathrm{d}y}{y}=x\\,\\mathrm{d}x\\) for \\(y\\neq0\\).",
           "积分：\\(\\ln|y|=\\dfrac{x^{2}}{2}+C\\)。 · Integrate: \\(\\ln|y|=\\dfrac{x^{2}}{2}+C\\).",
-          "取指数：\\(y=Ce^{x^{2}/2}\\)。 · Exponentiate: \\(y=Ce^{x^{2}/2}\\)."
+          "取指数：\\(y=Ce^{\\frac{x^{2}}{2}}\\)。 · Exponentiate: \\(y=Ce^{\\frac{x^{2}}{2}}\\)."
         ],
-        solution: "\\(y=Ce^{x^{2}/2}\\)，另有常数解 \\(y=0\\)。 · \\(y=Ce^{x^{2}/2}\\), with the additional constant solution \\(y=0\\).",
-        solutionLatex: "y=Ce^{x^{2}/2}"
+        solution: "\\(y=Ce^{\\frac{x^{2}}{2}}\\)，另有常数解 \\(y=0\\)。 · \\(y=Ce^{\\frac{x^{2}}{2}}\\), with the additional constant solution \\(y=0\\).",
+        solutionLatex: "y=Ce^{\\frac{x^{2}}{2}}"
       },
       {
         title: "例 2 · 初值问题 · Initial-Value Problem",
@@ -5212,10 +5212,10 @@ export const ENRICHMENTS = {
       "能识别并纠正把二阶导数直接相除等常见误用。 · Identify and correct common errors such as dividing second derivatives directly."
     ],
     essentialKnowledge: [
-      "\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比 · \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of two rates of change.",
+      "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 是两变化率之比 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) is the ratio of two rates of change.",
       "二阶导数不是二阶导数之比 · The second derivative is not the ratio of second derivatives.",
-      "水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\) · Horizontal tangent: \\(\\mathrm{d}y/\\mathrm{d}t=0\\).",
-      "竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\) · Vertical tangent: \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "水平切线：\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\) · Horizontal tangent: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\).",
+      "竖直切线：\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\) · Vertical tangent: \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\).",
       "速率用勾股定理合成 · Speed is found from the Pythagorean combination of velocity components."
     ],
     connections: [
@@ -5223,16 +5223,16 @@ export const ENRICHMENTS = {
       "后续：9.3 参数弧长 · Follow-up: 9.3 Arc length of parametric curves.",
       "先修：2.2 导数定义 · Prerequisite: 2.2 Definition of the derivative."
     ],
-    definition: "参数曲线由 \\(x=x(t)\\)、\\(y=y(t)\\) 给出。若 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\)，则 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}\\)。速度矢量为 \\(\\langle x'(t),y'(t)\\rangle\\)，速率为 \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)。 · A parametric curve is given by \\(x=x(t)\\), \\(y=y(t)\\). If \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\), then \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}\\). The velocity vector is \\(\\langle x'(t),y'(t)\\rangle\\), and speed is \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\).",
-    intuition: "参数 \\(t\\) 像时间：\\(x\\) 与 \\(y\\) 各自随时间变化，\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两者变化率之比，也就是轨迹斜率。 · The parameter \\(t\\) is like time: \\(x\\) and \\(y\\) each change with time, and \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of their rates, which is the slope of the path.",
-    intuitionDetailed: "求二阶导数时不能把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作答案；正确做法是先求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，再对 \\(t\\) 求导，最后除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。水平切线对应 \\(\\mathrm{d}y/\\mathrm{d}t=0\\) 且 \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\)；竖直切线对应 \\(\\mathrm{d}x/\\mathrm{d}t=0\\)。 · Do not compute the second derivative as \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\). Instead, first find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\), differentiate it with respect to \\(t\\), and then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\). A horizontal tangent corresponds to \\(\\mathrm{d}y/\\mathrm{d}t=0\\) with \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\); a vertical tangent corresponds to \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+    definition: "参数曲线由 \\(x=x(t)\\)、\\(y=y(t)\\) 给出。若 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\)，则 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}t}}{\\frac{\\mathrm{d}x}{\\mathrm{d}t}}\\)。速度矢量为 \\(\\langle x'(t),y'(t)\\rangle\\)，速率为 \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\)。 · A parametric curve is given by \\(x=x(t)\\), \\(y=y(t)\\). If \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\), then \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}t}}{\\frac{\\mathrm{d}x}{\\mathrm{d}t}}\\). The velocity vector is \\(\\langle x'(t),y'(t)\\rangle\\), and speed is \\(\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}\\).",
+    intuition: "参数 \\(t\\) 像时间：\\(x\\) 与 \\(y\\) 各自随时间变化，\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 是两者变化率之比，也就是轨迹斜率。 · The parameter \\(t\\) is like time: \\(x\\) and \\(y\\) each change with time, and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) is the ratio of their rates, which is the slope of the path.",
+    intuitionDetailed: "求二阶导数时不能把 \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}t^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}}\\) 当作答案；正确做法是先求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，再对 \\(t\\) 求导，最后除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。水平切线对应 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\)；竖直切线对应 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\)。 · Do not compute the second derivative as \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}t^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}}\\). Instead, first find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\), differentiate it with respect to \\(t\\), and then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\). A horizontal tangent corresponds to \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\) with \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\); a vertical tangent corresponds to \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\).",
     formulas: [
       {
-        latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}t}{\\mathrm{d}x/\\mathrm{d}t}",
+        latex: "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}t}}{\\frac{\\mathrm{d}x}{\\mathrm{d}t}}",
         note: "参数曲线斜率。 · Slope of a parametric curve."
       },
       {
-        latex: "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\mathrm{d}x/\\mathrm{d}t}",
+        latex: "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\frac{\\mathrm{d}x}{\\mathrm{d}t}}",
         note: "参数曲线二阶导数。 · Second derivative of a parametric curve."
       },
       {
@@ -5241,23 +5241,23 @@ export const ENRICHMENTS = {
       }
     ],
     conditions: [
-      "\\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\) 才能用斜率公式 · \\(\\mathrm{d}x/\\mathrm{d}t\\neq0\\) is required for the slope formula.",
+      "\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\) 才能用斜率公式 · \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\neq0\\) is required for the slope formula.",
       "参数区间明确 · The parameter interval must be specified.",
-      "二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\) · For the second derivative, differentiate with respect to \\(t\\) first, then divide by \\(\\mathrm{d}x/\\mathrm{d}t\\).",
-      "水平/竖直切线分别看 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\) · Horizontal and vertical tangents use \\(\\mathrm{d}y/\\mathrm{d}t\\) and \\(\\mathrm{d}x/\\mathrm{d}t\\), respectively.",
+      "二阶导数要先对 \\(t\\) 求导再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\) · For the second derivative, differentiate with respect to \\(t\\) first, then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\).",
+      "水平/竖直切线分别看 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) 与 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\) · Horizontal and vertical tangents use \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\), respectively.",
       "速率是标量，速度是矢量 · Speed is a scalar; velocity is a vector."
     ],
     keyPoints: [
-      "\\(\\mathrm{d}y/\\mathrm{d}x\\) 是两变化率之比 · \\(\\mathrm{d}y/\\mathrm{d}x\\) is the ratio of two rates of change.",
+      "\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) 是两变化率之比 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) is the ratio of two rates of change.",
       "二阶导数不是二阶导数之比 · The second derivative is not the ratio of second derivatives.",
-      "水平切线：\\(\\mathrm{d}y/\\mathrm{d}t=0\\) · Horizontal tangent: \\(\\mathrm{d}y/\\mathrm{d}t=0\\).",
-      "竖直切线：\\(\\mathrm{d}x/\\mathrm{d}t=0\\) · Vertical tangent: \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "水平切线：\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\) · Horizontal tangent: \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=0\\).",
+      "竖直切线：\\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\) · Vertical tangent: \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\).",
       "速率用勾股定理合成 · Speed is found from the Pythagorean combination of velocity components."
     ],
     misconceptions: [
-      "把 \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) 当作 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) · Treating \\(\\dfrac{\\mathrm{d}^{2}y/\\mathrm{d}t^{2}}{\\mathrm{d}^{2}x/\\mathrm{d}t^{2}}\\) as \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\).",
-      "忘记除以 \\(\\mathrm{d}x/\\mathrm{d}t\\) · Forgetting to divide by \\(\\mathrm{d}x/\\mathrm{d}t\\).",
-      "在 \\(\\mathrm{d}x/\\mathrm{d}t=0\\) 处仍用斜率公式 · Using the slope formula when \\(\\mathrm{d}x/\\mathrm{d}t=0\\).",
+      "把 \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}t^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}}\\) 当作 \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\) · Treating \\(\\dfrac{\\frac{\\mathrm{d}^{2}y}{\\mathrm{d}t^{2}}}{\\frac{\\mathrm{d}^{2}x}{\\mathrm{d}t^{2}}}\\) as \\(\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}\\).",
+      "忘记除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\) · Forgetting to divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\).",
+      "在 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\) 处仍用斜率公式 · Using the slope formula when \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}=0\\).",
       "把速度矢量与速率混为一谈 · Confusing the velocity vector with speed.",
       "求切线时忘记代回 \\(t\\) 对应的点 · Forgetting to substitute the parameter value when finding a tangent point."
     ],
@@ -5338,7 +5338,7 @@ export const ENRICHMENTS = {
       "二阶导数为什么不能直接相除？ · Why can the second derivative not be computed by direct division?",
       "水平切线与竖直切线的条件各是什么？ · What are the conditions for horizontal and vertical tangents?"
     ],
-    summary: "参数曲线斜率是 \\(\\mathrm{d}y/\\mathrm{d}t\\) 与 \\(\\mathrm{d}x/\\mathrm{d}t\\) 之比；二阶导数要先对 \\(t\\) 求导再除以 \\(\\mathrm{d}x/\\mathrm{d}t\\)。 · The slope of a parametric curve is the ratio of \\(\\mathrm{d}y/\\mathrm{d}t\\) to \\(\\mathrm{d}x/\\mathrm{d}t\\); the second derivative requires differentiating with respect to \\(t\\) first, then dividing by \\(\\mathrm{d}x/\\mathrm{d}t\\)."
+    summary: "参数曲线斜率是 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) 与 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\) 之比；二阶导数要先对 \\(t\\) 求导再除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。 · The slope of a parametric curve is the ratio of \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}\\) to \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\); the second derivative requires differentiating with respect to \\(t\\) first, then dividing by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)."
   },
   'math/calc-u10/10.11': {
     enrichedAt: "batch2",
@@ -6637,7 +6637,7 @@ export const ENRICHMENTS = {
       '认为 \\(K\\) 是种群永远达不到的最大值（实际可暂时超过）',
       '认为逻辑斯谛增长会无限持续',
       '把密度制约因素与非密度制约因素按“生物/非生物”粗暴分类',
-      '认为指数增长的 per capita 增长率不断增大（它恒定，\\(dN/dt\\) 增大）',
+      '认为指数增长的 per capita 增长率不断增大（它恒定，\\(\\dfrac{dN}{dt}\\) 增大）',
       '认为 \\(N=\\dfrac{K}{2}\\) 时种群数量最大（此时增长速率最大）',
       '忽略 Allee 效应：密度过低也可能不利于繁殖',
     ],
@@ -7294,7 +7294,7 @@ export const ENRICHMENTS = {
       { latex: '\\Delta V=-\\int_A^B\\vec E\\cdot\\mathrm{d}\\vec s', note: '电势差与电场线积分。' },
     ],
     conditions: ['电势零点可任选；点电荷通常取无穷远为零', '电势是标量，叠加用代数和', '电场是矢量，叠加用分量', '\\(V=\\dfrac{kq}{r}\\) 适用于点电荷或球外', '等势面与电场线垂直', '由 \\(V(x,y,z)\\) 求 \\(\\vec E\\) 时用偏导'],
-    keyPoints: ['电势是标量，电场是矢量', '正电荷周围电势为正，负电荷周围为负', '电势沿电场方向降低', '\\(E=-\\mathrm{d}V/\\mathrm{d}x\\)：电势变化越快，场强越大', '沿等势面移动电荷不做功'],
+    keyPoints: ['电势是标量，电场是矢量', '正电荷周围电势为正，负电荷周围为负', '电势沿电场方向降低', '\\(E=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}\\)：电势变化越快，场强越大', '沿等势面移动电荷不做功'],
     misconceptions: [
       '把电势与电势能混为一谈（\\(U=qV\\)）',
       '认为电势为零处电场也为零',
@@ -7313,7 +7313,7 @@ export const ENRICHMENTS = {
       {
         title: '例 2 · 等量异号',
         prompt: '两个等量异号电荷 \\(+q\\) 与 \\(-q\\) 相距 \\(2a\\)。求它们中点处的电势与电场。',
-        steps: ['电势为标量和：\\(V=kq/a+k(-q)/a=0\\)。', '电场为矢量和：两者都指向负电荷，叠加不为零。'],
+        steps: ['电势为标量和：\\(V=\\dfrac{kq}{a}+\\dfrac{k(-q)}{a}=0\\)。', '电场为矢量和：两者都指向负电荷，叠加不为零。'],
         solution: '\\(V=0\\)，但 \\(E\\neq0\\)，方向由正指向负。',
       },
       {
@@ -7350,7 +7350,7 @@ export const ENRICHMENTS = {
     ],
     essentialKnowledge: [
       '静电平衡导体内 \\(\\vec E=0\\)，整个导体是等势体。',
-      '净电荷只分布在导体表面；表面外侧 \\(\\vec E\\perp\\) 表面，大小 \\(E=\\sigma/\\varepsilon_0\\)。',
+      '净电荷只分布在导体表面；表面外侧 \\(\\vec E\\perp\\) 表面，大小 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)。',
       '空腔导体内部无电荷时，腔内场强为零，可屏蔽外部电场。',
       '腔内有电荷时，内表面感应等量异号电荷，外表面电荷由电荷守恒决定。',
       '曲率越大处面电荷密度越高，表面场强越强。',
@@ -7365,7 +7365,7 @@ export const ENRICHMENTS = {
       '后续：10.2 电荷再分布与 10.4 电容器。',
       '应用：静电屏蔽、法拉第笼与避雷针。',
     ],
-    definition: '导体处于静电平衡时，内部电场为零，净电荷只分布在表面，表面外侧电场垂直于表面且大小 \\(E=\\sigma/\\varepsilon_0\\)，整个导体是等势体。若导体有空腔，腔内无电荷时腔内场强为零（静电屏蔽）；腔内有电荷时，内表面感应出等量异号电荷。',
+    definition: '导体处于静电平衡时，内部电场为零，净电荷只分布在表面，表面外侧电场垂直于表面且大小 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)，整个导体是等势体。若导体有空腔，腔内无电荷时腔内场强为零（静电屏蔽）；腔内有电荷时，内表面感应出等量异号电荷。',
     intuition: '导体中的自由电子会一直移动，直到内部电场被完全抵消；多余电荷只能“挤”到表面。',
     intuitionDetailed: '电荷在导体表面并非均匀分布：曲率越大处面电荷密度越高、场强越强，避雷针利用尖端放电。接地导体与大地等势，可通过接地改变外表面电荷。法拉第笼利用导体壳屏蔽外部电场。',
     formulas: [
@@ -7398,7 +7398,7 @@ export const ENRICHMENTS = {
       {
         title: '例 3 · 尖端',
         prompt: '为什么避雷针做成尖端？',
-        steps: ['尖端曲率大，面电荷密度高。', '表面场强 \\(E=\\sigma/\\varepsilon_0\\) 更大。', '强电场使空气电离，电荷更易释放。'],
+        steps: ['尖端曲率大，面电荷密度高。', '表面场强 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 更大。', '强电场使空气电离，电荷更易释放。'],
         solution: '尖端场强集中，利于放电中和电荷。',
       },
     ],
@@ -7407,7 +7407,7 @@ export const ENRICHMENTS = {
       '先判断静电平衡，再写 \\(E_{\\mathrm{inside}}=0\\)',
       '空腔题用高斯定律找内表面电荷',
       '接地改变的是电势与外表面电荷',
-      '尖端放电用 \\(E=\\sigma/\\varepsilon_0\\) 解释',
+      '尖端放电用 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 解释',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.5', title: '高斯定律', relation: '先修' },
@@ -7416,7 +7416,7 @@ export const ENRICHMENTS = {
     ],
     development: ['静电平衡', '导体内场强为零', '表面电荷与场强', '空腔与屏蔽', '尖端放电'],
     checks: ['为什么导体内部场强为零？', '空腔导体的内表面电荷如何确定？', '尖端为什么容易放电？'],
-    summary: '静电平衡导体内 \\(E=0\\)、净电荷在表面、整体等势；表面 \\(E=\\sigma/\\varepsilon_0\\)，空腔导体可屏蔽外部电场。',
+    summary: '静电平衡导体内 \\(E=0\\)、净电荷在表面、整体等势；表面 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)，空腔导体可屏蔽外部电场。',
   },
 
   'em/em-u11/11.3': {
@@ -7428,7 +7428,7 @@ export const ENRICHMENTS = {
     ],
     essentialKnowledge: [
       '电阻：\\(R=\\rho\\dfrac{L}{A}\\)，由材料与几何共同决定。',
-      '电阻率 \\(\\rho\\) 是材料属性；电导率 \\(\\sigma=1/\\rho\\)。',
+      '电阻率 \\(\\rho\\) 是材料属性；电导率 \\(\\sigma=\\dfrac{1}{\\rho}\\)。',
       '欧姆定律：\\(V=IR\\)，只对欧姆器件成立。',
       '温度变化：\\(\\rho=\\rho_0[1+\\alpha(T-T_0)]\\)。',
       '串联 \\(R_{\\mathrm{eq}}=\\sum R_i\\)；并联 \\(\\dfrac{1}{R_{\\mathrm{eq}}}=\\sum\\dfrac{1}{R_i}\\)。',
@@ -7443,7 +7443,7 @@ export const ENRICHMENTS = {
       '后续：11.4 电功率与 11.5 复合直流电路。',
       '应用：导线选型、保险丝与温度传感器。',
     ],
-    definition: '电阻 \\(R=\\rho\\dfrac{L}{A}\\) 描述导体对电流的阻碍，其中 \\(\\rho\\) 是电阻率、\\(L\\) 是长度、\\(A\\) 是横截面积。欧姆定律 \\(V=IR\\) 对欧姆器件成立；电阻率随温度变化 \\(\\rho=\\rho_0[1+\\alpha(T-T_0)]\\)。电导率 \\(\\sigma=1/\\rho\\)。',
+    definition: '电阻 \\(R=\\rho\\dfrac{L}{A}\\) 描述导体对电流的阻碍，其中 \\(\\rho\\) 是电阻率、\\(L\\) 是长度、\\(A\\) 是横截面积。欧姆定律 \\(V=IR\\) 对欧姆器件成立；电阻率随温度变化 \\(\\rho=\\rho_0[1+\\alpha(T-T_0)]\\)。电导率 \\(\\sigma=\\dfrac{1}{\\rho}\\)。',
     intuition: '电阻像水管对水流的阻碍：管子越长、越细，阻碍越大；材料本身的电阻率决定“先天”阻力。',
     intuitionDetailed: '金属中自由电子与晶格碰撞产生电阻；温度升高，晶格振动增强，电阻率通常增大。半导体则可能随温度升高电阻率下降。欧姆定律是材料性质在一定条件下的近似，二极管等非线性器件不服从。串联电阻相加，并联倒数相加。',
     formulas: [
@@ -7472,7 +7472,7 @@ export const ENRICHMENTS = {
       {
         title: '例 2 · 拉伸导线',
         prompt: '把导线均匀拉长到原来的 2 倍（体积不变），电阻变为原来的几倍？',
-        steps: ['体积不变：\\(L\'=2L\\)，\\(A\'=A/2\\)。', '\\(R\'=\\rho\\dfrac{2L}{A/2}=4\\rho\\dfrac{L}{A}=4R\\)。'],
+        steps: ['体积不变：\\(L\'=2L\\)，\\(A\'=\\dfrac{A}{2}\\)。', '\\(R\'=\\rho\\dfrac{2L}{\\frac{A}{2}}=4\\rho\\dfrac{L}{A}=4R\\)。'],
         solution: '电阻变为原来的 4 倍。',
         solutionLatex: 'R\'=4R',
       },
@@ -7618,7 +7618,7 @@ export const ENRICHMENTS = {
     keyPoints: ['安培定律 = 磁场环流与包围电流', '长直导线 \\(B\\propto\\dfrac{I}{r}\\)', '螺线管内部近似均匀 \\(B=\\mu_0nI\\)', '环路外电流对环流贡献为零', '电流方向用右手定则'],
     misconceptions: [
       '把环路外的电流也算进 \\(I_{\\mathrm{encl}}\\)',
-      '在不对称情形直接用 \\(B=\\mu_0I/(2\\pi r)\\)',
+      '在不对称情形直接用 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)',
       '把 \\(n\\)（单位长度匝数）与总匝数 \\(N\\) 混淆',
       '认为螺线管外部磁场严格为零（近似为零）',
       '忘记电流方向与环路方向的右手关系',
@@ -7742,7 +7742,7 @@ export const ENRICHMENTS = {
     ],
     development: ['磁通量', '法拉第定律', '楞次定律', '动生电动势', '感应电流与能量'],
     checks: ['什么情况下会产生感应电动势？', '楞次定律如何体现能量守恒？', '\\(\\theta\\) 是哪个角？'],
-    summary: '磁通量变化产生感应电动势 \\(\\varepsilon=-N\\mathrm{d}\\Phi_B/\\mathrm{d}t\\)；楞次定律判断方向，动生电动势 \\(\\varepsilon=BLv\\)。',
+    summary: '磁通量变化产生感应电动势 \\(\\varepsilon=-N\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)；楞次定律判断方向，动生电动势 \\(\\varepsilon=BLv\\)。',
   },
 
   'em/em-u13/13.5': {
@@ -7755,13 +7755,13 @@ export const ENRICHMENTS = {
     essentialKnowledge: [
       'LR 回路：\\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。',
       '时间常数：\\(\\tau=\\dfrac{L}{R}\\)。',
-      '接通：\\(I(t)=\\dfrac{\\varepsilon}{R}(1-e^{-t/\\tau})\\)。',
-      '断开：\\(I(t)=I_0e^{-t/\\tau}\\)。',
+      '接通：\\(I(t)=\\dfrac{\\varepsilon}{R}(1-e^{-\\frac{t}{\\tau}})\\)。',
+      '断开：\\(I(t)=I_0e^{-\\frac{t}{\\tau}}\\)。',
       '电感储能：\\(U_L=\\dfrac{1}{2}LI^{2}\\)。',
     ],
     derivationNotes: [
       { from: '环路定律', to: 'LR 微分方程', note: '\\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。' },
-      { from: '微分方程', to: '电流解', note: '接通时 \\(I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-t/\\tau}\\right)\\)，\\(\\tau=\\dfrac{L}{R}\\)。' },
+      { from: '微分方程', to: '电流解', note: '接通时 \\(I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\frac{t}{\\tau}}\\right)\\)，\\(\\tau=\\dfrac{L}{R}\\)。' },
       { from: '时间常数', to: '响应快慢', note: '\\(\\tau\\) 越大，电流上升越慢；稳态电流为 \\(\\dfrac{\\varepsilon}{R}\\)。' },
     ],
     connections: [
@@ -7769,16 +7769,16 @@ export const ENRICHMENTS = {
       '后续：13.6 LC 电路与 13.7 麦克斯韦方程与电磁波。',
       '应用：继电器、电机启动与滤波电路。',
     ],
-    definition: 'LR 电路由电感 \\(L\\) 与电阻 \\(R\\) 串联组成。电感反抗电流变化，回路方程 \\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。接通电源时电流按 \\(I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-t/\\tau}\\right)\\) 上升，断开后按 \\(I=I_0e^{-t/\\tau}\\) 衰减，时间常数 \\(\\tau=\\dfrac{L}{R}\\)。',
+    definition: 'LR 电路由电感 \\(L\\) 与电阻 \\(R\\) 串联组成。电感反抗电流变化，回路方程 \\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。接通电源时电流按 \\(I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\frac{t}{\\tau}}\\right)\\) 上升，断开后按 \\(I=I_0e^{-\\frac{t}{\\tau}}\\) 衰减，时间常数 \\(\\tau=\\dfrac{L}{R}\\)。',
     intuition: '电感像电流的“惯性”：电流想突然变化时，电感用感应电动势反抗；最终电流稳定，电感相当于导线。',
     intuitionDetailed: '\\(t=0\\) 时电感相当于开路（电流不能突变），\\(t\\to\\infty\\) 时相当于短路（理想电感无电阻）。\\(\\tau\\) 是电流达到最终值约 63% 所需时间；经过 \\(5\\tau\\) 基本稳定。电感储能 \\(U=\\dfrac{1}{2}LI^{2}\\)。',
     formulas: [
       { latex: '\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0', note: 'LR 回路方程。' },
-      { latex: 'I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-t/\\tau}\\right),\\quad \\tau=\\dfrac{L}{R}', note: '接通电源的电流上升。' },
-      { latex: 'I(t)=I_0e^{-t/\\tau}', note: '断开电源后的电流衰减。' },
+      { latex: 'I(t)=\\dfrac{\\varepsilon}{R}\\left(1-e^{-\\frac{t}{\\tau}}\\right),\\quad \\tau=\\dfrac{L}{R}', note: '接通电源的电流上升。' },
+      { latex: 'I(t)=I_0e^{-\\frac{t}{\\tau}}', note: '断开电源后的电流衰减。' },
       { latex: 'U_L=\\dfrac{1}{2}LI^{2}', note: '电感储能。' },
     ],
-    conditions: ['理想电感（无内阻）与恒定电阻', '开关动作在 \\(t=0\\)', '电流不能突变', '稳态时 \\(\\mathrm{d}I/\\mathrm{d}t=0\\)，\\(I=\\dfrac{\\varepsilon}{R}\\)', '断开时需有续流路径，否则可能产生高压'],
+    conditions: ['理想电感（无内阻）与恒定电阻', '开关动作在 \\(t=0\\)', '电流不能突变', '稳态时 \\(\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)，\\(I=\\dfrac{\\varepsilon}{R}\\)', '断开时需有续流路径，否则可能产生高压'],
     keyPoints: ['\\(\\tau=\\dfrac{L}{R}\\) 决定响应快慢', '\\(t=0\\) 电感相当于开路', '\\(t\\to\\infty\\) 电感相当于短路', '电流按指数上升/衰减', '电感储能 \\(\\dfrac{1}{2}LI^{2}\\)'],
     misconceptions: [
       '认为电流可以瞬间跳到最终值',
@@ -7805,7 +7805,7 @@ export const ENRICHMENTS = {
       {
         title: '例 3 · 衰减',
         prompt: '\\(I_0=2.0\\,\\mathrm{A}\\)，\\(\\tau=0.10\\,\\mathrm{s}\\)。求 \\(t=0.20\\,\\mathrm{s}\\) 时的电流。',
-        steps: ['\\(I=I_0e^{-t/\\tau}\\)。', '\\(I=2.0e^{-2}=0.271\\,\\mathrm{A}\\)。'],
+        steps: ['\\(I=I_0e^{-\\frac{t}{\\tau}}\\)。', '\\(I=2.0e^{-2}=0.271\\,\\mathrm{A}\\)。'],
         solution: '\\(I\\approx0.27\\,\\mathrm{A}\\)。',
         solutionLatex: 'I\\approx0.27\\,\\mathrm{A}',
       },
@@ -7887,7 +7887,7 @@ export const ENRICHMENTS = {
       {
         title: '例 3 · 能量分配',
         prompt: '当 \\(q=\\dfrac{Q}{2}\\) 时，电容能量与电感能量各占总能量的多少？',
-        steps: ['\\(U_C=\\dfrac{(Q/2)^{2}}{2C}=\\dfrac{1}{4}\\dfrac{Q^{2}}{2C}=\\dfrac{1}{4}U\\)。', '\\(U_L=U-U_C=\\dfrac{3}{4}U\\)。'],
+        steps: ['\\(U_C=\\dfrac{(\\frac{Q}{2})^{2}}{2C}=\\dfrac{1}{4}\\dfrac{Q^{2}}{2C}=\\dfrac{1}{4}U\\)。', '\\(U_L=U-U_C=\\dfrac{3}{4}U\\)。'],
         solution: '\\(U_C:U_L=1:3\\)。',
         solutionLatex: 'U_C:U_L=1:3',
       },
@@ -9855,7 +9855,7 @@ export const ENRICHMENTS = {
       '\\(L>1\\) 发散 · \\(L>1\\) gives divergence',
       '\\(L=1\\) 无结论 · \\(L=1\\) is inconclusive',
       '阶乘比值 \\(\\dfrac{(n+1)!}{n!}=n+1\\) · The factorial ratio \\(\\dfrac{(n+1)!}{n!}=n+1\\)',
-      '指数比值 \\(c^{n+1}/c^{n}=c\\) · The exponential ratio \\(c^{n+1}/c^{n}=c\\)',
+      '指数比值 \\(\\dfrac{c^{n+1}}{c^{n}}=c\\) · The exponential ratio \\(\\dfrac{c^{n+1}}{c^{n}}=c\\)',
       '几何级数是比值检验的原型 · Geometric series are the prototype for the ratio test',
     ],
     misconceptions: [
@@ -10232,7 +10232,7 @@ export const ENRICHMENTS = {
     essentialKnowledge: [
       '极坐标与直角坐标的关系为 \\(x=r\\cos\\theta\\)、\\(y=r\\sin\\theta\\)；反过来 \\(r^{2}=x^{2}+y^{2}\\)，\\(\\tan\\theta=\\dfrac{y}{x}\\)（要按象限修正）。 · Polar and rectangular coordinates satisfy \\(x=r\\cos\\theta\\) and \\(y=r\\sin\\theta\\); conversely, \\(r^{2}=x^{2}+y^{2}\\) and \\(\\tan\\theta=\\dfrac{y}{x}\\) (with quadrant correction).',
       '极坐标表示不唯一：\\((r,\\theta)\\) 与 \\((-r,\\theta+\\pi)\\) 表示同一点；负半径和周期性都要考虑。 · Polar representation is not unique: \\((r,\\theta)\\) and \\((-r,\\theta+\\pi)\\) represent the same point; negative radii and periodicity must be considered.',
-      '把 \\(x=f(\\theta)\\cos\\theta\\)、\\(y=f(\\theta)\\sin\\theta\\) 看作参数方程，切线斜率就是 \\(\\dfrac{\\mathrm{d}y/\\mathrm{d}\\theta}{\\mathrm{d}x/\\mathrm{d}\\theta}\\)。 · Treat \\(x=f(\\theta)\\cos\\theta\\) and \\(y=f(\\theta)\\sin\\theta\\) as parametric equations; the tangent slope is \\(\\dfrac{\\mathrm{d}y/\\mathrm{d}\\theta}{\\mathrm{d}x/\\mathrm{d}\\theta}\\).',
+      '把 \\(x=f(\\theta)\\cos\\theta\\)、\\(y=f(\\theta)\\sin\\theta\\) 看作参数方程，切线斜率就是 \\(\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\)。 · Treat \\(x=f(\\theta)\\cos\\theta\\) and \\(y=f(\\theta)\\sin\\theta\\) as parametric equations; the tangent slope is \\(\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\).',
       '水平切线要求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\)；竖直切线要求 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) 且 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\)。 · A horizontal tangent requires \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\neq0\\); a vertical tangent requires \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}=0\\) and \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\neq0\\).',
       '在极点 \\(r=0\\) 处两个导数可能同时为零，切线要用极限或转回直角坐标判断。 · At the pole \\(r=0\\), both derivatives may vanish; the tangent must be found by a limit or by converting to rectangular coordinates.',
       '\\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) 本身不是切线斜率；它只描述半径随角度变化的速度。 · \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) is not itself the tangent slope; it only describes how the radius changes with angle.',
@@ -10249,7 +10249,7 @@ export const ENRICHMENTS = {
     ],
     derivationNotes: [
       { from: '极坐标定义 · Polar definition', to: '参数方程 · Parametric equations', note: '把 \\(r=f(\\theta)\\) 代入 \\(x=r\\cos\\theta\\)、\\(y=r\\sin\\theta\\)。 · Substitute \\(r=f(\\theta)\\) into \\(x=r\\cos\\theta\\) and \\(y=r\\sin\\theta\\).' },
-      { from: '参数方程 · Parametric equations', to: '导数之比 · Ratio of derivatives', note: '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}\\theta}{\\mathrm{d}x/\\mathrm{d}\\theta}\\)。 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\mathrm{d}y/\\mathrm{d}\\theta}{\\mathrm{d}x/\\mathrm{d}\\theta}\\).' },
+      { from: '参数方程 · Parametric equations', to: '导数之比 · Ratio of derivatives', note: '\\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\)。 · \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\frac{\\mathrm{d}y}{\\mathrm{d}\\theta}}{\\frac{\\mathrm{d}x}{\\mathrm{d}\\theta}}\\).' },
       { from: '导数之比 · Ratio of derivatives', to: '切线分类 · Tangent classification', note: '分子为零给水平切线，分母为零给竖直切线。 · A zero numerator gives a horizontal tangent; a zero denominator gives a vertical tangent.' },
     ],
     conditions: [

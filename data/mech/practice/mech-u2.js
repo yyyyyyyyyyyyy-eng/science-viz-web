@@ -2759,7 +2759,7 @@ export const problems = [
     "tol": 0.02,
     "answerLatex": "3.39\\,\\mathrm{m\\,s^{-1}}",
     "solution": "用 v(t) = v_t[1 − e^(−t/τ)]，代入 t/τ = 2.0，得 v ≈ 3.39 m/s。 · Use v(t) = v_t[1 − e^(−t/τ)]. With t/τ = 2.0, v ≈ 3.39 m/s.",
-    "solutionLatex": "v(t)=v_t\\left(1-e^{-t/\\tau}\\right)=3.92\\left(1-e^{-2.0}\\right)=3.39\\,\\mathrm{m\\,s^{-1}}",
+    "solutionLatex": "v(t)=v_t\\left(1-e^{-\\frac{t}{\\tau}}\\right)=3.92\\left(1-e^{-2.0}\\right)=3.39\\,\\mathrm{m\\,s^{-1}}",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",

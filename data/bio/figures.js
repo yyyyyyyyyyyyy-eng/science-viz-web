@@ -56,7 +56,7 @@ idef('enz-inhibition', 'Competitive vs noncompetitive inhibition', '', (v) => {
   { key: 'i', label: '抑制剂浓度 [I]/Kᵢ', min: 0, max: 5, step: 0.5, value: 2 },
 ], (v) => {
   const appKm = 2 * (1 + v.i), vmaxN = 10 / (1 + v.i), n = (x) => fmt(x, 1);
-  return `No inhibitor: \\(V_{max}=10,K_m=2\\). Competitive: apparent \\(K_m=2\\left(1+\\dfrac{[I]}{K_i}\\right)=${n(appKm)}\\), same \\(V_{max}\\) (overcome by more substrate). Noncompetitive: \\(V_{max}\\) lowered to \\(\\dfrac{10}{1+[I]/K_i}=${n(vmaxN)}\\), same \\(K_m\\).`;
+  return `No inhibitor: \\(V_{max}=10,K_m=2\\). Competitive: apparent \\(K_m=2\\left(1+\\dfrac{[I]}{K_i}\\right)=${n(appKm)}\\), same \\(V_{max}\\) (overcome by more substrate). Noncompetitive: \\(V_{max}\\) lowered to \\(\\dfrac{10}{1+\\frac{[I]}{K_i}}=${n(vmaxN)}\\), same \\(K_m\\).`;
 });
 function energyDiagram(o) {
   const W = 480, H = 300, X = (x) => 50 + x * 400, Y = (e) => 260 - e * 2;
@@ -121,7 +121,7 @@ def('isotopes', 'Isotopes of carbon (natural abundance)', '¹²C 98.93%, ¹³C 1
 idef('c14-decay', 'Radioactive decay of ¹⁴C', '', (v) =>
   plot({ x: [0, 30000], y: [0, 105], xstep: v.hl, xfmt: (x) => String(Math.round(x)), xlabel: 'years', ylabel: '% ¹⁴C remaining', curves: [{ f: (t) => 100 * 0.5 ** (t / v.hl), color: C.a }], points: [0, 1, 2, 3, 4, 5].map((k) => ({ x: v.hl * k, y: 100 / 2 ** k, r: 3, label: k ? `${fmt(100 / 2 ** k, 2)}%` : '' })) }), [
   { key: 'hl', label: '半衰期', min: 2000, max: 10000, step: 100, value: 5730, unit: '年' },
-], (v) => `\\(N(t)=N_0\\left(\\dfrac12\\right)^{t/${fmt(v.hl, 0)}}\\): after 1 half-life 50%, 2 → 25%, 3 → 12.5%. Used to date fossils up to ~50,000 years.`);
+], (v) => `\\(N(t)=N_0\\left(\\dfrac12\\right)^{\\frac{t}{${fmt(v.hl, 0)}}}\\): after 1 half-life 50%, 2 → 25%, 3 → 12.5%. Used to date fossils up to ~50,000 years.`);
 const RADIUS = [53, 31, 167, 112, 87, 67, 56, 48, 42, 38, 190, 145, 118, 111, 98, 88, 79, 71, 243, 194]; // calculated atomic radii (pm), Clementi et al.
 def('periodic-radius', 'Periodic trend: atomic radius vs atomic number', 'Calculated atomic radii (pm, Clementi 1967) for Z = 1–20: radius decreases across a period (greater nuclear charge) and jumps at each alkali metal (new shell).', () =>
   plot({ x: [0, 21], y: [0, 260], xstep: 1, xlabel: 'atomic number Z', ylabel: 'radius (pm)', curves: [{ pts: RADIUS.map((r, i) => [i + 1, r]), color: C.a }], points: RADIUS.map((r, i) => ({ x: i + 1, y: r, r: 3, color: [3, 11, 19].includes(i + 1) ? C.e : C.a, label: [3, 11, 19].includes(i + 1) ? ['Li', 'Na', 'K'][[3, 11, 19].indexOf(i + 1)] : '' })) }));
