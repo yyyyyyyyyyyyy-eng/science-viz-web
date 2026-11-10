@@ -656,7 +656,7 @@ export const TOPICS = {
         "title": "例 2 · 速率与加速度 · Example 2: Speed and acceleration",
         "prompt": "质点位置 \\(\\vec r(t)=\\langle2\\cos t,\\sin2t\\rangle\\)。求 \\(t=\\dfrac{\\pi}{6}\\) 时的速度、速率、加速度和单位切向量。 · A particle has position \\(\\vec r(t)=\\langle2\\cos t,\\sin2t\\rangle\\). Find its velocity, speed, acceleration, and unit tangent vector at \\(t=\\dfrac{\\pi}{6}\\).",
         "steps": [
-          "\\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\)。 · Differentiate the position vector: \\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\).",
+          "对位置向量求导得 \\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\)。 · Differentiate the position vector: \\(\\vec v(t)=\\vec r'(t)=\\langle-2\\sin t,2\\cos2t\\rangle\\).",
           "在 \\(t=\\dfrac{\\pi}{6}\\)：\\(\\vec v=\\left\\langle-2\\cdot\\dfrac{1}{2},2\\cdot\\dfrac{1}{2}\\right\\rangle=\\langle-1,1\\rangle\\)。 · At \\(t=\\dfrac{\\pi}{6}\\): \\(\\vec v=\\left\\langle-2\\cdot\\dfrac{1}{2},2\\cdot\\dfrac{1}{2}\\right\\rangle=\\langle-1,1\\rangle\\).",
           "速率 \\(\\|\\vec v\\|=\\sqrt{(-1)^{2}+1^{2}}=\\sqrt{2}\\approx1.41\\)。 · Speed: \\(\\|\\vec v\\|=\\sqrt{(-1)^{2}+1^{2}}=\\sqrt{2}\\approx1.41\\).",
           "\\(\\vec a(t)=\\langle-2\\cos t,-4\\sin2t\\rangle\\)，故 \\(\\vec a=\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\approx\\langle-1.73,-3.46\\rangle\\)。 · \\(\\vec a(t)=\\langle-2\\cos t,-4\\sin2t\\rangle\\), so \\(\\vec a=\\langle-\\sqrt{3},-2\\sqrt{3}\\rangle\\approx\\langle-1.73,-3.46\\rangle\\).",
@@ -686,7 +686,7 @@ export const TOPICS = {
           "所以 \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\)。 · Therefore \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\).",
           "在 \\(t=0\\)：\\(\\vec r'(0)=\\langle1,0\\rangle\\)。 · At \\(t=0\\), \\(\\vec r'(0)=\\langle1,0\\rangle\\)."
         ],
-        "solution": "\\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\)，\\(\\vec r'(0)=\\langle1,0\\rangle\\)。 · \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\) and \\(\\vec r'(0)=\\langle1,0\\rangle\\).",
+        "solution": "导数为 \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\)，且 \\(\\vec r'(0)=\\langle1,0\\rangle\\)。 · \\(\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle\\) and \\(\\vec r'(0)=\\langle1,0\\rangle\\).",
         "solutionLatex": "\\vec r'(t)=\\langle\\cos t-t\\sin t,\\ 2t e^{t^{2}}\\rangle,\\qquad \\vec r'(0)=\\langle1,0\\rangle"
       },
       {
@@ -705,7 +705,7 @@ export const TOPICS = {
         "title": "例 6 · 点积恒等式与垂直速度 · Example 6: Dot-product identity and perpendicular velocity",
         "prompt": "\\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\)。验证 \\(\\vec r\\cdot\\vec r=1\\)，并用求导法则说明 \\(\\vec r\\cdot\\vec r'=0\\)。 · For \\(\\vec r(t)=\\langle\\cos t,\\sin t\\rangle\\), verify \\(\\vec r\\cdot\\vec r=1\\) and use differentiation rules to show \\(\\vec r\\cdot\\vec r'=0\\).",
         "steps": [
-          "\\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\)。 · \\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\).",
+          "先验证 \\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\)。 · \\(\\vec r\\cdot\\vec r=\\cos^{2}t+\\sin^{2}t=1\\).",
           "两边对 \\(t\\) 求导，左边用点积乘积法则：\\(2\\vec r\\cdot\\vec r'=0\\)。 · Differentiate both sides with respect to \\(t\\); the left side uses the dot-product rule: \\(2\\vec r\\cdot\\vec r'=0\\).",
           "\\(\\vec r'=\\langle-\\sin t,\\cos t\\rangle\\)，直接计算也得 \\(\\vec r\\cdot\\vec r'=-\\sin t\\cos t+\\sin t\\cos t=0\\)。 · Since \\(\\vec r'=\\langle-\\sin t,\\cos t\\rangle\\), direct computation also gives \\(\\vec r\\cdot\\vec r'=-\\sin t\\cos t+\\sin t\\cos t=0\\).",
           "所以速度与位置向量垂直；这正对应匀速圆周运动，且 \\(\\|\\vec r'\\|=1\\)。 · Therefore velocity is perpendicular to the position vector; this describes uniform circular motion, and \\(\\|\\vec r'\\|=1\\)."
@@ -721,7 +721,7 @@ export const TOPICS = {
           "在 \\(t=1\\)：\\(\\vec r'(1)=\\langle1,2,3\\rangle\\)，模为 \\(\\sqrt{1+4+9}=\\sqrt{14}\\)。 · At \\(t=1\\), \\(\\vec r'(1)=\\langle1,2,3\\rangle\\), whose magnitude is \\(\\sqrt{1+4+9}=\\sqrt{14}\\).",
           "单位切向量 \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle=\\left\\langle\\dfrac{1}{\\sqrt{14}},\\dfrac{2}{\\sqrt{14}},\\dfrac{3}{\\sqrt{14}}\\right\\rangle\\)。 · Unit tangent vector: \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle=\\left\\langle\\dfrac{1}{\\sqrt{14}},\\dfrac{2}{\\sqrt{14}},\\dfrac{3}{\\sqrt{14}}\\right\\rangle\\)."
         ],
-        "solution": "\\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\)，\\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\)。 · \\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\) and \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\).",
+        "solution": "逐分量求导得 \\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\)，单位切向量为 \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\)。 · \\(\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle\\) and \\(\\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle\\).",
         "solutionLatex": "\\vec r'(t)=\\langle1,2t,3t^{2}\\rangle,\\qquad \\vec T(1)=\\dfrac{1}{\\sqrt{14}}\\langle1,2,3\\rangle"
       }
     ],
