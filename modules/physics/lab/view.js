@@ -165,12 +165,105 @@ export function createLabView(host, opts = {}) {
     arrows[key] = arrow;
   }
 
+  // Selected-body trajectory trail.
+  const TRAIL_MAX = 1600;
+  const trailGeo = new THREE.BufferGeometry();
+  trailGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(TRAIL_MAX * 3), 3));
+  trailGeo.setDrawRange(0, 0);
+  const trailMaterial = new THREE.LineBasicMaterial({ color: theme.accent, transparent: true, opacity: 0.9 });
+  const trailLine = new THREE.Line(trailGeo, trailMaterial);
+  trailLine.visible = false;
+  trailLine.frustumCulled = false;
+  trailLine.userData = { ...NO_PICK };
+  scene.add(trailLine);
+  let trailVisible = false;
+  let trailCount = 0;
+  let trailLastTime = -1;
+
+  function clearTrail() {
+    trailCount = 0;
+    trailLastTime = -1;
+    trailGeo.setDrawRange(0, 0);
+    const attr = trailGeo.getAttribute('position');
+    if (attr) attr.needsUpdate = true;
+  }
+
+  function setTrailVisible(value) {
+    trailVisible = !!value;
+    trailLine.visible = trailVisible;
+    if (!trailVisible) clearTrail();
+  }
+
+  function updateTrail(world) {
+    if (!trailVisible || !selected || selected.type !== 'body') return;
+    const body = world.bodies.find((b) => b.id === selected.id);
+    if (!body) return;
+    if (trailCount > 0 && world.time - trailLastTime < 0.035) return;
+    trailLastTime = world.time;
+    const attr = trailGeo.getAttribute('position');
+    if (trailCount >= TRAIL_MAX) {
+      attr.array.copyWithin(0, 3);
+      trailCount = TRAIL_MAX - 1;
+    }
+    const i = trailCount * 3;
+    attr.array[i] = body.cannon.position.x;
+    attr.array[i + 1] = body.cannon.position.y;
+    attr.array[i + 2] = body.cannon.position.z;
+    trailCount += 1;
+    attr.needsUpdate = true;
+    trailGeo.setDrawRange(0, trailCount);
+    trailGeo.computeBoundingSphere();
+  }
+
+  // Ruler / measure tool.
+  const rulerGeo = new THREE.BufferGeometry();
+  rulerGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+  const rulerMaterial = new THREE.LineBasicMaterial({ color: theme.warn });
+  const rulerLine = new THREE.Line(rulerGeo, rulerMaterial);
+  rulerLine.visible = false;
+  rulerLine.frustumCulled = false;
+  rulerLine.userData = { ...NO_PICK };
+  scene.add(rulerLine);
+  const rulerDotGeo = new THREE.SphereGeometry(0.055, 10, 8);
+  const rulerDots = [0, 1].map(() => {
+    const dot = new THREE.Mesh(rulerDotGeo, rulerMaterial);
+    dot.visible = false;
+    dot.userData = { ...NO_PICK };
+    scene.add(dot);
+    return dot;
+  });
+
+  function setRuler(a, b) {
+    const attr = rulerGeo.getAttribute('position');
+    attr.setXYZ(0, a.x, a.y, a.z);
+    attr.setXYZ(1, b.x, b.y, b.z);
+    attr.needsUpdate = true;
+    rulerGeo.computeBoundingSphere();
+    rulerDots[0].position.copy(a);
+    rulerDots[1].position.copy(b);
+    rulerDots[0].visible = true;
+    rulerDots[1].visible = true;
+    rulerLine.visible = true;
+    return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+  }
+
+  function clearRuler() {
+    rulerLine.visible = false;
+    rulerDots[0].visible = false;
+    rulerDots[1].visible = false;
+  }
+
   const visuals = new Map();
   let selected = null;
   let selectedKey = null;
   let gizmoMode = 'translate';
+  let gizmoVisible = true;
   let forceVisible = true;
   let destroyed = false;
+
+  function applyGizmoVisibility() {
+    transformHelper.visible = gizmoVisible && gizmoMode !== 'off';
+  }
 
   function setTheme() {
     const t = themeColors();
@@ -185,6 +278,8 @@ export function createLabView(host, opts = {}) {
     materials.line.color.set(t.axis);
     materials.accentLine.color.set(t.accent);
     materials.transparent.color.set(t.accent);
+    trailMaterial.color.set(t.accent);
+    rulerMaterial.color.set(t.warn);
     selectionHelper.material.color.set(t.accent);
     axes.material.color?.set?.(t.axis || t.muted);
     const gridColors = [t.axis, t.axis];
@@ -318,6 +413,13 @@ export function createLabView(host, opts = {}) {
     bar.position.x = entity.radius * 0.41;
     bar.position.y = 0.073;
     marker.add(bar);
+    // A raised rim fin makes the spin direction readable even when the disc
+    // is seen edge-on, and makes slip obvious.
+    const finGeo = new THREE.BoxGeometry(0.12, 0.22, 0.07);
+    const fin = new THREE.Mesh(finGeo, materials.accent);
+    fin.position.set(entity.radius * 0.86, 0.13, 0);
+    fin.castShadow = true;
+    marker.add(fin);
     const hubGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.16, 20);
     const hub = new THREE.Mesh(hubGeo, materials.physics);
     hub.position.y = 0.08;
@@ -551,10 +653,12 @@ export function createLabView(host, opts = {}) {
       if (visual && transform.object !== visual.root) {
         transform.attach(visual.root);
         updateGizmoAxes();
+        applyGizmoVisibility();
       }
     }
     syncSelection(world);
     syncForces(world);
+    updateTrail(world);
   }
 
   function syncSelection(world) {
@@ -613,8 +717,10 @@ export function createLabView(host, opts = {}) {
   }
 
   function setSelection(entity) {
+    const nextKey = entity ? `${entity.type}:${entity.id}` : null;
+    if (nextKey !== selectedKey) clearTrail();
     selected = entity ? { type: entity.type, id: entity.id } : null;
-    selectedKey = selected ? `${selected.type}:${selected.id}` : null;
+    selectedKey = nextKey;
     if (!selected || gizmoMode === 'off' || selected.type === 'link') {
       transform.detach();
     } else {
@@ -624,6 +730,7 @@ export function createLabView(host, opts = {}) {
         updateGizmoAxes();
       }
     }
+    applyGizmoVisibility();
   }
 
   function updateGizmoAxes() {
@@ -643,6 +750,7 @@ export function createLabView(host, opts = {}) {
     gizmoMode = mode;
     if (mode === 'off') {
       transform.detach();
+      applyGizmoVisibility();
       return;
     }
     transform.setMode(mode);
@@ -653,10 +761,55 @@ export function createLabView(host, opts = {}) {
         updateGizmoAxes();
       }
     }
+    applyGizmoVisibility();
+  }
+
+  function setGizmoVisible(visible) {
+    gizmoVisible = !!visible;
+    if (!gizmoVisible) transform.detach();
+    else if (selected && selected.type !== 'link' && gizmoMode !== 'off') {
+      const visual = visuals.get(selected.id);
+      if (visual) {
+        transform.attach(visual.root);
+        updateGizmoAxes();
+      }
+    }
+    applyGizmoVisibility();
   }
 
   function setForceVisible(value) {
     forceVisible = !!value;
+  }
+
+  function frameSelected() {
+    const box = new THREE.Box3();
+    if (selected) {
+      const visual = visuals.get(selected.id);
+      if (visual) box.setFromObject(visual.root);
+    }
+    if (box.isEmpty()) {
+      for (const visual of visuals.values()) box.expandByObject(visual.root);
+    }
+    if (box.isEmpty()) return false;
+    const center = box.getCenter(new THREE.Vector3());
+    const size = Math.max(0.6, box.getSize(new THREE.Vector3()).length());
+    const dir = camera.position.clone().sub(orbit.target);
+    if (dir.lengthSq() < 1e-6) dir.set(1, 0.8, 1);
+    dir.normalize();
+    orbit.target.copy(center);
+    camera.position.copy(center).add(dir.multiplyScalar(Math.max(2.6, size * 1.35)));
+    orbit.update();
+    return true;
+  }
+
+  function screenDeltaToWorld(dx, dy, point) {
+    const height = Math.max(1, renderer.domElement.clientHeight);
+    const target = point || orbit.target;
+    const distance = Math.max(0.5, camera.position.distanceTo(target));
+    const k = (2 * Math.tan((camera.fov * Math.PI) / 360) * distance) / height;
+    const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
+    return right.multiplyScalar(dx * k).add(up.multiplyScalar(-dy * k));
   }
 
   function setView(name) {
@@ -813,8 +966,15 @@ export function createLabView(host, opts = {}) {
     sync,
     setSelection,
     setGizmoMode,
+    setGizmoVisible,
     setForceVisible,
     setView,
+    setTrailVisible,
+    clearTrail,
+    setRuler,
+    clearRuler,
+    frameSelected,
+    screenDeltaToWorld,
     pickAt,
     groundPoint,
     getObject,

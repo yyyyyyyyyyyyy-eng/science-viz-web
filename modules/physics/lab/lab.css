@@ -105,6 +105,11 @@ html[data-route="lab"] .site-footer {
   cursor: not-allowed;
   opacity: 0.5;
 }
+.plab-btn-primary:disabled {
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  opacity: 1;
+}
 .plab-btn-primary {
   background: var(--accent);
   color: var(--on-accent);
@@ -617,6 +622,205 @@ html[data-route="lab"] .site-footer {
   outline-offset: 1px;
 }
 
+.plab-editbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  align-items: center;
+  min-width: 0;
+}
+.plab-ruler-readout {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.55rem;
+  border-left: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.plab-scrub {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  min-width: 0;
+}
+.plab-scrub-label {
+  white-space: nowrap;
+}
+.plab-scrub input[type="range"] {
+  flex: 1 1 160px;
+  min-width: 0;
+  height: 44px;
+  accent-color: var(--accent);
+}
+.plab-scrub-time {
+  min-width: 3.4rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text);
+  text-align: right;
+}
+.plab-scrub-hint {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.plab-graphs {
+  border-top: 1px solid var(--border);
+  padding-top: 0.45rem;
+}
+.plab-graphs[hidden] {
+  display: none;
+}
+.plab-graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+.plab-graph-canvas {
+  display: block;
+  width: 100%;
+  height: 220px;
+  margin-top: 0.35rem;
+  border: 1px solid var(--border-soft);
+  background: var(--canvas-plot);
+}
+
+.plab-modal {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 0.6rem;
+  z-index: 5;
+  max-width: calc(100% - 1.2rem);
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  pointer-events: none;
+  white-space: normal;
+}
+.plab-modal[hidden] {
+  display: none;
+}
+
+.plab-outliner {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.35rem 0;
+  min-width: 0;
+}
+.plab-outliner-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.plab-outliner-count {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--text-dim);
+}
+.plab-outliner-list {
+  max-height: 190px;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-soft);
+}
+.plab-outliner-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border-soft);
+}
+.plab-outliner-item {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.05rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.25rem 0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.plab-outliner-item:hover {
+  background: var(--bg-soft);
+  color: var(--accent);
+}
+.plab-outliner-item.active {
+  background: var(--bg-soft);
+  color: var(--accent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.plab-outliner-name {
+  font-size: 0.72rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plab-outliner-kind {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plab-outliner-del {
+  flex: 0 0 auto;
+  min-width: 58px;
+  min-height: 44px;
+  border: 0;
+  border-left: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.64rem;
+  cursor: pointer;
+}
+.plab-outliner-del:hover {
+  color: var(--danger);
+  background: var(--bg-soft);
+}
+.plab-outliner-rename {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  padding: 0 0.4rem;
+  border: 1px solid var(--accent);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.74rem;
+}
+.plab-outliner-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.66rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+.plab-outliner-hint[hidden] {
+  display: none;
+}
+
 @media (max-width: 980px) {
   html[data-route="lab"] .main {
     max-width: none;
@@ -718,6 +922,30 @@ html[data-route="lab"] .site-footer {
   .plab-timescale input[type="range"] {
     flex: 1;
     width: auto;
+  }
+  .plab-editbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .plab-editbar .plab-toolgroup {
+    width: 100%;
+  }
+  .plab-editbar .plab-tool {
+    flex: 1 1 auto;
+  }
+  .plab-ruler-readout {
+    flex: 1 1 100%;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .plab-scrub {
+    flex-wrap: wrap;
+  }
+  .plab-scrub-hint {
+    width: 100%;
+  }
+  .plab-graph-canvas {
+    height: 180px;
   }
   .plab-empty {
     padding: 1rem;

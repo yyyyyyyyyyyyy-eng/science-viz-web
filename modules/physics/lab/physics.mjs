@@ -65,6 +65,23 @@ function nextId(world, prefix) {
   return `${prefix}-${world.nextId++}`;
 }
 
+function assignId(world, prefix, id) {
+  if (!id) return nextId(world, prefix);
+  const match = /-(\d+)$/.exec(id);
+  if (match) world.nextId = Math.max(world.nextId, Number(match[1]) + 1);
+  return id;
+}
+
+/**
+ * Keep the two friction coefficients physically ordered.
+ * The lab UI uses this helper so the student cannot create mu_k > mu_s.
+ */
+export function clampMuPair(muS, muK) {
+  const s = Math.max(0, Number.isFinite(muS) ? muS : 0);
+  const k = Math.max(0, Number.isFinite(muK) ? muK : 0);
+  return { muS: s, muK: Math.min(k, s) };
+}
+
 export function surfaceFrame(surface) {
   const n = surface.body.quaternion.vmult(V(0, 1, 0));
   const t = surface.body.quaternion.vmult(V(1, 0, 0));
@@ -108,9 +125,10 @@ export function addSurface(world, opts = {}) {
   body.quaternion.setFromEuler(0, 0, angleDeg * DEG);
   world.engine.addBody(body);
   const surface = {
-    id: nextId(world, 'surface'),
+    id: assignId(world, 'surface', opts.id),
     type: 'surface',
     kind,
+    name: opts.name || '',
     body,
     angle: angleDeg,
     length,
@@ -124,8 +142,18 @@ export function addSurface(world, opts = {}) {
 }
 
 export function addLoop(world, opts = {}) {
-  const { x = 0, y = 2.6, z = 0, radius = 1.8 } = opts;
-  const loop = { id: nextId(world, 'loop'), type: 'loop', x, y, z, radius };
+  const { x = 0, y = 2.6, z = 0, radius = 1.8, muS = 1.2, muK = 0.8 } = opts;
+  const loop = {
+    id: assignId(world, 'loop', opts.id),
+    type: 'loop',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    radius,
+    muS,
+    muK,
+  };
   world.loops.push(loop);
   return loop;
 }
@@ -151,8 +179,9 @@ export function addTurntable(world, opts = {}) {
   body.position.set(x, y, z);
   world.engine.addBody(body);
   const table = {
-    id: nextId(world, 'turntable'),
+    id: assignId(world, 'turntable', opts.id),
     type: 'turntable',
+    name: opts.name || '',
     body,
     x,
     y,
@@ -174,7 +203,17 @@ export function addTurntable(world, opts = {}) {
 
 export function addHCircle(world, opts = {}) {
   const { x = 0, z = 0, y = 0.1, radius = 2, muS = 0.55, muK = 0.35 } = opts;
-  const circle = { id: nextId(world, 'hcircle'), type: 'hcircle', x, y, z, radius, muS, muK };
+  const circle = {
+    id: assignId(world, 'hcircle', opts.id),
+    type: 'hcircle',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    radius,
+    muS,
+    muK,
+  };
   world.hcircles.push(circle);
   return circle;
 }
@@ -190,9 +229,10 @@ function baseBody(world, kind, opts) {
     elevation = 0,
   } = opts;
   return {
-    id: nextId(world, kind),
+    id: assignId(world, kind, opts.id),
     type: 'body',
     kind,
+    name: opts.name || '',
     mass,
     cannon: null,
     halfHeight: 0.25,
@@ -206,6 +246,9 @@ function baseBody(world, kind, opts) {
     appliedAzimuth: 0,
     appliedElevation: 0,
     attachment: null,
+    skid: null,
+    brake: false,
+    motor: { on: false, target: 0, force: 2 },
     createPos: V(x, y, z),
     diagnostics: {
       normal: 0,
@@ -241,6 +284,9 @@ export function addBlock(world, opts = {}) {
   world.engine.addBody(body);
   b.cannon = body;
   b.I = 0;
+  b.name = opts.name || b.name;
+  b.brake = !!opts.brake;
+  if (opts.motor) b.motor = { ...b.motor, ...opts.motor };
   world.bodies.push(b);
   return b;
 }
@@ -268,6 +314,9 @@ export function addCart(world, opts = {}) {
   body.updateInertiaWorld(true);
   world.engine.addBody(body);
   b.cannon = body;
+  b.name = opts.name || b.name;
+  b.brake = !!opts.brake;
+  if (opts.motor) b.motor = { ...b.motor, ...opts.motor };
   world.bodies.push(b);
   return b;
 }
@@ -313,6 +362,7 @@ export function tableTopY(table) {
 export function attachBodyToSurface(world, body, surfaceId, opts = {}) {
   const surface = getSurface(world, surfaceId);
   if (!surface) return false;
+  body.skid = null;
   let localX = opts.localX;
   let localZ = opts.localZ ?? 0;
   if (localX == null) {
@@ -364,6 +414,7 @@ export function repositionSurfaceBody(world, body) {
 export function attachBodyToLoop(world, body, loopId, opts = {}) {
   const loop = getLoop(world, loopId);
   if (!loop) return false;
+  body.skid = null;
   let theta = opts.theta;
   if (theta == null) {
     const p = body.cannon.position;
@@ -384,6 +435,7 @@ export function attachBodyToLoop(world, body, loopId, opts = {}) {
 export function attachBodyToTurntable(world, body, tableId, opts = {}) {
   const table = getTurntable(world, tableId);
   if (!table) return false;
+  body.skid = null;
   let r = opts.r;
   let phi = opts.phi;
   if (r == null || phi == null) {
@@ -415,6 +467,7 @@ export function attachBodyToTurntable(world, body, tableId, opts = {}) {
 export function attachBodyToHCircle(world, body, circleId, opts = {}) {
   const circle = getHCircle(world, circleId);
   if (!circle) return false;
+  body.skid = null;
   let phi = opts.phi;
   if (phi == null) {
     phi = Math.atan2(body.cannon.position.z - circle.z, body.cannon.position.x - circle.x);
@@ -442,6 +495,7 @@ export function attachBodyToHCircle(world, body, circleId, opts = {}) {
 
 export function detachBody(world, body) {
   body.attachment = null;
+  body.skid = null;
   body.cannon.type = CANNON.Body.DYNAMIC;
   body.cannon.fixedRotation = body.kind === 'block';
   body.cannon.angularFactor.set(0, 0, body.kind === 'cart' ? 1 : 0);
@@ -483,8 +537,13 @@ export function applyInitialVelocity(world, body) {
     const loop = getLoop(world, att.id);
     if (!loop) return;
     const speed = v0 * Math.cos(az);
+    att.speed = speed;
     body.cannon.velocity.copy(loopTangent(att.theta).scale(speed));
-    body.cannon.angularVelocity.setZero();
+    if (body.kind === 'cart' && body.I > 0) {
+      body.cannon.angularVelocity.set(0, 0, -speed / body.radius);
+    } else {
+      body.cannon.angularVelocity.setZero();
+    }
     return;
   }
   if (att.type === 'turntable') {
@@ -618,7 +677,7 @@ export function addLink(world, opts = {}) {
     restLength = pa && pb ? pa.vsub(pb).length() : 1;
   }
   const link = {
-    id: nextId(world, meter ? 'meter' : 'spring'),
+    id: assignId(world, meter ? 'meter' : 'spring', opts.id),
     type: 'link',
     a: { ...a },
     b: { ...b },
@@ -740,6 +799,15 @@ function surfaceContact(world, body) {
   const drive = ext.vadd(gravity);
   const dn = drive.dot(frame.n);
   drive.vsub(frame.n.scale(dn), drive);
+  body.motorForce = 0;
+  if (body.kind === 'cart' && body.motor?.on) {
+    const vt = body.cannon.velocity.dot(frame.t);
+    const maxF = Math.max(0, body.motor.force ?? 0);
+    const target = body.motor.target ?? 0;
+    const fm = clamp((target - vt) * body.mass * 2, -maxF, maxF);
+    body.motorForce = fm;
+    drive.vadd(frame.t.scale(fm), drive);
+  }
   const v = cloneV(body.cannon.velocity);
   const vn = frame.n.scale(v.dot(frame.n));
   v.vsub(vn, v);
@@ -749,6 +817,7 @@ function surfaceContact(world, body) {
 function applySurfaceContact(world, body, h) {
   const c = surfaceContact(world, body);
   if (!c) return;
+  body._surfaceV0 = cloneV(body.cannon.velocity);
   const { surface, frame, N, drive, v } = c;
   body.diagnostics.normal = Math.max(0, N);
   body.diagnostics.contact = surface.kind;
@@ -793,6 +862,9 @@ function applySurfaceContact(world, body, h) {
   }
 
   // Cart: use the chosen moment of inertia and a proper rolling/slip law.
+  // At rest, pure rolling is selected whenever the required static friction
+  // fits inside the friction cone. A parked/locked axle only happens when the
+  // student turns the brake on (and static friction can hold the cart).
   const vt = v.dot(frame.t);
   const vb = v.dot(frame.b);
   const wAxis = body.cannon.angularVelocity.dot(frame.b);
@@ -803,25 +875,20 @@ function applySurfaceContact(world, body, h) {
   const fReq = -body.I * aReq / (body.radius * body.radius);
   let f = 0;
   let staticRoll = false;
-  if (Math.abs(u) < 1e-3 && Math.abs(vt) < STATIC_SPEED && Math.abs(vb) < STATIC_SPEED) {
-    if (Math.abs(Ft) + Math.abs(drive.dot(frame.b)) <= staticMax) {
-      f = -Ft;
-      staticRoll = true;
-      body.cannon.velocity.setZero();
-      body.cannon.angularVelocity.setZero();
-    } else if (Math.abs(fReq) <= staticMax) {
-      f = fReq;
-      staticRoll = true;
-    } else {
-      f = Math.sign(fReq || -Ft) * muK * N;
-      world.thermal += Math.abs(f * u) * h;
-    }
+  let held = false;
+  const atRest = Math.abs(u) < 1e-3 && Math.abs(vt) < STATIC_SPEED && Math.abs(vb) < STATIC_SPEED;
+  if (atRest && body.brake && Math.abs(Ft) + Math.abs(drive.dot(frame.b)) <= staticMax) {
+    f = -Ft;
+    staticRoll = true;
+    held = true;
+    body.cannon.velocity.setZero();
+    body.cannon.angularVelocity.setZero();
   } else if (Math.abs(u) < 1e-3) {
     if (Math.abs(fReq) <= staticMax) {
       f = fReq;
       staticRoll = true;
     } else {
-      f = Math.sign(fReq) * muK * N;
+      f = Math.sign(fReq || -Ft) * muK * N;
       world.thermal += Math.abs(f * u) * h;
     }
   } else {
@@ -840,81 +907,139 @@ function applySurfaceContact(world, body, h) {
   }
   // Apply the tangential force at the centre and add the contact torque
   // explicitly; this keeps the engine's normal solver decoupled from the
-  // friction lever arm while preserving the rolling law. A cart parked by
-  // static friction has a locked axle, so no torque is applied while it is
-  // at rest.
+  // friction lever arm while preserving the rolling law. A braked cart is a
+  // parked/locked axle, so no torque is applied while it is held.
   body.cannon.applyForce(friction);
-  if (!(staticRoll && speed < STATIC_SPEED)) {
+  if (!held) {
     body.cannon.torque.vadd(frame.b.scale(f * body.radius), body.cannon.torque);
   }
   body.diagnostics.static = staticRoll;
+  body.diagnostics.rolling = Math.abs(u) < 1e-3;
+  body._surfaceRolling = staticRoll && !held;
   body.diagnostics.friction = friction.length();
   body.diagnostics.force.copy(friction);
-  body.diagnostics.accel = (drive.dot(frame.t) + f) / body.mass;
+  body.diagnostics.accel = held ? 0 : (drive.dot(frame.t) + f) / body.mass;
+  if (body.motorForce) world.driveWork += body.motorForce * vt * h;
 }
 
-function postSurface(world, body) {
-  if (body.attachment?.type !== 'surface' || body.kind !== 'block') return;
+function postSurface(world, body, h) {
+  if (body.attachment?.type !== 'surface') return;
+  const surface = getSurface(world, body.attachment.id);
+  if (!surface) return;
+  const { t } = surfaceFrame(surface);
+  const a0 = body.diagnostics.accel || 0;
+  // Semi-implicit Euler shifts the position by +1/2 a h^2 per step. Remove
+  // that first-order bias. Together with the averaged velocity update below
+  // this is velocity Verlet, which is stable for springs as well as exact for
+  // the constant-acceleration incline cases.
+  if (a0 !== 0) {
+    body.cannon.position.vadd(t.scale(-0.5 * a0 * h * h), body.cannon.position);
+  }
   const c = surfaceContact(world, body);
   if (!c) return;
-  if (c.speed > 0.02) return;
-  if (c.drive.length() > c.surface.muS * Math.max(0, c.N)) return;
-  body.cannon.velocity.setZero();
-  body.cannon.angularVelocity.setZero();
-  body.diagnostics.static = true;
-  body.diagnostics.friction = c.drive.length();
-  body.diagnostics.accel = 0;
+  if (body.kind === 'block' && c.speed <= 0.02
+    && c.drive.length() <= c.surface.muS * Math.max(0, c.N)) {
+    body.cannon.velocity.setZero();
+    body.cannon.angularVelocity.setZero();
+    body.diagnostics.static = true;
+    body.diagnostics.friction = c.drive.length();
+    body.diagnostics.accel = 0;
+    body._surfaceV0 = null;
+    return;
+  }
+  // Put the wheels back on the rolling constraint before asking for the new
+  // acceleration; otherwise the stale wheel speed would look like slip and
+  // kinetic friction would be applied for one step.
+  if (body.kind === 'cart' && body._surfaceRolling) {
+    const vtNow = body.cannon.velocity.dot(t);
+    const { b } = surfaceFrame(surface);
+    body.cannon.angularVelocity.copy(b.scale(-vtNow / body.radius));
+  }
+  const d = bodyDiagnostics(world, body);
+  const v0 = body._surfaceV0;
+  if (v0 && !(d.static && !d.rolling)) {
+    const vt = body.cannon.velocity.dot(t);
+    const vtNext = v0.dot(t) + 0.5 * (a0 + (d.accel || 0)) * h;
+    body.cannon.velocity.vadd(t.scale(vtNext - vt), body.cannon.velocity);
+    if (body.kind === 'cart' && (body._surfaceRolling || body.I === 0)) {
+      const { b } = surfaceFrame(surface);
+      body.cannon.angularVelocity.copy(b.scale(-vtNext / body.radius));
+    }
+  }
+  body._surfaceV0 = null;
 }
 
 function preLoop(world, body) {
   const loop = getLoop(world, body.attachment.id);
   if (!loop) return;
-  const theta = body.attachment.theta;
-  const tangent = loopTangent(theta);
-  const vt = body.cannon.velocity.dot(tangent);
-  body.cannon.position.copy(loopPoint(loop, theta));
-  body.cannon.velocity.copy(tangent.scale(vt));
-  body.cannon.angularVelocity.setZero();
-  body.attachment.speed = vt;
+  const att = body.attachment;
+  if (!Number.isFinite(att.speed)) {
+    att.speed = body.cannon.velocity.dot(loopTangent(att.theta));
+  }
+  body.cannon.position.copy(loopPoint(loop, att.theta));
+  body.cannon.velocity.copy(loopTangent(att.theta).scale(att.speed));
+  if (body.kind === 'cart' && body.I > 0) {
+    body.cannon.angularVelocity.set(0, 0, -att.speed / body.radius);
+  } else {
+    body.cannon.angularVelocity.setZero();
+  }
 }
 
-function postLoop(world, body) {
+function postLoop(world, body, h) {
   const loop = getLoop(world, body.attachment.id);
   if (!loop) return;
-  const p = body.cannon.position;
-  const dx = p.x - loop.x;
-  const dy = p.y - loop.y;
-  const theta = Math.atan2(dx, -dy);
-  const tangent = loopTangent(theta);
-  const v = cloneV(body.cannon.velocity);
-  const vt = v.dot(tangent);
-  const ext = externalForceOn(world, body);
-  const inward = loopInward(theta);
-  const Fr = ext.dot(inward);
+  const att = body.attachment;
   const R = loop.radius;
-  const N = (body.mass * vt * vt) / R + body.mass * world.g * Math.cos(theta) - Fr;
+  const m = body.mass;
+  const massEff = m + (body.kind === 'cart' ? body.I / (body.radius * body.radius) : 0);
+  const accelAt = (theta) => {
+    body.cannon.position.copy(loopPoint(loop, theta));
+    const ext = externalForceOn(world, body);
+    const Ft = ext.dot(loopTangent(theta));
+    return {
+      a: (-m * world.g * Math.sin(theta) + Ft) / (massEff * R),
+      ext,
+    };
+  };
+
+  let theta = att.theta;
+  let omega = att.speed / R;
+  const a1 = accelAt(theta).a;
+  const theta2 = theta + omega * h + 0.5 * a1 * h * h;
+  const next = accelAt(theta2);
+  const omega2 = omega + 0.5 * (a1 + next.a) * h;
+
+  theta = theta2;
+  att.theta = theta;
+  att.speed = omega2 * R;
+  body.cannon.position.copy(loopPoint(loop, theta));
+  body.cannon.velocity.copy(loopTangent(theta).scale(att.speed));
+  if (body.kind === 'cart' && body.I > 0) {
+    body.cannon.angularVelocity.set(0, 0, -att.speed / body.radius);
+  } else {
+    body.cannon.angularVelocity.setZero();
+  }
+
+  const inward = loopInward(theta);
+  const N = (m * att.speed * att.speed) / R + m * world.g * Math.cos(theta) - next.ext.dot(inward);
   body.diagnostics.normal = N;
   body.diagnostics.mode = 'loop';
-  body.diagnostics.speed = Math.abs(vt);
+  body.diagnostics.speed = Math.abs(att.speed);
   body.diagnostics.contact = 'loop';
   body.diagnostics.friction = 0;
   body.diagnostics.static = false;
-  const gravityT = -body.mass * world.g * Math.sin(theta);
-  body.diagnostics.accel = (gravityT + ext.dot(tangent)) / body.mass;
+  body.diagnostics.accel = (-m * world.g * Math.sin(theta) + next.ext.dot(loopTangent(theta))) / massEff;
   if (N < 0) {
+    const released = ((theta % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
     detachBody(world, body);
     world.events.push({
       type: 'leave-loop',
       bodyId: body.id,
       time: world.time,
       normal: N,
-      theta,
+      theta: released,
     });
-    return;
   }
-  body.attachment.theta = theta;
-  body.cannon.position.copy(loopPoint(loop, theta));
-  body.cannon.velocity.copy(tangent.scale(vt));
 }
 
 function preHCircle(world, body, h) {
@@ -924,7 +1049,16 @@ function preHCircle(world, body, h) {
   const N = body.mass * world.g;
   const required = body.mass * att.speed * att.speed / circle.radius;
   if (required > circle.muS * N + 1e-9) {
+    // The static friction limit is exceeded: the body skids off the ring and
+    // kinetic friction now acts on the horizontal plane. Keeping a skid state
+    // (rather than silently detaching) is what makes mu_k visible.
     body.attachment = null;
+    body.skid = {
+      muK: circle.muK,
+      y: circle.y + body.halfHeight + 0.01,
+      circleId: circle.id,
+    };
+    body.cannon.velocity.copy(V(-Math.sin(att.phi), 0, Math.cos(att.phi)).scale(att.speed));
     world.events.push({
       type: 'leave-hcircle',
       bodyId: body.id,
@@ -953,14 +1087,14 @@ function preHCircle(world, body, h) {
   body.diagnostics.contact = 'hcircle';
 }
 
-function postHCircle(world, body) {
+function postHCircle(world, body, h) {
   const circle = getHCircle(world, body.attachment.id);
   if (!circle) return;
   const att = body.attachment;
   const p = body.cannon.position;
   const phi = Math.atan2(p.z - circle.z, p.x - circle.x);
   const tangent = V(-Math.sin(phi), 0, Math.cos(phi));
-  const speed = body.cannon.velocity.dot(tangent);
+  let speed = body.cannon.velocity.dot(tangent);
   if (speed !== 0) att.speed = speed;
   att.phi = phi;
   body.cannon.position.set(
@@ -969,6 +1103,49 @@ function postHCircle(world, body) {
     circle.z + circle.radius * Math.sin(phi),
   );
   body.cannon.velocity.copy(tangent.scale(att.speed));
+}
+
+function applySkidFriction(world, body, h) {
+  const skid = body.skid;
+  if (!skid) return;
+  body.cannon.position.y = skid.y;
+  body.cannon.velocity.y = 0;
+  const vx = body.cannon.velocity.x;
+  const vz = body.cannon.velocity.z;
+  const speed = Math.hypot(vx, vz);
+  const N = body.mass * world.g;
+  const f = Math.max(0, skid.muK) * N;
+  if (speed > 1e-4) {
+    body.cannon.applyForce(V((-f * vx) / speed, 0, (-f * vz) / speed));
+    world.thermal += f * speed * h;
+    body.diagnostics.normal = N;
+    body.diagnostics.friction = f;
+    body.diagnostics.speed = speed;
+    body.diagnostics.static = false;
+    body.diagnostics.mode = 'hcircle';
+    body.diagnostics.contact = 'hcircle';
+  } else {
+    body.cannon.velocity.x = 0;
+    body.cannon.velocity.z = 0;
+    body.diagnostics.normal = N;
+    body.diagnostics.friction = 0;
+    body.diagnostics.speed = 0;
+    body.diagnostics.static = true;
+    body.diagnostics.mode = 'hcircle';
+    body.diagnostics.contact = 'hcircle';
+  }
+}
+
+function postSkid(world, body) {
+  const skid = body.skid;
+  if (!skid) return;
+  body.cannon.position.y = skid.y;
+  body.cannon.velocity.y = 0;
+  body.cannon.aabbNeedsUpdate = true;
+  if (body.cannon.velocity.x * body.cannon.velocity.x + body.cannon.velocity.z * body.cannon.velocity.z < 4e-4) {
+    body.cannon.velocity.x = 0;
+    body.cannon.velocity.z = 0;
+  }
 }
 
 function applyTurntableContact(world, body, table, h) {
@@ -984,16 +1161,13 @@ function applyTurntableContact(world, body, table, h) {
 
   if (att.stuck) {
     if (r <= table.radius + 0.02 && required <= staticMax + 1e-9) {
-      const nextPhi = phi + table.omega * h;
-      body.cannon.position.set(
-        table.x + r * Math.cos(nextPhi),
-        tableTopY(table) + body.halfHeight,
-        table.z + r * Math.sin(nextPhi),
-      );
-      body.cannon.quaternion.setFromEuler(0, -nextPhi, 0);
+      // Only set the velocity here. The engine advances the body along this
+      // tangent during the step; postTurntable re-projects it onto the circle
+      // and refreshes the velocity. Advancing the pose here as well would
+      // double the angular rate (the original 2*omega bug).
+      att.phi = phi;
       body.cannon.velocity.copy(tableSurfaceVelocity(table, body.cannon.position));
       body.cannon.angularVelocity.setZero();
-      att.phi = nextPhi;
       body.diagnostics.normal = N;
       body.diagnostics.friction = required;
       body.diagnostics.requiredFriction = required;
@@ -1041,7 +1215,26 @@ function applyTurntableContact(world, body, table, h) {
 }
 
 function postTurntable(world, body, table) {
-  if (body.attachment?.stuck) return;
+  if (body.attachment?.type !== 'turntable') return;
+  if (body.attachment.stuck) {
+    // The engine has advanced one tangent step. Re-project onto the exact
+    // radius so the block neither walks outward nor gains a second angle
+    // increment. Velocity is refreshed from the disc surface afterwards.
+    const att = body.attachment;
+    const p = body.cannon.position;
+    const phi = Math.atan2(p.z - table.z, p.x - table.x);
+    body.cannon.position.set(
+      table.x + att.r * Math.cos(phi),
+      tableTopY(table) + body.halfHeight,
+      table.z + att.r * Math.sin(phi),
+    );
+    body.cannon.quaternion.setFromEuler(0, -phi, 0);
+    body.cannon.velocity.copy(tableSurfaceVelocity(table, body.cannon.position));
+    body.cannon.angularVelocity.setZero();
+    att.phi = phi;
+    body.cannon.aabbNeedsUpdate = true;
+    return;
+  }
   const p = body.cannon.position;
   const dx = p.x - table.x;
   const dz = p.z - table.z;
@@ -1090,6 +1283,7 @@ export function substep(world, h) {
   applyAppliedForces(world);
 
   for (const body of world.bodies) {
+    if (body.skid) applySkidFriction(world, body, h);
     if (!body.attachment) continue;
     if (body.attachment.type === 'surface') applySurfaceContact(world, body, h);
     else if (body.attachment.type === 'loop') preLoop(world, body);
@@ -1109,10 +1303,11 @@ export function substep(world, h) {
   world.engine.step(h);
 
   for (const body of world.bodies) {
+    if (body.skid) postSkid(world, body);
     if (!body.attachment) continue;
-    if (body.attachment.type === 'surface') postSurface(world, body);
-    else if (body.attachment.type === 'loop') postLoop(world, body);
-    else if (body.attachment.type === 'hcircle') postHCircle(world, body);
+    if (body.attachment.type === 'surface') postSurface(world, body, h);
+    else if (body.attachment.type === 'loop') postLoop(world, body, h);
+    else if (body.attachment.type === 'hcircle') postHCircle(world, body, h);
     else if (body.attachment.type === 'turntable') {
       const table = getTurntable(world, body.attachment.id);
       if (table) postTurntable(world, body, table);
@@ -1136,9 +1331,11 @@ export function stepWorld(world, dt, opts = {}) {
   return n;
 }
 
-export function stepOnce(world) {
+export function stepOnce(world, seconds = 1 / 60) {
   world.accumulator = 0;
-  substep(world, world.h);
+  const total = Math.max(world.h, Math.abs(seconds));
+  const n = Math.max(1, Math.round(total / world.h));
+  for (let i = 0; i < n; i += 1) substep(world, world.h);
 }
 
 /* ------------------------------------------------------------------ */
@@ -1161,14 +1358,50 @@ export function bodyDiagnostics(world, body) {
         d.static = c.speed < STATIC_SPEED && driveMag <= muS * Math.max(0, c.N);
         d.friction = d.static ? driveMag : muK * Math.max(0, c.N);
         d.accel = d.static ? 0 : (c.drive.dot(c.frame.t) - Math.sign(c.v.dot(c.frame.t) || 1) * muK * Math.max(0, c.N)) / body.mass;
+        d.rolling = false;
+        if (d.static) {
+          d.force.copy(c.drive.scale(-1));
+        } else {
+          const dir = c.speed > STATIC_SPEED ? c.v.scale(1 / c.speed) : c.drive.scale(1 / Math.max(driveMag, EPS));
+          d.force.copy(dir.scale(-muK * Math.max(0, c.N)));
+        }
       } else {
-        d.static = Math.abs(c.v.dot(c.frame.t)) < STATIC_SPEED && driveMag <= muS * Math.max(0, c.N);
-        d.friction = d.static ? driveMag : muK * Math.max(0, c.N);
-        const u = c.v.dot(c.frame.t) + body.cannon.angularVelocity.dot(c.frame.b) * body.radius;
-        d.rolling = !d.static && Math.abs(u) < 1e-3;
-        d.accel = (c.drive.dot(c.frame.t) + (d.static ? -c.drive.dot(c.frame.t) : -Math.sign(c.v.dot(c.frame.t)) * muK * Math.max(0, c.N))) / body.mass;
+        const m = body.mass;
+        const r = body.radius;
+        const vt = c.v.dot(c.frame.t);
+        const vb = c.v.dot(c.frame.b);
+        const wAxis = body.cannon.angularVelocity.dot(c.frame.b);
+        const u = vt + wAxis * r;
+        const Ft = c.drive.dot(c.frame.t);
+        const denom = m + body.I / (r * r);
+        const fReq = -body.I * (Ft / denom) / (r * r);
+        const N = Math.max(0, c.N);
+        d.rolling = Math.abs(u) < 1e-3;
+        let f = 0;
+        if (Math.abs(u) < 1e-3) {
+          if (Math.abs(fReq) <= muS * N) {
+            d.static = true;
+            f = fReq;
+            d.accel = Ft / denom;
+          } else {
+            d.static = false;
+            f = Math.sign(fReq || -Ft) * muK * N;
+            d.accel = (Ft + f) / m;
+          }
+        } else {
+          d.static = false;
+          f = -Math.sign(u) * muK * N;
+          d.accel = (Ft + f) / m;
+        }
+        if (body.brake && Math.abs(u) < 1e-3 && Math.abs(vt) < STATIC_SPEED
+          && Math.abs(Ft) + Math.abs(c.drive.dot(c.frame.b)) <= muS * N) {
+          d.static = true;
+          d.accel = 0;
+          f = -Ft;
+        }
+        d.friction = Math.abs(f);
+        d.force.copy(c.frame.t.scale(f));
       }
-      d.force.copy(c.drive);
     }
   } else if (body.attachment?.type === 'loop') {
     const loop = getLoop(world, body.attachment.id);
@@ -1179,13 +1412,15 @@ export function bodyDiagnostics(world, body) {
       const vt = v.dot(tangent);
       const ext = externalForceOn(world, body);
       const inward = loopInward(theta);
+      const massEff = body.mass + (body.kind === 'cart' ? body.I / (body.radius * body.radius) : 0);
       d.normal = (body.mass * vt * vt) / loop.radius + body.mass * world.g * Math.cos(theta) - ext.dot(inward);
       d.speed = Math.abs(vt);
       d.mode = 'loop';
       d.contact = 'loop';
       d.friction = 0;
       d.static = false;
-      d.accel = (-body.mass * world.g * Math.sin(theta) + ext.dot(tangent)) / body.mass;
+      d.rolling = body.kind === 'cart' && body.I > 0;
+      d.accel = (-body.mass * world.g * Math.sin(theta) + ext.dot(tangent)) / massEff;
     }
   } else if (body.attachment?.type === 'hcircle') {
     const circle = getHCircle(world, body.attachment.id);
@@ -1199,7 +1434,19 @@ export function bodyDiagnostics(world, body) {
       d.mode = 'hcircle';
       d.contact = 'hcircle';
       d.accel = 0;
+      d.rolling = false;
     }
+  } else if (body.skid) {
+    const speed = Math.hypot(body.cannon.velocity.x, body.cannon.velocity.z);
+    d.normal = body.mass * world.g;
+    d.requiredFriction = 0;
+    d.friction = speed > 1e-4 ? body.skid.muK * d.normal : 0;
+    d.static = speed <= 1e-4;
+    d.speed = speed;
+    d.mode = 'hcircle';
+    d.contact = 'hcircle';
+    d.accel = speed > 1e-4 ? -body.skid.muK * world.g : 0;
+    d.rolling = false;
   } else if (body.attachment?.type === 'turntable') {
     const table = getTurntable(world, body.attachment.id);
     if (table) {
@@ -1296,6 +1543,7 @@ export function resetWorld(world) {
   for (const body of world.bodies) {
     const saved = byId.get(body.id);
     if (!saved) continue;
+    body.skid = null;
     if (saved.attachment) {
       body.attachment = { ...saved.attachment };
       if (body.attachment.type === 'surface') {
@@ -1433,6 +1681,40 @@ export function setSurfaceLength(world, surface, length) {
   }
 }
 
+export function setSurfaceWidth(world, surface, width) {
+  const W = clamp(width, 0.3, 8);
+  surface.width = W;
+  const shape = surface.body.shapes[0];
+  shape.halfExtents.z = W / 2;
+  shape.updateConvexPolyhedronRepresentation();
+  shape.updateBoundingSphereRadius();
+  surface.body.updateBoundingRadius();
+  surface.body.aabbNeedsUpdate = true;
+  for (const body of world.bodies) {
+    if (body.attachment?.type === 'surface' && body.attachment.id === surface.id) {
+      repositionSurfaceBody(world, body);
+    }
+  }
+}
+
+export function setBlockSize(world, body, size) {
+  if (body.kind !== 'block') return;
+  const s = clamp(size, 0.1, 4);
+  body.size = s;
+  body.halfHeight = s / 2;
+  body.halfLength = s / 2;
+  body.radius = s / 2;
+  body.cannon.shapes.length = 0;
+  body.cannon.shapeOffsets.length = 0;
+  body.cannon.shapeOrientations.length = 0;
+  body.cannon.addShape(new CANNON.Box(V(s / 2, s / 2, s / 2)));
+  body.cannon.updateMassProperties();
+  body.cannon.fixedRotation = true;
+  if (body.attachment?.type === 'surface') repositionSurfaceBody(world, body);
+  body.cannon.aabbNeedsUpdate = true;
+  body.cannon.wakeUp();
+}
+
 export function setTurntableRadius(world, table, radius) {
   const R = Math.max(0.4, radius);
   table.radius = R;
@@ -1486,6 +1768,231 @@ export function linkReading(world, link) {
   return g ? Math.abs(g.tension) : 0;
 }
 
+/* ------------------------------------------------------------------ */
+/* Scene serialization (undo, save/load, time scrub)                   */
+/* ------------------------------------------------------------------ */
+
+function sceneVec(v) {
+  return [v.x, v.y, v.z];
+}
+
+export function serializeScene(world, { runtime = false } = {}) {
+  return {
+    version: 1,
+    g: world.g,
+    h: world.h,
+    time: runtime ? world.time : 0,
+    thermal: runtime ? world.thermal : 0,
+    appliedWork: runtime ? world.appliedWork : 0,
+    driveWork: runtime ? world.driveWork : 0,
+    surfaces: world.surfaces.map((s) => ({
+      id: s.id,
+      kind: s.kind,
+      name: s.name || '',
+      position: sceneVec(s.body.position),
+      quaternion: [s.body.quaternion.x, s.body.quaternion.y, s.body.quaternion.z, s.body.quaternion.w],
+      angle: s.angle,
+      length: s.length,
+      width: s.width,
+      thickness: s.thickness,
+      muS: s.muS,
+      muK: s.muK,
+    })),
+    loops: world.loops.map((l) => ({
+      id: l.id,
+      name: l.name || '',
+      x: l.x,
+      y: l.y,
+      z: l.z,
+      radius: l.radius,
+      muS: l.muS,
+      muK: l.muK,
+    })),
+    turntables: world.turntables.map((t) => ({
+      id: t.id,
+      name: t.name || '',
+      position: sceneVec(t.body.position),
+      radius: t.radius,
+      omega: t.omega,
+      targetOmega: t.targetOmega,
+      torque: t.torque,
+      I: t.I,
+      drive: t.drive,
+      muS: t.muS,
+      muK: t.muK,
+      angle: t.angle,
+    })),
+    hcircles: world.hcircles.map((c) => ({
+      id: c.id,
+      name: c.name || '',
+      x: c.x,
+      y: c.y,
+      z: c.z,
+      radius: c.radius,
+      muS: c.muS,
+      muK: c.muK,
+    })),
+    bodies: world.bodies.map((b) => ({
+      id: b.id,
+      kind: b.kind,
+      name: b.name || '',
+      mass: b.mass,
+      I: b.I,
+      radius: b.radius,
+      size: b.size,
+      width: b.width,
+      v0: b.v0,
+      azimuth: b.azimuth,
+      elevation: b.elevation,
+      appliedMag: b.appliedMag,
+      appliedAzimuth: b.appliedAzimuth,
+      appliedElevation: b.appliedElevation,
+      brake: !!b.brake,
+      motor: b.motor ? { ...b.motor } : null,
+      attachment: b.attachment ? { ...b.attachment } : null,
+      skid: b.skid ? { ...b.skid } : null,
+      position: sceneVec(b.cannon.position),
+      quaternion: [b.cannon.quaternion.x, b.cannon.quaternion.y, b.cannon.quaternion.z, b.cannon.quaternion.w],
+      velocity: sceneVec(b.cannon.velocity),
+      angularVelocity: sceneVec(b.cannon.angularVelocity),
+    })),
+    links: world.links.map((l) => ({
+      id: l.id,
+      a: { ...l.a },
+      b: { ...l.b },
+      k: l.k,
+      beta: l.beta,
+      rest: l.rest,
+      meter: l.meter,
+    })),
+  };
+}
+
+export function deserializeScene(world, data, { runtime = false } = {}) {
+  if (!data || typeof data !== 'object') return false;
+  clearWorld(world);
+  world.nextId = 1;
+  world.g = Number.isFinite(data.g) ? data.g : 9.8;
+  world.h = Number.isFinite(data.h) ? data.h : DEFAULT_H;
+  world.engine.gravity.set(0, -world.g, 0);
+
+  for (const s of data.surfaces || []) {
+    const surface = addSurface(world, {
+      id: s.id,
+      kind: s.kind || 'incline',
+      name: s.name || '',
+      x: s.position?.[0] ?? 0,
+      y: s.position?.[1] ?? 1.2,
+      z: s.position?.[2] ?? 0,
+      angleDeg: s.angle ?? 0,
+      length: s.length ?? 8,
+      width: s.width ?? 2.4,
+      thickness: s.thickness ?? 0.18,
+      muS: s.muS ?? 0.5,
+      muK: Math.min(s.muK ?? 0.35, s.muS ?? 0.5),
+    });
+    if (s.quaternion) surface.body.quaternion.set(...s.quaternion);
+    surface.body.aabbNeedsUpdate = true;
+  }
+  for (const l of data.loops || []) {
+    addLoop(world, { ...l });
+  }
+  for (const t of data.turntables || []) {
+    const table = addTurntable(world, {
+      id: t.id,
+      name: t.name || '',
+      x: t.position?.[0] ?? 0,
+      y: t.position?.[1] ?? 0.62,
+      z: t.position?.[2] ?? 0,
+      radius: t.radius ?? 2,
+      omega: t.omega ?? 1.2,
+      targetOmega: t.targetOmega ?? 1.2,
+      torque: t.torque ?? 0,
+      I: t.I ?? 8,
+      drive: t.drive || 'target',
+      muS: t.muS ?? 0.5,
+      muK: Math.min(t.muK ?? 0.35, t.muS ?? 0.5),
+    });
+    table.angle = t.angle ?? 0;
+  }
+  for (const c of data.hcircles || []) {
+    addHCircle(world, {
+      ...c,
+      muK: Math.min(c.muK ?? 0.35, c.muS ?? 0.55),
+    });
+  }
+  for (const b of data.bodies || []) {
+    const body = addBody(world, b.kind || 'block', {
+      id: b.id,
+      name: b.name || '',
+      mass: b.mass ?? 1,
+      x: b.position?.[0] ?? 0,
+      y: b.position?.[1] ?? 3,
+      z: b.position?.[2] ?? 0,
+      v0: b.v0 ?? 0,
+      azimuth: b.azimuth ?? 0,
+      elevation: b.elevation ?? 0,
+      I: b.I,
+      radius: b.radius,
+      size: b.size,
+      width: b.width,
+      brake: !!b.brake,
+      motor: b.motor || undefined,
+    });
+    body.appliedMag = b.appliedMag ?? 0;
+    body.appliedAzimuth = b.appliedAzimuth ?? 0;
+    body.appliedElevation = b.appliedElevation ?? 0;
+    const att = b.attachment;
+    if (att?.type === 'surface') {
+      attachBodyToSurface(world, body, att.id, { localX: att.localX, localZ: att.localZ });
+    } else if (att?.type === 'loop') {
+      attachBodyToLoop(world, body, att.id, { theta: att.theta });
+      if (runtime && Number.isFinite(att.speed)) body.attachment.speed = att.speed;
+    } else if (att?.type === 'turntable') {
+      attachBodyToTurntable(world, body, att.id, { r: att.r, phi: att.phi });
+      if (runtime) body.attachment.stuck = !!att.stuck;
+    } else if (att?.type === 'hcircle') {
+      attachBodyToHCircle(world, body, att.id, { phi: att.phi });
+      if (runtime && Number.isFinite(att.speed)) body.attachment.speed = att.speed;
+    } else {
+      body.cannon.position.set(...(b.position || [0, 3, 0]));
+      if (b.quaternion) body.cannon.quaternion.set(...b.quaternion);
+      applyInitialVelocity(world, body);
+    }
+    if (runtime && b.velocity) {
+      body.cannon.velocity.set(...b.velocity);
+      if (b.angularVelocity) body.cannon.angularVelocity.set(...b.angularVelocity);
+    }
+    if (runtime && b.skid) {
+      body.attachment = null;
+      body.skid = { ...b.skid };
+      if (b.velocity) body.cannon.velocity.set(...b.velocity);
+    }
+    body.cannon.aabbNeedsUpdate = true;
+    body.cannon.wakeUp();
+  }
+  for (const l of data.links || []) {
+    addLink(world, {
+      id: l.id,
+      a: { ...l.a },
+      b: { ...l.b },
+      k: l.k ?? 20,
+      beta: l.beta ?? 0,
+      rest: l.rest ?? null,
+      meter: !!l.meter,
+    });
+  }
+  if (runtime) {
+    world.time = data.time || 0;
+    world.thermal = data.thermal || 0;
+    world.appliedWork = data.appliedWork || 0;
+    world.driveWork = data.driveWork || 0;
+  }
+  world.accumulator = 0;
+  world.events = [];
+  return true;
+}
+
 export function forceVectors(world, body) {
   const out = [];
   if (!body) return out;
@@ -1499,16 +2006,10 @@ export function forceVectors(world, body) {
       const c = surfaceContact(world, body);
       const N = Math.max(0, c.N);
       out.push({ type: 'normal', vector: n.scale(N), magnitude: N });
-      const driveMag = c.drive.length();
-      const mu = c.surface.muK;
-      let f = V();
-      if (c.speed < STATIC_SPEED && driveMag <= c.surface.muS * N) {
-        f = c.drive.scale(-1);
-      } else if (driveMag > 1e-9) {
-        const dir = c.speed > STATIC_SPEED ? c.v.scale(1 / c.speed) : c.drive.scale(1 / driveMag);
-        f = dir.scale(-mu * N);
+      const d = bodyDiagnostics(world, body);
+      if (d.force.lengthSquared() > 0) {
+        out.push({ type: 'friction', vector: cloneV(d.force), magnitude: d.friction });
       }
-      if (f.lengthSquared() > 0) out.push({ type: 'friction', vector: f, magnitude: f.length() });
       const spring = springNetForce(world, body);
       if (spring.lengthSquared() > 0) out.push({ type: 'spring', vector: spring, magnitude: spring.length() });
       const app = appliedForce(body);
@@ -1517,20 +2018,28 @@ export function forceVectors(world, body) {
   } else if (body.attachment?.type === 'loop') {
     const theta = body.attachment.theta;
     out.push({ type: 'normal', vector: loopInward(theta).scale(Math.max(0, d.normal)), magnitude: Math.max(0, d.normal) });
-  } else if (body.attachment?.type === 'turntable' || body.attachment?.type === 'hcircle') {
+  } else if (body.attachment?.type === 'turntable' || body.attachment?.type === 'hcircle' || body.skid) {
     out.push({ type: 'normal', vector: V(0, Math.max(0, d.normal), 0), magnitude: Math.max(0, d.normal) });
-    const p = body.cannon.position;
-    const center = body.attachment.type === 'turntable'
-      ? getTurntable(world, body.attachment.id)
-      : getHCircle(world, body.attachment.id);
-    if (center) {
-      const cx = center.x;
-      const cz = center.z;
-      const dx = p.x - cx;
-      const dz = p.z - cz;
-      const rr = Math.hypot(dx, dz) || 1;
-      const inward = V(-dx / rr, 0, -dz / rr);
-      out.push({ type: 'friction', vector: inward.scale(d.friction), magnitude: d.friction });
+    if (body.skid) {
+      const speed = Math.hypot(body.cannon.velocity.x, body.cannon.velocity.z);
+      if (speed > 1e-4) {
+        const f = V(-body.cannon.velocity.x / speed, 0, -body.cannon.velocity.z / speed).scale(d.friction);
+        out.push({ type: 'friction', vector: f, magnitude: d.friction });
+      }
+    } else {
+      const p = body.cannon.position;
+      const center = body.attachment.type === 'turntable'
+        ? getTurntable(world, body.attachment.id)
+        : getHCircle(world, body.attachment.id);
+      if (center) {
+        const cx = center.x;
+        const cz = center.z;
+        const dx = p.x - cx;
+        const dz = p.z - cz;
+        const rr = Math.hypot(dx, dz) || 1;
+        const inward = V(-dx / rr, 0, -dz / rr);
+        out.push({ type: 'friction', vector: inward.scale(d.friction), magnitude: d.friction });
+      }
     }
   }
   const spring = springNetForce(world, body);
