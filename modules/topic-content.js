@@ -511,18 +511,18 @@ export const TOPIC_CONTENT = {
     "chapterId": "bio-u4",
     "unitCode": "4",
     "code": "4.2",
-    "titleZh": "信号导引导论",
+    "titleZh": "信号转导导论",
     "titleEn": "Introduction to Signal Transduction",
-    "definition": "信号导引导论（Introduction to Signal Transduction）是 AP Biology Unit 4 的核心知识点，描述相关结构、过程或相互作用。",
+    "definition": "信号转导导论（Introduction to Signal Transduction）是 AP Biology Unit 4 的核心知识点，描述相关结构、过程或相互作用。",
     "formulas": [],
     "points": [
-      "抓住 信号导引导论 的因果关系与尺度（分子→细胞→个体）。",
+      "抓住 信号转导导论 的因果关系与尺度（分子→细胞→个体）。",
       "能用证据解释“如何”与“为何”。",
       "注意实验设计中的自变量、因变量与对照。"
     ],
     "example": {
-      "q": "用一句话说明 4.2 信号导引导论 在系统中的作用。",
-      "a": "信号导引导论 通过特定机制影响下一层级过程，进而改变可观测表型或种群指标。"
+      "q": "用一句话说明 4.2 信号转导导论 在系统中的作用。",
+      "a": "信号转导导论 通过特定机制影响下一层级过程，进而改变可观测表型或种群指标。"
     },
     "modules": []
   },
@@ -1852,9 +1852,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u2",
     "unitCode": "2",
     "code": "2.3",
-    "titleZh": "可微性估计",
+    "titleZh": "估计函数在某点处的导数",
     "titleEn": "Estimating Derivatives of a Function at a Point",
-    "definition": "可微性估计（Estimating Derivatives of a Function at a Point）给出分析变化与累积的形式化工具。",
+    "definition": "估计函数在某点处的导数（Estimating Derivatives of a Function at a Point）给出分析变化与累积的形式化工具。",
     "formulas": [
       "f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}"
     ],
@@ -1864,7 +1864,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 可微性估计 类问题的第一步。",
+      "q": "指出求解 估计函数在某点处的导数 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": [
@@ -1945,9 +1945,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u2",
     "unitCode": "2",
     "code": "2.7",
-    "titleZh": "eˣ 与 aˣ 导数",
+    "titleZh": "cos x、sin x、eˣ 与 ln x 的导数",
     "titleEn": "Derivatives of cos x, sin x, eˣ, and ln x",
-    "definition": "eˣ 与 aˣ 导数（Derivatives of cos x, sin x, eˣ, and ln x）给出分析变化与累积的形式化工具。",
+    "definition": "cos x、sin x、eˣ 与 ln x 的导数（Derivatives of cos x, sin x, eˣ, and ln x）给出分析变化与累积的形式化工具。",
     "formulas": [
       "f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}"
     ],
@@ -1957,7 +1957,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 eˣ 与 aˣ 导数 类问题的第一步。",
+      "q": "指出求解 cos x、sin x、eˣ 与 ln x 的导数 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -1967,9 +1967,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u2",
     "unitCode": "2",
     "code": "2.8",
-    "titleZh": "积商法则",
+    "titleZh": "乘积法则",
     "titleEn": "The Product Rule",
-    "definition": "积商法则（The Product Rule）给出分析变化与累积的形式化工具。",
+    "definition": "乘积法则（The Product Rule）给出分析变化与累积的形式化工具。",
     "formulas": [
       "f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}"
     ],
@@ -1979,7 +1979,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 积商法则 类问题的第一步。",
+      "q": "指出求解 乘积法则 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -1989,9 +1989,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u2",
     "unitCode": "2",
     "code": "2.9",
-    "titleZh": "积商法则续",
+    "titleZh": "商法则",
     "titleEn": "The Quotient Rule",
-    "definition": "积商法则续（The Quotient Rule）给出分析变化与累积的形式化工具。",
+    "definition": "商法则（The Quotient Rule）给出分析变化与累积的形式化工具。",
     "formulas": [
       "f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}"
     ],
@@ -2001,7 +2001,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 积商法则续 类问题的第一步。",
+      "q": "指出求解 商法则 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -2120,9 +2120,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u3",
     "unitCode": "3",
     "code": "3.5",
-    "titleZh": "高阶导数选讲",
+    "titleZh": "求导程序的选择",
     "titleEn": "Selecting Procedures for Calculating Derivatives",
-    "definition": "高阶导数选讲（Selecting Procedures for Calculating Derivatives）给出分析变化与累积的形式化工具。",
+    "definition": "求导程序的选择（Selecting Procedures for Calculating Derivatives）给出分析变化与累积的形式化工具。",
     "formulas": [],
     "points": [
       "先明确定义与适用条件。",
@@ -2130,7 +2130,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 高阶导数选讲 类问题的第一步。",
+      "q": "指出求解 求导程序的选择 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -2691,9 +2691,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u6",
     "unitCode": "6",
     "code": "6.6",
-    "titleZh": "微积分基本定理应用",
+    "titleZh": "定积分性质的应用",
     "titleEn": "Applying Properties of Definite Integrals",
-    "definition": "微积分基本定理应用（Applying Properties of Definite Integrals）给出分析变化与累积的形式化工具。",
+    "definition": "定积分性质的应用（Applying Properties of Definite Integrals）给出分析变化与累积的形式化工具。",
     "formulas": [
       "\\int_a^b f(x)\\,dx"
     ],
@@ -2703,7 +2703,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 微积分基本定理应用 类问题的第一步。",
+      "q": "指出求解 定积分性质的应用 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -2911,9 +2911,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u7",
     "unitCode": "7",
     "code": "7.2",
-    "titleZh": "斜率场",
+    "titleZh": "验证微分方程的解",
     "titleEn": "Verifying Solutions for Differential Equations",
-    "definition": "斜率场（Verifying Solutions for Differential Equations）给出分析变化与累积的形式化工具。",
+    "definition": "验证微分方程的解（Verifying Solutions for Differential Equations）给出分析变化与累积的形式化工具。",
     "formulas": [
       "\\frac{dy}{dx}=f(x,y)"
     ],
@@ -2923,7 +2923,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 斜率场 类问题的第一步。",
+      "q": "指出求解 验证微分方程的解 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": [
@@ -3222,9 +3222,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u8",
     "unitCode": "8",
     "code": "8.7",
-    "titleZh": "旋转体体积盘法",
+    "titleZh": "截面法：正方形与矩形",
     "titleEn": "Volumes with Cross Sections: Squares and Rectangles",
-    "definition": "旋转体体积盘法（Volumes with Cross Sections: Squares and Rectangles）给出分析变化与累积的形式化工具。",
+    "definition": "截面法：正方形与矩形（Volumes with Cross Sections: Squares and Rectangles）给出分析变化与累积的形式化工具。",
     "formulas": [],
     "points": [
       "先明确定义与适用条件。",
@@ -3232,7 +3232,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 旋转体体积盘法 类问题的第一步。",
+      "q": "指出求解 截面法：正方形与矩形 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -3567,9 +3567,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u10",
     "unitCode": "10",
     "code": "10.1",
-    "titleZh": "序列收敛",
+    "titleZh": "无穷级数的收敛与发散",
     "titleEn": "Defining Convergent and Divergent Infinite Series",
-    "definition": "序列收敛（Defining Convergent and Divergent Infinite Series）给出分析变化与累积的形式化工具。",
+    "definition": "无穷级数的收敛与发散（Defining Convergent and Divergent Infinite Series）给出分析变化与累积的形式化工具。",
     "formulas": [
       "\\sum_{n=1}^{\\infty}a_n"
     ],
@@ -3579,7 +3579,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 序列收敛 类问题的第一步。",
+      "q": "指出求解 无穷级数的收敛与发散 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": []
@@ -3900,9 +3900,9 @@ export const TOPIC_CONTENT = {
     "chapterId": "calc-u10",
     "unitCode": "10",
     "code": "10.15",
-    "titleZh": "幂级数运算",
+    "titleZh": "函数表示为幂级数",
     "titleEn": "Representing Functions as Power Series",
-    "definition": "幂级数运算（Representing Functions as Power Series）给出分析变化与累积的形式化工具。",
+    "definition": "函数表示为幂级数（Representing Functions as Power Series）给出分析变化与累积的形式化工具。",
     "formulas": [
       "\\sum_{n=1}^{\\infty}a_n"
     ],
@@ -3912,7 +3912,7 @@ export const TOPIC_CONTENT = {
       "注意常见错误形式（如混淆平均与瞬时）。"
     ],
     "example": {
-      "q": "指出求解 幂级数运算 类问题的第一步。",
+      "q": "指出求解 函数表示为幂级数 类问题的第一步。",
       "a": "写出已知量与目标量，选择对应定义或定理，再代入计算并检验合理性。"
     },
     "modules": [

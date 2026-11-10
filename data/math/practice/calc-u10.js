@@ -9,7 +9,7 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-calc-u10-1": {
-    "title": "序列收敛 · 部分和",
+    "title": "无穷级数的收敛与发散 · 部分和",
     "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
     "table": {
       "headers": [
@@ -167,7 +167,7 @@ export const problems = [
     "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-calc-u10-1",
     "stimulus": {
-      "title": "序列收敛 · 部分和",
+      "title": "无穷级数的收敛与发散 · 部分和",
       "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
       "table": {
         "headers": [
@@ -572,11 +572,11 @@ export const problems = [
   },
   {
     "id": "calc-u10-q023",
-    "title": "10.1 论述 · 序列收敛",
+    "title": "10.1 论述 · 无穷级数的收敛与发散",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「序列收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
     "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
@@ -851,7 +851,7 @@ export const problems = [
     "title": "10.15 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「幂级数运算」，下列正确的是？",
+    "stem": "关于「函数表示为幂级数」，下列正确的是？",
     "choices": [
       {
         "text": "a_n→0 是级数收敛的必要条件而非充分条件",
@@ -1175,7 +1175,7 @@ export const problems = [
     "title": "10.1 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「序列收敛」，下列正确的是？",
+    "stem": "关于「无穷级数的收敛与发散」，下列正确的是？",
     "choices": [
       {
         "text": "a_n→0 是级数收敛的必要条件而非充分条件",
@@ -1463,11 +1463,11 @@ export const problems = [
   },
   {
     "id": "calc-u10-q067",
-    "title": "10.15 论述 · 幂级数运算",
+    "title": "10.15 论述 · 函数表示为幂级数",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「幂级数运算」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「函数表示为幂级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
     "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
@@ -1787,11 +1787,11 @@ export const problems = [
   },
   {
     "id": "calc-u10-q083",
-    "title": "10.1 论述 · 序列收敛",
+    "title": "10.1 论述 · 无穷级数的收敛与发散",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「序列收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
     "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
     "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",

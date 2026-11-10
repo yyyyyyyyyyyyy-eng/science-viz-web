@@ -210,8 +210,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「参数二阶导数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}^{2}y}{\\mathrm{d}x^{2}}=\\dfrac{\\dfrac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right)}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}},\\quad \\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}}{\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}}",
+        "note": "参数方程二阶导数：先求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)，再对 t 求导并除以 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)。 · Parametric second derivative: differentiate \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) with respect to t, then divide by \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}\\)."
       }
     ],
     "derivationNotes": [
@@ -561,8 +561,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「向量值函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\vec r'(t)=\\langle x'(t),y'(t)\\rangle,\\quad \\|\\vec r'(t)\\|=\\sqrt{[x'(t)]^{2}+[y'(t)]^{2}}",
+        "note": "向量值函数的导数与速率。 · Derivative and speed of a vector-valued function."
       }
     ],
     "derivationNotes": [
@@ -736,8 +736,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「向量值函数积分」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\int_a^b \\vec r(t)\\,\\mathrm{d}t=\\left\\langle\\int_a^b x(t)\\,\\mathrm{d}t,\\ \\int_a^b y(t)\\,\\mathrm{d}t\\right\\rangle",
+        "note": "向量值函数积分：各分量分别积分。 · Integrate a vector-valued function component by component."
       }
     ],
     "derivationNotes": [

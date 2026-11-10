@@ -1078,8 +1078,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「二阶导数检验」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "f'(c)=0,\\ f''(c)>0\\Rightarrow f(c)\\text{ 为局部极小};\\quad f''(c)<0\\Rightarrow f(c)\\text{ 为局部极大}",
+        "note": "二阶导数检验：看临界点处二阶导数的符号。 · Second derivative test: use the sign of f'' at a critical point."
       }
     ],
     "derivationNotes": [
@@ -1428,8 +1428,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「函数与导数关联」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "f'(x)>0\\Rightarrow f\\text{ 递增},\\quad f''(x)>0\\Rightarrow f\\text{ 凹向上}",
+        "note": "一阶导数定增减，二阶导数定凹凸。 · First derivative gives increase/decrease; second gives concavity."
       }
     ],
     "derivationNotes": [

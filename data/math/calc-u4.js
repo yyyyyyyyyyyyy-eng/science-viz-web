@@ -384,8 +384,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「变化率与单位」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\text{平均变化率}=\\dfrac{f(b)-f(a)}{b-a},\\quad \\text{瞬时变化率}=f'(a)",
+        "note": "应用题中先看单位：输出单位每输入单位。 · In context, read units as output units per input unit."
       }
     ],
     "derivationNotes": [
@@ -728,8 +728,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「相关变化率求解」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\cdot\\dfrac{\\mathrm{d}x}{\\mathrm{d}t}",
+        "note": "相关变化率：用链式法则联系各变化率。 · Related rates: connect the rates with the chain rule."
       }
     ],
     "derivationNotes": [

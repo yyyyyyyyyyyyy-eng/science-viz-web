@@ -828,7 +828,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.6",
-        "title": "微积分基本定理应用",
+        "title": "定积分性质的应用",
         "relation": "related"
       }
     ],
@@ -893,12 +893,12 @@ export const TOPICS = {
     "unitTitleZh": "积分与累积变化",
     "unitTitleEn": "Integration and Accumulation of Change",
     "code": "6.6",
-    "titleZh": "微积分基本定理应用",
+    "titleZh": "定积分性质的应用",
     "titleEn": "Applying Properties of Definite Integrals",
     "layer": "ap",
-    "summary": "微积分基本定理应用 · Applying Properties of Definite Integrals",
+    "summary": "定积分性质的应用 · Applying Properties of Definite Integrals",
     "learningObjectives": [
-      "能陈述「微积分基本定理应用」的准确定义与适用对象",
+      "能陈述「定积分性质的应用」的准确定义与适用对象",
       "能在符号、图像、数值三种表征间转换",
       "能完成一道计算/论证题并检查合理性"
     ],
@@ -908,22 +908,22 @@ export const TOPICS = {
       "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
       "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
       "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「微积分基本定理应用」，书写叠式分式。",
+      "能用极限/导数/积分语言精确表述「定积分性质的应用」，书写叠式分式。",
       "能检验特例（常函数、线性、对称性）与量纲一致性。"
     ],
-    "definition": "微积分基本定理应用（Applying Properties of Definite Integrals）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「微积分基本定理应用」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "定积分性质的应用（Applying Properties of Definite Integrals）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
+    "intuition": "先确认物理/生物/数学设定与已知量，再调用「定积分性质的应用」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\int_a^c f(x)\\,\\mathrm{d}x+\\int_c^b f(x)\\,\\mathrm{d}x,\\quad \\int_a^b [cf(x)\\pm g(x)]\\,\\mathrm{d}x=c\\int_a^b f(x)\\,\\mathrm{d}x\\pm\\int_a^b g(x)\\,\\mathrm{d}x",
+        "note": "定积分的区间可加性与线性性质。 · Additivity over intervals and linearity of definite integrals."
       }
     ],
     "derivationNotes": [
       {
         "from": "定义/公理/实验事实",
         "to": "核心关系",
-        "note": "由定义出发建立「微积分基本定理应用」的工作方程或机制链。"
+        "note": "由定义出发建立「定积分性质的应用」的工作方程或机制链。"
       },
       {
         "from": "核心关系",
@@ -941,14 +941,14 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.6「微积分基本定理应用」准确定义",
+      "掌握 6.6「定积分性质的应用」准确定义",
       "四种表征互译（符号/图像/数值/文字）",
       "适用条件、反例与边界",
       "AP 简答：主张—证据—推理或完整推导",
       "与相邻知识点的联系"
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「微积分基本定理应用」的结论",
+      "在不满足假设时直接套用「定积分性质的应用」的结论",
       "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
@@ -958,7 +958,7 @@ export const TOPICS = {
     "examples": [
       {
         "title": "例 1 · 易",
-        "prompt": "写出「微积分基本定理应用」的定义，并列出至少两条适用条件或假设。",
+        "prompt": "写出「定积分性质的应用」的定义，并列出至少两条适用条件或假设。",
         "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
       },
       {
@@ -969,13 +969,13 @@ export const TOPICS = {
       },
       {
         "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「微积分基本定理应用」作答？指出瞬时量与平均量的区别。",
+        "prompt": "同时给出图像与数据表时，如何用「定积分性质的应用」作答？指出瞬时量与平均量的区别。",
         "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
       },
       {
         "title": "例 4 · 难",
-        "prompt": "指出学生在「微积分基本定理应用」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「微积分基本定理应用」；用斜线分式代替叠式分式导致歧义"
+        "prompt": "指出学生在「定积分性质的应用」中最易犯的两类错误，并给出纠正。",
+        "solution": "不满足假设时套用「定积分性质的应用」；用斜线分式代替叠式分式导致歧义"
       }
     ],
     "examTips": [
@@ -1008,16 +1008,16 @@ export const TOPICS = {
       "下游：本主题结论用于后续问题的建模",
       "跨学科：注意数学工具与科学情境的对应"
     ],
-    "intuitionDetailed": "把「微积分基本定理应用」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "把「定积分性质的应用」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
     "development": [
-      "回顾先修：确认符号、单位与「微积分基本定理应用」所需的前置定义已掌握。",
+      "回顾先修：确认符号、单位与「定积分性质的应用」所需的前置定义已掌握。",
       "正式定义：用一句话写清对象与关系，并列出适用条件。",
       "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
       "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
       "迁移：换一个情境参数，重复一次完整推理。"
     ],
     "checks": [
-      "不看书能否复述「微积分基本定理应用」的定义与两条适用条件？",
+      "不看书能否复述「定积分性质的应用」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
     ],
@@ -1090,8 +1090,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「定积分求值」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=F(b)-F(a),\\quad F'(x)=f(x)",
+        "note": "微积分基本定理：用原函数求定积分。 · Fundamental Theorem of Calculus: evaluate with an antiderivative."
       }
     ],
     "derivationNotes": [
@@ -1165,7 +1165,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u6",
         "code": "6.6",
-        "title": "微积分基本定理应用",
+        "title": "定积分性质的应用",
         "relation": "prerequisite"
       },
       {
@@ -1265,8 +1265,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「求原函数」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\int f(x)\\,\\mathrm{d}x=F(x)+C,\\quad F'(x)=f(x);\\qquad \\int x^{n}\\,\\mathrm{d}x=\\dfrac{x^{n+1}}{n+1}+C\\ (n\\ne -1)",
+        "note": "不定积分表示原函数族；别忘积分常数。 · Indefinite integrals give a family of antiderivatives; include the constant."
       }
     ],
     "derivationNotes": [
@@ -2146,8 +2146,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积分技巧选择」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\dfrac{P(x)}{(x-a)(x-b)}=\\dfrac{A}{x-a}+\\dfrac{B}{x-b},\\quad \\int\\dfrac{1}{x-a}\\,\\mathrm{d}x=\\ln|x-a|+C",
+        "note": "线性部分分式与其他积分技巧。 · Linear partial fractions and other integration techniques."
       }
     ],
     "derivationNotes": [
@@ -2313,16 +2313,7 @@ export const TOPICS = {
     ],
     "definition": "积分技巧综合（Selecting Techniques for Antidifferentiation）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积分技巧综合」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
-    "formulas": [
-      {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
-      },
-      {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
-      }
-    ],
+    "formulas": [],
     "derivationNotes": [
       {
         "from": "定义/公理/实验事实",

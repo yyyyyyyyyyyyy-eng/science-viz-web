@@ -232,11 +232,21 @@ async function showFormulas(kind) {
     setActiveNav(kind === 'em' ? 'em' : 'mech');
     const { PHYSICS_FORMULA_GROUPS } = await import('../data/physics/formulas.js');
     if (token !== pageSeq) return;
+    const groups = kind === 'mech'
+      ? PHYSICS_FORMULA_GROUPS.filter((g) => g.id === 'const' || g.id.startsWith('mech-'))
+      : kind === 'em'
+        ? PHYSICS_FORMULA_GROUPS.filter((g) => g.id === 'const' || g.id.startsWith('em-'))
+        : PHYSICS_FORMULA_GROUPS;
+    const subtitle = kind === 'mech'
+      ? '力学 · Mechanics'
+      : kind === 'em'
+        ? '电磁 · E&M'
+        : '力学与电磁（College Board 结构）';
     const handle = renderFormulasPage(main, {
       subject: kind,
-      groups: PHYSICS_FORMULA_GROUPS,
+      groups,
       title: 'AP Physics C 公式表',
-      subtitle: '力学与电磁（College Board 结构）',
+      subtitle,
     });
     mountDispose(handle);
     document.title = `${kind === 'em' ? '电磁' : kind === 'mech' ? '力学' : '物理'}公式表 · 科学可视化`;

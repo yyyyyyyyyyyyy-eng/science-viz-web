@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「微分方程建模」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}t}=k\\,y",
+        "note": "按题意写出变化率与当前量的关系。 · Translate the context into a differential equation."
       }
     ],
     "derivationNotes": [
@@ -112,7 +112,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u7",
         "code": "7.2",
-        "title": "斜率场",
+        "title": "验证微分方程的解",
         "relation": "related"
       }
     ],
@@ -183,12 +183,12 @@ export const TOPICS = {
     "unitTitleZh": "微分方程",
     "unitTitleEn": "Differential Equations",
     "code": "7.2",
-    "titleZh": "斜率场",
+    "titleZh": "验证微分方程的解",
     "titleEn": "Verifying Solutions for Differential Equations",
     "layer": "ap",
-    "summary": "斜率场 · Verifying Solutions for Differential Equations",
+    "summary": "验证微分方程的解 · Verifying Solutions for Differential Equations",
     "learningObjectives": [
-      "能陈述「斜率场」的准确定义与适用对象",
+      "能陈述「验证微分方程的解」的准确定义与适用对象",
       "能在符号、图像、数值三种表征间转换",
       "能完成一道计算/论证题并检查合理性"
     ],
@@ -198,22 +198,22 @@ export const TOPICS = {
       "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
       "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
       "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「斜率场」，书写叠式分式。",
+      "能用极限/导数/积分语言精确表述「验证微分方程的解」，书写叠式分式。",
       "能检验特例（常函数、线性、对称性）与量纲一致性。"
     ],
-    "definition": "斜率场（Verifying Solutions for Differential Equations）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「斜率场」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "验证微分方程的解（Verifying Solutions for Differential Equations）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
+    "intuition": "先确认物理/生物/数学设定与已知量，再调用「验证微分方程的解」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=g(x,y);\\quad y=f(x)\\text{ 是解当且仅当 }f'(x)=g(x,f(x))",
+        "note": "验证解：把候选函数及其导数代入微分方程。 · Verify a solution by substituting the function and its derivative."
       }
     ],
     "derivationNotes": [
       {
         "from": "定义/公理/实验事实",
         "to": "核心关系",
-        "note": "由定义出发建立「斜率场」的工作方程或机制链。"
+        "note": "由定义出发建立「验证微分方程的解」的工作方程或机制链。"
       },
       {
         "from": "核心关系",
@@ -231,14 +231,14 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.2「斜率场」准确定义",
+      "掌握 7.2「验证微分方程的解」准确定义",
       "四种表征互译（符号/图像/数值/文字）",
       "适用条件、反例与边界",
       "AP 简答：主张—证据—推理或完整推导",
       "与相邻知识点的联系"
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「斜率场」的结论",
+      "在不满足假设时直接套用「验证微分方程的解」的结论",
       "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
@@ -248,7 +248,7 @@ export const TOPICS = {
     "examples": [
       {
         "title": "例 1 · 易",
-        "prompt": "写出「斜率场」的定义，并列出至少两条适用条件或假设。",
+        "prompt": "写出「验证微分方程的解」的定义，并列出至少两条适用条件或假设。",
         "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
       },
       {
@@ -259,13 +259,13 @@ export const TOPICS = {
       },
       {
         "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「斜率场」作答？指出瞬时量与平均量的区别。",
+        "prompt": "同时给出图像与数据表时，如何用「验证微分方程的解」作答？指出瞬时量与平均量的区别。",
         "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
       },
       {
         "title": "例 4 · 难",
-        "prompt": "指出学生在「斜率场」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「斜率场」；用斜线分式代替叠式分式导致歧义"
+        "prompt": "指出学生在「验证微分方程的解」中最易犯的两类错误，并给出纠正。",
+        "solution": "不满足假设时套用「验证微分方程的解」；用斜线分式代替叠式分式导致歧义"
       }
     ],
     "examTips": [
@@ -303,16 +303,16 @@ export const TOPICS = {
       "下游：本主题结论用于后续问题的建模",
       "跨学科：注意数学工具与科学情境的对应"
     ],
-    "intuitionDetailed": "把「斜率场」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "把「验证微分方程的解」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
     "development": [
-      "回顾先修：确认符号、单位与「斜率场」所需的前置定义已掌握。",
+      "回顾先修：确认符号、单位与「验证微分方程的解」所需的前置定义已掌握。",
       "正式定义：用一句话写清对象与关系，并列出适用条件。",
       "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
       "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
       "迁移：换一个情境参数，重复一次完整推理。"
     ],
     "checks": [
-      "不看书能否复述「斜率场」的定义与两条适用条件？",
+      "不看书能否复述「验证微分方程的解」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
     ],
@@ -460,7 +460,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u7",
         "code": "7.2",
-        "title": "斜率场",
+        "title": "验证微分方程的解",
         "relation": "prerequisite"
       },
       {
@@ -1258,8 +1258,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「指数模型」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
+        "latex": "\\dfrac{\\mathrm{d}P}{\\mathrm{d}t}=kP,\\quad P(t)=P_0e^{kt}",
+        "note": "指数模型：变化率与当前量成正比。 · Exponential model: the rate is proportional to the current amount."
       }
     ],
     "derivationNotes": [

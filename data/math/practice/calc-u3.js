@@ -191,11 +191,11 @@ export const problems = [
   },
   {
     "id": "calc-u3-q009",
-    "title": "3.5 论述 · 高阶导数选讲",
+    "title": "3.5 论述 · 求导程序的选择",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "stem": "关于「高阶导数选讲」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "stem": "关于「求导程序的选择」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answerLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}f(g(x))=f'(g(x))g'(x)",
     "answer": "复合函数 y=f(g(x)) 的导数是外层导数在 g(x) 处的值乘以内层导数：y′=f′(g(x))g′(x)。先对外层求导（内层保持不变），再乘内层导数。例如 y=(3x²+1)⁵，y′=5(3x²+1)⁴·6x=30x(3x²+1)⁴。",
     "solution": "由外向内逐层求导，每一层都乘以下一层的导数；不要漏掉内层导数。",
@@ -300,7 +300,7 @@ export const problems = [
   },
   {
     "id": "calc-u3-q015",
-    "title": "3.5 高阶导数选讲 · 变式",
+    "title": "3.5 求导程序的选择 · 变式",
     "difficulty": "中",
     "generator": "chain",
     "calculator": true,
@@ -518,7 +518,7 @@ export const problems = [
     "title": "3.5 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「高阶导数选讲」，下列正确的是？",
+    "stem": "关于「求导程序的选择」，下列正确的是？",
     "choices": [
       {
         "text": "链式法则把复合函数的导数分解为外层导数与内层导数之积",
@@ -749,11 +749,11 @@ export const problems = [
   },
   {
     "id": "calc-u3-q039",
-    "title": "3.5 论述 · 高阶导数选讲",
+    "title": "3.5 论述 · 求导程序的选择",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "stem": "关于「高阶导数选讲」：用链式法则解释复合函数求导的顺序，并举一个例子。",
+    "stem": "关于「求导程序的选择」：用链式法则解释复合函数求导的顺序，并举一个例子。",
     "answerLatex": "\\dfrac{\\mathrm{d}}{\\mathrm{d}x}f(g(x))=f'(g(x))g'(x)",
     "answer": "复合函数 y=f(g(x)) 的导数是外层导数在 g(x) 处的值乘以内层导数：y′=f′(g(x))g′(x)。先对外层求导（内层保持不变），再乘内层导数。例如 y=(3x²+1)⁵，y′=5(3x²+1)⁴·6x=30x(3x²+1)⁴。",
     "solution": "由外向内逐层求导，每一层都乘以下一层的导数；不要漏掉内层导数。",
@@ -858,7 +858,7 @@ export const problems = [
   },
   {
     "id": "calc-u3-q045",
-    "title": "3.5 高阶导数选讲 · 变式",
+    "title": "3.5 求导程序的选择 · 变式",
     "difficulty": "中",
     "generator": "chain",
     "calculator": true,

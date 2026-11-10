@@ -633,7 +633,7 @@ export const problems = [
   },
   {
     "id": "calc-u7-q027",
-    "title": "7.2 论述 · 斜率场",
+    "title": "7.2 论述 · 验证微分方程的解",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
@@ -1362,7 +1362,7 @@ export const problems = [
   },
   {
     "id": "calc-u7-q063",
-    "title": "7.2 论述 · 斜率场",
+    "title": "7.2 论述 · 验证微分方程的解",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,

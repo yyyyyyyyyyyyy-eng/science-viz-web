@@ -21,8 +21,8 @@ export const stimuli = {
     "sourceNote": "Themes aligned with OpenStax Biology 2e; figures/data original."
   },
   "stim-bio-u4-2": {
-    "title": "信号导引导论 · 刺激材料",
-    "text": "下列数据与图示与「信号导引导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
+    "title": "信号转导导论 · 刺激材料",
+    "text": "下列数据与图示与「信号转导导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
     "diagram": {
       "kind": "cell"
     },
@@ -87,7 +87,7 @@ export const problems = [
       },
       {
         "id": "bio-u4-q002",
-        "title": "信号导引导论 (2)",
+        "title": "信号转导导论 (2)",
         "difficulty": "中",
         "type": "mcq",
         "stem": "若增加一个合理对照，最应控制的变量是？",
@@ -117,7 +117,7 @@ export const problems = [
         "topicLinks": [
           {
             "href": "#/t/bio/bio-u4/4.2",
-            "label": "4.2 信号导引导论",
+            "label": "4.2 信号转导导论",
             "topicId": "bio-u4:4.2"
           }
         ]
@@ -151,8 +151,8 @@ export const problems = [
     "title": "题组 2 · 共享刺激",
     "sharedStimulus": "stim-bio-u4-2",
     "stimulus": {
-      "title": "信号导引导论 · 刺激材料",
-      "text": "下列数据与图示与「信号导引导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
+      "title": "信号转导导论 · 刺激材料",
+      "text": "下列数据与图示与「信号转导导论」相关。回答共享刺激下的各小题（原创改编，AP 风格）。",
       "diagram": {
         "kind": "cell"
       },
@@ -186,7 +186,7 @@ export const problems = [
       },
       {
         "id": "bio-u4-q005",
-        "title": "信号导引导论 (2)",
+        "title": "信号转导导论 (2)",
         "difficulty": "中",
         "type": "mcq",
         "stem": "若增加一个合理对照，最应控制的变量是？",
@@ -306,7 +306,7 @@ export const problems = [
       },
       {
         "id": "bio-u4-q009",
-        "title": "信号导引导论 (2)",
+        "title": "信号转导导论 (2)",
         "difficulty": "中",
         "type": "mcq",
         "stem": "若增加一个合理对照，最应控制的变量是？",
@@ -336,7 +336,7 @@ export const problems = [
         "topicLinks": [
           {
             "href": "#/t/bio/bio-u4/4.2",
-            "label": "4.2 信号导引导论",
+            "label": "4.2 信号转导导论",
             "topicId": "bio-u4:4.2"
           }
         ]
@@ -459,7 +459,7 @@ export const problems = [
       },
       "text": "据图作答。"
     },
-    "stem": "与「信号导引导论」最直接相关的正确陈述是？",
+    "stem": "与「信号转导导论」最直接相关的正确陈述是？",
     "choices": [
       {
         "text": "图示结构/关系支持该知识点的核心机制",
@@ -570,7 +570,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -707,7 +707,7 @@ export const problems = [
     "title": "4.2 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「信号导引导论」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「信号转导导论」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -864,7 +864,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -939,7 +939,7 @@ export const problems = [
     "title": "4.2 论证",
     "type": "frq",
     "difficulty": "易",
-    "stem": "用 CED 语言解释「信号导引导论」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「信号转导导论」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -1119,7 +1119,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -1171,7 +1171,7 @@ export const problems = [
     "title": "4.2 论证",
     "type": "frq",
     "difficulty": "中",
-    "stem": "用 CED 语言解释「信号导引导论」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「信号转导导论」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -1351,7 +1351,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -1403,7 +1403,7 @@ export const problems = [
     "title": "4.2 论证",
     "type": "frq",
     "difficulty": "难",
-    "stem": "用 CED 语言解释「信号导引导论」中一个因果关系，并给出一个可观测预测。",
+    "stem": "用 CED 语言解释「信号转导导论」中一个因果关系，并给出一个可观测预测。",
     "answer": "先定义关键实体与过程，再写因果链，最后给可测预测。",
     "solution": "避免循环论证；预测需可证伪。",
     "sourceId": "original",
@@ -1583,7 +1583,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -1636,8 +1636,8 @@ export const problems = [
     "type": "frq",
     "difficulty": "易",
     "stimulus": {
-      "title": "信号导引导论 实验数据",
-      "text": "研究小组记录与「信号导引导论」相关的测量。",
+      "title": "信号转导导论 实验数据",
+      "text": "研究小组记录与「信号转导导论」相关的测量。",
       "table": {
         "headers": [
           "条件",
@@ -1815,7 +1815,7 @@ export const problems = [
     "topicLinks": [
       {
         "href": "#/t/bio/bio-u4/4.2",
-        "label": "4.2 信号导引导论",
+        "label": "4.2 信号转导导论",
         "topicId": "bio-u4:4.2"
       }
     ]
@@ -1936,7 +1936,7 @@ export const problems = [
       },
       "text": "据图作答。"
     },
-    "stem": "与「信号导引导论」最直接相关的正确陈述是？",
+    "stem": "与「信号转导导论」最直接相关的正确陈述是？",
     "choices": [
       {
         "text": "图示结构/关系支持该知识点的核心机制",

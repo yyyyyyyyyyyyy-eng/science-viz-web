@@ -788,7 +788,7 @@ export const CROSS_RELATIONS = {
     "targetCode": "10.1",
     "sourceHref": "#/t/math/math-prep-alg2/P3.8",
     "targetHref": "#/t/math/calc-u10/10.1",
-    "titleZh": "数列与级数入门 → 序列收敛",
+    "titleZh": "数列与级数入门 → 无穷级数的收敛与发散",
     "summary": "数列极限与部分和是无穷级数收敛判定的起点。",
     "why": "无穷级数就是部分和数列的极限。",
     "shared": [

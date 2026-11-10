@@ -8,7 +8,7 @@ export const PHYSICS_FORMULA_GROUPS = [
       { id: 'c-g', latex: 'g=9.8\\,\\mathrm{m\\,s^{-2}}', symbols: [{ s: 'g', m: '重力加速度（近地）' }], conditions: '地球表面近似', derivation: '经验/测量值。', example: { q: '自由落体 2 s 的速度', a: 'v=gt=19.6\\,\\mathrm{m\\,s^{-1}}' }, related: ['#/t/mech/mech-u1/1.1'] },
       { id: 'c-G', latex: 'G=6.67\\times 10^{-11}\\,\\mathrm{N\\,m^{2}\\,kg^{-2}}', symbols: [{ s: 'G', m: '万有引力常量' }], conditions: 'SI', derivation: '实验测定。', example: { q: '两 1 kg 相距 1 m 的引力', a: '6.67\\times 10^{-11}\\,\\mathrm{N}' }, related: ['#/t/mech/mech-u2/2.6'] },
       { id: 'c-k', latex: 'k=\\dfrac{1}{4\\pi\\varepsilon_0}=9.0\\times 10^{9}\\,\\mathrm{N\\,m^{2}\\,C^{-2}}', symbols: [{ s: 'k', m: '库仑常量' }], conditions: '真空', derivation: '由真空介电常量 ε₀ 定义。', example: { q: '两 1 C 相距 1 m 的力', a: '9.0\\times 10^{9}\\,\\mathrm{N}' }, related: ['#/t/em/em-u8/8.1'] },
-      { id: 'c-e0', latex: '\\varepsilon_0=8.85\\times 10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}', symbols: [{ s: '\\varepsilon_0', m: '真空介电常量' }], conditions: '真空', derivation: '定义。', example: { q: '平行板 C 公式中的角色', a: 'C=\\varepsilon_0 A/d' }, related: ['#/t/em/em-u10/10.3'] },
+      { id: 'c-e0', latex: '\\varepsilon_0=8.85\\times 10^{-12}\\,\\mathrm{C^{2}\\,N^{-1}\\,m^{-2}}', symbols: [{ s: '\\varepsilon_0', m: '真空介电常量' }], conditions: '真空', derivation: '定义。', example: { q: '平行板 C 公式中的角色', a: 'C=\\dfrac{\\varepsilon_0 A}{d}' }, related: ['#/t/em/em-u10/10.3'] },
       { id: 'c-mu', latex: '\\mu_0=4\\pi\\times 10^{-7}\\,\\mathrm{T\\,m\\,A^{-1}}', symbols: [{ s: '\\mu_0', m: '真空磁导率' }], conditions: '真空', derivation: '定义。', example: { q: '长直导线 B', a: 'B=\\dfrac{\\mu_0 I}{2\\pi r}' }, related: ['#/t/em/em-u12/12.3'] },
       { id: 'c-e', latex: 'e=1.60\\times 10^{-19}\\,\\mathrm{C}', symbols: [{ s: 'e', m: '元电荷' }], conditions: '', derivation: '实验。', example: { q: '电子电荷', a: '-e' }, related: ['#/t/em/em-u8/8.1'] },
     ],
@@ -76,7 +76,7 @@ export const PHYSICS_FORMULA_GROUPS = [
     rows: [
       { id: 'e-ohm', latex: 'V=IR', symbols: [{ s: 'R', m: '电阻' }], conditions: '欧姆导体', derivation: '欧姆定律。', example: { q: 'I=2,R=3', a: 'V=6' }, related: ['#/t/em/em-u11/11.3'] },
       { id: 'e-P', latex: 'P=IV=I^2 R=\\dfrac{V^2}{R}', symbols: [{ s: 'P', m: '功率' }], conditions: '', derivation: '能量对时间。', example: { q: '发热', a: 'P=I^2 R' }, related: ['#/t/em/em-u11/11.4'] },
-      { id: 'e-RC', latex: 'q(t)=CE\\left(1-e^{-\\dfrac{t}{RC}}\\right),\\quad \\tau=RC', symbols: [{ s: '\\tau', m: '时间常数' }], conditions: '充电；放电则指数衰减', derivation: '解微分方程。', example: { q: '约 5\\tau', a: '接近稳态' }, related: ['#/t/em/em-u11/11.8'] },
+      { id: 'e-RC', latex: 'q(t)=C\\varepsilon\\left(1-e^{-\\dfrac{t}{RC}}\\right),\\quad \\tau=RC', symbols: [{ s: '\\varepsilon', m: '电动势' }, { s: '\\tau', m: '时间常数' }], conditions: '充电；放电则指数衰减', derivation: '解微分方程。', example: { q: '约 5\\tau', a: '接近稳态' }, related: ['#/t/em/em-u11/11.8'] },
     ],
   },
   {

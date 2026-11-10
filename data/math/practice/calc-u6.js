@@ -225,7 +225,7 @@ export const problems = [
     "title": "6.6 概念",
     "type": "mcq",
     "difficulty": "难",
-    "stem": "关于「微积分基本定理应用」，下列正确的是？",
+    "stem": "关于「定积分性质的应用」，下列正确的是？",
     "choices": [
       {
         "text": "定积分是黎曼和的极限，可表示净变化量",
@@ -513,11 +513,11 @@ export const problems = [
   },
   {
     "id": "calc-u6-q024",
-    "title": "6.6 论述 · 微积分基本定理应用",
+    "title": "6.6 论述 · 定积分性质的应用",
     "type": "frq",
     "difficulty": "中",
     "calculator": false,
-    "stem": "关于「微积分基本定理应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
     "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
     "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
@@ -792,7 +792,7 @@ export const problems = [
     "title": "6.6 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「微积分基本定理应用」，下列正确的是？",
+    "stem": "关于「定积分性质的应用」，下列正确的是？",
     "choices": [
       {
         "text": "定积分是黎曼和的极限，可表示净变化量",
@@ -1080,11 +1080,11 @@ export const problems = [
   },
   {
     "id": "calc-u6-q052",
-    "title": "6.6 论述 · 微积分基本定理应用",
+    "title": "6.6 论述 · 定积分性质的应用",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
-    "stem": "关于「微积分基本定理应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
     "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
     "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
@@ -1359,7 +1359,7 @@ export const problems = [
     "title": "6.6 概念",
     "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「微积分基本定理应用」，下列正确的是？",
+    "stem": "关于「定积分性质的应用」，下列正确的是？",
     "choices": [
       {
         "text": "定积分是黎曼和的极限，可表示净变化量",
@@ -1647,11 +1647,11 @@ export const problems = [
   },
   {
     "id": "calc-u6-q080",
-    "title": "6.6 论述 · 微积分基本定理应用",
+    "title": "6.6 论述 · 定积分性质的应用",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「微积分基本定理应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
     "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
     "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",

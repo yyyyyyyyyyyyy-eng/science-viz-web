@@ -37,8 +37,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「积分求平均」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\dfrac{1}{b-a}\\int_a^b f(x)\\,\\mathrm{d}x",
+        "note": "函数在区间上的平均值。 · Average value of a function on an interval."
       }
     ],
     "derivationNotes": [
@@ -199,8 +199,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「位置速度加速度」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "s(b)-s(a)=\\int_a^b v(t)\\,\\mathrm{d}t,\\quad v(b)-v(a)=\\int_a^b a(t)\\,\\mathrm{d}t",
+        "note": "位移是速度的积分；速度变化是加速度的积分。 · Displacement integrates velocity; velocity change integrates acceleration."
       }
     ],
     "derivationNotes": [
@@ -374,12 +374,8 @@ export const TOPICS = {
     "intuition": "先确认物理/生物/数学设定与已知量，再调用「累积变化率」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "f'(a)=\\lim_{h\\to 0}\\dfrac{f(a+h)-f(a)}{h}",
-        "note": "导数定义使用叠式分式。"
-      },
-      {
-        "latex": "\\int_a^b f(x)\\,\\mathrm{d}x=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\Delta x",
-        "note": "定积分。"
+        "latex": "\\int_a^b f'(x)\\,\\mathrm{d}x=f(b)-f(a)",
+        "note": "净变化定理：变化率的积分给出净变化。 · Net change theorem: integrate a rate to get net change."
       }
     ],
     "derivationNotes": [
@@ -979,7 +975,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u8",
         "code": "8.7",
-        "title": "旋转体体积盘法",
+        "title": "截面法：正方形与矩形",
         "relation": "related"
       }
     ],
@@ -1044,12 +1040,12 @@ export const TOPICS = {
     "unitTitleZh": "积分的应用",
     "unitTitleEn": "Applications of Integration",
     "code": "8.7",
-    "titleZh": "旋转体体积盘法",
+    "titleZh": "截面法：正方形与矩形",
     "titleEn": "Volumes with Cross Sections: Squares and Rectangles",
     "layer": "ap",
-    "summary": "旋转体体积盘法 · Volumes with Cross Sections: Squares and Rectangles",
+    "summary": "截面法：正方形与矩形 · Volumes with Cross Sections: Squares and Rectangles",
     "learningObjectives": [
-      "能陈述「旋转体体积盘法」的准确定义与适用对象",
+      "能陈述「截面法：正方形与矩形」的准确定义与适用对象",
       "能在符号、图像、数值三种表征间转换",
       "能完成一道计算/论证题并检查合理性"
     ],
@@ -1059,22 +1055,22 @@ export const TOPICS = {
       "能完成推导或机制链条中的关键步骤，并说明每步依据的定律/定义。",
       "能识别常见误用：忽略假设、混淆瞬时与平均、矢量方向错误、单位不一致。",
       "能将该知识点与同一单元前后主题及跨单元联系（因果/推导/特例）。",
-      "能用极限/导数/积分语言精确表述「旋转体体积盘法」，书写叠式分式。",
+      "能用极限/导数/积分语言精确表述「截面法：正方形与矩形」，书写叠式分式。",
       "能检验特例（常函数、线性、对称性）与量纲一致性。"
     ],
-    "definition": "旋转体体积盘法（Volumes with Cross Sections: Squares and Rectangles）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
-    "intuition": "先确认物理/生物/数学设定与已知量，再调用「旋转体体积盘法」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
+    "definition": "截面法：正方形与矩形（Volumes with Cross Sections: Squares and Rectangles）是本单元的核心知识点。要求：（1）准确定义；（2）掌握适用条件与理想化假设；（3）能在多种表征间转换；（4）能完成至少一道计算或论证并自检。",
+    "intuition": "先确认物理/生物/数学设定与已知量，再调用「截面法：正方形与矩形」的核心关系，用特例、极限情形与单位/量纲做快速自检，最后对照图像或机制图。",
     "formulas": [
       {
-        "latex": "V=\\pi\\int_a^b[R(x)]^{2}\\,\\mathrm{d}x",
-        "note": "绕 x 轴旋转的圆盘法。"
+        "latex": "V=\\int_a^b A(x)\\,\\mathrm{d}x",
+        "note": "截面法：A(x) 为垂直于 x 轴的截面面积。 · Cross-section method: A(x) is the slice area perpendicular to the x-axis."
       }
     ],
     "derivationNotes": [
       {
         "from": "定义/公理/实验事实",
         "to": "核心关系",
-        "note": "由定义出发建立「旋转体体积盘法」的工作方程或机制链。"
+        "note": "由定义出发建立「截面法：正方形与矩形」的工作方程或机制链。"
       },
       {
         "from": "核心关系",
@@ -1092,14 +1088,14 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.7「旋转体体积盘法」准确定义",
+      "掌握 8.7「截面法：正方形与矩形」准确定义",
       "四种表征互译（符号/图像/数值/文字）",
       "适用条件、反例与边界",
       "AP 简答：主张—证据—推理或完整推导",
       "与相邻知识点的联系"
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「旋转体体积盘法」的结论",
+      "在不满足假设时直接套用「截面法：正方形与矩形」的结论",
       "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
       "混淆符号含义或遗漏矢量方向/场方向",
       "把平均变化率当作瞬时变化率（或反之）",
@@ -1109,7 +1105,7 @@ export const TOPICS = {
     "examples": [
       {
         "title": "例 1 · 易",
-        "prompt": "写出「旋转体体积盘法」的定义，并列出至少两条适用条件或假设。",
+        "prompt": "写出「截面法：正方形与矩形」的定义，并列出至少两条适用条件或假设。",
         "solution": "定义需包含对象与关系；条件例如准静态、理想绝缘、连续可微、种群封闭等。不满足时说明修正。"
       },
       {
@@ -1120,13 +1116,13 @@ export const TOPICS = {
       },
       {
         "title": "例 3 · 中",
-        "prompt": "同时给出图像与数据表时，如何用「旋转体体积盘法」作答？指出瞬时量与平均量的区别。",
+        "prompt": "同时给出图像与数据表时，如何用「截面法：正方形与矩形」作答？指出瞬时量与平均量的区别。",
         "solution": "图像读斜率/面积/趋势；表格算差分商；符号写极限或定律；三者交叉验证。"
       },
       {
         "title": "例 4 · 难",
-        "prompt": "指出学生在「旋转体体积盘法」中最易犯的两类错误，并给出纠正。",
-        "solution": "不满足假设时套用「旋转体体积盘法」；用斜线分式代替叠式分式导致歧义"
+        "prompt": "指出学生在「截面法：正方形与矩形」中最易犯的两类错误，并给出纠正。",
+        "solution": "不满足假设时套用「截面法：正方形与矩形」；用斜线分式代替叠式分式导致歧义"
       }
     ],
     "examTips": [
@@ -1159,16 +1155,16 @@ export const TOPICS = {
       "下游：本主题结论用于后续问题的建模",
       "跨学科：注意数学工具与科学情境的对应"
     ],
-    "intuitionDetailed": "把「旋转体体积盘法」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
+    "intuitionDetailed": "把「截面法：正方形与矩形」想成：在明确设定下，用最少的新假设连接已知量与目标量。先用生活/几何/特例建立图像，再上升到符号。",
     "development": [
-      "回顾先修：确认符号、单位与「旋转体体积盘法」所需的前置定义已掌握。",
+      "回顾先修：确认符号、单位与「截面法：正方形与矩形」所需的前置定义已掌握。",
       "正式定义：用一句话写清对象与关系，并列出适用条件。",
       "推导/机制：从定义出发写出关键中间步骤（生物写因果链，数理写方程变换）。",
       "表征互译：同一结论用符号、图像、数值、文字各表达一次。",
       "迁移：换一个情境参数，重复一次完整推理。"
     ],
     "checks": [
-      "不看书能否复述「旋转体体积盘法」的定义与两条适用条件？",
+      "不看书能否复述「截面法：正方形与矩形」的定义与两条适用条件？",
       "给定图像/表格，能否指出瞬时量与平均量的区别？",
       "若某假设不成立，结论哪一步失效？"
     ],
@@ -1311,7 +1307,7 @@ export const TOPICS = {
         "subject": "math",
         "chapterId": "calc-u8",
         "code": "8.7",
-        "title": "旋转体体积盘法",
+        "title": "截面法：正方形与矩形",
         "relation": "prerequisite"
       },
       {

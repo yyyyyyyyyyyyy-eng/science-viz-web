@@ -755,11 +755,11 @@ export const problems = [
   },
   {
     "id": "calc-u1-q032",
-    "title": "1.9 论述 · 连通间断类型",
+    "title": "1.9 论述 · 极限多种表示的联结",
     "type": "frq",
     "difficulty": "易",
     "calculator": false,
-    "stem": "关于「连通间断类型」：用 ε-δ 直觉或图像说明为何去掉一点仍可有极限。",
+    "stem": "关于「极限多种表示的联结」：用 ε-δ 直觉或图像说明为何去掉一点仍可有极限。",
     "answerLatex": "\\lim_{x\\to2}\\dfrac{x^{2}-4}{x-2}=4",
     "answer": "极限只由 x 在 a 附近（但 x≠a）的取值决定，与 f(a) 是否有定义无关。例如题中 f 在 x=2 无定义，但在 x≠2 时可约简为 x+2，故极限为 4。按 ε-δ：任给 ε>0，取 δ=ε，当 0<|x−2|<δ 时 |f(x)−4|=|x−2|<ε。",
     "solution": "可去间断处函数值可以缺失或被改写；只要去心邻域内函数值趋近同一数，极限就存在。",
@@ -1050,7 +1050,7 @@ export const problems = [
   },
   {
     "id": "calc-u1-q048",
-    "title": "1.9 连通间断类型 · 变式",
+    "title": "1.9 极限多种表示的联结 · 变式",
     "difficulty": "中",
     "generator": "limit",
     "calculator": true,
@@ -1640,7 +1640,7 @@ export const problems = [
     "title": "1.9 概念",
     "type": "mcq",
     "difficulty": "易",
-    "stem": "关于「连通间断类型」，下列正确的是？",
+    "stem": "关于「极限多种表示的联结」，下列正确的是？",
     "choices": [
       {
         "text": "极限存在不要求 f(a) 有定义，但连续要求三者一致",
