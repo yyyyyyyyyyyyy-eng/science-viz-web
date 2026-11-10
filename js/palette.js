@@ -1,6 +1,6 @@
 /**
  * Command palette — one search surface for pages, chapters, topics and modules.
- * Opened from the header trigger, Ctrl/Cmd+K, or “/”.
+ * Opened from the header trigger or Ctrl/Cmd+K.
  */
 import {
   searchGrouped,

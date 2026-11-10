@@ -54,6 +54,10 @@ const {
   recordPracticeAttempt,
   practiceAttemptSnapshot,
   setPracticeSolutionOpen,
+  savePracticeQuizDraft,
+  loadPracticeQuizDraft,
+  clearPracticeQuizDraft,
+  clampQuizRemainingSec,
   PRACTICE_STORE_KEY,
 } = await import('../js/practice.js');
 
@@ -338,6 +342,107 @@ ok('solution toggle leaves the other answer alone', restoreSaved.banks['math/cal
 setPracticeSolutionOpen('bio/bio-u1', 'missingAnswer', true);
 const restoreAfterMissing = JSON.parse(restoreStorage.getItem(PRACTICE_STORE_KEY));
 ok('solution toggle never invents an answer record', Object.keys(restoreAfterMissing.banks['bio/bio-u1'].answers).length, 1);
+
+console.log('\nPractice quiz draft persistence');
+ok('remaining seconds clamp keeps zero', clampQuizRemainingSec(0), 0);
+ok('remaining seconds clamp turns negatives into zero', clampQuizRemainingSec(-8), 0);
+ok('remaining seconds clamp rounds partial seconds up', clampQuizRemainingSec(12.2), 13);
+ok('remaining seconds clamp rejects non-numeric input', clampQuizRemainingSec('nope'), 0);
+
+const draftStorage = createStorage();
+globalThis.localStorage = draftStorage;
+draftStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify({
+  v: 1,
+  keptTop: 'yes',
+  banks: {
+    'bio/bio-u1': {
+      answers: { legacy: { status: 'wrong', lastAnswer: 'A', at: 1, note: 'keep' } },
+      lastIndex: 2,
+      keptBank: 'yes',
+    },
+  },
+}));
+ok('missing quiz draft loads as null', loadPracticeQuizDraft('math/calc-u2'), null);
+
+const quizDraft = {
+  subject: 'math',
+  unitId: 'calc-u2',
+  timer: { on: true, remainingSec: 512, totalSec: 600 },
+  entries: [
+    {
+      progressId: 'practice:math/calc-u2/q1',
+      title: '选择题',
+      typeLabel: 'MCQ',
+      difficulty: '中',
+      source: { stem: 'q1', type: 'mcq', choices: [{ text: 'x', correct: true }] },
+      grading: { type: 'mcq', choices: [{ text: 'x', correct: true }], answerIndex: 0 },
+      state: { selected: 0, text: '' },
+    },
+    {
+      progressId: 'practice:math/calc-u2/q2',
+      title: '填空题',
+      typeLabel: 'FRQ',
+      difficulty: '易',
+      source: { stem: 'q2', check: 'numeric' },
+      grading: { type: 'frq', check: 'numeric', expected: 3 },
+      state: { selected: -1, text: '' },
+    },
+  ],
+};
+ok('save draft reports success', savePracticeQuizDraft('math/calc-u2', quizDraft));
+const loadedDraft = loadPracticeQuizDraft('math/calc-u2');
+ok(
+  'loaded draft keeps every question in order',
+  loadedDraft.entries.map((entry) => entry.progressId).join(','),
+  'practice:math/calc-u2/q1,practice:math/calc-u2/q2',
+);
+ok('loaded draft keeps a selected answer', loadedDraft.entries[0].state.selected, 0);
+ok('loaded draft keeps an unanswered item blank', loadedDraft.entries[1].state.text, '');
+ok('loaded draft keeps remaining seconds', loadedDraft.timer.remainingSec, 512);
+ok('loaded draft keeps the original total seconds', loadedDraft.timer.totalSec, 600);
+ok('loaded draft keeps the timer on', loadedDraft.timer.on);
+ok('loaded draft keeps the bank identity', `${loadedDraft.subject}/${loadedDraft.unitId}`, 'math/calc-u2');
+const afterDraftWrite = JSON.parse(draftStorage.getItem(PRACTICE_STORE_KEY));
+ok('draft write keeps other banks', Object.keys(afterDraftWrite.banks).sort().join(','), 'bio/bio-u1,math/calc-u2');
+ok('draft write keeps unknown top-level fields', afterDraftWrite.keptTop, 'yes');
+ok('draft write keeps unknown bank fields', afterDraftWrite.banks['bio/bio-u1'].keptBank, 'yes');
+ok('draft write keeps other bank answers', afterDraftWrite.banks['bio/bio-u1'].answers.legacy.note, 'keep');
+ok('draft write does not record scored attempts', Object.keys(afterDraftWrite.banks['math/calc-u2'].answers).length, 0);
+
+ok('clear draft reports success', clearPracticeQuizDraft('math/calc-u2'));
+ok('cleared draft loads as null', loadPracticeQuizDraft('math/calc-u2'), null);
+const afterDraftClear = JSON.parse(draftStorage.getItem(PRACTICE_STORE_KEY));
+ok('clear keeps other banks', Object.keys(afterDraftClear.banks).sort().join(','), 'bio/bio-u1,math/calc-u2');
+ok('clear keeps other bank answers', afterDraftClear.banks['bio/bio-u1'].answers.legacy.note, 'keep');
+
+const untimedDraftStorage = createStorage();
+globalThis.localStorage = untimedDraftStorage;
+savePracticeQuizDraft('math/calc-u2', {
+  ...quizDraft,
+  timer: { on: false, remainingSec: 0, totalSec: 0 },
+});
+const untimedDraft = loadPracticeQuizDraft('math/calc-u2');
+ok('untimed draft keeps the no-timer flag', untimedDraft.timer.on, false);
+ok('untimed draft has no remaining seconds', untimedDraft.timer.remainingSec, 0);
+
+const expiredDraftStorage = createStorage();
+globalThis.localStorage = expiredDraftStorage;
+savePracticeQuizDraft('math/calc-u2', {
+  ...quizDraft,
+  timer: { on: true, remainingSec: -5, totalSec: 600 },
+});
+const expiredDraft = loadPracticeQuizDraft('math/calc-u2');
+ok('expired draft keeps the timer on', expiredDraft.timer.on);
+ok('expired draft clamps remaining to zero', expiredDraft.timer.remainingSec, 0);
+ok('zero remaining is the documented auto-submit state', clampQuizRemainingSec(expiredDraft.timer.remainingSec), 0);
+
+const corruptDraftStorage = createStorage();
+globalThis.localStorage = corruptDraftStorage;
+corruptDraftStorage.setItem(PRACTICE_STORE_KEY, '{not valid json');
+ok('save draft refuses a corrupt store', savePracticeQuizDraft('math/calc-u2', quizDraft), false);
+ok('save draft leaves corrupt bytes untouched', corruptDraftStorage.getItem(PRACTICE_STORE_KEY), '{not valid json');
+ok('clear draft refuses a corrupt store', clearPracticeQuizDraft('math/calc-u2'), false);
+ok('clear draft also leaves corrupt bytes untouched', corruptDraftStorage.getItem(PRACTICE_STORE_KEY), '{not valid json');
 
 const practiceDir = new URL('../data/math/practice/', import.meta.url);
 const banks = [];

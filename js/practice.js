@@ -160,7 +160,115 @@ export function readPracticeStore() {
 function writePracticeStore(store) {
   try {
     localStorage.setItem(PRACTICE_STORE_KEY, JSON.stringify(migratePracticeStore(store)));
-  } catch (_) { /* storage may be unavailable */ }
+    return true;
+  } catch (_) {
+    // Storage may be unavailable; never let a failed write break practice.
+    return false;
+  }
+}
+
+/**
+ * Draft writes must not replace good bytes with an empty store. A malformed or
+ * non-object payload therefore aborts the write instead of falling back to the
+ * empty migration result that readPracticeStore() returns for reading.
+ */
+function readPracticeStoreForWrite() {
+  let raw;
+  try {
+    raw = localStorage.getItem(PRACTICE_STORE_KEY);
+  } catch (_) {
+    return null;
+  }
+  if (!raw) return migratePracticeStore(null);
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+  if (!isRecordObject(parsed)) return null;
+  return migratePracticeStore(parsed);
+}
+
+/** Saved quiz time is whole, non-negative seconds; 0 means time is up. */
+export function clampQuizRemainingSec(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number <= 0) return 0;
+  return Math.ceil(number);
+}
+
+function normalizeQuizDraft(raw, bankKey) {
+  if (!isRecordObject(raw) || raw.bankKey !== bankKey) return null;
+  if (!Array.isArray(raw.entries) || !raw.entries.length) return null;
+  const entries = [];
+  for (const entry of raw.entries) {
+    if (!isRecordObject(entry) || !isRecordObject(entry.grading) || !entry.progressId) return null;
+    entries.push({
+      progressId: String(entry.progressId),
+      title: String(entry.title || '题目 · Question'),
+      typeLabel: String(entry.typeLabel || ''),
+      difficulty: String(entry.difficulty || '中'),
+      source: isRecordObject(entry.source) ? entry.source : entry.grading,
+      grading: entry.grading,
+      state: {
+        selected: Number.isInteger(entry.state?.selected) ? entry.state.selected : -1,
+        text: String(entry.state?.text ?? ''),
+      },
+    });
+  }
+  const timerRaw = isRecordObject(raw.timer) ? raw.timer : {};
+  const totalSec = clampQuizRemainingSec(timerRaw.totalSec);
+  const on = timerRaw.on === true && totalSec > 0;
+  return {
+    v: 1,
+    bankKey,
+    subject: String(raw.subject || ''),
+    unitId: String(raw.unitId || ''),
+    savedAt: Number.isFinite(raw.savedAt) ? raw.savedAt : Date.now(),
+    timer: {
+      on,
+      remainingSec: on ? clampQuizRemainingSec(timerRaw.remainingSec) : 0,
+      totalSec: on ? totalSec : 0,
+    },
+    entries,
+  };
+}
+
+/** Persist an unsubmitted quiz draft into this bank, keeping every other field. */
+export function savePracticeQuizDraft(bankKey, draft) {
+  if (!bankKey) return false;
+  const normalized = normalizeQuizDraft({ ...draft, bankKey }, bankKey);
+  if (!normalized) return false;
+  const store = readPracticeStoreForWrite();
+  if (!store) return false;
+  if (!isRecordObject(store.banks)) store.banks = {};
+  const current = store.banks[bankKey];
+  if (current !== undefined && !isRecordObject(current)) return false;
+  const bank = isRecordObject(current) ? current : { answers: {}, lastIndex: 0 };
+  if (!isRecordObject(bank.answers)) bank.answers = {};
+  bank.draft = normalized;
+  store.banks[bankKey] = bank;
+  return writePracticeStore(store);
+}
+
+/** The saved draft for exactly this bank, or null when there is none/valid one. */
+export function loadPracticeQuizDraft(bankKey) {
+  if (!bankKey) return null;
+  const store = readPracticeStore();
+  const bank = store.banks[bankKey];
+  if (!isRecordObject(bank)) return null;
+  return normalizeQuizDraft(bank.draft, bankKey);
+}
+
+/** Remove only the quiz draft; scored attempts and all other banks stay intact. */
+export function clearPracticeQuizDraft(bankKey) {
+  if (!bankKey) return false;
+  const store = readPracticeStoreForWrite();
+  if (!store) return false;
+  const bank = store.banks[bankKey];
+  if (!isRecordObject(bank) || !('draft' in bank)) return true;
+  delete bank.draft;
+  return writePracticeStore(store);
 }
 
 function getPracticeBankState(bankKey) {
@@ -1057,7 +1165,7 @@ function quizEntryCorrect(entry) {
   return false;
 }
 
-function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGraded }) {
+function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGraded, onDraftChange }) {
   let active = false;
   let quiz = null;
 
@@ -1072,17 +1180,50 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     return active;
   }
 
+  function persistDraft() {
+    if (!quiz || quiz.submitted) return false;
+    const timer = quiz.minutes
+      ? {
+        on: true,
+        remainingSec: clampQuizRemainingSec((quiz.endsAt - Date.now()) / 1000),
+        totalSec: quiz.totalSec,
+      }
+      : { on: false, remainingSec: 0, totalSec: 0 };
+    return savePracticeQuizDraft(bankKey, {
+      subject,
+      unitId,
+      savedAt: Date.now(),
+      timer,
+      entries: quiz.entries.map((entry) => ({
+        progressId: entry.progressId,
+        title: entry.title,
+        typeLabel: entry.typeLabel,
+        difficulty: entry.difficulty,
+        source: entry.source,
+        grading: entry.grading,
+        state: {
+          selected: Number.isInteger(entry.state.selected) ? entry.state.selected : -1,
+          text: String(entry.state.text || ''),
+        },
+      })),
+    });
+  }
+
+  const onPageHide = () => {
+    persistDraft();
+  };
+  window.addEventListener('pagehide', onPageHide);
+  window.addEventListener('beforeunload', onPageHide);
+
   function leave() {
-    if (quiz && !quiz.submitted) {
-      const confirmed = window.confirm('退出小测？本次作答不会保存。 · Leave the quiz? Your answers will not be saved.');
-      if (!confirmed) return;
-    }
+    if (quiz && !quiz.submitted) persistDraft();
     stopTimer();
     quiz = null;
     active = false;
     clear(panel);
     panel.hidden = true;
     page.classList.remove('is-quizzing');
+    onDraftChange?.();
   }
 
   function showSetup() {
@@ -1176,7 +1317,6 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
   }
 
   function startQuiz(count, minutes) {
-    stopTimer();
     const pool = buildQuizPool(bank, bankKey, subject, unitId);
     if (!pool.length) {
       showSetup();
@@ -1190,10 +1330,18 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       resultEl: null,
     }));
     if (!entries.length) return;
+    presentQuiz(entries, { minutes, remainingSec: minutes * 60 });
+  }
+
+  function presentQuiz(entries, { minutes, remainingSec }) {
+    stopTimer();
+    const totalSec = minutes ? minutes * 60 : 0;
+    const leftSec = minutes ? clampQuizRemainingSec(remainingSec ?? totalSec) : 0;
     quiz = {
       entries,
       minutes,
-      endsAt: minutes ? Date.now() + minutes * 60000 : 0,
+      totalSec,
+      endsAt: minutes ? Date.now() + leftSec * 1000 : 0,
       timerId: 0,
       submitted: false,
       timerEl: null,
@@ -1208,7 +1356,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     leaveBtn.addEventListener('click', leave);
     const timerEl = el('span', {
       className: 'practice-quiz-timer',
-      text: minutes ? `剩余 ${formatQuizCountdown(minutes * 60000)} · Time left` : '不计时 · Untimed',
+      text: minutes ? `剩余 ${formatQuizCountdown(leftSec * 1000)} · Time left` : '不计时 · Untimed',
     });
     quiz.timerEl = timerEl;
     panel.appendChild(
@@ -1242,19 +1390,51 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
     quiz.summaryEl = summary;
 
     if (minutes) {
-      quiz.timerId = setInterval(() => {
-        if (!quiz || quiz.submitted) return;
-        const left = quiz.endsAt - Date.now();
-        if (left <= 0) {
-          timerEl.textContent = '00:00';
-          timerEl.classList.add('is-urgent');
-          submitQuiz(true);
-          return;
-        }
-        timerEl.textContent = `剩余 ${formatQuizCountdown(left)} · Time left`;
-        timerEl.classList.toggle('is-urgent', left <= 60000);
-      }, 250);
+      if (leftSec <= 0) {
+        // A saved draft at 0 seconds resumes as an expired attempt: show the
+        // restored answers, then auto-submit them instead of secretly resetting.
+        timerEl.textContent = '00:00';
+        timerEl.classList.add('is-urgent');
+        queueMicrotask(() => submitQuiz(true));
+      } else {
+        let lastSecond = leftSec;
+        quiz.timerId = setInterval(() => {
+          if (!quiz || quiz.submitted) return;
+          const left = quiz.endsAt - Date.now();
+          if (left <= 0) {
+            timerEl.textContent = '00:00';
+            timerEl.classList.add('is-urgent');
+            submitQuiz(true);
+            return;
+          }
+          timerEl.textContent = `剩余 ${formatQuizCountdown(left)} · Time left`;
+          timerEl.classList.toggle('is-urgent', left <= 60000);
+          const second = clampQuizRemainingSec(left / 1000);
+          if (second !== lastSecond) {
+            lastSecond = second;
+            persistDraft();
+          }
+        }, 250);
+      }
     }
+    persistDraft();
+  }
+
+  function resume(draft) {
+    const normalized = normalizeQuizDraft(draft, bankKey);
+    if (!normalized) return false;
+    const minutes = normalized.timer.on
+      ? Math.max(1, Math.round(normalized.timer.totalSec / 60))
+      : 0;
+    const entries = normalized.entries.map((entry) => ({
+      ...entry,
+      state: { ...entry.state },
+      ok: null,
+      itemEl: null,
+      resultEl: null,
+    }));
+    presentQuiz(entries, { minutes, remainingSec: normalized.timer.remainingSec });
+    return true;
   }
 
   function renderQuizItem(entry, index) {
@@ -1300,12 +1480,13 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       const group = el('div', { className: 'mcq-group', role: 'radiogroup', 'aria-label': '选项 · Choices' });
       const buttons = [];
       prob.choices.forEach((choice, index) => {
+        const isSelected = entry.state.selected === index;
         const btn = el('button', {
           type: 'button',
-          className: 'mcq-choice hit-target',
+          className: `mcq-choice hit-target${isSelected ? ' is-selected' : ''}`,
           role: 'radio',
-          'aria-checked': 'false',
-          tabIndex: index === 0 ? 0 : -1,
+          'aria-checked': isSelected ? 'true' : 'false',
+          tabIndex: isSelected || (entry.state.selected < 0 && index === 0) ? 0 : -1,
         }, [
           el('span', { className: 'mcq-letter', text: String.fromCharCode(65 + index) }),
           el('span', { className: 'mcq-text', text: choice.text }),
@@ -1317,6 +1498,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
             b.setAttribute('aria-checked', i === index ? 'true' : 'false');
             b.tabIndex = i === index ? 0 : -1;
           });
+          persistDraft();
         };
         btn.addEventListener('click', select);
         btn.addEventListener('keydown', (e) => {
@@ -1332,6 +1514,7 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
             b.tabIndex = i === next ? 0 : -1;
           });
           buttons[next].focus();
+          persistDraft();
         });
         buttons.push(btn);
         group.appendChild(btn);
@@ -1349,15 +1532,18 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       'aria-label': symbolic ? '符号答案 · Symbolic answer' : '数值答案 · Numeric answer',
       autocomplete: 'off',
     });
+    input.value = entry.state.text || '';
     input.addEventListener('input', () => {
       entry.state.text = input.value;
       if (symbolic) renderPracticePreview(preview, input.value);
+      persistDraft();
     });
     const form = el('div', { className: 'answer-form practice-quiz-answer-form' }, [input]);
     box.appendChild(form);
     if (symbolic) {
       preview = createPracticePreview();
       box.appendChild(preview);
+      if (entry.state.text) renderPracticePreview(preview, entry.state.text);
     }
     return box;
   }
@@ -1395,6 +1581,8 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
       }
       entry.itemEl.appendChild(solution);
     }
+    clearPracticeQuizDraft(bankKey);
+    onDraftChange?.();
 
     const total = quiz.entries.length;
     const percent = total ? Math.round((correct / total) * 100) : 0;
@@ -1434,12 +1622,16 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
 
   return {
     open: showSetup,
+    resume,
     leave,
     isActive,
     destroy() {
+      if (quiz && !quiz.submitted) persistDraft();
       stopTimer();
       quiz = null;
       active = false;
+      window.removeEventListener('pagehide', onPageHide);
+      window.removeEventListener('beforeunload', onPageHide);
     },
   };
 }
@@ -1512,6 +1704,13 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     }, [reviewBtn, quizBtn]),
   );
 
+  const resumePanel = el('section', {
+    className: 'practice-quiz-resume',
+    hidden: true,
+    'aria-label': '未提交的小测 · Unsubmitted quiz',
+  });
+  page.appendChild(resumePanel);
+
   const reviewPanel = el('section', {
     id: 'practice-review-panel',
     className: 'practice-review',
@@ -1534,6 +1733,7 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
     'aria-label': '单元小测 · Unit quiz',
   });
   page.appendChild(quizPanel);
+
   let quizCtl = null;
   let reviewOpen = false;
 
@@ -1588,7 +1788,57 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
       refreshReviewButton();
       renderPracticeProgress(progressSection);
     },
+    onDraftChange: refreshResumeBanner,
   });
+
+  function refreshResumeBanner() {
+    const draft = loadPracticeQuizDraft(bankKey);
+    clear(resumePanel);
+    resumePanel.hidden = !draft;
+    if (!draft) return;
+    const count = draft.entries.length;
+    const timeText = draft.timer.on
+      ? draft.timer.remainingSec <= 0
+        ? '已超时 · Time is up'
+        : `剩余 ${formatQuizCountdown(draft.timer.remainingSec * 1000)} · ${formatQuizCountdown(draft.timer.remainingSec * 1000)} left`
+      : '不计时 · Untimed';
+    const copy = el('div', { className: 'practice-quiz-resume-copy' }, [
+      el('p', { className: 'practice-quiz-resume-title', text: '未提交的小测 · Unsubmitted quiz' }),
+      el('p', {
+        className: 'practice-quiz-resume-meta',
+        text: `${count} 题 · ${count} questions · ${timeText}`,
+      }),
+    ]);
+    const actions = el('div', { className: 'practice-quiz-resume-actions' });
+    const resumeBtn = el('button', {
+      type: 'button',
+      className: 'btn primary hit-target',
+      text: '继续小测 · Resume quiz',
+    });
+    resumeBtn.addEventListener('click', () => {
+      const latest = loadPracticeQuizDraft(bankKey);
+      if (!latest) {
+        refreshResumeBanner();
+        return;
+      }
+      if (reviewOpen) setReviewOpen(false);
+      quizCtl?.resume(latest);
+    });
+    const discardBtn = el('button', {
+      type: 'button',
+      className: 'btn hit-target',
+      text: '放弃草稿 · Discard draft',
+    });
+    discardBtn.addEventListener('click', () => {
+      const confirmed = window.confirm('放弃未提交的小测草稿？ · Discard the saved quiz draft?');
+      if (!confirmed) return;
+      clearPracticeQuizDraft(bankKey);
+      refreshResumeBanner();
+    });
+    actions.append(resumeBtn, discardBtn);
+    resumePanel.append(copy, actions);
+  }
+  refreshResumeBanner();
 
   // Build the rail after cards so numbers, types and states are known.
   const railInner = el('div', { className: 'practice-rail-inner' });
