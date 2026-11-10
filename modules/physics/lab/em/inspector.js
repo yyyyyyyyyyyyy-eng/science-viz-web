@@ -41,7 +41,7 @@ function fresh(parent) {
 
 export function buildEMInspector({ entity, world, api }) {
   api.inspectorHeading(api.parent, entity);
-  if (entity.type !== 'emCircuit' && entity.x != null) api.positionFields(api.parent, entity);
+  if (entity.x != null) api.positionFields(api.parent, entity);
   const common = fresh(api.parent);
 
   if (entity.type === 'emCharge') {

@@ -728,6 +728,9 @@ export function addCircuit(em, opts = {}) {
     type: 'emCircuit',
     id: opts.id || nextId(em, 'circuit'),
     name: opts.name || '',
+    x: opts.x ?? 0,
+    y: opts.y ?? 1.35,
+    z: opts.z ?? 0,
     time: 0,
     components: [],
     wires: [],
@@ -736,6 +739,7 @@ export function addCircuit(em, opts = {}) {
     last: null,
     samples: [],
     initialised: false,
+    mount: opts.mount ? { ...opts.mount } : null,
   };
   em.circuits.push(circuit);
   em.activeCircuitId = circuit.id;

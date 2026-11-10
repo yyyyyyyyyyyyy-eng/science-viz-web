@@ -28,6 +28,7 @@ import {
   getTurntable,
   launcherMuzzle,
   pendulumPeriod,
+  SCENE_VERSION,
   stepWorld,
   surfaceFrame,
 } from '../modules/physics/lab/physics.mjs';
@@ -704,7 +705,7 @@ for (const preset of PRESETS) {
       throw new Error(`focus ${preset.focus.type}:${preset.focus.id} missing`);
     }
     const data = preset.build();
-    if (data.version !== 2) throw new Error(`scene schema ${data.version} is not 2`);
+    if (data.version !== SCENE_VERSION) throw new Error(`scene schema ${data.version} is not ${SCENE_VERSION}`);
   });
 }
 

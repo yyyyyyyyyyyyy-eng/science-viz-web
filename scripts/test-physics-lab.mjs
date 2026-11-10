@@ -49,9 +49,15 @@ import {
   clampMuPair,
   createWorld,
   deserializeScene,
+  DEFAULT_FLOOR_FRICTION,
+  DEFAULT_FLOOR_RESTITUTION,
+  detachEntity,
   dropAngularBlock,
   elevatorReading,
+  endpointPosition,
   energyBreakdown,
+  entityMount,
+  floorRestHeight,
   leastSquaresSlope,
   mountApparatus,
   migrateScene,
@@ -64,16 +70,21 @@ import {
   quantizeValue,
   relativeVelocity,
   removeBody,
+  repositionSurfaceBody,
   resetWorld,
   rodInertia,
   SCENE_VERSION,
   serializeScene,
   setBodyCollisionRestitution,
   setBodyPosition,
+  setFloorContact,
+  setGridStep,
   setSensorTarget,
   snapApparatusToNearest,
   snapBarrierToNearest,
   snapBodyToNearest,
+  snapEntityToFloorGrid,
+  snapEntityToNearest,
   snapNearbyBodies,
   springEnergyFromLength,
   springTension,
@@ -958,7 +969,7 @@ check('scene migration accepts v1 and pre-version payloads and rejects garbage',
   const world = createWorld({ g: 9.8 });
   addBlock(world, { mass: 2, x: 0, y: 3, z: 0 });
   const current = serializeScene(world);
-  if (current.version !== SCENE_VERSION || current.version !== 2) throw new Error('serialized scene is not v2');
+  if (current.version !== SCENE_VERSION) throw new Error(`serialized scene is not v${SCENE_VERSION}`);
   if (!('restitution' in current)) throw new Error('restitution missing from v2 payload');
 
   const v1 = { ...current, version: 1 };
@@ -1334,6 +1345,118 @@ check('quantize helpers follow the current grid and angle step', () => {
   near(quantizeAngle(16, 10), 20, 1e-12, 'custom 10° step rounds up');
 });
 
+/* ------------------------- t115u floor + grid ----------------------- */
+
+check('floor: block, ball and cart rest at half-height/radius without tunnelling', () => {
+  const world = createWorld({ g: 9.8 });
+  setFloorContact(world, { friction: DEFAULT_FLOOR_FRICTION, restitution: DEFAULT_FLOOR_RESTITUTION });
+  const block = addBlock(world, { mass: 1, size: 0.5, x: 0, y: 4, z: 0 });
+  const ball = addBall(world, { mass: 1, radius: 0.28, x: 1.5, y: 5, z: 0 });
+  const cart = addCart(world, { mass: 1, radius: 0.3, x: 3, y: 6, z: 0 });
+  let minY = Infinity;
+  const h = 1 / 240;
+  for (let i = 0; i < Math.round(3 / h); i += 1) {
+    stepWorld(world, h, { h });
+    minY = Math.min(minY, block.cannon.position.y, ball.cannon.position.y, cart.cannon.position.y);
+  }
+  near(block.cannon.position.y, 0.252, 0.004, 'block rests on floor', ' m');
+  near(ball.cannon.position.y, 0.282, 0.004, 'ball rests at radius', ' m');
+  near(cart.cannon.position.y, 0.302, 0.004, 'cart rests at wheel radius', ' m');
+  if (Math.abs(block.cannon.velocity.y) > 0.02) throw new Error('block vertical velocity did not settle');
+  if (minY < 0) throw new Error(`an object tunnelled below the floor: y=${minY}`);
+  console.log(`      rest y: block=${block.cannon.position.y.toFixed(4)} m, ball=${ball.cannon.position.y.toFixed(4)} m, cart=${cart.cannon.position.y.toFixed(4)} m; min y=${minY.toFixed(4)} m`);
+});
+
+check('floor: restitution produces a measurable bounce and friction changes sliding distance', () => {
+  const bouncy = createWorld({ g: 9.8 });
+  setFloorContact(bouncy, { restitution: 0.85 });
+  const ball = addBall(bouncy, { mass: 1, radius: 0.2, x: 0, y: 2.5, z: 0 });
+  let apexAfterBounce = 0;
+  let touched = false;
+  const h = 1 / 480;
+  for (let i = 0; i < Math.round(2.5 / h); i += 1) {
+    stepWorld(bouncy, h, { h });
+    if (ball.cannon.position.y <= 0.205) touched = true;
+    if (touched) apexAfterBounce = Math.max(apexAfterBounce, ball.cannon.position.y);
+  }
+  if (apexAfterBounce < 0.8) throw new Error(`high restitution did not bounce: apex=${apexAfterBounce}`);
+
+  const dead = createWorld({ g: 9.8 });
+  setFloorContact(dead, { restitution: 0 });
+  const deadBall = addBall(dead, { mass: 1, radius: 0.2, x: 0, y: 2.5, z: 0 });
+  let deadApex = 0;
+  let deadTouched = false;
+  for (let i = 0; i < Math.round(2.5 / h); i += 1) {
+    stepWorld(dead, h, { h });
+    if (deadBall.cannon.position.y <= 0.205) deadTouched = true;
+    if (deadTouched) deadApex = Math.max(deadApex, deadBall.cannon.position.y);
+  }
+  if (deadApex > 0.3) throw new Error(`zero restitution still bounced: apex=${deadApex}`);
+
+  const slide = (mu) => {
+    const world = createWorld({ g: 9.8 });
+    setFloorContact(world, { friction: mu, restitution: 0 });
+    const block = addBlock(world, { mass: 1, size: 0.4, x: 0, y: 0.2, z: 0 });
+    block.cannon.velocity.set(3, 0, 0);
+    for (let i = 0; i < Math.round(1.2 / h); i += 1) stepWorld(world, h, { h });
+    return block.cannon.position.x;
+  };
+  const frictionless = slide(0);
+  const rough = slide(1);
+  if (!(frictionless > rough + 0.5)) {
+    throw new Error(`floor friction had no measurable effect: μ0 x=${frictionless}, μ1 x=${rough}`);
+  }
+  console.log(`      bounce apex: e=0.85 -> ${apexAfterBounce.toFixed(3)} m, e=0 -> ${deadApex.toFixed(3)} m; slide x: μ0=${frictionless.toFixed(3)} m vs μ1=${rough.toFixed(3)} m`);
+});
+
+check('grid intersection snap: 0.1 m and 0.5 m lattices, inspector x/z agree', () => {
+  const world = createWorld({ g: 9.8 });
+  setGridStep(world, 0.1);
+  const block = addBlock(world, { mass: 1, size: 0.5, x: 0.26, y: 1.4, z: -0.23 });
+  const pose = snapEntityToFloorGrid(world, block);
+  near(pose.x, 0.3, 1e-12, '0.1 lattice x');
+  near(pose.z, -0.2, 1e-12, '0.1 lattice z');
+  near(block.cannon.position.y, block.halfHeight + 0.002, 1e-12, 'rest height y');
+  near(block.cannon.position.x, 0.3, 1e-12, 'inspector x follows snap');
+  near(block.cannon.position.z, -0.2, 1e-12, 'inspector z follows snap');
+
+  setGridStep(world, 0.5);
+  const ball = addBall(world, { mass: 1, radius: 0.26, x: 0.26, y: 2, z: -0.23 });
+  const coarse = snapEntityToFloorGrid(world, ball);
+  near(coarse.x, 0.5, 1e-12, '0.5 lattice x');
+  near(coarse.z, 0, 1e-12, '0.5 lattice z');
+  near(ball.cannon.position.y, 0.262, 1e-12, 'ball rest radius');
+
+  const free = addBlock(world, { mass: 1, size: 0.5, x: 0.26, y: 1.4, z: -0.23 });
+  const bypass = snapEntityToNearest(world, free, { maxDistance: 0.01, floor: false });
+  if (bypass !== null) throw new Error('floor snap ran while floor fallback was disabled');
+  near(free.cannon.position.x, 0.26, 1e-12, 'Shift bypass leaves unquantized x');
+  near(free.cannon.position.z, -0.23, 1e-12, 'Shift bypass leaves unquantized z');
+  console.log(`      grid 0.1: (0.26,-0.23)->(${pose.x},${pose.z}) y=${pose.y}; grid 0.5: (0.26,-0.23)->(${coarse.x},${coarse.z}); bypass keeps raw point`);
+});
+
+check('floor/grid settings serialize, migrate and restore the contact pair', () => {
+  const world = createWorld({ g: 9.8 });
+  setFloorContact(world, { friction: 0.9, restitution: 0.35 });
+  setGridStep(world, 0.25);
+  const data = serializeScene(world);
+  if (data.floor?.friction !== 0.9 || data.floor?.restitution !== 0.35) throw new Error('floor settings not serialized');
+  if (data.gridStep !== 0.25) throw new Error('grid step not serialized');
+  const target = createWorld({ g: 9.8 });
+  deserializeScene(target, data);
+  near(target.floorFriction, 0.9, 1e-12, 'restored floor μ');
+  near(target.floorRestitution, 0.35, 1e-12, 'restored floor e');
+  near(target.gridStep, 0.25, 1e-12, 'restored grid step');
+  near(target.groundContact.friction, 0.9, 1e-12, 'restored contact pair μ');
+  near(target.groundContact.restitution, 0.35, 1e-12, 'restored contact pair e');
+
+  const legacy = migrateScene({ version: 1, bodies: [] });
+  near(legacy.floor.friction, DEFAULT_FLOOR_FRICTION, 1e-12, 'legacy floor μ default');
+  near(legacy.floor.restitution, DEFAULT_FLOOR_RESTITUTION, 1e-12, 'legacy floor e default');
+  near(legacy.gridStep, 0.1, 1e-12, 'legacy grid step default');
+  console.log(`      floor μ/e and gridStep survive reload; v1 migrates to μ=${legacy.floor.friction}, e=${legacy.floor.restitution}, step=${legacy.gridStep}`);
+});
+
 check('setBodyPosition moves to the typed point and re-seats with snap on', () => {
   const world = createWorld({ g: 9.8 });
   const surface = addSurface(world, { kind: 'incline', angleDeg: 20, length: 12, y: 1.5, width: 3 });
@@ -1471,162 +1594,254 @@ check('every logging sensor builds raw + summary tables and CSV headers', () => 
 /* ---------------------- snap / attach matrix ------------------------ */
 
 function makeMatrixTarget(world, kind) {
-  if (kind === 'incline') return { type: 'surface', value: addSurface(world, { kind: 'incline', angleDeg: 20, length: 10, y: 1.5, width: 3 }) };
-  if (kind === 'surface') return { type: 'surface', value: addSurface(world, { kind: 'surface', angleDeg: 0, length: 10, y: 1.0, width: 3 }) };
-  if (kind === 'track') return { type: 'surface', value: addSurface(world, { kind: 'track', angleDeg: 0, length: 10, y: 1.0, width: 3 }) };
-  if (kind === 'loop') return { type: 'loop', value: addLoop(world, { x: 0, y: 2.5, z: 0, radius: 1.8 }) };
-  if (kind === 'hcircle') return { type: 'hcircle', value: addHCircle(world, { x: 0, y: 0.1, z: 0, radius: 2 }) };
-  if (kind === 'turntable') return { type: 'turntable', value: addTurntable(world, { x: 0, y: 0.62, z: 0, radius: 2 }) };
-  if (kind === 'wedge') return { type: 'wedge', value: addWedge(world, { x: 0, baseY: 0, z: 0, angle: 25, length: 3, width: 1.6 }) };
-  if (kind === 'cart') return { type: 'body', value: addCart(world, { x: 0, y: 1, z: 0 }) };
-  if (kind === 'block') return { type: 'body', value: addBlock(world, { x: 0, y: 1, z: 0 }) };
-  if (kind === 'ball') return { type: 'body', value: addBall(world, { x: 0, y: 1, z: 0 }) };
-  if (kind === 'cylinder') return { type: 'body', value: addCylinder(world, { x: 0, y: 1, z: 0 }) };
-  if (kind === 'launcher') return { type: 'launcher', value: addLauncher(world, { x: 0, y: 1, z: 0 }) };
-  if (kind === 'photogate') return { type: 'sensor', value: addSensor(world, { kind: 'photogate', x: 0, y: 1, z: 0 }) };
-  if (kind === 'motion') return { type: 'sensor', value: addSensor(world, { kind: 'motion', x: 0, y: 1, z: 0 }) };
-  if (kind === 'barrier') return { type: 'barrier', value: addBarrier(world, { kind: 'wall', x: 0, y: 1, z: 0 }) };
-  if (kind === 'anchor') return { type: 'anchor', value: addAnchor(0, 1, 0) };
-  if (kind === 'pulley') return { type: 'pulley', value: addPulley(world, { x: 0, y: 3, z: 0 }) };
+  if (kind === 'incline') return addSurface(world, { kind: 'incline', angleDeg: 20, length: 10, y: 1.5, width: 3 });
+  if (kind === 'surface') return addSurface(world, { kind: 'surface', angleDeg: 0, length: 10, y: 1.0, width: 3 });
+  if (kind === 'track') return addSurface(world, { kind: 'track', angleDeg: 0, length: 10, y: 1.0, width: 3 });
+  if (kind === 'loop') return addLoop(world, { x: 0, y: 2.5, z: 0, radius: 1.8 });
+  if (kind === 'hcircle') return addHCircle(world, { x: 0, y: 0.1, z: 0, radius: 2 });
+  if (kind === 'turntable') return addTurntable(world, { x: 0, y: 0.62, z: 0, radius: 2 });
+  if (kind === 'wedge') return addWedge(world, { x: 0, baseY: 0, z: 0, angle: 25, length: 3, width: 1.6 });
+  if (kind === 'cart') return addCart(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'block') return addBlock(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'ball') return addBall(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'cylinder') return addCylinder(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'launcher') return addLauncher(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'photogate') return addSensor(world, { kind: 'photogate', x: 0, y: 1, z: 0 });
+  if (kind === 'motion') return addSensor(world, { kind: 'motion', x: 0, y: 1, z: 0 });
+  if (kind === 'barrier') return addBarrier(world, { kind: 'bumper', x: 0, y: 1, z: 0 });
+  if (kind === 'pulley') return addPulley(world, { x: 0, y: 3, z: 0 });
+  if (kind === 'pendulum') return addPendulum(world, { x: 0, y: 3, z: 0 });
+  if (kind === 'fan') return addFan(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'oscillator') return addOscillator(world, { x: 0, y: 1.15, z: 0 });
+  if (kind === 'torsion') return addTorsionPendulum(world, { x: 0, y: 1.9, z: 0 });
+  if (kind === 'elevator') return addElevator(world, { x: 0, y: 0, z: 0 });
+  if (kind === 'carriage') return addCarriage(world, { x: 0, y: 0, z: 0 });
+  if (kind === 'angtable') return addAngularTable(world, { x: 0, y: 0.55, z: 0 });
+  if (kind === 'rod') return addRod(world, { x: 0, y: 2.2, z: 0 });
+  if (kind === 'orbit') return addOrbit(world, { x: 0, y: 1, z: 0, r: 5 });
+  if (kind === 'tunnel') return addTunnel(world, { x: 0, y: 3.1, z: 0 });
   throw new Error(`unknown matrix target ${kind}`);
 }
 
 function matrixPoint(world, targetKind, target) {
   if (targetKind === 'incline' || targetKind === 'surface' || targetKind === 'track') {
-    const p = surfaceTopPoint(target.value, 0, 0);
+    const p = surfaceTopPoint(target, 0, 0);
     return { x: p.x, y: p.y + 0.15, z: p.z };
   }
-  if (targetKind === 'loop') return { x: target.value.x, y: target.value.y - target.value.radius, z: target.value.z };
-  if (targetKind === 'hcircle') return { x: target.value.x + target.value.radius, y: target.value.y + 0.35, z: target.value.z };
-  if (targetKind === 'turntable') return { x: target.value.x, y: tableTopY(target.value) + 0.2, z: target.value.z };
-  if (targetKind === 'wedge') return { x: target.value.x, y: target.value.height * 0.4, z: target.value.z };
-  if (target.type === 'body') return { x: target.value.cannon.position.x, y: target.value.cannon.position.y + target.value.halfHeight + 0.2, z: target.value.cannon.position.z };
-  if (target.type === 'launcher' || target.type === 'sensor' || target.type === 'barrier') {
-    return { x: target.value.x, y: target.value.y + 0.4, z: target.value.z };
+  if (targetKind === 'loop') return { x: target.x, y: target.y - target.radius, z: target.z };
+  if (targetKind === 'hcircle') return { x: target.x + target.radius, y: target.y + 0.2, z: target.z };
+  if (targetKind === 'turntable') return { x: target.x, y: tableTopY(target) + 0.2, z: target.z };
+  if (targetKind === 'wedge') return { x: target.body.position.x, y: target.body.position.y + 0.25, z: target.body.position.z };
+  if (['cart', 'block', 'ball', 'cylinder'].includes(targetKind)) {
+    return { x: target.cannon.position.x, y: target.cannon.position.y + target.halfHeight + 0.25, z: target.cannon.position.z };
   }
+  if (targetKind === 'launcher' || targetKind === 'photogate' || targetKind === 'motion') {
+    return { x: target.x, y: target.y + (target.height || 0.8) + 0.25, z: target.z };
+  }
+  if (targetKind === 'barrier') return { x: target.x, y: target.y + target.height, z: target.z };
+  if (targetKind === 'pulley') return { x: target.x, y: target.y + target.radius + 0.3, z: target.z };
+  if (targetKind === 'pendulum') return { x: target.x, y: target.y, z: target.z };
+  if (targetKind === 'fan') return { x: target.x || 0, y: target.y || 0, z: target.z || 0 };
+  if (targetKind === 'oscillator' || targetKind === 'torsion' || targetKind === 'rod'
+    || targetKind === 'orbit' || targetKind === 'tunnel') {
+    return { x: target.x, y: target.y, z: target.z };
+  }
+  if (targetKind === 'elevator') return { x: target.x, y: target.y + target.height, z: target.z };
+  if (targetKind === 'carriage') return { x: target.x, y: target.y + 0.42, z: target.z };
+  if (targetKind === 'angtable') return { x: target.x, y: target.y + 0.07, z: target.z };
   return { x: 0, y: 1, z: 0 };
+}
+
+function matrixSource(world, kind, p) {
+  const x = p.x + 0.32;
+  const y = p.y + 0.42;
+  const z = p.z + 0.18;
+  if (kind === 'block') return addBlock(world, { x, y, z });
+  if (kind === 'cart') return addCart(world, { x, y, z });
+  if (kind === 'ball') return addBall(world, { x, y, z });
+  if (kind === 'cylinder') return addCylinder(world, { x, y, z });
+  if (kind === 'launcher') return addLauncher(world, { x, y, z });
+  if (kind === 'photogate') return addSensor(world, { kind: 'photogate', x, y, z });
+  if (kind === 'motion') return addSensor(world, { kind: 'motion', x, y, z });
+  if (kind === 'barrier') return addBarrier(world, { kind: 'wall', x, y: y - 0.4, z });
+  if (kind === 'fan') return addFan(world, { x, y, z });
+  if (kind === 'pendulum') return addPendulum(world, { x, y, z });
+  if (kind === 'wedge') return addWedge(world, { x, baseY: y - 0.3, z, angle: 20, length: 2.4, width: 1.2 });
+  if (kind === 'pulley') return addPulley(world, { x, y, z });
+  if (kind === 'oscillator') return addOscillator(world, { x, y, z });
+  if (kind === 'torsion') return addTorsionPendulum(world, { x, y, z });
+  if (kind === 'elevator') return addElevator(world, { x, y: y - 0.3, z });
+  if (kind === 'carriage') return addCarriage(world, { x, y: y - 0.3, z });
+  if (kind === 'angtable') return addAngularTable(world, { x, y: y - 0.3, z });
+  if (kind === 'rod') return addRod(world, { x, y, z });
+  if (kind === 'orbit') return addOrbit(world, { x, y, z, r: 4.5 });
+  if (kind === 'tunnel') return addTunnel(world, { x, y, z });
+  if (kind === 'incline') return addSurface(world, { kind: 'incline', x, y, z, length: 3, width: 1.2, angleDeg: 15 });
+  if (kind === 'surface') return addSurface(world, { kind: 'surface', x, y, z, length: 3, width: 1.2, angleDeg: 0 });
+  if (kind === 'track') return addSurface(world, { kind: 'track', x, y, z, length: 3, width: 1.2, angleDeg: 0 });
+  if (kind === 'loop') return addLoop(world, { x, y, z, radius: 1.1 });
+  if (kind === 'turntable') return addTurntable(world, { x, y, z, radius: 1.1 });
+  if (kind === 'hcircle') return addHCircle(world, { x, y, z, radius: 1.2 });
+  if (kind === 'spring' || kind === 'meter' || kind === 'nonlinear') {
+    const body = addBlock(world, { x: x - 1.2, y: 0.3, z });
+    return addLink(world, {
+      a: { type: 'body', id: body.id },
+      b: addAnchor(x, y + 0.25, z),
+      k: 24,
+      beta: kind === 'nonlinear' ? 8 : 0,
+      rest: 1,
+      meter: kind === 'meter',
+    });
+  }
+  throw new Error(`unknown matrix source ${kind}`);
+}
+
+function entityWorldPoint(entity) {
+  if (!entity) return null;
+  if (entity.type === 'body') return { x: entity.cannon.position.x, y: entity.cannon.position.y, z: entity.cannon.position.z };
+  if (entity.type === 'surface' || entity.type === 'wedge' || entity.type === 'barrier') {
+    return { x: entity.body.position.x, y: entity.body.position.y, z: entity.body.position.z };
+  }
+  if (entity.type === 'link') {
+    const end = entity.b?.type === 'surface' ? entity.b : entity.a;
+    if (end?.type === 'surface') {
+      const surface = end.id ? null : null;
+      void surface;
+    }
+    return { x: entity.x || 0, y: entity.y || 0, z: entity.z || 0 };
+  }
+  return { x: entity.x || 0, y: entity.y || 0, z: entity.z || 0 };
+}
+
+function shiftMatrixTarget(world, target, dx) {
+  if (target.type === 'body') {
+    target.cannon.position.x += dx;
+  } else if (target.type === 'surface' || target.type === 'wedge' || target.type === 'barrier') {
+    target.body.position.x += dx;
+    if (Number.isFinite(target.x)) target.x += dx;
+  } else if (target.type === 'turntable') {
+    target.body.position.x += dx;
+    target.x += dx;
+  } else if (Number.isFinite(target.x)) {
+    target.x += dx;
+  }
 }
 
 function matrixSnap(kind, targetKind) {
   const world = createWorld({ g: 0 });
   const target = makeMatrixTarget(world, targetKind);
   const point = matrixPoint(world, targetKind, target);
-  if (['block', 'cart', 'ball', 'cylinder'].includes(kind)) {
-    const body = kind === 'cart'
-      ? addCart(world, { x: point.x, y: point.y, z: point.z })
-      : kind === 'ball'
-        ? addBall(world, { x: point.x, y: point.y, z: point.z })
-        : kind === 'cylinder'
-          ? addCylinder(world, { x: point.x, y: point.y, z: point.z })
-          : addBlock(world, { x: point.x, y: point.y, z: point.z });
-    if (targetKind === 'pulley') {
-      attachBodyToPulley(world, body, target.value.id, 'a');
-      return !!body.rope;
+  const source = matrixSource(world, kind, point);
+  const isLink = kind === 'spring' || kind === 'meter' || kind === 'nonlinear';
+  const linkPoint = () => {
+    const p0 = endpointPosition(world, source.b);
+    return p0 ? { x: p0.x, y: p0.y, z: p0.z } : null;
+  };
+  const before = isLink ? linkPoint() : entityWorldPoint(source);
+  const hit = snapEntityToNearest(world, source, { maxDistance: 5 });
+  if (!hit || hit.type === 'floor') return { ok: false, reason: 'no apparatus target' };
+  const mount = isLink ? (source.b?.type === 'surface' ? source.b : null) : entityMount(source);
+  if (!mount) return { ok: false, reason: 'no mount/attachment' };
+  const after = isLink ? linkPoint() : entityWorldPoint(source);
+  const moved = Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z) > 1e-6;
+  if (!moved) return { ok: false, reason: 'world position did not change to the snap pose' };
+  shiftMatrixTarget(world, target, 0.75);
+  updateMountedApparatus(world);
+  if (!isLink) {
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'surface') repositionSurfaceBody(world, body);
     }
-    return snapBodyToNearest(world, body, { maxDistance: 4 }) != null;
   }
-  if (kind === 'spring' || kind === 'meter') {
-    if (target.type !== 'body' && target.type !== 'anchor') return false;
-    const body = addBlock(world, { x: 0, y: 1, z: 0 });
-    const endpoint = target.type === 'body' ? { type: 'body', id: target.value.id } : target.value;
-    const link = addLink(world, {
-      a: { type: 'body', id: body.id },
-      b: endpoint,
-      k: 25,
-      rest: 1,
-      meter: kind === 'meter',
-    });
-    return !!link;
-  }
-  if (kind === 'pulley') {
-    if (target.type !== 'body') return false;
-    const pulley = addPulley(world, { x: 0, y: 3, z: 0 });
-    const body = target.value;
-    attachBodyToPulley(world, body, pulley.id, 'a');
-    return !!body.rope;
-  }
-  if (['launcher', 'photogate', 'motion'].includes(kind)) {
-    const apparatus = kind === 'launcher'
-      ? addLauncher(world, { x: point.x, y: point.y, z: point.z })
-      : addSensor(world, { kind, x: point.x, y: point.y, z: point.z });
-    return snapApparatusToNearest(world, apparatus, { maxDistance: 4 }) != null;
-  }
-  if (kind === 'barrier') {
-    if (target.type === 'surface') {
-      const surface = target.value;
-      const p = surfaceTopPoint(surface, surface.length / 2 - 0.2, 0);
-      const barrier = addBarrier(world, { kind: 'wall', x: p.x, y: p.y, z: p.z });
-      return snapBarrierToNearest(world, barrier, { maxDistance: 4 }) != null;
-    }
-    const barrier = addBarrier(world, { kind: 'wall', x: point.x + 0.05, y: point.y, z: point.z });
-    return snapBarrierToNearest(world, barrier, { maxDistance: 4 }) != null;
-  }
-  if (kind === 'fan') {
-    const carrier = target.type === 'body' ? target.value : null;
-    if (!carrier) return false;
-    const fan = addFan(world, { bodyId: carrier.id, thrust: 2, on: true });
-    return fan.bodyId === carrier.id;
-  }
-  return false;
+  const followed = isLink ? linkPoint() : entityWorldPoint(source);
+  const followOk = Math.hypot(followed.x - after.x, followed.y - after.y, followed.z - after.z) > 1e-6;
+  if (!followOk) return { ok: false, reason: 'mounted object did not follow the carrier' };
+  return { ok: true, hit: hit.type, mount: mount.type || mount.targetType || 'surface' };
 }
 
-check('snap/attach matrix: all sensible pairs attach, unsensible pairs stay free', () => {
-  const rows = [];
-  const bodyTargets = ['incline', 'surface', 'track', 'loop', 'hcircle', 'turntable'];
-  for (const bodyKind of ['block', 'cart', 'ball', 'cylinder']) {
-    for (const target of bodyTargets) rows.push({ source: bodyKind, target, expected: true });
-    rows.push({ source: bodyKind, target: 'pulley', expected: true });
-    rows.push({ source: bodyKind, target: 'wedge', expected: false, reason: 'contact-only' });
-  }
-  const portableTargets = ['cart', 'block', 'ball', 'cylinder', 'turntable', 'wedge', 'incline', 'surface', 'track'];
-  for (const source of ['launcher', 'photogate', 'motion']) {
-    for (const target of portableTargets) rows.push({ source, target, expected: true });
-  }
-  for (const target of ['cart', 'block', 'ball', 'cylinder']) rows.push({ source: 'fan', target, expected: true });
-  for (const target of ['incline', 'surface', 'track']) rows.push({ source: 'barrier', target, expected: true });
-  for (const source of ['spring', 'meter']) {
-    for (const target of ['block', 'cart', 'anchor']) rows.push({ source, target, expected: true });
-    rows.push({ source, target: 'surface', expected: false, reason: 'body/anchor only' });
-  }
-  rows.push({ source: 'pulley', target: 'block', expected: true });
-  rows.push({ source: 'pulley', target: 'surface', expected: false, reason: 'rope endpoint only' });
-
-  const sensibleFalse = [
-    ['launcher', 'loop', 'no rail'],
-    ['launcher', 'hcircle', 'no rail'],
-    ['photogate', 'loop', 'no rail'],
-    ['motion', 'hcircle', 'no rail'],
-    ['launcher', 'launcher', 'not a carrier'],
-    ['photogate', 'motion', 'not a carrier'],
-    ['barrier', 'cart', 'fixed to track end'],
-    ['fan', 'incline', 'needs a body'],
-    ['pendulum', 'cart', 'endpoint only'],
-    ['wedge', 'cart', 'not portable'],
-    ['orbit', 'orbit', 'distant attractors'],
-    ['orbit', 'tunnel', 'different systems'],
-    ['tunnel', 'torsion', 'different systems'],
-    ['torsion', 'oscillator', 'different systems'],
-    ['oscillator', 'elevator', 'not a carrier'],
-    ['elevator', 'carriage', 'not a carrier'],
-    ['rod', 'cart', 'not portable'],
-    ['angtable', 'cart', 'not portable'],
+check('snap/attach matrix: every documented apparatus pair attaches, moves and follows', () => {
+  const rows = [
+    ['block', 'wedge', 'block seats on the wedge face'],
+    ['cart', 'wedge', 'cart seats on the wedge face'],
+    ['ball', 'surface', 'ball rides the flat surface'],
+    ['cylinder', 'track', 'cylinder rides the track'],
+    ['block', 'cart', 'block stacks on the cart deck'],
+    ['cart', 'cart', 'cart stacks on a cart deck'],
+    ['ball', 'block', 'ball docks on a block top'],
+    ['cylinder', 'ball', 'cylinder docks on a ball top'],
+    ['launcher', 'cart', 'launcher clamps to the cart deck'],
+    ['launcher', 'loop', 'launcher mounts on the loop rim'],
+    ['launcher', 'launcher', 'launcher stacks on a launcher'],
+    ['photogate', 'loop', 'photogate mounts on the loop rim'],
+    ['photogate', 'motion', 'photogate clamps onto a motion sensor'],
+    ['motion', 'hcircle', 'motion sensor mounts on the circle rim'],
+    ['barrier', 'cart', 'bumper mounts on the cart face'],
+    ['barrier', 'incline', 'wall mounts on the incline end'],
+    ['pulley', 'surface', 'pulley block mounts on the table'],
+    ['pendulum', 'cart', 'pendulum pivot hangs from the cart'],
+    ['wedge', 'cart', 'wedge sits on the cart deck'],
+    ['fan', 'incline', 'fan mounts on the incline face'],
+    ['fan', 'cart', 'fan clamps to the cart'],
+    ['spring', 'surface', 'spring endpoint pins to the table'],
+    ['meter', 'surface', 'force-meter endpoint pins to the table'],
+    ['nonlinear', 'surface', 'nonlinear spring endpoint pins to the table'],
+    ['oscillator', 'elevator', 'oscillator hangs from the elevator ceiling'],
+    ['torsion', 'oscillator', 'torsion pendulum docks on an oscillator stand'],
+    ['elevator', 'carriage', 'elevator sits on the carriage floor'],
+    ['carriage', 'surface', 'carriage docks on the table'],
+    ['angtable', 'cart', 'angular table mounts on the cart'],
+    ['rod', 'cart', 'rod pivot mounts on the cart'],
+    ['orbit', 'orbit', 'orbit attractors share one stand'],
+    ['orbit', 'tunnel', 'orbit docks on the tunnel stand'],
+    ['tunnel', 'torsion', 'tunnel docks on the torsion stand'],
+    ['incline', 'cart', 'incline table mounts on the cart'],
+    ['surface', 'cart', 'surface table mounts on the cart'],
+    ['track', 'cart', 'track mounts on the cart'],
+    ['loop', 'surface', 'loop stand mounts on the table'],
+    ['turntable', 'surface', 'turntable mounts on the table'],
+    ['hcircle', 'surface', 'horizontal circle mounts on the table'],
   ];
-  for (const [source, target, reason] of sensibleFalse) rows.push({ source, target, expected: false, reason });
-
   let failures = 0;
-  for (const row of rows) {
-    let actual = false;
+  for (const [source, target, rule] of rows) {
+    let out;
     try {
-      actual = matrixSnap(row.source, row.target);
+      out = matrixSnap(source, target);
     } catch (err) {
-      actual = false;
+      out = { ok: false, reason: err.message };
     }
-    const ok = actual === row.expected;
-    if (!ok) failures += 1;
-    console.log(`      ${ok ? 'ok  ' : 'FAIL'} ${row.source} -> ${row.target}: ${actual ? 'snap' : 'no'}${row.reason ? ` (${row.reason})` : ''}`);
+    if (!out.ok) failures += 1;
+    console.log(`      ${out.ok ? 'ok  ' : 'FAIL'} ${source} -> ${target}: ${out.ok ? `${out.hit} (${out.mount})` : out.reason} · ${rule}`);
   }
-  if (failures) throw new Error(`${failures} matrix rows disagreed with the accepted matrix`);
-  console.log(`      matrix: ${rows.length} pairs, ${rows.filter((r) => r.expected).length} sensible true, ${rows.filter((r) => !r.expected).length} explicit false`);
+  const covered = new Set(rows.map((r) => r[0]));
+  for (const type of ['incline', 'surface', 'track', 'loop', 'turntable', 'hcircle', 'block', 'cart',
+    'ball', 'cylinder', 'launcher', 'pulley', 'barrier', 'pendulum', 'wedge', 'photogate',
+    'motion', 'fan', 'spring', 'meter', 'nonlinear', 'oscillator', 'torsion', 'elevator',
+    'carriage', 'angtable', 'rod', 'orbit', 'tunnel']) {
+    if (!covered.has(type)) {
+      failures += 1;
+      console.log(`      FAIL missing source coverage: ${type}`);
+    }
+  }
+  if (failures) throw new Error(`${failures} documented snap pairs failed`);
+  console.log(`      matrix: ${rows.length} documented pairs attach, move and follow; ${covered.size} source types covered; no stay-free class`);
+});
+
+check('self-snap is refused and a serialized mount survives reload', () => {
+  const world = createWorld({ g: 0 });
+  const cart = addCart(world, { x: 0, y: 1, z: 0 });
+  const launcher = addLauncher(world, { x: 0, y: 1.4, z: 0 });
+  if (mountApparatus(world, launcher, launcher)) throw new Error('a launcher snapped onto itself');
+  if (!snapEntityToNearest(world, launcher, { maxDistance: 2 })) throw new Error('launcher did not dock on cart');
+  const data = serializeScene(world);
+  const reload = createWorld({ g: 0 });
+  deserializeScene(reload, data);
+  const reloaded = reload.launchers[0];
+  if (!reloaded.mount || reloaded.mount.id !== cart.id) throw new Error('mount missing after reload');
+  const reloadedCart = reload.bodies[0];
+  const x0 = reloaded.x;
+  reloadedCart.cannon.position.x += 1.25;
+  updateMountedApparatus(reload);
+  if (Math.abs(reloaded.x - (x0 + 1.25)) > 1e-6) throw new Error('reloaded launcher did not follow the cart');
+  console.log(`      self-snap refused; serialized mount survives reload and follows +1.25 m`);
 });
 
 check('launcher rigidly mounted on a moving cart adds the cart velocity at fire', () => {

@@ -14,6 +14,8 @@ import {
   captureEMInitial,
   createEMWorld,
   deserializeEM,
+  emEntityById,
+  emSceneEntities,
   resetEM,
   serializeEM,
   stepEM,
@@ -23,6 +25,11 @@ export const DEG = Math.PI / 180;
 export const DEFAULT_H = 1 / 240;
 const EPS = 1e-7;
 const STATIC_SPEED = 1e-4;
+
+/** Solver-grid / floor defaults. The lab table is deliberately boring. */
+export const DEFAULT_GRID_STEP = 0.1;
+export const DEFAULT_FLOOR_FRICTION = 0.5;
+export const DEFAULT_FLOOR_RESTITUTION = 0;
 
 const V = (x = 0, y = 0, z = 0) => new CANNON.Vec3(x, y, z);
 const cloneV = (v) => new CANNON.Vec3(v.x, v.y, v.z);
@@ -40,6 +47,28 @@ export function quantizeValue(value, step) {
 /** Quantize an angle in degrees to the current angle step (default 5°). */
 export function quantizeAngle(deg, stepDeg = 5) {
   return quantizeValue(deg, stepDeg);
+}
+
+/**
+ * Set the single static floor's contact pair and remember the values in the
+ * scene. Friction is Coulomb μ, restitution e; both are documented defaults
+ * (0.5 / 0) and are serialized with every scene.
+ */
+export function setFloorContact(world, { friction, restitution } = {}) {
+  if (Number.isFinite(friction)) world.floorFriction = clamp(friction, 0, 2);
+  if (Number.isFinite(restitution)) world.floorRestitution = clamp(restitution, 0, 1);
+  if (world.groundContact) {
+    world.groundContact.friction = world.floorFriction;
+    world.groundContact.restitution = world.floorRestitution;
+  }
+  return { friction: world.floorFriction, restitution: world.floorRestitution };
+}
+
+/** Grid step used by both the visible GridHelper and the floor snap lattice. */
+export function setGridStep(world, step) {
+  const value = Number(step);
+  if (Number.isFinite(value) && value > 0) world.gridStep = clamp(value, 0.01, 5);
+  return world.gridStep;
 }
 
 function makeEngine(g) {
@@ -65,6 +94,16 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
     contactEquationRelaxation: 200,
   });
   engine.addContactMaterial(bodyContact);
+  // Body ↔ floor uses its own documented contact pair. Without this pair the
+  // engine falls back to the global default (friction 0), so a block on the
+  // lab table would slide forever. The pair is exposed in More settings.
+  const groundContact = new CANNON.ContactMaterial(bodyMaterial, groundMaterial, {
+    friction: DEFAULT_FLOOR_FRICTION,
+    restitution: DEFAULT_FLOOR_RESTITUTION,
+    contactEquationStiffness: 1e8,
+    contactEquationRelaxation: 4,
+  });
+  engine.addContactMaterial(groundContact);
   const ground = new CANNON.Body({
     mass: 0,
     shape: new CANNON.Plane(),
@@ -76,6 +115,10 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
   return {
     engine,
     ground,
+    groundContact,
+    floorFriction: DEFAULT_FLOOR_FRICTION,
+    floorRestitution: DEFAULT_FLOOR_RESTITUTION,
+    gridStep: DEFAULT_GRID_STEP,
     g,
     h,
     time: 0,
@@ -195,6 +238,7 @@ export function addSurface(world, opts = {}) {
     thickness,
     muS,
     muK,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.surfaces.push(surface);
   return surface;
@@ -212,6 +256,7 @@ export function addLoop(world, opts = {}) {
     radius,
     muS,
     muK,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.loops.push(loop);
   return loop;
@@ -255,6 +300,7 @@ export function addTurntable(world, opts = {}) {
     muK,
     angle: 0,
     frictionTorque: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.turntables.push(table);
   return table;
@@ -272,6 +318,7 @@ export function addHCircle(world, opts = {}) {
     radius,
     muS,
     muK,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.hcircles.push(circle);
   return circle;
@@ -477,8 +524,12 @@ export function removeBody(world, body) {
   world.bodies = world.bodies.filter((b) => b !== body);
   if (body.rope) body.rope = null;
   if (body.fan) body.fan = null;
-  for (const apparatus of [...world.launchers, ...world.sensors, ...world.barriers]) {
-    if (apparatus.mount?.type === 'body' && apparatus.mount.id === body.id) apparatus.mount = null;
+  for (const apparatus of allMountableEntities(world)) {
+    const mount = apparatus.mount;
+    if (!mount) continue;
+    if ((mount.type === 'body' || mount.targetType === 'body') && mount.id === body.id) {
+      apparatus.mount = null;
+    }
   }
 }
 
@@ -639,6 +690,136 @@ export function attachBodyToHCircle(world, body, circleId, opts = {}) {
   return true;
 }
 
+/** Top-face point of the movable wedge in world coordinates. */
+export function wedgeTopPoint(wedge, localX = 0, localZ = 0) {
+  if (!wedge) return null;
+  const lx = clamp(localX, -wedge.length / 2, wedge.length / 2);
+  const yLocal = -wedge.centroidY
+    + (lx + wedge.length / 2 + wedge.length / 6) * Math.tan(wedge.angle * DEG);
+  const p = wedge.body.quaternion.vmult(V(lx, yLocal, clamp(localZ, -wedge.width / 2, wedge.width / 2)));
+  p.vadd(wedge.body.position, p);
+  return p;
+}
+
+/**
+ * Seat a body on the wedge face. The block/cart rides the wedge rather than
+ * being a free contact pair; that is the t114u replacement for the old
+ * "contact-only" refusal.
+ */
+export function attachBodyToWedge(world, body, wedgeId, opts = {}) {
+  const wedge = getWedge(world, wedgeId);
+  if (!wedge) return false;
+  body.skid = null;
+  let localX = opts.localX;
+  let localZ = opts.localZ ?? 0;
+  if (localX == null) {
+    const rel = wedge.body.quaternion.inverse().vmult(body.cannon.position.vsub(wedge.body.position));
+    localX = rel.x;
+    localZ = rel.z;
+  }
+  localX = clamp(localX, -wedge.length / 2 + body.halfLength, wedge.length / 2 - body.halfLength);
+  localZ = clamp(localZ, -wedge.width / 2 + body.halfLength, wedge.width / 2 - body.halfLength);
+  body.attachment = { type: 'wedge', id: wedge.id, localX, localZ };
+  body.cannon.type = CANNON.Body.DYNAMIC;
+  body.cannon.fixedRotation = true;
+  body.cannon.angularFactor.set(0, 0, 0);
+  body.cannon.updateMassProperties();
+  repositionWedgeBody(world, body);
+  body.cannon.wakeUp();
+  return true;
+}
+
+function wedgeTopLocal(wedge, localX) {
+  const x = clamp(localX, -wedge.length / 2, wedge.length / 2);
+  return -wedge.centroidY + (x + wedge.length / 2 + wedge.length / 6) * Math.tan(wedge.angle * DEG);
+}
+
+export function repositionWedgeBody(world, body) {
+  if (body.attachment?.type !== 'wedge') return;
+  const wedge = getWedge(world, body.attachment.id);
+  if (!wedge) return;
+  const att = body.attachment;
+  att.localX = clamp(att.localX, -wedge.length / 2 + body.halfLength, wedge.length / 2 - body.halfLength);
+  att.localZ = clamp(att.localZ ?? 0, -wedge.width / 2 + body.halfLength, wedge.width / 2 - body.halfLength);
+  const topY = wedgeTopLocal(wedge, att.localX);
+  const theta = wedge.angle * DEG;
+  const normal = wedge.body.quaternion.vmult(V(-Math.sin(theta), Math.cos(theta), 0));
+  const local = V(att.localX, topY, att.localZ);
+  const point = wedge.body.quaternion.vmult(local);
+  point.vadd(wedge.body.position, point);
+  point.vadd(normal.scale(body.halfHeight), point);
+  body.cannon.position.copy(point);
+  body.cannon.quaternion.copy(wedge.body.quaternion);
+  body.cannon.velocity.copy(wedge.body.velocity);
+  body.cannon.angularVelocity.setZero();
+  body.cannon.aabbNeedsUpdate = true;
+}
+
+export function attachBodyToBody(world, body, carrierId, opts = {}) {
+  const carrier = getBody(world, carrierId);
+  if (!carrier || carrier === body) return false;
+  body.skid = null;
+  body.attachment = {
+    type: 'body',
+    id: carrier.id,
+    offset: [opts.offsetX || 0, opts.offsetY ?? (carrier.halfHeight + body.halfHeight + 0.01), opts.offsetZ || 0],
+  };
+  body.cannon.type = CANNON.Body.DYNAMIC;
+  body.cannon.fixedRotation = body.kind === 'block';
+  body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
+  body.cannon.updateMassProperties();
+  repositionCarriedBody(world, body);
+  applyInitialVelocity(world, body);
+  body.cannon.wakeUp();
+  return true;
+}
+
+/** Seat a body on any apparatus that exposes a support point. */
+export function attachBodyToApparatus(world, body, target, opts = {}) {
+  if (!target?.type || !target.id) return false;
+  body.skid = null;
+  body.attachment = {
+    type: 'apparatus',
+    targetType: target.type,
+    id: target.id,
+    offset: [opts.offsetX || 0, opts.offsetY ?? body.halfHeight, opts.offsetZ || 0],
+  };
+  body.cannon.type = CANNON.Body.DYNAMIC;
+  body.cannon.fixedRotation = body.kind === 'block';
+  body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
+  body.cannon.updateMassProperties();
+  repositionCarriedBody(world, body);
+  applyInitialVelocity(world, body);
+  body.cannon.wakeUp();
+  return true;
+}
+
+export function repositionCarriedBody(world, body) {
+  const att = body.attachment;
+  if (!att) return;
+  if (att.type === 'wedge') { repositionWedgeBody(world, body); return; }
+  let carrier = null;
+  if (att.type === 'body') carrier = getBody(world, att.id);
+  else if (att.type === 'apparatus') carrier = findSceneEntity(world, att.targetType || att.type, att.id);
+  if (!carrier) return;
+  const base = entityPoint(carrier);
+  const offset = att.offset || [0, 0, 0];
+  if (carrier.cannon?.quaternion) {
+    const local = carrier.cannon.quaternion.vmult(V(offset[0] || 0, offset[1] || 0, offset[2] || 0));
+    base.vadd(local, base);
+    body.cannon.quaternion.copy(carrier.cannon.quaternion);
+  } else {
+    base.y += offset[1] || 0;
+    base.x += offset[0] || 0;
+    base.z += offset[2] || 0;
+  }
+  body.cannon.position.copy(base);
+  body.cannon.velocity.setZero();
+  if (carrier.cannon?.velocity) body.cannon.velocity.copy(carrier.cannon.velocity);
+  body.cannon.angularVelocity.setZero();
+  body.cannon.aabbNeedsUpdate = true;
+}
+
 export function detachBody(world, body) {
   body.attachment = null;
   body.skid = null;
@@ -647,6 +828,43 @@ export function detachBody(world, body) {
   body.cannon.angularFactor.set(0, 0, isRollingBody(body) ? 1 : 0);
   body.cannon.updateMassProperties();
   body.cannon.wakeUp();
+}
+
+/**
+ * Rigidly seat a body on a generic carrier (cart deck, apparatus top, ...).
+ * `mount` is a normal mount descriptor resolved by mountPoint.
+ */
+export function attachBodyToCarrier(world, body, carrierType, carrierId, mount) {
+  if (!carrierType || !carrierId) return false;
+  body.skid = null;
+  body.attachment = {
+    type: 'carrier',
+    carrierType,
+    id: carrierId,
+    local: mount?.local ? [...mount.local] : (mount?.offset ? [...mount.offset] : [0, 0, 0]),
+  };
+  body.cannon.type = CANNON.Body.DYNAMIC;
+  body.cannon.fixedRotation = true;
+  body.cannon.angularFactor.set(0, 0, 0);
+  body.cannon.updateMassProperties();
+  repositionCarrierBody(world, body);
+  body.cannon.wakeUp();
+  return true;
+}
+
+export function repositionCarrierBody(world, body) {
+  if (body.attachment?.type !== 'carrier') return;
+  const att = body.attachment;
+  const mount = { type: att.carrierType, id: att.id, offset: att.local };
+  const point = resolveMountPoint(world, mount);
+  if (!point) return;
+  const carrier = findSceneEntity(world, att.carrierType, att.id);
+  body.cannon.position.copy(point);
+  if (carrier?.cannon?.quaternion) body.cannon.quaternion.copy(carrier.cannon.quaternion);
+  const velocity = mountVelocity(world, mount, point);
+  body.cannon.velocity.copy(velocity);
+  body.cannon.angularVelocity.setZero();
+  body.cannon.aabbNeedsUpdate = true;
 }
 
 export function applyInitialVelocity(world, body) {
@@ -713,6 +931,14 @@ export function applyInitialVelocity(world, body) {
     const tangent = V(-Math.sin(att.phi), 0, Math.cos(att.phi));
     body.cannon.velocity.copy(tangent.scale(att.speed));
     body.cannon.angularVelocity.setZero();
+    return;
+  }
+  if (att.type === 'wedge') {
+    repositionWedgeBody(world, body);
+    return;
+  }
+  if (att.type === 'carrier') {
+    repositionCarrierBody(world, body);
     return;
   }
 }
@@ -846,6 +1072,9 @@ export function addProjectile(world, opts = {}) {
   };
   body.cannon.fixedRotation = true;
   body.cannon.angularFactor.set(0, 0, 0);
+  // Transient projectiles use the frictionless default material. Otherwise a
+  // launch that starts exactly at y = radius takes a table-friction impulse.
+  body.cannon.material = null;
   body.cannon.updateMassProperties();
   body.cannon.angularVelocity.setZero();
   body.cannon.position.set(x, y, z);
@@ -990,6 +1219,7 @@ export function addPulley(world, opts = {}) {
     angle: 0,
     omega: 0,
     length: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.pulleys.push(pulley);
   return pulley;
@@ -1334,6 +1564,7 @@ export function addPendulum(world, opts = {}) {
     measuredPeriod: 0,
     lastCross: null,
     tension: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.pendulums.push(pendulum);
   return pendulum;
@@ -1480,6 +1711,7 @@ export function addWedge(world, opts = {}) {
     restitution,
     floorMaterial: null,
     blockMaterial: null,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   wedge.floorMaterial = new CANNON.ContactMaterial(world.groundMaterial, material, {
     friction: Math.max(0, muFloor),
@@ -1952,22 +2184,31 @@ export function tableToCsv(table) {
 /* ------------------------------------------------------------------ */
 
 export function addFan(world, opts = {}) {
-  const { bodyId = null, thrust = 3, on = true, azimuth = 0, elevation = 0 } = opts;
+  const { bodyId = null, thrust = 3, on = true, azimuth = 0, elevation = 0, x = null, y = null, z = null } = opts;
   const fan = {
     id: assignId(world, 'fan', opts.id),
     type: 'fan',
     kind: 'fan',
     name: opts.name || '',
     bodyId,
+    x: x ?? 0,
+    y: y ?? 0,
+    z: z ?? 0,
     thrust: Math.max(0, thrust),
     on: !!on,
     azimuth,
     elevation,
     spin: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.fans.push(fan);
   const body = bodyId ? getBody(world, bodyId) : null;
-  if (body) body.fan = fan;
+  if (body) {
+    body.fan = fan;
+    if (x == null) fan.x = body.cannon.position.x - 0.55;
+    if (y == null) fan.y = body.cannon.position.y + 0.3;
+    if (z == null) fan.z = body.cannon.position.z;
+  }
   return fan;
 }
 
@@ -2018,7 +2259,7 @@ function applyDragForces(world) {
   }
 }
 
-export function nearestAttachment(world, point, { maxDistance = 3.5 } = {}) {
+export function nearestAttachment(world, point, { maxDistance = 3.5, excludeBodyId = null } = {}) {
   const candidates = [];
   for (const surface of world.surfaces) {
     const local = surfaceLocalPoint(surface, point);
@@ -2080,13 +2321,48 @@ export function nearestAttachment(world, point, { maxDistance = 3.5 } = {}) {
       });
     }
   }
+  for (const wedge of world.wedges) {
+    const local = wedge.body.quaternion.inverse().vmult(point.vsub(wedge.body.position));
+    const top = wedgeTopPoint(wedge, local.x, local.z);
+    const score = top.distanceTo(point);
+    if (score <= maxDistance) {
+      candidates.push({
+        score,
+        type: 'wedge',
+        id: wedge.id,
+        localX: local.x,
+        localZ: local.z,
+      });
+    }
+  }
+  for (const carrier of world.bodies) {
+    if (carrier.transient || carrier.id === excludeBodyId) continue;
+    const top = carrier.cannon.quaternion.vmult(V(0, carrier.halfHeight + 0.02, 0));
+    top.vadd(carrier.cannon.position, top);
+    const score = top.distanceTo(point);
+    if (score <= maxDistance) {
+      candidates.push({ score, type: 'body', id: carrier.id });
+    }
+  }
+  for (const pulley of world.pulleys) {
+    const p = V(pulley.x, pulley.y + pulley.radius, pulley.z);
+    const score = p.distanceTo(point);
+    if (score <= maxDistance) {
+      candidates.push({
+        score,
+        type: 'pulley',
+        id: pulley.id,
+        side: point.x < pulley.x ? 'a' : 'b',
+      });
+    }
+  }
   candidates.sort((a, b) => a.score - b.score);
   return candidates[0] || null;
 }
 
 export function snapBodyToNearest(world, body, opts = {}) {
   if (body.rope) return null;
-  const nearest = nearestAttachment(world, body.cannon.position, opts);
+  const nearest = nearestAttachment(world, body.cannon.position, { ...opts, excludeBodyId: body.id });
   if (!nearest) return null;
   if (nearest.type === 'surface') {
     attachBodyToSurface(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
@@ -2096,6 +2372,12 @@ export function snapBodyToNearest(world, body, opts = {}) {
     attachBodyToTurntable(world, body, nearest.id, { r: nearest.r, phi: nearest.phi });
   } else if (nearest.type === 'hcircle') {
     attachBodyToHCircle(world, body, nearest.id, { phi: nearest.phi });
+  } else if (nearest.type === 'wedge') {
+    attachBodyToWedge(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
+  } else if (nearest.type === 'body') {
+    attachBodyToBody(world, body, nearest.id);
+  } else if (nearest.type === 'pulley') {
+    attachBodyToPulley(world, body, nearest.id, nearest.side || 'a');
   }
   return nearest.type;
 }
@@ -2115,7 +2397,7 @@ export function snapNearbyBodies(world, maxDistance = 3.5) {
  * re-seated on the nearest surface/track/loop/turntable/circle exactly like
  * the drag-release path. Returns the attachment type or null.
  */
-export function setBodyPosition(world, body, position, { snap = false, maxDistance = 2.4 } = {}) {
+export function setBodyPosition(world, body, position, { snap = false, maxDistance = 2.4, floor = true } = {}) {
   if (!body || body.type !== 'body' || !position) return null;
   if (body.attachment) detachBody(world, body);
   body.skid = null;
@@ -2126,8 +2408,13 @@ export function setBodyPosition(world, body, position, { snap = false, maxDistan
   body.cannon.aabbNeedsUpdate = true;
   body.cannon.wakeUp();
   const hit = snap ? snapBodyToNearest(world, body, { maxDistance }) : null;
-  if (!hit) applyInitialVelocity(world, body);
-  return hit;
+  if (hit) return hit;
+  if (snap && floor) {
+    snapEntityToFloorGrid(world, body, { x: position.x, z: position.z });
+    return 'floor';
+  }
+  applyInitialVelocity(world, body);
+  return null;
 }
 
 /* ------------------------------------------------------------------ */
@@ -2140,78 +2427,14 @@ function cloneMount(mount) {
 }
 
 function mountPoint(world, mount) {
-  if (!mount) return null;
-  if (mount.type === 'body') {
-    const carrier = getBody(world, mount.id);
-    if (!carrier) return null;
-    const offset = mount.offset || [0, carrier.halfHeight + 0.02, 0];
-    const p = carrier.cannon.quaternion.vmult(V(offset[0] || 0, offset[1] || 0, offset[2] || 0));
-    p.vadd(carrier.cannon.position, p);
-    return { point: p, carrier };
-  }
-  if (mount.type === 'turntable') {
-    const table = getTurntable(world, mount.id);
-    if (!table) return null;
-    const phi = (mount.phi || 0) + (table.angle || 0);
-    const r = mount.r || 0;
-    return {
-      point: V(
-        table.x + r * Math.cos(phi),
-        tableTopY(table) + (mount.offsetY || 0.02),
-        table.z + r * Math.sin(phi),
-      ),
-      carrier: table,
-    };
-  }
-  if (mount.type === 'wedge') {
-    const wedge = getWedge(world, mount.id);
-    if (!wedge) return null;
-    const localX = clamp(mount.localX || 0, -wedge.length / 2, wedge.length / 2);
-    const cy = wedge.centroidY;
-    const yLocal = -cy + (localX + wedge.length / 2 + wedge.length / 6) * Math.tan(wedge.angle * DEG);
-    const p = wedge.body.quaternion.vmult(V(localX, yLocal + (mount.offsetY || 0.02), mount.localZ || 0));
-    p.vadd(wedge.body.position, p);
-    return { point: p, carrier: wedge };
-  }
-  if (mount.type === 'surface') {
-    const surface = getSurface(world, mount.id);
-    if (!surface) return null;
-    const p = surfaceTopPoint(surface, mount.localX || 0, mount.localZ || 0);
-    p.y += mount.offsetY || 0;
-    return { point: p, carrier: surface };
-  }
-  return null;
-}
-
-/** Re-position every mounted apparatus from its carrier's current pose. */
-export function updateMountedApparatus(world) {
-  for (const apparatus of world.launchers) {
-    if (!apparatus.mount) continue;
-    const hit = mountPoint(world, apparatus.mount);
-    if (!hit) { apparatus.mount = null; continue; }
-    apparatus.x = hit.point.x;
-    apparatus.y = hit.point.y;
-    apparatus.z = hit.point.z;
-    apparatus.target = launcherPrediction(world, apparatus);
-  }
-  for (const sensor of world.sensors) {
-    if (!sensor.mount) continue;
-    const hit = mountPoint(world, sensor.mount);
-    if (!hit) { sensor.mount = null; continue; }
-    sensor.x = hit.point.x;
-    sensor.y = hit.point.y;
-    sensor.z = hit.point.z;
-  }
-  for (const barrier of world.barriers) {
-    if (!barrier.mount) continue;
-    const hit = mountPoint(world, barrier.mount);
-    if (!hit) { barrier.mount = null; continue; }
-    barrier.x = hit.point.x;
-    barrier.y = hit.point.y;
-    barrier.z = hit.point.z;
-    barrier.body.position.set(barrier.x, barrier.y + barrier.height / 2, barrier.z);
-    barrier.body.aabbNeedsUpdate = true;
-  }
+  const point = resolveMountPoint(world, mount);
+  if (!point) return null;
+  const carrier = mountCarrier(world, mount);
+  return {
+    point,
+    carrier,
+    quaternion: carrier?.cannon?.quaternion || carrier?.body?.quaternion || null,
+  };
 }
 
 function mountVelocity(world, mount, point) {
@@ -2232,82 +2455,36 @@ function mountVelocity(world, mount, point) {
 }
 
 /**
- * Rigidly mount a launcher/sensor on a body, turntable, wedge or surface.
- * Returns true when the target exists and is a sensible carrier.
+ * Rigidly mount a launcher/sensor on any carrier. Thin compatibility wrapper
+ * around the general dockEntity path; every apparatus now uses that path.
  */
 export function mountApparatus(world, apparatus, target, opts = {}) {
-  if (!apparatus || (apparatus.type !== 'launcher' && apparatus.type !== 'sensor')) return false;
-  const type = target?.type;
-  const id = target?.id;
-  if (!type || !id || type === apparatus.type || id === apparatus.id) return false;
-  if (type === 'body') {
-    const carrier = getBody(world, id);
-    if (!carrier || carrier.transient) return false;
-    apparatus.mount = {
-      type: 'body',
-      id,
-      offset: [opts.offsetX || 0, opts.offsetY ?? (carrier.halfHeight + 0.02), opts.offsetZ || 0],
-    };
-  } else if (type === 'turntable') {
-    if (!getTurntable(world, id)) return false;
-    apparatus.mount = { type, id, r: opts.r || 0, phi: opts.phi || 0, offsetY: opts.offsetY ?? 0.02 };
-  } else if (type === 'wedge') {
-    if (!getWedge(world, id)) return false;
-    apparatus.mount = { type, id, localX: opts.localX || 0, localZ: opts.localZ || 0, offsetY: opts.offsetY ?? 0.02 };
-  } else if (type === 'surface') {
-    const surface = getSurface(world, id);
-    if (!surface) return false;
-    const local = surfaceLocalPoint(surface, V(apparatus.x, apparatus.y, apparatus.z));
-    apparatus.mount = {
-      type,
-      id,
-      localX: clamp(opts.localX ?? local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2),
-      localZ: clamp(opts.localZ ?? local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2),
-      offsetY: opts.offsetY ?? 0,
-    };
-  } else {
-    return false;
-  }
-  updateMountedApparatus(world);
-  return true;
+  if (!apparatus) return false;
+  if (apparatus.type !== 'launcher' && apparatus.type !== 'sensor' && apparatus.type !== 'barrier') return false;
+  if (!target?.type || !target.id) return false;
+  if (target.type === apparatus.type && target.id === apparatus.id) return false;
+  return dockEntity(world, apparatus, target, opts);
 }
 
-/** Best sensible carrier near a launcher/sensor: body top, turntable, wedge top, or surface. */
+/** Best carrier near a launcher/sensor/barrier, without a floor fallback. */
 export function snapApparatusToNearest(world, apparatus, { maxDistance = 3, ...opts } = {}) {
   if (!apparatus) return null;
   if (apparatus.type === 'barrier') return snapBarrierToNearest(world, apparatus, { maxDistance });
   if (apparatus.type !== 'launcher' && apparatus.type !== 'sensor') return null;
-  const origin = V(apparatus.x || 0, apparatus.y || 0, apparatus.z || 0);
   const candidates = [];
-  for (const carrier of world.bodies) {
-    if (carrier.transient) continue;
-    const p = cloneV(carrier.cannon.position);
-    p.y += carrier.halfHeight + 0.02;
-    candidates.push({ type: 'body', id: carrier.id, point: p, distance: p.distanceTo(origin) });
-  }
-  for (const table of world.turntables) {
-    const p = V(table.x, tableTopY(table) + 0.02, table.z);
-    candidates.push({ type: 'turntable', id: table.id, point: p, distance: p.distanceTo(origin) });
-  }
-  for (const wedge of world.wedges) {
-    const p = wedge.body.quaternion.vmult(V(0, wedge.height * 0.35, 0));
-    p.vadd(wedge.body.position, p);
-    candidates.push({ type: 'wedge', id: wedge.id, point: p, distance: p.distanceTo(origin) });
-  }
-  for (const surface of world.surfaces) {
-    const local = surfaceLocalPoint(surface, origin);
-    const p = surfaceTopPoint(
-      surface,
-      clamp(local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2),
-      clamp(local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2),
-    );
-    candidates.push({ type: 'surface', id: surface.id, point: p, distance: p.distanceTo(origin) });
+  for (const target of snapTargetCandidates(world, apparatus)) {
+    const support = mountTargetSupport(world, target, apparatus, opts);
+    if (!support) continue;
+    const distance = support.point.distanceTo(entityPoint(apparatus));
+    if (distance <= maxDistance) candidates.push({ type: target.type, id: target.id, distance });
   }
   candidates.sort((a, b) => a.distance - b.distance);
-  const best = candidates.find((c) => c.distance <= maxDistance);
-  if (!best) return null;
-  if (!mountApparatus(world, apparatus, best, opts)) return null;
-  return { type: best.type, id: best.id, distance: best.distance };
+  for (const candidate of candidates) {
+    if (dockEntity(world, apparatus, candidate, opts)) {
+      return { type: candidate.type, id: candidate.id, distance: candidate.distance };
+    }
+  }
+  return null;
 }
 
 /** Attach a wall/bumper to the nearest track/incline/surface end. */
@@ -2320,13 +2497,993 @@ export function snapBarrierToNearest(world, barrier, { maxDistance = 3 } = {}) {
       const localX = sign * (surface.length / 2 - 0.12);
       const p = surfaceTopPoint(surface, localX, 0);
       const d = p.distanceTo(origin);
-      if (!best || d < best.distance) best = { surface, localX, point: p, distance: d };
+      if (!best || d < best.distance) best = { type: 'surface', id: surface.id, point: p, distance: d, localX };
+    }
+  }
+  // A bumper also clamps onto a cart/body face (front or rear).
+  for (const carrier of world.bodies) {
+    if (carrier.transient) continue;
+    for (const sign of [-1, 1]) {
+      const local = carrier.cannon.quaternion.vmult(V(
+        sign * (carrier.halfLength + barrier.thickness / 2 + 0.02),
+        0,
+        0,
+      ));
+      const p = cloneV(carrier.cannon.position);
+      p.vadd(local, p);
+      const d = p.distanceTo(origin);
+      if (!best || d < best.distance) {
+        best = {
+          type: 'body',
+          id: carrier.id,
+          point: p,
+          distance: d,
+          offset: [sign * (carrier.halfLength + barrier.thickness / 2 + 0.02), 0, 0],
+        };
+      }
     }
   }
   if (!best || best.distance > maxDistance) return null;
-  barrier.mount = { type: 'surface', id: best.surface.id, localX: best.localX, localZ: 0, offsetY: 0 };
+  if (best.type === 'body') {
+    barrier.mount = { type: 'body', id: best.id, offset: best.offset };
+  } else {
+    barrier.mount = { type: 'surface', id: best.id, localX: best.localX, localZ: 0 };
+  }
   updateMountedApparatus(world);
-  return { type: 'surface', id: best.surface.id, distance: best.distance };
+  return { type: best.type, id: best.id, distance: best.distance };
+}
+
+/* ------------------------------------------------------------------ */
+/* General apparatus snap / mount system                              */
+/* ------------------------------------------------------------------ */
+
+const ABSTRACT_MOUNT_TYPES = new Set(['oscillator', 'torsion', 'orbit', 'tunnel']);
+
+function isEMEntityType(type) {
+  return typeof type === 'string' && type.startsWith('em');
+}
+
+/** Every mountable scene entity, mechanics first then E&M. */
+export function allMountableEntities(world) {
+  const list = [
+    ...world.surfaces,
+    ...world.loops,
+    ...world.turntables,
+    ...world.hcircles,
+    ...world.launchers,
+    ...world.pulleys,
+    ...world.barriers,
+    ...world.pendulums,
+    ...world.wedges,
+    ...world.sensors,
+    ...world.fans,
+    ...world.oscillators,
+    ...world.torsionPendulums,
+    ...world.elevators,
+    ...world.carriages,
+    ...world.angularTables,
+    ...world.rods,
+    ...world.orbits,
+    ...world.tunnels,
+    ...world.bodies.filter((b) => !b.transient),
+  ];
+  if (world.em) {
+    list.push(
+      ...world.em.charges, ...world.em.spheres, ...world.em.lines, ...world.em.planes,
+      ...world.em.probes, ...world.em.particles, ...world.em.capacitors, ...world.em.circuits,
+      ...world.em.magneticWires, ...world.em.currentLoops, ...world.em.solenoids,
+      ...world.em.uniformFields, ...world.em.forceWires, ...world.em.rails,
+      ...world.em.inductionCoils,
+    );
+  }
+  return list;
+}
+
+/** Find any mechanics or E&M entity by its (type, id). */
+export function findSceneEntity(world, type, id) {
+  if (!type || !id) return null;
+  if (!isEMEntityType(type)) {
+    if (type === 'body') return getBody(world, id);
+    if (type === 'surface') return getSurface(world, id);
+    if (type === 'loop') return getLoop(world, id);
+    if (type === 'turntable') return getTurntable(world, id);
+    if (type === 'hcircle') return getHCircle(world, id);
+    if (type === 'launcher') return world.launchers.find((x) => x.id === id) || null;
+    if (type === 'pulley') return world.pulleys.find((x) => x.id === id) || null;
+    if (type === 'barrier') return world.barriers.find((x) => x.id === id) || null;
+    if (type === 'pendulum') return world.pendulums.find((x) => x.id === id) || null;
+    if (type === 'wedge') return world.wedges.find((x) => x.id === id) || null;
+    if (type === 'sensor') return world.sensors.find((x) => x.id === id) || null;
+    if (type === 'fan') return world.fans.find((x) => x.id === id) || null;
+    if (type === 'oscillator') return world.oscillators.find((x) => x.id === id) || null;
+    if (type === 'torsion') return world.torsionPendulums.find((x) => x.id === id) || null;
+    if (type === 'elevator') return world.elevators.find((x) => x.id === id) || null;
+    if (type === 'carriage') return world.carriages.find((x) => x.id === id) || null;
+    if (type === 'angularTable') return world.angularTables.find((x) => x.id === id) || null;
+    if (type === 'rod') return world.rods.find((x) => x.id === id) || null;
+    if (type === 'orbit') return world.orbits.find((x) => x.id === id) || null;
+    if (type === 'tunnel') return world.tunnels.find((x) => x.id === id) || null;
+    if (type === 'link') return world.links.find((x) => x.id === id) || null;
+    return null;
+  }
+  const em = world.em;
+  if (!em) return null;
+  const table = {
+    emCharge: em.charges,
+    emSphere: em.spheres,
+    emLine: em.lines,
+    emPlane: em.planes,
+    emProbe: em.probes,
+    emParticle: em.particles,
+    emCapacitor: em.capacitors,
+    emCircuit: em.circuits,
+    emMagneticWire: em.magneticWires,
+    emCurrentLoop: em.currentLoops,
+    emSolenoid: em.solenoids,
+    emUniform: em.uniformFields,
+    emForceWire: em.forceWires,
+    emRail: em.rails,
+    emInductionCoil: em.inductionCoils,
+  };
+  return (table[type] || []).find((x) => x.id === id) || null;
+}
+
+export function entityPoint(entity) {
+  if (!entity) return null;
+  if (entity.type === 'body') return cloneV(entity.cannon.position);
+  if (entity.type === 'surface' || entity.type === 'barrier' || entity.type === 'wedge') {
+    return cloneV(entity.body.position);
+  }
+  return V(entity.x || 0, entity.y || 0, entity.z || 0);
+}
+
+function mountCarrier(world, mount) {
+  if (!mount) return null;
+  const type = mount.targetType || mount.type;
+  return findSceneEntity(world, type, mount.id);
+}
+
+function addMountOffset(point, mount) {
+  const off = mount.offset;
+  if (Array.isArray(off)) {
+    point.x += off[0] || 0;
+    point.y += off[1] || 0;
+    point.z += off[2] || 0;
+  }
+  point.y += mount.offsetY || 0;
+  return point;
+}
+
+/**
+ * Resolve a serialized mount descriptor to a world point. One implementation
+ * serves every apparatus type (mechanics and E&M), so a carrier that moves
+ * moves everything mounted on it.
+ */
+export function resolveMountPoint(world, mount) {
+  if (!mount) return null;
+  const type = mount.targetType || mount.type;
+  if (type === 'em') {
+    const target = findSceneEntity(world, mount.targetType, mount.id);
+    if (!target) return null;
+    const p = entityPoint(target);
+    return addMountOffset(p, mount);
+  }
+  if (type === 'floor') {
+    return V(mount.x || 0, mount.y || 0, mount.z || 0);
+  }
+  if (type === 'body') {
+    const carrier = getBody(world, mount.id);
+    if (!carrier) return null;
+    const offset = mount.offset || [0, carrier.halfHeight + 0.02, 0];
+    const p = carrier.cannon.quaternion.vmult(V(offset[0] || 0, offset[1] || 0, offset[2] || 0));
+    p.vadd(carrier.cannon.position, p);
+    return mount.offsetY ? p.vadd(V(0, mount.offsetY, 0), p) : p;
+  }
+  if (type === 'surface') {
+    const surface = getSurface(world, mount.id);
+    if (!surface) return null;
+    const p = surfaceTopPoint(surface, mount.localX || 0, mount.localZ || 0);
+    return addMountOffset(p, mount);
+  }
+  if (type === 'turntable') {
+    const table = getTurntable(world, mount.id);
+    if (!table) return null;
+    const phi = (mount.phi || 0) + (table.angle || 0);
+    const r = mount.r || 0;
+    const p = V(table.x + r * Math.cos(phi), tableTopY(table), table.z + r * Math.sin(phi));
+    return addMountOffset(p, mount);
+  }
+  if (type === 'wedge') {
+    const wedge = getWedge(world, mount.id);
+    if (!wedge) return null;
+    const p = wedgeTopPoint(wedge, mount.localX || 0, mount.localZ || 0);
+    return addMountOffset(p, mount);
+  }
+  if (type === 'loop') {
+    const loop = getLoop(world, mount.id);
+    if (!loop) return null;
+    const p = loopPoint(loop, mount.theta || 0);
+    return addMountOffset(p, mount);
+  }
+  if (type === 'hcircle') {
+    const circle = getHCircle(world, mount.id);
+    if (!circle) return null;
+    const phi = mount.phi || 0;
+    const p = V(
+      circle.x + circle.radius * Math.cos(phi),
+      circle.y + 0.01,
+      circle.z + circle.radius * Math.sin(phi),
+    );
+    return addMountOffset(p, mount);
+  }
+  const target = findSceneEntity(world, type, mount.id);
+  if (!target) return null;
+  const support = mountTargetSupport(world, { type, id: mount.id }, null);
+  if (!support) return null;
+  return addMountOffset(support.point, mount);
+}
+
+/**
+ * The support/anchor point a target offers. Local coordinates are returned so
+ * a mount can keep riding the same point while the carrier moves.
+ */
+function mountTargetSupport(world, target, source, opts = {}) {
+  const type = target.type;
+  const id = target.id;
+  const src = source ? entityPoint(source) : null;
+  if (type === 'surface') {
+    const surface = getSurface(world, id);
+    if (!surface) return null;
+    const local = src ? surfaceLocalPoint(surface, src) : { x: 0, z: 0, y: 0 };
+    const localX = clamp(opts.localX ?? local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2);
+    const localZ = clamp(opts.localZ ?? local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2);
+    return {
+      point: surfaceTopPoint(surface, localX, localZ),
+      localX,
+      localZ,
+      carrier: surface,
+    };
+  }
+  if (type === 'body') {
+    const carrier = getBody(world, id);
+    if (!carrier) return null;
+    const offset = V(0, carrier.halfHeight + 0.02, 0);
+    const p = carrier.cannon.quaternion.vmult(offset);
+    p.vadd(carrier.cannon.position, p);
+    return { point: p, carrier };
+  }
+  if (type === 'wedge') {
+    const wedge = getWedge(world, id);
+    if (!wedge) return null;
+    const local = src
+      ? wedge.body.quaternion.inverse().vmult(src.vsub(wedge.body.position))
+      : { x: 0, z: 0 };
+    const localX = clamp(opts.localX ?? local.x, -wedge.length / 2 + 0.15, wedge.length / 2 - 0.15);
+    const localZ = clamp(opts.localZ ?? local.z, -wedge.width / 2 + 0.15, wedge.width / 2 - 0.15);
+    return { point: wedgeTopPoint(wedge, localX, localZ), localX, localZ, carrier: wedge };
+  }
+  if (type === 'turntable') {
+    const table = getTurntable(world, id);
+    if (!table) return null;
+    const dx = src ? src.x - table.x : 0;
+    const dz = src ? src.z - table.z : 0;
+    const r = clamp(opts.r ?? Math.hypot(dx, dz), 0.12, table.radius - 0.1);
+    const phi = Number.isFinite(opts.phi) ? opts.phi : Math.atan2(dz, dx);
+    return {
+      point: V(table.x + r * Math.cos(phi), tableTopY(table), table.z + r * Math.sin(phi)),
+      r,
+      phi,
+      carrier: table,
+    };
+  }
+  if (type === 'loop') {
+    const loop = getLoop(world, id);
+    if (!loop) return null;
+    let theta = opts.theta;
+    if (!Number.isFinite(theta)) {
+      theta = src ? Math.atan2(src.x - loop.x, -(src.y - loop.y)) : 0;
+    }
+    return { point: loopPoint(loop, theta), theta, carrier: loop };
+  }
+  if (type === 'hcircle') {
+    const circle = getHCircle(world, id);
+    if (!circle) return null;
+    const phi = Number.isFinite(opts.phi)
+      ? opts.phi
+      : (src ? Math.atan2(src.z - circle.z, src.x - circle.x) : 0);
+    return {
+      point: V(
+        circle.x + circle.radius * Math.cos(phi),
+        circle.y + 0.01,
+        circle.z + circle.radius * Math.sin(phi),
+      ),
+      phi,
+      carrier: circle,
+    };
+  }
+  if (type === 'pulley') {
+    const pulley = getPulley(world, id);
+    if (!pulley) return null;
+    return { point: V(pulley.x, pulley.y + pulley.radius, pulley.z), carrier: pulley };
+  }
+  if (type === 'barrier') {
+    const barrier = getBarrier(world, id);
+    if (!barrier) return null;
+    return { point: V(barrier.x, barrier.y + barrier.height, barrier.z), carrier: barrier };
+  }
+  if (type === 'pendulum') {
+    const pendulum = getPendulum(world, id);
+    if (!pendulum) return null;
+    return { point: V(pendulum.x, pendulum.y, pendulum.z), carrier: pendulum };
+  }
+  if (type === 'launcher') {
+    const launcher = getLauncher(world, id);
+    if (!launcher) return null;
+    return { point: V(launcher.x, launcher.y + launcher.height, launcher.z), carrier: launcher };
+  }
+  if (type === 'sensor') {
+    const sensor = getSensor(world, id);
+    if (!sensor) return null;
+    return { point: V(sensor.x, sensor.y + sensor.height, sensor.z), carrier: sensor };
+  }
+  if (type === 'fan') {
+    const fan = getFan(world, id);
+    if (!fan) return null;
+    return { point: V(fan.x || 0, fan.y || 0, fan.z || 0), carrier: fan };
+  }
+  if (type === 'elevator') {
+    const elevator = getElevator(world, id);
+    if (!elevator) return null;
+    const ceiling = source?.type === 'oscillator';
+    return {
+      point: V(elevator.x, elevator.y + (ceiling ? elevator.height : 0.87), elevator.z),
+      carrier: elevator,
+    };
+  }
+  if (type === 'carriage') {
+    const carriage = getCarriage(world, id);
+    if (!carriage) return null;
+    return { point: V(carriage.x, carriage.y + 0.42, carriage.z), carrier: carriage };
+  }
+  if (type === 'angularTable') {
+    const table = getAngularTable(world, id);
+    if (!table) return null;
+    return { point: V(table.x, table.y + 0.07, table.z), carrier: table };
+  }
+  if (type === 'rod') {
+    const rod = getRod(world, id);
+    if (!rod) return null;
+    return { point: V(rod.x, rod.y, rod.z), carrier: rod };
+  }
+  if (type === 'oscillator') {
+    const osc = getOscillator(world, id);
+    if (!osc) return null;
+    return { point: V(osc.x, osc.y, osc.z), carrier: osc };
+  }
+  if (type === 'torsion') {
+    const pend = getTorsionPendulum(world, id);
+    if (!pend) return null;
+    return { point: V(pend.x, pend.y, pend.z), carrier: pend };
+  }
+  if (type === 'orbit') {
+    const orbit = getOrbit(world, id);
+    if (!orbit) return null;
+    return { point: V(orbit.x, orbit.y, orbit.z), carrier: orbit };
+  }
+  if (type === 'tunnel') {
+    const tunnel = getTunnel(world, id);
+    if (!tunnel) return null;
+    return { point: V(tunnel.x, tunnel.y, tunnel.z), carrier: tunnel };
+  }
+  if (isEMEntityType(type)) {
+    const em = findSceneEntity(world, type, id);
+    if (!em) return null;
+    return { point: entityPoint(em), carrier: em };
+  }
+  return null;
+}
+
+function emAxis(axis) {
+  if (axis === 'y') return V(0, 1, 0);
+  if (axis === 'z') return V(0, 0, 1);
+  return V(1, 0, 0);
+}
+
+/** Source-specific offset from a support point to the object origin. */
+function sourceMountOffset(source, target) {
+  const st = source.type;
+  const tt = target?.type || '';
+  if (isEMEntityType(tt)) return emMountOffset(source, target);
+  if (tt === 'elevator' && st === 'oscillator') return V(0, 0, 0);
+  if (tt === 'carriage' && st === 'elevator') return V(0, -0.82, 0);
+  if (ABSTRACT_MOUNT_TYPES.has(tt)) {
+    if (tt === 'orbit' && st === 'orbit') return V(1.4, 0, 0);
+    if (tt === 'tunnel' && st === 'orbit') return V(1.2, 0, 0);
+    if (tt === 'torsion' && st === 'tunnel') return V(1.8, 0, 0);
+    if (tt === 'oscillator' && st === 'torsion') return V(2.2, 0, 0);
+    return V(1.8, 0, 0);
+  }
+  if (st === 'surface') return V(0, source.thickness / 2, 0);
+  if (st === 'loop') return V(0, source.radius, 0);
+  if (st === 'turntable') return V(0, 0.06, 0);
+  if (st === 'hcircle') return V(0, 0.02, 0);
+  if (st === 'wedge') return V(0, source.centroidY, 0);
+  if (st === 'pulley') return V(0, source.radius, 0);
+  if (st === 'fan') return V(0, 0.2, 0);
+  if (st === 'oscillator') return V(0, Math.max(0, source.y - 0.06), 0);
+  if (st === 'torsion') return V(0, Math.max(0, source.y - 0.06), 0);
+  if (st === 'elevator') return V(0, -0.82, 0);
+  if (st === 'carriage') return V(0, 0, 0);
+  if (st === 'angularTable') return V(0, source.y, 0);
+  if (st === 'rod') return V(0, Math.max(0, source.y - 0.1), 0);
+  if (st === 'orbit') return V(0, 0.62, 0);
+  if (st === 'tunnel') return V(0, source.R, 0);
+  if (st === 'launcher' || st === 'sensor' || st === 'barrier' || st === 'pendulum') return V();
+  if (st === 'emCharge') return V(0, 0.8, 0);
+  if (st === 'emSphere') return V(0, source.R, 0);
+  if (st === 'emLine') return V(0, 0.4, 0);
+  if (st === 'emPlane') return V(0, 0.8, 0);
+  if (st === 'emProbe') return V(0, 0.1, 0);
+  if (st === 'emParticle') return V(0, 0.15, 0);
+  if (st === 'emCapacitor') return V(0, 0.35, 0);
+  if (st === 'emCircuit') return V(0, 0.05, 0);
+  if (st === 'emMagneticWire') return V(0, 1.0, 0);
+  if (st === 'emCurrentLoop') return V(0, source.radius, 0);
+  if (st === 'emSolenoid') return V(0, source.radius, 0);
+  if (st === 'emUniform') return V(0, 0.8, 0);
+  if (st === 'emForceWire') return V(0, 0.8, 0);
+  if (st === 'emRail') return V(0, 0.15, 0);
+  if (st === 'emInductionCoil') return V(0, source.height / 2, 0);
+  return V();
+}
+
+/** Pair-specific dock offsets when the target is itself an E&M apparatus. */
+function emMountOffset(source, target) {
+  const st = source.type;
+  const tt = target.type;
+  if (tt === 'emRail' && st === 'emRail') {
+    return V((target.length || 0) / 2 + (source.length || 0) / 2, 0, 0);
+  }
+  if ((tt === 'emSolenoid' || tt === 'emCurrentLoop')
+    && (st === 'emCurrentLoop' || st === 'emInductionCoil' || st === 'emSolenoid' || st === 'emUniform')) {
+    return V();
+  }
+  if (tt === 'emUniform'
+    && (st === 'emParticle' || st === 'emInductionCoil' || st === 'emForceWire' || st === 'emCharge')) {
+    return V();
+  }
+  if (tt === 'emInductionCoil'
+    && (st === 'emUniform' || st === 'emSolenoid' || st === 'emCurrentLoop')) {
+    return V();
+  }
+  if (tt === 'emForceWire' && (st === 'emMagneticWire' || st === 'emForceWire')) {
+    return V(0, 0, 0.45);
+  }
+  if (tt === 'emMagneticWire' && st === 'emForceWire') return V(0, 0, 0.45);
+  if (tt === 'emMagneticWire' && st === 'emMagneticWire') return V(0, 1.2, 0);
+  if (tt === 'emCapacitor') {
+    if (st === 'emProbe') return emAxis(target.axis || 'x').scale((target.d || 0.05) / 2 + 0.4);
+    if (st === 'emParticle' || st === 'emCircuit') return V();
+    return V(0.5, 0, 0);
+  }
+  if (tt === 'emCharge') {
+    if (st === 'emParticle') return V();
+    if (st === 'emProbe') return V(0.8, 0, 0);
+    if (st === 'emCharge') return V(0.8, 0, 0);
+    if (st === 'emSphere') return V((target.R || 0) + (source.R || 0) + 0.35, 0, 0);
+    if (st === 'emCapacitor') return V(0, 0.4, 0);
+    return V(0.8, 0, 0);
+  }
+  if (tt === 'emSphere') return V((target.R || 0) + 0.6, 0, 0);
+  if (tt === 'emLine' || tt === 'emPlane') {
+    if (st === 'emPlane' || st === 'emLine') return V(0, 0.45, 0);
+    return V(0.8, 0, 0);
+  }
+  if (tt === 'emProbe') return V(0.7, 0, 0);
+  if (tt === 'emCircuit') return V(0.6, 0, 0);
+  return V(0.8, 0, 0);
+}
+
+function applyMountedEntity(world, entity, point) {
+  if (!entity || !point) return;
+  if (entity.type === 'body') return;
+  if (entity.type === 'surface') {
+    entity.body.position.copy(point);
+    entity.body.aabbNeedsUpdate = true;
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'surface' && body.attachment.id === entity.id) {
+        repositionSurfaceBody(world, body);
+      }
+    }
+    return;
+  }
+  if (entity.type === 'loop') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'loop' && body.attachment.id === entity.id) {
+        body.cannon.position.copy(loopPoint(entity, body.attachment.theta));
+        body.cannon.aabbNeedsUpdate = true;
+      }
+    }
+    return;
+  }
+  if (entity.type === 'turntable') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    entity.body.position.set(point.x, point.y, point.z);
+    entity.body.aabbNeedsUpdate = true;
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'turntable' && body.attachment.id === entity.id) {
+        body.cannon.position.set(
+          entity.x + body.attachment.r * Math.cos(body.attachment.phi),
+          tableTopY(entity) + body.halfHeight,
+          entity.z + body.attachment.r * Math.sin(body.attachment.phi),
+        );
+      }
+    }
+    return;
+  }
+  if (entity.type === 'hcircle') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'hcircle' && body.attachment.id === entity.id) {
+        body.cannon.position.set(
+          entity.x + entity.radius * Math.cos(body.attachment.phi),
+          entity.y + body.halfHeight + 0.01,
+          entity.z + entity.radius * Math.sin(body.attachment.phi),
+        );
+      }
+    }
+    return;
+  }
+  if (entity.type === 'wedge') {
+    entity.body.position.copy(point);
+    entity.baseY = point.y - entity.centroidY;
+    entity.x = point.x;
+    entity.z = point.z;
+    entity.body.aabbNeedsUpdate = true;
+    for (const body of world.bodies) {
+      if (body.attachment?.type === 'wedge' && body.attachment.id === entity.id) {
+        repositionWedgeBody(world, body);
+      }
+    }
+    return;
+  }
+  if (entity.type === 'barrier') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    entity.body.position.set(point.x, point.y + entity.height / 2, point.z);
+    entity.body.aabbNeedsUpdate = true;
+    return;
+  }
+  if (entity.type === 'launcher') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    entity.target = launcherPrediction(world, entity);
+    return;
+  }
+  if (entity.type === 'sensor') {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    return;
+  }
+  if (isEMEntityType(entity.type)) {
+    entity.x = point.x;
+    entity.y = point.y;
+    entity.z = point.z;
+    if (entity.type === 'emParticle') entity.trail = [];
+    return;
+  }
+  entity.x = point.x;
+  entity.y = point.y;
+  entity.z = point.z;
+}
+
+function dockBodyEntity(world, body, target, opts) {
+  const type = target.type;
+  const id = target.id;
+  if (type === 'surface') {
+    const surface = getSurface(world, id);
+    if (!surface) return false;
+    const local = surfaceLocalPoint(surface, body.cannon.position);
+    return attachBodyToSurface(world, body, id, { localX: opts.localX ?? local.x, localZ: opts.localZ ?? local.z });
+  }
+  if (type === 'loop') return attachBodyToLoop(world, body, id, opts);
+  if (type === 'turntable') return attachBodyToTurntable(world, body, id, opts);
+  if (type === 'hcircle') return attachBodyToHCircle(world, body, id, opts);
+  if (type === 'wedge') return attachBodyToWedge(world, body, id, opts);
+  if (type === 'body') return attachBodyToBody(world, body, id, opts);
+  if (type === 'pulley') return attachBodyToPulley(world, body, id, opts.side || 'a');
+  const support = mountTargetSupport(world, target, body);
+  if (!support) return false;
+  const targetEntity = findSceneEntity(world, type, id);
+  const origin = entityPoint(targetEntity);
+  const offset = [
+    support.point.x - origin.x,
+    support.point.y - origin.y + body.halfHeight + 0.02,
+    support.point.z - origin.z,
+  ];
+  return attachBodyToApparatus(world, body, target, { offsetX: offset[0], offsetY: offset[1], offsetZ: offset[2] });
+}
+
+function dockLink(world, link, target, opts = {}) {
+  const end = opts.end === 'a' ? 'a' : 'b';
+  const type = target.type;
+  const id = target.id;
+  const endpoint = link[end];
+  const pos = endpointPosition(world, endpoint);
+  if (type === 'surface') {
+    const surface = getSurface(world, id);
+    if (!surface) return false;
+    const local = pos ? surfaceLocalPoint(surface, pos) : { x: 0, z: 0 };
+    const localX = clamp(local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2);
+    const localZ = clamp(local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2);
+    link[end] = { type: 'surface', id, localX, localZ, offsetY: 0.01 };
+    link.mount = { type: 'surface', id, localX, localZ };
+    return true;
+  }
+  if (type === 'wedge') {
+    const wedge = getWedge(world, id);
+    if (!wedge) return false;
+    const local = wedge.body.quaternion.inverse().vmult((pos || wedge.body.position).vsub(wedge.body.position));
+    const localX = clamp(local.x, -wedge.length / 2, wedge.length / 2);
+    link[end] = { type: 'wedge', id, localX, localZ: 0, offsetY: 0.02 };
+    link.mount = { type: 'wedge', id, localX, localZ: 0 };
+    return true;
+  }
+  if (type === 'body') {
+    if (!getBody(world, id)) return false;
+    if (link.a.type === 'body' && link.a.id === id && end === 'b') return false;
+    if (link.b.type === 'body' && link.b.id === id && end === 'a') return false;
+    link[end] = { type: 'body', id };
+    link.mount = { type: 'body', id };
+    return true;
+  }
+  return false;
+}
+
+/** Attach the free endpoint of a spring / meter to the nearest surface or body. */
+export function snapLinkToNearest(world, link, { end = 'b', maxDistance = 3 } = {}) {
+  if (!link) return null;
+  const pos = endpointPosition(world, link[end]);
+  if (!pos) return null;
+  const candidates = [];
+  for (const surface of world.surfaces) {
+    const local = surfaceLocalPoint(surface, pos);
+    const localX = clamp(local.x, -surface.length / 2 + 0.2, surface.length / 2 - 0.2);
+    const localZ = clamp(local.z, -surface.width / 2 + 0.2, surface.width / 2 - 0.2);
+    const p = surfaceTopPoint(surface, localX, localZ);
+    candidates.push({ type: 'surface', id: surface.id, distance: p.distanceTo(pos) });
+  }
+  for (const wedge of world.wedges) {
+    const p = wedgeTopPoint(wedge, 0, 0);
+    candidates.push({ type: 'wedge', id: wedge.id, distance: p.distanceTo(pos) });
+  }
+  for (const body of world.bodies) {
+    if (body.transient) continue;
+    if ((link.a.type === 'body' && link.a.id === body.id)
+      || (link.b.type === 'body' && link.b.id === body.id)) continue;
+    candidates.push({ type: 'body', id: body.id, distance: body.cannon.position.distanceTo(pos) });
+  }
+  candidates.sort((a, b) => a.distance - b.distance);
+  const best = candidates.find((c) => c.distance <= maxDistance);
+  if (!best || !dockLink(world, link, best, { end })) return null;
+  return { type: best.type, id: best.id, distance: best.distance };
+}
+
+/**
+ * Snap any mechanics or E&M apparatus to the nearest compatible apparatus.
+ * The floor grid is the documented fallback for free objects.
+ */
+export function snapEntityToNearest(world, entity, opts = {}) {
+  if (!entity) return null;
+  const maxDistance = opts.maxDistance ?? 3;
+  if (entity.type === 'body') {
+    const hit = snapBodyToNearest(world, entity, { maxDistance });
+    if (hit) {
+      return { type: hit, id: entity.attachment?.id || null, attachment: { ...entity.attachment } };
+    }
+    if (opts.floor === false) return null;
+    return { type: 'floor', ...snapEntityToFloorGrid(world, entity, opts) };
+  }
+  if (entity.type === 'link') {
+    const hit = snapLinkToNearest(world, entity, { end: opts.end || 'b', maxDistance });
+    if (hit) return { ...hit, attachment: { ...entity[endKeyForLink(opts)] } };
+    return null;
+  }
+  if (entity.type === 'barrier') {
+    const hit = snapBarrierToNearest(world, entity, { maxDistance });
+    if (hit) return hit;
+  } else {
+    const candidates = [];
+    for (const target of snapTargetCandidates(world, entity)) {
+      const support = mountTargetSupport(world, target, entity, opts);
+      if (!support) continue;
+      const range = support.point.distanceTo(entityPoint(entity));
+      if (range <= maxDistance) candidates.push({ ...target, distance: range });
+    }
+    candidates.sort((a, b) => a.distance - b.distance);
+    for (const target of candidates) {
+      if (dockEntity(world, entity, target, opts)) {
+        return { type: target.type, id: target.id, distance: target.distance };
+      }
+    }
+  }
+  if (opts.floor === false) return null;
+  return { type: 'floor', ...snapEntityToFloorGrid(world, entity, opts) };
+}
+
+function endKeyForLink(opts) {
+  return opts.end === 'a' ? 'a' : 'b';
+}
+
+/** List of possible carriers for a generic snap (excluding the source). */
+function snapTargetCandidates(world, source) {
+  const list = [
+    ...world.surfaces,
+    ...world.loops,
+    ...world.turntables,
+    ...world.hcircles,
+    ...world.launchers,
+    ...world.pulleys,
+    ...world.barriers,
+    ...world.pendulums,
+    ...world.wedges,
+    ...world.sensors,
+    ...world.fans,
+    ...world.oscillators,
+    ...world.torsionPendulums,
+    ...world.elevators,
+    ...world.carriages,
+    ...world.angularTables,
+    ...world.rods,
+    ...world.orbits,
+    ...world.tunnels,
+    ...world.bodies.filter((b) => !b.transient),
+  ];
+  if (world.em) {
+    list.push(
+      ...world.em.charges,
+      ...world.em.spheres,
+      ...world.em.lines,
+      ...world.em.planes,
+      ...world.em.probes,
+      ...world.em.particles,
+      ...world.em.capacitors,
+      ...world.em.circuits,
+      ...world.em.magneticWires,
+      ...world.em.currentLoops,
+      ...world.em.solenoids,
+      ...world.em.uniformFields,
+      ...world.em.forceWires,
+      ...world.em.rails,
+      ...world.em.inductionCoils,
+    );
+  }
+  return list.filter((target) => target && !(target.type === source.type && target.id === source.id));
+}
+
+/**
+ * Mount one apparatus on another. Bodies use the specialised attachment
+ * constraints; every other apparatus keeps a serializable mount descriptor.
+ */
+export function dockEntity(world, entity, target, opts = {}) {
+  if (!entity || !target?.type || !target.id) return false;
+  if (entity.type === target.type && entity.id === target.id) return false;
+  if (entity.type === 'body') return dockBodyEntity(world, entity, target, opts);
+  if (entity.type === 'link') return dockLink(world, entity, target, opts);
+  const targetEntity = findSceneEntity(world, target.type, target.id);
+  if (!targetEntity) return false;
+  const point = entityPoint(entity);
+  if (!point) return false;
+  if (isEMEntityType(target.type)) {
+    const offset = Array.isArray(opts.offset)
+      ? V(opts.offset[0] || 0, opts.offset[1] || 0, opts.offset[2] || 0)
+      : emMountOffset(entity, targetEntity);
+    const center = entityPoint(targetEntity);
+    const desired = center.vadd(offset);
+    entity.mount = {
+      type: 'em',
+      targetType: target.type,
+      id: target.id,
+      offset: [offset.x, offset.y, offset.z],
+    };
+    applyMountedEntity(world, entity, desired);
+    return true;
+  }
+  const support = mountTargetSupport(world, target, entity, opts);
+  if (!support) return false;
+  const offset = Array.isArray(opts.offset)
+    ? V(opts.offset[0] || 0, opts.offset[1] || 0, opts.offset[2] || 0)
+    : sourceMountOffset(entity, targetEntity);
+  const desired = support.point.vadd(offset);
+  if (target.type === 'body') {
+    const carrier = getBody(world, target.id);
+    if (!carrier) return false;
+    const rel = desired.vsub(carrier.cannon.position);
+    const local = carrier.cannon.quaternion.inverse().vmult(rel);
+    entity.mount = { type: 'body', id: target.id, offset: [local.x, local.y, local.z] };
+  } else if (target.type === 'surface') {
+    entity.mount = { type: 'surface', id: target.id, localX: support.localX, localZ: support.localZ, offset: [offset.x, offset.y, offset.z] };
+  } else if (target.type === 'turntable') {
+    entity.mount = { type: 'turntable', id: target.id, r: support.r, phi: support.phi, offset: [offset.x, offset.y, offset.z] };
+  } else if (target.type === 'wedge') {
+    entity.mount = { type: 'wedge', id: target.id, localX: support.localX, localZ: support.localZ, offset: [offset.x, offset.y, offset.z] };
+  } else if (target.type === 'loop') {
+    entity.mount = { type: 'loop', id: target.id, theta: support.theta, offset: [offset.x, offset.y, offset.z] };
+  } else if (target.type === 'hcircle') {
+    entity.mount = { type: 'hcircle', id: target.id, phi: support.phi, offset: [offset.x, offset.y, offset.z] };
+  } else {
+    entity.mount = { type: target.type, id: target.id, offset: [offset.x, offset.y, offset.z] };
+  }
+  if (entity.type === 'fan') {
+    const prev = entity.bodyId ? getBody(world, entity.bodyId) : null;
+    if (prev && prev.fan === entity) prev.fan = null;
+    entity.bodyId = target.type === 'body' ? target.id : null;
+    const host = entity.bodyId ? getBody(world, entity.bodyId) : null;
+    if (host) host.fan = entity;
+  }
+  applyMountedEntity(world, entity, desired);
+  return true;
+}
+
+/** Remove a mount/attachment (body seats and every portable apparatus). */
+export function detachEntity(world, entity) {
+  if (!entity) return false;
+  if (entity.type === 'body') {
+    if (!entity.attachment) return false;
+    detachBody(world, entity);
+    return true;
+  }
+  if (entity.type === 'link') {
+    const had = !!entity.mount;
+    entity.mount = null;
+    return had;
+  }
+  let had = !!entity.mount;
+  if (entity.type === 'fan') {
+    const host = entity.bodyId ? getBody(world, entity.bodyId) : null;
+    if (host && host.fan === entity) host.fan = null;
+    if (entity.bodyId) had = true;
+    entity.bodyId = null;
+  }
+  if (!had) return false;
+  entity.mount = null;
+  return true;
+}
+
+export function entityMount(entity) {
+  if (!entity) return null;
+  if (entity.type === 'body') return entity.attachment || null;
+  return entity.mount || null;
+}
+
+/** Move any apparatus origin without snapping (direct-drag path). */
+export function moveEntityTo(world, entity, point) {
+  if (!entity || !point) return false;
+  if (entity.type === 'body') {
+    entity.cannon.position.set(point.x, point.y, point.z);
+    entity.cannon.aabbNeedsUpdate = true;
+    return true;
+  }
+  applyMountedEntity(world, entity, V(point.x, point.y, point.z));
+  return true;
+}
+
+/** Documented rest height used when a free object is dropped on the floor. */
+export function floorRestHeight(entity) {
+  if (!entity) return 0;
+  if (entity.type === 'body') return entity.halfHeight + 0.002;
+  if (entity.type === 'surface') return entity.thickness / 2;
+  if (entity.type === 'loop') return entity.radius;
+  if (entity.type === 'turntable') return 0.06;
+  if (entity.type === 'hcircle') return 0.02;
+  if (entity.type === 'wedge') return entity.centroidY;
+  if (entity.type === 'pulley') return entity.radius;
+  if (entity.type === 'fan') return 0.2;
+  if (entity.type === 'oscillator' || entity.type === 'torsion') return 0.06;
+  if (entity.type === 'pendulum') return Math.max(0.6, entity.length * 0.8);
+  if (entity.type === 'angularTable') return 0.07;
+  if (entity.type === 'rod') return 0.1;
+  if (entity.type === 'orbit') return 0.62;
+  if (entity.type === 'tunnel') return entity.R;
+  if (entity.type === 'emCharge') return 0.8;
+  if (entity.type === 'emSphere') return entity.R;
+  if (entity.type === 'emLine') return 0.4;
+  if (entity.type === 'emPlane') return 0.8;
+  if (entity.type === 'emProbe') return 0.1;
+  if (entity.type === 'emParticle') return 0.15;
+  if (entity.type === 'emCapacitor') return 0.35;
+  if (entity.type === 'emCircuit') return 0.05;
+  if (entity.type === 'emMagneticWire') return 1;
+  if (entity.type === 'emCurrentLoop') return entity.radius;
+  if (entity.type === 'emSolenoid') return entity.radius;
+  if (entity.type === 'emUniform') return 0.8;
+  if (entity.type === 'emForceWire') return 0.8;
+  if (entity.type === 'emRail') return 0.15;
+  if (entity.type === 'emInductionCoil') return entity.height / 2;
+  return 0;
+}
+
+/**
+ * Put a free object on the nearest mathematical grid intersection. No snap
+ * meshes, colliders or scene objects are created; the lattice is gridStep.
+ */
+export function snapEntityToFloorGrid(world, entity, opts = {}) {
+  if (!entity || entity.type === 'link') return null;
+  const step = Number.isFinite(opts.gridStep) ? opts.gridStep : world.gridStep;
+  const current = entityPoint(entity);
+  const x = quantizeValue(Number.isFinite(opts.x) ? opts.x : current.x, step);
+  const z = quantizeValue(Number.isFinite(opts.z) ? opts.z : current.z, step);
+  const y = Number.isFinite(opts.y) ? opts.y : floorRestHeight(entity);
+  if (entity.type === 'body') {
+    if (entity.attachment) detachBody(world, entity);
+    entity.cannon.position.set(x, y, z);
+    entity.cannon.velocity.setZero();
+    entity.cannon.angularVelocity.setZero();
+    entity.cannon.aabbNeedsUpdate = true;
+    entity.cannon.wakeUp();
+    applyInitialVelocity(world, entity);
+  } else {
+    detachEntity(world, entity);
+    applyMountedEntity(world, entity, V(x, y, z));
+  }
+  return { x, y, z };
+}
+
+/** Re-position every mounted apparatus from its carrier's current pose. */
+export function updateMountedApparatus(world) {
+  const mounted = [
+    ...world.surfaces,
+    ...world.loops,
+    ...world.turntables,
+    ...world.hcircles,
+    ...world.launchers,
+    ...world.pulleys,
+    ...world.barriers,
+    ...world.pendulums,
+    ...world.wedges,
+    ...world.sensors,
+    ...world.fans,
+    ...world.oscillators,
+    ...world.torsionPendulums,
+    ...world.elevators,
+    ...world.carriages,
+    ...world.angularTables,
+    ...world.rods,
+    ...world.orbits,
+    ...world.tunnels,
+    ...(world.em ? [
+      ...world.em.charges, ...world.em.spheres, ...world.em.lines, ...world.em.planes,
+      ...world.em.probes, ...world.em.particles, ...world.em.capacitors, ...world.em.circuits,
+      ...world.em.magneticWires, ...world.em.currentLoops, ...world.em.solenoids,
+      ...world.em.uniformFields, ...world.em.forceWires, ...world.em.rails,
+      ...world.em.inductionCoils,
+    ] : []),
+  ];
+  // Two passes let a mount chain settle (A on B, B on C).
+  for (let pass = 0; pass < 2; pass += 1) {
+    for (const entity of mounted) {
+      if (!entity.mount) continue;
+      const point = resolveMountPoint(world, entity.mount);
+      if (!point) { entity.mount = null; continue; }
+      applyMountedEntity(world, entity, point);
+    }
+  }
+  for (const body of world.bodies) {
+    if (body.attachment?.type === 'body' || body.attachment?.type === 'wedge'
+      || body.attachment?.type === 'apparatus') {
+      repositionCarriedBody(world, body);
+    }
+  }
 }
 
 
@@ -2366,7 +3523,30 @@ export function addAnchor(x, y, z = 0) {
 }
 
 export function endpointPosition(world, endpoint) {
+  if (!endpoint) return null;
   if (endpoint.type === 'anchor') return V(endpoint.x, endpoint.y, endpoint.z);
+  if (endpoint.type === 'surface') {
+    const surface = getSurface(world, endpoint.id);
+    if (!surface) return null;
+    const p = surfaceTopPoint(surface, endpoint.localX || 0, endpoint.localZ || 0);
+    p.y += endpoint.offsetY || 0;
+    return p;
+  }
+  if (endpoint.type === 'wedge') {
+    const wedge = getWedge(world, endpoint.id);
+    if (!wedge) return null;
+    const p = wedgeTopPoint(wedge, endpoint.localX || 0, endpoint.localZ || 0);
+    p.y += endpoint.offsetY || 0;
+    return p;
+  }
+  if (endpoint.type && endpoint.type !== 'body') {
+    const target = findSceneEntity(world, endpoint.type, endpoint.id);
+    if (target) {
+      const p = entityPoint(target);
+      p.y += endpoint.offsetY || 0;
+      return p;
+    }
+  }
   const body = getBody(world, endpoint.id || endpoint);
   return body ? cloneV(body.cannon.position) : null;
 }
@@ -3171,6 +4351,7 @@ export function addOscillator(world, opts = {}) {
     cycleIndex: -1,
     cycleMin: amplitude,
     cycleMax: amplitude,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.oscillators.push(osc);
   return osc;
@@ -3313,6 +4494,7 @@ export function addTorsionPendulum(world, opts = {}) {
     prevTheta: (amplitude * Math.PI) / 180,
     lastTurn: 0,
     prevOmega: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.torsionPendulums.push(pend);
   return pend;
@@ -3391,6 +4573,7 @@ export function addElevator(world, opts = {}) {
     height,
     width,
     time: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.elevators.push(elevator);
   return elevator;
@@ -3427,6 +4610,7 @@ export function addCarriage(world, opts = {}) {
     omega: 0,
     time: 0,
     initial: { theta: 0, omega: 0, time: 0 },
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.carriages.push(carriage);
   return carriage;
@@ -3494,6 +4678,7 @@ export function addAngularTable(world, opts = {}) {
     dropped: false,
     time: 0,
     initial: null,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   table.L = (I + (table.blockOn ? table.blockMass * r * r : 0)) * omega;
   table.ke = 0.5 * (I + (table.blockOn ? table.blockMass * r * r : 0)) * omega * omega;
@@ -3587,6 +4772,7 @@ export function addRod(world, opts = {}) {
     alpha: 0,
     time: 0,
     initial: { theta: theta0, omega: 0, time: 0 },
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.rods.push(rod);
   return rod;
@@ -3652,6 +4838,7 @@ export function addOrbit(world, opts = {}) {
     energy: 0.5 * v0 * v0 - mu / r,
     energyDrift: 0,
     initial: null,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   orbit.initial = {
     px, pz, vx: orbit.vx, vz: orbit.vz, time: 0,
@@ -3799,6 +4986,7 @@ export function addTunnel(world, opts = {}) {
     lastTurn: 0,
     prevV: 0,
     initial: { s: r0 == null ? R : r0, v: 0, time: 0 },
+    mount: opts.mount ? cloneMount(opts.mount) : null,
   };
   world.tunnels.push(tunnel);
   return tunnel;
@@ -3862,6 +5050,7 @@ function resetTunnel(tunnel) {
 export function substep(world, h) {
   if (world.em?.mode === 'em') {
     stepEM(world.em, h);
+    updateMountedApparatus(world);
     world.time += h;
     return;
   }
@@ -4590,7 +5779,7 @@ export function linkReading(world, link) {
 /* Scene serialization (undo, save/load, time scrub)                   */
 /* ------------------------------------------------------------------ */
 
-export const SCENE_VERSION = 2;
+export const SCENE_VERSION = 3;
 
 const SCENE_ARRAY_KEYS = [
   'surfaces', 'loops', 'turntables', 'hcircles', 'launchers', 'pulleys',
@@ -4625,6 +5814,17 @@ export function migrateScene(data) {
   out.restitution = Number.isFinite(data.restitution)
     ? Math.max(0, Math.min(1, data.restitution))
     : 0;
+  out.gridStep = Number.isFinite(data.gridStep) && data.gridStep > 0
+    ? data.gridStep
+    : DEFAULT_GRID_STEP;
+  out.floor = {
+    friction: Number.isFinite(data.floor?.friction)
+      ? Math.max(0, Math.min(2, data.floor.friction))
+      : (Number.isFinite(data.floorFriction) ? data.floorFriction : DEFAULT_FLOOR_FRICTION),
+    restitution: Number.isFinite(data.floor?.restitution)
+      ? Math.max(0, Math.min(1, data.floor.restitution))
+      : (Number.isFinite(data.floorRestitution) ? data.floorRestitution : DEFAULT_FLOOR_RESTITUTION),
+  };
   out.em = data.em && typeof data.em === 'object' && !Array.isArray(data.em)
     ? { ...data.em }
     : { mode: 'mechanics' };
@@ -4638,6 +5838,8 @@ export function serializeScene(world, { runtime = false } = {}) {
     g: world.g,
     h: world.h,
     restitution: world.engine.defaultContactMaterial.restitution || 0,
+    gridStep: world.gridStep,
+    floor: { friction: world.floorFriction, restitution: world.floorRestitution },
     time: runtime ? world.time : 0,
     thermal: runtime ? world.thermal : 0,
     appliedWork: runtime ? world.appliedWork : 0,
@@ -4655,6 +5857,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       thickness: s.thickness,
       muS: s.muS,
       muK: s.muK,
+      mount: s.mount ? { ...s.mount } : null,
     })),
     loops: world.loops.map((l) => ({
       id: l.id,
@@ -4665,6 +5868,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       radius: l.radius,
       muS: l.muS,
       muK: l.muK,
+      mount: l.mount ? { ...l.mount } : null,
     })),
     turntables: world.turntables.map((t) => ({
       id: t.id,
@@ -4679,6 +5883,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       muS: t.muS,
       muK: t.muK,
       angle: t.angle,
+      mount: t.mount ? { ...t.mount } : null,
     })),
     hcircles: world.hcircles.map((c) => ({
       id: c.id,
@@ -4689,6 +5894,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       radius: c.radius,
       muS: c.muS,
       muK: c.muK,
+      mount: c.mount ? { ...c.mount } : null,
     })),
     launchers: world.launchers.map((l) => ({
       id: l.id,
@@ -4722,6 +5928,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       muK: p.muK,
       aId: p.aId,
       bId: p.bId,
+      mount: p.mount ? { ...p.mount } : null,
     })),
     barriers: world.barriers.map((b) => ({
       id: b.id,
@@ -4749,6 +5956,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       amplitude: p.amplitude,
       radius: p.radius,
       conical: p.conical,
+      mount: p.mount ? { ...p.mount } : null,
     })),
     wedges: world.wedges.map((w) => ({
       id: w.id,
@@ -4766,6 +5974,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       position: sceneVec(w.body.position),
       quaternion: [w.body.quaternion.x, w.body.quaternion.y, w.body.quaternion.z, w.body.quaternion.w],
       velocity: sceneVec(w.body.velocity),
+      mount: w.mount ? { ...w.mount } : null,
     })),
     sensors: world.sensors.map((s) => ({
       id: s.id,
@@ -4789,6 +5998,10 @@ export function serializeScene(world, { runtime = false } = {}) {
       on: f.on,
       azimuth: f.azimuth,
       elevation: f.elevation,
+      x: f.x,
+      y: f.y,
+      z: f.z,
+      mount: f.mount ? { ...f.mount } : null,
     })),
     oscillators: world.oscillators.map((o) => ({
       id: o.id, name: o.name || '', x: o.x, y: o.y, z: o.z,
@@ -4796,21 +6009,25 @@ export function serializeScene(world, { runtime = false } = {}) {
       driveForce: o.driveF0, driveOmega: o.driveOmega, driveOn: o.driveOn,
       amplitude: o.initial?.u ?? o.u,
       u: o.u, v: o.v, time: o.time,
+      mount: o.mount ? { ...o.mount } : null,
     })),
     torsionPendulums: world.torsionPendulums.map((p) => ({
       id: p.id, name: p.name || '', x: p.x, y: p.y, z: p.z,
       mass: p.mass, radius: p.radius, I: p.I, kappa: p.kappa,
       damping: p.damping, amplitude: (p.theta0 * 180) / Math.PI,
       theta: p.theta, omega: p.omega, time: p.time,
+      mount: p.mount ? { ...p.mount } : null,
     })),
     elevators: world.elevators.map((e) => ({
       id: e.id, name: e.name || '', x: e.x, y: e.y, z: e.z,
       mass: e.mass, accel: e.accel, height: e.height, width: e.width,
+      mount: e.mount ? { ...e.mount } : null,
     })),
     carriages: world.carriages.map((c) => ({
       id: c.id, name: c.name || '', x: c.x, y: c.y, z: c.z,
       mass: c.mass, accel: c.accel, length: c.length, damping: c.damping,
       theta: c.theta, omega: c.omega, time: c.time,
+      mount: c.mount ? { ...c.mount } : null,
     })),
     angularTables: world.angularTables.map((t) => ({
       id: t.id, name: t.name || '', x: t.x, y: t.y, z: t.z,
@@ -4818,21 +6035,25 @@ export function serializeScene(world, { runtime = false } = {}) {
       r: t.r, omega: t.omega, rSpeed: t.rSpeed, radialMotor: t.radialMotor,
       blockOn: t.blockOn, L: t.L, ke: t.ke, dropped: t.dropped,
       angle: t.angle, time: t.time,
+      mount: t.mount ? { ...t.mount } : null,
     })),
     rods: world.rods.map((r) => ({
       id: r.id, name: r.name || '', x: r.x, y: r.y, z: r.z,
       mass: r.mass, length: r.length, pivot: r.pivot, torque: r.torque,
       theta: r.theta, omega: r.omega, time: r.time,
+      mount: r.mount ? { ...r.mount } : null,
     })),
     orbits: world.orbits.map((o) => ({
       id: o.id, name: o.name || '', x: o.x, y: o.y, z: o.z,
       M: o.M, G: o.G, r: o.r0, phase: o.phase, speedFactor: o.speedFactor,
       px: o.px, pz: o.pz, vx: o.vx, vz: o.vz, time: o.time,
       trail: o.trail.slice(-1200), energy0: o.energy0,
+      mount: o.mount ? { ...o.mount } : null,
     })),
     tunnels: world.tunnels.map((t) => ({
       id: t.id, name: t.name || '', x: t.x, y: t.y, z: t.z,
       R: t.R, M: t.M, G: t.G, s: t.s, v: t.v, time: t.time,
+      mount: t.mount ? { ...t.mount } : null,
     })),
     bodies: world.bodies.filter((b) => !b.transient).map((b) => ({
       id: b.id,
@@ -4869,6 +6090,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       beta: l.beta,
       rest: l.rest,
       meter: l.meter,
+      mount: l.mount ? { ...l.mount } : null,
     })),
   };
 }
@@ -4884,6 +6106,11 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
   world.engine.gravity.set(0, -world.g, 0);
   world.engine.defaultContactMaterial.restitution = Math.max(0, Math.min(1, data.restitution ?? 0));
   if (world.bodyContact) world.bodyContact.restitution = Math.max(0, Math.min(1, data.restitution ?? 0));
+  setGridStep(world, data.gridStep ?? DEFAULT_GRID_STEP);
+  setFloorContact(world, {
+    friction: data.floor?.friction ?? DEFAULT_FLOOR_FRICTION,
+    restitution: data.floor?.restitution ?? DEFAULT_FLOOR_RESTITUTION,
+  });
   deserializeEM(world.em, data.em || { mode: 'mechanics' });
 
   for (const s of data.surfaces || []) {
@@ -4900,6 +6127,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       thickness: s.thickness ?? 0.18,
       muS: s.muS ?? 0.5,
       muK: Math.min(s.muK ?? 0.35, s.muS ?? 0.5),
+      mount: s.mount || null,
     });
     if (s.quaternion) surface.body.quaternion.set(...s.quaternion);
     surface.body.aabbNeedsUpdate = true;
@@ -4922,6 +6150,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       drive: t.drive || 'target',
       muS: t.muS ?? 0.5,
       muK: Math.min(t.muK ?? 0.35, t.muS ?? 0.5),
+      mount: t.mount || null,
     });
     table.angle = t.angle ?? 0;
   }
@@ -4996,6 +6225,22 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
     } else if (att?.type === 'hcircle') {
       attachBodyToHCircle(world, body, att.id, { phi: att.phi });
       if (runtime && Number.isFinite(att.speed)) body.attachment.speed = att.speed;
+    } else if (att?.type === 'wedge') {
+      attachBodyToWedge(world, body, att.id, { localX: att.localX, localZ: att.localZ });
+    } else if (att?.type === 'body') {
+      attachBodyToBody(world, body, att.id, {
+        offsetX: att.offset?.[0],
+        offsetY: att.offset?.[1],
+        offsetZ: att.offset?.[2],
+      });
+    } else if (att?.type === 'apparatus') {
+      body.attachment = { ...att };
+      repositionCarriedBody(world, body);
+      applyInitialVelocity(world, body);
+    } else if (att?.type === 'carrier') {
+      body.attachment = { ...att };
+      repositionCarrierBody(world, body);
+      applyInitialVelocity(world, body);
     } else {
       body.cannon.position.set(...(b.position || [0, 3, 0]));
       if (b.quaternion) body.cannon.quaternion.set(...b.quaternion);
@@ -5089,7 +6334,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
     }
   }
   for (const l of data.links || []) {
-    addLink(world, {
+    const link = addLink(world, {
       id: l.id,
       a: { ...l.a },
       b: { ...l.b },
@@ -5098,6 +6343,7 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       rest: l.rest ?? null,
       meter: !!l.meter,
     });
+    if (link && l.mount) link.mount = { ...l.mount };
   }
   updateMountedApparatus(world);
   if (runtime) {

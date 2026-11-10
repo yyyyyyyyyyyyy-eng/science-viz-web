@@ -43,10 +43,16 @@ import {
 } from '../modules/physics/lab/em/physics.mjs';
 import {
   addBlock,
+  addCart,
+  addSurface,
   createWorld,
   deserializeScene,
+  entityMount,
+  entityPoint,
   serializeScene,
+  snapEntityToNearest,
   stepWorld,
+  updateMountedApparatus,
 } from '../modules/physics/lab/physics.mjs';
 import {
   canUndo,
@@ -734,6 +740,153 @@ check('undo/redo: E&M add, move, parameter, circuit and delete restore exact sce
   if (world.em.charges.length !== 0) throw new Error('deleted charge reappeared after redo');
   if (world.em.circuits[0]?.wires.length !== 3) throw new Error('circuit wires lost after redo');
   console.log(`      ${states.length - 1} E&M edits, ${states.length} exact scenes forward and back; 3 wires intact`);
+});
+
+
+/* ---------------------- E&M snap / mount matrix --------------------- */
+
+function emTarget(world, kind) {
+  if (kind === 'surface') return addSurface(world, { kind: 'surface', x: 0, y: 1, z: 0, length: 6, width: 2 });
+  if (kind === 'cart') return addCart(world, { x: 0, y: 1, z: 0 });
+  if (kind === 'emCharge') return addPointCharge(world.em, { x: 0, y: 1.5, z: 0 });
+  if (kind === 'emSphere') return addChargedSphere(world.em, { x: 0, y: 1.5, z: 0, R: 0.6 });
+  if (kind === 'emLine') return addLineCharge(world.em, { x: 0, y: 1.5, z: 0, length: 2 });
+  if (kind === 'emPlane') return addPlaneCharge(world.em, { x: 0, y: 1.5, z: 0, width: 1.5, height: 1.5 });
+  if (kind === 'emProbe') return addProbe(world.em, { x: 0, y: 1.5, z: 0 });
+  if (kind === 'emParticle') return addParticle(world.em, { x: 0, y: 1.5, z: 0, fixed: true });
+  if (kind === 'emCapacitor') return addCapacitor(world.em, { x: 0, y: 1.5, z: 0, area: 0.6, d: 0.12 });
+  if (kind === 'emCircuit') {
+    const circuit = addCircuit(world.em, {});
+    circuit.x = 0;
+    circuit.y = 1.5;
+    circuit.z = 0;
+    return circuit;
+  }
+  if (kind === 'emMagneticWire') return addMagneticWire(world.em, { x: 0, y: 1.5, z: 0, length: 2 });
+  if (kind === 'emCurrentLoop') return addCurrentLoop(world.em, { x: 0, y: 1.5, z: 0, radius: 0.6 });
+  if (kind === 'emSolenoid') return addSolenoid(world.em, { x: 0, y: 1.5, z: 0, radius: 0.5, length: 2 });
+  if (kind === 'emUniform') return addUniformField(world.em, { x: 0, y: 1.5, z: 0, size: 4 });
+  if (kind === 'emForceWire') return addForceWire(world.em, { x: 0, y: 1.5, z: 0, length: 1.2 });
+  if (kind === 'emRail') return addRail(world.em, { x: 0, y: 1.5, z: 0, ell: 0.5, length: 2 });
+  if (kind === 'emInductionCoil') return addInductionCoil(world.em, { x: 0, y: 1.5, z: 0, width: 1, height: 1 });
+  throw new Error(`unknown E&M target ${kind}`);
+}
+
+function emSource(world, kind, p) {
+  const x = p.x + 0.35;
+  const y = p.y + 0.35;
+  const z = p.z + 0.2;
+  if (kind === 'emCharge') return addPointCharge(world.em, { x, y, z, q: 1e-9 });
+  if (kind === 'emSphere') return addChargedSphere(world.em, { x, y, z, R: 0.5, q: 1e-9 });
+  if (kind === 'emLine') return addLineCharge(world.em, { x, y, z, length: 1.5, q: 1e-9 });
+  if (kind === 'emPlane') return addPlaneCharge(world.em, { x, y, z, width: 1.2, height: 1.2, q: 1e-9 });
+  if (kind === 'emProbe') return addProbe(world.em, { x, y, z });
+  if (kind === 'emParticle') return addParticle(world.em, { x, y, z, fixed: true });
+  if (kind === 'emCapacitor') return addCapacitor(world.em, { x, y, z, area: 0.4, d: 0.08 });
+  if (kind === 'emCircuit') {
+    const circuit = addCircuit(world.em, {});
+    circuit.x = x;
+    circuit.y = y;
+    circuit.z = z;
+    return circuit;
+  }
+  if (kind === 'emMagneticWire') return addMagneticWire(world.em, { x, y, z, length: 1.5, current: 3 });
+  if (kind === 'emCurrentLoop') return addCurrentLoop(world.em, { x, y, z, radius: 0.4, current: 3 });
+  if (kind === 'emSolenoid') return addSolenoid(world.em, { x, y, z, radius: 0.4, length: 1.5 });
+  if (kind === 'emUniform') return addUniformField(world.em, { x, y, z, size: 3 });
+  if (kind === 'emForceWire') return addForceWire(world.em, { x, y, z, length: 1 });
+  if (kind === 'emRail') return addRail(world.em, { x, y, z, ell: 0.4, length: 1.6 });
+  if (kind === 'emInductionCoil') return addInductionCoil(world.em, { x, y, z, width: 0.8, height: 0.8 });
+  throw new Error(`unknown E&M source ${kind}`);
+}
+
+function emShiftTarget(target, dx) {
+  if (target.type === 'body') { target.cannon.position.x += dx; return; }
+  if (target.type === 'surface') { target.body.position.x += dx; return; }
+  target.x += dx;
+}
+
+check('E&M snap matrix: every apparatus type docks, moves and follows', () => {
+  const rows = [
+    ['emCharge', 'emCharge', 'charges share a default centre-to-centre spacing'],
+    ['emSphere', 'emPlane', 'charged sphere docks beside a plane'],
+    ['emLine', 'emLine', 'line charges stack side by side'],
+    ['emPlane', 'emPlane', 'planes dock side by side'],
+    ['emProbe', 'emCharge', 'probe sits beside the charge it reads'],
+    ['emProbe', 'emCapacitor', 'probe sits beside a capacitor plate'],
+    ['emParticle', 'emUniform', 'particle starts at the field origin'],
+    ['emParticle', 'emProbe', 'particle docks at a probe station'],
+    ['emCapacitor', 'surface', 'capacitor sits on a mechanics table'],
+    ['emCapacitor', 'cart', 'capacitor rides a cart'],
+    ['emCircuit', 'cart', 'circuit sheet pins to the cart corner'],
+    ['emMagneticWire', 'emForceWire', 'magnetic wire docks beside a force wire'],
+    ['emCurrentLoop', 'emSolenoid', 'current loop sits inside a solenoid'],
+    ['emSolenoid', 'emUniform', 'solenoid sits in a uniform-field region'],
+    ['emUniform', 'emSolenoid', 'field region docks on a solenoid'],
+    ['emUniform', 'cart', 'field region rides a cart'],
+    ['emForceWire', 'emMagneticWire', 'force wire docks beside a long wire'],
+    ['emRail', 'emRail', 'rail segments join end to end'],
+    ['emInductionCoil', 'emSolenoid', 'coil snaps into a solenoid'],
+    ['emSolenoid', 'emInductionCoil', 'solenoid docks at an induction coil'],
+    ['emCharge', 'emCircuit', 'charge docks at a circuit sheet'],
+    ['emLine', 'emSphere', 'line charge docks beside a charged sphere'],
+  ];
+  let failures = 0;
+  const covered = new Set();
+  for (const [sourceKind, targetKind, rule] of rows) {
+    const world = createWorld({ g: 0 });
+    const target = emTarget(world, targetKind);
+    const point = entityPoint(target);
+    const source = emSource(world, sourceKind, point);
+    const before = entityPoint(source);
+    const hit = snapEntityToNearest(world, source, { maxDistance: 6 });
+    const mount = entityMount(source);
+    let ok = !!hit && hit.type !== 'floor' && !!mount;
+    let after = entityPoint(source);
+    if (ok && Math.hypot(after.x - before.x, after.y - before.y, after.z - before.z) < 1e-9) {
+      ok = false;
+      hit.reason = 'position did not change';
+    }
+    if (ok) {
+      emShiftTarget(target, 0.75);
+      updateMountedApparatus(world);
+      const followed = entityPoint(source);
+      if (Math.hypot(followed.x - after.x, followed.y - after.y, followed.z - after.z) < 1e-9) {
+        ok = false;
+        hit.reason = 'did not follow the carrier';
+      }
+    }
+    if (ok) covered.add(sourceKind);
+    else failures += 1;
+    console.log(`      ${ok ? 'ok  ' : 'FAIL'} ${sourceKind} -> ${targetKind}: ${ok ? `${hit.type} (${mount.type})` : hit?.reason || 'no mount'} · ${rule}`);
+  }
+  for (const type of ['emCharge', 'emSphere', 'emLine', 'emPlane', 'emProbe', 'emParticle',
+    'emCapacitor', 'emCircuit', 'emMagneticWire', 'emCurrentLoop', 'emSolenoid',
+    'emUniform', 'emForceWire', 'emRail', 'emInductionCoil']) {
+    if (!covered.has(type)) {
+      failures += 1;
+      console.log(`      FAIL missing E&M source coverage: ${type}`);
+    }
+  }
+  if (failures) throw new Error(`${failures} E&M snap rows failed`);
+  console.log(`      E&M matrix: ${rows.length} documented pairs attach, move and follow; ${covered.size} E&M source types covered; no stay-free class`);
+});
+
+check('E&M mount serializes and follows after reload', () => {
+  const world = createWorld({ g: 0 });
+  const charge = addPointCharge(world.em, { x: 0, y: 1.5, z: 0 });
+  const probe = addProbe(world.em, { x: 1.2, y: 1.8, z: 0.2 });
+  if (!snapEntityToNearest(world, probe, { maxDistance: 4 })) throw new Error('probe did not dock on charge');
+  const data = serializeScene(world);
+  const reload = createWorld({ g: 0 });
+  deserializeScene(reload, data);
+  const restored = reload.em.probes[0];
+  if (!restored.mount || restored.mount.id !== charge.id) throw new Error('E&M mount missing after reload');
+  const x0 = restored.x;
+  reload.em.charges[0].x += 0.8;
+  updateMountedApparatus(reload);
+  if (Math.abs(restored.x - (x0 + 0.8)) > 1e-9) throw new Error('reloaded probe did not follow the charge');
+  console.log('      probe mount round-trips and follows its charge by 0.8 m');
 });
 
 console.log('\n' + results.join('\n'));

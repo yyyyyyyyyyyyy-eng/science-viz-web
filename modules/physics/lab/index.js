@@ -41,6 +41,7 @@ import {
   attachBodyToLoop,
   attachBodyToSurface,
   attachBodyToTurntable,
+  attachBodyToWedge,
   bodyDiagnostics,
   buildSensorTables,
   captureInitial,
@@ -51,11 +52,14 @@ import {
   DEG,
   deserializeScene,
   detachBody,
+  detachEntity,
   disposeWorld,
   dropAngularBlock,
   elevatorReading,
   energyBreakdown,
+  entityMount,
   fireLauncher,
+  floorRestHeight,
   forceVectors,
   getBody,
   getHCircle,
@@ -68,6 +72,7 @@ import {
   linkReading,
   loopPoint,
   migrateScene,
+  moveEntityTo,
   orbitArealVelocity,
   orbitEscapeSpeed,
   orbitKeplerPeriod,
@@ -95,6 +100,8 @@ import {
   setBlockSize,
   setCartInertia,
   setCartRadius,
+  setFloorContact,
+  setGridStep,
   setHCircleRadius,
   setInertiaRatio,
   setLoopRadius,
@@ -111,12 +118,15 @@ import {
   snapApparatusToNearest,
   snapBarrierToNearest,
   snapBodyToNearest,
+  snapEntityToFloorGrid,
+  snapEntityToNearest,
   snapNearbyBodies,
   stepOnce,
   stepWorld,
   tableToCsv,
   torsionPeriod,
   tunnelPeriod,
+  updateMountedApparatus,
 } from './physics.mjs';
 import { createLabView } from './view.js';
 import {
@@ -719,6 +729,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   environment.appendChild(el('h3', { className: 'plab-group-title', text: '环境 · Environment' }));
   const gHost = el('div');
   environment.appendChild(gHost);
+  let floorFrictionField = null;
+  let floorRestitutionField = null;
 
   const outliner = el('section', { className: 'plab-outliner', 'aria-label': '对象列表 · Outliner' });
   const outlinerHead = el('div', { className: 'plab-outliner-head' }, [
@@ -1053,33 +1065,37 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   root.append(head, bodyGrid, moreBackdrop, morePanel);
 
   snapSelBtn.addEventListener('click', () => {
-    const b = selectedBody();
-    if (!b) {
-      setStatus('先在场景中选择一个方块或小车。 · Select a block or cart first.', true);
+    const entity = selected ? entityById(selected.type, selected.id) : null;
+    if (!entity) {
+      setStatus('先在场景中选择一个器材。 · Select an apparatus first.', true);
       return;
     }
     pushUndo();
     prepareEdit();
-    const hit = snapBodyToNearest(world, b, { maxDistance: 5 });
+    const hit = snapEntityToNearest(world, entity, { maxDistance: 5 });
     if (hit) {
       captureInitial(world);
       view.sync(world);
       buildInspector();
-      setStatus('已吸附到最近的装置。 · Snapped to the nearest apparatus.');
+      setStatus(hit.type === 'floor'
+        ? '已吸附到最近的网格交点。 · Snapped to the nearest floor grid intersection.'
+        : '已吸附到最近的装置并记录安装。 · Snapped to the nearest apparatus.');
     } else {
-      setStatus('附近没有可吸附的表面、圆环或转盘。 · No surface, loop or turntable nearby.', true);
+      setStatus('附近没有可吸附的装置。 · Nothing nearby to snap to.', true);
     }
   });
   detachBtn.addEventListener('click', () => {
-    const b = selectedBody();
-    if (!b) return;
+    const entity = selected ? entityById(selected.type, selected.id) : null;
+    if (!entity) return;
     pushUndo();
     prepareEdit();
-    detachBody(world, b);
+    const detached = detachEntity(world, entity);
     captureInitial(world);
     view.sync(world);
     buildInspector();
-    setStatus('已脱离约束，物体成为自由刚体。 · Detached; the body is now free.');
+    setStatus(detached
+      ? '已脱离安装，器材成为自由对象。 · Detached; the object is now free.'
+      : '所选器材没有安装。 · The selection has no mount.', !detached);
   });
   stage.appendChild(canvasHost);
 
@@ -1118,7 +1134,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let scrubIndex = -1;
   const graphData = [];
   let graphBodyId = null;
-  let gridStep = 0.1;
+  let gridStep = world.gridStep || 0.1;
   let angleStepDeg = 5;
   let shiftHeld = false;
   const assists = { snap: true, connect: true, placement: true, direct: true };
@@ -1595,12 +1611,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const ring = [0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, 3.2, -3.2, 4.2, -4.2, 5.2, -5.2, 6.4, -6.4];
     for (let i = 0; i < ring.length; i += 1) {
       for (let j = 0; j < ring.length; j += 1) {
-        const x = bx + ring[i];
-        const z = bz + ring[j];
+        const x = quantizeValue(bx + ring[i], gridStep);
+        const z = quantizeValue(bz + ring[j], gridStep);
         if (placementClear(x, z, extent.halfX, extent.halfZ, boxes)) return { x, z };
       }
     }
-    return { x: bx, z: bz };
+    return { x: quantizeValue(bx, gridStep), z: quantizeValue(bz, gridStep) };
   }
 
   function selectedBody() {
@@ -1767,6 +1783,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     // close it before deserializing so no stale wires survive an undo.
     circuitPanel?.close();
     deserializeScene(world, data, { runtime });
+    gridStep = world.gridStep || 0.1;
+    const gridInput = root.querySelector('[data-field="gridStep"]');
+    if (gridInput) gridInput.value = fmtInput(gridStep);
+    view.setGridStep?.(gridStep);
+    setFieldValue(floorFrictionField, world.floorFriction, 0, 1.5);
+    setFieldValue(floorRestitutionField, world.floorRestitution, 0, 1);
     if (keepInitial) world.initial = initial;
     else captureInitial(world);
     selected = selection ? entityById(selection.type, selection.id) : null;
@@ -2715,12 +2737,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.mount = null;
       entity.x = p.x; entity.y = p.y; entity.z = p.z;
     } else if (entity.type === 'fan') {
-      // Fan attachments follow their body and are not moved independently.
+      entity.mount = null;
+      entity.x = p.x; entity.y = p.y; entity.z = p.z;
     } else if (isEMType(entity.type)) {
+      entity.mount = null;
       entity.x = p.x;
       entity.y = p.y;
       entity.z = p.z;
       if (entity.type === 'emParticle') entity.trail = [];
+    } else if (entity.type !== 'link') {
+      entity.mount = null;
+      moveEntityTo(world, entity, p);
     }
   }
 
@@ -3244,11 +3271,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       } else if (target?.type === 'hcircle') {
         attachBodyToHCircle(world, entity, target.id, { phi: 0 });
       } else if (target?.type === 'wedge') {
-        entity.cannon.position.set(spawn.x, spawn.y, spawn.z);
-        entity.cannon.velocity.setZero();
-        entity.cannon.angularVelocity.setZero();
-        entity.cannon.aabbNeedsUpdate = true;
-        applyInitialVelocity(world, entity);
+        attachBodyToWedge(world, entity, target.id, {
+          localX: -target.length * 0.15,
+          localZ: 0,
+        });
       } else {
         let seated = null;
         if (assists.snap) seated = snapBodyToNearest(world, entity, { maxDistance: 6 });
@@ -3655,6 +3681,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.x = object.position.x;
       entity.y = object.position.y;
       entity.z = object.position.z;
+    } else if (entity.type === 'fan') {
+      entity.mount = null;
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+    } else if (isEMType(entity.type)) {
+      entity.mount = null;
+      entity.x = object.position.x;
+      entity.y = object.position.y;
+      entity.z = object.position.z;
+      if (entity.type === 'emParticle') entity.trail = [];
+    } else if (entity.type !== 'link' && entity.x != null) {
+      entity.mount = null;
+      moveEntityTo(world, entity, {
+        x: object.position.x,
+        y: object.position.y,
+        z: object.position.z,
+      });
     } else if (entity.type === 'body') {
       if (entity.attachment) detachBody(world, entity);
       entity.cannon.position.set(object.position.x, object.position.y, object.position.z);
@@ -3663,6 +3707,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       entity.cannon.angularVelocity.setZero();
       entity.cannon.aabbNeedsUpdate = true;
     }
+    updateMountedApparatus(world);
   }
 
   function handleDragEnd(entityRef) {
@@ -3700,15 +3745,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (entity.attachment) detachBody(world, entity);
       entity.cannon.velocity.setZero();
       entity.cannon.angularVelocity.setZero();
-    } else if (entity.type === 'launcher' || entity.type === 'sensor' || entity.type === 'barrier') {
+    } else if (entity.type === 'link') {
+      return;
+    } else if (isEMType(entity.type) || entity.type !== 'link') {
       select(entity);
       pushUndo('direct-drag');
       prepareEdit();
-      entity.mount = null;
-    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
-      select(entity);
-      pushUndo('direct-drag');
-      prepareEdit();
+      detachEntity(world, entity);
     } else {
       return;
     }
@@ -3718,33 +3761,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function handleDirectDrag(entityRef, point) {
     const entity = entityById(entityRef?.type, entityRef?.id);
     if (!entity || !point) return;
+    const x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
+    const z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
     if (entity.type === 'body') {
-      const x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
-      const z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
       entity.cannon.position.set(x, Math.max(entity.halfHeight + 0.02, point.y), z);
       entity.cannon.aabbNeedsUpdate = true;
       syncPositionFields(entity);
-    } else if (entity.type === 'launcher' || entity.type === 'sensor' || entity.type === 'barrier') {
-      const x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
-      const z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
-      entity.x = x;
-      entity.y = point.y;
-      entity.z = z;
+    } else if (entity.type !== 'link') {
+      const y = Math.max(floorRestHeight(entity), point.y);
+      moveEntityTo(world, entity, { x, y, z });
       if (entity.type === 'launcher') entity.target = launcherPrediction(world, entity);
-      if (entity.type === 'barrier') {
-        entity.body.position.set(x, entity.y + entity.height / 2, z);
-        entity.body.aabbNeedsUpdate = true;
-      }
-      syncPositionFields(entity);
-    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
-      entity.x = snapOn && !shiftHeld ? quantizeValue(point.x, gridStep) : point.x;
-      entity.y = Math.max(0, point.y);
-      entity.z = snapOn && !shiftHeld ? quantizeValue(point.z, gridStep) : point.z;
-      if (entity.type === 'emParticle') entity.trail = [];
       syncPositionFields(entity);
     } else {
       return;
     }
+    updateMountedApparatus(world);
     view.sync(world);
   }
 
@@ -3780,30 +3811,35 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (hit) {
         if (snapOn && !shiftHeld) quantizeSeatedBody(entity);
         flashSeat(entity);
-        setStatus('已自动吸附到最近表面。 · Auto-snapped to the nearest surface.');
+        setStatus('已自动吸附到装置。 · Auto-snapped to apparatus.');
       } else {
-        entity.cannon.position.y = entity.halfHeight + 0.02;
-        entity.cannon.velocity.setZero();
-        applyInitialVelocity(world, entity);
-        setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+        if (assists.snap && !shiftHeld) {
+          snapEntityToFloorGrid(world, entity);
+          setStatus('已吸附到最近的网格交点并落到地板。 · Snapped to the nearest grid intersection on the floor.');
+        } else {
+          entity.cannon.position.y = entity.halfHeight + 0.02;
+          entity.cannon.velocity.setZero();
+          applyInitialVelocity(world, entity);
+          setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
+        }
       }
-    } else if (entity.type === 'launcher' || entity.type === 'sensor') {
-      const hit = assists.snap && !shiftHeld ? snapApparatusToNearest(world, entity, { maxDistance: 3 }) : null;
-      if (hit) {
+    } else if (entity.type === 'link') {
+      return;
+    } else {
+      const hit = assists.snap && !shiftHeld ? snapEntityToNearest(world, entity, { maxDistance: 3 }) : null;
+      if (hit && hit.type !== 'floor') {
         view.flashSnap?.(entity.type === 'launcher'
           ? { x: entity.x, y: entity.y + entity.height / 2, z: entity.z }
           : { x: entity.x, y: entity.y + 0.2, z: entity.z });
-        setStatus('已刚性安装到载体。 · Mounted rigidly to the carrier.');
+        setStatus('已安装到最近器材。 · Mounted to the nearest apparatus.');
+      } else if (hit?.type === 'floor') {
+        setStatus('已吸附到最近的网格交点并落到地板。 · Snapped to the nearest grid intersection on the floor.');
+      } else if (assists.snap && !shiftHeld) {
+        snapEntityToFloorGrid(world, entity);
+        setStatus('已吸附到最近的网格交点。 · Snapped to the nearest grid intersection.');
       } else {
         setStatus(shiftHeld ? '吸附已跳过（Shift）。 · Snap skipped with Shift.' : '已放置。 · Placed.');
       }
-    } else if (isEMType(entity.type) && entity.type !== 'emCircuit') {
-      setStatus('电磁器材已放置。 · E&M apparatus placed.');
-    } else if (entity.type === 'barrier') {
-      const hit = assists.snap && !shiftHeld ? snapBarrierToNearest(world, entity, { maxDistance: 3 }) : null;
-      setStatus(hit ? '已连接到轨道端。 · Attached to the track end.' : '已放置。 · Placed.');
-    } else {
-      return;
     }
     captureInitial(world);
     view.sync(world);
@@ -3952,6 +3988,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     view.transform.translationSnap = active ? gridStep : null;
     view.transform.rotationSnap = active ? (angleStepDeg * Math.PI) / 180 : null;
     view.transform.scaleSnap = active ? 0.1 : null;
+    view.setGridStep?.(gridStep);
     snapToggleBtn.classList.toggle('active', snapOn);
     snapToggleBtn.setAttribute('aria-pressed', snapOn ? 'true' : 'false');
   }
@@ -3975,7 +4012,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   });
   root.querySelector('[data-field="gridStep"]')?.addEventListener('change', (e) => {
     const value = Number(e.target.value);
-    if (Number.isFinite(value) && value > 0) gridStep = value;
+    if (Number.isFinite(value) && value > 0) {
+      pushUndo('grid-step');
+      gridStep = value;
+      setGridStep(world, value);
+      view.setGridStep?.(gridStep);
+    }
     applySnapSettings();
   });
   root.querySelector('[data-field="angleStep"]')?.addEventListener('change', (e) => {
@@ -4310,13 +4352,17 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     } else {
       setEntityPosition(entity, p);
     }
+    updateMountedApparatus(world);
     captureInitial(world);
     view.sync(world);
+    if (document.activeElement?.blur) document.activeElement.blur();
     syncPositionFields(entity);
     updateEmpty();
-    setStatus(hit
-      ? '位置已更新并重新吸附到表面。 · Position updated and re-seated on the surface.'
-      : '位置已更新。 · Position updated.');
+    setStatus(hit === 'floor'
+      ? '位置已更新并吸附到最近的网格交点。 · Position updated and snapped to the nearest grid intersection.'
+      : hit
+        ? '位置已更新并重新吸附到表面。 · Position updated and re-seated on the surface.'
+        : '位置已更新。 · Position updated.');
   }
 
   function positionFields(parent, entity) {
@@ -6918,6 +6964,33 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setBodyCollisionRestitution(world, v);
     },
   });
+  floorFrictionField = field(gHost, {
+    label: '地板摩擦因数 · Floor friction μ',
+    value: world.floorFriction,
+    min: 0,
+    max: 1.5,
+    step: 0.01,
+    testid: 'floorFriction',
+    onChange: (v) => {
+      setFloorContact(world, { friction: v });
+    },
+  });
+  floorRestitutionField = field(gHost, {
+    label: '地板恢复系数 · Floor restitution e',
+    value: world.floorRestitution,
+    min: 0,
+    max: 1,
+    step: 0.01,
+    testid: 'floorRestitution',
+    onChange: (v) => {
+      setFloorContact(world, { restitution: v });
+    },
+  });
+  gHost.appendChild(el('p', {
+    className: 'plab-field-hint',
+    text: '地板是一块实体平面；物体停在半高/半径处，网格交点自动吸附。 · The floor is one solid plane; free objects rest at half-height/radius and snap to grid intersections.',
+  }));
+  view.setGridStep?.(gridStep);
   if (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) {
     root.dataset.mobile = '1';
   }
@@ -7086,6 +7159,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     },
     setMode: (next) => setMode(next),
     addEM: (kind) => addEMApparatus(kind),
+    updateMounts: () => updateMountedApparatus(world),
   };
 
   return { destroy };

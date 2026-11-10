@@ -126,13 +126,18 @@ export function createLabView(host, opts = {}) {
   scene.add(ground);
 
   let grid = null;
+  let gridStep = 0.1;
   function buildGrid() {
     if (grid) {
       scene.remove(grid);
       grid.geometry.dispose();
       grid.material.dispose();
     }
-    grid = new THREE.GridHelper(40, 40, theme.axis, theme.axis);
+    // The visible lattice follows the same gridStep used for snapping.
+    // 40 m field; the 4000-division ceiling exactly covers the 0.01 m input
+    // minimum (40 / 0.01), so the drawn lines always coincide with snaps.
+    const divisions = Math.max(1, Math.min(4000, Math.round(40 / Math.max(0.01, gridStep))));
+    grid = new THREE.GridHelper(40, divisions, theme.axis, theme.axis);
     grid.position.y = 0.006;
     grid.material.transparent = true;
     grid.material.opacity = 0.4;
@@ -141,6 +146,12 @@ export function createLabView(host, opts = {}) {
     scene.add(grid);
   }
   buildGrid();
+  function setGridStep(step) {
+    const value = Number(step);
+    if (!Number.isFinite(value) || value <= 0 || value === gridStep) return;
+    gridStep = Math.max(0.01, Math.min(5, value));
+    buildGrid();
+  }
 
   const axes = new THREE.AxesHelper(1.5);
   axes.position.y = 0.004;
@@ -1584,13 +1595,18 @@ export function createLabView(host, opts = {}) {
         visual.root.position.set(entity.x, entity.y, entity.z);
       } else if (entity.type === 'fan') {
         const body = world.bodies.find((b) => b.id === entity.bodyId);
-        visual.root.visible = !!body;
-        if (body) {
+        visual.root.visible = !!body || !!entity.mount;
+        if (entity.mount) {
+          visual.root.position.set(entity.x, entity.y, entity.z);
+          visual.root.rotation.y = -(entity.azimuth || 0) * DEG;
+          visual.blades.rotation.x = entity.spin;
+        } else if (body) {
           visual.root.position.set(body.cannon.position.x - 0.55, body.cannon.position.y + 0.3, body.cannon.position.z);
           visual.root.rotation.y = -(entity.azimuth || 0) * DEG;
           visual.blades.rotation.x = entity.spin;
         }
       } else if (entity.type === 'oscillator') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         const n = 72;
         const pos = visual.spring.geometry.getAttribute('position');
         const start = -1.45;
@@ -1607,14 +1623,17 @@ export function createLabView(host, opts = {}) {
         visual.spring.geometry.computeBoundingSphere();
         visual.mass.position.set(entity.u, 0, 0);
       } else if (entity.type === 'torsion') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         visual.marker.rotation.y = -entity.theta;
       } else if (entity.type === 'elevator') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         const a = entity.accel;
         visual.arrow.visible = Math.abs(a) > 0.02;
         const dir = Math.sign(a || 1);
         visual.arrow.setDirection(new THREE.Vector3(0, dir, 0));
         visual.arrow.setLength(Math.min(1.3, 0.4 + Math.abs(a) * 0.12), 0.16, 0.07);
       } else if (entity.type === 'carriage') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         const theta = entity.theta;
         visual.pivot.rotation.z = theta;
         const L = entity.length;
@@ -1625,6 +1644,7 @@ export function createLabView(host, opts = {}) {
         visual.string.geometry.computeBoundingSphere();
         visual.bob.position.set(0, -L, 0);
       } else if (entity.type === 'angularTable') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         visual.marker.rotation.y = -entity.angle;
         visual.block.visible = true;
         visual.block.position.set(
@@ -1633,8 +1653,10 @@ export function createLabView(host, opts = {}) {
           entity.r * Math.sin(entity.angle),
         );
       } else if (entity.type === 'rod') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         visual.arm.rotation.z = entity.theta;
       } else if (entity.type === 'orbit') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         visual.satRoot.position.set(entity.px, 0, entity.pz);
         const points = entity.trail || [];
         if (points.length !== visual.trailCount || entity.time - (visual.lastTrailTime ?? -1) > 0.05) {
@@ -1650,6 +1672,7 @@ export function createLabView(host, opts = {}) {
           visual.lastTrailTime = entity.time;
         }
       } else if (entity.type === 'tunnel') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
         visual.ball.position.set(entity.s, 0, 0);
       } else if (entity.type === 'body') {
         visual.root.position.copy(v3(entity.cannon.position));
@@ -2024,8 +2047,8 @@ export function createLabView(host, opts = {}) {
   }
 
   function isDraggableType(type) {
-    return ['body', 'launcher', 'sensor', 'barrier'].includes(type)
-      || (typeof type === 'string' && type.startsWith('em') && type !== 'emCircuit');
+    if (typeof type !== 'string') return false;
+    return type !== 'link' && type !== 'emCircuit';
   }
 
   function directRefEntity(ref) {
@@ -2033,11 +2056,29 @@ export function createLabView(host, opts = {}) {
     if (typeof ref.type === 'string' && ref.type.startsWith('em')) {
       return emEntityById(lastWorld.em, ref.type, ref.id);
     }
-    if (ref.type === 'body') return lastWorld.bodies.find((b) => b.id === ref.id) || null;
-    if (ref.type === 'launcher') return lastWorld.launchers.find((l) => l.id === ref.id) || null;
-    if (ref.type === 'sensor') return lastWorld.sensors.find((s) => s.id === ref.id) || null;
-    if (ref.type === 'barrier') return lastWorld.barriers.find((b) => b.id === ref.id) || null;
-    return null;
+    const table = {
+      body: lastWorld.bodies,
+      surface: lastWorld.surfaces,
+      loop: lastWorld.loops,
+      turntable: lastWorld.turntables,
+      hcircle: lastWorld.hcircles,
+      launcher: lastWorld.launchers,
+      pulley: lastWorld.pulleys,
+      barrier: lastWorld.barriers,
+      pendulum: lastWorld.pendulums,
+      wedge: lastWorld.wedges,
+      sensor: lastWorld.sensors,
+      fan: lastWorld.fans,
+      oscillator: lastWorld.oscillators,
+      torsion: lastWorld.torsionPendulums,
+      elevator: lastWorld.elevators,
+      carriage: lastWorld.carriages,
+      angularTable: lastWorld.angularTables,
+      rod: lastWorld.rods,
+      orbit: lastWorld.orbits,
+      tunnel: lastWorld.tunnels,
+    }[ref.type];
+    return (table || []).find((x) => x.id === ref.id) || null;
   }
 
   function directRefY(ref) {
@@ -2206,6 +2247,7 @@ export function createLabView(host, opts = {}) {
     setMode,
     emView,
     setView,
+    setGridStep,
     setTrailVisible,
     setHandleVisibility,
     flashSnap,
