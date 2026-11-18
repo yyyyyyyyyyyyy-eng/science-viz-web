@@ -692,7 +692,7 @@ html[data-route="lab"] .site-footer {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  height: clamp(244px, 38vh, 360px);
+  height: clamp(240px, 34vh, 330px);
   min-height: 0;
   border-top: 1px solid var(--border);
   background: var(--bg);

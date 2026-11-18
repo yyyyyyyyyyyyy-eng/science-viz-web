@@ -4684,6 +4684,20 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
   }
 
+  let tableOverflowRaf = 0;
+  function queueTableOverflow() {
+    if (tableOverflowRaf) return;
+    if (typeof requestAnimationFrame === 'function') {
+      tableOverflowRaf = requestAnimationFrame(() => {
+        tableOverflowRaf = 0;
+        updateTableOverflow();
+      });
+    } else {
+      updateTableOverflow();
+    }
+  }
+  window.addEventListener('resize', queueTableOverflow);
+
   function updateDataDockMeta(entity, tables) {
     const [zh, en] = kindLabel(entity);
     const raw = tables.raw;
@@ -7278,6 +7292,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     window.removeEventListener('pointermove', onModalPointerMove);
     window.removeEventListener('pointerdown', onModalPointerDown, true);
     window.removeEventListener('contextmenu', onContextMenu);
+    window.removeEventListener('resize', queueTableOverflow);
     document.removeEventListener('focusin', onFocusIn);
     circuitPanel?.destroy();
     view.destroy();

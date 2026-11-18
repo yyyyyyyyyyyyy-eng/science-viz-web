@@ -2196,7 +2196,7 @@ check('lab layout: desktop stage keeps a floor height above the dock (no overlap
   expectIn(stage, 'overflow: hidden', 'stage clips instead of overlapping the dock');
   const dock = cssBlock(labCss, '.plab-data-dock {');
   expectIn(dock, 'flex: 0 0 auto', 'dock keeps a fixed slot under the stage');
-  if (!/height:\s*clamp\(244px,\s*38vh,\s*360px\)/.test(dock)) throw new Error('dock height drifted');
+  if (!/height:\s*clamp\(240px,\s*34vh,\s*330px\)/.test(dock)) throw new Error('dock height drifted');
 });
 
 check('lab layout: side rail width is clamped and body grid cannot overflow', () => {
