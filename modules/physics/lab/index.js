@@ -90,6 +90,7 @@ import {
   repositionSurfaceBody,
   resetPendulum,
   resetWorld,
+  resolveMotionTarget,
   rodInertia,
   serializeScene,
   setBarrierRestitution,
@@ -1687,11 +1688,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       item.dataset.entityType = entity.type;
       item.dataset.entityId = entity.id;
       item.addEventListener('click', () => {
-        if (pendingSensorTarget && entity.type === 'body') {
+        if (pendingSensorTarget && (entity.type === 'body' || entity.type === 'launcher')) {
           const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
           if (sensor) {
             pendingSensorTarget = null;
-            setSensorTarget(world, sensor, entity.id);
+            setSensorTarget(world, sensor, entity.id, { type: entity.type });
             select(sensor);
             renderOutliner();
             setStatus(`运动传感器目标 · Motion-sensor target: ${entity.name || entityFallbackName(entity)}`);
@@ -3500,20 +3501,22 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     if (pendingSensorTarget) {
-      if (hit?.entity?.type === 'body') {
+      if (hit?.entity?.type === 'body' || hit?.entity?.type === 'launcher') {
         const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
-        const body = getBody(world, hit.entity.id);
-        if (sensor && body) {
+        if (sensor) {
           pendingSensorTarget = null;
-          setSensorTarget(world, sensor, body.id);
+          setSensorTarget(world, sensor, hit.entity.id, { type: hit.entity.type });
           select(sensor);
           renderOutliner();
-          setStatus(`运动传感器目标 · Motion-sensor target: ${body.name || entityFallbackName(body)}`);
+          const target = hit.entity.type === 'launcher'
+            ? `${entityFallbackName(hit.entity)} · 装填小球 · Loaded ball`
+            : (getBody(world, hit.entity.id)?.name || entityFallbackName(hit.entity));
+          setStatus(`运动传感器目标 · Motion-sensor target: ${target}`);
           return;
         }
       }
       if (!hit?.entity) {
-        setStatus('请点击一个物体作为传感器目标。 · Click a body to use as the sensor target.', true);
+        setStatus('请点击一个物体或抛射器作为传感器目标。 · Click a body or launcher to use as the sensor target.', true);
         return;
       }
     }
@@ -4480,17 +4483,25 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!entity) return;
     const source = entity;
     if (entity.type === 'sensor' && entity.kind === 'motion') {
+      const targetValue = entity.targetId
+        ? `${entity.targetType === 'launcher' ? 'launcher' : 'body'}:${entity.targetId}`
+        : '';
       selectField(parent, {
         label: '跟踪目标 · Target body',
-        value: entity.targetId || '',
+        value: targetValue,
         testid: 'sensorTarget',
         options: [
           ['', '自动（视线最近）· Auto (nearest in line of sight)'],
-          ...world.bodies.filter((b) => !b.transient).map((b) => [b.id, b.name || entityFallbackName(b)]),
+          ...world.bodies.filter((b) => !b.transient).map((b) => [`body:${b.id}`, b.name || entityFallbackName(b)]),
+          ...world.launchers.map((l) => [
+            `launcher:${l.id}`,
+            `${l.name || entityFallbackName(l)} · 装填小球 · Loaded ball`,
+          ]),
         ],
         onChange: (value) => {
+          const [kind, id] = value ? [value.slice(0, value.indexOf(':')), value.slice(value.indexOf(':') + 1)] : [null, null];
           pushUndo(`sensorTarget:${entity.id}`);
-          setSensorTarget(world, entity, value || null);
+          setSensorTarget(world, entity, id, { type: kind || undefined });
           buildInspector();
           setStatus(value
             ? '已切换传感器目标；数据表从新目标重新开始。 · Target changed; tables restart for the new target.'
@@ -4506,21 +4517,24 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       pick.addEventListener('click', () => {
         pendingSensorTarget = entity.id;
         if (isMobile()) openInspector(false);
-        setStatus('点击场景中的物体，设为运动传感器目标。 · Click a body in the scene to track it.');
+        setStatus('点击场景中的物体或抛射器，设为运动传感器目标。 · Click a body or launcher in the scene to track it.');
       });
       parent.appendChild(pick);
       if (entity.targetId) {
-        const body = getBody(world, entity.targetId);
-        if (body) {
+        const resolved = resolveMotionTarget(world, entity);
+        if (resolved.status === 'ok') {
+          const state = resolved.loaded
+            ? '待发射装填小球 · loaded, waiting to fire'
+            : `飞行中 · in flight (${resolved.body?.id || ''})`;
           parent.appendChild(el('p', {
             className: 'plab-field-hint',
-            text: `当前目标 · Current target: ${body.name || entityFallbackName(body)}`,
+            text: `当前目标 · Current target: ${resolved.name} · ${state}`,
           }));
         }
       }
       parent.appendChild(el('p', {
         className: 'plab-field-hint',
-        text: '切换目标会清空当前序列，避免在同一张表混入不同物体。 · Changing target clears the current series so one table never mixes bodies.',
+        text: '切换目标会清空当前序列，避免在同一张表混入不同物体；抛射器目标在发射、复位和再次发射时保持绑定。 · Changing target clears the current series; a launcher target stays bound through fire, reset and refire.',
       }));
     }
 
@@ -6833,9 +6847,22 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         setLive('sensorSpeed', last ? `${fmt(last.v)}` : '—');
         setLive('sensorEvent', last ? `t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '—');
       } else {
-        setLive('sensorPrimary', entity.lastDistance != null ? `${fmt(entity.lastDistance)}` : '—');
-        setLive('sensorSpeed', entity.lastSpeed != null ? `${fmt(entity.lastSpeed)}` : '—');
-        setLive('sensorEvent', entity.lastDistance != null ? `x=${fmt(entity.lastDistance)} m` : '—');
+        let distance = entity.lastDistance;
+        let speed = entity.lastSpeed;
+        let eventLabel = entity.lastDistance != null ? `x=${fmt(entity.lastDistance)} m` : '—';
+        if (entity.targetType === 'launcher') {
+          const resolved = resolveMotionTarget(world, entity);
+          if (resolved.status === 'ok') {
+            distance = Math.abs((resolved.position.x - entity.x) * entity.face);
+            speed = resolved.velocity.x * entity.face;
+            eventLabel = resolved.loaded
+              ? `装填小球 · loaded · x=${fmt(distance)} m`
+              : `飞行中 · in flight · x=${fmt(distance)} m`;
+          }
+        }
+        setLive('sensorPrimary', distance != null ? `${fmt(distance)}` : '—');
+        setLive('sensorSpeed', speed != null ? `${fmt(speed)}` : '—');
+        setLive('sensorEvent', eventLabel);
       }
       setLive('sensorSamples', String(entity.samples.length));
     } else if (entity?.type === 'fan') {

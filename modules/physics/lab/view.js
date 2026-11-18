@@ -715,6 +715,11 @@ export function createLabView(host, opts = {}) {
     muzzle.rotation.y = Math.PI / 2;
     muzzle.position.x = 0.88;
     pivot.add(muzzle);
+    const loadedGeo = new THREE.SphereGeometry(Math.max(0.04, entity.radius || 0.09), 16, 12);
+    const loadedBall = new THREE.Mesh(loadedGeo, materials.physics);
+    loadedBall.castShadow = true;
+    loadedBall.userData = { ...NO_PICK };
+    root.add(loadedBall);
     const trailGeo = new THREE.BufferGeometry();
     trailGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(2500 * 3), 3));
     trailGeo.setDrawRange(0, 0);
@@ -738,7 +743,7 @@ export function createLabView(host, opts = {}) {
     }
     target.userData = { ...NO_PICK };
     root.add(target);
-    return { root, trail, target, trailCount: -1, sig: signatureOf(entity) };
+    return { root, trail, target, loadedBall, trailCount: -1, sig: signatureOf(entity) };
   }
 
   function makePulley(entity) {
@@ -1545,6 +1550,16 @@ export function createLabView(host, opts = {}) {
         visual.root.position.set(entity.x, entity.y, entity.z);
         visual.target.position.set(entity.target.x - entity.x, 0.015 - entity.y, entity.target.z - entity.z);
         visual.target.visible = entity.showTarget !== false;
+        if (visual.loadedBall) {
+          const elev = ((entity.angle || 0) * Math.PI) / 180;
+          const az = ((entity.azimuth || 0) * Math.PI) / 180;
+          visual.loadedBall.position.set(
+            Math.cos(elev) * Math.cos(az) * 0.52,
+            entity.height + Math.sin(elev) * 0.52,
+            Math.cos(elev) * Math.sin(az) * 0.52,
+          );
+          visual.loadedBall.visible = !entity.projectileId;
+        }
         const points = entity.trail || [];
         if (points.length !== visual.trailCount) {
           const attr = visual.trail.geometry.getAttribute('position');

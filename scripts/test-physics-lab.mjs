@@ -43,6 +43,7 @@ import {
   attachBodyToLoop,
   attachBodyToSurface,
   attachBodyToTurntable,
+  attachBodyToBody,
   bodyDiagnostics,
   captureInitial,
   carriageTilt,
@@ -74,6 +75,7 @@ import {
   removeBody,
   repositionSurfaceBody,
   resetWorld,
+  resolveMotionTarget,
   rodInertia,
   SCENE_VERSION,
   serializeScene,
@@ -1606,6 +1608,108 @@ check('motion sensor can be pinned to a chosen body and restarts its series', ()
   console.log(`      default ${nearBody.id}, pinned ${farBody.id}; ${sensor.samples.length} samples, last x=${last.x.toFixed(6)} m at t=${last.t.toFixed(6)} s`);
 });
 
+check('motion sensor tracks a launcher-loaded ball through fire, reset and refire', () => {
+  const world = createWorld({ g: 9.8, h: 1 / 240 });
+  const sensor = addSensor(world, { kind: 'motion', x: -2, y: 0, z: 0, range: 20, face: 1 });
+  const launcher = addLauncher(world, {
+    x: 0, y: 0, z: 0, angle: 0, speed: 5, height: 1.2, azimuth: 0, mass: 0.2, radius: 0.09,
+  });
+  captureInitial(world);
+  if (!setSensorTarget(world, sensor, launcher.id, { type: 'launcher' })) {
+    throw new Error('setSensorTarget refused a launcher target');
+  }
+  if (sensor.targetType !== 'launcher' || sensor.targetId !== launcher.id) {
+    throw new Error('sensor target descriptor was not stored as a launcher');
+  }
+  const h = 1 / 240;
+  for (let i = 0; i < 24; i += 1) stepWorld(world, h, { h });
+  const loaded = sensor.samples[sensor.samples.length - 1];
+  if (!loaded) throw new Error('no pre-launch sample for the loaded ball');
+  if (!loaded.loaded || loaded.bodyId != null || loaded.launcherId !== launcher.id) {
+    throw new Error(`pre-launch sample is not the loaded ball: ${JSON.stringify(loaded)}`);
+  }
+  near(loaded.x, 0.52, 1e-9, 'loaded-ball x at the muzzle');
+  near(loaded.y, 1.2, 1e-9, 'loaded-ball y at the muzzle');
+  near(loaded.vx, 0, 1e-9, 'loaded-ball vx before launch');
+  near(sensor.lastDistance, 2.52, 1e-9, 'pre-launch distance');
+  const resolvedLoaded = resolveMotionTarget(world, sensor);
+  if (resolvedLoaded.status !== 'ok' || !resolvedLoaded.loaded || resolvedLoaded.body) {
+    throw new Error('resolveMotionTarget did not report the loaded ball');
+  }
+
+  const saved = serializeScene(world);
+  const reload = createWorld({ g: 9.8, h });
+  deserializeScene(reload, saved);
+  const reloadedSensor = reload.sensors[0];
+  if (reloadedSensor.targetType !== 'launcher' || reloadedSensor.targetId !== launcher.id) {
+    throw new Error('launcher target did not survive scene serialization');
+  }
+  stepWorld(reload, h, { h });
+  if (!reload.sensors[0].samples.length) throw new Error('reloaded launcher target produced no sample');
+
+  const firstProjectile = fireLauncher(world, launcher);
+  if (!firstProjectile) throw new Error('launcher did not fire');
+  if (sensor.targetId !== launcher.id || sensor.targetType !== 'launcher') {
+    throw new Error('firing dropped or rewrote the launcher target');
+  }
+  for (let i = 0; i < 12; i += 1) stepWorld(world, h, { h });
+  const flying = sensor.samples[sensor.samples.length - 1];
+  if (!flying || flying.loaded || flying.bodyId !== firstProjectile.id) {
+    throw new Error(`in-flight sample is not the launched projectile: ${JSON.stringify(flying)}`);
+  }
+  near(flying.vx, 5, 1e-9, 'in-flight vx matches the launch speed');
+  if (flying.x <= loaded.x) throw new Error('in-flight sample did not advance downrange');
+  if (!sensor.samples.some((row) => row.loaded && row.x === loaded.x)) {
+    throw new Error('firing cleared the pre-launch series');
+  }
+
+  resetWorld(world);
+  if (sensor.samples.length !== 0) throw new Error('reset did not clear the sensor series');
+  if (sensor.targetId !== launcher.id || sensor.targetType !== 'launcher') {
+    throw new Error('reset dropped the launcher target');
+  }
+  for (let i = 0; i < 24; i += 1) stepWorld(world, h, { h });
+  const reloadedBall = sensor.samples[sensor.samples.length - 1];
+  if (!reloadedBall || !reloadedBall.loaded || reloadedBall.bodyId != null) {
+    throw new Error('post-reset target is not the reloaded ball');
+  }
+  near(reloadedBall.x, 0.52, 1e-9, 'post-reset loaded-ball x');
+  near(reloadedBall.vx, 0, 1e-9, 'post-reset loaded-ball vx');
+  near(sensor.lastDistance, 2.52, 1e-9, 'post-reset distance');
+
+  const secondProjectile = fireLauncher(world, launcher);
+  if (!secondProjectile || secondProjectile.id === firstProjectile.id) {
+    throw new Error('refire did not create a fresh projectile body');
+  }
+  for (let i = 0; i < 12; i += 1) stepWorld(world, h, { h });
+  const afterRefire = sensor.samples[sensor.samples.length - 1];
+  if (!afterRefire || afterRefire.loaded || afterRefire.bodyId !== secondProjectile.id) {
+    throw new Error(`refire sample is not the new projectile: ${JSON.stringify(afterRefire)}`);
+  }
+  near(afterRefire.vx, 5, 1e-9, 'refire vx');
+  if (sensor.samples.some((row) => row.bodyId && row.bodyId !== secondProjectile.id)) {
+    throw new Error('post-reset series mixed a stale projectile');
+  }
+  console.log(`      loaded x=${loaded.x.toFixed(3)} m, flight body ${flying.bodyId} vx=${flying.vx.toFixed(3)} m/s, reset->refire body ${secondProjectile.id}; target stayed ${launcher.id}`);
+});
+
+check('motion sensor reports the loaded ball velocity on a moving launcher carrier', () => {
+  const world = createWorld({ g: 0, h: 1 / 240 });
+  const cart = addCart(world, { x: 0, y: 1, z: 0, mass: 2 });
+  const launcher = addLauncher(world, { x: 0, y: 1.4, z: 0, angle: 0, speed: 5, azimuth: 0 });
+  if (!snapApparatusToNearest(world, launcher, { maxDistance: 2 })) throw new Error('launcher did not mount on the cart');
+  if (launcher.mount?.type !== 'body' || launcher.mount.id !== cart.id) throw new Error('launcher mount is not the cart');
+  const sensor = addSensor(world, { kind: 'motion', x: -2, y: 0, z: 0, range: 20, face: 1 });
+  if (!setSensorTarget(world, sensor, launcher.id, { type: 'launcher' })) throw new Error('launcher target refused');
+  cart.cannon.velocity.set(2, 0, 0);
+  advance(world, 0.1, 1 / 240);
+  const sample = sensor.samples[sensor.samples.length - 1];
+  if (!sample || !sample.loaded) throw new Error('moving loaded ball produced no pre-launch sample');
+  near(sample.vx, 2, 1e-9, 'loaded-ball vx follows the carrier');
+  near(sample.v, 2, 1e-9, 'loaded-ball speed follows the carrier');
+  console.log(`      carrier vx=${cart.cannon.velocity.x.toFixed(3)} m/s -> loaded-ball sample vx=${sample.vx.toFixed(3)} m/s`);
+});
+
 check('every logging sensor builds raw + summary tables and CSV headers', () => {
   const world = createWorld({ g: 0, h: 1 / 240 });
   const sensor = addSensor(world, { kind: 'motion', x: 0, y: 0, z: 0, range: 20, face: 1 });
@@ -1889,6 +1993,61 @@ check('snap/attach matrix: every documented apparatus pair attaches, moves and f
   }
   if (failures) throw new Error(`${failures} documented snap pairs failed`);
   console.log(`      matrix: ${rows.length} documented pairs attach, move and follow; ${covered.size} source types covered; no stay-free class`);
+});
+
+check('snap: stacking keeps the student drop point instead of jumping to the carrier centre', () => {
+  const world = createWorld({ g: 0 });
+  const carrier = addBlock(world, { x: 0, y: 0.5, z: 0, size: 1, mass: 4 });
+  const ball = addBall(world, { x: 0.22, y: 1.3, z: 0.1, radius: 0.1, mass: 1 });
+  const hit = snapBodyToNearest(world, ball, { maxDistance: 3 });
+  if (hit !== 'body' || ball.attachment?.id !== carrier.id) {
+    throw new Error(`stack snap chose ${hit} instead of the block`);
+  }
+  near(ball.attachment.offset[0], 0.22, 1e-9, 'kept local x on the carrier top');
+  near(ball.attachment.offset[2], 0.1, 1e-9, 'kept local z on the carrier top');
+  near(ball.cannon.position.x, 0.22, 1e-9, 'world x follows the kept offset');
+  near(ball.cannon.position.z, 0.1, 1e-9, 'world z follows the kept offset');
+  near(ball.cannon.position.y, 1.11, 1e-9, 'ball rests on the carrier top');
+  console.log(`      stack offset kept at (${ball.attachment.offset[0].toFixed(3)}, ${ball.attachment.offset[2].toFixed(3)}) m`);
+});
+
+check('snap: the nearest compatible object wins', () => {
+  const world = createWorld({ g: 0 });
+  const nearBlock = addBlock(world, { x: 0, y: 0.5, z: 0, size: 1 });
+  const farBlock = addBlock(world, { x: 2, y: 0.5, z: 0, size: 1 });
+  const ball = addBall(world, { x: 0.12, y: 1.3, z: 0.08, radius: 0.1 });
+  const hit = snapBodyToNearest(world, ball, { maxDistance: 3 });
+  if (hit !== 'body' || ball.attachment?.id !== nearBlock.id) {
+    throw new Error(`snap picked ${ball.attachment?.id || hit} instead of ${nearBlock.id}`);
+  }
+  if (ball.attachment?.id === farBlock.id) throw new Error('snap picked the farther carrier');
+  console.log(`      chose ${ball.attachment.id} at ${Math.hypot(0.12, 0.08).toFixed(3)} m over ${farBlock.id}`);
+});
+
+check('snap: body and apparatus mount cycles are refused', () => {
+  const world = createWorld({ g: 0 });
+  const a = addBlock(world, { x: 0, y: 0.5, z: 0, size: 0.6 });
+  const b = addBlock(world, { x: 1.2, y: 0.5, z: 0, size: 0.6 });
+  if (!attachBodyToBody(world, a, b.id)) throw new Error('first body dock was refused');
+  if (attachBodyToBody(world, b, a.id)) throw new Error('body B docked onto its own carried body A');
+  if (b.attachment) throw new Error('rejected body cycle still wrote an attachment');
+  const before = { x: b.cannon.position.x, y: b.cannon.position.y };
+  updateMountedApparatus(world);
+  near(a.cannon.position.x, b.cannon.position.x, 1e-9, 'A stays over its carrier after a rejected reverse dock');
+  near(a.cannon.position.y, b.cannon.position.y + b.halfHeight + a.halfHeight + 0.01, 1e-9, 'A keeps its stack height');
+  near(b.cannon.position.x, before.x, 1e-12, 'B did not move from the rejected cycle');
+  near(b.cannon.position.y, before.y, 1e-12, 'B did not jump from the rejected cycle');
+
+  const apparatusWorld = createWorld({ g: 0 });
+  const first = addLauncher(apparatusWorld, { x: 0, y: 1, z: 0 });
+  const second = addLauncher(apparatusWorld, { x: 1, y: 1, z: 0 });
+  if (!mountApparatus(apparatusWorld, first, second)) throw new Error('first apparatus dock was refused');
+  if (mountApparatus(apparatusWorld, second, first)) throw new Error('apparatus dock closed a mount cycle');
+  if (second.mount) throw new Error('rejected apparatus cycle still wrote a mount');
+  updateMountedApparatus(apparatusWorld);
+  near(first.x, second.x, 1e-9, 'first apparatus rides the second');
+  near(second.x, 1, 1e-12, 'second apparatus stays at its own position');
+  console.log(`      refused B->A body cycle and launcher cycle; ${first.id} -> ${second.id} kept a one-way mount`);
 });
 
 check('self-snap is refused and a serialized mount survives reload', () => {

@@ -505,6 +505,45 @@ export function addBody(world, kind, opts = {}) {
 export function getBody(world, id) {
   return world.bodies.find((b) => b.id === id) || null;
 }
+
+/**
+ * Follow mount/attachment parents to reject a snap that would close a loop.
+ * A carried object can still move freely on its carrier, but it must not be
+ * mounted on something that already rides on it (directly or through a chain).
+ */
+export function wouldCreateMountCycle(world, source, target) {
+  if (!source || !target?.type || !target.id) return false;
+  const sourceKey = `${source.type}:${source.id}`;
+  let cursor = { type: target.type, id: target.id };
+  const seen = new Set();
+  for (let depth = 0; depth < 64; depth += 1) {
+    const key = `${cursor.type}:${cursor.id}`;
+    if (key === sourceKey) return true;
+    if (seen.has(key)) return true;
+    seen.add(key);
+    const entity = findSceneEntity(world, cursor.type, cursor.id);
+    if (!entity) return false;
+    const parent = mountParentRef(entity);
+    if (!parent) return false;
+    cursor = parent;
+  }
+  return true;
+}
+
+function mountParentRef(entity) {
+  if (!entity) return null;
+  if (entity.type === 'body') {
+    const att = entity.attachment;
+    if (!att) return null;
+    if (att.type === 'apparatus' || att.type === 'carrier') {
+      return { type: att.targetType || att.carrierType, id: att.id };
+    }
+    return { type: att.type, id: att.id };
+  }
+  const mount = entity.mount;
+  if (!mount) return null;
+  return { type: mount.targetType || mount.type, id: mount.id };
+}
 export function getSurface(world, id) {
   return world.surfaces.find((s) => s.id === id) || null;
 }
@@ -554,6 +593,7 @@ export function tableTopY(table) {
 export function attachBodyToSurface(world, body, surfaceId, opts = {}) {
   const surface = getSurface(world, surfaceId);
   if (!surface) return false;
+  if (wouldCreateMountCycle(world, body, surface)) return false;
   body.skid = null;
   let localX = opts.localX;
   let localZ = opts.localZ ?? 0;
@@ -606,6 +646,7 @@ export function repositionSurfaceBody(world, body) {
 export function attachBodyToLoop(world, body, loopId, opts = {}) {
   const loop = getLoop(world, loopId);
   if (!loop) return false;
+  if (wouldCreateMountCycle(world, body, loop)) return false;
   body.skid = null;
   let theta = opts.theta;
   if (theta == null) {
@@ -632,6 +673,7 @@ export function attachBodyToLoop(world, body, loopId, opts = {}) {
 export function attachBodyToTurntable(world, body, tableId, opts = {}) {
   const table = getTurntable(world, tableId);
   if (!table) return false;
+  if (wouldCreateMountCycle(world, body, table)) return false;
   body.skid = null;
   let r = opts.r;
   let phi = opts.phi;
@@ -664,6 +706,7 @@ export function attachBodyToTurntable(world, body, tableId, opts = {}) {
 export function attachBodyToHCircle(world, body, circleId, opts = {}) {
   const circle = getHCircle(world, circleId);
   if (!circle) return false;
+  if (wouldCreateMountCycle(world, body, circle)) return false;
   body.skid = null;
   let phi = opts.phi;
   if (phi == null) {
@@ -709,6 +752,7 @@ export function wedgeTopPoint(wedge, localX = 0, localZ = 0) {
 export function attachBodyToWedge(world, body, wedgeId, opts = {}) {
   const wedge = getWedge(world, wedgeId);
   if (!wedge) return false;
+  if (wouldCreateMountCycle(world, body, wedge)) return false;
   body.skid = null;
   let localX = opts.localX;
   let localZ = opts.localZ ?? 0;
@@ -758,6 +802,7 @@ export function repositionWedgeBody(world, body) {
 export function attachBodyToBody(world, body, carrierId, opts = {}) {
   const carrier = getBody(world, carrierId);
   if (!carrier || carrier === body) return false;
+  if (wouldCreateMountCycle(world, body, carrier)) return false;
   body.skid = null;
   body.attachment = {
     type: 'body',
@@ -777,6 +822,7 @@ export function attachBodyToBody(world, body, carrierId, opts = {}) {
 /** Seat a body on any apparatus that exposes a support point. */
 export function attachBodyToApparatus(world, body, target, opts = {}) {
   if (!target?.type || !target.id) return false;
+  if (wouldCreateMountCycle(world, body, target)) return false;
   body.skid = null;
   body.attachment = {
     type: 'apparatus',
@@ -836,6 +882,7 @@ export function detachBody(world, body) {
  */
 export function attachBodyToCarrier(world, body, carrierType, carrierId, mount) {
   if (!carrierType || !carrierId) return false;
+  if (wouldCreateMountCycle(world, body, { type: carrierType, id: carrierId })) return false;
   body.skid = null;
   body.attachment = {
     type: 'carrier',
@@ -1807,6 +1854,7 @@ export function addSensor(world, opts = {}) {
     flashUntil: -1,
     sampleAt: -1,
     targetId: opts.targetId || null,
+    targetType: opts.targetType || (opts.targetId ? 'body' : null),
     sampleBodyId: null,
     series: 0,
     mount: opts.mount ? cloneMount(opts.mount) : null,
@@ -1836,11 +1884,17 @@ export function nearestSensorBody(world, sensor) {
 }
 
 /** Pick a motion-sensor target; null restores automatic nearest-in-line-of-sight. */
-export function setSensorTarget(world, sensor, bodyId = null) {
+export function setSensorTarget(world, sensor, targetId = null, opts = {}) {
   if (!sensor || sensor.kind !== 'motion') return false;
-  const body = bodyId ? getBody(world, bodyId) : null;
-  if (bodyId && !body) return false;
-  sensor.targetId = body ? body.id : null;
+  let type = null;
+  if (targetId) {
+    type = opts.type || (getBody(world, targetId) ? 'body' : getLauncher(world, targetId) ? 'launcher' : null);
+    if (type === 'body' && !getBody(world, targetId)) return false;
+    if (type === 'launcher' && !getLauncher(world, targetId)) return false;
+    if (type !== 'body' && type !== 'launcher') return false;
+  }
+  sensor.targetId = targetId || null;
+  sensor.targetType = type;
   sensor.samples.length = 0;
   sensor.sampleAt = -1;
   sensor.sampleBodyId = null;
@@ -1848,6 +1902,62 @@ export function setSensorTarget(world, sensor, bodyId = null) {
   sensor.lastSpeed = null;
   sensor.series += 1;
   return true;
+}
+
+/**
+ * Resolve a motion-sensor target to a live body or to the launcher's loaded
+ * ball. A launcher target keeps the same logical identity across fire, flight,
+ * reset and refire; the projectile body is rebound on every step.
+ */
+export function resolveMotionTarget(world, sensor) {
+  if (!sensor || sensor.kind !== 'motion') return { status: 'none' };
+  if (sensor.targetId) {
+    if ((sensor.targetType || 'body') === 'launcher') {
+      const launcher = getLauncher(world, sensor.targetId);
+      if (!launcher) return { status: 'stale' };
+      const body = launcher.projectileId ? getBody(world, launcher.projectileId) : null;
+      const name = launcher.name || `抛射器装填小球 · Loaded ball (${launcher.id})`;
+      if (body) {
+        return {
+          status: 'ok',
+          body,
+          launcher,
+          loaded: false,
+          key: `launcher:${launcher.id}`,
+          name,
+          position: body.cannon.position,
+          velocity: body.cannon.velocity,
+          mass: body.mass,
+        };
+      }
+      const position = launcherMuzzle(launcher);
+      return {
+        status: 'ok',
+        body: null,
+        launcher,
+        loaded: true,
+        key: `launcher:${launcher.id}`,
+        name,
+        position,
+        velocity: mountVelocity(world, launcher.mount, position),
+        mass: launcher.mass,
+      };
+    }
+    const body = getBody(world, sensor.targetId);
+    if (!body) return { status: 'stale' };
+    return {
+      status: 'ok',
+      body,
+      launcher: null,
+      loaded: false,
+      key: `body:${body.id}`,
+      name: body.name || body.id,
+      position: body.cannon.position,
+      velocity: body.cannon.velocity,
+      mass: body.mass,
+    };
+  }
+  return { status: 'none' };
 }
 
 function updateSensor(world, sensor, sampleTime, h) {
@@ -1880,64 +1990,73 @@ function updateSensor(world, sensor, sampleTime, h) {
     }
     return;
   }
-  // Motion sensor: explicit target, or nearest body in the line of sight.
-  let target = null;
-  if (sensor.targetId) {
-    target = getBody(world, sensor.targetId);
-    if (!target) {
-      sensor.targetId = null;
-      sensor.lastDistance = null;
-      sensor.lastSpeed = null;
-    }
+  // Motion sensor: explicit body/launcher target, or nearest body in sight.
+  let resolved = sensor.targetId ? resolveMotionTarget(world, sensor) : null;
+  if (resolved?.status === 'stale') {
+    sensor.targetId = null;
+    sensor.targetType = null;
+    sensor.lastDistance = null;
+    sensor.lastSpeed = null;
+    resolved = null;
   }
-  let signedDistance = null;
-  if (!target) {
+  let target = resolved?.status === 'ok' ? resolved.body : null;
+  let launcher = resolved?.status === 'ok' ? resolved.launcher : null;
+  let logicalKey = resolved?.status === 'ok' ? resolved.key : null;
+  let position = resolved?.status === 'ok' ? resolved.position : null;
+  let velocity = resolved?.status === 'ok' ? resolved.velocity : null;
+  let targetMass = resolved?.status === 'ok' ? resolved.mass : 0;
+  let loaded = resolved?.status === 'ok' ? resolved.loaded : false;
+  let targetName = resolved?.status === 'ok' ? resolved.name : '';
+  if (!resolved) {
     target = nearestSensorBody(world, sensor);
     if (target) {
-      const p = target.cannon.position;
-      signedDistance = (p.x - sensor.x) * sensor.face;
+      position = target.cannon.position;
+      velocity = target.cannon.velocity;
+      targetMass = target.mass;
+      logicalKey = `body:${target.id}`;
+      targetName = target.name || '';
+      loaded = false;
+      launcher = null;
     }
-  } else {
-    const p = target.cannon.position;
-    signedDistance = (p.x - sensor.x) * sensor.face;
   }
-  if (target) {
-    const p = target.cannon.position;
-    const v = target.cannon.velocity;
-    const pre = target._preStepV;
+  const signedDistance = position ? (position.x - sensor.x) * sensor.face : null;
+  if (position && velocity) {
+    const pre = target?._preStepV;
     const invH = h > 0 ? 1 / h : 0;
-    const ax = pre ? (v.x - pre.x) * invH : 0;
-    const ay = pre ? (v.y - pre.y) * invH : 0;
-    const az = pre ? (v.z - pre.z) * invH : 0;
-    const speed = v.length();
+    const ax = pre ? (velocity.x - pre.x) * invH : 0;
+    const ay = pre ? (velocity.y - pre.y) * invH : 0;
+    const az = pre ? (velocity.z - pre.z) * invH : 0;
+    const speed = velocity.length();
     sensor.lastDistance = Math.abs(signedDistance);
-    sensor.lastSpeed = v.x * sensor.face;
-    if (sensor.sampleBodyId && sensor.sampleBodyId !== target.id) {
-      // Changing target mid-run starts a clean series; never mix two bodies.
+    sensor.lastSpeed = velocity.x * sensor.face;
+    if (sensor.sampleBodyId && sensor.sampleBodyId !== logicalKey) {
+      // Changing target mid-run starts a clean series; never mix two objects.
       sensor.samples.length = 0;
       sensor.sampleAt = -1;
       sensor.series += 1;
     }
-    sensor.sampleBodyId = target.id;
+    sensor.sampleBodyId = logicalKey;
     if (sampleTime - sensor.sampleAt >= 0.04 - 1e-9) {
       sensor.sampleAt = sampleTime;
       sensor.samples.push({
         t: sampleTime,
-        bodyId: target.id,
-        bodyName: target.name || '',
-        x: p.x,
-        y: p.y,
-        z: p.z,
-        vx: v.x,
-        vy: v.y,
-        vz: v.z,
+        bodyId: target?.id || null,
+        launcherId: launcher?.id || null,
+        loaded,
+        bodyName: targetName,
+        x: position.x,
+        y: position.y,
+        z: position.z,
+        vx: velocity.x,
+        vy: velocity.y,
+        vz: velocity.z,
         v: speed,
         speed,
         ax,
         ay,
         az,
         a: Math.hypot(ax, ay, az),
-        ke: 0.5 * target.mass * speed * speed,
+        ke: 0.5 * targetMass * speed * speed,
       });
       if (sensor.samples.length > 1200) sensor.samples.shift();
     }
@@ -2259,7 +2378,7 @@ function applyDragForces(world) {
   }
 }
 
-export function nearestAttachment(world, point, { maxDistance = 3.5, excludeBodyId = null } = {}) {
+export function nearestAttachment(world, point, { maxDistance = 3.5, excludeBodyId = null, source = null } = {}) {
   const candidates = [];
   for (const surface of world.surfaces) {
     const local = surfaceLocalPoint(surface, point);
@@ -2356,30 +2475,46 @@ export function nearestAttachment(world, point, { maxDistance = 3.5, excludeBody
       });
     }
   }
-  candidates.sort((a, b) => a.score - b.score);
-  return candidates[0] || null;
+  const compatible = source
+    ? candidates.filter((candidate) => !wouldCreateMountCycle(world, source, candidate))
+    : candidates;
+  compatible.sort((a, b) => a.score - b.score);
+  return compatible[0] || null;
 }
 
 export function snapBodyToNearest(world, body, opts = {}) {
   if (body.rope) return null;
-  const nearest = nearestAttachment(world, body.cannon.position, { ...opts, excludeBodyId: body.id });
+  const nearest = nearestAttachment(world, body.cannon.position, { ...opts, excludeBodyId: body.id, source: body });
   if (!nearest) return null;
+  let attached = true;
   if (nearest.type === 'surface') {
-    attachBodyToSurface(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
+    attached = attachBodyToSurface(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
   } else if (nearest.type === 'loop') {
-    attachBodyToLoop(world, body, nearest.id, { theta: nearest.theta });
+    attached = attachBodyToLoop(world, body, nearest.id, { theta: nearest.theta });
   } else if (nearest.type === 'turntable') {
-    attachBodyToTurntable(world, body, nearest.id, { r: nearest.r, phi: nearest.phi });
+    attached = attachBodyToTurntable(world, body, nearest.id, { r: nearest.r, phi: nearest.phi });
   } else if (nearest.type === 'hcircle') {
-    attachBodyToHCircle(world, body, nearest.id, { phi: nearest.phi });
+    attached = attachBodyToHCircle(world, body, nearest.id, { phi: nearest.phi });
   } else if (nearest.type === 'wedge') {
-    attachBodyToWedge(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
+    attached = attachBodyToWedge(world, body, nearest.id, { localX: nearest.localX, localZ: nearest.localZ });
   } else if (nearest.type === 'body') {
-    attachBodyToBody(world, body, nearest.id);
+    const carrier = getBody(world, nearest.id);
+    if (!carrier) return null;
+    // Keep the student's horizontal drop point on the carrier top instead of
+    // always teleporting the body to the carrier centre.
+    const local = carrier.cannon.quaternion.inverse().vmult(body.cannon.position.vsub(carrier.cannon.position));
+    const limitX = Math.max(0, carrier.halfLength - body.halfLength);
+    const halfZ = carrier.width != null ? carrier.width / 2 : carrier.radius;
+    const limitZ = Math.max(0, halfZ - body.halfLength);
+    attached = attachBodyToBody(world, body, nearest.id, {
+      offsetX: clamp(local.x, -limitX, limitX),
+      offsetY: carrier.halfHeight + body.halfHeight + 0.01,
+      offsetZ: clamp(local.z, -limitZ, limitZ),
+    });
   } else if (nearest.type === 'pulley') {
-    attachBodyToPulley(world, body, nearest.id, nearest.side || 'a');
+    attached = attachBodyToPulley(world, body, nearest.id, nearest.side || 'a');
   }
-  return nearest.type;
+  return attached ? nearest.type : null;
 }
 
 export function snapNearbyBodies(world, maxDistance = 3.5) {
@@ -3278,10 +3413,11 @@ function snapTargetCandidates(world, source) {
 export function dockEntity(world, entity, target, opts = {}) {
   if (!entity || !target?.type || !target.id) return false;
   if (entity.type === target.type && entity.id === target.id) return false;
-  if (entity.type === 'body') return dockBodyEntity(world, entity, target, opts);
-  if (entity.type === 'link') return dockLink(world, entity, target, opts);
   const targetEntity = findSceneEntity(world, target.type, target.id);
   if (!targetEntity) return false;
+  if (wouldCreateMountCycle(world, entity, targetEntity)) return false;
+  if (entity.type === 'body') return dockBodyEntity(world, entity, target, opts);
+  if (entity.type === 'link') return dockLink(world, entity, target, opts);
   const point = entityPoint(entity);
   if (!point) return false;
   if (isEMEntityType(target.type)) {
@@ -5988,6 +6124,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       range: s.range,
       face: s.face,
       targetId: s.targetId || null,
+      targetType: s.targetType || (s.targetId ? 'body' : null),
       mount: s.mount ? { ...s.mount } : null,
     })),
     fans: world.fans.map((f) => ({
