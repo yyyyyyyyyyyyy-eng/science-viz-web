@@ -10,6 +10,7 @@ import {
   addAnchor,
   addAngularTable,
   addBall,
+  addBallistic,
   addBarrier,
   addBlock,
   addCarriage,
@@ -19,6 +20,8 @@ import {
   addFan,
   addHCircle,
   addLauncher,
+  addLever,
+  addLeverHanger,
   addLink,
   addLoop,
   addOrbit,
@@ -42,6 +45,7 @@ import {
   attachBodyToSurface,
   attachBodyToTurntable,
   attachBodyToWedge,
+  ballisticReadout,
   bodyDiagnostics,
   buildSensorTables,
   captureInitial,
@@ -68,6 +72,7 @@ import {
   getSurface,
   getTurntable,
   launcherPrediction,
+  leverReadout,
   liftAngularBlock,
   linkReading,
   loopPoint,
@@ -88,11 +93,17 @@ import {
   rebuildWedge,
   relativeVelocity,
   repositionSurfaceBody,
+  removeLeverHanger,
+  resetBallistic,
+  resetLever,
   resetPendulum,
   resetWorld,
   resolveMotionTarget,
   rodInertia,
   serializeScene,
+  setBallisticBobMass,
+  setBallisticDamping,
+  setBallisticLength,
   setBarrierRestitution,
   setBarrierSize,
   setBodyCollisionRestitution,
@@ -105,6 +116,11 @@ import {
   setGridStep,
   setHCircleRadius,
   setInertiaRatio,
+  setLeverArm,
+  setLeverBeamDrop,
+  setLeverBeamMass,
+  setLeverDamping,
+  setLeverHanger,
   setLoopRadius,
   setOrbitLaunch,
   setSensorTarget,
@@ -231,6 +247,8 @@ const ZH_EN = {
   ball: ['球体', 'Ball'],
   cylinder: ['圆柱', 'Cylinder'],
   pendulum: ['单摆', 'Pendulum'],
+  ballisticPendulum: ['冲击摆', 'Ballistic pendulum'],
+  lever: ['杠杆天平', 'Balance lever'],
   wedge: ['可动楔', 'Movable wedge'],
   photogate: ['光电门', 'Photogate'],
   motion: ['运动传感器', 'Motion sensor'],
@@ -292,6 +310,8 @@ function kindLabel(entity) {
   if (entity.type === 'pulley') return ZH_EN.pulley;
   if (entity.type === 'barrier') return ZH_EN[entity.kind] || ZH_EN.wall;
   if (entity.type === 'pendulum') return ZH_EN.pendulum;
+  if (entity.type === 'ballisticPendulum') return ZH_EN.ballisticPendulum;
+  if (entity.type === 'lever') return ZH_EN.lever;
   if (entity.type === 'wedge') return ZH_EN.wedge;
   if (entity.type === 'sensor') return ZH_EN[entity.kind] || ZH_EN.photogate;
   if (entity.type === 'fan') return ZH_EN.fan;
@@ -408,6 +428,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['wall', '挡板', 'Wall'],
         ['bumper', '碰撞缓冲器', 'Bumper'],
         ['fan', '风扇小车', 'Fan cart'],
+        ['ballistic', '冲击摆', 'Ballistic pendulum'],
       ],
     },
     {
@@ -428,6 +449,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ['loop', '竖直圆环', 'Vertical loop'],
         ['hcircle', '水平圆周轨道', 'Horizontal circle'],
         ['pendulum', '单摆', 'Pendulum'],
+        ['lever', '杠杆天平', 'Balance lever'],
       ],
     },
     {
@@ -1442,6 +1464,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (type === 'pulley') return world.pulleys.find((p) => p.id === id) || null;
     if (type === 'barrier') return world.barriers.find((b) => b.id === id) || null;
     if (type === 'pendulum') return world.pendulums.find((p) => p.id === id) || null;
+    if (type === 'ballisticPendulum') return world.ballistics.find((b) => b.id === id) || null;
+    if (type === 'lever') return world.levers.find((l) => l.id === id) || null;
     if (type === 'wedge') return world.wedges.find((w) => w.id === id) || null;
     if (type === 'sensor') return world.sensors.find((s) => s.id === id) || null;
     if (type === 'fan') return world.fans.find((f) => f.id === id) || null;
@@ -1494,6 +1518,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       && world.pulleys.length === 0
       && world.barriers.length === 0
       && world.pendulums.length === 0
+      && world.ballistics.length === 0
+      && world.levers.length === 0
       && world.wedges.length === 0
       && world.sensors.length === 0
       && world.fans.length === 0
@@ -1592,6 +1618,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     wall: { halfX: 0.6, halfZ: 1.6 },
     bumper: { halfX: 0.7, halfZ: 0.7 },
     pendulum: { halfX: 1, halfZ: 1 },
+    ballistic: { halfX: 0.7, halfZ: 0.7 },
+    lever: { halfX: 1.5, halfZ: 0.6 },
     wedge: { halfX: 2, halfZ: 1.2 },
     photogate: { halfX: 0.4, halfZ: 1.2 },
     motion: { halfX: 0.5, halfZ: 0.5 },
@@ -1625,6 +1653,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     for (const p of world.pulleys) boxes.push({ x: p.x, z: p.z, halfX: p.radius + 0.8, halfZ: p.radius + 0.8 });
     for (const b of world.barriers) boxes.push({ x: b.x, z: b.z, halfX: (b.width || 0.7) / 2, halfZ: (b.width || 0.7) / 2 });
     for (const p of world.pendulums) boxes.push({ x: p.x, z: p.z, halfX: 0.8, halfZ: 0.8 });
+    for (const b of world.ballistics) boxes.push({ x: b.x, z: b.z, halfX: 0.7, halfZ: 0.7 });
+    for (const l of world.levers) boxes.push({ x: l.x, z: l.z, halfX: l.arm + 0.3, halfZ: 0.6 });
     for (const w of world.wedges) boxes.push({ x: w.body.position.x, z: w.body.position.z, halfX: w.length / 2, halfZ: w.width / 2 });
     for (const s of world.sensors) boxes.push({ x: s.x, z: s.z, halfX: Math.max(0.4, s.width / 2), halfZ: 0.4 });
     for (const f of world.fans) {
@@ -1701,6 +1731,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       ...world.pulleys,
       ...world.barriers,
       ...world.pendulums,
+      ...world.ballistics,
+      ...world.levers,
       ...world.wedges,
       ...world.sensors,
       ...world.fans,
@@ -1982,6 +2014,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       world.barriers = world.barriers.filter((b) => b.id !== entity.id);
     } else if (entity.type === 'pendulum') {
       world.pendulums = world.pendulums.filter((p) => p.id !== entity.id);
+    } else if (entity.type === 'ballisticPendulum') {
+      world.ballistics = world.ballistics.filter((b) => b.id !== entity.id);
+    } else if (entity.type === 'lever') {
+      world.levers = world.levers.filter((l) => l.id !== entity.id);
     } else if (entity.type === 'wedge') {
       world.engine.removeBody(entity.body);
       world.wedges = world.wedges.filter((w) => w.id !== entity.id);
@@ -2041,6 +2077,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       size: entity.size,
       radius: entity.radius,
       length: entity.length,
+      arm: entity.arm,
       width: entity.width,
       rest: entity.rest,
     };
@@ -2073,6 +2110,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setHCircleRadius(world, entity, start.radius * f);
     } else if (entity.type === 'pendulum') {
       entity.length = Math.max(0.2, Math.min(5, (start.length || entity.length) * f));
+    } else if (entity.type === 'ballisticPendulum') {
+      setBallisticLength(world, entity, (start.length || entity.length) * f);
+    } else if (entity.type === 'lever') {
+      // setLeverArm re-clamps every hanger distance into the new half-arm.
+      setLeverArm(world, entity, (start.arm || entity.arm) * f);
     } else if (entity.type === 'wedge') {
       if (axis === 'z') rebuildWedge(world, entity, { width: start.width * f });
       else if (axis === 'x') rebuildWedge(world, entity, { length: start.length * f });
@@ -2212,6 +2254,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         name: entity.name ? `${entity.name} 副本` : '',
         x: spot.x, y: entity.y, z: spot.z, length: entity.length, mass: entity.mass,
         amplitude: entity.amplitude, radius: entity.radius, conical: entity.conical,
+      });
+    } else if (entity.type === 'ballisticPendulum') {
+      const spot = nextPlacement('ballistic');
+      copy = addBallistic(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z, length: entity.length, bobMass: entity.bobMass,
+        radius: entity.radius, damping: entity.damping, theta0: entity.theta0,
+      });
+    } else if (entity.type === 'lever') {
+      const spot = nextPlacement('lever');
+      copy = addLever(world, {
+        name: entity.name ? `${entity.name} 副本` : '',
+        x: spot.x, y: entity.y, z: spot.z, arm: entity.arm, beamMass: entity.beamMass,
+        beamDrop: entity.beamDrop, damping: entity.damping, hang: entity.hang, theta0: entity.theta0,
+        hangers: entity.hangers.map((hg) => ({ ...hg })),
       });
     } else if (entity.type === 'wedge') {
       const spot = nextPlacement('wedge');
@@ -3179,6 +3236,18 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const spot = nextPlacement(kind);
       entity = addPendulum(world, {
         x: spot.x, y: 3.1, z: spot.z, length: 1.6, mass: 1, amplitude: 20, radius: 0.16,
+      });
+    } else if (kind === 'ballistic') {
+      const spot = nextPlacement(kind);
+      entity = addBallistic(world, {
+        x: spot.x, y: 3.0, z: spot.z, length: 1.2, bobMass: 0.6, radius: 0.22, damping: 0,
+      });
+    } else if (kind === 'lever') {
+      const spot = nextPlacement(kind);
+      entity = addLever(world, {
+        x: spot.x, y: 1.2, z: spot.z, arm: 1.2, beamMass: 2.4, beamDrop: 0.18,
+        damping: 4.5, hang: 0.4, theta0: 12,
+        hangers: [{ d: -0.8, mass: 2 }, { d: 0.8, mass: 1 }, { d: 0.4, mass: 2 }],
       });
     } else if (kind === 'oscillator') {
       const spot = nextPlacement(kind);
@@ -5203,6 +5272,189 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       addLive(readouts, '摆角 · Angle', 'pendulumAngle', 'rad');
       addLive(readouts, '绳张力 · Tension', 'pendulumTension', 'N');
       common.appendChild(readouts);
+    } else if (entity.type === 'ballisticPendulum') {
+      field(common, {
+        label: '摆长 · Length',
+        value: entity.length,
+        min: 0.2,
+        max: 3,
+        step: 0.05,
+        unit: 'm',
+        testid: 'ballisticLength',
+        onChange: (v) => {
+          setBallisticLength(world, entity, v);
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '摆锤质量 M · Bob mass',
+        value: entity.bobMass,
+        min: 0.01,
+        max: 5,
+        step: 0.01,
+        unit: 'kg',
+        testid: 'ballisticBobMass',
+        onChange: (v) => { setBallisticBobMass(world, entity, v); },
+      });
+      field(common, {
+        label: '摆动阻尼 · Damping',
+        value: entity.damping,
+        min: 0,
+        max: 3,
+        step: 0.05,
+        unit: 's⁻¹',
+        testid: 'ballisticDamping',
+        onChange: (v) => { setBallisticDamping(world, entity, v); },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '最大摆角 · Max angle', 'ballisticMaxAngle', '°');
+      addLive(readouts, '上升高度 · Rise height', 'ballisticRise', 'm');
+      addLive(readouts, '推算速度 · Inferred speed', 'ballisticSpeed', 'm/s');
+      addLive(readouts, '捕获质量 · Caught mass', 'ballisticCatchMass', 'kg');
+      addLive(readouts, '动能损失比例 · KE loss fraction', 'ballisticKeLoss', '');
+      addLive(readouts, '当前摆角 · Angle', 'ballisticAngle', '°');
+      addLive(readouts, '绳张力 · Tension', 'ballisticTension', 'N');
+      common.appendChild(readouts);
+      formula(common, 'mv_{\\perp}=(M+m)L\\omega,\\qquad v=\\dfrac{M+m}{m}\\sqrt{2gL\\left(1-\\cos\\theta_{\\max}\\right)}');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '用发射器向摆锤射出小球，由最大摆角反推射出速度。 · Fire a ball into the catcher; the rise angle infers the launch speed.',
+      }));
+    } else if (entity.type === 'lever') {
+      field(common, {
+        label: '半臂长 · Half-arm',
+        value: entity.arm,
+        min: 0.4,
+        max: 2.5,
+        step: 0.05,
+        unit: 'm',
+        testid: 'leverArm',
+        onChange: (v) => {
+          setLeverArm(world, entity, v);
+          renderHangers();
+          view.sync(world);
+        },
+      });
+      field(common, {
+        label: '梁质量 M · Beam mass',
+        value: entity.beamMass,
+        min: 0.05,
+        max: 8,
+        step: 0.05,
+        unit: 'kg',
+        testid: 'leverBeamMass',
+        onChange: (v) => { setLeverBeamMass(world, entity, v); },
+      });
+      field(common, {
+        label: '梁质心下垂 h · Beam drop',
+        value: entity.beamDrop,
+        min: 0.02,
+        max: 0.5,
+        step: 0.01,
+        unit: 'm',
+        testid: 'leverBeamDrop',
+        onChange: (v) => { setLeverBeamDrop(world, entity, v); },
+      });
+      field(common, {
+        label: '阻尼 · Damping',
+        value: entity.damping,
+        min: 0,
+        max: 12,
+        step: 0.1,
+        unit: 'N·m·s/rad',
+        testid: 'leverDamping',
+        onChange: (v) => { setLeverDamping(world, entity, v); },
+      });
+      common.appendChild(el('h3', { className: 'plab-section-title', text: '挂钩码 · Hangers' }));
+      const hangerHost = el('div', { className: 'plab-hanger-list' });
+      common.appendChild(hangerHost);
+      const renderHangers = () => {
+        clear(hangerHost);
+        entity.hangers.forEach((hg, index) => {
+          const block = el('div', { className: 'plab-hanger' });
+          field(block, {
+            label: `距离 d（挂钩 ${index + 1}）· Distance d`,
+            value: hg.d,
+            min: -entity.arm,
+            max: entity.arm,
+            step: 0.05,
+            unit: 'm',
+            testid: `leverHanger${index}D`,
+            onChange: (v) => {
+              setLeverHanger(world, entity, index, { d: v });
+              view.sync(world);
+            },
+          });
+          field(block, {
+            label: `质量（挂钩 ${index + 1}）· Mass`,
+            value: hg.mass,
+            min: 0.01,
+            max: 5,
+            step: 0.01,
+            unit: 'kg',
+            testid: `leverHanger${index}Mass`,
+            onChange: (v) => { setLeverHanger(world, entity, index, { mass: v }); },
+          });
+          hangerHost.appendChild(block);
+        });
+        if (!entity.hangers.length) {
+          hangerHost.appendChild(el('p', {
+            className: 'plab-inspector-empty',
+            text: '暂无挂钩码。 · No hangers yet.',
+          }));
+        }
+      };
+      renderHangers();
+      const hangerActions = el('div', { className: 'plab-tool-row' });
+      const addHanger = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target',
+        text: '添加挂钩 · Add hanger',
+      });
+      addHanger.addEventListener('click', () => {
+        pushUndo('lever-hanger-add');
+        const added = addLeverHanger(world, entity, { d: 0.4, mass: 1 });
+        if (!added) {
+          setStatus('挂钩最多 6 个。 · At most six hangers.', true);
+          return;
+        }
+        renderHangers();
+        view.sync(world);
+        if (world.time === 0) captureInitial(world);
+        setStatus('已添加挂钩。 · Hanger added.');
+      });
+      const removeHanger = el('button', {
+        type: 'button',
+        className: 'plab-action plab-action-quiet hit-target',
+        text: '删除挂钩 · Remove hanger',
+      });
+      removeHanger.addEventListener('click', () => {
+        if (!entity.hangers.length) {
+          setStatus('没有可删除的挂钩。 · No hanger to remove.', true);
+          return;
+        }
+        pushUndo('lever-hanger-remove');
+        removeLeverHanger(world, entity, entity.hangers.length - 1);
+        renderHangers();
+        view.sync(world);
+        if (world.time === 0) captureInitial(world);
+        setStatus('已删除末位挂钩。 · Last hanger removed.');
+      });
+      hangerActions.append(addHanger, removeHanger);
+      common.appendChild(hangerActions);
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '左力矩 · Left torque', 'leverLeftTorque', 'N·m');
+      addLive(readouts, '右力矩 · Right torque', 'leverRightTorque', 'N·m');
+      addLive(readouts, '净力矩 · Net torque', 'leverNetTorque', 'N·m');
+      addLive(readouts, '当前倾角 · Angle', 'leverAngle', '°');
+      addLive(readouts, '预测平衡角 · Predicted rest angle', 'leverEquilibrium', '°');
+      addLive(readouts, '平衡状态 · Balance', 'leverBalanced', '');
+      common.appendChild(readouts);
+      formula(common, '\\sum md=0\\Rightarrow\\theta_{\\mathrm{eq}}=0,\\qquad \\theta_{\\mathrm{eq}}=\\arctan\\!\\left(-\\dfrac{\\sum md}{Mh}\\right)');
+      common.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '挂钩码挂在带符号距离 d（右为正）；梁质心低于支点，轻微失衡只会倾斜到预测平衡角。 · Hangers load the beam at signed distances d (right positive); the beam mass sits below the pivot, so a small imbalance only tilts it to the predicted rest angle.',
+      }));
     } else if (entity.type === 'wedge') {
       field(common, {
         label: '楔质量 · Wedge mass',
@@ -6288,6 +6540,85 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       }));
     }
 
+    if (entity.type === 'ballisticPendulum') {
+      field(moreAdvanced, {
+        label: '捕获盒半径 · Catch radius',
+        value: entity.radius,
+        min: 0.08,
+        max: 0.5,
+        step: 0.01,
+        unit: 'm',
+        testid: 'ballisticRadius',
+        onChange: (v) => { entity.radius = Math.max(0.08, v); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '初始摆角 · Initial angle',
+        value: entity.theta0,
+        min: -85,
+        max: 85,
+        step: 1,
+        unit: '°',
+        testid: 'ballisticTheta0',
+        onChange: (v) => {
+          entity.theta0 = Math.max(-85, Math.min(85, v));
+          if (!running && world.time === 0) resetBallistic(entity);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '最大摆角 · Max angle', 'ballisticMaxAngle', '°');
+      addLive(readouts, '上升高度 · Rise height', 'ballisticRise', 'm');
+      addLive(readouts, '推算速度 · Inferred speed', 'ballisticSpeed', 'm/s');
+      addLive(readouts, '捕获质量 · Caught mass', 'ballisticCatchMass', 'kg');
+      addLive(readouts, '动能损失比例 · KE loss fraction', 'ballisticKeLoss', '');
+      addLive(readouts, '当前摆角 · Angle', 'ballisticAngle', '°');
+      addLive(readouts, '绳张力 · Tension', 'ballisticTension', 'N');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'v=\\dfrac{M+m}{m}\\sqrt{2gL\\left(1-\\cos\\theta_{\\max}\\right)},\\qquad \\dfrac{E_{k,\\text{after}}}{E_{k,\\text{before}}}=\\dfrac{M}{M+m}');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '捕获是完全非弹性的：只有首个自由飞行的弹体会被嵌入，后续弹体正常落地。 · The catch is perfectly inelastic: only the first free projectile embeds; later ones land normally.',
+      }));
+    }
+
+    if (entity.type === 'lever') {
+      field(moreAdvanced, {
+        label: '挂绳长 · Cord length',
+        value: entity.hang,
+        min: 0.1,
+        max: 1,
+        step: 0.05,
+        unit: 'm',
+        testid: 'leverHang',
+        onChange: (v) => { entity.hang = Math.max(0.1, v); view.sync(world); },
+      });
+      field(moreAdvanced, {
+        label: '初始倾角 · Initial tilt',
+        value: entity.theta0,
+        min: -85,
+        max: 85,
+        step: 1,
+        unit: '°',
+        testid: 'leverTheta0',
+        onChange: (v) => {
+          entity.theta0 = Math.max(-85, Math.min(85, v));
+          if (!running && world.time === 0) resetLever(entity);
+        },
+      });
+      const readouts = el('div', { className: 'plab-readouts' });
+      addLive(readouts, '左力矩 · Left torque', 'leverLeftTorque', 'N·m');
+      addLive(readouts, '右力矩 · Right torque', 'leverRightTorque', 'N·m');
+      addLive(readouts, '净力矩 · Net torque', 'leverNetTorque', 'N·m');
+      addLive(readouts, '当前倾角 · Angle', 'leverAngle', '°');
+      addLive(readouts, '预测平衡角 · Predicted rest angle', 'leverEquilibrium', '°');
+      addLive(readouts, '平衡状态 · Balance', 'leverBalanced', '');
+      moreAdvanced.appendChild(readouts);
+      formula(moreAdvanced, 'I\\dot{\\omega}=\\tau_{g}-b\\omega,\\qquad \\tau_{g}=-g\\!\\left(Mh\\sin\\theta+\\sum md\\cos\\theta\\right)');
+      moreAdvanced.appendChild(el('p', {
+        className: 'plab-field-hint',
+        text: '挂钩在 0.05 m 网格上编辑距离与质量；上限 6 个。改半臂长会自动把挂钩夹到新臂长内。 · Edit each hanger distance and mass on the 0.05 m grid, six at most; shrinking the half-arm re-clamps every hanger into range.',
+      }));
+    }
+
     if (entity.type === 'wedge') {
       field(moreAdvanced, {
         label: '长度 · Length',
@@ -6968,6 +7299,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setLive('pendulumTheory', fmt(pendulumPeriod(entity, world.g)));
       setLive('pendulumAngle', `${fmt(entity.theta)} rad`);
       setLive('pendulumTension', `${fmt(entity.tension)} N`);
+    } else if (entity?.type === 'ballisticPendulum') {
+      const r = ballisticReadout(world, entity);
+      setLive('ballisticMaxAngle', `${fmt(r.maxAngleDeg)}°`);
+      setLive('ballisticRise', `${fmt(r.riseHeight)} m`);
+      setLive('ballisticSpeed', r.inferredSpeed > 0 ? `${fmt(r.inferredSpeed)} m/s` : '—');
+      setLive('ballisticCatchMass', r.catchMass > 0 ? `${fmt(r.catchMass)} kg` : '—');
+      setLive('ballisticKeLoss', r.keLossFraction > 0 ? fmt(r.keLossFraction) : '—');
+      setLive('ballisticAngle', `${fmt(r.angleDeg)}°`);
+      setLive('ballisticTension', `${fmt(r.tension)} N`);
+    } else if (entity?.type === 'lever') {
+      const r = leverReadout(world, entity);
+      setLive('leverLeftTorque', `${fmt(r.leftTorque)} N·m`);
+      setLive('leverRightTorque', `${fmt(r.rightTorque)} N·m`);
+      setLive('leverNetTorque', `${fmt(r.netTorque)} N·m`);
+      setLive('leverAngle', `${fmt(r.angleDeg)}°`);
+      setLive('leverEquilibrium', `${fmt(r.equilibriumDeg)}°`);
+      setLive('leverBalanced', r.balanced ? '已平衡 · Balanced' : '不平衡 · Unbalanced');
     } else if (entity?.type === 'wedge') {
       setLive('wedgeSpeed', `${fmt(entity.body.velocity.length())} m/s`);
       setLive('wedgeX', `${fmt(entity.body.position.x - entity.x)} m`);
@@ -7084,6 +7432,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           : `恢复系数 · e ${fmt(entity.e)} · 等待碰撞 · awaiting impact`;
       } else if (entity?.type === 'pendulum') {
         inspectorSummary.textContent = `T ${entity.measuredPeriod ? fmt(entity.measuredPeriod) : '—'} s · 小角 · small-angle ${fmt(pendulumPeriod(entity, world.g))} s`;
+      } else if (entity?.type === 'ballisticPendulum') {
+        const br = ballisticReadout(world, entity);
+        inspectorSummary.textContent = `θmax ${fmt(br.maxAngleDeg)}° · 推算 · inferred ${br.inferredSpeed > 0 ? `${fmt(br.inferredSpeed)} m/s` : '—'} · ${br.catches ? '已捕获 · caught' : '空置 · empty'}`;
+      } else if (entity?.type === 'lever') {
+        const lr = leverReadout(world, entity);
+        inspectorSummary.textContent = `θ ${fmt(lr.angleDeg)}° · 平衡角 · rest ${fmt(lr.equilibriumDeg)}° · ${lr.balanced ? '已平衡 · Balanced' : '不平衡 · Unbalanced'}`;
       } else if (entity?.type === 'wedge') {
         inspectorSummary.textContent = `楔速度 · Wedge ${fmt(entity.body.velocity.length())} m/s · μ ${fmt(entity.muFloor)}`;
       } else if (entity?.type === 'sensor') {
