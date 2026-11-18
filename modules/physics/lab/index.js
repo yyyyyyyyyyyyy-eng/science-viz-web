@@ -152,9 +152,14 @@ import {
   updateMountedApparatus,
 } from './physics.mjs';
 import {
+  EXPORT_MOTION_SIZE,
   FORCE_LINES,
+  chartFontSpec,
+  exportForceSize,
+  forceChartLayout,
   forceGraphModel,
   graphAxesFromRows,
+  motionChartLayout,
   motionGraphModel,
   sensorTargetLabel,
 } from './graphs.mjs';
@@ -354,6 +359,167 @@ function contactLabel(type) {
 
 function zAngle(q) {
   return Math.atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z));
+}
+
+/* --------------------- shared chart painters --------------------- */
+
+/**
+ * Motion chart painter for both the live canvas and the exported PNG. It
+ * draws strictly from the pure layout (grapheme boxes, fitted ticks, time
+ * axis) so the two can differ in size but never in rules. Exported so the
+ * headless export check walks the exact product drawing path.
+ */
+export function paintMotionChart(ctx, model, layout, style) {
+  const { width, height, fonts, text: t, header, strips, series, timeAxis } = layout;
+  const palette = style.palette || ['#5b6cff', '#a2680f', '#2f7d33', '#b3362b'];
+  ctx.save();
+  ctx.clearRect(0, 0, width, height);
+  if (style.bg) {
+    ctx.fillStyle = style.bg;
+    ctx.fillRect(0, 0, width, height);
+  }
+  ctx.lineWidth = layout.dpr;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = fonts.title;
+  ctx.fillStyle = style.text;
+  for (const piece of header.pieces) {
+    if (piece.swatchBox) {
+      ctx.strokeStyle = palette[Math.max(0, piece.index) % palette.length];
+      ctx.beginPath();
+      ctx.moveTo(piece.swatchBox.x, piece.swatchBox.y);
+      ctx.lineTo(piece.swatchBox.x + piece.swatchBox.w, piece.swatchBox.y);
+      ctx.stroke();
+    }
+    ctx.fillStyle = style.text;
+    ctx.fillText(piece.text, piece.x, piece.baseline);
+  }
+  for (const strip of strips) {
+    ctx.strokeStyle = style.border;
+    ctx.lineWidth = layout.dpr;
+    ctx.beginPath();
+    ctx.moveTo(strip.rect.x, strip.rect.y);
+    ctx.lineTo(strip.rect.x + strip.rect.w, strip.rect.y);
+    ctx.stroke();
+    ctx.font = fonts.title;
+    ctx.fillStyle = style.text;
+    for (const title of strip.titles) ctx.fillText(title.text, title.box.x, title.baseline);
+    ctx.font = fonts.tick;
+    for (const tick of strip.ticks) ctx.fillText(tick.text, tick.box.x, tick.baseline);
+    if (strip.max == null) continue;
+    for (let s = 0; s < series.length && s < palette.length; s += 1) {
+      ctx.strokeStyle = palette[s % palette.length];
+      ctx.lineWidth = 1.5 * layout.dpr;
+      ctx.beginPath();
+      let moved = false;
+      for (const row of series[s].rows) {
+        const value = strip.key === 'e' ? row.e ?? row.ke : row[strip.key];
+        if (!Number.isFinite(value)) continue;
+        const px = layout.xOf(row.t);
+        const py = strip.yOf(value);
+        if (!Number.isFinite(px) || !Number.isFinite(py)) continue;
+        if (!moved) {
+          ctx.moveTo(px, py);
+          moved = true;
+        } else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+  }
+  if (timeAxis) {
+    ctx.lineWidth = layout.dpr;
+    ctx.strokeStyle = style.border;
+    ctx.beginPath();
+    ctx.moveTo(layout.plotLeft, timeAxis.axisY);
+    ctx.lineTo(layout.plotRight, timeAxis.axisY);
+    ctx.stroke();
+    ctx.font = fonts.tick;
+    for (const tick of timeAxis.ticks) {
+      ctx.beginPath();
+      ctx.moveTo(tick.x, timeAxis.axisY);
+      ctx.lineTo(tick.x, timeAxis.axisY + t.axisStub);
+      ctx.stroke();
+      ctx.fillStyle = style.text;
+      ctx.fillText(tick.text, tick.box.x, tick.box.baseline);
+    }
+    ctx.fillText(timeAxis.caption.text, timeAxis.caption.box.x, timeAxis.caption.box.baseline);
+  }
+  ctx.restore();
+}
+
+/**
+ * Force chart painter for the live canvas and the exported PNG: one band per
+ * (target, force) strip with its wrapped bilingual title, the lab-frame
+ * component lines and the shared numeric time axis — all from the layout.
+ */
+export function paintForceChart(ctx, model, layout, style) {
+  const { width, height, fonts, text: t, strips, timeAxis, notes } = layout;
+  const palette = style.palette || ['#5b6cff', '#a2680f', '#2f7d33', '#b3362b'];
+  const lineColors = { fx: palette[0], fy: palette[1], fz: palette[2] };
+  ctx.save();
+  ctx.clearRect(0, 0, width, height);
+  if (style.bg) {
+    ctx.fillStyle = style.bg;
+    ctx.fillRect(0, 0, width, height);
+  }
+  ctx.lineWidth = layout.dpr;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  for (const strip of strips) {
+    ctx.strokeStyle = style.border;
+    ctx.beginPath();
+    ctx.moveTo(strip.rect.x, strip.rect.y);
+    ctx.lineTo(strip.rect.x + strip.rect.w, strip.rect.y);
+    ctx.stroke();
+    ctx.font = fonts.title;
+    ctx.fillStyle = style.text;
+    for (const title of strip.titles) ctx.fillText(title.text, title.box.x, title.baseline);
+    ctx.font = fonts.tick;
+    for (const tick of strip.ticks) ctx.fillText(tick.text, tick.box.x, tick.baseline);
+    if (strip.max == null) continue;
+    for (const line of FORCE_LINES) {
+      if (line.key === 'fz' && !strip.hasZ) continue;
+      ctx.strokeStyle = lineColors[line.key];
+      ctx.lineWidth = 1.5 * layout.dpr;
+      ctx.setLineDash(line.dash.map((d) => d * layout.dpr));
+      ctx.beginPath();
+      let moved = false;
+      for (const row of strip.rows) {
+        if (!Number.isFinite(row[line.key])) continue;
+        const px = layout.xOf(row.t);
+        const py = strip.yOf(row[line.key]);
+        if (!Number.isFinite(px) || !Number.isFinite(py)) continue;
+        if (!moved) {
+          ctx.moveTo(px, py);
+          moved = true;
+        } else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+  if (timeAxis) {
+    ctx.lineWidth = layout.dpr;
+    ctx.strokeStyle = style.border;
+    ctx.beginPath();
+    ctx.moveTo(layout.plotLeft, timeAxis.axisY);
+    ctx.lineTo(layout.plotRight, timeAxis.axisY);
+    ctx.stroke();
+    ctx.font = fonts.tick;
+    for (const tick of timeAxis.ticks) {
+      ctx.beginPath();
+      ctx.moveTo(tick.x, timeAxis.axisY);
+      ctx.lineTo(tick.x, timeAxis.axisY + t.axisStub);
+      ctx.stroke();
+      ctx.fillStyle = style.text;
+      ctx.fillText(tick.text, tick.box.x, tick.box.baseline);
+    }
+    ctx.fillText(timeAxis.caption.text, timeAxis.caption.box.x, timeAxis.caption.box.baseline);
+  }
+  ctx.font = fonts.tick;
+  ctx.fillStyle = style.text;
+  for (const note of notes) ctx.fillText(note.text, note.box.x, note.baseline);
+  ctx.restore();
 }
 
 function renderTex(host, tex) {
@@ -2371,25 +2537,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return getBody(world, target.id)?.name || '';
   }
 
-  /** Greedy wrap of chart legend items; each entry keeps its palette index. */
-  function graphLegendLines(series, ctx, font, maxW, dpr) {
-    ctx.font = font;
-    const lines = [];
-    let line = [];
-    let width = 0;
-    for (let i = 0; i < series.length; i += 1) {
-      const label = series[i].label || `#${i + 1}`;
-      const itemW = ctx.measureText(label).width + 34 * dpr;
-      if (line.length && width + itemW > maxW) {
-        lines.push(line);
-        line = [];
-        width = 0;
-      }
-      line.push({ label, index: i });
-      width += itemW;
-    }
-    if (line.length) lines.push(line);
-    return lines;
+  /** Resolved chart colours and the series palette for both draw paths. */
+  function graphStyle() {
+    return {
+      text: resolveCssColor('var(--text-muted)', '#6b6a64'),
+      border: resolveCssColor('var(--border)', '#d6d4cc'),
+      bg: resolveCssColor('var(--canvas-plot)', '#f3f2ed'),
+      palette: graphPalette(),
+    };
+  }
+
+  /** Font-aware measure callback for the pure layout functions. */
+  function chartMeasure(ctx, dpr) {
+    const fonts = chartFontSpec(dpr);
+    return (text, which) => {
+      ctx.font = which === 'title' ? fonts.title : fonts.tick;
+      return ctx.measureText(text).width;
+    };
   }
 
   function pushGraphSample() {
@@ -2447,23 +2611,40 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     const ctx = graphCanvas.getContext('2d');
     if (!ctx) return;
-    ctx.clearRect(0, 0, w, h);
-    const css = getComputedStyle(document.documentElement);
-    const text = css.getPropertyValue('--text-muted').trim() || '#6b6a64';
-    const border = css.getPropertyValue('--border').trim() || '#d6d4cc';
-    ctx.font = `${11 * dpr}px monospace`;
+    const style = graphStyle();
     const selectedSensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
     if (selectedSensor?.kind === 'force') {
-      drawForceGraphs(selectedSensor, ctx, w, h, dpr, text, border);
+      drawForceGraphs(selectedSensor, ctx, w, h, dpr, style);
       return;
     }
+    const model = buildMotionChartModel(selectedSensor);
+    if (!model) {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = style.bg;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = style.text;
+      ctx.font = `${11 * dpr}px monospace`;
+      ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
+      return;
+    }
+    paintMotionChart(ctx, model, motionChartLayout(model, {
+      width: w, height: h, dpr, measure: chartMeasure(ctx, dpr),
+    }), style);
+  }
+
+  /**
+   * Motion chart model from the live sample histories — the single source
+   * for the live canvas and the exported PNG, so an export always matches
+   * the viewed target even while paused. Returns null when there is no data.
+   */
+  function buildMotionChartModel(sensor) {
     let series = [];
     let axes = graphAxesFromRows([], {});
-    if (selectedSensor?.kind === 'motion') {
+    if (sensor?.kind === 'motion') {
       // The model filters the rows to the viewed target, labels every series
       // with the visible name + stable id, and supplies numeric axes.
-      const model = motionGraphModel(selectedSensor, {
-        viewKey: sensorViewKey(selectedSensor),
+      const model = motionGraphModel(sensor, {
+        viewKey: sensorViewKey(sensor),
         nameOf: graphTargetName,
       });
       series = model.series;
@@ -2479,109 +2660,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         axes = graphAxesFromRows(series[0].rows, { tickCount: 5, yTickCount: 3 });
       }
     }
-    const palette = graphPalette();
     const totalRows = series.reduce((sum, s) => s.rows.length, 0);
-    if (!totalRows || !axes.timeAxis) {
-      ctx.fillStyle = text;
-      ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
-      return;
-    }
-    const titleFont = `${12 * dpr}px monospace`;
-    const tickFont = `${Math.max(9, Math.round(9.5 * dpr))}px monospace`;
-    const pad = { l: 50 * dpr, r: 8 * dpr, b: 16 * dpr };
-    // In-chart target identity: one title for a single target, a wrapped
-    // legend when several targets share the chart.
-    const legendLines = graphLegendLines(series.slice(0, palette.length), ctx, titleFont, w - pad.l - pad.r, dpr);
-    const top = legendLines.length * 15 * dpr + 5 * dpr;
-    const bottom = h - pad.b;
-    const { timeAxis, metrics } = axes;
-    const plotW = w - pad.l - pad.r;
-    const xOf = (t) => pad.l + ((t - timeAxis.min) / Math.max(1e-9, timeAxis.max - timeAxis.min)) * plotW;
-    legendLines.forEach((line, lineIndex) => {
-      const ly = (lineIndex + 1) * 15 * dpr - 2 * dpr;
-      let lx = pad.l;
-      ctx.font = titleFont;
-      if (lineIndex === 0 && legendLines.length === 1) {
-        ctx.fillStyle = text;
-        ctx.fillText(`目标 · Target: ${line[0].label}`, lx, ly);
-        return;
-      }
-      if (lineIndex === 0) {
-        ctx.fillStyle = text;
-        ctx.fillText('目标 · Targets:', lx, ly);
-        lx += ctx.measureText('目标 · Targets:').width + 8 * dpr;
-      }
-      for (const item of line) {
-        ctx.strokeStyle = palette[item.index % palette.length];
-        ctx.lineWidth = 2 * dpr;
-        ctx.beginPath();
-        ctx.moveTo(lx, ly - 4 * dpr);
-        ctx.lineTo(lx + 14 * dpr, ly - 4 * dpr);
-        ctx.stroke();
-        ctx.fillStyle = text;
-        ctx.fillText(item.label, lx + 18 * dpr, ly);
-        lx += 18 * dpr + ctx.measureText(item.label).width + 14 * dpr;
-      }
-    });
-    const strip = (bottom - top) / metrics.length;
-    for (let s = 0; s < metrics.length; s += 1) {
-      const metric = metrics[s];
-      const stripTop = top + s * strip;
-      const stripBottom = top + (s + 1) * strip - 5 * dpr;
-      ctx.strokeStyle = border;
-      ctx.lineWidth = dpr;
-      ctx.beginPath();
-      ctx.moveTo(pad.l, stripTop);
-      ctx.lineTo(w, stripTop);
-      ctx.stroke();
-      ctx.font = titleFont;
-      ctx.fillStyle = text;
-      ctx.fillText(`${metric.label} (${metric.unit})`, pad.l + 4 * dpr, stripTop + 11 * dpr);
-      if (metric.max == null) continue;
-      const yOf = (value) => stripBottom
-        - ((value - metric.min) / Math.max(1e-9, metric.max - metric.min))
-        * Math.max(1, stripBottom - stripTop - 14 * dpr);
-      ctx.font = tickFont;
-      for (const tick of metric.ticks) {
-        ctx.fillText(tick.text, pad.l - 5 * dpr - ctx.measureText(tick.text).width, yOf(tick.value) + 3 * dpr);
-      }
-      for (const entry of series.slice(0, palette.length)) {
-        ctx.strokeStyle = palette[series.indexOf(entry) % palette.length];
-        ctx.lineWidth = 1.5 * dpr;
-        ctx.beginPath();
-        let moved = false;
-        for (const row of entry.rows) {
-          const value = metric.key === 'e' ? row.e ?? row.ke : row[metric.key];
-          if (!Number.isFinite(value)) continue;
-          const px = xOf(row.t);
-          const py = yOf(value);
-          if (!moved) { ctx.moveTo(px, py); moved = true; }
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-      }
-    }
-    // Numeric time axis with its unit, shared by every strip.
-    ctx.font = tickFont;
-    ctx.fillStyle = text;
-    ctx.strokeStyle = border;
-    ctx.lineWidth = dpr;
-    ctx.beginPath();
-    ctx.moveTo(pad.l, bottom);
-    ctx.lineTo(w - pad.r, bottom);
-    ctx.stroke();
-    for (const tick of timeAxis.ticks) {
-      const x = xOf(tick.value);
-      ctx.beginPath();
-      ctx.moveTo(x, bottom);
-      ctx.lineTo(x, bottom + 3 * dpr);
-      ctx.stroke();
-      const label = String(tick.text);
-      const labelX = Math.max(pad.l, Math.min(x + 3 * dpr, w - pad.r - ctx.measureText(label).width));
-      ctx.fillText(label, labelX, bottom + 11 * dpr);
-    }
-    const caption = `t (${timeAxis.unit})`;
-    ctx.fillText(caption, w - pad.r - ctx.measureText(caption).width, bottom + 11 * dpr);
+    if (!totalRows || !axes.timeAxis) return null;
+    return { kind: 'motion', series, viewKey: null, timeAxis: axes.timeAxis, metrics: axes.metrics };
   }
 
   /**
@@ -2591,95 +2672,25 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
    * explicit (never just |F|), and shows its own N scale; the shared time
    * axis is labelled in seconds.
    */
-  function drawForceGraphs(sensor, ctx, w, h, dpr, text, border) {
+  function drawForceGraphs(sensor, ctx, w, h, dpr, style) {
     const model = forceGraphModel(sensor, {
       viewKey: sensorViewKey(sensor),
       nameOf: graphTargetName,
     });
     if (!model.strips.length || !model.timeAxis) {
-      ctx.fillStyle = text;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = style.bg;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = style.text;
+      ctx.font = `${11 * dpr}px monospace`;
       ctx.fillText(sensorTargets(sensor).length
         ? '运行后记录受力 · Force curves record while running'
         : '先为受力传感器点选跟踪目标 · Pick tracked targets for the force sensor first', 10 * dpr, 22 * dpr);
       return;
     }
-    const accent = graphPalette()[0];
-    const warn = graphPalette()[1];
-    const ok = graphPalette()[2];
-    const lineColors = { fx: accent, fy: warn, fz: ok };
-    const titleFont = `${12 * dpr}px monospace`;
-    const tickFont = `${Math.max(9, Math.round(9.5 * dpr))}px monospace`;
-    const pad = { l: 50 * dpr, r: 8 * dpr, t: 4 * dpr, b: 32 * dpr };
-    const plotW = w - pad.l - pad.r;
-    const { timeAxis } = model;
-    const xOf = (t) => pad.l + ((t - timeAxis.min) / Math.max(1e-9, timeAxis.max - timeAxis.min)) * plotW;
-    const stripH = (h - pad.t - pad.b) / model.strips.length;
-    const bottomAll = h - pad.b;
-    for (let i = 0; i < model.strips.length; i += 1) {
-      const strip = model.strips[i];
-      const top = pad.t + i * stripH;
-      const bottom = top + stripH - 3 * dpr;
-      ctx.strokeStyle = border;
-      ctx.lineWidth = dpr;
-      ctx.beginPath();
-      ctx.moveTo(pad.l, top);
-      ctx.lineTo(w, top);
-      ctx.stroke();
-      ctx.font = titleFont;
-      ctx.fillStyle = text;
-      ctx.fillText(`${strip.label} (N)`, pad.l + 4 * dpr, top + 10 * dpr);
-      const yOf = (value) => bottom
-        - ((value - strip.min) / Math.max(1e-9, strip.max - strip.min))
-        * Math.max(1, bottom - top - 13 * dpr);
-      ctx.font = tickFont;
-      for (const tick of strip.ticks) {
-        ctx.fillText(tick.text, pad.l - 5 * dpr - ctx.measureText(tick.text).width, yOf(tick.value) + 3 * dpr);
-      }
-      const plot = (line) => {
-        ctx.strokeStyle = lineColors[line.key];
-        ctx.lineWidth = 1.5 * dpr;
-        ctx.setLineDash(line.dash.map((d) => d * dpr));
-        ctx.beginPath();
-        let moved = false;
-        for (const row of strip.rows) {
-          if (!Number.isFinite(row[line.key])) continue;
-          const px = xOf(row.t);
-          const py = yOf(row[line.key]);
-          if (!moved) { ctx.moveTo(px, py); moved = true; }
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-        ctx.setLineDash([]);
-      };
-      plot(FORCE_LINES[0]);
-      plot(FORCE_LINES[1]);
-      if (strip.hasZ) plot(FORCE_LINES[2]);
-    }
-    // Numeric time axis in seconds below the strips...
-    ctx.font = tickFont;
-    ctx.fillStyle = text;
-    ctx.strokeStyle = border;
-    ctx.lineWidth = dpr;
-    ctx.beginPath();
-    ctx.moveTo(pad.l, bottomAll);
-    ctx.lineTo(w - pad.r, bottomAll);
-    ctx.stroke();
-    for (const tick of timeAxis.ticks) {
-      const x = xOf(tick.value);
-      ctx.beginPath();
-      ctx.moveTo(x, bottomAll);
-      ctx.lineTo(x, bottomAll + 3 * dpr);
-      ctx.stroke();
-      const label = String(tick.text);
-      const labelX = Math.max(pad.l, Math.min(x + 3 * dpr, w - pad.r - ctx.measureText(label).width));
-      ctx.fillText(label, labelX, bottomAll + 11 * dpr);
-    }
-    const caption = `t (${timeAxis.unit})`;
-    ctx.fillText(caption, w - pad.r - ctx.measureText(caption).width, bottomAll + 11 * dpr);
-    // ...then the component line styles and the lab-frame convention.
-    const legend = `Fx —— · Fy ---- ${model.hasZ ? '· Fz ····' : ''}`;
-    ctx.fillText(legend, pad.l, h - 5 * dpr);
-    ctx.fillText(model.axisNote, pad.l + ctx.measureText(legend).width + 12 * dpr, h - 5 * dpr);
+    paintForceChart(ctx, model, forceChartLayout(model, {
+      width: w, height: h, dpr, measure: chartMeasure(ctx, dpr),
+    }), style);
   }
 
   function setGraphs(value) {
@@ -4551,11 +4562,35 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
   });
   graphExportBtn.addEventListener('click', () => {
-    // Redraw from the live sample histories so the exported image matches the
-    // currently viewed target even while paused.
-    drawGraphs();
+    // Exports render on a dedicated offscreen canvas at the chart's native
+    // export size — never on the cramped live widget — from the same model,
+    // layout and painter as the live view, so the downloaded PNG always
+    // matches the viewed target with readable, unclipped ticks and titles.
+    const style = graphStyle();
+    const sensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
+    let kind = 'motion';
+    let model = null;
+    if (sensor?.kind === 'force') {
+      kind = 'force';
+      model = forceGraphModel(sensor, {
+        viewKey: sensorViewKey(sensor),
+        nameOf: graphTargetName,
+      });
+      if (!model.strips.length || !model.timeAxis) {
+        setStatus(sensorTargets(sensor).length
+          ? '先运行再导出受力图 · Run before exporting the force chart'
+          : '先为受力传感器点选跟踪目标 · Pick tracked targets for the force sensor first', true);
+        return;
+      }
+    } else {
+      model = buildMotionChartModel(sensor);
+      if (!model) {
+        setStatus('先运行再导出曲线 · Run before exporting the chart', true);
+        return;
+      }
+    }
+    const size = kind === 'force' ? exportForceSize(model.strips.length) : EXPORT_MOTION_SIZE;
     const viewTarget = () => {
-      const sensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
       if (!sensor || (sensor.kind !== 'motion' && sensor.kind !== 'force')) return '';
       const view = sensorViewKey(sensor);
       return view && view !== SENSOR_VIEW_ALL ? view : '';
@@ -4567,7 +4602,22 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         ? 'physics-body'
         : 'lab-graphs';
     try {
-      const url = graphCanvas.toDataURL('image/png');
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = size.width;
+      exportCanvas.height = size.height;
+      const ctx = exportCanvas.getContext('2d');
+      if (!ctx) throw new Error('canvas unavailable');
+      const measure = chartMeasure(ctx, 1);
+      if (kind === 'force') {
+        paintForceChart(ctx, model, forceChartLayout(model, {
+          width: size.width, height: size.height, dpr: 1, measure,
+        }), style);
+      } else {
+        paintMotionChart(ctx, model, motionChartLayout(model, {
+          width: size.width, height: size.height, dpr: 1, measure,
+        }), style);
+      }
+      const url = exportCanvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
       a.download = `${base}${suffix ? `-${suffix.replace(/[^\w-]+/g, '-')}` : ''}.png`;

@@ -55,11 +55,18 @@ import {
   updateMountedApparatus,
 } from '../modules/physics/lab/physics.mjs';
 import {
+  CHART_TEXT,
+  EXPORT_MOTION_SIZE,
   FORCE_LINES,
+  compactTickTexts,
+  exportForceSize,
+  forceChartLayout,
   forceGraphModel,
+  motionChartLayout,
   motionGraphModel,
   niceTicks,
   sensorTargetLabel,
+  wrapTextSegments,
 } from '../modules/physics/lab/graphs.mjs';
 import {
   captureSensorRecords,
@@ -581,6 +588,262 @@ check('chart model: force strips carry names, provenance, N ticks and direction 
   ok(weightA.min < weightB.min - 9, 'the two weight scales differ — magnitudes are not rescaled together');
 });
 
+/* ------------- chart layout regressions (export PNG defect) ------------- */
+
+/**
+ * Reproducible monospace measure stub: latin/digits ≈ 0.6 em, CJK and
+ * fullwidth punctuation 1 em — close to real browser monospace metrics and
+ * deterministic on every run. The layout itself stays pure.
+ */
+function stubMeasure(dpr) {
+  return (text, which) => {
+    const em = (which === 'title' ? CHART_TEXT.titlePx : CHART_TEXT.tickPx) * dpr;
+    let w = 0;
+    for (const ch of String(text)) w += /[\u2e80-\uffef]/.test(ch) ? em : em * 0.6;
+    return w;
+  };
+}
+
+function boxOverlap(a, b) {
+  return a.x < b.x + b.w - 1e-6 && b.x < a.x + a.w - 1e-6
+    && a.y < b.y + b.h - 1e-6 && b.y < a.y + a.h - 1e-6;
+}
+
+function boxInsideCanvas(box, width, height, label) {
+  if (box.x < -1e-6 || box.y < -1e-6 || box.x + box.w > width + 1e-6 || box.y + box.h > height + 1e-6) {
+    throw new Error(`${label}: box [x=${box.x} y=${box.y} w=${box.w} h=${box.h}] leaves the ${width}×${height} canvas`);
+  }
+}
+
+/** Every y tick / title box of one strip set is pairwise disjoint and inside. */
+function assertBoxesDisjoint(boxes, width, height, label) {
+  for (const a of boxes) boxInsideCanvas(a.box, width, height, `${label} ${a.what}`);
+  for (let i = 0; i < boxes.length; i += 1) {
+    for (let j = i + 1; j < boxes.length; j += 1) {
+      ok(!boxOverlap(boxes[i].box, boxes[j].box),
+        `${label}: ${boxes[i].what} overlaps ${boxes[j].what}`);
+    }
+  }
+}
+
+function assertAxisDisjoint(axis, width, height, label) {
+  ok(axis && axis.caption.text === 't (s)', `${label}: numeric time axis with its s unit`);
+  const axisBoxes = [
+    ...axis.ticks.map((k) => ({ box: k.box, what: `time tick ${k.text}` })),
+    { box: axis.caption.box, what: 'time caption' },
+  ];
+  assertBoxesDisjoint(axisBoxes, width, height, `${label} time axis`);
+}
+
+/** Strip bands meet their height floor and carry a readable, distinct scale. */
+function assertStripGeometry(layout, label, { minBandH, minTicks }) {
+  for (const strip of layout.strips) {
+    ok(strip.rect.h >= minBandH, `${label}: strip ${strip.key} band height ${strip.rect.h.toFixed(1)} ≥ ${minBandH}`);
+    ok(strip.ticks.length >= minTicks,
+      `${label}: strip ${strip.key} keeps ${strip.ticks.length} ≥ ${minTicks} y ticks`);
+    const texts = strip.ticks.map((k) => k.text);
+    ok(new Set(texts).size === texts.length, `${label}: strip ${strip.key} tick texts distinct (${texts.join(',')})`);
+    if (strip.min != null && strip.ticks.length >= 2) {
+      const top = strip.yOf(Math.max(...strip.ticks.map((k) => k.value)));
+      const bottom = strip.yOf(Math.min(...strip.ticks.map((k) => k.value)));
+      ok(top < bottom, `${label}: strip ${strip.key} keeps max at the top of its band`);
+    }
+  }
+}
+
+/**
+ * The acceptance defect as a scene: a resting block named 方块甲 with the
+ * stable id body:block-2 tracked by a motion sensor, flat on every channel —
+ * the exact case whose exported PNG smeared the y ticks into one blob.
+ */
+function buildRestMotionScene() {
+  const world = createWorld({ g: 9.8 });
+  const other = addBlock(world, { id: 'block-1', mass: 1, x: 6, y: 1, z: 0, name: '方块乙' });
+  const tracked = addBlock(world, { id: 'block-2', mass: 2, x: 2, y: 1, z: 0, name: '方块甲' });
+  const surface = addSurface(world, { angleDeg: 0, muS: 0.6, muK: 0.4, length: 20, x: 2, y: 0, width: 6 });
+  ok(attachBodyToSurface(world, tracked, surface.id, { localX: 0, localZ: 0 }), 'the tracked block rests on the surface');
+  ok(attachBodyToSurface(world, other, surface.id, { localX: 4, localZ: 0 }), 'the second block rests too');
+  const sensor = addSensor(world, { kind: 'motion', x: -4, y: 0, z: 0, range: 30 });
+  addSensorTarget(world, sensor, tracked.id);
+  captureInitial(world);
+  advance(world, 12);
+  return { world, tracked, sensor };
+}
+
+check('chart layout: a resting motion export keeps ticks, titles and channels disjoint', () => {
+  const { tracked, sensor } = buildRestMotionScene();
+  const model = motionGraphModel(sensor, { viewKey: `body:${tracked.id}`, nameOf: () => '方块甲' });
+  ok(model.series[0].label === '方块甲 · body:block-2',
+    `in-chart label carries the name and stable id (got ${model.series[0].label})`);
+  const layout = motionChartLayout(model, {
+    width: EXPORT_MOTION_SIZE.width,
+    height: EXPORT_MOTION_SIZE.height,
+    dpr: 1,
+    measure: stubMeasure(1),
+  });
+  ok(layout.width === EXPORT_MOTION_SIZE.width && layout.height === EXPORT_MOTION_SIZE.height,
+    'the layout runs at the actual native export size, not the widget size');
+  // Per strip and across strips: tick boxes, titles and header never collide.
+  const allBoxes = [];
+  layout.strips.forEach((strip, i) => {
+    const boxes = strip.titles.map((t) => ({ box: t.box, what: `${strip.key} title` }));
+    for (const tick of strip.ticks) boxes.push({ box: tick.box, what: `${strip.key} tick ${tick.text}` });
+    assertBoxesDisjoint(boxes, layout.width, layout.height, `export strip ${i}`);
+    for (const box of boxes) {
+      box.what = `ch${i}: ${box.what}`;
+      allBoxes.push(box);
+    }
+  });
+  for (const piece of layout.header.pieces) {
+    allBoxes.push({ box: piece.box, what: `header ${piece.text.slice(0, 12)}` });
+  }
+  assertBoxesDisjoint(allBoxes, layout.width, layout.height, 'export all channels');
+  assertStripGeometry(layout, 'export', { minBandH: 90, minTicks: 2 });
+  // Measured gutter: the widest tick fits with its right-hand gap and margin.
+  let widest = 0;
+  for (const strip of layout.strips) for (const tick of strip.ticks) widest = Math.max(widest, tick.w);
+  ok(layout.gutter >= widest + CHART_TEXT.tickGapX - 1e-6,
+    `gutter ${layout.gutter.toFixed(1)} ≥ widest tick ${widest.toFixed(1)} + gap`);
+  assertAxisDisjoint(layout.timeAxis, layout.width, layout.height, 'export');
+  // Full units survive: m, m/s, m/s², J per channel, seconds on the axis.
+  const titles = layout.strips.map((s) => s.titles.map((t) => t.text).join('')).join('|');
+  ok(['x (m)', 'v (m/s)', 'a (m/s²)', 'E (J)'].every((s) => titles.includes(s)),
+    `channel titles keep their units (got ${titles})`);
+  const header = layout.header.pieces.map((p) => p.text).join(' ');
+  ok(header.includes('目标 · Target:') && header.includes('方块甲') && header.includes('body:block-2'),
+    `the header carries the full target identity (got ${header})`);
+  // The trace still maps inside its bands — data untouched by the layout.
+  for (const strip of layout.strips) {
+    ok(strip.min != null && strip.max != null, `strip ${strip.key} keeps its data scale`);
+    for (const row of model.series[0].rows.slice(0, 40)) {
+      const value = strip.key === 'e' ? row.e ?? row.ke : row[strip.key];
+      const py = strip.yOf(value);
+      ok(py >= strip.plot.top - 1e-6 && py <= strip.plot.bottom + 1e-6,
+        `strip ${strip.key} keeps its samples inside the band`);
+    }
+  }
+});
+
+check('chart layout: live-canvas sizes separate rest ticks without clipping', () => {
+  const { tracked, sensor } = buildRestMotionScene();
+  const model = motionGraphModel(sensor, { viewKey: `body:${tracked.id}`, nameOf: () => '方块甲' });
+  // The new CSS height (300) and the mobile height (260) must read cleanly;
+  // the old broken 390×240 must at least never smear or clip again.
+  for (const [w, h, minTicks] of [[390, 300, 2], [360, 260, 2], [390, 240, 1]]) {
+    const layout = motionChartLayout(model, { width: w, height: h, dpr: 1, measure: stubMeasure(1) });
+    const label = `live ${w}×${h}`;
+    const boxes = [];
+    layout.strips.forEach((strip, i) => {
+      for (const t of strip.titles) boxes.push({ box: t.box, what: `ch${i} ${strip.key} title` });
+      for (const k of strip.ticks) boxes.push({ box: k.box, what: `ch${i} ${strip.key} tick ${k.text}` });
+    });
+    for (const piece of layout.header.pieces) boxes.push({ box: piece.box, what: 'header' });
+    assertBoxesDisjoint(boxes, w, h, label);
+    assertStripGeometry(layout, label, { minBandH: 30, minTicks });
+    assertAxisDisjoint(layout.timeAxis, w, h, label);
+    let widest = 0;
+    for (const strip of layout.strips) for (const tick of strip.ticks) widest = Math.max(widest, tick.w);
+    ok(layout.gutter >= widest + CHART_TEXT.tickGapX - 1e-6, `${label}: gutter fits the widest tick`);
+  }
+});
+
+check('tick format: compact and distinguishable from 1e-8 to ±1e6', () => {
+  const cases = [
+    [niceTicks(-0.5, 0.5, 3), '-0.5'],
+    [niceTicks(0.00025, 0.00035, 2), '0.0003'],
+    [niceTicks(3e-8, 4e-8, 2), 'e-8'],
+    [niceTicks(-2.5e-7, 2.5e-7, 2), 'e-7'],
+    [niceTicks(-1.23e6, 1.23e6, 3), 'e6'],
+  ];
+  for (const [ticks, needle] of cases) {
+    const texts = ticks.map((k) => k.text);
+    ok(ticks.length >= 2, `tick set stays a ruler (${texts.join(',')})`);
+    ok(new Set(texts).size === texts.length, `tick texts distinct (${texts.join(',')})`);
+    ok(texts.every((t) => t.length <= 8), `tick texts short, never "0.000000" smudges (${texts.join(',')})`);
+    ok(texts.every((t) => /^-?\d/.test(t) && Number.isFinite(Number(t))), `tick texts numeric (${texts.join(',')})`);
+    ok(texts.join(',').includes(needle), `expected compact shape ${needle} (${texts.join(',')})`);
+  }
+  ok(compactTickTexts([0]).join() === '0', 'zero formats as "0"');
+  // One tick per budgeted grid position: never five labels in a small strip.
+  ok(niceTicks(-0.5, 0.5, 3).length <= 4, 'a padded flat range stays within count + 1');
+  ok(niceTicks(0, 1, 5).length >= 5, 'a 0–1 s window still gets its five ticks');
+  ok(niceTicks(0, 12, 5).length <= 6, 'long windows cap their tick count');
+  const flat = niceTicks(2, 2, 3);
+  ok(flat.some((k) => k.value < 2) && flat.some((k) => k.value > 2), 'flat traces keep a padded readable scale');
+  // Wrapping never loses characters — long titles wrap instead of clipping.
+  const longTitle = '方块甲 · body:block-2 · 接触/约束反力 [est] (N)';
+  const segs = wrapTextSegments(longTitle, (s) => stubMeasure(1)(s, 'title'), 150);
+  ok(segs.length > 1, `the long strip title wraps (${segs.length} lines)`);
+  ok(segs.join('') === longTitle, 'wrapped segments rejoin into the full title');
+  ok(wrapTextSegments('运行后记录曲线 · Curves record while running', (s) => stubMeasure(1)(s, 'tick'), 9999).length === 1,
+    'short text never wraps');
+});
+
+check('chart layout: force export carries names, N ticks and the time axis without overlap', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBlock(world, { id: 'block-2', mass: 2, x: -1.5, y: 1, z: 0, name: '方块甲' });
+  const surface = addSurface(world, { angleDeg: 0, muS: 0.6, muK: 0.35, length: 20, x: 0, y: 0, width: 6 });
+  attachBodyToSurface(world, a, surface.id, { localX: -1.5, localZ: 0 });
+  const sensor = addSensor(world, { kind: 'force', x: 0, y: 0, z: 2 });
+  addSensorTarget(world, sensor, a.id);
+  captureInitial(world);
+  advance(world, 12);
+  const model = forceGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf: () => '方块甲' });
+  const size = exportForceSize(model.strips.length);
+  const layout = forceChartLayout(model, {
+    width: size.width, height: size.height, dpr: 1, measure: stubMeasure(1),
+  });
+  ok(layout.width === size.width && layout.height === size.height,
+    `force export uses its own native size ${size.width}×${size.height}`);
+  ok(layout.strips.length === model.strips.length, 'every (target, force) strip keeps its band');
+  const boxes = [];
+  for (const strip of layout.strips) {
+    const titleText = strip.titles.map((t) => t.text).join('');
+    ok(titleText.includes('方块甲') && titleText.includes('body:block-2'),
+      `strip title carries name and stable id even when wrapped (got ${titleText})`);
+    ok(titleText.includes('(N)'), `strip title keeps its unit (got ${titleText})`);
+    ok(strip.rect.h >= 75, `force strip band ${strip.rect.h.toFixed(1)} ≥ 75`);
+    for (const title of strip.titles) boxes.push({ box: title.box, what: `title ${strip.forceName}` });
+    ok(strip.ticks.length >= 2, `strip ${strip.forceName} has y ticks`);
+    for (const tick of strip.ticks) boxes.push({ box: tick.box, what: `tick ${tick.text} on ${strip.forceName}` });
+  }
+  assertBoxesDisjoint(boxes, size.width, size.height, 'force export');
+  assertAxisDisjoint(layout.timeAxis, size.width, size.height, 'force export');
+  for (const note of layout.notes) boxInsideCanvas(note.box, size.width, size.height, `force note ${note.text.slice(0, 10)}`);
+  const notes = layout.notes.map((n) => n.text).join(' ');
+  ok(notes.includes('实验室系分量') && notes.includes('Lab-frame'),
+    `the lab-frame convention note survives the export (got ${notes})`);
+  ok(notes.includes('Fx') && notes.includes('Fy'), `component line-style legend survives (got ${notes})`);
+  const marks = model.strips.map((s) => s.forceName).join('|');
+  ok(marks.includes('[est]') || marks.includes('[measured]'), 'provenance marks still label every strip');
+});
+
+check('chart layout: a strip too short for its tick budget steps down instead of overlapping', () => {
+  // A weight-like asymmetric range: the raw step (19.6/3 ≈ 6.5) rounds DOWN
+  // the 1/2/5 ladder to 5, which would pack four labels into a band whose
+  // height budgeted three. The layout must step down to wider ticks.
+  const model = {
+    kind: 'motion',
+    series: [{ key: 'body:block-2', label: '方块甲 · body:block-2', rows: [] }],
+    timeAxis: { unit: 's', min: 0, max: 12, ticks: niceTicks(0, 12, 5) },
+    metrics: ['x', 'v', 'a', 'e'].map((key) => ({
+      key, label: key.toUpperCase(), unit: 'm', min: -19.6, max: 0, ticks: [],
+    })),
+  };
+  const layout = motionChartLayout(model, { width: 900, height: 300, dpr: 1, measure: stubMeasure(1) });
+  const label = 'tight strip';
+  const boxes = [];
+  layout.strips.forEach((strip, i) => {
+    ok(strip.ticks.length >= 2, `${label}: strip ${strip.key} keeps a two-tick ruler`);
+    for (const k of strip.ticks) boxes.push({ box: k.box, what: `ch${i} tick ${k.text}` });
+    for (const t of strip.titles) boxes.push({ box: t.box, what: `ch${i} title` });
+  });
+  assertBoxesDisjoint(boxes, 900, 300, label);
+  ok(layout.strips[0].ticks.length === 2
+    && layout.strips[0].ticks.map((k) => k.text).join(',') === '-10,0',
+    `the down-rounded ladder steps down to wider ticks (got ${layout.strips[0].ticks.map((k) => k.text).join(',')})`);
+});
+
 /* ------------------------ physics: reset keeps body targets ------------------------ */
 
 check('reset: an ordinary body target stays tracked and re-records under the same key', () => {
@@ -882,13 +1145,18 @@ check('hooks: the live free-body diagram is wired with names and an axis convent
 
 check('hooks: force charts show direction, not just magnitude, and export per target', () => {
   expectIn(labJs, 'function drawForceGraphs(', 'force chart renderer');
-  expectIn(labJs, 'plot(FORCE_LINES[0]);', 'chart plots the x component');
-  expectIn(labJs, 'plot(FORCE_LINES[1]);', 'chart plots the y component');
-  expectIn(labJs, 'plot(FORCE_LINES[2]);', 'chart plots the z component when present');
+  expectIn(labJs, 'function paintForceChart(', 'force chart painter shared by live and export');
+  expectIn(labJs, 'for (const line of FORCE_LINES) {', 'chart plots every component line');
+  expectIn(labJs, 'line.key === \'fz\' && !strip.hasZ', 'chart plots the z component when present');
   expectIn(labJs, '实验室系分量', 'axis convention on the chart');
   expectIn(labJs, "'data-action': 'graph-export'", 'chart export button');
-  expectIn(labJs, "graphCanvas.toDataURL('image/png')", 'PNG export path');
+  expectIn(labJs, "exportCanvas.toDataURL('image/png')", 'PNG export path');
   expectIn(labJs, 'Chart image downloaded for the viewed target', 'per-target export confirmed in status');
+  expectIn(labJs, 'EXPORT_MOTION_SIZE', 'motion exports carry their own native size');
+  expectIn(labJs, 'exportForceSize(model.strips.length)', 'force exports size a dedicated canvas');
+  expectIn(labJs, 'motionChartLayout(model, {', 'motion export draws through the shared layout');
+  expectIn(labJs, 'forceChartLayout(model, {', 'force export draws through the shared layout');
+  expectIn(labJs, 'function paintMotionChart(', 'motion chart painter shared by live and export');
   const exportRule = cssBlock(labCss, '.plab-graph-export {');
   expectIn(exportRule, 'min-height: 44px', 'graph export meets the 44px touch target');
 });
