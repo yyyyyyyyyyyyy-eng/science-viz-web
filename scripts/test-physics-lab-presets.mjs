@@ -125,6 +125,7 @@ function findFocus(world, focus) {
   if (focus.type.startsWith('em')) return emSceneEntities(world.em).find((entity) => entity.id === focus.id) || null;
   if (focus.type === 'body') return getBody(world, focus.id);
   if (focus.type === 'surface') return getSurface(world, focus.id);
+  if (focus.type === 'sensor') return world.sensors.find((s) => s.id === focus.id) || null;
   if (focus.type === 'launcher') return getLauncher(world, focus.id);
   if (focus.type === 'loop') return getLoop(world, focus.id);
   if (focus.type === 'pulley') return getPulley(world, focus.id);
@@ -209,6 +210,30 @@ const ANALYTICS = {
       tolerance: 0.005,
       unit: 'm/s²',
       label: 'a = (m₁−m₂)g/(m₁+m₂+I/r²)',
+    };
+  },
+  'mech-u2-force-sensor-friction': (world) => {
+    const block = getBody(world, 'block');
+    const surface = getSurface(world, 'track');
+    const sensor = world.sensors.find((s) => s.kind === 'force');
+    advance(world, 0.5, 1 / 960);
+    const rows = (sensor.samples || []).filter((r) => r.key === `body:${block.id}`);
+    if (!rows.length) throw new Error('force sensor logged nothing for the block');
+    const last = rows[rows.length - 1];
+    const weight = last.forces.find((f) => f.id === 'weight');
+    const friction = last.forces.find((f) => f.id === 'friction');
+    if (!friction) throw new Error('no friction channel in the last sample');
+    const expected = surface.muK * block.mass * world.g;
+    if (Math.abs(weight.fy + block.mass * world.g) > 1e-6) throw new Error('weight channel drifted from -mg');
+    const net = last.forces.find((f) => f.id === 'net');
+    return {
+      duration: 0.5,
+      measured: Math.hypot(friction.fx, friction.fy, friction.fz),
+      expected,
+      tolerance: 0.01,
+      unit: 'N',
+      label: '|f| = μ_k m g (force sensor channel)',
+      detail: `friction fx=${friction.fx.toFixed(4)} N (opposing +x), |ΣF|=${Math.hypot(net.fx, net.fy, net.fz).toFixed(3)} N`,
     };
   },
   'mech-u2-air-drag': (world) => {

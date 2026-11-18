@@ -572,6 +572,12 @@ export function removeBody(world, body) {
       apparatus.mount = null;
     }
   }
+  // A deleted body can no longer be tracked: drop only that target (its own
+  // rows go with it; every other target keeps its full history).
+  for (const sensor of world.sensors) {
+    if (sensor.kind !== 'motion' && sensor.kind !== 'force') continue;
+    removeSensorTarget(world, sensor, body.id, { type: 'body' });
+  }
 }
 
 export function loopPoint(loop, theta) {
@@ -1364,8 +1370,8 @@ function applyPulleyForces(world, pulley) {
   TB = Math.max(0, TB);
   pulley.tensionA = TA;
   pulley.tensionB = TB;
-  if (TA > 0) a.cannon.applyForce(uA.scale(TA));
-  if (TB > 0) b.cannon.applyForce(uB.scale(TB));
+  if (TA > 0) logBodyForce(a, { id: 'rope', zh: '绳张力', en: 'Rope tension', vector: uA.scale(TA) });
+  if (TB > 0) logBodyForce(b, { id: 'rope', zh: '绳张力', en: 'Rope tension', vector: uB.scale(TB) });
   a._ropeU = uA;
   b._ropeU = uB;
   a._ropeT = TA;
@@ -2192,6 +2198,83 @@ export function rebuildWedge(world, wedge, { angle, length, width } = {}) {
 /* Photogate and motion sensor                                        */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Motion and force sensors can track several independently identified target
+ * objects at once. Each target keeps its own keyed sample history, so adding
+ * or removing one target never disturbs the others' records.
+ */
+export const SENSOR_SAMPLE_CAP = 1200;
+export const SENSOR_TARGET_CAP = 8;
+
+function sensorIdPrefix(kind) {
+  if (kind === 'motion') return 'motion';
+  if (kind === 'force') return 'force';
+  return 'gate';
+}
+
+/** Normalise a raw targets list to [{id, type: 'body'|'launcher'}], deduped and capped. */
+function normalizeSensorTargets(raw) {
+  if (!Array.isArray(raw)) return [];
+  const out = [];
+  const seen = new Set();
+  for (const entry of raw) {
+    if (!entry || typeof entry !== 'object') continue;
+    const id = typeof entry.id === 'string' ? entry.id : null;
+    if (!id) continue;
+    const type = entry.type === 'launcher' ? 'launcher' : 'body';
+    const key = `${type}:${id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ id, type });
+    if (out.length >= SENSOR_TARGET_CAP) break;
+  }
+  return out;
+}
+
+export function sensorTargetKey(target) {
+  if (!target || !target.id) return '';
+  return `${target.type === 'launcher' ? 'launcher' : 'body'}:${target.id}`;
+}
+
+export function sensorTargets(sensor) {
+  if (!sensor || !Array.isArray(sensor.targets)) return [];
+  return normalizeSensorTargets(sensor.targets);
+}
+
+/** Mirror targets[0] into the legacy single-target descriptor fields. */
+function syncPrimaryTarget(sensor) {
+  const primary = Array.isArray(sensor.targets) ? sensor.targets[0] : null;
+  sensor.targetId = primary ? primary.id : null;
+  sensor.targetType = primary ? primary.type : null;
+}
+
+function pruneSensorKeyRows(sensor, key) {
+  if (!key || !Array.isArray(sensor.samples)) return;
+  sensor.samples = sensor.samples.filter((row) => row.key !== key);
+}
+
+/**
+ * Bound each target's history independently: a busy target cannot evict
+ * another target's rows. With a single target this is exactly the previous
+ * total-cap behaviour (SENSOR_SAMPLE_CAP rows).
+ */
+function pushSensorSample(sensor, row) {
+  sensor.samples.push(row);
+  const key = row.key;
+  if (!key) {
+    if (sensor.samples.length > SENSOR_SAMPLE_CAP) sensor.samples.shift();
+    return;
+  }
+  let count = 0;
+  for (const r of sensor.samples) {
+    if (r.key === key) count += 1;
+  }
+  if (count > SENSOR_SAMPLE_CAP) {
+    const index = sensor.samples.findIndex((r) => r.key === key);
+    if (index >= 0) sensor.samples.splice(index, 1);
+  }
+}
+
 export function addSensor(world, opts = {}) {
   const {
     kind = 'photogate',
@@ -2203,8 +2286,12 @@ export function addSensor(world, opts = {}) {
     range = 8,
     face = 1,
   } = opts;
+  const targets = normalizeSensorTargets(opts.targets);
+  if (!targets.length && opts.targetId) {
+    targets.push({ id: opts.targetId, type: opts.targetType === 'launcher' ? 'launcher' : 'body' });
+  }
   const sensor = {
-    id: assignId(world, kind === 'motion' ? 'motion' : 'gate', opts.id),
+    id: assignId(world, sensorIdPrefix(kind), opts.id),
     type: 'sensor',
     kind,
     name: opts.name || '',
@@ -2221,10 +2308,13 @@ export function addSensor(world, opts = {}) {
     lastCrossing: null,
     lastDistance: null,
     lastSpeed: null,
+    lastNetForce: 0,
+    lastMaxForce: 0,
     flashUntil: -1,
     sampleAt: -1,
-    targetId: opts.targetId || null,
-    targetType: opts.targetType || (opts.targetId ? 'body' : null),
+    targets,
+    targetId: targets[0]?.id || null,
+    targetType: targets[0]?.type || null,
     sampleBodyId: null,
     series: 0,
     mount: opts.mount ? cloneMount(opts.mount) : null,
@@ -2253,9 +2343,68 @@ export function nearestSensorBody(world, sensor) {
   return best;
 }
 
+/** Resolve one target descriptor {id, type} to a live body or the launcher's loaded ball. */
+export function resolveSensorTarget(world, target) {
+  if (!target || !target.id) return { status: 'none' };
+  if ((target.type || 'body') === 'launcher') {
+    const launcher = getLauncher(world, target.id);
+    if (!launcher) return { status: 'stale' };
+    const body = launcher.projectileId ? getBody(world, launcher.projectileId) : null;
+    const name = launcher.name || `抛射器装填小球 · Loaded ball (${launcher.id})`;
+    if (body) {
+      return {
+        status: 'ok',
+        body,
+        launcher,
+        loaded: false,
+        key: `launcher:${launcher.id}`,
+        name,
+        position: body.cannon.position,
+        velocity: body.cannon.velocity,
+        mass: body.mass,
+      };
+    }
+    const position = launcherMuzzle(launcher);
+    return {
+      status: 'ok',
+      body: null,
+      launcher,
+      loaded: true,
+      key: `launcher:${launcher.id}`,
+      name,
+      position,
+      velocity: mountVelocity(world, launcher.mount, position),
+      mass: launcher.mass,
+    };
+  }
+  const body = getBody(world, target.id);
+  if (!body) return { status: 'stale' };
+  return {
+    status: 'ok',
+    body,
+    launcher: null,
+    loaded: false,
+    key: `body:${body.id}`,
+    name: body.name || body.id,
+    position: body.cannon.position,
+    velocity: body.cannon.velocity,
+    mass: body.mass,
+  };
+}
+
+function dropStaleSensorTarget(world, sensor, target) {
+  const key = sensorTargetKey(target);
+  const index = Array.isArray(sensor.targets)
+    ? sensor.targets.findIndex((t) => sensorTargetKey(t) === key)
+    : -1;
+  if (index >= 0) sensor.targets.splice(index, 1);
+  pruneSensorKeyRows(sensor, key);
+  syncPrimaryTarget(sensor);
+}
+
 /** Pick a motion-sensor target; null restores automatic nearest-in-line-of-sight. */
 export function setSensorTarget(world, sensor, targetId = null, opts = {}) {
-  if (!sensor || sensor.kind !== 'motion') return false;
+  if (!sensor || (sensor.kind !== 'motion' && sensor.kind !== 'force')) return false;
   let type = null;
   if (targetId) {
     type = opts.type || (getBody(world, targetId) ? 'body' : getLauncher(world, targetId) ? 'launcher' : null);
@@ -2263,14 +2412,57 @@ export function setSensorTarget(world, sensor, targetId = null, opts = {}) {
     if (type === 'launcher' && !getLauncher(world, targetId)) return false;
     if (type !== 'body' && type !== 'launcher') return false;
   }
-  sensor.targetId = targetId || null;
-  sensor.targetType = type;
+  sensor.targets = targetId ? [{ id: targetId, type }] : [];
+  syncPrimaryTarget(sensor);
   sensor.samples.length = 0;
   sensor.sampleAt = -1;
   sensor.sampleBodyId = null;
   sensor.lastDistance = null;
   sensor.lastSpeed = null;
   sensor.series += 1;
+  return true;
+}
+
+/**
+ * Append another independently identified target. Existing targets and their
+ * sample histories are untouched: each target keeps its own keyed series.
+ */
+export function addSensorTarget(world, sensor, targetId, opts = {}) {
+  if (!sensor || (sensor.kind !== 'motion' && sensor.kind !== 'force')) return false;
+  if (!targetId) return false;
+  const type = opts.type
+    || (getBody(world, targetId) ? 'body' : getLauncher(world, targetId) ? 'launcher' : null);
+  if (type !== 'body' && type !== 'launcher') return false;
+  if (type === 'body' && !getBody(world, targetId)) return false;
+  if (type === 'launcher' && !getLauncher(world, targetId)) return false;
+  const key = `${type}:${targetId}`;
+  if (sensorTargets(sensor).some((t) => sensorTargetKey(t) === key)) return false;
+  if (!Array.isArray(sensor.targets)) sensor.targets = [];
+  if (sensor.targets.length >= SENSOR_TARGET_CAP) return false;
+  sensor.targets.push({ id: targetId, type });
+  if (sensor.targets.length === 1) {
+    syncPrimaryTarget(sensor);
+    sensor.sampleBodyId = null;
+  }
+  return true;
+}
+
+/**
+ * Remove one target. Only that target's rows are dropped; every other target
+ * keeps its full history. The legacy single-target fields are re-mirrored.
+ */
+export function removeSensorTarget(world, sensor, targetId, opts = {}) {
+  if (!sensor || !targetId || !Array.isArray(sensor.targets)) return false;
+  const known = sensor.targets.find((t) => t.id === targetId);
+  const type = opts.type
+    || (known ? known.type : null)
+    || (getBody(world, targetId) ? 'body' : getLauncher(world, targetId) ? 'launcher' : 'body');
+  const key = `${type}:${targetId}`;
+  const index = sensor.targets.findIndex((t) => sensorTargetKey(t) === key);
+  if (index < 0) return false;
+  sensor.targets.splice(index, 1);
+  pruneSensorKeyRows(sensor, key);
+  syncPrimaryTarget(sensor);
   return true;
 }
 
@@ -2282,50 +2474,7 @@ export function setSensorTarget(world, sensor, targetId = null, opts = {}) {
 export function resolveMotionTarget(world, sensor) {
   if (!sensor || sensor.kind !== 'motion') return { status: 'none' };
   if (sensor.targetId) {
-    if ((sensor.targetType || 'body') === 'launcher') {
-      const launcher = getLauncher(world, sensor.targetId);
-      if (!launcher) return { status: 'stale' };
-      const body = launcher.projectileId ? getBody(world, launcher.projectileId) : null;
-      const name = launcher.name || `抛射器装填小球 · Loaded ball (${launcher.id})`;
-      if (body) {
-        return {
-          status: 'ok',
-          body,
-          launcher,
-          loaded: false,
-          key: `launcher:${launcher.id}`,
-          name,
-          position: body.cannon.position,
-          velocity: body.cannon.velocity,
-          mass: body.mass,
-        };
-      }
-      const position = launcherMuzzle(launcher);
-      return {
-        status: 'ok',
-        body: null,
-        launcher,
-        loaded: true,
-        key: `launcher:${launcher.id}`,
-        name,
-        position,
-        velocity: mountVelocity(world, launcher.mount, position),
-        mass: launcher.mass,
-      };
-    }
-    const body = getBody(world, sensor.targetId);
-    if (!body) return { status: 'stale' };
-    return {
-      status: 'ok',
-      body,
-      launcher: null,
-      loaded: false,
-      key: `body:${body.id}`,
-      name: body.name || body.id,
-      position: body.cannon.position,
-      velocity: body.cannon.velocity,
-      mass: body.mass,
-    };
+    return resolveSensorTarget(world, { id: sensor.targetId, type: sensor.targetType || 'body' });
   }
   return { status: 'none' };
 }
@@ -2360,36 +2509,45 @@ function updateSensor(world, sensor, sampleTime, h) {
     }
     return;
   }
-  // Motion sensor: explicit body/launcher target, or nearest body in sight.
-  let resolved = sensor.targetId ? resolveMotionTarget(world, sensor) : null;
-  if (resolved?.status === 'stale') {
-    sensor.targetId = null;
-    sensor.targetType = null;
-    sensor.lastDistance = null;
-    sensor.lastSpeed = null;
-    resolved = null;
+  if (sensor.kind === 'force') {
+    updateForceSensor(world, sensor, sampleTime, h);
+    return;
   }
-  let target = resolved?.status === 'ok' ? resolved.body : null;
-  let launcher = resolved?.status === 'ok' ? resolved.launcher : null;
-  let logicalKey = resolved?.status === 'ok' ? resolved.key : null;
-  let position = resolved?.status === 'ok' ? resolved.position : null;
-  let velocity = resolved?.status === 'ok' ? resolved.velocity : null;
-  let targetMass = resolved?.status === 'ok' ? resolved.mass : 0;
-  let loaded = resolved?.status === 'ok' ? resolved.loaded : false;
-  let targetName = resolved?.status === 'ok' ? resolved.name : '';
-  if (!resolved) {
-    target = nearestSensorBody(world, sensor);
-    if (target) {
-      position = target.cannon.position;
-      velocity = target.cannon.velocity;
-      targetMass = target.mass;
-      logicalKey = `body:${target.id}`;
-      targetName = target.name || '';
-      loaded = false;
-      launcher = null;
+  // Motion sensor: every tracked target keeps its own keyed sample series.
+  const targets = sensorTargets(sensor);
+  if (targets.length) {
+    const due = sampleTime - sensor.sampleAt >= 0.04 - 1e-9;
+    let sampled = false;
+    let primarySeen = false;
+    for (const target of targets) {
+      const resolved = resolveSensorTarget(world, target);
+      if (resolved.status === 'stale') {
+        // The referenced object is gone; only this target is affected.
+        dropStaleSensorTarget(world, sensor, target);
+        continue;
+      }
+      if (resolved.status !== 'ok') continue;
+      if (sensorTargetKey(target) === sensorTargetKey(targets[0])) {
+        primarySeen = true;
+        sensor.lastDistance = Math.abs((resolved.position.x - sensor.x) * sensor.face);
+        sensor.lastSpeed = resolved.velocity.x * sensor.face;
+      }
+      if (!due) continue;
+      pushSensorSample(sensor, motionSampleRow(resolved, sampleTime, h));
+      sampled = true;
     }
+    if (sampled) sensor.sampleAt = sampleTime;
+    if (!primarySeen) {
+      sensor.lastDistance = null;
+      sensor.lastSpeed = null;
+    }
+    return;
   }
-  const signedDistance = position ? (position.x - sensor.x) * sensor.face : null;
+  // Auto mode: nearest body in line of sight; a hand-off restarts the series.
+  let target = nearestSensorBody(world, sensor);
+  let logicalKey = target ? `body:${target.id}` : null;
+  const position = target ? target.cannon.position : null;
+  const velocity = target ? target.cannon.velocity : null;
   if (position && velocity) {
     const pre = target?._preStepV;
     const invH = h > 0 ? 1 / h : 0;
@@ -2397,7 +2555,7 @@ function updateSensor(world, sensor, sampleTime, h) {
     const ay = pre ? (velocity.y - pre.y) * invH : 0;
     const az = pre ? (velocity.z - pre.z) * invH : 0;
     const speed = velocity.length();
-    sensor.lastDistance = Math.abs(signedDistance);
+    sensor.lastDistance = Math.abs((position.x - sensor.x) * sensor.face);
     sensor.lastSpeed = velocity.x * sensor.face;
     if (sensor.sampleBodyId && sensor.sampleBodyId !== logicalKey) {
       // Changing target mid-run starts a clean series; never mix two objects.
@@ -2408,12 +2566,13 @@ function updateSensor(world, sensor, sampleTime, h) {
     sensor.sampleBodyId = logicalKey;
     if (sampleTime - sensor.sampleAt >= 0.04 - 1e-9) {
       sensor.sampleAt = sampleTime;
-      sensor.samples.push({
+      pushSensorSample(sensor, {
         t: sampleTime,
-        bodyId: target?.id || null,
-        launcherId: launcher?.id || null,
-        loaded,
-        bodyName: targetName,
+        key: logicalKey,
+        bodyId: target.id,
+        launcherId: null,
+        loaded: false,
+        bodyName: target.name || '',
         x: position.x,
         y: position.y,
         z: position.z,
@@ -2426,14 +2585,173 @@ function updateSensor(world, sensor, sampleTime, h) {
         ay,
         az,
         a: Math.hypot(ax, ay, az),
-        ke: 0.5 * targetMass * speed * speed,
+        ke: 0.5 * target.mass * speed * speed,
       });
-      if (sensor.samples.length > 1200) sensor.samples.shift();
     }
   } else {
     sensor.lastDistance = null;
     sensor.lastSpeed = null;
   }
+}
+
+function motionSampleRow(resolved, sampleTime, h) {
+  const target = resolved.body;
+  const position = resolved.position;
+  const velocity = resolved.velocity;
+  const pre = target?._preStepV;
+  const invH = h > 0 ? 1 / h : 0;
+  const ax = pre ? (velocity.x - pre.x) * invH : 0;
+  const ay = pre ? (velocity.y - pre.y) * invH : 0;
+  const az = pre ? (velocity.z - pre.z) * invH : 0;
+  const speed = velocity.length();
+  return {
+    t: sampleTime,
+    key: resolved.key,
+    bodyId: target?.id || null,
+    launcherId: resolved.launcher?.id || null,
+    loaded: !!resolved.loaded,
+    bodyName: resolved.name,
+    x: position.x,
+    y: position.y,
+    z: position.z,
+    vx: velocity.x,
+    vy: velocity.y,
+    vz: velocity.z,
+    v: speed,
+    speed,
+    ax,
+    ay,
+    az,
+    a: Math.hypot(ax, ay, az),
+    ke: 0.5 * resolved.mass * speed * speed,
+  };
+}
+
+/**
+ * Force sensor sampling. For every tracked target with a live body the modeled
+ * forces are listed one by one (never the net m·a split into invented parts),
+ * the measured net m·Δv/Δt is recorded separately, and whatever remains is
+ * reported as one solver-estimated contact reaction with its averaging window.
+ */
+function updateForceSensor(world, sensor, sampleTime, h) {
+  const targets = sensorTargets(sensor);
+  if (!targets.length) return;
+  const due = sampleTime - sensor.sampleAt >= 0.04 - 1e-9;
+  if (!due) return;
+  let sampled = false;
+  let netMag = 0;
+  let maxForce = 0;
+  for (const target of targets) {
+    const resolved = resolveSensorTarget(world, target);
+    if (resolved.status === 'stale') {
+      dropStaleSensorTarget(world, sensor, target);
+      continue;
+    }
+    const body = resolved.body;
+    if (!body) {
+      // A launcher's loaded ball is held kinematically; report nothing until
+      // it is in flight so no force is invented for the barrel clamp.
+      continue;
+    }
+    const row = forceSampleRow(world, body, resolved, sampleTime, h);
+    if (!row) continue;
+    pushSensorSample(sensor, row);
+    sampled = true;
+    netMag = Math.max(netMag, Math.hypot(row.net.fx, row.net.fy, row.net.fz));
+    for (const force of row.forces) {
+      maxForce = Math.max(maxForce, Math.hypot(force.fx, force.fy, force.fz));
+    }
+  }
+  if (sampled) {
+    sensor.sampleAt = sampleTime;
+    sensor.lastNetForce = netMag;
+    sensor.lastMaxForce = maxForce;
+  }
+}
+
+/** Below this magnitude the solver-estimated contact row is omitted as noise. */
+const FORCE_ESTIMATE_EPS = 0.02;
+
+function forceSampleRow(world, body, resolved, sampleTime, h) {
+  const pre = body._preStepV;
+  if (!pre || !(h > 0)) return null;
+  const invH = 1 / h;
+  const v = body.cannon.velocity;
+  const mass = body.mass;
+  const net = {
+    fx: mass * (v.x - pre.x) * invH,
+    fy: mass * (v.y - pre.y) * invH,
+    fz: mass * (v.z - pre.z) * invH,
+  };
+  let sx = 0;
+  let sy = 0;
+  let sz = 0;
+  const forces = [];
+  // Weight is applied by the engine itself; every other named channel comes
+  // from the exact per-substep log of forces the model actually applied.
+  forces.push({ id: 'weight', zh: '重力', en: 'Weight', fx: 0, fy: -mass * world.g, fz: 0 });
+  sy -= mass * world.g;
+  for (const entry of body._forceLog || []) {
+    const fx = entry.vector.x;
+    const fy = entry.vector.y;
+    const fz = entry.vector.z;
+    if (Math.abs(fx) + Math.abs(fy) + Math.abs(fz) <= 0) continue;
+    forces.push({ id: entry.id, zh: entry.zh, en: entry.en, fx, fy, fz });
+    sx += fx;
+    sy += fy;
+    sz += fz;
+  }
+  // A motorised cart is driven through the model's tangential drive term; the
+  // force itself never passes through applyForce, so record it as its own
+  // model channel instead of leaving it hidden in the residual.
+  if (body.motorForce && body.attachment?.type === 'surface') {
+    const surface = getSurface(world, body.attachment.id);
+    const frame = surface ? surfaceFrame(surface) : null;
+    if (frame) {
+      const fx = frame.t.x * body.motorForce;
+      const fy = frame.t.y * body.motorForce;
+      const fz = frame.t.z * body.motorForce;
+      forces.push({ id: 'motor', zh: '电机驱动力', en: 'Motor drive', fx, fy, fz });
+      sx += fx;
+      sy += fy;
+      sz += fz;
+    }
+  }
+  const contact = { fx: net.fx - sx, fy: net.fy - sy, fz: net.fz - sz };
+  const contactMag = Math.hypot(contact.fx, contact.fy, contact.fz);
+  if (contactMag > FORCE_ESTIMATE_EPS) {
+    forces.push({
+      id: 'contact',
+      zh: '接触/约束反力',
+      en: 'Contact reaction',
+      fx: contact.fx,
+      fy: contact.fy,
+      fz: contact.fz,
+      estimated: true,
+      window: h,
+    });
+  }
+  forces.push({
+    id: 'net',
+    zh: '合外力',
+    en: 'Net force',
+    fx: net.fx,
+    fy: net.fy,
+    fz: net.fz,
+    measured: true,
+    window: h,
+  });
+  return {
+    t: sampleTime,
+    key: resolved.key,
+    targetName: resolved.name,
+    bodyId: body.id,
+    launcherId: resolved.launcher?.id || null,
+    loaded: !!resolved.loaded,
+    mass,
+    forces,
+    net: { fx: net.fx, fy: net.fy, fz: net.fz },
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -2460,8 +2778,10 @@ export function leastSquaresSlope(points, xKey, yKey) {
   return denom === 0 ? NaN : (n * sxy - sx * sy) / denom;
 }
 
-function motionColumns() {
-  return [
+function motionColumns(withTarget) {
+  const columns = [];
+  if (withTarget) columns.push(tableColumn('target', '目标', 'Target'));
+  columns.push(
     tableColumn('t', '时间', 'Time', 's'),
     tableColumn('x', 'x 位置', 'x Position', 'm'),
     tableColumn('y', 'y 高度', 'y Height', 'm'),
@@ -2475,11 +2795,14 @@ function motionColumns() {
     tableColumn('az', 'az 加速度', 'az Accel', 'm/s²'),
     tableColumn('a', '加速度大小', '|a| Accel', 'm/s²'),
     tableColumn('ke', '动能', 'Kinetic energy', 'J'),
-  ];
+  );
+  return columns;
 }
 
-function motionSummaryColumns() {
-  return [
+function motionSummaryColumns(withTarget) {
+  const columns = [];
+  if (withTarget) columns.push(tableColumn('target', '目标', 'Target'));
+  columns.push(
     tableColumn('samples', '样本数', 'Samples'),
     tableColumn('duration', '时长', 'Duration', 's'),
     tableColumn('meanSpeed', '平均速率', 'Mean speed', 'm/s'),
@@ -2489,26 +2812,46 @@ function motionSummaryColumns() {
     tableColumn('maxA', '最大加速度', 'Max |a|', 'm/s²'),
     tableColumn('slopeX', 'x–t 斜率', 'x–t slope', 'm/s'),
     tableColumn('slopeVx', 'vx–t 斜率', 'vx–t slope', 'm/s²'),
-  ];
+  );
+  return columns;
 }
 
-function buildMotionTables(sensor) {
-  const samples = sensor.samples || [];
-  const rawRows = samples.map((row) => ({
-    t: tableRowNumber(row.t),
-    x: tableRowNumber(row.x),
-    y: tableRowNumber(row.y),
-    z: tableRowNumber(row.z),
-    vx: tableRowNumber(row.vx ?? row.v ?? 0),
-    vy: tableRowNumber(row.vy ?? 0),
-    vz: tableRowNumber(row.vz ?? 0),
-    speed: tableRowNumber(row.speed ?? row.v ?? 0),
-    ax: tableRowNumber(row.ax ?? 0),
-    ay: tableRowNumber(row.ay ?? 0),
-    az: tableRowNumber(row.az ?? 0),
-    a: tableRowNumber(row.a ?? 0),
-    ke: tableRowNumber(row.ke ?? 0),
-  }));
+function motionTargetLabel(row) {
+  return row.bodyName || row.key || '';
+}
+
+function motionSampleKeys(samples) {
+  const keys = [];
+  for (const row of samples) {
+    if (row.key && !keys.includes(row.key)) keys.push(row.key);
+  }
+  return keys;
+}
+
+function buildMotionTables(sensor, opts = {}) {
+  const all = sensor.samples || [];
+  const targetKey = opts.targetKey || null;
+  const samples = targetKey ? all.filter((row) => row.key === targetKey) : all;
+  const withTarget = !targetKey && motionSampleKeys(samples).length > 1;
+  const rawRows = samples.map((row) => {
+    const base = {
+      t: tableRowNumber(row.t),
+      x: tableRowNumber(row.x),
+      y: tableRowNumber(row.y),
+      z: tableRowNumber(row.z),
+      vx: tableRowNumber(row.vx ?? row.v ?? 0),
+      vy: tableRowNumber(row.vy ?? 0),
+      vz: tableRowNumber(row.vz ?? 0),
+      speed: tableRowNumber(row.speed ?? row.v ?? 0),
+      ax: tableRowNumber(row.ax ?? 0),
+      ay: tableRowNumber(row.ay ?? 0),
+      az: tableRowNumber(row.az ?? 0),
+      a: tableRowNumber(row.a ?? 0),
+      ke: tableRowNumber(row.ke ?? 0),
+    };
+    if (withTarget) base.target = motionTargetLabel(row);
+    return base;
+  });
   const speeds = rawRows.map((r) => r.speed).filter(Number.isFinite);
   const accels = rawRows.map((r) => r.a).filter(Number.isFinite);
   const firstT = rawRows[0]?.t;
@@ -2524,10 +2867,118 @@ function buildMotionTables(sensor) {
     slopeX: tableRowNumber(leastSquaresSlope(rawRows, 't', 'x')),
     slopeVx: tableRowNumber(leastSquaresSlope(rawRows, 't', 'vx')),
   };
+  if (withTarget) summaryRow.target = '全部 · All';
   return {
     kind: 'motion',
-    raw: { titleZh: '原始时间序列', titleEn: 'Raw time series', columns: motionColumns(), rows: rawRows },
-    summary: { titleZh: '统计摘要', titleEn: 'Summary & derived', columns: motionSummaryColumns(), rows: [summaryRow] },
+    raw: { titleZh: '原始时间序列', titleEn: 'Raw time series', columns: motionColumns(withTarget), rows: rawRows },
+    summary: { titleZh: '统计摘要', titleEn: 'Summary & derived', columns: motionSummaryColumns(withTarget), rows: [summaryRow] },
+  };
+}
+
+const FORCE_CHANNEL_ORDER = ['weight', 'normal', 'friction', 'spring', 'rope', 'applied', 'fan', 'motor', 'drag', 'contact', 'net'];
+
+function forceChannelOrder(id) {
+  const base = String(id || '').split(':')[0];
+  const index = FORCE_CHANNEL_ORDER.indexOf(base);
+  return index < 0 ? FORCE_CHANNEL_ORDER.length : index;
+}
+
+/** Lab-frame angles: azimuth from +x toward +z, elevation positive upward. */
+function forceAnglesDeg(fx, fy, fz) {
+  const mag = Math.hypot(fx, fy, fz);
+  if (mag < 1e-12) return { mag: 0, az: 0, el: 0 };
+  const az = Math.atan2(fz, fx) / DEG;
+  const el = (Math.asin(Math.max(-1, Math.min(1, fy / mag))) / DEG);
+  return { mag, az, el };
+}
+
+function forceSensorColumns() {
+  return [
+    tableColumn('t', '时间', 'Time', 's'),
+    tableColumn('target', '目标', 'Target'),
+    tableColumn('force', '力', 'Force'),
+    tableColumn('fx', 'Fx 分量', 'Fx component', 'N'),
+    tableColumn('fy', 'Fy 分量', 'Fy component', 'N'),
+    tableColumn('fz', 'Fz 分量', 'Fz component', 'N'),
+    tableColumn('mag', '大小 |F|', 'Magnitude', 'N'),
+    tableColumn('az', '方位角', 'Azimuth', '°'),
+    tableColumn('el', '仰角', 'Elevation', '°'),
+    tableColumn('source', '来源', 'Source'),
+    tableColumn('window', '平均窗口', 'Averaging window', 's'),
+  ];
+}
+
+function buildForceSensorTables(sensor, opts = {}) {
+  const all = sensor.samples || [];
+  const targetKey = opts.targetKey || null;
+  const samples = targetKey ? all.filter((row) => row.key === targetKey) : all;
+  const rawRows = [];
+  for (const sample of samples) {
+    const target = sample.targetName || sample.key || '';
+    const forces = [...(sample.forces || [])].sort((a, b) => forceChannelOrder(a.id) - forceChannelOrder(b.id));
+    for (const force of forces) {
+      const { mag, az, el } = forceAnglesDeg(force.fx, force.fy, force.fz);
+      rawRows.push({
+        t: tableRowNumber(sample.t),
+        target,
+        force: `${force.zh} · ${force.en}`,
+        fx: tableRowNumber(force.fx),
+        fy: tableRowNumber(force.fy),
+        fz: tableRowNumber(force.fz),
+        mag: tableRowNumber(mag),
+        az: tableRowNumber(az),
+        el: tableRowNumber(el),
+        source: force.estimated
+          ? '求解器估计 · Solver-estimated'
+          : force.measured
+            ? '测量 · Measured'
+            : '模型 · Model',
+        window: force.estimated || force.measured ? tableRowNumber(force.window) : '',
+      });
+    }
+  }
+  const groups = new Map();
+  for (const sample of samples) {
+    const target = sample.targetName || sample.key || '';
+    const forces = [...(sample.forces || [])].sort((a, b) => forceChannelOrder(a.id) - forceChannelOrder(b.id));
+    for (const force of forces) {
+      const key = `${target}\u0000${force.zh} · ${force.en}`;
+      let group = groups.get(key);
+      if (!group) {
+        group = { target, force: `${force.zh} · ${force.en}`, mags: [], fx: [], fy: [], fz: [] };
+        groups.set(key, group);
+      }
+      group.mags.push(Math.hypot(force.fx, force.fy, force.fz));
+      group.fx.push(force.fx);
+      group.fy.push(force.fy);
+      group.fz.push(force.fz);
+    }
+  }
+  const mean = (list) => (list.length ? list.reduce((a, b) => a + b, 0) / list.length : 0);
+  const summaryColumns = [
+    tableColumn('target', '目标', 'Target'),
+    tableColumn('force', '力', 'Force'),
+    tableColumn('samples', '样本数', 'Samples'),
+    tableColumn('meanForce', '平均大小', 'Mean |F|', 'N'),
+    tableColumn('maxForce', '最大大小', 'Max |F|', 'N'),
+    tableColumn('meanFx', '平均 Fx', 'Mean Fx', 'N'),
+    tableColumn('meanFy', '平均 Fy', 'Mean Fy', 'N'),
+    tableColumn('meanFz', '平均 Fz', 'Mean Fz', 'N'),
+  ];
+  const summaryRows = [...groups.values()].map((group) => ({
+    target: group.target,
+    force: group.force,
+    samples: group.mags.length,
+    meanForce: tableRowNumber(mean(group.mags)),
+    maxForce: tableRowNumber(group.mags.length ? Math.max(...group.mags) : 0),
+    meanFx: tableRowNumber(mean(group.fx)),
+    meanFy: tableRowNumber(mean(group.fy)),
+    meanFz: tableRowNumber(mean(group.fz)),
+  }));
+  return {
+    kind: 'force',
+    raw: { titleZh: '受力时间序列（长表）', titleEn: 'Force time series (long format)', columns: forceSensorColumns(), rows: rawRows },
+    summary: { titleZh: '分力统计摘要', titleEn: 'Per-force summary', columns: summaryColumns, rows: summaryRows },
   };
 }
 
@@ -2643,13 +3094,17 @@ function buildBodyGraphTables(samples) {
 
 /**
  * Build both required table formats for a logging source:
- * a motion/photogate sensor, a force-meter link, or an array of body samples.
+ * a motion/photogate/force sensor, a force-meter link, or an array of body
+ * samples. For multi-target sensors pass opts.targetKey to restrict the
+ * tables to one independently identified target.
  */
-export function buildSensorTables(source) {
+export function buildSensorTables(source, opts = {}) {
   if (Array.isArray(source)) return buildBodyGraphTables(source);
   if (!source) return null;
   if (source.type === 'sensor') {
-    return source.kind === 'photogate' ? buildPhotogateTables(source) : buildMotionTables(source);
+    if (source.kind === 'photogate') return buildPhotogateTables(source);
+    if (source.kind === 'force') return buildForceSensorTables(source, opts);
+    return buildMotionTables(source, opts);
   }
   if (source.type === 'link' || source.meter) return buildForceTables(source);
   return null;
@@ -2744,7 +3199,7 @@ export function dragForce(body) {
 function applyDragForces(world) {
   for (const body of world.bodies) {
     const f = dragForce(body);
-    if (f.lengthSquared() > 0) body.cannon.applyForce(f);
+    if (f.lengthSquared() > 0) logBodyForce(body, { id: 'drag', zh: '空气阻力', en: 'Air drag', vector: f });
   }
 }
 
@@ -4099,6 +4554,19 @@ export function linkGeometry(world, link) {
   return { pa, pb, d, length, tension, unit: d.scale(1 / length) };
 }
 
+/**
+ * Per-substep record of every force the model actually applies to a body via
+ * cannon's applyForce. The force sensor reads this log so each named channel
+ * in its tables is exactly the force that drove the integration — never a
+ * post-hoc decomposition of m·a. Gravity is added by the engine itself and
+ * solver contacts are measured as the declared residual.
+ */
+function logBodyForce(body, entry) {
+  body.cannon.applyForce(entry.vector);
+  if (!body._forceLog) body._forceLog = [];
+  body._forceLog.push(entry);
+}
+
 function applySpringForces(world) {
   for (const link of world.links) {
     const g = linkGeometry(world, link);
@@ -4106,11 +4574,25 @@ function applySpringForces(world) {
     const forceOnA = g.unit.scale(g.tension);
     if (link.a.type === 'body') {
       const body = getBody(world, link.a.id);
-      if (body) body.cannon.applyForce(forceOnA);
+      if (body) {
+        logBodyForce(body, {
+          id: `spring:${link.id}`,
+          zh: link.meter ? `测力计 ${link.id}` : `弹簧 ${link.id}`,
+          en: link.meter ? `Force meter ${link.id}` : `Spring ${link.id}`,
+          vector: forceOnA,
+        });
+      }
     }
     if (link.b.type === 'body') {
       const body = getBody(world, link.b.id);
-      if (body) body.cannon.applyForce(forceOnA.scale(-1));
+      if (body) {
+        logBodyForce(body, {
+          id: `spring:${link.id}`,
+          zh: link.meter ? `测力计 ${link.id}` : `弹簧 ${link.id}`,
+          en: link.meter ? `Force meter ${link.id}` : `Spring ${link.id}`,
+          vector: forceOnA.scale(-1),
+        });
+      }
     }
   }
 }
@@ -4143,14 +4625,23 @@ export function appliedForce(body) {
 function applyAppliedForces(world) {
   for (const body of world.bodies) {
     const f = appliedForce(body);
-    if (f.lengthSquared() > 0) body.cannon.applyForce(f);
+    if (f.lengthSquared() > 0) {
+      logBodyForce(body, { id: 'applied', zh: '外加力', en: 'Applied force', vector: f });
+    }
   }
   for (const fan of world.fans) {
     if (!fan.bodyId) continue;
     const body = getBody(world, fan.bodyId);
     if (!body) continue;
     const f = fanForce(fan);
-    if (f.lengthSquared() > 0) body.cannon.applyForce(f);
+    if (f.lengthSquared() > 0) {
+      logBodyForce(body, {
+        id: `fan:${fan.id}`,
+        zh: `风扇推力 ${fan.id}`,
+        en: `Fan thrust ${fan.id}`,
+        vector: f,
+      });
+    }
   }
 }
 
@@ -4252,7 +4743,12 @@ function applySurfaceContact(world, body, h) {
       body.diagnostics.static = false;
       world.thermal += friction.length() * speed * h;
     }
-    body.cannon.applyForce(friction);
+    logBodyForce(body, {
+      id: 'friction',
+      zh: body.diagnostics.static ? '静摩擦力' : '滑动摩擦力',
+      en: body.diagnostics.static ? 'Static friction' : 'Kinetic friction',
+      vector: friction,
+    });
     body.diagnostics.friction = friction.length();
     body.diagnostics.force.copy(friction);
     const gravity = V(0, -body.mass * world.g, 0);
@@ -4323,7 +4819,12 @@ function applySurfaceContact(world, body, h) {
   // explicitly; this keeps the engine's normal solver decoupled from the
   // friction lever arm while preserving the rolling law. A braked cart is a
   // parked/locked axle, so no torque is applied while it is held.
-  body.cannon.applyForce(friction);
+  logBodyForce(body, {
+    id: 'friction',
+    zh: staticRoll || held ? '静摩擦力' : '滑动摩擦力',
+    en: staticRoll || held ? 'Static friction' : 'Kinetic friction',
+    vector: friction,
+  });
   if (!body.brake && !held) {
     body.cannon.torque.vadd(frame.b.scale(f * body.radius), body.cannon.torque);
   }
@@ -4558,7 +5059,7 @@ function preHCircle(world, body, h) {
   // The ring is horizontal: the track normal balances gravity and any other
   // vertical force. Static friction is purely radial and does no work, so the
   // tangential speed is preserved exactly.
-  body.cannon.applyForce(V(0, N, 0));
+  logBodyForce(body, { id: 'normal', zh: '支持力', en: 'Normal', vector: V(0, N, 0) });
   body.cannon.position.set(
     circle.x + circle.radius * Math.cos(att.phi),
     circle.y + body.halfHeight + 0.01,
@@ -4653,14 +5154,14 @@ function applySkidFriction(world, body, h) {
   }
   body.cannon.position.y = skid.y;
   body.cannon.velocity.y = 0;
-  body.cannon.applyForce(V(0, N, 0));
+  logBodyForce(body, { id: 'normal', zh: '支持力', en: 'Normal', vector: V(0, N, 0) });
   const vx = body.cannon.velocity.x;
   const vz = body.cannon.velocity.z;
   const speed = Math.hypot(vx, vz);
   const f = Math.max(0, skid.muK) * N;
   if (speed > 1e-4) {
     const friction = V((-f * vx) / speed, 0, (-f * vz) / speed);
-    body.cannon.applyForce(friction);
+    logBodyForce(body, { id: 'friction', zh: '滑动摩擦力', en: 'Kinetic friction', vector: friction });
     world.thermal += f * speed * h;
     body.diagnostics.normal = N;
     body.diagnostics.friction = f;
@@ -4740,7 +5241,7 @@ function applyTurntableContact(world, body, table, h) {
     relSpeed = Math.max(relSpeed, Math.abs(table.omega) * r * 0.05);
   }
   const kinetic = dir.scale(-table.muK * N);
-  body.cannon.applyForce(kinetic);
+  logBodyForce(body, { id: 'friction', zh: '滑动摩擦力', en: 'Kinetic friction', vector: kinetic });
   body.diagnostics.normal = N;
   body.diagnostics.friction = table.muK * N;
   body.diagnostics.requiredFriction = required;
@@ -5582,6 +6083,9 @@ export function substep(world, h) {
     return;
   }
   world.engine.gravity.set(0, -world.g, 0);
+  // Fresh per-substep force log: every applyForce below is recorded on the
+  // body it drives, so the force sensor can report exact channel values.
+  for (const body of world.bodies) body._forceLog = null;
   for (const table of world.turntables) updateTurntable(world, table, h);
   applySpringForces(world);
   applyAppliedForces(world);
@@ -5961,8 +6465,12 @@ export function resetWorld(world) {
     sensor.lastCrossing = null;
     sensor.lastDistance = null;
     sensor.lastSpeed = null;
+    sensor.lastNetForce = 0;
+    sensor.lastMaxForce = 0;
     sensor.sampleAt = -1;
     sensor.sampleBodyId = null;
+    // Tracked targets survive reset: body and launcher identities are stable
+    // across reset, so only the recorded samples are cleared.
   }
   for (const link of world.links) {
     if (!link.meter) continue;
@@ -6344,7 +6852,7 @@ export function linkReading(world, link) {
 /* Scene serialization (undo, save/load, time scrub)                   */
 /* ------------------------------------------------------------------ */
 
-export const SCENE_VERSION = 4;
+export const SCENE_VERSION = 5;
 
 const SCENE_ARRAY_KEYS = [
   'surfaces', 'loops', 'turntables', 'hcircles', 'launchers', 'pulleys',
@@ -6394,6 +6902,17 @@ export function migrateScene(data) {
     ? { ...data.em }
     : { mode: 'mechanics' };
   if (out.em.mode !== 'em') out.em.mode = 'mechanics';
+  // v4 scenes pinned at most one motion-sensor target (targetId/targetType).
+  // v5 sensors carry a targets list; derive it from the legacy single target
+  // so old scenes load with the same tracking behaviour.
+  for (const sensor of out.sensors) {
+    if (!sensor || typeof sensor !== 'object') continue;
+    const targets = normalizeSensorTargets(sensor.targets);
+    if (!targets.length && sensor.targetId) {
+      targets.push({ id: sensor.targetId, type: sensor.targetType === 'launcher' ? 'launcher' : 'body' });
+    }
+    sensor.targets = targets;
+  }
   return out;
 }
 
@@ -6552,6 +7071,7 @@ export function serializeScene(world, { runtime = false } = {}) {
       height: s.height,
       range: s.range,
       face: s.face,
+      targets: sensorTargets(s).map((t) => ({ id: t.id, type: t.type })),
       targetId: s.targetId || null,
       targetType: s.targetType || (s.targetId ? 'body' : null),
       mount: s.mount ? { ...s.mount } : null,
@@ -6985,62 +7505,132 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
   return true;
 }
 
-export function forceVectors(world, body) {
+/**
+ * Honest per-force decomposition of everything the model actually applies to
+ * a body. Each entry is a separately named model force — gravity, contact
+ * normal/friction from the attachment models, per-link spring tension, pulley
+ * rope tension, the body's applied force, fan thrust, cart motor drive, air
+ * drag. The net m·a is NEVER split into invented parts here: callers measure
+ * it separately and report whatever is left as one solver-estimated contact
+ * reaction (see forceSampleRow).
+ */
+export function bodyForceBreakdown(world, body) {
   const out = [];
   if (!body) return out;
   const m = body.mass;
-  out.push({ type: 'weight', vector: V(0, -m * world.g, 0), magnitude: m * world.g });
+  out.push({ id: 'weight', zh: '重力', en: 'Weight', vector: V(0, -m * world.g, 0) });
   const d = bodyDiagnostics(world, body);
   if (body.attachment?.type === 'surface') {
     const surface = getSurface(world, body.attachment.id);
     if (surface) {
-      const { n } = surfaceFrame(surface);
       const c = surfaceContact(world, body);
-      const N = Math.max(0, c.N);
-      out.push({ type: 'normal', vector: n.scale(N), magnitude: N });
-      const d = bodyDiagnostics(world, body);
-      if (d.force.lengthSquared() > 0) {
-        out.push({ type: 'friction', vector: cloneV(d.force), magnitude: d.friction });
+      if (c) {
+        const N = Math.max(0, c.N);
+        if (N > 0) out.push({ id: 'normal', zh: '支持力', en: 'Normal', vector: c.frame.n.scale(N) });
+        // d.force is the friction vector the surface contact model applies
+        // (static balancing or kinetic); it is never the net or drive force.
+        const friction = cloneV(d.force);
+        if (friction.lengthSquared() > 0) {
+          out.push({ id: 'friction', zh: '摩擦力', en: 'Friction', vector: friction });
+        }
+        if (body.motorForce) {
+          out.push({ id: 'motor', zh: '电机驱动力', en: 'Motor drive', vector: c.frame.t.scale(body.motorForce) });
+        }
       }
-      const spring = springNetForce(world, body);
-      if (spring.lengthSquared() > 0) out.push({ type: 'spring', vector: spring, magnitude: spring.length() });
-      const app = appliedForce(body);
-      if (app.lengthSquared() > 0) out.push({ type: 'applied', vector: app, magnitude: app.length() });
     }
   } else if (body.attachment?.type === 'loop') {
-    const theta = body.attachment.theta;
-    out.push({ type: 'normal', vector: loopInward(theta).scale(Math.max(0, d.normal)), magnitude: Math.max(0, d.normal) });
-  } else if (body.attachment?.type === 'turntable' || body.attachment?.type === 'hcircle' || body.skid) {
-    out.push({ type: 'normal', vector: V(0, Math.max(0, d.normal), 0), magnitude: Math.max(0, d.normal) });
-    if (body.skid) {
-      const speed = Math.hypot(body.cannon.velocity.x, body.cannon.velocity.z);
-      if (speed > 1e-4) {
-        const f = V(-body.cannon.velocity.x / speed, 0, -body.cannon.velocity.z / speed).scale(d.friction);
-        out.push({ type: 'friction', vector: f, magnitude: d.friction });
-      }
-    } else {
+    const N = Math.max(0, d.normal);
+    if (N > 0) out.push({ id: 'normal', zh: '轨道支持力', en: 'Track normal', vector: loopInward(body.attachment.theta).scale(N) });
+  } else if (body.attachment?.type === 'turntable') {
+    const table = getTurntable(world, body.attachment.id);
+    if (table) {
+      const ext = externalForceOn(world, body);
+      const N = Math.max(0, m * world.g - ext.y);
+      if (N > 0) out.push({ id: 'normal', zh: '支持力', en: 'Normal', vector: V(0, N, 0) });
       const p = body.cannon.position;
-      const center = body.attachment.type === 'turntable'
-        ? getTurntable(world, body.attachment.id)
-        : getHCircle(world, body.attachment.id);
-      if (center) {
-        const cx = center.x;
-        const cz = center.z;
-        const dx = p.x - cx;
-        const dz = p.z - cz;
-        const rr = Math.hypot(dx, dz) || 1;
-        const inward = V(-dx / rr, 0, -dz / rr);
-        out.push({ type: 'friction', vector: inward.scale(d.friction), magnitude: d.friction });
+      const r = Math.hypot(p.x - table.x, p.z - table.z) || 1;
+      const inward = V(-(p.x - table.x) / r, 0, -(p.z - table.z) / r);
+      if (body.attachment.stuck) {
+        const required = m * table.omega * table.omega * r;
+        if (required > 0) out.push({ id: 'friction', zh: '静摩擦力', en: 'Static friction', vector: inward.scale(required) });
+      } else {
+        // Kinetic friction opposes the velocity relative to the spinning disc.
+        const rel = cloneV(body.cannon.velocity);
+        rel.vsub(tableSurfaceVelocity(table, p), rel);
+        const relSpeed = rel.length();
+        const f = Math.max(0, table.muK) * N;
+        if (f > 0) {
+          const dir = relSpeed > 1e-4
+            ? rel.scale(1 / relSpeed)
+            : V(-(p.x - table.x) / r, 0, -(p.z - table.z) / r).scale(-1);
+          out.push({ id: 'friction', zh: '滑动摩擦力', en: 'Kinetic friction', vector: dir.scale(-f) });
+        }
       }
     }
+  } else if (body.attachment?.type === 'hcircle') {
+    const N = hcircleNormal(world, body);
+    if (N > 0) out.push({ id: 'normal', zh: '支持力', en: 'Normal', vector: V(0, N, 0) });
+    const circle = getHCircle(world, body.attachment.id);
+    if (circle && d.friction > 0) {
+      const p = body.cannon.position;
+      const r = Math.hypot(p.x - circle.x, p.z - circle.z) || 1;
+      const inward = V(-(p.x - circle.x) / r, 0, -(p.z - circle.z) / r);
+      out.push({ id: 'friction', zh: '静摩擦力', en: 'Static friction', vector: inward.scale(d.friction) });
+    }
+  } else if (body.skid) {
+    const N = hcircleNormal(world, body);
+    if (N > 0) out.push({ id: 'normal', zh: '支持力', en: 'Normal', vector: V(0, N, 0) });
+    if (d.friction > 0) out.push({ id: 'friction', zh: '滑动摩擦力', en: 'Kinetic friction', vector: cloneV(d.force) });
   }
-  const spring = springNetForce(world, body);
-  if (spring.lengthSquared() > 0 && body.attachment?.type !== 'surface') {
-    out.push({ type: 'spring', vector: spring, magnitude: spring.length() });
+  for (const link of world.links) {
+    const a = link.a.type === 'body' && link.a.id === body.id;
+    const b = link.b.type === 'body' && link.b.id === body.id;
+    if (!a && !b) continue;
+    const g = linkGeometry(world, link);
+    if (!g) continue;
+    const vector = a ? g.unit.scale(g.tension) : g.unit.scale(-g.tension);
+    if (vector.lengthSquared() <= 0) continue;
+    const zh = link.meter ? `测力计 ${link.id}` : `弹簧 ${link.id}`;
+    const en = link.meter ? `Force meter ${link.id}` : `Spring ${link.id}`;
+    out.push({ id: `spring:${link.id}`, zh, en, vector, group: 'spring' });
+  }
+  if (body._ropeT > 0 && body._ropeU) {
+    out.push({ id: 'rope', zh: '绳张力', en: 'Rope tension', vector: cloneV(body._ropeU).scale(body._ropeT) });
   }
   const app = appliedForce(body);
-  if (app.lengthSquared() > 0 && body.attachment?.type !== 'surface') {
-    out.push({ type: 'applied', vector: app, magnitude: app.length() });
+  if (app.lengthSquared() > 0) out.push({ id: 'applied', zh: '外加力', en: 'Applied force', vector: app });
+  for (const fan of world.fans) {
+    if (fan.bodyId !== body.id) continue;
+    const thrust = fanForce(fan);
+    if (thrust.lengthSquared() <= 0) continue;
+    out.push({ id: `fan:${fan.id}`, zh: `风扇推力 ${fan.id}`, en: `Fan thrust ${fan.id}`, vector: thrust, group: 'fan' });
+  }
+  const drag = dragForce(body);
+  if (drag.lengthSquared() > 0) out.push({ id: 'drag', zh: '空气阻力', en: 'Air drag', vector: drag });
+  return out;
+}
+
+/** Channel a breakdown entry belongs to for the shared arrow pool. */
+export function forceChannel(id) {
+  const base = String(id || '').split(':')[0];
+  if (base === 'weight' || base === 'normal' || base === 'friction'
+    || base === 'spring' || base === 'applied' || base === 'rope'
+    || base === 'fan' || base === 'motor' || base === 'drag') return base;
+  return 'applied';
+}
+
+export function forceVectors(world, body) {
+  const out = [];
+  if (!body) return out;
+  const merged = new Map();
+  for (const f of bodyForceBreakdown(world, body)) {
+    const channel = forceChannel(f.id);
+    const total = merged.get(channel) || V();
+    total.vadd(f.vector, total);
+    merged.set(channel, total);
+  }
+  for (const [type, vector] of merged) {
+    out.push({ type, vector, magnitude: vector.length() });
   }
   return out;
 }

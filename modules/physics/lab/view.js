@@ -7,7 +7,18 @@ import * as THREE from '../../../vendor/three/three.module.js';
 import { OrbitControls } from '../../../vendor/three/controls/OrbitControls.js';
 import { TransformControls } from '../../../vendor/three/controls/TransformControls.js';
 import { themeColors } from '../../../js/theme.js';
-import { DEG, ballisticBob, getSurface, getTurntable, pendulumBob, surfaceFrame, surfaceTopPoint } from './physics.mjs';
+import {
+  DEG,
+  ballisticBob,
+  bodyForceBreakdown,
+  forceChannel,
+  getSurface,
+  getTurntable,
+  pendulumBob,
+  resolveSensorTarget,
+  surfaceFrame,
+  surfaceTopPoint,
+} from './physics.mjs';
 import { createEMView } from './em/view.js';
 import { emEntityById } from './em/physics.mjs';
 
@@ -198,6 +209,10 @@ export function createLabView(host, opts = {}) {
     friction: theme.warn,
     spring: theme.ok,
     applied: theme.danger,
+    rope: theme.ok,
+    fan: theme.danger,
+    motor: theme.danger,
+    drag: theme.warn,
   };
   const arrows = {};
   for (const key of Object.keys(forceColors)) {
@@ -213,6 +228,135 @@ export function createLabView(host, opts = {}) {
     arrow.userData = { ...NO_PICK };
     forceGroup.add(arrow);
     arrows[key] = arrow;
+  }
+
+  // Free-body diagram pool for the force sensors: one arrow plus one text
+  // label per (target, force) entry, reused every frame.
+  const SENSOR_FBD_POOL = 48;
+  const sensorForceGroup = new THREE.Group();
+  sensorForceGroup.userData = { ...NO_PICK };
+  scene.add(sensorForceGroup);
+  const sensorArrows = [];
+  const sensorLabels = [];
+  for (let i = 0; i < SENSOR_FBD_POOL; i += 1) {
+    const arrow = new THREE.ArrowHelper(
+      new THREE.Vector3(0, 1, 0),
+      new THREE.Vector3(),
+      1,
+      theme.accent,
+      0.18,
+      0.08,
+    );
+    arrow.visible = false;
+    arrow.userData = { ...NO_PICK };
+    sensorForceGroup.add(arrow);
+    sensorArrows.push(arrow);
+    const label = makeTextSprite(' ');
+    label.visible = false;
+    sensorForceGroup.add(label);
+    sensorLabels.push(label);
+  }
+
+  function makeTextSprite(text) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const fontPx = 44;
+    const font = `600 ${fontPx}px ui-monospace, monospace`;
+    ctx.font = font;
+    const padding = 12;
+    const width = Math.max(16, Math.ceil(ctx.measureText(text).width) + padding * 2);
+    const height = fontPx + padding * 2;
+    canvas.width = width;
+    canvas.height = height;
+    ctx.font = font;
+    ctx.textBaseline = 'middle';
+    const colors = themeColors();
+    ctx.fillStyle = colors.canvasBg || '#f4f2ec';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = colors.text || '#222';
+    ctx.fillText(text, padding, height / 2);
+    const texture = new THREE.CanvasTexture(canvas);
+    const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const sprite = new THREE.Sprite(material);
+    const spriteH = 0.3;
+    sprite.scale.set((width / height) * spriteH, spriteH, 1);
+    sprite.userData = { ...NO_PICK, texture, material, text };
+    return sprite;
+  }
+
+  function setSpriteText(sprite, text) {
+    if (sprite.userData.text === text) return;
+    sprite.userData.texture?.dispose?.();
+    sprite.userData.material?.dispose?.();
+    const next = makeTextSprite(text);
+    sprite.material = next.material;
+    sprite.scale.copy(next.scale);
+    sprite.userData.texture = next.userData.texture;
+    sprite.userData.material = next.userData.material;
+    sprite.userData.text = text;
+  }
+
+  function fmtForce(mag) {
+    if (!Number.isFinite(mag)) return '—';
+    return mag >= 100 ? mag.toFixed(0) : mag >= 10 ? mag.toFixed(1) : mag.toFixed(2);
+  }
+
+  /**
+   * Real-time free-body diagrams: every force sensor paints its tracked
+   * bodies' model forces as labelled arrows. All entries of one frame share
+   * one magnitude scale so the arrows stay comparable between targets.
+   * Returns the set of body ids that are already covered by a sensor diagram.
+   */
+  function syncSensorForces(world) {
+    if (mode === 'em' || !forceVisible) {
+      sensorForceGroup.visible = false;
+      return new Set();
+    }
+    const trackedBodies = new Set();
+    const entries = [];
+    for (const sensor of world.sensors) {
+      if (sensor.kind !== 'force') continue;
+      for (const target of sensor.targets || []) {
+        const resolved = resolveSensorTarget(world, target);
+        if (resolved.status !== 'ok' || !resolved.body) continue;
+        trackedBodies.add(resolved.body.id);
+        for (const f of bodyForceBreakdown(world, resolved.body)) {
+          const mag = f.vector.length();
+          if (mag <= 0.02) continue;
+          entries.push({ body: resolved.body, force: f, mag });
+        }
+      }
+    }
+    sensorForceGroup.visible = entries.length > 0;
+    let max = 0;
+    for (const entry of entries) max = Math.max(max, entry.mag);
+    const scale = max > 0 ? 2.4 / max : 0;
+    let cursor = 0;
+    for (const entry of entries) {
+      if (cursor >= SENSOR_FBD_POOL) break;
+      const arrow = sensorArrows[cursor];
+      const label = sensorLabels[cursor];
+      const dir = new THREE.Vector3(entry.force.vector.x, entry.force.vector.y, entry.force.vector.z);
+      if (dir.lengthSq() < 1e-12) continue;
+      cursor += 1;
+      dir.normalize();
+      const origin = v3(entry.body.cannon.position);
+      const len = Math.max(0.05, entry.mag * scale);
+      arrow.position.copy(origin);
+      arrow.setDirection(dir);
+      arrow.setLength(len, Math.min(0.2, len * 0.3), Math.min(0.08, len * 0.12));
+      arrow.setColor(new THREE.Color(forceColors[forceChannel(entry.force.id)] || theme.accent));
+      arrow.visible = true;
+      label.position.copy(origin).add(dir.clone().multiplyScalar(len + 0.24));
+      label.position.y += 0.05;
+      setSpriteText(label, `${entry.force.zh} ${fmtForce(entry.mag)} N`);
+      label.visible = true;
+    }
+    for (let i = cursor; i < SENSOR_FBD_POOL; i += 1) {
+      sensorArrows[i].visible = false;
+      sensorLabels[i].visible = false;
+    }
+    return trackedBodies;
   }
 
   // Relative-velocity arrows for the moving reference-frame view.
@@ -542,7 +686,11 @@ export function createLabView(host, opts = {}) {
       }
     }
     for (const key of Object.keys(forceColors)) {
-      forceColors[key] = t[key === 'weight' ? 'text' : key === 'applied' ? 'danger' : key === 'friction' ? 'warn' : key === 'spring' ? 'ok' : 'accent'];
+      forceColors[key] = t[key === 'weight' ? 'text'
+        : key === 'applied' || key === 'fan' || key === 'motor' ? 'danger'
+        : key === 'friction' || key === 'drag' ? 'warn'
+        : key === 'spring' || key === 'rope' ? 'ok'
+        : 'accent'];
       arrows[key].setColor(new THREE.Color(forceColors[key]));
     }
     if (emView) emView.setTheme(t);
@@ -1006,6 +1154,23 @@ export function createLabView(host, opts = {}) {
       lens.rotation.z = -Math.PI / 2;
       lens.position.set(0.2, 0.14, 0);
       root.add(lens);
+    } else if (entity.kind === 'force') {
+      // Force sensor: a measurement puck with a hookless read-out ring.
+      const bodyGeo = new THREE.BoxGeometry(0.36, 0.2, 0.28);
+      const body = new THREE.Mesh(bodyGeo, materials.physics);
+      body.position.y = 0.1;
+      body.castShadow = true;
+      root.add(body);
+      addEdges(root, bodyGeo);
+      const ringGeo = new THREE.TorusGeometry(0.1, 0.02, 10, 24);
+      const ring = new THREE.Mesh(ringGeo, materials.meter);
+      ring.position.set(0.22, 0.16, 0);
+      ring.rotation.y = Math.PI / 2;
+      root.add(ring);
+      const stemGeo = new THREE.BoxGeometry(0.08, 0.24, 0.08);
+      const stem = new THREE.Mesh(stemGeo, materials.wheel);
+      stem.position.set(0, -0.02, 0);
+      root.add(stem);
     } else {
       const postGeo = new THREE.BoxGeometry(0.08, entity.height, 0.08);
       for (const z of [-entity.width / 2, entity.width / 2]) {
@@ -1839,7 +2004,8 @@ export function createLabView(host, opts = {}) {
       }
     }
     syncSelection(world);
-    syncForces(world);
+    const fbdBodies = syncSensorForces(world);
+    syncForces(world, fbdBodies);
     updateReferenceFrame(world);
     updateTrail(world);
     updateHandles();
@@ -1901,11 +2067,14 @@ export function createLabView(host, opts = {}) {
     selectionHelper.updateMatrixWorld(true);
   }
 
-  function syncForces(world) {
+  function syncForces(world, covered = new Set()) {
     for (const arrow of Object.values(arrows)) arrow.visible = false;
     if (!forceVisible || !selected || selected.type !== 'body') return;
     const body = world.bodies.find((b) => b.id === selected.id);
     if (!body || !opts.getForces) return;
+    // A force sensor already paints this body's labelled free-body diagram;
+    // drawing the unlabelled selection arrows too would double every force.
+    if (covered.has(body.id)) return;
     const forces = opts.getForces(world, body) || [];
     if (!forces.length) return;
     let max = 0;

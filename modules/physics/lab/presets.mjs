@@ -19,6 +19,7 @@ import {
   addPulley,
   addRod,
   addSensor,
+  addSensorTarget,
   addSurface,
   addTurntable,
   addWedge,
@@ -223,6 +224,32 @@ export const PRESETS = [
       a.cannon.velocity.setZero();
       b.cannon.velocity.setZero();
       motionSensor(world, { x: -2.4, y: 2, range: 6, face: 1 });
+      return scene(world);
+    },
+  },
+  {
+    id: 'mech-u2-force-sensor-friction',
+    title: '受力传感器测摩擦 · Force sensor reads friction',
+    description: '滑块在粗糙轨道上滑行，受力传感器逐力记录重力、摩擦与合力，绘出受力分析图。 · A block slides on a rough track while the force sensor logs weight, friction and the net force per moment and draws the free-body diagram.',
+    unit: 'mech-u2',
+    cedRef: 'mech-u2',
+    mode: 'mechanics',
+    required: ['surface', 'body', 'sensor'],
+    recommended: { sensors: ['force'], graphs: true },
+    focus: { type: 'sensor', id: 'force' },
+    build() {
+      const world = mechWorld();
+      flatTrack(world, { length: 24, width: 2, muS: 0.05, muK: 0.35 });
+      const block = addBlock(world, { id: 'block', name: '滑块 · Block', mass: 1.5, size: 0.5, x: -6, y: 2, z: 0 });
+      attachBodyToSurface(world, block, 'track', { localX: -6, localZ: 0 });
+      block.v0 = 4;
+      block.azimuth = 0;
+      applyInitialVelocity(world, block);
+      const sensor = addSensor(world, {
+        id: 'force', kind: 'force', name: '受力传感器 · Force sensor',
+        x: -8, y: 0.5, z: 1.2, width: 1, height: 1, range: 8, face: 1,
+      });
+      addSensorTarget(world, sensor, 'block');
       return scene(world);
     },
   },
@@ -968,5 +995,6 @@ export function buildPresetScene(id) {
 export function sensorLabel(kind) {
   if (kind === 'motion') return '运动传感器 · Motion sensor';
   if (kind === 'photogate') return '光电门 · Photogate';
+  if (kind === 'force') return '受力传感器 · Force sensor';
   return kind;
 }

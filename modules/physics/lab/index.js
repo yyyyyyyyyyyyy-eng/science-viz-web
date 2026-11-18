@@ -47,6 +47,7 @@ import {
   attachBodyToWedge,
   ballisticReadout,
   bodyDiagnostics,
+  bodyForceBreakdown,
   buildSensorTables,
   captureInitial,
   carriageTilt,
@@ -90,6 +91,8 @@ import {
   pendulumPeriod,
   quantizeAngle,
   quantizeValue,
+  addSensorTarget,
+  removeSensorTarget,
   rebuildWedge,
   relativeVelocity,
   repositionSurfaceBody,
@@ -99,6 +102,7 @@ import {
   resetPendulum,
   resetWorld,
   resolveMotionTarget,
+  resolveSensorTarget,
   rodInertia,
   serializeScene,
   setBallisticBobMass,
@@ -124,6 +128,8 @@ import {
   setLoopRadius,
   setOrbitLaunch,
   setSensorTarget,
+  sensorTargetKey,
+  sensorTargets,
   setSurfaceAngle,
   setSurfaceLength,
   setSurfaceWidth,
@@ -239,6 +245,7 @@ const ZH_EN = {
   hcircle: ['水平圆周轨道', 'Horizontal circle'],
   spring: ['线性弹簧', 'Linear spring'],
   meter: ['测力计', 'Force meter'],
+  force: ['受力传感器', 'Force sensor'],
   launcher: ['抛射发射器', 'Projectile launcher'],
   projectile: ['抛射体', 'Projectile'],
   pulley: ['滑轮与绳', 'Pulley & rope'],
@@ -436,7 +443,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       items: [
         ['spring', '线性弹簧', 'Linear spring'],
         ['nonlinear', '非线性弹簧', 'Nonlinear spring'],
-        ['meter', '测力计', 'Force meter'],
+        ['force', '受力传感器', 'Force sensor'],
         ['pulley', '滑轮与绳', 'Pulley & rope'],
         ['photogate', '光电门', 'Photogate'],
         ['motion', '运动传感器', 'Motion sensor'],
@@ -654,12 +661,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }));
 
   const graphSection = el('section', { className: 'plab-graphs', 'aria-label': '实时曲线 · Live graphs', hidden: true });
+  const graphHead = el('div', { className: 'plab-graphs-head' });
+  graphHead.appendChild(el('h2', { className: 'plab-panel-title', text: '实时曲线 · Live graphs' }));
+  const graphExportBtn = el('button', {
+    type: 'button',
+    className: 'plab-action hit-target plab-graph-export',
+    text: '导出图片 · Export PNG',
+    'data-action': 'graph-export',
+  });
+  graphHead.appendChild(graphExportBtn);
   const graphLegend = el('div', { className: 'plab-graph-legend' });
   for (const text of ['位置 x · Position', '速率 v · Speed', '加速度 a · Accel', '能量 E · Energy']) {
     graphLegend.appendChild(el('span', { text }));
   }
   const graphCanvas = el('canvas', { className: 'plab-graph-canvas', 'aria-label': '实时曲线 · Live graphs' });
-  graphSection.append(graphLegend, graphCanvas);
+  graphSection.append(graphHead, graphLegend, graphCanvas);
 
   const dataDockMeta = el('span', { className: 'plab-data-dock-meta', text: '—', 'data-readout': 'dataMeta' });
   const dataDockTabs = el('div', { className: 'plab-data-tabs', role: 'tablist', 'aria-label': '数据表类型 · Data table type' });
@@ -1505,6 +1521,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     }
     buildInspector();
     updateOutlinerSelection();
+    updateGraphLegend();
   }
 
   function isEmpty() {
@@ -1623,6 +1640,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     wedge: { halfX: 2, halfZ: 1.2 },
     photogate: { halfX: 0.4, halfZ: 1.2 },
     motion: { halfX: 0.5, halfZ: 0.5 },
+    force: { halfX: 0.5, halfZ: 0.5 },
     fan: { halfX: 0.8, halfZ: 0.8 },
     oscillator: { halfX: 1.9, halfZ: 0.6 },
     torsion: { halfX: 1, halfZ: 1 },
@@ -1774,11 +1792,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
           if (sensor) {
             pendingSensorTarget = null;
-            setSensorTarget(world, sensor, entity.id, { type: entity.type });
-            select(sensor);
-            renderOutliner();
-            setStatus(`运动传感器目标 · Motion-sensor target: ${entity.name || entityFallbackName(entity)}`);
-            return;
+            if (applySensorTargetPick(sensor, entity)) return;
           }
         }
         select(entity);
@@ -2004,6 +2018,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         }
       }
       world.launchers = world.launchers.filter((l) => l.id !== entity.id);
+      // Sensors tracking this launcher drop only that target; every other
+      // target and its history is untouched.
+      for (const sensor of world.sensors) {
+        if (sensor.kind !== 'motion' && sensor.kind !== 'force') continue;
+        removeSensorTarget(world, sensor, entity.id, { type: 'launcher' });
+        const remaining = sensorTargets(sensor);
+        const stored = sensorViewKeys.get(sensor.id);
+        if (stored === undefined && remaining.length) sensorViewKeys.set(sensor.id, sensorTargetKey(remaining[0]));
+      }
     } else if (entity.type === 'pulley') {
       for (const b of world.bodies) {
         if (b.rope?.pulleyId === entity.id) b.rope = null;
@@ -2285,6 +2308,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         name: entity.name ? `${entity.name} 副本` : '',
         x: spot.x, y: entity.y, z: spot.z,
         width: entity.width, height: entity.height, range: entity.range, face: entity.face,
+        targets: sensorTargets(entity).map((t) => ({ ...t })),
       });
     } else if (entity.type === 'fan') {
       copy = addFan(world, {
@@ -2315,21 +2339,41 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (graphsOn) drawGraphs();
   }
 
+  function shortTargetLabel(target) {
+    const num = String(target.id || '').split('-').pop();
+    return `${target.type === 'launcher' ? 'launcher' : 'body'} ${num}`;
+  }
+
+  /** One {label, rows} entry per plotted target of a motion sensor. */
+  function motionGraphSeries(sensor) {
+    const targets = sensorTargets(sensor);
+    if (!targets.length) {
+      const rows = (sensor.samples || []).slice(-800);
+      return rows.length ? [{ label: '', rows }] : [];
+    }
+    const view = sensorViewKey(sensor);
+    if (view && view !== SENSOR_VIEW_ALL) {
+      const rows = (sensor.samples || []).filter((r) => r.key === view).slice(-800);
+      return rows.length ? [{ label: '', rows }] : [];
+    }
+    const out = [];
+    for (const target of targets) {
+      const key = sensorTargetKey(target);
+      const rows = (sensor.samples || []).filter((r) => r.key === key).slice(-800);
+      if (rows.length) out.push({ label: shortTargetLabel(target), rows });
+    }
+    return out;
+  }
+
   function pushGraphSample() {
     if (selected?.type === 'sensor') {
       const sensor = entityById('sensor', selected.id);
-      if (!sensor || !running) return;
-      if (graphBodyId !== sensor.id) {
-        graphData.length = 0;
-        graphBodyId = sensor.id;
+      if (!sensor) return;
+      // Motion and force sensors own their keyed sample histories, so the
+      // charts mirror them directly — while running, paused or stopped.
+      if (sensor.kind === 'motion' || sensor.kind === 'force') {
+        if (graphsOn) drawGraphs();
       }
-      const samples = sensor.samples.slice(-800);
-      if (!samples.length) return;
-      graphData.length = 0;
-      for (const row of samples) {
-        graphData.push({ t: row.t, x: row.x, v: row.v, a: row.a || 0, e: 0 });
-      }
-      if (graphsOn) drawGraphs();
       return;
     }
     const entity = selectedBody();
@@ -2354,6 +2398,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (graphsOn) drawGraphs();
   }
 
+  function graphPalette() {
+    return [
+      resolveCssColor('var(--accent)', '#5b6cff'),
+      resolveCssColor('var(--warn)', '#a2680f'),
+      resolveCssColor('var(--ok)', '#2f7d33'),
+      resolveCssColor('var(--danger)', '#b3362b'),
+    ];
+  }
+
   function drawGraphs() {
     if (!graphsOn) return;
     const rect = graphCanvas.getBoundingClientRect();
@@ -2369,36 +2422,71 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!ctx) return;
     ctx.clearRect(0, 0, w, h);
     const css = getComputedStyle(document.documentElement);
-    const accent = css.getPropertyValue('--accent').trim() || '#5b6cff';
     const text = css.getPropertyValue('--text-muted').trim() || '#6b6a64';
     const border = css.getPropertyValue('--border').trim() || '#d6d4cc';
     ctx.font = `${11 * dpr}px monospace`;
-    if (graphData.length < 2) {
-      ctx.fillStyle = text;
-      ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
+    const selectedSensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
+    if (selectedSensor?.kind === 'force') {
+      drawForceGraphs(selectedSensor, ctx, w, h, dpr, text, border);
       return;
     }
-    const series = [
+    let series = [];
+    if (selectedSensor?.kind === 'motion') {
+      series = motionGraphSeries(selectedSensor);
+    } else {
+      series = graphData.length ? [{ label: '', rows: graphData }] : [];
+    }
+    const palette = graphPalette();
+    const metrics = [
       { key: 'x', label: 'x', unit: 'm' },
       { key: 'v', label: 'v', unit: 'm/s' },
       { key: 'a', label: 'a', unit: 'm/s²' },
       { key: 'e', label: 'E', unit: 'J' },
     ];
-    const strip = h / series.length;
-    const t0 = graphData[0].t;
-    const t1 = graphData[graphData.length - 1].t;
-    for (let s = 0; s < series.length; s += 1) {
-      const { key, label, unit } = series[s];
+    const totalRows = series.reduce((sum, s) => sum + s.rows.length, 0);
+    if (!totalRows) {
+      ctx.fillStyle = text;
+      ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
+      return;
+    }
+    const legendHeight = series.length > 1 ? 18 * dpr : 0;
+    if (legendHeight) {
+      ctx.fillStyle = text;
+      let lx = 8 * dpr;
+      const shown = series.slice(0, palette.length);
+      ctx.fillText('目标 · Targets:', lx, 13 * dpr);
+      lx += ctx.measureText('目标 · Targets:').width + 8 * dpr;
+      for (const s of shown) {
+        ctx.strokeStyle = palette[shown.indexOf(s) % palette.length];
+        ctx.lineWidth = 2 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(lx, 10 * dpr);
+        ctx.lineTo(lx + 14 * dpr, 10 * dpr);
+        ctx.stroke();
+        ctx.fillStyle = text;
+        ctx.fillText(s.label, lx + 18 * dpr, 13 * dpr);
+        lx += 18 * dpr + ctx.measureText(s.label).width + 14 * dpr;
+      }
+    }
+    const strip = (h - legendHeight) / metrics.length;
+    const allRows = series.flatMap((s) => s.rows);
+    const t0 = allRows[0]?.t ?? 0;
+    const t1 = allRows[allRows.length - 1]?.t ?? 0;
+    for (let s = 0; s < metrics.length; s += 1) {
+      const { key, label, unit } = metrics[s];
       let min = Infinity;
       let max = -Infinity;
-      for (const row of graphData) {
-        min = Math.min(min, row[key]);
-        max = Math.max(max, row[key]);
+      for (const row of allRows) {
+        const value = row[key];
+        if (Number.isFinite(value)) {
+          min = Math.min(min, value);
+          max = Math.max(max, value);
+        }
       }
       if (!Number.isFinite(min) || !Number.isFinite(max)) continue;
       if (max - min < 1e-9) { max += 0.5; min -= 0.5; }
-      const top = s * strip + 4 * dpr;
-      const bottom = (s + 1) * strip - 6 * dpr;
+      const top = legendHeight + s * strip + 4 * dpr;
+      const bottom = legendHeight + (s + 1) * strip - 6 * dpr;
       ctx.strokeStyle = border;
       ctx.lineWidth = dpr;
       ctx.beginPath();
@@ -2407,18 +2495,139 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       ctx.stroke();
       ctx.fillStyle = text;
       ctx.fillText(`${label} (${unit})`, 6 * dpr, top + 11 * dpr);
-      ctx.strokeStyle = accent;
-      ctx.lineWidth = 1.5 * dpr;
-      ctx.beginPath();
-      for (let i = 0; i < graphData.length; i += 1) {
-        const row = graphData[i];
-        const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
-        const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 16 * dpr);
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+      for (const entry of series.slice(0, palette.length)) {
+        ctx.strokeStyle = palette[series.indexOf(entry) % palette.length];
+        ctx.lineWidth = 1.5 * dpr;
+        ctx.beginPath();
+        let moved = false;
+        for (const row of entry.rows) {
+          if (!Number.isFinite(row[key])) continue;
+          const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
+          const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 16 * dpr);
+          if (!moved) { ctx.moveTo(px, py); moved = true; }
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
       }
-      ctx.stroke();
     }
+  }
+
+  /**
+   * Force-sensor charts: one strip per (target, force); each strip plots the
+   * lab-frame components so the direction is explicit, not just |F|.
+   */
+  function forceGraphStrips(sensor) {
+    const targets = sensorTargets(sensor);
+    const view = sensorViewKey(sensor);
+    const strips = [];
+    const pushTarget = (target) => {
+      const key = sensorTargetKey(target);
+      const samples = (sensor.samples || []).filter((r) => r.key === key).slice(-400);
+      if (!samples.length) return;
+      const channels = [];
+      const seen = new Set();
+      for (const sample of samples) {
+        for (const force of sample.forces || []) {
+          if (seen.has(force.id)) continue;
+          seen.add(force.id);
+          channels.push({ id: force.id, zh: force.zh, en: force.en });
+        }
+      }
+      for (const channel of channels) {
+        const rows = [];
+        for (const sample of samples) {
+          const force = (sample.forces || []).find((f) => f.id === channel.id);
+          if (force) rows.push({ t: sample.t, fx: force.fx, fy: force.fy, fz: force.fz });
+        }
+        if (rows.length) {
+          strips.push({ label: `${shortTargetLabel(target)}·${channel.zh}`, rows });
+        }
+      }
+    };
+    if (view && view !== SENSOR_VIEW_ALL) {
+      const parsed = parseTargetValue(view);
+      pushTarget({ id: parsed.id, type: parsed.type });
+    } else {
+      for (const target of targets) pushTarget(target);
+    }
+    return strips.slice(0, 12);
+  }
+
+  function drawForceGraphs(sensor, ctx, w, h, dpr, text, border) {
+    const strips = forceGraphStrips(sensor);
+    if (!strips.length) {
+      ctx.fillStyle = text;
+      ctx.fillText(sensorTargets(sensor).length
+        ? '运行后记录受力 · Force curves record while running'
+        : '先为受力传感器点选跟踪目标 · Pick tracked targets for the force sensor first', 10 * dpr, 22 * dpr);
+      return;
+    }
+    const accent = graphPalette()[0];
+    const warn = graphPalette()[1];
+    const ok = graphPalette()[2];
+    const stripH = (h - 16 * dpr) / strips.length;
+    const allRows = strips.flatMap((s) => s.rows);
+    const t0 = allRows[0]?.t ?? 0;
+    const t1 = allRows[allRows.length - 1]?.t ?? 0;
+    for (let i = 0; i < strips.length; i += 1) {
+      const { label, rows } = strips[i];
+      let min = Infinity;
+      let max = -Infinity;
+      let hasZ = false;
+      for (const row of rows) {
+        for (const value of [row.fx, row.fy, row.fz]) {
+          if (!Number.isFinite(value)) continue;
+          min = Math.min(min, value);
+          max = Math.max(max, value);
+        }
+        if (Math.abs(row.fz) > 1e-6) hasZ = true;
+      }
+      if (!Number.isFinite(min) || !Number.isFinite(max)) continue;
+      if (max - min < 1e-9) { max += 0.5; min -= 0.5; }
+      const top = i * stripH + 4 * dpr;
+      const bottom = (i + 1) * stripH - 4 * dpr;
+      ctx.strokeStyle = border;
+      ctx.lineWidth = dpr;
+      ctx.beginPath();
+      ctx.moveTo(0, top);
+      ctx.lineTo(w, top);
+      ctx.stroke();
+      ctx.fillStyle = text;
+      ctx.fillText(`${label} (N)`, 6 * dpr, top + 11 * dpr);
+      const plot = (key, color, dash) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5 * dpr;
+        ctx.setLineDash(dash.map((d) => d * dpr));
+        ctx.beginPath();
+        let moved = false;
+        for (const row of rows) {
+          if (!Number.isFinite(row[key])) continue;
+          const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
+          const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 14 * dpr);
+          if (!moved) { ctx.moveTo(px, py); moved = true; }
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      };
+      plot('fx', accent, []);
+      plot('fy', warn, [4, 3]);
+      if (hasZ) plot('fz', ok, [1, 3]);
+    }
+    ctx.fillStyle = text;
+    const legend = `Fx —— · Fy ---- ${hasZLegend(strips) ? '· Fz ····' : ''}`;
+    ctx.fillText(legend, 6 * dpr, h - 5 * dpr);
+    ctx.fillText('实验室系分量：x 右、y 上、z 出屏 · Lab-frame components: x right, y up, z out of screen', 6 * dpr + ctx.measureText(legend).width + 16 * dpr, h - 5 * dpr);
+    return accent;
+  }
+
+  function hasZLegend(strips) {
+    for (const strip of strips) {
+      for (const row of strip.rows) {
+        if (Math.abs(row.fz) > 1e-6) return true;
+      }
+    }
+    return false;
   }
 
   function setGraphs(value) {
@@ -2426,7 +2635,22 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     graphSection.hidden = !graphsOn;
     graphToggleBtn.classList.toggle('active', graphsOn);
     graphToggleBtn.setAttribute('aria-pressed', graphsOn ? 'true' : 'false');
+    updateGraphLegend();
     if (graphsOn) drawGraphs();
+  }
+
+  function updateGraphLegend() {
+    clear(graphLegend);
+    const sensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
+    if (sensor?.kind === 'force') {
+      for (const text of ['实线 Fx · solid Fx', '虚线 Fy · dashed Fy', '点线 Fz · dotted Fz']) {
+        graphLegend.appendChild(el('span', { text }));
+      }
+      return;
+    }
+    for (const text of ['位置 x · Position', '速率 v · Speed', '加速度 a · Accel', '能量 E · Energy']) {
+      graphLegend.appendChild(el('span', { text }));
+    }
   }
 
   /* ------------------------ time history ------------------------ */
@@ -3303,7 +3527,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         x: spot.x, baseY: 0, z: spot.z, angle: 25, length: 3, width: 1.6,
         mass: 4, muFloor: 0, blockMu: 0, restitution: 0,
       });
-    } else if (kind === 'photogate' || kind === 'motion') {
+    } else if (kind === 'photogate' || kind === 'motion' || kind === 'force') {
       const surface = selected?.type === 'surface' ? selected : null;
       const body = selectedBody();
       const spot = surface
@@ -3325,7 +3549,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           width: surface ? Math.min(2.2, surface.width * 0.85) : 1.8,
           height: 1.3,
         });
-      } else {
+      } else if (kind === 'motion') {
         const half = surface ? surface.length / 2 : 0;
         entity = addSensor(world, {
           kind: 'motion',
@@ -3335,6 +3559,18 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           width: 1,
           height: 1,
           range: surface ? surface.length : 8,
+          face: 1,
+        });
+      } else {
+        // Force sensor: place it, then pick the objects it should track.
+        entity = addSensor(world, {
+          kind: 'force',
+          x: spot.x,
+          y: baseY,
+          z: spot.z,
+          width: 1,
+          height: 1,
+          range: 8,
           face: 1,
         });
       }
@@ -3423,6 +3659,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     renderOutliner();
     updateEmpty();
     updateTransport();
+    if (entity.type === 'sensor' && entity.kind === 'force') {
+      // Same interaction as the motion sensor: place it, then pick the target.
+      pendingSensorTarget = entity.id;
+      setStatus('受力传感器已放置：点击场景中要跟踪的物体（可选多个）。 · Force sensor placed: click a body in the scene to track it (you can pick several).');
+      return;
+    }
     setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 直接拖动即可移动，吸附默认开启。 · Drag it directly; auto-snap is on.`);
   }
 
@@ -3562,7 +3804,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   function startLink(kind) {
     prepareEdit();
     if (!world.bodies.length) {
-      setStatus('先添加一个物体，再连接弹簧或测力计。 · Add a body first, then connect a spring or force meter.', true);
+      setStatus('先添加一个物体，再连接弹簧。 · Add a body first, then connect a spring.', true);
       return;
     }
     const body = selectedBody() || (world.bodies.length === 1 ? world.bodies[0] : null);
@@ -3624,14 +3866,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
         if (sensor) {
           pendingSensorTarget = null;
-          setSensorTarget(world, sensor, hit.entity.id, { type: hit.entity.type });
-          select(sensor);
-          renderOutliner();
-          const target = hit.entity.type === 'launcher'
-            ? `${entityFallbackName(hit.entity)} · 装填小球 · Loaded ball`
-            : (getBody(world, hit.entity.id)?.name || entityFallbackName(hit.entity));
-          setStatus(`运动传感器目标 · Motion-sensor target: ${target}`);
-          return;
+          if (applySensorTargetPick(sensor, hit.entity)) return;
         }
       }
       if (!hit?.entity) {
@@ -4263,6 +4498,37 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       setStatus('实时曲线已关闭。 · Live graphs off.');
     }
   });
+  graphExportBtn.addEventListener('click', () => {
+    // Redraw from the live sample histories so the exported image matches the
+    // currently viewed target even while paused.
+    drawGraphs();
+    const viewTarget = () => {
+      const sensor = selected?.type === 'sensor' ? entityById('sensor', selected.id) : null;
+      if (!sensor || (sensor.kind !== 'motion' && sensor.kind !== 'force')) return '';
+      const view = sensorViewKey(sensor);
+      return view && view !== SENSOR_VIEW_ALL ? view : '';
+    };
+    const suffix = viewTarget();
+    const base = selected?.type === 'sensor'
+      ? `physics-${entityById('sensor', selected.id)?.kind || 'sensor'}-sensor`
+      : selected?.type === 'body'
+        ? 'physics-body'
+        : 'lab-graphs';
+    try {
+      const url = graphCanvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${base}${suffix ? `-${suffix.replace(/[^\w-]+/g, '-')}` : ''}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setStatus(suffix
+        ? '已导出该目标的图表图片。 · Chart image downloaded for the viewed target.'
+        : '已导出图表图片。 · Chart image downloaded.');
+    } catch (err) {
+      setStatus(`导出图片失败：${err && err.message ? err.message : 'unknown'} · Could not export the chart image.`, true);
+    }
+  });
 
   saveBtn.addEventListener('click', saveScene);
   loadBtn.addEventListener('click', loadSavedScene);
@@ -4562,9 +4828,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     setStatus('已导出 CSV。 · CSV exported.');
   }
 
-  function csvFileName(entity, format) {
+  function csvFileName(entity, format, targetKey = '') {
     const base = entity.name ? entity.name.replace(/[^\w\u4e00-\u9fff-]+/g, '-') : entity.kind || entity.type;
-    return `physics-${base}-${format}.csv`;
+    const target = targetKey ? `-${targetKey.replace(/[^\w-]+/g, '-')}` : '';
+    return `physics-${base}${target}-${format}.csv`;
   }
 
   function renderSensorTable(host, table) {
@@ -4598,66 +4865,198 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     host.appendChild(tableEl);
   }
 
+  const SENSOR_VIEW_ALL = '__all__';
+  const sensorViewKeys = new Map();
+
+  /** The per-sensor "data target" being viewed: a target key, or '' for all. */
+  function sensorViewKey(sensor) {
+    const targets = sensorTargets(sensor);
+    const stored = sensorViewKeys.get(sensor.id);
+    if (stored !== undefined) {
+      if (stored === '') return '';
+      if (targets.some((t) => sensorTargetKey(t) === stored)) return stored;
+    }
+    const fallback = targets.length ? sensorTargetKey(targets[0]) : '';
+    sensorViewKeys.set(sensor.id, fallback);
+    return fallback;
+  }
+
+  function parseTargetValue(value) {
+    const at = value.indexOf(':');
+    if (at < 0) return { type: 'body', id: value, key: `body:${value}` };
+    return { type: value.slice(0, at), id: value.slice(at + 1), key: value };
+  }
+
+  function sensorTargetName(entity) {
+    if (!entity) return '';
+    if (entity.type === 'launcher') {
+      return `${entity.name || entityFallbackName(entity)} · 装填小球 · Loaded ball`;
+    }
+    if (entity.type !== 'body') return entity.name || entityFallbackName(entity);
+    return getBody(world, entity.id)?.name || entityFallbackName(entity);
+  }
+
+  /**
+   * Shared pick path for the outline and the canvas. A pick APPENDS a target
+   * through addSensorTarget so every other target keeps its sample history;
+   * picking an already-tracked target only switches the data view.
+   * setSensorTarget — which replaces all targets and erases every series —
+   * stays reserved for the motion sensor's explicit "back to auto" control.
+   */
+  function applySensorTargetPick(sensor, entity) {
+    if (!sensor || (sensor.kind !== 'motion' && sensor.kind !== 'force')) return false;
+    if (!entity || (entity.type !== 'body' && entity.type !== 'launcher')) return false;
+    const type = entity.type === 'launcher' ? 'launcher' : 'body';
+    const key = `${type}:${entity.id}`;
+    const name = sensorTargetName(entity);
+    if (sensorTargets(sensor).some((t) => sensorTargetKey(t) === key)) {
+      sensorViewKeys.set(sensor.id, key);
+      select(sensor);
+      setStatus(`已在跟踪该目标，记录保持不变 · Already tracking this target; its records are kept：${name}`);
+      return true;
+    }
+    pushUndo(`sensorTarget:${sensor.id}`);
+    if (!addSensorTarget(world, sensor, entity.id, { type })) {
+      select(sensor);
+      setStatus(`目标数已达上限，未能添加 · Target cap reached; nothing was added：${name}`, true);
+      return false;
+    }
+    sensorViewKeys.set(sensor.id, key);
+    select(sensor);
+    const kindText = sensor.kind === 'force'
+      ? '已添加受力传感器目标 · Force-sensor target added'
+      : '已添加运动传感器目标 · Motion-sensor target added';
+    setStatus(`${kindText}，其它目标的记录保持不变 · other targets keep their records：${name}`);
+    return true;
+  }
+
+  function sensorTargetControls(parent, sensor) {
+    const isMotion = sensor.kind === 'motion';
+    const targets = sensorTargets(sensor);
+    const trackedKeys = new Set(targets.map((t) => sensorTargetKey(t)));
+    const view = sensorViewKey(sensor);
+    const options = [];
+    if (isMotion) {
+      options.push(['', '自动（视线最近）· Auto (nearest in line of sight)']);
+      options.push([SENSOR_VIEW_ALL, '全部目标 · All targets']);
+    } else {
+      options.push([SENSOR_VIEW_ALL, '全部目标 · All targets']);
+    }
+    for (const body of world.bodies) {
+      if (body.transient) continue;
+      const key = `body:${body.id}`;
+      const name = body.name || entityFallbackName(body);
+      options.push([key, trackedKeys.has(key) ? `${name}（已跟踪 · tracked）` : name]);
+    }
+    for (const l of world.launchers) {
+      const key = `launcher:${l.id}`;
+      const name = `${l.name || entityFallbackName(l)} · 装填小球 · Loaded ball`;
+      options.push([key, trackedKeys.has(key) ? `${name}（已跟踪 · tracked）` : name]);
+    }
+    selectField(parent, {
+      label: '跟踪目标 · Tracked targets',
+      value: isMotion && !targets.length ? '' : (view || SENSOR_VIEW_ALL),
+      testid: 'sensorTarget',
+      options,
+      onChange: (value) => {
+        if (isMotion && value === '') {
+          // Back to auto: this is the one target change that restarts tables.
+          pushUndo(`sensorTarget:${sensor.id}`);
+          setSensorTarget(world, sensor, null);
+          sensorViewKeys.set(sensor.id, '');
+          buildInspector();
+          setStatus('已切换传感器目标；数据表从新目标重新开始。 · Target changed; tables restart for the new target.');
+          return;
+        }
+        if (value === SENSOR_VIEW_ALL) {
+          sensorViewKeys.set(sensor.id, '');
+          buildInspector();
+          setStatus('数据表显示全部目标。 · Tables now show every tracked target.');
+          return;
+        }
+        const parsed = parseTargetValue(value);
+        if (trackedKeys.has(parsed.key)) {
+          sensorViewKeys.set(sensor.id, parsed.key);
+          buildInspector();
+          setStatus(`正在查看目标 · Viewing target: ${parsed.id}`);
+          return;
+        }
+        pushUndo(`sensorTarget:${sensor.id}`);
+        if (!addSensorTarget(world, sensor, parsed.id, { type: parsed.type })) {
+          setStatus('无法添加该目标（可能已在跟踪或超出上限）。 · Could not add that target (already tracked or at the cap).', true);
+          return;
+        }
+        sensorViewKeys.set(sensor.id, parsed.key);
+        buildInspector();
+        setStatus('已添加目标；其它目标的记录保持不变。 · Target added; the other targets keep their records.');
+      },
+    });
+    const pick = el('button', {
+      type: 'button',
+      className: 'plab-action hit-target plab-sensor-pick',
+      text: '在场景中点选添加目标 · Pick target in scene',
+      'data-action': 'sensor-target-pick',
+    });
+    pick.addEventListener('click', () => {
+      pendingSensorTarget = sensor.id;
+      if (isMobile()) openInspector(false);
+      setStatus('点击场景中的物体或抛射器，添加为传感器目标。 · Click a body or launcher in the scene to add it as a target.');
+    });
+    parent.appendChild(pick);
+    if (view && view !== SENSOR_VIEW_ALL) {
+      const parsed = parseTargetValue(view);
+      const remove = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target plab-sensor-remove',
+        text: '移除当前目标 · Remove current target',
+        'data-action': 'sensor-target-remove',
+      });
+      remove.addEventListener('click', () => {
+        pushUndo(`sensorTargetRemove:${sensor.id}`);
+        if (!removeSensorTarget(world, sensor, parsed.id, { type: parsed.type })) {
+          setStatus('未能移除该目标。 · Could not remove that target.', true);
+          return;
+        }
+        const remaining = sensorTargets(sensor);
+        sensorViewKeys.set(sensor.id, remaining.length ? sensorTargetKey(remaining[0]) : '');
+        buildInspector();
+        setStatus('已移除目标；其它目标的记录保持不变。 · Target removed; the other targets keep their records.');
+      });
+      parent.appendChild(remove);
+    }
+    if (view && view.startsWith('launcher:')) {
+      const parsed = parseTargetValue(view);
+      const resolved = resolveSensorTarget(world, { id: parsed.id, type: 'launcher' });
+      if (resolved.status === 'ok') {
+        const state = resolved.loaded
+          ? `待发射装填小球 · loaded, waiting to fire${sensor.kind === 'force' ? '（受力数据从发射后开始 · force data starts once it flies）' : ''}`
+          : `飞行中 · in flight (${resolved.body?.id || ''})`;
+        parent.appendChild(el('p', {
+          className: 'plab-field-hint',
+          text: `当前目标 · Current target: ${resolved.name} · ${state}`,
+        }));
+      }
+    }
+    parent.appendChild(el('p', {
+      className: 'plab-field-hint',
+      text: isMotion
+        ? '选择「自动」即切换回单目标（Changing target clears the current series）；新增或移除目标不会影响其它目标的记录；抛射器目标在发射、复位和再次发射时保持绑定。 · Choosing Auto restarts the series — Changing target clears the current series; adding or removing a target never disturbs the others; a launcher target stays bound through fire, reset and refire.'
+        : '新增或移除目标不会影响其它目标的记录；抛射器目标在发射、复位和再次发射时保持绑定，装填期间不生成受力数据。 · Adding or removing a target never disturbs the others; a launcher target stays bound through fire, reset and refire, and no force data is invented while the ball is loaded.',
+    }));
+  }
+
   function sensorDataControls(parent, entity) {
     if (!entity) return;
     const source = entity;
-    if (entity.type === 'sensor' && entity.kind === 'motion') {
-      const targetValue = entity.targetId
-        ? `${entity.targetType === 'launcher' ? 'launcher' : 'body'}:${entity.targetId}`
-        : '';
-      selectField(parent, {
-        label: '跟踪目标 · Target body',
-        value: targetValue,
-        testid: 'sensorTarget',
-        options: [
-          ['', '自动（视线最近）· Auto (nearest in line of sight)'],
-          ...world.bodies.filter((b) => !b.transient).map((b) => [`body:${b.id}`, b.name || entityFallbackName(b)]),
-          ...world.launchers.map((l) => [
-            `launcher:${l.id}`,
-            `${l.name || entityFallbackName(l)} · 装填小球 · Loaded ball`,
-          ]),
-        ],
-        onChange: (value) => {
-          const [kind, id] = value ? [value.slice(0, value.indexOf(':')), value.slice(value.indexOf(':') + 1)] : [null, null];
-          pushUndo(`sensorTarget:${entity.id}`);
-          setSensorTarget(world, entity, id, { type: kind || undefined });
-          buildInspector();
-          setStatus(value
-            ? '已切换传感器目标；数据表从新目标重新开始。 · Target changed; tables restart for the new target.'
-            : '传感器跟踪视线内最近物体。 · Sensor tracks the nearest body in line of sight.');
-        },
-      });
-      const pick = el('button', {
-        type: 'button',
-        className: 'plab-action hit-target plab-sensor-pick',
-        text: '在场景中点选目标 · Pick target in scene',
-        'data-action': 'sensor-target-pick',
-      });
-      pick.addEventListener('click', () => {
-        pendingSensorTarget = entity.id;
-        if (isMobile()) openInspector(false);
-        setStatus('点击场景中的物体或抛射器，设为运动传感器目标。 · Click a body or launcher in the scene to track it.');
-      });
-      parent.appendChild(pick);
-      if (entity.targetId) {
-        const resolved = resolveMotionTarget(world, entity);
-        if (resolved.status === 'ok') {
-          const state = resolved.loaded
-            ? '待发射装填小球 · loaded, waiting to fire'
-            : `飞行中 · in flight (${resolved.body?.id || ''})`;
-          parent.appendChild(el('p', {
-            className: 'plab-field-hint',
-            text: `当前目标 · Current target: ${resolved.name} · ${state}`,
-          }));
-        }
-      }
-      parent.appendChild(el('p', {
-        className: 'plab-field-hint',
-        text: '切换目标会清空当前序列，避免在同一张表混入不同物体；抛射器目标在发射、复位和再次发射时保持绑定。 · Changing target clears the current series; a launcher target stays bound through fire, reset and refire.',
-      }));
+    let viewKey = null;
+    if (entity.type === 'sensor' && (entity.kind === 'motion' || entity.kind === 'force')) {
+      sensorTargetControls(parent, entity);
+      const motionAuto = entity.kind === 'motion' && !sensorTargets(entity).length;
+      const view = sensorViewKey(entity);
+      viewKey = motionAuto || !view ? null : view;
     }
 
-    const tables = buildSensorTables(source);
+    const tables = buildSensorTables(source, viewKey ? { targetKey: viewKey } : {});
     if (!tables) return;
     const mobile = isMobile();
     if (mobile) {
@@ -4698,8 +5097,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         'data-action': `sensor-csv-${format}`,
       });
       exportBtn.addEventListener('click', () => {
-        const latest = buildSensorTables(source) || tables;
-        downloadCsv(csvFileName(source, format), tableToCsv(latest[format]));
+        const latest = buildSensorTables(source, viewKey ? { targetKey: viewKey } : {}) || tables;
+        downloadCsv(csvFileName(source, format, viewKey || ''), tableToCsv(latest[format]));
       });
       const copyBtn = el('button', {
         type: 'button',
@@ -4708,7 +5107,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         'data-action': `sensor-copy-${format}`,
       });
       copyBtn.addEventListener('click', () => {
-        const latest = buildSensorTables(source) || tables;
+        const latest = buildSensorTables(source, viewKey ? { targetKey: viewKey } : {}) || tables;
         copyPlainText(tableToCsv(latest[format]));
       });
       actions.append(exportBtn, copyBtn);
@@ -4725,7 +5124,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       });
       block.append(head, actions, host, hint);
       tableParent.appendChild(block);
-      sensorTableNodes.push({ format, host, source, block, hint });
+      sensorTableNodes.push({ format, host, source, block, hint, viewKey });
     }
     setDataFormat(dataDockFormat);
   }
@@ -4779,11 +5178,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!force && now - lastSensorTableAt < 220) return;
     lastSensorTableAt = now;
     const source = sensorTableNodes[0].source;
+    const viewKey = sensorTableNodes[0].viewKey || null;
     const live = sensorTableNodes[0].source?.type === 'sensor'
       ? world.sensors.find((s) => s.id === source.id)
       : world.links.find((l) => l.id === source.id);
     if (!live) return;
-    const tables = buildSensorTables(live);
+    const tables = buildSensorTables(live, viewKey ? { targetKey: viewKey } : {});
     if (!tables) return;
     for (const node of sensorTableNodes) {
       renderSensorTable(node.host, tables[node.format]);
@@ -4811,6 +5211,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   let resonanceCanvas = null;
+  let fbdCanvas = null;
 
   function drawResonance(osc) {
     const canvas = resonanceCanvas;
@@ -4896,6 +5297,131 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     ctx.fillText('ω₀', xOf(w0) + 3, pad.t + 10);
   }
 
+  const FBD_COLORS = {
+    weight: 'var(--text)',
+    normal: 'var(--accent)',
+    friction: 'var(--warn)',
+    spring: 'var(--ok)',
+    applied: 'var(--danger)',
+    rope: 'var(--ok)',
+    fan: 'var(--danger)',
+    motor: 'var(--danger)',
+    drag: 'var(--text-muted)',
+  };
+
+  function resolveCssColor(token, fallback) {
+    const css = getComputedStyle(root);
+    const value = css.getPropertyValue(token.replace(/^var\(|\)$/g, '')).trim();
+    return value || fallback;
+  }
+
+  /**
+   * Live free-body diagram of the viewed force-sensor target. Each force is
+   * drawn once with its name and magnitude — the decomposition the model
+   * itself supplies, never a split of the measured m·a.
+   */
+  function drawFbd(sensor) {
+    const canvas = fbdCanvas;
+    if (!canvas || !sensor || sensor.kind !== 'force') return;
+    const view = sensorViewKey(sensor);
+    const targets = sensorTargets(sensor);
+    let body = null;
+    let targetLabel = '';
+    if (view && view !== SENSOR_VIEW_ALL) {
+      const parsed = parseTargetValue(view);
+      const resolved = resolveSensorTarget(world, { id: parsed.id, type: parsed.type });
+      body = resolved.status === 'ok' ? resolved.body : null;
+      targetLabel = resolved.status === 'ok' ? resolved.name : parsed.id;
+    } else {
+      const first = targets[0];
+      if (first) {
+        const resolved = resolveSensorTarget(world, first);
+        body = resolved.status === 'ok' ? resolved.body : null;
+        targetLabel = resolved.status === 'ok' ? resolved.name : sensorTargetKey(first);
+      }
+    }
+    const ink = resolveCssColor(FBD_COLORS.weight, '#222');
+    const muted = resolveCssColor(FBD_COLORS.drag, '#666');
+    const border = getComputedStyle(root).getPropertyValue('--border').trim() || '#ccc';
+    const paper = getComputedStyle(root).getPropertyValue('--canvas-plot').trim() || '#fff';
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(200, Math.round(rect.width || 280));
+    const h = 240;
+    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = border;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, w - 1, h - 1);
+    ctx.font = '11px ui-monospace, monospace';
+    if (!body) {
+      ctx.fillStyle = muted;
+      ctx.fillText(targetLabel
+        ? '待发射 · loaded, waiting to fire — 发射后开始记录受力 · force logging starts once it flies'
+        : '选择一个跟踪目标 · Pick a tracked target to see its free-body diagram', 10, 20);
+      return;
+    }
+    const cx = w / 2;
+    const cy = h / 2;
+    const forces = bodyForceBreakdown(world, body);
+    let max = 0;
+    for (const f of forces) max = Math.max(max, f.vector.length());
+    const reach = Math.min(cx, cy) - 34;
+    const scale = max > 0 ? reach / max : 0;
+    ctx.fillStyle = ink;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctx.fill();
+    const labelAt = (f) => {
+      const mag = f.vector.length();
+      if (mag < 1e-9) return { x: cx, y: cy };
+      const ux = f.vector.x / mag;
+      const uy = -f.vector.y / mag;
+      const lx = cx + ux * (mag * scale + 16);
+      const ly = cy + uy * (mag * scale + 16);
+      return {
+        x: Math.max(38, Math.min(w - 8, lx)),
+        y: Math.max(12, Math.min(h - 4, ly)),
+      };
+    };
+    ctx.textAlign = 'center';
+    for (const f of forces) {
+      const mag = f.vector.length();
+      const color = resolveCssColor(FBD_COLORS[String(f.id).split(':')[0]] || 'var(--accent)', '#5b6cff');
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 2;
+      const fx = cx + f.vector.x * scale;
+      const fy = cy - f.vector.y * scale;
+      if (mag * scale < 3) continue;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(fx, fy);
+      ctx.stroke();
+      const angle = Math.atan2(fy - cy, fx - cx);
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(fx - 10 * Math.cos(angle - 0.4), fy - 10 * Math.sin(angle - 0.4));
+      ctx.lineTo(fx - 10 * Math.cos(angle + 0.4), fy - 10 * Math.sin(angle + 0.4));
+      ctx.closePath();
+      ctx.fill();
+      const at = labelAt(f);
+      const zNote = Math.abs(f.vector.z) > 0.05 * mag ? ' (+z)' : '';
+      ctx.fillText(`${f.zh} · ${f.en} ${fmt(mag)} N${zNote}`, at.x, at.y);
+    }
+    ctx.textAlign = 'left';
+    ctx.fillStyle = muted;
+    ctx.fillText(`目标 · Target: ${targetLabel || body.name || body.id}`, 8, h - 8);
+    ctx.fillText('x 右 · right, y 上 · up (z 出屏 · out of screen)', 8, 12);
+  }
+
   function inspectorHeading(parent, entity) {
     const [zh, en] = kindLabel(entity);
     parent.appendChild(el('div', { className: 'plab-inspector-head' }, [
@@ -4923,6 +5449,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     inspectorSummary = null;
     positionFieldHandles = null;
     sensorTableNodes = [];
+    resonanceCanvas = null;
+    fbdCanvas = null;
     if (!selected) {
       inspectorBody.appendChild(el('p', {
         className: 'plab-inspector-empty',
@@ -5506,7 +6034,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           testid: 'gateHeight',
           onChange: (v) => { entity.height = Math.max(0.3, v); view.sync(world); },
         });
-      } else {
+      } else if (entity.kind === 'motion') {
         field(common, {
           label: '量程 · Range',
           value: entity.range,
@@ -5519,10 +6047,33 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         });
       }
       const readouts = el('div', { className: 'plab-readouts' });
-      addLive(readouts, entity.kind === 'photogate' ? '通过时刻 · Crossing t' : '距离 · Distance', 'sensorPrimary', entity.kind === 'photogate' ? 's' : 'm');
-      addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      if (entity.kind === 'photogate') {
+        addLive(readouts, '通过时刻 · Crossing t', 'sensorPrimary', 's');
+        addLive(readouts, '通过速率 · Speed', 'sensorSpeed', 'm/s');
+      } else if (entity.kind === 'force') {
+        addLive(readouts, '合力大小 · Net |ΣF|', 'sensorPrimary', 'N');
+        addLive(readouts, '最大单力 · Max single force', 'sensorSpeed', 'N');
+      } else {
+        addLive(readouts, '距离 · Distance', 'sensorPrimary', 'm');
+        addLive(readouts, '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      }
       addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
       common.appendChild(readouts);
+      if (entity.kind === 'force') {
+        // Live free-body diagram of the viewed target, readable while the
+        // world runs, pauses or stops.
+        const fbdWrap = el('div', { className: 'plab-fbd' });
+        fbdWrap.appendChild(el('p', {
+          className: 'plab-field-hint',
+          text: '受力分析图 · Free-body diagram（实验室系分量：x 右、y 上、z 出屏 · lab-frame components: x right, y up, z out of screen）',
+        }));
+        fbdCanvas = el('canvas', {
+          className: 'plab-fbd-canvas',
+          'aria-label': '受力分析图 · Free-body diagram',
+        });
+        fbdWrap.appendChild(fbdCanvas);
+        common.appendChild(fbdWrap);
+      }
       sensorDataControls(common, entity);
     } else if (entity.type === 'oscillator') {
       resonanceCanvas = null;
@@ -6692,7 +7243,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           testid: 'gateHeightAdvanced',
           onChange: (v) => { entity.height = Math.max(0.3, v); view.sync(world); },
         });
-      } else {
+      } else if (entity.kind === 'motion') {
         field(moreAdvanced, {
           label: '量程 · Range',
           value: entity.range,
@@ -6710,10 +7261,29 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           options: [['1', '向右 +x · Right'], ['-1', '向左 −x · Left']],
           onChange: (v) => { entity.face = Number(v) || 1; },
         });
+      } else {
+        // Force sensor: no range/facing; the honest provenance of each
+        // force channel is the key expert setting.
+        moreAdvanced.appendChild(el('p', {
+          className: 'plab-field-hint',
+          text: '每个力通道都是仿真实际施加的力（重力、支持力/摩擦、弹簧/绳、外加力、风扇、电机、阻力）；「接触/约束反力」为测量合力减去已命名力后的剩余，按求解器估计给出，平均窗口为一个积分子步 h。 · Every force channel is a force the model actually applies (weight, normal/friction, spring/rope, applied, fan, motor, drag); the contact reaction row is the measured net minus the named forces, reported as a solver estimate averaged over one integration substep h.',
+        }));
+        moreAdvanced.appendChild(el('p', {
+          className: 'plab-field-hint',
+          text: '轴约定 · Lab axes: x 向右 right, y 向上 up, z 出屏 out of screen；方位角自 +x 向 +z，仰角向上为正。 · Azimuth is measured from +x toward +z; elevation is positive upward.',
+        }));
       }
       const readouts = el('div', { className: 'plab-readouts' });
-      addLive(readouts, entity.kind === 'photogate' ? '通过时刻 · Crossing t' : '距离 · Distance', 'sensorPrimary', entity.kind === 'photogate' ? 's' : 'm');
-      addLive(readouts, entity.kind === 'photogate' ? '通过速率 · Speed' : '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      if (entity.kind === 'photogate') {
+        addLive(readouts, '通过时刻 · Crossing t', 'sensorPrimary', 's');
+        addLive(readouts, '通过速率 · Speed', 'sensorSpeed', 'm/s');
+      } else if (entity.kind === 'force') {
+        addLive(readouts, '合力大小 · Net |ΣF|', 'sensorPrimary', 'N');
+        addLive(readouts, '最大单力 · Max single force', 'sensorSpeed', 'N');
+      } else {
+        addLive(readouts, '距离 · Distance', 'sensorPrimary', 'm');
+        addLive(readouts, '径向速度 · Radial v', 'sensorSpeed', 'm/s');
+      }
       addLive(readouts, '采样点 · Samples', 'sensorSamples', '');
       moreAdvanced.appendChild(readouts);
       const events = el('div', { className: 'plab-readouts' });
@@ -6722,12 +7292,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       moreAdvanced.appendChild(events);
       formula(moreAdvanced, entity.kind === 'photogate'
         ? 't_{\\text{gate}},\\qquad v=\\dfrac{\\Delta x}{\\Delta t}'
-        : 'x(t),\\qquad v_{x}=\\dfrac{dx}{dt}');
+        : entity.kind === 'force'
+          ? '\\sum \\vec F = m\\dfrac{\\Delta \\vec v}{h}'
+          : 'x(t),\\qquad v_{x}=\\dfrac{dx}{dt}');
       moreAdvanced.appendChild(el('p', {
         className: 'plab-field-hint',
-        text: last
-          ? `最近通过 · Last crossing: t=${fmt(last.t)} s, v=${fmt(last.v)} m/s`
-          : '打开实时曲线后，选中传感器即可绘制 x–t。 · Open Graphs and select the sensor to plot x–t.',
+        text: entity.kind === 'force'
+          ? '打开实时曲线后，选中传感器即可绘制每个目标、每个力的 Fx/Fy(/Fz) 分量曲线，并可导出图片与 CSV。 · Open Graphs and select the sensor to plot Fx/Fy(/Fz) per target and force; export the image or CSV from there.'
+          : last
+            ? `最近通过 · Last crossing: t=${fmt(last.t)} s, v=${fmt(last.v)} m/s`
+            : '打开实时曲线后，选中传感器即可绘制 x–t。 · Open Graphs and select the sensor to plot x–t.',
       }));
     }
 
@@ -7326,6 +7900,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         setLive('sensorPrimary', last ? `${fmt(last.t)}` : '—');
         setLive('sensorSpeed', last ? `${fmt(last.v)}` : '—');
         setLive('sensorEvent', last ? `t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '—');
+      } else if (entity.kind === 'force') {
+        setLive('sensorPrimary', entity.lastNetForce ? `${fmt(entity.lastNetForce)}` : '—');
+        setLive('sensorSpeed', entity.lastMaxForce ? `${fmt(entity.lastMaxForce)}` : '—');
+        const targets = sensorTargets(entity);
+        setLive('sensorEvent', targets.length
+          ? `${targets.length} 个目标 · ${targets.length} target(s)`
+          : '未选目标 · no target yet');
+        drawFbd(entity);
       } else {
         let distance = entity.lastDistance;
         let speed = entity.lastSpeed;
@@ -7442,9 +8024,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         inspectorSummary.textContent = `楔速度 · Wedge ${fmt(entity.body.velocity.length())} m/s · μ ${fmt(entity.muFloor)}`;
       } else if (entity?.type === 'sensor') {
         const last = entity.lastCrossing;
-        inspectorSummary.textContent = entity.kind === 'photogate'
-          ? (last ? `通过 · Crossing t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '等待通过 · waiting for a crossing')
-          : (entity.lastDistance != null ? `距离 · Distance ${fmt(entity.lastDistance)} m · v=${fmt(entity.lastSpeed)} m/s` : '无目标 · no target');
+        if (entity.kind === 'photogate') {
+          inspectorSummary.textContent = last ? `通过 · Crossing t=${fmt(last.t)} s · v=${fmt(last.v)} m/s` : '等待通过 · waiting for a crossing';
+        } else if (entity.kind === 'force') {
+          const count = sensorTargets(entity).length;
+          inspectorSummary.textContent = count
+            ? `合力 · Net ${fmt(entity.lastNetForce || 0)} N · 最大单力 · max ${fmt(entity.lastMaxForce || 0)} N · ${count} 目标 · target(s)`
+            : '未选目标 · no target yet';
+        } else {
+          inspectorSummary.textContent = entity.lastDistance != null ? `距离 · Distance ${fmt(entity.lastDistance)} m · v=${fmt(entity.lastSpeed)} m/s` : '无目标 · no target';
+        }
       } else if (entity?.type === 'fan') {
         inspectorSummary.textContent = `${entity.on ? '开启 · On' : '关闭 · Off'} · ${fmt(entity.thrust)} N · ${fmt(entity.azimuth)}°`;
       } else if (entity?.type === 'oscillator') {
