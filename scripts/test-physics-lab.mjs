@@ -4,6 +4,7 @@
  * Run: node scripts/test-physics-lab.mjs
  */
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   buildSensorTables,
@@ -2105,6 +2106,131 @@ check('launcher rigidly mounted on a moving cart adds the cart velocity at fire'
   const composed = fireLauncher(moving, mounted);
   near(composed.cannon.velocity.x, carrier.cannon.velocity.x + 3, 0.02, 'live cart velocity added');
   console.log(`      flat: v=(7,0,0), vertical: v=(2,5,0), live cart x=${carrier.cannon.position.x.toFixed(3)} m -> projectile vx=${composed.cannon.velocity.x.toFixed(3)} m/s`);
+});
+
+// ---- lab layout regression guards (source-level; the lab UI is DOM/CSS driven) ----
+
+const labCss = readFileSync(
+  fileURLToPath(new URL('../modules/physics/lab/lab.css', import.meta.url)),
+  'utf8',
+);
+const labJs = readFileSync(
+  fileURLToPath(new URL('../modules/physics/lab/index.js', import.meta.url)),
+  'utf8',
+);
+
+/** Return the {...} body that directly follows `needle` (literal match). */
+function cssBlock(text, needle) {
+  const at = text.indexOf(needle);
+  if (at < 0) throw new Error(`CSS selector not found: ${needle}`);
+  const open = text.indexOf('{', at);
+  let depth = 0;
+  for (let i = open; i < text.length; i += 1) {
+    if (text[i] === '{') depth += 1;
+    else if (text[i] === '}') {
+      depth -= 1;
+      if (depth === 0) return text.slice(open + 1, i);
+    }
+  }
+  throw new Error(`CSS block never closed: ${needle}`);
+}
+
+function expectIn(text, needle, label) {
+  if (!text.includes(needle)) throw new Error(`${label}: missing ${needle}`);
+}
+
+check('lab layout: measurement dock owns sensor tables on desktop with raw/summary tabs', () => {
+  expectIn(labJs, 'const tableParent = mobile ? parent : dataDockBody;', 'table routing');
+  for (const marker of [
+    "'data-dock-close'",
+    "'data-dock-open'",
+    'plab-data-tabs',
+    'plab-data-dock-meta',
+    "role: 'tablist'",
+    '测量数据 · Measurement data',
+  ]) {
+    expectIn(labJs, marker, 'dock wiring');
+  }
+});
+
+check('lab layout: data tables scroll internally with sticky header and sticky first column', () => {
+  const scroll = cssBlock(labCss, '.plab-table-scroll {');
+  if (!/\boverflow:\s*auto\b/.test(scroll)) throw new Error('.plab-table-scroll does not scroll internally');
+  const th = cssBlock(labCss, '.plab-data-table th {');
+  expectIn(th, 'position: sticky', 'sticky header');
+  expectIn(th, 'top: 0', 'header pinned to top');
+  const firstCol = cssBlock(labCss, '.plab-data-table td:first-child');
+  expectIn(firstCol, 'position: sticky', 'sticky first column');
+  expectIn(firstCol, 'left: 0', 'first column pinned left');
+  expectIn(labCss, '.plab-table-scrollhint {', 'sideways-scroll hint');
+});
+
+check('lab layout: table headers wrap on word boundaries only', () => {
+  const th = cssBlock(labCss, '.plab-data-table th {');
+  expectIn(th, 'white-space: normal', 'headers may wrap');
+  expectIn(th, 'word-break: normal', 'no mid-word breaks');
+  expectIn(th, 'overflow-wrap: normal', 'no mid-word breaks');
+  if (/word-break:\s*(break-all|break-word)/.test(th) || /overflow-wrap:\s*anywhere/.test(th)) {
+    throw new Error('header wrapping breaks inside words');
+  }
+  const cells = cssBlock(labCss, '.plab-data-table th,');
+  expectIn(cells, 'white-space: nowrap', 'body cells stay on one line');
+});
+
+check('lab layout: dock hides on mobile and tables fall back to the inspector sheet', () => {
+  const mobile = cssBlock(labCss, '@media (max-width: 760px) {');
+  const dockRule = cssBlock(mobile, '.plab-data-dock {');
+  expectIn(dockRule, 'display: none', 'dock is desktop-only');
+  const scroll = cssBlock(mobile, '.plab-table-scroll {');
+  if (!/max-height:\s*\d+px/.test(scroll)) throw new Error('mobile table scroll needs a height cap');
+  const side = cssBlock(mobile, '.plab-side {');
+  expectIn(side, 'position: fixed', 'inspector becomes a bottom sheet');
+  expectIn(side, 'bottom: 0', 'sheet docks to the bottom');
+});
+
+check('lab layout: desktop stage keeps a floor height above the dock (no overlap)', () => {
+  const desktop = cssBlock(labCss, '@media (min-width: 981px) {');
+  const host = cssBlock(desktop, '.plab-canvas-host {');
+  if (!/min-height:\s*260px/.test(host)) throw new Error('desktop canvas min-height must stay >= 260px');
+  const stage = cssBlock(desktop, '.plab-stage {');
+  expectIn(stage, 'overflow: hidden', 'stage clips instead of overlapping the dock');
+  const dock = cssBlock(labCss, '.plab-data-dock {');
+  expectIn(dock, 'flex: 0 0 auto', 'dock keeps a fixed slot under the stage');
+  if (!/height:\s*clamp\(244px,\s*38vh,\s*360px\)/.test(dock)) throw new Error('dock height drifted');
+});
+
+check('lab layout: side rail width is clamped and body grid cannot overflow', () => {
+  expectIn(labCss, '--plab-rail-w: clamp(330px, 27vw, 400px);', 'rail width clamp');
+  const body = cssBlock(labCss, '.plab-body {');
+  expectIn(body, 'minmax(0, 1fr)', 'stage column must be shrinkable');
+  expectIn(body, 'var(--plab-rail-w)', 'rail column uses the clamp');
+});
+
+check('lab layout: mobile canvas fills the viewport without dead space', () => {
+  const mobile = cssBlock(labCss, '@media (max-width: 760px) {');
+  const host = cssBlock(mobile, '.plab-canvas-host {');
+  if (!/height:\s*clamp\(300px,\s*calc\(100dvh - 280px\),\s*720px\)/.test(host)) {
+    throw new Error('mobile canvas height drifted; expected calc(100dvh - 280px) up to 720px');
+  }
+  const compact = cssBlock(labCss, '@media (max-width: 420px) {');
+  const compactHost = cssBlock(compact, '.plab-canvas-host {');
+  if (!/height:\s*clamp\(280px,\s*calc\(100dvh - 280px\),\s*720px\)/.test(compactHost)) {
+    throw new Error('compact-phone canvas height drifted');
+  }
+});
+
+check('lab layout: dock controls meet the 44px touch target', () => {
+  for (const selector of ['.plab-data-tab {', '.plab-data-close {']) {
+    const rule = cssBlock(labCss, selector);
+    expectIn(rule, 'min-height: 44px', selector);
+    expectIn(rule, 'min-width: 44px', selector);
+  }
+});
+
+check('lab layout: launcher sensor tracking and dock reset survive the redesign', () => {
+  expectIn(labJs, 'launcher:${l.id}', 'launcher:<id> sensor target option');
+  expectIn(labJs, 'Changing target clears', 'sensor target change restarts tables');
+  expectIn(labJs, 'dataDockCollapsed = false', 'dock reopens for a new selection');
 });
 
 if (pendingChecks.length) await Promise.all(pendingChecks);

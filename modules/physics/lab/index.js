@@ -574,6 +574,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   head.append(title, modeGroup, headActions);
 
   const bodyGrid = el('div', { className: 'plab-body' });
+  const stageCol = el('div', { className: 'plab-stage-col' });
   const stage = el('section', { className: 'plab-stage', 'aria-label': '三维场景 · 3D scene' });
   const canvasHost = el('div', { className: 'plab-canvas-host', 'data-canvas-host': 'on' });
   const emptyHint = el('div', { className: 'plab-empty', 'data-empty': 'on' }, [
@@ -637,6 +638,45 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
   const graphCanvas = el('canvas', { className: 'plab-graph-canvas', 'aria-label': '实时曲线 · Live graphs' });
   graphSection.append(graphLegend, graphCanvas);
+
+  const dataDockMeta = el('span', { className: 'plab-data-dock-meta', text: '—', 'data-readout': 'dataMeta' });
+  const dataDockTabs = el('div', { className: 'plab-data-tabs', role: 'tablist', 'aria-label': '数据表类型 · Data table type' });
+  const dataTabButtons = {};
+  for (const [format, text] of [['raw', '原始 · Raw'], ['summary', '摘要 · Summary']]) {
+    const btn = el('button', {
+      type: 'button',
+      className: `plab-data-tab hit-target${format === 'raw' ? ' active' : ''}`,
+      text,
+      role: 'tab',
+      'aria-selected': format === 'raw' ? 'true' : 'false',
+      'data-data-format': format,
+    });
+    btn.addEventListener('click', () => setDataFormat(format));
+    dataTabButtons[format] = btn;
+    dataDockTabs.appendChild(btn);
+  }
+  const dataDockClose = el('button', {
+    type: 'button',
+    className: 'plab-data-close hit-target',
+    text: '收起 · Collapse',
+    'data-action': 'data-dock-close',
+  });
+  const dataDockHead = el('div', { className: 'plab-data-dock-head' }, [
+    el('div', { className: 'plab-data-dock-heading' }, [
+      el('h2', { className: 'plab-panel-title', text: '测量数据 · Measurement data' }),
+      dataDockMeta,
+    ]),
+    dataDockTabs,
+    dataDockClose,
+  ]);
+  const dataDockBody = el('div', { className: 'plab-data-dock-body' });
+  const dataDock = el('section', {
+    className: 'plab-data-dock',
+    'aria-label': '测量数据 · Measurement data',
+    'data-panel': 'data',
+    hidden: true,
+  });
+  dataDock.append(dataDockHead, dataDockBody);
 
   const modalHud = el('div', { className: 'plab-modal', hidden: true, role: 'status', 'aria-live': 'polite' });
   canvasHost.append(modalHud, canvasHud);
@@ -759,7 +799,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   inspector.append(inspectorHead, inspectorBody);
 
   const side = el('aside', { className: 'plab-side', 'aria-label': '属性 · Inspector' });
-  side.append(inspector);
+  side.append(inspector, outliner, energy);
 
   const moreBackdrop = el('div', { className: 'plab-backdrop', hidden: true, 'data-action': 'backdrop' });
   const morePanel = el('aside', {
@@ -870,7 +910,6 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   displayToggles.append(energyToggleLabel, trailToggleBtn, graphToggleBtn);
   displaySection.appendChild(displayToggles);
   displaySection.appendChild(legend);
-  displaySection.appendChild(energy);
   displaySection.appendChild(graphSection);
 
   const emSection = moreSection('电磁显示', 'E&M display');
@@ -1062,11 +1101,14 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }));
   sceneSection.appendChild(environment);
 
-  const outlinerSection = moreSection('对象列表', 'Outliner');
-  outlinerSection.appendChild(outliner);
-
-  bodyGrid.append(stage, side);
+  bodyGrid.append(stageCol, side);
   root.append(head, bodyGrid, moreBackdrop, morePanel);
+
+  dataDockClose.addEventListener('click', () => {
+    dataDockCollapsed = true;
+    dataDock.hidden = true;
+    setStatus('数据表已收起；在属性面板中点「数据表」重新展开。 · Data tables collapsed; reopen them from the Inspector.', true);
+  });
 
   snapSelBtn.addEventListener('click', () => {
     const entity = selected ? entityById(selected.type, selected.id) : null;
@@ -1102,6 +1144,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       : '所选器材没有安装。 · The selection has no mount.', !detached);
   });
   stage.appendChild(canvasHost);
+  stageCol.append(stage, dataDock);
 
   if (!isCurrent()) return { destroy() {} };
 
@@ -1128,6 +1171,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   let pendingSensorTarget = null;
   let positionFieldHandles = null;
   let sensorTableNodes = [];
+  let dataDockFormat = 'raw';
+  let dataDockCollapsed = false;
   let lastSensorTableAt = 0;
   let lastPointer = null;
   let angleDragUndoArmed = false;
@@ -1368,6 +1413,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     } else if (selected) {
       openInspector(true);
     }
+    if (selected) buildInspector();
   }
   if (mobileQuery.addEventListener) mobileQuery.addEventListener('change', onMobileChange);
   else if (mobileQuery.addListener) mobileQuery.addListener(onMobileChange);
@@ -1428,7 +1474,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       if (isMobile()) openInspector(false);
     }
     const nextKey = selected ? `${selected.type}:${selected.id}` : '';
-    if (nextKey !== prevKey) resetGraphs();
+    if (nextKey !== prevKey) {
+      resetGraphs();
+      dataDockCollapsed = false;
+      dataDockFormat = 'raw';
+    }
     buildInspector();
     updateOutlinerSelection();
   }
@@ -4540,11 +4590,34 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
     const tables = buildSensorTables(source);
     if (!tables) return;
-    parent.appendChild(el('h3', { className: 'plab-section-title', text: '数据表 · Data tables' }));
+    const mobile = isMobile();
+    if (mobile) {
+      parent.appendChild(el('h3', { className: 'plab-section-title', text: '数据表 · Data tables' }));
+      dataDock.hidden = true;
+    } else {
+      dataDockCollapsed = dataDockCollapsed || false;
+      dataDock.hidden = dataDockCollapsed;
+      clear(dataDockBody);
+      updateDataDockMeta(entity, tables);
+      const openBtn = el('button', {
+        type: 'button',
+        className: 'plab-action hit-target plab-data-open',
+        text: '数据表 · Data tables',
+        'data-action': 'data-dock-open',
+      });
+      openBtn.addEventListener('click', () => {
+        dataDockCollapsed = false;
+        dataDock.hidden = false;
+        updateTableOverflow();
+        dataDockClose.focus();
+      });
+      parent.appendChild(openBtn);
+    }
     sensorTableNodes = [];
+    const tableParent = mobile ? parent : dataDockBody;
     for (const format of ['raw', 'summary']) {
       const table = tables[format];
-      const block = el('div', { className: 'plab-table-block' });
+      const block = el('div', { className: 'plab-table-block', 'data-table-format': format });
       const head = el('div', { className: 'plab-table-head' }, [
         el('span', { text: `${table.titleZh} · ${table.titleEn}` }),
       ]);
@@ -4570,12 +4643,51 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         copyPlainText(tableToCsv(latest[format]));
       });
       actions.append(exportBtn, copyBtn);
-      const host = el('div', { className: 'plab-table-scroll' });
+      const host = el('div', {
+        className: 'plab-table-scroll',
+        tabindex: '0',
+        role: 'region',
+        'aria-label': `${table.titleZh} · ${table.titleEn}`,
+      });
       renderSensorTable(host, table);
-      block.append(head, actions, host);
-      parent.appendChild(block);
-      sensorTableNodes.push({ format, host, source });
+      const hint = el('p', {
+        className: 'plab-table-scrollhint',
+        text: '横向滚动查看全部列 · Scroll sideways for all columns',
+      });
+      block.append(head, actions, host, hint);
+      tableParent.appendChild(block);
+      sensorTableNodes.push({ format, host, source, block, hint });
     }
+    setDataFormat(dataDockFormat);
+  }
+
+  function setDataFormat(format) {
+    dataDockFormat = format === 'summary' ? 'summary' : 'raw';
+    for (const [key, btn] of Object.entries(dataTabButtons)) {
+      const active = key === dataDockFormat;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    }
+    for (const node of sensorTableNodes) {
+      node.block.hidden = !isMobile() && node.format !== dataDockFormat;
+    }
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(updateTableOverflow);
+    else updateTableOverflow();
+  }
+
+  function updateTableOverflow() {
+    for (const node of sensorTableNodes) {
+      if (!node.hint) continue;
+      const visible = !node.block.hidden;
+      node.hint.hidden = !visible || node.host.scrollWidth <= node.host.clientWidth + 1;
+      node.host.dataset.overflow = node.host.scrollWidth > node.host.clientWidth + 1 ? '1' : '0';
+    }
+  }
+
+  function updateDataDockMeta(entity, tables) {
+    const [zh, en] = kindLabel(entity);
+    const raw = tables.raw;
+    dataDockMeta.textContent = `${zh} · ${en} · ${raw.rows.length} 行 · ${raw.columns.length} 列`;
   }
 
   function refreshSensorTables(force = false) {
@@ -4592,6 +4704,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (!tables) return;
     for (const node of sensorTableNodes) {
       renderSensorTable(node.host, tables[node.format]);
+    }
+    if (!isMobile() && live) {
+      updateDataDockMeta(live, tables);
+      updateTableOverflow();
     }
   }
 
@@ -4719,6 +4835,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function buildInspector() {
     clear(inspectorBody);
+    dataDock.hidden = true;
+    clear(dataDockBody);
     inspectorSummary = null;
     positionFieldHandles = null;
     sensorTableNodes = [];
