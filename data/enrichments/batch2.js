@@ -10264,7 +10264,7 @@ export const ENRICHMENTS = {
       '同一条极坐标曲线可能被重复描过；求切线时注意角度范围 · A polar curve may be traced more than once; pay attention to the angle range',
     ],
     keyPoints: [
-      '先写 \\(x(\theta)\\)、\\(y(\theta)\\)，再求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) · Write \\(x(\theta)\\) and \\(y(\theta)\\) first, then find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)',
+      '先写 \\(x(\\theta)\\)、\\(y(\\theta)\\)，再求 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\) · Write \\(x(\\theta)\\) and \\(y(\\theta)\\) first, then find \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\)',
       '\\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) 不是斜率 · \\(\\dfrac{\\mathrm{d}r}{\\mathrm{d}\\theta}\\) is not the slope',
       '水平切线看 \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\)，竖直切线看 \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\) · Horizontal tangents use \\(\\dfrac{\\mathrm{d}y}{\\mathrm{d}\\theta}\\); vertical tangents use \\(\\dfrac{\\mathrm{d}x}{\\mathrm{d}\\theta}\\)',
       '极点处两个导数可能同时为零，要单独处理 · At the pole both derivatives may vanish; handle it separately',
