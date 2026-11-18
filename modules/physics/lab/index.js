@@ -151,13 +151,22 @@ import {
   tunnelPeriod,
   updateMountedApparatus,
 } from './physics.mjs';
+import {
+  FORCE_LINES,
+  forceGraphModel,
+  graphAxesFromRows,
+  motionGraphModel,
+  sensorTargetLabel,
+} from './graphs.mjs';
 import { createLabView } from './view.js';
 import {
   canRedo,
   canUndo,
+  captureSensorRecords,
   createSceneHistory,
   historyDepth,
   pushSceneHistory,
+  restoreSensorRecords,
   takeRedo,
   takeUndo,
   truncateSceneHistory,
@@ -1875,16 +1884,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     pushSceneHistory(sceneHistory, serializeScene(world), currentSelectionRef(), {
       key,
       now: performance.now(),
+      records: captureSensorRecords(world),
     });
     updateUndoButtons();
   }
 
-  function applySceneState(data, { runtime = false, keepInitial = false, selection = null } = {}) {
+  function applySceneState(data, { runtime = false, keepInitial = false, selection = null, records = null } = {}) {
     const initial = world.initial;
     // The circuit panel keeps direct references to the old circuit object;
     // close it before deserializing so no stale wires survive an undo.
     circuitPanel?.close();
     deserializeScene(world, data, { runtime });
+    // Runtime observations are not scene configuration: put back the recorded
+    // sample rows captured before the change so undoing a target add/remove
+    // keeps the other targets' histories intact.
+    if (records) restoreSensorRecords(world, records);
     gridStep = world.gridStep || 0.1;
     const gridInput = root.querySelector('[data-field="gridStep"]');
     if (gridInput) gridInput.value = fmtInput(gridStep);
@@ -1930,23 +1944,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function undo() {
-    const entry = takeUndo(sceneHistory, serializeScene(world), currentSelectionRef());
+    const entry = takeUndo(sceneHistory, serializeScene(world), currentSelectionRef(), captureSensorRecords(world));
     if (!entry) {
       setStatus('没有可撤销的操作。 · Nothing to undo.', true);
       return;
     }
-    applySceneState(entry.scene, { selection: entry.selected });
+    applySceneState(entry.scene, { selection: entry.selected, records: entry.records });
     updateUndoButtons();
     setStatus('已撤销。 · Undone.');
   }
 
   function redo() {
-    const entry = takeRedo(sceneHistory, serializeScene(world), currentSelectionRef());
+    const entry = takeRedo(sceneHistory, serializeScene(world), currentSelectionRef(), captureSensorRecords(world));
     if (!entry) {
       setStatus('没有可重做的操作。 · Nothing to redo.', true);
       return;
     }
-    applySceneState(entry.scene, { selection: entry.selected });
+    applySceneState(entry.scene, { selection: entry.selected, records: entry.records });
     updateUndoButtons();
     setStatus('已重做。 · Redone.');
   }
@@ -2339,30 +2353,43 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (graphsOn) drawGraphs();
   }
 
-  function shortTargetLabel(target) {
-    const num = String(target.id || '').split('-').pop();
-    return `${target.type === 'launcher' ? 'launcher' : 'body'} ${num}`;
+  /**
+   * User-visible name of a chart target: the body's name, or the launcher's
+   * name joined with its loaded-ball role. The chart model combines this
+   * with the stable key (body:<id> / launcher:<id>) so two rest targets are
+   * always distinguishable in the live canvas and the exported PNG.
+   */
+  function graphTargetName(target) {
+    if (!target || !target.id) return '';
+    if ((target.type || 'body') === 'launcher') {
+      const launcher = getLauncher(world, target.id);
+      if (!launcher) return '';
+      return launcher.name
+        ? `${launcher.name} · 装填小球 · Loaded ball`
+        : '装填小球 · Loaded ball';
+    }
+    return getBody(world, target.id)?.name || '';
   }
 
-  /** One {label, rows} entry per plotted target of a motion sensor. */
-  function motionGraphSeries(sensor) {
-    const targets = sensorTargets(sensor);
-    if (!targets.length) {
-      const rows = (sensor.samples || []).slice(-800);
-      return rows.length ? [{ label: '', rows }] : [];
+  /** Greedy wrap of chart legend items; each entry keeps its palette index. */
+  function graphLegendLines(series, ctx, font, maxW, dpr) {
+    ctx.font = font;
+    const lines = [];
+    let line = [];
+    let width = 0;
+    for (let i = 0; i < series.length; i += 1) {
+      const label = series[i].label || `#${i + 1}`;
+      const itemW = ctx.measureText(label).width + 34 * dpr;
+      if (line.length && width + itemW > maxW) {
+        lines.push(line);
+        line = [];
+        width = 0;
+      }
+      line.push({ label, index: i });
+      width += itemW;
     }
-    const view = sensorViewKey(sensor);
-    if (view && view !== SENSOR_VIEW_ALL) {
-      const rows = (sensor.samples || []).filter((r) => r.key === view).slice(-800);
-      return rows.length ? [{ label: '', rows }] : [];
-    }
-    const out = [];
-    for (const target of targets) {
-      const key = sensorTargetKey(target);
-      const rows = (sensor.samples || []).filter((r) => r.key === key).slice(-800);
-      if (rows.length) out.push({ label: shortTargetLabel(target), rows });
-    }
-    return out;
+    if (line.length) lines.push(line);
+    return lines;
   }
 
   function pushGraphSample() {
@@ -2431,131 +2458,145 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     let series = [];
+    let axes = graphAxesFromRows([], {});
     if (selectedSensor?.kind === 'motion') {
-      series = motionGraphSeries(selectedSensor);
+      // The model filters the rows to the viewed target, labels every series
+      // with the visible name + stable id, and supplies numeric axes.
+      const model = motionGraphModel(selectedSensor, {
+        viewKey: sensorViewKey(selectedSensor),
+        nameOf: graphTargetName,
+      });
+      series = model.series;
+      axes = { timeAxis: model.timeAxis, metrics: model.metrics };
     } else {
-      series = graphData.length ? [{ label: '', rows: graphData }] : [];
+      const body = selectedBody();
+      if (graphData.length && body) {
+        series = [{
+          key: `body:${body.id}`,
+          label: sensorTargetLabel({ type: 'body', id: body.id }, body.name || ''),
+          rows: graphData.slice(-1200),
+        }];
+        axes = graphAxesFromRows(series[0].rows, { tickCount: 5, yTickCount: 3 });
+      }
     }
     const palette = graphPalette();
-    const metrics = [
-      { key: 'x', label: 'x', unit: 'm' },
-      { key: 'v', label: 'v', unit: 'm/s' },
-      { key: 'a', label: 'a', unit: 'm/s²' },
-      { key: 'e', label: 'E', unit: 'J' },
-    ];
-    const totalRows = series.reduce((sum, s) => sum + s.rows.length, 0);
-    if (!totalRows) {
+    const totalRows = series.reduce((sum, s) => s.rows.length, 0);
+    if (!totalRows || !axes.timeAxis) {
       ctx.fillStyle = text;
       ctx.fillText('运行后记录曲线 · Curves record while running', 10 * dpr, 22 * dpr);
       return;
     }
-    const legendHeight = series.length > 1 ? 18 * dpr : 0;
-    if (legendHeight) {
-      ctx.fillStyle = text;
-      let lx = 8 * dpr;
-      const shown = series.slice(0, palette.length);
-      ctx.fillText('目标 · Targets:', lx, 13 * dpr);
-      lx += ctx.measureText('目标 · Targets:').width + 8 * dpr;
-      for (const s of shown) {
-        ctx.strokeStyle = palette[shown.indexOf(s) % palette.length];
+    const titleFont = `${12 * dpr}px monospace`;
+    const tickFont = `${Math.max(9, Math.round(9.5 * dpr))}px monospace`;
+    const pad = { l: 50 * dpr, r: 8 * dpr, b: 16 * dpr };
+    // In-chart target identity: one title for a single target, a wrapped
+    // legend when several targets share the chart.
+    const legendLines = graphLegendLines(series.slice(0, palette.length), ctx, titleFont, w - pad.l - pad.r, dpr);
+    const top = legendLines.length * 15 * dpr + 5 * dpr;
+    const bottom = h - pad.b;
+    const { timeAxis, metrics } = axes;
+    const plotW = w - pad.l - pad.r;
+    const xOf = (t) => pad.l + ((t - timeAxis.min) / Math.max(1e-9, timeAxis.max - timeAxis.min)) * plotW;
+    legendLines.forEach((line, lineIndex) => {
+      const ly = (lineIndex + 1) * 15 * dpr - 2 * dpr;
+      let lx = pad.l;
+      ctx.font = titleFont;
+      if (lineIndex === 0 && legendLines.length === 1) {
+        ctx.fillStyle = text;
+        ctx.fillText(`目标 · Target: ${line[0].label}`, lx, ly);
+        return;
+      }
+      if (lineIndex === 0) {
+        ctx.fillStyle = text;
+        ctx.fillText('目标 · Targets:', lx, ly);
+        lx += ctx.measureText('目标 · Targets:').width + 8 * dpr;
+      }
+      for (const item of line) {
+        ctx.strokeStyle = palette[item.index % palette.length];
         ctx.lineWidth = 2 * dpr;
         ctx.beginPath();
-        ctx.moveTo(lx, 10 * dpr);
-        ctx.lineTo(lx + 14 * dpr, 10 * dpr);
+        ctx.moveTo(lx, ly - 4 * dpr);
+        ctx.lineTo(lx + 14 * dpr, ly - 4 * dpr);
         ctx.stroke();
         ctx.fillStyle = text;
-        ctx.fillText(s.label, lx + 18 * dpr, 13 * dpr);
-        lx += 18 * dpr + ctx.measureText(s.label).width + 14 * dpr;
+        ctx.fillText(item.label, lx + 18 * dpr, ly);
+        lx += 18 * dpr + ctx.measureText(item.label).width + 14 * dpr;
       }
-    }
-    const strip = (h - legendHeight) / metrics.length;
-    const allRows = series.flatMap((s) => s.rows);
-    const t0 = allRows[0]?.t ?? 0;
-    const t1 = allRows[allRows.length - 1]?.t ?? 0;
+    });
+    const strip = (bottom - top) / metrics.length;
     for (let s = 0; s < metrics.length; s += 1) {
-      const { key, label, unit } = metrics[s];
-      let min = Infinity;
-      let max = -Infinity;
-      for (const row of allRows) {
-        const value = row[key];
-        if (Number.isFinite(value)) {
-          min = Math.min(min, value);
-          max = Math.max(max, value);
-        }
-      }
-      if (!Number.isFinite(min) || !Number.isFinite(max)) continue;
-      if (max - min < 1e-9) { max += 0.5; min -= 0.5; }
-      const top = legendHeight + s * strip + 4 * dpr;
-      const bottom = legendHeight + (s + 1) * strip - 6 * dpr;
+      const metric = metrics[s];
+      const stripTop = top + s * strip;
+      const stripBottom = top + (s + 1) * strip - 5 * dpr;
       ctx.strokeStyle = border;
       ctx.lineWidth = dpr;
       ctx.beginPath();
-      ctx.moveTo(0, top);
-      ctx.lineTo(w, top);
+      ctx.moveTo(pad.l, stripTop);
+      ctx.lineTo(w, stripTop);
       ctx.stroke();
+      ctx.font = titleFont;
       ctx.fillStyle = text;
-      ctx.fillText(`${label} (${unit})`, 6 * dpr, top + 11 * dpr);
+      ctx.fillText(`${metric.label} (${metric.unit})`, pad.l + 4 * dpr, stripTop + 11 * dpr);
+      if (metric.max == null) continue;
+      const yOf = (value) => stripBottom
+        - ((value - metric.min) / Math.max(1e-9, metric.max - metric.min))
+        * Math.max(1, stripBottom - stripTop - 14 * dpr);
+      ctx.font = tickFont;
+      for (const tick of metric.ticks) {
+        ctx.fillText(tick.text, pad.l - 5 * dpr - ctx.measureText(tick.text).width, yOf(tick.value) + 3 * dpr);
+      }
       for (const entry of series.slice(0, palette.length)) {
         ctx.strokeStyle = palette[series.indexOf(entry) % palette.length];
         ctx.lineWidth = 1.5 * dpr;
         ctx.beginPath();
         let moved = false;
         for (const row of entry.rows) {
-          if (!Number.isFinite(row[key])) continue;
-          const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
-          const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 16 * dpr);
+          const value = metric.key === 'e' ? row.e ?? row.ke : row[metric.key];
+          if (!Number.isFinite(value)) continue;
+          const px = xOf(row.t);
+          const py = yOf(value);
           if (!moved) { ctx.moveTo(px, py); moved = true; }
           else ctx.lineTo(px, py);
         }
         ctx.stroke();
       }
     }
+    // Numeric time axis with its unit, shared by every strip.
+    ctx.font = tickFont;
+    ctx.fillStyle = text;
+    ctx.strokeStyle = border;
+    ctx.lineWidth = dpr;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, bottom);
+    ctx.lineTo(w - pad.r, bottom);
+    ctx.stroke();
+    for (const tick of timeAxis.ticks) {
+      const x = xOf(tick.value);
+      ctx.beginPath();
+      ctx.moveTo(x, bottom);
+      ctx.lineTo(x, bottom + 3 * dpr);
+      ctx.stroke();
+      const label = String(tick.text);
+      const labelX = Math.max(pad.l, Math.min(x + 3 * dpr, w - pad.r - ctx.measureText(label).width));
+      ctx.fillText(label, labelX, bottom + 11 * dpr);
+    }
+    const caption = `t (${timeAxis.unit})`;
+    ctx.fillText(caption, w - pad.r - ctx.measureText(caption).width, bottom + 11 * dpr);
   }
 
   /**
-   * Force-sensor charts: one strip per (target, force); each strip plots the
-   * lab-frame components so the direction is explicit, not just |F|.
+   * Force-sensor charts: one strip per (target, force). Each strip carries
+   * the target's visible name + stable id and the force name with its
+   * provenance mark, plots the lab-frame components so the direction is
+   * explicit (never just |F|), and shows its own N scale; the shared time
+   * axis is labelled in seconds.
    */
-  function forceGraphStrips(sensor) {
-    const targets = sensorTargets(sensor);
-    const view = sensorViewKey(sensor);
-    const strips = [];
-    const pushTarget = (target) => {
-      const key = sensorTargetKey(target);
-      const samples = (sensor.samples || []).filter((r) => r.key === key).slice(-400);
-      if (!samples.length) return;
-      const channels = [];
-      const seen = new Set();
-      for (const sample of samples) {
-        for (const force of sample.forces || []) {
-          if (seen.has(force.id)) continue;
-          seen.add(force.id);
-          channels.push({ id: force.id, zh: force.zh, en: force.en });
-        }
-      }
-      for (const channel of channels) {
-        const rows = [];
-        for (const sample of samples) {
-          const force = (sample.forces || []).find((f) => f.id === channel.id);
-          if (force) rows.push({ t: sample.t, fx: force.fx, fy: force.fy, fz: force.fz });
-        }
-        if (rows.length) {
-          strips.push({ label: `${shortTargetLabel(target)}·${channel.zh}`, rows });
-        }
-      }
-    };
-    if (view && view !== SENSOR_VIEW_ALL) {
-      const parsed = parseTargetValue(view);
-      pushTarget({ id: parsed.id, type: parsed.type });
-    } else {
-      for (const target of targets) pushTarget(target);
-    }
-    return strips.slice(0, 12);
-  }
-
   function drawForceGraphs(sensor, ctx, w, h, dpr, text, border) {
-    const strips = forceGraphStrips(sensor);
-    if (!strips.length) {
+    const model = forceGraphModel(sensor, {
+      viewKey: sensorViewKey(sensor),
+      nameOf: graphTargetName,
+    });
+    if (!model.strips.length || !model.timeAxis) {
       ctx.fillStyle = text;
       ctx.fillText(sensorTargets(sensor).length
         ? '运行后记录受力 · Force curves record while running'
@@ -2565,69 +2606,80 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const accent = graphPalette()[0];
     const warn = graphPalette()[1];
     const ok = graphPalette()[2];
-    const stripH = (h - 16 * dpr) / strips.length;
-    const allRows = strips.flatMap((s) => s.rows);
-    const t0 = allRows[0]?.t ?? 0;
-    const t1 = allRows[allRows.length - 1]?.t ?? 0;
-    for (let i = 0; i < strips.length; i += 1) {
-      const { label, rows } = strips[i];
-      let min = Infinity;
-      let max = -Infinity;
-      let hasZ = false;
-      for (const row of rows) {
-        for (const value of [row.fx, row.fy, row.fz]) {
-          if (!Number.isFinite(value)) continue;
-          min = Math.min(min, value);
-          max = Math.max(max, value);
-        }
-        if (Math.abs(row.fz) > 1e-6) hasZ = true;
-      }
-      if (!Number.isFinite(min) || !Number.isFinite(max)) continue;
-      if (max - min < 1e-9) { max += 0.5; min -= 0.5; }
-      const top = i * stripH + 4 * dpr;
-      const bottom = (i + 1) * stripH - 4 * dpr;
+    const lineColors = { fx: accent, fy: warn, fz: ok };
+    const titleFont = `${12 * dpr}px monospace`;
+    const tickFont = `${Math.max(9, Math.round(9.5 * dpr))}px monospace`;
+    const pad = { l: 50 * dpr, r: 8 * dpr, t: 4 * dpr, b: 32 * dpr };
+    const plotW = w - pad.l - pad.r;
+    const { timeAxis } = model;
+    const xOf = (t) => pad.l + ((t - timeAxis.min) / Math.max(1e-9, timeAxis.max - timeAxis.min)) * plotW;
+    const stripH = (h - pad.t - pad.b) / model.strips.length;
+    const bottomAll = h - pad.b;
+    for (let i = 0; i < model.strips.length; i += 1) {
+      const strip = model.strips[i];
+      const top = pad.t + i * stripH;
+      const bottom = top + stripH - 3 * dpr;
       ctx.strokeStyle = border;
       ctx.lineWidth = dpr;
       ctx.beginPath();
-      ctx.moveTo(0, top);
+      ctx.moveTo(pad.l, top);
       ctx.lineTo(w, top);
       ctx.stroke();
+      ctx.font = titleFont;
       ctx.fillStyle = text;
-      ctx.fillText(`${label} (N)`, 6 * dpr, top + 11 * dpr);
-      const plot = (key, color, dash) => {
-        ctx.strokeStyle = color;
+      ctx.fillText(`${strip.label} (N)`, pad.l + 4 * dpr, top + 10 * dpr);
+      const yOf = (value) => bottom
+        - ((value - strip.min) / Math.max(1e-9, strip.max - strip.min))
+        * Math.max(1, bottom - top - 13 * dpr);
+      ctx.font = tickFont;
+      for (const tick of strip.ticks) {
+        ctx.fillText(tick.text, pad.l - 5 * dpr - ctx.measureText(tick.text).width, yOf(tick.value) + 3 * dpr);
+      }
+      const plot = (line) => {
+        ctx.strokeStyle = lineColors[line.key];
         ctx.lineWidth = 1.5 * dpr;
-        ctx.setLineDash(dash.map((d) => d * dpr));
+        ctx.setLineDash(line.dash.map((d) => d * dpr));
         ctx.beginPath();
         let moved = false;
-        for (const row of rows) {
-          if (!Number.isFinite(row[key])) continue;
-          const px = ((row.t - t0) / Math.max(1e-6, t1 - t0)) * (w - 8 * dpr) + 4 * dpr;
-          const py = bottom - ((row[key] - min) / (max - min)) * Math.max(1, bottom - top - 14 * dpr);
+        for (const row of strip.rows) {
+          if (!Number.isFinite(row[line.key])) continue;
+          const px = xOf(row.t);
+          const py = yOf(row[line.key]);
           if (!moved) { ctx.moveTo(px, py); moved = true; }
           else ctx.lineTo(px, py);
         }
         ctx.stroke();
         ctx.setLineDash([]);
       };
-      plot('fx', accent, []);
-      plot('fy', warn, [4, 3]);
-      if (hasZ) plot('fz', ok, [1, 3]);
+      plot(FORCE_LINES[0]);
+      plot(FORCE_LINES[1]);
+      if (strip.hasZ) plot(FORCE_LINES[2]);
     }
+    // Numeric time axis in seconds below the strips...
+    ctx.font = tickFont;
     ctx.fillStyle = text;
-    const legend = `Fx —— · Fy ---- ${hasZLegend(strips) ? '· Fz ····' : ''}`;
-    ctx.fillText(legend, 6 * dpr, h - 5 * dpr);
-    ctx.fillText('实验室系分量：x 右、y 上、z 出屏 · Lab-frame components: x right, y up, z out of screen', 6 * dpr + ctx.measureText(legend).width + 16 * dpr, h - 5 * dpr);
-    return accent;
-  }
-
-  function hasZLegend(strips) {
-    for (const strip of strips) {
-      for (const row of strip.rows) {
-        if (Math.abs(row.fz) > 1e-6) return true;
-      }
+    ctx.strokeStyle = border;
+    ctx.lineWidth = dpr;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, bottomAll);
+    ctx.lineTo(w - pad.r, bottomAll);
+    ctx.stroke();
+    for (const tick of timeAxis.ticks) {
+      const x = xOf(tick.value);
+      ctx.beginPath();
+      ctx.moveTo(x, bottomAll);
+      ctx.lineTo(x, bottomAll + 3 * dpr);
+      ctx.stroke();
+      const label = String(tick.text);
+      const labelX = Math.max(pad.l, Math.min(x + 3 * dpr, w - pad.r - ctx.measureText(label).width));
+      ctx.fillText(label, labelX, bottomAll + 11 * dpr);
     }
-    return false;
+    const caption = `t (${timeAxis.unit})`;
+    ctx.fillText(caption, w - pad.r - ctx.measureText(caption).width, bottomAll + 11 * dpr);
+    // ...then the component line styles and the lab-frame convention.
+    const legend = `Fx —— · Fy ---- ${model.hasZ ? '· Fz ····' : ''}`;
+    ctx.fillText(legend, pad.l, h - 5 * dpr);
+    ctx.fillText(model.axisNote, pad.l + ctx.measureText(legend).width + 12 * dpr, h - 5 * dpr);
   }
 
   function setGraphs(value) {

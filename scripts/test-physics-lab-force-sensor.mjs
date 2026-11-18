@@ -54,6 +54,21 @@ import {
   stepWorld,
   updateMountedApparatus,
 } from '../modules/physics/lab/physics.mjs';
+import {
+  FORCE_LINES,
+  forceGraphModel,
+  motionGraphModel,
+  niceTicks,
+  sensorTargetLabel,
+} from '../modules/physics/lab/graphs.mjs';
+import {
+  captureSensorRecords,
+  createSceneHistory,
+  pushSceneHistory,
+  restoreSensorRecords,
+  takeRedo,
+  takeUndo,
+} from '../modules/physics/lab/history.mjs';
 
 let passed = 0;
 let failed = 0;
@@ -414,6 +429,309 @@ check('per-target export: motion tables also filter by target key', () => {
   ok(all.raw.rows.length > tables.raw.rows.length, 'all-targets table is larger');
 });
 
+/* ------------------------ physics: per-target chart models ------------------------ */
+
+/**
+ * The chart model behind the live canvas AND the exported PNG. Two bodies
+ * that are both at rest, with different names/ids and different windows —
+ * exactly the case whose PNGs were byte-identical before: the exported
+ * image must now identify its target and its axes on its own.
+ */
+function buildRestChartScene() {
+  const world = createWorld({ g: 9.8 });
+  const a = addBlock(world, { mass: 2, x: -1.5, y: 1, z: 0, name: '滑块' });
+  const b = addBall(world, { mass: 1, x: 2, y: 1, z: 0, name: '小球' });
+  const sensor = addSensor(world, { kind: 'motion', x: -4, y: 0, z: 0, range: 30 });
+  addSensorTarget(world, sensor, a.id);
+  addSensorTarget(world, sensor, b.id);
+  captureInitial(world);
+  // Sample both targets, then keep recording only A so the two time windows
+  // differ (A: 0–12 s, B: only the first second) like the real export case.
+  advance(world, 1.0);
+  const rowsB = sensor.samples.filter((r) => r.key === `body:${b.id}`);
+  removeSensorTarget(world, sensor, b.id);
+  advance(world, 11.0);
+  addSensorTarget(world, sensor, b.id);
+  for (const row of rowsB) {
+    // Re-attach B's early rows by hand so both series exist with distinct windows.
+    sensor.samples.push(row);
+  }
+  const nameOf = (target) => (target.id === a.id ? '滑块' : '小球');
+  return { world, a, b, sensor, nameOf };
+}
+
+check('chart model: a rest target is identified by its visible name and stable id', () => {
+  const { a, b, sensor, nameOf } = buildRestChartScene();
+  const modelA = motionGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf });
+  const modelB = motionGraphModel(sensor, { viewKey: `body:${b.id}`, nameOf });
+  ok(modelA.series.length === 1 && modelB.series.length === 1, 'one series per viewed target');
+  const labelA = modelA.series[0].label;
+  const labelB = modelB.series[0].label;
+  ok(labelA.includes('滑块'), `label A carries the visible name (got ${labelA})`);
+  ok(labelB.includes('小球'), `label B carries the visible name (got ${labelB})`);
+  ok(labelA.includes(`body:${a.id}`), 'label A carries its stable id');
+  ok(labelB.includes(`body:${b.id}`), 'label B carries its stable id');
+  ok(labelA !== labelB, 'two rest targets never share one in-chart label');
+  ok(sensorTargetLabel({ id: 'x1', type: 'body' }) === 'body:x1', 'unnamed targets fall back to the stable key');
+  ok(sensorTargetLabel({ id: 'x1', type: 'body' }, '方块甲') === '方块甲 · body:x1',
+    'named targets read name · key');
+});
+
+check('chart model: the viewed series contains only that target’s samples', () => {
+  const { a, b, sensor, nameOf } = buildRestChartScene();
+  const modelA = motionGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf });
+  const modelB = motionGraphModel(sensor, { viewKey: `body:${b.id}`, nameOf });
+  const rowsA = modelA.series[0].rows;
+  const rowsB = modelB.series[0].rows;
+  ok(rowsA.length > rowsB.length, 'the long-lived target has more samples');
+  ok(rowsA.every((r) => r.key === `body:${a.id}`), 'series A never mixes B rows');
+  ok(rowsB.every((r) => r.key === `body:${b.id}`), 'series B never mixes A rows');
+  ok(rowsB.length > 0 && rowsA.length > 0, 'both series non-empty');
+  // Different windows (0–12 s vs 0–1 s) and different rest positions (−1.5 vs 2):
+  // the real data distinguishes the targets; the model must not resample or merge it.
+  near(modelA.timeAxis.max, 12, 0.2, 'time window of A covers the full run');
+  near(modelB.timeAxis.max, 1, 0.2, 'time window of B stays its own');
+  near(Math.min(...rowsA.map((r) => r.x)), -1.5, 0.05, 'A stays at x=-1.5');
+  near(Math.max(...rowsB.map((r) => r.x)), 2, 0.05, 'B stays at x=2');
+});
+
+check('chart model: numeric time and per-channel y ticks with units', () => {
+  const { a, sensor, nameOf } = buildRestChartScene();
+  const model = motionGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf });
+  ok(model.timeAxis && model.timeAxis.unit === 's', 'time axis carries seconds');
+  ok(model.timeAxis.ticks.length >= 2, 'numeric time ticks exist');
+  for (const tick of model.timeAxis.ticks) {
+    ok(Number.isFinite(tick.value) && /^\d/.test(tick.text), `time tick ${tick.text} is numeric`);
+  }
+  const units = { x: 'm', v: 'm/s', a: 'm/s²', e: 'J' };
+  for (const metric of model.metrics) {
+    ok(metric.unit === units[metric.key], `channel ${metric.key} keeps its unit (${metric.unit})`);
+    ok(metric.min !== null && metric.max !== null, `channel ${metric.key} has a numeric scale`);
+    ok(metric.ticks.length >= 2, `channel ${metric.key} has y ticks`);
+    for (const tick of metric.ticks) {
+      ok(Number.isFinite(tick.value) && /^-?\d/.test(tick.text), `y tick ${tick.text} on ${metric.key} is numeric`);
+      ok(tick.value >= metric.min - 1e-9 && tick.value <= metric.max + 1e-9, `y tick ${tick.value} inside the channel scale`);
+    }
+  }
+  ok(niceTicks(0, 1, 5).length >= 5, 'a 0–1 s window gets at least five ticks');
+  const flat = niceTicks(2, 2, 3);
+  ok(flat.length >= 2 && flat.some((t) => t.value < 2) && flat.some((t) => t.value > 2),
+    'a flat trace still gets a padded readable scale');
+});
+
+check('chart model: rest traces stay distinguishable end to end', () => {
+  const { a, b, sensor, nameOf } = buildRestChartScene();
+  const modelA = motionGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf });
+  const modelB = motionGraphModel(sensor, { viewKey: `body:${b.id}`, nameOf });
+  const signature = (model) => JSON.stringify({
+    label: model.series[0].label,
+    window: [model.timeAxis.min.toFixed(3), model.timeAxis.max.toFixed(3)],
+    x: [model.metrics[0].min.toFixed(3), model.metrics[0].max.toFixed(3)],
+  });
+  ok(signature(modelA) !== signature(modelB),
+    'two rest targets produce different chart models (label, window or position)');
+  // The all-targets view keeps one series per target, each with its own label.
+  const all = motionGraphModel(sensor, { nameOf });
+  ok(all.series.length === 2, 'all-targets model keeps one series each');
+  ok(new Set(all.series.map((s) => s.label)).size === 2, 'both labels differ in the shared chart');
+});
+
+check('chart model: force strips carry names, provenance, N ticks and direction conventions', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBlock(world, { mass: 2, x: -1.5, y: 1, z: 0, name: '方块甲' });
+  const b = addBall(world, { mass: 1, x: 2, y: 1, z: 0, name: '球乙' });
+  const surface = addSurface(world, { angleDeg: 0, muS: 0.6, muK: 0.35, length: 20, x: 0, y: 0, width: 6 });
+  attachBodyToSurface(world, a, surface.id, { localX: -1.5, localZ: 0 });
+  attachBodyToSurface(world, b, surface.id, { localX: 2, localZ: 0 });
+  const sensor = addSensor(world, { kind: 'force', x: 0, y: 0, z: 2 });
+  addSensorTarget(world, sensor, a.id);
+  addSensorTarget(world, sensor, b.id);
+  captureInitial(world);
+  advance(world, 0.4);
+  const nameOf = (target) => (target.id === a.id ? '方块甲' : '球乙');
+  const model = forceGraphModel(sensor, { viewKey: `body:${b.id}`, nameOf });
+  ok(model.kind === 'force' && model.strips.length > 0, 'force strips built for the viewed target');
+  ok(model.timeAxis && model.timeAxis.unit === 's', 'force time axis in seconds');
+  ok(model.timeAxis.ticks.length >= 2, 'force time ticks are numeric');
+  for (const strip of model.strips) {
+    ok(strip.unit === 'N', `strip ${strip.forceName} carries N`);
+    ok(strip.ticks.length >= 2, `strip ${strip.forceName} has y ticks`);
+    for (const tick of strip.ticks) {
+      ok(Number.isFinite(tick.value) && /^-?\d/.test(tick.text), `tick ${tick.text} is numeric`);
+    }
+    ok(strip.targetLabel.includes('球乙') && strip.targetLabel.includes(`body:${b.id}`),
+      `strip ${strip.forceName} names the viewed target (got ${strip.targetLabel})`);
+    ok(!strip.targetLabel.includes('方块甲'), 'viewed strips never show another target');
+    ok(strip.rows.every((r) => Number.isFinite(r.fx) && Number.isFinite(r.fy)), 'component rows are defined');
+  }
+  const marks = model.strips.map((s) => s.forceName).join('|');
+  ok(marks.includes('[est]') || marks.includes('[measured]') || marks.length > 0,
+    'provenance marks survive into strip labels');
+  // Direction info: the component line styles and the lab-frame note.
+  const styles = FORCE_LINES.map((l) => `${l.label}:${l.dash.length}`).join(',');
+  ok(styles === 'Fx:0,Fy:2,Fz:2', `component line styles stay solid/dashed/dotted (got ${styles})`);
+  ok(model.axisNote.includes('x 右') && model.axisNote.includes('y 上') && model.axisNote.includes('z 出屏'),
+    'lab-frame axis convention stays on the model');
+  const weightA = forceGraphModel(sensor, { viewKey: `body:${a.id}`, nameOf })
+    .strips.find((s) => s.forceName.startsWith('重力'));
+  const weightB = model.strips.find((s) => s.forceName.startsWith('重力'));
+  ok(weightA && weightB, 'weight strips exist for both targets');
+  near(weightB.min, -9.8, 0.05, 'B (1 kg) weight scale reaches -mg on fy');
+  ok(Math.abs(weightA.min + 19.6) < 0.05, 'A (2 kg) weight scale reaches -2mg');
+  ok(weightA.min < weightB.min - 9, 'the two weight scales differ — magnitudes are not rescaled together');
+});
+
+/* ------------------------ physics: reset keeps body targets ------------------------ */
+
+check('reset: an ordinary body target stays tracked and re-records under the same key', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBall(world, { mass: 1, x: 0, y: 5, z: 0 });
+  const b = addBall(world, { mass: 2, x: 2, y: 5, z: 0 });
+  const force = addSensor(world, { kind: 'force', x: 0, y: 0, z: 2 });
+  const motion = addSensor(world, { kind: 'motion', x: -4, y: 0, z: 0, range: 30 });
+  addSensorTarget(world, force, a.id);
+  addSensorTarget(world, force, b.id);
+  addSensorTarget(world, motion, a.id);
+  captureInitial(world);
+  advance(world, 0.4);
+  ok(force.samples.length > 0 && motion.samples.length > 0, 'both sensors recorded');
+  resetWorld(world);
+  ok(sensorTargets(force).length === 2, 'force sensor keeps its body targets after reset');
+  ok(sensorTargets(motion).length === 1, 'motion sensor keeps its body target after reset');
+  ok(force.samples.length === 0 && motion.samples.length === 0, 'reset clears the recorded samples');
+  advance(world, 0.3);
+  const forceKeys = new Set(force.samples.map((r) => r.key));
+  ok(forceKeys.has(`body:${a.id}`) && forceKeys.has(`body:${b.id}`),
+    'both body targets re-record under their own keys');
+  ok(motion.samples.every((r) => r.key === `body:${a.id}`), 'motion target re-records under the same key');
+});
+
+/* ------------------------ physics: undo/redo of target changes ------------------------ */
+
+/**
+ * The lab's pushUndo stores (scene, selection, sensor records) before a
+ * change; undo/redo swap that snapshot back. Simulating the exact stack
+ * flow here (without the DOM) is the honest headless stand-in for the UI
+ * buttons: same helpers, same call order.
+ */
+function replayUndoEntry(world, entry) {
+  deserializeScene(world, entry.scene);
+  if (entry.records) restoreSensorRecords(world, entry.records);
+}
+
+check('undo/redo: adding a target is undoable without touching the other histories', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBall(world, { mass: 1, x: 0, y: 5, z: 0 });
+  const b = addBall(world, { mass: 2, x: 2, y: 5, z: 0 });
+  const sensor = addSensor(world, { kind: 'force', x: 0, y: 0, z: 2 });
+  addSensorTarget(world, sensor, a.id);
+  captureInitial(world);
+  advance(world, 0.2);
+  const rowsA = sensor.samples.filter((r) => r.key === `body:${a.id}`).length;
+  ok(rowsA > 2, `A recorded ${rowsA} rows before the change`);
+
+  // pushUndo('sensorTarget:...') exactly as the inspector pick path does.
+  const history = createSceneHistory({ limit: 80 });
+  pushSceneHistory(history, serializeScene(world), null, {
+    key: `sensorTarget:${sensor.id}`,
+    records: captureSensorRecords(world),
+  });
+  ok(addSensorTarget(world, sensor, b.id), 'target B added');
+  advance(world, 0.2);
+  const rowsBoth = sensor.samples.length;
+  ok(rowsBoth > rowsA, 'both targets record after the add');
+
+  // Undo: the pre-add scene has one target; A's rows come back intact.
+  const undoEntry = takeUndo(history, serializeScene(world), null, captureSensorRecords(world));
+  ok(undoEntry, 'undo entry exists');
+  replayUndoEntry(world, undoEntry);
+  const restored = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(restored).length === 1 && sensorTargets(restored)[0].id === a.id,
+    'undo removes only the added target');
+  ok(restored.samples.filter((r) => r.key === `body:${a.id}`).length === rowsA,
+    `A's rows survive the undo exactly (${rowsA})`);
+  ok(restored.samples.every((r) => r.key === `body:${a.id}`), 'B rows are gone with B');
+
+  // Redo: the post-add scene comes back with both targets and both histories.
+  const redoEntry = takeRedo(history, serializeScene(world), null, captureSensorRecords(world));
+  ok(redoEntry, 'redo entry exists');
+  replayUndoEntry(world, redoEntry);
+  const redone = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(redone).length === 2, 'redo restores both targets');
+  ok(redone.samples.length === rowsBoth, `redo restores both histories (${rowsBoth})`);
+});
+
+check('undo/redo: removing a target is undoable and redoable', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBall(world, { mass: 1, x: 0, y: 5, z: 0 });
+  const b = addBall(world, { mass: 2, x: 2, y: 5, z: 0 });
+  const sensor = addSensor(world, { kind: 'motion', x: -4, y: 0, z: 0, range: 30 });
+  addSensorTarget(world, sensor, a.id);
+  addSensorTarget(world, sensor, b.id);
+  captureInitial(world);
+  advance(world, 0.2);
+  const rowsA = sensor.samples.filter((r) => r.key === `body:${a.id}`).length;
+  const rowsB = sensor.samples.filter((r) => r.key === `body:${b.id}`).length;
+  ok(rowsA > 0 && rowsB > 0, 'both series recorded');
+
+  const history = createSceneHistory({ limit: 80 });
+  pushSceneHistory(history, serializeScene(world), null, {
+    key: `sensorTargetRemove:${sensor.id}`,
+    records: captureSensorRecords(world),
+  });
+  ok(removeSensorTarget(world, sensor, a.id), 'target A removed');
+  ok(sensor.samples.every((r) => r.key !== `body:${a.id}`), 'A rows dropped by the removal');
+
+  const undoEntry = takeUndo(history, serializeScene(world), null, captureSensorRecords(world));
+  replayUndoEntry(world, undoEntry);
+  const restored = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(restored).length === 2, 'undo brings both targets back');
+  ok(restored.samples.filter((r) => r.key === `body:${a.id}`).length === rowsA,
+    `A's own history returns (${rowsA})`);
+  ok(restored.samples.filter((r) => r.key === `body:${b.id}`).length === rowsB,
+    `B's history was never touched (${rowsB})`);
+
+  const redoEntry = takeRedo(history, serializeScene(world), null, captureSensorRecords(world));
+  replayUndoEntry(world, redoEntry);
+  const redone = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(redone).length === 1 && sensorTargets(redone)[0].id === b.id,
+    'redo removes A again');
+  ok(redone.samples.filter((r) => r.key === `body:${b.id}`).length === rowsB,
+    'B still untouched by the redo');
+});
+
+/* ------------------------ physics: cart-mounted launcher lifecycle ------------------------ */
+
+check('cart-mounted launcher: fire → reset → refire keeps the launcher:<id> series', () => {
+  const world = createWorld({ g: 9.8 });
+  const cart = addCart(world, { mass: 1, x: 0, y: 1, z: 0 });
+  const launcher = addLauncher(world, { x: 0, y: 1.2, z: 0, angle: 45, speed: 8 });
+  ok(mountApparatus(world, launcher, { type: 'body', id: cart.id }), 'launcher mounted on the cart');
+  updateMountedApparatus(world);
+  const sensor = addSensor(world, { kind: 'motion', x: -3, y: 0, z: 2, range: 30 });
+  addSensorTarget(world, sensor, launcher.id, { type: 'launcher' });
+  const key = `launcher:${launcher.id}`;
+
+  fireLauncher(world, launcher);
+  captureInitial(world);
+  advance(world, 0.3);
+  const firstFlight = sensor.samples.filter((r) => r.key === key).length;
+  ok(firstFlight > 0, `first flight recorded (${firstFlight} rows)`);
+
+  resetWorld(world);
+  ok(sensorTargets(sensor).some((t) => sensorTargetKey(t) === key), 'the mounted launcher target survives reset');
+  ok(sensor.samples.length === 0, 'reset clears the samples');
+  const live = getLauncher(world, launcher.id);
+  ok(live && live.mount && live.mount.type === 'body' && live.mount.id === cart.id,
+    'the cart mount survives reset');
+
+  fireLauncher(world, live);
+  advance(world, 0.25);
+  const secondFlight = sensor.samples.filter((r) => r.key === key).length;
+  ok(secondFlight > 0, `refire records under the same launcher:<id> key (${secondFlight} rows)`);
+  ok(sensor.samples.every((r) => r.key === key), 'no other key appears');
+});
+
 /* ------------------------ physics: backwards compatibility ------------------------ */
 
 check('compat: a v4 single-target motion scene migrates its target into the v5 targets list', () => {
@@ -564,9 +882,9 @@ check('hooks: the live free-body diagram is wired with names and an axis convent
 
 check('hooks: force charts show direction, not just magnitude, and export per target', () => {
   expectIn(labJs, 'function drawForceGraphs(', 'force chart renderer');
-  expectIn(labJs, "plot('fx',", 'chart plots the x component');
-  expectIn(labJs, "plot('fy',", 'chart plots the y component');
-  expectIn(labJs, "plot('fz',", 'chart plots the z component when present');
+  expectIn(labJs, 'plot(FORCE_LINES[0]);', 'chart plots the x component');
+  expectIn(labJs, 'plot(FORCE_LINES[1]);', 'chart plots the y component');
+  expectIn(labJs, 'plot(FORCE_LINES[2]);', 'chart plots the z component when present');
   expectIn(labJs, '实验室系分量', 'axis convention on the chart');
   expectIn(labJs, "'data-action': 'graph-export'", 'chart export button');
   expectIn(labJs, "graphCanvas.toDataURL('image/png')", 'PNG export path');
