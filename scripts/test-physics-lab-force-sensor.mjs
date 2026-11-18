@@ -1178,6 +1178,103 @@ check('hooks: the 3D force arrows cover the rope/fan/motor/drag channels', () =>
   expectIn(viewJs, "key === 'spring' || key === 'rope' ? 'ok'", 'rope reuses the spring colour family');
 });
 
+/* ---------------- pick mode & tracked-target list ------------------- */
+
+/** Slice the source between two literal markers (first occurrence). */
+function section(text, startNeedle, endNeedle) {
+  const at = text.indexOf(startNeedle);
+  if (at < 0) throw new Error(`section start not found: ${startNeedle}`);
+  const end = text.indexOf(endNeedle, at);
+  if (end < 0) throw new Error(`section end not found: ${endNeedle}`);
+  return text.slice(at, end);
+}
+
+check('hooks: sensor pick mode is a visible, cancellable toggle', () => {
+  // Exactly one writer beyond the declaration: every arm/disarm goes
+  // through the single helper (comparisons with === do not count).
+  const writes = [...labJs.matchAll(/pendingSensorTarget\s*=(?!=)/g)].length;
+  if (writes !== 2) throw new Error(`expected only the declaration + setSensorPick to write pendingSensorTarget, found ${writes}`);
+  expectIn(labJs, 'function setSensorPick(', 'single enter/leave helper');
+  expectIn(labJs, "root.dataset.picking = 'sensor-target'", 'root marks pick mode');
+  expectIn(labJs, 'delete root.dataset.picking;', 'root clears pick mode');
+  expectIn(labJs, "btn.setAttribute('aria-pressed', armed ? 'true' : 'false');", 'button aria-pressed follows the armed state');
+  expectIn(labJs, '取消点选 · Cancel pick (Esc)', 'armed button label is bilingual and says how to cancel');
+  expectIn(labJs, 'if (pendingSensorTarget === sensor.id) {', 'the pick button toggles off for the same sensor');
+  expectIn(labJs, 'function cancelSensorPick(', 'cancel helper');
+  expectIn(labJs, '已取消点选 · Pick cancelled', 'bilingual cancelled status');
+  expectIn(labJs, 'enterSensorPick(entity,', 'force-sensor placement arms through the helper');
+});
+
+check('hooks: Escape cancels an armed pick after the menus close', () => {
+  const esc = section(labJs, 'function onKeyDown(e) {', "document.addEventListener('keydown', onKeyDown);");
+  const menuAt = esc.indexOf("if (!addMenu.hidden || !emAddMenu.hidden)");
+  const pickAt = esc.indexOf("if (key === 'Escape' && pendingSensorTarget)");
+  if (menuAt < 0) throw new Error('menu escape guard missing');
+  if (pickAt < 0) throw new Error('an armed pick has no escape guard');
+  if (pickAt < menuAt) throw new Error('pick cancel must follow the menu/more/inspector cancels');
+  expectIn(esc, 'cancelSensorPick();', 'escape routes through the cancel helper');
+});
+
+check('hooks: a non-eligible hit stays in pick mode and never selects', () => {
+  const handleAt = labJs.indexOf('function handlePick');
+  const pickSection = labJs.slice(
+    labJs.indexOf('if (pendingSensorTarget) {', handleAt),
+    labJs.indexOf('if (pendingLink) {', handleAt),
+  );
+  if (pickSection.includes('select(')) throw new Error('the armed pick path still selects');
+  expectIn(pickSection, 'warnPickIneligible(', 'non-eligible canvas hits warn and stay armed');
+  expectIn(pickSection, 'cancelSensorPick();', 'clicking the armed sensor cancels');
+  expectIn(labJs, 'function warnPickIneligible(', 'shared non-eligible warning');
+  expectIn(labJs, '点选保持开启', 'the warning says pick mode stays on');
+  expectIn(labJs, 'pick mode stays on', 'the warning is bilingual');
+  // The outline path is guarded the same way.
+  const outline = section(labJs, "item.addEventListener('click', () => {", "item.addEventListener('dblclick'");
+  expectIn(outline, 'warnPickIneligible(', 'outline rows must not fall through while armed');
+  expectIn(outline, 'if (applySensorTargetPick(sensor, entity)) return;', 'outline eligible picks keep the shared path');
+});
+
+check('hooks: scene swaps and sensor deletion disarm pick mode', () => {
+  const apply = section(labJs, 'function applySceneState(', 'function homeCircuitPanel(');
+  expectIn(apply, 'setSensorPick(null);', 'undo/redo/scene load disarm before the rebuild');
+  const del = section(labJs, 'function deleteEntity(', 'function captureDimensions(');
+  expectIn(del, 'if (pendingSensorTarget === entity.id) setSensorPick(null);', 'deleting the armed sensor disarms');
+});
+
+check('hooks: the tracked-target list offers view and remove in every view', () => {
+  const controls = section(labJs, 'function sensorTargetControls(', 'function sensorDataControls(');
+  expectIn(controls, '已跟踪目标 · Tracked targets', 'bilingual list header');
+  expectIn(controls, "'plab-sensor-target-list'", 'flat list container');
+  expectIn(controls, "'data-action': 'sensor-target-view'", 'per-row view action');
+  expectIn(controls, "'data-action': 'sensor-target-remove'", 'per-row remove action');
+  expectIn(controls, 'pushUndo(`sensorTargetRemove:${sensor.id}`)', 'remove keeps the existing undo key');
+  expectIn(controls, 'removeSensorTarget(world, sensor, parsed.id, { type: parsed.type })', 'remove keeps the keyed remove API');
+  expectIn(controls, 'if (targets.length) {', 'the list is built from the tracked set, not from the current view');
+  // The rows themselves must never touch the erasing single-target API
+  // (the select's motion "auto" path keeps its one legitimate call).
+  const listBlock = section(controls, "const list = el('div', { className: 'plab-sensor-target-list' });", "parent.appendChild(el('p', {");
+  if (listBlock.includes('setSensorTarget(')) throw new Error('the list must not use the erasing single-target API');
+  expectIn(listBlock, "if (view === key) sensorViewKeys.set(sensor.id, remaining.length ? sensorTargetKey(remaining[0]) : '');",
+    'only the removed row\u2019s own view falls back; the all-targets view is kept');
+  if (labJs.includes('移除当前目标 · Remove current target')) {
+    throw new Error('the view-conditional remove button is back; the list owns remove now');
+  }
+});
+
+check('hooks: pick mode and the target list keep the flat design rules', () => {
+  const armed = cssBlock(labCss, '.plab-sensor-pick.active {');
+  expectIn(armed, 'box-shadow: inset 0 -2px 0 var(--accent);', 'armed button uses the accent underline');
+  const cursor = cssBlock(labCss, '.plab-root[data-picking="sensor-target"] .plab-canvas {');
+  expectIn(cursor, 'cursor:', 'the armed canvas gets a distinct cursor');
+  const view = cssBlock(labCss, '.plab-sensor-target-view {');
+  expectIn(view, 'min-height: 44px', 'row view meets the 44px touch target');
+  const remove = cssBlock(labCss, '.plab-sensor-target-remove {');
+  expectIn(remove, 'min-height: 44px', 'row remove meets the 44px touch target');
+  const list = cssBlock(labCss, '.plab-sensor-target-list {');
+  for (const [label, block] of [['armed', armed], ['cursor', cursor], ['view', view], ['remove', remove], ['list', list]]) {
+    if (/border-radius/.test(block)) throw new Error(`rounded corners crept into the ${label} rule`);
+  }
+});
+
 /* ------------------------------ summary ------------------------------ */
 
 console.log(results.join('\n'));

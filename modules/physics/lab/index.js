@@ -1965,11 +1965,25 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       item.dataset.entityType = entity.type;
       item.dataset.entityId = entity.id;
       item.addEventListener('click', () => {
-        if (pendingSensorTarget && (entity.type === 'body' || entity.type === 'launcher')) {
+        if (pendingSensorTarget) {
           const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
-          if (sensor) {
-            pendingSensorTarget = null;
+          if (!sensor) {
+            // The armed sensor is gone (deleted / scene swapped): disarm
+            // quietly and let this click behave like a normal one.
+            setSensorPick(null);
+          } else if (entity.type === 'body' || entity.type === 'launcher') {
+            // Leave pick mode first so the rebuilt inspector shows the idle
+            // button; a failed add must not fall through to a plain select.
+            setSensorPick(null);
             if (applySensorTargetPick(sensor, entity)) return;
+            return;
+          } else if (entity.type === 'sensor' && entity.id === pendingSensorTarget) {
+            // Clicking the armed sensor itself cancels — also the touch path.
+            cancelSensorPick();
+            return;
+          } else {
+            warnPickIneligible(sensorTargetName(entity));
+            return;
           }
         }
         select(entity);
@@ -2062,6 +2076,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     // The circuit panel keeps direct references to the old circuit object;
     // close it before deserializing so no stale wires survive an undo.
     circuitPanel?.close();
+    // A scene swap (undo / redo / load) invalidates any armed pick:
+    // disarm before the inspector rebuild renders the pick button.
+    setSensorPick(null);
     deserializeScene(world, data, { runtime });
     // Runtime observations are not scene configuration: put back the recorded
     // sample rows captured before the change so undoing a target add/remove
@@ -2228,6 +2245,8 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       world.wedges = world.wedges.filter((w) => w.id !== entity.id);
     } else if (entity.type === 'sensor') {
       world.sensors = world.sensors.filter((s) => s.id !== entity.id);
+      // Deleting the armed sensor must not leave pick mode armed for it.
+      if (pendingSensorTarget === entity.id) setSensorPick(null);
     } else if (entity.type === 'fan') {
       if (entity.bodyId) {
         const body = getBody(world, entity.bodyId);
@@ -2784,7 +2803,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     pushUndo();
     running = false;
     pendingLink = null;
-    pendingSensorTarget = null;
+    // Pick mode is disarmed inside applySceneState for every scene swap.
     selected = null;
     view.setSelection(null);
     applySceneState(migrated, { selection: null });
@@ -3726,8 +3745,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     updateTransport();
     if (entity.type === 'sensor' && entity.kind === 'force') {
       // Same interaction as the motion sensor: place it, then pick the target.
-      pendingSensorTarget = entity.id;
-      setStatus('受力传感器已放置：点击场景中要跟踪的物体（可选多个）。 · Force sensor placed: click a body in the scene to track it (you can pick several).');
+      enterSensorPick(entity, '受力传感器已放置：点击场景中要跟踪的物体（可选多个）；按 Esc、点按钮或再点该传感器取消。 · Force sensor placed: click bodies in the scene to track them (you can pick several); press Esc, click the button, or click the sensor again to cancel.');
       return;
     }
     setStatus(`已添加：${labelText(...kindLabel(entity))} · Added. 直接拖动即可移动，吸附默认开启。 · Drag it directly; auto-snap is on.`);
@@ -3927,15 +3945,29 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       return;
     }
     if (pendingSensorTarget) {
-      if (hit?.entity?.type === 'body' || hit?.entity?.type === 'launcher') {
-        const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
-        if (sensor) {
-          pendingSensorTarget = null;
-          if (applySensorTargetPick(sensor, hit.entity)) return;
-        }
-      }
-      if (!hit?.entity) {
-        setStatus('请点击一个物体或抛射器作为传感器目标。 · Click a body or launcher to use as the sensor target.', true);
+      const sensor = world.sensors.find((s) => s.id === pendingSensorTarget);
+      if (!sensor) {
+        // The armed sensor is gone (deleted / scene swapped): disarm
+        // quietly and let this click behave like a normal one.
+        setSensorPick(null);
+      } else if (hit?.entity?.type === 'body' || hit?.entity?.type === 'launcher') {
+        // Leave pick mode first so the rebuilt inspector shows the idle
+        // button; a failed add (target cap) is reported by the shared pick
+        // path and must not fall through to a plain selection either.
+        setSensorPick(null);
+        if (applySensorTargetPick(sensor, hit.entity)) return;
+        return;
+      } else if (hit?.entity?.type === 'sensor' && hit.entity.id === pendingSensorTarget) {
+        // Clicking the armed sensor itself cancels — also the touch path.
+        cancelSensorPick();
+        return;
+      } else if (!hit?.entity) {
+        setStatus('点选模式已开启：点击物体或抛射器作为目标；按 Esc 取消。 · Pick mode is on: click a body or launcher to use as the target; press Esc to cancel.', true);
+        return;
+      } else {
+        // Non-eligible entity: stay in pick mode; never select as a click,
+        // or the next body click would silently arm a target again.
+        warnPickIneligible(sensorTargetName(hit.entity));
         return;
       }
     }
@@ -5034,6 +5066,56 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return true;
   }
 
+  /**
+   * One door for sensor target pick mode. Arming (the inspector button,
+   * force-sensor placement) and every exit (a successful or failed pick,
+   * the button toggled off, Escape, clicking the armed sensor, a scene
+   * swap, deleting the armed sensor) run through here, so the armed state
+   * is always visible on the root and the button, and always cancellable.
+   */
+  function syncSensorPickButtons() {
+    for (const btn of root.querySelectorAll('[data-action="sensor-target-pick"]')) {
+      const armed = !!pendingSensorTarget && btn.dataset.sensorId === pendingSensorTarget;
+      btn.classList.toggle('active', armed);
+      btn.setAttribute('aria-pressed', armed ? 'true' : 'false');
+      btn.textContent = armed
+        ? '取消点选 · Cancel pick (Esc)'
+        : '在场景中点选添加目标 · Pick target in scene';
+    }
+  }
+
+  function setSensorPick(sensorId) {
+    pendingSensorTarget = sensorId || null;
+    if (pendingSensorTarget) root.dataset.picking = 'sensor-target';
+    else delete root.dataset.picking;
+    syncSensorPickButtons();
+  }
+
+  function enterSensorPick(sensor, status) {
+    setSensorPick(sensor.id);
+    setStatus(status || '点选模式已开启：点击场景中的物体或抛射器添加目标；按 Esc 或再次点击本按钮取消。 · Pick mode is on: click a body or launcher in the scene to add it as a target; press Esc or click this button again to cancel.');
+  }
+
+  function cancelSensorPick() {
+    setSensorPick(null);
+    setStatus('已取消点选 · Pick cancelled');
+  }
+
+  /** A non-eligible hit keeps pick mode armed instead of selecting. */
+  function warnPickIneligible(name) {
+    setStatus(`点选时只能选择物体或抛射器，点选保持开启 · While picking, only a body or launcher can be picked; pick mode stays on：${name}`, true);
+  }
+
+  /** Second line of a tracked-target row: kind, or the launcher lifecycle. */
+  function sensorTargetRowState(sensor, target) {
+    if ((target.type || 'body') !== 'launcher') return '物体 · Body';
+    const resolved = resolveSensorTarget(world, target);
+    if (resolved.status !== 'ok') return '已失效 · Stale';
+    return resolved.loaded
+      ? `装填待发射 · loaded, waiting to fire${sensor.kind === 'force' ? '（受力数据从发射后开始 · force data starts once it flies）' : ''}`
+      : `飞行中 · in flight (${resolved.body?.id || ''})`;
+  }
+
   function sensorTargetControls(parent, sensor) {
     const isMotion = sensor.kind === 'motion';
     const targets = sensorTargets(sensor);
@@ -5058,7 +5140,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       options.push([key, trackedKeys.has(key) ? `${name}（已跟踪 · tracked）` : name]);
     }
     selectField(parent, {
-      label: '跟踪目标 · Tracked targets',
+      label: '添加 / 切换目标 · Add / switch target',
       value: isMotion && !targets.length ? '' : (view || SENSOR_VIEW_ALL),
       testid: 'sensorTarget',
       options,
@@ -5100,46 +5182,83 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       className: 'plab-action hit-target plab-sensor-pick',
       text: '在场景中点选添加目标 · Pick target in scene',
       'data-action': 'sensor-target-pick',
+      'aria-pressed': 'false',
     });
+    pick.dataset.sensorId = sensor.id;
     pick.addEventListener('click', () => {
-      pendingSensorTarget = sensor.id;
+      // The button is a toggle: armed for this sensor, it cancels.
+      if (pendingSensorTarget === sensor.id) {
+        cancelSensorPick();
+        return;
+      }
+      enterSensorPick(sensor);
       if (isMobile()) openInspector(false);
-      setStatus('点击场景中的物体或抛射器，添加为传感器目标。 · Click a body or launcher in the scene to add it as a target.');
     });
     parent.appendChild(pick);
-    if (view && view !== SENSOR_VIEW_ALL) {
-      const parsed = parseTargetValue(view);
-      const remove = el('button', {
-        type: 'button',
-        className: 'plab-action hit-target plab-sensor-remove',
-        text: '移除当前目标 · Remove current target',
-        'data-action': 'sensor-target-remove',
-      });
-      remove.addEventListener('click', () => {
-        pushUndo(`sensorTargetRemove:${sensor.id}`);
-        if (!removeSensorTarget(world, sensor, parsed.id, { type: parsed.type })) {
-          setStatus('未能移除该目标。 · Could not remove that target.', true);
-          return;
-        }
-        const remaining = sensorTargets(sensor);
-        sensorViewKeys.set(sensor.id, remaining.length ? sensorTargetKey(remaining[0]) : '');
-        buildInspector();
-        setStatus('已移除目标；其它目标的记录保持不变。 · Target removed; the other targets keep their records.');
-      });
-      parent.appendChild(remove);
-    }
-    if (view && view.startsWith('launcher:')) {
-      const parsed = parseTargetValue(view);
-      const resolved = resolveSensorTarget(world, { id: parsed.id, type: 'launcher' });
-      if (resolved.status === 'ok') {
-        const state = resolved.loaded
-          ? `待发射装填小球 · loaded, waiting to fire${sensor.kind === 'force' ? '（受力数据从发射后开始 · force data starts once it flies）' : ''}`
-          : `飞行中 · in flight (${resolved.body?.id || ''})`;
-        parent.appendChild(el('p', {
-          className: 'plab-field-hint',
-          text: `当前目标 · Current target: ${resolved.name} · ${state}`,
-        }));
+    // Reflect a pick armed elsewhere (e.g. by force-sensor placement).
+    syncSensorPickButtons();
+    if (targets.length) {
+      // Explicit per-target rows: view and remove stay reachable even while
+      // the data view is "all targets", where the old single remove button
+      // disappeared. Remove keeps the keyed undo entry, so every other
+      // target keeps its sample history.
+      parent.appendChild(el('h3', { className: 'plab-section-title', text: '已跟踪目标 · Tracked targets' }));
+      const list = el('div', { className: 'plab-sensor-target-list' });
+      for (const t of targets) {
+        const key = sensorTargetKey(t);
+        const parsed = parseTargetValue(key);
+        const full = (t.type || 'body') === 'launcher'
+          ? getLauncher(world, t.id)
+          : getBody(world, t.id);
+        const name = full ? sensorTargetName(full) : `已失效 · Stale (${key})`;
+        const isActive = view === key;
+        const row = el('div', { className: 'plab-sensor-target-row' });
+        const viewBtn = el('button', {
+          type: 'button',
+          className: `plab-sensor-target-view hit-target${isActive ? ' active' : ''}`,
+          'aria-current': isActive ? 'true' : 'false',
+          'aria-label': `查看目标 · View target: ${name}`,
+          'data-action': 'sensor-target-view',
+          'data-target-key': key,
+        }, [
+          el('span', { className: 'plab-sensor-target-name', text: name }),
+          el('span', { className: 'plab-sensor-target-kind', text: sensorTargetRowState(sensor, t) }),
+        ]);
+        viewBtn.addEventListener('click', () => {
+          if (view === key) {
+            setStatus(`正在查看目标 · Viewing target: ${name}`);
+            return;
+          }
+          sensorViewKeys.set(sensor.id, key);
+          buildInspector();
+          setStatus(`正在查看目标 · Viewing target: ${name}`);
+        });
+        const removeBtn = el('button', {
+          type: 'button',
+          className: 'plab-sensor-target-remove hit-target',
+          text: '移除 · Remove',
+          'aria-label': `移除目标 · Remove target: ${name}`,
+          'data-action': 'sensor-target-remove',
+          'data-target-key': key,
+        });
+        removeBtn.addEventListener('click', () => {
+          pushUndo(`sensorTargetRemove:${sensor.id}`);
+          if (!removeSensorTarget(world, sensor, parsed.id, { type: parsed.type })) {
+            setStatus('未能移除该目标。 · Could not remove that target.', true);
+            return;
+          }
+          const remaining = sensorTargets(sensor);
+          // Only the removed row's own single-target view falls back
+          // (remaining[0] or auto/all). The all-targets view is kept, so
+          // the other targets' raw/summary tables never clear.
+          if (view === key) sensorViewKeys.set(sensor.id, remaining.length ? sensorTargetKey(remaining[0]) : '');
+          buildInspector();
+          setStatus('已移除目标；其它目标的记录保持不变。 · Target removed; the other targets keep their records.');
+        });
+        row.append(viewBtn, removeBtn);
+        list.appendChild(row);
       }
+      parent.appendChild(list);
     }
     parent.appendChild(el('p', {
       className: 'plab-field-hint',
@@ -8279,6 +8398,10 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     if (key === 'Escape' && pendingLink) {
       pendingLink = null;
       setStatus('已取消连接。 · Link cancelled.');
+      return;
+    }
+    if (key === 'Escape' && pendingSensorTarget) {
+      cancelSensorPick();
       return;
     }
     if ((key === 'Delete' || key === 'Backspace') && selected) {

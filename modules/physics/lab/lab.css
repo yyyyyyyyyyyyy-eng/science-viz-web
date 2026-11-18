@@ -693,6 +693,85 @@ html[data-route="lab"] .site-footer {
   border: 1px solid var(--border);
   background: var(--bg);
 }
+.plab-sensor-pick.active {
+  background: var(--bg-soft);
+  color: var(--text-strong);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+/* Pick mode is armed: the canvas reads as "click to pick" (orbit/drag keep
+   working; the cursor is a cue only). */
+.plab-root[data-picking="sensor-target"] .plab-canvas {
+  cursor: pointer;
+}
+.plab-sensor-target-list {
+  margin-top: 0.35rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.plab-sensor-target-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+}
+.plab-sensor-target-row:last-child {
+  border-bottom: 0;
+}
+.plab-sensor-target-view {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.05rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.22rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.plab-sensor-target-view:hover {
+  background: var(--bg-soft);
+  color: var(--text-strong);
+}
+.plab-sensor-target-view.active {
+  background: var(--bg-soft);
+  color: var(--text-strong);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.plab-sensor-target-name {
+  font-size: 0.74rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plab-sensor-target-kind {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plab-sensor-target-remove {
+  flex: 0 0 auto;
+  min-width: 76px;
+  min-height: 44px;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.66rem;
+  cursor: pointer;
+}
+.plab-sensor-target-remove:hover {
+  color: var(--danger);
+  background: var(--bg-soft);
+}
 .plab-copy-fallback {
   position: fixed;
   left: -1000px;
