@@ -88,6 +88,19 @@ function navHeight() {
   return parseFloat(value) || 60;
 }
 
+/**
+ * Scroll a sticky rail's own overflow just enough to reveal `node`.
+ * Only the rail's scrollTop moves; the window is never scrolled, so the
+ * outline's scroll listener never chases its own adjustments.
+ */
+function revealInStickyRail(rail, node) {
+  if (!rail || !rail.offsetParent) return; // hidden (narrow layout) or detached
+  const nr = node.getBoundingClientRect();
+  const rr = rail.getBoundingClientRect();
+  if (nr.bottom > rr.bottom - 2) rail.scrollTop += nr.bottom - rr.bottom + 2;
+  else if (nr.top < rr.top + 2) rail.scrollTop -= rr.top - nr.top + 2;
+}
+
 /* ---------- PHYS-08: slash-fraction counterexamples ---------- */
 const SLASH_COUNTEREXAMPLE = /\d\s*\/\s*[0-9A-Za-z]/;
 
@@ -669,12 +682,16 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     paintActive();
   }
   function paintActive() {
+    let railActive = null;
     outlines.forEach((b) => {
       const on = b.dataset.target === activeId;
       b.classList.toggle('active', on);
       if (on) b.setAttribute('aria-current', 'location');
       else b.removeAttribute('aria-current');
+      if (on && !railActive && b.closest('.topic-rail')) railActive = b;
     });
+    // Long topics overflow the sticky rail; keep the current item visible in it.
+    if (railActive) revealInStickyRail(railActive.closest('.topic-rail'), railActive);
   }
   paintActive();
   let raf = 0;
