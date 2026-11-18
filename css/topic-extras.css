@@ -21,25 +21,27 @@
 }
 
 /* ---------- Previous / next topic ---------- */
-.topic-page .topic-pager .pager-label {
+/* No `.topic-page` prefix: .topic-pager only exists on topic pages
+   (js/topic-page.js); the credits article never contains one. */
+.topic-pager .pager-label {
   font-size: 0.6rem;
   letter-spacing: 0.03em;
 }
-.topic-page .topic-pager .pager-link.disabled .pager-title {
+.topic-pager .pager-link.disabled .pager-title {
   color: var(--text-dim);
   font-weight: 500;
 }
 @media (max-width: 520px) {
-  .topic-page .topic-pager {
+  .topic-pager {
     gap: 0.75rem;
   }
-  .topic-page .topic-pager .pager-title {
+  .topic-pager .pager-title {
     font-size: 0.84rem;
   }
 }
 
 /* ---------- PHYS-08: visible counterexample label ---------- */
-.topic-page .topic-dont-write {
+.topic-dont-write {
   display: inline-block;
   margin-right: 0.4rem;
   padding: 0.08rem 0.35rem;
@@ -54,7 +56,10 @@
 }
 
 /* ---------- First-occurrence vocabulary hint ---------- */
-.topic-page .topic-vocab-term {
+/* No `.topic-page` prefix: renderTopicPage builds `.topic-layout`, which has
+   no `.topic-page` ancestor (that class is the credits article in
+   js/pages.js), and .topic-vocab-term is created only by js/topic-page.js. */
+.topic-vocab-term {
   display: inline;
   margin: 0;
   padding: 0 0.04em;
@@ -68,12 +73,12 @@
   text-align: inherit;
   cursor: help;
 }
-.topic-page .topic-vocab-term:hover,
-.topic-page .topic-vocab-term:focus-visible {
+.topic-vocab-term:hover,
+.topic-vocab-term:focus-visible {
   color: var(--text-strong);
   border-bottom-style: solid;
 }
-.topic-page .topic-vocab-term[aria-expanded="true"] {
+.topic-vocab-term[aria-expanded="true"] {
   background: color-mix(in srgb, var(--subject-accent, var(--accent)) 11%, transparent);
 }
 
