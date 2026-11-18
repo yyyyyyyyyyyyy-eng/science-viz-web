@@ -505,7 +505,7 @@ export function buildEMMore({ entity, world, api }) {
     });
     api.formula(parent, '\\oint \\vec{B}\\cdot d\\vec{l}=\\mu_{0}I');
   } else if (entity.type === 'emCurrentLoop') {
-    api.formula(parent, 'B_{\\text{axis}}=\\dfrac{\\mu_{0}IR^{2}}{2(R^{2}+z^{2})^{\\frac{3}{2}}}');
+    api.formula(parent, 'B_{\\text{axis}}=\\dfrac{\\mu_{0}IR^{2}}{2(R^{2}+z^{2})^{\\dfrac{3}{2}}}');
   } else if (entity.type === 'emSolenoid') {
     api.field(parent, {
       label: '长度 L · Length', value: entity.length, min: 0.2, max: 10, step: 0.05, unit: 'm', testid: 'emSolLengthMore',

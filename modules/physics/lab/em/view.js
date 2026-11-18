@@ -717,16 +717,10 @@ export function createEMView(scene, opts = {}) {
     syncSelection();
   }
 
-  function syncSelection() {
-    if (!selected) {
-      selectionHelper.visible = false;
-      return;
-    }
+  function selectionBox() {
+    if (!selected) return null;
     const visual = visuals.get(selected.id);
-    if (!visual) {
-      selectionHelper.visible = false;
-      return;
-    }
+    if (!visual) return null;
     let box;
     if (selected.type === 'emParticle') {
       const entity = visual.entity;
@@ -737,13 +731,23 @@ export function createEMView(scene, opts = {}) {
     } else {
       box = new THREE.Box3().setFromObject(visual.root).expandByScalar(0.08);
     }
-    if (box.isEmpty()) {
+    return box.isEmpty() ? null : box;
+  }
+
+  function syncSelection() {
+    const box = selectionBox();
+    if (!box) {
       selectionHelper.visible = false;
       return;
     }
     selectionHelper.box.copy(box);
     selectionHelper.visible = true;
     selectionHelper.updateMatrixWorld(true);
+  }
+
+  function getSelectionBox() {
+    const box = selectionBox();
+    return box ? box.clone() : null;
   }
 
   function setSelection(ref) {
@@ -773,5 +777,5 @@ export function createEMView(scene, opts = {}) {
     selectionHelper.material.dispose();
   }
 
-  return { group, sync, setSelection, setTheme, destroy };
+  return { group, sync, setSelection, setTheme, destroy, getSelectionBox };
 }

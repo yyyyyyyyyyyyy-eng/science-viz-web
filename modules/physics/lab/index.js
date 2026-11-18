@@ -1217,11 +1217,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   }
 
   function closeAddMenu() {
+    const hadFocus = addMenu.contains(document.activeElement) || emAddMenu.contains(document.activeElement);
     addMenu.hidden = true;
     emAddMenu.hidden = true;
     addBtn.setAttribute('aria-expanded', 'false');
     delete root.dataset.addOpen;
     if (morePanel.hidden) moreBackdrop.hidden = true;
+    if (hadFocus) addBtn.focus({ preventScroll: true });
   }
 
   function openMore() {
@@ -3982,7 +3984,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   stepBtn.addEventListener('click', step);
   resetBtn.addEventListener('click', reset);
   clearBtn.addEventListener('click', clearScene);
-  addBtn.addEventListener('click', () => { if (addMenu.hidden) openAddMenu(); else closeAddMenu(); });
+  addBtn.addEventListener('click', () => { if (activeAddMenu().hidden) openAddMenu(); else closeAddMenu(); });
   moreBtn.addEventListener('click', () => { if (morePanel.hidden) openMore(); else closeMore(); });
   root.querySelector('[data-action="more-close"]')?.addEventListener('click', closeMore);
   root.querySelector('[data-action="inspector-close"]')?.addEventListener('click', () => openInspector(false));
@@ -6651,6 +6653,19 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     moreAdvanced.appendChild(actions);
   }
 
+  function isolatedSourceField(entity, point) {
+    const scratch = {
+      charges: [],
+      spheres: [],
+      lines: entity.type === 'emLine' ? [entity] : [],
+      planes: entity.type === 'emPlane' ? [entity] : [],
+      capacitors: [],
+      uniformFields: [],
+    };
+    const { E } = electricFieldAt(scratch, point);
+    return Math.hypot(E.x, E.y, E.z);
+  }
+
   function updateLive() {
     if (frameBodyId && !frameBody()) {
       frameBodyId = null;
@@ -6734,11 +6749,27 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         setLive('emSphereSurfaceV', `${fmt((K_COULOMB * entity.q) / entity.R)} V`);
       } else if (entity.type === 'emLine') {
         setLive('emLineLambda', `${fmt(entity.lambda)} C/m`);
-        const ideal = Math.abs(entity.lambda) / (2 * Math.PI * EPS0 * 1);
-        setLive('emLineE', `${fmt(ideal)} V/m`);
+        const sample = entity.axis === 'x'
+          ? { x: entity.x, y: entity.y, z: entity.z + 1 }
+          : { x: entity.x + 1, y: entity.y, z: entity.z };
+        const finite = isolatedSourceField(entity, sample);
+        const ideal = Math.abs(entity.lambda) / (2 * Math.PI * EPS0);
+        setLive('emLineE', entity.length >= 10
+          ? `${fmt(finite)} V/m（L ≫ r 理想 ≈ ${fmt(ideal)}）`
+          : `${fmt(finite)} V/m`);
       } else if (entity.type === 'emPlane') {
         setLive('emPlaneSigma', `${fmt(entity.sigma)} C/m²`);
-        setLive('emPlaneE', `${fmt(Math.abs(entity.sigma) / (2 * EPS0))} V/m`);
+        const normal = entity.axis === 'y' ? { x: 0, y: 1, z: 0 }
+          : entity.axis === 'z' ? { x: 0, y: 0, z: 1 } : { x: 1, y: 0, z: 0 };
+        const finite = isolatedSourceField(entity, {
+          x: entity.x + normal.x,
+          y: entity.y + normal.y,
+          z: entity.z + normal.z,
+        });
+        const ideal = Math.abs(entity.sigma) / (2 * EPS0);
+        setLive('emPlaneE', Math.min(entity.width, entity.height) >= 10
+          ? `${fmt(finite)} V/m（大板理想 ≈ ${fmt(ideal)}）`
+          : `${fmt(finite)} V/m`);
       } else if (entity.type === 'emMagneticWire') {
         setLive('emWireB', `${fmt((MU0 * Math.abs(entity.current)) / (2 * Math.PI))} T`);
       } else if (entity.type === 'emCurrentLoop') {
@@ -7015,7 +7046,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
     const key = e.key;
     if (key === 'Escape') {
-      if (!addMenu.hidden) { closeAddMenu(); return; }
+      if (!addMenu.hidden || !emAddMenu.hidden) { closeAddMenu(); return; }
       if (!morePanel.hidden) { closeMore(); return; }
       if (isMobile() && root.dataset.inspectorOpen === '1') { openInspector(false); return; }
     }

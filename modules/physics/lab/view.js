@@ -1872,7 +1872,9 @@ export function createLabView(host, opts = {}) {
   function frameSelected() {
     const box = new THREE.Box3();
     if (mode === 'em') {
-      box.setFromObject(emView.group);
+      const selection = emView.getSelectionBox?.();
+      if (selection) box.copy(selection);
+      else box.setFromObject(emView.group);
     } else if (selected) {
       const visual = visuals.get(selected.id);
       if (visual) box.setFromObject(visual.root);
