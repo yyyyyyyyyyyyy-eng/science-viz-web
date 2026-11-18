@@ -238,8 +238,8 @@ import { createCircuitPanel } from './em/circuit-ui.js';
 
 const STYLE_ID = 'plab-style';
 // Version query busts stale lab.css tabs (02:48 review). Bump with the
-// cache-bust version in index.html whenever lab.css changes.
-const STYLE_HREF = 'modules/physics/lab/lab.css?v=20261119a';
+// shared cache-bust version in index.html whenever lab.css changes.
+const STYLE_HREF = 'modules/physics/lab/lab.css?v=20261119c';
 
 function ensureStyle() {
   if (document.getElementById(STYLE_ID)) return;

@@ -7,7 +7,8 @@ import { mountTopicExamFigures, enhanceExamFigures } from '../modules/physics/ex
 import { renderFigures } from '../data/math/figlib.js';
 
 const STYLE_ID = 'topic-extras-style';
-const STYLE_HREF = 'css/topic-extras.css';
+// Version query matches the shared cache-bust token in index.html.
+const STYLE_HREF = 'css/topic-extras.css?v=20261119c';
 
 function ensureStyle() {
   if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return;
