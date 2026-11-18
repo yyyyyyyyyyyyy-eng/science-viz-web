@@ -1041,6 +1041,19 @@ function typeLabel(prob) {
   return 'FRQ';
 }
 
+/**
+ * Scroll a sticky rail's own overflow just enough to reveal `node`.
+ * Only the rail's scrollTop moves; the window is never scrolled, so the
+ * page scroll listener never chases its own adjustments.
+ */
+function revealInStickyRail(rail, node) {
+  if (!rail || !rail.offsetParent) return; // hidden (narrow layout) or detached
+  const nr = node.getBoundingClientRect();
+  const rr = rail.getBoundingClientRect();
+  if (nr.bottom > rr.bottom - 2) rail.scrollTop += nr.bottom - rr.bottom + 2;
+  else if (nr.top < rr.top + 2) rail.scrollTop -= rr.top - nr.top + 2;
+}
+
 function cardState(card, done) {
   const state = card.querySelector('.practice-state');
   card.dataset.done = done ? 'true' : 'false';
@@ -1615,9 +1628,12 @@ function createPracticeQuiz({ panel, page, bankKey, subject, unitId, bank, onGra
         };
         btn.addEventListener('click', select);
         btn.addEventListener('keydown', (e) => {
-          if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+          // Radiogroup pattern: all four arrows move selection with focus.
+          const forward = e.key === 'ArrowDown' || e.key === 'ArrowRight';
+          const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
+          if (!forward && !back) return;
           e.preventDefault();
-          const next = e.key === 'ArrowDown'
+          const next = forward
             ? (index + 1) % buttons.length
             : (index - 1 + buttons.length) % buttons.length;
           entry.state.selected = next;
@@ -1914,6 +1930,9 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
       if (active) solution.unmount();
       else solution.restore();
     });
+    // Entering quiz mode hides the resume banner (its buttons duplicate the
+    // open quiz's own leave action); leaving shows it again.
+    refreshResumeBanner();
   }
 
   quizCtl = createPracticeQuiz({
@@ -1937,6 +1956,12 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
   });
 
   function refreshResumeBanner() {
+    // While a quiz is open the banner's actions duplicate the quiz's own
+    // 退出小测 path, and clicking 继续小测 again would re-present the quiz.
+    if (quizCtl?.isActive()) {
+      resumePanel.hidden = true;
+      return;
+    }
     const draft = loadPracticeQuizDraft(bankKey);
     clear(resumePanel);
     resumePanel.hidden = !draft;
@@ -2237,7 +2262,9 @@ export function renderPracticeUnit(main, { subject, unit, bank }) {
       savePracticeLastIndex(bankKey, focusedItem ? focusedItem.number : current);
     }
     jumpGrid.querySelectorAll('.practice-jump').forEach((b, i) => {
-      b.classList.toggle('active', i === current);
+      const on = i === current;
+      b.classList.toggle('active', on);
+      if (on) revealInStickyRail(rail, b);
     });
   }
   const onScroll = () => {
@@ -2732,9 +2759,12 @@ function renderAnswerUI(prob, progressId, onDone, opts = {}) {
           checkSelection();
           return;
         }
-        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        // Radiogroup pattern: all four arrows move selection with focus.
+        const forward = e.key === 'ArrowDown' || e.key === 'ArrowRight';
+        const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
+        if (!forward && !back) return;
         e.preventDefault();
-        const next = e.key === 'ArrowDown'
+        const next = forward
           ? (i + 1) % buttons.length
           : (i - 1 + buttons.length) % buttons.length;
         buttons[next].focus();
