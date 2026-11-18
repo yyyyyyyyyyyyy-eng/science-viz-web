@@ -78,7 +78,7 @@ html[data-route="lab"] .site-footer {
 
 .plab-sub {
   margin: 0.08rem 0 0;
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
 }
 
@@ -92,24 +92,32 @@ html[data-route="lab"] .site-footer {
   flex-wrap: wrap;
   align-items: stretch;
   gap: 0;
-  border: 1px solid var(--border);
-  background: var(--border);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
   max-width: 100%;
 }
 
+/* 02:07 review: desktop controls must read as a full >=44px band with
+   readable labels. Base height is 48px; bilingual labels wrap onto a
+   second line instead of shrinking to fit one line. */
 .plab-action {
-  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 48px;
   min-width: 44px;
-  padding: 0 0.8rem;
+  padding: 0.3rem 0.8rem;
   border: 0;
   border-right: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--bg-elev);
   color: var(--text);
   font: inherit;
-  font-size: 0.74rem;
-  line-height: 1.2;
+  font-size: 0.8rem;
+  line-height: 1.3;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .plab-action:last-child {
   border-right: 0;
@@ -147,14 +155,14 @@ html[data-route="lab"] .site-footer {
 .plab-clock {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 48px;
   padding: 0 0.7rem;
   margin-left: auto;
   border-left: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--bg-elev);
   font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
+  font-size: 0.74rem;
+  color: var(--text);
   white-space: nowrap;
 }
 
@@ -266,7 +274,7 @@ html[data-route="lab"] .site-footer {
 .plab-status {
   margin: 0;
   min-width: 0;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   line-height: 1.4;
   color: var(--text);
 }
@@ -279,7 +287,7 @@ html[data-route="lab"] .site-footer {
 }
 .plab-hintline {
   margin: 0;
-  font-size: 0.64rem;
+  font-size: 0.66rem;
   line-height: 1.4;
   color: var(--text-muted);
   text-align: right;
@@ -363,11 +371,15 @@ html[data-route="lab"] .site-footer {
 .plab-energy-head {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.plab-panel-title {
+  color: var(--text-strong);
 }
 
 .plab-inspector-head {
@@ -375,22 +387,22 @@ html[data-route="lab"] .site-footer {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
 }
 .plab-inspector-head .plab-panel-title {
   color: var(--text-strong);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
 }
 .plab-inspector-kind {
   font-family: var(--mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
   white-space: nowrap;
 }
 .plab-inspector-empty {
   margin: 0.35rem 0 0;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   line-height: 1.55;
   color: var(--text-muted);
 }
@@ -398,12 +410,12 @@ html[data-route="lab"] .site-footer {
 .plab-inspector-live {
   margin: 0.7rem 0 0;
   padding: 0.45rem 0;
-  border-top: 1px solid var(--border-soft);
-  border-bottom: 1px solid var(--border-soft);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   font-family: var(--mono);
-  font-size: 0.67rem;
+  font-size: 0.7rem;
   line-height: 1.45;
-  color: var(--text-muted);
+  color: var(--text);
 }
 
 .plab-inspector-more {
@@ -438,8 +450,8 @@ html[data-route="lab"] .site-footer {
 /* ------------------------------ form controls ------------------------------ */
 
 .plab-field {
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--border-soft);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
 }
 .plab-field.is-disabled {
   color: var(--text-muted);
@@ -456,7 +468,7 @@ html[data-route="lab"] .site-footer {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   color: var(--text);
 }
 .plab-field-head label {
@@ -464,7 +476,7 @@ html[data-route="lab"] .site-footer {
 }
 .plab-field-value {
   font-family: var(--mono);
-  font-size: 0.67rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -499,7 +511,7 @@ html[data-route="lab"] .site-footer {
 }
 .plab-field-hint {
   margin: 0.18rem 0 0;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   line-height: 1.45;
   color: var(--text-muted);
 }
@@ -514,7 +526,7 @@ html[data-route="lab"] .site-footer {
   background: var(--bg);
   color: var(--text);
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
 }
 
 .plab-check {
@@ -522,7 +534,7 @@ html[data-route="lab"] .site-footer {
   align-items: center;
   gap: 0.5rem;
   min-height: 44px;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   line-height: 1.35;
   color: var(--text);
   cursor: pointer;
@@ -541,8 +553,8 @@ html[data-route="lab"] .site-footer {
   gap: 0.5rem;
   min-height: 44px;
   padding: 0.25rem 0;
-  border-bottom: 1px solid var(--border-soft);
-  font-size: 0.7rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.74rem;
   color: var(--text);
 }
 .plab-inline-field input,
@@ -568,7 +580,7 @@ html[data-route="lab"] .site-footer {
   flex-direction: column;
   gap: 0.2rem;
   min-width: 0;
-  font-size: 0.64rem;
+  font-size: 0.66rem;
   line-height: 1.3;
   color: var(--text-muted);
 }
@@ -602,7 +614,7 @@ html[data-route="lab"] .site-footer {
 .plab-table-actions .plab-action {
   border: 1px solid var(--border);
   background: var(--bg);
-  font-size: 0.66rem;
+  font-size: 0.7rem;
 }
 .plab-table-scroll {
   width: 100%;
@@ -619,7 +631,7 @@ html[data-route="lab"] .site-footer {
 .plab-table-scrollhint {
   margin: 0.25rem 0 0;
   font-family: var(--mono);
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   line-height: 1.35;
   color: var(--text-muted);
 }
@@ -1099,7 +1111,7 @@ html[data-route="lab"] .site-footer {
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   font-family: var(--mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -1108,14 +1120,14 @@ html[data-route="lab"] .site-footer {
 .plab-tool {
   min-height: 44px;
   min-width: 44px;
-  padding: 0 0.6rem;
+  padding: 0.3rem 0.6rem;
   border: 0;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   color: var(--text-muted);
   font: inherit;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   cursor: pointer;
 }
 .plab-tool:hover {
@@ -1218,7 +1230,7 @@ html[data-route="lab"] .site-footer {
   flex-wrap: wrap;
   gap: 0.3rem 0.9rem;
   padding: 0.45rem 0;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
 }
 .plab-legend[data-off="1"] {
@@ -1254,7 +1266,7 @@ html[data-route="lab"] .site-footer {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
   margin-top: 0.35rem;
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--border);
 }
 .plab-energy-row {
   display: flex;
@@ -1262,29 +1274,29 @@ html[data-route="lab"] .site-footer {
   gap: 0.12rem;
   min-width: 0;
   padding: 0.4rem 0.5rem 0.4rem 0;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border);
 }
 .plab-energy-label {
-  font-size: 0.64rem;
+  font-size: 0.7rem;
   line-height: 1.3;
   color: var(--text-muted);
 }
 .plab-energy-value {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 500;
   color: var(--text);
   white-space: nowrap;
 }
 .plab-energy-note {
   margin: 0.35rem 0 0;
-  font-size: 0.62rem;
-  line-height: 1.4;
+  font-size: 0.68rem;
+  line-height: 1.45;
   color: var(--text-muted);
 }
 
 .plab-graphs {
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--border);
   padding-top: 0.45rem;
   margin-top: 0.45rem;
 }
@@ -1296,7 +1308,7 @@ html[data-route="lab"] .site-footer {
   flex-wrap: wrap;
   gap: 0.2rem 0.8rem;
   font-family: var(--mono);
-  font-size: 0.6rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
 }
 .plab-graph-canvas {
@@ -1335,12 +1347,12 @@ html[data-route="lab"] .site-footer {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
 }
 .plab-outliner-count {
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
 }
 .plab-outliner-list {
@@ -1350,7 +1362,7 @@ html[data-route="lab"] .site-footer {
 .plab-outliner-row {
   display: flex;
   align-items: stretch;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border);
 }
 .plab-outliner-item {
   display: flex;
@@ -1378,7 +1390,7 @@ html[data-route="lab"] .site-footer {
   box-shadow: inset 2px 0 0 var(--accent);
 }
 .plab-outliner-name {
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   line-height: 1.25;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1386,7 +1398,7 @@ html[data-route="lab"] .site-footer {
 }
 .plab-outliner-kind {
   font-family: var(--mono);
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1397,11 +1409,11 @@ html[data-route="lab"] .site-footer {
   min-width: 58px;
   min-height: 44px;
   border: 0;
-  border-left: 1px solid var(--border-soft);
+  border-left: 1px solid var(--border);
   background: transparent;
   color: var(--text-muted);
   font: inherit;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   cursor: pointer;
 }
 .plab-outliner-rename-btn {
@@ -1409,11 +1421,11 @@ html[data-route="lab"] .site-footer {
   min-width: 76px;
   min-height: 44px;
   border: 0;
-  border-left: 1px solid var(--border-soft);
+  border-left: 1px solid var(--border);
   background: transparent;
   color: var(--text-muted);
   font: inherit;
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   line-height: 1.2;
   cursor: pointer;
 }
@@ -1438,7 +1450,7 @@ html[data-route="lab"] .site-footer {
 }
 .plab-outliner-hint {
   margin: 0.3rem 0 0;
-  font-size: 0.64rem;
+  font-size: 0.68rem;
   line-height: 1.4;
   color: var(--text-muted);
 }
@@ -1596,8 +1608,8 @@ html[data-route="lab"] .site-footer {
 .plab-slot-actions .plab-action {
   flex: 1 1 auto;
   border-right: 1px solid var(--border);
-  font-size: 0.66rem;
-  padding: 0 0.45rem;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.45rem;
 }
 
 @media (min-width: 981px) {
@@ -1703,10 +1715,10 @@ html[data-route="lab"] .site-footer {
   }
   .plab-primary .plab-action {
     border-right: 0;
-    padding: 0 0.2rem;
-    font-size: 0.66rem;
+    padding: 0.3rem 0.25rem;
+    font-size: 0.7rem;
     white-space: normal;
-    line-height: 1.2;
+    line-height: 1.25;
   }
   .plab-add-wrap {
     display: block;
@@ -1852,21 +1864,27 @@ html[data-route="lab"] .site-footer {
   display: flex;
   flex: 0 0 auto;
   align-self: center;
-  border: 1px solid var(--border);
-  background: var(--border);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elev);
   gap: 1px;
 }
 .plab-mode {
-  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 48px;
   min-width: 44px;
-  padding: 0 0.8rem;
+  padding: 0.3rem 0.85rem;
   border: 0;
-  background: var(--bg);
+  background: var(--bg-elev);
   color: var(--text);
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .plab-mode:hover {
   background: var(--bg-soft);
@@ -2037,8 +2055,8 @@ html[data-route="lab"] .site-footer {
   }
   .plab-mode {
     flex: 1 1 50%;
-    padding: 0 0.35rem;
-    font-size: 0.68rem;
+    padding: 0.3rem 0.35rem;
+    font-size: 0.7rem;
   }
   .plab-circuit-panel {
     padding: 0.4rem 0.45rem 0.55rem;
@@ -2060,14 +2078,13 @@ html[data-route="lab"] .site-footer {
     flex-wrap: nowrap;
   }
   .plab-primary .plab-action {
-    padding: 0 0.62rem;
+    padding: 0.3rem 0.7rem;
   }
   .plab-clock {
     padding: 0 0.55rem;
   }
   .plab-mode {
-    padding: 0 0.62rem;
-    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
   }
 }
 

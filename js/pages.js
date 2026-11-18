@@ -95,10 +95,10 @@ export function renderStart(main) {
       el('a', { className: 'btn hit-target', href: '#/all', text: '全部模块' }),
     ]),
   ]);
-  main.appendChild(hero);
 
+  const panel = el('div', { className: 'home-panel' });
   if (last) {
-    main.appendChild(
+    panel.appendChild(
       el('a', { className: 'continue-row hit-target', href: `#/m/${last.id}` }, [
         el('span', { className: 'continue-label', text: '继续' }),
         el('span', { className: 'continue-title', text: last.title }),
@@ -129,7 +129,9 @@ export function renderStart(main) {
       ]),
     );
   });
-  main.appendChild(list);
+  panel.appendChild(list);
+
+  main.appendChild(el('section', { className: 'home-top' }, [hero, panel]));
 
   const secondary = el('nav', { className: 'home-secondary', 'aria-label': '更多' });
   [

@@ -2980,7 +2980,7 @@ button { color: inherit; }
 .mega-kicker {
   margin: 0 0 0.35rem;
   font-family: var(--mono);
-  font-size: 0.61rem;
+  font-size: 0.66rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -4440,6 +4440,197 @@ html.palette-open, html.nav-mobile-open { overflow: hidden; }
   .palette-close { display: inline-flex; }
   .palette-hint { padding-bottom: max(0.55rem, env(safe-area-inset-bottom)); }
 }
+
+/* ============================================================
+   2026-11 second visual pass (02:07 review) — productive home
+   grid, stronger index/paths hierarchy, representative module
+   shells (topic / practice / formulas / sims). Flat instrument
+   paper: radius 0, no cards, hairline grids, CJK-safe leading.
+   This tail section extends the v10 cascade owner.
+   ============================================================ */
+
+/* ---------- Home: left lead, right subject panel ---------- */
+.home-top { display: grid; grid-template-columns: minmax(0, 1fr); }
+.home-hero {
+  max-width: none;
+  padding: 1.2rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.home-lede { max-width: 34rem; }
+.home-panel { min-width: 0; }
+
+.subject-index {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 0;
+  border-top: 1px solid var(--border);
+}
+.subject-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-height: 148px;
+  padding: 1.1rem 1.15rem 1rem;
+  border-bottom: 1px solid var(--border);
+  border-left: 0;
+  color: var(--text);
+  transition: background 0.15s var(--ease);
+}
+.subject-row:hover {
+  background: var(--bg-soft);
+  padding-left: 1.15rem;
+  padding-right: 1.15rem;
+}
+.subject-num { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); }
+.subject-body { margin-top: 0.15rem; }
+.subject-name-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.6rem; }
+.subject-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.22rem, 1.5vw, 1.4rem);
+  font-weight: var(--w-semibold);
+  letter-spacing: 0;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.subject-en {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.subject-meta { display: block; margin-top: 0.45rem; font-size: 0.82rem; line-height: 1.5; color: var(--text-muted); }
+.subject-go { margin-top: auto; align-self: flex-end; color: var(--text-dim); font-size: 1.15rem; }
+.subject-row:hover .subject-go { color: var(--text); }
+
+@media (min-width: 620px) {
+  .subject-index { grid-template-columns: 1fr 1fr; }
+  .subject-row { border-left: 1px solid var(--border); }
+  .subject-row:nth-child(odd) { border-left: 0; }
+}
+@media (min-width: 1080px) {
+  .home-top {
+    grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+    column-gap: clamp(2.75rem, 4.5vw, 4.5rem);
+    align-items: stretch;
+  }
+  .home-hero {
+    border-bottom: 0;
+    border-right: 1px solid var(--border);
+    padding-right: clamp(2.75rem, 4.5vw, 4.5rem);
+  }
+}
+@media (max-width: 619px) {
+  .subject-row { min-height: 128px; padding: 1rem 0.95rem 0.9rem; }
+  .subject-row:hover { padding-left: 0.95rem; padding-right: 0.95rem; }
+}
+.home-secondary a { font-size: 0.84rem; }
+.home-hint { font-size: 0.66rem; }
+
+/* ---------- Index + paths hierarchy ---------- */
+.breadcrumb { font-size: 0.76rem; }
+.page-kicker { font-size: 0.68rem; color: var(--text-muted); }
+.section-head { padding-bottom: 0.7rem; }
+.section-label { font-size: 0.78rem; color: var(--text); }
+.section-count { font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); }
+.progress-block { max-width: 21rem; }
+.progress-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.45rem; }
+.progress-track { height: 4px; border: 1px solid var(--border); background: var(--bg-soft); }
+
+.module-row { min-height: 64px; padding: 0.85rem 0; }
+.row-num { font-size: 0.68rem; color: var(--text-muted); opacity: 1; }
+.row-title { font-size: 1.04rem; }
+#main .catalog-grid .module-row .row-desc {
+  display: block;
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Paths: block titles are real display headings; steps use the width. */
+.path-block { margin-top: 2.8rem; }
+.path-block .section-head { align-items: baseline; }
+.path-block .section-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: var(--w-semibold);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+.path-block .section-count { font-size: 0.74rem; color: var(--text-muted); }
+.path-summary { margin: 0.5rem 0 0; font-size: 0.92rem; color: var(--text-muted); }
+.path-block .progress-block { margin: 0.65rem 0 0.25rem; }
+.path-steps { margin-top: 1.1rem; border-top: 1px solid var(--border-soft); }
+.path-step a { min-height: 56px; padding: 0.55rem 0; }
+.path-step-num { font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); }
+.path-step-title { font-size: 1rem; font-weight: 500; }
+@media (min-width: 900px) {
+  .path-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.75rem;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* ---------- Topic reading shell ---------- */
+.rail-kicker { font-size: 0.66rem; color: var(--text-muted); }
+.rail-chapter { font-size: 0.86rem; }
+.topic-outline button { font-size: 0.8rem; }
+.topic-outline button.active { font-weight: 600; }
+.topic-heading-code { font-size: 0.8rem; color: var(--text-muted); }
+.topic-block h2 { font-size: 0.76rem; color: var(--text); }
+.topic-block h3 { font-size: 0.96rem; }
+.topic-status-row .text-link { font-size: 0.78rem; }
+
+/* ---------- Practice shell ---------- */
+.practice-toolbar { padding: 0.65rem 0; }
+.filter-chip { font-size: 0.8rem; }
+.filter-count { font-size: 0.68rem; color: var(--text-muted); }
+.rail-progress-text { font-size: 0.68rem; color: var(--text-muted); }
+.practice-jump { font-size: 0.7rem; }
+.practice-number { font-size: 0.74rem; color: var(--text-muted); }
+.practice-card-title h2 { font-size: 1.06rem; }
+.practice-set-head h2 { font-size: 1.06rem; }
+.practice-state { font-size: 0.66rem; color: var(--text-muted); }
+.practice-sol > summary { font-size: 0.8rem; }
+.stim-box h3 { font-size: 0.76rem; color: var(--text); }
+.mcq-letter { font-size: 0.7rem; }
+
+/* ---------- Formula sheet shell (renderer untouched) ---------- */
+.formula-toc button { font-size: 0.8rem; }
+.formula-group-head h2 { font-size: 1.15rem; }
+.formula-group-head .muted { font-size: 0.78rem; }
+.formula-group-num { font-size: 0.7rem; color: var(--text-muted); }
+.formula-body { font-size: 0.9rem; }
+.formula-body h3 { font-size: 0.72rem; color: var(--text-muted); }
+.formula-summary::after { color: var(--text-muted); }
+.formula-related .text-link { font-size: 0.78rem; }
+
+/* ---------- Simulator shells ---------- */
+.module-kicker { font-size: 0.66rem; }
+.module-header-text .explain { font-size: 0.94rem; }
+.control-panel h2 { font-size: 0.66rem; }
+.control-group label { font-size: 0.8rem; }
+.control-group .value { font-size: 0.74rem; }
+.readouts { font-size: 0.72rem; color: var(--text-muted); }
+.mini-canvas-label { font-size: 0.64rem; color: var(--text-muted); }
+.checkbox-row { font-size: 0.82rem; }
+.phase-pill { font-size: 0.78rem; }
+.hint { font-size: 0.72rem; color: var(--text-muted); }
+.goals-list { font-size: 0.86rem; }
+
+/* ---------- Chapter / unit rows ---------- */
+.unit-meta { font-size: 0.8rem; }
+.unit-progress-label { font-size: 0.66rem; }
+.topic-row { min-height: 56px; }
+.topic-code { font-size: 0.7rem; color: var(--text-muted); }
+.topic-title { font-size: 1rem; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

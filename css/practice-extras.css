@@ -21,7 +21,7 @@
 .practice-page .practice-sol-label {
   margin: 0.55rem 0 0.2rem;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -276,7 +276,7 @@
 .practice-page .practice-progress-note {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
 }
 
@@ -344,7 +344,7 @@
 
 .practice-page .practice-bar-label {
   font-family: var(--mono);
-  font-size: 0.58rem;
+  font-size: 0.66rem;
   letter-spacing: 0.04em;
   color: var(--text-muted);
   white-space: nowrap;
@@ -482,7 +482,7 @@
 .practice-page .practice-quiz-group legend {
   padding: 0;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -539,7 +539,7 @@
 .practice-page .practice-quiz-score-label {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -569,7 +569,7 @@
 
 .practice-page .practice-quiz-breakdown-en {
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
 }
 

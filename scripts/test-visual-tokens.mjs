@@ -24,6 +24,8 @@ import { readFileSync } from 'node:fs';
 
 const CSS_PATH = new URL('../css/main.css', import.meta.url).pathname;
 const css = readFileSync(CSS_PATH, 'utf8');
+const LAB_CSS_PATH = new URL('../modules/physics/lab/lab.css', import.meta.url).pathname;
+const labCss = readFileSync(LAB_CSS_PATH, 'utf8');
 
 let pass = 0;
 let fail = 0;
@@ -40,17 +42,22 @@ function check(ok, label, detail = '') {
 
 /** Extract the last CSS block for a selector (cascade owner wins). */
 function lastBlock(selector) {
-  const openings = [...css.matchAll(new RegExp('^' + escapeRe(selector) + '\\s*\\{', 'gm'))];
+  return lastBlockIn(css, selector);
+}
+
+/** Extract the last top-level block for a selector in any stylesheet. */
+function lastBlockIn(text, selector) {
+  const openings = [...text.matchAll(new RegExp('^' + escapeRe(selector) + '\\s*\\{', 'gm'))];
   if (!openings.length) return null;
   const start = openings[openings.length - 1].index + openings[openings.length - 1][0].length;
   let depth = 1;
   let end = start;
-  while (end < css.length && depth > 0) {
-    if (css[end] === '{') depth += 1;
-    else if (css[end] === '}') depth -= 1;
+  while (end < text.length && depth > 0) {
+    if (text[end] === '{') depth += 1;
+    else if (text[end] === '}') depth -= 1;
     end += 1;
   }
-  return css.slice(start, end - 1);
+  return text.slice(start, end - 1);
 }
 
 function escapeRe(s) {
@@ -212,6 +219,53 @@ check(/::selection\s*\{[^}]*color-mix\(in srgb, var\(--accent\) \d+%, var\(--bg\
 const oddWeights = [...css.matchAll(/font-weight:\s*(?!400\b|500\b|600\b|700\b)(?!var\()(\d{3})/g)];
 check(oddWeights.length === 0, 'font weights on the 400/500/600 grid',
   oddWeights.map((m) => m[0]).join(' ') || 'clean');
+
+/* ---------- physics lab toolbar + inspector (02:07 review) ----------
+   Desktop equipment controls must render as a >=44px band with
+   readable labels: the base action rule needs >=44px height and a
+   >=0.8rem wrapping label, no rule anywhere may shrink a lab
+   control below 44px / 0.7rem, and the mobile two-row toolbar must
+   stay a 3-column grid. */
+console.log('\n== physics lab toolbar (>=44px, readable labels) ==');
+
+const labAction = lastBlockIn(labCss, '.plab-action');
+check(labAction != null, 'lab: base .plab-action rule present');
+const labActionMin = /min-height:\s*([\d.]+)px/.exec(labAction || '');
+check(labActionMin != null && Number(labActionMin[1]) >= 44,
+  'lab: toolbar action min-height >= 44px', labActionMin ? `${labActionMin[1]}px` : 'missing');
+const labActionFont = /font-size:\s*([\d.]+)rem/.exec(labAction || '');
+check(labActionFont != null && Number(labActionFont[1]) >= 0.8,
+  'lab: toolbar label >= 0.8rem', labActionFont ? `${labActionFont[1]}rem` : 'missing');
+check(!/white-space:\s*nowrap/.test(labAction || ''),
+  'lab: toolbar labels wrap instead of squeezing one line');
+
+const sub44 = [];
+const weakLabel = [];
+const weakInspector = [];
+for (const m of labCss.matchAll(/(^|\n)\s*([^{}\n@]+)\{([^{}]*)\}/g)) {
+  const sel = m[2].trim();
+  if (/\.plab-(action|mode|tool)(?!-label)\b/.test(sel)) {
+    for (const h of m[3].matchAll(/(?:min-height|height)\s*:\s*([\d.]+)px/g)) {
+      if (Number(h[1]) < 44) sub44.push(`${sel.trim()}: ${h[0]}`);
+    }
+    for (const f of m[3].matchAll(/font-size\s*:\s*([\d.]+)rem/g)) {
+      if (Number(f[1]) < 0.7) weakLabel.push(`${sel.trim()}: ${f[0]}`);
+    }
+  }
+  if (/\.plab-(panel-title|group-title|section-title|energy-head|energy-label|energy-note|outliner-kind|outliner-name)\b/.test(sel)) {
+    for (const f of m[3].matchAll(/font-size\s*:\s*([\d.]+)rem/g)) {
+      if (Number(f[1]) < 0.64) weakInspector.push(`${sel.trim()}: ${f[0]}`);
+    }
+  }
+}
+check(sub44.length === 0, 'lab: no sub-44px control overrides', sub44.join(' | ') || 'clean');
+check(weakLabel.length === 0, 'lab: no control label below 0.7rem', weakLabel.join(' | ') || 'clean');
+check(weakInspector.length === 0, 'lab: inspector secondary text >= 0.64rem', weakInspector.join(' | ') || 'clean');
+
+const mobileBlock = /@media \(max-width:\s*760px\)\s*\{[\s\S]*/.exec(labCss)?.[0] || '';
+check(/\.plab-primary\s*\{[^}]*display:\s*grid/.test(mobileBlock)
+  && /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/.test(mobileBlock),
+'lab: mobile toolbar keeps the two-row 3-column grid');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
