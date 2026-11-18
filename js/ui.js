@@ -70,11 +70,40 @@ export function renderModuleShell(main, mod) {
   ]);
 
   const shell = el('div', { className: 'module-shell' });
-  const side = el('aside', { className: 'module-side', id: 'module-side' }, [
+
+  /* Unit nav: visible tree on desktop (>=981px); on small screens it
+     folds behind a 48px disclosure labelled with the current module
+     (模块目录 · <module title>) so the simulator owns the first
+     viewport. Expanding reveals the full unit list + 知识图谱 link. */
+  const sideBody = el('div', { className: 'module-side-body' }, [
     el('div', { className: 'side-label', text: SUBJECT_LABEL[mod.subject] || mod.subject }),
     el('a', { className: 'side-map-link hit-target', href: `#/${mod.subject}/map`, text: '知识图谱' }),
     buildModuleTree(mod),
   ]);
+  const sideFold = el('details', { className: 'module-side-fold' }, [
+    el('summary', { className: 'module-side-toggle hit-target' }, [
+      el('span', { className: 'module-side-toggle-label', text: '模块目录' }),
+      el('span', { className: 'module-side-toggle-sep', 'aria-hidden': 'true', text: '·' }),
+      el('span', { className: 'module-side-toggle-title', text: mod.title }),
+      el('span', { className: 'module-side-toggle-mark', 'aria-hidden': 'true', text: '+' }),
+    ]),
+    sideBody,
+  ]);
+  const wideMedia = typeof window !== 'undefined' && window.matchMedia
+    ? window.matchMedia('(min-width: 981px)')
+    : null;
+  sideFold.open = !wideMedia || wideMedia.matches;
+  if (wideMedia && typeof wideMedia.addEventListener === 'function') {
+    const syncFold = () => {
+      if (!sideFold.isConnected) {
+        wideMedia.removeEventListener('change', syncFold);
+        return;
+      }
+      sideFold.open = wideMedia.matches;
+    };
+    wideMedia.addEventListener('change', syncFold);
+  }
+  const side = el('aside', { className: 'module-side', id: 'module-side' }, [sideFold]);
 
   const body = el('div', { className: 'module-body' });
   body.appendChild(crumbs);

@@ -26,6 +26,12 @@ const CSS_PATH = new URL('../css/main.css', import.meta.url).pathname;
 const css = readFileSync(CSS_PATH, 'utf8');
 const LAB_CSS_PATH = new URL('../modules/physics/lab/lab.css', import.meta.url).pathname;
 const labCss = readFileSync(LAB_CSS_PATH, 'utf8');
+const UI_JS_PATH = new URL('../js/ui.js', import.meta.url).pathname;
+const uiJs = readFileSync(UI_JS_PATH, 'utf8');
+const PAGES_JS_PATH = new URL('../js/pages.js', import.meta.url).pathname;
+const pagesJs = readFileSync(PAGES_JS_PATH, 'utf8');
+const INDEX_HTML_PATH = new URL('../index.html', import.meta.url).pathname;
+const indexHtml = readFileSync(INDEX_HTML_PATH, 'utf8');
 
 let pass = 0;
 let fail = 0;
@@ -43,6 +49,22 @@ function check(ok, label, detail = '') {
 /** Extract the last CSS block for a selector (cascade owner wins). */
 function lastBlock(selector) {
   return lastBlockIn(css, selector);
+}
+
+/** Extract the first top-level block for a selector (base rule). */
+function firstBlockIn(text, selector) {
+  const openings = [...text.matchAll(new RegExp('^' + escapeRe(selector) + '\\s*\\{', 'gm'))];
+  if (!openings.length) return null;
+  const m = openings[0];
+  const start = m.index + m[0].length;
+  let depth = 1;
+  let end = start;
+  while (end < text.length && depth > 0) {
+    if (text[end] === '{') depth += 1;
+    else if (text[end] === '}') depth -= 1;
+    end += 1;
+  }
+  return text.slice(start, end - 1);
 }
 
 /** Extract the last top-level block for a selector in any stylesheet. */
@@ -266,6 +288,132 @@ const mobileBlock = /@media \(max-width:\s*760px\)\s*\{[\s\S]*/.exec(labCss)?.[0
 check(/\.plab-primary\s*\{[^}]*display:\s*grid/.test(mobileBlock)
   && /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/.test(mobileBlock),
 'lab: mobile toolbar keeps the two-row 3-column grid');
+
+/* ---------- 02:48 review locks ----------
+   Home grid + lab desktop band must live in the BASE rules (a stale
+   or truncated sheet cannot fall back to the old list layout), the
+   desktop lab toolbar can never be packed/squeezed below 48px, the
+   mobile module nav is a fold (not hidden), and document-loaded
+   assets are cache-busted. */
+console.log('\n== 02:48 review: base home grid ==');
+
+const baseSubjectIndex = firstBlockIn(css, '.subject-index');
+check(baseSubjectIndex != null, 'home: base .subject-index rule present');
+check(/display:\s*grid/.test(baseSubjectIndex || ''), 'home: base .subject-index is a grid');
+check(!/flex-direction:\s*column/.test(baseSubjectIndex || ''),
+  'home: base .subject-index is not a flex column list');
+check(/grid-template-columns:\s*minmax\(0,\s*1fr\)/.test(baseSubjectIndex || ''),
+  'home: base .subject-index declares its track');
+const flexColumnSubjectIndex = [...css.matchAll(/\.subject-index\s*\{[^}]*\}/g)]
+  .filter((m) => /flex-direction:\s*column/.test(m[0]));
+check(flexColumnSubjectIndex.length === 0,
+  'home: no .subject-index rule anywhere is a flex column',
+  flexColumnSubjectIndex.length ? 'found vertical-list rule' : 'clean');
+
+const baseSubjectRow = firstBlockIn(css, '.subject-row');
+check(baseSubjectRow != null, 'home: base .subject-row rule present');
+check(/flex-direction:\s*column/.test(baseSubjectRow || ''),
+  'home: base .subject-row is a stacked cell, not a 3-column list row');
+const rowMinH = /min-height:\s*([\d.]+)px/.exec(baseSubjectRow || '');
+check(rowMinH != null && Number(rowMinH[1]) >= 128,
+  'home: base .subject-row min-height keeps a productive cell',
+  rowMinH ? `${rowMinH[1]}px` : 'missing');
+
+const baseHomeTop = firstBlockIn(css, '.home-top');
+check(baseHomeTop != null && /display:\s*grid/.test(baseHomeTop || ''),
+  'home: base .home-top is a grid');
+/** Extract the full body of a top-level @media block (brace-matched). */
+function mediaBlockIn(text, query) {
+  const re = new RegExp('@media \\(' + query.replace(/[()]/g, '\\$&').replace(/[\s]+/g, '\\s*') + '\\)\\s*\\{');
+  const m = re.exec(text);
+  if (!m) return '';
+  let depth = 1;
+  let end = m.index + m[0].length;
+  while (end < text.length && depth > 0) {
+    if (text[end] === '{') depth += 1;
+    else if (text[end] === '}') depth -= 1;
+    end += 1;
+  }
+  return text.slice(m.index + m[0].length, end - 1);
+}
+
+const narrow980 = mediaBlockIn(css, 'max-width: 980px');
+const wide1240 = mediaBlockIn(labCss, 'min-width: 1240px');
+check(/\.subject-index\s*\{[^}]*grid-template-columns:\s*1fr 1fr/.test(css),
+  'home: subject index locks a 2-column grid from a sensible min-width');
+check(/\.home-top\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*46fr\)\s*minmax\(0,\s*54fr\)/.test(css),
+  'home: desktop .home-top is two columns in base CSS');
+check(/className:\s*'home-top'/.test(pagesJs) && /className:\s*'subject-index'/.test(pagesJs),
+  'home: .home-top / .subject-index markup still built by pages.js');
+
+console.log('\n== 02:48 review: desktop lab 48px band ==');
+
+const baseLabAction = firstBlockIn(labCss, '.plab-action');
+const baseActionMin = /min-height:\s*([\d.]+)px/.exec(baseLabAction || '');
+check(baseActionMin != null && Number(baseActionMin[1]) >= 48,
+  'lab: base .plab-action min-height >= 48px', baseActionMin ? `${baseActionMin[1]}px` : 'missing');
+const baseLabMode = firstBlockIn(labCss, '.plab-mode');
+const baseModeMin = /min-height:\s*([\d.]+)px/.exec(baseLabMode || '');
+check(baseModeMin != null && Number(baseModeMin[1]) >= 48,
+  'lab: base .plab-mode min-height >= 48px', baseModeMin ? `${baseModeMin[1]}px` : 'missing');
+const baseLabHead = firstBlockIn(labCss, '.plab-head');
+check(/flex-shrink:\s*0/.test(baseLabHead || ''),
+  'lab: .plab-head cannot be squeezed by the fixed-height column');
+const nowrapPrimary = [...labCss.matchAll(/\.plab-primary\s*\{[^}]*\}/g)]
+  .filter((m) => /flex-wrap:\s*nowrap/.test(m[0]));
+check(nowrapPrimary.length === 0,
+  'lab: no rule packs .plab-primary into a nowrap strip',
+  nowrapPrimary.length ? 'found nowrap rule' : 'clean');
+
+check(wide1240.length > 0, 'lab: 1240px+ query present');
+check(/\.plab-primary\s*\{[^}]*flex-wrap:\s*wrap/.test(wide1240),
+  'lab: 1240px+ query keeps actions wrapping');
+check(/\.plab-mode\s*\{[^}]*flex-shrink:\s*0/.test(wide1240)
+  && /flex-shrink:\s*0/.test(wide1240),
+  'lab: 1240px+ query pins controls against flex squeeze');
+const thinPadding1240 = [...wide1240.matchAll(/padding:\s*([\d.]+)rem/g)]
+  .map((m) => Number(m[1])).filter((v) => v > 0 && v < 0.7);
+check(thinPadding1240.length === 0,
+  'lab: 1240px+ query has no thin compacting padding',
+  thinPadding1240.join('rem, ') ? thinPadding1240.join(', ') + 'rem' : 'clean');
+const sub48in1240 = [...wide1240.matchAll(/(?:min-height|height)\s*:\s*([\d.]+)px/g)]
+  .map((m) => Number(m[1])).filter((v) => v < 48);
+check(sub48in1240.length === 0,
+  'lab: 1240px+ query cannot shrink controls below 48px',
+  sub48in1240.join('px, ') ? sub48in1240.join(', ') + 'px' : 'clean');
+
+console.log('\n== 02:48 review: mobile module nav fold ==');
+
+const baseFoldToggle = firstBlockIn(css, '.module-side-fold > .module-side-toggle');
+check(baseFoldToggle != null && /display:\s*none/.test(baseFoldToggle || ''),
+  'fold: desktop keeps the tree visible (toggle hidden in base)');
+const foldMobile = /\.module-side-fold > \.module-side-toggle\s*\{[^}]*display:\s*flex[^}]*\}/.exec(narrow980)?.[0] || '';
+check(foldMobile.length > 0, 'fold: <=980px query shows the toggle control');
+const foldToggleMin = /min-height:\s*([\d.]+)px/.exec(foldMobile);
+check(foldToggleMin != null && Number(foldToggleMin[1]) >= 48,
+  'fold: mobile toggle is a >=48px target', foldToggleMin ? `${foldToggleMin[1]}px` : 'missing');
+check(/\.module-side-fold\[open\] > \.module-side-body/.test(narrow980) || /\.module-side-fold\[open\]/.test(narrow980),
+  'fold: open state styling present');
+check(/details|module-side-fold/.test(uiJs) && /className: 'module-side-fold'/.test(uiJs),
+  'fold: ui.js renders the nav as a details disclosure');
+check(/模块目录/.test(uiJs) && /module-side-toggle-title/.test(uiJs),
+  'fold: toggle label names the current module');
+check(/matchMedia\('\(min-width: 981px\)'\)/.test(uiJs),
+  'fold: open state syncs with the 981px module-shell breakpoint');
+check(!/display:\s*none\s*;\s*\/\*.*module-tree/.test(css) && !/\.module-tree\s*\{[^}]*display:\s*none/.test(css),
+  'fold: unit tree is never display:none');
+
+console.log('\n== 02:48 review: cache-bust ==');
+
+const cssBust = /css\/main\.css\?v=[\w.-]+/.exec(indexHtml);
+check(cssBust != null, 'cache-bust: css/main.css loaded with a version query', cssBust ? cssBust[0] : 'missing');
+const jsBust = /js\/app\.js\?v=[\w.-]+/.exec(indexHtml);
+check(jsBust != null, 'cache-bust: js/app.js loaded with a version query', jsBust ? jsBust[0] : 'missing');
+const labBust = /modules\/physics\/lab\/lab\.css\?v=[\w.-]+/.exec(readFileSync(new URL('../modules/physics/lab/index.js', import.meta.url).pathname, 'utf8'));
+check(labBust != null, 'cache-bust: injected lab.css carries a version query', labBust ? labBust[0] : 'missing');
+const sameV = [cssBust?.[0], jsBust?.[0], labBust?.[0]].map((v) => (v || '').split('?v=')[1]);
+check(sameV.every(Boolean) && new Set(sameV).size === 1,
+  'cache-bust: one shared version across document assets', sameV[0] || 'missing');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

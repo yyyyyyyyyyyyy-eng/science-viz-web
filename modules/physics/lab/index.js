@@ -237,7 +237,9 @@ import { buildEMMore, buildEMInspector, isEMType } from './em/inspector.js';
 import { createCircuitPanel } from './em/circuit-ui.js';
 
 const STYLE_ID = 'plab-style';
-const STYLE_HREF = 'modules/physics/lab/lab.css';
+// Version query busts stale lab.css tabs (02:48 review). Bump with the
+// cache-bust version in index.html whenever lab.css changes.
+const STYLE_HREF = 'modules/physics/lab/lab.css?v=20261119a';
 
 function ensureStyle() {
   if (document.getElementById(STYLE_ID)) return;
