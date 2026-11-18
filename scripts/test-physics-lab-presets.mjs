@@ -14,11 +14,14 @@ import {
 } from '../modules/physics/lab/presets.mjs';
 import {
   angularTableMomentum,
+  ballisticReadout,
   createWorld,
   deserializeScene,
   fireLauncher,
   getAngularTable,
+  getBallistic,
   getBody,
+  getLever,
   getLauncher,
   getLoop,
   getPendulum,
@@ -27,6 +30,8 @@ import {
   getSurface,
   getTurntable,
   launcherMuzzle,
+  leverEquilibriumAngle,
+  leverReadout,
   pendulumPeriod,
   SCENE_VERSION,
   stepWorld,
@@ -108,6 +113,8 @@ function countType(world, type) {
     rod: world.rods,
     orbit: world.orbits,
     tunnel: world.tunnels,
+    ballisticPendulum: world.ballistics,
+    lever: world.levers,
     link: world.links,
   };
   return (table[type] || []).length;
@@ -125,6 +132,8 @@ function findFocus(world, focus) {
   if (focus.type === 'rod') return getRod(world, focus.id);
   if (focus.type === 'turntable') return getTurntable(world, focus.id);
   if (focus.type === 'angularTable') return getAngularTable(world, focus.id);
+  if (focus.type === 'ballisticPendulum') return getBallistic(world, focus.id);
+  if (focus.type === 'lever') return getLever(world, focus.id);
   return null;
 }
 
@@ -361,6 +370,134 @@ const ANALYTICS = {
       label: 'T = 2π√(L/g)',
     };
   },
+  'mech-u2-wedge-recoil': (world) => {
+    const block = getBody(world, 'block');
+    const wedge = world.wedges[0];
+    const bx0 = block.cannon.position.x;
+    const wx0 = wedge.body.position.x;
+    advance(world, 0.8, 1 / 960);
+    const p = block.mass * block.cannon.velocity.x + wedge.mass * wedge.body.velocity.x;
+    const dxW = wedge.body.position.x - wx0;
+    const dxB = block.cannon.position.x - bx0;
+    if (!(dxW > 0.02)) throw new Error(`wedge did not recoil: dx=${dxW}`);
+    if (!(dxB < -0.02)) throw new Error(`block did not slide downhill: dx=${dxB}`);
+    return {
+      duration: 0.8,
+      measured: p,
+      expected: 0,
+      tolerance: 5e-4,
+      unit: 'kg·m/s',
+      label: 'Σp_x = 0 for block + wedge',
+      detail: `block vx=${block.cannon.velocity.x.toFixed(4)}, wedge vx=${wedge.body.velocity.x.toFixed(4)} m/s`,
+    };
+  },
+  'mech-u4-ballistic-pendulum': (world) => {
+    const launcher = getLauncher(world, 'launcher');
+    const ballistic = getBallistic(world, 'catcher');
+    fireLauncher(world, launcher);
+    let duration = 0;
+    const h = 1 / 960;
+    let caught = null;
+    for (let i = 0; i < 2400 && !caught; i += 1) {
+      stepWorld(world, h, { h });
+      duration += h;
+      caught = world.events.find((event) => event.type === 'catch') || null;
+    }
+    if (!caught) throw new Error('the catcher never absorbed the projectile');
+    // Let the loaded pendulum swing up to its maximum angle and turn back.
+    for (let i = 0; i < 2400; i += 1) {
+      stepWorld(world, h, { h });
+      duration += h;
+    }
+    const readout = ballisticReadout(world, ballistic);
+    rel(readout.inferredSpeed, launcher.speed, 0.005, 'speed inferred from the rise angle');
+    rel(readout.keLossFraction, ballistic.bobMass / (ballistic.bobMass + caught.mass), 0.005, 'KE loss fraction = M/(M+m)');
+    const gate = world.sensors.find((sensor) => sensor.kind === 'photogate');
+    if (gate.crossings.length < 1) throw new Error('photogate never saw the ball');
+    rel(gate.crossings[0].v, launcher.speed, 0.01, 'photogate exit speed');
+    return {
+      duration,
+      measured: readout.inferredSpeed,
+      expected: launcher.speed,
+      tolerance: 0.005,
+      unit: 'm/s',
+      label: 'v = (M+m)√(2gL(1−cos θmax)) / m',
+      detail: `θmax=${readout.maxAngleDeg.toFixed(3)}°, rise=${readout.riseHeight.toFixed(4)} m, photogate v=${gate.crossings[0].v.toFixed(3)} m/s, KE lost ${(readout.keLossFraction * 100).toFixed(1)}%`,
+    };
+  },
+  'mech-u4-glancing-collision': (world) => {
+    const a = getBody(world, 'ball-a');
+    const b = getBody(world, 'ball-b');
+    advance(world, 2.6, 1 / 960);
+    const px = a.mass * a.cannon.velocity.x + b.mass * b.cannon.velocity.x;
+    const pz = a.mass * a.cannon.velocity.z + b.mass * b.cannon.velocity.z;
+    near(px, 2, 0.03, 'p_x conserved');
+    near(pz, 0, 0.03, 'p_z conserved');
+    const speedSq = a.cannon.velocity.lengthSquared() + b.cannon.velocity.lengthSquared();
+    rel(speedSq, 4, 0.03, 'kinetic energy survives the glancing hit');
+    if (Math.abs(b.cannon.velocity.z) < 1e-3) throw new Error('target never scattered off-axis');
+    return {
+      duration: 2.6,
+      measured: Math.hypot(px, pz),
+      expected: 2,
+      tolerance: 0.03,
+      unit: 'kg·m/s',
+      label: '|Σp| = m v₀ with v₀² preserved',
+      detail: `A=(${a.cannon.velocity.x.toFixed(3)}, ${a.cannon.velocity.z.toFixed(3)}), B=(${b.cannon.velocity.x.toFixed(3)}, ${b.cannon.velocity.z.toFixed(3)}) m/s`,
+    };
+  },
+  'mech-u5-lever-balance': (world) => {
+    const lever = getLever(world, 'lever');
+    advance(world, 8.0, 1 / 960);
+    const readout = leverReadout(world, lever);
+    if (Math.abs(lever.theta) > 0.006) {
+      throw new Error(`beam did not settle level: θ=${(lever.theta * 180 / Math.PI).toFixed(3)}°`);
+    }
+    near(readout.leftTorque, readout.rightTorque, 0.05, 'left torque equals right torque');
+    return {
+      duration: 8.0,
+      measured: Math.abs(lever.theta),
+      expected: 0,
+      tolerance: 0.006,
+      unit: 'rad',
+      label: 'balanced lever settles level (Σ m d = 0)',
+      detail: `left τ=${readout.leftTorque.toFixed(3)}, right τ=${readout.rightTorque.toFixed(3)} N·m, tilt=${readout.angleDeg.toFixed(3)}°`,
+    };
+  },
+  'mech-u7-conical-pendulum': (world) => {
+    const pendulum = getPendulum(world, 'conical');
+    const alpha = (pendulum.amplitude * Math.PI) / 180;
+    const expected = 2 * Math.PI * Math.sqrt((pendulum.length * Math.cos(alpha)) / world.g);
+    let duration = 0;
+    const h = 1 / 960;
+    let tFirst = null;
+    let tSecond = null;
+    let prevTurns = 0;
+    for (let i = 0; i < Math.round(6 / h); i += 1) {
+      stepWorld(world, h, { h });
+      duration += h;
+      const turns = Math.floor(pendulum.phi / (2 * Math.PI));
+      if (turns > prevTurns) {
+        prevTurns = turns;
+        if (tFirst == null) tFirst = world.time;
+        else {
+          tSecond = world.time;
+          break;
+        }
+      }
+    }
+    if (tFirst == null || tSecond == null) throw new Error('conical sweep never completed two turns');
+    rel(pendulum.tension, pendulum.mass * world.g / Math.cos(alpha), 1e-9, 'string tension = mg / cos α');
+    return {
+      duration,
+      measured: tSecond - tFirst,
+      expected,
+      tolerance: 0.01,
+      unit: 's',
+      label: 'T = 2π√(L cos α / g)',
+      detail: `φ rate=${pendulum.phiDot.toFixed(5)} rad/s, tension=${pendulum.tension.toFixed(3)} N`,
+    };
+  },
   'em-u8-two-charges': (world) => {
     advance(world, 0.5, 1 / 480);
     const probe = world.em.probes[0];
@@ -577,6 +714,53 @@ const ANALYTICS = {
       unit: 'm',
       label: 'r = mv/(|q|B)',
       detail: `trail=${particle.trail.length} points`,
+    };
+  },
+  'em-u12-current-loop-axis': (world) => {
+    advance(world, 0.2, 1 / 480);
+    const loop = world.em.currentLoops[0];
+    const centre = world.em.probes.find((probe) => probe.id === 'probe-center');
+    const axis = world.em.probes.find((probe) => probe.id === 'probe-axis');
+    const Bc = magneticFieldAt(world.em, { x: centre.x, y: centre.y, z: centre.z });
+    const centreMag = Math.hypot(Bc.x, Bc.y, Bc.z);
+    const expectedCentre = (MU0 * loop.current) / (2 * loop.radius);
+    rel(centreMag, expectedCentre, 1e-9, 'B_centre = μ₀I / 2R');
+    const Ba = magneticFieldAt(world.em, { x: axis.x, y: axis.y, z: axis.z });
+    const axisMag = Math.hypot(Ba.x, Ba.y, Ba.z);
+    const height = axis.y - loop.y;
+    const expectedAxis = (MU0 * loop.current * loop.radius * loop.radius)
+      / (2 * Math.pow(loop.radius * loop.radius + height * height, 1.5));
+    rel(axisMag, expectedAxis, 1e-9, 'B_axis = μ₀IR² / 2(R²+h²)^1.5');
+    return {
+      duration: 0.2,
+      measured: centreMag,
+      expected: expectedCentre,
+      tolerance: 1e-9,
+      unit: 'T',
+      label: 'B = μ₀I / 2R at the centre (axis checked too)',
+      detail: `B_axis=${axisMag.toExponential(5)} vs ${expectedAxis.toExponential(5)} T at h=${height.toFixed(2)} m`,
+    };
+  },
+  'em-u12-solenoid-field': (world) => {
+    advance(world, 0.2, 1 / 480);
+    const solenoid = world.em.solenoids[0];
+    const inside = world.em.probes.find((probe) => probe.id === 'probe-in');
+    const outside = world.em.probes.find((probe) => probe.id === 'probe-out');
+    const Bi = magneticFieldAt(world.em, { x: inside.x, y: inside.y, z: inside.z });
+    const insideMag = Math.hypot(Bi.x, Bi.y, Bi.z);
+    const expectedInside = MU0 * solenoid.n * solenoid.current;
+    rel(insideMag, expectedInside, 1e-9, 'B_inside = μ₀ n I');
+    const Bo = magneticFieldAt(world.em, { x: outside.x, y: outside.y, z: outside.z });
+    const outsideMag = Math.hypot(Bo.x, Bo.y, Bo.z);
+    near(outsideMag, 0, 1e-15, 'ideal solenoid: exterior field is zero');
+    return {
+      duration: 0.2,
+      measured: insideMag,
+      expected: expectedInside,
+      tolerance: 1e-9,
+      unit: 'T',
+      label: 'B = μ₀ n I inside (outside ≈ 0)',
+      detail: `n=${solenoid.n.toFixed(0)} turns per m, outside=${outsideMag.toExponential(3)} T`,
     };
   },
   'em-u13-rail-terminal': (world) => {
