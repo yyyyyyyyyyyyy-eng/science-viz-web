@@ -11,7 +11,8 @@
 import { el } from '../js/ui.js';
 
 const STYLE_ID = 'sim-controls-style';
-const STYLE_HREF = 'css/sim-controls.css';
+// Version query matches the shared cache-bust token in index.html.
+const STYLE_HREF = 'css/sim-controls.css?v=20261119c';
 const RATES = [0.25, 0.5, 1, 2];
 const STEP = 1 / 60;
 

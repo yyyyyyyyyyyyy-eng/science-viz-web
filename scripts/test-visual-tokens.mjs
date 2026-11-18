@@ -411,9 +411,32 @@ const jsBust = /js\/app\.js\?v=[\w.-]+/.exec(indexHtml);
 check(jsBust != null, 'cache-bust: js/app.js loaded with a version query', jsBust ? jsBust[0] : 'missing');
 const labBust = /modules\/physics\/lab\/lab\.css\?v=[\w.-]+/.exec(readFileSync(new URL('../modules/physics/lab/index.js', import.meta.url).pathname, 'utf8'));
 check(labBust != null, 'cache-bust: injected lab.css carries a version query', labBust ? labBust[0] : 'missing');
-const sameV = [cssBust?.[0], jsBust?.[0], labBust?.[0]].map((v) => (v || '').split('?v=')[1]);
-check(sameV.every(Boolean) && new Set(sameV).size === 1,
-  'cache-bust: one shared version across document assets', sameV[0] || 'missing');
+
+// Every first-party injected stylesheet below is part of the shared-token
+// contract: it must carry the same ?v= as index.html. No blanket allowlist —
+// a missing or divergent token is a failure. (Vendor assets such as
+// vendor/katex/katex.min.css stay outside this contract.)
+const injectedStyles = [
+  ['topic-page.js', '../js/topic-page.js', /css\/topic-extras\.css\?v=[\w.-]+/],
+  ['exam-figures.js topic-extras', '../modules/physics/exam-figures.js', /css\/topic-extras\.css\?v=[\w.-]+/],
+  ['sim-controls.js', '../modules/sim-controls.js', /css\/sim-controls\.css\?v=[\w.-]+/],
+  ['practice.js', '../js/practice.js', /css\/practice-extras\.css\?v=[\w.-]+/],
+  ['search.js', '../js/search.js', /css\/search\.css\?v=[\w.-]+/],
+];
+const injectedBust = injectedStyles.map(([label, path, re]) => {
+  const m = re.exec(readFileSync(new URL(path, import.meta.url).pathname, 'utf8'));
+  check(m != null, `cache-bust: ${label} injects its stylesheet with a version query`, m ? m[0] : 'missing');
+  return m?.[0];
+});
+check(injectedBust[0] != null && injectedBust[0] === injectedBust[1],
+  'cache-bust: topic-extras href identical at both injection sites', injectedBust[0] || 'missing');
+
+const sameV = [cssBust?.[0], jsBust?.[0], labBust?.[0], ...injectedBust]
+  .map((v) => (v || '').split('?v=')[1]);
+const distinctV = [...new Set(sameV.filter(Boolean))];
+check(sameV.every(Boolean) && distinctV.length === 1,
+  'cache-bust: one shared version across document assets',
+  sameV.every(Boolean) ? distinctV.join(' | ') : 'missing token');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

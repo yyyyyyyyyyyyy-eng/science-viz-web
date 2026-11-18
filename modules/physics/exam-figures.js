@@ -4041,7 +4041,8 @@ export function figuresForTopic(topicOrId) {
 /* ======================= exam-figure lightbox ======================= */
 
 const EXTRAS_STYLE_ID = 'topic-extras-style';
-const EXTRAS_STYLE_HREF = 'css/topic-extras.css';
+// Version query matches the shared cache-bust token in index.html.
+const EXTRAS_STYLE_HREF = 'css/topic-extras.css?v=20261119c';
 
 function ensureExtrasStyle() {
   if (typeof document === 'undefined' || document.getElementById(EXTRAS_STYLE_ID)) return;
