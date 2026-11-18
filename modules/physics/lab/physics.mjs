@@ -146,6 +146,8 @@ export function createWorld({ g = 9.8, h = DEFAULT_H } = {}) {
     rods: [],
     orbits: [],
     tunnels: [],
+    ballistics: [],
+    levers: [],
     bodies: [],
     links: [],
     events: [],
@@ -1682,6 +1684,374 @@ export function resetPendulum(pendulum) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Ballistic pendulum (projectile catcher)                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A catcher bob hangs from a pivot. The first free projectile that reaches
+ * the bob embeds in it (perfectly inelastic catch): angular momentum about
+ * the pivot is conserved at the catch, then the loaded pendulum swings up
+ * while mechanical energy is conserved. The rise angle therefore measures
+ * the incoming speed — the classic two-step conservation lab:
+ * mv = (M+m)Lω at the catch, then (M+m)gL(1−cos θmax) = ½(M+m)L²ω².
+ */
+export function addBallistic(world, opts = {}) {
+  const {
+    x = 0,
+    y = 3.0,
+    z = 0,
+    length = 1.2,
+    bobMass = 0.6,
+    radius = 0.22,
+    damping = 0,
+    theta0 = 0,
+  } = opts;
+  const ballistic = {
+    id: assignId(world, 'ballistic', opts.id),
+    type: 'ballisticPendulum',
+    kind: 'ballistic',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    length: Math.max(0.2, length),
+    bobMass: Math.max(0.01, bobMass),
+    radius: Math.max(0.08, radius),
+    damping: Math.max(0, damping),
+    theta0: Math.max(-85, Math.min(85, theta0)),
+    theta: Math.max(-85, Math.min(85, theta0)) * DEG,
+    omega: 0,
+    time: 0,
+    caught: null,
+    maxTheta: Math.abs(Math.max(-85, Math.min(85, theta0)) * DEG),
+    catches: 0,
+    tension: 0,
+    mount: opts.mount ? cloneMount(opts.mount) : null,
+  };
+  world.ballistics.push(ballistic);
+  return ballistic;
+}
+
+export function getBallistic(world, id) {
+  return world.ballistics.find((b) => b.id === id) || null;
+}
+
+export function ballisticBob(ballistic) {
+  const theta = ballistic.theta;
+  return V(
+    ballistic.x + ballistic.length * Math.sin(theta),
+    ballistic.y - ballistic.length * Math.cos(theta),
+    ballistic.z,
+  );
+}
+
+/** Catcher mass: empty bob plus any embedded projectile. */
+export function ballisticEffectiveMass(ballistic) {
+  return ballistic.bobMass + (ballistic.caught?.mass || 0);
+}
+
+export function setBallisticLength(world, ballistic, length) {
+  ballistic.length = Math.max(0.2, length);
+  return ballistic.length;
+}
+
+export function setBallisticBobMass(world, ballistic, mass) {
+  ballistic.bobMass = Math.max(0.01, mass);
+  return ballistic.bobMass;
+}
+
+export function setBallisticDamping(world, ballistic, damping) {
+  ballistic.damping = Math.max(0, damping);
+  return ballistic.damping;
+}
+
+/**
+ * Pedagogical readout for the inspector: swing angle, rise height, the
+ * speed inferred from the rise, and how much kinetic energy the catch lost.
+ */
+export function ballisticReadout(world, ballistic) {
+  const L = ballistic.length;
+  const g = world.g;
+  const rise = L * (1 - Math.cos(ballistic.maxTheta));
+  const m = ballistic.caught?.mass || 0;
+  const inferred = m > 0 && rise > 1e-9
+    ? (ballistic.bobMass + m) / m * Math.sqrt(2 * g * rise)
+    : 0;
+  const keBefore = ballistic.caught ? 0.5 * m * ballistic.caught.speed ** 2 : 0;
+  const keAfter = ballistic.caught
+    ? 0.5 * (ballistic.bobMass + m) * L * L * ballistic.caught.omega0 ** 2
+    : 0;
+  return {
+    angleDeg: (ballistic.theta * 180) / Math.PI,
+    maxAngleDeg: (ballistic.maxTheta * 180) / Math.PI,
+    riseHeight: rise,
+    inferredSpeed: inferred,
+    catchMass: m,
+    catches: ballistic.catches,
+    tension: ballistic.tension,
+    effectiveMass: ballisticEffectiveMass(ballistic),
+    keBefore,
+    keAfter,
+    keLossFraction: keBefore > 1e-12 ? 1 - keAfter / keBefore : 0,
+  };
+}
+
+export function resetBallistic(ballistic) {
+  ballistic.theta = ballistic.theta0 * DEG;
+  ballistic.omega = 0;
+  ballistic.time = 0;
+  ballistic.caught = null;
+  ballistic.catches = 0;
+  ballistic.maxTheta = Math.abs(ballistic.theta0 * DEG);
+  ballistic.tension = 0;
+}
+
+function ballisticCatchRadius(ballistic, body) {
+  const bodyR = body.radius || body.halfHeight || 0.2;
+  return Math.max(0.22, ballistic.radius + bodyR + 0.08);
+}
+
+/** Absorb the first free body that reaches the catcher bob. */
+function tryBallisticCatch(world, ballistic) {
+  if (ballistic.catches > 0) return;
+  const bob = ballisticBob(ballistic);
+  const theta = ballistic.theta;
+  // Swing-plane tangent for the current arm angle (the swing stays in the
+  // x-y plane at the pendulum's z, like the simple pendulum).
+  const tangentX = Math.cos(theta);
+  const tangentY = Math.sin(theta);
+  const pivotV = ballistic.mount ? mountVelocity(world, ballistic.mount, V(ballistic.x, ballistic.y, ballistic.z)) : null;
+  for (const body of world.bodies) {
+    // Seated bodies belong to other apparatus; only free flyers are caught.
+    if (body.attachment) continue;
+    const p = body.cannon.position;
+    if (Math.hypot(p.x - bob.x, p.y - bob.y, p.z - bob.z) > ballisticCatchRadius(ballistic, body)) continue;
+    const v = body.cannon.velocity;
+    const rel = pivotV ? v.vsub(pivotV) : v;
+    if (rel.length() < 0.05) continue;
+    const vPerp = rel.x * tangentX + rel.y * tangentY;
+    if (Math.abs(vPerp) < 0.02) continue;
+    const m = body.mass;
+    const M = ballistic.bobMass;
+    const L = ballistic.length;
+    // Angular momentum about the pivot is conserved through the catch.
+    const I0 = M * L * L;
+    const omega0 = (I0 * ballistic.omega + m * vPerp * L) / ((M + m) * L * L);
+    ballistic.omega = omega0;
+    ballistic.caught = {
+      mass: m,
+      speed: Math.abs(vPerp),
+      totalSpeed: rel.length(),
+      omega0,
+      theta0: theta,
+    };
+    ballistic.catches = 1;
+    ballistic.maxTheta = Math.max(ballistic.maxTheta, Math.abs(theta));
+    const launcherId = body.launcherId;
+    removeBody(world, body);
+    if (launcherId) {
+      const launcher = getLauncher(world, launcherId);
+      if (launcher && launcher.projectileId === body.id) {
+        launcher.projectileId = null;
+        launcher.flight = null;
+      }
+    }
+    world.events.push({
+      type: 'catch',
+      ballisticId: ballistic.id,
+      bodyId: body.id,
+      mass: m,
+      speed: Math.abs(vPerp),
+      time: world.time,
+    });
+    return;
+  }
+}
+
+function stepBallistic(world, ballistic, h) {
+  tryBallisticCatch(world, ballistic);
+  const L = Math.max(0.05, ballistic.length);
+  const g = world.g;
+  const damp = ballistic.damping;
+  const accel = (theta, omega) => -(g / L) * Math.sin(theta) - damp * omega;
+  const a1 = accel(ballistic.theta, ballistic.omega);
+  const theta2 = ballistic.theta + ballistic.omega * h + 0.5 * a1 * h * h;
+  const a2 = accel(theta2, ballistic.omega + a1 * h);
+  const omega2 = ballistic.omega + 0.5 * (a1 + a2) * h;
+  ballistic.theta = theta2;
+  ballistic.omega = omega2;
+  ballistic.time += h;
+  ballistic.maxTheta = Math.max(ballistic.maxTheta, Math.abs(theta2));
+  ballistic.tension = ballisticEffectiveMass(ballistic) * (g * Math.cos(theta2) + L * omega2 * omega2);
+}
+
+/* ------------------------------------------------------------------ */
+/* Balance lever (torque equilibrium)                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A beam pivots on a fulcrum. Hanger masses load the beam at signed
+ * distances d (positive to the right); the beam's own centre of mass sits
+ * `beamDrop` below the pivot, so the lever is a stable physical pendulum:
+ * it settles level when Σ m d = 0 and tilts to atan(−Σ m d /(M h)) when
+ * the hangers are unbalanced. Hangers hang on cords of length `hang`, so
+ * each mass sits at the beam point (d cosθ, −d sinθ) plus a vertical drop.
+ */
+export function addLever(world, opts = {}) {
+  const {
+    x = 0,
+    y = 1.2,
+    z = 0,
+    arm = 1.2,
+    beamMass = 2.4,
+    beamDrop = 0.18,
+    damping = 1.2,
+    hang = 0.4,
+    theta0 = 8,
+    hangers = [],
+  } = opts;
+  const lever = {
+    id: assignId(world, 'lever', opts.id),
+    type: 'lever',
+    kind: 'lever',
+    name: opts.name || '',
+    x,
+    y,
+    z,
+    arm: Math.max(0.4, arm),
+    beamMass: Math.max(0.05, beamMass),
+    beamDrop: Math.max(0.02, beamDrop),
+    damping: Math.max(0, damping),
+    hang: Math.max(0.1, hang),
+    theta0: Math.max(-85, Math.min(85, theta0)),
+    theta: Math.max(-85, Math.min(85, theta0)) * DEG,
+    omega: 0,
+    time: 0,
+    hangers: (Array.isArray(hangers) ? hangers : []).map((hg) => ({
+      d: clamp(hg.d ?? 0, -Math.max(0.4, arm), Math.max(0.4, arm)),
+      mass: Math.max(0.01, hg.mass ?? 1),
+    })).slice(0, 6),
+    mount: opts.mount ? cloneMount(opts.mount) : null,
+  };
+  world.levers.push(lever);
+  return lever;
+}
+
+export function getLever(world, id) {
+  return world.levers.find((l) => l.id === id) || null;
+}
+
+/** Moment of inertia about the pivot at the current tilt. */
+export function leverInertia(lever, theta = lever.theta) {
+  const beam = lever.beamMass * ((2 * lever.arm) ** 2 / 12 + lever.beamDrop ** 2);
+  let total = beam;
+  for (const hg of lever.hangers) {
+    total += hg.mass * (hg.d * hg.d + lever.hang * lever.hang + 2 * hg.d * lever.hang * Math.sin(theta));
+  }
+  return total;
+}
+
+/** Signed gravitational torque about the pivot (CCW positive) at angle θ. */
+export function leverTorque(world, lever, theta = lever.theta) {
+  let load = lever.beamMass * lever.beamDrop * Math.sin(theta);
+  for (const hg of lever.hangers) {
+    load += hg.mass * hg.d * Math.cos(theta);
+  }
+  return -world.g * load;
+}
+
+/** Static-equilibrium tilt for the current hanger loads. */
+export function leverEquilibriumAngle(lever) {
+  let imbalance = 0;
+  for (const hg of lever.hangers) imbalance += hg.mass * hg.d;
+  return Math.atan(-imbalance / (lever.beamMass * lever.beamDrop));
+}
+
+export function setLeverArm(world, lever, arm) {
+  lever.arm = Math.max(0.4, arm);
+  for (const hg of lever.hangers) hg.d = clamp(hg.d, -lever.arm, lever.arm);
+  return lever.arm;
+}
+
+export function setLeverBeamMass(world, lever, mass) {
+  lever.beamMass = Math.max(0.05, mass);
+  return lever.beamMass;
+}
+
+export function setLeverBeamDrop(world, lever, drop) {
+  lever.beamDrop = Math.max(0.02, drop);
+  return lever.beamDrop;
+}
+
+export function setLeverDamping(world, lever, damping) {
+  lever.damping = Math.max(0, damping);
+  return lever.damping;
+}
+
+export function setLeverHanger(world, lever, index, { d, mass } = {}) {
+  const hg = lever.hangers[index];
+  if (!hg) return null;
+  if (Number.isFinite(d)) hg.d = clamp(d, -lever.arm, lever.arm);
+  if (Number.isFinite(mass)) hg.mass = Math.max(0.01, mass);
+  return { ...hg };
+}
+
+export function addLeverHanger(world, lever, { d = 0.4, mass = 1 } = {}) {
+  if (lever.hangers.length >= 6) return null;
+  lever.hangers.push({ d: clamp(d, -lever.arm, lever.arm), mass: Math.max(0.01, mass) });
+  return lever.hangers[lever.hangers.length - 1];
+}
+
+export function removeLeverHanger(world, lever, index) {
+  if (index < 0 || index >= lever.hangers.length) return false;
+  lever.hangers.splice(index, 1);
+  return true;
+}
+
+/** Pedagogical readout: side torques, imbalance and predicted rest angle. */
+export function leverReadout(world, lever) {
+  const g = world.g;
+  const cos = Math.cos(lever.theta);
+  let left = 0;
+  let right = 0;
+  let imbalance = 0;
+  for (const hg of lever.hangers) {
+    if (hg.d < 0) left += hg.mass * -hg.d;
+    else right += hg.mass * hg.d;
+    imbalance += hg.mass * hg.d;
+  }
+  return {
+    angleDeg: (lever.theta * 180) / Math.PI,
+    leftTorque: g * left * cos,
+    rightTorque: g * right * cos,
+    beamTorque: -g * lever.beamMass * lever.beamDrop * Math.sin(lever.theta),
+    netTorque: leverTorque(world, lever),
+    imbalance,
+    inertia: leverInertia(lever),
+    equilibriumDeg: (leverEquilibriumAngle(lever) * 180) / Math.PI,
+    balanced: Math.abs(imbalance) < 1e-9,
+  };
+}
+
+export function resetLever(lever) {
+  lever.theta = lever.theta0 * DEG;
+  lever.omega = 0;
+  lever.time = 0;
+}
+
+function stepLever(world, lever, h) {
+  const accel = (theta, omega) => (leverTorque(world, lever, theta) - lever.damping * omega)
+    / leverInertia(lever, theta);
+  const a1 = accel(lever.theta, lever.omega);
+  const theta2 = lever.theta + lever.omega * h + 0.5 * a1 * h * h;
+  const a2 = accel(theta2, lever.omega + a1 * h);
+  const omega2 = lever.omega + 0.5 * (a1 + a2) * h;
+  lever.theta = theta2;
+  lever.omega = omega2;
+  lever.time += h;
+}
+
+/* ------------------------------------------------------------------ */
 /* Movable wedge                                                      */
 /* ------------------------------------------------------------------ */
 
@@ -2700,6 +3070,8 @@ export function allMountableEntities(world) {
     ...world.rods,
     ...world.orbits,
     ...world.tunnels,
+    ...world.ballistics,
+    ...world.levers,
     ...world.bodies.filter((b) => !b.transient),
   ];
   if (world.em) {
@@ -2738,6 +3110,8 @@ export function findSceneEntity(world, type, id) {
     if (type === 'rod') return world.rods.find((x) => x.id === id) || null;
     if (type === 'orbit') return world.orbits.find((x) => x.id === id) || null;
     if (type === 'tunnel') return world.tunnels.find((x) => x.id === id) || null;
+    if (type === 'ballisticPendulum') return world.ballistics.find((x) => x.id === id) || null;
+    if (type === 'lever') return world.levers.find((x) => x.id === id) || null;
     if (type === 'link') return world.links.find((x) => x.id === id) || null;
     return null;
   }
@@ -3010,6 +3384,16 @@ function mountTargetSupport(world, target, source, opts = {}) {
     if (!tunnel) return null;
     return { point: V(tunnel.x, tunnel.y, tunnel.z), carrier: tunnel };
   }
+  if (type === 'ballisticPendulum') {
+    const ballistic = getBallistic(world, id);
+    if (!ballistic) return null;
+    return { point: V(ballistic.x, ballistic.y, ballistic.z), carrier: ballistic };
+  }
+  if (type === 'lever') {
+    const lever = getLever(world, id);
+    if (!lever) return null;
+    return { point: V(lever.x, lever.y, lever.z), carrier: lever };
+  }
   if (isEMEntityType(type)) {
     const em = findSceneEntity(world, type, id);
     if (!em) return null;
@@ -3053,7 +3437,8 @@ function sourceMountOffset(source, target) {
   if (st === 'rod') return V(0, Math.max(0, source.y - 0.1), 0);
   if (st === 'orbit') return V(0, 0.62, 0);
   if (st === 'tunnel') return V(0, source.R, 0);
-  if (st === 'launcher' || st === 'sensor' || st === 'barrier' || st === 'pendulum') return V();
+  if (st === 'launcher' || st === 'sensor' || st === 'barrier' || st === 'pendulum'
+    || st === 'ballisticPendulum' || st === 'lever') return V();
   if (st === 'emCharge') return V(0, 0.8, 0);
   if (st === 'emSphere') return V(0, source.R, 0);
   if (st === 'emLine') return V(0, 0.4, 0);
@@ -3382,6 +3767,8 @@ function snapTargetCandidates(world, source) {
     ...world.rods,
     ...world.orbits,
     ...world.tunnels,
+    ...world.ballistics,
+    ...world.levers,
     ...world.bodies.filter((b) => !b.transient),
   ];
   if (world.em) {
@@ -3531,6 +3918,8 @@ export function floorRestHeight(entity) {
   if (entity.type === 'rod') return 0.1;
   if (entity.type === 'orbit') return 0.62;
   if (entity.type === 'tunnel') return entity.R;
+  if (entity.type === 'ballisticPendulum') return Math.max(0.6, entity.length * 0.8);
+  if (entity.type === 'lever') return 0.45;
   if (entity.type === 'emCharge') return 0.8;
   if (entity.type === 'emSphere') return entity.R;
   if (entity.type === 'emLine') return 0.4;
@@ -3597,6 +3986,8 @@ export function updateMountedApparatus(world) {
     ...world.rods,
     ...world.orbits,
     ...world.tunnels,
+    ...world.ballistics,
+    ...world.levers,
     ...(world.em ? [
       ...world.em.charges, ...world.em.spheres, ...world.em.lines, ...world.em.planes,
       ...world.em.probes, ...world.em.particles, ...world.em.capacitors, ...world.em.circuits,
@@ -5204,6 +5595,7 @@ export function substep(world, h) {
   for (const rod of world.rods) stepRod(rod, h);
   for (const orbit of world.orbits) stepOrbit(orbit, h);
   for (const tunnel of world.tunnels) stepTunnel(tunnel, h);
+  for (const lever of world.levers) stepLever(world, lever, h);
   for (const elevator of world.elevators) elevator.time += h;
 
   for (const body of world.bodies) {
@@ -5244,6 +5636,7 @@ export function substep(world, h) {
   for (const pulley of world.pulleys) projectPulley(world, pulley, h);
   updateMountedApparatus(world);
   for (const launcher of world.launchers) updateLauncher(world, launcher);
+  for (const ballistic of world.ballistics) stepBallistic(world, ballistic, h);
   processImpacts(world);
   sampleMeters(world, h);
   for (const sensor of world.sensors) updateSensor(world, sensor, world.time + h, h);
@@ -5528,6 +5921,14 @@ export function captureInitial(world) {
     tunnels: world.tunnels.map((t) => ({
       id: t.id, s: t.s, v: t.v, time: t.time,
     })),
+    ballistics: world.ballistics.map((b) => ({
+      id: b.id, theta: b.theta, omega: b.omega, time: b.time,
+      caught: b.caught ? { ...b.caught } : null,
+      maxTheta: b.maxTheta, catches: b.catches, tension: b.tension,
+    })),
+    levers: world.levers.map((l) => ({
+      id: l.id, theta: l.theta, omega: l.omega, time: l.time,
+    })),
   };
   captureEMInitial(world.em);
 }
@@ -5636,6 +6037,32 @@ export function resetWorld(world) {
     if (saved) tunnel.initial = { s: saved.s, v: saved.v, time: saved.time };
     resetTunnel(tunnel);
   }
+  const ballisticState = new Map((init.ballistics || []).map((b) => [b.id, b]));
+  for (const ballistic of world.ballistics) {
+    const saved = ballisticState.get(ballistic.id);
+    if (saved) {
+      ballistic.theta = saved.theta;
+      ballistic.omega = saved.omega;
+      ballistic.time = saved.time;
+      ballistic.caught = saved.caught ? { ...saved.caught } : null;
+      ballistic.maxTheta = saved.maxTheta;
+      ballistic.catches = saved.catches;
+      ballistic.tension = saved.tension;
+    } else {
+      resetBallistic(ballistic);
+    }
+  }
+  const leverState = new Map((init.levers || []).map((l) => [l.id, l]));
+  for (const lever of world.levers) {
+    const saved = leverState.get(lever.id);
+    if (saved) {
+      lever.theta = saved.theta;
+      lever.omega = saved.omega;
+      lever.time = saved.time;
+    } else {
+      resetLever(lever);
+    }
+  }
   for (const elevator of world.elevators) elevator.time = 0;
   const byId = new Map(init.bodyStates.map((s) => [s.id, s]));
   for (const body of world.bodies) {
@@ -5714,6 +6141,8 @@ export function clearWorld(world) {
   world.rods = [];
   world.orbits = [];
   world.tunnels = [];
+  world.ballistics = [];
+  world.levers = [];
   world.links = [];
   world.events = [];
   world.pendingImpacts = [];
@@ -5915,13 +6344,13 @@ export function linkReading(world, link) {
 /* Scene serialization (undo, save/load, time scrub)                   */
 /* ------------------------------------------------------------------ */
 
-export const SCENE_VERSION = 3;
+export const SCENE_VERSION = 4;
 
 const SCENE_ARRAY_KEYS = [
   'surfaces', 'loops', 'turntables', 'hcircles', 'launchers', 'pulleys',
   'barriers', 'pendulums', 'wedges', 'sensors', 'fans', 'oscillators',
   'torsionPendulums', 'elevators', 'carriages', 'angularTables', 'rods',
-  'orbits', 'tunnels', 'bodies', 'links',
+  'orbits', 'tunnels', 'ballistics', 'levers', 'bodies', 'links',
 ];
 
 function sceneVec(v) {
@@ -6191,6 +6620,22 @@ export function serializeScene(world, { runtime = false } = {}) {
       id: t.id, name: t.name || '', x: t.x, y: t.y, z: t.z,
       R: t.R, M: t.M, G: t.G, s: t.s, v: t.v, time: t.time,
       mount: t.mount ? { ...t.mount } : null,
+    })),
+    ballistics: world.ballistics.map((b) => ({
+      id: b.id, name: b.name || '', x: b.x, y: b.y, z: b.z,
+      length: b.length, bobMass: b.bobMass, radius: b.radius, damping: b.damping,
+      theta0: b.theta0, theta: b.theta, omega: b.omega, time: b.time,
+      caught: b.caught ? { ...b.caught } : null,
+      maxTheta: b.maxTheta, catches: b.catches, tension: b.tension,
+      mount: b.mount ? { ...b.mount } : null,
+    })),
+    levers: world.levers.map((l) => ({
+      id: l.id, name: l.name || '', x: l.x, y: l.y, z: l.z,
+      arm: l.arm, beamMass: l.beamMass, beamDrop: l.beamDrop,
+      damping: l.damping, hang: l.hang, theta0: l.theta0,
+      theta: l.theta, omega: l.omega, time: l.time,
+      hangers: l.hangers.map((hg) => ({ ...hg })),
+      mount: l.mount ? { ...l.mount } : null,
     })),
     bodies: world.bodies.filter((b) => !b.transient).map((b) => ({
       id: b.id,
@@ -6468,6 +6913,52 @@ export function deserializeScene(world, data, { runtime = false } = {}) {
       tunnel.v = t.v ?? 0;
       tunnel.time = t.time ?? 0;
       tunnel.prevS = tunnel.s;
+    }
+  }
+  for (const b of data.ballistics || []) {
+    const ballistic = addBallistic(world, {
+      id: b.id,
+      name: b.name || '',
+      x: b.x ?? 0,
+      y: b.y ?? 3,
+      z: b.z ?? 0,
+      length: b.length ?? 1.2,
+      bobMass: b.bobMass ?? 0.6,
+      radius: b.radius ?? 0.22,
+      damping: b.damping ?? 0,
+      theta0: b.theta0 ?? 0,
+      mount: b.mount || null,
+    });
+    if (runtime) {
+      ballistic.theta = b.theta ?? ballistic.theta;
+      ballistic.omega = b.omega ?? 0;
+      ballistic.time = b.time ?? 0;
+      ballistic.caught = b.caught ? { ...b.caught } : null;
+      ballistic.maxTheta = b.maxTheta ?? Math.abs(ballistic.theta);
+      ballistic.catches = b.catches ?? (ballistic.caught ? 1 : 0);
+      ballistic.tension = b.tension ?? 0;
+    }
+  }
+  for (const l of data.levers || []) {
+    const lever = addLever(world, {
+      id: l.id,
+      name: l.name || '',
+      x: l.x ?? 0,
+      y: l.y ?? 1.2,
+      z: l.z ?? 0,
+      arm: l.arm ?? 1.2,
+      beamMass: l.beamMass ?? 2.4,
+      beamDrop: l.beamDrop ?? 0.18,
+      damping: l.damping ?? 1.2,
+      hang: l.hang ?? 0.4,
+      theta0: l.theta0 ?? 8,
+      hangers: l.hangers || [],
+      mount: l.mount || null,
+    });
+    if (runtime) {
+      lever.theta = l.theta ?? lever.theta;
+      lever.omega = l.omega ?? 0;
+      lever.time = l.time ?? 0;
     }
   }
   for (const l of data.links || []) {

@@ -7,7 +7,7 @@ import * as THREE from '../../../vendor/three/three.module.js';
 import { OrbitControls } from '../../../vendor/three/controls/OrbitControls.js';
 import { TransformControls } from '../../../vendor/three/controls/TransformControls.js';
 import { themeColors } from '../../../js/theme.js';
-import { DEG, getSurface, getTurntable, pendulumBob, surfaceFrame, surfaceTopPoint } from './physics.mjs';
+import { DEG, ballisticBob, getSurface, getTurntable, pendulumBob, surfaceFrame, surfaceTopPoint } from './physics.mjs';
 import { createEMView } from './em/view.js';
 import { emEntityById } from './em/physics.mjs';
 
@@ -60,6 +60,10 @@ function signatureOf(entity) {
       return `${entity.type}`;
     case 'tunnel':
       return `${entity.type}:${entity.R}`;
+    case 'ballisticPendulum':
+      return `${entity.type}:${entity.length}:${entity.radius}:${entity.bobMass}:${entity.caught ? 1 : 0}`;
+    case 'lever':
+      return `${entity.type}:${entity.arm}:${entity.beamMass}:${entity.hangers.length}`;
     default:
       return entity.type;
   }
@@ -877,6 +881,88 @@ export function createLabView(host, opts = {}) {
     return { root, string, bob, sig: signatureOf(entity) };
   }
 
+  function makeBallistic(entity) {
+    const root = makeRoot(entity);
+    const postH = Math.max(0.2, entity.y);
+    const postGeo = new THREE.BoxGeometry(0.1, postH, 0.1);
+    const post = new THREE.Mesh(postGeo, materials.wheel);
+    post.position.set(0, -postH / 2, -0.34);
+    post.castShadow = true;
+    root.add(post);
+    const armGeo = new THREE.BoxGeometry(0.1, 0.1, 0.56);
+    const arm = new THREE.Mesh(armGeo, materials.wheel);
+    arm.position.set(0, 0, -0.18);
+    root.add(arm);
+    const pivotGeo = new THREE.SphereGeometry(0.055, 10, 8);
+    const pivot = new THREE.Mesh(pivotGeo, materials.accent);
+    root.add(pivot);
+    const stringGeo = new THREE.BufferGeometry();
+    stringGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+    const string = new THREE.Line(stringGeo, materials.line);
+    string.frustumCulled = false;
+    string.userData = { ...NO_PICK };
+    root.add(string);
+    // The catcher is a hollow-looking block that visibly holds the ball.
+    const boxSide = Math.max(0.3, entity.radius * 1.6);
+    const bobGeo = new THREE.BoxGeometry(boxSide, boxSide, boxSide);
+    const bob = new THREE.Mesh(bobGeo, materials.physics);
+    bob.castShadow = true;
+    root.add(bob);
+    addEdges(bob, bobGeo);
+    const caughtGeo = new THREE.SphereGeometry(Math.max(0.05, entity.radius * 0.5), 14, 10);
+    const caught = new THREE.Mesh(caughtGeo, materials.accent);
+    caught.visible = false;
+    caught.userData = { ...NO_PICK };
+    root.add(caught);
+    root.position.set(entity.x, entity.y, entity.z);
+    return { root, string, bob, caught, sig: signatureOf(entity) };
+  }
+
+  function makeLever(entity) {
+    const root = makeRoot(entity);
+    const postH = Math.max(0.3, entity.y);
+    const postGeo = new THREE.BoxGeometry(0.16, postH, 0.16);
+    const post = new THREE.Mesh(postGeo, materials.wheel);
+    post.position.y = -entity.y + postH / 2;
+    post.castShadow = true;
+    root.add(post);
+    const hubGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.26, 16);
+    const hub = new THREE.Mesh(hubGeo, materials.accent);
+    hub.rotation.x = Math.PI / 2;
+    root.add(hub);
+    const beamGroup = new THREE.Group();
+    const beamGeo = new THREE.BoxGeometry(entity.arm * 2, 0.09, 0.16);
+    const beam = new THREE.Mesh(beamGeo, materials.physics);
+    beam.castShadow = true;
+    beamGroup.add(beam);
+    addEdges(beam, beamGeo);
+    // Beam-borne pointer: reads against the post to visualise the tilt.
+    const pointerGeo = new THREE.BoxGeometry(0.045, 0.34, 0.045);
+    const pointer = new THREE.Mesh(pointerGeo, materials.accent);
+    pointer.position.y = -0.2;
+    beamGroup.add(pointer);
+    root.add(beamGroup);
+    const cordGeo = new THREE.BufferGeometry();
+    cordGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+    const cords = [];
+    const masses = [];
+    for (let i = 0; i < entity.hangers.length; i += 1) {
+      const cord = new THREE.Line(cordGeo.clone(), materials.line);
+      cord.frustumCulled = false;
+      cord.userData = { ...NO_PICK };
+      root.add(cord);
+      cords.push(cord);
+      const massGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+      const mass = new THREE.Mesh(massGeo, materials.wheel);
+      mass.castShadow = true;
+      root.add(mass);
+      addEdges(mass, massGeo);
+      masses.push(mass);
+    }
+    root.position.set(entity.x, entity.y, entity.z);
+    return { root, beamGroup, cords, masses, sig: signatureOf(entity) };
+  }
+
   function makeWedge(entity) {
     const root = makeRoot(entity);
     const L = entity.length;
@@ -1340,6 +1426,8 @@ export function createLabView(host, opts = {}) {
     else if (entity.type === 'rod') visual = makeRod(entity);
     else if (entity.type === 'orbit') visual = makeOrbit(entity);
     else if (entity.type === 'tunnel') visual = makeTunnel(entity);
+    else if (entity.type === 'ballisticPendulum') visual = makeBallistic(entity);
+    else if (entity.type === 'lever') visual = makeLever(entity);
     else if (entity.type === 'body') {
       if (entity.kind === 'cart') visual = makeCart(entity);
       else if (entity.kind === 'ball') visual = makeBall(entity);
@@ -1527,6 +1615,8 @@ export function createLabView(host, opts = {}) {
       ...world.rods,
       ...world.orbits,
       ...world.tunnels,
+      ...world.ballistics,
+      ...world.levers,
       ...world.bodies,
       ...world.links,
     ];
@@ -1689,6 +1779,33 @@ export function createLabView(host, opts = {}) {
       } else if (entity.type === 'tunnel') {
         visual.root.position.set(entity.x, entity.y, entity.z);
         visual.ball.position.set(entity.s, 0, 0);
+      } else if (entity.type === 'ballisticPendulum') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+        const bob = ballisticBob(entity);
+        visual.bob.position.set(bob.x - entity.x, bob.y - entity.y, bob.z - entity.z);
+        const attr = visual.string.geometry.getAttribute('position');
+        attr.setXYZ(0, 0, 0, 0);
+        attr.setXYZ(1, visual.bob.position.x, visual.bob.position.y, visual.bob.position.z);
+        attr.needsUpdate = true;
+        visual.string.geometry.computeBoundingSphere();
+        visual.caught.visible = !!entity.caught;
+      } else if (entity.type === 'lever') {
+        visual.root.position.set(entity.x, entity.y, entity.z);
+        visual.beamGroup.rotation.z = entity.theta;
+        const cos = Math.cos(entity.theta);
+        const sin = Math.sin(entity.theta);
+        for (let i = 0; i < entity.hangers.length && i < visual.cords.length; i += 1) {
+          const hg = entity.hangers[i];
+          const bx = hg.d * cos;
+          const by = -hg.d * sin;
+          const cord = visual.cords[i];
+          const attr = cord.geometry.getAttribute('position');
+          attr.setXYZ(0, bx, by, 0);
+          attr.setXYZ(1, bx, by - entity.hang, 0);
+          attr.needsUpdate = true;
+          cord.geometry.computeBoundingSphere();
+          visual.masses[i].position.set(bx, by - entity.hang - 0.1, 0);
+        }
       } else if (entity.type === 'body') {
         visual.root.position.copy(v3(entity.cannon.position));
         if (entity.kind === 'cart') {

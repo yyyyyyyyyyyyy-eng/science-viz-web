@@ -7,10 +7,12 @@
 import {
   addAngularTable,
   addBall,
+  addBallistic,
   addBlock,
   addCart,
   addFan,
   addLauncher,
+  addLever,
   addLink,
   addLoop,
   addPendulum,
@@ -19,6 +21,7 @@ import {
   addSensor,
   addSurface,
   addTurntable,
+  addWedge,
   addAnchor,
   attachBodyToLoop,
   attachBodyToPulley,
@@ -27,18 +30,21 @@ import {
   createWorld,
   setBodyCollisionRestitution,
   serializeScene,
+  setSensorTarget,
 } from './physics.mjs';
 import {
   addCapacitor,
   addChargedSphere,
   addCircuit,
   addCircuitComponent,
+  addCurrentLoop,
   addInductionCoil,
   addMagneticWire,
   addParticle,
   addPointCharge,
   addProbe,
   addRail,
+  addSolenoid,
   addUniformField,
   connectCircuit,
 } from './em/physics.mjs';
@@ -243,6 +249,30 @@ export const PRESETS = [
     },
   },
 
+  {
+    id: 'mech-u2-wedge-recoil',
+    title: '楔块反冲 · Wedge recoil',
+    description: '光滑楔放在无摩擦地面上，滑块下滑时楔向反方向滑动，系统水平动量保持为零。 · A block slides down a smooth wedge on a frictionless floor; the wedge recoils the other way and the pair keeps zero horizontal momentum.',
+    unit: 'mech-u2',
+    cedRef: 'mech-u2',
+    mode: 'mechanics',
+    required: ['wedge', 'body'],
+    recommended: { sensors: ['motion'], graphs: false },
+    focus: { type: 'body', id: 'block' },
+    build() {
+      const world = mechWorld();
+      addWedge(world, {
+        id: 'wedge', name: '光滑楔 · Smooth wedge', x: 0, baseY: 0, z: 0,
+        angle: 20, length: 3.4, width: 1.6, mass: 5, muFloor: 0, blockMu: 0, restitution: 0,
+      });
+      const block = addBlock(world, { id: 'block', name: '滑块 · Block', mass: 1, size: 0.4, x: -0.4, y: 1.0, z: 0 });
+      block.v0 = 0;
+      applyInitialVelocity(world, block);
+      motionSensor(world, { x: -5, y: 1.0, range: 12, face: 1 });
+      return scene(world);
+    },
+  },
+
   /* ------------------------------- mech-u3 ------------------------------- */
   {
     id: 'mech-u3-vertical-spring',
@@ -343,6 +373,61 @@ export const PRESETS = [
     },
   },
 
+  {
+    id: 'mech-u4-ballistic-pendulum',
+    title: '冲击摆测速 · Ballistic pendulum',
+    description: '弹簧枪射出的小球嵌入摆锤：嵌入时角动量守恒、上摆时机械能守恒，由最大摆角反推射出速度，并与光电门读数对比。 · The spring gun embeds a ball in the catcher: angular momentum survives the catch, energy survives the swing, and the rise angle infers the launch speed to compare with the photogate.',
+    unit: 'mech-u4',
+    cedRef: 'mech-u4',
+    mode: 'mechanics',
+    required: ['launcher', 'ballisticPendulum'],
+    recommended: { sensors: ['photogate', 'motion'], graphs: false },
+    focus: { type: 'ballisticPendulum', id: 'catcher' },
+    build() {
+      const world = mechWorld();
+      addLauncher(world, {
+        id: 'launcher', name: '弹簧枪 · Spring gun', x: -0.3, y: 0, z: 0,
+        angle: 0, speed: 6, height: 1.83, azimuth: 0, mass: 0.05, radius: 0.09,
+      });
+      addBallistic(world, {
+        id: 'catcher', name: '冲击摆 · Ballistic pendulum', x: 1.6, y: 2.9, z: 0,
+        length: 1.2, bobMass: 0.6, radius: 0.22, damping: 0,
+      });
+      photogate(world, { x: 0.75, y: 1.83, z: 0, width: 2, height: 1.6 });
+      const motion = motionSensor(world, { x: -2.4, y: 1.2, range: 14, face: 1 });
+      setSensorTarget(world, motion, 'launcher', { type: 'launcher' });
+      return scene(world);
+    },
+  },
+  {
+    id: 'mech-u4-glancing-collision',
+    title: '二维斜碰 · Two-dimensional glancing collision',
+    description: '零重力平面内入射球斜碰静止球：动量矢量守恒、动能近似保持，散射方向由接触法线决定。 · In a g = 0 plane an incoming ball clips a resting ball off-centre: momentum stays a conserved vector, energy survives, and the scatter follows the contact normal.',
+    unit: 'mech-u4',
+    cedRef: 'mech-u4',
+    mode: 'mechanics',
+    required: ['body'],
+    recommended: { sensors: [], graphs: false },
+    focus: { type: 'body', id: 'ball-a' },
+    build() {
+      const world = mechWorld(0);
+      setBodyCollisionRestitution(world, 1);
+      const a = addBall(world, {
+        id: 'ball-a', name: '入射球 · Incoming ball', mass: 1, radius: 0.2,
+        x: -2.5, y: 0.2, z: 0.3,
+      });
+      const b = addBall(world, {
+        id: 'ball-b', name: '靶球 · Target ball', mass: 1, radius: 0.2,
+        x: 0, y: 0.2, z: 0,
+      });
+      a.v0 = 2; a.azimuth = 0; a.elevation = 0;
+      applyInitialVelocity(world, a);
+      b.v0 = 0;
+      applyInitialVelocity(world, b);
+      return scene(world);
+    },
+  },
+
   /* ------------------------------- mech-u5 ------------------------------- */
   {
     id: 'mech-u5-rod-torque',
@@ -378,6 +463,31 @@ export const PRESETS = [
         id: 'disk', name: '力矩圆盘 · Torque disk', x: 0, y: 0.62, z: 0,
         radius: 1.4, I: 8, omega: 0, targetOmega: 0, torque: 1.5,
         drive: 'torque', muS: 0.6, muK: 0.4,
+      });
+      return scene(world);
+    },
+  },
+
+  {
+    id: 'mech-u5-lever-balance',
+    title: '杠杆平衡 · Lever torque balance',
+    description: '三只挂钩码的杠杆从倾斜释放：左侧 2 kg 挂 0.8 m，右侧 1 kg 挂 0.8 m 加 2 kg 挂 0.4 m，力矩相等时杠杆回到水平。 · Released from a tilt with three hangers: 2 kg at 0.8 m on the left against 1 kg at 0.8 m plus 2 kg at 0.4 m on the right; equal torques bring the beam level.',
+    unit: 'mech-u5',
+    cedRef: 'mech-u5',
+    mode: 'mechanics',
+    required: ['lever'],
+    recommended: { sensors: [], graphs: false },
+    focus: { type: 'lever', id: 'lever' },
+    build() {
+      const world = mechWorld();
+      addLever(world, {
+        id: 'lever', name: '杠杆天平 · Balance lever', x: 0, y: 1.2, z: 0,
+        arm: 1.2, beamMass: 2.4, beamDrop: 0.18, damping: 4.5, hang: 0.4, theta0: 12,
+        hangers: [
+          { d: -0.8, mass: 2 },
+          { d: 0.8, mass: 1 },
+          { d: 0.4, mass: 2 },
+        ],
       });
       return scene(world);
     },
@@ -473,6 +583,26 @@ export const PRESETS = [
       addPendulum(world, {
         id: 'pendulum', name: '单摆 · Pendulum', x: 0, y: 4, z: 0, length: 1.5, mass: 1,
         amplitude: 4, radius: 0.16, conical: false,
+      });
+      return scene(world);
+    },
+  },
+
+  {
+    id: 'mech-u7-conical-pendulum',
+    title: '锥摆周期 · Conical pendulum',
+    description: '摆锤以固定锥角沿水平圆匀速进动，实测周期应接近锥摆公式；绳张力按 cos α 放大。 · The bob sweeps a horizontal circle at a fixed cone angle; the measured period matches the conical-pendulum prediction and the string tension scales with cos α.',
+    unit: 'mech-u7',
+    cedRef: 'mech-u7',
+    mode: 'mechanics',
+    required: ['pendulum'],
+    recommended: { sensors: [], graphs: false },
+    focus: { type: 'pendulum', id: 'conical' },
+    build() {
+      const world = mechWorld();
+      addPendulum(world, {
+        id: 'conical', name: '锥摆 · Conical pendulum', x: 0, y: 4, z: 0,
+        length: 1.5, mass: 1, amplitude: 30, radius: 0.16, conical: true,
       });
       return scene(world);
     },
@@ -720,6 +850,48 @@ export const PRESETS = [
   },
 
   /* -------------------------------- em-u13 ------------------------------- */
+  {
+    id: 'em-u12-current-loop-axis',
+    title: '电流环磁场 · Current-loop field',
+    description: '圆环中心的磁场随半径反比，轴线上随高度衰减；两个探测器分别读取中心与轴上数值，验证圆环磁场公式。 · The centre field scales inversely with the loop radius and decays along the axis; two probes read the centre and an on-axis point to test the loop-field relations.',
+    unit: 'em-u12',
+    cedRef: 'em-u12',
+    mode: 'em',
+    required: ['emCurrentLoop', 'emProbe'],
+    recommended: { sensors: [], instruments: ['emProbe'], graphs: false },
+    focus: { type: 'emProbe', id: 'probe-axis' },
+    build() {
+      const world = emWorld();
+      addCurrentLoop(world.em, {
+        id: 'loop', name: '电流环 · Current loop', x: 0, y: 1.5, z: 0,
+        radius: 1, current: 4,
+      });
+      addProbe(world.em, { id: 'probe-center', name: '中心探测器 · Centre probe', x: 0, y: 1.5, z: 0 });
+      addProbe(world.em, { id: 'probe-axis', name: '轴线探测器 · Axis probe', x: 0, y: 3.0, z: 0 });
+      return scene(world);
+    },
+  },
+  {
+    id: 'em-u12-solenoid-field',
+    title: '螺线管内部磁场 · Solenoid interior field',
+    description: '长螺线管内部磁场均匀且由匝密度与电流决定，管外近似为零；两个探测器对比内外读数。 · Inside a long solenoid the field is uniform and set by the turn density and current, while outside it is nearly zero; two probes compare the two regions.',
+    unit: 'em-u12',
+    cedRef: 'em-u12',
+    mode: 'em',
+    required: ['emSolenoid', 'emProbe'],
+    recommended: { sensors: [], instruments: ['emProbe'], graphs: false },
+    focus: { type: 'emProbe', id: 'probe-in' },
+    build() {
+      const world = emWorld();
+      addSolenoid(world.em, {
+        id: 'sol', name: '长螺线管 · Long solenoid', x: 0, y: 1.5, z: 0,
+        radius: 0.5, length: 4, turns: 200, current: 1.5,
+      });
+      addProbe(world.em, { id: 'probe-in', name: '内部探测器 · Interior probe', x: 0, y: 1.5, z: 0 });
+      addProbe(world.em, { id: 'probe-out', name: '外部探测器 · Exterior probe', x: 2.4, y: 1.5, z: 0 });
+      return scene(world);
+    },
+  },
   {
     id: 'em-u13-rail-terminal',
     title: '滑轨终端速度 · Rail terminal speed',
