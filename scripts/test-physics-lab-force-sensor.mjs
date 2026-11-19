@@ -76,6 +76,11 @@ import {
   takeRedo,
   takeUndo,
 } from '../modules/physics/lab/history.mjs';
+import {
+  classifyArmedPick,
+  isNativeEditorTarget,
+  sceneUndoKey,
+} from '../modules/physics/lab/pick-keys.mjs';
 
 let passed = 0;
 let failed = 0;
@@ -1273,6 +1278,240 @@ check('hooks: pick mode and the target list keep the flat design rules', () => {
   for (const [label, block] of [['armed', armed], ['cursor', cursor], ['view', view], ['remove', remove], ['list', list]]) {
     if (/border-radius/.test(block)) throw new Error(`rounded corners crept into the ${label} rule`);
   }
+});
+
+/* ------------ undo keys, focus & empty-vs-entity pick (48405ec) ------------- */
+//
+// The 48405ec actual-browser review found: Ctrl/Cmd+Z after「移除」never
+// reached undo() because focus was stranded on a rebuilt form control,
+// and a ground/grid click stayed armed but was never acknowledged with
+// the「点选保持开启」reminder. These regressions execute the exact decision
+// helpers the live UI runs (pick-keys.mjs), drive the real history stack
+// the remove path uses, and pin the two pick branches as distinct.
+
+check('undo keys: buttons and the canvas host get scene undo; native editors keep their own shortcuts', () => {
+  // The live onKeyDown guard, executed directly.
+  ok(isNativeEditorTarget({ tagName: 'INPUT' }), 'input is a native editor');
+  ok(isNativeEditorTarget({ tagName: 'input' }), 'lowercase tags still count');
+  ok(isNativeEditorTarget({ tagName: 'TEXTAREA' }), 'textarea is a native editor');
+  ok(isNativeEditorTarget({ tagName: 'SELECT' }), 'select is a native editor');
+  ok(isNativeEditorTarget({ isContentEditable: true }), 'contenteditable is a native editor');
+  ok(!isNativeEditorTarget({ tagName: 'BUTTON' }), 'a button is not an editor');
+  ok(!isNativeEditorTarget({ tagName: 'CANVAS' }), 'the canvas is not an editor');
+  ok(!isNativeEditorTarget({ tagName: 'DIV' }), 'the canvas host (a div) is not an editor');
+  ok(!isNativeEditorTarget({ tagName: 'BODY' }), 'document.body is not an editor');
+  ok(!isNativeEditorTarget(null), 'a missing target is not an editor');
+  // Non-editor surfaces: the shortcut is scene undo/redo.
+  for (const tag of ['BUTTON', 'CANVAS', 'DIV', 'BODY', '']) {
+    const target = tag ? { tagName: tag } : {};
+    if (sceneUndoKey({ key: 'z', ctrlKey: true, target }) !== 'undo') throw new Error(`Ctrl+Z must be scene undo from <${tag || 'no tag'}>`);
+    if (sceneUndoKey({ key: 'z', metaKey: true, target }) !== 'undo') throw new Error(`Cmd+Z must be scene undo from <${tag || 'no tag'}>`);
+    if (sceneUndoKey({ key: 'z', ctrlKey: true, shiftKey: true, target }) !== 'redo') throw new Error(`Ctrl/Cmd+Shift+Z must redo from <${tag || 'no tag'}>`);
+    if (sceneUndoKey({ key: 'y', ctrlKey: true, target }) !== 'redo') throw new Error(`Ctrl/Cmd+Y must redo from <${tag || 'no tag'}>`);
+  }
+  // Native editors: the scene must neither handle nor swallow the keys.
+  for (const target of [
+    { tagName: 'INPUT' }, { tagName: 'input' }, { tagName: 'TEXTAREA' },
+    { tagName: 'SELECT' }, { isContentEditable: true },
+  ]) {
+    for (const [label, evt] of [
+      ['Ctrl+Z', { key: 'z', ctrlKey: true, target }],
+      ['Cmd+Z', { key: 'z', metaKey: true, target }],
+      ['Ctrl+Shift+Z', { key: 'z', ctrlKey: true, shiftKey: true, target }],
+      ['Cmd+Y', { key: 'y', metaKey: true, target }],
+    ]) {
+      if (sceneUndoKey(evt) !== null) throw new Error(`${label} must stay with the native editor`);
+    }
+  }
+  // Anything else is not a scene undo key at all.
+  for (const [label, evt] of [
+    ['plain z', { key: 'z', target: { tagName: 'DIV' } }],
+    ['ctrl+g', { key: 'g', ctrlKey: true, target: { tagName: 'BUTTON' } }],
+    ['shift+z without ctrl', { key: 'Z', shiftKey: true, target: { tagName: 'BODY' } }],
+    ['no event', null],
+  ]) {
+    if (sceneUndoKey(evt) !== null) throw new Error(`${label} must never trigger scene undo`);
+  }
+});
+
+check('undo keys: onKeyDown routes through the shared decision after the native-editor guard', () => {
+  expectIn(labJs, "import { classifyArmedPick, isNativeEditorTarget, sceneUndoKey } from './pick-keys.mjs';",
+    'index.js uses the shared pick/undo-key helpers');
+  if (/const editing = tag === 'INPUT'/.test(labJs)) {
+    throw new Error('a duplicated inline editor predicate is back; use isNativeEditorTarget');
+  }
+  const esc = section(labJs, 'function onKeyDown(e) {', "document.addEventListener('keydown', onKeyDown);");
+  const guardAt = esc.indexOf('if (isNativeEditorTarget(e.target)) return;');
+  if (guardAt < 0) throw new Error('the native-editor guard is missing from onKeyDown');
+  if (esc.slice(0, guardAt).includes('e.preventDefault();')) {
+    throw new Error('a shortcut is swallowed before the native-editor guard; editors must keep their keys');
+  }
+  const decisionAt = esc.indexOf('const sceneKey = sceneUndoKey(e);');
+  if (decisionAt < 0) throw new Error('the scene undo decision is missing');
+  if (decisionAt < guardAt) throw new Error('native editors must be excluded before the undo decision');
+  const handled = esc.slice(decisionAt);
+  expectIn(handled, 'e.preventDefault();', 'the handled shortcut prevents the browser default');
+  expectIn(handled, "if (sceneKey === 'redo') redo();", 'redo branch');
+  expectIn(handled, 'else undo();', 'undo branch');
+  // The modal key handler shares the same predicate instead of its own copy.
+  const modalKey = labJs.slice(
+    labJs.indexOf('function handleModalKey(e) {'),
+    labJs.indexOf('function handleModalKey(e) {') + 400,
+  );
+  expectIn(modalKey, 'if (isNativeEditorTarget(e.target)) return false;', 'modal keys share the editor predicate');
+});
+
+check('undo keys: Ctrl+Z from a button or the canvas host undoes a target remove; a focused select does not', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addBall(world, { mass: 1, x: 0, y: 5, z: 0 });
+  const b = addBall(world, { mass: 2, x: 2, y: 5, z: 0 });
+  const sensor = addSensor(world, { kind: 'force', x: 0, y: 0, z: 2 });
+  addSensorTarget(world, sensor, a.id);
+  addSensorTarget(world, sensor, b.id);
+  captureInitial(world);
+  advance(world, 0.2);
+  const rowsA = sensor.samples.filter((r) => r.key === `body:${a.id}`).length;
+  const rowsB = sensor.samples.filter((r) => r.key === `body:${b.id}`).length;
+  ok(rowsA > 0 && rowsB > 0, 'both series recorded before the remove');
+
+  // The remove control's exact flow: pushUndo('sensorTargetRemove:…')
+  // before removeSensorTarget (the list still owns both API and key).
+  const history = createSceneHistory({ limit: 80 });
+  pushSceneHistory(history, serializeScene(world), null, {
+    key: `sensorTargetRemove:${sensor.id}`,
+    records: captureSensorRecords(world),
+  });
+  ok(removeSensorTarget(world, sensor, a.id), 'target A removed');
+  ok(sensor.samples.every((r) => r.key !== `body:${a.id}`), 'A rows dropped by the removal');
+
+  // Focus stranded on the rebuilt target select (the 48405ec failure):
+  // the shortcut must not reach the scene history.
+  ok(sceneUndoKey({ key: 'z', ctrlKey: true, target: { tagName: 'SELECT' } }) === null,
+    'a focused select keeps its own shortcut');
+  ok(sensorTargets(world.sensors.find((s) => s.id === sensor.id)).length === 1,
+    'no scene undo happened while the select was focused');
+
+  // Focus on the clicked button, the canvas host (div) or the canvas: the
+  // same shortcut is scene undo, and the undo entry is the remove.
+  for (const tag of ['BUTTON', 'DIV', 'CANVAS', 'BODY']) {
+    if (sceneUndoKey({ key: 'z', ctrlKey: true, target: { tagName: tag } }) !== 'undo') {
+      throw new Error(`Ctrl+Z from <${tag}> must be scene undo`);
+    }
+  }
+  const undoEntry = takeUndo(history, serializeScene(world), null, captureSensorRecords(world));
+  ok(undoEntry, 'the keyboard undo finds the remove entry');
+  replayUndoEntry(world, undoEntry);
+  const restored = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(restored).length === 2, 'the keyboard undo brings both targets back');
+  ok(restored.samples.filter((r) => r.key === `body:${a.id}`).length === rowsA,
+    `A's own history returns (${rowsA})`);
+  ok(restored.samples.filter((r) => r.key === `body:${b.id}`).length === rowsB,
+    `B's history was never touched (${rowsB})`);
+
+  // Keyboard redo (Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y) restores the remove.
+  ok(sceneUndoKey({ key: 'Z', ctrlKey: true, shiftKey: true, target: { tagName: 'DIV' } }) === 'redo',
+    'Ctrl+Shift+Z redoes from the canvas host');
+  ok(sceneUndoKey({ key: 'y', metaKey: true, target: { tagName: 'BUTTON' } }) === 'redo',
+    'Cmd+Y redoes from a button');
+  const redoEntry = takeRedo(history, serializeScene(world), null, captureSensorRecords(world));
+  replayUndoEntry(world, redoEntry);
+  const redone = world.sensors.find((s) => s.id === sensor.id);
+  ok(sensorTargets(redone).length === 1 && sensorTargets(redone)[0].id === b.id,
+    'redo removes A again');
+  ok(redone.samples.filter((r) => r.key === `body:${b.id}`).length === rowsB,
+    'B untouched by the redo');
+});
+
+check('focus: the canvas host is the non-editor surface that receives focus after a remove', () => {
+  // The host is focusable but never enters the Tab order.
+  expectIn(labJs, "className: 'plab-canvas-host', 'data-canvas-host': 'on', tabindex: '-1'",
+    'the canvas host carries tabindex="-1"');
+  expectIn(labJs, 'function focusSceneSurface() {', 'the shared focus helper exists');
+  expectIn(labJs, 'canvasHost.focus({ preventScroll: true });', 'the helper focuses the canvas host');
+  // Every canvas click — including empty ground/grid and non-eligible
+  // hits — parks focus on the host BEFORE the armed-pick branches.
+  const handleAt = labJs.indexOf('function handlePick(hit, event) {');
+  const focusAt = labJs.indexOf('focusSceneSurface();', handleAt);
+  const armAt = labJs.indexOf('if (pendingSensorTarget) {', handleAt);
+  if (focusAt < 0 || armAt < 0) throw new Error('handlePick lost its focus call or armed branch');
+  if (focusAt > armAt) throw new Error('canvas clicks must focus the host before the armed-pick branches');
+  // The remove control's success path rebuilds the inspector (destroying
+  // the clicked button) and then moves focus off the rebuilt form
+  // controls, so the next Ctrl/Cmd+Z undoes instead of dying in a select.
+  const removeBlock = section(labJs, 'removeBtn.addEventListener(\'click\', () => {', 'row.append(viewBtn, removeBtn);');
+  const removedAt = removeBlock.indexOf('removeSensorTarget(world, sensor, parsed.id, { type: parsed.type })');
+  const rebuiltAt = removeBlock.indexOf('buildInspector();', removedAt);
+  const focusedAt = removeBlock.indexOf('focusSceneSurface();', rebuiltAt);
+  if (removedAt < 0 || rebuiltAt < 0 || focusedAt < 0) {
+    throw new Error('the remove success path must remove → rebuild → park focus on the canvas host');
+  }
+});
+
+check('pick: an empty ground/grid hit stays armed as its own branch and never invents a surface', () => {
+  // Executed classification: the decorative ground and grid carry no
+  // userData.entity, so pickAt returns null — an empty-canvas hit.
+  ok(classifyArmedPick(null, 's1') === 'empty', 'a null hit is the empty branch');
+  ok(classifyArmedPick({ entity: null }, 's1') === 'empty', 'a hit without an entity is the empty branch');
+  ok(classifyArmedPick({ point: { x: 0, y: 0, z: 0 } }, 's1') === 'empty', 'a bare ground point is the empty branch');
+  // view.js keeps the floor and the lattice unpickable: ground is not a
+  // surface entity and pickAt resolves only real entities.
+  expectIn(viewJs, 'ground.userData = { ...NO_PICK };', 'the ground plane carries noPick, no entity');
+  const gridAt = viewJs.indexOf('grid.userData = { ...NO_PICK };');
+  ok(gridAt > 0, 'the grid helper carries noPick, no entity');
+  const pickFn = section(viewJs, 'function pickAt(clientX, clientY) {', 'function rayPointOnPlane(');
+  expectIn(pickFn, 'if (node.userData?.entity) { entity = node.userData.entity; break; }', 'pickAt resolves only real entities');
+  if (pickFn.includes("type: 'surface'")) throw new Error('pickAt must not invent a fake ground surface');
+  // Source: the empty branch in handlePick acknowledges the click with the
+  // stay-armed reminder, distinct from the entity warning, and never
+  // names a (fake) surface or selects.
+  const handleAt = labJs.indexOf('function handlePick');
+  const pickSection = labJs.slice(
+    labJs.indexOf('if (pendingSensorTarget) {', handleAt),
+    labJs.indexOf('if (pendingLink) {', handleAt),
+  );
+  const emptyAt = pickSection.indexOf("pickKind === 'empty'");
+  const inelAt = pickSection.indexOf('warnPickIneligible(');
+  if (emptyAt < 0 || inelAt < 0) throw new Error('the empty and ineligible branches both must exist');
+  if (inelAt < emptyAt) throw new Error('the entity warning must not own the empty-canvas branch');
+  const emptyBranch = pickSection.slice(emptyAt, inelAt);
+  expectIn(emptyBranch, '点选保持开启', 'the empty-canvas reminder says pick mode stays on');
+  expectIn(emptyBranch, 'pick mode stays on', 'the empty-canvas reminder is bilingual');
+  if (emptyBranch.includes('warnPickIneligible(')) throw new Error('the empty branch must not use the entity warning');
+  if (emptyBranch.includes('sensorTargetName(')) throw new Error('the empty branch must not name a (fake) surface');
+  if (emptyBranch.includes('select(')) throw new Error('the empty branch must not select');
+  if (pickSection.slice(inelAt).includes('点选未命中')) throw new Error('the entity branch must not reuse the empty-canvas message');
+});
+
+check('pick: real non-eligible entities warn 点选保持开启 and never select', () => {
+  // Executed classification: a Wall (barrier, 挡板), a surface apparatus,
+  // another sensor and a spring are real entities that must land in the
+  // ineligible branch — never in the empty branch.
+  const cases = [
+    ['barrier', 'a Wall/barrier is ineligible, not empty'],
+    ['surface', 'a surface apparatus is ineligible, not empty'],
+    ['sensor', 'another sensor is ineligible, not empty'],
+    ['spring', 'a spring is ineligible, not empty'],
+  ];
+  for (const [type, label] of cases) {
+    ok(classifyArmedPick({ entity: { type, id: `${type}-1` } }, 's1') === 'ineligible', label);
+  }
+  ok(classifyArmedPick({ entity: { type: 'body', id: 'b1' } }, 's1') === 'eligible', 'bodies stay eligible');
+  ok(classifyArmedPick({ entity: { type: 'launcher', id: 'l1' } }, 's1') === 'eligible', 'launchers stay eligible');
+  ok(classifyArmedPick({ entity: { type: 'sensor', id: 's1' } }, 's1') === 'self', 'the armed sensor itself cancels');
+  // Source: the ineligible branch names the object and stays armed.
+  const handleAt = labJs.indexOf('function handlePick');
+  const pickSection = labJs.slice(
+    labJs.indexOf('if (pendingSensorTarget) {', handleAt),
+    labJs.indexOf('if (pendingLink) {', handleAt),
+  );
+  expectIn(pickSection, 'warnPickIneligible(sensorTargetName(hit.entity));', 'the entity branch names the hit');
+  const warn = section(labJs, 'function warnPickIneligible(', 'function sensorTargetRowState(');
+  expectIn(warn, '点选保持开启', 'the warning says pick mode stays on');
+  expectIn(warn, 'pick mode stays on', 'the warning is bilingual');
+  // The outliner rows share the classifier; rows are never empty-canvas.
+  const outline = section(labJs, "item.addEventListener('click', () => {", "item.addEventListener('dblclick'");
+  expectIn(outline, 'classifyArmedPick({ entity }, pendingSensorTarget)', 'the outliner shares the pick classifier');
+  if (outline.includes('点选未命中')) throw new Error('an outliner row is never an empty-canvas hit');
 });
 
 /* ------------------------------ summary ------------------------------ */

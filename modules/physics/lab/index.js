@@ -163,6 +163,7 @@ import {
   motionGraphModel,
   sensorTargetLabel,
 } from './graphs.mjs';
+import { classifyArmedPick, isNativeEditorTarget, sceneUndoKey } from './pick-keys.mjs';
 import { createLabView } from './view.js';
 import {
   canRedo,
@@ -782,7 +783,9 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
   const bodyGrid = el('div', { className: 'plab-body' });
   const stageCol = el('div', { className: 'plab-stage-col' });
   const stage = el('section', { className: 'plab-stage', 'aria-label': '三维场景 · 3D scene' });
-  const canvasHost = el('div', { className: 'plab-canvas-host', 'data-canvas-host': 'on' });
+  // tabindex="-1": the canvas host becomes the non-editor focus surface for
+  // scene shortcuts — mouse/script reachable, never in the Tab order.
+  const canvasHost = el('div', { className: 'plab-canvas-host', 'data-canvas-host': 'on', tabindex: '-1' });
   const emptyHint = el('div', { className: 'plab-empty', 'data-empty': 'on' }, [
     el('p', { className: 'plab-empty-title', text: '自由实验室 · Free lab' }),
     el('p', { className: 'plab-empty-text', text: '从上方「添加器材」开始，自己搭建场景。 · Start with Add above and build your own scene.' }),
@@ -1971,17 +1974,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
             // The armed sensor is gone (deleted / scene swapped): disarm
             // quietly and let this click behave like a normal one.
             setSensorPick(null);
-          } else if (entity.type === 'body' || entity.type === 'launcher') {
-            // Leave pick mode first so the rebuilt inspector shows the idle
-            // button; a failed add must not fall through to a plain select.
-            setSensorPick(null);
-            if (applySensorTargetPick(sensor, entity)) return;
-            return;
-          } else if (entity.type === 'sensor' && entity.id === pendingSensorTarget) {
-            // Clicking the armed sensor itself cancels — also the touch path.
-            cancelSensorPick();
-            return;
           } else {
+            const pickKind = classifyArmedPick({ entity }, pendingSensorTarget);
+            if (pickKind === 'eligible') {
+              // Leave pick mode first so the rebuilt inspector shows the
+              // idle button; a failed add must not fall through to a plain
+              // select.
+              setSensorPick(null);
+              if (applySensorTargetPick(sensor, entity)) return;
+              return;
+            }
+            if (pickKind === 'self') {
+              // Clicking the armed sensor itself cancels — also the touch path.
+              cancelSensorPick();
+              return;
+            }
+            // A real non-eligible row (a Wall/barrier, a surface, another
+            // sensor): stay armed and never fall through to select().
             warnPickIneligible(sensorTargetName(entity));
             return;
           }
@@ -3432,9 +3441,7 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function handleModalKey(e) {
     if (!modal) return false;
-    const tag = (e.target && e.target.tagName) || '';
-    const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
-    if (editing) return false;
+    if (isNativeEditorTarget(e.target)) return false;
     if (e.key === 'Escape') {
       e.preventDefault();
       cancelModal();
@@ -3925,8 +3932,23 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     return best;
   }
 
+  /**
+   * Park focus on the non-editing canvas host so the next Ctrl/Cmd+Z is a
+   * scene undo, not the previously focused field's own native shortcut.
+   * The host is not a native editor (isNativeEditorTarget is false for
+   * it), so while it holds focus the scene undo keys stay in force.
+   */
+  function focusSceneSurface() {
+    canvasHost.focus({ preventScroll: true });
+  }
+
   function handlePick(hit, event) {
     if (modal) return;
+    // Any canvas click — empty ground/grid, an entity hit, a pick-mode
+    // probe — is a scene interaction. Move focus off whatever inspector
+    // field the user came from onto the non-editor canvas host, so a later
+    // Ctrl/Cmd+Z is scene undo instead of dying in a stale form control.
+    focusSceneSurface();
     if (rulerMode) {
       const point = hit?.point || view.groundPoint(event.clientX, event.clientY);
       const p = { x: point.x, y: Math.max(0, point.y), z: point.z };
@@ -3950,25 +3972,36 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
         // The armed sensor is gone (deleted / scene swapped): disarm
         // quietly and let this click behave like a normal one.
         setSensorPick(null);
-      } else if (hit?.entity?.type === 'body' || hit?.entity?.type === 'launcher') {
-        // Leave pick mode first so the rebuilt inspector shows the idle
-        // button; a failed add (target cap) is reported by the shared pick
-        // path and must not fall through to a plain selection either.
-        setSensorPick(null);
-        if (applySensorTargetPick(sensor, hit.entity)) return;
-        return;
-      } else if (hit?.entity?.type === 'sensor' && hit.entity.id === pendingSensorTarget) {
-        // Clicking the armed sensor itself cancels — also the touch path.
-        cancelSensorPick();
-        return;
-      } else if (!hit?.entity) {
-        setStatus('点选模式已开启：点击物体或抛射器作为目标；按 Esc 取消。 · Pick mode is on: click a body or launcher to use as the target; press Esc to cancel.', true);
-        return;
       } else {
-        // Non-eligible entity: stay in pick mode; never select as a click,
-        // or the next body click would silently arm a target again.
-        warnPickIneligible(sensorTargetName(hit.entity));
-        return;
+        const pickKind = classifyArmedPick(hit, pendingSensorTarget);
+        if (pickKind === 'eligible') {
+          // Leave pick mode first so the rebuilt inspector shows the idle
+          // button; a failed add (target cap) is reported by the shared pick
+          // path and must not fall through to a plain selection either.
+          setSensorPick(null);
+          if (applySensorTargetPick(sensor, hit.entity)) return;
+          return;
+        } else if (pickKind === 'self') {
+          // Clicking the armed sensor itself cancels — also the touch path.
+          cancelSensorPick();
+          return;
+        } else if (pickKind === 'empty') {
+          // Empty canvas: a null hit or a hit with no entity. The
+          // decorative ground plane and grid are noPick meshes without
+          // userData.entity, so a floor click lands HERE — it is not a
+          // surface entity and must not be reported as one. Stay armed
+          // and acknowledge the click, as a branch kept distinct from the
+          // real-entity warning below.
+          setStatus('点选未命中：地面和网格不是可选目标，点选保持开启；点击物体或抛射器作为目标，按 Esc 取消。 · No body was hit — the ground and grid are not pick targets, pick mode stays on. Click a body or launcher as the target; press Esc to cancel.', true);
+          return;
+        } else {
+          // A real but non-eligible entity (a Wall/barrier, a surface
+          // apparatus, another sensor…): stay in pick mode; never select as
+          // a click, or the next body click would silently arm a target
+          // again.
+          warnPickIneligible(sensorTargetName(hit.entity));
+          return;
+        }
       }
     }
     if (pendingLink) {
@@ -5253,6 +5286,13 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           // the other targets' raw/summary tables never clear.
           if (view === key) sensorViewKeys.set(sensor.id, remaining.length ? sensorTargetKey(remaining[0]) : '');
           buildInspector();
+          // buildInspector() just destroyed this focused button; without
+          // moving focus the browser can strand it on a rebuilt form
+          // control (the target select), where Ctrl/Cmd+Z hits the
+          // native-editor guard and never reaches undo(). Park focus on
+          // the non-editing canvas host so the next Ctrl/Cmd+Z undoes
+          // this remove.
+          focusSceneSurface();
           setStatus('已移除目标；其它目标的记录保持不变。 · Target removed; the other targets keep their records.');
         });
         row.append(viewBtn, removeBtn);
@@ -8367,29 +8407,29 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function onKeyDown(e) {
     if (handleModalKey(e)) return;
-    const tag = (e.target && e.target.tagName) || '';
-    const editing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable;
     const key = e.key;
     if (key === 'Escape') {
       if (!addMenu.hidden || !emAddMenu.hidden) { closeAddMenu(); return; }
       if (!morePanel.hidden) { closeMore(); return; }
       if (isMobile() && root.dataset.inspectorOpen === '1') { openInspector(false); return; }
     }
-    if (editing) return;
+    // Native editors (input, textarea, select, contenteditable) own their
+    // undo/redo stack: while one is focused the scene must neither run nor
+    // swallow their shortcuts. Buttons, the canvas host, the lab root and
+    // document.body are plain surfaces — Ctrl/Cmd+Z there is scene undo.
+    if (isNativeEditorTarget(e.target)) return;
     // A modal owns the scene snapshot; do not unwind history underneath it.
     if (modal) return;
-    const mod = e.ctrlKey || e.metaKey;
-    if (mod && key.toLowerCase() === 'z') {
+    const sceneKey = sceneUndoKey(e);
+    if (sceneKey) {
+      // Only non-editor surfaces reach this point (native editors returned
+      // above), so claiming the shortcut is safe.
       e.preventDefault();
-      if (e.shiftKey) redo();
+      if (sceneKey === 'redo') redo();
       else undo();
       return;
     }
-    if (mod && key.toLowerCase() === 'y') {
-      e.preventDefault();
-      redo();
-      return;
-    }
+    const mod = e.ctrlKey || e.metaKey;
     if ((mod && key.toLowerCase() === 'd') || (!mod && e.shiftKey && key === 'D')) {
       e.preventDefault();
       duplicateSelected();
