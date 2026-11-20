@@ -8,7 +8,7 @@ import { renderFigures } from '../data/math/figlib.js';
 
 const STYLE_ID = 'topic-extras-style';
 // Version query matches the shared cache-bust token in index.html.
-const STYLE_HREF = 'css/topic-extras.css?v=20261119c';
+const STYLE_HREF = 'css/topic-extras.css?v=20261119d';
 
 function ensureStyle() {
   if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return;

@@ -79,7 +79,9 @@ import {
 import {
   classifyArmedPick,
   isNativeEditorTarget,
+  resolvePickEntity,
   sceneUndoKey,
+  selfCancelStatus,
 } from '../modules/physics/lab/pick-keys.mjs';
 
 let passed = 0;
@@ -1228,7 +1230,7 @@ check('hooks: a non-eligible hit stays in pick mode and never selects', () => {
   );
   if (pickSection.includes('select(')) throw new Error('the armed pick path still selects');
   expectIn(pickSection, 'warnPickIneligible(', 'non-eligible canvas hits warn and stay armed');
-  expectIn(pickSection, 'cancelSensorPick();', 'clicking the armed sensor cancels');
+  expectIn(pickSection, 'cancelSensorPick(sensorTargetName(sensor));', 'clicking the armed sensor cancels and names it');
   expectIn(labJs, 'function warnPickIneligible(', 'shared non-eligible warning');
   expectIn(labJs, '点选保持开启', 'the warning says pick mode stays on');
   expectIn(labJs, 'pick mode stays on', 'the warning is bilingual');
@@ -1335,8 +1337,8 @@ check('undo keys: buttons and the canvas host get scene undo; native editors kee
 });
 
 check('undo keys: onKeyDown routes through the shared decision after the native-editor guard', () => {
-  expectIn(labJs, "import { classifyArmedPick, isNativeEditorTarget, sceneUndoKey } from './pick-keys.mjs';",
-    'index.js uses the shared pick/undo-key helpers');
+  expectIn(labJs, "import { classifyArmedPick, isNativeEditorTarget, resolvePickEntity, sceneUndoKey, selfCancelStatus } from './pick-keys.mjs';",
+    'index.js uses the shared pick/undo-key helpers (incl. the 8843 identity helpers)');
   if (/const editing = tag === 'INPUT'/.test(labJs)) {
     throw new Error('a duplicated inline editor predicate is back; use isNativeEditorTarget');
   }
@@ -1512,6 +1514,208 @@ check('pick: real non-eligible entities warn 点选保持开启 and never select
   const outline = section(labJs, "item.addEventListener('click', () => {", "item.addEventListener('dblclick'");
   expectIn(outline, 'classifyArmedPick({ entity }, pendingSensorTarget)', 'the outliner shares the pick classifier');
   if (outline.includes('点选未命中')) throw new Error('an outliner row is never an empty-canvas hit');
+});
+
+/* --------- pick identity & self-cancel wording (8843 review) --------- */
+//
+// The 8843 browser review found: while a pick was armed, clicking the
+// Force sensor #4 mesh warned 光电门 · Photogate #4 (wrong kind, same
+// numeric suffix), and clicking the armed Motion#5 sensor read as a
+// confusing plain cancel. Root cause: view.js makeRoot stores only
+// { type, id } on userData.entity, so the naming path fell through
+// kindLabel's sensor fallback (ZH_EN[entity.kind] || photogate) — the
+// identity (type+id) was right, the display was not. The fix resolves
+// the live scene entity before any label; the self-click cancel is kept
+// (the touch path) but names the armed sensor and its reason, distinct
+// from the stay-armed ineligible warning.
+
+/** The sensor branch of index.js entityById, as a testable lookup. */
+function sensorLookup(world) {
+  return (type, id) => (type === 'sensor'
+    ? world.sensors.find((s) => s.id === id) || null
+    : null);
+}
+
+check('pick identity: a kind-less raycast stub resolves to the live force sensor, never Photogate', () => {
+  const world = createWorld({ g: 9.8 });
+  const force = addSensor(world, { kind: 'force', x: 0, z: 2 });
+  const motion = addSensor(world, { kind: 'motion', x: 1.5, z: 2 });
+  ok(force.id.startsWith('force-') && motion.id.startsWith('motion-'),
+    `sensor ids carry their kind prefix (${force.id} / ${motion.id})`);
+  ok(force.id !== motion.id, 'force and motion ids never collide (sensorIdPrefix + shared nextId)');
+  // The 62f8f93 raycast shape: type+id only, no kind, no name.
+  const stub = { type: 'sensor', id: force.id };
+  ok(!('kind' in stub) && !('name' in stub), 'the canvas stub is kind-less and name-less');
+  const resolved = resolvePickEntity(stub, sensorLookup(world));
+  ok(resolved === force, 'the stub resolves to the live force sensor (the object the outliner names)');
+  ok(resolved.kind === 'force' && !resolved.name,
+    'the resolved kind drives the same 受力传感器 · Force sensor label the outliner shows');
+  // Negative control, executed: the 62f8f93 display chain labelled the
+  // stub through kindLabel's sensor branch — ZH_EN[entity.kind] ||
+  // ZH_EN.photogate with '#' from the id suffix — so a kind-less force
+  // stub read as Photogate. Pin the exact mislabel the lookup prevents.
+  const oldKindLabel = (entity) => (entity.kind === 'force' ? '受力传感器 · Force sensor'
+    : entity.kind === 'motion' ? '运动传感器 · Motion sensor'
+      : '光电门 · Photogate');
+  const oldLabel = `${oldKindLabel(stub)} #${String(stub.id).split('-').pop()}`;
+  ok(oldLabel === '光电门 · Photogate #4' || /光电门 · Photogate #\d+/.test(oldLabel),
+    `the old fallback mislabels the force stub (${oldLabel})`);
+  ok(oldKindLabel(resolved).startsWith('受力传感器'),
+    'the resolved live entity names the force sensor instead');
+  // Source: the naming path resolves through entityById BEFORE any label,
+  // and kindLabel's photogate fallback survives only for real photogates
+  // (not as the sole fix).
+  const name = section(labJs, 'function sensorTargetName(', 'function applySensorTargetPick(');
+  expectIn(name, 'resolvePickEntity(entity, entityById)', 'sensorTargetName resolves the live entity first');
+  expectIn(labJs, "if (entity.type === 'sensor') return ZH_EN[entity.kind] || ZH_EN.photogate;",
+    "kindLabel keeps its sensor branch for real photogates");
+  expectIn(labJs, "force: ['受力传感器', 'Force sensor'],", 'the force kind label stays in ZH_EN');
+  // Defense in depth: the mesh stub itself now carries the kind, while
+  // the resolution above stays the display authority.
+  expectIn(viewJs, 'root.userData.entity = { type: entity.type, id: entity.id, kind: entity.kind };',
+    'view.js attaches the kind on the mesh stub');
+});
+
+check('pick identity: a renamed force sensor displays the custom name through the stub', () => {
+  const world = createWorld({ g: 9.8 });
+  const force = addSensor(world, { kind: 'force', x: 0, z: 2 });
+  // The outliner rename commit (startRename) sets entity.name on the
+  // live object; the same resolution must carry it to canvas warnings.
+  expectIn(labJs, 'entity.name = input.value.trim();', 'startRename commits on the live entity');
+  force.name = '吊索拉力 · Rig tension';
+  const resolved = resolvePickEntity({ type: 'sensor', id: force.id }, sensorLookup(world));
+  ok(resolved === force && resolved.name === '吊索拉力 · Rig tension',
+    'the stub now displays the renamed sensor, same as the outliner row');
+  const name = section(labJs, 'function sensorTargetName(', 'function applySensorTargetPick(');
+  expectIn(name, "if (entity.type !== 'body') return entity.name || entityFallbackName(entity);",
+    'the resolved live name wins over the fallback');
+});
+
+check('pick identity: a different force sensor is ineligible and named as itself, never the armed one', () => {
+  const world = createWorld({ g: 9.8 });
+  const a = addSensor(world, { kind: 'force', x: 0, z: 2 });
+  const b = addSensor(world, { kind: 'force', x: 1.5, z: 2 });
+  ok(a.id !== b.id, `two force sensors get distinct ids (${a.id} / ${b.id})`);
+  const stubB = { type: 'sensor', id: b.id };
+  // While A is armed, a hit on B is another sensor: ineligible, never a cancel.
+  ok(classifyArmedPick({ entity: stubB }, a.id) === 'ineligible',
+    'clicking force B while force A is armed is ineligible, not self');
+  const resolved = resolvePickEntity(stubB, sensorLookup(world));
+  ok(resolved === b && resolved !== a, 'the stub resolves to B, never to the armed A');
+  ok(resolved.kind === 'force', 'B is named as a force sensor, not a photogate and not A');
+  // The warning branch names the hit through the same live lookup.
+  const handleAt = labJs.indexOf('function handlePick');
+  const pickSection = labJs.slice(
+    labJs.indexOf('if (pendingSensorTarget) {', handleAt),
+    labJs.indexOf('if (pendingLink) {', handleAt),
+  );
+  expectIn(pickSection, 'warnPickIneligible(sensorTargetName(hit.entity));',
+    'the entity branch names the hit through the resolving name path');
+});
+
+check('pick identity: classifyArmedPick separates self from other sensors by id alone', () => {
+  // The 8843 "Motion#5 cancelled" report is by design: only the armed
+  // sensor's own id cancels. A different sensor — force vs motion, or
+  // two of the same kind — is ineligible and keeps pick mode armed.
+  const world = createWorld({ g: 9.8 });
+  const force = addSensor(world, { kind: 'force', x: 0, z: 2 });
+  const motion = addSensor(world, { kind: 'motion', x: 1.5, z: 2 });
+  const forceStub = { entity: { type: 'sensor', id: force.id } };
+  const motionStub = { entity: { type: 'sensor', id: motion.id } };
+  ok(classifyArmedPick(forceStub, motion.id) === 'ineligible',
+    'a force hit while motion is armed: ineligible, pick stays on');
+  ok(classifyArmedPick(motionStub, motion.id) === 'self',
+    'the armed motion sensor itself: self (cancel)');
+  ok(classifyArmedPick(forceStub, force.id) === 'self',
+    'the armed force sensor itself: self (cancel)');
+});
+
+check('pick cancel: the self-click cancel names the armed sensor and stays distinct from the ineligible warning', () => {
+  // Executed: the self-cancel status names the sensor and the reason.
+  const self = selfCancelStatus('受力传感器 · Force sensor #4');
+  ok(self.includes('已取消点选'), 'the self cancel still says 已取消点选');
+  ok(self.includes('点击了当前传感器'), 'it says the current/armed sensor was clicked');
+  ok(self.includes('clicked the armed sensor'), 'the reason is bilingual');
+  ok(self.includes('受力传感器 · Force sensor #4'), 'it names the armed sensor');
+  ok(!self.includes('点选保持开启') && !self.includes('stays on'),
+    'the self cancel never reads as the stay-armed ineligible warning');
+  // Executed: the ineligible warning keeps its own wording.
+  const warn = section(labJs, 'function warnPickIneligible(', 'function sensorTargetRowState(');
+  expectIn(warn, '点选保持开启', 'the warning says pick mode stays on');
+  expectIn(warn, 'pick mode stays on', 'the warning is bilingual');
+  if (warn.includes('点击了当前传感器') || warn.includes('clicked the armed sensor')) {
+    throw new Error('the warning must not claim the armed sensor was clicked');
+  }
+  // Source: both self branches (canvas + outliner row) route the armed
+  // sensor's own name through the cancel helper.
+  const handleAt = labJs.indexOf('function handlePick');
+  const pickSection = labJs.slice(
+    labJs.indexOf('if (pendingSensorTarget) {', handleAt),
+    labJs.indexOf('if (pendingLink) {', handleAt),
+  );
+  const selfAt = pickSection.indexOf("pickKind === 'self'");
+  const emptyAt = pickSection.indexOf("pickKind === 'empty'");
+  if (selfAt < 0 || emptyAt < 0) throw new Error('the canvas self and empty branches must both exist');
+  const selfBranch = pickSection.slice(selfAt, emptyAt);
+  expectIn(selfBranch, 'cancelSensorPick(sensorTargetName(sensor));',
+    'the canvas self branch cancels with the armed sensor named');
+  if (selfBranch.includes('warnPickIneligible(')) throw new Error('the self branch must warn nothing');
+  if (selfBranch.includes('点选保持开启')) throw new Error('the self branch must not reuse the warning wording');
+  const outline = section(labJs, "item.addEventListener('click', () => {", "item.addEventListener('dblclick'");
+  const rowSelf = outline.slice(
+    outline.indexOf("pickKind === 'self'"),
+    outline.indexOf('// A real non-eligible row'),
+  );
+  expectIn(rowSelf, 'cancelSensorPick(sensorTargetName(sensor));',
+    'the outliner self branch cancels with the armed sensor named');
+  if (rowSelf.includes('warnPickIneligible(')) throw new Error('the row self branch must warn nothing');
+  // Source: Esc / the inspector toggle / the HUD button keep the plain
+  // bilingual line, built from the shared helper.
+  const cancel = section(labJs, 'function cancelSensorPick(', 'function warnPickIneligible(');
+  expectIn(cancel, 'selfCancelStatus(', 'the self status comes from the shared helper');
+  expectIn(cancel, "'已取消点选 · Pick cancelled'", 'the plain cancel line survives for Esc/button/HUD');
+  const esc = section(labJs, 'function onKeyDown(e) {', "document.addEventListener('keydown', onKeyDown);");
+  expectIn(esc, 'cancelSensorPick();', 'escape routes through the cancel helper');
+});
+
+check('pick cancel: the on-canvas HUD cancel is a >=44px touch target that needs no Escape', () => {
+  // The HUD stays click-through for canvas drags; only the button listens.
+  const hudRule = cssBlock(labCss, '.plab-canvas-hud {');
+  expectIn(hudRule, 'pointer-events: none;', 'the HUD itself stays click-through');
+  const btnRule = cssBlock(labCss, '.plab-pick-cancel {');
+  expectIn(btnRule, 'pointer-events: auto;', 'the cancel button alone takes pointer events');
+  if (/border-radius/.test(btnRule)) throw new Error('the cancel button must stay flat (--radius: 0)');
+  const hiddenRule = cssBlock(labCss, '.plab-pick-cancel[hidden] {');
+  expectIn(hiddenRule, 'display: none;', 'the hidden attribute wins over the action display');
+  // >=44px comes from the reused action band, not a new style system.
+  const actionRule = cssBlock(labCss, '.plab-action {');
+  expectIn(actionRule, 'min-height: 48px;', 'the button reuses the action band (>= 44px)');
+  // Wiring: the button lives on the canvas HUD, mirrors the armed state,
+  // and routes through the shared cancel helper.
+  expectIn(labJs, "text: '取消点选 · Cancel pick'", 'a bilingual HUD cancel label, no emoji');
+  const hudBtn = section(labJs, "const pickCancelBtn = el('button', {", "const canvasHud = el('div'");
+  expectIn(hudBtn, 'cancelSensorPick();', 'the HUD button routes through the cancel helper');
+  expectIn(hudBtn, 'focusSceneSurface();', 'focus parks on the canvas host after the button hides itself');
+  const setPick = section(labJs, 'function setSensorPick(', 'function enterSensorPick(');
+  expectIn(setPick, 'pickCancelBtn.hidden = !pendingSensorTarget;', 'the HUD cancel mirrors the armed state');
+  // No toolbar re-layout: the button sits in the existing HUD only.
+  const primary = section(labJs, "const primary = el('div', { className: 'plab-primary'", "const modeGroup = el('div'");
+  if (primary.includes('pickCancelBtn')) throw new Error('the HUD cancel must not enter the toolbar');
+});
+
+check('pick cancel: the armed sensor’s outliner row is marked as the cancel target', () => {
+  // Rows are already >=44px; the armed row gets the accent underline —
+  // the same language as the armed pick button — not a sidebar redesign.
+  const rule = cssBlock(labCss, '.plab-outliner-item.armed-pick {');
+  expectIn(rule, 'box-shadow: inset 0 -2px 0 var(--accent);', 'the armed row uses the accent underline');
+  if (/border-radius/.test(rule)) throw new Error('the armed-row mark must stay flat');
+  // Arming and rebuilding both keep the mark in step.
+  const setPick = section(labJs, 'function setSensorPick(', 'function enterSensorPick(');
+  expectIn(setPick, 'syncOutlinerArmedRow();', 'arming re-marks the outliner rows');
+  const render = section(labJs, 'function renderOutliner() {', 'function updateOutlinerSelection()');
+  expectIn(render, 'armed-pick', 'a rebuild keeps the armed row marked');
+  const sync = section(labJs, 'function syncOutlinerArmedRow() {', 'function startRename(row, entity) {');
+  expectIn(sync, "item.dataset.entityType === 'sensor'", 'only the armed sensor row is marked');
 });
 
 /* ------------------------------ summary ------------------------------ */

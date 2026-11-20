@@ -163,7 +163,7 @@ import {
   motionGraphModel,
   sensorTargetLabel,
 } from './graphs.mjs';
-import { classifyArmedPick, isNativeEditorTarget, sceneUndoKey } from './pick-keys.mjs';
+import { classifyArmedPick, isNativeEditorTarget, resolvePickEntity, sceneUndoKey, selfCancelStatus } from './pick-keys.mjs';
 import { createLabView } from './view.js';
 import {
   canRedo,
@@ -240,7 +240,8 @@ import { createCircuitPanel } from './em/circuit-ui.js';
 const STYLE_ID = 'plab-style';
 // Version query busts stale lab.css tabs (02:48 review). Bump with the
 // shared cache-bust version in index.html whenever lab.css changes.
-const STYLE_HREF = 'modules/physics/lab/lab.css?v=20261119c';
+// 20261119d: pick-identity pass — on-canvas cancel button + armed-row mark.
+const STYLE_HREF = 'modules/physics/lab/lab.css?v=20261119d';
 
 function ensureStyle() {
   if (document.getElementById(STYLE_ID)) return;
@@ -799,7 +800,27 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     className: 'plab-hintline',
     text: '拖动自动吸附 · Drag to auto-snap · 按住 Shift 暂停吸附 · Hold Shift to disable',
   });
-  const canvasHud = el('div', { className: 'plab-canvas-hud' }, [status, hintLine]);
+  // 8843: a >=44px cancel that stays visible on the canvas while a pick
+  // is armed. Phones have no Escape, and arming closes the inspector on
+  // mobile — which hides its cancel button — so without this the only
+  // non-Escape cancel is tapping the armed sensor mesh, easy to confuse
+  // with tapping another sensor. Reuses the action band styles; the
+  // button alone takes pointer events inside the click-through HUD.
+  const pickCancelBtn = el('button', {
+    type: 'button',
+    className: 'plab-action hit-target plab-pick-cancel',
+    text: '取消点选 · Cancel pick',
+    'data-action': 'sensor-pick-cancel',
+    hidden: true,
+  });
+  pickCancelBtn.addEventListener('click', () => {
+    if (!pendingSensorTarget) return;
+    cancelSensorPick();
+    // The button hides itself on cancel; park focus on the canvas host
+    // so the next Ctrl/Cmd+Z is scene undo, not stranded on body.
+    focusSceneSurface();
+  });
+  const canvasHud = el('div', { className: 'plab-canvas-hud' }, [status, hintLine, pickCancelBtn]);
 
   const legend = el('div', { className: 'plab-legend', 'aria-label': '力矢量图例 · Force vector legend' });
   [
@@ -1955,10 +1976,16 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     outlinerHint.hidden = entities.length > 0;
     for (const entity of entities) {
       const isSel = selected?.type === entity.type && selected?.id === entity.id;
+      // While a pick is armed, the armed sensor's row is a cancel target
+      // (clicking it cancels), never a target candidate: mark it so the
+      // row is obviously distinct from the other sensors (8843).
+      const isArmedPick = !!pendingSensorTarget
+        && entity.type === 'sensor'
+        && entity.id === pendingSensorTarget;
       const row = el('div', { className: 'plab-outliner-row' });
       const item = el('button', {
         type: 'button',
-        className: `plab-outliner-item hit-target${isSel ? ' active' : ''}`,
+        className: `plab-outliner-item hit-target${isSel ? ' active' : ''}${isArmedPick ? ' armed-pick' : ''}`,
         'aria-current': isSel ? 'true' : 'false',
         'aria-label': `${entity.name || entityFallbackName(entity)} · ${entityKindText(entity)}`,
       }, [
@@ -1985,8 +2012,11 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
               return;
             }
             if (pickKind === 'self') {
-              // Clicking the armed sensor itself cancels — also the touch path.
-              cancelSensorPick();
+              // Clicking the armed sensor itself cancels — also the touch
+              // path. Name the armed sensor and the reason, so the cancel
+              // never reads as a rejected target or another sensor's
+              // warning (8843).
+              cancelSensorPick(sensorTargetName(sensor));
               return;
             }
             // A real non-eligible row (a Wall/barrier, a surface, another
@@ -2025,6 +2055,21 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
       const isSel = selected?.type === item.dataset.entityType && selected?.id === item.dataset.entityId;
       item.classList.toggle('active', isSel);
       item.setAttribute('aria-current', isSel ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Mark the armed sensor's outliner row as the cancel target (8843):
+   * accent underline, same visual language as the armed pick button.
+   * renderOutliner re-applies the class on rebuilds; this keeps it in
+   * step when arming/disarming without a rebuild.
+   */
+  function syncOutlinerArmedRow() {
+    outlinerList.querySelectorAll('.plab-outliner-item').forEach((item) => {
+      const armed = !!pendingSensorTarget
+        && item.dataset.entityType === 'sensor'
+        && item.dataset.entityId === pendingSensorTarget;
+      item.classList.toggle('armed-pick', armed);
     });
   }
 
@@ -3982,8 +4027,12 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
           if (applySensorTargetPick(sensor, hit.entity)) return;
           return;
         } else if (pickKind === 'self') {
-          // Clicking the armed sensor itself cancels — also the touch path.
-          cancelSensorPick();
+          // Clicking the armed sensor itself cancels — also the touch
+          // path. Name the armed sensor and the reason, so the cancel is
+          // never mistaken for a rejected target or for clicking a
+          // different sensor (8843). `sensor` is the live armed object,
+          // so the name matches the outliner, mesh kind and any rename.
+          cancelSensorPick(sensorTargetName(sensor));
           return;
         } else if (pickKind === 'empty') {
           // Empty canvas: a null hit or a hit with no entity. The
@@ -5058,6 +5107,15 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
 
   function sensorTargetName(entity) {
     if (!entity) return '';
+    // The canvas raycast stub carries only { type, id } (view.js makeRoot),
+    // so an unresolved sensor stub would fall through kindLabel's
+    // photogate fallback and a Force sensor #4 hit would warn as
+    // 光电门 · Photogate #4 (8843). Resolve the live scene entity — the
+    // same object the outliner names from — before any label, so the
+    // kind and any custom rename decide the wording. Stale ids keep the
+    // stub. Classification (classifyArmedPick) already used only type+id
+    // and stays untouched.
+    entity = resolvePickEntity(entity, entityById) || entity;
     if (entity.type === 'launcher') {
       return `${entity.name || entityFallbackName(entity)} · 装填小球 · Loaded ball`;
     }
@@ -5121,17 +5179,27 @@ export function renderLab(main, { isCurrent = () => true } = {}) {
     pendingSensorTarget = sensorId || null;
     if (pendingSensorTarget) root.dataset.picking = 'sensor-target';
     else delete root.dataset.picking;
+    // The on-canvas cancel mirrors the armed state: always visible while
+    // armed — on mobile the inspector is closed and phones have no
+    // Escape, so this is the always-reachable cancel (8843).
+    pickCancelBtn.hidden = !pendingSensorTarget;
+    syncOutlinerArmedRow();
     syncSensorPickButtons();
   }
 
   function enterSensorPick(sensor, status) {
     setSensorPick(sensor.id);
-    setStatus(status || '点选模式已开启：点击场景中的物体或抛射器添加目标；按 Esc 或再次点击本按钮取消。 · Pick mode is on: click a body or launcher in the scene to add it as a target; press Esc or click this button again to cancel.');
+    setStatus(status || '点选模式已开启：点击场景中的物体或抛射器添加目标；按 Esc、点「取消点选」或再点本传感器取消。 · Pick mode is on: click a body or launcher in the scene to add it as a target; press Esc, tap Cancel pick, or click the armed sensor again to cancel.');
   }
 
-  function cancelSensorPick() {
+  function cancelSensorPick(selfName) {
     setSensorPick(null);
-    setStatus('已取消点选 · Pick cancelled');
+    // A self-click cancel (canvas mesh or outliner row) names the armed
+    // sensor and says why, so it is never read as a rejected target.
+    // Esc, the inspector toggle and the HUD button keep the plain
+    // bilingual line. Both stay distinct from the stay-armed
+    // 「点选保持开启」 ineligible warning (8843).
+    setStatus(selfName ? selfCancelStatus(selfName) : '已取消点选 · Pick cancelled');
   }
 
   /** A non-eligible hit keeps pick mode armed instead of selecting. */

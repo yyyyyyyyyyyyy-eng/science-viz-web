@@ -51,3 +51,34 @@ export function classifyArmedPick(hit, armedSensorId) {
   if (entity.type === 'sensor' && entity.id === armedSensorId) return 'self';
   return 'ineligible';
 }
+
+/**
+ * Resolve a pick hit's entity stub to the live scene entity.
+ *
+ * view.js makeRoot stores only { type, id } on userData.entity, so the
+ * canvas raycast hands the naming path a kind-less, name-less stub: a
+ * Force sensor #4 stub fell through kindLabel's sensor fallback and the
+ * 8843 review saw a force sensor warned as 光电门 · Photogate #4. The
+ * live world object — the one the outliner reads — carries .kind and
+ * .name, so callers resolve through their lookup (index.js entityById)
+ * before any label. Classification needs only type+id and stays correct
+ * either way; this is the display side. A stale id keeps the stub, so a
+ * deleted entity still names something instead of throwing.
+ */
+export function resolvePickEntity(stub, lookup) {
+  if (!stub || typeof lookup !== 'function') return stub || null;
+  return lookup(stub.type, stub.id) || stub;
+}
+
+/**
+ * Bilingual status when the armed sensor itself is clicked (its canvas
+ * mesh or its outliner row — the touch path, phones have no Escape). It
+ * names that sensor and says the cancel happened because the
+ * current/armed sensor was clicked, and is deliberately distinct from
+ * the plain 「已取消点选 · Pick cancelled」 (Esc / button / HUD cancel)
+ * and from the stay-armed 「点选保持开启」 ineligible warning, so a
+ * self-cancel never reads as a rejected target.
+ */
+export function selfCancelStatus(name) {
+  return `已取消点选（点击了当前传感器：${name}） · Pick cancelled (clicked the armed sensor: ${name})`;
+}

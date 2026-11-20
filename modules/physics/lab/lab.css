@@ -288,6 +288,17 @@ html[data-route="lab"] .site-footer {
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
+/* 8843: a >=44px cancel that stays on the canvas while a pick is armed —
+   phones have no Escape and arming closes the inspector (hiding its
+   cancel button). Reuses the plab-action band; the button alone takes
+   pointer events inside the otherwise click-through HUD. */
+.plab-pick-cancel {
+  align-self: center;
+  pointer-events: auto;
+}
+.plab-pick-cancel[hidden] {
+  display: none;
+}
 .plab-hintline {
   margin: 0;
   font-size: 0.66rem;
@@ -1470,6 +1481,12 @@ html[data-route="lab"] .site-footer {
   background: var(--bg-soft);
   color: var(--text-strong);
   box-shadow: inset 2px 0 0 var(--accent);
+}
+/* 8843: while a pick is armed, the armed sensor's row is a cancel target
+   (click it to cancel), never a target candidate — the same accent
+   underline language as the armed pick button. */
+.plab-outliner-item.armed-pick {
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 .plab-outliner-name {
   font-size: 0.74rem;

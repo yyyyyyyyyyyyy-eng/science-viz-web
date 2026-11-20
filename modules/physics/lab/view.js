@@ -719,7 +719,12 @@ export function createLabView(host, opts = {}) {
 
   function makeRoot(entity) {
     const root = new THREE.Group();
-    root.userData.entity = { type: entity.type, id: entity.id };
+    // Defense in depth: carry the kind so even a caller that skips the
+    // live lookup names this mesh right (a force sensor stub must never
+    // fall to the photogate wording). The pick contract stays { type, id }
+    // — index.js resolves the live entity by type+id first, and the
+    // regression tests still exercise the kind-less raycast shape.
+    root.userData.entity = { type: entity.type, id: entity.id, kind: entity.kind };
     return root;
   }
 
