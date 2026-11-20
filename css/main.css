@@ -2285,6 +2285,19 @@ html[data-route="map"] .site-footer {
   color: var(--accent);
 }
 
+/* 长目录会在 rail 内部滚动（revealInStickyRail 与滚轮都会动 rail 的 scrollTop）。
+   章节行钉在 rail 顶端：滚动时 rail 顶部永远是完整、带 1px 线的章节头，
+   不再出现贴着页头被裁掉半个条目的观感；列表在其下方干净滑过。
+   The rail's own overflow scrolls on long topics; pin the chapter row to the
+   scrollport top so the rail always opens with a complete ruled header just
+   below the site header, and items glide beneath instead of slicing at it. */
+.topic-rail .rail-chapter {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
+}
+
 .topic-outline {
   display: flex;
   flex-direction: column;
@@ -3874,6 +3887,9 @@ html[data-route="map"] .site-footer {
   margin-top: 0.35rem;
   max-width: min(100%, 480px);
   overflow-x: auto;
+  /* Captions wrap instead of being squeezed onto one line; long unbroken
+     tokens break mid-word rather than overflowing the column. */
+  overflow-wrap: break-word;
   /* overflow-x:auto forces overflow-y:auto; reserve room for KaTeX
      fraction descenders so they are not clipped at the bottom edge. */
   padding-bottom: 0.5rem;
@@ -3945,6 +3961,16 @@ html[data-route="map"] .site-footer {
 /* ————————————————————————————————
    响应式 · Responsive
    ———————————————————————————————— */
+
+/* 两列 AP 图示至少需要约 2×350px + 间距（桌面网格是 714px 宽、每列 ~350px）。
+   更窄的窗口里 auto-fill 也会排成两列，每列不足 308–348px，图与图注拥挤；
+   窄屏强制单列，图框（≤480px）与图注获得完整内容宽度，浅/深色都可读。
+   Two auto-fill columns need ~2×350px + gap; narrower windows keep the
+   gallery on one roomy column so figure boxes and captions keep
+   horizontal space (module pages share the same grid class). */
+@media (max-width: 745px) {
+  .exam-figures-grid { grid-template-columns: minmax(0, 1fr); }
+}
 
 @media (max-width: 1080px) {
   .practice-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
