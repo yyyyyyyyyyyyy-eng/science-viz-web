@@ -14,6 +14,9 @@
  * Checks (light + dark, 1280x900, throwaway port + throwaway Chrome profile):
  *   VOCAB-1  chips exist on mech-u1/1.1 and match the unscoped rule
  *   VOCAB-2  intended inline hint: inline box, transparent bg, dotted underline
+ *   VOCAB-2b >=44x44 hit pad: the tap area grows via an absolutely
+ *            positioned pseudo pad that never counts toward the chip's own
+ *            border box (visible chip stays < 32px, per the design brief)
  *   VOCAB-3  :hover turns the underline solid and boosts the color
  *   VOCAB-4  click opens the tip, [aria-expanded="true"] tints the chip,
  *            the tip close button keeps a >=44px hit target, Escape closes
@@ -340,6 +343,48 @@ try {
   ok('square corners', snap1.borderRadius, '0px');
   ok('inline height (< 32px, not a ~36px UA button)', snap1.height < 32, true);
 
+  console.log('\nVOCAB-2b chip hit area reaches 44x44 without growing the visible box');
+  // The visible chip stays a compact inline hint (height < 32px, VOCAB-2);
+  // its >=44x44 tap area comes from an absolutely positioned pseudo pad
+  // outside the button's border box. Probes sit 22px off the chip centre in
+  // each direction. Up/left probes must land on the chip itself; down/right
+  // may be claimed by a neighbouring chip's pad when two chips sit on
+  // adjacent lines (the brief accepts that overlap) — either way the point
+  // must belong to a .topic-vocab-term, never to the paragraph text.
+  const padProbe = await page.eval(`(() => {
+    const c = document.querySelector('.topic-vocab-term');
+    c.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const r = c.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const probe = (x, y) => {
+      const el = document.elementFromPoint(x, y);
+      if (!el) return 'none';
+      if (el.closest('.topic-vocab-term') === c) return 'own';
+      if (el.closest('.topic-vocab-term')) return 'other-term';
+      return 'text';
+    };
+    return {
+      text: c.textContent.trim(),
+      rectW: Math.round(r.width * 10) / 10,
+      rectH: Math.round(r.height * 10) / 10,
+      inView: r.top >= 0 && r.bottom <= window.innerHeight,
+      center: probe(cx, cy),
+      up22: probe(cx, cy - 22),
+      down22: probe(cx, cy + 22),
+      left22: probe(cx - 22, cy),
+      right22: probe(cx + 22, cy),
+    };
+  })()`);
+  evidence.hitPad = padProbe;
+  ok('chip scrolled fully into view for the hit probes', padProbe.inView, true);
+  ok('hit pad: centre point is the chip itself', padProbe.center, 'own');
+  ok('hit pad: 22px above centre is still the chip', padProbe.up22, 'own');
+  ok('hit pad: 22px left of centre is still the chip', padProbe.left22, 'own');
+  ok('hit pad: 22px below centre stays a vocab term (own or adjacent pad)', padProbe.down22 === 'own' || padProbe.down22 === 'other-term', true);
+  ok('hit pad: 22px right of centre stays a vocab term (own or adjacent pad)', padProbe.right22 === 'own' || padProbe.right22 === 'other-term', true);
+  ok('hit pad: visible chip box still < 32px tall', padProbe.rectH < 32, true);
+
   console.log('\nVOCAB-3 hover turns the underline solid');
   const center = await page.eval('(() => { const r = document.querySelector(".topic-vocab-term").getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()');
   await page.mouseMove(center.x, center.y);
@@ -445,6 +490,48 @@ try {
   ok('badge is a bordered inline-block', badge.display, 'inline-block');
   ok('badge border 1px solid danger color', badge.border.startsWith('1px solid'), true);
   ok('badge uses the mono font (--mono)', badge.fontFamily, badge.monoFont);
+
+  console.log('\nVOCAB-7b every calc 1.2 chip keeps the 44x44 pad (short 极限 included)');
+  // 极限 is ~35px wide, so its own box is far below a 44px tap area; the
+  // pseudo pad must carry it (up/left strictly own; down/right may be an
+  // adjacent chip's pad). All visible boxes must stay < 32px tall.
+  const calcChips = await page.eval(`(async () => {
+    const out = [];
+    for (const c of document.querySelectorAll('.topic-vocab-term')) {
+      c.scrollIntoView({ block: 'center', behavior: 'instant' });
+      await new Promise((r) => requestAnimationFrame(r));
+      const r = c.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const probe = (x, y) => {
+        const el = document.elementFromPoint(x, y);
+        if (!el) return 'none';
+        if (el.closest('.topic-vocab-term') === c) return 'own';
+        if (el.closest('.topic-vocab-term')) return 'other-term';
+        return 'text';
+      };
+      out.push({
+        text: c.textContent.trim(),
+        rectW: Math.round(r.width * 10) / 10,
+        rectH: Math.round(r.height * 10) / 10,
+        inView: r.top >= 0 && r.bottom <= window.innerHeight,
+        center: probe(cx, cy),
+        up22: probe(cx, cy - 22),
+        down22: probe(cx, cy + 22),
+        left22: probe(cx - 22, cy),
+        right22: probe(cx + 22, cy),
+      });
+    }
+    return out;
+  })()`);
+  evidence.calcHitPads = calcChips;
+  ok('calc 1.2: chips found and probed fully in view', calcChips.length >= 5 && calcChips.every((c) => c.inView), true);
+  ok('calc 1.2: every visible chip box still < 32px tall', calcChips.every((c) => c.rectH < 32), true);
+  ok('calc 1.2: 22px up/left of every centre stays on the same chip', calcChips.every((c) => c.up22 === 'own' && c.left22 === 'own'), true);
+  ok('calc 1.2: 22px down/right of every centre stays a vocab term', calcChips.every((c) => c.down22 !== 'text' && c.down22 !== 'none' && c.right22 !== 'text' && c.right22 !== 'none'), true);
+  const shortChip = calcChips.reduce((a, b) => (a.rectW <= b.rectW ? a : b));
+  ok(`calc 1.2: shortest chip "${shortChip.text}" (${shortChip.rectW}px wide) keeps a >=44px hit area`,
+    shortChip.center === 'own' && shortChip.up22 === 'own' && shortChip.left22 === 'own' && shortChip.down22 !== 'text' && shortChip.right22 !== 'text', true);
 
   console.log('\nVOCAB-8 topic pager styles apply (first mech topic = disabled prev)');
   // mech order: prep-hs, prep-ap1, prep-math, u1..u7 (modules/registry.js) —
