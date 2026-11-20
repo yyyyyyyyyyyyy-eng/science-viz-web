@@ -47,7 +47,7 @@ function ensureStyle() {
   const link = document.createElement('link');
   link.id = STYLE_ID;
   link.rel = 'stylesheet';
-  link.href = 'css/search.css?v=20261120a';
+  link.href = 'css/search.css?v=20261120b';
   document.head.appendChild(link);
 }
 
