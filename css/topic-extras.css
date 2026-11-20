@@ -60,6 +60,9 @@
    no `.topic-page` ancestor (that class is the credits article in
    js/pages.js), and .topic-vocab-term is created only by js/topic-page.js. */
 .topic-vocab-term {
+  /* Anchors the ::before hit pad below; changes nothing about the
+     inline-hint look or the chip's own border box. */
+  position: relative;
   display: inline;
   margin: 0;
   padding: 0 0.04em;
@@ -72,6 +75,23 @@
   line-height: inherit;
   text-align: inherit;
   cursor: help;
+}
+/* >=44px hit pad for the inline hint (design retest: taps measured ~35x31).
+   The visible chip stays a compact dashed hint — its own border box keeps
+   < 32px height, asserted by scripts/test-topic-vocab.mjs — while the tap
+   area grows through an absolutely positioned pseudo box that never counts
+   toward the button's getBoundingClientRect. 48px (not 44px) keeps
+   centre±22px taps safely inside the pad instead of on its subpixel edge;
+   short words like 极限 still get a full 48px-wide pad. Transparent and
+   unpainted, so nothing shows and the dashed hint is unchanged. */
+.topic-vocab-term::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: max(48px, 100%);
+  height: max(48px, 100%);
 }
 .topic-vocab-term:hover,
 .topic-vocab-term:focus-visible {
@@ -290,6 +310,11 @@
   margin: 3.2rem 0;
   padding-top: 1.05rem;
   border-top: 1px solid var(--border);
+  /* Any scroll-into-view of a block (focus, anchors) must clear the sticky
+     header, mirroring the measured offset jumpTo() applies in
+     js/topic-page.js. Covers the exam-figure sections (they carry
+     .topic-block too) and the gated practice blocks. */
+  scroll-margin-top: calc(var(--nav-h) + 24px);
 }
 .topic-content .topic-block > h2 {
   margin: 0 0 1.05rem;

@@ -6,6 +6,13 @@
  *   RAIL-1  the sticky topic rail must reveal the active outline item when the
  *           page jumps there (long topics overflow the rail's own scroll area)
  *   RAIL-2  same for the practice rail's active question button
+ *   JUMP-1  outline jumps (rail item, practice item, gate button) must clear
+ *           the real .site-header bottom edge — the header is height:auto
+ *           with min-height: var(--nav-h), so trusting the token lands the
+ *           heading under a wrapped/taller header (design retest defect)
+ *   JUMP-2  narrow layout: one click on 本页目录 (On this page) must close
+ *           the menu and land the heading below the header — measured only
+ *           after the closed details has settled its layout
  *   KEYS-1  practice MCQ radiogroups answer to ArrowLeft/ArrowRight as well as
  *           ArrowUp/ArrowDown, moving focus with selection
  *   KEYS-2  quiz MCQ items behave the same
@@ -236,6 +243,87 @@ try {
   ok(`topic rail active item visible in rail (${t1v.label})`, t1v.visible, true);
   ok('topic rail scrolled internally', t1v.railScrolled, true);
 
+  console.log('\nJUMP-1 outline jumps clear the real sticky header, not just --nav-h');
+  // The header is height:auto with min-height: var(--nav-h); whenever its
+  // real box is taller than the token (a wrapped nav row, a bumped text
+  // size), the old var-based offset slid the target heading under the
+  // sticky header. Model that state by forcing one extra 48px header row.
+
+  const railJump = async (match) => {
+    await page.eval(`(() => {
+      const b = [...document.querySelectorAll('.topic-rail .topic-outline button')].find((x) => x.textContent.includes(${JSON.stringify(match)}));
+      b.click();
+    })()`);
+    await page.settleScroll();
+    await sleep(400);
+  };
+  const jumpState = (id) => page.eval(`(() => {
+    const hb = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    const h2 = document.querySelector('#' + ${JSON.stringify(id)} + ' h2').getBoundingClientRect();
+    return {
+      headerBottom: Math.round(hb * 10) / 10,
+      h2Top: Math.round(h2.top * 10) / 10,
+      h2Bottom: Math.round(h2.bottom * 10) / 10,
+      viewportH: window.innerHeight,
+    };
+  })()`);
+
+  // a) Normal header: clicking 公式 leaves a clear gap below the header.
+  await railJump('公式');
+  const j1a = await jumpState('topic-sec-formulas');
+  ok(`normal header: formulas h2 clears the header bottom by >= 8px (got ${j1a.h2Top - j1a.headerBottom})`, j1a.h2Top - j1a.headerBottom >= 8, true);
+  ok('normal header: formulas h2 bottom is inside the viewport', j1a.h2Bottom <= j1a.viewportH, true);
+
+  // b) Taller real header: the same click must clear the measured edge
+  //    (fails before the fix: the heading sat under the wrapped header).
+  const tallBottom = await page.eval(`(() => {
+    const probe = document.createElement('div');
+    probe.id = 'test-taller-header-row';
+    probe.style.cssText = 'flex-basis: 100%; flex-shrink: 0; height: 88px;';
+    document.querySelector('.site-header .header-inner').appendChild(probe);
+    return Math.round(document.querySelector('.site-header').getBoundingClientRect().bottom * 10) / 10;
+  })()`);
+  ok('taller header probe row forced (header bottom above the token offset)', tallBottom > 84, true);
+  await railJump('公式');
+  const j1b = await jumpState('topic-sec-formulas');
+  ok(`taller header: formulas h2 clears the real header bottom by >= 12px (got ${j1b.h2Top - j1b.headerBottom})`, j1b.h2Top - j1b.headerBottom >= 12, true);
+  ok('taller header: formulas h2 bottom is inside the viewport', j1b.h2Bottom <= j1b.viewportH, true);
+
+  // c) Taller header: an outline jump straight into the practice zone
+  //    (the first practice item, 例题, opens the gate and jumps).
+  await page.eval(`(() => {
+    document.querySelector('.topic-rail .topic-outline button.topic-outline-practice').click();
+  })()`);
+  await page.settleScroll();
+  await sleep(400);
+  const j1c = await page.eval(`(() => {
+    const hb = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    const id = document.querySelector('.topic-rail .topic-outline button.topic-outline-practice').dataset.target;
+    const h2 = document.querySelector('#' + id + ' h2').getBoundingClientRect();
+    return { id, headerBottom: Math.round(hb * 10) / 10, h2Top: Math.round(h2.top * 10) / 10, h2Bottom: Math.round(h2.bottom * 10) / 10, viewportH: window.innerHeight };
+  })()`);
+  ok(`taller header: practice jump (${j1c.id}) clears the header by >= 12px (got ${j1c.h2Top - j1c.headerBottom})`, j1c.h2Top - j1c.headerBottom >= 12, true);
+  ok('taller header: practice jump h2 bottom inside the viewport', j1c.h2Bottom <= j1c.viewportH, true);
+
+  // d) Taller header: the gate button's own jump uses the same offset.
+  await page.eval(`(() => {
+    const b = document.querySelector('.topic-gate-btn');
+    b.scrollIntoView({ block: 'center', behavior: 'instant' });
+    b.click();
+  })()`);
+  await page.settleScroll();
+  await sleep(400);
+  const j1d = await page.eval(`(() => {
+    const hb = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    const h2 = document.querySelector('#topic-sec-examples h2').getBoundingClientRect();
+    return { headerBottom: Math.round(hb * 10) / 10, h2Top: Math.round(h2.top * 10) / 10, h2Bottom: Math.round(h2.bottom * 10) / 10, viewportH: window.innerHeight };
+  })()`);
+  ok(`taller header: gate button jump clears the header by >= 12px (got ${j1d.h2Top - j1d.headerBottom})`, j1d.h2Top - j1d.headerBottom >= 12, true);
+  ok('taller header: gate button jump h2 bottom inside the viewport', j1d.h2Bottom <= j1d.viewportH, true);
+
+  // Restore the real header before the practice-page scenarios.
+  await page.eval(`document.getElementById('test-taller-header-row')?.remove()`);
+
   console.log('\nRAIL-2 practice rail keeps the active question button visible');
 
   await page.goto(`${base}/#/math/practice/calc-u1`);
@@ -347,6 +435,61 @@ try {
   await page.eval(`[...document.querySelectorAll('#practice-quiz-panel button')].find((b) => b.textContent.includes('退出小测'))?.click()`);
   await sleep(400);
   ok('banner reappears after leaving the resumed quiz', await page.eval('document.querySelector(".practice-quiz-resume").hidden'), false);
+
+  console.log('\nJUMP-2 narrow outline: one click in 本页目录 jumps below the header');
+  // At ~485px the rail is hidden and the outline lives in
+  // details.topic-outline-mobile. One click must close the menu, settle the
+  // collapsed layout, and land the heading fully below the real sticky
+  // header — no second click allowed.
+
+  const narrow = await newPage(cdp, 485, 800);
+  await narrow.goto(`${base}/#/t/math/calc-u1/1.2`);
+  ok('narrow: topic page with mobile outline rendered', await narrow.waitFor('!!document.querySelector(".topic-outline-mobile")'), true);
+
+  const oneMenuClick = async () => {
+    // open 本页目录, click 公式 exactly once, wait for the jump to settle
+    await narrow.eval(`(() => {
+      const d = document.querySelector('.topic-outline-mobile');
+      if (!d.open) d.querySelector('summary').click();
+    })()`);
+    await narrow.waitFor('document.querySelector(".topic-outline-mobile").open === true');
+    await narrow.eval(`(() => {
+      const b = [...document.querySelectorAll('.topic-outline-inline button')].find((x) => x.textContent.includes('公式'));
+      b.click();
+    })()`);
+    await narrow.settleScroll();
+    await sleep(400);
+    return narrow.eval(`(() => {
+      const hb = document.querySelector('.site-header').getBoundingClientRect().bottom;
+      const h2 = document.querySelector('#topic-sec-formulas h2').getBoundingClientRect();
+      return {
+        detailsOpen: document.querySelector('.topic-outline-mobile').open,
+        headerBottom: Math.round(hb * 10) / 10,
+        h2Top: Math.round(h2.top * 10) / 10,
+        h2Bottom: Math.round(h2.bottom * 10) / 10,
+        viewportH: window.innerHeight,
+      };
+    })()`);
+  };
+
+  const j2a = await oneMenuClick();
+  ok('narrow: menu closed after one click', j2a.detailsOpen, false);
+  ok(`narrow: formulas h2 clears the header bottom by >= 8px (got ${j2a.h2Top - j2a.headerBottom})`, j2a.h2Top - j2a.headerBottom >= 8, true);
+  ok('narrow: formulas h2 bottom inside the viewport', j2a.h2Bottom <= j2a.viewportH, true);
+
+  // Same single click under a taller real header (fails before the fix).
+  await narrow.eval(`(() => {
+    const probe = document.createElement('div');
+    probe.id = 'test-taller-header-row';
+    probe.style.cssText = 'flex-basis: 100%; flex-shrink: 0; height: 88px;';
+    document.querySelector('.site-header .header-inner').appendChild(probe);
+    return true;
+  })()`);
+  const j2b = await oneMenuClick();
+  ok('narrow, taller header: menu closed after one click', j2b.detailsOpen, false);
+  ok(`narrow, taller header: formulas h2 clears the real header by >= 12px (got ${j2b.h2Top - j2b.headerBottom})`, j2b.h2Top - j2b.headerBottom >= 12, true);
+  ok('narrow, taller header: formulas h2 bottom inside the viewport', j2b.h2Bottom <= j2b.viewportH, true);
+  ok('narrow: no console errors', narrow.consoleErrors.length, 0);
 
   console.log('\nconsole errors');
   ok('no console errors on topic or practice pages', page.consoleErrors.length, 0);

@@ -90,6 +90,24 @@ function navHeight() {
 }
 
 /**
+ * Real bottom edge of the sticky page header. The header is height:auto
+ * with min-height: var(--nav-h), so its actual box can be taller than the
+ * token (a wrapped nav row, a bumped text size). Outline jumps must clear
+ * the measured edge, never the token alone.
+ */
+function headerBottomEdge() {
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const rect = header.getBoundingClientRect();
+    if (rect.height > 0) return rect.bottom;
+  }
+  return navHeight() + 1; // token + header border-bottom fallback
+}
+
+/** Breathing room kept between the sticky header and a jumped-to heading. */
+const JUMP_GAP = 16;
+
+/**
  * Scroll a sticky rail's own overflow just enough to reveal `node`.
  * Only the rail's scrollTop moves; the window is never scrolled, so the
  * outline's scroll listener never chases its own adjustments.
@@ -415,9 +433,20 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
       b.addEventListener('click', () => {
         const details = b.closest('details');
         if (details) {
+          // Collapse the menu first, then measure and jump only once the
+          // closed layout has settled: closing <details> moves every later
+          // block, so a jump read off the still-open menu geometry lands
+          // short of the heading. One click must be enough.
+          const wasOpen = details.open;
           details.open = false;
           details.querySelector('summary')?.focus();
-          requestAnimationFrame(() => jumpTo(item.id));
+          if (!wasOpen) {
+            requestAnimationFrame(() => requestAnimationFrame(() => jumpTo(item.id)));
+            return;
+          }
+          details.addEventListener('toggle', () => {
+            requestAnimationFrame(() => requestAnimationFrame(() => jumpTo(item.id)));
+          }, { once: true });
         } else {
           jumpTo(item.id);
         }
@@ -432,8 +461,11 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     if (!target) return;
     // Outline clicks on practice sections open the gate before jumping.
     if (practiceZone?.hidden && target.closest('.topic-practice-zone')) expandPractice();
-    const top = target.getBoundingClientRect().top + window.scrollY - navHeight() - 20;
-    window.scrollTo({ top, behavior: 'smooth' });
+    // Clear the *measured* header edge plus a comfortable gap (the header
+    // can be taller than --nav-h; the old navHeight()-based offset slid the
+    // heading under a wrapped header).
+    const top = target.getBoundingClientRect().top + window.scrollY - headerBottomEdge() - JUMP_GAP;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   }
 
   /**
