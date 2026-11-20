@@ -24,7 +24,7 @@ function ensurePracticeStyle() {
   const link = document.createElement('link');
   link.id = PRACTICE_STYLE_ID;
   link.rel = 'stylesheet';
-  link.href = 'css/practice-extras.css?v=20261119c';
+  link.href = 'css/practice-extras.css?v=20261120a';
   document.head.appendChild(link);
 }
 

@@ -4042,7 +4042,7 @@ export function figuresForTopic(topicOrId) {
 
 const EXTRAS_STYLE_ID = 'topic-extras-style';
 // Version query matches the shared cache-bust token in index.html.
-const EXTRAS_STYLE_HREF = 'css/topic-extras.css?v=20261119c';
+const EXTRAS_STYLE_HREF = 'css/topic-extras.css?v=20261120a';
 
 function ensureExtrasStyle() {
   if (typeof document === 'undefined' || document.getElementById(EXTRAS_STYLE_ID)) return;
