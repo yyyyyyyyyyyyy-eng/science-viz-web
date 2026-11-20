@@ -393,7 +393,7 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     ]),
   );
 
-  const layout = el('div', { className: 'topic-layout' });
+  const layout = el('div', { className: `topic-layout ${subject}` });
   const rail = el('aside', { className: 'topic-rail', 'aria-label': '本页导航 · Page navigation' });
   const content = el('div', { className: 'topic-content' });
   layout.append(rail, content);
@@ -403,9 +403,12 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   const makeOutlineNav = (className = 'topic-outline') => {
     const nav = el('nav', { className, 'aria-label': '页内目录 · On this page' });
     outline.forEach((item) => {
+      const classes = ['hit-target'];
+      if (item.practice) classes.push('topic-outline-practice');
+      if (item.practiceStart) classes.push('topic-outline-practice-start');
       const b = el('button', {
         type: 'button',
-        className: 'hit-target',
+        className: classes.join(' '),
         text: item.label,
         'data-target': item.id,
       });
@@ -427,21 +430,39 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   function jumpTo(sectionId) {
     const target = document.getElementById(sectionId);
     if (!target) return;
+    // Outline clicks on practice sections open the gate before jumping.
+    if (practiceZone?.hidden && target.closest('.topic-practice-zone')) expandPractice();
     const top = target.getBoundingClientRect().top + window.scrollY - navHeight() - 20;
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
-  function addBlock(key, label, section) {
+  /**
+   * Open the practice zone (examples / self-check / past papers). The zone
+   * stays out of the document flow while hidden, so a stray wheel notch or
+   * page-down past the end of the notes can never land inside exercises.
+   */
+  function expandPractice() {
+    if (!practiceZone || !practiceZone.hidden) return;
+    practiceZone.hidden = false;
+    if (gateBtn) {
+      gateBtn.setAttribute('aria-expanded', 'true');
+      gateBtn.textContent = '回到练习区 · Back to practice area';
+    }
+    if (gateNote) gateNote.textContent = '练习区已展开，向下继续。 · Practice area expanded below.';
+    paintOutline();
+  }
+
+  function addBlock(key, label, section, { parent = content, practice = false } = {}) {
     section.id = `topic-sec-${key}`;
-    content.appendChild(section);
-    outline.push({ id: section.id, label });
+    parent.appendChild(section);
+    outline.push({ id: section.id, label, practice });
     return section;
   }
 
-  function block(key, label) {
+  function block(key, label, opts = {}) {
     const sec = el('section', { className: 'topic-block' });
     sec.appendChild(el('h2', { text: label }));
-    return addBlock(key, label, sec);
+    return addBlock(key, label, sec, opts);
   }
 
   const header = el('header', { className: `topic-header ${subject}` }, [
@@ -472,11 +493,18 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.intuition) appendMathText(defSec, topic.intuition, 'muted');
 
   if (topic.vocabulary?.length) {
-    const ul = el('ul', { className: 'topic-list' });
+    const sec = block('vocabulary', '重要词汇 · Key Vocabulary');
+    const ul = el('ul', { className: 'topic-vocab-list' });
     topic.vocabulary.forEach((item) => {
-      appendMathLi(ul, `${item.termZh} · ${item.termEn}：${item.defZh} · ${item.defEn}`);
+      // One framed entry per term: term line above, definitions below —
+      // same text as before, but each vocabulary item reads on its own line.
+      const li = el('li', { className: 'topic-vocab-entry' });
+      li.appendChild(el('p', { className: 'topic-vocab-entry-term', text: `${item.termZh} · ${item.termEn}` }));
+      if (item.defZh) appendMathText(li, item.defZh, 'topic-vocab-entry-def zh');
+      if (item.defEn) appendMathText(li, item.defEn, 'topic-vocab-entry-def en');
+      ul.appendChild(li);
     });
-    block('vocabulary', '重要词汇 · Key Vocabulary').appendChild(ul);
+    sec.appendChild(ul);
   }
 
   if (topic.essentialKnowledge?.length) {
@@ -494,8 +522,10 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
   if (topic.formulas?.length) {
     const box = block('formulas', '公式 · Formulas');
     topic.formulas.forEach((f) => {
-      box.appendChild(renderKatex(f.latex, true));
-      if (f.note) appendMathText(box, f.note, 'formula-note');
+      const item = el('div', { className: 'topic-formula-item' });
+      item.appendChild(renderKatex(f.latex, true));
+      if (f.note) appendMathText(item, f.note, 'formula-note');
+      box.appendChild(item);
     });
   }
 
@@ -524,21 +554,6 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
       appendMathLi(ul, c, badge ? { badge } : {});
     });
     block('misconceptions', '常见误解 · Misconceptions').appendChild(ul);
-  }
-
-  if (topic.examples?.length) {
-    const sec = block('examples', '例题 · Examples');
-    topic.examples.forEach((ex) => {
-      sec.appendChild(el('h3', { text: ex.title || '例题' }));
-      appendMathText(sec, ex.prompt);
-      if (ex.steps?.length) {
-        const ol = el('ol', { className: 'topic-list example-steps' });
-        ex.steps.forEach((s) => appendMathLi(ol, s));
-        sec.appendChild(ol);
-      }
-      if (ex.solution) appendMathText(sec, ex.solution, 'example-sol');
-      if (ex.solutionLatex) sec.appendChild(renderKatex(ex.solutionLatex, true));
-    });
   }
 
   if (topic.examTips?.length) {
@@ -585,11 +600,6 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     topic.development.forEach((s) => appendMathLi(ol, s));
     block('development', '循序展开 · Development').appendChild(ol);
   }
-  if (topic.checks?.length) {
-    const ul = el('ul', { className: 'topic-list' });
-    topic.checks.forEach((s) => appendMathLi(ul, s));
-    block('checks', '自测 · Self-check').appendChild(ul);
-  }
   if (topic.summary) {
     appendMathText(block('summary', '小结 · Summary'), topic.summary);
   }
@@ -609,10 +619,83 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     }
   } catch (_) {}
 
+  /* ---------- Teaching ends here: the practice gate ---------- */
+  // Examples / self-check / past papers are practice, not notes. They are
+  // grouped after the whole lecture and kept out of the normal scroll flow
+  // (hidden) until the reader explicitly continues, so one wheel notch past
+  // the end of the notes can never land inside exercises.
+  let papers = null;
+  try { papers = pastPapersForTopic(`${chapterId}:${code}`) || null; } catch (_) { papers = null; }
+  const hasExamples = !!topic.examples?.length;
+  const hasChecks = !!topic.checks?.length;
+  const hasPapers = !!papers?.length;
+  let practiceZone = null;
+  let gateNote = null;
+  let gateBtn = null;
+  if (hasExamples || hasChecks || hasPapers) {
+    const kindsZh = [hasExamples && '例题', hasChecks && '自测', hasPapers && '历年真题'].filter(Boolean).join('、');
+    const kindsEn = [hasExamples && 'examples', hasChecks && 'self-check', hasPapers && 'past papers'].filter(Boolean).join(', ');
+    const gate = el('section', { className: 'topic-gate', id: 'topic-sec-gate' });
+    gate.appendChild(el('h2', { className: 'topic-gate-title', text: '讲义到此结束 · End of notes' }));
+    gateNote = el('p', {
+      className: 'topic-gate-note',
+      text: `以下为练习区（${kindsZh}），点击下方按钮展开。 · Practice area ahead (${kindsEn}) — expand with the button below.`,
+    });
+    gate.appendChild(gateNote);
+    gateBtn = el('button', {
+      type: 'button',
+      className: 'btn primary hit-target topic-gate-btn',
+      text: '继续看例题与自测 · Continue to examples and checks',
+      'aria-expanded': 'false',
+      'aria-controls': 'topic-practice-zone',
+    });
+    gate.appendChild(gateBtn);
+    content.appendChild(gate);
+
+    practiceZone = el('div', {
+      className: 'topic-practice-zone',
+      id: 'topic-practice-zone',
+      role: 'region',
+      'aria-label': '练习区 · Practice area',
+      hidden: true,
+    });
+    content.appendChild(practiceZone);
+
+    gateBtn.addEventListener('click', () => {
+      expandPractice();
+      const firstPractice = outline.find((o) => o.practice);
+      jumpTo(firstPractice ? firstPractice.id : gate.id);
+    });
+  }
+
+  if (hasExamples) {
+    const sec = block('examples', '例题 · Examples', { parent: practiceZone, practice: true });
+    topic.examples.forEach((ex) => {
+      // One framed article per example: title, prompt, steps, solution.
+      const art = el('article', { className: 'topic-example' });
+      art.appendChild(el('h3', { text: ex.title || '例题' }));
+      appendMathText(art, ex.prompt);
+      if (ex.steps?.length) {
+        const ol = el('ol', { className: 'topic-list example-steps' });
+        ex.steps.forEach((s) => appendMathLi(ol, s));
+        art.appendChild(ol);
+      }
+      if (ex.solution) appendMathText(art, ex.solution, 'example-sol');
+      if (ex.solutionLatex) art.appendChild(renderKatex(ex.solutionLatex, true));
+      sec.appendChild(art);
+    });
+  }
+
+  if (hasChecks) {
+    const ul = el('ul', { className: 'topic-list' });
+    topic.checks.forEach((s) => appendMathLi(ul, s));
+    block('checks', '自测 · Self-check', { parent: practiceZone, practice: true }).appendChild(ul);
+  }
+
+  // Past papers: official PDF links + original paraphrase only.
   try {
-    const papers = pastPapersForTopic(`${chapterId}:${code}`);
     if (papers?.length) {
-      const sec = block('pastpapers', '历年真题 · Past Papers');
+      const sec = block('pastpapers', '历年真题 · Past Papers', { parent: practiceZone, practice: true });
       sec.appendChild(el('p', { className: 'muted', text: '仅官方 PDF 链接与原创复述，不含试题原文。' }));
       papers.slice(0, 12).forEach((e) => {
         const row = el('div', { className: 'pastpaper-row' });
@@ -627,6 +710,10 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
       sec.appendChild(el('a', { className: 'entry-row hit-target', href: `#/pastpapers/${subject}`, text: '查看全部历年真题' }));
     }
   } catch (_) {}
+
+  // Mark where the practice group starts so the outline can draw a divider.
+  const firstPracticeItem = outline.find((o) => o.practice);
+  if (firstPracticeItem) firstPracticeItem.practiceStart = true;
 
   enhanceVocabulary(content, topic.vocabulary);
 
@@ -675,7 +762,8 @@ export async function renderTopicPage(main, { subject, chapterId, code, isCurren
     let current = outline[0]?.id || null;
     for (const item of outline) {
       const target = document.getElementById(item.id);
-      if (!target) continue;
+      // Skip targets without a layout box yet — the collapsed practice zone.
+      if (!target || !target.offsetParent) continue;
       if (target.getBoundingClientRect().top <= navHeight() + 120) current = item.id;
     }
     if (current === activeId) return;

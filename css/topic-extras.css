@@ -270,3 +270,152 @@
 .exam-figure-lightbox .exam-figure-zoom {
   display: none;
 }
+
+/* ---------- Subject accent across the topic layout ----------
+   main.css defines --subject-accent only on .topic-header; js/topic-page.js
+   now mirrors the subject class on .topic-layout so section-title bars and
+   outline markers can share the same token. */
+.topic-layout.math { --subject-accent: var(--math); }
+.topic-layout.bio { --subject-accent: var(--bio); }
+.topic-layout.mech,
+.topic-layout.em { --subject-accent: var(--physics); }
+
+/* ---------- Calmer reading rhythm: blocks and entries ---------- */
+/* Layered over main.css (this sheet loads after it). Everything is scoped
+   under .topic-content / .topic-layout, which exist only on knowledge-topic
+   pages built by js/topic-page.js — the credits article (.topic-page in
+   js/pages.js) has neither ancestor and stays untouched.
+   Square corners, theme tokens only, no smaller font sizes. */
+.topic-content .topic-block {
+  margin: 3.2rem 0;
+  padding-top: 1.05rem;
+  border-top: 1px solid var(--border);
+}
+.topic-content .topic-block > h2 {
+  margin: 0 0 1.05rem;
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--subject-accent, var(--accent));
+  color: var(--text-strong);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+.topic-content .topic-block > h3 {
+  margin: 1.4rem 0 0.45rem;
+}
+.topic-content .topic-block p {
+  margin: 0.65rem 0;
+  /* 1.78 keeps any vocab chip's line box + dotted underline < 32px
+     (see scripts/test-topic-vocab.mjs); breathing comes from margins. */
+  line-height: 1.78;
+}
+.topic-content .topic-list {
+  margin: 0.65rem 0 0.25rem;
+  padding-left: 1.3rem;
+}
+.topic-content .topic-list li {
+  margin: 0.55rem 0;
+  line-height: 1.78;
+}
+/* Entry-level framing: a hairline between items so each one reads alone. */
+.topic-content .topic-list li + li {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-soft);
+}
+.topic-content .example-steps li + li {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+}
+
+/* Vocabulary: one framed entry per term (term line, then definitions). */
+.topic-content .topic-vocab-list {
+  margin: 0.65rem 0 0.25rem;
+  padding-left: 0;
+  list-style: none;
+}
+.topic-content .topic-vocab-list li + li {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-soft);
+}
+.topic-content .topic-vocab-list .topic-vocab-entry-term {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.topic-content .topic-vocab-list .topic-vocab-entry-def {
+  margin: 0.15rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.78;
+}
+.topic-content .topic-vocab-list .topic-vocab-entry-def.en {
+  color: var(--text-muted);
+}
+
+/* Formulas: each latex + note pair framed as its own item. */
+.topic-content .topic-formula-item {
+  padding: 0.7rem 0 0.75rem;
+}
+.topic-content .topic-formula-item + .topic-formula-item {
+  border-top: 1px solid var(--border-soft);
+}
+.topic-content .topic-formula-item .tex {
+  margin: 0.5rem 0 0.35rem;
+}
+
+/* Examples: one framed article per example inside the practice zone. */
+.topic-content .topic-example + .topic-example {
+  margin-top: 1.7rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.topic-content .topic-example > h3 {
+  margin: 0 0 0.5rem;
+}
+
+/* ---------- Teaching / practice structural gate ----------
+   The notes end at a strong framed stop; examples, self-check and past
+   papers wait behind an explicit continue click instead of sitting in the
+   scroll flow. */
+.topic-content .topic-gate {
+  margin: 4.2rem 0 2.4rem;
+  padding: 1.5rem 1.3rem 1.4rem;
+  border-top: 2px solid var(--border-strong);
+  background: var(--bg-soft);
+}
+.topic-content .topic-gate-title {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+.topic-content .topic-gate-note {
+  margin: 0 0 1.15rem;
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+.topic-content .topic-gate-btn {
+  font-size: 0.92rem;
+}
+/* While hidden the zone has no layout box at all: a wheel notch or page-down
+   past the end of the notes can never land inside the exercises. */
+.topic-content .topic-practice-zone {
+  margin-bottom: 1rem;
+}
+.topic-content .topic-practice-zone[hidden] {
+  display: none;
+}
+.topic-content .topic-practice-zone > .topic-block:first-child {
+  margin-top: 1.2rem;
+}
+
+/* Outline: a divider above the practice group mirrors the gate in the rail. */
+.topic-layout .topic-outline button.topic-outline-practice-start {
+  margin-top: 0.4rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border);
+}
