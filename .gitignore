@@ -1,12 +1,12 @@
 node_modules/
-desktop/node_modules/
+# Never commit the Electron shell; the product is this web repo.
+desktop/
 dist/linux-unpacked/
 dist/mac/
 dist/mac-arm64/
 dist/.icon-icns/
 *.blockmap
 builder-debug.yml
-desktop/node_modules/
 node_modules/
 dist/linux-unpacked/
 dist/mac/
