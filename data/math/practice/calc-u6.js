@@ -2,7 +2,7 @@
 export const UNIT_REF = {
   "id": "calc-u6",
   "code": "6",
-  "titleZh": "积分与累积变化",
+  "titleZh": "积分与累积变化 · integration and accumulated change",
   "titleEn": "Integration and Accumulation of Change",
   "layer": "ap",
   "subject": "math"
@@ -12,10 +12,10 @@ export const problems = [
   {
     "kind": "set",
     "id": "calc-u6-extra1",
-    "title": "微积分基本定理与累积",
+    "title": "微积分基本定理与累积 · the fundamental theorem and accumulation",
     "stimulus": {
-      "title": "速度 v(t) 的部分数据",
-      "text": "质点沿直线运动，速度 v(t)（m/s）如下表。定义累积函数 F(x)=∫₀ˣ v(t)dt。",
+      "title": "速度 v(t) 的部分数据 · Selected values of the velocity v(t)",
+      "text": "质点沿直线运动，速度 v(t)（m/s）如下表。定义累积函数 F(x)=∫₀ˣ v(t)dt。 · A particle moves on a straight line with velocity v(t) in m/s, given in the table. Define the accumulation F(x)=∫ from 0 to x of v(t) dt.",
       "table": {
         "headers": [
           "t",
@@ -66,73 +66,73 @@ export const problems = [
       "source": "Original AP-style item (this project)",
       "license": "Project",
       "sourceUrl": "",
-      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。 · Original AP-style item, not an official free-response question."
     },
     "questions": [
       {
         "id": "calc-u6-q001",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "梯形法估累积",
+        "title": "梯形法估累积 · trapezoidal estimate of an accumulation",
         "check": "numeric",
-        "stem": "用梯形法估计 F(2)。",
+        "stem": "用梯形法估计 F(2)。 · Estimate F(2) with the trapezoidal rule.",
         "expected": 6.5,
         "tol": 0.01,
         "answerLatex": "6.5",
-        "solution": "用梯形法逐段求面积再相加。",
+        "solution": "用梯形法逐段求面积再相加。 · Estimate the area piece by piece with the trapezoidal rule, then add.",
         "solutionLatex": "\\dfrac{2+4}{2}+\\dfrac{4+3}{2}=3+3.5=6.5"
       },
       {
         "id": "calc-u6-q002",
         "type": "frq",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": false,
-        "title": "FTC 求导",
+        "title": "FTC 求导 · Differentiate with the FTC",
         "check": "numeric",
-        "stem": "求 F′(3)。",
+        "stem": "求 F′(3)。 · Find F′(3).",
         "expected": 5,
         "tol": 0.01,
         "answerLatex": "5",
-        "solution": "由微积分基本定理，F′(t)=v(t)，所以 F′(3)=v(3)=5。"
+        "solution": "由微积分基本定理，F′(t)=v(t)，所以 F′(3)=v(3)=5。 · By the fundamental theorem, F′(t)=v(t), so F′(3)=v(3)=5."
       },
       {
         "id": "calc-u6-q003",
         "type": "frq",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": false,
-        "title": "二阶导数",
+        "title": "二阶导数 · second derivative",
         "check": "numeric",
-        "stem": "用 t=1 与 t=3 的中心差商估计 F″(2)。",
+        "stem": "用 t=1 与 t=3 的中心差商估计 F″(2)。 · Use the central difference quotient from t=1 to t=3 to estimate F″(2).",
         "expected": 0.5,
         "tol": 0.01,
         "answerLatex": "0.5",
-        "solution": "F″ 等于 v′，用中心差商估计。",
+        "solution": "F″ 等于 v′，用中心差商估计。 · F″ equals v′; estimate it with a central difference quotient.",
         "solutionLatex": "F''(2)\\approx\\dfrac{v(3)-v(1)}{3-1}=\\dfrac{5-4}{2}=0.5"
       },
       {
         "id": "calc-u6-q004",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "累积的解释",
-        "stem": "解释 F(4)−F(0) 的物理意义与单位。",
-        "answer": "它等于 ∫₀⁴v(t)dt，表示 0 到 4 秒内的净位移，单位为米。",
-        "solution": "速度对时间积分给出位移；注意“净”位移。"
+        "title": "累积的解释 · interpreting an accumulation",
+        "stem": "解释 F(4)−F(0) 的物理意义与单位。 · Explain the physical meaning and the unit of F(4)−F(0).",
+        "answer": "它等于 ∫₀⁴v(t)dt，表示 0 到 4 秒内的净位移，单位为米。 · It equals the integral of v(t) from 0 to 4, the net displacement from 0 to 4 seconds, in meters.",
+        "solution": "速度对时间积分给出位移；注意“净”位移。 · Integrating velocity in time gives displacement; notice that it is the net displacement."
       }
     ]
   },
   {
     "id": "calc-u6-q005",
-    "title": "6.1 符号",
+    "title": "6.1 符号 · 6.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -141,25 +141,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q006",
-    "title": "6.2 概念",
+    "title": "6.2 概念 · 6.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「黎曼和近似」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「黎曼和近似」，下列正确的是？ · Which of the following is correct about “Approximating Areas with Riemann Sums”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -171,9 +171,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q007",
-    "title": "6.3 计算",
+    "title": "6.3 计算 · 6.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -189,14 +189,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q008",
-    "title": "6.4 论述 · 微积分基本定理",
+    "title": "6.4 论述 · 微积分基本定理 · 6.4 Argument: The Fundamental Theorem of Calculus and Accumulation Functions",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。 · For “The Fundamental Theorem of Calculus and Accumulation Functions”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -205,15 +205,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q009",
-    "title": "6.5 符号",
+    "title": "6.5 符号 · 6.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -222,25 +222,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q010",
-    "title": "6.6 概念",
+    "title": "6.6 概念 · 6.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「定积分性质的应用」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「定积分性质的应用」，下列正确的是？ · Which of the following is correct about “Applying Properties of Definite Integrals”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -252,9 +252,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q011",
-    "title": "6.7 计算",
+    "title": "6.7 计算 · 6.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -270,14 +270,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q012",
-    "title": "6.8 论述 · 求原函数",
+    "title": "6.8 论述 · 求原函数 · 6.8 Argument: Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -286,15 +286,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q013",
-    "title": "6.9 符号",
+    "title": "6.9 符号 · 6.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -303,25 +303,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q014",
-    "title": "6.10 概念",
+    "title": "6.10 概念 · 6.10 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「分部积分」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「分部积分」，下列正确的是？ · Which of the following is correct about “Integrating Using Integration by Parts”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -333,9 +333,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q015",
-    "title": "6.11 计算",
+    "title": "6.11 计算 · 6.11 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -351,14 +351,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q016",
-    "title": "6.12 论述 · 反常积分",
+    "title": "6.12 论述 · 反常积分 · 6.12 Argument: Evaluating Improper Integrals",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Evaluating Improper Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -367,15 +367,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q017",
-    "title": "6.13 符号",
+    "title": "6.13 符号 · 6.13 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -384,25 +384,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q018",
-    "title": "6.14 概念",
+    "title": "6.14 概念 · 6.14 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「积分技巧综合」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「积分技巧综合」，下列正确的是？ · Which of the following is correct about “Selecting Techniques for Antidifferentiation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -414,9 +414,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q019",
-    "title": "6.1 计算",
+    "title": "6.1 计算 · 6.1 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -432,14 +432,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q020",
-    "title": "6.2 论述 · 黎曼和近似",
+    "title": "6.2 论述 · 黎曼和近似 · 6.2 Argument: Approximating Areas with Riemann Sums",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Approximating Areas with Riemann Sums”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -448,15 +448,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q021",
-    "title": "6.3 符号",
+    "title": "6.3 符号 · 6.3 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -465,25 +465,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q022",
-    "title": "6.4 概念",
+    "title": "6.4 概念 · 6.4 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「微积分基本定理」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「微积分基本定理」，下列正确的是？ · Which of the following is correct about “The Fundamental Theorem of Calculus and Accumulation Functions”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -495,9 +495,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q023",
-    "title": "6.5 计算",
+    "title": "6.5 计算 · 6.5 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -513,14 +513,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q024",
-    "title": "6.6 论述 · 定积分性质的应用",
+    "title": "6.6 论述 · 定积分性质的应用 · 6.6 Argument: Applying Properties of Definite Integrals",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Applying Properties of Definite Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -529,15 +529,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q025",
-    "title": "6.7 符号",
+    "title": "6.7 符号 · 6.7 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -546,25 +546,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q026",
-    "title": "6.8 概念",
+    "title": "6.8 概念 · 6.8 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「求原函数」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「求原函数」，下列正确的是？ · Which of the following is correct about “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -576,9 +576,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q027",
-    "title": "6.9 计算",
+    "title": "6.9 计算 · 6.9 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -594,14 +594,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q028",
-    "title": "6.10 论述 · 分部积分",
+    "title": "6.10 论述 · 分部积分 · 6.10 Argument: Integrating Using Integration by Parts",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Integrating Using Integration by Parts”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -610,15 +610,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q029",
-    "title": "6.11 符号",
+    "title": "6.11 符号 · 6.11 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -627,25 +627,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q030",
-    "title": "6.12 概念",
+    "title": "6.12 概念 · 6.12 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「反常积分」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「反常积分」，下列正确的是？ · Which of the following is correct about “Evaluating Improper Integrals”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -657,9 +657,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q031",
-    "title": "6.13 计算",
+    "title": "6.13 计算 · 6.13 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -675,14 +675,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q032",
-    "title": "6.14 论述 · 积分技巧综合",
+    "title": "6.14 论述 · 积分技巧综合 · 6.14 Argument: Selecting Techniques for Antidifferentiation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「积分技巧综合」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「积分技巧综合」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Selecting Techniques for Antidifferentiation”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -691,15 +691,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q033",
-    "title": "6.1 符号",
+    "title": "6.1 符号 · 6.1 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -708,25 +708,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q034",
-    "title": "6.2 概念",
+    "title": "6.2 概念 · 6.2 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「黎曼和近似」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「黎曼和近似」，下列正确的是？ · Which of the following is correct about “Approximating Areas with Riemann Sums”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -738,9 +738,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q035",
-    "title": "6.3 计算",
+    "title": "6.3 计算 · 6.3 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -756,14 +756,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q036",
-    "title": "6.4 论述 · 微积分基本定理",
+    "title": "6.4 论述 · 微积分基本定理 · 6.4 Argument: The Fundamental Theorem of Calculus and Accumulation Functions",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。 · For “The Fundamental Theorem of Calculus and Accumulation Functions”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -772,15 +772,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q037",
-    "title": "6.5 符号",
+    "title": "6.5 符号 · 6.5 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -789,25 +789,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q038",
-    "title": "6.6 概念",
+    "title": "6.6 概念 · 6.6 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「定积分性质的应用」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「定积分性质的应用」，下列正确的是？ · Which of the following is correct about “Applying Properties of Definite Integrals”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -819,9 +819,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q039",
-    "title": "6.7 计算",
+    "title": "6.7 计算 · 6.7 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -837,14 +837,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q040",
-    "title": "6.8 论述 · 求原函数",
+    "title": "6.8 论述 · 求原函数 · 6.8 Argument: Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -853,15 +853,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q041",
-    "title": "6.9 符号",
+    "title": "6.9 符号 · 6.9 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -870,25 +870,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q042",
-    "title": "6.10 概念",
+    "title": "6.10 概念 · 6.10 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「分部积分」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「分部积分」，下列正确的是？ · Which of the following is correct about “Integrating Using Integration by Parts”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -900,9 +900,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q043",
-    "title": "6.11 计算",
+    "title": "6.11 计算 · 6.11 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -918,14 +918,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q044",
-    "title": "6.12 论述 · 反常积分",
+    "title": "6.12 论述 · 反常积分 · 6.12 Argument: Evaluating Improper Integrals",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Evaluating Improper Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -934,15 +934,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q045",
-    "title": "6.13 符号",
+    "title": "6.13 符号 · 6.13 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -951,25 +951,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q046",
-    "title": "6.14 概念",
+    "title": "6.14 概念 · 6.14 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「积分技巧综合」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「积分技巧综合」，下列正确的是？ · Which of the following is correct about “Selecting Techniques for Antidifferentiation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -981,9 +981,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q047",
-    "title": "6.1 计算",
+    "title": "6.1 计算 · 6.1 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -999,14 +999,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q048",
-    "title": "6.2 论述 · 黎曼和近似",
+    "title": "6.2 论述 · 黎曼和近似 · 6.2 Argument: Approximating Areas with Riemann Sums",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Approximating Areas with Riemann Sums”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1015,15 +1015,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q049",
-    "title": "6.3 符号",
+    "title": "6.3 符号 · 6.3 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1032,25 +1032,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q050",
-    "title": "6.4 概念",
+    "title": "6.4 概念 · 6.4 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「微积分基本定理」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「微积分基本定理」，下列正确的是？ · Which of the following is correct about “The Fundamental Theorem of Calculus and Accumulation Functions”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1062,9 +1062,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q051",
-    "title": "6.5 计算",
+    "title": "6.5 计算 · 6.5 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1080,14 +1080,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q052",
-    "title": "6.6 论述 · 定积分性质的应用",
+    "title": "6.6 论述 · 定积分性质的应用 · 6.6 Argument: Applying Properties of Definite Integrals",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Applying Properties of Definite Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1096,15 +1096,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q053",
-    "title": "6.7 符号",
+    "title": "6.7 符号 · 6.7 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1113,25 +1113,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q054",
-    "title": "6.8 概念",
+    "title": "6.8 概念 · 6.8 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「求原函数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「求原函数」，下列正确的是？ · Which of the following is correct about “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1143,9 +1143,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q055",
-    "title": "6.9 计算",
+    "title": "6.9 计算 · 6.9 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1161,14 +1161,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q056",
-    "title": "6.10 论述 · 分部积分",
+    "title": "6.10 论述 · 分部积分 · 6.10 Argument: Integrating Using Integration by Parts",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Integrating Using Integration by Parts”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1177,15 +1177,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q057",
-    "title": "6.11 符号",
+    "title": "6.11 符号 · 6.11 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1194,25 +1194,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q058",
-    "title": "6.12 概念",
+    "title": "6.12 概念 · 6.12 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「反常积分」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「反常积分」，下列正确的是？ · Which of the following is correct about “Evaluating Improper Integrals”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1224,9 +1224,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q059",
-    "title": "6.13 计算",
+    "title": "6.13 计算 · 6.13 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1242,14 +1242,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q060",
-    "title": "6.14 论述 · 积分技巧综合",
+    "title": "6.14 论述 · 积分技巧综合 · 6.14 Argument: Selecting Techniques for Antidifferentiation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「积分技巧综合」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「积分技巧综合」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Selecting Techniques for Antidifferentiation”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1258,15 +1258,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q061",
-    "title": "6.1 符号",
+    "title": "6.1 符号 · 6.1 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1275,25 +1275,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q062",
-    "title": "6.2 概念",
+    "title": "6.2 概念 · 6.2 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「黎曼和近似」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「黎曼和近似」，下列正确的是？ · Which of the following is correct about “Approximating Areas with Riemann Sums”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1305,9 +1305,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q063",
-    "title": "6.3 计算",
+    "title": "6.3 计算 · 6.3 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1323,14 +1323,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q064",
-    "title": "6.4 论述 · 微积分基本定理",
+    "title": "6.4 论述 · 微积分基本定理 · 6.4 Argument: The Fundamental Theorem of Calculus and Accumulation Functions",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「微积分基本定理」：说明净面积与总面积（绝对值）在应用中的区别。 · For “The Fundamental Theorem of Calculus and Accumulation Functions”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1339,15 +1339,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q065",
-    "title": "6.5 符号",
+    "title": "6.5 符号 · 6.5 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1356,25 +1356,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q066",
-    "title": "6.6 概念",
+    "title": "6.6 概念 · 6.6 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「定积分性质的应用」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「定积分性质的应用」，下列正确的是？ · Which of the following is correct about “Applying Properties of Definite Integrals”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1386,9 +1386,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q067",
-    "title": "6.7 计算",
+    "title": "6.7 计算 · 6.7 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1404,14 +1404,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q068",
-    "title": "6.8 论述 · 求原函数",
+    "title": "6.8 论述 · 求原函数 · 6.8 Argument: Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「求原函数」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1420,15 +1420,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q069",
-    "title": "6.9 符号",
+    "title": "6.9 符号 · 6.9 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1437,25 +1437,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q070",
-    "title": "6.10 概念",
+    "title": "6.10 概念 · 6.10 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「分部积分」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「分部积分」，下列正确的是？ · Which of the following is correct about “Integrating Using Integration by Parts”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1467,9 +1467,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q071",
-    "title": "6.11 计算",
+    "title": "6.11 计算 · 6.11 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1485,14 +1485,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q072",
-    "title": "6.12 论述 · 反常积分",
+    "title": "6.12 论述 · 反常积分 · 6.12 Argument: Evaluating Improper Integrals",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「反常积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Evaluating Improper Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1501,15 +1501,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q073",
-    "title": "6.13 符号",
+    "title": "6.13 符号 · 6.13 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1518,25 +1518,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q074",
-    "title": "6.14 概念",
+    "title": "6.14 概念 · 6.14 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「积分技巧综合」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「积分技巧综合」，下列正确的是？ · Which of the following is correct about “Selecting Techniques for Antidifferentiation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1548,9 +1548,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q075",
-    "title": "6.1 计算",
+    "title": "6.1 计算 · 6.1 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1566,14 +1566,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q076",
-    "title": "6.2 论述 · 黎曼和近似",
+    "title": "6.2 论述 · 黎曼和近似 · 6.2 Argument: Approximating Areas with Riemann Sums",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「黎曼和近似」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Approximating Areas with Riemann Sums”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1582,15 +1582,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q077",
-    "title": "6.3 符号",
+    "title": "6.3 符号 · 6.3 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1599,25 +1599,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q078",
-    "title": "6.4 概念",
+    "title": "6.4 概念 · 6.4 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「微积分基本定理」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「微积分基本定理」，下列正确的是？ · Which of the following is correct about “The Fundamental Theorem of Calculus and Accumulation Functions”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1629,9 +1629,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q079",
-    "title": "6.5 计算",
+    "title": "6.5 计算 · 6.5 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1647,14 +1647,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q080",
-    "title": "6.6 论述 · 定积分性质的应用",
+    "title": "6.6 论述 · 定积分性质的应用 · 6.6 Argument: Applying Properties of Definite Integrals",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「定积分性质的应用」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Applying Properties of Definite Integrals”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1663,15 +1663,15 @@ export const problems = [
   },
   {
     "id": "calc-u6-q081",
-    "title": "6.7 符号",
+    "title": "6.7 符号 · 6.7 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\int 3x^{2}\\,\\mathrm{d}x",
     "expected": "x^3+C",
     "answerLatex": "x^{3}+C",
-    "solution": "幂法则逆运算。",
+    "solution": "幂法则逆运算。 · The reverse of the power rule.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1680,25 +1680,25 @@ export const problems = [
   },
   {
     "id": "calc-u6-q082",
-    "title": "6.8 概念",
+    "title": "6.8 概念 · 6.8 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「求原函数」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「求原函数」，下列正确的是？ · Which of the following is correct about “Finding Antiderivatives and Indefinite Integrals: Basic Rules and Notation”?",
     "choices": [
       {
-        "text": "定积分是黎曼和的极限，可表示净变化量",
+        "text": "定积分是黎曼和的极限，可表示净变化量 · A definite integral is a limit of Riemann sums and can represent a net change",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1710,9 +1710,9 @@ export const problems = [
   },
   {
     "id": "calc-u6-q083",
-    "title": "6.9 计算",
+    "title": "6.9 计算 · 6.9 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\int_0^{2} 3x^{2}\\,\\mathrm{d}x",
@@ -1728,14 +1728,14 @@ export const problems = [
   },
   {
     "id": "calc-u6-q084",
-    "title": "6.10 论述 · 分部积分",
+    "title": "6.10 论述 · 分部积分 · 6.10 Argument: Integrating Using Integration by Parts",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。",
+    "stem": "关于「分部积分」：说明净面积与总面积（绝对值）在应用中的区别。 · For “Integrating Using Integration by Parts”, explain how net area differs from total area (absolute value) in applications",
     "answerLatex": "\\int_0^{2\\pi}\\sin x\\,\\mathrm{d}x=0,\\qquad \\int_0^{2\\pi}|\\sin x|\\,\\mathrm{d}x=4",
-    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。",
-    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。",
+    "answer": "净面积按有向面积相加，曲线在 x 轴下方时积分为负；总面积取 |f(x)| 再积分，恒为非负。例如 ∫₀^{2π}sin x dx=0 是净面积，而 ∫₀^{2π}|sin x|dx=4 是总面积。 · Net area adds signed area, so the integral is negative where the curve is below the x-axis; total area integrates |f(x)| and is never negative. For example, the integral of sin x from 0 to 2π equals 0 and is the net area, while the integral of |sin x| from 0 to 2π equals 4 and is the total area.",
+    "solution": "净面积回答位移与净变化，总面积回答实际经过的量；只有函数不变号时二者才相等。 · Net area answers displacement and net change; total area answers the amount actually traversed. They are equal only when the function does not change sign.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1745,81 +1745,81 @@ export const problems = [
   {
     "kind": "set",
     "id": "calc-u6-frq1",
-    "title": "平均值与累积函数",
+    "title": "平均值与累积函数 · average value and an accumulation function",
     "stimulus": {
       "title": "f(x)=4−x²",
-      "text": "设 f(x)=4−x²，定义累积函数 g(x)=∫₀ˣ f(t)dt。",
+      "text": "设 f(x)=4−x²，定义累积函数 g(x)=∫₀ˣ f(t)dt。 · Let f(x)=4−x² and define the accumulation g(x)=∫ from 0 to x of f(t) dt.",
       "textLatex": "f(x)=4-x^{2},\\qquad g(x)=\\int_0^x f(t)\\,\\mathrm{d}t",
       "sourceId": "original",
       "source": "Original AP-style item (this project)",
       "license": "Project",
       "sourceUrl": "",
-      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。 · Original AP-style item, not an official free-response question."
     },
     "questions": [
       {
         "id": "calc-u6-frq1-q1",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "平均值",
+        "title": "平均值 · average value",
         "check": "numeric",
-        "stem": "求 f 在 [0,2] 上的平均值。",
+        "stem": "求 f 在 [0,2] 上的平均值。 · Find the average value of f on [0,2].",
         "expected": 2.6666666666666665,
         "tol": 0.01,
         "answerLatex": "\\dfrac{8}{3}",
-        "solution": "先求定积分，再除以区间长度。",
+        "solution": "先求定积分，再除以区间长度。 · First evaluate the definite integral, then divide by the length of the interval.",
         "solutionLatex": "\\dfrac{1}{2}\\int_0^2(4-x^2)\\,\\mathrm{d}x=\\dfrac{1}{2}\\left[4x-\\dfrac{x^3}{3}\\right]_0^2=\\dfrac{1}{2}\\left(8-\\dfrac{8}{3}\\right)=\\dfrac{8}{3}"
       },
       {
         "id": "calc-u6-frq1-q2",
         "type": "frq",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": false,
-        "title": "积分中值定理",
+        "title": "积分中值定理 · mean value theorem for integrals",
         "check": "numeric",
-        "stem": "求 c∈[0,2] 使 f(c) 等于该平均值。",
+        "stem": "求 c∈[0,2] 使 f(c) 等于该平均值。 · Find c in [0,2] such that f(c) equals that average value.",
         "expected": 1.1547005383792517,
         "tol": 0.01,
         "answerLatex": "c=\\dfrac{2}{\\sqrt{3}}",
-        "solution": "令 f(c) 等于平均值，解出 [0,2] 内的 c。",
+        "solution": "令 f(c) 等于平均值，解出 [0,2] 内的 c。 · Set f(c) equal to the average value and solve for the c in [0,2].",
         "solutionLatex": "4-c^{2}=\\dfrac{8}{3}\\Rightarrow c^{2}=\\dfrac{4}{3}\\Rightarrow c=\\dfrac{2}{\\sqrt{3}}"
       },
       {
         "id": "calc-u6-frq1-q3",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "FTC 与二阶导",
-        "stem": "求 g′(1) 与 g″(1)，并说明所用定理。",
+        "title": "FTC 与二阶导 · FTC and the second derivative",
+        "stem": "求 g′(1) 与 g″(1)，并说明所用定理。 · Find g′(1) and g″(1), and name the theorem you use.",
         "answerLatex": "g'(1)=3,\\qquad g''(1)=-2",
-        "answer": "由微积分基本定理，g′(x)=f(x)，所以 g′(1)=4−1=3；再求导得 g″(x)=f′(x)=−2x，故 g″(1)=−2。",
-        "solution": "先用 FTC 把累积函数的导数化为被积函数，再对 f 求导。"
+        "answer": "由微积分基本定理，g′(x)=f(x)，所以 g′(1)=4−1=3；再求导得 g″(x)=f′(x)=−2x，故 g″(1)=−2。 · By the fundamental theorem, g′(x)=f(x), so g′(1)=4−1=3. Differentiating again, g″(x)=f′(x)=−2x, so g″(1)=−2.",
+        "solution": "先用 FTC 把累积函数的导数化为被积函数，再对 f 求导。 · Use the FTC to turn the derivative of the accumulation into the integrand, then differentiate f."
       }
     ]
   },
 {
   "id": "calc-u6-q085",
-  "title": "6.6 跳跃间断函数的定积分",
+  "title": "6.6 跳跃间断函数的定积分 · 6.6 the definite integral of a function with a jump discontinuity",
   "type": "frq",
-  "difficulty": "中",
+  "difficulty": "中 · Medium",
   "calculator": false,
   "check": "numeric",
-  "stem": "设 f(x)=x+1（0≤x<2），f(x)=x²+1（2≤x≤3）。求 ∫₀³ f(x) dx。",
+  "stem": "设 f(x)=x+1（0≤x<2），f(x)=x²+1（2≤x≤3）。求 ∫₀³ f(x) dx。 · Let f(x)=x+1 for 0≤x<2 and f(x)=x²+1 for 2≤x≤3. Find the integral of f(x) from 0 to 3.",
   "expected": 11.33,
   "tol": 0.01,
   "answerLatex": "\\dfrac{34}{3}\\approx11.33",
-  "solution": "在 x=2 处分段：∫₀²(x+1)dx=4，∫₂³(x²+1)dx=22/3，总和 34/3。",
+  "solution": "在 x=2 处分段：∫₀²(x+1)dx=4，∫₂³(x²+1)dx=22/3，总和 34/3。 · Split at x=2: the integral from 0 to 2 of (x+1) dx equals 4, the integral from 2 to 3 of (x²+1) dx equals 22/3, and the total is 34/3.",
   "solutionLatex": "\\int_0^3 f\\,dx=\\int_0^2(x+1)\\,dx+\\int_2^3(x^{2}+1)\\,dx=4+\\dfrac{22}{3}=\\dfrac{34}{3}",
   "sourceId": "original",
   "source": "Original AP-style item (this project)",
   "license": "Project",
   "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。 · Original AP-style item, not an official item; used for CED coverage in this round.",
   "topicLinks": [
     {
       "href": "#/t/math/calc-u6/6.6",
-      "label": "6.6 定积分性质的应用",
+      "label": "6.6 定积分性质的应用 · 6.6 Applying Properties of Definite Integrals",
       "topicId": "calc-u6:6.6"
     }
   ]
@@ -1828,7 +1828,7 @@ export const problems = [
   "id": "calc-u6-b09-q1",
   "title": "6.1 用几何面积求累积 · Accumulation from a geometric area",
   "type": "frq",
-  "difficulty": "中",
+  "difficulty": "中 · Medium",
   "calculator": false,
   "check": "numeric",
   "stem": "某水箱的进水速率 r(t) 从 t=0 时的 0 L/min 线性增加到 t=4 时的 6 L/min，随后保持 6 L/min 直到 t=6。求 0≤t≤6 内注入的总水量（L）。 · Water enters a tank at a rate r(t) that increases linearly from 0 L/min at t=0 to 6 L/min at t=4, then stays at 6 L/min until t=6. Find the total volume added on 0≤t≤6 (L).",
@@ -1841,11 +1841,11 @@ export const problems = [
   "source": "Original AP-style item (this project)",
   "license": "Project",
   "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于 6.1 几何面积、累积量与单位。",
+  "sourceNote": "原创 AP 风格题，非官方题；用于 6.1 几何面积、累积量与单位。 · Original AP-style item, not an official item; for 6.1, geometric area, accumulation, and units.",
   "topicLinks": [
     {
       "href": "#/t/math/calc-u6/6.1",
-      "label": "6.1 累积变化探查",
+      "label": "6.1 累积变化探查 · 6.1 Exploring Accumulations of Change",
       "topicId": "calc-u6:6.1"
     }
   ]
