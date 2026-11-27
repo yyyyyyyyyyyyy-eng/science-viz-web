@@ -20,9 +20,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "测量、单位与矢量 · Measurement, Units, and Vectors",
     "learningObjectives": [
-      "能陈述「测量、单位与矢量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「测量、单位与矢量」的准确定义与适用对象 · State the precise definition of Measurement, Units, and Vectors and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Measurement, Units, and Vectors：准确陈述定义、适用范围与符号约定。",
@@ -68,19 +68,19 @@ export const TOPICS = {
       "有效数字与测量不确定度匹配"
     ],
     "keyPoints": [
-      "掌握 P1.1「测量、单位与矢量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.1「测量、单位与矢量」准确定义 · State the precise definition of P1.1 Measurement, Units, and Vectors.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「测量、单位与矢量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「测量、单位与矢量」的结论 · Applying the conclusion of Measurement, Units, and Vectors when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -106,11 +106,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -160,9 +160,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "一维运动学 · 1D Kinematics",
     "learningObjectives": [
-      "能陈述「一维运动学」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「一维运动学」的准确定义与适用对象 · State the precise definition of 1D Kinematics and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "1D Kinematics：准确陈述定义、适用范围与符号约定。",
@@ -212,19 +212,19 @@ export const TOPICS = {
       "平均速度等于位移除以时间，对任意运动成立；上式只对匀加速成立"
     ],
     "keyPoints": [
-      "掌握 P1.2「一维运动学」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.2「一维运动学」准确定义 · State the precise definition of P1.2 1D Kinematics.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「一维运动学」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「一维运动学」的结论 · Applying the conclusion of 1D Kinematics when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -250,11 +250,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -311,9 +311,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "二维运动与抛体 · 2D Motion and Projectiles",
     "learningObjectives": [
-      "能陈述「二维运动与抛体」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「二维运动与抛体」的准确定义与适用对象 · State the precise definition of 2D Motion and Projectiles and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "2D Motion and Projectiles：准确陈述定义、适用范围与符号约定。",
@@ -363,19 +363,19 @@ export const TOPICS = {
       "初速度分量为 v₀cosθ₀ 与 v₀sinθ₀"
     ],
     "keyPoints": [
-      "掌握 P1.3「二维运动与抛体」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.3「二维运动与抛体」准确定义 · State the precise definition of P1.3 2D Motion and Projectiles.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「二维运动与抛体」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「二维运动与抛体」的结论 · Applying the conclusion of 2D Motion and Projectiles when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -401,11 +401,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -462,9 +462,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "牛顿定律 · Newton's Laws",
     "learningObjectives": [
-      "能陈述「牛顿定律」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「牛顿定律」的准确定义与适用对象 · State the precise definition of Newton's Laws and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Newton's Laws：准确陈述定义、适用范围与符号约定。",
@@ -510,19 +510,19 @@ export const TOPICS = {
       "第一定律描述惯性，第二定律给出合外力与加速度的瞬时关系"
     ],
     "keyPoints": [
-      "掌握 P1.4「牛顿定律」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.4「牛顿定律」准确定义 · State the precise definition of P1.4 Newton's Laws.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「牛顿定律」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「牛顿定律」的结论 · Applying the conclusion of Newton's Laws when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -548,11 +548,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -609,9 +609,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "应用力与摩擦 · Applied Forces and Friction",
     "learningObjectives": [
-      "能陈述「应用力与摩擦」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「应用力与摩擦」的准确定义与适用对象 · State the precise definition of Applied Forces and Friction and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Applied Forces and Friction：准确陈述定义、适用范围与符号约定。",
@@ -661,19 +661,19 @@ export const TOPICS = {
       "μ 为无量纲经验常数，理想模型下与接触面积和速度近似无关"
     ],
     "keyPoints": [
-      "掌握 P1.5「应用力与摩擦」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.5「应用力与摩擦」准确定义 · State the precise definition of P1.5 Applied Forces and Friction.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「应用力与摩擦」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「应用力与摩擦」的结论 · Applying the conclusion of Applied Forces and Friction when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -699,11 +699,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -760,9 +760,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "圆周运动 · Circular Motion",
     "learningObjectives": [
-      "能陈述「圆周运动」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「圆周运动」的准确定义与适用对象 · State the precise definition of Circular Motion and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Circular Motion：准确陈述定义、适用范围与符号约定。",
@@ -812,19 +812,19 @@ export const TOPICS = {
       "合外力沿半径方向的分量提供向心力，不是额外的力"
     ],
     "keyPoints": [
-      "掌握 P1.6「圆周运动」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.6「圆周运动」准确定义 · State the precise definition of P1.6 Circular Motion.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「圆周运动」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「圆周运动」的结论 · Applying the conclusion of Circular Motion when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -850,11 +850,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -911,9 +911,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "万有引力入门 · Intro Gravitation",
     "learningObjectives": [
-      "能陈述「万有引力入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「万有引力入门」的准确定义与适用对象 · State the precise definition of Intro Gravitation and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Gravitation：准确陈述定义、适用范围与符号约定。",
@@ -963,19 +963,19 @@ export const TOPICS = {
       "负号表示引力；零势能取在无穷远"
     ],
     "keyPoints": [
-      "掌握 P1.7「万有引力入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.7「万有引力入门」准确定义 · State the precise definition of P1.7 Intro Gravitation.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「万有引力入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「万有引力入门」的结论 · Applying the conclusion of Intro Gravitation when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1001,11 +1001,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1062,9 +1062,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "功与动能 · Work and Kinetic Energy",
     "learningObjectives": [
-      "能陈述「功与动能」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「功与动能」的准确定义与适用对象 · State the precise definition of Work and Kinetic Energy and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Work and Kinetic Energy：准确陈述定义、适用范围与符号约定。",
@@ -1114,19 +1114,19 @@ export const TOPICS = {
       "恒力功公式只适用于 F 大小方向不变、位移沿直线"
     ],
     "keyPoints": [
-      "掌握 P1.8「功与动能」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.8「功与动能」准确定义 · State the precise definition of P1.8 Work and Kinetic Energy.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「功与动能」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「功与动能」的结论 · Applying the conclusion of Work and Kinetic Energy when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1152,11 +1152,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1213,9 +1213,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "势能与守恒 · Potential Energy and Conservation",
     "learningObjectives": [
-      "能陈述「势能与守恒」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「势能与守恒」的准确定义与适用对象 · State the precise definition of Potential Energy and Conservation and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Potential Energy and Conservation：准确陈述定义、适用范围与符号约定。",
@@ -1265,19 +1265,19 @@ export const TOPICS = {
       "U_g=mgh 仅在 g 近似常量、高度变化远小于地球半径时成立"
     ],
     "keyPoints": [
-      "掌握 P1.9「势能与守恒」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.9「势能与守恒」准确定义 · State the precise definition of P1.9 Potential Energy and Conservation.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「势能与守恒」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「势能与守恒」的结论 · Applying the conclusion of Potential Energy and Conservation when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1303,11 +1303,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1364,9 +1364,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "动量与碰撞 · Momentum and Collisions",
     "learningObjectives": [
-      "能陈述「动量与碰撞」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「动量与碰撞」的准确定义与适用对象 · State the precise definition of Momentum and Collisions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Momentum and Collisions：准确陈述定义、适用范围与符号约定。",
@@ -1416,19 +1416,19 @@ export const TOPICS = {
       "弹性碰撞动能守恒；完全非弹性碰撞动能损失最大"
     ],
     "keyPoints": [
-      "掌握 P1.10「动量与碰撞」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.10「动量与碰撞」准确定义 · State the precise definition of P1.10 Momentum and Collisions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「动量与碰撞」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「动量与碰撞」的结论 · Applying the conclusion of Momentum and Collisions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1454,11 +1454,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1515,9 +1515,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "转动入门 · Intro Rotation",
     "learningObjectives": [
-      "能陈述「转动入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「转动入门」的准确定义与适用对象 · State the precise definition of Intro Rotation and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Rotation：准确陈述定义、适用范围与符号约定。",
@@ -1567,19 +1567,19 @@ export const TOPICS = {
       "I 取决于质量分布与转轴位置"
     ],
     "keyPoints": [
-      "掌握 P1.11「转动入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.11「转动入门」准确定义 · State the precise definition of P1.11 Intro Rotation.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「转动入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「转动入门」的结论 · Applying the conclusion of Intro Rotation when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1605,11 +1605,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1666,9 +1666,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "简谐运动 · Simple Harmonic Motion",
     "learningObjectives": [
-      "能陈述「简谐运动」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「简谐运动」的准确定义与适用对象 · State the precise definition of Simple Harmonic Motion and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Simple Harmonic Motion：准确陈述定义、适用范围与符号约定。",
@@ -1718,19 +1718,19 @@ export const TOPICS = {
       "单摆的 T=2π√(L/g) 只在小角度近似下成立"
     ],
     "keyPoints": [
-      "掌握 P1.12「简谐运动」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.12「简谐运动」准确定义 · State the precise definition of P1.12 Simple Harmonic Motion.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「简谐运动」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「简谐运动」的结论 · Applying the conclusion of Simple Harmonic Motion when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1756,11 +1756,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1817,9 +1817,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "机械波与声音 · Mechanical Waves and Sound",
     "learningObjectives": [
-      "能陈述「机械波与声音」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「机械波与声音」的准确定义与适用对象 · State the precise definition of Mechanical Waves and Sound and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Mechanical Waves and Sound：准确陈述定义、适用范围与符号约定。",
@@ -1865,19 +1865,19 @@ export const TOPICS = {
       "理想介质中波速与频率无关；界面处发生反射与折射"
     ],
     "keyPoints": [
-      "掌握 P1.13「机械波与声音」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.13「机械波与声音」准确定义 · State the precise definition of P1.13 Mechanical Waves and Sound.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「机械波与声音」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「机械波与声音」的结论 · Applying the conclusion of Mechanical Waves and Sound when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -1903,11 +1903,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1964,9 +1964,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "静电入门 · Intro Electrostatics",
     "learningObjectives": [
-      "能陈述「静电入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「静电入门」的准确定义与适用对象 · State the precise definition of Intro Electrostatics and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Electrostatics：准确陈述定义、适用范围与符号约定。",
@@ -2016,19 +2016,19 @@ export const TOPICS = {
       "叠加原理：多个电荷的场按矢量相加，电势按代数和相加"
     ],
     "keyPoints": [
-      "掌握 P1.14「静电入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.14「静电入门」准确定义 · State the precise definition of P1.14 Intro Electrostatics.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「静电入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「静电入门」的结论 · Applying the conclusion of Intro Electrostatics when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -2054,11 +2054,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -2115,9 +2115,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "直流电路基础 · Basic DC Circuits",
     "learningObjectives": [
-      "能陈述「直流电路基础」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「直流电路基础」的准确定义与适用对象 · State the precise definition of Basic DC Circuits and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Basic DC Circuits：准确陈述定义、适用范围与符号约定。",
@@ -2167,19 +2167,19 @@ export const TOPICS = {
       "RC 充电公式假设初始电荷为零、电源内阻忽略"
     ],
     "keyPoints": [
-      "掌握 P1.15「直流电路基础」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.15「直流电路基础」准确定义 · State the precise definition of P1.15 Basic DC Circuits.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「直流电路基础」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「直流电路基础」的结论 · Applying the conclusion of Basic DC Circuits when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -2205,11 +2205,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -2266,9 +2266,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "磁与电磁入门 · Intro Magnetism and Induction",
     "learningObjectives": [
-      "能陈述「磁与电磁入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「磁与电磁入门」的准确定义与适用对象 · State the precise definition of Intro Magnetism and Induction and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Magnetism and Induction：准确陈述定义、适用范围与符号约定。",
@@ -2318,19 +2318,19 @@ export const TOPICS = {
       "法拉第定律的负号表示楞次定律；闭合回路才有感应电流"
     ],
     "keyPoints": [
-      "掌握 P1.16「磁与电磁入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P1.16「磁与电磁入门」准确定义 · State the precise definition of P1.16 Intro Magnetism and Induction.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「磁与电磁入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「磁与电磁入门」的结论 · Applying the conclusion of Intro Magnetism and Induction when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -2356,11 +2356,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

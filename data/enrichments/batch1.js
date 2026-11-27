@@ -344,11 +344,11 @@ export const ENRICHMENTS = {
       { from: '分配律', to: '平方差', note: '直接展开右边验证。' },
     ],
     conditions: ['在实数范围内不一定总能一次因式分解（判别式为负）', '先提取公因式'],
-    keyPoints: ['先提公因式', '二次式看判别式与十字相乘', '分解后可解方程、化简有理式'],
+    keyPoints: ['先提公因式 · Factor out a common factor first', '二次式看判别式与十字相乘 · For a quadratic, use the discriminant or factor by inspection', '分解后可解方程、化简有理式 · After factoring, solve the equation or simplify the rational expression'],
     misconceptions: [
-      '漏提公因式',
-      '把 \\(x^2+4\\) 误写成 \\((x+2)^2\\)',
-      '符号错误：\\(a^2-2ab+b^2=(a-b)^2\\) 不是 \\((a+b)^2\\)',
+      '漏提公因式 · Forgetting to factor out the common factor',
+      '把 \\(x^2+4\\) 误写成 \\((x+2)^2\\) · Incorrectly rewriting \\(x^2+4\\) as \\((x+2)^2\\)',
+      '符号错误：\\(a^2-2ab+b^2=(a-b)^2\\) 不是 \\((a+b)^2\\) · A sign error: \\(a^2-2ab+b^2=(a-b)^2\\), not \\((a+b)^2\\)',
     ],
     examples: [
       {
@@ -370,7 +370,7 @@ export const ENRICHMENTS = {
         solution: '\\(x=\\pm 3\\)。',
       },
     ],
-    examTips: ['代数预备：为极限中约分、导数差商化简打基础', '验算：展开因式应回到原式'],
+    examTips: ['代数预备：为极限中约分、导数差商化简打基础 · Algebra preparation for canceling factors in limits and simplifying difference quotients', '验算：展开因式应回到原式 · Check by expanding; the factors should return the original expression'],
     related: [
       { subject: 'math', chapterId: 'math-prep-alg1', code: 'P1.8', title: '多项式运算', relation: '先修' },
       { subject: 'math', chapterId: 'math-prep-alg1', code: 'P1.10', title: '二次方程入门', relation: '应用' },
@@ -407,12 +407,12 @@ export const ENRICHMENTS = {
       { from: '牛顿第二定律', to: '功–动能定理', note: '\\(F\\,\\mathrm{d}x=mv\\,\\mathrm{d}v\\)，两边积分。' },
     ],
     conditions: ['对质点或可视为质点的平动；合外力做功', '动能相对惯性系'],
-    keyPoints: ['功是标量，可正可负', '只有合功等于 \\(\\Delta K\\)，某一分力功一般不等于 \\(\\Delta K\\)', '摩擦等非保守力做功改变机械能'],
+    keyPoints: ['功是标量，可正可负 · Work is a scalar and can be positive or negative', '只有合功等于 \\(\\Delta K\\)，某一分力功一般不等于 \\(\\Delta K\\) · Only the net work equals \\(\\Delta K\\); the work of one force generally does not', '摩擦等非保守力做功改变机械能 · Work by a nonconservative force such as friction changes the mechanical energy'],
     misconceptions: [
-      '以为单个力的功等于 \\(\\Delta K\\)',
-      '漏掉负功（阻力）',
-      '把功率与功混淆',
-      '用斜线写 \\(\\text{1/2 }mv^{2}\\) —— 必须用 \\(\\dfrac{1}{2}mv^{2}\\)',
+      '以为单个力的功等于 \\(\\Delta K\\) · Thinking the work of one force equals \\(\\Delta K\\)',
+      '漏掉负功（阻力） · Omitting negative work, such as drag',
+      '把功率与功混淆 · Confusing power with work',
+      '用斜线写 \\(\\text{1/2 }mv^{2}\\) —— 必须用 \\(\\dfrac{1}{2}mv^{2}\\) · Writing \\(\\text{1/2 }mv^{2}\\) with a slash; it must be \\(\\dfrac{1}{2}mv^{2}\\)',
     ],
     examples: [
       {
@@ -449,9 +449,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'Physics C Mech CED Unit 3：功、能量、功率；功–动能定理是核心目标。',
-      '符号：与位移同向为正功。',
-      '可用能量方法替代多步牛顿定律。',
+      'Physics C Mech CED Unit 3：功、能量、功率；功–动能定理是核心目标。 · Physics C Mechanics CED Unit 3: work, energy, and power. The work–kinetic energy theorem is the central goal.',
+      '符号：与位移同向为正功。 · Sign convention: work is positive when the force is in the direction of the displacement.',
+      '可用能量方法替代多步牛顿定律。 · An energy method can replace a multi-step application of Newton’s laws.',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u2', code: '2.3', title: '牛顿第一与第二定律', relation: '先修' },
@@ -490,11 +490,11 @@ export const ENRICHMENTS = {
       { from: '定义式', to: '平行板公式', note: '由 \\(E=\\dfrac{\\sigma}{\\varepsilon}\\)、\\(V=Ed\\) 与 \\(\\sigma=\\dfrac{Q}{A}\\) 得 \\(C=\\dfrac{\\varepsilon A}{d}\\)。' },
     ],
     conditions: ['平行板近似：间距远小于极板尺寸，忽略边缘效应', '电介质填满极板间；\\(\\kappa\\) 为相对介电常数', '\\(Q\\) 取一个极板电荷量的绝对值'],
-    keyPoints: ['\\(C\\) 由几何与电介质决定，与 \\(Q\\)、\\(V\\) 无关', '串联 \\(\\dfrac{1}{C_\\mathrm{eq}}=\\sum\\dfrac{1}{C_i}\\)，并联 \\(C_\\mathrm{eq}=\\sum C_i\\)', '插入电介质使 \\(C\\) 增大；孤立电容器 \\(Q\\) 不变，接电源 \\(V\\) 不变'],
+    keyPoints: ['\\(C\\) 由几何与电介质决定，与 \\(Q\\)、\\(V\\) 无关 · \\(C\\) is fixed by geometry and the dielectric, not by \\(Q\\) or \\(V\\)', '串联 \\(\\dfrac{1}{C_\\mathrm{eq}}=\\sum\\dfrac{1}{C_i}\\)，并联 \\(C_\\mathrm{eq}=\\sum C_i\\) · In series \\(\\dfrac{1}{C_\\mathrm{eq}}=\\sum\\dfrac{1}{C_i}\\); in parallel \\(C_\\mathrm{eq}=\\sum C_i\\)', '插入电介质使 \\(C\\) 增大；孤立电容器 \\(Q\\) 不变，接电源 \\(V\\) 不变 · Inserting a dielectric increases \\(C\\); an isolated capacitor keeps \\(Q\\) fixed, and one connected to a source keeps \\(V\\) fixed'],
     misconceptions: [
-      '以为 \\(C\\) 随 \\(Q\\) 或 \\(V\\) 改变',
-      '把电容串联/并联公式与电阻混淆',
-      '认为插入电介质一定改变 \\(Q\\)（孤立时 \\(Q\\) 不变）',
+      '以为 \\(C\\) 随 \\(Q\\) 或 \\(V\\) 改变 · Thinking \\(C\\) changes with \\(Q\\) or \\(V\\)',
+      '把电容串联/并联公式与电阻混淆 · Confusing the series and parallel formulas for capacitors with those for resistors',
+      '认为插入电介质一定改变 \\(Q\\)（孤立时 \\(Q\\) 不变） · Thinking inserting a dielectric must change \\(Q\\); for an isolated capacitor \\(Q\\) stays fixed',
     ],
     examples: [
       {
@@ -528,7 +528,7 @@ export const ENRICHMENTS = {
         solution: '\\(Q\\) 不变，\\(C\\) 变为 \\(2C\\)，\\(V\\) 与 \\(U\\) 均减半。',
       },
     ],
-    examTips: ['CED Unit 10：导体、电容、电介质', '先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）”', '能量变化可用 \\(U=\\dfrac{Q^{2}}{2C}\\) 或 \\(\\dfrac{1}{2}CV^{2}\\) 判断'],
+    examTips: ['CED Unit 10：导体、电容、电介质 · CED Unit 10, conductors, capacitance, and dielectrics', '先判断“孤立（\\(Q\\) 不变）”还是“接电源（\\(V\\) 不变）” · First decide whether the capacitor is isolated (\\(Q\\) fixed) or connected to a source (\\(V\\) fixed)', '能量变化可用 \\(U=\\dfrac{Q^{2}}{2C}\\) 或 \\(\\dfrac{1}{2}CV^{2}\\) 判断 · Judge an energy change with \\(U=\\dfrac{Q^{2}}{2C}\\) or \\(\\dfrac{1}{2}CV^{2}\\)'],
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
       { subject: 'em', chapterId: 'em-u10', code: '10.4', title: '电介质', relation: '后续' },
@@ -566,11 +566,11 @@ export const ENRICHMENTS = {
       { from: '漂移模型', to: '微观式', note: '时间 \\(\\mathrm{d}t\\) 内体积 \\(Av_d\\mathrm{d}t\\) 的电荷通过截面。' },
     ],
     conditions: ['稳恒电流时电路中串联各处 \\(I\\) 相同', '电子带负电，其速度与约定电流方向相反'],
-    keyPoints: ['电流是标量（有方向约定）', '漂移速度通常极慢，信号以近光速传播的是场'],
+    keyPoints: ['电流是标量（有方向约定） · Current is a scalar, with an agreed direction', '漂移速度通常极慢，信号以近光速传播的是场 · Drift speed is usually very slow; what propagates near the speed of light is the field'],
     misconceptions: [
-      '以为电子跑得很快才有电流',
-      '混淆约定电流方向与电子运动方向',
-      '把电流当成矢量去分解（电路分析中按支路标方向）',
+      '以为电子跑得很快才有电流 · Thinking electrons must move very fast for there to be a current',
+      '混淆约定电流方向与电子运动方向 · Confusing the conventional current direction with the direction of electron motion',
+      '把电流当成矢量去分解（电路分析中按支路标方向） · Treating current as a vector to be resolved; in circuit analysis, mark a direction on each branch',
     ],
     examples: [
       {
@@ -596,7 +596,7 @@ export const ENRICHMENTS = {
         solution: '约定电流向右。',
       },
     ],
-    examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\) 与微观式', '单位换算：mA、μA'],
+    examTips: ['CED E&M 电流与电路单元：先掌握 \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\) 与微观式 · CED E&M current and circuits: first master \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\) and the microscopic expression', '单位换算：mA、μA · Unit conversions: mA and μA'],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.1', title: '电荷与力', relation: '先修' },
       { subject: 'em', chapterId: 'em-u11', code: '11.2', title: '简单电路', relation: '后续' },
@@ -637,11 +637,11 @@ export const ENRICHMENTS = {
       { from: '过渡态理论', to: '降活化能', note: '稳定过渡态，降低 \\(E_a\\)，加速正逆反应，平衡常数不变。' },
     ],
     conditions: ['适宜温度与 pH', '底物浓度可饱和（\\(V_{\\max}\\)）'],
-    keyPoints: ['酶不改 \\(\\Delta G\\)', '具特异性与可调节性', '竞争性抑制 vs 非竞争性抑制'],
+    keyPoints: ['酶不改 \\(\\Delta G\\) · An enzyme does not change \\(\\Delta G\\)', '具特异性与可调节性 · Enzymes are specific and can be regulated', '竞争性抑制 vs 非竞争性抑制 · Competitive versus noncompetitive inhibition'],
     misconceptions: [
-      '以为酶提供能量或改变 \\(\\Delta G\\)',
-      '认为高温总是更好（变性）',
-      '混淆竞争与非竞争抑制剂对 \\(K_m\\)、\\(V_{\\max}\\) 的影响',
+      '以为酶提供能量或改变 \\(\\Delta G\\) · Thinking an enzyme supplies energy or changes \\(\\Delta G\\)',
+      '认为高温总是更好（变性） · Thinking a higher temperature is always better, ignoring denaturation',
+      '混淆竞争与非竞争抑制剂对 \\(K_m\\)、\\(V_{\\max}\\) 的影响 · Confusing how competitive and noncompetitive inhibitors affect \\(K_m\\) and \\(V_{\\max}\\)',
     ],
     examples: [
       {
@@ -672,7 +672,7 @@ export const ENRICHMENTS = {
         solution: '最适约 37°C；过热变性失活。',
       },
     ],
-    examTips: ['AP Bio CED Unit 3：酶与能量；会读反应坐标图（有/无酶）', '实验设计：温度、pH、底物浓度曲线'],
+    examTips: ['AP Bio CED Unit 3：酶与能量；会读反应坐标图（有/无酶） · AP Biology CED Unit 3, enzymes and energy: be able to read a reaction-coordinate diagram with and without an enzyme', '实验设计：温度、pH、底物浓度曲线 · Experimental design: temperature, pH, and substrate-concentration curves'],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.6', title: '酶结构与功能', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u3', code: '3.2', title: '环境影响酶', relation: '后续' },
@@ -709,11 +709,11 @@ export const ENRICHMENTS = {
       { from: '有丝分裂对比', to: '减数分裂', note: '多一次分裂且同源染色体分离，实现减半。' },
     ],
     conditions: ['发生于生殖细胞系', 'DNA 在间期只复制一次'],
-    keyPoints: ['精子发生：4 个精细胞；卵发生：1 个卵细胞 + 3 个极体（退化）', '交叉互换与独立分配是多样性来源'],
+    keyPoints: ['精子发生：4 个精细胞；卵发生：1 个卵细胞 + 3 个极体（退化） · Spermatogenesis yields 4 spermatids; oogenesis yields 1 egg plus 3 polar bodies, which degenerate', '交叉互换与独立分配是多样性来源 · Crossing over and independent assortment are sources of diversity'],
     misconceptions: [
-      '以为减数分裂有两次 DNA 复制',
-      '混淆同源染色体分离与姐妹染色单体分离发生的时期',
-      '以为有丝分裂也发生交叉互换',
+      '以为减数分裂有两次 DNA 复制 · Thinking meiosis includes two rounds of DNA replication',
+      '混淆同源染色体分离与姐妹染色单体分离发生的时期 · Confusing the stages in which homologous chromosomes separate and sister chromatids separate',
+      '以为有丝分裂也发生交叉互换 · Thinking crossing over also happens in mitosis',
     ],
     examples: [
       {
@@ -735,7 +735,7 @@ export const ENRICHMENTS = {
         solution: '增加遗传多样性。',
       },
     ],
-    examTips: ['CED Unit 5：遗传；会比较有丝/减数表格', '会解释多样性的两个机制'],
+    examTips: ['CED Unit 5：遗传；会比较有丝/减数表格 · CED Unit 5, heredity: be able to compare mitosis and meiosis in a table', '会解释多样性的两个机制 · Be able to explain the two mechanisms of genetic diversity'],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '有丝分裂', relation: '对比' },
       { subject: 'bio', chapterId: 'bio-u5', code: '5.2', title: '减数分裂细节', relation: '后续' },
@@ -772,10 +772,10 @@ export const ENRICHMENTS = {
       { from: 'CDK–周期蛋白', to: '检查点调控', note: '周期蛋白浓度起伏驱动 CDK 活性，推进或阻滞周期。' },
     ],
     conditions: ['多细胞生物发育与组织稳态依赖检查点'],
-    keyPoints: ['检查点防止受损 DNA 传递', '原癌基因过度激活 / 肿瘤抑制失活 → 癌症风险'],
+    keyPoints: ['检查点防止受损 DNA 传递 · Checkpoints prevent damaged DNA from being passed on', '原癌基因过度激活 / 肿瘤抑制失活 → 癌症风险 · Overactivation of a proto-oncogene, or loss of a tumor suppressor, raises cancer risk'],
     misconceptions: [
-      '以为所有突变都致癌',
-      '混淆原癌基因与肿瘤抑制基因的“油门/刹车”角色',
+      '以为所有突变都致癌 · Thinking every mutation causes cancer',
+      '混淆原癌基因与肿瘤抑制基因的“油门/刹车”角色 · Mixing up the accelerator and brake roles of proto-oncogenes and tumor-suppressor genes',
     ],
     examples: [
       {
@@ -800,7 +800,7 @@ export const ENRICHMENTS = {
         solution: '油门 vs 刹车。',
       },
     ],
-    examTips: ['CED Unit 4：细胞沟通与周期；会用实验/图解释检查点', '联系癌症但不需临床细节'],
+    examTips: ['CED Unit 4：细胞沟通与周期；会用实验/图解释检查点 · CED Unit 4, cell communication and the cell cycle: use an experiment or a figure to explain a checkpoint', '联系癌症但不需临床细节 · Connect the idea to cancer, but clinical detail is not required'],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.5', title: '细胞周期', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u4', code: '4.7', title: '有丝分裂', relation: '后续' },
@@ -834,14 +834,14 @@ export const ENRICHMENTS = {
     intuitionDetailed: '碱基配对 A–T、G–C 保证遗传信息精确传递；校对降低突变率。',
     formulas: [],
     derivationNotes: [
-      { from: 'Watson–Crick 配对', to: '半保留', note: 'Meselson–Stahl 实验证实。' },
+      { from: 'Watson–Crick 配对', to: '半保留 · Semiconservative replication', note: 'Meselson–Stahl 实验证实。' },
     ],
     conditions: ['需要引物（RNA）', '能量来自三磷酸核苷'],
-    keyPoints: ['半保留', '\\(5\'\\to 3\'\\) 合成', '前导/滞后链差异', '复制叉'],
+    keyPoints: ['半保留 · Semiconservative replication', '\\(5\'\\to 3\'\\) 合成 · Synthesis in the \\(5\'\\to 3\'\\) direction', '前导/滞后链差异 · Leading and lagging strands differ', '复制叉 · The replication fork'],
     misconceptions: [
-      '以为全保留或弥散复制',
-      '忘记引物酶',
-      '写错合成方向',
+      '以为全保留或弥散复制 · Thinking replication is conservative or dispersive',
+      '忘记引物酶 · Forgetting primase',
+      '写错合成方向 · Writing the synthesis direction backward',
     ],
     examples: [
       {
@@ -869,7 +869,7 @@ export const ENRICHMENTS = {
         solution: '密封缺口，形成连续链。',
       },
     ],
-    examTips: ['CED Unit 6：基因表达；复制机制与实验证据常考', '会标注复制叉图中的酶与方向'],
+    examTips: ['CED Unit 6：基因表达；复制机制与实验证据常考 · CED Unit 6, gene expression: the mechanism of replication and experimental evidence are commonly tested', '会标注复制叉图中的酶与方向 · Be able to label the enzymes and directions on a replication-fork diagram'],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u6', code: '6.3', title: '转录', relation: '后续' },
@@ -906,10 +906,10 @@ export const ENRICHMENTS = {
       { from: '极性共价键', to: '氢键', note: 'O 电负性高，H 带部分正电，分子间形成氢键。' },
     ],
     conditions: ['氢键弱于共价键但数量庞大'],
-    keyPoints: ['极性与氢键', '四大特性：比热、汽化热、内聚黏附、溶剂', '冰浮于水'],
+    keyPoints: ['极性与氢键 · Polarity and hydrogen bonding', '四大特性：比热、汽化热、内聚黏附、溶剂 · Four properties: specific heat, heat of vaporization, cohesion and adhesion, and solvent behavior', '冰浮于水 · Ice floats on water'],
     misconceptions: [
-      '以为氢键是水分子内的键（实为分子间）',
-      '忽视溶剂对离子/极性分子的水合',
+      '以为氢键是水分子内的键（实为分子间） · Thinking a hydrogen bond is inside a water molecule, when it is between molecules',
+      '忽视溶剂对离子/极性分子的水合 · Ignoring the hydration of ions and polar molecules by the solvent',
     ],
     examples: [
       {
@@ -931,7 +931,7 @@ export const ENRICHMENTS = {
         solution: '内聚–黏附–蒸腾连续体。',
       },
     ],
-    examTips: ['CED Unit 1：化学与水；会用氢键解释性质', 'FRQ 常要求“结构→性质→功能”链条'],
+    examTips: ['CED Unit 1：化学与水；会用氢键解释性质 · CED Unit 1, chemistry and water: use hydrogen bonding to explain properties', 'FRQ 常要求“结构→性质→功能”链条 · Free-response items often require a structure → property → function chain'],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.2', title: '元素与大分子', relation: '先修' },
       { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '后续' },

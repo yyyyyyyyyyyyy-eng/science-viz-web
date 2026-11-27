@@ -636,11 +636,43 @@ export const TOPICS = {
     "titleZh": "滚动",
     "titleEn": "Rolling",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "无滑动滚动",
+        "termEn": "rolling without slipping",
+        "defZh": "接触点相对地面瞬时静止，满足 \\(v_{\\mathrm{cm}}=\\omega R\\)。",
+        "defEn": "The contact point is instantaneously at rest relative to the ground, so \\(v_{\\mathrm{cm}}=\\omega R\\)."
+      },
+      {
+        "termZh": "滚动动能",
+        "termEn": "rolling kinetic energy",
+        "defZh": "质心平动动能与绕质心转动动能之和。",
+        "defEn": "The sum of the center-of-mass translational kinetic energy and the rotational kinetic energy about the center of mass."
+      },
+      {
+        "termZh": "静摩擦",
+        "termEn": "static friction",
+        "defZh": "无滑动时接触点没有相对运动，静摩擦不做功。",
+        "defEn": "When there is no slipping, the contact point has no relative motion, so static friction does no work."
+      },
+      {
+        "termZh": "转动惯量因子",
+        "termEn": "rotational inertia factor",
+        "defZh": "\\(\\dfrac{I}{MR^{2}}\\)。质量与外半径相同时，它越小，从静止沿同一斜面滚下越快。",
+        "defEn": "\\(\\dfrac{I}{MR^{2}}\\). For the same mass and outer radius, a smaller value rolls down the same incline faster from rest."
+      },
+      {
+        "termZh": "打滑",
+        "termEn": "slipping",
+        "defZh": "\\(v_{\\mathrm{cm}}\\ne\\omega R\\)，此时动摩擦做功，机械能不守恒。",
+        "defEn": "\\(v_{\\mathrm{cm}}\\ne\\omega R\\). Kinetic friction then does work and mechanical energy is not conserved."
+      }
+    ],
     "summary": "滚动 · Rolling",
     "learningObjectives": [
-      "能陈述「滚动」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「滚动」的准确定义与适用对象 · State the precise definition of Rolling and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Rolling：准确陈述定义、适用范围与符号约定。",
@@ -690,19 +722,19 @@ export const TOPICS = {
       "有滑动时用动摩擦，v_cm≠Rω"
     ],
     "keyPoints": [
-      "掌握 6.3「滚动」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.3「滚动」准确定义 · State the precise definition of 6.3 Rolling.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「滚动」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「滚动」的结论 · Applying the conclusion of Rolling when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -728,11 +760,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

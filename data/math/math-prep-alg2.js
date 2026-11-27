@@ -20,9 +20,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "函数族回顾 · Families of Functions Review",
     "learningObjectives": [
-      "能陈述「函数族回顾」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「函数族回顾」的准确定义与适用对象 · State the precise definition of Families of Functions Review and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Families of Functions Review：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +63,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.1「函数族回顾」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.1「函数族回顾」准确定义 · State the precise definition of P3.1 Families of Functions Review.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「函数族回顾」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「函数族回顾」的结论 · Applying the conclusion of Families of Functions Review when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -101,11 +101,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -150,9 +150,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "二次函数深入 · Quadratic Functions in Depth",
     "learningObjectives": [
-      "能陈述「二次函数深入」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「二次函数深入」的准确定义与适用对象 · State the precise definition of Quadratic Functions in Depth and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Quadratic Functions in Depth：准确陈述定义、适用范围与符号约定。",
@@ -193,19 +193,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.2「二次函数深入」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.2「二次函数深入」准确定义 · State the precise definition of P3.2 Quadratic Functions in Depth.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「二次函数深入」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「二次函数深入」的结论 · Applying the conclusion of Quadratic Functions in Depth when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -231,11 +231,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -287,9 +287,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "多项式函数 · Polynomial Functions",
     "learningObjectives": [
-      "能陈述「多项式函数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「多项式函数」的准确定义与适用对象 · State the precise definition of Polynomial Functions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Polynomial Functions：准确陈述定义、适用范围与符号约定。",
@@ -330,19 +330,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.3「多项式函数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.3「多项式函数」准确定义 · State the precise definition of P3.3 Polynomial Functions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「多项式函数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「多项式函数」的结论 · Applying the conclusion of Polynomial Functions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -368,11 +368,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -424,9 +424,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "有理函数 · Rational Functions",
     "learningObjectives": [
-      "能陈述「有理函数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「有理函数」的准确定义与适用对象 · State the precise definition of Rational Functions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Rational Functions：准确陈述定义、适用范围与符号约定。",
@@ -467,19 +467,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.4「有理函数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.4「有理函数」准确定义 · State the precise definition of P3.4 Rational Functions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「有理函数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「有理函数」的结论 · Applying the conclusion of Rational Functions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -505,11 +505,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -561,9 +561,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "根式与有理指数 · Radicals and Rational Exponents",
     "learningObjectives": [
-      "能陈述「根式与有理指数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「根式与有理指数」的准确定义与适用对象 · State the precise definition of Radicals and Rational Exponents and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Radicals and Rational Exponents：准确陈述定义、适用范围与符号约定。",
@@ -604,19 +604,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.5「根式与有理指数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.5「根式与有理指数」准确定义 · State the precise definition of P3.5 Radicals and Rational Exponents.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「根式与有理指数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「根式与有理指数」的结论 · Applying the conclusion of Radicals and Rational Exponents when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -642,11 +642,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -698,9 +698,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "指数函数 · Exponential Functions",
     "learningObjectives": [
-      "能陈述「指数函数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「指数函数」的准确定义与适用对象 · State the precise definition of Exponential Functions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Exponential Functions：准确陈述定义、适用范围与符号约定。",
@@ -741,19 +741,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.6「指数函数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.6「指数函数」准确定义 · State the precise definition of P3.6 Exponential Functions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「指数函数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「指数函数」的结论 · Applying the conclusion of Exponential Functions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -779,11 +779,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -835,9 +835,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "对数函数 · Logarithmic Functions",
     "learningObjectives": [
-      "能陈述「对数函数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「对数函数」的准确定义与适用对象 · State the precise definition of Logarithmic Functions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Logarithmic Functions：准确陈述定义、适用范围与符号约定。",
@@ -878,19 +878,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.7「对数函数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.7「对数函数」准确定义 · State the precise definition of P3.7 Logarithmic Functions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「对数函数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「对数函数」的结论 · Applying the conclusion of Logarithmic Functions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -916,11 +916,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -972,9 +972,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "数列与级数入门 · Sequences and Series Intro",
     "learningObjectives": [
-      "能陈述「数列与级数入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「数列与级数入门」的准确定义与适用对象 · State the precise definition of Sequences and Series Intro and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Sequences and Series Intro：准确陈述定义、适用范围与符号约定。",
@@ -1015,19 +1015,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.8「数列与级数入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.8「数列与级数入门」准确定义 · State the precise definition of P3.8 Sequences and Series Intro.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「数列与级数入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「数列与级数入门」的结论 · Applying the conclusion of Sequences and Series Intro when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1053,11 +1053,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1109,9 +1109,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "概率与计数 · Probability and Counting",
     "learningObjectives": [
-      "能陈述「概率与计数」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「概率与计数」的准确定义与适用对象 · State the precise definition of Probability and Counting and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Probability and Counting：准确陈述定义、适用范围与符号约定。",
@@ -1152,19 +1152,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.9「概率与计数」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.9「概率与计数」准确定义 · State the precise definition of P3.9 Probability and Counting.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「概率与计数」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「概率与计数」的结论 · Applying the conclusion of Probability and Counting when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1190,11 +1190,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1246,9 +1246,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "矩阵入门 · Intro Matrices",
     "learningObjectives": [
-      "能陈述「矩阵入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「矩阵入门」的准确定义与适用对象 · State the precise definition of Intro Matrices and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Matrices：准确陈述定义、适用范围与符号约定。",
@@ -1289,19 +1289,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.10「矩阵入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.10「矩阵入门」准确定义 · State the precise definition of P3.10 Intro Matrices.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「矩阵入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「矩阵入门」的结论 · Applying the conclusion of Intro Matrices when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1327,11 +1327,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1383,9 +1383,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "圆锥曲线入门 · Intro Conic Sections",
     "learningObjectives": [
-      "能陈述「圆锥曲线入门」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「圆锥曲线入门」的准确定义与适用对象 · State the precise definition of Intro Conic Sections and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Intro Conic Sections：准确陈述定义、适用范围与符号约定。",
@@ -1426,19 +1426,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.11「圆锥曲线入门」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.11「圆锥曲线入门」准确定义 · State the precise definition of P3.11 Intro Conic Sections.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「圆锥曲线入门」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「圆锥曲线入门」的结论 · Applying the conclusion of Intro Conic Sections when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1464,11 +1464,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1520,9 +1520,9 @@ export const TOPICS = {
     "layer": "prep",
     "summary": "三角恒等式预备 · Trig Identity Prep",
     "learningObjectives": [
-      "能陈述「三角恒等式预备」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「三角恒等式预备」的准确定义与适用对象 · State the precise definition of Trig Identity Prep and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Trig Identity Prep：准确陈述定义、适用范围与符号约定。",
@@ -1563,19 +1563,19 @@ export const TOPICS = {
       "进入 AP 前完成本页例题"
     ],
     "keyPoints": [
-      "掌握 P3.12「三角恒等式预备」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 P3.12「三角恒等式预备」准确定义 · State the precise definition of P3.12 Trig Identity Prep.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「三角恒等式预备」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「三角恒等式预备」的结论 · Applying the conclusion of Trig Identity Prep when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1601,11 +1601,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

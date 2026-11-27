@@ -3,9 +3,9 @@ export const ENRICHMENTS = {
   'bio/bio-prep-hs/P2.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能解释酶降低活化能而不改变 ΔG 的催化机制。',
-      '能用活性位点与诱导契合说明酶的特异性。',
-      '能分析温度、pH、底物浓度与抑制剂对酶促速率的影响。'
+      '能解释酶降低活化能而不改变 ΔG 的催化机制。 · Explain how an enzyme lowers activation energy without changing ΔG.',
+      '能用活性位点与诱导契合说明酶的特异性。 · Use the active site and induced fit to explain enzyme specificity.',
+      '能分析温度、pH、底物浓度与抑制剂对酶促速率的影响。 · Analyze how temperature, pH, substrate concentration, and inhibitors affect the rate.'
     ],
     essentialKnowledge: [
       '酶是生物催化剂，绝大多数是蛋白质，少数是 RNA 核酶。',
@@ -22,12 +22,12 @@ export const ENRICHMENTS = {
       { latex: 'v=\\dfrac{V_{\\max}[S]}{K_m+[S]}', note: '米氏方程（定性理解：低 \\([S]\\) 近似一级，高 \\([S]\\) 饱和）。' },
     ],
     conditions: ['适宜温度与 pH；过酸、过碱或高温可使酶变性', '底物浓度足够时速率趋于 \\(V_{\\max}\\)', '酶具有特异性，一种酶通常只催化一类反应'],
-    keyPoints: ['降低 \\(E_a\\)，不改变 \\(\\Delta G\\)', '活性位点决定特异性', '可重复使用，微量高效', '温度、pH、抑制剂与辅因子调节活性'],
+    keyPoints: ['降低 \\(E_a\\)，不改变 \\(\\Delta G\\) · It lowers \\(E_a\\) and does not change \\(\\Delta G\\)', '活性位点决定特异性 · The active site determines specificity', '可重复使用，微量高效 · Reusable, and effective in small amounts', '温度、pH、抑制剂与辅因子调节活性 · Temperature, pH, inhibitors, and cofactors regulate activity'],
     misconceptions: [
-      '认为酶提供能量或改变平衡常数',
-      '认为酶在反应中被消耗',
-      '认为温度越高越好（高温变性）',
-      '混淆竞争性抑制剂（影响 \\(K_m\\)）与非竞争性抑制剂（影响 \\(V_{\\max}\\)）',
+      '认为酶提供能量或改变平衡常数 · Thinking an enzyme supplies energy or changes the equilibrium constant',
+      '认为酶在反应中被消耗 · Thinking the enzyme is consumed in the reaction',
+      '认为温度越高越好（高温变性） · Thinking hotter is always better, ignoring heat denaturation',
+      '混淆竞争性抑制剂（影响 \\(K_m\\)）与非竞争性抑制剂（影响 \\(V_{\\max}\\)） · Confusing a competitive inhibitor (it affects \\(K_m\\)) with a noncompetitive inhibitor (it affects \\(V_{\\max}\\))',
     ],
     examples: [
       {
@@ -50,9 +50,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：酶的结构、催化与调节',
-      '实验题：温度、pH、底物浓度曲线；注意区分“变性”与“抑制”',
-      'FRQ 用“结构 → 功能 → 证据”链条作答',
+      'CED Unit 3：酶的结构、催化与调节 · CED Unit 3: enzyme structure, catalysis, and regulation',
+      '实验题：温度、pH、底物浓度曲线；注意区分“变性”与“抑制” · On experiment items, read temperature, pH, and substrate-concentration curves, and distinguish denaturation from inhibition.',
+      'FRQ 用“结构 → 功能 → 证据”链条作答 · On free response, use the chain structure → function → evidence',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.6', title: '酶结构与功能', relation: '先修' },
@@ -67,9 +67,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分负反馈与正反馈并各举生物实例。',
-      '能画出反馈回路的感受器、控制中心与效应器。',
-      '能解释反馈延迟为何可能引起振荡。'
+      '能区分负反馈与正反馈并各举生物实例。 · Distinguish negative and positive feedback and give a biological example of each.',
+      '能画出反馈回路的感受器、控制中心与效应器。 · Draw the sensor, control center, and effector of a feedback loop.',
+      '能解释反馈延迟为何可能引起振荡。 · Explain why a delay in feedback can cause oscillation.'
     ],
     essentialKnowledge: [
       '反馈是输出反过来影响输入的调节回路，包含感受器、控制中心与效应器。',
@@ -85,12 +85,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{刺激}\\to\\text{感受器}\\to\\text{控制中心}\\to\\text{效应器}\\to\\text{反应}', note: '反馈回路的基本组成。' },
     ],
     conditions: ['负反馈需要明确的设定点与可检测的偏差', '回路有延迟时可能出现振荡（如体温调节的寒战与出汗交替）', '正反馈必须由外部事件终止，否则会失控'],
-    keyPoints: ['负反馈维持稳态，正反馈放大过程', '感受器、控制中心、效应器缺一不可', '血糖、体温、渗透压是经典负反馈', '分娩与血液凝固是经典正反馈'],
+    keyPoints: ['负反馈维持稳态，正反馈放大过程 · Negative feedback maintains a steady state; positive feedback amplifies a process', '感受器、控制中心、效应器缺一不可 · A sensor, a control center, and an effector are all required', '血糖、体温、渗透压是经典负反馈 · Blood glucose, body temperature, and osmotic pressure are classic negative-feedback examples', '分娩与血液凝固是经典正反馈 · Childbirth and blood clotting are classic positive-feedback examples'],
     misconceptions: [
-      '把“负反馈”理解为“有害的反馈”',
-      '认为正反馈总是坏事（分娩、凝血需要正反馈）',
-      '把反射弧与反馈回路混为一谈',
-      '忽略感受器与效应器之间的控制中心',
+      '把“负反馈”理解为“有害的反馈” · Reading “negative feedback” as “harmful feedback”',
+      '认为正反馈总是坏事（分娩、凝血需要正反馈） · Thinking positive feedback is always bad; childbirth and clotting require positive feedback',
+      '把反射弧与反馈回路混为一谈 · Confusing a reflex arc with a feedback loop',
+      '忽略感受器与效应器之间的控制中心 · Ignoring the control center between the sensor and the effector',
     ],
     examples: [
       {
@@ -113,9 +113,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：细胞通讯与反馈',
-      'FRQ 常要求画出回路并标出感受器、控制中心、效应器',
-      '读图题：先判断变量偏离方向，再判断反应是抵消还是放大',
+      'CED Unit 4：细胞通讯与反馈 · CED Unit 4, cell communication and feedback',
+      'FRQ 常要求画出回路并标出感受器、控制中心、效应器 · Free response often asks you to draw the loop and label the sensor, control center, and effector',
+      '读图题：先判断变量偏离方向，再判断反应是抵消还是放大 · On a graph, first judge which way the variable has departed, then whether the response cancels or amplifies that departure',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.1', title: '细胞通讯', relation: '先修' },
@@ -130,9 +130,9 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能描述核糖体、tRNA 与 mRNA 在翻译中的分工。',
-      '能按 5′→3′ 方向写出密码子与反密码子的配对关系。',
-      '能区分起始、终止密码子与阅读框的作用。'
+      '能描述核糖体、tRNA 与 mRNA 在翻译中的分工。 · Describe the division of labor among the ribosome, tRNA, and mRNA in translation.',
+      '能按 5′→3′ 方向写出密码子与反密码子的配对关系。 · Write codon–anticodon pairing in the 5′→3′ direction.',
+      '能区分起始、终止密码子与阅读框的作用。 · Distinguish the roles of start and stop codons and of the reading frame.'
     ],
     essentialKnowledge: [
       '核糖体按 mRNA 上密码子的顺序，把 tRNA 携带的氨基酸连成多肽。',
@@ -149,13 +149,13 @@ export const ENRICHMENTS = {
       { latex: '5\\text{-mRNA-}3\\;\\Rightarrow\\;\\text{N-多肽-C}', note: '方向关系。' },
     ],
     conditions: ['需要 mRNA、核糖体、tRNA、氨基酸、GTP/ATP 与多种翻译因子', '密码子按三联体读取，阅读框一旦确定不可随意移动', '遗传密码具有简并性：多个密码子可编码同一氨基酸'],
-    keyPoints: ['起始密码子 AUG 同时编码甲硫氨酸', 'tRNA 反密码子与密码子反向平行配对', '核糖体有 A、P、E 三个位点', '多肽链从 N 端向 C 端延伸', '一个 mRNA 可同时被多个核糖体翻译（多聚核糖体）'],
+    keyPoints: ['起始密码子 AUG 同时编码甲硫氨酸 · The start codon AUG also codes for methionine', 'tRNA 反密码子与密码子反向平行配对 · A tRNA anticodon pairs antiparallel to the codon', '核糖体有 A、P、E 三个位点 · The ribosome has A, P, and E sites', '多肽链从 N 端向 C 端延伸 · The polypeptide grows from the N terminus toward the C terminus', '一个 mRNA 可同时被多个核糖体翻译（多聚核糖体） · One mRNA can be translated by many ribosomes at once (a polyribosome)'],
     misconceptions: [
-      '把模板链与 mRNA 混淆（翻译直接读 mRNA）',
-      '认为 tRNA 携带的是密码子而不是氨基酸',
-      '把核糖体移动方向写成 \\(3\\to 5\\)',
-      '认为一个密码子可以编码多个氨基酸',
-      '忽略移码突变会改变整个下游阅读框',
+      '把模板链与 mRNA 混淆（翻译直接读 mRNA） · Confusing the template strand with mRNA; translation reads the mRNA directly',
+      '认为 tRNA 携带的是密码子而不是氨基酸 · Thinking a tRNA carries a codon rather than an amino acid',
+      '把核糖体移动方向写成 \\(3\\to 5\\) · Writing the ribosome’s movement as \\(3\'\\to 5\'\\)',
+      '认为一个密码子可以编码多个氨基酸 · Thinking one codon can code for several amino acids',
+      '忽略移码突变会改变整个下游阅读框 · Ignoring that a frameshift changes the entire downstream reading frame',
     ],
     examples: [
       {
@@ -179,9 +179,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达与调控',
-      '使用密码子表时先确认 \\(5\\to 3\\) 方向与阅读框',
-      'FRQ 常考：给出 DNA/mRNA 序列，写出多肽或判断突变类型',
+      'CED Unit 6：基因表达与调控 · CED Unit 6, gene expression and regulation',
+      '使用密码子表时先确认 \\(5\\to 3\\) 方向与阅读框 · Before using a codon table, confirm the \\(5\'\\to 3\'\\) direction and the reading frame',
+      'FRQ 常考：给出 DNA/mRNA 序列，写出多肽或判断突变类型 · Free response often gives a DNA or mRNA sequence and asks for the polypeptide or the type of mutation',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '先修' },
@@ -197,9 +197,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用流动镶嵌模型解释膜的结构与流动性。',
-      '能说明磷脂、膜蛋白、胆固醇与糖类各自的功能。',
-      '能由膜结构推断物质的选择透过性。'
+      '能用流动镶嵌模型解释膜的结构与流动性。 · Use the fluid-mosaic model to explain membrane structure and fluidity.',
+      '能说明磷脂、膜蛋白、胆固醇与糖类各自的功能。 · State the functions of phospholipids, membrane proteins, cholesterol, and carbohydrates.',
+      '能由膜结构推断物质的选择透过性。 · Infer selective permeability from membrane structure.'
     ],
     essentialKnowledge: [
       '质膜以磷脂双分子层为骨架，镶嵌蛋白质、胆固醇与糖类。',
@@ -215,12 +215,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{净扩散}\\propto\\dfrac{\\Delta C\\cdot A}{d}', note: '浓度差、面积越大、膜越薄，扩散越快（定性）。' },
     ],
     conditions: ['流动镶嵌模型适用于细胞质膜与多数细胞器膜', '胆固醇调节动物细胞膜的流动性', '膜蛋白的分布具有不对称性'],
-    keyPoints: ['磷脂双分子层是骨架', '整合蛋白贯穿膜，外周蛋白附着表面', '选择透过性由脂质与膜蛋白共同决定', '糖蛋白/糖脂参与识别与黏附'],
+    keyPoints: ['磷脂双分子层是骨架 · The phospholipid bilayer is the framework of the membrane', '整合蛋白贯穿膜，外周蛋白附着表面 · Integral proteins span the membrane; peripheral proteins attach to a surface', '选择透过性由脂质与膜蛋白共同决定 · Selective permeability is set jointly by lipids and membrane proteins', '糖蛋白/糖脂参与识别与黏附 · Glycoproteins and glycolipids take part in recognition and adhesion'],
     misconceptions: [
-      '把质膜看成静态的刚性结构',
-      '认为所有小分子都能自由通过（带电离子不易）',
-      '认为胆固醇只起“堵塞”作用（它调节流动性）',
-      '忽略膜蛋白在运输与信号转导中的作用',
+      '把质膜看成静态的刚性结构 · Treating the plasma membrane as a static rigid structure',
+      '认为所有小分子都能自由通过（带电离子不易） · Thinking every small molecule crosses freely; charged ions do not',
+      '认为胆固醇只起“堵塞”作用（它调节流动性） · Thinking cholesterol only plugs the membrane; it regulates fluidity',
+      '忽略膜蛋白在运输与信号转导中的作用 · Ignoring the roles of membrane proteins in transport and signal transduction',
     ],
     examples: [
       {
@@ -243,9 +243,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞结构与功能',
-      'FRQ 常要求根据分子性质判断运输方式',
-      '画膜结构时标出磷脂头部/尾部、整合蛋白、糖蛋白',
+      'CED Unit 2：细胞结构与功能 · CED Unit 2, cell structure and function',
+      'FRQ 常要求根据分子性质判断运输方式 · Free response often asks you to judge the transport mode from molecular properties',
+      '画膜结构时标出磷脂头部/尾部、整合蛋白、糖蛋白 · When drawing a membrane, label phospholipid heads and tails, integral proteins, and glycoproteins',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.4', title: '膜通透性', relation: '后续' },
@@ -399,9 +399,9 @@ export const ENRICHMENTS = {
   'bio/bio-u1/1.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能比较 DNA 与 RNA 的组成、结构与功能。',
-      '能写出碱基互补配对与反向平行的方向关系。',
-      '能解释磷酸二酯键与氢键在核酸结构中的作用。'
+      '能比较 DNA 与 RNA 的组成、结构与功能。 · Compare the composition, structure, and function of DNA and RNA.',
+      '能写出碱基互补配对与反向平行的方向关系。 · Write base-pairing rules and the antiparallel direction relationship.',
+      '能解释磷酸二酯键与氢键在核酸结构中的作用。 · Explain the roles of phosphodiester bonds and hydrogen bonds in nucleic-acid structure.'
     ],
     essentialKnowledge: [
       '核苷酸由磷酸、五碳糖与含氮碱基组成，是核酸的单体。',
@@ -418,12 +418,12 @@ export const ENRICHMENTS = {
       { latex: '5\\text{-}\\ldots\\text{-}3\\;\\parallel\\;3\\text{-}\\ldots\\text{-}5', note: '双链反向平行。' },
     ],
     conditions: ['DNA 双螺旋在生理条件下稳定；高温或强碱可使其变性', 'RNA 可形成局部双链或复杂二级结构', '碱基配对具有方向性与互补性'],
-    keyPoints: ['核苷酸 = 磷酸 + 五碳糖 + 碱基', 'DNA 用脱氧核糖与 T；RNA 用核糖与 U', '磷酸二酯键连接 5′ 磷酸与 3′ 羟基', 'mRNA、tRNA、rRNA 功能不同'],
+    keyPoints: ['核苷酸 = 磷酸 + 五碳糖 + 碱基 · A nucleotide = phosphate + five-carbon sugar + base', 'DNA 用脱氧核糖与 T；RNA 用核糖与 U · DNA uses deoxyribose and T; RNA uses ribose and U', '磷酸二酯键连接 5′ 磷酸与 3′ 羟基 · A phosphodiester bond joins a 5′ phosphate to a 3′ hydroxyl', 'mRNA、tRNA、rRNA 功能不同 · mRNA, tRNA, and rRNA have different functions'],
     misconceptions: [
-      '认为 DNA 是单链、RNA 是双链（通常相反）',
-      '在 DNA 中写 A–U 配对',
-      '混淆脱氧核糖与核糖',
-      '认为两条 DNA 链同向平行',
+      '认为 DNA 是单链、RNA 是双链（通常相反） · Thinking DNA is single-stranded and RNA is double-stranded; usually it is the reverse',
+      '在 DNA 中写 A–U 配对 · Writing A–U pairing in DNA',
+      '混淆脱氧核糖与核糖 · Confusing deoxyribose with ribose',
+      '认为两条 DNA 链同向平行 · Thinking the two DNA strands run in the same direction',
     ],
     examples: [
       {
@@ -447,9 +447,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 1 / Unit 6：核酸结构与功能',
-      '画核苷酸时标出磷酸、糖、碱基与 5′/3′ 端',
-      'FRQ 常考：根据一条链写互补链、判断方向与氢键数',
+      'CED Unit 1 / Unit 6：核酸结构与功能 · CED Units 1 and 6, nucleic-acid structure and function',
+      '画核苷酸时标出磷酸、糖、碱基与 5′/3′ 端 · When drawing a nucleotide, label the phosphate, sugar, base, and the 5′ and 3′ ends',
+      'FRQ 常考：根据一条链写互补链、判断方向与氢键数 · Free response often asks you to write the complementary strand, judge the direction, and count hydrogen bonds',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '先修' },
@@ -464,9 +464,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能比较简单扩散、协助扩散、主动运输与胞吞胞吐。',
-      '能判断给定分子与条件下最可能的运输方式。',
-      '能解释浓度梯度、电化学梯度与 ATP 在运输中的作用。'
+      '能比较简单扩散、协助扩散、主动运输与胞吞胞吐。 · Compare simple diffusion, facilitated diffusion, active transport, and endocytosis or exocytosis.',
+      '能判断给定分子与条件下最可能的运输方式。 · Judge the most likely transport mode for a given molecule and conditions.',
+      '能解释浓度梯度、电化学梯度与 ATP 在运输中的作用。 · Explain the roles of concentration gradients, electrochemical gradients, and ATP in transport.'
     ],
     essentialKnowledge: [
       '被动运输顺浓度或电化学梯度，不直接消耗 ATP，包括简单扩散、协助扩散与渗透。',
@@ -483,12 +483,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{主动运输}:\\;\\Delta G>0,\\;\\text{需 ATP}', note: '逆浓度梯度。' },
     ],
     conditions: ['被动运输依赖浓度梯度或电化学梯度', '主动运输需要能量与特异性载体', '膜的选择透过性决定哪些分子走哪条路径'],
-    keyPoints: ['简单扩散 vs 协助扩散 vs 主动运输', '通道蛋白与载体蛋白机制不同', '渗透是水的扩散', 'Na⁺/K⁺ 泵建立电化学梯度', '胞吞/胞吐运输大分子'],
+    keyPoints: ['简单扩散 vs 协助扩散 vs 主动运输 · Simple diffusion versus facilitated diffusion versus active transport', '通道蛋白与载体蛋白机制不同 · Channel proteins and carrier proteins work by different mechanisms', '渗透是水的扩散 · Osmosis is the diffusion of water', 'Na⁺/K⁺ 泵建立电化学梯度 · The Na⁺/K⁺ pump builds an electrochemical gradient', '胞吞/胞吐运输大分子 · Endocytosis and exocytosis transport macromolecules'],
     misconceptions: [
-      '认为协助扩散需要 ATP（不需要）',
-      '把渗透与溶质扩散混为一谈',
-      '认为主动运输只能逆浓度梯度（也可维持梯度）',
-      '忽略泵与通道的选择性',
+      '认为协助扩散需要 ATP（不需要） · Thinking facilitated diffusion requires ATP; it does not',
+      '把渗透与溶质扩散混为一谈 · Confusing osmosis with diffusion of solute',
+      '认为主动运输只能逆浓度梯度（也可维持梯度） · Thinking active transport can only move a solute against its gradient; it can also maintain a gradient',
+      '忽略泵与通道的选择性 · Ignoring the selectivity of pumps and channels',
     ],
     examples: [
       {
@@ -511,9 +511,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞膜与运输',
-      '读图：饱和曲线说明载体参与；直线说明简单扩散',
-      'FRQ 常考：判断运输方式并说明能量/蛋白需求',
+      'CED Unit 2：细胞膜与运输 · CED Unit 2, membrane and transport',
+      '读图：饱和曲线说明载体参与；直线说明简单扩散 · Reading a graph: a saturating curve means a carrier is involved; a straight line means simple diffusion',
+      'FRQ 常考：判断运输方式并说明能量/蛋白需求 · Free response often asks you to identify the transport mode and state the energy or protein requirement',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.3', title: '质膜', relation: '先修' },
@@ -529,9 +529,9 @@ export const ENRICHMENTS = {
   'bio/bio-u3/3.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出光合作用总反应并指出 O₂ 的来源。',
-      '能说明光反应与 Calvin 循环的产物与耦合关系。',
-      '能比较 C3、C4 与 CAM 植物适应环境的策略。'
+      '能写出光合作用总反应并指出 O₂ 的来源。 · Write the overall photosynthesis reaction and state the source of O₂.',
+      '能说明光反应与 Calvin 循环的产物与耦合关系。 · Explain the products of the light reactions and the Calvin cycle and how the two are coupled.',
+      '能比较 C3、C4 与 CAM 植物适应环境的策略。 · Compare how C3, C4, and CAM plants are adapted to their environments.'
     ],
     essentialKnowledge: [
       '光合作用把光能转化为有机物中的化学能，总反应消耗 CO₂ 与水并释放 O₂。',
@@ -549,12 +549,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{Calvin}:\\;CO_2\\to\\text{糖}', note: '基质，需 ATP/NADPH。' },
     ],
     conditions: ['需要光、CO₂、水与适宜温度', '光反应与 Calvin 循环通过 ATP/NADPH 与 ADP/NADP⁺ 耦合', 'Rubisco 的羧化与加氧活性受 CO₂/O₂ 比例影响'],
-    keyPoints: ['O₂ 来自水的光解', '光反应产生 ATP 与 NADPH', 'Calvin 循环不直接需要光，但依赖光反应产物', 'rubisco 是 CO₂ 固定的关键酶', 'C4/CAM 是适应高温干旱的机制'],
+    keyPoints: ['O₂ 来自水的光解 · O₂ comes from the photolysis of water', '光反应产生 ATP 与 NADPH · The light reactions produce ATP and NADPH', 'Calvin 循环不直接需要光，但依赖光反应产物 · The Calvin cycle does not use light directly, but it depends on products of the light reactions', 'rubisco 是 CO₂ 固定的关键酶 · Rubisco is the key enzyme of CO₂ fixation', 'C4/CAM 是适应高温干旱的机制 · C4 and CAM are adaptations to heat and drought'],
     misconceptions: [
-      '认为 O₂ 来自 CO₂',
-      '认为暗反应完全不需要光（需要光反应提供的 ATP/NADPH）',
-      '认为 Calvin 循环直接生成葡萄糖（先得 G3P）',
-      '忽略光呼吸与 C4/CAM 的适应意义',
+      '认为 O₂ 来自 CO₂ · Thinking O₂ comes from CO₂',
+      '认为暗反应完全不需要光（需要光反应提供的 ATP/NADPH） · Thinking the dark reactions need no light at all; they need ATP and NADPH from the light reactions',
+      '认为 Calvin 循环直接生成葡萄糖（先得 G3P） · Thinking the Calvin cycle makes glucose directly; it first makes G3P',
+      '忽略光呼吸与 C4/CAM 的适应意义 · Ignoring the adaptive meaning of photorespiration and of C4 and CAM',
     ],
     examples: [
       {
@@ -577,9 +577,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：细胞能量与光合作用',
-      '画图：类囊体膜上的 PSII/PSI、ATP 合酶、Calvin 循环',
-      'FRQ 常考：O₂ 来源、ATP/NADPH 去向、限制因素曲线',
+      'CED Unit 3：细胞能量与光合作用 · CED Unit 3, cellular energy and photosynthesis',
+      '画图：类囊体膜上的 PSII/PSI、ATP 合酶、Calvin 循环 · On a diagram, place PSII, PSI, ATP synthase, and the Calvin cycle relative to the thylakoid membrane',
+      'FRQ 常考：O₂ 来源、ATP/NADPH 去向、限制因素曲线 · Free response often asks for the source of O₂, the fate of ATP and NADPH, and a limiting-factor curve',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u3', code: '3.3', title: '细胞能量', relation: '先修' },
@@ -594,9 +594,9 @@ export const ENRICHMENTS = {
   'bio/bio-u3/3.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能概述糖酵解、柠檬酸循环与氧化磷酸化的位置与产物。',
-      '能计算有氧呼吸中 ATP 与电子载体的主要来源。',
-      '能解释发酵为何不能大量产生 ATP。'
+      '能概述糖酵解、柠檬酸循环与氧化磷酸化的位置与产物。 · Outline where glycolysis, the citric acid cycle, and oxidative phosphorylation occur and what they produce.',
+      '能计算有氧呼吸中 ATP 与电子载体的主要来源。 · Calculate the main sources of ATP and electron carriers in aerobic respiration.',
+      '能解释发酵为何不能大量产生 ATP。 · Explain why fermentation cannot produce a large amount of ATP.'
     ],
     essentialKnowledge: [
       '细胞呼吸把有机物氧化分解，释放的能量用于合成 ATP。',
@@ -613,12 +613,12 @@ export const ENRICHMENTS = {
       { latex: 'ADP+P_i\\to\\text{ATP}', note: '氧化磷酸化的净结果。' },
     ],
     conditions: ['有氧呼吸需要 O₂ 作为电子传递链的最终电子受体', '糖酵解不需要 O₂，在细胞质基质进行', '发酵只能再生 NAD⁺，不能大量产 ATP'],
-    keyPoints: ['糖酵解净产 2 ATP、2 NADH', '柠檬酸循环产生 CO₂ 与电子载体', 'O₂ 在电子传递链末端被还原为水', 'ATP 合酶利用质子梯度合成 ATP', '发酵再生 NAD⁺ 以维持糖酵解'],
+    keyPoints: ['糖酵解净产 2 ATP、2 NADH · Glycolysis has a net yield of 2 ATP and 2 NADH', '柠檬酸循环产生 CO₂ 与电子载体 · The citric acid cycle produces CO₂ and electron carriers', 'O₂ 在电子传递链末端被还原为水 · O₂ is reduced to water at the end of the electron-transport chain', 'ATP 合酶利用质子梯度合成 ATP · ATP synthase uses the proton gradient to make ATP', '发酵再生 NAD⁺ 以维持糖酵解 · Fermentation regenerates NAD⁺ so glycolysis can continue'],
     misconceptions: [
-      '认为 O₂ 直接参与柠檬酸循环（它参与电子传递链）',
-      '认为 CO₂ 在糖酵解中产生（不产生）',
-      '把发酵当作高效产 ATP 途径',
-      '死记 36/38 ATP 而不理解实际产率约 30–32',
+      '认为 O₂ 直接参与柠檬酸循环（它参与电子传递链） · Thinking O₂ takes part directly in the citric acid cycle; it takes part in the electron-transport chain',
+      '认为 CO₂ 在糖酵解中产生（不产生） · Thinking CO₂ is produced in glycolysis; it is not',
+      '把发酵当作高效产 ATP 途径 · Treating fermentation as an efficient way to produce ATP',
+      '死记 36/38 ATP 而不理解实际产率约 30–32 · Memorizing 36 or 38 ATP without understanding that the actual yield is about 30–32',
     ],
     examples: [
       {
@@ -641,9 +641,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：细胞能量',
-      '用碳原子与电子载体（NADH/FADH₂）追踪反应',
-      'FRQ 常考：比较有氧呼吸与发酵、解释 O₂ 的作用',
+      'CED Unit 3：细胞能量 · CED Unit 3, cellular energy',
+      '用碳原子与电子载体（NADH/FADH₂）追踪反应 · Track a reaction by carbon atoms and electron carriers (NADH and FADH₂)',
+      'FRQ 常考：比较有氧呼吸与发酵、解释 O₂ 的作用 · Free response often asks you to compare aerobic respiration with fermentation and explain the role of O₂',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u3', code: '3.3', title: '细胞能量', relation: '先修' },
@@ -658,9 +658,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能按顺序描述有丝分裂各阶段的关键事件。',
-      '能区分姐妹染色单体分离与同源染色体分离。',
-      '能解释检查点如何保证染色体分配的准确性。'
+      '能按顺序描述有丝分裂各阶段的关键事件。 · Describe the key events of the mitotic stages in order.',
+      '能区分姐妹染色单体分离与同源染色体分离。 · Distinguish separation of sister chromatids from separation of homologous chromosomes.',
+      '能解释检查点如何保证染色体分配的准确性。 · Explain how checkpoints keep chromosome distribution accurate.'
     ],
     essentialKnowledge: [
       '有丝分裂是体细胞分裂产生两个遗传上相同子细胞的过程。',
@@ -676,12 +676,12 @@ export const ENRICHMENTS = {
       { latex: '2n\\xrightarrow{\\text{DNA 复制}}2n\\xrightarrow{\\text{有丝分裂}}2\\times2n', note: '染色体数保持不变。' },
     ],
     conditions: ['需要 DNA 复制、纺锤体与细胞周期检查点', '姐妹染色单体分离发生在后期', '胞质分裂机制在动物与植物中不同'],
-    keyPoints: ['有丝分裂保持染色体数不变', '姐妹染色单体分离，不是同源染色体分离', '中期赤道板排列是识别标志', '检查点监控 DNA 损伤与纺锤体连接', '有丝分裂用于生长、修复与无性繁殖'],
+    keyPoints: ['有丝分裂保持染色体数不变 · Mitosis keeps the chromosome number unchanged', '姐妹染色单体分离，不是同源染色体分离 · Sister chromatids separate; homologous chromosomes do not', '中期赤道板排列是识别标志 · Alignment on the metaphase plate is the identifying feature', '检查点监控 DNA 损伤与纺锤体连接 · Checkpoints monitor DNA damage and spindle attachment', '有丝分裂用于生长、修复与无性繁殖 · Mitosis is used for growth, repair, and asexual reproduction'],
     misconceptions: [
-      '认为有丝分裂产生 4 个细胞（产生 2 个）',
-      '认为同源染色体在有丝分裂中配对（不减数分裂）',
-      '把姐妹染色单体分离与同源染色体分离混淆',
-      '认为所有细胞的胞质分裂方式相同',
+      '认为有丝分裂产生 4 个细胞（产生 2 个） · Thinking mitosis produces 4 cells; it produces 2',
+      '认为同源染色体在有丝分裂中配对（不减数分裂） · Thinking homologous chromosomes pair in mitosis; that pairing is meiosis',
+      '把姐妹染色单体分离与同源染色体分离混淆 · Confusing separation of sister chromatids with separation of homologous chromosomes',
+      '认为所有细胞的胞质分裂方式相同 · Thinking cytokinesis works the same way in every cell',
     ],
     examples: [
       {
@@ -704,9 +704,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：细胞周期',
-      '看图判断时期：染色质凝缩、赤道板、姐妹染色单体分离、核膜重建',
-      'FRQ 常考：比较有丝分裂与减数分裂',
+      'CED Unit 4：细胞周期 · CED Unit 4, the cell cycle',
+      '看图判断时期：染色质凝缩、赤道板、姐妹染色单体分离、核膜重建 · Use the figure to identify the stage: chromatin condensation, the metaphase plate, separation of sister chromatids, and re-formation of the nuclear envelope',
+      'FRQ 常考：比较有丝分裂与减数分裂 · Free response often asks you to compare mitosis and meiosis',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.5', title: '细胞周期', relation: '先修' },
@@ -721,9 +721,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.10': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分异域、邻域与同域物种形成。',
-      '能区分合子前隔离与合子后隔离并举例。',
-      '能解释基因流、选择与漂变在物种形成中的作用。'
+      '能区分异域、邻域与同域物种形成。 · Distinguish allopatric, parapatric, and sympatric speciation.',
+      '能区分合子前隔离与合子后隔离并举例。 · Distinguish prezygotic and postzygotic isolation and give examples.',
+      '能解释基因流、选择与漂变在物种形成中的作用。 · Explain the roles of gene flow, selection, and drift in speciation.'
     ],
     essentialKnowledge: [
       '物种形成是种群分化为生殖隔离新物种的过程。',
@@ -739,12 +739,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{地理隔离}\\to\\text{遗传分化}\\to\\text{生殖隔离}', note: '异域物种形成的简化链条。' },
     ],
     conditions: ['需要基因流中断或显著减少', '生殖隔离是生物学物种概念的核心标准', '物种形成需要足够时间与选择/漂变压力'],
-    keyPoints: ['异域物种形成最常见', '生殖隔离分合子前与合子后', '多倍化可瞬时形成新物种', '物种形成不等于单个突变', '杂交带可检验隔离程度'],
+    keyPoints: ['异域物种形成最常见 · Allopatric speciation is the most common', '生殖隔离分合子前与合子后 · Reproductive isolation is prezygotic or postzygotic', '多倍化可瞬时形成新物种 · Polyploidy can form a new species in one generation', '物种形成不等于单个突变 · Speciation is not a single mutation', '杂交带可检验隔离程度 · A hybrid zone can test how strong isolation is'],
     misconceptions: [
-      '认为一个突变就能产生新物种',
-      '认为地理隔离一定导致物种形成',
-      '认为所有杂种都不育（视情况而定）',
-      '把物种形成与微进化混为一谈',
+      '认为一个突变就能产生新物种 · Thinking one mutation is enough to produce a new species',
+      '认为地理隔离一定导致物种形成 · Thinking geographic isolation must produce speciation',
+      '认为所有杂种都不育（视情况而定） · Thinking every hybrid is sterile; it depends on the case',
+      '把物种形成与微进化混为一谈 · Confusing speciation with microevolution',
     ],
     examples: [
       {
@@ -767,9 +767,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：进化',
-      'FRQ 常要求解释异域物种形成并区分合子前/后隔离',
-      '用基因流、漂变、选择解释分化过程',
+      'CED Unit 7：进化 · CED Unit 7, evolution',
+      'FRQ 常要求解释异域物种形成并区分合子前/后隔离 · Free response often asks you to explain allopatric speciation and distinguish prezygotic from postzygotic isolation',
+      '用基因流、漂变、选择解释分化过程 · Use gene flow, drift, and selection to explain divergence',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.4', title: '群体遗传', relation: '先修' },
@@ -784,9 +784,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.9': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明膜性细胞器如何分隔生化反应。',
-      '能举例说明区隔化对 pH、离子浓度与酶组合的局部控制。',
-      '能解释区隔化与内膜系统、运输蛋白的关系。'
+      '能说明膜性细胞器如何分隔生化反应。 · Explain how membrane-bounded organelles separate biochemical reactions.',
+      '能举例说明区隔化对 pH、离子浓度与酶组合的局部控制。 · Give examples of how compartmentalization locally controls pH, ion concentrations, and enzyme sets.',
+      '能解释区隔化与内膜系统、运输蛋白的关系。 · Explain how compartmentalization relates to the endomembrane system and transport proteins.'
     ],
     essentialKnowledge: [
       '区隔化是真核细胞用膜把不同生化反应分隔在不同细胞器或膜系统中的策略。',
@@ -802,12 +802,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{膜区隔}\\Rightarrow\\text{局部环境}+\\text{反应特异性}', note: '区隔化的两个核心收益。' },
     ],
     conditions: ['真核细胞普遍具有膜性细胞器', '区隔化依赖选择透过性膜与运输蛋白', '原核细胞缺少膜性细胞器，但仍可通过蛋白微区室组织反应'],
-    keyPoints: ['区隔化提高反应效率与特异性', '不同细胞器有不同 pH、酶与底物', '膜运输连接各区室', '区隔化与内膜系统、内共生起源相关'],
+    keyPoints: ['区隔化提高反应效率与特异性 · Compartmentalization raises the efficiency and specificity of reactions', '不同细胞器有不同 pH、酶与底物 · Different organelles have different pH, enzymes, and substrates', '膜运输连接各区室 · Membrane transport connects the compartments', '区隔化与内膜系统、内共生起源相关 · Compartmentalization is tied to the endomembrane system and to an endosymbiotic origin'],
     misconceptions: [
-      '认为区隔化只存在于真核细胞',
-      '认为所有细胞器膜成分完全相同',
-      '忽略区隔化需要运输系统连接',
-      '把区隔化等同于“细胞器越多越好”',
+      '认为区隔化只存在于真核细胞 · Thinking compartmentalization exists only in eukaryotic cells',
+      '认为所有细胞器膜成分完全相同 · Thinking every organelle membrane has exactly the same composition',
+      '忽略区隔化需要运输系统连接 · Ignoring that compartmentalization needs a transport system to connect the compartments',
+      '把区隔化等同于“细胞器越多越好” · Equating compartmentalization with “more organelles is always better”',
     ],
     examples: [
       {
@@ -830,9 +830,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞结构与功能',
-      'FRQ 常考：解释区隔化如何提高效率',
-      '比较真核与原核的区隔化策略',
+      'CED Unit 2：细胞结构与功能 · CED Unit 2, cell structure and function',
+      'FRQ 常考：解释区隔化如何提高效率 · Free response often asks how compartmentalization raises efficiency',
+      '比较真核与原核的区隔化策略 · Compare the compartmentalization strategies of eukaryotes and prokaryotes',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞器与区隔化', relation: '先修' },
@@ -847,9 +847,9 @@ export const ENRICHMENTS = {
   'bio/bio-u8/8.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分 GPP、NPP 与呼吸消耗。',
-      '能计算营养级间的能量传递效率。',
-      '能解释能量单向流动与物质循环的差别。'
+      '能区分 GPP、NPP 与呼吸消耗。 · Distinguish GPP, NPP, and respiratory loss.',
+      '能计算营养级间的能量传递效率。 · Calculate the energy-transfer efficiency between trophic levels.',
+      '能解释能量单向流动与物质循环的差别。 · Explain the difference between one-way energy flow and cycling of matter.'
     ],
     essentialKnowledge: [
       '能量流是能量沿食物链单向传递、逐级递减的过程。',
@@ -866,12 +866,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{传递效率}=\\dfrac{\\text{下一级同化量}}{\\text{上一级同化量}}\\times100\\%', note: '通常约 10%。' },
     ],
     conditions: ['能量流动是单向的，不能循环', '物质（碳、氮、水）可循环', '传递效率因生态系统与营养级而异，10% 是粗略经验值'],
-    keyPoints: ['生产者是能量入口', '能量逐级递减，营养级越高可用能量越少', '分解者释放有机物中的能量', '能量金字塔不会倒置', 'NPP 决定生态系统可支持的生物量'],
+    keyPoints: ['生产者是能量入口 · Producers are the entry point for energy', '能量逐级递减，营养级越高可用能量越少 · Energy decreases at each step, so higher trophic levels have less usable energy', '分解者释放有机物中的能量 · Decomposers release the energy in organic matter', '能量金字塔不会倒置 · An energy pyramid is not inverted', 'NPP 决定生态系统可支持的生物量 · NPP determines the biomass an ecosystem can support'],
     misconceptions: [
-      '认为能量可以像物质一样循环',
-      '把 10% 当作精确常数',
-      '认为顶级捕食者获得最多能量',
-      '认为数量金字塔与能量金字塔形状总是一致',
+      '认为能量可以像物质一样循环 · Thinking energy cycles the way matter does',
+      '把 10% 当作精确常数 · Treating 10% as an exact constant',
+      '认为顶级捕食者获得最多能量 · Thinking the top predator receives the most energy',
+      '认为数量金字塔与能量金字塔形状总是一致 · Thinking a numbers pyramid and an energy pyramid always have the same shape',
     ],
     examples: [
       {
@@ -894,9 +894,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8：生态学',
+      'CED Unit 8：生态学 · CED Unit 8, ecology',
       '读能量金字塔：柱宽为示意（按 log10 能量缩放），具体能量值看标注；不是个体数 · Read an energy pyramid: bar width is schematic (scaled by log10 energy); use the labels for energy values, not the widths',
-      'FRQ 常考：计算传递效率、解释食物链长度限制',
+      'FRQ 常考：计算传递效率、解释食物链长度限制 · Free response often asks you to calculate transfer efficiency and explain why food chains are short',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.1', title: '环境响应', relation: '先修' },
@@ -911,9 +911,9 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.8': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能概述重组 DNA、PCR、凝胶电泳与测序的用途。',
-      '能说明 CRISPR-Cas9 的向导 RNA 与切割机制。',
-      '能评价基因编辑的脱靶效应与伦理问题。'
+      '能概述重组 DNA、PCR、凝胶电泳与测序的用途。 · Outline the uses of recombinant DNA, PCR, gel electrophoresis, and sequencing.',
+      '能说明 CRISPR-Cas9 的向导 RNA 与切割机制。 · Explain the guide RNA and cutting mechanism of CRISPR-Cas9.',
+      '能评价基因编辑的脱靶效应与伦理问题。 · Evaluate off-target effects and ethical issues in gene editing.'
     ],
     essentialKnowledge: [
       '生物技术利用生物体、细胞或生物分子制造产品或解决问题。',
@@ -929,12 +929,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{PCR}:\\;\\text{变性}\\to\\text{退火}\\to\\text{延伸}', note: '每轮约使目标 DNA 加倍。' },
     ],
     conditions: ['需要特异性工具酶、载体与宿主细胞', 'PCR 需要引物、dNTP、耐热 DNA 聚合酶与模板', '基因编辑需考虑脱靶效应与伦理/安全规范'],
-    keyPoints: ['限制酶切割、连接酶连接', 'PCR 指数扩增 DNA', '凝胶电泳按大小分离片段', 'CRISPR 用向导 RNA 定位', '转基因生物需检测与监管'],
+    keyPoints: ['限制酶切割、连接酶连接 · Restriction enzymes cut and ligase joins', 'PCR 指数扩增 DNA · PCR amplifies DNA exponentially', '凝胶电泳按大小分离片段 · Gel electrophoresis separates fragments by size', 'CRISPR 用向导 RNA 定位 · CRISPR uses a guide RNA to find the target', '转基因生物需检测与监管 · Transgenic organisms need testing and regulation'],
     misconceptions: [
-      '把 PCR 当成克隆整个生物体',
-      '认为凝胶电泳只按大小分离（也受电荷/构象影响）',
-      '认为 CRISPR 直接修改蛋白质（它修改 DNA）',
-      '认为限制酶只切 RNA（主要切 DNA）',
+      '把 PCR 当成克隆整个生物体 · Treating PCR as cloning a whole organism',
+      '认为凝胶电泳只按大小分离（也受电荷/构象影响） · Thinking gel electrophoresis separates only by size; charge and conformation also matter',
+      '认为 CRISPR 直接修改蛋白质（它修改 DNA） · Thinking CRISPR edits a protein directly; it edits DNA',
+      '认为限制酶只切 RNA（主要切 DNA） · Thinking restriction enzymes cut only RNA; they mainly cut DNA',
     ],
     examples: [
       {
@@ -957,9 +957,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达与调控',
-      '读凝胶图：比较条带位置判断片段大小',
-      'FRQ 常考：PCR 步骤、重组 DNA 流程、CRISPR 原理',
+      'CED Unit 6：基因表达与调控 · CED Unit 6, gene expression and regulation',
+      '读凝胶图：比较条带位置判断片段大小 · On a gel, compare band positions to judge fragment size',
+      'FRQ 常考：PCR 步骤、重组 DNA 流程、CRISPR 原理 · Free response often asks for the PCR steps, the recombinant-DNA workflow, and the principle of CRISPR',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.2', title: '复制', relation: '先修' },
@@ -974,9 +974,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.9': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能读树并识别节点、分支与最近共同祖先。',
-      '能判断单系群、并系群与多系群。',
-      '能解释树的拓扑、生根与分支长度的含义。'
+      '能读树并识别节点、分支与最近共同祖先。 · Read a tree and identify nodes, branches, and the most recent common ancestor.',
+      '能判断单系群、并系群与多系群。 · Judge monophyletic, paraphyletic, and polyphyletic groups.',
+      '能解释树的拓扑、生根与分支长度的含义。 · Explain what a tree’s topology, rooting, and branch lengths mean.'
     ],
     essentialKnowledge: [
       '系统发生树用分支表示谱系分化，用节点表示最近共同祖先。',
@@ -992,12 +992,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{共同祖先越近}\\Rightarrow\\text{亲缘关系越近}', note: '读树的核心规则。' },
     ],
     conditions: ['树是基于数据与模型推断的假说，不是绝对事实', '不同基因可能给出不同树（不完全谱系分选、水平基因转移）', '树的节点可以旋转而不改变拓扑关系'],
-    keyPoints: ['节点 = 最近共同祖先', '单系群包含祖先及其全部后代', '共享派生特征支持分支', '外类群帮助生根', '分支长度含义取决于建树方法'],
+    keyPoints: ['节点 = 最近共同祖先 · A node is the most recent common ancestor', '单系群包含祖先及其全部后代 · A monophyletic group includes an ancestor and all of its descendants', '共享派生特征支持分支 · Shared derived characters support a branch', '外类群帮助生根 · An outgroup helps root the tree', '分支长度含义取决于建树方法 · What branch length means depends on how the tree was built'],
     misconceptions: [
-      '认为图上相邻的类群一定亲缘最近',
-      '把节点当作“某个现存物种”',
-      '认为进化是向“更高级”方向爬梯子',
-      '认为一棵树永远不需要修正',
+      '认为图上相邻的类群一定亲缘最近 · Thinking groups drawn next to each other must be the closest relatives',
+      '把节点当作“某个现存物种” · Treating a node as some living species',
+      '认为进化是向“更高级”方向爬梯子 · Thinking evolution climbs a ladder toward “higher” forms',
+      '认为一棵树永远不需要修正 · Thinking a tree never needs to be revised',
     ],
     examples: [
       {
@@ -1020,9 +1020,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：进化',
-      '读树题先找最近共同祖先，不要看左右位置',
-      'FRQ 常考：解释单系群、外类群与分子数据的作用',
+      'CED Unit 7：进化 · CED Unit 7, evolution',
+      '读树题先找最近共同祖先，不要看左右位置 · On a tree, first find the most recent common ancestor; do not use left–right position',
+      'FRQ 常考：解释单系群、外类群与分子数据的作用 · Free response often asks you to explain monophyletic groups, the outgroup, and the role of molecular data',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.7', title: '共同祖先', relation: '先修' },
@@ -1037,9 +1037,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算并比较不同大小细胞的 SA/V。',
-      '能解释 SA/V 下降对跨膜交换的限制。',
-      '能举例说明细胞形状与多细胞结构如何弥补交换限制。'
+      '能计算并比较不同大小细胞的 SA/V。 · Calculate and compare the SA/V ratio of cells of different sizes.',
+      '能解释 SA/V 下降对跨膜交换的限制。 · Explain how a falling SA/V ratio limits exchange across the membrane.',
+      '能举例说明细胞形状与多细胞结构如何弥补交换限制。 · Give examples of how cell shape and multicellular structure compensate for exchange limits.'
     ],
     essentialKnowledge: [
       '细胞大小受表面积与体积之比限制：SA ∝ L²，V ∝ L³，SA/V ∝ 1/L。',
@@ -1056,12 +1056,12 @@ export const ENRICHMENTS = {
       { latex: '\\dfrac{\\text{SA}}{V}\\propto\\dfrac{1}{L}', note: '细胞越大，相对表面积越小。' },
     ],
     conditions: ['适用于依赖跨膜扩散进行物质交换的细胞', '形状影响 SA/V，不只是体积', '多细胞生物可用循环/呼吸系统弥补交换限制'],
-    keyPoints: ['小细胞 SA/V 大，交换效率高', '细胞大小有物理上限', '形状适应可提高 SA/V', '大细胞常有多核或特殊运输系统'],
+    keyPoints: ['小细胞 SA/V 大，交换效率高 · A small cell has a large SA/V ratio and exchanges materials efficiently', '细胞大小有物理上限 · Cell size has a physical upper limit', '形状适应可提高 SA/V · An adapted shape can raise the SA/V ratio', '大细胞常有多核或特殊运输系统 · Large cells often have many nuclei or specialized transport systems'],
     misconceptions: [
-      '认为细胞越大代谢越快',
-      '认为 SA/V 随体积增大而增大',
-      '忽略形状对 SA/V 的影响',
-      '认为所有细胞都必须很小（卵细胞、神经元是例外）',
+      '认为细胞越大代谢越快 · Thinking a larger cell has a faster metabolism',
+      '认为 SA/V 随体积增大而增大 · Thinking the SA/V ratio increases as volume increases',
+      '忽略形状对 SA/V 的影响 · Ignoring the effect of shape on the SA/V ratio',
+      '认为所有细胞都必须很小（卵细胞、神经元是例外） · Thinking every cell must be small; an egg cell and a neuron are exceptions',
     ],
     examples: [
       {
@@ -1084,9 +1084,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞结构与功能',
-      '计算题：比较不同大小/形状的 SA/V',
-      'FRQ 常考：解释细胞大小上限与适应',
+      'CED Unit 2：细胞结构与功能 · CED Unit 2, cell structure and function',
+      '计算题：比较不同大小/形状的 SA/V · Calculation: compare SA/V for different sizes and shapes',
+      'FRQ 常考：解释细胞大小上限与适应 · Free response often asks for the upper limit on cell size and the adaptations to it',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.1', title: '细胞器与区隔化', relation: '先修' },
@@ -1101,9 +1101,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能根据分子大小、极性与电荷预测膜通透性。',
-      '能说明膜蛋白与胆固醇对通透性和流动性的影响。',
-      '能区分通道、载体与囊泡运输的适用对象。'
+      '能根据分子大小、极性与电荷预测膜通透性。 · Predict membrane permeability from molecular size, polarity, and charge.',
+      '能说明膜蛋白与胆固醇对通透性和流动性的影响。 · Explain how membrane proteins and cholesterol affect permeability and fluidity.',
+      '能区分通道、载体与囊泡运输的适用对象。 · Distinguish what channels, carriers, and vesicle transport are used for.'
     ],
     essentialKnowledge: [
       '膜通透性描述物质穿过膜的难易程度，取决于分子大小、极性、电荷与膜组成。',
@@ -1119,12 +1119,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{通透性}\\;\\propto\\;\\dfrac{\\text{疏水性}}{\\text{大小}\\cdot\\text{电荷}}', note: '定性规律，不是精确公式。' },
     ],
     conditions: ['通透性取决于分子大小、极性、电荷与膜组成', '温度、胆固醇与脂肪酸饱和度影响膜流动性', '膜蛋白数量与类型决定特定分子的通透性'],
-    keyPoints: ['小、非极性、疏水分子易通过', '带电离子难直接通过', '水通道蛋白加速水运输', '膜蛋白决定选择性', '通透性不是固定不变的'],
+    keyPoints: ['小、非极性、疏水分子易通过 · Small, nonpolar, hydrophobic molecules cross easily', '带电离子难直接通过 · Charged ions do not cross directly', '水通道蛋白加速水运输 · Aquaporins speed water transport', '膜蛋白决定选择性 · Membrane proteins determine selectivity', '通透性不是固定不变的 · Permeability is not fixed'],
     misconceptions: [
-      '认为所有小分子都能自由通过',
-      '认为水是非极性分子',
-      '忽略电荷对通透性的影响',
-      '认为膜通透性对所有物质相同',
+      '认为所有小分子都能自由通过 · Thinking every small molecule can cross freely',
+      '认为水是非极性分子 · Thinking water is a nonpolar molecule',
+      '忽略电荷对通透性的影响 · Ignoring the effect of charge on permeability',
+      '认为膜通透性对所有物质相同 · Thinking membrane permeability is the same for every substance',
     ],
     examples: [
       {
@@ -1147,9 +1147,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞膜',
-      '根据分子性质预测运输方式',
-      'FRQ 常考：解释选择性通透与膜蛋白作用',
+      'CED Unit 2：细胞膜 · CED Unit 2, the cell membrane',
+      '根据分子性质预测运输方式 · Predict the transport mode from molecular properties',
+      'FRQ 常考：解释选择性通透与膜蛋白作用 · Free response often asks you to explain selective permeability and the role of membrane proteins',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.3', title: '质膜', relation: '先修' },
@@ -1164,9 +1164,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明促进扩散顺梯度、不直接耗能的特征。',
-      '能区分通道蛋白与载体蛋白的工作方式。',
-      '能解释促进扩散的特异性、饱和性与米氏型曲线。'
+      '能说明促进扩散顺梯度、不直接耗能的特征。 · State that facilitated diffusion is down the gradient and does not spend metabolic energy directly.',
+      '能区分通道蛋白与载体蛋白的工作方式。 · Distinguish how channel proteins and carrier proteins work.',
+      '能解释促进扩散的特异性、饱和性与米氏型曲线。 · Explain the specificity, saturation, and Michaelis–Menten-like curve of facilitated diffusion.'
     ],
     essentialKnowledge: [
       '促进扩散是极性或带电分子在膜蛋白帮助下顺浓度梯度跨膜，不直接消耗 ATP。',
@@ -1182,12 +1182,12 @@ export const ENRICHMENTS = {
       { latex: 'v=\\dfrac{V_{\\max}[S]}{K_m+[S]}', note: '载体介导运输的饱和动力学（定性）。' },
     ],
     conditions: ['顺浓度或电化学梯度', '需要特异性膜蛋白', '不直接消耗 ATP（但可偶联其他梯度）'],
-    keyPoints: ['通道 vs 载体', '特异性与饱和性', '不耗能但依赖蛋白', '与主动运输的区别是方向与能量'],
+    keyPoints: ['通道 vs 载体 · Channels versus carriers', '特异性与饱和性 · Specificity and saturation', '不耗能但依赖蛋白 · It does not use metabolic energy, but it does depend on a protein', '与主动运输的区别是方向与能量 · It differs from active transport in direction and in energy use'],
     misconceptions: [
-      '认为促进扩散需要 ATP',
-      '认为所有分子共用同一通道',
-      '认为速率会随浓度无限增加',
-      '把通道与载体机制混为一谈',
+      '认为促进扩散需要 ATP · Thinking facilitated diffusion requires ATP',
+      '认为所有分子共用同一通道 · Thinking every molecule shares the same channel',
+      '认为速率会随浓度无限增加 · Thinking the rate increases without limit as concentration rises',
+      '把通道与载体机制混为一谈 · Confusing the mechanisms of channels and carriers',
     ],
     examples: [
       {
@@ -1210,9 +1210,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：膜运输',
-      '看饱和曲线判断是否由蛋白介导',
-      'FRQ 常考：比较简单扩散、促进扩散、主动运输',
+      'CED Unit 2：膜运输 · CED Unit 2, membrane transport',
+      '看饱和曲线判断是否由蛋白介导 · Use a saturating curve to judge whether a protein mediates the transport',
+      'FRQ 常考：比较简单扩散、促进扩散、主动运输 · Free response often asks you to compare simple diffusion, facilitated diffusion, and active transport',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.4', title: '膜通透性', relation: '先修' },
@@ -1227,9 +1227,9 @@ export const ENRICHMENTS = {
   'bio/bio-u3/3.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明 ATP 作为能量货币的循环方式。',
-      '能判断反应自发性并解释 ΔG 的含义。',
-      '能说明 NAD⁺/FAD 在氧化还原反应中的电子传递作用。'
+      '能说明 ATP 作为能量货币的循环方式。 · Explain the cycle by which ATP serves as an energy currency.',
+      '能判断反应自发性并解释 ΔG 的含义。 · Judge whether a reaction is spontaneous and explain what ΔG means.',
+      '能说明 NAD⁺/FAD 在氧化还原反应中的电子传递作用。 · Explain how NAD⁺ and FAD carry electrons in redox reactions.'
     ],
     essentialKnowledge: [
       'ATP 是细胞通用能量货币，通过水解与合成在放能/吸能反应间转移能量。',
@@ -1246,12 +1246,12 @@ export const ENRICHMENTS = {
       { latex: '\\Delta G=\\Delta H-T\\Delta S', note: '判断反应自发性的热力学关系。' },
     ],
     conditions: ['ATP 水解与吸能反应偶联', '酶不改变 ΔG，只降低活化能', '氧化还原反应需要电子载体'],
-    keyPoints: ['ATP 是能量货币，不是长期储能分子', '放能/吸能反应通过偶联匹配', 'NAD⁺/FAD 传递电子', '酶降低活化能', '代谢分分解代谢与合成代谢'],
+    keyPoints: ['ATP 是能量货币，不是长期储能分子 · ATP is an energy currency, not a long-term energy-storage molecule', '放能/吸能反应通过偶联匹配 · Exergonic and endergonic reactions are matched by coupling', 'NAD⁺/FAD 传递电子 · NAD⁺ and FAD carry electrons', '酶降低活化能 · Enzymes lower the activation energy', '代谢分分解代谢与合成代谢 · Metabolism is divided into catabolism and anabolism'],
     misconceptions: [
-      '认为 ATP 储存大量长期能量',
-      '认为酶提供能量',
-      '把 ΔG 与活化能混为一谈',
-      '认为所有反应都自发',
+      '认为 ATP 储存大量长期能量 · Thinking ATP stores a large amount of long-term energy',
+      '认为酶提供能量 · Thinking an enzyme supplies energy',
+      '把 ΔG 与活化能混为一谈 · Confusing ΔG with activation energy',
+      '认为所有反应都自发 · Thinking every reaction is spontaneous',
     ],
     examples: [
       {
@@ -1274,9 +1274,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：细胞能量',
-      '区分 ΔG、活化能与 ATP 的角色',
-      'FRQ 常考：解释偶联反应与电子载体',
+      'CED Unit 3：细胞能量 · CED Unit 3, cellular energy',
+      '区分 ΔG、活化能与 ATP 的角色 · Distinguish the roles of ΔG, activation energy, and ATP',
+      'FRQ 常考：解释偶联反应与电子载体 · Free response often asks you to explain coupled reactions and electron carriers',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u3', code: '3.1', title: '酶催化', relation: '先修' },
@@ -1291,9 +1291,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分自分泌、旁分泌、突触与内分泌信号。',
-      '能解释受体特异性如何决定细胞响应。',
-      '能说明信号放大与信号终止的机制。'
+      '能区分自分泌、旁分泌、突触与内分泌信号。 · Distinguish autocrine, paracrine, synaptic, and endocrine signals.',
+      '能解释受体特异性如何决定细胞响应。 · Explain how receptor specificity determines a cell’s response.',
+      '能说明信号放大与信号终止的机制。 · Explain the mechanisms of signal amplification and signal termination.'
     ],
     essentialKnowledge: [
       '细胞通讯是信号分子与受体结合，把信息转化为细胞内反应的过程。',
@@ -1309,12 +1309,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{配体}+\\text{受体}\\rightleftharpoons\\text{复合物}\\to\\text{细胞反应}', note: '通讯的基本步骤。' },
     ],
     conditions: ['需要信号分子、受体与下游转导通路', '受体分布决定哪些细胞能响应', '信号可被降解、回收或抑制'],
-    keyPoints: ['自分泌/旁分泌/突触/内分泌', '受体具有特异性', '信号转导常放大', '同一信号在不同细胞可产生不同反应', '信号终止同样重要'],
+    keyPoints: ['自分泌/旁分泌/突触/内分泌 · Autocrine, paracrine, synaptic, and endocrine signaling', '受体具有特异性 · Receptors are specific', '信号转导常放大 · Signal transduction often amplifies the signal', '同一信号在不同细胞可产生不同反应 · The same signal can produce different responses in different cells', '信号终止同样重要 · Ending the signal is equally important'],
     misconceptions: [
-      '认为信号分子只能作用于邻近细胞',
-      '认为所有细胞对同一信号反应相同',
-      '忽略受体特异性',
-      '认为信号一旦启动不会停止',
+      '认为信号分子只能作用于邻近细胞 · Thinking a signal molecule can act only on a neighboring cell',
+      '认为所有细胞对同一信号反应相同 · Thinking every cell responds the same way to the same signal',
+      '忽略受体特异性 · Ignoring receptor specificity',
+      '认为信号一旦启动不会停止 · Thinking a signal, once started, never stops',
     ],
     examples: [
       {
@@ -1337,9 +1337,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：细胞通讯',
-      '区分四种信号距离类型',
-      'FRQ 常考：配体-受体特异性与信号放大',
+      'CED Unit 4：细胞通讯 · CED Unit 4, cell communication',
+      '区分四种信号距离类型 · Distinguish the four ranges of signaling distance',
+      'FRQ 常考：配体-受体特异性与信号放大 · Free response often asks about ligand–receptor specificity and signal amplification',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.2', title: '信号转导导论', relation: '后续' },
@@ -1354,9 +1354,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能按接收、转导、响应三阶段描述信号通路。',
-      '能解释磷酸化级联与第二信使的放大作用。',
-      '能说明负反馈与降解如何终止信号。'
+      '能按接收、转导、响应三阶段描述信号通路。 · Describe a signaling pathway in the three stages of reception, transduction, and response.',
+      '能解释磷酸化级联与第二信使的放大作用。 · Explain how a phosphorylation cascade and second messengers amplify a signal.',
+      '能说明负反馈与降解如何终止信号。 · Explain how negative feedback and degradation terminate a signal.'
     ],
     essentialKnowledge: [
       '信号转导把配体-受体结合事件转化为特定细胞反应，包括接收、转导与响应。',
@@ -1372,12 +1372,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{信号}\\to\\text{受体}\\to\\text{转导级联}\\to\\text{效应器}\\to\\text{反应}', note: '信号转导的基本框架。' },
     ],
     conditions: ['需要特异性受体与下游通路', '信号可被放大，也可被终止', '不同细胞对同一信号的响应取决于受体与效应器'],
-    keyPoints: ['接收—转导—响应三步', '磷酸化级联可放大信号', '第二信使扩散放大', '负反馈与降解终止信号', '通路之间可交叉对话'],
+    keyPoints: ['接收—转导—响应三步 · Three steps: reception, transduction, and response', '磷酸化级联可放大信号 · A phosphorylation cascade can amplify a signal', '第二信使扩散放大 · Second messengers spread and amplify the signal', '负反馈与降解终止信号 · Negative feedback and degradation end the signal', '通路之间可交叉对话 · Pathways can cross-talk'],
     misconceptions: [
-      '认为信号转导只有一步',
-      '认为信号放大等于信号无限持续',
-      '忽略信号终止机制',
-      '认为同一配体在所有细胞中产生同一反应',
+      '认为信号转导只有一步 · Thinking signal transduction is a single step',
+      '认为信号放大等于信号无限持续 · Thinking signal amplification means the signal lasts forever',
+      '忽略信号终止机制 · Ignoring the mechanism that ends the signal',
+      '认为同一配体在所有细胞中产生同一反应 · Thinking the same ligand produces the same response in every cell',
     ],
     examples: [
       {
@@ -1400,9 +1400,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：信号转导',
-      'FRQ 常考：描述级联顺序与放大机制',
-      '区分膜受体与胞内受体',
+      'CED Unit 4：信号转导 · CED Unit 4, signal transduction',
+      'FRQ 常考：描述级联顺序与放大机制 · Free response often asks for the order of a cascade and the amplification mechanism',
+      '区分膜受体与胞内受体 · Distinguish membrane receptors from intracellular receptors',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.1', title: '细胞通讯', relation: '先修' },
@@ -1417,9 +1417,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能按 G1、S、G2、M 描述细胞周期。',
-      '能解释 cyclin–CDK 与检查点的调控作用。',
-      '能分析检查点失败与癌症的关系。'
+      '能按 G1、S、G2、M 描述细胞周期。 · Describe the cell cycle as G1, S, G2, and M.',
+      '能解释 cyclin–CDK 与检查点的调控作用。 · Explain how cyclin–CDK complexes and checkpoints regulate the cycle.',
+      '能分析检查点失败与癌症的关系。 · Analyze how checkpoint failure relates to cancer.'
     ],
     essentialKnowledge: [
       '细胞周期是细胞从一次分裂结束到下一次分裂结束的有序过程。',
@@ -1435,12 +1435,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{G1}\\to\\text{S}\\to\\text{G2}\\to\\text{M}', note: '细胞周期顺序。' },
     ],
     conditions: ['需要生长信号、营养与 DNA 完整性', '检查点失败可导致突变积累与癌症', '不同细胞类型周期长度差异很大'],
-    keyPoints: ['间期占大部分时间', 'S 期复制 DNA', 'cyclin–CDK 驱动周期', '检查点监控损伤与纺锤体', '终末分化细胞可退出周期（G0）'],
+    keyPoints: ['间期占大部分时间 · Interphase occupies most of the time', 'S 期复制 DNA · DNA is replicated in S phase', 'cyclin–CDK 驱动周期 · Cyclin–CDK complexes drive the cycle', '检查点监控损伤与纺锤体 · Checkpoints monitor damage and the spindle', '终末分化细胞可退出周期（G0） · A terminally differentiated cell can leave the cycle (G0)'],
     misconceptions: [
-      '认为 M 期最长（间期更长）',
-      '认为 DNA 复制发生在 G1',
-      '认为所有细胞都不断分裂',
-      '忽略检查点与癌症的关系',
+      '认为 M 期最长（间期更长） · Thinking M phase is the longest; interphase is longer',
+      '认为 DNA 复制发生在 G1 · Thinking DNA replication occurs in G1',
+      '认为所有细胞都不断分裂 · Thinking every cell divides continually',
+      '忽略检查点与癌症的关系 · Ignoring the relation between checkpoints and cancer',
     ],
     examples: [
       {
@@ -1463,9 +1463,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：细胞周期',
-      '读图：cyclin 浓度与 CDK 活性',
-      'FRQ 常考：检查点功能与癌症',
+      'CED Unit 4：细胞周期 · CED Unit 4, the cell cycle',
+      '读图：cyclin 浓度与 CDK 活性 · Reading a graph: cyclin concentration and CDK activity',
+      'FRQ 常考：检查点功能与癌症 · Free response often asks about checkpoint function and cancer',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.6', title: '细胞周期调控', relation: '后续' },
@@ -1480,9 +1480,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明自然选择的三个必要条件。',
-      '能区分方向性、稳定化与分裂性选择。',
-      '能解释选择为何改变种群而非个体。'
+      '能说明自然选择的三个必要条件。 · State the three requirements of natural selection.',
+      '能区分方向性、稳定化与分裂性选择。 · Distinguish directional, stabilizing, and disruptive selection.',
+      '能解释选择为何改变种群而非个体。 · Explain why selection changes populations, not individuals.'
     ],
     essentialKnowledge: [
       '自然选择是具可遗传变异的个体因差异生存与繁殖，使有利等位基因频率逐代升高。',
@@ -1498,12 +1498,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{适应度}\\;w=\\dfrac{\\text{个体相对繁殖贡献}}{\\text{参考基因型}}', note: '适应度的相对定义。' },
     ],
     conditions: ['种群内存在可遗传变异', '变异影响生存或繁殖', '环境选择压力持续存在'],
-    keyPoints: ['作用于表型，改变种群基因频率', '不产生新变异，只筛选已有变异', '方向性/稳定化/分裂性选择', '性选择也是自然选择的一种', '适应是相对的、情境依赖的'],
+    keyPoints: ['作用于表型，改变种群基因频率 · Selection acts on the phenotype and changes the population’s allele frequencies', '不产生新变异，只筛选已有变异 · Selection does not create new variation; it filters variation that already exists', '方向性/稳定化/分裂性选择 · Directional, stabilizing, and disruptive selection', '性选择也是自然选择的一种 · Sexual selection is also a form of natural selection', '适应是相对的、情境依赖的 · Adaptation is relative and depends on the situation'],
     misconceptions: [
-      '认为生物为了适应而主动突变',
-      '认为自然选择作用于个体以获得进化',
-      '认为进化总是向更复杂方向',
-      '把自然选择与人工选择混为一谈',
+      '认为生物为了适应而主动突变 · Thinking organisms mutate on purpose in order to adapt',
+      '认为自然选择作用于个体以获得进化 · Thinking natural selection acts on an individual so that the individual evolves',
+      '认为进化总是向更复杂方向 · Thinking evolution always moves toward greater complexity',
+      '把自然选择与人工选择混为一谈 · Confusing natural selection with artificial selection',
     ],
     examples: [
       {
@@ -1526,9 +1526,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：自然选择',
-      'FRQ 常考：用变异—选择—遗传解释种群变化',
-      '区分方向性、稳定化、分裂性选择',
+      'CED Unit 7：自然选择 · CED Unit 7, natural selection',
+      'FRQ 常考：用变异—选择—遗传解释种群变化 · Free response often asks you to explain a population change with variation, selection, and inheritance',
+      '区分方向性、稳定化、分裂性选择 · Distinguish directional, stabilizing, and disruptive selection',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.1', title: '自然选择导论', relation: '先修' },
@@ -1543,9 +1543,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能比较人工选择与自然选择的选择压力。',
-      '能解释目标性状可遗传性与选择响应的关系。',
-      '能分析人工选择对遗传多样性的影响。'
+      '能比较人工选择与自然选择的选择压力。 · Compare the selective pressures of artificial and natural selection.',
+      '能解释目标性状可遗传性与选择响应的关系。 · Explain how heritability of a target trait relates to the response to selection.',
+      '能分析人工选择对遗传多样性的影响。 · Analyze how artificial selection affects genetic diversity.'
     ],
     essentialKnowledge: [
       '人工选择是人类按需求选择并繁殖具有特定性状的个体。',
@@ -1561,12 +1561,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{目标性状}\\uparrow\\;\\Rightarrow\\;\\text{被选个体繁殖}\\uparrow', note: '人工选择的方向由人设定。' },
     ],
     conditions: ['目标性状必须可遗传', '需要多代选择与繁殖', '选择强度与种群大小影响响应速度'],
-    keyPoints: ['人类偏好是选择压力', '可快速改变表型', '可能降低遗传多样性', '与自然选择的机制相同、标准不同'],
+    keyPoints: ['人类偏好是选择压力 · Human preference is the selective pressure', '可快速改变表型 · It can change phenotypes quickly', '可能降低遗传多样性 · It can reduce genetic diversity', '与自然选择的机制相同、标准不同 · The mechanism is the same as natural selection; the criterion differs'],
     misconceptions: [
-      '认为人工选择不是进化',
-      '认为选择能直接产生新变异',
-      '忽略近交与遗传多样性下降的风险',
-      '认为所有性状都能被无限改良',
+      '认为人工选择不是进化 · Thinking artificial selection is not evolution',
+      '认为选择能直接产生新变异 · Thinking selection can create new variation directly',
+      '忽略近交与遗传多样性下降的风险 · Ignoring the risk of inbreeding and of falling genetic diversity',
+      '认为所有性状都能被无限改良 · Thinking every trait can be improved without limit',
     ],
     examples: [
       {
@@ -1589,9 +1589,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：选择与进化',
-      '区分人工选择与自然选择的选择压力',
-      'FRQ 常考：用等位基因频率解释育种效果',
+      'CED Unit 7：选择与进化 · CED Unit 7, selection and evolution',
+      '区分人工选择与自然选择的选择压力 · Distinguish the selective pressure of artificial selection from that of natural selection',
+      'FRQ 常考：用等位基因频率解释育种效果 · Free response often asks you to explain a breeding result with allele frequencies',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '对比' },
@@ -1606,9 +1606,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算等位基因频率与基因型频率。',
-      '能列出哈代–温伯格的五个假设并判断偏离。',
-      '能解释突变、选择、漂变与基因流对频率的影响。'
+      '能计算等位基因频率与基因型频率。 · Calculate allele frequencies and genotype frequencies.',
+      '能列出哈代–温伯格的五个假设并判断偏离。 · List the five Hardy–Weinberg assumptions and judge a departure from them.',
+      '能解释突变、选择、漂变与基因流对频率的影响。 · Explain how mutation, selection, drift, and gene flow change frequencies.'
     ],
     essentialKnowledge: [
       '群体遗传研究种群中等位基因与基因型频率的分布及变化。',
@@ -1625,12 +1625,12 @@ export const ENRICHMENTS = {
       { latex: 'p^{2}+2pq+q^{2}=1', note: '哈代–温伯格基因型频率。' },
     ],
     conditions: ['哈代–温伯格假设：无突变、无选择、无漂变、无基因流、随机交配', '真实种群通常不完全满足这些假设', '种群大小影响漂变强度'],
-    keyPoints: ['等位基因频率 vs 基因型频率', '四种力量改变等位基因频率', '非随机交配改变基因型频率（HWE 偏离）', '小种群漂变更强', '基因流降低分化', '哈代–温伯格是零模型'],
+    keyPoints: ['等位基因频率 vs 基因型频率 · Allele frequency versus genotype frequency', '四种力量改变等位基因频率 · Four forces change allele frequencies', '非随机交配改变基因型频率（HWE 偏离） · Nonrandom mating changes genotype frequencies (a departure from HWE)', '小种群漂变更强 · Drift is stronger in a small population', '基因流降低分化 · Gene flow reduces divergence', '哈代–温伯格是零模型 · Hardy–Weinberg is a null model'],
     misconceptions: [
-      '认为显性等位基因一定更常见',
-      '认为哈代–温伯格适用于所有真实种群',
-      '忽略遗传漂变的随机性',
-      '把基因流与基因漂变混淆',
+      '认为显性等位基因一定更常见 · Thinking a dominant allele must be more common',
+      '认为哈代–温伯格适用于所有真实种群 · Thinking Hardy–Weinberg applies to every real population',
+      '忽略遗传漂变的随机性 · Ignoring the randomness of genetic drift',
+      '把基因流与基因漂变混淆 · Confusing gene flow with genetic drift',
     ],
     examples: [
       {
@@ -1653,9 +1653,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：群体遗传',
-      '计算题：由表型频率反推等位基因频率',
-      'FRQ 常考：判断哪种力量导致频率变化',
+      'CED Unit 7：群体遗传 · CED Unit 7, population genetics',
+      '计算题：由表型频率反推等位基因频率 · Calculation: work backward from a phenotype frequency to an allele frequency',
+      'FRQ 常考：判断哪种力量导致频率变化 · Free response often asks which force caused the frequency change',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '先修' },
@@ -1670,9 +1670,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能列举支持共同祖先的分子、解剖、化石与地理证据。',
-      '能区分同源结构与趋同结构。',
-      '能解释通用遗传密码与保守序列的意义。'
+      '能列举支持共同祖先的分子、解剖、化石与地理证据。 · List molecular, anatomical, fossil, and geographic evidence for common ancestry.',
+      '能区分同源结构与趋同结构。 · Distinguish homologous structures from convergent structures.',
+      '能解释通用遗传密码与保守序列的意义。 · Explain the significance of the universal genetic code and of conserved sequences.'
     ],
     essentialKnowledge: [
       '共同祖先指所有现存与已灭绝生物共享祖先种群。',
@@ -1688,12 +1688,12 @@ export const ENRICHMENTS = {
       { latex: '\\text{序列差异}\\uparrow\\;\\Rightarrow\\;\\text{分化时间}\\uparrow', note: '分子钟的简化逻辑。' },
     ],
     conditions: ['共同祖先是一个科学推论，依赖多类证据', '同源 vs 趋同需要发育与结构证据', '水平基因转移会使部分基因树与物种树不一致'],
-    keyPoints: ['所有生物共享共同祖先', '通用遗传密码是强证据', '同源结构支持共同起源', '趋同演化不反映近亲', 'LUCA 是现存生命的最近共同祖先'],
+    keyPoints: ['所有生物共享共同祖先 · All organisms share a common ancestor', '通用遗传密码是强证据 · The universal genetic code is strong evidence', '同源结构支持共同起源 · Homologous structures support a common origin', '趋同演化不反映近亲 · Convergent evolution does not indicate close relationship', 'LUCA 是现存生命的最近共同祖先 · LUCA is the most recent common ancestor of living organisms'],
     misconceptions: [
-      '认为人类由现代猴子进化而来（共享祖先，不是直系）',
-      '把趋同结构当作同源',
-      '认为进化是向人类方向前进的阶梯',
-      '认为共同祖先等于最早的生命',
+      '认为人类由现代猴子进化而来（共享祖先，不是直系） · Thinking humans evolved from modern monkeys; we share an ancestor, and monkeys are not our direct ancestors',
+      '把趋同结构当作同源 · Treating a convergent structure as homologous',
+      '认为进化是向人类方向前进的阶梯 · Thinking evolution is a ladder aimed at humans',
+      '认为共同祖先等于最早的生命 · Thinking the common ancestor is the same thing as the earliest life',
     ],
     examples: [
       {
@@ -1716,9 +1716,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：进化证据',
-      '区分同源、趋同与痕迹结构',
-      'FRQ 常考：用分子/化石/解剖证据支持共同祖先',
+      'CED Unit 7：进化证据 · CED Unit 7, evidence of evolution',
+      '区分同源、趋同与痕迹结构 · Distinguish homologous, convergent, and vestigial structures',
+      'FRQ 常考：用分子/化石/解剖证据支持共同祖先 · Free response often asks you to support common ancestry with molecular, fossil, and anatomical evidence',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.6', title: '进化证据', relation: '先修' },
@@ -1733,9 +1733,9 @@ export const ENRICHMENTS = {
   'em/em-u13/13.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用电感定义计算自感系数与磁链。',
-      '能判断感应电动势方向并解释负号。',
-      '能计算电感储能与螺线管电感。'
+      '能用电感定义计算自感系数与磁链。 · Use the definition of inductance to calculate a self-inductance and a flux linkage.',
+      '能判断感应电动势方向并解释负号。 · Judge the direction of an induced emf and explain the minus sign.',
+      '能计算电感储能与螺线管电感。 · Calculate the energy stored in an inductor and the inductance of a solenoid.'
     ],
     essentialKnowledge: [
       '自感系数定义为磁链与电流之比：\\(L=\\dfrac{N\\Phi_B}{I}\\)。',
@@ -1759,13 +1759,13 @@ export const ENRICHMENTS = {
       { from: '电源功率', to: '磁场能', note: '克服反电动势的功率为 \\(LI\\,\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}\\)，积分得 \\(\\dfrac12LI^{2}\\)。' },
     ],
     conditions: ['线性电感：\\(L\\) 为常数，磁介质未饱和', '理想电感无电阻；实际线圈要同时考虑电阻', '感应电动势方向由楞次定律判断，始终反抗电流的变化', '长直螺线管公式要求长度远大于直径、忽略端部效应'],
-    keyPoints: ['电感反抗电流的变化，不反抗稳定的电流', '稳态直流下理想电感两端电压为零', '\\(L\\) 由几何形状与磁介质决定，线性范围内与电流无关', '磁场能 \\(U_L=\\dfrac12LI^{2}\\)，电流加倍则能量变为四倍', '螺线管 \\(L\\propto N^{2}\\)：匝数加倍，电感变为四倍'],
+    keyPoints: ['电感反抗电流的变化，不反抗稳定的电流 · An inductor opposes a change in current; it does not oppose a steady current', '稳态直流下理想电感两端电压为零 · In steady DC the voltage across an ideal inductor is zero', '\\(L\\) 由几何形状与磁介质决定，线性范围内与电流无关 · \\(L\\) is fixed by geometry and the magnetic material and, in the linear range, does not depend on the current', '磁场能 \\(U_L=\\dfrac12LI^{2}\\)，电流加倍则能量变为四倍 · The magnetic energy is \\(U_L=\\dfrac{1}{2}LI^{2}\\); doubling the current multiplies the energy by four', '螺线管 \\(L\\propto N^{2}\\)：匝数加倍，电感变为四倍 · For a solenoid \\(L\\propto N^{2}\\): doubling the turns multiplies the inductance by four'],
     misconceptions: [
-      '认为电感“储存电流”或“阻止电流流动”',
-      '认为稳态时理想电感两端仍有电压',
-      '把定义式 \\(L=\\dfrac{N\\Phi_B}{I}\\) 误读为 \\(L\\) 与电流成正比',
-      '忽略实际线圈的电阻，把真实线圈当成理想电感',
-      '把感应电动势的方向直接等同于电流方向，而不判断电流是增大还是减小',
+      '认为电感“储存电流”或“阻止电流流动” · Thinking an inductor “stores current” or “blocks current from flowing”',
+      '认为稳态时理想电感两端仍有电压 · Thinking an ideal inductor still has a voltage across it in steady state',
+      '把定义式 \\(L=\\dfrac{N\\Phi_B}{I}\\) 误读为 \\(L\\) 与电流成正比 · Misreading \\(L=\\dfrac{N\\Phi_B}{I}\\) as saying \\(L\\) is proportional to the current',
+      '忽略实际线圈的电阻，把真实线圈当成理想电感 · Ignoring a real coil’s resistance and treating the real coil as an ideal inductor',
+      '把感应电动势的方向直接等同于电流方向，而不判断电流是增大还是减小 · Equating the direction of the induced emf with the current direction without deciding whether the current is increasing or decreasing',
     ],
     examples: [
       {
@@ -1801,10 +1801,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 13：自感、电感、LR 与 LC 电路',
-      '先判断电流在增大还是减小，再用楞次定律定感应电动势方向',
-      '单位换算：\\(1\\,\\mathrm{H}=1\\,\\mathrm{Wb\\,A^{-1}}=1\\,\\mathrm{V\\,s\\,A^{-1}}\\)',
-      '注意 \\(N\\) 匝与磁链 \\(N\\Phi_B\\) 的区别，别把单匝磁通当成总磁链',
+      'CED Unit 13：自感、电感、LR 与 LC 电路 · CED Unit 13, self-inductance, inductors, and LR and LC circuits',
+      '先判断电流在增大还是减小，再用楞次定律定感应电动势方向 · First decide whether the current is increasing or decreasing, then use Lenz’s law for the induced-emf direction',
+      '单位换算：\\(1\\,\\mathrm{H}=1\\,\\mathrm{Wb\\,A^{-1}}=1\\,\\mathrm{V\\,s\\,A^{-1}}\\) · Unit conversion: \\(1\\,\\mathrm{H}=1\\,\\mathrm{Wb\\,A^{-1}}=1\\,\\mathrm{V\\,s\\,A^{-1}}\\)',
+      '注意 \\(N\\) 匝与磁链 \\(N\\Phi_B\\) 的区别，别把单匝磁通当成总磁链 · Distinguish \\(N\\) turns from the flux linkage \\(N\\Phi_B\\); do not treat a single-turn flux as the total linkage',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u13', code: '13.1', title: '磁通量', relation: '先修' },
@@ -1821,9 +1821,9 @@ export const ENRICHMENTS = {
   'mech/mech-u3/3.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算平均功率与瞬时功率。',
-      '能判断功率的正负并解释其物理意义。',
-      '能计算转动功率与机械效率。'
+      '能计算平均功率与瞬时功率。 · Calculate average power and instantaneous power.',
+      '能判断功率的正负并解释其物理意义。 · Judge the sign of power and explain what it means physically.',
+      '能计算转动功率与机械效率。 · Calculate rotational power and mechanical efficiency.'
     ],
     essentialKnowledge: [
       '平均功率 \\(P_{\\mathrm{avg}}=\\dfrac{\\Delta W}{\\Delta t}\\)，瞬时功率 \\(P=\\mathbf F\\cdot\\mathbf v=Fv\\cos\\theta\\)。',
@@ -1847,12 +1847,12 @@ export const ENRICHMENTS = {
       { from: '能量守恒', to: '效率', note: '有用输出功率总小于输入功率，差额为损耗。' },
     ],
     conditions: ['瞬时功率必须用同一时刻的力与速度', '功率是标量，可正可负：力与速度夹角大于 \\(90^\\circ\\) 时为负', '额定功率是最大持续输出，不保证任何时刻都达到', '效率计算要明确“有用输出”和“总输入”'],
-    keyPoints: ['\\(1\\,\\mathrm{W}=1\\,\\mathrm{J\\,s^{-1}}\\)；\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\)', '恒定功率下 \\(F\\) 与 \\(v\\) 成反比', '阻力做负功时功率为负', '串联与并联电路中功率分配不同，不能只凭电阻大小判断', '转动功率 \\(P=\\tau\\omega\\) 与平动 \\(P=Fv\\) 对应'],
+    keyPoints: ['\\(1\\,\\mathrm{W}=1\\,\\mathrm{J\\,s^{-1}}\\)；\\(1\\,\\mathrm{kW\\,h}=3.6\\times10^{6}\\,\\mathrm{J}\\)', '恒定功率下 \\(F\\) 与 \\(v\\) 成反比 · At constant power, \\(F\\) is inversely proportional to \\(v\\)', '阻力做负功时功率为负 · When drag does negative work, the power is negative', '串联与并联电路中功率分配不同，不能只凭电阻大小判断 · Power is shared differently in series and parallel circuits, so resistance alone does not decide it', '转动功率 \\(P=\\tau\\omega\\) 与平动 \\(P=Fv\\) 对应 · Rotational power \\(P=\\tau\\omega\\) corresponds to translational \\(P=Fv\\)'],
     misconceptions: [
-      '把功率与功混为一谈：功率大不等于做功多，还要看时间',
-      '认为额定功率下牵引力恒定（实际 \\(F=\\dfrac{P}{v}\\) 随速度变化）',
-      '认为功率大就一定快（还要看阻力与效率）',
-      '用斜线写分式导致歧义，应写 \\(\\dfrac{P}{v}\\)',
+      '把功率与功混为一谈：功率大不等于做功多，还要看时间 · Confusing power with work: a large power is not a large amount of work unless you also know the time',
+      '认为额定功率下牵引力恒定（实际 \\(F=\\dfrac{P}{v}\\) 随速度变化） · Thinking the driving force is constant at rated power; in fact \\(F=\\dfrac{P}{v}\\) changes with speed',
+      '认为功率大就一定快（还要看阻力与效率） · Thinking a large power must mean a high speed; drag and efficiency also matter',
+      '用斜线写分式导致歧义，应写 \\(\\dfrac{P}{v}\\) · Writing a slash fraction, which is ambiguous; write \\(\\dfrac{P}{v}\\)',
     ],
     examples: [
       {
@@ -1887,10 +1887,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：功、能量与功率',
-      '区分平均功率与瞬时功率：平均用 \\(\\dfrac{\\Delta W}{\\Delta t}\\)，瞬时用 \\(Fv\\)',
-      '恒功率问题的核心是 \\(F=\\dfrac{P}{v}\\)，不要假设牵引力恒定',
-      '效率题先写“有用输出与总输入”，再代入能量或功率',
+      'CED Unit 3：功、能量与功率 · CED Unit 3, work, energy, and power',
+      '区分平均功率与瞬时功率：平均用 \\(\\dfrac{\\Delta W}{\\Delta t}\\)，瞬时用 \\(Fv\\) · Distinguish average and instantaneous power: average uses \\(\\dfrac{\\Delta W}{\\Delta t}\\), instantaneous uses \\(Fv\\)',
+      '恒功率问题的核心是 \\(F=\\dfrac{P}{v}\\)，不要假设牵引力恒定 · The core of a constant-power problem is \\(F=\\dfrac{P}{v}\\); do not assume the driving force is constant',
+      '效率题先写“有用输出与总输入”，再代入能量或功率 · For efficiency, first write useful output over total input, then substitute energy or power',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '动能定理', relation: '先修' },
@@ -1906,9 +1906,9 @@ export const ENRICHMENTS = {
   'mech/mech-u6/6.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能应用无滑动滚动条件 \\(v=\\omega R\\)。',
-      '能计算滚动动能与斜面下滚加速度。',
-      '能判断静摩擦方向并解释其不做功。'
+      '能应用无滑动滚动条件 \\(v=\\omega R\\)。 · Apply the no-slip rolling condition \\(v=\\omega R\\).',
+      '能计算滚动动能与斜面下滚加速度。 · Calculate rolling kinetic energy and the acceleration of an object rolling down an incline.',
+      '能判断静摩擦方向并解释其不做功。 · Judge the direction of static friction and explain why it does no work.'
     ],
     essentialKnowledge: [
       '无滑动滚动时接触点瞬时静止，\\(v_{\\mathrm{cm}}=\\omega R\\)，\\(a_{\\mathrm{cm}}=\\alpha R\\)。',
@@ -1932,13 +1932,13 @@ export const ENRICHMENTS = {
       { from: '牛顿第二定律 + 转动定律', to: '斜面加速度', note: '\\(Mg\\sin\\theta-f=Ma\\)，\\(fR=I\\alpha\\)，联立消去 \\(f\\)。' },
     ],
     conditions: ['无滑动：静摩擦足够大，接触面无相对滑动', '刚体与固定表面；轮子质量分布给定', '斜面滚动时静摩擦通常沿斜面向上（下滚加速情形）', '若有其他阻力或打滑，机械能不守恒'],
-    keyPoints: ['无滑动滚动中静摩擦不做功，机械能守恒（无其他损耗）', '滚动动能包含平动与转动两部分', '同样外形下 \\(\\dfrac{I}{MR^{2}}\\) 越小，滚得越快', '实心球 \\(I=\\dfrac25MR^{2}\\)，实心圆柱 \\(I=\\dfrac12MR^{2}\\)，薄圆环 \\(I=MR^{2}\\)', '打滑时 \\(v_{\\mathrm{cm}}\\ne\\omega R\\)，需分别用牛顿定律与转动定律'],
+    keyPoints: ['无滑动滚动中静摩擦不做功，机械能守恒（无其他损耗） · In rolling without slipping, static friction does no work, so mechanical energy is conserved if there is no other loss', '滚动动能包含平动与转动两部分 · Rolling kinetic energy includes both translation and rotation', '质量与外半径相同时，\\(\\dfrac{I}{MR^{2}}\\) 越小，从静止沿同一斜面滚得越快 · For the same mass and outer radius, a smaller \\(\\dfrac{I}{MR^{2}}\\) rolls down the same incline faster from rest', '实心球 \\(I=\\dfrac25MR^{2}\\)，实心圆柱 \\(I=\\dfrac12MR^{2}\\)，薄圆环 \\(I=MR^{2}\\) · A solid sphere has \\(I=\\dfrac{2}{5}MR^{2}\\), a solid cylinder \\(I=\\dfrac{1}{2}MR^{2}\\), and a thin hoop \\(I=MR^{2}\\)', '打滑时 \\(v_{\\mathrm{cm}}\\ne\\omega R\\)，需分别用牛顿定律与转动定律 · When the object slips, \\(v_{\\mathrm{cm}}\\ne\\omega R\\), so Newton’s second law and the rotational law must be used separately'],
     misconceptions: [
-      '认为滚动摩擦一定做负功（无滑动时静摩擦不做功）',
-      '认为所有滚动物体沿斜面下滑的加速度相同',
-      '把 \\(v=\\omega R\\) 用于打滑情形',
-      '认为静摩擦方向总沿斜面向上（取决于运动状态与驱动力矩）',
-      '把滚动动能只写成 \\(\\dfrac12Mv^{2}\\)，漏掉转动部分',
+      '认为滚动摩擦一定做负功（无滑动时静摩擦不做功） · Thinking rolling friction must do negative work; static friction does no work when there is no slipping',
+      '认为所有滚动物体沿斜面下滑的加速度相同 · Thinking every rolling object has the same acceleration down an incline',
+      '把 \\(v=\\omega R\\) 用于打滑情形 · Using \\(v=\\omega R\\) while the object is slipping',
+      '认为静摩擦方向总沿斜面向上（取决于运动状态与驱动力矩） · Thinking static friction always points up the incline; it depends on the motion and the driving torque',
+      '把滚动动能只写成 \\(\\dfrac12Mv^{2}\\)，漏掉转动部分 · Writing rolling kinetic energy as only \\(\\dfrac{1}{2}Mv^{2}\\) and omitting rotation',
     ],
     examples: [
       {
@@ -1975,10 +1975,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：转动能量与角动量；滚动是平动与转动的组合',
-      '先判断是否“无滑动”，再决定能否用 \\(v=\\omega R\\)',
-      '能量法与“牛顿第二定律 + 转动定律”都可解，注意静摩擦不做功',
-      '比较滚快慢时看 \\(\\dfrac{I}{MR^{2}}\\)，不要只看质量或半径',
+      'CED Unit 6：转动能量与角动量；滚动是平动与转动的组合 · CED Unit 6, rotational energy and angular momentum: rolling combines translation and rotation',
+      '先判断是否“无滑动”，再决定能否用 \\(v=\\omega R\\) · First decide whether there is no slipping, then whether \\(v=\\omega R\\) may be used',
+      '能量法与“牛顿第二定律 + 转动定律”都可解，注意静摩擦不做功 · Either an energy method or Newton’s second law plus the rotational law can solve it; remember that static friction does no work',
+      '比较滚快慢时看 \\(\\dfrac{I}{MR^{2}}\\)，不要只看质量或半径 · When comparing which object rolls faster, look at \\(\\dfrac{I}{MR^{2}}\\), not only at mass or radius',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u6', code: '6.1', title: '转动动能', relation: '先修' },
@@ -1995,9 +1995,9 @@ export const ENRICHMENTS = {
   'mech/mech-u7/7.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能推导小角度单摆的简谐运动方程。',
-      '能计算周期、角频率与最低点张力。',
-      '能说明小角度近似的适用范围与大角度修正。'
+      '能推导小角度单摆的简谐运动方程。 · Derive the simple-harmonic equation of a small-angle pendulum.',
+      '能计算周期、角频率与最低点张力。 · Calculate the period, angular frequency, and the tension at the bottom.',
+      '能说明小角度近似的适用范围与大角度修正。 · State the range of the small-angle approximation and the correction at large angles.'
     ],
     essentialKnowledge: [
       '小角度下 \\(\\sin\\theta\\approx\\theta\\)，运动方程 \\(\\ddot\\theta=-\\dfrac{g}{L}\\theta\\)。',
@@ -2021,13 +2021,13 @@ export const ENRICHMENTS = {
       { from: '能量守恒', to: '速度与张力', note: '\\(mgh=\\dfrac12mv^{2}\\)，再在最低点写径向牛顿第二定律。' },
     ],
     conditions: ['轻绳不可伸长，摆球视为质点', '小角度（通常 \\(\\theta_0\\lesssim10^\\circ\\)）才能视为简谐', '无空气阻力，悬点固定', '大角度时周期随振幅增大，需用椭圆积分修正'],
-    keyPoints: ['周期与摆球质量无关', '周期随 \\(L\\) 增大而增大，随 \\(g\\) 增大而减小', '小角度近似是得到简谐运动的关键', '能量在重力势能与动能之间转换', '最低点张力最大，最高点张力最小'],
+    keyPoints: ['周期与摆球质量无关 · The period does not depend on the bob’s mass', '周期随 \\(L\\) 增大而增大，随 \\(g\\) 增大而减小 · The period increases as \\(L\\) increases and decreases as \\(g\\) increases', '小角度近似是得到简谐运动的关键 · The small-angle approximation is what makes the motion simple harmonic', '能量在重力势能与动能之间转换 · Energy converts between gravitational potential energy and kinetic energy', '最低点张力最大，最高点张力最小 · Tension is greatest at the bottom and least at the top'],
     misconceptions: [
-      '认为质量越大周期越长',
-      '认为大角度时 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\) 仍精确成立',
-      '认为回复力就是重力本身（实际是重力的切向分量）',
-      '认为最高点速度为零所以加速度也为零（加速度最大）',
-      '把周期公式中的 \\(L\\) 当成摆球到地面的高度',
+      '认为质量越大周期越长 · Thinking a larger mass means a longer period',
+      '认为大角度时 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\) 仍精确成立 · Thinking \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\) is still exact at large angles',
+      '认为回复力就是重力本身（实际是重力的切向分量） · Thinking the restoring force is the weight itself; it is the tangential component of the weight',
+      '认为最高点速度为零所以加速度也为零（加速度最大） · Thinking zero speed at the top means zero acceleration; the acceleration is greatest there',
+      '把周期公式中的 \\(L\\) 当成摆球到地面的高度 · Taking \\(L\\) in the period formula to be the height of the bob above the ground',
     ],
     examples: [
       {
@@ -2063,10 +2063,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：周期运动；单摆是简谐运动的原型',
-      '先确认小角度，再使用 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\)',
-      '测 \\(g\\) 时作 \\(T^{2}\\) 对 \\(L\\) 的图，斜率 \\(=\\dfrac{4\\pi^{2}}{g}\\)',
-      '最低点用径向牛顿第二定律求张力，不要漏掉向心项',
+      'CED Unit 7：周期运动；单摆是简谐运动的原型 · CED Unit 7, periodic motion: the simple pendulum is the prototype of simple harmonic motion',
+      '先确认小角度，再使用 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\) · First confirm the angle is small, then use \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\)',
+      '测 \\(g\\) 时作 \\(T^{2}\\) 对 \\(L\\) 的图，斜率 \\(=\\dfrac{4\\pi^{2}}{g}\\) · To measure \\(g\\), plot \\(T^{2}\\) against \\(L\\); the slope is \\(\\dfrac{4\\pi^{2}}{g}\\)',
+      '最低点用径向牛顿第二定律求张力，不要漏掉向心项 · At the bottom, use Newton’s second law in the radial direction for the tension, and do not omit the centripetal term',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u7', code: '7.1', title: '周期运动', relation: '先修' },
@@ -2236,9 +2236,9 @@ export const ENRICHMENTS = {
   'em/em-u12/12.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算运动电荷与电流元所受磁力。',
-      '能判断磁力方向并说明其不做功。',
-      '能解释磁感线闭合与无磁单极子。'
+      '能计算运动电荷与电流元所受磁力。 · Calculate the magnetic force on a moving charge and on a current element.',
+      '能判断磁力方向并说明其不做功。 · Judge the direction of the magnetic force and explain why it does no work.',
+      '能解释磁感线闭合与无磁单极子。 · Explain why magnetic field lines are closed and why there is no magnetic monopole.'
     ],
     essentialKnowledge: [
       '磁场由运动电荷、电流或磁体产生，用磁感应强度 \\(\\mathbf B\\) 描述，单位特斯拉。',
@@ -2262,13 +2262,13 @@ export const ENRICHMENTS = {
       { from: '磁感线闭合', to: '无磁单极', note: '穿过任意闭合曲面的净磁通为零，磁感线没有起点和终点。' },
     ],
     conditions: ['洛伦兹力只作用于运动电荷；静止电荷不受磁力', '力垂直于 \\(\\mathbf v\\) 与 \\(\\mathbf B\\)，大小 \\(qvB\\sin\\theta\\)', '磁场由电流、磁体或变化的电场产生', '\\(\\mathbf B\\) 的方向定义为小磁针 N 极的指向'],
-    keyPoints: ['磁场是矢量场，单位特斯拉', '磁感线闭合，无磁单极子', '磁场力不做功，不改变电荷速率', '电荷沿 \\(\\mathbf B\\) 方向运动时不受磁力', '负电荷受力方向与正电荷相反', '\\(1\\,\\mathrm{T}=1\\,\\mathrm{Wb\\,m^{-2}}\\)'],
+    keyPoints: ['磁场是矢量场，单位特斯拉 · The magnetic field is a vector field, with the tesla as its unit', '磁感线闭合，无磁单极子 · Magnetic field lines are closed; there is no magnetic monopole', '磁场力不做功，不改变电荷速率 · The magnetic force does no work and does not change a charge’s speed', '电荷沿 \\(\\mathbf B\\) 方向运动时不受磁力 · A charge moving along \\(\\mathbf B\\) feels no magnetic force', '负电荷受力方向与正电荷相反 · The force on a negative charge is opposite the force on a positive charge', '\\(1\\,\\mathrm{T}=1\\,\\mathrm{Wb\\,m^{-2}}\\)'],
     misconceptions: [
-      '认为磁场对静止电荷有力的作用',
-      '认为磁感线从 N 极出发、到 S 极终止（外部看似如此，内部闭合）',
-      '认为磁场力会改变电荷的速率或动能',
-      '把 \\(\\mathbf B\\) 的方向与磁场力的方向混淆',
-      '认为磁场力总是与速度同向或反向',
+      '认为磁场对静止电荷有力的作用 · Thinking a magnetic field exerts a force on a charge at rest',
+      '认为磁感线从 N 极出发、到 S 极终止（外部看似如此，内部闭合） · Thinking field lines start at the N pole and end at the S pole; they look that way outside, but they close inside',
+      '认为磁场力会改变电荷的速率或动能 · Thinking the magnetic force changes a charge’s speed or kinetic energy',
+      '把 \\(\\mathbf B\\) 的方向与磁场力的方向混淆 · Confusing the direction of \\(\\mathbf B\\) with the direction of the magnetic force',
+      '认为磁场力总是与速度同向或反向 · Thinking the magnetic force is always parallel or opposite to the velocity',
     ],
     examples: [
       {
@@ -2304,10 +2304,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 12：磁场与磁力',
-      '右手定则先判断正电荷，负电荷再反向',
-      '磁力不做功，因此不能改变电荷速率，只能改变方向',
-      '区分 \\(\\mathbf B\\) 的方向、\\(\\mathbf v\\) 的方向与力 \\(\\mathbf F\\) 的方向',
+      'CED Unit 12：磁场与磁力 · CED Unit 12, magnetic fields and magnetic force',
+      '右手定则先判断正电荷，负电荷再反向 · Use the right-hand rule first for a positive charge, then reverse it for a negative charge',
+      '磁力不做功，因此不能改变电荷速率，只能改变方向 · The magnetic force does no work, so it cannot change a charge’s speed, only its direction',
+      '区分 \\(\\mathbf B\\) 的方向、\\(\\mathbf v\\) 的方向与力 \\(\\mathbf F\\) 的方向 · Keep separate the directions of \\(\\mathbf B\\), \\(\\mathbf v\\), and the force \\(\\mathbf F\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.2', title: '电场', relation: '对比' },
@@ -2325,9 +2325,9 @@ export const ENRICHMENTS = {
   'em/em-u8/8.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用电场定义计算场强与受力。',
-      '能计算点电荷场并应用矢量叠加。',
-      '能解释场线、导体静电平衡与单位等价。'
+      '能用电场定义计算场强与受力。 · Use the definition of the electric field to calculate field strength and force.',
+      '能计算点电荷场并应用矢量叠加。 · Calculate the field of a point charge and apply vector superposition.',
+      '能解释场线、导体静电平衡与单位等价。 · Explain field lines, electrostatic equilibrium in a conductor, and the equivalence of units.'
     ],
     essentialKnowledge: [
       '电场定义为单位正试探电荷所受的力：\\(\\mathbf E=\\dfrac{\\mathbf F}{q_0}\\)。',
@@ -2351,13 +2351,13 @@ export const ENRICHMENTS = {
       { from: '电场线', to: '场强方向', note: '电场线切线方向即 \\(\\mathbf E\\) 方向，密度表示大小。' },
     ],
     conditions: ['试探电荷足够小，不扰动源电荷分布', '点电荷公式要求电荷尺度远小于距离 \\(r\\)', '叠加原理在线性介质中成立', '电场方向定义为正电荷受力方向'],
-    keyPoints: ['电场是矢量，方向为正电荷受力方向', '电场强度与试探电荷无关', '场线不相交；密度大处场强大', '导体内部静电平衡时 \\(\\mathbf E=0\\)', '\\(\\mathrm{N\\,C^{-1}}\\) 与 \\(\\mathrm{V\\,m^{-1}}\\) 等价'],
+    keyPoints: ['电场是矢量，方向为正电荷受力方向 · The electric field is a vector, and its direction is the direction of the force on a positive charge', '电场强度与试探电荷无关 · Electric field strength does not depend on the test charge', '场线不相交；密度大处场强大 · Field lines do not cross; where they are denser the field is stronger', '导体内部静电平衡时 \\(\\mathbf E=0\\) · Inside a conductor in electrostatic equilibrium, \\(\\mathbf E=0\\)', '\\(\\mathrm{N\\,C^{-1}}\\) 与 \\(\\mathrm{V\\,m^{-1}}\\) 等价 · \\(\\mathrm{N\\,C^{-1}}\\) and \\(\\mathrm{V\\,m^{-1}}\\) are equivalent'],
     misconceptions: [
-      '认为电场方向是负电荷受力方向',
-      '认为电场强度与试探电荷电量有关',
-      '把电场与电场力混为一谈',
-      '认为电场线就是电荷的运动轨迹',
-      '认为场强为零处电势一定为零（或反之）',
+      '认为电场方向是负电荷受力方向 · Thinking the field direction is the direction of the force on a negative charge',
+      '认为电场强度与试探电荷电量有关 · Thinking the field strength depends on the size of the test charge',
+      '把电场与电场力混为一谈 · Confusing the electric field with the electric force',
+      '认为电场线就是电荷的运动轨迹 · Thinking field lines are the trajectories of charges',
+      '认为场强为零处电势一定为零（或反之） · Thinking zero field means zero potential, or the reverse',
     ],
     examples: [
       {
@@ -2393,10 +2393,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8：电荷与电场',
-      '先判方向再算大小；负电荷受力与电场反向',
-      '多个电荷叠加时先分解再合成',
-      '电场线图题：看方向、疏密、是否相交',
+      'CED Unit 8：电荷与电场 · CED Unit 8, charge and the electric field',
+      '先判方向再算大小；负电荷受力与电场反向 · Judge the direction before the magnitude; a negative charge feels a force opposite the field',
+      '多个电荷叠加时先分解再合成 · When superposing several charges, resolve components before adding',
+      '电场线图题：看方向、疏密、是否相交 · On a field-line diagram, look at direction, spacing, and whether lines cross',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.1', title: '电荷与力', relation: '先修' },
@@ -2412,9 +2412,9 @@ export const ENRICHMENTS = {
   'em/em-u9/9.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算点电荷电势与电势差。',
-      '能说明电势是标量并应用代数叠加。',
-      '能由电势梯度求电场或由电场求电势差。'
+      '能计算点电荷电势与电势差。 · Calculate the potential and potential difference of a point charge.',
+      '能说明电势是标量并应用代数叠加。 · Explain that potential is a scalar and apply algebraic superposition.',
+      '能由电势梯度求电场或由电场求电势差。 · Find the field from the potential gradient, or the potential difference from the field.'
     ],
     essentialKnowledge: [
       '电势是单位电荷的电势能：\\(V=\\dfrac{U}{q}\\)，是标量。',
@@ -2438,13 +2438,13 @@ export const ENRICHMENTS = {
       { from: '电场做功', to: '电势差', note: '\\(W_{\\mathrm{field}}=-\\Delta U=-q\\Delta V\\)。' },
     ],
     conditions: ['零势点可任选；点电荷通常取无穷远为零', '电势是标量，叠加不带方向', '电场与电势的梯度关系要求静电场（无旋场）', '电势差与路径无关，只与始末位置有关'],
-    keyPoints: ['电势是标量，电势能是电荷乘电势', '正电荷沿电场方向电势降低', '等势面上移动电荷电场力不做功', '导体静电平衡时整体等势', '\\(1\\,\\mathrm{V\\,m^{-1}}=1\\,\\mathrm{N\\,C^{-1}}\\)'],
+    keyPoints: ['电势是标量，电势能是电荷乘电势 · Potential is a scalar; potential energy is charge times potential', '正电荷沿电场方向电势降低 · The potential of a positive charge falls along the direction of the field', '等势面上移动电荷电场力不做功 · Moving a charge on an equipotential surface does no work by the electric force', '导体静电平衡时整体等势 · A conductor in electrostatic equilibrium is an equipotential throughout', '\\(1\\,\\mathrm{V\\,m^{-1}}=1\\,\\mathrm{N\\,C^{-1}}\\)'],
     misconceptions: [
-      '把电势与电势能混淆（后者依赖电荷）',
-      '认为电势是矢量，需要分解',
-      '认为电势为零处电场也为零（如偶极子中点）',
-      '认为负电荷在高电势处电势能高（实际低）',
-      '忘记零势点的选择，导致电势绝对值无意义',
+      '把电势与电势能混淆（后者依赖电荷） · Confusing potential with potential energy; the latter depends on the charge',
+      '认为电势是矢量，需要分解 · Thinking potential is a vector that must be resolved into components',
+      '认为电势为零处电场也为零（如偶极子中点） · Thinking zero potential means zero field, as at the midpoint of a dipole',
+      '认为负电荷在高电势处电势能高（实际低） · Thinking a negative charge has high potential energy at high potential; it is actually low',
+      '忘记零势点的选择，导致电势绝对值无意义 · Forgetting the choice of zero, so that an absolute potential has no meaning',
     ],
     examples: [
       {
@@ -2478,11 +2478,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 9：电势',
-      '先选定零势点，再谈电势的数值',
-      '电势是标量，直接代数相加；电场才是矢量',
-      '电势差与功：\\(W=q\\Delta V\\)，注意电荷的符号',
-      '等势面与电场线垂直，沿等势面移动不做功',
+      'CED Unit 9：电势 · CED Unit 9, electric potential',
+      '先选定零势点，再谈电势的数值 · First choose the zero of potential, then talk about its numerical value',
+      '电势是标量，直接代数相加；电场才是矢量 · Potential is a scalar and adds algebraically; only the electric field is a vector',
+      '电势差与功：\\(W=q\\Delta V\\)，注意电荷的符号 · Potential difference and work: \\(W=q\\Delta V\\), and watch the sign of the charge',
+      '等势面与电场线垂直，沿等势面移动不做功 · Equipotential surfaces are perpendicular to field lines, and moving along an equipotential does no work',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
@@ -2500,9 +2500,9 @@ export const ENRICHMENTS = {
   'em/em-u10/10.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明电介质极化与束缚电荷的产生。',
-      '能计算介质中的场强、电容与储能。',
-      '能分析接电源与断电源两种情形的变化。'
+      '能说明电介质极化与束缚电荷的产生。 · Explain dielectric polarization and the origin of bound charge.',
+      '能计算介质中的场强、电容与储能。 · Calculate the field, capacitance, and stored energy in a dielectric.',
+      '能分析接电源与断电源两种情形的变化。 · Analyze the two cases of a capacitor connected to a source and disconnected from it.'
     ],
     essentialKnowledge: [
       '电介质是绝缘体，外电场使其分子极化并产生束缚电荷。',
@@ -2526,13 +2526,13 @@ export const ENRICHMENTS = {
       { from: '能量密度', to: '总能量', note: '对体积积分 \\(\\dfrac12\\kappa\\varepsilon_0E^{2}\\)。' },
     ],
     conditions: ['线性、均匀、各向同性介质', '介质未击穿；\\(\\kappa\\) 与温度、频率有关', '电池连接与否决定 \\(Q\\) 或 \\(V\\) 不变', '接电源时 \\(E\\) 由 \\(\\dfrac{V}{d}\\) 决定，\\(\\kappa\\) 增大主要体现为自由电荷与电容增大', '若介质只部分填充电容器，需按串联与并联模型处理'],
-    keyPoints: ['介质削弱 \\(E\\)，增大 \\(C\\)', '\\(\\kappa\\) 无量纲，真空 \\(\\kappa=1\\)', '断开电源时 \\(Q\\) 不变、\\(V\\) 减小；接电源时 \\(V\\) 不变、\\(Q\\) 增大', '介质中能量密度为 \\(\\dfrac12\\kappa\\varepsilon_0E^{2}\\)', '介质强度限制最大场强，超过会击穿'],
+    keyPoints: ['介质削弱 \\(E\\)，增大 \\(C\\) · The dielectric weakens \\(E\\) and increases \\(C\\)', '\\(\\kappa\\) 无量纲，真空 \\(\\kappa=1\\) · \\(\\kappa\\) is dimensionless, and in vacuum \\(\\kappa=1\\)', '断开电源时 \\(Q\\) 不变、\\(V\\) 减小；接电源时 \\(V\\) 不变、\\(Q\\) 增大 · With the source disconnected, \\(Q\\) stays fixed and \\(V\\) falls; with the source connected, \\(V\\) stays fixed and \\(Q\\) rises', '介质中能量密度为 \\(\\dfrac12\\kappa\\varepsilon_0E^{2}\\) · The energy density in a dielectric is \\(\\dfrac{1}{2}\\kappa\\varepsilon_0 E^{2}\\)', '介质强度限制最大场强，超过会击穿 · Dielectric strength limits the maximum field; beyond it the dielectric breaks down'],
     misconceptions: [
-      '认为介质会增强电场',
-      '认为插入介质总是使储能增加（取决于是否接电源）',
-      '把 \\(\\kappa\\) 与击穿场强混淆',
-      '认为介质中有自由电荷（实际是束缚电荷极化）',
-      '在部分填充时直接把电容乘以 \\(\\kappa\\)',
+      '认为介质会增强电场 · Thinking a dielectric strengthens the electric field',
+      '认为插入介质总是使储能增加（取决于是否接电源） · Thinking inserting a dielectric always increases the stored energy; it depends on whether a source is connected',
+      '把 \\(\\kappa\\) 与击穿场强混淆 · Confusing \\(\\kappa\\) with the breakdown field',
+      '认为介质中有自由电荷（实际是束缚电荷极化） · Thinking a dielectric contains free charge; the polarization is bound charge',
+      '在部分填充时直接把电容乘以 \\(\\kappa\\) · Multiplying the capacitance by \\(\\kappa\\) directly when the dielectric fills only part of the gap',
     ],
     examples: [
       {
@@ -2568,10 +2568,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 10：导体、电容器与电介质',
-      '先判断“断开电源”还是“接电源”，再决定 \\(Q\\) 或 \\(V\\) 不变',
-      '介质使 \\(C\\) 增大、\\(E\\) 减小；能量变化要看具体情形',
-      '注意介质击穿条件 \\(E>E_{\\mathrm{breakdown}}\\)',
+      'CED Unit 10：导体、电容器与电介质 · CED Unit 10, conductors, capacitors, and dielectrics',
+      '先判断“断开电源”还是“接电源”，再决定 \\(Q\\) 或 \\(V\\) 不变 · First decide whether the source is disconnected or connected, then which of \\(Q\\) or \\(V\\) stays fixed',
+      '介质使 \\(C\\) 增大、\\(E\\) 减小；能量变化要看具体情形 · A dielectric increases \\(C\\) and decreases \\(E\\); the energy change depends on the situation',
+      '注意介质击穿条件 \\(E>E_{\\mathrm{breakdown}}\\) · Watch the breakdown condition \\(E>E_{\\mathrm{breakdown}}\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u10', code: '10.3', title: '电容器', relation: '先修' },
@@ -2586,9 +2586,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算纯电阻元件的电功率。',
-      '能区分串联与并联的功率分配。',
-      '能区分额定功率、实际功率与电能。'
+      '能计算纯电阻元件的电功率。 · Calculate the electric power of a purely resistive element.',
+      '能区分串联与并联的功率分配。 · Distinguish how power is shared in series and in parallel.',
+      '能区分额定功率、实际功率与电能。 · Distinguish rated power, actual power, and electric energy.'
     ],
     essentialKnowledge: [
       '电功率是电能转化速率：\\(P=IV\\)。',
@@ -2612,13 +2612,13 @@ export const ENRICHMENTS = {
       { from: '能量守恒', to: '效率', note: '有用输出功率小于总输入功率，差额为热损耗。' },
     ],
     conditions: ['\\(P=I^{2}R=\\dfrac{V^{2}}{R}\\) 只适用于纯电阻', '电动机等非纯电阻元件不能用 \\(\\dfrac{V^{2}}{R}\\) 求总功率；要区分输入功率、有用输出与损耗', '额定功率在额定电压下成立，实际功率随电压变化', '交流电路需区分瞬时功率与平均功率'],
-    keyPoints: ['串联时 \\(I\\) 相同，\\(P=I^{2}R\\) 大电阻功率大', '并联时 \\(V\\) 相同，\\(P=\\dfrac{V^{2}}{R}\\) 小电阻功率大', '电池内部消耗 \\(P_r=I^{2}r\\)', '电能表测能量，不测功率', '\\(1\\,\\mathrm{kW\\,h}\\) 是能量单位，不是功率单位'],
+    keyPoints: ['串联时 \\(I\\) 相同，\\(P=I^{2}R\\) 大电阻功率大 · In series the current \\(I\\) is the same, and with \\(P=I^{2}R\\) the larger resistor dissipates more power', '并联时 \\(V\\) 相同，\\(P=\\dfrac{V^{2}}{R}\\) 小电阻功率大 · In parallel the voltage \\(V\\) is the same, and with \\(P=\\dfrac{V^{2}}{R}\\) the smaller resistor dissipates more power', '电池内部消耗 \\(P_r=I^{2}r\\) · Inside the battery the power consumed is \\(P_r=I^{2}r\\)', '电能表测能量，不测功率 · An energy meter measures energy, not power', '\\(1\\,\\mathrm{kW\\,h}\\) 是能量单位，不是功率单位 · \\(1\\,\\mathrm{kW\\,h}\\) is a unit of energy, not of power'],
     misconceptions: [
-      '认为大电阻功率一定大（取决于串联还是并联）',
-      '对电动机用 \\(\\dfrac{V^{2}}{R}\\) 计算（不适用）',
-      '把 \\(\\mathrm{kW}\\) 与 \\(\\mathrm{kW\\,h}\\) 混淆',
-      '认为额定功率一定等于实际功率',
-      '忽略电池内阻消耗的功率',
+      '认为大电阻功率一定大（取决于串联还是并联） · Thinking a large resistance must mean large power; it depends on series or parallel',
+      '对电动机用 \\(\\dfrac{V^{2}}{R}\\) 计算（不适用） · Using \\(\\dfrac{V^{2}}{R}\\) for a motor, where it does not apply',
+      '把 \\(\\mathrm{kW}\\) 与 \\(\\mathrm{kW\\,h}\\) 混淆 · Confusing \\(\\mathrm{kW}\\) with \\(\\mathrm{kW\\,h}\\)',
+      '认为额定功率一定等于实际功率 · Thinking rated power must equal actual power',
+      '忽略电池内阻消耗的功率 · Ignoring the power consumed by the battery’s internal resistance',
     ],
     examples: [
       {
@@ -2654,10 +2654,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：电路与电功率',
-      '先判断串联还是并联，再选择 \\(I^{2}R\\) 或 \\(\\dfrac{V^{2}}{R}\\)',
-      '纯电阻三式通用；电动机等非纯电阻元件要区分输入、输出与损耗',
-      '含内阻时先求电流，再分别算外电路与内阻功率',
+      'CED Unit 11：电路与电功率 · CED Unit 11, circuits and electric power',
+      '先判断串联还是并联，再选择 \\(I^{2}R\\) 或 \\(\\dfrac{V^{2}}{R}\\) · First decide series or parallel, then choose \\(I^{2}R\\) or \\(\\dfrac{V^{2}}{R}\\)',
+      '纯电阻三式通用；电动机等非纯电阻元件要区分输入、输出与损耗 · The three resistor formulas apply to a pure resistor; for a motor or other non-ohmic device, separate input, output, and loss',
+      '含内阻时先求电流，再分别算外电路与内阻功率 · With internal resistance, first find the current, then calculate the external and internal power separately',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.1', title: '电流', relation: '先修' },
@@ -2673,9 +2673,9 @@ export const ENRICHMENTS = {
   'em/em-u13/13.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算匀强场中平面的磁通量。',
-      '能判断磁通量变化对感应电动势的影响。',
-      '能解释闭合曲面净磁通为零。'
+      '能计算匀强场中平面的磁通量。 · Calculate the magnetic flux through a flat surface in a uniform field.',
+      '能判断磁通量变化对感应电动势的影响。 · Judge how a change in magnetic flux affects the induced emf.',
+      '能解释闭合曲面净磁通为零。 · Explain why the net magnetic flux through a closed surface is zero.'
     ],
     essentialKnowledge: [
       '磁通量 \\(\\Phi_B=\\int\\mathbf B\\cdot\\mathrm{d}\\mathbf A\\)；匀强场、平面时 \\(\\Phi_B=BA\\cos\\theta\\)。',
@@ -2699,13 +2699,13 @@ export const ENRICHMENTS = {
       { from: '磁感线闭合', to: '闭合曲面净通量', note: '穿入与穿出的磁感线数目相等，净磁通为零。' },
     ],
     conditions: ['匀强场 + 平面时用 \\(BA\\cos\\theta\\)；一般情形用积分', '闭合曲面的净磁通为零（无磁单极）', '面积矢量方向与回路方向满足右手定则', '磁通量是标量，但有正负，取决于面积矢量取向'],
-    keyPoints: ['改变 \\(B\\)、\\(A\\) 或 \\(\\theta\\) 都可改变磁通量', '磁通量大不代表感应电动势大，还要看变化率', '磁感线闭合，穿过闭合曲面的净磁通为零', '磁通量单位韦伯', '\\(\\theta\\) 是 \\(\\mathbf B\\) 与法线的夹角，不是与面的夹角'],
+    keyPoints: ['改变 \\(B\\)、\\(A\\) 或 \\(\\theta\\) 都可改变磁通量 · Changing \\(B\\), \\(A\\), or \\(\\theta\\) can change the magnetic flux', '磁通量大不代表感应电动势大，还要看变化率 · A large flux does not by itself mean a large induced emf; the rate of change also matters', '磁感线闭合，穿过闭合曲面的净磁通为零 · Field lines are closed, so the net magnetic flux through a closed surface is zero', '磁通量单位韦伯 · The unit of magnetic flux is the weber', '\\(\\theta\\) 是 \\(\\mathbf B\\) 与法线的夹角，不是与面的夹角 · \\(\\theta\\) is the angle between \\(\\mathbf B\\) and the normal, not the angle with the surface'],
     misconceptions: [
-      '认为磁通量大感应电动势就大',
-      '认为 \\(B\\) 大磁通量一定大（还要看面积与角度）',
-      '把磁通量与磁场强度混淆',
-      '认为闭合曲面磁通量等于包围的“磁荷”',
-      '把 \\(\\theta\\) 当成 \\(\\mathbf B\\) 与面的夹角（应为法线夹角）',
+      '认为磁通量大感应电动势就大 · Thinking a large flux means a large induced emf',
+      '认为 \\(B\\) 大磁通量一定大（还要看面积与角度） · Thinking a large \\(B\\) must mean a large flux; area and angle also matter',
+      '把磁通量与磁场强度混淆 · Confusing magnetic flux with magnetic-field strength',
+      '认为闭合曲面磁通量等于包围的“磁荷” · Thinking the flux through a closed surface equals an enclosed “magnetic charge”',
+      '把 \\(\\theta\\) 当成 \\(\\mathbf B\\) 与面的夹角（应为法线夹角） · Taking \\(\\theta\\) as the angle between \\(\\mathbf B\\) and the surface; it is the angle with the normal',
     ],
     examples: [
       {
@@ -2742,10 +2742,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 13：电磁感应',
-      '先定面积矢量方向，再判断磁通量正负',
-      '分清 \\(\\Phi_B\\) 与 \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)',
-      '旋转线圈用 \\(\\cos\\) 与 \\(\\sin\\) 关系，注意最大值位置',
+      'CED Unit 13：电磁感应 · CED Unit 13, electromagnetic induction',
+      '先定面积矢量方向，再判断磁通量正负 · First choose the direction of the area vector, then judge the sign of the flux',
+      '分清 \\(\\Phi_B\\) 与 \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\) · Keep \\(\\Phi_B\\) distinct from \\(\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)',
+      '旋转线圈用 \\(\\cos\\) 与 \\(\\sin\\) 关系，注意最大值位置 · For a rotating coil, use the relation of cosine and sine, and note where the maximum occurs',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u12', code: '12.1', title: '磁场', relation: '先修' },
@@ -2761,9 +2761,9 @@ export const ENRICHMENTS = {
   'em/em-u8/8.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算匀强场中平面的电通量。',
-      '能应用高斯定律求对称电荷分布的电场。',
-      '能解释闭合曲面净通量与内部电荷的关系。'
+      '能计算匀强场中平面的电通量。 · Calculate the electric flux through a flat surface in a uniform field.',
+      '能应用高斯定律求对称电荷分布的电场。 · Apply Gauss’s law to find the field of a symmetric charge distribution.',
+      '能解释闭合曲面净通量与内部电荷的关系。 · Explain the relation between the net flux through a closed surface and the charge inside.'
     ],
     essentialKnowledge: [
       '电通量 \\(\\Phi_E=\\int\\mathbf E\\cdot\\mathrm{d}\\mathbf A\\)；匀强场、平面时 \\(\\Phi_E=EA\\cos\\theta\\)。',
@@ -2787,13 +2787,13 @@ export const ENRICHMENTS = {
       { from: '叠加原理', to: '外部电荷净贡献为零', note: '外部电荷的场线穿入又穿出闭合曲面，净通量为零。' },
     ],
     conditions: ['闭合曲面取外法线方向', '高斯定律对任意闭合曲面成立；对称性用于求 \\(E\\)', '电通量是标量，可正可负', '真空或线性介质中 \\(\\varepsilon_0\\) 换成 \\(\\varepsilon\\)'],
-    keyPoints: ['通量看“穿过”，与面的大小、倾角有关', '闭合曲面净通量只由内部电荷决定', '外部电荷对净通量贡献为零', '电场线从正电荷发出、终止于负电荷', '高斯定律是麦克斯韦方程组之一'],
+    keyPoints: ['通量看“穿过”，与面的大小、倾角有关 · Flux is about what passes through, and it depends on the area and the tilt', '闭合曲面净通量只由内部电荷决定 · The net flux through a closed surface is fixed only by the charge inside', '外部电荷对净通量贡献为零 · Charge outside contributes nothing to the net flux', '电场线从正电荷发出、终止于负电荷 · Electric field lines start on positive charge and end on negative charge', '高斯定律是麦克斯韦方程组之一 · Gauss’s law is one of Maxwell’s equations'],
     misconceptions: [
-      '认为闭合曲面通量与外电荷有关',
-      '认为 \\(E=0\\) 时通量一定为零（可能净通量为零但局部不为零）',
-      '把电通量与电场强度混淆',
-      '忘记外法线方向导致符号错误',
-      '认为高斯定律只能用于球对称问题（它普遍成立，只是求 \\(E\\) 时常用对称性）',
+      '认为闭合曲面通量与外电荷有关 · Thinking the flux through a closed surface depends on outside charge',
+      '认为 \\(E=0\\) 时通量一定为零（可能净通量为零但局部不为零） · Thinking \\(E=0\\) means the flux must be zero; the net flux can be zero while the local field is not',
+      '把电通量与电场强度混淆 · Confusing electric flux with electric-field strength',
+      '忘记外法线方向导致符号错误 · Forgetting the outward normal and getting the sign wrong',
+      '认为高斯定律只能用于球对称问题（它普遍成立，只是求 \\(E\\) 时常用对称性） · Thinking Gauss’s law works only for spherical symmetry; the law is general, and symmetry is what makes it easy to find \\(E\\)',
     ],
     examples: [
       {
@@ -2829,10 +2829,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8：电通量与高斯定律',
-      '先定法线方向，再判断正负',
-      '闭合曲面用高斯定律；求 \\(E\\) 时优先找对称性',
-      '外部电荷对净通量无贡献，但会改变局部场',
+      'CED Unit 8：电通量与高斯定律 · CED Unit 8, electric flux and Gauss’s law',
+      '先定法线方向，再判断正负 · First choose the normal direction, then judge the sign',
+      '闭合曲面用高斯定律；求 \\(E\\) 时优先找对称性 · Use Gauss’s law for a closed surface; when finding \\(E\\), look for symmetry first',
+      '外部电荷对净通量无贡献，但会改变局部场 · Outside charge does not contribute to the net flux, but it does change the local field',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.2', title: '电场', relation: '先修' },
@@ -2849,9 +2849,9 @@ export const ENRICHMENTS = {
   'em/em-u9/9.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算两点电荷与电荷在电势中的电势能。',
-      '能由电场力做功判断电势能变化。',
-      '能说明电势能的符号与零势点选择。'
+      '能计算两点电荷与电荷在电势中的电势能。 · Calculate the potential energy of two point charges and of a charge in a potential.',
+      '能由电场力做功判断电势能变化。 · Use the work done by the electric force to judge the change in potential energy.',
+      '能说明电势能的符号与零势点选择。 · Explain the sign of potential energy and the choice of the zero of potential.'
     ],
     essentialKnowledge: [
       '两点电荷 \\(U=k\\dfrac{q_1q_2}{r}\\)，通常取无穷远为零；电荷在电势中 \\(U=qV\\)。',
@@ -2875,13 +2875,13 @@ export const ENRICHMENTS = {
       { from: '功能关系', to: '电场力做功', note: '电场力做正功时电势能减少，\\(W=-\\Delta U\\)。' },
     ],
     conditions: ['点电荷或球对称分布；\\(r\\) 为球心距离', '零势能点通常取无穷远', '电势能是系统量，符号由电荷正负决定', '非均匀场中 \\(U=qV\\) 仍是逐点成立'],
-    keyPoints: ['同号电荷 \\(U>0\\)，异号 \\(U<0\\)', '电场力做正功，电势能减少', '\\(U\\) 是标量，可代数叠加', '\\(\\mathrm{eV}\\) 是能量单位，不是电压', '电势能属于系统，不属于单个电荷'],
+    keyPoints: ['同号电荷 \\(U>0\\)，异号 \\(U<0\\) · Like charges have \\(U>0\\); unlike charges have \\(U<0\\)', '电场力做正功，电势能减少 · When the electric force does positive work, electric potential energy decreases', '\\(U\\) 是标量，可代数叠加 · \\(U\\) is a scalar and adds algebraically', '\\(\\mathrm{eV}\\) 是能量单位，不是电压 · The electronvolt is a unit of energy, not of voltage', '电势能属于系统，不属于单个电荷 · Potential energy belongs to the system, not to a single charge'],
     misconceptions: [
-      '认为电势能属于单个电荷',
-      '认为异号电荷靠近时电势能增大',
-      '把电势能与电势混淆',
-      '认为电场力做正功电势能增加',
-      '把 \\(\\mathrm{eV}\\) 当成电压单位',
+      '认为电势能属于单个电荷 · Thinking potential energy belongs to a single charge',
+      '认为异号电荷靠近时电势能增大 · Thinking the potential energy rises when unlike charges approach',
+      '把电势能与电势混淆 · Confusing potential energy with potential',
+      '认为电场力做正功电势能增加 · Thinking positive work by the electric force increases the potential energy',
+      '把 \\(\\mathrm{eV}\\) 当成电压单位 · Treating the electronvolt as a unit of voltage',
     ],
     examples: [
       {
@@ -2918,11 +2918,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 9：电势能',
-      '先定零势能点，再写 \\(U\\)',
-      '符号由电荷正负决定，不要漏掉负号',
-      '功能关系 \\(W_{\\mathrm{field}}=-\\Delta U\\) 是解题主线',
-      '微观能量用 \\(\\mathrm{eV}\\) 更方便',
+      'CED Unit 9：电势能 · CED Unit 9, electric potential energy',
+      '先定零势能点，再写 \\(U\\) · First set the zero of potential energy, then write \\(U\\)',
+      '符号由电荷正负决定，不要漏掉负号 · The sign is fixed by the signs of the charges; do not drop a minus sign',
+      '功能关系 \\(W_{\\mathrm{field}}=-\\Delta U\\) 是解题主线 · The work–energy relation \\(W_{\\mathrm{field}}=-\\Delta U\\) is the main line of the solution',
+      '微观能量用 \\(\\mathrm{eV}\\) 更方便 · Microscopic energies are more convenient in \\(\\mathrm{eV}\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.2', title: '电势', relation: '后续' },
@@ -2938,9 +2938,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.8': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出 RC 充放电的电荷与电流函数。',
-      '能计算时间常数并判断充放电快慢。',
-      '能解释稳态与电容电压连续的意义。'
+      '能写出 RC 充放电的电荷与电流函数。 · Write the charge and current functions for charging and discharging an RC circuit.',
+      '能计算时间常数并判断充放电快慢。 · Calculate the time constant and judge how fast the capacitor charges or discharges.',
+      '能解释稳态与电容电压连续的意义。 · Explain steady state and why the capacitor voltage is continuous.'
     ],
     essentialKnowledge: [
       'RC 电路时间常数 \\(\\tau=RC\\)，单位秒。',
@@ -2964,13 +2964,13 @@ export const ENRICHMENTS = {
       { from: '时间常数', to: '特征时间', note: '\\(t=\\tau\\) 时充电到 \\(63\\%\\)，放电剩 \\(37\\%\\)。' },
     ],
     conditions: ['恒定 \\(R\\)、\\(C\\)；电源内阻可并入 \\(R\\)', '充电初始 \\(q(0)=0\\)；放电初始 \\(q(0)=Q_0\\)', '时间常数单位秒；\\(t=\\tau\\) 时充电至 \\(63.2\\%\\)', '约 \\(5\\tau\\) 后基本充满或放完'],
-    keyPoints: ['电容电压连续，电流可以突变', '\\(t=\\tau\\)：充电 \\(63.2\\%\\)，放电剩 \\(36.8\\%\\)', '约 \\(5\\tau\\) 后达到稳态', '稳态时电容相当于断路，\\(I=0\\)', '时间常数由 \\(R\\) 与 \\(C\\) 的乘积决定', '半衰期 \\(=\\tau\\ln2\\approx0.693\\tau\\)'],
+    keyPoints: ['电容电压连续，电流可以突变 · Capacitor voltage is continuous, but current can jump', '\\(t=\\tau\\)：充电 \\(63.2\\%\\)，放电剩 \\(36.8\\%\\) · At \\(t=\\tau\\), charging has reached 63.2% and a discharging capacitor still holds 36.8%', '约 \\(5\\tau\\) 后达到稳态 · After about \\(5\\tau\\) the circuit is in steady state', '稳态时电容相当于断路，\\(I=0\\) · In steady state a capacitor is an open circuit and \\(I=0\\)', '时间常数由 \\(R\\) 与 \\(C\\) 的乘积决定 · The time constant is the product of \\(R\\) and \\(C\\)', '半衰期 \\(=\\tau\\ln2\\approx0.693\\tau\\) · The half-life is \\(\\tau\\ln 2\\approx 0.693\\tau\\)'],
     misconceptions: [
-      '认为电容瞬间充满',
-      '认为稳态时电容仍有电流',
-      '把 \\(\\tau\\) 与半衰期混淆',
-      '认为 \\(R\\) 越大充电越快（实际越慢）',
-      '忽略初始时刻电容电压为零（相当于短路）',
+      '认为电容瞬间充满 · Thinking a capacitor fills instantly',
+      '认为稳态时电容仍有电流 · Thinking a capacitor still carries current in steady state',
+      '把 \\(\\tau\\) 与半衰期混淆 · Confusing \\(\\tau\\) with the half-life',
+      '认为 \\(R\\) 越大充电越快（实际越慢） · Thinking a larger \\(R\\) charges the capacitor faster; it actually charges more slowly',
+      '忽略初始时刻电容电压为零（相当于短路） · Ignoring that the capacitor voltage is zero at the initial instant, so it acts as a short circuit',
     ],
     examples: [
       {
@@ -3006,11 +3006,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：RC 电路',
-      '先判断充电还是放电，再选公式',
-      '用初末条件检查：\\(t=0\\) 与 \\(t\\to\\infty\\)',
-      '\\(\\tau=RC\\)；\\(5\\tau\\) 后可视为稳态',
-      '电容电压不能突变，电流可以突变',
+      'CED Unit 11：RC 电路 · CED Unit 11, RC circuits',
+      '先判断充电还是放电，再选公式 · First decide charging or discharging, then choose the formula',
+      '用初末条件检查：\\(t=0\\) 与 \\(t\\to\\infty\\) · Check the initial and final conditions: \\(t=0\\) and \\(t\\to\\infty\\)',
+      '\\(\\tau=RC\\)；\\(5\\tau\\) 后可视为稳态 · \\(\\tau=RC\\); after \\(5\\tau\\) the circuit may be treated as steady',
+      '电容电压不能突变，电流可以突变 · Capacitor voltage cannot jump, but current can',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.2', title: '简单电路', relation: '先修' },
@@ -3342,9 +3342,9 @@ export const ENRICHMENTS = {
   'bio/bio-u8/8.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分指数增长与 Logistic 增长的假设。',
-      '能计算增长率、倍增时间与容纳量。',
-      '能用标记重捕法估计种群大小。'
+      '能区分指数增长与 Logistic 增长的假设。 · Distinguish the assumptions of exponential growth and logistic growth.',
+      '能计算增长率、倍增时间与容纳量。 · Calculate growth rate, doubling time, and carrying capacity.',
+      '能用标记重捕法估计种群大小。 · Estimate population size by mark and recapture.'
     ],
     essentialKnowledge: [
       '种群是同一物种在同一区域内的个体集合，研究大小、密度、分布、年龄结构与增长率。',
@@ -3368,13 +3368,13 @@ export const ENRICHMENTS = {
       { from: '标记重捕', to: '种群估计', note: '假设标记个体均匀混合，标记比例等于重捕比例。' },
     ],
     conditions: ['指数模型：资源无限、无迁入迁出、无年龄结构影响', 'Logistic：\\(K\\) 恒定、密度制约即时生效', '\\(r\\) 与 \\(K\\) 是种群与环境特征，不是普适常数', '标记重捕要求种群封闭、标记不丢失、个体等概率捕获'],
-    keyPoints: ['\\(r\\) 策略者：高繁殖、低存活、早熟（昆虫、杂草）', '\\(K\\) 策略者：低繁殖、高存活、晚熟（大型哺乳动物）', '密度制约使增长趋于稳定', '年龄结构影响未来增长', '存活曲线分 I、II、III 型', '种群分布有随机、均匀、集群三种'],
+    keyPoints: ['\\(r\\) 策略者：高繁殖、低存活、早熟（昆虫、杂草） · \\(r\\)-strategists: high reproduction, low survival, early maturity (insects, weeds)', '\\(K\\) 策略者：低繁殖、高存活、晚熟（大型哺乳动物） · \\(K\\)-strategists: low reproduction, high survival, late maturity (large mammals)', '密度制约使增长趋于稳定 · Density dependence makes growth level off', '年龄结构影响未来增长 · Age structure affects future growth', '存活曲线分 I、II、III 型 · Survivorship curves are types I, II, and III', '种群分布有随机、均匀、集群三种 · Populations can be distributed randomly, uniformly, or in clumps'],
     misconceptions: [
-      '认为 \\(r\\) 是固定不变的常数（环境可变）',
-      '认为 \\(K\\) 是种群永远达不到的上限',
-      '把种群密度与种群大小混淆',
-      '认为密度制约因素总是坏事',
-      '认为指数增长可以无限持续',
+      '认为 \\(r\\) 是固定不变的常数（环境可变） · Thinking \\(r\\) is a fixed constant; the environment can change it',
+      '认为 \\(K\\) 是种群永远达不到的上限 · Thinking \\(K\\) is a ceiling the population can never reach',
+      '把种群密度与种群大小混淆 · Confusing population density with population size',
+      '认为密度制约因素总是坏事 · Thinking density-dependent factors are always harmful',
+      '认为指数增长可以无限持续 · Thinking exponential growth can continue without limit',
     ],
     examples: [
       {
@@ -3410,11 +3410,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8.3：种群生态',
-      '区分指数增长与 logistic 增长的条件',
-      '读图时先找 \\(K\\) 与拐点 \\(\\dfrac{K}{2}\\)',
-      'r 策略与 K 策略对比常与生活史特征一起考',
-      '标记重捕注意假设与标记丢失',
+      'CED Unit 8.3：种群生态 · CED Unit 8.3, population ecology',
+      '区分指数增长与 logistic 增长的条件 · Distinguish the conditions for exponential growth and logistic growth',
+      '读图时先找 \\(K\\) 与拐点 \\(\\dfrac{K}{2}\\) · On a graph, first find \\(K\\) and the inflection at \\(\\dfrac{K}{2}\\)',
+      'r 策略与 K 策略对比常与生活史特征一起考 · Comparing \\(r\\) and \\(K\\) strategies is often tested together with life-history traits',
+      '标记重捕注意假设与标记丢失 · In mark and recapture, watch the assumptions and the loss of marks',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.4', title: '密度效应', relation: '后续' },
@@ -3430,9 +3430,9 @@ export const ENRICHMENTS = {
   'bio/bio-u8/8.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分竞争、捕食、互利与寄生。',
-      '能解释生态位分化与竞争排斥。',
-      '能计算 Shannon 多样性指数并解释演替。'
+      '能区分竞争、捕食、互利与寄生。 · Distinguish competition, predation, mutualism, and parasitism.',
+      '能解释生态位分化与竞争排斥。 · Explain niche differentiation and competitive exclusion.',
+      '能计算 Shannon 多样性指数并解释演替。 · Calculate a Shannon diversity index and explain succession.'
     ],
     essentialKnowledge: [
       '群落是一定区域内所有种群的集合，研究物种组成、丰富度、生态位与种间相互作用。',
@@ -3455,13 +3455,13 @@ export const ENRICHMENTS = {
       { from: '干扰', to: '演替', note: '初生演替从无土壤开始；次生演替保留土壤与种子库。' },
     ],
     conditions: ['群落边界与尺度人为定义', '相互作用方向可随环境改变（如互利变竞争）', '演替方向受干扰、气候与土壤影响', '关键种的作用需通过移除实验或对比观察确认'],
-    keyPoints: ['竞争、捕食、互利、寄生是基本相互作用', '生态位分化减少竞争', '关键种与营养级联', '初生演替从无土壤开始，次生演替保留土壤与种子库', '物种多样性提高群落稳定性（有例外）', '优势种与关键种不是同一概念'],
+    keyPoints: ['竞争、捕食、互利、寄生是基本相互作用 · Competition, predation, mutualism, and parasitism are the basic interactions', '生态位分化减少竞争 · Niche differentiation reduces competition', '关键种与营养级联 · Keystone species and trophic cascades', '初生演替从无土壤开始，次生演替保留土壤与种子库 · Primary succession starts with no soil; secondary succession keeps soil and a seed bank', '物种多样性提高群落稳定性（有例外） · Species diversity raises community stability, with exceptions', '优势种与关键种不是同一概念 · A dominant species and a keystone species are not the same idea'],
     misconceptions: [
-      '认为竞争总是导致一方灭绝（可分化共存）',
-      '认为关键种一定是数量最多的物种',
-      '把初生演替与次生演替混淆',
-      '认为演替一定有固定终点',
-      '把共生都当成互利（还有偏利与寄生）',
+      '认为竞争总是导致一方灭绝（可分化共存） · Thinking competition always drives one side extinct; the species can coexist by differentiating',
+      '认为关键种一定是数量最多的物种 · Thinking a keystone species must be the most abundant species',
+      '把初生演替与次生演替混淆 · Confusing primary succession with secondary succession',
+      '认为演替一定有固定终点 · Thinking succession has a fixed endpoint',
+      '把共生都当成互利（还有偏利与寄生） · Treating every symbiosis as mutualism; commensalism and parasitism also exist',
     ],
     examples: [
       {
@@ -3495,11 +3495,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8.5：群落生态',
-      '区分竞争、捕食、互利、偏利、寄生',
-      '关键种看影响，不只看数量',
-      '初生 vs 次生演替看是否有土壤与种子库',
-      '营养级联常考“移除顶级捕食者”的连锁效应',
+      'CED Unit 8.5：群落生态 · CED Unit 8.5, community ecology',
+      '区分竞争、捕食、互利、偏利、寄生 · Distinguish competition, predation, mutualism, commensalism, and parasitism',
+      '关键种看影响，不只看数量 · A keystone species is judged by its effect, not only by its abundance',
+      '初生 vs 次生演替看是否有土壤与种子库 · Primary versus secondary succession depends on whether soil and a seed bank are present',
+      '营养级联常考“移除顶级捕食者”的连锁效应 · A trophic cascade is often tested as the chain of effects after a top predator is removed',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.3', title: '种群生态', relation: '先修' },
@@ -3515,9 +3515,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能计算含内阻电路的电流与端电压。',
-      '能求串联与并联等效电阻。',
-      '能应用基尔霍夫定律分析简单电路。'
+      '能计算含内阻电路的电流与端电压。 · Calculate the current and terminal voltage of a circuit that includes internal resistance.',
+      '能求串联与并联等效电阻。 · Find the equivalent resistance of series and parallel combinations.',
+      '能应用基尔霍夫定律分析简单电路。 · Apply Kirchhoff’s laws to a simple circuit.'
     ],
     essentialKnowledge: [
       '电源电动势 \\(\\varepsilon\\) 是单位电荷获得的能量；端电压 \\(V_{\\mathrm{term}}=\\varepsilon-Ir\\)。',
@@ -3540,14 +3540,14 @@ export const ENRICHMENTS = {
       { from: '串联电流相同', to: '串联电阻', note: '\\(V=\\sum V_i=I\\sum R_i\\)。' },
       { from: '并联电压相同', to: '并联电阻', note: '\\(I=\\sum I_i=V\\sum\\dfrac{1}{R_i}\\)。' },
     ],
-    conditions: ['稳恒直流、集中参数电路', '理想导线与电表；实际电表有内阻', '电源内阻不可忽略时端电压随电流下降', '电流表串联、电压表并联'],
-    keyPoints: ['串联电流相同，电压按电阻分配', '并联电压相同，电流按电导分配', '等效电阻：串联增大，并联减小（小于任一支路）', '端电压小于电动势（放电时）', '电流表串联、电压表并联', '基尔霍夫：结点电荷守恒、环路能量守恒'],
+    conditions: ['稳恒直流、集中参数电路', '理想导线与电表；实际电表有内阻', '电源内阻不可忽略时端电压随电流下降', '电流表串联、电压表并联 · An ammeter is placed in series and a voltmeter in parallel'],
+    keyPoints: ['串联电流相同，电压按电阻分配 · Series elements share the current, and voltage divides in proportion to resistance', '并联电压相同，电流按电导分配 · Parallel elements share the voltage, and current divides in proportion to conductance', '等效电阻：串联增大，并联减小（小于任一支路） · Equivalent resistance increases in series and decreases in parallel, becoming smaller than any one branch', '端电压小于电动势（放电时） · The terminal voltage is less than the emf while the battery is discharging', '电流表串联、电压表并联 · An ammeter is placed in series and a voltmeter in parallel', '基尔霍夫：结点电荷守恒、环路能量守恒 · Kirchhoff’s rules: charge is conserved at a junction and energy is conserved around a loop'],
     misconceptions: [
-      '认为并联总电阻大于任一支路',
-      '认为电压表应串联测电压',
-      '认为端电压总等于电动势',
-      '忽略电池内阻',
-      '认为电流总是从正极出发“用完”在电阻处（电荷守恒，电流连续）',
+      '认为并联总电阻大于任一支路 · Thinking the total parallel resistance is larger than any one branch',
+      '认为电压表应串联测电压 · Thinking a voltmeter should be placed in series to measure voltage',
+      '认为端电压总等于电动势 · Thinking the terminal voltage always equals the emf',
+      '忽略电池内阻 · Ignoring a battery’s internal resistance',
+      '认为电流总是从正极出发“用完”在电阻处（电荷守恒，电流连续） · Thinking current leaves the positive terminal and is “used up” in the resistor; charge is conserved and current is continuous',
     ],
     examples: [
       {
@@ -3585,11 +3585,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：电路',
-      '先化简串并联，再求总电流',
-      '含内阻先写 \\(\\varepsilon=I(R+r)\\)，端电压再减 \\(Ir\\)',
-      '电流表串联、电压表并联；实际电表内阻会改变电路',
-      '多回路用基尔霍夫定律，注意电流方向假设',
+      'CED Unit 11：电路 · CED Unit 11, circuits',
+      '先化简串并联，再求总电流 · First simplify series and parallel parts, then find the total current',
+      '含内阻先写 \\(\\varepsilon=I(R+r)\\)，端电压再减 \\(Ir\\) · With internal resistance, first write \\(\\varepsilon=I(R+r)\\), then subtract \\(Ir\\) for the terminal voltage',
+      '电流表串联、电压表并联；实际电表内阻会改变电路 · An ammeter is in series and a voltmeter in parallel; a real meter’s resistance changes the circuit',
+      '多回路用基尔霍夫定律，注意电流方向假设 · For several loops, use Kirchhoff’s laws and watch the assumed current directions',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.1', title: '电流', relation: '先修' },
@@ -3611,16 +3611,16 @@ export const ENRICHMENTS = {
   'mech/mech-u3/3.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      "能陈述「机械能守恒」的核心定义与适用条件。",
-      "能用机械能与动能分析并解决基础问题。",
-      "能识别“认为只要有摩擦就完全不能用能量法（可用 \\(W_{\\mathrm{nc}}=\\Delta E\\)）”等常见误用并纠正。"
+      "能陈述「机械能守恒」的核心定义与适用条件。 · State the core definition and conditions of conservation of mechanical energy.",
+      "能用机械能与动能分析并解决基础问题。 · Use mechanical energy and kinetic energy to analyze and solve basic problems.",
+      "能识别“认为只要有摩擦就完全不能用能量法（可用 \\(W_{\\mathrm{nc}}=\\Delta E\\)）”等常见误用并纠正。 · Recognize and correct the misuse “any friction means energy methods cannot be used” (you may use \\(W_{\\mathrm{nc}}=\\Delta E\\))."
     ],
     essentialKnowledge: [
-      "能量是标量，只需初末状态",
-      "保守力做功对应势能变化，非保守力做功改变总机械能",
-      "摩擦生热 \\(Q=|W_f|\\)（相对滑动时）",
-      "机械能守恒是条件式，不是普遍定律",
-      "复杂轨道优先用能量法，避免求中间加速度"
+      "能量是标量，只需初末状态 · Energy is a scalar and depends only on the initial and final states",
+      "保守力做功对应势能变化，非保守力做功改变总机械能 · Work by a conservative force matches a change in potential energy; work by a nonconservative force changes the total mechanical energy",
+      "摩擦生热 \\(Q=|W_f|\\)（相对滑动时） · Friction heating is \\(Q=|W_f|\\) when surfaces slide relative to each other",
+      "机械能守恒是条件式，不是普遍定律 · Conservation of mechanical energy is conditional, not a universal law",
+      "复杂轨道优先用能量法，避免求中间加速度 · For a complicated trajectory, use energy methods first and avoid finding intermediate accelerations"
     ],
     connections: [
       "先修：3.1 动能定理",
@@ -3637,13 +3637,13 @@ export const ENRICHMENTS = {
       { latex: '\\dfrac{1}{2}mv_i^{2}+mgh_i=\\dfrac{1}{2}mv_f^{2}+mgh_f', note: '只有重力做功时的常用形式。' },
     ],
     conditions: ['先明确系统边界；重力/弹力是内力还是外力取决于系统选择', '机械能守恒要求 \\(W_{\\mathrm{nc}}=0\\)', '摩擦力做功通常为负，转化为内能', '势能零点在同一问题中保持一致', '绳突然绷紧、完全非弹性碰撞等过程机械能不守恒'],
-    keyPoints: ['能量是标量，只需初末状态', '保守力做功对应势能变化，非保守力做功改变总机械能', '摩擦生热 \\(Q=|W_f|\\)（相对滑动时）', '机械能守恒是条件式，不是普遍定律', '复杂轨道优先用能量法，避免求中间加速度'],
+    keyPoints: ['能量是标量，只需初末状态 · Energy is a scalar and depends only on the initial and final states', '保守力做功对应势能变化，非保守力做功改变总机械能 · Work by a conservative force matches a change in potential energy; work by a nonconservative force changes the total mechanical energy', '摩擦生热 \\(Q=|W_f|\\)（相对滑动时） · Friction heating is \\(Q=|W_f|\\) when surfaces slide relative to each other', '机械能守恒是条件式，不是普遍定律 · Conservation of mechanical energy is conditional, not a universal law', '复杂轨道优先用能量法，避免求中间加速度 · For a complicated trajectory, use energy methods first and avoid finding intermediate accelerations'],
     misconceptions: [
-      '认为只要有摩擦就完全不能用能量法（可用 \\(W_{\\mathrm{nc}}=\\Delta E\\)）',
-      '把摩擦力做功与“摩擦生热”混为一谈（相对位移与对地位移不同）',
-      '在完全非弹性碰撞中仍用机械能守恒',
-      '系统选择改变后仍沿用原来的势能项',
-      '忘记弹簧势能或重力势能中的某一项',
+      '认为只要有摩擦就完全不能用能量法（可用 \\(W_{\\mathrm{nc}}=\\Delta E\\)） · Thinking any friction means an energy method cannot be used; you may use \\(W_{\\mathrm{nc}}=\\Delta E\\)',
+      '把摩擦力做功与“摩擦生热”混为一谈（相对位移与对地位移不同） · Confusing work by friction with frictional heating; relative displacement and displacement relative to the ground are different',
+      '在完全非弹性碰撞中仍用机械能守恒 · Still using conservation of mechanical energy in a perfectly inelastic collision',
+      '系统选择改变后仍沿用原来的势能项 · Keeping the old potential-energy terms after the choice of system has changed',
+      '忘记弹簧势能或重力势能中的某一项 · Forgetting either spring potential energy or gravitational potential energy',
     ],
     examples: [
       {
@@ -3669,10 +3669,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 3：能量守恒',
-      '先写系统边界与势能零点，再列初末能量',
-      '有摩擦时用 \\(W_{\\mathrm{nc}}=\\Delta E\\)，不要直接令 \\(E_i=E_f\\)',
-      '碰撞、绳绷紧等瞬时过程先判断机械能是否守恒',
+      'CED Unit 3：能量守恒 · CED Unit 3, conservation of energy',
+      '先写系统边界与势能零点，再列初末能量 · First write the system boundary and the zero of potential energy, then list the initial and final energies',
+      '有摩擦时用 \\(W_{\\mathrm{nc}}=\\Delta E\\)，不要直接令 \\(E_i=E_f\\) · When there is friction, use \\(W_{\\mathrm{nc}}=\\Delta E\\); do not set \\(E_i=E_f\\) directly',
+      '碰撞、绳绷紧等瞬时过程先判断机械能是否守恒 · For an instantaneous event such as a collision or a jerk of a string, first decide whether mechanical energy is conserved',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u3', code: '3.1', title: '动能定理', relation: '先修' },
@@ -3687,16 +3687,16 @@ export const ENRICHMENTS = {
   'mech/mech-u4/4.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      "能陈述「冲量与动量」的核心定义与适用条件。",
-      "能用动量的定义分析并解决基础问题。",
-      "能识别“把冲量与功混为一谈”等常见误用并纠正。"
+      "能陈述「冲量与动量」的核心定义与适用条件。 · State the core definition and conditions of impulse and momentum.",
+      "能用动量的定义分析并解决基础问题。 · Use the definition of momentum to analyze and solve basic problems.",
+      "能识别“把冲量与功混为一谈”等常见误用并纠正。 · Recognize and correct the misuse of treating impulse and work as the same thing."
     ],
     essentialKnowledge: [
-      "动量是矢量，动能是标量",
-      "冲量是力对时间的累积，功是力对空间的累积",
-      "\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化",
-      "延长作用时间可减小平均力",
-      "\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能"
+      "动量是矢量，动能是标量 · Momentum is a vector and kinetic energy is a scalar",
+      "冲量是力对时间的累积，功是力对空间的累积 · Impulse is force accumulated over time; work is force accumulated over distance",
+      "\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化 · The area of an \\(F\\text{-}t\\) graph equals impulse and equals the change in momentum",
+      "延长作用时间可减小平均力 · Lengthening the interaction time can reduce the average force",
+      "\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能 · \\(K=\\dfrac{p^{2}}{2m}\\) connects momentum and kinetic energy"
     ],
     connections: [
       "后续：4.2 动量守恒与碰撞",
@@ -3713,13 +3713,13 @@ export const ENRICHMENTS = {
       { latex: 'K=\\dfrac{p^{2}}{2m}', note: '动量与动能的关系。' },
     ],
     conditions: ['冲量是矢量，必须按方向分解', '\\(\\vec J=\\Delta\\vec p\\) 中的力是合外力', '碰撞时间很短时，可忽略重力等有限外力的冲量', '质量恒定；变质量系统需用更一般的动量方程', '面积法适用于任意 \\(F(t)\\)，不要求恒力'],
-    keyPoints: ['动量是矢量，动能是标量', '冲量是力对时间的累积，功是力对空间的累积', '\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化', '延长作用时间可减小平均力', '\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能'],
+    keyPoints: ['动量是矢量，动能是标量 · Momentum is a vector and kinetic energy is a scalar', '冲量是力对时间的累积，功是力对空间的累积 · Impulse is force accumulated over time; work is force accumulated over distance', '\\(F\\text{-}t\\) 图面积 = 冲量 = 动量变化 · The area of an \\(F\\text{-}t\\) graph equals impulse and equals the change in momentum', '延长作用时间可减小平均力 · Lengthening the interaction time can reduce the average force', '\\(K=\\dfrac{p^{2}}{2m}\\) 联系动量与动能 · \\(K=\\dfrac{p^{2}}{2m}\\) connects momentum and kinetic energy'],
     misconceptions: [
-      '把冲量与功混为一谈',
-      '认为动量相同则动能相同',
-      '在反弹问题中漏掉速度方向（\\(\\Delta p\\) 不是 \\(m(v_f-v_i)\\) 的标量差）',
-      '认为作用时间短就不需要冲量',
-      '忽略重力在长过程（如火箭飞行）中的冲量',
+      '把冲量与功混为一谈 · Confusing impulse with work',
+      '认为动量相同则动能相同 · Thinking equal momentum means equal kinetic energy',
+      '在反弹问题中漏掉速度方向（\\(\\Delta p\\) 不是 \\(m(v_f-v_i)\\) 的标量差） · Dropping the direction of velocity in a rebound, so that \\(\\Delta p\\) is not the scalar difference \\(m(v_f-v_i)\\)',
+      '认为作用时间短就不需要冲量 · Thinking a short interaction time means no impulse is needed',
+      '忽略重力在长过程（如火箭飞行）中的冲量 · Ignoring the impulse of gravity over a long process such as a rocket flight',
     ],
     examples: [
       {
@@ -3744,10 +3744,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：线性动量',
-      '先规定正方向，反弹问题尤其注意符号',
-      '\\(F\\text{-}t\\) 图求面积，不要只代峰值力',
-      '区分“冲量相同”与“力相同”',
+      'CED Unit 4：线性动量 · CED Unit 4, linear momentum',
+      '先规定正方向，反弹问题尤其注意符号 · First choose a positive direction; the sign matters especially in a rebound',
+      '\\(F\\text{-}t\\) 图求面积，不要只代峰值力 · Find the area of an \\(F\\text{-}t\\) graph; do not substitute only the peak force',
+      '区分“冲量相同”与“力相同” · Distinguish “the same impulse” from “the same force”',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u4', code: '4.2', title: '动量守恒与碰撞', relation: '后续' },
@@ -3762,16 +3762,16 @@ export const ENRICHMENTS = {
   'mech/mech-u4/4.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      "能陈述「动量守恒与碰撞」的核心定义与适用条件。",
-      "能用一维动量守恒分析并解决基础问题。",
-      "能识别“认为有摩擦力就绝对不能守恒（要看外力冲量是否可忽略）”等常见误用并纠正。"
+      "能陈述「动量守恒与碰撞」的核心定义与适用条件。 · State the core definition and conditions of conservation of momentum and collisions.",
+      "能用一维动量守恒分析并解决基础问题。 · Use one-dimensional momentum conservation to analyze and solve basic problems.",
+      "能识别“认为有摩擦力就绝对不能守恒（要看外力冲量是否可忽略）”等常见误用并纠正。 · Recognize and correct the misuse “friction means conservation is impossible” (check whether the external impulse is negligible)."
     ],
     essentialKnowledge: [
-      "动量守恒看“外力冲量”，不是看“有没有力”",
-      "弹性碰撞动能守恒，非弹性不守恒",
-      "完全非弹性碰撞共同速度由动量守恒决定",
-      "等质量弹性碰撞交换速度",
-      "二维碰撞分方向守恒"
+      "动量守恒看“外力冲量”，不是看“有没有力” · Momentum conservation depends on the external impulse, not on whether any force exists",
+      "弹性碰撞动能守恒，非弹性不守恒 · Kinetic energy is conserved in an elastic collision and is not conserved in an inelastic one",
+      "完全非弹性碰撞共同速度由动量守恒决定 · The common speed in a perfectly inelastic collision is fixed by momentum conservation",
+      "等质量弹性碰撞交换速度 · In an equal-mass elastic collision the velocities are exchanged",
+      "二维碰撞分方向守恒 · A two-dimensional collision is conserved separately along each direction"
     ],
     connections: [
       "先修：4.1 冲量与动量",
@@ -3788,13 +3788,13 @@ export const ENRICHMENTS = {
       { latex: 'e=\\dfrac{v_{2f}-v_{1f}}{v_{1i}-v_{2i}}', note: '恢复系数；\\(e=1\\) 弹性，\\(e=0\\) 完全非弹性。' },
     ],
     conditions: ['合外力冲量为零或远小于内力冲量', '按方向分别守恒；二维问题写两个分量方程', '弹性碰撞要求动能也守恒；完全非弹性碰撞动能损失最大', '碰撞时间极短，忽略重力等有限外力的冲量', '相对速度沿同一直线时才可用一维公式'],
-    keyPoints: ['动量守恒看“外力冲量”，不是看“有没有力”', '弹性碰撞动能守恒，非弹性不守恒', '完全非弹性碰撞共同速度由动量守恒决定', '等质量弹性碰撞交换速度', '二维碰撞分方向守恒'],
+    keyPoints: ['动量守恒看“外力冲量”，不是看“有没有力” · Momentum conservation depends on the external impulse, not on whether any force exists', '弹性碰撞动能守恒，非弹性不守恒 · Kinetic energy is conserved in an elastic collision and is not conserved in an inelastic one', '完全非弹性碰撞共同速度由动量守恒决定 · The common speed in a perfectly inelastic collision is fixed by momentum conservation', '等质量弹性碰撞交换速度 · In an equal-mass elastic collision the velocities are exchanged', '二维碰撞分方向守恒 · A two-dimensional collision is conserved separately along each direction'],
     misconceptions: [
-      '认为有摩擦力就绝对不能守恒（要看外力冲量是否可忽略）',
-      '在完全非弹性碰撞中仍用动能守恒',
-      '把动量守恒写成标量方程而忽略方向',
-      '认为弹性碰撞“没有能量损失”所以速度不变',
-      '二维碰撞只写一个方向的方程',
+      '认为有摩擦力就绝对不能守恒（要看外力冲量是否可忽略） · Thinking friction makes conservation impossible; check whether the external impulse is negligible',
+      '在完全非弹性碰撞中仍用动能守恒 · Still using conservation of kinetic energy in a perfectly inelastic collision',
+      '把动量守恒写成标量方程而忽略方向 · Writing momentum conservation as a scalar equation and ignoring direction',
+      '认为弹性碰撞“没有能量损失”所以速度不变 · Thinking an elastic collision has “no energy loss,” so the speeds stay the same',
+      '二维碰撞只写一个方向的方程 · Writing only one direction’s equation for a two-dimensional collision',
     ],
     examples: [
       {
@@ -3820,10 +3820,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：动量守恒与碰撞',
-      '先判断碰撞类型，再决定是否加动能方程',
-      '二维碰撞分别写 \\(x\\)、\\(y\\) 动量守恒',
-      '弹道摆分两段：碰撞用动量，摆起用能量',
+      'CED Unit 4：动量守恒与碰撞 · CED Unit 4, conservation of momentum and collisions',
+      '先判断碰撞类型，再决定是否加动能方程 · First identify the type of collision, then decide whether to add an energy equation',
+      '二维碰撞分别写 \\(x\\)、\\(y\\) 动量守恒 · In two dimensions, write momentum conservation separately for \\(x\\) and \\(y\\)',
+      '弹道摆分两段：碰撞用动量，摆起用能量 · A ballistic pendulum has two stages: momentum for the collision and energy for the swing',
     ],
     related: [
       { subject: 'mech', chapterId: 'mech-u4', code: '4.1', title: '冲量与动量', relation: '先修' },
@@ -5500,9 +5500,9 @@ export const ENRICHMENTS = {
   'bio/bio-u1/1.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分糖类、脂质、蛋白质与核酸的单体、聚合物与官能团。',
-      '能解释脱水缩合与水解的方向，并计算连接数或水分子数。',
-      '能用单体种类、连接方式与序列解释生物大分子的结构—功能关系。',
+      '能区分糖类、脂质、蛋白质与核酸的单体、聚合物与官能团。 · Distinguish the monomers, polymers, and functional groups of carbohydrates, lipids, proteins, and nucleic acids.',
+      '能解释脱水缩合与水解的方向，并计算连接数或水分子数。 · Explain the directions of dehydration synthesis and hydrolysis, and calculate the number of links or water molecules.',
+      '能用单体种类、连接方式与序列解释生物大分子的结构—功能关系。 · Use monomer type, linkage, and sequence to explain the structure–function relationship of a biological macromolecule.',
     ],
     essentialKnowledge: [
       '糖类、蛋白质与核酸由重复单体经脱水缩合连接；脂质通常不是由单一重复单体构成的聚合物。',
@@ -5530,13 +5530,13 @@ export const ENRICHMENTS = {
       { latex: '(\\mathrm{C_6H_{10}O_5})_n', note: '淀粉/纤维素等多糖的简化式。' },
     ],
     conditions: ['脱水缩合需要单体具有可反应的官能团（如 —OH、—NH₂、—COOH）', '水解需要水与相应酶', '蛋白质功能依赖正确折叠，折叠由一级结构与环境决定', '脂质并非都由同一类单体聚合，部分脂质不是严格意义上的聚合物', '核酸的遗传信息由碱基序列而非糖—磷酸骨架决定'],
-    keyPoints: ['四类大分子的单体与聚合物对应关系', '脱水缩合形成共价键并释放水', '水解是消化的化学基础', '结构决定功能：序列 → 折叠 → 活性', '碳骨架与官能团决定化学性质'],
+    keyPoints: ['四类大分子的单体与聚合物对应关系 · How the monomers and polymers of the four macromolecule classes correspond', '脱水缩合形成共价键并释放水 · Dehydration synthesis forms a covalent bond and releases water', '水解是消化的化学基础 · Hydrolysis is the chemical basis of digestion', '结构决定功能：序列 → 折叠 → 活性 · Structure determines function: sequence → folding → activity', '碳骨架与官能团决定化学性质 · The carbon skeleton and functional groups determine chemical properties'],
     misconceptions: [
-      '认为所有脂质都是聚合物（类固醇等并非由单体重复连接）',
-      '把脱水缩合与水解的方向弄反',
-      '认为蛋白质的功能只由氨基酸种类决定，忽略顺序与折叠',
-      '把核酸的遗传信息归因于磷酸基团',
-      '认为碳水化合物只供能，忽略纤维素等结构功能',
+      '认为所有脂质都是聚合物（类固醇等并非由单体重复连接） · Thinking every lipid is a polymer; steroids, for example, are not built by repeating a monomer',
+      '把脱水缩合与水解的方向弄反 · Reversing the directions of dehydration synthesis and hydrolysis',
+      '认为蛋白质的功能只由氨基酸种类决定，忽略顺序与折叠 · Thinking a protein’s function is fixed only by which amino acids it contains, ignoring order and folding',
+      '把核酸的遗传信息归因于磷酸基团 · Attributing the genetic information of a nucleic acid to the phosphate group',
+      '认为碳水化合物只供能，忽略纤维素等结构功能 · Thinking carbohydrates only supply energy, and ignoring structural roles such as cellulose',
     ],
     examples: [
       {
@@ -5559,10 +5559,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 1：生命化学',
-      '用“单体—聚合物—键—功能”链条回答',
-      '脱水缩合 vs 水解的方向要写清',
-      '蛋白质题强调序列、折叠与活性位点',
+      'CED Unit 1：生命化学 · CED Unit 1, chemistry of life',
+      '用“单体—聚合物—键—功能”链条回答 · Answer with the chain monomer—polymer—bond—function',
+      '脱水缩合 vs 水解的方向要写清 · State the directions of dehydration synthesis and hydrolysis clearly',
+      '蛋白质题强调序列、折叠与活性位点 · Protein questions emphasize sequence, folding, and the active site',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.2', title: '元素与大分子', relation: '先修' },
@@ -5578,9 +5578,9 @@ export const ENRICHMENTS = {
   'bio/bio-u1/1.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能解释酶如何降低活化能而不改变 ΔG 与平衡。',
-      '能读米氏曲线并说明 \\(V_{\\max}\\) 与 \\(K_m\\) 的含义。',
-      '能预测竞争性、非竞争性抑制剂对 \\(K_m\\) 与 \\(V_{\\max}\\) 的影响。',
+      '能解释酶如何降低活化能而不改变 ΔG 与平衡。 · Explain how an enzyme lowers activation energy without changing ΔG or the equilibrium.',
+      '能读米氏曲线并说明 \\(V_{\\max}\\) 与 \\(K_m\\) 的含义。 · Read a Michaelis–Menten curve and state what \\(V_{\\max}\\) and \\(K_m\\) mean.',
+      '能预测竞争性、非竞争性抑制剂对 \\(K_m\\) 与 \\(V_{\\max}\\) 的影响。 · Predict how competitive and noncompetitive inhibitors change \\(K_m\\) and \\(V_{\\max}\\).',
     ],
     essentialKnowledge: [
       '酶与底物在活性位点特异性结合，稳定过渡态并降低 \\(E_a\\)；反应前后酶不被消耗。',
@@ -5608,13 +5608,13 @@ export const ENRICHMENTS = {
       { latex: '\\Delta G^{\\circ\\prime}=-RT\\ln K_{\\mathrm{eq}}', note: '酶不改变 \\(\\Delta G^{\\circ\\prime}\\) 或 \\(K_{\\mathrm{eq}}\\)。' },
     ],
     conditions: ['酶具有特异性，活性位点形状与化学性质决定底物选择', '适宜温度与 pH；高温、过酸、过碱可使其变性', '底物浓度足够高时速率趋于 \\(V_{\\max}\\)', '许多酶需要金属离子或辅酶', '别构酶不服从简单米氏动力学'],
-    keyPoints: ['降低 \\(E_a\\)，不改变 \\(\\Delta G\\)', '活性位点决定特异性', '酶可重复使用、微量高效', '温度、pH、抑制剂、辅因子调节活性', '一级结构决定折叠与活性位点'],
+    keyPoints: ['降低 \\(E_a\\)，不改变 \\(\\Delta G\\) · It lowers \\(E_a\\) and does not change \\(\\Delta G\\)', '活性位点决定特异性 · The active site determines specificity', '酶可重复使用、微量高效 · An enzyme can be reused and is effective in tiny amounts', '温度、pH、抑制剂、辅因子调节活性 · Temperature, pH, inhibitors, and cofactors regulate activity', '一级结构决定折叠与活性位点 · Primary structure determines folding and the active site'],
     misconceptions: [
-      '认为酶提供能量或改变平衡常数',
-      '认为酶在反应中被消耗',
-      '认为温度越高越好（高温变性）',
-      '把竞争性抑制剂（影响 \\(K_m\\)）与非竞争性抑制剂（影响 \\(V_{\\max}\\)）混淆',
-      '认为所有酶都是蛋白质（忽略核酶）',
+      '认为酶提供能量或改变平衡常数 · Thinking an enzyme supplies energy or changes the equilibrium constant',
+      '认为酶在反应中被消耗 · Thinking the enzyme is consumed in the reaction',
+      '认为温度越高越好（高温变性） · Thinking hotter is always better, ignoring heat denaturation',
+      '把竞争性抑制剂（影响 \\(K_m\\)）与非竞争性抑制剂（影响 \\(V_{\\max}\\)）混淆 · Confusing a competitive inhibitor, which affects \\(K_m\\), with a noncompetitive inhibitor, which affects \\(V_{\\max}\\)',
+      '认为所有酶都是蛋白质（忽略核酶） · Thinking every enzyme is a protein, and ignoring ribozymes',
     ],
     examples: [
       {
@@ -5637,10 +5637,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 1 / Unit 3：酶结构与催化',
-      '实验题：温度、pH、底物浓度曲线；区分“变性”与“抑制”',
-      'FRQ 用“结构 → 功能 → 证据”链条作答',
-      '抑制剂题写清 \\(K_m\\) 与 \\(V_{\\max}\\) 的变化',
+      'CED Unit 1 / Unit 3：酶结构与催化 · CED Units 1 and 3, enzyme structure and catalysis',
+      '实验题：温度、pH、底物浓度曲线；区分“变性”与“抑制” · In experiments, read temperature, pH, and substrate-concentration curves, and distinguish denaturation from inhibition',
+      'FRQ 用“结构 → 功能 → 证据”链条作答 · On free response, use the chain structure → function → evidence',
+      '抑制剂题写清 \\(K_m\\) 与 \\(V_{\\max}\\) 的变化 · For an inhibitor, state the changes in \\(K_m\\) and \\(V_{\\max}\\)',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-prep-hs', code: 'P2.5', title: '酶', relation: '先修' },
@@ -5655,9 +5655,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用水势公式计算溶质势与总水势。',
-      '能根据两侧水势判断水的净移动方向。',
-      '能解释植物膨压、质壁分离与动物细胞渗透反应。',
+      '能用水势公式计算溶质势与总水势。 · Use the water-potential equation to calculate solute potential and total water potential.',
+      '能根据两侧水势判断水的净移动方向。 · Use the water potentials on the two sides to decide the net direction of water movement.',
+      '能解释植物膨压、质壁分离与动物细胞渗透反应。 · Explain plant turgor, plasmolysis, and the osmotic response of an animal cell.',
     ],
     essentialKnowledge: [
       '\\(\\Psi=\\Psi_s+\\Psi_p\\)；纯水在标准大气压下水势为 0。',
@@ -5685,13 +5685,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{水从 }\\psi\\text{ 高}\\rightarrow\\psi\\text{ 低}', note: '渗透方向判据。' },
     ],
     conditions: ['膜对水可透、对溶质选择透过', '\\(T\\) 必须用开尔文温度', '开放容器中 \\(\\psi_p=0\\)；植物细胞膨压使 \\(\\psi_p>0\\)', '\\(i\\) 反映溶质解离的粒子数（NaCl 约 2，葡萄糖约 1）', '水势是相对值，需指定参考状态'],
-    keyPoints: ['纯水水势为 0（标准压力下）', '溶质降低水势，故 \\(\\psi_s\\le0\\)', '压力势可正可负（动物细胞可为负）', '水从高水势流向低水势', '植物细胞靠膨压维持直立'],
+    keyPoints: ['纯水水势为 0（标准压力下） · The water potential of pure water is 0 at standard pressure', '溶质降低水势，故 \\(\\psi_s\\le0\\) · Solute lowers water potential, so \\(\\psi_s\\le 0\\)', '压力势可正可负（动物细胞可为负） · Pressure potential can be positive or negative (it can be negative in an animal cell)', '水从高水势流向低水势 · Water moves from higher water potential to lower water potential', '植物细胞靠膨压维持直立 · Plant cells stay upright because of turgor pressure'],
     misconceptions: [
-      '认为水从溶质浓度高的一侧流向低的一侧（应看水势，不是单一浓度）',
-      '忽略压力势，只算溶质势',
-      '温度用摄氏度代入 \\(\\psi_s=-iCRT\\)',
-      '认为动物细胞在纯水中也会像植物细胞一样产生膨压',
-      '把质壁分离与细胞凋亡混为一谈',
+      '认为水从溶质浓度高的一侧流向低的一侧（应看水势，不是单一浓度） · Thinking water flows from the side of higher solute concentration to the side of lower solute concentration; use water potential, not concentration alone',
+      '忽略压力势，只算溶质势 · Ignoring pressure potential and calculating only solute potential',
+      '温度用摄氏度代入 \\(\\psi_s=-iCRT\\) · Substituting a Celsius temperature into \\(\\psi_s=-iCRT\\)',
+      '认为动物细胞在纯水中也会像植物细胞一样产生膨压 · Thinking an animal cell in pure water builds turgor the way a plant cell does',
+      '把质壁分离与细胞凋亡混为一谈 · Confusing plasmolysis with apoptosis',
     ],
     examples: [
       {
@@ -5716,11 +5716,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞膜与运输',
-      '先算两侧水势，再判断水流方向',
-      '\\(\\psi_s=-iCRT\\) 中温度用 K，\\(i\\) 别漏',
-      '植物细胞记得加压力势；动物细胞通常 \\(\\psi_p=0\\)',
-      '实验题常用质壁分离判断外界溶液浓度',
+      'CED Unit 2：细胞膜与运输 · CED Unit 2, membrane and transport',
+      '先算两侧水势，再判断水流方向 · First calculate the water potential on both sides, then judge the direction of water flow',
+      '\\(\\psi_s=-iCRT\\) 中温度用 K，\\(i\\) 别漏 · In \\(\\psi_s=-iCRT\\), use temperature in kelvin and do not forget \\(i\\)',
+      '植物细胞记得加压力势；动物细胞通常 \\(\\psi_p=0\\) · Remember to add pressure potential for a plant cell; for an animal cell, usually \\(\\psi_p=0\\)',
+      '实验题常用质壁分离判断外界溶液浓度 · Plasmolysis experiments are often used to judge the concentration of the external solution',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.4', title: '膜通透性', relation: '先修' },
@@ -5735,9 +5735,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.8': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分原发性与继发性主动运输的能量来源。',
-      '能说明 Na⁺/K⁺ 泵的化学计量与生电效应。',
-      '能计算逆浓度梯度运输所需的最小自由能并与 ATP 供能比较。',
+      '能区分原发性与继发性主动运输的能量来源。 · Distinguish the energy source of primary and secondary active transport.',
+      '能说明 Na⁺/K⁺ 泵的化学计量与生电效应。 · State the stoichiometry of the Na⁺/K⁺ pump and its electrogenic effect.',
+      '能计算逆浓度梯度运输所需的最小自由能并与 ATP 供能比较。 · Calculate the minimum free energy needed to move a solute against its gradient and compare it with the energy from ATP.',
     ],
     essentialKnowledge: [
       '原发性主动运输直接水解 ATP；继发性主动运输利用已建立的离子梯度。',
@@ -5765,13 +5765,13 @@ export const ENRICHMENTS = {
       { latex: '\\Delta G=RT\\ln\\dfrac{C_2}{C_1}+zF\\Delta V', note: '逆电化学梯度运输的自由能代价。' },
     ],
     conditions: ['需要载体蛋白（泵或协同转运体）', '需要能量：直接 ATP 或现成离子梯度', '运输方向逆浓度/电化学梯度', '载体具有特异性，可被饱和', '膜必须保持完整性；ATP 供应不足时泵停止'],
-    keyPoints: ['原发性主动运输直接消耗 ATP', '继发性主动运输利用离子梯度', 'Na⁺/K⁺ 泵维持膜电位与渗透平衡', '主动运输可建立并维持浓度差', '与 facilitated diffusion 的区别是“是否耗能、是否逆梯度”'],
+    keyPoints: ['原发性主动运输直接消耗 ATP · Primary active transport spends ATP directly', '继发性主动运输利用离子梯度 · Secondary active transport uses an ion gradient', 'Na⁺/K⁺ 泵维持膜电位与渗透平衡 · The Na⁺/K⁺ pump maintains membrane potential and osmotic balance', '主动运输可建立并维持浓度差 · Active transport can build and maintain a concentration difference', '与 facilitated diffusion 的区别是“是否耗能、是否逆梯度” · It differs from facilitated diffusion in whether energy is spent and whether movement is against the gradient'],
     misconceptions: [
-      '认为主动运输不需要载体',
-      '把继发性主动运输当作不耗能（它间接依赖 ATP）',
-      '认为 Na⁺/K⁺ 泵 1:1 交换（实际 3:2）',
-      '把主动运输与胞吞胞吐混为一谈',
-      '认为主动运输可以无限加速（载体会饱和）',
+      '认为主动运输不需要载体 · Thinking active transport does not need a carrier',
+      '把继发性主动运输当作不耗能（它间接依赖 ATP） · Treating secondary active transport as energy-free; it depends on ATP indirectly',
+      '认为 Na⁺/K⁺ 泵 1:1 交换（实际 3:2） · Thinking the Na⁺/K⁺ pump exchanges ions 1:1; the actual ratio is 3:2',
+      '把主动运输与胞吞胞吐混为一谈 · Confusing active transport with endocytosis and exocytosis',
+      '认为主动运输可以无限加速（载体会饱和） · Thinking active transport can speed up without limit; carriers saturate',
     ],
     examples: [
       {
@@ -5794,11 +5794,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：膜运输',
-      '先判断顺/逆梯度，再判断是否耗能',
-      '继发性主动运输要指出“利用什么梯度”',
-      'Na⁺/K⁺ 泵的 3:2 化学计量常考',
-      '缺氧会间接抑制主动运输',
+      'CED Unit 2：膜运输 · CED Unit 2, membrane transport',
+      '先判断顺/逆梯度，再判断是否耗能 · First decide whether movement is with or against the gradient, then whether energy is spent',
+      '继发性主动运输要指出“利用什么梯度” · For secondary active transport, name the gradient that is used',
+      'Na⁺/K⁺ 泵的 3:2 化学计量常考 · The 3:2 stoichiometry of the Na⁺/K⁺ pump is commonly tested',
+      '缺氧会间接抑制主动运输 · Lack of oxygen indirectly inhibits active transport',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.5', title: '膜运输', relation: '先修' },
@@ -5814,9 +5814,9 @@ export const ENRICHMENTS = {
   'bio/bio-u4/4.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能按“接收—转导—响应”描述一条信号通路。',
-      '能比较 G 蛋白偶联受体、受体酪氨酸激酶与细胞内受体。',
-      '能解释级联放大与信号终止为何同等重要。',
+      '能按“接收—转导—响应”描述一条信号通路。 · Describe a signaling pathway as reception, transduction, and response.',
+      '能比较 G 蛋白偶联受体、受体酪氨酸激酶与细胞内受体。 · Compare G-protein-coupled receptors, receptor tyrosine kinases, and intracellular receptors.',
+      '能解释级联放大与信号终止为何同等重要。 · Explain why cascade amplification and signal termination are equally important.',
     ],
     essentialKnowledge: [
       '配体与受体特异性结合引起受体构象改变，启动细胞内信号传递。',
@@ -5843,13 +5843,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{1 个配体}\\to\\text{多个第二信使}\\to\\text{放大响应}', note: '级联放大的定性关系。' },
     ],
     conditions: ['受体与配体具有特异性', '信号可局部作用（旁分泌/自分泌）或经血液长距离作用（内分泌）', '通路需要放大与终止机制', '同一信号在不同细胞可产生不同响应', '受体数量与敏感性可被调节'],
-    keyPoints: ['接收—转导—响应三步', '第二信使放大信号', '磷酸化级联可放大也可整合', '信号必须能终止', '同一配体在不同细胞响应不同'],
+    keyPoints: ['接收—转导—响应三步 · Three steps: reception, transduction, and response', '第二信使放大信号 · Second messengers amplify the signal', '磷酸化级联可放大也可整合 · A phosphorylation cascade can amplify and also integrate signals', '信号必须能终止 · A signal must be able to stop', '同一配体在不同细胞响应不同 · The same ligand can produce different responses in different cells'],
     misconceptions: [
-      '认为配体进入细胞才能起作用（多数亲水配体不进入）',
-      '把信号转导与信号接收混为一谈',
-      '认为放大等于失控（需要终止机制）',
-      '认为一种信号只产生一种响应',
-      '忽略受体在膜上还是胞内',
+      '认为配体进入细胞才能起作用（多数亲水配体不进入） · Thinking a ligand must enter the cell to act; most hydrophilic ligands do not enter',
+      '把信号转导与信号接收混为一谈 · Confusing signal transduction with signal reception',
+      '认为放大等于失控（需要终止机制） · Thinking amplification means the signal is out of control; a termination mechanism is required',
+      '认为一种信号只产生一种响应 · Thinking one signal produces only one response',
+      '忽略受体在膜上还是胞内 · Ignoring whether the receptor is on the membrane or inside the cell',
     ],
     examples: [
       {
@@ -5872,10 +5872,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 4：细胞通讯',
-      '用“配体—受体—第二信使—效应器—响应”链条作答',
-      '区分亲水配体（膜受体）与疏水配体（胞内受体）',
-      '说明放大与终止，避免只写“信号传递”',
+      'CED Unit 4：细胞通讯 · CED Unit 4, cell communication',
+      '用“配体—受体—第二信使—效应器—响应”链条作答 · Answer with the chain ligand—receptor—second messenger—effector—response',
+      '区分亲水配体（膜受体）与疏水配体（胞内受体） · Distinguish a hydrophilic ligand (membrane receptor) from a hydrophobic ligand (intracellular receptor)',
+      '说明放大与终止，避免只写“信号传递” · Explain both amplification and termination; do not write only “the signal is transmitted”',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u4', code: '4.1', title: '细胞通讯', relation: '先修' },
@@ -5890,9 +5890,9 @@ export const ENRICHMENTS = {
   'bio/bio-u5/5.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用分离定律与自由组合定律计算单基因、双基因杂交概率。',
-      '能用测交判断显性个体的基因型。',
-      '能用卡方检验判断观察值是否符合孟德尔比例。',
+      '能用分离定律与自由组合定律计算单基因、双基因杂交概率。 · Use the laws of segregation and independent assortment to calculate probabilities for one-gene and two-gene crosses.',
+      '能用测交判断显性个体的基因型。 · Use a testcross to determine the genotype of a dominant individual.',
+      '能用卡方检验判断观察值是否符合孟德尔比例。 · Use a chi-square test to judge whether observations fit a Mendelian ratio.',
     ],
     essentialKnowledge: [
       '分离定律：同源染色体上的等位基因在减数第一次分裂分离，各自进入不同配子。',
@@ -5920,13 +5920,13 @@ export const ENRICHMENTS = {
       { latex: 'P(A\\text{ 且 }B)=P(A)P(B)', note: '独立事件乘法规则。' },
     ],
     conditions: ['二倍体、有性生殖', '减数分裂正常，同源染色体分离', '受精随机且样本足够大', '完全显性时表型比才为 3:1/9:3:3:1', '自由组合要求基因位于非同源染色体上（或距离足够远）'],
-    keyPoints: ['分离定律：等位基因进入不同配子', '自由组合：非同源基因独立分配', '3:1 与 9:3:3:1 是理想比', '测交判断显性个体基因型', '概率用乘法和加法'],
+    keyPoints: ['分离定律：等位基因进入不同配子 · Law of segregation: alleles enter different gametes', '自由组合：非同源基因独立分配 · Law of independent assortment: genes on different chromosomes assort independently', '3:1 与 9:3:3:1 是理想比 · 3:1 and 9:3:3:1 are ideal ratios', '测交判断显性个体基因型 · A testcross determines the genotype of a dominant individual', '概率用乘法和加法 · Probability uses multiplication and addition'],
     misconceptions: [
-      '认为显性等位基因一定更常见',
-      '把基因型比与表型比混淆',
-      '认为 3:1 在所有杂交中都成立',
-      '忽略连锁对 9:3:3:1 的影响',
-      '认为测交需要知道显性个体的基因型',
+      '认为显性等位基因一定更常见 · Thinking a dominant allele must be more common',
+      '把基因型比与表型比混淆 · Confusing a genotype ratio with a phenotype ratio',
+      '认为 3:1 在所有杂交中都成立 · Thinking 3:1 holds in every cross',
+      '忽略连锁对 9:3:3:1 的影响 · Ignoring the effect of linkage on 9:3:3:1',
+      '认为测交需要知道显性个体的基因型 · Thinking a testcross requires that you already know the dominant individual’s genotype',
     ],
     examples: [
       {
@@ -5951,11 +5951,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 5：遗传',
-      '先写亲本基因型，再列配子，最后算概率',
-      '区分基因型比与表型比',
-      '自由组合题先判断基因是否连锁',
-      '测交用于判断显性个体基因型',
+      'CED Unit 5：遗传 · CED Unit 5, heredity',
+      '先写亲本基因型，再列配子，最后算概率 · First write the parental genotypes, then list the gametes, and finally calculate the probability',
+      '区分基因型比与表型比 · Distinguish a genotype ratio from a phenotype ratio',
+      '自由组合题先判断基因是否连锁 · In an independent-assortment problem, first decide whether the genes are linked',
+      '测交用于判断显性个体基因型 · A testcross is used to determine the genotype of a dominant individual',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u5', code: '5.1', title: '减数分裂', relation: '先修' },
@@ -5971,9 +5971,9 @@ export const ENRICHMENTS = {
   'bio/bio-u5/5.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分不完全显性、共显性与完全显性。',
-      '能解 ABO 血型与伴 X 隐性遗传的概率题。',
-      '能解释多效性、上位效应、多基因遗传与母系遗传。',
+      '能区分不完全显性、共显性与完全显性。 · Distinguish incomplete dominance, codominance, and complete dominance.',
+      '能解 ABO 血型与伴 X 隐性遗传的概率题。 · Solve probability problems for ABO blood type and X-linked recessive inheritance.',
+      '能解释多效性、上位效应、多基因遗传与母系遗传。 · Explain pleiotropy, epistasis, polygenic inheritance, and maternal inheritance.',
     ],
     essentialKnowledge: [
       '不完全显性时杂合子表型居中，基因型比等于表型比；共显性时两个等位基因同时表达。',
@@ -6000,13 +6000,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{不完全显性}:\\;AA\\times aa\\Rightarrow Aa\\text{ 中间表型}', note: '杂合子表型居中。' },
     ],
     conditions: ['不完全显性/共显性改变的是表型表现，不是分离定律', '复等位基因在群体中可有多个版本，但每个二倍体个体最多两个', '上位效应涉及两个或更多基因的相互作用', '多基因性状通常连续分布并受环境影响', '伴性遗传的比在两性间不同'],
-    keyPoints: ['不完全显性：杂合子居中', '共显性：两个等位基因同时表达', '复等位基因：群体多版本、个体两个', '上位效应：一个基因掩盖另一个', '多基因遗传：连续性状、环境也起作用'],
+    keyPoints: ['不完全显性：杂合子居中 · Incomplete dominance: the heterozygote is intermediate', '共显性：两个等位基因同时表达 · Codominance: both alleles are expressed at the same time', '复等位基因：群体多版本、个体两个 · Multiple alleles: many versions in the population, two in an individual', '上位效应：一个基因掩盖另一个 · Epistasis: one gene masks another', '多基因遗传：连续性状、环境也起作用 · Polygenic inheritance: continuous traits, and the environment also matters'],
     misconceptions: [
-      '认为非孟德尔遗传违反分离定律',
-      '把不完全显性与共显性混为一谈',
-      '认为复等位基因意味着一个个体有很多个等位基因',
-      '把多基因遗传与多效性混淆（前者多基因一性状，后者一基因多性状）',
-      '认为伴性遗传只影响男性',
+      '认为非孟德尔遗传违反分离定律 · Thinking non-Mendelian inheritance violates the law of segregation',
+      '把不完全显性与共显性混为一谈 · Confusing incomplete dominance with codominance',
+      '认为复等位基因意味着一个个体有很多个等位基因 · Thinking multiple alleles means one individual has many alleles',
+      '把多基因遗传与多效性混淆（前者多基因一性状，后者一基因多性状） · Confusing polygenic inheritance with pleiotropy: the first is many genes for one trait, the second is one gene for many traits',
+      '认为伴性遗传只影响男性 · Thinking sex-linked inheritance affects only males',
     ],
     examples: [
       {
@@ -6029,11 +6029,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 5：非孟德尔遗传',
-      '先判断是显性关系、基因互作还是染色体位置',
-      '不完全显性与共显性的区别用“混合 vs 同时表达”',
-      '伴性遗传写清性别与基因型',
-      '多基因性状强调连续分布与环境',
+      'CED Unit 5：非孟德尔遗传 · CED Unit 5, non-Mendelian inheritance',
+      '先判断是显性关系、基因互作还是染色体位置 · First decide whether the issue is dominance, gene interaction, or chromosomal location',
+      '不完全显性与共显性的区别用“混合 vs 同时表达” · Distinguish incomplete dominance from codominance as blending versus simultaneous expression',
+      '伴性遗传写清性别与基因型 · For sex-linked inheritance, state both the sex and the genotype',
+      '多基因性状强调连续分布与环境 · Polygenic traits emphasize a continuous distribution and the environment',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u5', code: '5.3', title: '孟德尔遗传', relation: '先修' },
@@ -6048,9 +6048,9 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能比较 DNA 与 RNA 的糖、碱基、链数与方向性。',
-      '能写出互补链并应用 A–T、G–C、A–U 配对规则。',
-      '能用查加夫规则计算双链 DNA 的碱基组成。',
+      '能比较 DNA 与 RNA 的糖、碱基、链数与方向性。 · Compare the sugar, bases, strand number, and directionality of DNA and RNA.',
+      '能写出互补链并应用 A–T、G–C、A–U 配对规则。 · Write a complementary strand and apply the A–T, G–C, and A–U pairing rules.',
+      '能用查加夫规则计算双链 DNA 的碱基组成。 · Use Chargaff’s rules to calculate the base composition of double-stranded DNA.',
     ],
     essentialKnowledge: [
       '核苷酸由五碳糖、磷酸与含氮碱基组成；DNA 含脱氧核糖与 T，RNA 含核糖与 U。',
@@ -6077,14 +6077,14 @@ export const ENRICHMENTS = {
       { latex: 'A+G=T+C', note: '查加夫规则（嘌呤 = 嘧啶）。' },
       { latex: '\\text{DNA}:\\;5\'\\to3\'\\text{ 新链沿模板 }3\'\\to5\'\\text{ 读取}', note: '方向性。' },
     ],
-    conditions: ['DNA 双链反向平行', '碱基配对具有特异性：A–T、G–C（RNA 中 A–U）', '氢键维持配对，磷酸二酯键维持骨架', 'RNA 通常单链，但可形成局部二级结构', 'GC 含量影响热稳定性'],
-    keyPoints: ['核苷酸 = 磷酸 + 糖 + 碱基', 'DNA 双链反向平行', 'A–T、G–C 互补配对', 'RNA 含核糖与 U，通常单链', '5\'→3\' 方向性决定复制与转录方向'],
+    conditions: ['DNA 双链反向平行 · The two DNA strands are antiparallel', '碱基配对具有特异性：A–T、G–C（RNA 中 A–U）', '氢键维持配对，磷酸二酯键维持骨架', 'RNA 通常单链，但可形成局部二级结构', 'GC 含量影响热稳定性'],
+    keyPoints: ['核苷酸 = 磷酸 + 糖 + 碱基 · A nucleotide = phosphate + sugar + base', 'DNA 双链反向平行 · The two DNA strands are antiparallel', 'A–T、G–C 互补配对 · A pairs with T and G pairs with C', 'RNA 含核糖与 U，通常单链 · RNA contains ribose and U and is usually single-stranded', '5\'→3\' 方向性决定复制与转录方向 · 5′→3′ directionality sets the direction of replication and transcription'],
     misconceptions: [
-      '认为 A 与 G 配对（应按嘌呤—嘧啶互补）',
-      '认为 DNA 两条链方向相同',
-      '把 RNA 的 U 与 DNA 的 T 混淆',
-      '认为氢键是共价键（氢键较弱，可解链）',
-      '认为 GC 含量与生物复杂度直接成正比',
+      '认为 A 与 G 配对（应按嘌呤—嘧啶互补） · Thinking A pairs with G; pairing is purine with pyrimidine',
+      '认为 DNA 两条链方向相同 · Thinking the two DNA strands run in the same direction',
+      '把 RNA 的 U 与 DNA 的 T 混淆 · Confusing U in RNA with T in DNA',
+      '认为氢键是共价键（氢键较弱，可解链） · Thinking a hydrogen bond is covalent; hydrogen bonds are weaker and allow the strands to separate',
+      '认为 GC 含量与生物复杂度直接成正比 · Thinking GC content is directly proportional to biological complexity',
     ],
     examples: [
       {
@@ -6107,11 +6107,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达与调控',
-      '写核酸序列必须标 \\(5\'\\to3\'\\) 方向',
-      'A–T、G–C 配对与氢键数目常考',
-      'RNA 用 U，DNA 用 T',
-      '查加夫规则用于碱基比例计算',
+      'CED Unit 6：基因表达与调控 · CED Unit 6, gene expression and regulation',
+      '写核酸序列必须标 \\(5\'\\to3\'\\) 方向 · A nucleic-acid sequence must be labeled in the \\(5\'\\to 3\'\\) direction',
+      'A–T、G–C 配对与氢键数目常考 · A–T and G–C pairing and the number of hydrogen bonds are commonly tested',
+      'RNA 用 U，DNA 用 T · RNA uses U; DNA uses T',
+      '查加夫规则用于碱基比例计算 · Chargaff’s rules are used to calculate base proportions',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.5', title: '核酸', relation: '先修' },
@@ -6127,9 +6127,9 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能由模板链或编码链写出转录产物并标明方向。',
-      '能描述真核 pre-mRNA 的加帽、加尾与剪接。',
-      '能解释可变剪接如何增加蛋白质多样性。',
+      '能由模板链或编码链写出转录产物并标明方向。 · Write the transcription product from the template or coding strand and mark its direction.',
+      '能描述真核 pre-mRNA 的加帽、加尾与剪接。 · Describe capping, tailing, and splicing of eukaryotic pre-mRNA.',
+      '能解释可变剪接如何增加蛋白质多样性。 · Explain how alternative splicing increases protein diversity.',
     ],
     essentialKnowledge: [
       'RNA 聚合酶沿模板链 3′→5′ 读取，合成 RNA 5′→3′。',
@@ -6156,13 +6156,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{前体 mRNA}\\to\\text{加帽}+\\text{加尾}+\\text{剪接}\\to\\text{成熟 mRNA}', note: '真核 RNA 加工。' },
     ],
     conditions: ['需要 RNA 聚合酶、启动子与核糖核苷三磷酸', '模板链决定 RNA 序列', '真核转录在细胞核，翻译在细胞质', '剪接要求识别外显子—内含子边界', '可变剪接可产生多种成熟 mRNA'],
-    keyPoints: ['RNA 聚合酶读模板 \\(3\'\\to5\'\\)、合成 \\(5\'\\to3\'\\)', 'RNA 与编码链相同（U 替 T）', '真核前体 mRNA 需加帽、加尾、剪接', '内含子不编码，外显子保留在成熟 mRNA', '可变剪接增加蛋白质多样性'],
+    keyPoints: ['RNA 聚合酶读模板 \\(3\'\\to5\'\\)、合成 \\(5\'\\to3\'\\) · RNA polymerase reads the template \\(3\'\\to 5\'\\) and synthesizes \\(5\'\\to 3\'\\)', 'RNA 与编码链相同（U 替 T） · RNA matches the coding strand, with U in place of T', '真核前体 mRNA 需加帽、加尾、剪接 · Eukaryotic pre-mRNA must be capped, tailed, and spliced', '内含子不编码，外显子保留在成熟 mRNA · Introns are not translated; exons remain in mature mRNA', '可变剪接增加蛋白质多样性 · Alternative splicing increases protein diversity'],
     misconceptions: [
-      '认为 RNA 聚合酶直接读取编码链',
-      '把模板链与编码链混淆',
-      '认为转录后立即翻译（真核需要加工与出核）',
-      '把内含子当作“无用 DNA”（它们可调控与可变剪接）',
-      '认为所有基因都只产生一种 mRNA',
+      '认为 RNA 聚合酶直接读取编码链 · Thinking RNA polymerase reads the coding strand directly',
+      '把模板链与编码链混淆 · Confusing the template strand with the coding strand',
+      '认为转录后立即翻译（真核需要加工与出核） · Thinking translation follows transcription immediately; eukaryotes need processing and export from the nucleus',
+      '把内含子当作“无用 DNA”（它们可调控与可变剪接） · Treating introns as useless DNA; they can regulate and allow alternative splicing',
+      '认为所有基因都只产生一种 mRNA · Thinking every gene produces only one mRNA',
     ],
     examples: [
       {
@@ -6185,11 +6185,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达',
-      '写 RNA 序列时标 \\(5\'\\to3\'\\)，用 U 替 T',
-      '区分模板链、编码链与 mRNA',
-      '真核加工三件事：帽、尾、剪接',
-      '可变剪接解释“基因数少于蛋白质种类”',
+      'CED Unit 6：基因表达 · CED Unit 6, gene expression',
+      '写 RNA 序列时标 \\(5\'\\to3\'\\)，用 U 替 T · When writing an RNA sequence, mark \\(5\'\\to 3\'\\) and replace T with U',
+      '区分模板链、编码链与 mRNA · Distinguish the template strand, the coding strand, and mRNA',
+      '真核加工三件事：帽、尾、剪接 · Eukaryotic processing has three events: cap, tail, and splicing',
+      '可变剪接解释“基因数少于蛋白质种类” · Alternative splicing explains why there are fewer genes than protein kinds',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.1', title: 'DNA 与 RNA 结构', relation: '先修' },
@@ -6204,9 +6204,9 @@ export const ENRICHMENTS = {
   'bio/bio-u6/6.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能比较原核操纵子与真核转录调控的层次。',
-      '能解释 lac 操纵子在乳糖与葡萄糖变化下的表达逻辑。',
-      '能说明染色质修饰、增强子与可变剪接对基因表达的影响。',
+      '能比较原核操纵子与真核转录调控的层次。 · Compare the levels of regulation in a prokaryotic operon and in eukaryotic transcription.',
+      '能解释 lac 操纵子在乳糖与葡萄糖变化下的表达逻辑。 · Explain the expression logic of the lac operon as lactose and glucose change.',
+      '能说明染色质修饰、增强子与可变剪接对基因表达的影响。 · Explain how chromatin modification, enhancers, and alternative splicing affect gene expression.',
     ],
     essentialKnowledge: [
       '原核生物用操纵子组织功能相关的基因，阻遏蛋白与激活蛋白响应小分子。',
@@ -6233,13 +6233,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{trp operon}:\\;\\text{色氨酸充足}\\Rightarrow\\text{转录 OFF}', note: '负反馈式阻遏。' },
     ],
     conditions: ['原核操纵子中相关基因共转录', '阻遏/激活蛋白需与小分子或 DNA 序列结合', '真核调控涉及染色质结构与远距离增强子', '表观修饰可遗传但不改变 DNA 序列', '调控发生在转录、加工、翻译等多个层次'],
-    keyPoints: ['原核：操纵子、阻遏蛋白、激活蛋白', 'lac 受乳糖与葡萄糖双重控制', 'trp 是辅阻遏调控', '真核：转录因子、增强子、染色质、甲基化', '表达调控是细胞分化的基础'],
+    keyPoints: ['原核：操纵子、阻遏蛋白、激活蛋白 · Prokaryotes: operons, repressors, and activators', 'lac 受乳糖与葡萄糖双重控制 · The lac operon is controlled by both lactose and glucose', 'trp 是辅阻遏调控 · The trp operon is regulated by a corepressor', '真核：转录因子、增强子、染色质、甲基化 · Eukaryotes: transcription factors, enhancers, chromatin, and methylation', '表达调控是细胞分化的基础 · Regulation of expression is the basis of cell differentiation'],
     misconceptions: [
-      '认为 lac 操纵子只受乳糖控制（还受葡萄糖/cAMP 影响）',
-      '把阻遏蛋白与激活蛋白的作用混淆',
-      '认为 DNA 甲基化改变碱基序列',
-      '认为所有调控都发生在转录水平',
-      '认为管家基因与组织特异基因调控方式相同',
+      '认为 lac 操纵子只受乳糖控制（还受葡萄糖/cAMP 影响） · Thinking the lac operon is controlled only by lactose; glucose and cAMP also matter',
+      '把阻遏蛋白与激活蛋白的作用混淆 · Confusing the roles of a repressor and an activator',
+      '认为 DNA 甲基化改变碱基序列 · Thinking DNA methylation changes the base sequence',
+      '认为所有调控都发生在转录水平 · Thinking all regulation happens at transcription',
+      '认为管家基因与组织特异基因调控方式相同 · Thinking housekeeping genes and tissue-specific genes are regulated in the same way',
     ],
     examples: [
       {
@@ -6262,11 +6262,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 6：基因表达调控',
-      'lac 题写清乳糖与葡萄糖两个条件',
-      '区分阻遏（repression）与激活（activation）',
-      '真核调控答“转录因子 + 染色质 + 增强子”',
-      '表观遗传不改变 DNA 序列',
+      'CED Unit 6：基因表达调控 · CED Unit 6, regulation of gene expression',
+      'lac 题写清乳糖与葡萄糖两个条件 · For the lac operon, state both the lactose and the glucose conditions',
+      '区分阻遏（repression）与激活（activation） · Distinguish repression from activation',
+      '真核调控答“转录因子 + 染色质 + 增强子” · For eukaryotic regulation, answer transcription factors, chromatin, and enhancers',
+      '表观遗传不改变 DNA 序列 · Epigenetic change does not alter the DNA sequence',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u6', code: '6.3', title: '转录与 RNA 加工', relation: '先修' },
@@ -6281,9 +6281,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用 \\(p+q=1\\) 与 \\(p^{2}+2pq+q^{2}=1\\) 计算等位基因与基因型频率。',
-      '能由隐性表型频率估算 \\(q\\)、\\(p\\) 与携带者频率。',
-      '能把哈代–温伯格作为检测进化力量的零模型。',
+      '能用 \\(p+q=1\\) 与 \\(p^{2}+2pq+q^{2}=1\\) 计算等位基因与基因型频率。 · Use \\(p+q=1\\) and \\(p^{2}+2pq+q^{2}=1\\) to calculate allele and genotype frequencies.',
+      '能由隐性表型频率估算 \\(q\\)、\\(p\\) 与携带者频率。 · Estimate \\(q\\), \\(p\\), and the carrier frequency from the frequency of the recessive phenotype.',
+      '能把哈代–温伯格作为检测进化力量的零模型。 · Use Hardy–Weinberg as a null model for detecting evolutionary forces.',
     ],
     essentialKnowledge: [
       '\\(p\\) 与 \\(q\\) 是等位基因频率；\\(p^{2}\\)、\\(2pq\\)、\\(q^{2}\\) 是基因型频率。',
@@ -6311,13 +6311,13 @@ export const ENRICHMENTS = {
       { latex: 'q=\\sqrt{q^{2}},\\quad p=1-q', note: '由隐性纯合频率反推等位基因频率。' },
     ],
     conditions: ['种群足够大（漂变可忽略）', '随机交配', '无突变', '无自然选择', '无基因流（迁移）', '这些条件在真实种群中通常不完全满足'],
-    keyPoints: ['\\(p+q=1\\) 与 \\(p^{2}+2pq+q^{2}=1\\)', '\\(q^{2}\\) 是隐性纯合频率', '偏离预期说明进化力量在作用', '哈代–温伯格是零模型，不是“真实种群定律”', '小种群漂变更强'],
+    keyPoints: ['\\(p+q=1\\) 与 \\(p^{2}+2pq+q^{2}=1\\) · \\(p+q=1\\) and \\(p^{2}+2pq+q^{2}=1\\)', '\\(q^{2}\\) 是隐性纯合频率 · \\(q^{2}\\) is the frequency of the recessive homozygote', '偏离预期说明进化力量在作用 · A departure from the prediction means evolutionary forces are acting', '哈代–温伯格是零模型，不是“真实种群定律” · Hardy–Weinberg is a null model, not a law that real populations obey', '小种群漂变更强 · Drift is stronger in a small population'],
     misconceptions: [
-      '认为显性等位基因频率一定高于隐性',
-      '认为哈代–温伯格适用于所有真实种群',
-      '把基因型频率与等位基因频率混为一谈',
-      '忘记开平方就由 \\(q^{2}\\) 得 \\(q\\)',
-      '认为平衡意味着没有突变（而是突变与选择等相互抵消或可忽略）',
+      '认为显性等位基因频率一定高于隐性 · Thinking a dominant allele must be more frequent than a recessive allele',
+      '认为哈代–温伯格适用于所有真实种群 · Thinking Hardy–Weinberg applies to every real population',
+      '把基因型频率与等位基因频率混为一谈 · Confusing genotype frequency with allele frequency',
+      '忘记开平方就由 \\(q^{2}\\) 得 \\(q\\) · Forgetting to take the square root, and reading \\(q\\) directly from \\(q^{2}\\)',
+      '认为平衡意味着没有突变（而是突变与选择等相互抵消或可忽略） · Thinking equilibrium means there is no mutation, rather than that mutation, selection, and the other forces cancel or are negligible',
     ],
     examples: [
       {
@@ -6342,11 +6342,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：群体遗传',
-      '先判断给出的是表型频率还是基因型频率',
-      '隐性纯合频率 = \\(q^{2}\\)，开平方得 \\(q\\)',
-      '写清五个假设，再判断偏离原因',
-      '计算题保留两位小数并检查 \\(p+q=1\\)',
+      'CED Unit 7：群体遗传 · CED Unit 7, population genetics',
+      '先判断给出的是表型频率还是基因型频率 · First decide whether the given number is a phenotype frequency or a genotype frequency',
+      '隐性纯合频率 = \\(q^{2}\\)，开平方得 \\(q\\) · The recessive-homozygote frequency is \\(q^{2}\\); take the square root to get \\(q\\)',
+      '写清五个假设，再判断偏离原因 · State the five assumptions, then judge the cause of a departure',
+      '计算题保留两位小数并检查 \\(p+q=1\\) · In a calculation, keep two decimal places and check \\(p+q=1\\)',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '先修' },
@@ -6361,9 +6361,9 @@ export const ENRICHMENTS = {
   'bio/bio-u1/1.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出氨基酸通式并说明肽键的形成位置与方向。',
-      '能区分蛋白质的一级、二级、三级与四级结构及其稳定作用。',
-      '能解释变性为何破坏高级结构却不一定破坏一级结构。',
+      '能写出氨基酸通式并说明肽键的形成位置与方向。 · Write the general formula of an amino acid and state where and in which direction a peptide bond forms.',
+      '能区分蛋白质的一级、二级、三级与四级结构及其稳定作用。 · Distinguish primary, secondary, tertiary, and quaternary protein structure and what stabilizes each.',
+      '能解释变性为何破坏高级结构却不一定破坏一级结构。 · Explain why denaturation disrupts higher-order structure but need not break primary structure.',
     ],
     essentialKnowledge: [
       '20 种标准氨基酸的 R 基团决定侧链性质；肽键由氨基与羧基脱水形成。',
@@ -6392,13 +6392,13 @@ export const ENRICHMENTS = {
       { latex: '\\text{一级}\\to\\text{二级}\\to\\text{三级}\\to\\text{四级}', note: '蛋白质结构的层次；并非所有蛋白质都有四级结构。' },
     ],
     conditions: ['肽键由氨基与羧基脱水形成，不涉及 R 基团', '二级结构靠主链氢键，三级结构靠 R 基团相互作用', '变性通常破坏非共价键，不破坏肽键', '序列由基因决定，环境可影响折叠与活性', '并非所有蛋白质都有四级结构'],
-    keyPoints: ['20 种标准氨基酸，R 基团决定性质', '肽键连接氨基酸，序列按 N→C 方向', '一级结构是氨基酸序列，二级是局部折叠，三级是整体三维构象，四级是多亚基组装', '疏水作用常是三级结构的主要驱动力', '二硫键是共价键，可稳定三级与四级结构', '变性 ≠ 水解'],
+    keyPoints: ['20 种标准氨基酸，R 基团决定性质 · There are 20 standard amino acids; the R group determines their properties', '肽键连接氨基酸，序列按 N→C 方向 · A peptide bond joins amino acids, and the sequence runs from N to C', '一级结构是氨基酸序列，二级是局部折叠，三级是整体三维构象，四级是多亚基组装 · Primary structure is the amino-acid sequence, secondary structure is local folding, tertiary structure is the overall three-dimensional conformation, and quaternary structure is the assembly of subunits', '疏水作用常是三级结构的主要驱动力 · The hydrophobic effect is often the main driving force of tertiary structure', '二硫键是共价键，可稳定三级与四级结构 · A disulfide bond is covalent and can stabilize tertiary and quaternary structure', '变性 ≠ 水解 · Denaturation is not hydrolysis'],
     misconceptions: [
-      '认为肽键连接的是 R 基团而不是氨基与羧基',
-      '把变性当成肽键断裂（变性通常只破坏高级结构）',
-      '认为所有蛋白质都必须有四级结构',
-      '把 α 螺旋与 β 折叠说成三级结构（它们是二级结构）',
-      '认为蛋白质一旦变性就一定可以完全恢复',
+      '认为肽键连接的是 R 基团而不是氨基与羧基 · Thinking a peptide bond joins R groups rather than an amino group and a carboxyl group',
+      '把变性当成肽键断裂（变性通常只破坏高级结构） · Treating denaturation as breakage of peptide bonds; denaturation usually disrupts only higher-order structure',
+      '认为所有蛋白质都必须有四级结构 · Thinking every protein must have quaternary structure',
+      '把 α 螺旋与 β 折叠说成三级结构（它们是二级结构） · Calling an alpha helix or a beta sheet tertiary structure; they are secondary structure',
+      '认为蛋白质一旦变性就一定可以完全恢复 · Thinking a denatured protein can always be fully restored',
     ],
     examples: [
       {
@@ -6423,9 +6423,9 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 1：蛋白质结构与功能；常考四级结构层次与变性机制',
-      'FRQ 解释“结构决定功能”时，按一级→二级→三级→四级逐层说明',
-      '计算肽键数先看有几条链：肽键数 = 氨基酸总数 - 肽链数',
+      'CED Unit 1：蛋白质结构与功能；常考四级结构层次与变性机制 · CED Unit 1, protein structure and function: the four levels and the mechanism of denaturation are common',
+      'FRQ 解释“结构决定功能”时，按一级→二级→三级→四级逐层说明 · When a free-response item asks how structure determines function, go level by level from primary to quaternary',
+      '计算肽键数先看有几条链：肽键数 = 氨基酸总数 - 肽链数 · To count peptide bonds, first count the chains: peptide bonds = total amino acids − number of chains',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u1', code: '1.3', title: '生物大分子导论', relation: '先修' },
@@ -6441,9 +6441,9 @@ export const ENRICHMENTS = {
   'bio/bio-u2/2.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能把主要细胞器与其功能、膜结构和所在细胞类型对应起来。',
-      '能解释区隔化如何提高反应效率并隔离不相容的反应。',
-      '能用表面积与体积之比解释细胞大小对运输的限制。',
+      '能把主要细胞器与其功能、膜结构和所在细胞类型对应起来。 · Match major organelles to their functions, membrane structure, and the cell types that have them.',
+      '能解释区隔化如何提高反应效率并隔离不相容的反应。 · Explain how compartmentalization raises reaction efficiency and separates incompatible reactions.',
+      '能用表面积与体积之比解释细胞大小对运输的限制。 · Use the surface-area-to-volume ratio to explain the limit cell size places on transport.',
     ],
     essentialKnowledge: [
       '真核细胞有膜包围的细胞核与多种膜性细胞器；原核细胞没有核膜与线粒体等膜性细胞器，但有核糖体。',
@@ -6471,14 +6471,14 @@ export const ENRICHMENTS = {
       { latex: '\\text{膜面积}\\uparrow\\;\\Rightarrow\\;\\text{运输与反应容量}\\uparrow', note: '区隔化与膜折叠增加有效工作面积。' },
     ],
     conditions: ['真核细胞才有膜包围的细胞核与多数膜性细胞器', '原核细胞有核糖体，但没有核膜与线粒体等膜性细胞器', '细胞器功能依赖其膜上的蛋白质与内部 pH/离子环境', '区隔化不改变总反应的热力学，只改变局部条件与速率'],
-    keyPoints: ['细胞核储存遗传信息并控制基因表达', '核糖体是蛋白质合成场所，无膜', '粗面内质网合成分泌蛋白与膜蛋白，光面内质网合成脂质', '高尔基体修饰、分选与包装蛋白质', '溶酶体含水解酶，负责细胞内消化', '线粒体进行有氧呼吸，叶绿体进行光合作用', '细胞骨架维持形态、参与运输与分裂', '内共生学说解释线粒体与叶绿体的起源'],
+    keyPoints: ['细胞核储存遗传信息并控制基因表达 · The nucleus stores genetic information and controls gene expression', '核糖体是蛋白质合成场所，无膜 · Ribosomes are the sites of protein synthesis and have no membrane', '粗面内质网合成分泌蛋白与膜蛋白，光面内质网合成脂质 · Rough ER synthesizes secretory and membrane proteins; smooth ER synthesizes lipids', '高尔基体修饰、分选与包装蛋白质 · The Golgi apparatus modifies, sorts, and packages proteins', '溶酶体含水解酶，负责细胞内消化 · Lysosomes contain hydrolytic enzymes and carry out intracellular digestion', '线粒体进行有氧呼吸，叶绿体进行光合作用 · Mitochondria carry out aerobic respiration, and chloroplasts carry out photosynthesis', '细胞骨架维持形态、参与运输与分裂 · The cytoskeleton maintains shape and takes part in transport and division', '内共生学说解释线粒体与叶绿体的起源 · Endosymbiotic theory explains the origin of mitochondria and chloroplasts'],
     misconceptions: [
-      '认为核糖体是膜性细胞器（核糖体无膜）',
-      '认为原核细胞没有任何细胞器（它们有核糖体）',
-      '把光滑内质网说成蛋白质合成的主要场所',
-      '认为高尔基体只“运输”而不修饰蛋白质',
-      '认为线粒体与叶绿体只有一层膜',
-      '把细胞壁当作动物细胞结构',
+      '认为核糖体是膜性细胞器（核糖体无膜） · Thinking the ribosome is a membrane-bounded organelle; it has no membrane',
+      '认为原核细胞没有任何细胞器（它们有核糖体） · Thinking a prokaryotic cell has no organelles at all; it has ribosomes',
+      '把光滑内质网说成蛋白质合成的主要场所 · Calling the smooth endoplasmic reticulum the main site of protein synthesis',
+      '认为高尔基体只“运输”而不修饰蛋白质 · Thinking the Golgi only transports proteins and does not modify them',
+      '认为线粒体与叶绿体只有一层膜 · Thinking mitochondria and chloroplasts have only one membrane',
+      '把细胞壁当作动物细胞结构 · Treating the cell wall as an animal-cell structure',
     ],
     examples: [
       {
@@ -6502,10 +6502,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 2：细胞结构与功能；常考细胞器—功能匹配',
-      'FRQ 解释区隔化优势时，写“局部浓缩酶、隔离不相容反应、增加膜面积”',
-      'SA:V 计算题注意单位与半径/直径的区别',
-      '内共生学说的证据：双层膜、自身 DNA、细菌型核糖体',
+      'CED Unit 2：细胞结构与功能；常考细胞器—功能匹配 · CED Unit 2, cell structure and function: matching organelles to functions is common',
+      'FRQ 解释区隔化优势时，写“局部浓缩酶、隔离不相容反应、增加膜面积” · When explaining the advantage of compartmentalization, write local concentration of enzymes, separation of incompatible reactions, and increased membrane area',
+      'SA:V 计算题注意单位与半径/直径的区别 · In an SA:V calculation, watch units and the difference between radius and diameter',
+      '内共生学说的证据：双层膜、自身 DNA、细菌型核糖体 · Evidence for endosymbiosis: a double membrane, its own DNA, and bacterial-type ribosomes',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u2', code: '2.2', title: '细胞大小', relation: '后续' },
@@ -6521,9 +6521,9 @@ export const ENRICHMENTS = {
   'bio/bio-u7/7.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能列出自然选择的三个必要条件并解释其作用。',
-      '能区分方向性、稳定性与分裂性选择。',
-      '能用抗生素耐药案例说明选择作用于已有变异。',
+      '能列出自然选择的三个必要条件并解释其作用。 · List the three requirements of natural selection and explain what they do.',
+      '能区分方向性、稳定性与分裂性选择。 · Distinguish directional, stabilizing, and disruptive selection.',
+      '能用抗生素耐药案例说明选择作用于已有变异。 · Use antibiotic resistance to show that selection acts on variation that already exists.',
     ],
     essentialKnowledge: [
       '自然选择需要可遗传的变异、差异存活或繁殖成功以及选择压力。',
@@ -6552,14 +6552,14 @@ export const ENRICHMENTS = {
       { latex: '\\text{变异}+\\text{可遗传}+\\text{差异繁殖}=\\text{可选择的基础}', note: '自然选择的三个必要条件。' },
     ],
     conditions: ['种群内存在可遗传的表型变异', '不同表型具有不同的存活或繁殖成功率', '选择压力来自环境、捕食者、病原体或配偶选择', '没有可遗传变异时，选择不能产生进化', '适应是相对的：环境改变后原有优势可能消失'],
-    keyPoints: ['自然选择作用于表型，进化改变的是等位基因频率', '变异必须可遗传才有进化意义', '方向性、稳定性与分裂性选择改变不同表型分布', '适应不是“完美”，而是对当前环境的相对优势', '性选择与人工选择也是选择形式', '抗生素耐药是自然选择的直接证据'],
+    keyPoints: ['自然选择作用于表型，进化改变的是等位基因频率 · Natural selection acts on phenotypes; evolution changes allele frequencies', '变异必须可遗传才有进化意义 · Variation must be heritable to matter for evolution', '方向性、稳定性与分裂性选择改变不同表型分布 · Directional, stabilizing, and disruptive selection change the phenotype distribution in different ways', '适应不是“完美”，而是对当前环境的相对优势 · An adaptation is not perfection; it is a relative advantage in the current environment', '性选择与人工选择也是选择形式 · Sexual selection and artificial selection are also forms of selection', '抗生素耐药是自然选择的直接证据 · Antibiotic resistance is direct evidence of natural selection'],
     misconceptions: [
-      '认为个体为了适应环境而“主动变异”',
-      '认为自然选择让物种“越来越完美”',
-      '认为获得性性状可以直接遗传（拉马克式误解）',
-      '认为选择直接改变基因型而不经过繁殖',
-      '认为进化一定需要很多代（强选择下可很快）',
-      '把自然选择与人工选择完全割裂（机制相同，压力来源不同）',
+      '认为个体为了适应环境而“主动变异” · Thinking an individual varies on purpose in order to fit the environment',
+      '认为自然选择让物种“越来越完美” · Thinking natural selection makes a species ever more perfect',
+      '认为获得性性状可以直接遗传（拉马克式误解） · Thinking an acquired trait can be inherited directly, a Lamarckian mistake',
+      '认为选择直接改变基因型而不经过繁殖 · Thinking selection changes the genotype directly without reproduction',
+      '认为进化一定需要很多代（强选择下可很快） · Thinking evolution must take many generations; under strong selection it can be fast',
+      '把自然选择与人工选择完全割裂（机制相同，压力来源不同） · Separating natural selection from artificial selection completely; the mechanism is the same and the source of pressure differs',
     ],
     examples: [
       {
@@ -6584,10 +6584,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 7：自然选择；FRQ 常要求区分“个体适应”与“种群进化”',
-      '写自然选择时按“变异→可遗传→差异繁殖→频率改变”链条作答',
-      '抗生素耐药题要强调突变先于用药存在，抗生素只是选择',
-      '区分方向性、稳定性、分裂性选择的表型分布变化',
+      'CED Unit 7：自然选择；FRQ 常要求区分“个体适应”与“种群进化” · CED Unit 7, natural selection: free response often asks you to distinguish adaptation of an individual from evolution of a population',
+      '写自然选择时按“变异→可遗传→差异繁殖→频率改变”链条作答 · Write natural selection as the chain variation → heritability → differential reproduction → change in frequency',
+      '抗生素耐药题要强调突变先于用药存在，抗生素只是选择 · In an antibiotic-resistance item, emphasize that the mutation existed before the drug; the antibiotic only selects',
+      '区分方向性、稳定性、分裂性选择的表型分布变化 · Distinguish how directional, stabilizing, and disruptive selection change the phenotype distribution',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u7', code: '7.2', title: '自然选择', relation: '后续' },
@@ -6603,9 +6603,9 @@ export const ENRICHMENTS = {
   'bio/bio-u8/8.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能区分密度制约与非密度制约因素。',
-      '能用指数与逻辑斯谛模型计算种群增长率。',
-      '能解释环境容纳量与最大增长速率出现的位置。',
+      '能区分密度制约与非密度制约因素。 · Distinguish density-dependent and density-independent factors.',
+      '能用指数与逻辑斯谛模型计算种群增长率。 · Use the exponential and logistic models to calculate a population’s growth rate.',
+      '能解释环境容纳量与最大增长速率出现的位置。 · Explain carrying capacity and where the maximum growth rate occurs.',
     ],
     essentialKnowledge: [
       '密度制约因素（竞争、捕食、疾病）随密度升高而增强；非密度制约因素（火灾、风暴）与密度无关。',
@@ -6634,14 +6634,14 @@ export const ENRICHMENTS = {
       { latex: '\\dfrac{1}{N}\\dfrac{dN}{dt}=r\\left(1-\\dfrac{N}{K}\\right)', note: '人均增长率随 \\(N\\) 增大而线性下降。' },
     ],
     conditions: ['指数增长要求资源无限、无密度制约', '逻辑斯谛增长假设 \\(r\\) 与 \\(K\\) 恒定、密度效应立即生效', '封闭种群，忽略迁入与迁出', '\\(K\\) 随环境变化，不是永久固定的常数', '实际种群可能出现 overshoot、振荡或 Allee 效应'],
-    keyPoints: ['密度制约因素的影响随密度升高而增强', '非密度制约因素与密度无关', '逻辑斯谛增长呈 S 形', '最大增长速率在 \\(N=\\dfrac{K}{2}\\)', '当 \\(N=K\\) 时 \\(\\dfrac{dN}{dt}=0\\)', 'r 策略者与 K 策略者代表不同的生活史权衡', '环境容纳量 \\(K\\) 由资源与环境决定'],
+    keyPoints: ['密度制约因素的影响随密度升高而增强 · The effect of a density-dependent factor grows as density rises', '非密度制约因素与密度无关 · A density-independent factor does not depend on density', '逻辑斯谛增长呈 S 形 · Logistic growth is S-shaped', '最大增长速率在 \\(N=\\dfrac{K}{2}\\) · The maximum growth rate is at \\(N=\\dfrac{K}{2}\\)', '当 \\(N=K\\) 时 \\(\\dfrac{dN}{dt}=0\\) · When \\(N=K\\), \\(\\dfrac{dN}{dt}=0\\)', 'r 策略者与 K 策略者代表不同的生活史权衡 · \\(r\\)- and \\(K\\)-strategists represent different life-history tradeoffs', '环境容纳量 \\(K\\) 由资源与环境决定 · Carrying capacity \\(K\\) is set by resources and the environment'],
     misconceptions: [
-      '认为 \\(K\\) 是种群永远达不到的最大值（实际可暂时超过）',
-      '认为逻辑斯谛增长会无限持续',
-      '把密度制约因素与非密度制约因素按“生物/非生物”粗暴分类',
-      '认为指数增长的 per capita 增长率不断增大（它恒定，\\(\\dfrac{dN}{dt}\\) 增大）',
-      '认为 \\(N=\\dfrac{K}{2}\\) 时种群数量最大（此时增长速率最大）',
-      '忽略 Allee 效应：密度过低也可能不利于繁殖',
+      '认为 \\(K\\) 是种群永远达不到的最大值（实际可暂时超过） · Thinking \\(K\\) is a maximum the population can never reach; a population can overshoot it for a while',
+      '认为逻辑斯谛增长会无限持续 · Thinking logistic growth continues without limit',
+      '把密度制约因素与非密度制约因素按“生物/非生物”粗暴分类 · Sorting density-dependent and density-independent factors crudely into “biotic” and “abiotic”',
+      '认为指数增长的 per capita 增长率不断增大（它恒定，\\(\\dfrac{dN}{dt}\\) 增大） · Thinking the per-capita growth rate of exponential growth keeps rising; it is constant, while \\(\\dfrac{dN}{dt}\\) rises',
+      '认为 \\(N=\\dfrac{K}{2}\\) 时种群数量最大（此时增长速率最大） · Thinking the population is largest at \\(N=\\dfrac{K}{2}\\); that is where the growth rate is largest',
+      '忽略 Allee 效应：密度过低也可能不利于繁殖 · Ignoring the Allee effect: a density that is too low can also hinder reproduction',
     ],
     examples: [
       {
@@ -6667,10 +6667,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 8：种群生态；常考指数/逻辑斯谛增长与密度因素判断',
-      '先判断题目是否给 \\(K\\)：有 \\(K\\) 用逻辑斯谛，无 \\(K\\) 且资源无限用指数',
-      '最大增长速率在 \\(N=\\dfrac{K}{2}\\)，不是 \\(N=K\\)',
-      '区分“影响大小随密度变化”（密度制约）与“与密度无关”（非密度制约）',
+      'CED Unit 8：种群生态；常考指数/逻辑斯谛增长与密度因素判断 · CED Unit 8, population ecology: exponential and logistic growth and density factors are commonly tested',
+      '先判断题目是否给 \\(K\\)：有 \\(K\\) 用逻辑斯谛，无 \\(K\\) 且资源无限用指数 · First see whether \\(K\\) is given: with \\(K\\), use logistic growth; with no \\(K\\) and unlimited resources, use exponential growth',
+      '最大增长速率在 \\(N=\\dfrac{K}{2}\\)，不是 \\(N=K\\) · The maximum growth rate is at \\(N=\\dfrac{K}{2}\\), not at \\(N=K\\)',
+      '区分“影响大小随密度变化”（密度制约）与“与密度无关”（非密度制约） · Distinguish a factor whose effect changes with density from one that is independent of density',
     ],
     related: [
       { subject: 'bio', chapterId: 'bio-u8', code: '8.2', title: '能量流', relation: '先修' },
@@ -7182,9 +7182,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能沿闭合回路写出各元件电势差的代数和。',
-      '能正确应用电源与电阻的符号规则。',
-      '能联立环路与结点方程求解多回路电路。',
+      '能沿闭合回路写出各元件电势差的代数和。 · Write the algebraic sum of the potential differences around a closed loop.',
+      '能正确应用电源与电阻的符号规则。 · Apply the sign rules for sources and resistors correctly.',
+      '能联立环路与结点方程求解多回路电路。 · Solve a multi-loop circuit by combining loop and junction equations.',
     ],
     essentialKnowledge: [
       '环路定律：\\(\\sum_{\\text{闭合回路}}\\Delta V=0\\)，等价于能量守恒。',
@@ -7213,14 +7213,14 @@ export const ENRICHMENTS = {
       { latex: 'V_{\\text{端}}=\\varepsilon-Ir', note: '电源端电压；放电时小于电动势。' },
     ],
     conditions: ['电路为集中参数电路，导线电阻可忽略', '稳态电流；若磁通量变化，需加入感应电动势', '绕行方向可任选，但全回路必须一致', '符号规则必须统一，否则方程会出错', '含内阻电源要把内阻计入回路'],
-    keyPoints: ['环路定律是能量守恒的体现', '绕行方向可任选，结果应与方向无关', '电源从负极到正极取正，电阻顺电流方向取负', '结点定律与环路定律配合解复杂电路', '端电压 \\(V_{\\text{端}}=\\varepsilon-Ir\\)', '理想导线电阻为零，电势不变'],
+    keyPoints: ['环路定律是能量守恒的体现 · The loop rule is a statement of energy conservation', '绕行方向可任选，结果应与方向无关 · The traversal direction may be chosen freely; the result must not depend on that choice', '电源从负极到正极取正，电阻顺电流方向取负 · Count a source positive from its negative to its positive terminal, and a resistor negative when traversed in the direction of the current', '结点定律与环路定律配合解复杂电路 · Use the junction rule together with the loop rule to solve a complicated circuit', '端电压 \\(V_{\\text{端}}=\\varepsilon-Ir\\) · The terminal voltage is \\(V_{\\text{terminal}}=\\varepsilon-Ir\\)', '理想导线电阻为零，电势不变 · An ideal wire has zero resistance, so the potential does not change along it'],
     misconceptions: [
-      '把所有电动势都相加而不看极性',
-      '绕行方向改变后忘记同步改变符号',
-      '认为电流在电阻中“被消耗”而不是电势下降',
-      '忽略电源内阻',
-      '在有感应电动势的回路中直接套用静电场环路定律',
-      '把结点定律与环路定律混用',
+      '把所有电动势都相加而不看极性 · Adding every emf without looking at polarity',
+      '绕行方向改变后忘记同步改变符号 · Changing the traversal direction and forgetting to change the signs with it',
+      '认为电流在电阻中“被消耗”而不是电势下降 · Thinking current is “used up” in a resistor rather than that the potential drops',
+      '忽略电源内阻 · Ignoring the internal resistance of a source',
+      '在有感应电动势的回路中直接套用静电场环路定律 · Applying the electrostatic loop rule directly in a loop that has an induced emf',
+      '把结点定律与环路定律混用 · Mixing up the junction rule and the loop rule',
     ],
     examples: [
       {
@@ -7246,10 +7246,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：直流电路；复杂电路同时列结点与环路方程',
-      '先在图上标出电流方向与绕行方向，再写符号',
-      '电源内阻当作串联电阻，端电压用 \\(\\varepsilon-Ir\\)',
-      '解出负电流说明实际方向与假设相反，不是错误',
+      'CED Unit 11：直流电路；复杂电路同时列结点与环路方程 · CED Unit 11, DC circuits: for a complicated circuit, write junction and loop equations together',
+      '先在图上标出电流方向与绕行方向，再写符号 · First mark current directions and the traversal direction on the diagram, then write the signs',
+      '电源内阻当作串联电阻，端电压用 \\(\\varepsilon-Ir\\) · Treat the battery’s internal resistance as a series resistor, and use \\(\\varepsilon-Ir\\) for the terminal voltage',
+      '解出负电流说明实际方向与假设相反，不是错误 · A negative current means the actual direction is opposite the assumption; it is not an error',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.5', title: '复合直流电路', relation: '先修' },
@@ -7266,9 +7266,9 @@ export const ENRICHMENTS = {
   'em/em-u9/9.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用电势叠加求多个点电荷或连续分布的电势。',
-      '能区分电势（标量）与电场（矢量）的叠加方式。',
-      '能由电势函数求电场分量。',
+      '能用电势叠加求多个点电荷或连续分布的电势。 · Use superposition of potential for several point charges or a continuous distribution.',
+      '能区分电势（标量）与电场（矢量）的叠加方式。 · Distinguish how potential (a scalar) and the electric field (a vector) superpose.',
+      '能由电势函数求电场分量。 · Find electric-field components from a potential function.',
     ],
     essentialKnowledge: [
       '点电荷电势：\\(V=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q}{r}\\)。',
@@ -7297,13 +7297,13 @@ export const ENRICHMENTS = {
       { latex: '\\Delta V=-\\int_A^B\\vec E\\cdot\\mathrm{d}\\vec s', note: '电势差与电场线积分。' },
     ],
     conditions: ['电势零点可任选；点电荷通常取无穷远为零', '电势是标量，叠加用代数和', '电场是矢量，叠加用分量', '\\(V=\\dfrac{kq}{r}\\) 适用于点电荷或球外', '等势面与电场线垂直', '由 \\(V(x,y,z)\\) 求 \\(\\vec E\\) 时用偏导'],
-    keyPoints: ['电势是标量，电场是矢量', '正电荷周围电势为正，负电荷周围为负', '电势沿电场方向降低', '\\(E=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}\\)：电势变化越快，场强越大', '沿等势面移动电荷不做功'],
+    keyPoints: ['电势是标量，电场是矢量 · Potential is a scalar and the electric field is a vector', '正电荷周围电势为正，负电荷周围为负 · Potential is positive around a positive charge and negative around a negative charge', '电势沿电场方向降低 · Potential decreases along the direction of the electric field', '\\(E=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}\\)：电势变化越快，场强越大 · \\(E=-\\dfrac{\\mathrm{d}V}{\\mathrm{d}x}\\): the faster the potential changes, the stronger the field', '沿等势面移动电荷不做功 · Moving a charge along an equipotential does no work'],
     misconceptions: [
-      '把电势与电势能混为一谈（\\(U=qV\\)）',
-      '认为电势为零处电场也为零',
-      '叠加电势时分解方向（标量不需要）',
-      '认为电势高处电场一定强',
-      '忘记 \\(E=-\\nabla V\\) 的负号',
+      '把电势与电势能混为一谈（\\(U=qV\\)） · Confusing potential with potential energy (\\(U=qV\\))',
+      '认为电势为零处电场也为零 · Thinking zero potential means zero field',
+      '叠加电势时分解方向（标量不需要） · Resolving a direction when adding potentials; a scalar does not need that',
+      '认为电势高处电场一定强 · Thinking a high potential must mean a strong field',
+      '忘记 \\(E=-\\nabla V\\) 的负号 · Forgetting the minus sign in \\(E=-\\nabla V\\)',
     ],
     examples: [
       {
@@ -7328,10 +7328,10 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 9：电势；先判断标量叠加还是矢量叠加',
-      '电势题直接代 \\(V=\\dfrac{kq}{r}\\)，注意正负号',
-      '由 \\(V\\) 求 \\(E\\) 用偏导并加负号',
-      '等势面与电场线垂直，可用于判断场方向',
+      'CED Unit 9：电势；先判断标量叠加还是矢量叠加 · CED Unit 9, potential: first decide whether the superposition is scalar or vector',
+      '电势题直接代 \\(V=\\dfrac{kq}{r}\\)，注意正负号 · For a potential problem, substitute \\(V=\\dfrac{kq}{r}\\) directly and watch the sign',
+      '由 \\(V\\) 求 \\(E\\) 用偏导并加负号 · To get \\(E\\) from \\(V\\), take a partial derivative and include the minus sign',
+      '等势面与电场线垂直，可用于判断场方向 · Equipotentials are perpendicular to field lines and can be used to judge the field direction',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u9', code: '9.1', title: '电势能', relation: '先修' },
@@ -7347,9 +7347,9 @@ export const ENRICHMENTS = {
   'em/em-u10/10.1': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能说明静电平衡导体的四个基本性质。',
-      '能用高斯定律分析导体球壳与空腔的电荷分布。',
-      '能解释尖端放电与静电屏蔽。',
+      '能说明静电平衡导体的四个基本性质。 · State the four basic properties of a conductor in electrostatic equilibrium.',
+      '能用高斯定律分析导体球壳与空腔的电荷分布。 · Use Gauss’s law to analyze the charge distribution of a conducting shell and a cavity.',
+      '能解释尖端放电与静电屏蔽。 · Explain discharge at a sharp point and electrostatic shielding.',
     ],
     essentialKnowledge: [
       '静电平衡导体内 \\(\\vec E=0\\)，整个导体是等势体。',
@@ -7377,13 +7377,13 @@ export const ENRICHMENTS = {
       { latex: 'V=\\text{常数}', note: '整个导体是等势体。' },
     ],
     conditions: ['静电平衡：没有宏观电流', '导体内部有自由电荷', '外部电场不随时间变化', '接地导体与大地等势', '尖端曲率大处电荷密度高'],
-    keyPoints: ['导体内 \\(E=0\\)', '净电荷在表面', '表面场强垂直于表面', '导体是等势体', '空腔导体可静电屏蔽'],
+    keyPoints: ['导体内 \\(E=0\\) · Inside a conductor, \\(E=0\\)', '净电荷在表面 · Net charge resides on the surface', '表面场强垂直于表面 · The surface field is perpendicular to the surface', '导体是等势体 · A conductor is an equipotential body', '空腔导体可静电屏蔽 · A hollow conductor can provide electrostatic shielding'],
     misconceptions: [
-      '认为导体内部有净电荷',
-      '认为导体表面场强与表面平行',
-      '认为导体上各点面电荷密度相同',
-      '认为接地会“放走所有电荷”（只改变电势与部分电荷）',
-      '把静电屏蔽与磁屏蔽混为一谈',
+      '认为导体内部有净电荷 · Thinking there is net charge inside a conductor',
+      '认为导体表面场强与表面平行 · Thinking the field at a conductor’s surface is parallel to the surface',
+      '认为导体上各点面电荷密度相同 · Thinking the surface charge density is the same at every point on a conductor',
+      '认为接地会“放走所有电荷”（只改变电势与部分电荷） · Thinking grounding “lets all the charge escape”; it changes the potential and only some of the charge',
+      '把静电屏蔽与磁屏蔽混为一谈 · Confusing electrostatic shielding with magnetic shielding',
     ],
     examples: [
       {
@@ -7406,11 +7406,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 10：导体与电容器',
-      '先判断静电平衡，再写 \\(E_{\\mathrm{inside}}=0\\)',
-      '空腔题用高斯定律找内表面电荷',
-      '接地改变的是电势与外表面电荷',
-      '尖端放电用 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 解释',
+      'CED Unit 10：导体与电容器 · CED Unit 10, conductors and capacitors',
+      '先判断静电平衡，再写 \\(E_{\\mathrm{inside}}=0\\) · First decide that the conductor is in electrostatic equilibrium, then write \\(E_{\\mathrm{inside}}=0\\)',
+      '空腔题用高斯定律找内表面电荷 · For a cavity, use Gauss’s law to find the charge on the inner surface',
+      '接地改变的是电势与外表面电荷 · Grounding changes the potential and the charge on the outer surface',
+      '尖端放电用 \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\) 解释 · Explain discharge at a point with \\(E=\\dfrac{\\sigma}{\\varepsilon_0}\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u8', code: '8.5', title: '高斯定律', relation: '先修' },
@@ -7425,9 +7425,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.3': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用 \\(R=\\dfrac{\\rho L}{A}\\) 计算导体的电阻。',
-      '能区分电阻与电阻率，并分析长度/面积变化的影响。',
-      '能判断欧姆定律的适用范围并计算串并联等效电阻。',
+      '能用 \\(R=\\dfrac{\\rho L}{A}\\) 计算导体的电阻。 · Use \\(R=\\dfrac{\\rho L}{A}\\) to calculate a conductor’s resistance.',
+      '能区分电阻与电阻率，并分析长度/面积变化的影响。 · Distinguish resistance from resistivity and analyze the effect of changing length or area.',
+      '能判断欧姆定律的适用范围并计算串并联等效电阻。 · Judge where Ohm’s law applies and calculate series and parallel equivalent resistance.',
     ],
     essentialKnowledge: [
       '电阻：\\(R=\\rho\\dfrac{L}{A}\\)，由材料与几何共同决定。',
@@ -7456,13 +7456,13 @@ export const ENRICHMENTS = {
       { latex: 'R_{\\mathrm{series}}=\\sum R_i,\\quad \\dfrac{1}{R_{\\mathrm{parallel}}}=\\sum\\dfrac{1}{R_i}', note: '串并联等效电阻。' },
     ],
     conditions: ['欧姆定律要求器件近似线性、温度稳定', '电阻率是材料属性，电阻还取决于几何', '均匀横截面积', '温度变化不大时用线性温度系数', '二极管、灯丝等非线性器件不服从固定 \\(R\\)'],
-    keyPoints: ['\\(R\\) 由材料与几何共同决定', '长度加倍电阻加倍，面积加倍电阻减半', '电阻率是材料属性', '串联分压、并联分流', '欧姆定律不是所有器件的普遍定律'],
+    keyPoints: ['\\(R\\) 由材料与几何共同决定 · \\(R\\) is fixed jointly by the material and the geometry', '长度加倍电阻加倍，面积加倍电阻减半 · Doubling the length doubles the resistance; doubling the area halves it', '电阻率是材料属性 · Resistivity is a property of the material', '串联分压、并联分流 · Series circuits divide voltage; parallel circuits divide current', '欧姆定律不是所有器件的普遍定律 · Ohm’s law is not a universal law for every device'],
     misconceptions: [
-      '认为电阻只由材料决定（还取决于长度与面积）',
-      '把电阻率与电阻混为一谈',
-      '认为欧姆定律适用于所有器件',
-      '把串联当分流、并联当分压',
-      '忽略温度对电阻的影响',
+      '认为电阻只由材料决定（还取决于长度与面积） · Thinking resistance depends only on the material; length and area also matter',
+      '把电阻率与电阻混为一谈 · Confusing resistivity with resistance',
+      '认为欧姆定律适用于所有器件 · Thinking Ohm’s law applies to every device',
+      '把串联当分流、并联当分压 · Treating series as current division and parallel as voltage division',
+      '忽略温度对电阻的影响 · Ignoring the effect of temperature on resistance',
     ],
     examples: [
       {
@@ -7488,11 +7488,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：电路',
-      '先判断材料/几何，再用 \\(R=\\dfrac{\\rho L}{A}\\)',
-      '欧姆定律只对欧姆器件成立',
-      '串联分压、并联分流',
-      '拉伸/对折导线用体积不变分析',
+      'CED Unit 11：电路 · CED Unit 11, circuits',
+      '先判断材料/几何，再用 \\(R=\\dfrac{\\rho L}{A}\\) · First identify the material and geometry, then use \\(R=\\dfrac{\\rho L}{A}\\)',
+      '欧姆定律只对欧姆器件成立 · Ohm’s law holds only for ohmic devices',
+      '串联分压、并联分流 · Series circuits divide voltage; parallel circuits divide current',
+      '拉伸/对折导线用体积不变分析 · When a wire is stretched or folded, analyze it with constant volume',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.1', title: '电流', relation: '先修' },
@@ -7508,9 +7508,9 @@ export const ENRICHMENTS = {
   'em/em-u11/11.7': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出结点定律并正确使用流入/流出符号。',
-      '能把结点定律与环路定律联立求解多支路电路。',
-      '能解释负电流结果的含义。',
+      '能写出结点定律并正确使用流入/流出符号。 · Write the junction rule and use inflow and outflow signs correctly.',
+      '能把结点定律与环路定律联立求解多支路电路。 · Combine the junction rule and the loop rule to solve a multi-branch circuit.',
+      '能解释负电流结果的含义。 · Explain what a negative current result means.',
     ],
     essentialKnowledge: [
       '结点定律：\\(\\sum I_{\\mathrm{in}}=\\sum I_{\\mathrm{out}}\\)，等价于电荷守恒。',
@@ -7537,13 +7537,13 @@ export const ENRICHMENTS = {
       { latex: '\\sum I=0', note: '按统一符号约定。' },
     ],
     conditions: ['稳态电流，结点无电荷积累', '先假设各支路电流方向', '流入/流出符号约定全程一致', '对广义闭合面同样成立', '与环路定律联立时方程数要匹配未知量'],
-    keyPoints: ['结点定律 = 电荷守恒', '流入总和 = 流出总和', '负电流表示实际方向相反', '结点数与独立回路数决定方程组', '广义结点可用于简化'],
+    keyPoints: ['结点定律 = 电荷守恒 · The junction rule is charge conservation', '流入总和 = 流出总和 · The total current in equals the total current out', '负电流表示实际方向相反 · A negative current means the actual direction is opposite the assumed direction', '结点数与独立回路数决定方程组 · The number of junctions and independent loops fixes the set of equations', '广义结点可用于简化 · A generalized junction can simplify the equations'],
     misconceptions: [
-      '认为电流在结点会被“消耗”',
-      '流入流出方向标错导致符号错误',
-      '只写结点方程不写环路方程，未知量不足',
-      '把电压与电流的符号约定混用',
-      '认为结点定律只适用于三岔点',
+      '认为电流在结点会被“消耗” · Thinking current is consumed at a junction',
+      '流入流出方向标错导致符号错误 · Marking inflow and outflow backward and getting the signs wrong',
+      '只写结点方程不写环路方程，未知量不足 · Writing only junction equations and no loop equations, so there are not enough equations for the unknowns',
+      '把电压与电流的符号约定混用 · Mixing the sign conventions for voltage and current',
+      '认为结点定律只适用于三岔点 · Thinking the junction rule applies only at a three-way junction',
     ],
     examples: [
       {
@@ -7568,11 +7568,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 11：基尔霍夫定律',
-      '先标电流方向，再写流入=流出',
-      '结点方程数与独立回路方程数要匹配未知量',
-      '负值只表示方向相反',
-      '复杂电路可先化简串并联再列方程',
+      'CED Unit 11：基尔霍夫定律 · CED Unit 11, Kirchhoff’s laws',
+      '先标电流方向，再写流入=流出 · First mark current directions, then write inflow equals outflow',
+      '结点方程数与独立回路方程数要匹配未知量 · The number of junction equations and independent loop equations must match the unknowns',
+      '负值只表示方向相反 · A negative value only means the direction is opposite',
+      '复杂电路可先化简串并联再列方程 · A complicated circuit can be simplified by series and parallel reduction before writing equations',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u11', code: '11.5', title: '复合直流电路', relation: '先修' },
@@ -7587,9 +7587,9 @@ export const ENRICHMENTS = {
   'em/em-u12/12.4': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出安培定律并确定包围的净电流。',
-      '能根据对称性选择安培环路求长直导线、螺线管与环面的磁场。',
-      '能分析同轴电缆等组合导体的磁场分布。',
+      '能写出安培定律并确定包围的净电流。 · Write Ampère’s law and identify the enclosed net current.',
+      '能根据对称性选择安培环路求长直导线、螺线管与环面的磁场。 · Use symmetry to choose an Amperian loop for a long wire, a solenoid, and a toroid.',
+      '能分析同轴电缆等组合导体的磁场分布。 · Analyze the magnetic field of a composite conductor such as a coaxial cable.',
     ],
     essentialKnowledge: [
       '安培定律：\\(\\oint\\vec B\\cdot\\mathrm{d}\\vec l=\\mu_0 I_{\\mathrm{encl}}\\)。',
@@ -7618,13 +7618,13 @@ export const ENRICHMENTS = {
       { latex: 'B=\\dfrac{\\mu_0NI}{2\\pi r}', note: '环面（toroid）内部。' },
     ],
     conditions: ['稳恒电流（或准稳态）', '安培环路闭合', '只有穿过环路的净电流贡献环流', '对称性使 \\(B\\) 可提出积分号', '真空磁导率 \\(\\mu_0\\)；介质中换成 \\(\\mu\\)'],
-    keyPoints: ['安培定律 = 磁场环流与包围电流', '长直导线 \\(B\\propto\\dfrac{I}{r}\\)', '螺线管内部近似均匀 \\(B=\\mu_0nI\\)', '环路外电流对环流贡献为零', '电流方向用右手定则'],
+    keyPoints: ['安培定律 = 磁场环流与包围电流 · Ampère’s law equates the circulation of the magnetic field to the enclosed current', '长直导线 \\(B\\propto\\dfrac{I}{r}\\) · For a long straight wire, \\(B\\propto\\dfrac{I}{r}\\)', '螺线管内部近似均匀 \\(B=\\mu_0nI\\) · Inside a solenoid the field is approximately uniform, \\(B=\\mu_0 n I\\)', '环路外电流对环流贡献为零 · Current outside the Amperian loop contributes nothing to the circulation', '电流方向用右手定则 · Use the right-hand rule for the direction of the current'],
     misconceptions: [
-      '把环路外的电流也算进 \\(I_{\\mathrm{encl}}\\)',
-      '在不对称情形直接用 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\)',
-      '把 \\(n\\)（单位长度匝数）与总匝数 \\(N\\) 混淆',
-      '认为螺线管外部磁场严格为零（近似为零）',
-      '忘记电流方向与环路方向的右手关系',
+      '把环路外的电流也算进 \\(I_{\\mathrm{encl}}\\) · Counting current outside the loop in \\(I_{\\mathrm{encl}}\\)',
+      '在不对称情形直接用 \\(B=\\dfrac{\\mu_0I}{2\\pi r}\\) · Using \\(B=\\dfrac{\\mu_0 I}{2\\pi r}\\) directly when the situation is not symmetric',
+      '把 \\(n\\)（单位长度匝数）与总匝数 \\(N\\) 混淆 · Confusing \\(n\\), the turns per unit length, with the total number of turns \\(N\\)',
+      '认为螺线管外部磁场严格为零（近似为零） · Thinking the field outside a solenoid is strictly zero; it is approximately zero',
+      '忘记电流方向与环路方向的右手关系 · Forgetting the right-hand relation between the current direction and the loop direction',
     ],
     examples: [
       {
@@ -7649,11 +7649,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 12：磁场',
-      '先判断对称性，再选安培环路',
-      '写清 \\(I_{\\mathrm{encl}}\\) 与环路方向',
-      '螺线管用 \\(n=\\dfrac{N}{L}\\)，不是总匝数',
-      '长直导线 \\(B\\propto\\dfrac{1}{r}\\)',
+      'CED Unit 12：磁场 · CED Unit 12, magnetic fields',
+      '先判断对称性，再选安培环路 · First judge the symmetry, then choose the Amperian loop',
+      '写清 \\(I_{\\mathrm{encl}}\\) 与环路方向 · State \\(I_{\\mathrm{encl}}\\) and the loop direction clearly',
+      '螺线管用 \\(n=\\dfrac{N}{L}\\)，不是总匝数 · For a solenoid use \\(n=\\dfrac{N}{L}\\), not the total number of turns',
+      '长直导线 \\(B\\propto\\dfrac{1}{r}\\) · For a long straight wire, \\(B\\propto\\dfrac{1}{r}\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u12', code: '12.2', title: '运动电荷与磁场', relation: '先修' },
@@ -7671,9 +7671,9 @@ export const ENRICHMENTS = {
   'em/em-u13/13.2': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能用法拉第定律计算感应电动势的大小。',
-      '能用楞次定律判断感应电流方向。',
-      '能分析动生电动势与磁通量变化的三种途径。',
+      '能用法拉第定律计算感应电动势的大小。 · Use Faraday’s law to calculate the magnitude of an induced emf.',
+      '能用楞次定律判断感应电流方向。 · Use Lenz’s law to judge the direction of the induced current.',
+      '能分析动生电动势与磁通量变化的三种途径。 · Analyze motional emf and the three ways magnetic flux can change.',
     ],
     essentialKnowledge: [
       '磁通量：\\(\\Phi_B=\\int\\vec B\\cdot\\mathrm{d}\\vec A=BA\\cos\\theta\\)。',
@@ -7702,13 +7702,13 @@ export const ENRICHMENTS = {
       { latex: 'I=\\dfrac{\\varepsilon}{R}', note: '闭合回路的感应电流。' },
     ],
     conditions: ['回路必须闭合才能产生持续电流（开路只有电动势）', '磁通量必须变化', '\\(\\theta\\) 是 \\(\\vec B\\) 与面法线的夹角', '楞次定律用于判断感应电流方向', '动生电动势要求导体棒、速度与磁场两两垂直（或取分量）'],
-    keyPoints: ['磁通量变化产生感应电动势', '变化越快，电动势越大', '\\(B\\)、\\(A\\)、\\(\\theta\\) 任一变化都可引起感应', '楞次定律：感应效果阻碍变化', '动生电动势 \\(\\varepsilon=BLv\\)'],
+    keyPoints: ['磁通量变化产生感应电动势 · A changing magnetic flux produces an induced emf', '变化越快，电动势越大 · The faster the change, the larger the emf', '\\(B\\)、\\(A\\)、\\(\\theta\\) 任一变化都可引起感应 · A change in any of \\(B\\), \\(A\\), or \\(\\theta\\) can induce an emf', '楞次定律：感应效果阻碍变化 · Lenz’s law: the induced effect opposes the change', '动生电动势 \\(\\varepsilon=BLv\\) · The motional emf is \\(\\varepsilon=BLv\\)'],
     misconceptions: [
-      '认为有磁场就有感应电动势（必须磁通变化）',
-      '把 \\(\\theta\\) 当作 \\(\\vec B\\) 与平面的夹角（应为法线夹角）',
-      '忘记匝数 \\(N\\)',
-      '楞次定律方向判断反了',
-      '认为感应电流的磁场总是与原磁场同向',
+      '认为有磁场就有感应电动势（必须磁通变化） · Thinking a magnetic field by itself means an induced emf; the flux must be changing',
+      '把 \\(\\theta\\) 当作 \\(\\vec B\\) 与平面的夹角（应为法线夹角） · Taking \\(\\theta\\) as the angle between \\(\\vec B\\) and the plane; it is the angle with the normal',
+      '忘记匝数 \\(N\\) · Forgetting the number of turns \\(N\\)',
+      '楞次定律方向判断反了 · Reversing the direction given by Lenz’s law',
+      '认为感应电流的磁场总是与原磁场同向 · Thinking the field of the induced current is always in the same direction as the original field',
     ],
     examples: [
       {
@@ -7733,11 +7733,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 13：电磁感应',
-      '先写 \\(\\Phi_B=BA\\cos\\theta\\)，再求变化率',
-      '楞次定律判断方向，法拉第定律算大小',
-      '动生电动势用 \\(\\varepsilon=BLv\\)',
-      '注意匝数 \\(N\\) 与 \\(\\theta\\) 的定义',
+      'CED Unit 13：电磁感应 · CED Unit 13, electromagnetic induction',
+      '先写 \\(\\Phi_B=BA\\cos\\theta\\)，再求变化率 · First write \\(\\Phi_B=BA\\cos\\theta\\), then find the rate of change',
+      '楞次定律判断方向，法拉第定律算大小 · Lenz’s law gives the direction; Faraday’s law gives the magnitude',
+      '动生电动势用 \\(\\varepsilon=BLv\\) · Use \\(\\varepsilon=BLv\\) for motional emf',
+      '注意匝数 \\(N\\) 与 \\(\\theta\\) 的定义 · Watch the number of turns \\(N\\) and the definition of \\(\\theta\\)',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u13', code: '13.1', title: '磁通量', relation: '先修' },
@@ -7752,9 +7752,9 @@ export const ENRICHMENTS = {
   'em/em-u13/13.5': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出 LR 回路方程并求时间常数。',
-      '能计算接通与断开后电流随时间的指数变化。',
-      '能说明电感储能的物理意义。',
+      '能写出 LR 回路方程并求时间常数。 · Write the LR-circuit equation and find the time constant.',
+      '能计算接通与断开后电流随时间的指数变化。 · Calculate the exponential change of current after the circuit is connected or disconnected.',
+      '能说明电感储能的物理意义。 · Explain the physical meaning of energy stored in an inductor.',
     ],
     essentialKnowledge: [
       'LR 回路：\\(\\varepsilon-IR-L\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)。',
@@ -7783,13 +7783,13 @@ export const ENRICHMENTS = {
       { latex: 'U_L=\\dfrac{1}{2}LI^{2}', note: '电感储能。' },
     ],
     conditions: ['理想电感（无内阻）与恒定电阻', '开关动作在 \\(t=0\\)', '电流不能突变', '稳态时 \\(\\dfrac{\\mathrm{d}I}{\\mathrm{d}t}=0\\)，\\(I=\\dfrac{\\varepsilon}{R}\\)', '断开时需有续流路径，否则可能产生高压'],
-    keyPoints: ['\\(\\tau=\\dfrac{L}{R}\\) 决定响应快慢', '\\(t=0\\) 电感相当于开路', '\\(t\\to\\infty\\) 电感相当于短路', '电流按指数上升/衰减', '电感储能 \\(\\dfrac{1}{2}LI^{2}\\)'],
+    keyPoints: ['\\(\\tau=\\dfrac{L}{R}\\) 决定响应快慢 · \\(\\tau=\\dfrac{L}{R}\\) sets how fast the circuit responds', '\\(t=0\\) 电感相当于开路 · At \\(t=0\\) an inductor acts as an open circuit', '\\(t\\to\\infty\\) 电感相当于短路 · As \\(t\\to\\infty\\) an inductor acts as a short circuit', '电流按指数上升/衰减 · The current rises or decays exponentially', '电感储能 \\(\\dfrac{1}{2}LI^{2}\\) · The energy stored in an inductor is \\(\\dfrac{1}{2}LI^{2}\\)'],
     misconceptions: [
-      '认为电流可以瞬间跳到最终值',
-      '把 \\(\\tau\\) 写成 \\(\\dfrac{R}{L}\\)',
-      '认为稳态时电感仍有电压降（理想电感为零）',
-      '认为断开电源电流立刻为零',
-      '忽略电感储能在断开时释放',
+      '认为电流可以瞬间跳到最终值 · Thinking the current can jump instantly to its final value',
+      '把 \\(\\tau\\) 写成 \\(\\dfrac{R}{L}\\) · Writing \\(\\tau\\) as \\(\\dfrac{R}{L}\\)',
+      '认为稳态时电感仍有电压降（理想电感为零） · Thinking an inductor still has a voltage drop in steady state; an ideal inductor has none',
+      '认为断开电源电流立刻为零 · Thinking the current becomes zero the instant the source is disconnected',
+      '忽略电感储能在断开时释放 · Ignoring that the energy stored in the inductor is released when the circuit is opened',
     ],
     examples: [
       {
@@ -7815,11 +7815,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 13：电感与 LR 电路',
-      '先算 \\(\\tau=\\dfrac{L}{R}\\)，再写指数式',
-      '\\(t=0\\) 电感开路，\\(t\\to\\infty\\) 短路',
-      '稳态电流 \\(\\dfrac{\\varepsilon}{R}\\)',
-      '注意断开时的感应高压',
+      'CED Unit 13：电感与 LR 电路 · CED Unit 13, inductance and LR circuits',
+      '先算 \\(\\tau=\\dfrac{L}{R}\\)，再写指数式 · First calculate \\(\\tau=\\dfrac{L}{R}\\), then write the exponential',
+      '\\(t=0\\) 电感开路，\\(t\\to\\infty\\) 短路 · At \\(t=0\\) the inductor is an open circuit; as \\(t\\to\\infty\\) it is a short circuit',
+      '稳态电流 \\(\\dfrac{\\varepsilon}{R}\\) · The steady current is \\(\\dfrac{\\varepsilon}{R}\\)',
+      '注意断开时的感应高压 · Watch for the induced high voltage when the circuit is opened',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u13', code: '13.4', title: '电感', relation: '先修' },
@@ -7834,9 +7834,9 @@ export const ENRICHMENTS = {
   'em/em-u13/13.6': {
     enrichedAt: 'batch2',
     learningObjectives: [
-      '能写出 LC 回路方程并求角频率与周期。',
-      '能分析电荷与电流的相位关系。',
-      '能用能量守恒求最大电流或任意时刻的能量分配。',
+      '能写出 LC 回路方程并求角频率与周期。 · Write the LC-circuit equation and find the angular frequency and period.',
+      '能分析电荷与电流的相位关系。 · Analyze the phase relation between charge and current.',
+      '能用能量守恒求最大电流或任意时刻的能量分配。 · Use energy conservation to find the maximum current or the energy split at any instant.',
     ],
     essentialKnowledge: [
       'LC 回路：\\(L\\dfrac{\\mathrm{d}^{2}q}{\\mathrm{d}t^{2}}+\\dfrac{q}{C}=0\\)。',
@@ -7865,13 +7865,13 @@ export const ENRICHMENTS = {
       { latex: '\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}', note: '总能量守恒。' },
     ],
     conditions: ['理想电感与电容，无电阻损耗', '闭合 LC 回路', '忽略辐射与寄生参数', '振荡频率由 \\(L\\)、\\(C\\) 决定，与初始能量无关', '实际电路有阻尼，振幅会衰减'],
-    keyPoints: ['\\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)', '能量在 \\(U_C\\) 与 \\(U_L\\) 之间转化', '\\(q\\) 最大时 \\(i=0\\)，\\(i\\) 最大时 \\(q=0\\)', '总能量由初始电荷或电流决定', '阻尼会消耗能量'],
+    keyPoints: ['\\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)', '能量在 \\(U_C\\) 与 \\(U_L\\) 之间转化 · Energy converts between \\(U_C\\) and \\(U_L\\)', '\\(q\\) 最大时 \\(i=0\\)，\\(i\\) 最大时 \\(q=0\\) · When \\(q\\) is greatest, \\(i=0\\); when \\(i\\) is greatest, \\(q=0\\)', '总能量由初始电荷或电流决定 · The total energy is fixed by the initial charge or current', '阻尼会消耗能量 · Damping dissipates energy'],
     misconceptions: [
-      '认为 LC 振荡需要外加电源维持（理想情况不需要）',
-      '把 \\(\\omega\\) 写成 \\(\\sqrt{LC}\\)',
-      '认为电荷最大时电流也最大',
-      '忽略电阻导致的阻尼',
-      '把频率 \\(f\\) 与角频率 \\(\\omega\\) 混为一谈',
+      '认为 LC 振荡需要外加电源维持（理想情况不需要） · Thinking an LC oscillation needs an external source to keep going; an ideal one does not',
+      '把 \\(\\omega\\) 写成 \\(\\sqrt{LC}\\) · Writing \\(\\omega\\) as \\(\\sqrt{LC}\\)',
+      '认为电荷最大时电流也最大 · Thinking the current is greatest when the charge is greatest',
+      '忽略电阻导致的阻尼 · Ignoring the damping caused by resistance',
+      '把频率 \\(f\\) 与角频率 \\(\\omega\\) 混为一谈 · Confusing the frequency \\(f\\) with the angular frequency \\(\\omega\\)',
     ],
     examples: [
       {
@@ -7897,11 +7897,11 @@ export const ENRICHMENTS = {
       },
     ],
     examTips: [
-      'CED Unit 13：LC 振荡',
-      '先算 \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)，再求 \\(f\\)、\\(T\\)',
-      '能量守恒用 \\(\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}\\)',
-      '\\(q\\) 与 \\(i\\) 相位差 \\(\\dfrac{\\pi}{2}\\)',
-      '实际电路有阻尼，振幅衰减',
+      'CED Unit 13：LC 振荡 · CED Unit 13, LC oscillation',
+      '先算 \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)，再求 \\(f\\)、\\(T\\) · First calculate \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\), then find \\(f\\) and \\(T\\)',
+      '能量守恒用 \\(\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}\\) · Use \\(\\dfrac{Q^{2}}{2C}=\\dfrac{1}{2}LI_{\\max}^{2}\\) for energy conservation',
+      '\\(q\\) 与 \\(i\\) 相位差 \\(\\dfrac{\\pi}{2}\\) · \\(q\\) and \\(i\\) differ in phase by \\(\\dfrac{\\pi}{2}\\)',
+      '实际电路有阻尼，振幅衰减 · A real circuit is damped, so the amplitude decays',
     ],
     related: [
       { subject: 'em', chapterId: 'em-u13', code: '13.4', title: '电感', relation: '先修' },

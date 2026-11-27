@@ -18,11 +18,43 @@ export const TOPICS = {
     "titleZh": "导体静电",
     "titleEn": "Electrostatics with Conductors",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "静电平衡",
+        "termEn": "electrostatic equilibrium",
+        "defZh": "导体内电荷不再作净移动的状态。",
+        "defEn": "The state in which charges in a conductor have no net motion."
+      },
+      {
+        "termZh": "导体内部电场",
+        "termEn": "field inside a conductor",
+        "defZh": "静电平衡时导体内部 \\(\\vec E=0\\)。",
+        "defEn": "In electrostatic equilibrium, \\(\\vec E=0\\) inside the conducting material."
+      },
+      {
+        "termZh": "表面电荷",
+        "termEn": "surface charge",
+        "defZh": "静电平衡时净的过剩电荷位于导体表面。",
+        "defEn": "In electrostatic equilibrium the net excess charge lies on the conductor’s surface."
+      },
+      {
+        "termZh": "静电屏蔽",
+        "termEn": "electrostatic shielding",
+        "defZh": "空腔导体内的空腔不受外部静电场影响。",
+        "defEn": "The cavity of a hollow conductor is unaffected by an external electrostatic field."
+      },
+      {
+        "termZh": "尖端放电",
+        "termEn": "discharge at a point",
+        "defZh": "曲率大的表面电荷更密、局部场更强，容易使空气电离。",
+        "defEn": "Charge is denser and the local field is stronger where the surface is sharply curved, so air ionizes more easily."
+      }
+    ],
     "summary": "导体静电 · Electrostatics with Conductors",
     "learningObjectives": [
-      "能陈述「导体静电」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「导体静电」的准确定义与适用对象 · State the precise definition of Electrostatics with Conductors and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electrostatics with Conductors：准确陈述定义、适用范围与符号约定。",
@@ -68,19 +100,19 @@ export const TOPICS = {
       "外部电场会使表面电荷重新分布"
     ],
     "keyPoints": [
-      "掌握 10.1「导体静电」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 10.1「导体静电」准确定义 · State the precise definition of 10.1 Electrostatics with Conductors.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「导体静电」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「导体静电」的结论 · Applying the conclusion of Electrostatics with Conductors when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -106,11 +138,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -158,11 +190,37 @@ export const TOPICS = {
     "titleZh": "电荷再分布",
     "titleEn": "Redistribution of Charge between Conductors",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电荷守恒",
+        "termEn": "conservation of charge",
+        "defZh": "接触或再分布过程中，孤立系统的净电荷不变。",
+        "defEn": "During contact or redistribution, the net charge of an isolated system does not change."
+      },
+      {
+        "termZh": "等势",
+        "termEn": "equal potential",
+        "defZh": "互相接触的导体达到同一电势。",
+        "defEn": "Conductors in contact come to the same potential."
+      },
+      {
+        "termZh": "电荷再分布",
+        "termEn": "charge redistribution",
+        "defZh": "导体接触后电荷重新分配，相同导体平分净电荷。",
+        "defEn": "After conductors touch, charge is shared again. Identical conductors split the net charge equally."
+      },
+      {
+        "termZh": "接地",
+        "termEn": "grounding",
+        "defZh": "把导体与电势取为零的大地相连，可改变其电荷。",
+        "defEn": "Connecting a conductor to the earth, whose potential is taken as zero, which can change the conductor’s charge."
+      }
+    ],
     "summary": "电荷再分布 · Redistribution of Charge between Conductors",
     "learningObjectives": [
-      "能陈述「电荷再分布」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电荷再分布」的准确定义与适用对象 · State the precise definition of Redistribution of Charge between Conductors and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Redistribution of Charge between Conductors：准确陈述定义、适用范围与符号约定。",
@@ -208,19 +266,19 @@ export const TOPICS = {
       "导体形状/间距决定电荷分配；可用 C=Q/V 计算"
     ],
     "keyPoints": [
-      "掌握 10.2「电荷再分布」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 10.2「电荷再分布」准确定义 · State the precise definition of 10.2 Redistribution of Charge between Conductors.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电荷再分布」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电荷再分布」的结论 · Applying the conclusion of Redistribution of Charge between Conductors when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -246,11 +304,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -305,11 +363,37 @@ export const TOPICS = {
     "titleZh": "电容器",
     "titleEn": "Capacitors",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电容",
+        "termEn": "capacitance",
+        "defZh": "\\(C=\\dfrac{Q}{V}\\)，由几何和介质决定，不随 \\(Q\\) 或 \\(V\\) 改变。",
+        "defEn": "\\(C=\\dfrac{Q}{V}\\). It is fixed by geometry and the dielectric and does not change with \\(Q\\) or \\(V\\)."
+      },
+      {
+        "termZh": "串联电容",
+        "termEn": "capacitors in series",
+        "defZh": "电荷相同，\\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum\\dfrac{1}{C_i}\\)。",
+        "defEn": "The charge is the same, and \\(\\dfrac{1}{C_{\\mathrm{eq}}}=\\sum\\dfrac{1}{C_i}\\)."
+      },
+      {
+        "termZh": "并联电容",
+        "termEn": "capacitors in parallel",
+        "defZh": "电压相同，\\(C_{\\mathrm{eq}}=\\sum C_i\\)。",
+        "defEn": "The voltage is the same, and \\(C_{\\mathrm{eq}}=\\sum C_i\\)."
+      },
+      {
+        "termZh": "储能",
+        "termEn": "stored energy",
+        "defZh": "\\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)。",
+        "defEn": "\\(U=\\dfrac{1}{2}CV^{2}=\\dfrac{Q^{2}}{2C}\\)."
+      }
+    ],
     "summary": "电容器 · Capacitors",
     "learningObjectives": [
-      "能陈述「电容器」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电容器」的准确定义与适用对象 · State the precise definition of Capacitors and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Capacitors：准确陈述定义、适用范围与符号约定。",
@@ -359,19 +443,19 @@ export const TOPICS = {
       "串联 1/C_eq=Σ1/C_i；并联 C_eq=ΣC_i"
     ],
     "keyPoints": [
-      "掌握 10.3「电容器」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 10.3「电容器」准确定义 · State the precise definition of 10.3 Capacitors.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电容器」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电容器」的结论 · Applying the conclusion of Capacitors when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -397,11 +481,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -456,11 +540,43 @@ export const TOPICS = {
     "titleZh": "电介质",
     "titleEn": "Dielectrics",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电介质",
+        "termEn": "dielectric",
+        "defZh": "放入电容器中的绝缘材料，使电容变为 \\(\\kappa C_0\\)。",
+        "defEn": "An insulating material placed in a capacitor, changing the capacitance to \\(\\kappa C_0\\)."
+      },
+      {
+        "termZh": "介电常数",
+        "termEn": "dielectric constant",
+        "defZh": "\\(\\kappa\\)，无量纲；真空为 1，介质大于 1。",
+        "defEn": "\\(\\kappa\\), dimensionless. It is 1 in vacuum and greater than 1 in a dielectric."
+      },
+      {
+        "termZh": "束缚电荷",
+        "termEn": "bound charge",
+        "defZh": "介质极化后出现在表面、不能自由移动的电荷。",
+        "defEn": "Charge that appears on a dielectric surface because of polarization and cannot move freely."
+      },
+      {
+        "termZh": "击穿",
+        "termEn": "dielectric breakdown",
+        "defZh": "电场超过介质强度后绝缘失效。",
+        "defEn": "The insulation fails when the field exceeds the dielectric strength."
+      },
+      {
+        "termZh": "极化",
+        "termEn": "polarization",
+        "defZh": "外电场使介质分子的正负电荷中心分开。",
+        "defEn": "An external field separates the positive and negative centers of molecules in the dielectric."
+      }
+    ],
     "summary": "电介质 · Dielectrics",
     "learningObjectives": [
-      "能陈述「电介质」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电介质」的准确定义与适用对象 · State the precise definition of Dielectrics and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Dielectrics：准确陈述定义、适用范围与符号约定。",
@@ -510,19 +626,19 @@ export const TOPICS = {
       "κ≥1；部分填充需按串并联模型处理"
     ],
     "keyPoints": [
-      "掌握 10.4「电介质」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 10.4「电介质」准确定义 · State the precise definition of 10.4 Dielectrics.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电介质」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电介质」的结论 · Applying the conclusion of Dielectrics when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -548,11 +664,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

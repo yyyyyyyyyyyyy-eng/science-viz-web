@@ -306,9 +306,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "位置速度加速度 · Connecting Position, Velocity, and Acceleration Using Integrals",
     "learningObjectives": [
-      "能陈述「位置速度加速度」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「位置速度加速度」的准确定义与适用对象 · State the precise definition of Connecting Position, Velocity, and Acceleration Using Integrals and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Connecting Position, Velocity, and Acceleration Using Integrals：准确陈述定义、适用范围与符号约定。",
@@ -349,19 +349,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.2「位置速度加速度」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.2「位置速度加速度」准确定义 · State the precise definition of 8.2 Connecting Position, Velocity, and Acceleration Using Integrals.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「位置速度加速度」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「位置速度加速度」的结论 · Applying the conclusion of Connecting Position, Velocity, and Acceleration Using Integrals when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -387,11 +387,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -785,9 +785,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "曲线间面积 · Finding the Area Between Curves Expressed as Functions of x",
     "learningObjectives": [
-      "能陈述「曲线间面积」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「曲线间面积」的准确定义与适用对象 · State the precise definition of Finding the Area Between Curves Expressed as Functions of x and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Finding the Area Between Curves Expressed as Functions of x：准确陈述定义、适用范围与符号约定。",
@@ -828,19 +828,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.4「曲线间面积」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.4「曲线间面积」准确定义 · State the precise definition of 8.4 Finding the Area Between Curves Expressed as Functions of x.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「曲线间面积」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「曲线间面积」的结论 · Applying the conclusion of Finding the Area Between Curves Expressed as Functions of x when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -866,11 +866,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -960,9 +960,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "曲线间面积 y · Finding the Area Between Curves Expressed as Functions of y",
     "learningObjectives": [
-      "能陈述「曲线间面积 y」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「曲线间面积 y」的准确定义与适用对象 · State the precise definition of Finding the Area Between Curves Expressed as Functions of y and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Finding the Area Between Curves Expressed as Functions of y：准确陈述定义、适用范围与符号约定。",
@@ -1003,19 +1003,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.5「曲线间面积 y」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.5「曲线间面积 y」准确定义 · State the precise definition of 8.5 Finding the Area Between Curves Expressed as Functions of y.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「曲线间面积 y」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「曲线间面积 y」的结论 · Applying the conclusion of Finding the Area Between Curves Expressed as Functions of y when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1041,11 +1041,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1135,9 +1135,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "曲线间面积其他 · Finding Area Between Curves That Intersect at More Than Two Points",
     "learningObjectives": [
-      "能陈述「曲线间面积其他」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「曲线间面积其他」的准确定义与适用对象 · State the precise definition of Finding Area Between Curves That Intersect at More Than Two Points and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Finding Area Between Curves That Intersect at More Than Two Points：准确陈述定义、适用范围与符号约定。",
@@ -1178,19 +1178,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.6「曲线间面积其他」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.6「曲线间面积其他」准确定义 · State the precise definition of 8.6 Finding Area Between Curves That Intersect at More Than Two Points.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「曲线间面积其他」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「曲线间面积其他」的结论 · Applying the conclusion of Finding Area Between Curves That Intersect at More Than Two Points when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1216,11 +1216,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1882,9 +1882,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "圆盘法 · Volume with Disc Method: Revolving Around the x- or y-Axis",
     "learningObjectives": [
-      "能陈述「圆盘法」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「圆盘法」的准确定义与适用对象 · State the precise definition of Volume with Disc Method: Revolving Around the x- or y-Axis and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Volume with Disc Method: Revolving Around the x- or y-Axis：准确陈述定义、适用范围与符号约定。",
@@ -1925,19 +1925,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.9「圆盘法」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.9「圆盘法」准确定义 · State the precise definition of 8.9 Volume with Disc Method: Revolving Around the x- or y-Axis.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「圆盘法」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「圆盘法」的结论 · Applying the conclusion of Volume with Disc Method: Revolving Around the x- or y-Axis when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -1963,11 +1963,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -2355,9 +2355,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "垫圈法 · Volume with Washer Method: Revolving Around the x- or y-Axis",
     "learningObjectives": [
-      "能陈述「垫圈法」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「垫圈法」的准确定义与适用对象 · State the precise definition of Volume with Washer Method: Revolving Around the x- or y-Axis and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Volume with Washer Method: Revolving Around the x- or y-Axis：准确陈述定义、适用范围与符号约定。",
@@ -2398,19 +2398,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.11「垫圈法」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.11「垫圈法」准确定义 · State the precise definition of 8.11 Volume with Washer Method: Revolving Around the x- or y-Axis.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「垫圈法」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「垫圈法」的结论 · Applying the conclusion of Volume with Washer Method: Revolving Around the x- or y-Axis when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -2436,11 +2436,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -2834,9 +2834,9 @@ export const TOPICS = {
     "layer": "ap",
     "summary": "弧长 · The Arc Length of a Smooth, Planar Curve and Distance Traveled",
     "learningObjectives": [
-      "能陈述「弧长」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「弧长」的准确定义与适用对象 · State the precise definition of The Arc Length of a Smooth, Planar Curve and Distance Traveled and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "The Arc Length of a Smooth, Planar Curve and Distance Traveled：准确陈述定义、适用范围与符号约定。",
@@ -2878,19 +2878,19 @@ export const TOPICS = {
       "对参数曲线应改用 ∫√((dx/dt)²+(dy/dt)²) dt"
     ],
     "keyPoints": [
-      "掌握 8.13「弧长」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.13「弧长」准确定义 · State the precise definition of 8.13 The Arc Length of a Smooth, Planar Curve and Distance Traveled.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「弧长」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子"
+      "在不满足假设时直接套用「弧长」的结论 · Applying the conclusion of The Arc Length of a Smooth, Planar Curve and Distance Traveled when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "极限存在与函数在该点有定义混淆；随意约去可能为零的因子 · Confusing existence of a limit with the function being defined at that point, or canceling a factor that might be zero"
     ],
     "examples": [
       {
@@ -2916,11 +2916,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

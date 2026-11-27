@@ -18,11 +18,49 @@ export const TOPICS = {
     "titleZh": "水与生命",
     "titleEn": "Structure of Water and Hydrogen Bonding",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "极性",
+        "termEn": "polarity",
+        "defZh": "分子内电荷分布不均，形成部分正电与部分负电的区域。",
+        "defEn": "An uneven charge distribution that creates partial positive and partial negative regions."
+      },
+      {
+        "termZh": "氢键",
+        "termEn": "hydrogen bond",
+        "defZh": "一个分子中与强电负性原子相连的氢，与另一分子的电负性原子之间的弱吸引。",
+        "defEn": "A weak attraction between a hydrogen bonded to a strongly electronegative atom and an electronegative atom on another molecule."
+      },
+      {
+        "termZh": "内聚",
+        "termEn": "cohesion",
+        "defZh": "同种分子因氢键等作用互相吸引，如水分子彼此粘连。",
+        "defEn": "Attraction between like molecules, such as water molecules clinging to one another by hydrogen bonds."
+      },
+      {
+        "termZh": "黏附",
+        "termEn": "adhesion",
+        "defZh": "不同物质的分子互相吸引，如水附着在极性表面。",
+        "defEn": "Attraction between molecules of different substances, such as water clinging to a polar surface."
+      },
+      {
+        "termZh": "比热",
+        "termEn": "specific heat",
+        "defZh": "使单位质量物质升高单位温度所需的热量；水的比热高，温度变化较慢。",
+        "defEn": "The heat needed to raise the temperature of a unit mass by one degree; water’s high specific heat makes its temperature change slowly."
+      },
+      {
+        "termZh": "溶剂",
+        "termEn": "solvent",
+        "defZh": "能溶解其他物质的液体；水因极性可溶解许多离子和极性分子。",
+        "defEn": "A liquid that dissolves other substances; polar water dissolves many ions and polar molecules."
+      }
+    ],
     "summary": "水与生命 · Structure of Water and Hydrogen Bonding",
     "learningObjectives": [
-      "能陈述「水与生命」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「水与生命」的准确定义与适用对象 · State the precise definition of Structure of Water and Hydrogen Bonding and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Structure of Water and Hydrogen Bonding：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +101,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 1.1「水与生命」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.1「水与生命」准确定义 · State the precise definition of 1.1 Structure of Water and Hydrogen Bonding.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「水与生命」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「水与生命」的结论 · Applying the conclusion of Structure of Water and Hydrogen Bonding when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -101,11 +139,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -148,11 +186,43 @@ export const TOPICS = {
     "titleZh": "元素与大分子",
     "titleEn": "Elements of Life",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "CHNOPS",
+        "termEn": "CHNOPS",
+        "defZh": "碳、氢、氮、氧、磷、硫，是生物大分子中最常见的六种元素。",
+        "defEn": "Carbon, hydrogen, nitrogen, oxygen, phosphorus, and sulfur, the six elements most common in biological macromolecules."
+      },
+      {
+        "termZh": "碳骨架",
+        "termEn": "carbon skeleton",
+        "defZh": "由碳—碳键构成的分子骨架，可成链、分支或成环。",
+        "defEn": "The framework of carbon–carbon bonds in a molecule, which may be a chain, branched, or a ring."
+      },
+      {
+        "termZh": "官能团",
+        "termEn": "functional group",
+        "defZh": "连在碳骨架上、决定分子化学反应性的原子团，如羟基和羧基。",
+        "defEn": "A group of atoms attached to a carbon skeleton that sets the molecule’s chemical reactivity, such as hydroxyl or carboxyl."
+      },
+      {
+        "termZh": "单体",
+        "termEn": "monomer",
+        "defZh": "可重复连接成聚合物的小分子亚基。",
+        "defEn": "A small molecular subunit that can be linked repeatedly to form a polymer."
+      },
+      {
+        "termZh": "聚合物",
+        "termEn": "polymer",
+        "defZh": "由许多单体通过共价键连接而成的大分子。",
+        "defEn": "A large molecule made of many monomers joined by covalent bonds."
+      }
+    ],
     "summary": "元素与大分子 · Elements of Life",
     "learningObjectives": [
-      "能陈述「元素与大分子」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「元素与大分子」的准确定义与适用对象 · State the precise definition of Elements of Life and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Elements of Life：准确陈述定义、适用范围与符号约定。",
@@ -193,19 +263,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 1.2「元素与大分子」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.2「元素与大分子」准确定义 · State the precise definition of 1.2 Elements of Life.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「元素与大分子」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「元素与大分子」的结论 · Applying the conclusion of Elements of Life when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -231,11 +301,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -285,11 +355,49 @@ export const TOPICS = {
     "titleZh": "生物大分子导论",
     "titleEn": "Introduction to Biological Macromolecules",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "脱水缩合",
+        "termEn": "dehydration synthesis",
+        "defZh": "两个单体连接时脱去一分子水并形成共价键的反应。",
+        "defEn": "A reaction that joins two monomers by removing a molecule of water and forming a covalent bond."
+      },
+      {
+        "termZh": "水解",
+        "termEn": "hydrolysis",
+        "defZh": "加水使聚合物中的共价键断裂、释放单体的反应，是消化的化学基础。",
+        "defEn": "A reaction that adds water to break a covalent bond in a polymer and release monomers; the chemical basis of digestion."
+      },
+      {
+        "termZh": "糖类",
+        "termEn": "carbohydrate",
+        "defZh": "由碳、氢、氧组成的糖及其聚合物，可储能或构成结构。",
+        "defEn": "Sugars and their polymers, made of carbon, hydrogen, and oxygen, used for energy storage or structure."
+      },
+      {
+        "termZh": "脂质",
+        "termEn": "lipid",
+        "defZh": "疏水的生物分子，包括脂肪、磷脂和类固醇；并非都是聚合物。",
+        "defEn": "Hydrophobic biological molecules, including fats, phospholipids, and steroids; not all are polymers."
+      },
+      {
+        "termZh": "蛋白质",
+        "termEn": "protein",
+        "defZh": "由氨基酸经肽键连接而成的聚合物，结构决定功能。",
+        "defEn": "A polymer of amino acids joined by peptide bonds, whose structure determines its function."
+      },
+      {
+        "termZh": "核酸",
+        "termEn": "nucleic acid",
+        "defZh": "由核苷酸组成的聚合物，DNA 与 RNA 储存或传递遗传信息。",
+        "defEn": "A polymer of nucleotides; DNA and RNA store or transmit genetic information."
+      }
+    ],
     "summary": "生物大分子导论 · Introduction to Biological Macromolecules",
     "learningObjectives": [
-      "能陈述「生物大分子导论」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「生物大分子导论」的准确定义与适用对象 · State the precise definition of Introduction to Biological Macromolecules and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Introduction to Biological Macromolecules：准确陈述定义、适用范围与符号约定。",
@@ -330,19 +438,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 1.3「生物大分子导论」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.3「生物大分子导论」准确定义 · State the precise definition of 1.3 Introduction to Biological Macromolecules.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「生物大分子导论」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「生物大分子导论」的结论 · Applying the conclusion of Introduction to Biological Macromolecules when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -368,11 +476,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -422,11 +530,49 @@ export const TOPICS = {
     "titleZh": "蛋白质性质",
     "titleEn": "Properties of Biological Macromolecules",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "氨基酸",
+        "termEn": "amino acid",
+        "defZh": "同时含氨基和羧基的单体，R 基团决定其性质；标准氨基酸有 20 种。",
+        "defEn": "A monomer with both an amino group and a carboxyl group; the R group sets its properties. There are 20 standard amino acids."
+      },
+      {
+        "termZh": "肽键",
+        "termEn": "peptide bond",
+        "defZh": "一个氨基酸的羧基与另一个的氨基脱水缩合形成的共价键。",
+        "defEn": "The covalent bond formed by dehydration synthesis between one amino acid’s carboxyl group and another’s amino group."
+      },
+      {
+        "termZh": "一级结构",
+        "termEn": "primary structure",
+        "defZh": "蛋白质中氨基酸的线性序列，按 N 端到 C 端书写。",
+        "defEn": "The linear sequence of amino acids in a protein, written from the N terminus to the C terminus."
+      },
+      {
+        "termZh": "二级结构",
+        "termEn": "secondary structure",
+        "defZh": "主链氢键稳定的局部折叠，如 α 螺旋和 β 折叠。",
+        "defEn": "Local folding stabilized by hydrogen bonds in the backbone, such as the alpha helix and beta sheet."
+      },
+      {
+        "termZh": "三级结构",
+        "termEn": "tertiary structure",
+        "defZh": "整条多肽的三维构象，常由疏水作用、离子键、氢键和二硫键稳定。",
+        "defEn": "The three-dimensional conformation of a whole polypeptide, often stabilized by the hydrophobic effect, ionic bonds, hydrogen bonds, and disulfide bonds."
+      },
+      {
+        "termZh": "变性",
+        "termEn": "denaturation",
+        "defZh": "非共价相互作用被破坏，高级结构展开，但肽键通常不断裂。",
+        "defEn": "Disruption of noncovalent interactions so that higher-order structure unfolds, while peptide bonds usually remain intact."
+      }
+    ],
     "summary": "蛋白质性质 · Properties of Biological Macromolecules",
     "learningObjectives": [
-      "能陈述「蛋白质性质」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「蛋白质性质」的准确定义与适用对象 · State the precise definition of Properties of Biological Macromolecules and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Properties of Biological Macromolecules：准确陈述定义、适用范围与符号约定。",
@@ -467,19 +613,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 1.4「蛋白质性质」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.4「蛋白质性质」准确定义 · State the precise definition of 1.4 Properties of Biological Macromolecules.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「蛋白质性质」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「蛋白质性质」的结论 · Applying the conclusion of Properties of Biological Macromolecules when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -505,11 +651,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -559,11 +705,43 @@ export const TOPICS = {
     "titleZh": "核酸",
     "titleEn": "Nucleic Acids",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "核苷酸",
+        "termEn": "nucleotide",
+        "defZh": "核酸的单体，由磷酸、五碳糖和含氮碱基组成。",
+        "defEn": "The monomer of a nucleic acid, made of a phosphate, a five-carbon sugar, and a nitrogenous base."
+      },
+      {
+        "termZh": "磷酸二酯键",
+        "termEn": "phosphodiester bond",
+        "defZh": "连接一个核苷酸的 5′ 磷酸与下一个核苷酸 3′ 羟基的共价键。",
+        "defEn": "The covalent bond joining the 5′ phosphate of one nucleotide to the 3′ hydroxyl of the next."
+      },
+      {
+        "termZh": "反向平行",
+        "termEn": "antiparallel",
+        "defZh": "DNA 双链方向相反，一条为 5′→3′，另一条为 3′→5′。",
+        "defEn": "The two DNA strands run in opposite directions, one 5′→3′ and the other 3′→5′."
+      },
+      {
+        "termZh": "碱基互补配对",
+        "termEn": "complementary base pairing",
+        "defZh": "A 与 T（RNA 中为 U）配对，G 与 C 配对。",
+        "defEn": "A pairs with T (or U in RNA) and G pairs with C."
+      },
+      {
+        "termZh": "脱氧核糖",
+        "termEn": "deoxyribose",
+        "defZh": "DNA 中的五碳糖，2′ 碳上没有羟基；RNA 的核糖在该处有羟基。",
+        "defEn": "The five-carbon sugar in DNA, which lacks a hydroxyl on the 2′ carbon; RNA’s ribose has that hydroxyl."
+      }
+    ],
     "summary": "核酸 · Nucleic Acids",
     "learningObjectives": [
-      "能陈述「核酸」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「核酸」的准确定义与适用对象 · State the precise definition of Nucleic Acids and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Nucleic Acids：准确陈述定义、适用范围与符号约定。",
@@ -604,19 +782,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 1.5「核酸」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.5「核酸」准确定义 · State the precise definition of 1.5 Nucleic Acids.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「核酸」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「核酸」的结论 · Applying the conclusion of Nucleic Acids when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -642,11 +820,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -696,11 +874,43 @@ export const TOPICS = {
     "titleZh": "酶结构与功能",
     "titleEn": "Structure and Function of Enzymes",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "活性位点",
+        "termEn": "active site",
+        "defZh": "酶上与底物结合并发生催化的区域，其形状和电荷决定特异性。",
+        "defEn": "The region of an enzyme that binds substrate and carries out catalysis; its shape and charge set the specificity."
+      },
+      {
+        "termZh": "底物",
+        "termEn": "substrate",
+        "defZh": "被酶结合并转化的反应物。",
+        "defEn": "The reactant that an enzyme binds and converts."
+      },
+      {
+        "termZh": "活化能",
+        "termEn": "activation energy",
+        "defZh": "反应物达到过渡态所需的能量；酶降低活化能但不改变 \\(\\Delta G\\)。",
+        "defEn": "The energy reactants need to reach the transition state. An enzyme lowers it and does not change \\(\\Delta G\\)."
+      },
+      {
+        "termZh": "诱导契合",
+        "termEn": "induced fit",
+        "defZh": "底物结合后活性位点构象微调，使催化基团就位。",
+        "defEn": "A small change in active-site shape after substrate binds, which positions the catalytic groups."
+      },
+      {
+        "termZh": "变性",
+        "termEn": "denaturation",
+        "defZh": "高温或极端 pH 破坏酶的构象，使活性位点不再能结合底物。",
+        "defEn": "Heat or extreme pH disrupts enzyme conformation so the active site can no longer bind substrate."
+      }
+    ],
     "summary": "酶结构与功能 · Structure and Function of Enzymes",
     "learningObjectives": [
-      "能陈述「酶结构与功能」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「酶结构与功能」的准确定义与适用对象 · State the precise definition of Structure and Function of Enzymes and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Structure and Function of Enzymes：准确陈述定义、适用范围与符号约定。",
@@ -742,19 +952,19 @@ export const TOPICS = {
       "酶降低活化能，不改变 ΔG 与平衡点"
     ],
     "keyPoints": [
-      "掌握 1.6「酶结构与功能」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 1.6「酶结构与功能」准确定义 · State the precise definition of 1.6 Structure and Function of Enzymes.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「酶结构与功能」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「酶结构与功能」的结论 · Applying the conclusion of Structure and Function of Enzymes when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -780,11 +990,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

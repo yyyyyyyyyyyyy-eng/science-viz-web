@@ -262,11 +262,43 @@ export const TOPICS = {
     "titleZh": "电场",
     "titleEn": "Electric Fields",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电场",
+        "termEn": "electric field",
+        "defZh": "单位正试探电荷所受的力，\\(\\vec E=\\dfrac{\\vec F}{q_0}\\)，与试探电荷无关。",
+        "defEn": "The force per unit positive test charge, \\(\\vec E=\\dfrac{\\vec F}{q_0}\\). It does not depend on the test charge."
+      },
+      {
+        "termZh": "电场线",
+        "termEn": "field line",
+        "defZh": "切线方向为 \\(\\vec E\\) 的方向的曲线；线不相交，密处场强。",
+        "defEn": "A curve whose tangent is the direction of \\(\\vec E\\). Lines do not cross, and the field is stronger where they are denser."
+      },
+      {
+        "termZh": "点电荷电场",
+        "termEn": "point-charge field",
+        "defZh": "\\(E=\\dfrac{kq}{r^{2}}\\)，方向沿径向，正电荷向外。",
+        "defEn": "\\(E=\\dfrac{kq}{r^{2}}\\), radial, and outward for a positive charge."
+      },
+      {
+        "termZh": "试探电荷",
+        "termEn": "test charge",
+        "defZh": "用来探测电场、小到不改变源电荷分布的电荷。",
+        "defEn": "A charge used to probe the field, small enough not to change the source charges."
+      },
+      {
+        "termZh": "牛顿每库仑",
+        "termEn": "newton per coulomb",
+        "defZh": "电场的 SI 单位，与伏特每米等价。",
+        "defEn": "The SI unit of electric field, equivalent to the volt per meter."
+      }
+    ],
     "summary": "电场 · Electric Fields",
     "learningObjectives": [
-      "能陈述「电场」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电场」的准确定义与适用对象 · State the precise definition of Electric Fields and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Fields：准确陈述定义、适用范围与符号约定。",
@@ -316,19 +348,19 @@ export const TOPICS = {
       "电场方向为正电荷受力方向"
     ],
     "keyPoints": [
-      "掌握 8.2「电场」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.2「电场」准确定义 · State the precise definition of 8.2 Electric Fields.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电场」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电场」的结论 · Applying the conclusion of Electric Fields when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -354,11 +386,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -413,11 +445,37 @@ export const TOPICS = {
     "titleZh": "电场叠加",
     "titleEn": "Electric Field of Charge Distributions",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "叠加原理",
+        "termEn": "superposition principle",
+        "defZh": "多个电荷的电场是各电荷电场的矢量和。",
+        "defEn": "The field of several charges is the vector sum of the fields of each charge."
+      },
+      {
+        "termZh": "连续分布",
+        "termEn": "continuous distribution",
+        "defZh": "电荷连续铺开，电场由积分 \\(\\mathrm{d}\\vec E\\) 得到。",
+        "defEn": "Charge spread continuously. The field is found by integrating \\(\\mathrm{d}\\vec E\\)."
+      },
+      {
+        "termZh": "线电荷密度",
+        "termEn": "linear charge density",
+        "defZh": "单位长度的电荷，\\(\\lambda=\\dfrac{\\mathrm{d}q}{\\mathrm{d}\\ell}\\)。",
+        "defEn": "Charge per unit length, \\(\\lambda=\\dfrac{\\mathrm{d}q}{\\mathrm{d}\\ell}\\)."
+      },
+      {
+        "termZh": "矢量分解",
+        "termEn": "vector resolution",
+        "defZh": "把每个 \\(\\mathrm{d}\\vec E\\) 分成分量后再积分，对称分量可能抵消。",
+        "defEn": "Split each \\(\\mathrm{d}\\vec E\\) into components before integrating. Symmetric components may cancel."
+      }
+    ],
     "summary": "电场叠加 · Electric Field of Charge Distributions",
     "learningObjectives": [
-      "能陈述「电场叠加」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电场叠加」的准确定义与适用对象 · State the precise definition of Electric Field of Charge Distributions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Field of Charge Distributions：准确陈述定义、适用范围与符号约定。",
@@ -463,19 +521,19 @@ export const TOPICS = {
       "叠加原理；积分需按对称性分解分量"
     ],
     "keyPoints": [
-      "掌握 8.3「电场叠加」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.3「电场叠加」准确定义 · State the precise definition of 8.3 Electric Field of Charge Distributions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电场叠加」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电场叠加」的结论 · Applying the conclusion of Electric Field of Charge Distributions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -501,11 +559,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -560,11 +618,43 @@ export const TOPICS = {
     "titleZh": "电通量",
     "titleEn": "Electric Flux",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电通量",
+        "termEn": "electric flux",
+        "defZh": "电场穿过一个面的量，均匀场中平面为 \\(\\Phi=EA\\cos\\theta\\)。",
+        "defEn": "How much electric field passes through a surface. For a flat surface in a uniform field, \\(\\Phi=EA\\cos\\theta\\)."
+      },
+      {
+        "termZh": "面积矢量",
+        "termEn": "area vector",
+        "defZh": "大小为面积、方向为所选定法线的矢量。",
+        "defEn": "A vector whose magnitude is the area and whose direction is the chosen normal."
+      },
+      {
+        "termZh": "高斯定律",
+        "termEn": "Gauss’s law",
+        "defZh": "闭合曲面的净电通量等于包围电荷除以 \\(\\varepsilon_0\\)。",
+        "defEn": "The net electric flux through a closed surface equals the enclosed charge divided by \\(\\varepsilon_0\\)."
+      },
+      {
+        "termZh": "包围电荷",
+        "termEn": "enclosed charge",
+        "defZh": "位于高斯面内部的净电荷；面外电荷不贡献净通量。",
+        "defEn": "The net charge inside the Gaussian surface. Charge outside does not contribute to the net flux."
+      },
+      {
+        "termZh": "高斯面",
+        "termEn": "Gaussian surface",
+        "defZh": "为应用高斯定律而选取的假想闭合曲面。",
+        "defEn": "An imaginary closed surface chosen so that Gauss’s law is easy to use."
+      }
+    ],
     "summary": "电通量 · Electric Flux",
     "learningObjectives": [
-      "能陈述「电通量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电通量」的准确定义与适用对象 · State the precise definition of Electric Flux and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Flux：准确陈述定义、适用范围与符号约定。",
@@ -610,19 +700,19 @@ export const TOPICS = {
       "单位 N·m²/C"
     ],
     "keyPoints": [
-      "掌握 8.4「电通量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.4「电通量」准确定义 · State the precise definition of 8.4 Electric Flux.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电通量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电通量」的结论 · Applying the conclusion of Electric Flux when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -648,11 +738,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

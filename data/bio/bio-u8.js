@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "环境响应",
     "titleEn": "Responses to the Environment",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "行为响应",
+        "termEn": "behavioral response",
+        "defZh": "生物改变活动以应对环境信号，如迁徙或求偶。",
+        "defEn": "An organism changes its activity in response to an environmental signal, such as migration or courtship."
+      },
+      {
+        "termZh": "生理响应",
+        "termEn": "physiological response",
+        "defZh": "生物改变体内过程以应对环境，如出汗或改变代谢。",
+        "defEn": "An organism changes an internal process in response to the environment, such as sweating or shifting metabolism."
+      },
+      {
+        "termZh": "刺激",
+        "termEn": "stimulus",
+        "defZh": "能被感受器检测并引起响应的环境变化。",
+        "defEn": "An environmental change that a receptor can detect and that causes a response."
+      },
+      {
+        "termZh": "趋性",
+        "termEn": "taxis",
+        "defZh": "生物朝向或背离刺激的定向运动。",
+        "defEn": "Oriented movement toward or away from a stimulus."
+      }
+    ],
     "summary": "环境响应 · Responses to the Environment",
     "learningObjectives": [
-      "能陈述「环境响应」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「环境响应」的准确定义与适用对象 · State the precise definition of Responses to the Environment and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Responses to the Environment：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +89,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.1「环境响应」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.1「环境响应」准确定义 · State the precise definition of 8.1 Responses to the Environment.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「环境响应」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「环境响应」的结论 · Applying the conclusion of Responses to the Environment when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -101,11 +127,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -148,11 +174,43 @@ export const TOPICS = {
     "titleZh": "能量流",
     "titleEn": "Energy Flow Through Ecosystems",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "总初级生产",
+        "termEn": "gross primary production",
+        "defZh": "生产者单位时间固定的总能量。",
+        "defEn": "The total energy producers fix per unit time."
+      },
+      {
+        "termZh": "净初级生产",
+        "termEn": "net primary production",
+        "defZh": "GPP 减去生产者自身呼吸后剩下的能量。",
+        "defEn": "GPP minus the energy producers use in their own respiration."
+      },
+      {
+        "termZh": "营养级",
+        "termEn": "trophic level",
+        "defZh": "食物链中的取食位置，如生产者和初级消费者。",
+        "defEn": "A feeding position in a food chain, such as producer or primary consumer."
+      },
+      {
+        "termZh": "能量传递效率",
+        "termEn": "energy-transfer efficiency",
+        "defZh": "上一营养级的能量中被下一营养级同化的比例，常远低于 100%。",
+        "defEn": "The fraction of energy at one trophic level assimilated by the next. It is often far below 100%."
+      },
+      {
+        "termZh": "分解者",
+        "termEn": "decomposer",
+        "defZh": "把有机物分解为无机物、释放其中能量的生物。",
+        "defEn": "An organism that breaks organic matter into inorganic matter and releases its energy."
+      }
+    ],
     "summary": "能量流 · Energy Flow Through Ecosystems",
     "learningObjectives": [
-      "能陈述「能量流」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「能量流」的准确定义与适用对象 · State the precise definition of Energy Flow Through Ecosystems and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Energy Flow Through Ecosystems：准确陈述定义、适用范围与符号约定。",
@@ -193,19 +251,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.2「能量流」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.2「能量流」准确定义 · State the precise definition of 8.2 Energy Flow Through Ecosystems.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「能量流」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「能量流」的结论 · Applying the conclusion of Energy Flow Through Ecosystems when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -231,11 +289,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -285,11 +343,43 @@ export const TOPICS = {
     "titleZh": "种群生态",
     "titleEn": "Population Ecology",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "指数增长",
+        "termEn": "exponential growth",
+        "defZh": "人均增长率恒定、资源不限制时，种群按 \\(dN/dt=rN\\) 增长。",
+        "defEn": "Growth at a constant per-capita rate when resources are not limiting, \\(dN/dt=rN\\)."
+      },
+      {
+        "termZh": "逻辑斯谛增长",
+        "termEn": "logistic growth",
+        "defZh": "增长随种群接近容纳量而减慢，曲线呈 S 形。",
+        "defEn": "Growth slows as the population approaches carrying capacity, giving an S-shaped curve."
+      },
+      {
+        "termZh": "环境容纳量",
+        "termEn": "carrying capacity",
+        "defZh": "环境能长期维持的种群大小 \\(K\\)，种群可以暂时超过它。",
+        "defEn": "The population size \\(K\\) an environment can sustain over the long term. A population can overshoot it for a while."
+      },
+      {
+        "termZh": "标记重捕",
+        "termEn": "mark and recapture",
+        "defZh": "标记一部分个体，再根据重捕中标记个体的比例估计种群大小。",
+        "defEn": "Mark some individuals, then estimate population size from the proportion of marked animals in a later sample."
+      },
+      {
+        "termZh": "年龄结构",
+        "termEn": "age structure",
+        "defZh": "种群中各年龄个体的比例，影响未来增长。",
+        "defEn": "The proportion of individuals in each age class, which affects future growth."
+      }
+    ],
     "summary": "种群生态 · Population Ecology",
     "learningObjectives": [
-      "能陈述「种群生态」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「种群生态」的准确定义与适用对象 · State the precise definition of Population Ecology and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Population Ecology：准确陈述定义、适用范围与符号约定。",
@@ -330,19 +420,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.3「种群生态」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.3「种群生态」准确定义 · State the precise definition of 8.3 Population Ecology.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「种群生态」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「种群生态」的结论 · Applying the conclusion of Population Ecology when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -368,11 +458,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -427,11 +517,37 @@ export const TOPICS = {
     "titleZh": "密度效应",
     "titleEn": "Effect of Density on Populations",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "密度制约因素",
+        "termEn": "density-dependent factor",
+        "defZh": "作用强度随种群密度变化的因素，如竞争和传染病。",
+        "defEn": "A factor whose effect changes with population density, such as competition or infectious disease."
+      },
+      {
+        "termZh": "非密度制约因素",
+        "termEn": "density-independent factor",
+        "defZh": "作用强度不随密度变化的因素，如突发严寒。",
+        "defEn": "A factor whose effect does not change with density, such as a sudden hard frost."
+      },
+      {
+        "termZh": "种群密度",
+        "termEn": "population density",
+        "defZh": "单位面积或体积中的个体数。",
+        "defEn": "The number of individuals per unit area or volume."
+      },
+      {
+        "termZh": "阿利效应",
+        "termEn": "Allee effect",
+        "defZh": "密度过低时，寻找配偶或合作防御变难，人均增长率下降。",
+        "defEn": "At very low density, finding mates or cooperating in defense becomes harder and the per-capita growth rate falls."
+      }
+    ],
     "summary": "密度效应 · Effect of Density on Populations",
     "learningObjectives": [
-      "能陈述「密度效应」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「密度效应」的准确定义与适用对象 · State the precise definition of Effect of Density on Populations and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Effect of Density on Populations：准确陈述定义、适用范围与符号约定。",
@@ -472,19 +588,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.4「密度效应」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.4「密度效应」准确定义 · State the precise definition of 8.4 Effect of Density on Populations.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「密度效应」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「密度效应」的结论 · Applying the conclusion of Effect of Density on Populations when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -510,11 +626,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -569,11 +685,49 @@ export const TOPICS = {
     "titleZh": "群落生态",
     "titleEn": "Community Ecology",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "生态位",
+        "termEn": "niche",
+        "defZh": "一个物种利用资源和应对环境的方式。",
+        "defEn": "The way a species uses resources and responds to the environment."
+      },
+      {
+        "termZh": "竞争排斥",
+        "termEn": "competitive exclusion",
+        "defZh": "利用完全相同资源的两个物种不能无限期共存。",
+        "defEn": "Two species that use exactly the same resources cannot coexist indefinitely."
+      },
+      {
+        "termZh": "生态位分化",
+        "termEn": "niche differentiation",
+        "defZh": "物种在资源利用上产生差异，从而减少竞争。",
+        "defEn": "Species differ in resource use and therefore compete less."
+      },
+      {
+        "termZh": "关键种",
+        "termEn": "keystone species",
+        "defZh": "对群落结构的影响远大于其数量比例的物种。",
+        "defEn": "A species whose effect on community structure is large relative to its abundance."
+      },
+      {
+        "termZh": "营养级联",
+        "termEn": "trophic cascade",
+        "defZh": "一个营养级的变化通过食物网连锁影响其他营养级。",
+        "defEn": "A change at one trophic level affects others through the food web."
+      },
+      {
+        "termZh": "演替",
+        "termEn": "succession",
+        "defZh": "群落组成随时间的定向变化。",
+        "defEn": "A directional change in community composition over time."
+      }
+    ],
     "summary": "群落生态 · Community Ecology",
     "learningObjectives": [
-      "能陈述「群落生态」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「群落生态」的准确定义与适用对象 · State the precise definition of Community Ecology and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Community Ecology：准确陈述定义、适用范围与符号约定。",
@@ -614,19 +768,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.5「群落生态」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.5「群落生态」准确定义 · State the precise definition of 8.5 Community Ecology.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「群落生态」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「群落生态」的结论 · Applying the conclusion of Community Ecology when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -652,11 +806,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -711,11 +865,37 @@ export const TOPICS = {
     "titleZh": "生物多样性",
     "titleEn": "Biodiversity",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "物种丰富度",
+        "termEn": "species richness",
+        "defZh": "一个群落中的物种数目。",
+        "defEn": "The number of species in a community."
+      },
+      {
+        "termZh": "物种均匀度",
+        "termEn": "species evenness",
+        "defZh": "各物种个体数的相近程度。",
+        "defEn": "How similar the abundances of the species are."
+      },
+      {
+        "termZh": "香农指数",
+        "termEn": "Shannon index",
+        "defZh": "同时考虑丰富度和均匀度的多样性指标。",
+        "defEn": "A diversity measure that uses both richness and evenness."
+      },
+      {
+        "termZh": "生物多样性",
+        "termEn": "biodiversity",
+        "defZh": "基因、物种和生态系统层次上的生命变异。",
+        "defEn": "Variation of life at the levels of genes, species, and ecosystems."
+      }
+    ],
     "summary": "生物多样性 · Biodiversity",
     "learningObjectives": [
-      "能陈述「生物多样性」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「生物多样性」的准确定义与适用对象 · State the precise definition of Biodiversity and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Biodiversity：准确陈述定义、适用范围与符号约定。",
@@ -756,19 +936,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.6「生物多样性」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.6「生物多样性」准确定义 · State the precise definition of 8.6 Biodiversity.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「生物多样性」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「生物多样性」的结论 · Applying the conclusion of Biodiversity when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -794,11 +974,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -848,11 +1028,49 @@ export const TOPICS = {
     "titleZh": "生态系统扰动",
     "titleEn": "Disruptions to Ecosystems",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "扰动",
+        "termEn": "disturbance",
+        "defZh": "火灾、风暴或人类活动等改变群落结构的事件。",
+        "defEn": "An event such as fire, storm, or human activity that changes community structure."
+      },
+      {
+        "termZh": "韧性",
+        "termEn": "resilience",
+        "defZh": "生态系统受扰动后恢复的能力。",
+        "defEn": "The ability of an ecosystem to recover after a disturbance."
+      },
+      {
+        "termZh": "入侵种",
+        "termEn": "invasive species",
+        "defZh": "被引入新地区后迅速扩散并损害本地群落的物种。",
+        "defEn": "A species introduced to a new region that spreads rapidly and harms the native community."
+      },
+      {
+        "termZh": "栖息地破碎化",
+        "termEn": "habitat fragmentation",
+        "defZh": "连续栖息地被分割成孤立斑块。",
+        "defEn": "Continuous habitat is broken into isolated patches."
+      },
+      {
+        "termZh": "初级演替",
+        "termEn": "primary succession",
+        "defZh": "在没有土壤的新表面开始的演替。",
+        "defEn": "Succession that begins on a new surface with no soil."
+      },
+      {
+        "termZh": "次级演替",
+        "termEn": "secondary succession",
+        "defZh": "土壤和种子库仍在时，扰动之后的演替。",
+        "defEn": "Succession after a disturbance when soil and a seed bank remain."
+      }
+    ],
     "summary": "生态系统扰动 · Disruptions to Ecosystems",
     "learningObjectives": [
-      "能陈述「生态系统扰动」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「生态系统扰动」的准确定义与适用对象 · State the precise definition of Disruptions to Ecosystems and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Disruptions to Ecosystems：准确陈述定义、适用范围与符号约定。",
@@ -893,19 +1111,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 8.7「生态系统扰动」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 8.7「生态系统扰动」准确定义 · State the precise definition of 8.7 Disruptions to Ecosystems.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「生态系统扰动」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「生态系统扰动」的结论 · Applying the conclusion of Disruptions to Ecosystems when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -931,11 +1149,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
