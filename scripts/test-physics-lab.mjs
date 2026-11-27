@@ -2246,4 +2246,6 @@ const hooksTest = fileURLToPath(new URL('./test-physics-lab-index-hooks.mjs', im
 const hooks = spawnSync(process.execPath, [hooksTest], { stdio: 'inherit' });
 const forceSensorTest = fileURLToPath(new URL('./test-physics-lab-force-sensor.mjs', import.meta.url));
 const forceSensor = spawnSync(process.execPath, [forceSensorTest], { stdio: 'inherit' });
-if (failed || em.status !== 0 || presets.status !== 0 || hooks.status !== 0 || forceSensor.status !== 0) process.exit(1);
+const apparatusTest = fileURLToPath(new URL('./test-physics-lab-apparatus.mjs', import.meta.url));
+const apparatus = spawnSync(process.execPath, [apparatusTest], { stdio: 'inherit' });
+if (failed || em.status !== 0 || presets.status !== 0 || hooks.status !== 0 || forceSensor.status !== 0 || apparatus.status !== 0) process.exit(1);
