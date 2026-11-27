@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+# Headless Node checks only. These three scripts drive Chrome over CDP and are
+# not installed on the runner:
+#   scripts/test-topic-vocab.mjs
+#   scripts/test-topic-interactions.mjs
+#   scripts/test-calc-u9-97-keypoints-theta.mjs
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Math notation
+        run: node scripts/check-math-notation.mjs
+      - name: LaTeX JS escapes
+        run: node scripts/test-latex-js-escapes.mjs
+      - name: Practice checkers
+        run: node scripts/test-practice-checkers.mjs
+      - name: Accuracy auditor heuristics
+        run: node scripts/test-audit-accuracy-heuristics.mjs
+      - name: Accuracy audit (fail if any issue is reported)
+        run: |
+          node scripts/audit-accuracy.mjs
+          node --input-type=module -e "
+            import { readFileSync } from 'node:fs';
+            const j = JSON.parse(readFileSync('audit/issues.json', 'utf8'));
+            const n = j.summary?.issues ?? (Array.isArray(j.issues) ? j.issues.length : 1);
+            if (n) { console.error('audit issues:', n); process.exit(1); }
+            console.log('audit issues: 0');
+          "
+      - name: Simulation audit
+        run: node scripts/audit-simulations.mjs
+      - name: Visual tokens
+        run: node scripts/test-visual-tokens.mjs
+      - name: em-u12 12.9 dfrac
+        run: node scripts/test-em-u12-129-dfrac.mjs
+      - name: Physics lab suites (mechanics aggregator, including apparatus)
+        run: node scripts/test-physics-lab.mjs
