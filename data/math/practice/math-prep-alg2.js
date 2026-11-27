@@ -2,15 +2,15 @@
 export const UNIT_REF = {
   "id": "math-prep-alg2",
   "code": "P3",
-  "titleZh": "代数 II",
+  "titleZh": "代数 II · Algebra II",
   "titleEn": "Algebra II",
   "layer": "prep",
   "subject": "math"
 };
 export const stimuli = {
   "stim-math-prep-alg2-1": {
-    "title": "函数族回顾 · 代数表",
-    "text": "根据表中输入—输出关系，建立并检验代数模型。",
+    "title": "函数族回顾 · 代数表 · Families of Functions Review: algebra table",
+    "text": "根据表中输入—输出关系，建立并检验代数模型。 · Use the input–output pairs in the table to build an algebraic model and check it.",
     "table": {
       "headers": [
         "x",
@@ -64,8 +64,8 @@ export const stimuli = {
     "sourceNote": "Unit-specific stimulus; OpenStax Calculus pedagogy aligned; data original."
   },
   "stim-math-prep-alg2-2": {
-    "title": "二次函数深入 · 代数表",
-    "text": "根据表中输入—输出关系，建立并检验代数模型。",
+    "title": "二次函数深入 · 代数表 · Quadratic Functions in Depth: algebra table",
+    "text": "根据表中输入—输出关系，建立并检验代数模型。 · Use the input–output pairs in the table to build an algebraic model and check it.",
     "table": {
       "headers": [
         "x",
@@ -123,11 +123,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "math-prep-alg2-set1",
-    "title": "题组 1 · 共享刺激",
+    "title": "题组 1 · 共享刺激 · Set 1, shared stimulus",
     "sharedStimulus": "stim-math-prep-alg2-1",
     "stimulus": {
-      "title": "函数族回顾 · 代数表",
-      "text": "根据表中输入—输出关系，建立并检验代数模型。",
+      "title": "函数族回顾 · 代数表 · Families of Functions Review: algebra table",
+      "text": "根据表中输入—输出关系，建立并检验代数模型。 · Use the input–output pairs in the table to build an algebraic model and check it.",
       "table": {
         "headers": [
           "x",
@@ -183,12 +183,12 @@ export const problems = [
     "questions": [
       {
         "id": "math-prep-alg2-q001",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": true,
-        "title": "二次方程",
+        "title": "二次方程 · quadratic equation",
         "type": "frq",
         "check": "numeric",
-        "stem": "x²−5x+6=0 的较大根？",
+        "stem": "x²−5x+6=0 的较大根？ · What is the larger root of x²−5x+6=0?",
         "expected": 3,
         "tol": 0.01,
         "answerLatex": "3",
@@ -201,16 +201,16 @@ export const problems = [
       },
       {
         "id": "math-prep-alg2-q002",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": true,
-        "title": "顶点",
+        "title": "顶点 · vertex",
         "type": "frq",
         "check": "numeric",
-        "stem": "y=(x−2)²+1 的最小值？",
+        "stem": "y=(x−2)²+1 的最小值？ · What is the minimum value of y=(x−2)²+1?",
         "expected": 1,
         "tol": 0.01,
         "answerLatex": "1",
-        "solution": "平方项最小为 0，故最小值为 1。",
+        "solution": "平方项最小为 0，故最小值为 1。 · The squared term is at least 0, so the minimum value is 1.",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -219,12 +219,12 @@ export const problems = [
       },
       {
         "id": "math-prep-alg2-q003",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": true,
-        "title": "复合函数",
+        "title": "复合函数 · composite function",
         "type": "frq",
         "check": "numeric",
-        "stem": "f(x)=x+1，g(x)=x²，求 (f∘g)(2)。",
+        "stem": "f(x)=x+1，g(x)=x²，求 (f∘g)(2)。 · f(x)=x+1 and g(x)=x². Find (f∘g)(2).",
         "expected": 5,
         "tol": 0.01,
         "answerLatex": "5",
@@ -240,11 +240,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "math-prep-alg2-set2",
-    "title": "题组 2 · 共享刺激",
+    "title": "题组 2 · 共享刺激 · Set 2, shared stimulus",
     "sharedStimulus": "stim-math-prep-alg2-2",
     "stimulus": {
-      "title": "二次函数深入 · 代数表",
-      "text": "根据表中输入—输出关系，建立并检验代数模型。",
+      "title": "二次函数深入 · 代数表 · Quadratic Functions in Depth: algebra table",
+      "text": "根据表中输入—输出关系，建立并检验代数模型。 · Use the input–output pairs in the table to build an algebraic model and check it.",
       "table": {
         "headers": [
           "x",
@@ -300,12 +300,12 @@ export const problems = [
     "questions": [
       {
         "id": "math-prep-alg2-q004",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": true,
-        "title": "二次方程",
+        "title": "二次方程 · quadratic equation",
         "type": "frq",
         "check": "numeric",
-        "stem": "x²−5x+6=0 的较大根？",
+        "stem": "x²−5x+6=0 的较大根？ · What is the larger root of x²−5x+6=0?",
         "expected": 3,
         "tol": 0.01,
         "answerLatex": "3",
@@ -318,16 +318,16 @@ export const problems = [
       },
       {
         "id": "math-prep-alg2-q005",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": true,
-        "title": "顶点",
+        "title": "顶点 · vertex",
         "type": "frq",
         "check": "numeric",
-        "stem": "y=(x−2)²+1 的最小值？",
+        "stem": "y=(x−2)²+1 的最小值？ · What is the minimum value of y=(x−2)²+1?",
         "expected": 1,
         "tol": 0.01,
         "answerLatex": "1",
-        "solution": "平方项最小为 0，故最小值为 1。",
+        "solution": "平方项最小为 0，故最小值为 1。 · The squared term is at least 0, so the minimum value is 1.",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -336,12 +336,12 @@ export const problems = [
       },
       {
         "id": "math-prep-alg2-q006",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": true,
-        "title": "复合函数",
+        "title": "复合函数 · composite function",
         "type": "frq",
         "check": "numeric",
-        "stem": "f(x)=x+1，g(x)=x²，求 (f∘g)(2)。",
+        "stem": "f(x)=x+1，g(x)=x²，求 (f∘g)(2)。 · f(x)=x+1 and g(x)=x². Find (f∘g)(2).",
         "expected": 5,
         "tol": 0.01,
         "answerLatex": "5",
@@ -354,13 +354,13 @@ export const problems = [
       },
       {
         "id": "math-prep-alg2-q007",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": false,
-        "title": "定义域",
+        "title": "定义域 · domain",
         "type": "frq",
-        "stemLatex": "\\text{求 }f(x)=\\dfrac{1}{x-3}\\text{ 的定义域。}",
-        "answer": "x≠3，即 (−∞,3)∪(3,∞)。",
-        "solution": "分母不能为零。",
+        "stemLatex": "\\text{求  · find }f(x)=\\dfrac{1}{x-3}\\text{ 的定义域。 ·  domain.}",
+        "answer": "x≠3，即 (−∞,3)∪(3,∞)。 · x≠3, that is (−∞,3)∪(3,∞).",
+        "solution": "分母不能为零。 · The denominator cannot be zero.",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -371,15 +371,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q008",
-    "title": "P3.1 符号",
+    "title": "P3.1 符号 · P3.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -388,25 +388,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q009",
-    "title": "P3.2 概念",
+    "title": "P3.2 概念 · P3.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「二次函数深入」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「二次函数深入」，下列正确的是？ · Which of the following is correct about “Quadratic Functions in Depth”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -418,12 +418,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q010",
-    "title": "P3.3 计算",
+    "title": "P3.3 计算 · P3.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -436,13 +436,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q011",
-    "title": "P3.4 论述 · 有理函数",
+    "title": "P3.4 论述 · 有理函数 · P3.4 Argument: Rational Functions",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Rational Functions”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -451,15 +451,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q012",
-    "title": "P3.5 符号",
+    "title": "P3.5 符号 · P3.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -468,25 +468,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q013",
-    "title": "P3.6 概念",
+    "title": "P3.6 概念 · P3.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「指数函数」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「指数函数」，下列正确的是？ · Which of the following is correct about “Exponential Functions”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -498,12 +498,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q014",
-    "title": "P3.7 计算",
+    "title": "P3.7 计算 · P3.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -516,13 +516,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q015",
-    "title": "P3.8 论述 · 数列与级数入门",
+    "title": "P3.8 论述 · 数列与级数入门 · P3.8 Argument: Sequences and Series Intro",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Sequences and Series Intro”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -531,15 +531,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q016",
-    "title": "P3.9 符号",
+    "title": "P3.9 符号 · P3.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -548,25 +548,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q017",
-    "title": "P3.10 概念",
+    "title": "P3.10 概念 · P3.10 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「矩阵入门」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「矩阵入门」，下列正确的是？ · Which of the following is correct about “Intro Matrices”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -578,12 +578,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q018",
-    "title": "P3.11 计算",
+    "title": "P3.11 计算 · P3.11 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -596,13 +596,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q019",
-    "title": "P3.12 论述 · 三角恒等式预备",
+    "title": "P3.12 论述 · 三角恒等式预备 · P3.12 Argument: Trig Identity Prep",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「三角恒等式预备」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「三角恒等式预备」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Trig Identity Prep”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -611,15 +611,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q020",
-    "title": "P3.1 符号",
+    "title": "P3.1 符号 · P3.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -628,25 +628,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q021",
-    "title": "P3.2 概念",
+    "title": "P3.2 概念 · P3.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「二次函数深入」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「二次函数深入」，下列正确的是？ · Which of the following is correct about “Quadratic Functions in Depth”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -658,12 +658,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q022",
-    "title": "P3.3 计算",
+    "title": "P3.3 计算 · P3.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -676,13 +676,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q023",
-    "title": "P3.4 论述 · 有理函数",
+    "title": "P3.4 论述 · 有理函数 · P3.4 Argument: Rational Functions",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Rational Functions”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -691,15 +691,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q024",
-    "title": "P3.5 符号",
+    "title": "P3.5 符号 · P3.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -708,25 +708,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q025",
-    "title": "P3.6 概念",
+    "title": "P3.6 概念 · P3.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「指数函数」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「指数函数」，下列正确的是？ · Which of the following is correct about “Exponential Functions”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -738,12 +738,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q026",
-    "title": "P3.7 计算",
+    "title": "P3.7 计算 · P3.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -756,13 +756,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q027",
-    "title": "P3.8 论述 · 数列与级数入门",
+    "title": "P3.8 论述 · 数列与级数入门 · P3.8 Argument: Sequences and Series Intro",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Sequences and Series Intro”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -771,15 +771,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q028",
-    "title": "P3.9 符号",
+    "title": "P3.9 符号 · P3.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -788,25 +788,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q029",
-    "title": "P3.10 概念",
+    "title": "P3.10 概念 · P3.10 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「矩阵入门」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「矩阵入门」，下列正确的是？ · Which of the following is correct about “Intro Matrices”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -818,12 +818,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q030",
-    "title": "P3.11 计算",
+    "title": "P3.11 计算 · P3.11 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -836,13 +836,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q031",
-    "title": "P3.12 论述 · 三角恒等式预备",
+    "title": "P3.12 论述 · 三角恒等式预备 · P3.12 Argument: Trig Identity Prep",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「三角恒等式预备」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「三角恒等式预备」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Trig Identity Prep”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -851,15 +851,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q032",
-    "title": "P3.1 符号",
+    "title": "P3.1 符号 · P3.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -868,25 +868,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q033",
-    "title": "P3.2 概念",
+    "title": "P3.2 概念 · P3.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「二次函数深入」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「二次函数深入」，下列正确的是？ · Which of the following is correct about “Quadratic Functions in Depth”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -898,12 +898,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q034",
-    "title": "P3.3 计算",
+    "title": "P3.3 计算 · P3.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -916,13 +916,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q035",
-    "title": "P3.4 论述 · 有理函数",
+    "title": "P3.4 论述 · 有理函数 · P3.4 Argument: Rational Functions",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「有理函数」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Rational Functions”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -931,15 +931,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q036",
-    "title": "P3.5 符号",
+    "title": "P3.5 符号 · P3.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -948,25 +948,25 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q037",
-    "title": "P3.6 概念",
+    "title": "P3.6 概念 · P3.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「指数函数」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「指数函数」，下列正确的是？ · Which of the following is correct about “Exponential Functions”?",
     "choices": [
       {
-        "text": "函数是每个输入至多一个输出的对应",
+        "text": "函数是每个输入至多一个输出的对应 · A function assigns at most one output to each input",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -978,12 +978,12 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q038",
-    "title": "P3.7 计算",
+    "title": "P3.7 计算 · P3.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
-    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根}",
+    "stemLatex": "x^{2}-5x+6=0\\text{ 的较大根 ·  the larger root}",
     "expected": 3,
     "tol": 0.02,
     "answerLatex": "3",
@@ -996,13 +996,13 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q039",
-    "title": "P3.8 论述 · 数列与级数入门",
+    "title": "P3.8 论述 · 数列与级数入门 · P3.8 Argument: Sequences and Series Intro",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。",
-    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。",
-    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。",
+    "stem": "关于「数列与级数入门」：解释函数复合 (f∘g)(x) 的求值顺序。 · For “Sequences and Series Intro”, explain the order of evaluation for the composition (f∘g)(x)",
+    "answer": "(f∘g)(x) 表示先算内层 g(x)，再把结果作为外层 f 的输入，即 f(g(x))，从右向左求值。例如 f(x)=x+1、g(x)=x² 时，(f∘g)(2)=f(g(2))=f(4)=5。 · (f∘g)(x) means evaluate the inner function g(x) first, then use that result as the input to f, that is f(g(x)), reading from right to left. For f(x)=x+1 and g(x)=x², (f∘g)(2)=f(g(2))=f(4)=5.",
+    "solution": "记号 f∘g 先作用 g 再作用 f；顺序反了通常会得到不同结果。 · The notation f∘g applies g first and then f; reversing the order usually gives a different result.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1011,15 +1011,15 @@ export const problems = [
   },
   {
     "id": "math-prep-alg2-q040",
-    "title": "P3.9 符号",
+    "title": "P3.9 符号 · P3.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
-    "stemLatex": "\\text{化简 }(x-1)(x+1)",
+    "stemLatex": "\\text{化简  · simplify }(x-1)(x+1)",
     "expected": "x^2-1",
     "answerLatex": "x^{2}-1",
-    "solution": "平方差。",
+    "solution": "平方差。 · Difference of squares.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",

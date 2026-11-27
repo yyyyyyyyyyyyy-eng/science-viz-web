@@ -2,15 +2,15 @@
 export const UNIT_REF = {
   "id": "calc-u10",
   "code": "10",
-  "titleZh": "无穷序列与级数",
+  "titleZh": "无穷序列与级数 · infinite sequences and series",
   "titleEn": "Infinite Sequences and Series",
   "layer": "ap",
   "subject": "math"
 };
 export const stimuli = {
   "stim-calc-u10-1": {
-    "title": "无穷级数的收敛与发散 · 部分和",
-    "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
+    "title": "无穷级数的收敛与发散 · 部分和 · Defining Convergent and Divergent Infinite Series: partial sums",
+    "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。 · Examine the partial sums S_n of the series ∑ a_n (geometric, with a_n=(0.5)^{n−1}).",
     "table": {
       "headers": [
         "n",
@@ -51,10 +51,10 @@ export const problems = [
   {
     "kind": "set",
     "id": "calc-u10-extra1",
-    "title": "交替级数与泰勒误差",
+    "title": "交替级数与泰勒误差 · alternating series and Taylor error",
     "stimulus": {
-      "title": "部分和与指数函数",
-      "text": "考虑右侧交替级数，部分和为 S_N；另设 f(x)=eˣ。下表给出部分和的数值。",
+      "title": "部分和与指数函数 · partial sums and the exponential function",
+      "text": "考虑右侧交替级数，部分和为 S_N；另设 f(x)=eˣ。下表给出部分和的数值。 · Consider the alternating series at the right, with partial sums S_N, and let f(x)=eˣ. The table gives some partial-sum values.",
       "textLatex": "S=\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n+1}}{n^{3}}",
       "table": {
         "headers": [
@@ -106,57 +106,57 @@ export const problems = [
       "source": "Original AP-style item (this project)",
       "license": "Project",
       "sourceUrl": "",
-      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。 · Original AP-style item, not an official free-response question."
     },
     "questions": [
       {
         "id": "calc-u10-q001",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "绝对收敛",
-        "stem": "判断 S 是否绝对收敛，并说明理由。",
-        "answer": "绝对收敛。取绝对值后得到 p=3 的 p 级数，而 p=3>1，所以收敛。",
-        "solution": "绝对收敛看 ∑|a_n|；p 级数在 p>1 时收敛。"
+        "title": "绝对收敛 · absolute convergence",
+        "stem": "判断 S 是否绝对收敛，并说明理由。 · Decide whether S converges absolutely, and explain.",
+        "answer": "绝对收敛。取绝对值后得到 p=3 的 p 级数，而 p=3>1，所以收敛。 · It converges absolutely. The absolute values are a p-series with p=3, and p=3>1, so that series converges.",
+        "solution": "绝对收敛看 ∑|a_n|；p 级数在 p>1 时收敛。 · Absolute convergence looks at ∑|a_n|; a p-series converges when p>1."
       },
       {
         "id": "calc-u10-q002",
         "type": "frq",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": false,
-        "title": "交替级数误差",
+        "title": "交替级数误差 · alternating-series error",
         "check": "numeric",
-        "stem": "用交替级数误差界估计 |S−S₃| 的上界。",
+        "stem": "用交替级数误差界估计 |S−S₃| 的上界。 · Use the alternating-series error bound to estimate an upper bound for |S−S₃|.",
         "expected": 0.015625,
         "tol": 0.01,
         "answerLatex": "\\dfrac{1}{64}",
-        "solution": "误差不超过下一个被舍去项的绝对值。",
+        "solution": "误差不超过下一个被舍去项的绝对值。 · The error is at most the absolute value of the first omitted term.",
         "solutionLatex": "|S-S_3|\\le|a_4|=\\dfrac{1}{4^{3}}=\\dfrac{1}{64}"
       },
       {
         "id": "calc-u10-q003",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "三阶泰勒多项式",
+        "title": "三阶泰勒多项式 · third-degree Taylor polynomial",
         "check": "symbolic",
-        "stemLatex": "\\text{写出 }e^{x}\\text{ 在 }x=0\\text{ 处的三阶泰勒多项式 }P_3(x)",
+        "stemLatex": "\\text{写出  · write }e^{x}\\text{ 在  ·  at }x=0\\text{ 处的三阶泰勒多项式  ·  third-degree Taylor polynomial at }P_3(x)",
         "expected": "1+x+x^2/2+x^3/6",
         "answerLatex": "P_3(x)=1+x+\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{6}",
-        "solution": "逐阶求导并在 0 处取值。"
+        "solution": "逐阶求导并在 0 处取值。 · Differentiate term by term and evaluate at 0."
       },
       {
         "id": "calc-u10-q004",
         "type": "frq",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": true,
-        "title": "拉格朗日误差界",
+        "title": "拉格朗日误差界 · Lagrange error bound",
         "check": "numeric",
-        "stem": "用拉格朗日误差界估计 |e^{0.2}−P₃(0.2)| 的上界（用科学计数法，保留三位有效数字）。",
+        "stem": "用拉格朗日误差界估计 |e^{0.2}−P₃(0.2)| 的上界（用科学计数法，保留三位有效数字）。 · Use the Lagrange error bound to estimate an upper bound for |e^{0.2}−P₃(0.2)| in scientific notation, to three significant figures.",
         "expected": 0.00008142685054401135,
         "tol": 0.02,
         "answerLatex": "8.14\\times 10^{-5}",
-        "solution": "用拉格朗日余项公式估计。",
+        "solution": "用拉格朗日余项公式估计。 · Estimate with the Lagrange remainder.",
         "solutionLatex": "|R_3|\\le e^{0.2}\\cdot\\dfrac{0.2^{4}}{4!}\\approx8.14\\times10^{-5}"
       }
     ]
@@ -164,11 +164,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "calc-u10-set1",
-    "title": "题组 2 · 共享刺激",
+    "title": "题组 2 · 共享刺激 · Set 2, shared stimulus",
     "sharedStimulus": "stim-calc-u10-1",
     "stimulus": {
-      "title": "无穷级数的收敛与发散 · 部分和",
-      "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。",
+      "title": "无穷级数的收敛与发散 · 部分和 · Defining Convergent and Divergent Infinite Series: partial sums",
+      "text": "考察级数 ∑ a_n 的部分和 S_n（几何型 a_n=(0.5)^{n−1}）。 · Examine the partial sums S_n of the series ∑ a_n (geometric, with a_n=(0.5)^{n−1}).",
       "table": {
         "headers": [
           "n",
@@ -207,15 +207,15 @@ export const problems = [
     "questions": [
       {
         "id": "calc-u10-q005",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": false,
-        "title": "几何级数",
+        "title": "几何级数 · geometric series",
         "type": "frq",
         "check": "symbolic",
-        "stemLatex": "\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^{n}\\text{ 的和}",
+        "stemLatex": "\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^{n}\\text{ 的和 ·  the sum of}",
         "expected": "2",
         "answerLatex": "2",
-        "solution": "几何级数求和：首项为 1，公比为二分之一。",
+        "solution": "几何级数求和：首项为 1，公比为二分之一。 · Geometric sum: first term 1, common ratio one half.",
         "solutionLatex": "\\sum_{n=0}^{\\infty}\\left(\\dfrac{1}{2}\\right)^{n}=\\dfrac{1}{1-\\dfrac{1}{2}}=2",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
@@ -225,16 +225,16 @@ export const problems = [
       },
       {
         "id": "calc-u10-q006",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "比值审敛",
+        "title": "比值审敛 · ratio test",
         "type": "frq",
         "check": "symbolic",
         "stemLatex": "a_n=\\dfrac{n!}{n^{n}}\\text{：}\\lim\\dfrac{|a_{n+1}|}{|a_n|}",
         "expected": "1/E",
         "answerLatex": "\\dfrac{1}{e}",
-        "solution": "比值极限为 e 的倒数（约 0.368），小于 1，故绝对收敛。",
-        "solutionLatex": "\\lim_{n\\to\\infty}\\dfrac{|a_{n+1}|}{|a_n|}=\\dfrac{1}{e}<1\\Rightarrow\\text{绝对收敛}",
+        "solution": "比值极限为 e 的倒数（约 0.368），小于 1，故绝对收敛。 · The limit of the ratio is the reciprocal of e (about 0.368), which is less than 1, so the series converges absolutely.",
+        "solutionLatex": "\\lim_{n\\to\\infty}\\dfrac{|a_{n+1}|}{|a_n|}=\\dfrac{1}{e}<1\\Rightarrow\\text{绝对收敛 · absolute convergence}",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
         "license": "CC BY-NC-SA 4.0",
@@ -243,16 +243,16 @@ export const problems = [
       },
       {
         "id": "calc-u10-q007",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": true,
-        "title": "部分和",
+        "title": "部分和 · partial sums",
         "type": "frq",
         "check": "numeric",
-        "stem": "几何级数首项 1、公比为二分之一：S_4=？",
+        "stem": "几何级数首项 1、公比为二分之一：S_4=？ · Geometric series with first term 1 and common ratio one half: what is S_4?",
         "expected": 1.875,
         "tol": 0.01,
         "answerLatex": "\\dfrac{15}{8}",
-        "solution": "逐项相加得 1.875。",
+        "solution": "逐项相加得 1.875。 · Adding term by term gives 1.875.",
         "solutionLatex": "1+\\dfrac{1}{2}+\\dfrac{1}{4}+\\dfrac{1}{8}=\\dfrac{15}{8}=1.875",
         "sourceId": "openstax-calculus",
         "source": "OpenStax Calculus Volumes 1–3",
@@ -264,15 +264,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q008",
-    "title": "10.1 符号",
+    "title": "10.1 符号 · 10.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -281,25 +281,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q009",
-    "title": "10.2 概念",
+    "title": "10.2 概念 · 10.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「几何级数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「几何级数」，下列正确的是？ · Which of the following is correct about “Working with Geometric Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -311,16 +311,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q010",
-    "title": "10.3 计算",
+    "title": "10.3 计算 · 10.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -329,14 +329,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q011",
-    "title": "10.4 论述 · 积分检验",
+    "title": "10.4 论述 · 积分检验 · 10.4 Argument: Integral Test for Convergence",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Integral Test for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -345,15 +345,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q012",
-    "title": "10.5 符号",
+    "title": "10.5 符号 · 10.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -362,25 +362,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q013",
-    "title": "10.6 概念",
+    "title": "10.6 概念 · 10.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「比较检验」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「比较检验」，下列正确的是？ · Which of the following is correct about “Comparison Tests for Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -392,16 +392,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q014",
-    "title": "10.7 计算",
+    "title": "10.7 计算 · 10.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -410,14 +410,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q015",
-    "title": "10.8 论述 · 比值检验",
+    "title": "10.8 论述 · 比值检验 · 10.8 Argument: Ratio Test for Convergence",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Ratio Test for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -426,15 +426,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q016",
-    "title": "10.9 符号",
+    "title": "10.9 符号 · 10.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -443,25 +443,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q017",
-    "title": "10.10 概念",
+    "title": "10.10 概念 · 10.10 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「交替级数误差」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「交替级数误差」，下列正确的是？ · Which of the following is correct about “Alternating Series Error Bound”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -473,16 +473,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q018",
-    "title": "10.11 计算",
+    "title": "10.11 计算 · 10.11 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -491,14 +491,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q019",
-    "title": "10.12 论述 · 拉格朗日误差界",
+    "title": "10.12 论述 · 拉格朗日误差界 · 10.12 Argument: Lagrange Error Bound",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Lagrange Error Bound”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -507,15 +507,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q020",
-    "title": "10.13 符号",
+    "title": "10.13 符号 · 10.13 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -524,25 +524,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q021",
-    "title": "10.14 概念",
+    "title": "10.14 概念 · 10.14 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「求函数的泰勒或麦克劳林级数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「求函数的泰勒或麦克劳林级数」，下列正确的是？ · Which of the following is correct about “Finding Taylor or Maclaurin Series for a Function”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -554,16 +554,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q022",
-    "title": "10.15 计算",
+    "title": "10.15 计算 · 10.15 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -572,14 +572,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q023",
-    "title": "10.1 论述 · 无穷级数的收敛与发散",
+    "title": "10.1 论述 · 无穷级数的收敛与发散 · 10.1 Argument: Defining Convergent and Divergent Infinite Series",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Defining Convergent and Divergent Infinite Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -588,15 +588,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q024",
-    "title": "10.2 符号",
+    "title": "10.2 符号 · 10.2 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -605,25 +605,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q025",
-    "title": "10.3 概念",
+    "title": "10.3 概念 · 10.3 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「n 项检验」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「n 项检验」，下列正确的是？ · Which of the following is correct about “The nth Term Test for Divergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -635,16 +635,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q026",
-    "title": "10.4 计算",
+    "title": "10.4 计算 · 10.4 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -653,14 +653,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q027",
-    "title": "10.5 论述 · 调和级数与 p 级数",
+    "title": "10.5 论述 · 调和级数与 p 级数 · 10.5 Argument: Harmonic Series and p-Series",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「调和级数与 p 级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「调和级数与 p 级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Harmonic Series and p-Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -669,15 +669,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q028",
-    "title": "10.6 符号",
+    "title": "10.6 符号 · 10.6 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -686,25 +686,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q029",
-    "title": "10.7 概念",
+    "title": "10.7 概念 · 10.7 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「交替级数」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「交替级数」，下列正确的是？ · Which of the following is correct about “Alternating Series Test for Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -716,16 +716,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q030",
-    "title": "10.8 计算",
+    "title": "10.8 计算 · 10.8 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -734,14 +734,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q031",
-    "title": "10.9 论述 · 绝对与条件收敛",
+    "title": "10.9 论述 · 绝对与条件收敛 · 10.9 Argument: Determining Absolute or Conditional Convergence",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「绝对与条件收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「绝对与条件收敛」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Determining Absolute or Conditional Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -750,15 +750,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q032",
-    "title": "10.10 符号",
+    "title": "10.10 符号 · 10.10 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -767,25 +767,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q033",
-    "title": "10.11 概念",
+    "title": "10.11 概念 · 10.11 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「泰勒多项式导论」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「泰勒多项式导论」，下列正确的是？ · Which of the following is correct about “Finding Taylor Polynomial Approximations of Functions”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -797,16 +797,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q034",
-    "title": "10.12 计算",
+    "title": "10.12 计算 · 10.12 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -815,14 +815,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q035",
-    "title": "10.13 论述 · 半径与区间",
+    "title": "10.13 论述 · 半径与区间 · 10.13 Argument: Radius and Interval of Convergence of Power Series",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「半径与区间」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「半径与区间」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Radius and Interval of Convergence of Power Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -831,15 +831,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q036",
-    "title": "10.14 符号",
+    "title": "10.14 符号 · 10.14 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -848,25 +848,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q037",
-    "title": "10.15 概念",
+    "title": "10.15 概念 · 10.15 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「函数表示为幂级数」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「函数表示为幂级数」，下列正确的是？ · Which of the following is correct about “Representing Functions as Power Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -878,16 +878,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q038",
-    "title": "10.1 计算",
+    "title": "10.1 计算 · 10.1 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -896,14 +896,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q039",
-    "title": "10.2 论述 · 几何级数",
+    "title": "10.2 论述 · 几何级数 · 10.2 Argument: Working with Geometric Series",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「几何级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「几何级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Working with Geometric Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -912,15 +912,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q040",
-    "title": "10.3 符号",
+    "title": "10.3 符号 · 10.3 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -929,25 +929,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q041",
-    "title": "10.4 概念",
+    "title": "10.4 概念 · 10.4 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「积分检验」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「积分检验」，下列正确的是？ · Which of the following is correct about “Integral Test for Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -959,16 +959,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q042",
-    "title": "10.5 计算",
+    "title": "10.5 计算 · 10.5 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -977,14 +977,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q043",
-    "title": "10.6 论述 · 比较检验",
+    "title": "10.6 论述 · 比较检验 · 10.6 Argument: Comparison Tests for Convergence",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「比较检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「比较检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Comparison Tests for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -993,15 +993,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q044",
-    "title": "10.7 符号",
+    "title": "10.7 符号 · 10.7 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1010,25 +1010,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q045",
-    "title": "10.8 概念",
+    "title": "10.8 概念 · 10.8 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「比值检验」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「比值检验」，下列正确的是？ · Which of the following is correct about “Ratio Test for Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1040,16 +1040,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q046",
-    "title": "10.9 计算",
+    "title": "10.9 计算 · 10.9 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1058,14 +1058,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q047",
-    "title": "10.10 论述 · 交替级数误差",
+    "title": "10.10 论述 · 交替级数误差 · 10.10 Argument: Alternating Series Error Bound",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「交替级数误差」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「交替级数误差」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Alternating Series Error Bound”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1074,15 +1074,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q048",
-    "title": "10.11 符号",
+    "title": "10.11 符号 · 10.11 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1091,25 +1091,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q049",
-    "title": "10.12 概念",
+    "title": "10.12 概念 · 10.12 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「拉格朗日误差界」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「拉格朗日误差界」，下列正确的是？ · Which of the following is correct about “Lagrange Error Bound”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1121,16 +1121,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q050",
-    "title": "10.13 计算",
+    "title": "10.13 计算 · 10.13 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1139,14 +1139,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q051",
-    "title": "10.14 论述 · 求函数的泰勒或麦克劳林级数",
+    "title": "10.14 论述 · 求函数的泰勒或麦克劳林级数 · 10.14 Argument: Finding Taylor or Maclaurin Series for a Function",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「求函数的泰勒或麦克劳林级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「求函数的泰勒或麦克劳林级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Finding Taylor or Maclaurin Series for a Function”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1155,15 +1155,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q052",
-    "title": "10.15 符号",
+    "title": "10.15 符号 · 10.15 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1172,25 +1172,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q053",
-    "title": "10.1 概念",
+    "title": "10.1 概念 · 10.1 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「无穷级数的收敛与发散」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「无穷级数的收敛与发散」，下列正确的是？ · Which of the following is correct about “Defining Convergent and Divergent Infinite Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1202,16 +1202,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q054",
-    "title": "10.2 计算",
+    "title": "10.2 计算 · 10.2 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1220,14 +1220,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q055",
-    "title": "10.3 论述 · n 项检验",
+    "title": "10.3 论述 · n 项检验 · 10.3 Argument: The nth Term Test for Divergence",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「n 项检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「n 项检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “The nth Term Test for Divergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1236,15 +1236,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q056",
-    "title": "10.4 符号",
+    "title": "10.4 符号 · 10.4 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1253,25 +1253,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q057",
-    "title": "10.5 概念",
+    "title": "10.5 概念 · 10.5 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「调和级数与 p 级数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「调和级数与 p 级数」，下列正确的是？ · Which of the following is correct about “Harmonic Series and p-Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1283,16 +1283,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q058",
-    "title": "10.6 计算",
+    "title": "10.6 计算 · 10.6 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1301,14 +1301,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q059",
-    "title": "10.7 论述 · 交替级数",
+    "title": "10.7 论述 · 交替级数 · 10.7 Argument: Alternating Series Test for Convergence",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「交替级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「交替级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Alternating Series Test for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1317,15 +1317,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q060",
-    "title": "10.8 符号",
+    "title": "10.8 符号 · 10.8 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1334,25 +1334,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q061",
-    "title": "10.9 概念",
+    "title": "10.9 概念 · 10.9 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「绝对与条件收敛」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「绝对与条件收敛」，下列正确的是？ · Which of the following is correct about “Determining Absolute or Conditional Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1364,16 +1364,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q062",
-    "title": "10.10 计算",
+    "title": "10.10 计算 · 10.10 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1382,14 +1382,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q063",
-    "title": "10.11 论述 · 泰勒多项式导论",
+    "title": "10.11 论述 · 泰勒多项式导论 · 10.11 Argument: Finding Taylor Polynomial Approximations of Functions",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「泰勒多项式导论」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「泰勒多项式导论」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Finding Taylor Polynomial Approximations of Functions”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1398,15 +1398,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q064",
-    "title": "10.12 符号",
+    "title": "10.12 符号 · 10.12 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1415,25 +1415,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q065",
-    "title": "10.13 概念",
+    "title": "10.13 概念 · 10.13 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「半径与区间」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「半径与区间」，下列正确的是？ · Which of the following is correct about “Radius and Interval of Convergence of Power Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1445,16 +1445,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q066",
-    "title": "10.14 计算",
+    "title": "10.14 计算 · 10.14 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1463,14 +1463,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q067",
-    "title": "10.15 论述 · 函数表示为幂级数",
+    "title": "10.15 论述 · 函数表示为幂级数 · 10.15 Argument: Representing Functions as Power Series",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「函数表示为幂级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「函数表示为幂级数」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Representing Functions as Power Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1479,15 +1479,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q068",
-    "title": "10.1 符号",
+    "title": "10.1 符号 · 10.1 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1496,25 +1496,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q069",
-    "title": "10.2 概念",
+    "title": "10.2 概念 · 10.2 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「几何级数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「几何级数」，下列正确的是？ · Which of the following is correct about “Working with Geometric Series”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1526,16 +1526,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q070",
-    "title": "10.3 计算",
+    "title": "10.3 计算 · 10.3 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1544,14 +1544,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q071",
-    "title": "10.4 论述 · 积分检验",
+    "title": "10.4 论述 · 积分检验 · 10.4 Argument: Integral Test for Convergence",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「积分检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Integral Test for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1560,15 +1560,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q072",
-    "title": "10.5 符号",
+    "title": "10.5 符号 · 10.5 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1577,25 +1577,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q073",
-    "title": "10.6 概念",
+    "title": "10.6 概念 · 10.6 Concept",
     "type": "mcq",
-    "difficulty": "难",
-    "stem": "关于「比较检验」，下列正确的是？",
+    "difficulty": "难 · Hard",
+    "stem": "关于「比较检验」，下列正确的是？ · Which of the following is correct about “Comparison Tests for Convergence”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1607,16 +1607,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q074",
-    "title": "10.7 计算",
+    "title": "10.7 计算 · 10.7 Calculation",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1625,14 +1625,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q075",
-    "title": "10.8 论述 · 比值检验",
+    "title": "10.8 论述 · 比值检验 · 10.8 Argument: Ratio Test for Convergence",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
-    "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「比值检验」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Ratio Test for Convergence”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1641,15 +1641,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q076",
-    "title": "10.9 符号",
+    "title": "10.9 符号 · 10.9 Symbolic form",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1658,25 +1658,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q077",
-    "title": "10.10 概念",
+    "title": "10.10 概念 · 10.10 Concept",
     "type": "mcq",
-    "difficulty": "易",
-    "stem": "关于「交替级数误差」，下列正确的是？",
+    "difficulty": "易 · Easy",
+    "stem": "关于「交替级数误差」，下列正确的是？ · Which of the following is correct about “Alternating Series Error Bound”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1688,16 +1688,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q078",
-    "title": "10.11 计算",
+    "title": "10.11 计算 · 10.11 Calculation",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1706,14 +1706,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q079",
-    "title": "10.12 论述 · 拉格朗日误差界",
+    "title": "10.12 论述 · 拉格朗日误差界 · 10.12 Argument: Lagrange Error Bound",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
-    "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「拉格朗日误差界」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Lagrange Error Bound”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1722,15 +1722,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q080",
-    "title": "10.13 符号",
+    "title": "10.13 符号 · 10.13 Symbolic form",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1739,25 +1739,25 @@ export const problems = [
   },
   {
     "id": "calc-u10-q081",
-    "title": "10.14 概念",
+    "title": "10.14 概念 · 10.14 Concept",
     "type": "mcq",
-    "difficulty": "中",
-    "stem": "关于「求函数的泰勒或麦克劳林级数」，下列正确的是？",
+    "difficulty": "中 · Medium",
+    "stem": "关于「求函数的泰勒或麦克劳林级数」，下列正确的是？ · Which of the following is correct about “Finding Taylor or Maclaurin Series for a Function”?",
     "choices": [
       {
-        "text": "a_n→0 是级数收敛的必要条件而非充分条件",
+        "text": "a_n→0 是级数收敛的必要条件而非充分条件 · a_n→0 is necessary for convergence of a series, but not sufficient",
         "correct": true
       },
       {
-        "text": "代数变形可以随意除以可能为零的因式而不作讨论",
+        "text": "代数变形可以随意除以可能为零的因式而不作讨论 · Algebraic steps may divide by a factor that might be zero, with no discussion of that case",
         "correct": false
       },
       {
-        "text": "图像与符号表达式可以互相矛盾仍都正确",
+        "text": "图像与符号表达式可以互相矛盾仍都正确 · A graph and a symbolic expression may contradict each other and both still be correct",
         "correct": false
       },
       {
-        "text": "单位与量纲在数学建模中可以忽略",
+        "text": "单位与量纲在数学建模中可以忽略 · Units and dimensions may be ignored in a mathematical model",
         "correct": false
       }
     ],
@@ -1769,16 +1769,16 @@ export const problems = [
   },
   {
     "id": "calc-u10-q082",
-    "title": "10.15 计算",
+    "title": "10.15 计算 · 10.15 Calculation",
     "type": "frq",
-    "difficulty": "难",
+    "difficulty": "难 · Hard",
     "calculator": false,
     "check": "numeric",
     "stemLatex": "\\sum_{n=0}^{3}\\left(\\dfrac{1}{2}\\right)^{n}",
     "expected": 1.875,
     "tol": 0.02,
     "answerLatex": "\\dfrac{15}{8}",
-    "solution": "几何部分和。",
+    "solution": "几何部分和。 · Geometric partial sum.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1787,14 +1787,14 @@ export const problems = [
   },
   {
     "id": "calc-u10-q083",
-    "title": "10.1 论述 · 无穷级数的收敛与发散",
+    "title": "10.1 论述 · 无穷级数的收敛与发散 · 10.1 Argument: Defining Convergent and Divergent Infinite Series",
     "type": "frq",
-    "difficulty": "易",
+    "difficulty": "易 · Easy",
     "calculator": false,
-    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。",
+    "stem": "关于「无穷级数的收敛与发散」：举一个条件收敛但不绝对收敛的级数例子（名称即可）。 · For “Defining Convergent and Divergent Infinite Series”, name one series that converges conditionally but not absolutely",
     "answerLatex": "\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n}}{n}",
-    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。",
-    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。",
+    "answer": "交错调和级数：第 n 项为 (−1)ⁿ 乘以 n 的倒数。它按交错级数判别法收敛，但取绝对值后就是调和级数（各项为 n 的倒数），发散，所以条件收敛而不绝对收敛。 · The alternating harmonic series has nth term (−1)ⁿ times the reciprocal of n. It converges by the alternating-series test, but the absolute values are the harmonic series (terms the reciprocal of n), which diverges, so the convergence is conditional, not absolute.",
+    "solution": "条件收敛就是原级数收敛而绝对值级数发散；交错调和级数是标准例子。 · Conditional convergence means the series converges but the series of absolute values diverges; the alternating harmonic series is the standard example.",
     "sourceId": "original",
     "source": "Original AP-style item (this project)",
     "license": "Project",
@@ -1803,15 +1803,15 @@ export const problems = [
   },
   {
     "id": "calc-u10-q084",
-    "title": "10.2 符号",
+    "title": "10.2 符号 · 10.2 Symbolic form",
     "type": "frq",
-    "difficulty": "中",
+    "difficulty": "中 · Medium",
     "calculator": false,
     "check": "symbolic",
     "stemLatex": "\\sum_{n=0}^{\\infty}x^{n}\\ (|x|<1)",
     "expected": "1/(1-x)",
     "answerLatex": "\\dfrac{1}{1-x}",
-    "solution": "几何级数。",
+    "solution": "几何级数。 · Geometric series.",
     "sourceId": "openstax-calculus",
     "source": "OpenStax Calculus Volumes 1–3",
     "license": "CC BY-NC-SA 4.0",
@@ -1821,94 +1821,94 @@ export const problems = [
   {
     "kind": "set",
     "id": "calc-u10-frq1",
-    "title": "ln(1+x) 的级数与收敛区间",
+    "title": "ln(1+x) 的级数与收敛区间 · The series for ln(1+x) and its interval of convergence",
     "stimulus": {
-      "title": "对数函数的麦克劳林级数",
-      "text": "已知 ln(1+x) 在 |x|<1 上可展开为交错幂级数。",
+      "title": "对数函数的麦克劳林级数 · Maclaurin series for the logarithm",
+      "text": "已知 ln(1+x) 在 |x|<1 上可展开为交错幂级数。 · ln(1+x) can be expanded as an alternating power series for |x|<1.",
       "textLatex": "\\ln(1+x)=\\sum_{n=1}^{\\infty}\\dfrac{(-1)^{n+1}x^{n}}{n}\\quad(|x|<1)",
       "sourceId": "original",
       "source": "Original AP-style item (this project)",
       "license": "Project",
       "sourceUrl": "",
-      "sourceNote": "原创 AP 风格题，非官方 FRQ。"
+      "sourceNote": "原创 AP 风格题，非官方 FRQ。 · Original AP-style item, not an official free-response question."
     },
     "questions": [
       {
         "id": "calc-u10-frq1-q1",
         "type": "frq",
-        "difficulty": "易",
+        "difficulty": "易 · Easy",
         "calculator": false,
-        "title": "前三项",
+        "title": "前三项 · first three terms",
         "check": "symbolic",
-        "stem": "写出 ln(1+x) 的麦克劳林级数从 x 的一次项开始的前三项。",
+        "stem": "写出 ln(1+x) 的麦克劳林级数从 x 的一次项开始的前三项。 · Write the first three terms, starting with the first power of x, of the Maclaurin series for ln(1+x).",
         "expected": "x-x^2/2+x^3/3",
         "answerLatex": "x-\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{3}",
-        "solution": "代入 n=1,2,3，见下式。",
+        "solution": "代入 n=1,2,3，见下式。 · Substitute n=1, 2, 3; see the expression below.",
         "solutionLatex": "\\ln(1+x)=x-\\dfrac{x^{2}}{2}+\\dfrac{x^{3}}{3}-\\cdots"
       },
       {
         "id": "calc-u10-frq1-q2",
         "type": "frq",
-        "difficulty": "中",
+        "difficulty": "中 · Medium",
         "calculator": false,
-        "title": "数值估计",
+        "title": "数值估计 · numerical estimate",
         "check": "numeric",
-        "stem": "用前三项估计 ln(1.2)（保留四位小数）。",
+        "stem": "用前三项估计 ln(1.2)（保留四位小数）。 · Use the first three terms to estimate ln(1.2), to four decimal places.",
         "expected": 0.18266666666666667,
         "tol": 0.002,
         "answerLatex": "\\approx0.1827",
-        "solution": "用前三项计算；下一项的绝对值给出误差上界。",
+        "solution": "用前三项计算；下一项的绝对值给出误差上界。 · Compute with the first three terms; the absolute value of the next term bounds the error.",
         "solutionLatex": "0.2-\\dfrac{0.2^{2}}{2}+\\dfrac{0.2^{3}}{3}\\approx0.1827,\\qquad \\dfrac{0.2^{4}}{4}=0.0004"
       },
       {
         "id": "calc-u10-frq1-q3",
         "type": "frq",
-        "difficulty": "难",
+        "difficulty": "难 · Hard",
         "calculator": false,
-        "title": "收敛区间",
-        "stemLatex": "\\text{求 }\\sum_{n=1}^{\\infty}\\dfrac{(x-1)^{n}}{n\\,3^{n}}\\text{ 的收敛区间}",
+        "title": "收敛区间 · interval of convergence",
+        "stemLatex": "\\text{求  · find }\\sum_{n=1}^{\\infty}\\dfrac{(x-1)^{n}}{n\\,3^{n}}\\text{ 的收敛区间 ·  interval of convergence}",
         "answerLatex": "x\\in[-2,4)",
-        "answer": "由比值审敛法得半径 R=3 与开区间 (−2,4)。端点 x=−2 时化为交错调和级数，条件收敛；x=4 时为调和级数，发散。故收敛区间为 [−2,4)。",
-        "solution": "先求半径，再分别检验两个端点。",
+        "answer": "由比值审敛法得半径 R=3 与开区间 (−2,4)。端点 x=−2 时化为交错调和级数，条件收敛；x=4 时为调和级数，发散。故收敛区间为 [−2,4)。 · The ratio test gives radius R=3 and open interval (−2,4). At x=−2 the series becomes an alternating harmonic series and converges conditionally; at x=4 it is the harmonic series and diverges. The interval of convergence is [−2,4).",
+        "solution": "先求半径，再分别检验两个端点。 · Find the radius first, then test the two endpoints separately.",
         "solutionLatex": "\\dfrac{|x-1|}{3}<1\\Rightarrow -2<x<4"
       }
     ]
   },
 {
   "id": "calc-u10-q085",
-  "title": "10.9 绝对收敛的重排不变性",
+  "title": "10.9 绝对收敛的重排不变性 · 10.9 rearrangement does not change an absolutely convergent sum",
   "type": "mcq",
-  "difficulty": "中",
+  "difficulty": "中 · Medium",
   "calculator": false,
-  "stem": "若 ∑a_n 绝对收敛，下列哪项一定也收敛？",
+  "stem": "若 ∑a_n 绝对收敛，下列哪项一定也收敛？ · If ∑a_n converges absolutely, which of the following must also converge?",
   "choices": [
     {
-      "text": "∑|a_n|、任意重排 ∑a_σ(n) 与任意有限分组，三者都收敛",
+      "text": "∑|a_n|、任意重排 ∑a_σ(n) 与任意有限分组，三者都收敛 · ∑|a_n|, every rearrangement ∑a_σ(n), and every finite grouping all converge.",
       "correct": true
     },
     {
-      "text": "只有 ∑|a_n| 收敛，重排可能发散",
+      "text": "只有 ∑|a_n| 收敛，重排可能发散 · Only ∑|a_n| converges; a rearrangement may diverge.",
       "correct": false
     },
     {
-      "text": "只有原级数收敛，∑|a_n| 可能发散",
+      "text": "只有原级数收敛，∑|a_n| 可能发散 · Only the original series converges; ∑|a_n| may diverge.",
       "correct": false
     },
     {
-      "text": "重排后一定收敛到不同的和",
+      "text": "重排后一定收敛到不同的和 · After rearrangement it must converge to a different sum",
       "correct": false
     }
   ],
-  "solution": "LIM-7.A.14：绝对收敛级数的任意重排或分组都收敛到同一个和。",
+  "solution": "LIM-7.A.14：绝对收敛级数的任意重排或分组都收敛到同一个和。 · LIM-7.A.14: every rearrangement or grouping of an absolutely convergent series converges to the same sum.",
   "sourceId": "original",
   "source": "Original AP-style item (this project)",
   "license": "Project",
   "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。 · Original AP-style item, not an official item; used for CED coverage in this round.",
   "topicLinks": [
     {
       "href": "#/t/math/calc-u10/10.9",
-      "label": "10.9 绝对与条件收敛",
+      "label": "10.9 绝对与条件收敛 · 10.9 Determining Absolute or Conditional Convergence",
       "topicId": "calc-u10:10.9"
     }
   ]
