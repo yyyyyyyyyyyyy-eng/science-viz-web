@@ -18,11 +18,43 @@ export const TOPICS = {
     "titleZh": "动能定理",
     "titleEn": "Work–Energy Theorem",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "功",
+        "termEn": "work",
+        "defZh": "力与位移的点积。恒力时 \\(W=\\vec F\\cdot\\Delta\\vec r\\)，变力时用 \\(W=\\int\\vec F\\cdot\\mathrm{d}\\vec r\\)，是标量。",
+        "defEn": "The dot product of force and displacement. For a constant force, \\(W=\\vec F\\cdot\\Delta\\vec r\\); for a variable force, \\(W=\\int\\vec F\\cdot\\mathrm{d}\\vec r\\). It is a scalar."
+      },
+      {
+        "termZh": "动能",
+        "termEn": "kinetic energy",
+        "defZh": "\\(K=\\dfrac{1}{2}mv^{2}\\)，由质量和速率决定的标量。",
+        "defEn": "\\(K=\\dfrac{1}{2}mv^{2}\\), a scalar fixed by mass and speed."
+      },
+      {
+        "termZh": "动能定理",
+        "termEn": "work–energy theorem",
+        "defZh": "合力做的功等于动能的变化，\\(W_{\\mathrm{net}}=\\Delta K\\)。",
+        "defEn": "The net work equals the change in kinetic energy, \\(W_{\\mathrm{net}}=\\Delta K\\)."
+      },
+      {
+        "termZh": "点积",
+        "termEn": "dot product",
+        "defZh": "两矢量的大小与夹角余弦的乘积，用于计算功。",
+        "defEn": "The product of two magnitudes and the cosine of the angle between them, used to calculate work."
+      },
+      {
+        "termZh": "焦耳",
+        "termEn": "joule",
+        "defZh": "功和能量的 SI 单位，\\(1\\,\\mathrm{J}=1\\,\\mathrm{N\\,m}\\)。",
+        "defEn": "The SI unit of work and energy, \\(1\\,\\mathrm{J}=1\\,\\mathrm{N\\,m}\\)."
+      }
+    ],
     "summary": "动能定理 · Work–Energy Theorem",
     "learningObjectives": [
-      "能陈述「动能定理」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「动能定理」的准确定义与适用对象 · State the precise definition of Work–Energy Theorem and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Work–Energy Theorem：准确陈述定义、适用范围与符号约定。",
@@ -72,19 +104,19 @@ export const TOPICS = {
       "定理对质点成立；刚体需考虑转动动能"
     ],
     "keyPoints": [
-      "掌握 3.1「动能定理」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.1「动能定理」准确定义 · State the precise definition of 3.1 Work–Energy Theorem.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「动能定理」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「动能定理」的结论 · Applying the conclusion of Work–Energy Theorem when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -110,11 +142,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -580,11 +612,43 @@ export const TOPICS = {
     "titleZh": "机械能守恒",
     "titleEn": "Conservation of Energy",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "机械能",
+        "termEn": "mechanical energy",
+        "defZh": "动能与势能之和，\\(E=K+U\\)。",
+        "defEn": "The sum of kinetic and potential energy, \\(E=K+U\\)."
+      },
+      {
+        "termZh": "保守力",
+        "termEn": "conservative force",
+        "defZh": "做功只与初末位置有关的力，如重力和弹簧力。",
+        "defEn": "A force whose work depends only on the initial and final positions, such as gravity or a spring force."
+      },
+      {
+        "termZh": "非保守力",
+        "termEn": "nonconservative force",
+        "defZh": "做功与路径有关的力，如动摩擦。",
+        "defEn": "A force whose work depends on the path, such as kinetic friction."
+      },
+      {
+        "termZh": "势能零点",
+        "termEn": "zero of potential energy",
+        "defZh": "人为选定 \\(U=0\\) 的位置；只有势能差进入方程。",
+        "defEn": "A chosen position where \\(U=0\\). Only differences in potential energy enter the equations."
+      },
+      {
+        "termZh": "机械能守恒",
+        "termEn": "conservation of mechanical energy",
+        "defZh": "只有保守力做功时 \\(E_i=E_f\\)；有非保守功时用 \\(W_{\\mathrm{nc}}=\\Delta E\\)。",
+        "defEn": "\\(E_i=E_f\\) when only conservative forces do work. With nonconservative work, use \\(W_{\\mathrm{nc}}=\\Delta E\\)."
+      }
+    ],
     "summary": "机械能守恒 · Conservation of Energy",
     "learningObjectives": [
-      "能陈述「机械能守恒」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「机械能守恒」的准确定义与适用对象 · State the precise definition of Conservation of Energy and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Conservation of Energy：准确陈述定义、适用范围与符号约定。",
@@ -634,19 +698,19 @@ export const TOPICS = {
       "系统与势能零点需明确"
     ],
     "keyPoints": [
-      "掌握 3.3「机械能守恒」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.3「机械能守恒」准确定义 · State the precise definition of 3.3 Conservation of Energy.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「机械能守恒」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「机械能守恒」的结论 · Applying the conclusion of Conservation of Energy when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -672,11 +736,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -731,11 +795,43 @@ export const TOPICS = {
     "titleZh": "功率",
     "titleEn": "Power",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "功率",
+        "termEn": "power",
+        "defZh": "做功的快慢，\\(P=\\dfrac{\\Delta W}{\\Delta t}\\)，单位瓦特。",
+        "defEn": "The rate of doing work, \\(P=\\dfrac{\\Delta W}{\\Delta t}\\), in watts."
+      },
+      {
+        "termZh": "瞬时功率",
+        "termEn": "instantaneous power",
+        "defZh": "某一时刻的功率，\\(P=\\vec F\\cdot\\vec v\\)。",
+        "defEn": "Power at one instant, \\(P=\\vec F\\cdot\\vec v\\)."
+      },
+      {
+        "termZh": "平均功率",
+        "termEn": "average power",
+        "defZh": "一段时间内的功除以该时间。",
+        "defEn": "Work over an interval divided by that time."
+      },
+      {
+        "termZh": "瓦特",
+        "termEn": "watt",
+        "defZh": "功率的 SI 单位，\\(1\\,\\mathrm{W}=1\\,\\mathrm{J/s}\\)。",
+        "defEn": "The SI unit of power, \\(1\\,\\mathrm{W}=1\\,\\mathrm{J/s}\\)."
+      },
+      {
+        "termZh": "机械效率",
+        "termEn": "mechanical efficiency",
+        "defZh": "有用输出与总输入之比，小于或等于 1。",
+        "defEn": "Useful output divided by total input. It is at most 1."
+      }
+    ],
     "summary": "功率 · Power",
     "learningObjectives": [
-      "能陈述「功率」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「功率」的准确定义与适用对象 · State the precise definition of Power and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Power：准确陈述定义、适用范围与符号约定。",
@@ -785,19 +881,19 @@ export const TOPICS = {
       "功率是标量，单位 W"
     ],
     "keyPoints": [
-      "掌握 3.4「功率」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.4「功率」准确定义 · State the precise definition of 3.4 Power.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「功率」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「功率」的结论 · Applying the conclusion of Power when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -823,11 +919,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

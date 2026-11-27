@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "磁场",
     "titleEn": "Magnetic Fields",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "磁场",
+        "termEn": "magnetic field",
+        "defZh": "对运动电荷和电流施加力的矢量场，单位特斯拉。",
+        "defEn": "A vector field that exerts forces on moving charges and currents. Its unit is the tesla."
+      },
+      {
+        "termZh": "磁感线",
+        "termEn": "magnetic field line",
+        "defZh": "闭合曲线，切线为 \\(\\vec B\\) 的方向；没有磁单极子。",
+        "defEn": "A closed curve whose tangent is the direction of \\(\\vec B\\). There is no magnetic monopole."
+      },
+      {
+        "termZh": "特斯拉",
+        "termEn": "tesla",
+        "defZh": "磁感应强度的 SI 单位。",
+        "defEn": "The SI unit of magnetic field strength."
+      },
+      {
+        "termZh": "右手定则",
+        "termEn": "right-hand rule",
+        "defZh": "由电流或速度与 \\(\\vec B\\) 判断力或场方向的约定。",
+        "defEn": "A convention that relates current or velocity and \\(\\vec B\\) to the direction of a force or field."
+      }
+    ],
     "summary": "磁场 · Magnetic Fields",
     "learningObjectives": [
-      "能陈述「磁场」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「磁场」的准确定义与适用对象 · State the precise definition of Magnetic Fields and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Magnetic Fields：准确陈述定义、适用范围与符号约定。",
@@ -72,19 +98,19 @@ export const TOPICS = {
       "磁感线闭合；无磁单极子"
     ],
     "keyPoints": [
-      "掌握 12.1「磁场」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 12.1「磁场」准确定义 · State the precise definition of 12.1 Magnetic Fields.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「磁场」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「磁场」的结论 · Applying the conclusion of Magnetic Fields when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -110,11 +136,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -162,11 +188,37 @@ export const TOPICS = {
     "titleZh": "运动电荷与磁场",
     "titleEn": "Magnetism and Moving Charges",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "洛伦兹力",
+        "termEn": "Lorentz force",
+        "defZh": "运动电荷所受磁力，\\(\\vec F=q\\vec v\\times\\vec B\\)。",
+        "defEn": "The magnetic force on a moving charge, \\(\\vec F=q\\vec v\\times\\vec B\\)."
+      },
+      {
+        "termZh": "安培力",
+        "termEn": "Ampère force",
+        "defZh": "电流元所受磁力，垂直时大小为 \\(F=ILB\\)。",
+        "defEn": "The magnetic force on a current. When perpendicular, its magnitude is \\(F=ILB\\)."
+      },
+      {
+        "termZh": "磁力不做功",
+        "termEn": "magnetic force does no work",
+        "defZh": "力始终垂直于速度，所以不改变速率和动能。",
+        "defEn": "The force is always perpendicular to the velocity, so it does not change speed or kinetic energy."
+      },
+      {
+        "termZh": "回旋半径",
+        "termEn": "cyclotron radius",
+        "defZh": "垂直进入匀强磁场的电荷做圆周运动的半径，\\(r=\\dfrac{mv}{qB}\\)。",
+        "defEn": "The radius of the circle followed by a charge entering a uniform field at a right angle, \\(r=\\dfrac{mv}{qB}\\)."
+      }
+    ],
     "summary": "运动电荷与磁场 · Magnetism and Moving Charges",
     "learningObjectives": [
-      "能陈述「运动电荷与磁场」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「运动电荷与磁场」的准确定义与适用对象 · State the precise definition of Magnetism and Moving Charges and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Magnetism and Moving Charges：准确陈述定义、适用范围与符号约定。",
@@ -216,19 +268,19 @@ export const TOPICS = {
       "磁力提供向心力，速率不变"
     ],
     "keyPoints": [
-      "掌握 12.2「运动电荷与磁场」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 12.2「运动电荷与磁场」准确定义 · State the precise definition of 12.2 Magnetism and Moving Charges.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「运动电荷与磁场」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「运动电荷与磁场」的结论 · Applying the conclusion of Magnetism and Moving Charges when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -254,11 +306,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -313,11 +365,37 @@ export const TOPICS = {
     "titleZh": "毕奥–萨伐尔定律",
     "titleEn": "Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "毕奥–萨伐尔定律",
+        "termEn": "Biot–Savart law",
+        "defZh": "电流元产生的磁场 \\(\\mathrm{d}\\vec B\\) 与 \\(\\dfrac{I\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\) 成正比。",
+        "defEn": "The field \\(\\mathrm{d}\\vec B\\) of a current element is proportional to \\(\\dfrac{I\\mathrm{d}\\vec\\ell\\times\\hat r}{r^{2}}\\)."
+      },
+      {
+        "termZh": "长直导线磁场",
+        "termEn": "field of a long straight wire",
+        "defZh": "\\(B=\\dfrac{\\mu_0 I}{2\\pi r}\\)，方向由右手定则给出。",
+        "defEn": "\\(B=\\dfrac{\\mu_0 I}{2\\pi r}\\), with direction from the right-hand rule."
+      },
+      {
+        "termZh": "磁常数",
+        "termEn": "permeability of free space",
+        "defZh": "\\(\\mu_0\\)，真空中联系电流与磁场的常数。",
+        "defEn": "\\(\\mu_0\\), the constant that relates current to magnetic field in vacuum."
+      },
+      {
+        "termZh": "电流元",
+        "termEn": "current element",
+        "defZh": "一小段载流导线 \\(I\\mathrm{d}\\vec\\ell\\)。",
+        "defEn": "A short piece of current-carrying wire, \\(I\\mathrm{d}\\vec\\ell\\)."
+      }
+    ],
     "summary": "毕奥–萨伐尔定律 · Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law",
     "learningObjectives": [
-      "能陈述「毕奥–萨伐尔定律」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「毕奥–萨伐尔定律」的准确定义与适用对象 · State the precise definition of Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law：准确陈述定义、适用范围与符号约定。",
@@ -367,19 +445,19 @@ export const TOPICS = {
       "方向由右手定则；叠加原理"
     ],
     "keyPoints": [
-      "掌握 12.3「毕奥–萨伐尔定律」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 12.3「毕奥–萨伐尔定律」准确定义 · State the precise definition of 12.3 Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「毕奥–萨伐尔定律」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「毕奥–萨伐尔定律」的结论 · Applying the conclusion of Magnetic Fields of Current-Carrying Wires and the Biot–Savart Law when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -405,11 +483,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -464,11 +542,37 @@ export const TOPICS = {
     "titleZh": "安培定律",
     "titleEn": "Ampère's Law",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "安培定律",
+        "termEn": "Ampère’s law",
+        "defZh": "\\(\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{encl}}\\)。",
+        "defEn": "\\(\\oint\\vec B\\cdot\\mathrm{d}\\vec\\ell=\\mu_0 I_{\\mathrm{encl}}\\)."
+      },
+      {
+        "termZh": "包围电流",
+        "termEn": "enclosed current",
+        "defZh": "穿过以安培环路为边界的曲面的净电流。",
+        "defEn": "The net current through a surface bounded by the Amperian loop."
+      },
+      {
+        "termZh": "安培环路",
+        "termEn": "Amperian loop",
+        "defZh": "为利用对称性而选取的闭合积分路径。",
+        "defEn": "A closed path chosen so that symmetry makes the integral easy."
+      },
+      {
+        "termZh": "螺线管",
+        "termEn": "solenoid",
+        "defZh": "密绕线圈，内部磁场近似 \\(B=\\mu_0 n I\\)，\\(n\\) 是单位长度匝数。",
+        "defEn": "A tightly wound coil. Inside, \\(B=\\mu_0 n I\\), where \\(n\\) is turns per unit length."
+      }
+    ],
     "summary": "安培定律 · Ampère's Law",
     "learningObjectives": [
-      "能陈述「安培定律」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「安培定律」的准确定义与适用对象 · State the precise definition of Ampère's Law and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Ampère's Law：准确陈述定义、适用范围与符号约定。",
@@ -510,19 +614,19 @@ export const TOPICS = {
       "高对称性（长直导线、螺线管、螺绕环）才能直接求 B"
     ],
     "keyPoints": [
-      "掌握 12.4「安培定律」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 12.4「安培定律」准确定义 · State the precise definition of 12.4 Ampère's Law.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「安培定律」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「安培定律」的结论 · Applying the conclusion of Ampère's Law when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -548,11 +652,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

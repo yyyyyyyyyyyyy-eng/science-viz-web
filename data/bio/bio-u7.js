@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "自然选择导论",
     "titleEn": "Introduction to Natural Selection",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "自然选择",
+        "termEn": "natural selection",
+        "defZh": "可遗传的有利表型使个体留下更多后代，从而改变种群基因频率。",
+        "defEn": "Heritable advantageous phenotypes leave more offspring, changing allele frequencies in the population."
+      },
+      {
+        "termZh": "可遗传变异",
+        "termEn": "heritable variation",
+        "defZh": "能传给后代的性状差异，是选择产生进化的前提。",
+        "defEn": "Trait differences that can be passed to offspring, a requirement for selection to cause evolution."
+      },
+      {
+        "termZh": "差异繁殖",
+        "termEn": "differential reproduction",
+        "defZh": "不同表型的个体留下的后代数量不同。",
+        "defEn": "Individuals of different phenotypes leave different numbers of offspring."
+      },
+      {
+        "termZh": "种群",
+        "termEn": "population",
+        "defZh": "同一时间、同一地点、能相互交配的同种个体集合。",
+        "defEn": "A group of individuals of one species that can interbreed, in one place at one time."
+      }
+    ],
     "summary": "自然选择导论 · Introduction to Natural Selection",
     "learningObjectives": [
-      "能陈述「自然选择导论」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「自然选择导论」的准确定义与适用对象 · State the precise definition of Introduction to Natural Selection and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Introduction to Natural Selection：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +89,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.1「自然选择导论」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.1「自然选择导论」准确定义 · State the precise definition of 7.1 Introduction to Natural Selection.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「自然选择导论」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「自然选择导论」的结论 · Applying the conclusion of Introduction to Natural Selection when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -101,11 +127,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -148,11 +174,43 @@ export const TOPICS = {
     "titleZh": "自然选择",
     "titleEn": "Natural Selection",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "方向性选择",
+        "termEn": "directional selection",
+        "defZh": "利于分布一端的表型，使种群平均值移动。",
+        "defEn": "Favors phenotypes at one end of the distribution and shifts the population mean."
+      },
+      {
+        "termZh": "稳定化选择",
+        "termEn": "stabilizing selection",
+        "defZh": "利于中间表型，减少两端的极端类型。",
+        "defEn": "Favors intermediate phenotypes and reduces the extremes."
+      },
+      {
+        "termZh": "分裂性选择",
+        "termEn": "disruptive selection",
+        "defZh": "利于两端表型、不利于中间型，可能增加变异。",
+        "defEn": "Favors both extremes and selects against the intermediate, which can increase variation."
+      },
+      {
+        "termZh": "适合度",
+        "termEn": "fitness",
+        "defZh": "相对的繁殖成功，不是身体强弱本身。",
+        "defEn": "Relative reproductive success, not physical strength by itself."
+      },
+      {
+        "termZh": "选择压力",
+        "termEn": "selective pressure",
+        "defZh": "使某些表型留下更多后代的环境因素。",
+        "defEn": "An environmental factor that causes some phenotypes to leave more offspring."
+      }
+    ],
     "summary": "自然选择 · Natural Selection",
     "learningObjectives": [
-      "能陈述「自然选择」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「自然选择」的准确定义与适用对象 · State the precise definition of Natural Selection and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Natural Selection：准确陈述定义、适用范围与符号约定。",
@@ -193,19 +251,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.2「自然选择」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.2「自然选择」准确定义 · State the precise definition of 7.2 Natural Selection.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「自然选择」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「自然选择」的结论 · Applying the conclusion of Natural Selection when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -231,11 +289,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -290,11 +348,37 @@ export const TOPICS = {
     "titleZh": "人工选择",
     "titleEn": "Artificial Selection",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "人工选择",
+        "termEn": "artificial selection",
+        "defZh": "人类按偏好留种，使种群基因频率改变。",
+        "defEn": "Humans choose which individuals breed, changing allele frequencies."
+      },
+      {
+        "termZh": "选择响应",
+        "termEn": "response to selection",
+        "defZh": "选择后下一代性状平均值的改变，依赖于可遗传性。",
+        "defEn": "The change in the next generation’s mean trait after selection. It depends on heritability."
+      },
+      {
+        "termZh": "近交",
+        "termEn": "inbreeding",
+        "defZh": "亲缘个体交配，可降低遗传多样性并暴露有害隐性等位基因。",
+        "defEn": "Mating of relatives, which can reduce genetic diversity and expose harmful recessive alleles."
+      },
+      {
+        "termZh": "育种",
+        "termEn": "breeding",
+        "defZh": "通过选择亲本改变家养种群性状的实践。",
+        "defEn": "The practice of choosing parents to change traits in a domesticated population."
+      }
+    ],
     "summary": "人工选择 · Artificial Selection",
     "learningObjectives": [
-      "能陈述「人工选择」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「人工选择」的准确定义与适用对象 · State the precise definition of Artificial Selection and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Artificial Selection：准确陈述定义、适用范围与符号约定。",
@@ -335,19 +419,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.3「人工选择」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.3「人工选择」准确定义 · State the precise definition of 7.3 Artificial Selection.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「人工选择」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「人工选择」的结论 · Applying the conclusion of Artificial Selection when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -373,11 +457,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -427,11 +511,49 @@ export const TOPICS = {
     "titleZh": "群体遗传",
     "titleEn": "Population Genetics",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "等位基因频率",
+        "termEn": "allele frequency",
+        "defZh": "某等位基因在种群基因库中所占的比例。",
+        "defEn": "The proportion of a given allele in the population’s gene pool."
+      },
+      {
+        "termZh": "基因型频率",
+        "termEn": "genotype frequency",
+        "defZh": "某基因型在种群个体中所占的比例。",
+        "defEn": "The proportion of individuals with a given genotype."
+      },
+      {
+        "termZh": "基因库",
+        "termEn": "gene pool",
+        "defZh": "种群中全部个体的全部等位基因。",
+        "defEn": "All the alleles in all the individuals of a population."
+      },
+      {
+        "termZh": "遗传漂变",
+        "termEn": "genetic drift",
+        "defZh": "由随机抽样引起的等位基因频率变化，小种群中更强。",
+        "defEn": "Change in allele frequency caused by random sampling, stronger in a small population."
+      },
+      {
+        "termZh": "基因流",
+        "termEn": "gene flow",
+        "defZh": "个体或配子迁移使等位基因在种群间移动。",
+        "defEn": "Movement of alleles between populations by migrating individuals or gametes."
+      },
+      {
+        "termZh": "突变",
+        "termEn": "mutation",
+        "defZh": "DNA 序列的可遗传改变，是新等位基因的来源。",
+        "defEn": "A heritable change in DNA sequence, the source of new alleles."
+      }
+    ],
     "summary": "群体遗传 · Population Genetics",
     "learningObjectives": [
-      "能陈述「群体遗传」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「群体遗传」的准确定义与适用对象 · State the precise definition of Population Genetics and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Population Genetics：准确陈述定义、适用范围与符号约定。",
@@ -472,19 +594,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.4「群体遗传」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.4「群体遗传」准确定义 · State the precise definition of 7.4 Population Genetics.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「群体遗传」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「群体遗传」的结论 · Applying the conclusion of Population Genetics when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -510,11 +632,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -569,11 +691,37 @@ export const TOPICS = {
     "titleZh": "哈代–温伯格",
     "titleEn": "Hardy-Weinberg Equilibrium",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "哈代–温伯格平衡",
+        "termEn": "Hardy–Weinberg equilibrium",
+        "defZh": "在没有进化力量和非随机交配时，等位基因和基因型频率保持不变的零模型。",
+        "defEn": "A null model in which allele and genotype frequencies stay constant when evolutionary forces and nonrandom mating are absent."
+      },
+      {
+        "termZh": "\\(p\\) 与 \\(q\\)",
+        "termEn": "\\(p\\) and \\(q\\)",
+        "defZh": "两个等位基因的频率，满足 \\(p+q=1\\)。",
+        "defEn": "The frequencies of two alleles, with \\(p+q=1\\)."
+      },
+      {
+        "termZh": "杂合子",
+        "termEn": "heterozygote",
+        "defZh": "两个等位基因不同的个体。在哈代–温伯格平衡的二等位模型中，其频率为 \\(2pq\\)。",
+        "defEn": "An individual with two different alleles. Under Hardy–Weinberg equilibrium with two alleles, its frequency is \\(2pq\\)."
+      },
+      {
+        "termZh": "零模型",
+        "termEn": "null model",
+        "defZh": "用来比较真实数据、本身不声称描述所有真实种群的基准。",
+        "defEn": "A baseline used to compare real data. It does not claim to describe every real population."
+      }
+    ],
     "summary": "哈代–温伯格 · Hardy-Weinberg Equilibrium",
     "learningObjectives": [
-      "能陈述「哈代–温伯格」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「哈代–温伯格」的准确定义与适用对象 · State the precise definition of Hardy-Weinberg Equilibrium and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Hardy-Weinberg Equilibrium：准确陈述定义、适用范围与符号约定。",
@@ -615,19 +763,19 @@ export const TOPICS = {
       "偏离 HW 平衡提示选择、漂变、迁移或非随机交配"
     ],
     "keyPoints": [
-      "掌握 7.5「哈代–温伯格」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.5「哈代–温伯格」准确定义 · State the precise definition of 7.5 Hardy-Weinberg Equilibrium.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「哈代–温伯格」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「哈代–温伯格」的结论 · Applying the conclusion of Hardy-Weinberg Equilibrium when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -653,11 +801,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -712,11 +860,43 @@ export const TOPICS = {
     "titleZh": "进化证据",
     "titleEn": "Evidence of Evolution",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "同源结构",
+        "termEn": "homologous structure",
+        "defZh": "因共同祖先而相似的结构，功能可以不同。",
+        "defEn": "A structure similar because of common ancestry; the functions may differ."
+      },
+      {
+        "termZh": "趋同结构",
+        "termEn": "analogous structure",
+        "defZh": "因相似环境独立演化出的相似结构，不表示近亲。",
+        "defEn": "A structure similar because of independent evolution in similar environments, not close relationship."
+      },
+      {
+        "termZh": "痕迹结构",
+        "termEn": "vestigial structure",
+        "defZh": "祖先有功能、现存物种中已缩小或失去原功能的结构。",
+        "defEn": "A reduced structure that had a function in an ancestor and has lost that function."
+      },
+      {
+        "termZh": "化石",
+        "termEn": "fossil",
+        "defZh": "过去生命的保存遗存，可显示随时间的变化。",
+        "defEn": "A preserved remain of past life that can show change over time."
+      },
+      {
+        "termZh": "分子证据",
+        "termEn": "molecular evidence",
+        "defZh": "DNA、RNA 或蛋白质序列的相似，用于推断亲缘。",
+        "defEn": "Similarity of DNA, RNA, or protein sequences used to infer relationship."
+      }
+    ],
     "summary": "进化证据 · Evidence of Evolution",
     "learningObjectives": [
-      "能陈述「进化证据」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「进化证据」的准确定义与适用对象 · State the precise definition of Evidence of Evolution and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Evidence of Evolution：准确陈述定义、适用范围与符号约定。",
@@ -757,19 +937,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.6「进化证据」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.6「进化证据」准确定义 · State the precise definition of 7.6 Evidence of Evolution.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「进化证据」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「进化证据」的结论 · Applying the conclusion of Evidence of Evolution when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -795,11 +975,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -849,11 +1029,37 @@ export const TOPICS = {
     "titleZh": "共同祖先",
     "titleEn": "Common Ancestry",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "共同祖先",
+        "termEn": "common ancestor",
+        "defZh": "两个或多个类群由其演化而来的祖先种群。",
+        "defEn": "An ancestral population from which two or more groups descended."
+      },
+      {
+        "termZh": "LUCA",
+        "termEn": "LUCA",
+        "defZh": "现存生命的最近共同祖先，不是地球上最早的生命。",
+        "defEn": "The last universal common ancestor of living organisms, not the earliest life on Earth."
+      },
+      {
+        "termZh": "通用遗传密码",
+        "termEn": "universal genetic code",
+        "defZh": "几乎所有生物使用同一套密码子，支持共同起源。",
+        "defEn": "Nearly all organisms use the same codon assignments, supporting a common origin."
+      },
+      {
+        "termZh": "保守序列",
+        "termEn": "conserved sequence",
+        "defZh": "在远缘生物中仍相似的 DNA 或蛋白质序列。",
+        "defEn": "A DNA or protein sequence that remains similar in distantly related organisms."
+      }
+    ],
     "summary": "共同祖先 · Common Ancestry",
     "learningObjectives": [
-      "能陈述「共同祖先」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「共同祖先」的准确定义与适用对象 · State the precise definition of Common Ancestry and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Common Ancestry：准确陈述定义、适用范围与符号约定。",
@@ -894,19 +1100,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.7「共同祖先」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.7「共同祖先」准确定义 · State the precise definition of 7.7 Common Ancestry.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「共同祖先」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「共同祖先」的结论 · Applying the conclusion of Common Ancestry when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -932,11 +1138,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -986,11 +1192,37 @@ export const TOPICS = {
     "titleZh": "延续与变化",
     "titleEn": "Continuing Evolution",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "微进化",
+        "termEn": "microevolution",
+        "defZh": "种群等位基因频率在世代间的改变。",
+        "defEn": "A change in allele frequencies of a population from generation to generation."
+      },
+      {
+        "termZh": "持续进化",
+        "termEn": "continuing evolution",
+        "defZh": "进化并未停止，病原体耐药和观测到的性状变化都是例子。",
+        "defEn": "Evolution has not stopped. Drug resistance and observed trait changes are examples."
+      },
+      {
+        "termZh": "选择",
+        "termEn": "selection",
+        "defZh": "非随机的差异繁殖改变等位基因频率。",
+        "defEn": "Nonrandom differential reproduction that changes allele frequencies."
+      },
+      {
+        "termZh": "适应辐射",
+        "termEn": "adaptive radiation",
+        "defZh": "一个谱系在相对短的时间里分化出许多生态类型。",
+        "defEn": "One lineage splits into many ecological forms in a relatively short time."
+      }
+    ],
     "summary": "延续与变化 · Continuing Evolution",
     "learningObjectives": [
-      "能陈述「延续与变化」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「延续与变化」的准确定义与适用对象 · State the precise definition of Continuing Evolution and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Continuing Evolution：准确陈述定义、适用范围与符号约定。",
@@ -1031,19 +1263,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.8「延续与变化」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.8「延续与变化」准确定义 · State the precise definition of 7.8 Continuing Evolution.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「延续与变化」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「延续与变化」的结论 · Applying the conclusion of Continuing Evolution when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1069,11 +1301,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1123,11 +1355,43 @@ export const TOPICS = {
     "titleZh": "系统发生",
     "titleEn": "Phylogeny",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "系统发生树",
+        "termEn": "phylogenetic tree",
+        "defZh": "表示类群演化关系的分支图。",
+        "defEn": "A branching diagram of evolutionary relationships."
+      },
+      {
+        "termZh": "节点",
+        "termEn": "node",
+        "defZh": "树上的分支点，代表一个最近共同祖先，不是某个现存物种。",
+        "defEn": "A branch point on a tree. It represents a most recent common ancestor, not a living species."
+      },
+      {
+        "termZh": "单系群",
+        "termEn": "monophyletic group",
+        "defZh": "包含一个祖先及其全部后代的类群。",
+        "defEn": "A group that includes an ancestor and all of its descendants."
+      },
+      {
+        "termZh": "外类群",
+        "termEn": "outgroup",
+        "defZh": "与所研究类群亲缘较远、用来为树定根的类群。",
+        "defEn": "A more distant group used to root the tree."
+      },
+      {
+        "termZh": "共享派生性状",
+        "termEn": "shared derived character",
+        "defZh": "某祖先新出现、并为其后代共有的性状，用于支持一个分支。",
+        "defEn": "A trait that arose in an ancestor and is shared by its descendants, used to support a branch."
+      }
+    ],
     "summary": "系统发生 · Phylogeny",
     "learningObjectives": [
-      "能陈述「系统发生」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「系统发生」的准确定义与适用对象 · State the precise definition of Phylogeny and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Phylogeny：准确陈述定义、适用范围与符号约定。",
@@ -1169,19 +1433,19 @@ export const TOPICS = {
       "水平基因转移与不完全谱系分选可造成基因树冲突"
     ],
     "keyPoints": [
-      "掌握 7.9「系统发生」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.9「系统发生」准确定义 · State the precise definition of 7.9 Phylogeny.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「系统发生」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「系统发生」的结论 · Applying the conclusion of Phylogeny when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1207,11 +1471,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1261,11 +1525,43 @@ export const TOPICS = {
     "titleZh": "物种形成",
     "titleEn": "Speciation",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "物种形成",
+        "termEn": "speciation",
+        "defZh": "一个谱系分裂成两个或多个不能在自然条件下合并的物种。",
+        "defEn": "A lineage splits into two or more species that do not merge under natural conditions."
+      },
+      {
+        "termZh": "异域物种形成",
+        "termEn": "allopatric speciation",
+        "defZh": "种群被地理障碍分开后发生的物种形成。",
+        "defEn": "Speciation after populations are separated by a geographic barrier."
+      },
+      {
+        "termZh": "同域物种形成",
+        "termEn": "sympatric speciation",
+        "defZh": "没有地理隔离时发生的物种形成，如多倍化。",
+        "defEn": "Speciation without geographic isolation, for example by polyploidy."
+      },
+      {
+        "termZh": "合子前隔离",
+        "termEn": "prezygotic isolation",
+        "defZh": "阻止受精的生殖障碍，如行为或时间差异。",
+        "defEn": "A reproductive barrier that prevents fertilization, such as a difference in behavior or timing."
+      },
+      {
+        "termZh": "合子后隔离",
+        "termEn": "postzygotic isolation",
+        "defZh": "受精后降低杂种存活或生育力的障碍。",
+        "defEn": "A barrier after fertilization that reduces hybrid survival or fertility."
+      }
+    ],
     "summary": "物种形成 · Speciation",
     "learningObjectives": [
-      "能陈述「物种形成」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「物种形成」的准确定义与适用对象 · State the precise definition of Speciation and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Speciation：准确陈述定义、适用范围与符号约定。",
@@ -1306,19 +1602,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.10「物种形成」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.10「物种形成」准确定义 · State the precise definition of 7.10 Speciation.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「物种形成」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「物种形成」的结论 · Applying the conclusion of Speciation when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1344,11 +1640,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1398,11 +1694,37 @@ export const TOPICS = {
     "titleZh": "灭绝",
     "titleEn": "Extinction",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "灭绝",
+        "termEn": "extinction",
+        "defZh": "一个物种或类群不再有存活个体。",
+        "defEn": "A species or group no longer has living individuals."
+      },
+      {
+        "termZh": "背景灭绝",
+        "termEn": "background extinction",
+        "defZh": "在地质时间中持续发生的普通灭绝速率。",
+        "defEn": "The ordinary rate of extinction across geologic time."
+      },
+      {
+        "termZh": "大灭绝",
+        "termEn": "mass extinction",
+        "defZh": "相对短的地质时间内大量类群消失。",
+        "defEn": "Loss of many groups in a relatively short geologic interval."
+      },
+      {
+        "termZh": "生态位空缺",
+        "termEn": "vacant niche",
+        "defZh": "灭绝后留下的资源利用机会，可被幸存谱系占据。",
+        "defEn": "A way of using resources left open after extinction, which surviving lineages may occupy."
+      }
+    ],
     "summary": "灭绝 · Extinction",
     "learningObjectives": [
-      "能陈述「灭绝」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「灭绝」的准确定义与适用对象 · State the precise definition of Extinction and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Extinction：准确陈述定义、适用范围与符号约定。",
@@ -1443,19 +1765,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.11「灭绝」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.11「灭绝」准确定义 · State the precise definition of 7.11 Extinction.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「灭绝」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「灭绝」的结论 · Applying the conclusion of Extinction when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1481,11 +1803,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1535,11 +1857,37 @@ export const TOPICS = {
     "titleZh": "种群变异",
     "titleEn": "Variations in Populations",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "种群变异",
+        "termEn": "population variation",
+        "defZh": "种群内个体在可遗传性状上的差异。",
+        "defEn": "Differences in heritable traits among individuals in a population."
+      },
+      {
+        "termZh": "遗传多样性",
+        "termEn": "genetic diversity",
+        "defZh": "种群基因库中等位基因和基因型的丰富程度。",
+        "defEn": "The richness of alleles and genotypes in a population’s gene pool."
+      },
+      {
+        "termZh": "多态性",
+        "termEn": "polymorphism",
+        "defZh": "一个基因在种群中有两种以上较常见的等位基因。",
+        "defEn": "A gene has two or more fairly common alleles in a population."
+      },
+      {
+        "termZh": "瓶颈效应",
+        "termEn": "bottleneck effect",
+        "defZh": "种群数量骤降后，漂变使遗传多样性下降。",
+        "defEn": "After a sharp drop in population size, drift reduces genetic diversity."
+      }
+    ],
     "summary": "种群变异 · Variations in Populations",
     "learningObjectives": [
-      "能陈述「种群变异」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「种群变异」的准确定义与适用对象 · State the precise definition of Variations in Populations and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Variations in Populations：准确陈述定义、适用范围与符号约定。",
@@ -1580,19 +1928,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.12「种群变异」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.12「种群变异」准确定义 · State the precise definition of 7.12 Variations in Populations.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「种群变异」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「种群变异」的结论 · Applying the conclusion of Variations in Populations when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1618,11 +1966,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1672,11 +2020,37 @@ export const TOPICS = {
     "titleZh": "生命起源",
     "titleEn": "Origins of Life on Earth",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "生命起源",
+        "termEn": "origin of life",
+        "defZh": "从非生命化学系统产生能复制并进化的实体。",
+        "defEn": "The appearance of entities that can replicate and evolve from nonliving chemical systems."
+      },
+      {
+        "termZh": "RNA 世界",
+        "termEn": "RNA world",
+        "defZh": "早期生命可能以 RNA 同时承担遗传和催化的假说。",
+        "defEn": "The hypothesis that early life used RNA for both heredity and catalysis."
+      },
+      {
+        "termZh": "原核生物",
+        "termEn": "prokaryote",
+        "defZh": "没有核膜的细胞生命，是化石记录中较早的细胞形式。",
+        "defEn": "Cellular life without a nuclear envelope, the earlier cellular form in the fossil record."
+      },
+      {
+        "termZh": "氧气革命",
+        "termEn": "oxygen revolution",
+        "defZh": "光合产氧使大气含氧量上升，改变了后续进化。",
+        "defEn": "Photosynthetic oxygen production raised atmospheric oxygen and changed later evolution."
+      }
+    ],
     "summary": "生命起源 · Origins of Life on Earth",
     "learningObjectives": [
-      "能陈述「生命起源」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「生命起源」的准确定义与适用对象 · State the precise definition of Origins of Life on Earth and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Origins of Life on Earth：准确陈述定义、适用范围与符号约定。",
@@ -1717,19 +2091,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 7.13「生命起源」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.13「生命起源」准确定义 · State the precise definition of 7.13 Origins of Life on Earth.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「生命起源」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「生命起源」的结论 · Applying the conclusion of Origins of Life on Earth when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1755,11 +2129,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

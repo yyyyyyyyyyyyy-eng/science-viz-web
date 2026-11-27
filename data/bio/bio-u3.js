@@ -18,11 +18,49 @@ export const TOPICS = {
     "titleZh": "酶催化",
     "titleEn": "Enzyme Catalysis",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "催化剂",
+        "termEn": "catalyst",
+        "defZh": "加快反应速率而不被净消耗的物质；酶是生物催化剂。",
+        "defEn": "A substance that speeds a reaction and is not consumed overall. An enzyme is a biological catalyst."
+      },
+      {
+        "termZh": "活化能",
+        "termEn": "activation energy",
+        "defZh": "反应物达到过渡态所需的能量。酶降低它，但不改变 \\(\\Delta G\\)。",
+        "defEn": "The energy reactants need to reach the transition state. An enzyme lowers it and does not change \\(\\Delta G\\)."
+      },
+      {
+        "termZh": "米氏常数",
+        "termEn": "Michaelis constant",
+        "defZh": "使反应速率达到 \\(\\dfrac{V_{\\max}}{2}\\) 的底物浓度，反映酶对底物的表观亲和力。",
+        "defEn": "The substrate concentration at which the rate is \\(\\dfrac{V_{\\max}}{2}\\), reflecting the enzyme’s apparent affinity for substrate."
+      },
+      {
+        "termZh": "最大反应速率",
+        "termEn": "maximum velocity",
+        "defZh": "酶被底物饱和时的反应速率 \\(V_{\\max}\\)。",
+        "defEn": "The reaction rate \\(V_{\\max}\\) when the enzyme is saturated with substrate."
+      },
+      {
+        "termZh": "竞争性抑制剂",
+        "termEn": "competitive inhibitor",
+        "defZh": "与底物竞争活性位点，增大表观 \\(K_m\\)，不改变 \\(V_{\\max}\\)。",
+        "defEn": "A molecule that competes with substrate for the active site, raising apparent \\(K_m\\) without changing \\(V_{\\max}\\)."
+      },
+      {
+        "termZh": "非竞争性抑制剂",
+        "termEn": "noncompetitive inhibitor",
+        "defZh": "结合活性位点以外的部位，降低 \\(V_{\\max}\\)。",
+        "defEn": "A molecule that binds somewhere other than the active site and lowers \\(V_{\\max}\\)."
+      }
+    ],
     "summary": "酶催化 · Enzyme Catalysis",
     "learningObjectives": [
-      "能陈述「酶催化」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「酶催化」的准确定义与适用对象 · State the precise definition of Enzyme Catalysis and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Enzyme Catalysis：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +101,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 3.1「酶催化」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.1「酶催化」准确定义 · State the precise definition of 3.1 Enzyme Catalysis.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「酶催化」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「酶催化」的结论 · Applying the conclusion of Enzyme Catalysis when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -101,11 +139,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -392,11 +430,43 @@ export const TOPICS = {
     "titleZh": "细胞能量",
     "titleEn": "Cellular Energy",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "自由能变",
+        "termEn": "free-energy change",
+        "defZh": "\\(\\Delta G\\)。负值表示反应在该条件下自发，正值表示不自发。",
+        "defEn": "\\(\\Delta G\\). A negative value means the reaction is spontaneous under those conditions; a positive value means it is not."
+      },
+      {
+        "termZh": "放能反应",
+        "termEn": "exergonic reaction",
+        "defZh": "\\(\\Delta G<0\\)、能释放自由能的反应。",
+        "defEn": "A reaction with \\(\\Delta G<0\\) that releases free energy."
+      },
+      {
+        "termZh": "吸能反应",
+        "termEn": "endergonic reaction",
+        "defZh": "\\(\\Delta G>0\\)、需要输入自由能的反应。",
+        "defEn": "A reaction with \\(\\Delta G>0\\) that requires an input of free energy."
+      },
+      {
+        "termZh": "ATP",
+        "termEn": "ATP",
+        "defZh": "细胞的能量货币，水解可与吸能反应偶联。它不是长期储能分子。",
+        "defEn": "The cell’s energy currency. Its hydrolysis can be coupled to endergonic reactions. It is not a long-term storage molecule."
+      },
+      {
+        "termZh": "电子载体",
+        "termEn": "electron carrier",
+        "defZh": "NAD⁺ 和 FAD 等在氧化还原反应中接受并传递电子的分子。",
+        "defEn": "A molecule such as NAD⁺ or FAD that accepts and transfers electrons in redox reactions."
+      }
+    ],
     "summary": "细胞能量 · Cellular Energy",
     "learningObjectives": [
-      "能陈述「细胞能量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「细胞能量」的准确定义与适用对象 · State the precise definition of Cellular Energy and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Cellular Energy：准确陈述定义、适用范围与符号约定。",
@@ -437,19 +507,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 3.3「细胞能量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.3「细胞能量」准确定义 · State the precise definition of 3.3 Cellular Energy.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「细胞能量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「细胞能量」的结论 · Applying the conclusion of Cellular Energy when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -475,11 +545,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -534,11 +604,49 @@ export const TOPICS = {
     "titleZh": "光合作用",
     "titleEn": "Photosynthesis",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "光反应",
+        "termEn": "light reactions",
+        "defZh": "在类囊体膜上把光能转化为 ATP 和 NADPH，并释放来自水的 O₂。",
+        "defEn": "Reactions in the thylakoid membrane that convert light energy to ATP and NADPH and release O₂ from water."
+      },
+      {
+        "termZh": "卡尔文循环",
+        "termEn": "Calvin cycle",
+        "defZh": "在基质中用 ATP 和 NADPH 把 CO₂ 固定为糖的反应，不直接需要光。",
+        "defEn": "Reactions in the stroma that use ATP and NADPH to fix CO₂ into sugar. They do not use light directly."
+      },
+      {
+        "termZh": "光系统",
+        "termEn": "photosystem",
+        "defZh": "类囊体膜上捕获光并驱动电子传递的色素—蛋白复合体。",
+        "defEn": "A pigment–protein complex in the thylakoid membrane that captures light and drives electron transport."
+      },
+      {
+        "termZh": "Rubisco",
+        "termEn": "Rubisco",
+        "defZh": "把 CO₂ 加到 RuBP 上的羧化酶，是碳固定的关键酶。",
+        "defEn": "The carboxylase that adds CO₂ to RuBP, the key enzyme of carbon fixation."
+      },
+      {
+        "termZh": "C4 植物",
+        "termEn": "C4 plant",
+        "defZh": "先把 CO₂ 固定成四碳化合物、再送到维管束鞘进行卡尔文循环，以减少光呼吸。",
+        "defEn": "A plant that first fixes CO₂ into a four-carbon compound and then delivers it to the bundle sheath for the Calvin cycle, reducing photorespiration."
+      },
+      {
+        "termZh": "CAM 植物",
+        "termEn": "CAM plant",
+        "defZh": "夜间气孔开放固定 CO₂、白天气孔关闭，以适应干旱。",
+        "defEn": "A plant that opens stomata and fixes CO₂ at night, then keeps stomata closed by day, an adaptation to drought."
+      }
+    ],
     "summary": "光合作用 · Photosynthesis",
     "learningObjectives": [
-      "能陈述「光合作用」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「光合作用」的准确定义与适用对象 · State the precise definition of Photosynthesis and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Photosynthesis：准确陈述定义、适用范围与符号约定。",
@@ -580,19 +688,19 @@ export const TOPICS = {
       "Rubisco 的羧化/加氧活性受 CO₂/O₂ 比例影响"
     ],
     "keyPoints": [
-      "掌握 3.4「光合作用」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.4「光合作用」准确定义 · State the precise definition of 3.4 Photosynthesis.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「光合作用」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「光合作用」的结论 · Applying the conclusion of Photosynthesis when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -618,11 +726,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -677,11 +785,43 @@ export const TOPICS = {
     "titleZh": "细胞呼吸",
     "titleEn": "Cellular Respiration",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "糖酵解",
+        "termEn": "glycolysis",
+        "defZh": "在细胞质中把葡萄糖分解为丙酮酸，净得 2 ATP 和 2 NADH。",
+        "defEn": "The breakdown of glucose to pyruvate in the cytosol, with a net yield of 2 ATP and 2 NADH."
+      },
+      {
+        "termZh": "柠檬酸循环",
+        "termEn": "citric acid cycle",
+        "defZh": "在线粒体基质中氧化乙酰辅酶 A，产生 CO₂ 和电子载体。",
+        "defEn": "Oxidation of acetyl-CoA in the mitochondrial matrix, producing CO₂ and electron carriers."
+      },
+      {
+        "termZh": "氧化磷酸化",
+        "termEn": "oxidative phosphorylation",
+        "defZh": "电子传递链建立质子梯度，ATP 合酶利用该梯度合成 ATP。",
+        "defEn": "The electron-transport chain builds a proton gradient, and ATP synthase uses that gradient to make ATP."
+      },
+      {
+        "termZh": "电子传递链",
+        "termEn": "electron transport chain",
+        "defZh": "线粒体内膜上一系列传递电子的复合体，最终把电子交给 O₂。",
+        "defEn": "A series of complexes in the inner mitochondrial membrane that pass electrons and finally give them to O₂."
+      },
+      {
+        "termZh": "发酵",
+        "termEn": "fermentation",
+        "defZh": "在无氧时再生 NAD⁺，使糖酵解得以继续，但不能大量产生 ATP。",
+        "defEn": "Regeneration of NAD⁺ without oxygen so glycolysis can continue. It cannot produce a large amount of ATP."
+      }
+    ],
     "summary": "细胞呼吸 · Cellular Respiration",
     "learningObjectives": [
-      "能陈述「细胞呼吸」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「细胞呼吸」的准确定义与适用对象 · State the precise definition of Cellular Respiration and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Cellular Respiration：准确陈述定义、适用范围与符号约定。",
@@ -722,19 +862,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 3.5「细胞呼吸」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.5「细胞呼吸」准确定义 · State the precise definition of 3.5 Cellular Respiration.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「细胞呼吸」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「细胞呼吸」的结论 · Applying the conclusion of Cellular Respiration when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -760,11 +900,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -819,11 +959,37 @@ export const TOPICS = {
     "titleZh": "适应与能量",
     "titleEn": "Fitness",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "适合度",
+        "termEn": "fitness",
+        "defZh": "个体把基因传递到下一代的相对成功。",
+        "defEn": "An individual’s relative success at passing genes to the next generation."
+      },
+      {
+        "termZh": "能量分配",
+        "termEn": "energy allocation",
+        "defZh": "生物把有限能量在生长、维持和繁殖之间的分配。",
+        "defEn": "How an organism divides limited energy among growth, maintenance, and reproduction."
+      },
+      {
+        "termZh": "代谢率",
+        "termEn": "metabolic rate",
+        "defZh": "单位时间的能量消耗，受体型、温度和活动影响。",
+        "defEn": "Energy use per unit time, affected by body size, temperature, and activity."
+      },
+      {
+        "termZh": "适应",
+        "termEn": "adaptation",
+        "defZh": "由自然选择形成、提高当前环境中繁殖成功的可遗传性状。",
+        "defEn": "A heritable trait shaped by natural selection that raises reproductive success in the current environment."
+      }
+    ],
     "summary": "适应与能量 · Fitness",
     "learningObjectives": [
-      "能陈述「适应与能量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「适应与能量」的准确定义与适用对象 · State the precise definition of Fitness and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Fitness：准确陈述定义、适用范围与符号约定。",
@@ -864,19 +1030,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 3.6「适应与能量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 3.6「适应与能量」准确定义 · State the precise definition of 3.6 Fitness.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「适应与能量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「适应与能量」的结论 · Applying the conclusion of Fitness when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -902,11 +1068,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

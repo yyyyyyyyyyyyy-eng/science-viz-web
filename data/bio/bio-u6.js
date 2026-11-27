@@ -18,11 +18,43 @@ export const TOPICS = {
     "titleZh": "DNA 与 RNA 结构",
     "titleEn": "DNA and RNA Structure",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "双螺旋",
+        "termEn": "double helix",
+        "defZh": "DNA 两条反向平行链靠碱基对之间的氢键缠绕成螺旋。",
+        "defEn": "Two antiparallel DNA strands wound into a helix and held by hydrogen bonds between base pairs."
+      },
+      {
+        "termZh": "查加夫规则",
+        "termEn": "Chargaff’s rules",
+        "defZh": "双链 DNA 中 A 的量等于 T、G 的量等于 C。",
+        "defEn": "In double-stranded DNA the amount of A equals T and the amount of G equals C."
+      },
+      {
+        "termZh": "嘌呤",
+        "termEn": "purine",
+        "defZh": "双环含氮碱基，A 和 G。",
+        "defEn": "A double-ring nitrogenous base, A or G."
+      },
+      {
+        "termZh": "嘧啶",
+        "termEn": "pyrimidine",
+        "defZh": "单环含氮碱基，DNA 中为 C 和 T，RNA 中为 C 和 U。",
+        "defEn": "A single-ring nitrogenous base: C and T in DNA, C and U in RNA."
+      },
+      {
+        "termZh": "氢键",
+        "termEn": "hydrogen bond",
+        "defZh": "连接互补碱基的弱键，A–T 两个、G–C 三个，使双链可以解开。",
+        "defEn": "The weak bonds between complementary bases, two for A–T and three for G–C, so the strands can be separated."
+      }
+    ],
     "summary": "DNA 与 RNA 结构 · DNA and RNA Structure",
     "learningObjectives": [
-      "能陈述「DNA 与 RNA 结构」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「DNA 与 RNA 结构」的准确定义与适用对象 · State the precise definition of DNA and RNA Structure and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "DNA and RNA Structure：准确陈述定义、适用范围与符号约定。",
@@ -63,19 +95,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.1「DNA 与 RNA 结构」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.1「DNA 与 RNA 结构」准确定义 · State the precise definition of 6.1 DNA and RNA Structure.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「DNA 与 RNA 结构」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「DNA 与 RNA 结构」的结论 · Applying the conclusion of DNA and RNA Structure when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -101,11 +133,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -153,11 +185,49 @@ export const TOPICS = {
     "titleZh": "复制",
     "titleEn": "Replication",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "半保留复制",
+        "termEn": "semiconservative replication",
+        "defZh": "每个子代 DNA 保留一条亲代链和一条新链。",
+        "defEn": "Each daughter DNA molecule keeps one parental strand and one new strand."
+      },
+      {
+        "termZh": "复制叉",
+        "termEn": "replication fork",
+        "defZh": "双链解开、新链合成的 Y 形区域。",
+        "defEn": "The Y-shaped region where the helix is unwound and new strands are made."
+      },
+      {
+        "termZh": "前导链",
+        "termEn": "leading strand",
+        "defZh": "沿复制叉移动方向连续合成的新链。",
+        "defEn": "The new strand synthesized continuously in the direction the fork moves."
+      },
+      {
+        "termZh": "滞后链",
+        "termEn": "lagging strand",
+        "defZh": "以冈崎片段不连续合成、总体方向与叉移动相反的新链。",
+        "defEn": "The new strand made discontinuously as Okazaki fragments, overall opposite the fork’s movement."
+      },
+      {
+        "termZh": "引物酶",
+        "termEn": "primase",
+        "defZh": "合成 RNA 引物、为 DNA 聚合酶提供 3′ 羟基的酶。",
+        "defEn": "The enzyme that makes an RNA primer, giving DNA polymerase a 3′ hydroxyl."
+      },
+      {
+        "termZh": "DNA 聚合酶",
+        "termEn": "DNA polymerase",
+        "defZh": "只能在 5′→3′ 方向把核苷酸加到已有链上的酶。",
+        "defEn": "An enzyme that can add nucleotides only to an existing strand, in the 5′→3′ direction."
+      }
+    ],
     "summary": "复制 · Replication",
     "learningObjectives": [
-      "能陈述「复制」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「复制」的准确定义与适用对象 · State the precise definition of Replication and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Replication：准确陈述定义、适用范围与符号约定。",
@@ -198,19 +268,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.2「复制」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.2「复制」准确定义 · State the precise definition of 6.2 Replication.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「复制」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「复制」的结论 · Applying the conclusion of Replication when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -236,11 +306,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -295,11 +365,49 @@ export const TOPICS = {
     "titleZh": "转录与 RNA 加工",
     "titleEn": "Transcription and RNA Processing",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "转录",
+        "termEn": "transcription",
+        "defZh": "以 DNA 为模板合成 RNA。",
+        "defEn": "Synthesis of RNA using DNA as a template."
+      },
+      {
+        "termZh": "模板链",
+        "termEn": "template strand",
+        "defZh": "被 RNA 聚合酶按 3′→5′ 读取的 DNA 链。",
+        "defEn": "The DNA strand RNA polymerase reads 3′→5′."
+      },
+      {
+        "termZh": "编码链",
+        "termEn": "coding strand",
+        "defZh": "与 mRNA 序列相同（T 换成 U）的 DNA 链，不被直接读取。",
+        "defEn": "The DNA strand with the same sequence as the mRNA, with T in place of U. It is not read directly."
+      },
+      {
+        "termZh": "RNA 加工",
+        "termEn": "RNA processing",
+        "defZh": "真核前体 mRNA 的加帽、加尾和剪接。",
+        "defEn": "Capping, tailing, and splicing of eukaryotic pre-mRNA."
+      },
+      {
+        "termZh": "外显子",
+        "termEn": "exon",
+        "defZh": "剪接后保留在成熟 mRNA 中的区段。",
+        "defEn": "A segment kept in mature mRNA after splicing."
+      },
+      {
+        "termZh": "内含子",
+        "termEn": "intron",
+        "defZh": "从前体 mRNA 中被剪掉的区段，仍可参与调控或可变剪接。",
+        "defEn": "A segment removed from pre-mRNA. It can still take part in regulation or alternative splicing."
+      }
+    ],
     "summary": "转录与 RNA 加工 · Transcription and RNA Processing",
     "learningObjectives": [
-      "能陈述「转录与 RNA 加工」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「转录与 RNA 加工」的准确定义与适用对象 · State the precise definition of Transcription and RNA Processing and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Transcription and RNA Processing：准确陈述定义、适用范围与符号约定。",
@@ -340,19 +448,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.3「转录与 RNA 加工」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.3「转录与 RNA 加工」准确定义 · State the precise definition of 6.3 Transcription and RNA Processing.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「转录与 RNA 加工」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「转录与 RNA 加工」的结论 · Applying the conclusion of Transcription and RNA Processing when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -378,11 +486,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -432,11 +540,43 @@ export const TOPICS = {
     "titleZh": "翻译",
     "titleEn": "Translation",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "翻译",
+        "termEn": "translation",
+        "defZh": "核糖体按 mRNA 密码子合成多肽。",
+        "defEn": "A ribosome builds a polypeptide according to the mRNA codons."
+      },
+      {
+        "termZh": "密码子",
+        "termEn": "codon",
+        "defZh": "mRNA 上连续三个核苷酸，编码一个氨基酸或终止信号。",
+        "defEn": "Three consecutive nucleotides on mRNA that code for one amino acid or a stop signal."
+      },
+      {
+        "termZh": "反密码子",
+        "termEn": "anticodon",
+        "defZh": "tRNA 上与密码子反向平行配对的三个核苷酸。",
+        "defEn": "Three nucleotides on a tRNA that pair antiparallel to a codon."
+      },
+      {
+        "termZh": "阅读框",
+        "termEn": "reading frame",
+        "defZh": "从起始密码子开始、按三个核苷酸一组划分 mRNA 的方式。",
+        "defEn": "The grouping of mRNA into threes, beginning at the start codon."
+      },
+      {
+        "termZh": "多聚核糖体",
+        "termEn": "polyribosome",
+        "defZh": "同时翻译同一条 mRNA 的多个核糖体。",
+        "defEn": "Several ribosomes translating one mRNA at the same time."
+      }
+    ],
     "summary": "翻译 · Translation",
     "learningObjectives": [
-      "能陈述「翻译」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「翻译」的准确定义与适用对象 · State the precise definition of Translation and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Translation：准确陈述定义、适用范围与符号约定。",
@@ -477,19 +617,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.4「翻译」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.4「翻译」准确定义 · State the precise definition of 6.4 Translation.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「翻译」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「翻译」的结论 · Applying the conclusion of Translation when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -515,11 +655,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -569,11 +709,49 @@ export const TOPICS = {
     "titleZh": "基因表达调控",
     "titleEn": "Regulation of Gene Expression",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "操纵子",
+        "termEn": "operon",
+        "defZh": "原核生物中由一个启动子控制、一起转录的一组基因。",
+        "defEn": "In prokaryotes, a set of genes transcribed together under one promoter."
+      },
+      {
+        "termZh": "阻遏蛋白",
+        "termEn": "repressor",
+        "defZh": "结合操纵基因、阻止转录的蛋白质。",
+        "defEn": "A protein that binds the operator and blocks transcription."
+      },
+      {
+        "termZh": "启动子",
+        "termEn": "promoter",
+        "defZh": "RNA 聚合酶结合并开始转录的 DNA 序列。",
+        "defEn": "The DNA sequence where RNA polymerase binds and starts transcription."
+      },
+      {
+        "termZh": "转录因子",
+        "termEn": "transcription factor",
+        "defZh": "结合 DNA 并促进或抑制转录的蛋白质。",
+        "defEn": "A protein that binds DNA and increases or decreases transcription."
+      },
+      {
+        "termZh": "增强子",
+        "termEn": "enhancer",
+        "defZh": "可远离基因、通过结合激活蛋白提高转录的 DNA 序列。",
+        "defEn": "A DNA sequence, which may be far from the gene, that raises transcription when an activator binds."
+      },
+      {
+        "termZh": "DNA 甲基化",
+        "termEn": "DNA methylation",
+        "defZh": "在碱基上加甲基，不改变序列，但常降低转录。",
+        "defEn": "Addition of a methyl group to a base. It does not change the sequence but often reduces transcription."
+      }
+    ],
     "summary": "基因表达调控 · Regulation of Gene Expression",
     "learningObjectives": [
-      "能陈述「基因表达调控」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「基因表达调控」的准确定义与适用对象 · State the precise definition of Regulation of Gene Expression and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Regulation of Gene Expression：准确陈述定义、适用范围与符号约定。",
@@ -614,19 +792,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.5「基因表达调控」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.5「基因表达调控」准确定义 · State the precise definition of 6.5 Regulation of Gene Expression.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「基因表达调控」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「基因表达调控」的结论 · Applying the conclusion of Regulation of Gene Expression when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -652,11 +830,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -706,11 +884,43 @@ export const TOPICS = {
     "titleZh": "基因表达与细胞特化",
     "titleEn": "Gene Expression and Cell Specialization",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "细胞分化",
+        "termEn": "cell differentiation",
+        "defZh": "细胞获得特化结构与功能，通常由不同基因表达造成。",
+        "defEn": "A cell acquires a specialized structure and function, usually because different genes are expressed."
+      },
+      {
+        "termZh": "管家基因",
+        "termEn": "housekeeping gene",
+        "defZh": "多数细胞持续表达、维持基本功能的基因。",
+        "defEn": "A gene expressed in most cells to maintain basic functions."
+      },
+      {
+        "termZh": "组织特异基因",
+        "termEn": "tissue-specific gene",
+        "defZh": "只在特定细胞类型中表达的基因。",
+        "defEn": "A gene expressed only in a particular cell type."
+      },
+      {
+        "termZh": "表观遗传",
+        "termEn": "epigenetic regulation",
+        "defZh": "不改变 DNA 序列而改变表达的调控，如甲基化和染色质状态。",
+        "defEn": "Regulation that changes expression without changing the DNA sequence, such as methylation and chromatin state."
+      },
+      {
+        "termZh": "干细胞",
+        "termEn": "stem cell",
+        "defZh": "能自我更新并产生特化细胞的未完全分化细胞。",
+        "defEn": "An incompletely differentiated cell that can renew itself and produce specialized cells."
+      }
+    ],
     "summary": "基因表达与细胞特化 · Gene Expression and Cell Specialization",
     "learningObjectives": [
-      "能陈述「基因表达与细胞特化」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「基因表达与细胞特化」的准确定义与适用对象 · State the precise definition of Gene Expression and Cell Specialization and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Gene Expression and Cell Specialization：准确陈述定义、适用范围与符号约定。",
@@ -751,19 +961,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.6「基因表达与细胞特化」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.6「基因表达与细胞特化」准确定义 · State the precise definition of 6.6 Gene Expression and Cell Specialization.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「基因表达与细胞特化」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「基因表达与细胞特化」的结论 · Applying the conclusion of Gene Expression and Cell Specialization when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -789,11 +999,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -843,11 +1053,43 @@ export const TOPICS = {
     "titleZh": "突变",
     "titleEn": "Mutations",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "点突变",
+        "termEn": "point mutation",
+        "defZh": "单个核苷酸被替换。",
+        "defEn": "Replacement of a single nucleotide."
+      },
+      {
+        "termZh": "错义突变",
+        "termEn": "missense mutation",
+        "defZh": "密码子改变后编码另一种氨基酸。",
+        "defEn": "A codon change that codes for a different amino acid."
+      },
+      {
+        "termZh": "无义突变",
+        "termEn": "nonsense mutation",
+        "defZh": "密码子变为终止密码子，多肽提前结束。",
+        "defEn": "A codon becomes a stop codon, so the polypeptide ends early."
+      },
+      {
+        "termZh": "移码突变",
+        "termEn": "frameshift mutation",
+        "defZh": "插入或缺失不是 3 的倍数的核苷酸，改变下游阅读框。",
+        "defEn": "Insertion or deletion of a number of nucleotides that is not a multiple of 3, changing the downstream reading frame."
+      },
+      {
+        "termZh": "沉默突变",
+        "termEn": "silent mutation",
+        "defZh": "核苷酸改变但密码子仍编码同一氨基酸。",
+        "defEn": "A nucleotide change that still codes for the same amino acid."
+      }
+    ],
     "summary": "突变 · Mutations",
     "learningObjectives": [
-      "能陈述「突变」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「突变」的准确定义与适用对象 · State the precise definition of Mutations and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Mutations：准确陈述定义、适用范围与符号约定。",
@@ -888,19 +1130,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.7「突变」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.7「突变」准确定义 · State the precise definition of 6.7 Mutations.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「突变」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「突变」的结论 · Applying the conclusion of Mutations when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -926,11 +1168,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -980,11 +1222,43 @@ export const TOPICS = {
     "titleZh": "生物技术",
     "titleEn": "Biotechnology",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "限制酶",
+        "termEn": "restriction enzyme",
+        "defZh": "在特定 DNA 序列切割双链 DNA 的酶。",
+        "defEn": "An enzyme that cuts double-stranded DNA at a specific sequence."
+      },
+      {
+        "termZh": "PCR",
+        "termEn": "PCR",
+        "defZh": "用温度循环和引物指数扩增特定 DNA 片段。",
+        "defEn": "Exponential amplification of a specific DNA segment by temperature cycles and primers."
+      },
+      {
+        "termZh": "凝胶电泳",
+        "termEn": "gel electrophoresis",
+        "defZh": "在电场中按大小、电荷和构象分离核酸或蛋白质。",
+        "defEn": "Separation of nucleic acids or proteins in an electric field by size, charge, and conformation."
+      },
+      {
+        "termZh": "重组 DNA",
+        "termEn": "recombinant DNA",
+        "defZh": "来自不同来源的 DNA 被连接在一起。",
+        "defEn": "DNA from different sources joined together."
+      },
+      {
+        "termZh": "CRISPR-Cas9",
+        "termEn": "CRISPR-Cas9",
+        "defZh": "由向导 RNA 把 Cas9 带到目标 DNA 并切割的基因编辑系统。",
+        "defEn": "A gene-editing system in which a guide RNA brings Cas9 to a target DNA sequence to cut it."
+      }
+    ],
     "summary": "生物技术 · Biotechnology",
     "learningObjectives": [
-      "能陈述「生物技术」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「生物技术」的准确定义与适用对象 · State the precise definition of Biotechnology and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Biotechnology：准确陈述定义、适用范围与符号约定。",
@@ -1025,19 +1299,19 @@ export const TOPICS = {
       "注意理想化假设"
     ],
     "keyPoints": [
-      "掌握 6.8「生物技术」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 6.8「生物技术」准确定义 · State the precise definition of 6.8 Biotechnology.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「生物技术」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "把相关当作因果；缺少对照却下机制结论"
+      "在不满足假设时直接套用「生物技术」的结论 · Applying the conclusion of Biotechnology when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "把相关当作因果；缺少对照却下机制结论 · Treating correlation as causation, or drawing a mechanism conclusion without a control"
     ],
     "examples": [
       {
@@ -1063,11 +1337,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "电势能",
     "titleEn": "Electric Potential Energy",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电势能",
+        "termEn": "electric potential energy",
+        "defZh": "电荷系统因静电力而具有的能量，属于系统而不是单个电荷。",
+        "defEn": "Energy a system of charges has because of electrostatic forces. It belongs to the system, not to one charge."
+      },
+      {
+        "termZh": "零势点",
+        "termEn": "zero of potential",
+        "defZh": "人为选定 \\(U=0\\) 的位置，常取无穷远。",
+        "defEn": "A chosen place where \\(U=0\\), often infinity."
+      },
+      {
+        "termZh": "电子伏特",
+        "termEn": "electronvolt",
+        "defZh": "一个电子经过 1 V 电势差所对应的能量，不是电压单位。",
+        "defEn": "The energy of one electron moved through a potential difference of 1 V. It is not a unit of voltage."
+      },
+      {
+        "termZh": "电场力做功",
+        "termEn": "work by the electric field",
+        "defZh": "\\(W_{\\mathrm{field}}=-\\Delta U\\)。电场力做正功时电势能减少。",
+        "defEn": "\\(W_{\\mathrm{field}}=-\\Delta U\\). When the field does positive work, potential energy decreases."
+      }
+    ],
     "summary": "电势能 · Electric Potential Energy",
     "learningObjectives": [
-      "能陈述「电势能」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电势能」的准确定义与适用对象 · State the precise definition of Electric Potential Energy and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Potential Energy：准确陈述定义、适用范围与符号约定。",
@@ -72,19 +98,19 @@ export const TOPICS = {
       "电势能是系统量，符号由电荷正负决定"
     ],
     "keyPoints": [
-      "掌握 9.1「电势能」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 9.1「电势能」准确定义 · State the precise definition of 9.1 Electric Potential Energy.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电势能」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电势能」的结论 · Applying the conclusion of Electric Potential Energy when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -110,11 +136,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -162,11 +188,37 @@ export const TOPICS = {
     "titleZh": "电势",
     "titleEn": "Electric Potential",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电势",
+        "termEn": "electric potential",
+        "defZh": "单位正电荷的电势能，\\(V=\\dfrac{U}{q}\\)，是标量。",
+        "defEn": "Potential energy per unit positive charge, \\(V=\\dfrac{U}{q}\\). It is a scalar."
+      },
+      {
+        "termZh": "电势差",
+        "termEn": "potential difference",
+        "defZh": "两点电势之差，与路径无关（静电场）。",
+        "defEn": "The difference in potential between two points. In an electrostatic field it does not depend on the path."
+      },
+      {
+        "termZh": "等势面",
+        "termEn": "equipotential surface",
+        "defZh": "电势相同的曲面，与电场线垂直。",
+        "defEn": "A surface of constant potential, perpendicular to the field lines."
+      },
+      {
+        "termZh": "点电荷电势",
+        "termEn": "point-charge potential",
+        "defZh": "取无穷远为零时，\\(V=\\dfrac{kq}{r}\\)。",
+        "defEn": "With zero at infinity, \\(V=\\dfrac{kq}{r}\\)."
+      }
+    ],
     "summary": "电势 · Electric Potential",
     "learningObjectives": [
-      "能陈述「电势」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电势」的准确定义与适用对象 · State the precise definition of Electric Potential and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Potential：准确陈述定义、适用范围与符号约定。",
@@ -216,19 +268,19 @@ export const TOPICS = {
       "梯度关系适用于静电场（无旋场）"
     ],
     "keyPoints": [
-      "掌握 9.2「电势」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 9.2「电势」准确定义 · State the precise definition of 9.2 Electric Potential.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电势」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电势」的结论 · Applying the conclusion of Electric Potential when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -254,11 +306,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -313,11 +365,43 @@ export const TOPICS = {
     "titleZh": "电势与场",
     "titleEn": "Electric Potential Due to Charge Distributions",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电势叠加",
+        "termEn": "superposition of potential",
+        "defZh": "多个电荷的电势是各电荷电势的代数和，不必分解方向。",
+        "defEn": "The potential of several charges is the algebraic sum of the individual potentials. Directions are not resolved."
+      },
+      {
+        "termZh": "连续电荷分布的电势",
+        "termEn": "potential of a continuous distribution",
+        "defZh": "由 \\(V=\\int\\dfrac{k\\,\\mathrm{d}q}{r}\\) 计算，仍是标量积分。",
+        "defEn": "Computed from \\(V=\\int\\dfrac{k\\,\\mathrm{d}q}{r}\\). The integral is still scalar."
+      },
+      {
+        "termZh": "电势梯度",
+        "termEn": "potential gradient",
+        "defZh": "电势沿空间的变化率；电场是其负梯度。",
+        "defEn": "The rate of change of potential in space. The electric field is its negative gradient."
+      },
+      {
+        "termZh": "标量叠加",
+        "termEn": "scalar superposition",
+        "defZh": "电势相加时只加数值和符号，不像电场那样先分解再合成。",
+        "defEn": "When potentials are added, only magnitudes and signs are added. Unlike the electric field, components are not resolved first."
+      },
+      {
+        "termZh": "参考点",
+        "termEn": "reference point",
+        "defZh": "计算分布电荷的电势时选定的零势位置，通常取无穷远。",
+        "defEn": "The place chosen as zero potential when computing the potential of a charge distribution, usually infinity."
+      }
+    ],
     "summary": "电势与场 · Electric Potential Due to Charge Distributions",
     "learningObjectives": [
-      "能陈述「电势与场」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电势与场」的准确定义与适用对象 · State the precise definition of Electric Potential Due to Charge Distributions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Potential Due to Charge Distributions：准确陈述定义、适用范围与符号约定。",
@@ -363,19 +447,19 @@ export const TOPICS = {
       "电荷分布连续或离散；积分可能需分段"
     ],
     "keyPoints": [
-      "掌握 9.3「电势与场」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 9.3「电势与场」准确定义 · State the precise definition of 9.3 Electric Potential Due to Charge Distributions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电势与场」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电势与场」的结论 · Applying the conclusion of Electric Potential Due to Charge Distributions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -401,11 +485,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -460,11 +544,43 @@ export const TOPICS = {
     "titleZh": "电势差与功",
     "titleEn": "Conservation of Electric Energy",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "静电能守恒",
+        "termEn": "conservation of electric energy",
+        "defZh": "只有静电力做功时，动能与电势能之和不变。",
+        "defEn": "When only the electrostatic force does work, kinetic energy plus electric potential energy is constant."
+      },
+      {
+        "termZh": "电势差与功",
+        "termEn": "potential difference and work",
+        "defZh": "静电力做功 \\(W=q(V_i-V_f)\\)。",
+        "defEn": "The electrostatic force does work \\(W=q(V_i-V_f)\\)."
+      },
+      {
+        "termZh": "等势移动",
+        "termEn": "motion on an equipotential",
+        "defZh": "沿等势面移动电荷时，静电力不做功。",
+        "defEn": "Moving a charge along an equipotential, the electrostatic force does no work."
+      },
+      {
+        "termZh": "动能",
+        "termEn": "kinetic energy",
+        "defZh": "只有静电力做功时，动能的增加等于电势能的减少。",
+        "defEn": "When only the electrostatic force does work, the gain in kinetic energy equals the loss in potential energy."
+      },
+      {
+        "termZh": "零势选择",
+        "termEn": "choice of zero",
+        "defZh": "改变零势点会改变 \\(U\\) 的数值，但不改变两点之间的 \\(\\Delta U\\)。",
+        "defEn": "Changing the zero changes the value of \\(U\\) but not \\(\\Delta U\\) between two points."
+      }
+    ],
     "summary": "电势差与功 · Conservation of Electric Energy",
     "learningObjectives": [
-      "能陈述「电势差与功」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电势差与功」的准确定义与适用对象 · State the precise definition of Conservation of Electric Energy and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Conservation of Electric Energy：准确陈述定义、适用范围与符号约定。",
@@ -514,19 +630,19 @@ export const TOPICS = {
       "零势点统一；系统与电荷分布明确"
     ],
     "keyPoints": [
-      "掌握 9.4「电势差与功」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 9.4「电势差与功」准确定义 · State the precise definition of 9.4 Conservation of Electric Energy.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电势差与功」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电势差与功」的结论 · Applying the conclusion of Conservation of Electric Energy when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -552,11 +668,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

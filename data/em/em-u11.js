@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "电流",
     "titleEn": "Electric Current",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电流",
+        "termEn": "electric current",
+        "defZh": "电荷通过截面的速率，\\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\)，电路分析中按支路标方向。",
+        "defEn": "The rate at which charge passes a surface, \\(I=\\dfrac{\\mathrm{d}Q}{\\mathrm{d}t}\\). In circuit analysis a direction is marked on each branch."
+      },
+      {
+        "termZh": "漂移速度",
+        "termEn": "drift speed",
+        "defZh": "载流子在电场中的平均慢速漂移，远小于信号传播速度。",
+        "defEn": "The slow average speed of carriers in the field, much smaller than the speed at which the signal propagates."
+      },
+      {
+        "termZh": "安培",
+        "termEn": "ampere",
+        "defZh": "电流的 SI 单位，每秒通过 1 库仑。",
+        "defEn": "The SI unit of current, one coulomb per second."
+      },
+      {
+        "termZh": "约定方向",
+        "termEn": "conventional direction",
+        "defZh": "电流方向取正电荷流动的方向，与电子实际运动相反。",
+        "defEn": "Current is taken in the direction positive charge would flow, opposite the actual motion of electrons."
+      }
+    ],
     "summary": "电流 · Electric Current",
     "learningObjectives": [
-      "能陈述「电流」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电流」的准确定义与适用对象 · State the precise definition of Electric Current and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Current：准确陈述定义、适用范围与符号约定。",
@@ -72,19 +98,19 @@ export const TOPICS = {
       "电子带负电，漂移方向与约定电流方向相反"
     ],
     "keyPoints": [
-      "掌握 11.1「电流」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.1「电流」准确定义 · State the precise definition of 11.1 Electric Current.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电流」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电流」的结论 · Applying the conclusion of Electric Current when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -110,11 +136,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -162,11 +188,43 @@ export const TOPICS = {
     "titleZh": "简单电路",
     "titleEn": "Simple Circuits",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电动势",
+        "termEn": "emf",
+        "defZh": "电源把单位正电荷从负极移到正极所做的功，不是力。",
+        "defEn": "The work a source does per unit positive charge in moving it from the negative to the positive terminal. It is not a force."
+      },
+      {
+        "termZh": "端电压",
+        "termEn": "terminal voltage",
+        "defZh": "电源两端测得的电压；放电时为 \\(\\varepsilon-Ir\\)。",
+        "defEn": "The voltage measured across a source. While discharging it is \\(\\varepsilon-Ir\\)."
+      },
+      {
+        "termZh": "串联",
+        "termEn": "series",
+        "defZh": "元件首尾相连，电流相同。",
+        "defEn": "Elements joined end to end so that they carry the same current."
+      },
+      {
+        "termZh": "并联",
+        "termEn": "parallel",
+        "defZh": "元件跨接在相同两点之间，电压相同。",
+        "defEn": "Elements connected across the same two points so that they have the same voltage."
+      },
+      {
+        "termZh": "等效电阻",
+        "termEn": "equivalent resistance",
+        "defZh": "能代替一组电阻、使外部电流和电压不变的单个电阻。",
+        "defEn": "A single resistor that can replace a combination without changing the external current and voltage."
+      }
+    ],
     "summary": "简单电路 · Simple Circuits",
     "learningObjectives": [
-      "能陈述「简单电路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「简单电路」的准确定义与适用对象 · State the precise definition of Simple Circuits and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Simple Circuits：准确陈述定义、适用范围与符号约定。",
@@ -216,19 +274,19 @@ export const TOPICS = {
       "内阻不可忽略时端电压随电流下降"
     ],
     "keyPoints": [
-      "掌握 11.2「简单电路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.2「简单电路」准确定义 · State the precise definition of 11.2 Simple Circuits.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「简单电路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「简单电路」的结论 · Applying the conclusion of Simple Circuits when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -254,11 +312,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -313,11 +371,37 @@ export const TOPICS = {
     "titleZh": "电阻与欧姆定律",
     "titleEn": "Resistance, Resistivity, and Ohm’s Law",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电阻",
+        "termEn": "resistance",
+        "defZh": "导体对电流的阻碍，\\(R=\\dfrac{V}{I}\\)，单位欧姆。",
+        "defEn": "A conductor’s opposition to current, \\(R=\\dfrac{V}{I}\\), in ohms."
+      },
+      {
+        "termZh": "电阻率",
+        "termEn": "resistivity",
+        "defZh": "材料本身的性质 \\(\\rho\\)，与样品的长度和面积无关。",
+        "defEn": "A property \\(\\rho\\) of the material, independent of the sample’s length and area."
+      },
+      {
+        "termZh": "欧姆定律",
+        "termEn": "Ohm’s law",
+        "defZh": "对欧姆器件 \\(V=IR\\)，\\(R\\) 不随电压改变。它不是所有器件的定律。",
+        "defEn": "For an ohmic device, \\(V=IR\\) with \\(R\\) independent of voltage. It is not a law for every device."
+      },
+      {
+        "termZh": "电导",
+        "termEn": "conductance",
+        "defZh": "电阻的倒数，并联时电流按电导分配。",
+        "defEn": "The reciprocal of resistance. In parallel, current divides in proportion to conductance."
+      }
+    ],
     "summary": "电阻与欧姆定律 · Resistance, Resistivity, and Ohm’s Law",
     "learningObjectives": [
-      "能陈述「电阻与欧姆定律」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电阻与欧姆定律」的准确定义与适用对象 · State the precise definition of Resistance, Resistivity, and Ohm’s Law and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Resistance, Resistivity, and Ohm’s Law：准确陈述定义、适用范围与符号约定。",
@@ -367,19 +451,19 @@ export const TOPICS = {
       "电流方向沿导体长度"
     ],
     "keyPoints": [
-      "掌握 11.3「电阻与欧姆定律」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.3「电阻与欧姆定律」准确定义 · State the precise definition of 11.3 Resistance, Resistivity, and Ohm’s Law.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电阻与欧姆定律」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电阻与欧姆定律」的结论 · Applying the conclusion of Resistance, Resistivity, and Ohm’s Law when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -405,11 +489,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -464,11 +548,37 @@ export const TOPICS = {
     "titleZh": "电功率",
     "titleEn": "Electric Power",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "电功率",
+        "termEn": "electric power",
+        "defZh": "电能转化的快慢。纯电阻上 \\(P=IV=I^{2}R=\\dfrac{V^{2}}{R}\\)。",
+        "defEn": "The rate of electric-energy conversion. For a pure resistor, \\(P=IV=I^{2}R=\\dfrac{V^{2}}{R}\\)."
+      },
+      {
+        "termZh": "焦耳热",
+        "termEn": "Joule heating",
+        "defZh": "电流通过电阻时电能转为热。",
+        "defEn": "Electric energy converted to heat when current passes through a resistance."
+      },
+      {
+        "termZh": "千瓦时",
+        "termEn": "kilowatt-hour",
+        "defZh": "能量单位，不是功率单位。",
+        "defEn": "A unit of energy, not of power."
+      },
+      {
+        "termZh": "额定功率",
+        "termEn": "rated power",
+        "defZh": "器件在标定电压下设计消耗的功率，不一定等于实际功率。",
+        "defEn": "The power a device is designed to use at its rated voltage. It need not equal the actual power."
+      }
+    ],
     "summary": "电功率 · Electric Power",
     "learningObjectives": [
-      "能陈述「电功率」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电功率」的准确定义与适用对象 · State the precise definition of Electric Power and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electric Power：准确陈述定义、适用范围与符号约定。",
@@ -518,19 +628,19 @@ export const TOPICS = {
       "电动机等非纯电阻要区分输入功率与损耗"
     ],
     "keyPoints": [
-      "掌握 11.4「电功率」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.4「电功率」准确定义 · State the precise definition of 11.4 Electric Power.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电功率」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电功率」的结论 · Applying the conclusion of Electric Power when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -556,11 +666,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -615,11 +725,37 @@ export const TOPICS = {
     "titleZh": "复合直流电路",
     "titleEn": "Compound Direct Current Circuits",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "复合电路",
+        "termEn": "compound circuit",
+        "defZh": "同时含串联和并联部分的电路。",
+        "defEn": "A circuit that contains both series and parallel parts."
+      },
+      {
+        "termZh": "内阻",
+        "termEn": "internal resistance",
+        "defZh": "电源内部的电阻，放电时使端电压低于电动势。",
+        "defEn": "Resistance inside a source. While discharging, it makes the terminal voltage less than the emf."
+      },
+      {
+        "termZh": "电流表",
+        "termEn": "ammeter",
+        "defZh": "串联接入、理想时电阻为零的测量电流的表。",
+        "defEn": "A meter placed in series to measure current. Ideally its resistance is zero."
+      },
+      {
+        "termZh": "电压表",
+        "termEn": "voltmeter",
+        "defZh": "并联接入、理想时电阻无穷大的测量电压的表。",
+        "defEn": "A meter placed in parallel to measure voltage. Ideally its resistance is infinite."
+      }
+    ],
     "summary": "复合直流电路 · Compound Direct Current Circuits",
     "learningObjectives": [
-      "能陈述「复合直流电路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「复合直流电路」的准确定义与适用对象 · State the precise definition of Compound Direct Current Circuits and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Compound Direct Current Circuits：准确陈述定义、适用范围与符号约定。",
@@ -669,19 +805,19 @@ export const TOPICS = {
       "理想导线；电表内阻按题意处理"
     ],
     "keyPoints": [
-      "掌握 11.5「复合直流电路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.5「复合直流电路」准确定义 · State the precise definition of 11.5 Compound Direct Current Circuits.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「复合直流电路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「复合直流电路」的结论 · Applying the conclusion of Compound Direct Current Circuits when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -707,11 +843,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -766,11 +902,37 @@ export const TOPICS = {
     "titleZh": "基尔霍夫环路",
     "titleEn": "Kirchhoff's Loop Rule",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "基尔霍夫环路定则",
+        "termEn": "Kirchhoff’s loop rule",
+        "defZh": "沿闭合回路电势变化的代数和为零。",
+        "defEn": "The algebraic sum of potential changes around a closed loop is zero."
+      },
+      {
+        "termZh": "绕行方向",
+        "termEn": "traversal direction",
+        "defZh": "列环路方程时自选的方向；改变它必须同时改变各项符号。",
+        "defEn": "The direction chosen when writing a loop equation. Changing it requires changing every sign."
+      },
+      {
+        "termZh": "电势升",
+        "termEn": "potential rise",
+        "defZh": "从电源负极走向正极时电势升高，取正。",
+        "defEn": "Potential increases when a source is crossed from its negative terminal to its positive terminal."
+      },
+      {
+        "termZh": "电势降",
+        "termEn": "potential drop",
+        "defZh": "顺电流经过电阻时电势下降。",
+        "defEn": "Potential decreases when a resistor is crossed in the direction of the current."
+      }
+    ],
     "summary": "基尔霍夫环路 · Kirchhoff's Loop Rule",
     "learningObjectives": [
-      "能陈述「基尔霍夫环路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「基尔霍夫环路」的准确定义与适用对象 · State the precise definition of Kirchhoff's Loop Rule and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Kirchhoff's Loop Rule：准确陈述定义、适用范围与符号约定。",
@@ -812,19 +974,19 @@ export const TOPICS = {
       "电源、电阻、电容的电压符号要统一"
     ],
     "keyPoints": [
-      "掌握 11.6「基尔霍夫环路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.6「基尔霍夫环路」准确定义 · State the precise definition of 11.6 Kirchhoff's Loop Rule.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「基尔霍夫环路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「基尔霍夫环路」的结论 · Applying the conclusion of Kirchhoff's Loop Rule when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -850,11 +1012,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -909,11 +1071,37 @@ export const TOPICS = {
     "titleZh": "基尔霍夫结点",
     "titleEn": "Kirchhoff's Junction Rule",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "基尔霍夫结点定则",
+        "termEn": "Kirchhoff’s junction rule",
+        "defZh": "流入结点的电流之和等于流出的电流之和。",
+        "defEn": "The sum of currents into a junction equals the sum of currents out."
+      },
+      {
+        "termZh": "结点",
+        "termEn": "junction",
+        "defZh": "三条或更多支路相遇的点。",
+        "defEn": "A point where three or more branches meet."
+      },
+      {
+        "termZh": "独立回路",
+        "termEn": "independent loop",
+        "defZh": "不能由其他已列回路相加得到的回路。",
+        "defEn": "A loop that is not the sum of other loops already written."
+      },
+      {
+        "termZh": "负电流",
+        "termEn": "negative current",
+        "defZh": "计算结果为负只表示实际方向与假设相反。",
+        "defEn": "A negative result only means the actual direction is opposite the assumption."
+      }
+    ],
     "summary": "基尔霍夫结点 · Kirchhoff's Junction Rule",
     "learningObjectives": [
-      "能陈述「基尔霍夫结点」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「基尔霍夫结点」的准确定义与适用对象 · State the precise definition of Kirchhoff's Junction Rule and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Kirchhoff's Junction Rule：准确陈述定义、适用范围与符号约定。",
@@ -955,19 +1143,19 @@ export const TOPICS = {
       "所有支路电流方向先假设，结果负号表示实际反向"
     ],
     "keyPoints": [
-      "掌握 11.7「基尔霍夫结点」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.7「基尔霍夫结点」准确定义 · State the precise definition of 11.7 Kirchhoff's Junction Rule.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「基尔霍夫结点」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「基尔霍夫结点」的结论 · Applying the conclusion of Kirchhoff's Junction Rule when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -993,11 +1181,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -1052,11 +1240,43 @@ export const TOPICS = {
     "titleZh": "RC 电路",
     "titleEn": "Resistor–Capacitor (RC) Circuits",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "时间常数",
+        "termEn": "time constant",
+        "defZh": "\\(\\tau=RC\\)，描述充放电快慢。",
+        "defEn": "\\(\\tau=RC\\), which sets how fast the capacitor charges or discharges."
+      },
+      {
+        "termZh": "充电",
+        "termEn": "charging",
+        "defZh": "电容上的电荷按 \\(q=Q\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)\\) 趋近最终值。",
+        "defEn": "The charge on the capacitor approaches its final value as \\(q=Q\\left(1-e^{-\\dfrac{t}{\\tau}}\\right)\\)."
+      },
+      {
+        "termZh": "放电",
+        "termEn": "discharging",
+        "defZh": "电荷按 \\(q=Q_0 e^{-\\dfrac{t}{\\tau}}\\) 衰减。",
+        "defEn": "The charge decays as \\(q=Q_0 e^{-\\dfrac{t}{\\tau}}\\)."
+      },
+      {
+        "termZh": "稳态",
+        "termEn": "steady state",
+        "defZh": "很长时间后电容相当于断路，直流电流为零。",
+        "defEn": "After a long time the capacitor is an open circuit and the DC current is zero."
+      },
+      {
+        "termZh": "电压连续",
+        "termEn": "continuous voltage",
+        "defZh": "电容电压不能突变，电流可以突变。",
+        "defEn": "Capacitor voltage cannot jump, but current can."
+      }
+    ],
     "summary": "RC 电路 · Resistor–Capacitor (RC) Circuits",
     "learningObjectives": [
-      "能陈述「RC 电路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「RC 电路」的准确定义与适用对象 · State the precise definition of Resistor–Capacitor (RC) Circuits and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Resistor–Capacitor (RC) Circuits：准确陈述定义、适用范围与符号约定。",
@@ -1106,19 +1326,19 @@ export const TOPICS = {
       "t=τ 时充至 63.2%；约 5τ 基本完成"
     ],
     "keyPoints": [
-      "掌握 11.8「RC 电路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 11.8「RC 电路」准确定义 · State the precise definition of 11.8 Resistor–Capacitor (RC) Circuits.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「RC 电路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「RC 电路」的结论 · Applying the conclusion of Resistor–Capacitor (RC) Circuits when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -1144,11 +1364,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "磁通量",
     "titleEn": "Magnetic Flux",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "磁通量",
+        "termEn": "magnetic flux",
+        "defZh": "磁场穿过一个面的量，\\(\\Phi_B=BA\\cos\\theta\\)，\\(\\theta\\) 是 \\(\\vec B\\) 与法线的夹角。",
+        "defEn": "How much magnetic field passes through a surface, \\(\\Phi_B=BA\\cos\\theta\\), where \\(\\theta\\) is the angle between \\(\\vec B\\) and the normal."
+      },
+      {
+        "termZh": "韦伯",
+        "termEn": "weber",
+        "defZh": "磁通量的 SI 单位。",
+        "defEn": "The SI unit of magnetic flux."
+      },
+      {
+        "termZh": "面积矢量",
+        "termEn": "area vector",
+        "defZh": "方向取所选定的法线，大小为面积。",
+        "defEn": "A vector in the direction of the chosen normal, with magnitude equal to the area."
+      },
+      {
+        "termZh": "净磁通",
+        "termEn": "net magnetic flux",
+        "defZh": "闭合曲面上的磁通量代数和为零，因为没有磁单极子。",
+        "defEn": "The algebraic sum of magnetic flux through a closed surface is zero, because there is no magnetic monopole."
+      }
+    ],
     "summary": "磁通量 · Magnetic Flux",
     "learningObjectives": [
-      "能陈述「磁通量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「磁通量」的准确定义与适用对象 · State the precise definition of Magnetic Flux and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Magnetic Flux：准确陈述定义、适用范围与符号约定。",
@@ -68,19 +94,19 @@ export const TOPICS = {
       "闭合曲面净磁通为零"
     ],
     "keyPoints": [
-      "掌握 13.1「磁通量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 13.1「磁通量」准确定义 · State the precise definition of 13.1 Magnetic Flux.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「磁通量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「磁通量」的结论 · Applying the conclusion of Magnetic Flux when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -106,11 +132,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -158,11 +184,37 @@ export const TOPICS = {
     "titleZh": "电磁感应",
     "titleEn": "Electromagnetic Induction",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "法拉第电磁感应定律",
+        "termEn": "Faraday’s law",
+        "defZh": "单匝回路的感应电动势等于磁通量变化率的负值，\\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\)；\\(N\\) 匝线圈再乘以 \\(N\\)。",
+        "defEn": "For a single-turn loop the induced emf equals the negative rate of change of magnetic flux, \\(\\varepsilon=-\\dfrac{\\mathrm{d}\\Phi_B}{\\mathrm{d}t}\\). Multiply by \\(N\\) for an \\(N\\)-turn coil."
+      },
+      {
+        "termZh": "楞次定律",
+        "termEn": "Lenz’s law",
+        "defZh": "感应电流的效果反抗引起它的磁通量变化。",
+        "defEn": "The induced current opposes the change in flux that produces it."
+      },
+      {
+        "termZh": "动生电动势",
+        "termEn": "motional emf",
+        "defZh": "导体在磁场中运动时产生的电动势，垂直切割时 \\(\\varepsilon=B\\ell v\\)。",
+        "defEn": "An emf produced when a conductor moves in a magnetic field. For perpendicular motion, \\(\\varepsilon=B\\ell v\\)."
+      },
+      {
+        "termZh": "感应电流",
+        "termEn": "induced current",
+        "defZh": "闭合回路中由变化磁通量驱动的电流。",
+        "defEn": "The current driven in a closed loop by a changing magnetic flux."
+      }
+    ],
     "summary": "电磁感应 · Electromagnetic Induction",
     "learningObjectives": [
-      "能陈述「电磁感应」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电磁感应」的准确定义与适用对象 · State the precise definition of Electromagnetic Induction and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Electromagnetic Induction：准确陈述定义、适用范围与符号约定。",
@@ -208,19 +260,19 @@ export const TOPICS = {
       "线圈电阻决定感应电流大小"
     ],
     "keyPoints": [
-      "掌握 13.2「电磁感应」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 13.2「电磁感应」准确定义 · State the precise definition of 13.2 Electromagnetic Induction.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电磁感应」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电磁感应」的结论 · Applying the conclusion of Electromagnetic Induction when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -246,11 +298,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -628,11 +680,43 @@ export const TOPICS = {
     "titleZh": "电感",
     "titleEn": "Inductance",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "自感",
+        "termEn": "self-inductance",
+        "defZh": "线圈电流变化时，自身磁通变化在线圈中产生电动势的性质。",
+        "defEn": "The property by which a changing current changes the coil’s own flux and induces an emf in the coil."
+      },
+      {
+        "termZh": "电感",
+        "termEn": "inductance",
+        "defZh": "\\(L=\\dfrac{N\\Phi_B}{I}\\)。线性电感器的 \\(L\\) 不随电流改变。",
+        "defEn": "\\(L=\\dfrac{N\\Phi_B}{I}\\). For a linear inductor, \\(L\\) does not change with the current."
+      },
+      {
+        "termZh": "亨利",
+        "termEn": "henry",
+        "defZh": "电感的 SI 单位，\\(1\\,\\mathrm{H}=1\\,\\mathrm{V\\,s/A}\\)。",
+        "defEn": "The SI unit of inductance, \\(1\\,\\mathrm{H}=1\\,\\mathrm{V\\,s/A}\\)."
+      },
+      {
+        "termZh": "磁链",
+        "termEn": "flux linkage",
+        "defZh": "匝数与每匝磁通的乘积 \\(N\\Phi_B\\)。",
+        "defEn": "Turns times flux per turn, \\(N\\Phi_B\\)."
+      },
+      {
+        "termZh": "磁场能",
+        "termEn": "magnetic energy",
+        "defZh": "电感储存的能量 \\(U=\\dfrac{1}{2}LI^{2}\\)。",
+        "defEn": "The energy stored in an inductor, \\(U=\\dfrac{1}{2}LI^{2}\\)."
+      }
+    ],
     "summary": "电感 · Inductance",
     "learningObjectives": [
-      "能陈述「电感」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「电感」的准确定义与适用对象 · State the precise definition of Inductance and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Inductance：准确陈述定义、适用范围与符号约定。",
@@ -682,19 +766,19 @@ export const TOPICS = {
       "感应电动势方向由楞次定律判断"
     ],
     "keyPoints": [
-      "掌握 13.4「电感」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 13.4「电感」准确定义 · State the precise definition of 13.4 Inductance.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「电感」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「电感」的结论 · Applying the conclusion of Inductance when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -720,11 +804,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -779,11 +863,37 @@ export const TOPICS = {
     "titleZh": "LR 电路",
     "titleEn": "Circuits with Resistors and Inductors (LR Circuits)",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "LR 电路",
+        "termEn": "LR circuit",
+        "defZh": "电感和电阻串联、电流按指数趋近稳态的电路。",
+        "defEn": "A circuit of an inductor and a resistor in series, whose current approaches steady state exponentially."
+      },
+      {
+        "termZh": "时间常数",
+        "termEn": "time constant",
+        "defZh": "\\(\\tau=\\dfrac{L}{R}\\)。\\(R\\) 越大，电流变化越快。",
+        "defEn": "\\(\\tau=\\dfrac{L}{R}\\). A larger \\(R\\) makes the current change faster."
+      },
+      {
+        "termZh": "接通",
+        "termEn": "switching on",
+        "defZh": "\\(t=0\\) 时电感相当于开路，电流从 0 开始上升。",
+        "defEn": "At \\(t=0\\) the inductor acts as an open circuit and the current starts rising from 0."
+      },
+      {
+        "termZh": "稳态短路",
+        "termEn": "steady short",
+        "defZh": "\\(t\\to\\infty\\) 时理想电感相当于短路，电流为 \\(\\dfrac{\\varepsilon}{R}\\)。",
+        "defEn": "As \\(t\\to\\infty\\) an ideal inductor acts as a short circuit and the current is \\(\\dfrac{\\varepsilon}{R}\\)."
+      }
+    ],
     "summary": "LR 电路 · Circuits with Resistors and Inductors (LR Circuits)",
     "learningObjectives": [
-      "能陈述「LR 电路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「LR 电路」的准确定义与适用对象 · State the precise definition of Circuits with Resistors and Inductors (LR Circuits) and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Circuits with Resistors and Inductors (LR Circuits)：准确陈述定义、适用范围与符号约定。",
@@ -833,19 +943,19 @@ export const TOPICS = {
       "t=τ 时达到 63.2%；约 5τ 基本稳定"
     ],
     "keyPoints": [
-      "掌握 13.5「LR 电路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 13.5「LR 电路」准确定义 · State the precise definition of 13.5 Circuits with Resistors and Inductors (LR Circuits).",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「LR 电路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「LR 电路」的结论 · Applying the conclusion of Circuits with Resistors and Inductors (LR Circuits) when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -871,11 +981,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -930,11 +1040,43 @@ export const TOPICS = {
     "titleZh": "LC 电路",
     "titleEn": "Circuits with Capacitors and Inductors (LC Circuits)",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "LC 电路",
+        "termEn": "LC circuit",
+        "defZh": "电感和电容交换能量、产生振荡的电路。",
+        "defEn": "A circuit in which an inductor and a capacitor exchange energy and oscillate."
+      },
+      {
+        "termZh": "角频率",
+        "termEn": "angular frequency",
+        "defZh": "理想 LC 电路 \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)。",
+        "defEn": "For an ideal LC circuit, \\(\\omega=\\dfrac{1}{\\sqrt{LC}}\\)."
+      },
+      {
+        "termZh": "能量交换",
+        "termEn": "energy exchange",
+        "defZh": "能量在电容电场和电感磁场之间转化，总量由初始条件决定。",
+        "defEn": "Energy converts between the capacitor’s electric field and the inductor’s magnetic field. The total is fixed by the initial conditions."
+      },
+      {
+        "termZh": "相位差",
+        "termEn": "phase difference",
+        "defZh": "电荷最大时电流为零，两者相位差 \\(\\dfrac{\\pi}{2}\\)。",
+        "defEn": "When the charge is greatest the current is zero. They differ in phase by \\(\\dfrac{\\pi}{2}\\)."
+      },
+      {
+        "termZh": "阻尼",
+        "termEn": "damping",
+        "defZh": "电阻把振荡能量转为热，振幅逐渐减小。",
+        "defEn": "Resistance converts oscillation energy to heat, so the amplitude decreases."
+      }
+    ],
     "summary": "LC 电路 · Circuits with Capacitors and Inductors (LC Circuits)",
     "learningObjectives": [
-      "能陈述「LC 电路」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「LC 电路」的准确定义与适用对象 · State the precise definition of Circuits with Capacitors and Inductors (LC Circuits) and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Circuits with Capacitors and Inductors (LC Circuits)：准确陈述定义、适用范围与符号约定。",
@@ -984,19 +1126,19 @@ export const TOPICS = {
       "初始条件决定 Q_max 与 φ"
     ],
     "keyPoints": [
-      "掌握 13.6「LC 电路」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 13.6「LC 电路」准确定义 · State the precise definition of 13.6 Circuits with Capacitors and Inductors (LC Circuits).",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「LC 电路」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力；回路方向与方程符号不一致"
+      "在不满足假设时直接套用「LC 电路」的结论 · Applying the conclusion of Circuits with Capacitors and Inductors (LC Circuits) when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力；回路方向与方程符号不一致 · Omitting a force on a free-body diagram, or mismatching the loop direction with the sign in the equation"
     ],
     "examples": [
       {
@@ -1022,11 +1164,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

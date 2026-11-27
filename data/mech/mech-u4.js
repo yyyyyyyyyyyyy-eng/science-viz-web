@@ -18,11 +18,37 @@ export const TOPICS = {
     "titleZh": "冲量与动量",
     "titleEn": "Impulse and Momentum",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "动量",
+        "termEn": "momentum",
+        "defZh": "质量与速度的乘积，\\(\\vec p=m\\vec v\\)，是矢量。",
+        "defEn": "Mass times velocity, \\(\\vec p=m\\vec v\\). It is a vector."
+      },
+      {
+        "termZh": "冲量",
+        "termEn": "impulse",
+        "defZh": "力对时间的积分，等于动量变化，\\(\\vec J=\\int\\vec F\\,\\mathrm{d}t=\\Delta\\vec p\\)。恒力时才写成 \\(\\vec F\\Delta t\\)。",
+        "defEn": "The integral of force over time, equal to the change in momentum, \\(\\vec J=\\int\\vec F\\,\\mathrm{d}t=\\Delta\\vec p\\). It equals \\(\\vec F\\Delta t\\) only for a constant force."
+      },
+      {
+        "termZh": "冲量–动量定理",
+        "termEn": "impulse–momentum theorem",
+        "defZh": "合外力的冲量等于物体动量的变化。",
+        "defEn": "The impulse of the net external force equals the change in momentum of the object."
+      },
+      {
+        "termZh": "平均力",
+        "termEn": "average force",
+        "defZh": "变力在作用时间内的等效恒力，由冲量除以时间得到。",
+        "defEn": "The constant force that would give the same impulse over the interaction time."
+      }
+    ],
     "summary": "冲量与动量 · Impulse and Momentum",
     "learningObjectives": [
-      "能陈述「冲量与动量」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「冲量与动量」的准确定义与适用对象 · State the precise definition of Impulse and Momentum and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Impulse and Momentum：准确陈述定义、适用范围与符号约定。",
@@ -72,19 +98,19 @@ export const TOPICS = {
       "合外力的冲量等于动量变化"
     ],
     "keyPoints": [
-      "掌握 4.1「冲量与动量」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 4.1「冲量与动量」准确定义 · State the precise definition of 4.1 Impulse and Momentum.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「冲量与动量」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「冲量与动量」的结论 · Applying the conclusion of Impulse and Momentum when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -110,11 +136,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
@@ -162,11 +188,43 @@ export const TOPICS = {
     "titleZh": "动量守恒与碰撞",
     "titleEn": "Conservation of Linear Momentum, Collisions",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "动量守恒",
+        "termEn": "conservation of momentum",
+        "defZh": "合外力冲量为零时，系统总动量保持不变。",
+        "defEn": "When the net external impulse is zero, the total momentum of the system stays constant."
+      },
+      {
+        "termZh": "弹性碰撞",
+        "termEn": "elastic collision",
+        "defZh": "动量和动能都守恒的碰撞。",
+        "defEn": "A collision in which both momentum and kinetic energy are conserved."
+      },
+      {
+        "termZh": "非弹性碰撞",
+        "termEn": "inelastic collision",
+        "defZh": "动量守恒但动能不守恒的碰撞。",
+        "defEn": "A collision in which momentum is conserved and kinetic energy is not."
+      },
+      {
+        "termZh": "完全非弹性碰撞",
+        "termEn": "perfectly inelastic collision",
+        "defZh": "碰撞后物体粘在一起、以共同速度运动。",
+        "defEn": "A collision after which the objects stick and move at one common velocity."
+      },
+      {
+        "termZh": "系统",
+        "termEn": "system",
+        "defZh": "被选来分析的物体集合；内力成对抵消，不改变总动量。",
+        "defEn": "The objects chosen for analysis. Internal forces come in pairs and do not change the total momentum."
+      }
+    ],
     "summary": "动量守恒与碰撞 · Conservation of Linear Momentum, Collisions",
     "learningObjectives": [
-      "能陈述「动量守恒与碰撞」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「动量守恒与碰撞」的准确定义与适用对象 · State the precise definition of Conservation of Linear Momentum, Collisions and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Conservation of Linear Momentum, Collisions：准确陈述定义、适用范围与符号约定。",
@@ -216,19 +274,19 @@ export const TOPICS = {
       "弹性碰撞动能守恒；完全非弹性碰撞两物体同速"
     ],
     "keyPoints": [
-      "掌握 4.2「动量守恒与碰撞」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 4.2「动量守恒与碰撞」准确定义 · State the precise definition of 4.2 Conservation of Linear Momentum, Collisions.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「动量守恒与碰撞」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「动量守恒与碰撞」的结论 · Applying the conclusion of Conservation of Linear Momentum, Collisions when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -254,11 +312,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {

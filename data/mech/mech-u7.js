@@ -388,11 +388,43 @@ export const TOPICS = {
     "titleZh": "单摆",
     "titleEn": "Pendulums",
     "layer": "ap",
+    "vocabulary":     [
+      {
+        "termZh": "单摆",
+        "termEn": "simple pendulum",
+        "defZh": "轻绳或轻杆连接质点，在重力下摆动的模型。",
+        "defEn": "A model of a point mass swinging under gravity on a light string or rod."
+      },
+      {
+        "termZh": "小角近似",
+        "termEn": "small-angle approximation",
+        "defZh": "\\(\\theta\\) 很小时 \\(\\sin\\theta\\approx\\theta\\)（\\(\\theta\\) 用弧度），使运动成为简谐运动。",
+        "defEn": "When \\(\\theta\\) is small, \\(\\sin\\theta\\approx\\theta\\) with \\(\\theta\\) in radians, which makes the motion simple harmonic."
+      },
+      {
+        "termZh": "周期",
+        "termEn": "period",
+        "defZh": "完成一次全振动的时间，小角时 \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\)。",
+        "defEn": "The time for one full oscillation. At small angles, \\(T=2\\pi\\sqrt{\\dfrac{L}{g}}\\)."
+      },
+      {
+        "termZh": "回复力",
+        "termEn": "restoring force",
+        "defZh": "指向平衡位置的力；单摆中是重力的切向分量，不是整个重力。",
+        "defEn": "The force toward equilibrium. For a pendulum it is the tangential component of the weight, not the whole weight."
+      },
+      {
+        "termZh": "角频率",
+        "termEn": "angular frequency",
+        "defZh": "\\(\\omega=\\dfrac{2\\pi}{T}\\)，小角单摆为 \\(\\sqrt{\\dfrac{g}{L}}\\)。",
+        "defEn": "\\(\\omega=\\dfrac{2\\pi}{T}\\). For a small-angle pendulum it is \\(\\sqrt{\\dfrac{g}{L}}\\)."
+      }
+    ],
     "summary": "单摆 · Pendulums",
     "learningObjectives": [
-      "能陈述「单摆」的准确定义与适用对象",
-      "能在符号、图像、数值三种表征间转换",
-      "能完成一道计算/论证题并检查合理性"
+      "能陈述「单摆」的准确定义与适用对象 · State the precise definition of Pendulums and what it applies to.",
+      "能在符号、图像、数值三种表征间转换 · Move among symbolic, graphical, and numerical representations.",
+      "能完成一道计算/论证题并检查合理性 · Complete one calculation or argument and check that it is reasonable."
     ],
     "essentialKnowledge": [
       "Pendulums：准确陈述定义、适用范围与符号约定。",
@@ -438,19 +470,19 @@ export const TOPICS = {
       "g 为当地重力加速度"
     ],
     "keyPoints": [
-      "掌握 7.2「单摆」准确定义",
-      "四种表征互译（符号/图像/数值/文字）",
-      "适用条件、反例与边界",
-      "AP 简答：主张—证据—推理或完整推导",
-      "与相邻知识点的联系"
+      "掌握 7.2「单摆」准确定义 · State the precise definition of 7.2 Pendulums.",
+      "四种表征互译（符号/图像/数值/文字） · Translate among symbolic, graphical, numerical, and verbal representations.",
+      "适用条件、反例与边界 · State the conditions of use, counterexamples, and boundaries.",
+      "AP 简答：主张—证据—推理或完整推导 · On an AP free-response item, use claim–evidence–reasoning or a complete derivation.",
+      "与相邻知识点的联系 · Connect the idea to neighboring topics."
     ],
     "misconceptions": [
-      "在不满足假设时直接套用「单摆」的结论",
-      "用斜线分式书写导致运算顺序歧义（应使用叠式分式）",
-      "混淆符号含义或遗漏矢量方向/场方向",
-      "把平均变化率当作瞬时变化率（或反之）",
-      "忽略单位换算与有效数字",
-      "受力图漏力或把内力当作外力"
+      "在不满足假设时直接套用「单摆」的结论 · Applying the conclusion of Pendulums when its assumptions are not met.",
+      "用斜线分式书写导致运算顺序歧义（应使用叠式分式） · A slash fraction makes the order of operations ambiguous; use a stacked fraction.",
+      "混淆符号含义或遗漏矢量方向/场方向 · Mixing up what a symbol means, or omitting a vector or field direction.",
+      "把平均变化率当作瞬时变化率（或反之） · Treating an average rate of change as an instantaneous rate, or the reverse.",
+      "忽略单位换算与有效数字 · Ignoring unit conversions and significant figures.",
+      "受力图漏力或把内力当作外力 · Omitting a force on a free-body diagram, or treating an internal force as external"
     ],
     "examples": [
       {
@@ -476,11 +508,11 @@ export const TOPICS = {
       }
     ],
     "examTips": [
-      "先写定律/定义名称与适用条件",
-      "分数一律叠式书写",
-      "检查单位、方向与特殊值",
-      "多问共享刺激时保持符号一致",
-      "论证题每句对应证据"
+      "先写定律/定义名称与适用条件 · First name the law or definition and its conditions of use.",
+      "分数一律叠式书写 · Write every fraction as a stacked fraction.",
+      "检查单位、方向与特殊值 · Check units, direction, and special values.",
+      "多问共享刺激时保持符号一致 · Keep symbols consistent across parts that share a stimulus.",
+      "论证题每句对应证据 · In an argument, pair every claim with evidence."
     ],
     "related": [
       {
