@@ -9,22 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-em-u13-1": {
-    "title": "单回路 · 物理情境",
-    "text": "理想电池与电阻串联。求回路电流；若回路含电容，注明直流稳态。",
-    "diagram": {
-      "kind": "circuit",
-      "elements": [
-        {
-          "type": "battery",
-          "label": "ε"
-        },
-        {
-          "type": "resistor",
-          "label": "R"
-        }
-      ],
-      "ammeter": true
-    },
+    "title": "导体棒切割磁感线 · A rod cutting field lines",
+    "text": "B=0.40 T，棒长 0.50 m，垂直于磁场和棒的速度为 5.0 m/s。 · B=0.40 T, the rod is 0.50 m long, and the speed perpendicular to both the field and the rod is 5.0 m/s.",
     "table": {
       "headers": [
         "量",
@@ -32,12 +18,16 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "ε",
-          "12 V"
+          "B",
+          "0.40 T"
         ],
         [
-          "R",
-          "6 Ω"
+          "ℓ",
+          "0.50 m"
+        ],
+        [
+          "v",
+          "5.0 m/s"
         ]
       ]
     },
@@ -45,25 +35,11 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-em-u13-2": {
-    "title": "点电荷电场 · 物理情境",
-    "text": "点电荷位于原点，求距原点 r 处的电场大小。",
-    "diagram": {
-      "kind": "field",
-      "charges": [
-        {
-          "x": 140,
-          "y": 90,
-          "q": "+q"
-        }
-      ],
-      "pointP": {
-        "x": 200,
-        "y": 50
-      }
-    },
+    "title": "通量变化 · A change in flux",
+    "text": "单匝回路的磁通量在 0.15 s 内变化 0.30 Wb。 · The flux through a single-turn loop changes by 0.30 Wb in 0.15 s.",
     "table": {
       "headers": [
         "量",
@@ -71,16 +47,12 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "q",
-          "2.0 μC"
+          "ΔΦ",
+          "0.30 Wb"
         ],
         [
-          "r",
-          "0.10 m"
-        ],
-        [
-          "k",
-          "9.0×10⁹ N·m²/C²"
+          "Δt",
+          "0.15 s"
         ]
       ]
     },
@@ -88,15 +60,11 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-em-u13-3": {
-    "title": "球形高斯面 · 物理情境",
-    "text": "均匀球对称电荷 Q 外包半径 r 的高斯球面。求球面外电场大小。",
-    "diagram": {
-      "kind": "gauss",
-      "kindSurface": "sphere"
-    },
+    "title": "N 匝线圈 · An N-turn coil",
+    "text": "100 匝线圈，每匝磁通量在 0.25 s 内变化 0.050 Wb。 · A 100-turn coil. The flux through each turn changes by 0.050 Wb in 0.25 s.",
     "table": {
       "headers": [
         "量",
@@ -104,12 +72,16 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "Q",
-          "1.0 μC"
+          "N",
+          "100"
         ],
         [
-          "r",
-          "0.10 m"
+          "ΔΦ",
+          "0.050 Wb"
+        ],
+        [
+          "Δt",
+          "0.25 s"
         ]
       ]
     },
@@ -117,7 +89,7 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-em-u13-4": {
     "title": "滑棒与磁阻力 · 物理情境",
@@ -157,25 +129,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "em-u13-set1",
-    "title": "题组 1 · 共享刺激",
+    "title": "动生电动势 · Motional emf",
     "sharedStimulus": "stim-em-u13-1",
     "stimulus": {
-      "title": "单回路 · 物理情境",
-      "text": "理想电池与电阻串联。求回路电流；若回路含电容，注明直流稳态。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
+      "title": "导体棒切割磁感线 · A rod cutting field lines",
+      "text": "B=0.40 T，棒长 0.50 m，垂直于磁场和棒的速度为 5.0 m/s。 · B=0.40 T, the rod is 0.50 m long, and the speed perpendicular to both the field and the rod is 5.0 m/s.",
       "table": {
         "headers": [
           "量",
@@ -183,12 +141,16 @@ export const problems = [
         ],
         "rows": [
           [
-            "ε",
-            "12 V"
+            "B",
+            "0.40 T"
           ],
           [
-            "R",
-            "6 Ω"
+            "ℓ",
+            "0.50 m"
+          ],
+          [
+            "v",
+            "5.0 m/s"
           ]
         ]
       },
@@ -196,89 +158,90 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "em-u13-q001",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "单回路欧姆定律（仅电阻）。",
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-        "topicLinks": [
-          {
-            "href": "#/t/em/em-u13/13.1",
-            "label": "13.1 磁通量",
-            "topicId": "em-u13:13.1"
-          }
-        ]
-      },
-      {
-        "id": "em-u13-q002",
-        "title": "纯电阻回路电流",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求纯电阻回路的电流 I（A）。",
-        "expected": 2,
-        "tol": 0.01,
-        "solution": "纯电阻回路；若串联电容，直流稳态 I=0。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动生电动势 · Motional emf",
+        "type": "frq",
+        "stem": "写出这段导体的动生电动势大小。 · Write the motional emf magnitude of this rod.",
+        "answerLatex": "\\varepsilon=B\\ell v",
+        "solution": "它来自电荷所受的磁力，等效于通量变化。 · It comes from the magnetic force on charges and is equivalent to a changing flux.",
         "topicLinks": [
           {
             "href": "#/t/em/em-u13/13.2",
             "label": "13.2 电磁感应",
             "topicId": "em-u13:13.2"
           }
-        ],
-        "answerLatex": "2.00\\,\\mathrm{A}",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
+        ]
       },
       {
-        "id": "em-u13-q003",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "id": "em-u13-q002",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动生电动势 · Motional emf",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求感应电动势大小（V）。 · Find the induced emf magnitude (V).",
+        "expected": 1,
+        "tol": 0.01,
+        "answerLatex": "1.0\\,\\mathrm{V}",
+        "solution": "ε = 1.0 V。 · ε = 1.0 V.",
+        "solutionLatex": "\\varepsilon=(0.40)(0.50)(5.0)=1.0\\,\\mathrm{V}",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.3",
-            "label": "13.3 感应电流与磁力",
-            "topicId": "em-u13:13.3"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
+          }
+        ]
+      },
+      {
+        "id": "em-u13-q003",
+        "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "速度平行于磁场 · Velocity parallel to the field",
+        "type": "mcq",
+        "stem": "若速度改为与磁场平行，动生电动势是多少？ · If the velocity is redirected parallel to the field, what is the motional emf?",
+        "choices": [
+          {
+            "text": "0 · 0",
+            "correct": true
+          },
+          {
+            "text": "仍是 1.0 V · It is still 1.0 V",
+            "correct": false
+          },
+          {
+            "text": "2.0 V · 2.0 V",
+            "correct": false
+          },
+          {
+            "text": "电动势反向但大小仍是 1.0 V · The emf reverses but its magnitude is still 1.0 V",
+            "correct": false
+          }
+        ],
+        "solution": "没有切割，电动势为零。 · The rod does not cut field lines, so the emf is zero.",
+        "topicLinks": [
+          {
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
         ]
       }
@@ -287,25 +250,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "em-u13-set2",
-    "title": "题组 2 · 共享刺激",
+    "title": "平均感应电动势 · Average induced emf",
     "sharedStimulus": "stim-em-u13-2",
     "stimulus": {
-      "title": "点电荷电场 · 物理情境",
-      "text": "点电荷位于原点，求距原点 r 处的电场大小。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
+      "title": "通量变化 · A change in flux",
+      "text": "单匝回路的磁通量在 0.15 s 内变化 0.30 Wb。 · The flux through a single-turn loop changes by 0.30 Wb in 0.15 s.",
       "table": {
         "headers": [
           "量",
@@ -313,16 +262,12 @@ export const problems = [
         ],
         "rows": [
           [
-            "q",
-            "2.0 μC"
+            "ΔΦ",
+            "0.30 Wb"
           ],
           [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹ N·m²/C²"
+            "Δt",
+            "0.15 s"
           ]
         ]
       },
@@ -330,110 +275,115 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "em-u13-q004",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\vec E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{q}{r^{2}}\\hat r",
-        "solution": "点电荷场强由库仑定律定义。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "法拉第定律 · Faraday's law",
+        "type": "frq",
+        "stem": "写出单匝回路平均感应电动势的大小。 · Write the magnitude of the average induced emf in a single-turn loop.",
+        "answerLatex": "|\\varepsilon|=\\dfrac{|\\Delta\\Phi|}{\\Delta t}",
+        "solution": "方向由楞次定律决定。 · The direction is fixed by Lenz's law.",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.4",
-            "label": "13.4 电感",
-            "topicId": "em-u13:13.4"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
         ]
       },
       {
         "id": "em-u13-q005",
-        "title": "点电荷电场大小",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求距点电荷 0.10 m 处的电场大小 E（N/C）。",
-        "expected": 1800000,
-        "tol": 0.01,
-        "solution": "代入库仑常量与数据，得 E=1.8×10⁶ N/C。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "通量变化率 · Rate of change of flux",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求平均感应电动势的大小（V）。 · Find the magnitude of the average induced emf (V).",
+        "expected": 2,
+        "tol": 0.01,
+        "answerLatex": "2.0\\,\\mathrm{V}",
+        "solution": "0.30/0.15 = 2.0 V。 · 0.30/0.15 = 2.0 V.",
+        "solutionLatex": "|\\varepsilon|=\\dfrac{0.30}{0.15}=2.0\\,\\mathrm{V}",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.5",
-            "label": "13.5 LR 电路",
-            "topicId": "em-u13:13.5"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
-        ],
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
+        ]
       },
       {
         "id": "em-u13-q006",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "恒定通量 · Constant flux",
+        "type": "mcq",
+        "stem": "若此后通量保持 0.30 Wb 不再变化，感应电动势是多少？ · If the flux then stays at 0.30 Wb, what is the induced emf?",
+        "choices": [
+          {
+            "text": "0 · 0",
+            "correct": true
+          },
+          {
+            "text": "仍是 2.0 V · It is still 2.0 V",
+            "correct": false
+          },
+          {
+            "text": "0.30 V · 0.30 V",
+            "correct": false
+          },
+          {
+            "text": "电动势与通量本身成正比，所以更大 · The emf is proportional to the flux itself, so it is larger",
+            "correct": false
+          }
+        ],
+        "solution": "通量不变就没有感应电动势。 · A constant flux induces no emf.",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.6",
-            "label": "13.6 LC 电路",
-            "topicId": "em-u13:13.6"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
         ]
       },
       {
         "id": "em-u13-q007",
-        "title": "定量/概念 (4)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "说明若某一参数加倍，目标量如何变化（定性+比例）。",
-        "answer": "E=kq/r²：q 加倍时 E 加倍；r 加倍时 E 变为原来的四分之一。",
-        "solution": "点电荷场强 E∝q/r²。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "时间加倍后的平均电动势 · Average emf after the time doubles",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "磁通量变化仍是 0.30 Wb，所用时间改为 0.30 s。求平均感应电动势大小（V）。 · The flux change is still 0.30 Wb and the time is now 0.30 s. Find the magnitude of the average induced emf (V).",
+        "expected": 1,
+        "tol": 0.01,
+        "answerLatex": "1.0\\,\\mathrm{V}",
+        "solution": "平均电动势等于通量变化率。 · The average emf equals the rate of change of flux.",
+        "solutionLatex": "|\\varepsilon|=\\dfrac{0.30}{0.30}=1.0\\,\\mathrm{V}",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.1",
-            "label": "13.1 磁通量",
-            "topicId": "em-u13:13.1"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
         ]
       }
@@ -442,15 +392,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "em-u13-set3",
-    "title": "题组 3 · 共享刺激",
+    "title": "多匝线圈 · A coil of many turns",
     "sharedStimulus": "stim-em-u13-3",
     "stimulus": {
-      "title": "球形高斯面 · 物理情境",
-      "text": "均匀球对称电荷 Q 外包半径 r 的高斯球面。求球面外电场大小。",
-      "diagram": {
-        "kind": "gauss",
-        "kindSurface": "sphere"
-      },
+      "title": "N 匝线圈 · An N-turn coil",
+      "text": "100 匝线圈，每匝磁通量在 0.25 s 内变化 0.050 Wb。 · A 100-turn coil. The flux through each turn changes by 0.050 Wb in 0.25 s.",
       "table": {
         "headers": [
           "量",
@@ -458,12 +404,16 @@ export const problems = [
         ],
         "rows": [
           [
-            "Q",
-            "1.0 μC"
+            "N",
+            "100"
           ],
           [
-            "r",
-            "0.10 m"
+            "ΔΦ",
+            "0.050 Wb"
+          ],
+          [
+            "Δt",
+            "0.25 s"
           ]
         ]
       },
@@ -471,22 +421,22 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "em-u13-q008",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "取球对称高斯面，E 在面上为常量。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "多匝法拉第定律 · Faraday's law for N turns",
+        "type": "frq",
+        "stem": "写出 N 匝线圈平均感应电动势的大小。 · Write the magnitude of the average induced emf of an N-turn coil.",
+        "answerLatex": "|\\varepsilon|=N\\dfrac{|\\Delta\\Phi|}{\\Delta t}",
+        "solution": "每匝的电动势相加。 · The emf of each turn adds.",
         "topicLinks": [
           {
             "href": "#/t/em/em-u13/13.2",
@@ -497,63 +447,64 @@ export const problems = [
       },
       {
         "id": "em-u13-q009",
-        "title": "球面外电场大小",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求球面外电场大小 E（N/C）。",
-        "expected": 900000,
-        "tol": 0.01,
-        "solution": "球外场等效于全部电荷集中于球心。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "多匝电动势 · Emf of many turns",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求感应电动势大小（V）。 · Find the induced emf magnitude (V).",
+        "expected": 20,
+        "tol": 0.01,
+        "answerLatex": "20\\,\\mathrm{V}",
+        "solution": "100×0.20 = 20 V。 · 100×0.20 = 20 V.",
+        "solutionLatex": "|\\varepsilon|=100\\times\\dfrac{0.050}{0.25}=20\\,\\mathrm{V}",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.3",
-            "label": "13.3 感应电流与磁力",
-            "topicId": "em-u13:13.3"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
-        ],
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
+        ]
       },
       {
         "id": "em-u13-q010",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "楞次定律 · Lenz's law",
+        "type": "mcq",
+        "stem": "感应电流的磁场会怎样对待原来的通量变化？ · What does the field of the induced current do to the original change in flux?",
+        "choices": [
+          {
+            "text": "反抗该通量变化 · It opposes that change in flux",
+            "correct": true
+          },
+          {
+            "text": "加强该通量变化 · It increases that change in flux",
+            "correct": false
+          },
+          {
+            "text": "与匝数无关，所以没有感应电流 · It is independent of the number of turns, so there is no induced current",
+            "correct": false
+          },
+          {
+            "text": "使通量立刻变为零 · It makes the flux immediately zero",
+            "correct": false
+          }
+        ],
+        "solution": "感应电流反抗引起它的通量变化。 · The induced current opposes the change in flux that produces it.",
         "topicLinks": [
           {
-            "href": "#/t/em/em-u13/13.4",
-            "label": "13.4 电感",
-            "topicId": "em-u13:13.4"
+            "href": "#/t/em/em-u13/13.2",
+            "label": "13.2 电磁感应",
+            "topicId": "em-u13:13.2"
           }
         ]
       }
@@ -561,251 +512,109 @@ export const problems = [
   },
   {
     "id": "em-u13-q011",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q012",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "法拉第电磁感应 · Faraday's law",
+    "type": "mcq",
+    "stem": "一个闭合回路放在磁场中。哪项正确？ · A closed loop sits in a magnetic field. Which statement is correct?",
     "choices": [
       {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
+        "text": "只有磁通量变化时才有感应电动势 · There is an induced emf only while the magnetic flux is changing",
         "correct": true
       },
       {
-        "text": "可随意忽略惯性系要求",
+        "text": "很强的恒定磁场一定产生感应电动势 · A strong constant magnetic field must induce an emf",
         "correct": false
       },
       {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
+        "text": "感应电动势只由电阻决定 · The induced emf is fixed by the resistance alone",
         "correct": false
       },
       {
-        "text": "场线密度与物理强度无关",
+        "text": "楞次定律说感应电流会加强磁通量的变化 · Lenz's law says the induced current increases the change in flux",
         "correct": false
       }
     ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "solution": "感应电动势等于磁通量变化率的负值。恒定的通量不产生感应电动势。 · The induced emf equals the negative rate of change of flux. A constant flux induces no emf.",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q013",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q014",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -816,381 +625,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q015",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q016",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q017",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q018",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q019",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q020",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -1201,381 +775,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q021",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q022",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q023",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q024",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q025",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q026",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -1586,381 +925,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q027",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q028",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q029",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q030",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q031",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q032",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -1971,381 +1075,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q033",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q034",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q035",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q036",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q037",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q038",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -2356,381 +1225,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q039",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q040",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q041",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q042",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q043",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q044",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -2741,381 +1375,146 @@ export const problems = [
   },
   {
     "id": "em-u13-q045",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q046",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q047",
-    "title": "13.1 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "磁通量",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.5",
-        "label": "13.5 LR 电路",
-        "topicId": "em-u13:13.5"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q048",
-    "title": "13.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「电磁感应」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.6",
-        "label": "13.6 LC 电路",
-        "topicId": "em-u13:13.6"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q049",
-    "title": "13.3 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 4.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 4.0 m/s. Find the motional emf (V).",
+    "expected": 0.8,
+    "tol": 0.01,
+    "answerLatex": "0.8\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.8 V。 · ε = Bℓv = 0.8 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(4.0)=0.8\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.1",
-        "label": "13.1 磁通量",
-        "topicId": "em-u13:13.1"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q050",
-    "title": "13.4 点电荷电场",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "电感",
-      "text": "点电荷位于原点；求距原点 r 处的电场大小（取 k=9.0×10⁹ N·m²/C²）。",
-      "diagram": {
-        "kind": "field",
-        "charges": [
-          {
-            "x": 140,
-            "y": 90,
-            "q": "+q"
-          }
-        ],
-        "pointP": {
-          "x": 200,
-          "y": 50
-        }
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "q",
-            "2.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ],
-          [
-            "k",
-            "9.0×10⁹"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出点电荷电场公式（符号）。",
-        "type": "frq",
-        "answerLatex": "E=\\dfrac{1}{4\\pi\\varepsilon_0}\\dfrac{|q|}{r^{2}}",
-        "solution": "库仑定律定义场。"
-      },
-      {
-        "stem": "代入表中数据求 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 1800000,
-        "tol": 0.01,
-        "answerLatex": "1.8\\times10^{6}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=1.8×10⁶ N/C。",
-        "solutionLatex": "E=\\dfrac{kq}{r^{2}}=\\dfrac{(9.0\\times10^{9})(2.0\\times10^{-6})}{(0.10)^{2}}=1.8\\times10^{6}\\,\\mathrm{N/C}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 5.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 5.0 m/s. Find the motional emf (V).",
+    "expected": 1,
+    "tol": 0.01,
+    "answerLatex": "1\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1 V。 · ε = Bℓv = 1 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(5.0)=1\\,\\mathrm{V}",
     "topicLinks": [
       {
         "href": "#/t/em/em-u13/13.2",
@@ -3126,160 +1525,80 @@ export const problems = [
   },
   {
     "id": "em-u13-q051",
-    "title": "13.5 高斯面",
-    "type": "frq",
     "difficulty": "中",
-    "stimulus": {
-      "title": "球形高斯面",
-      "text": "均匀球对称电荷 Q 外包半径 r=0.10 m 的高斯球面。",
-      "diagram": {
-        "kind": "gauss",
-        "surface": "sphere"
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "Q",
-            "1.0 μC"
-          ],
-          [
-            "r",
-            "0.10 m"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出高斯定律。",
-        "type": "frq",
-        "answerLatex": "\\oint\\vec E\\cdot\\mathrm{d}\\vec A=\\dfrac{Q_{\\mathrm{enc}}}{\\varepsilon_0}",
-        "solution": "对称性 ⇒ E 常量。"
-      },
-      {
-        "stem": "求球面外 E（N/C）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 900000,
-        "tol": 0.01,
-        "answerLatex": "9.0\\times10^{5}\\,\\mathrm{N/C}",
-        "solution": "代入数据得 E=9.0×10⁵ N/C。",
-        "solutionLatex": "E=\\dfrac{kQ}{r^{2}}=\\dfrac{(9.0\\times10^{9})(1.0\\times10^{-6})}{(0.10)^{2}}=9.0\\times10^{5}\\,\\mathrm{N/C}."
-      }
-    ],
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 8.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 8.0 m/s. Find the motional emf (V).",
+    "expected": 1.6,
+    "tol": 0.01,
+    "answerLatex": "1.6\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 1.6 V。 · ε = Bℓv = 1.6 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(8.0)=1.6\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.3",
-        "label": "13.3 感应电流与磁力",
-        "topicId": "em-u13:13.3"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
   {
     "id": "em-u13-q052",
-    "title": "13.6 串联电路电流",
-    "type": "frq",
-    "difficulty": "难",
-    "stimulus": {
-      "title": "单回路",
-      "text": "理想电池与单一电阻串联，求电流。",
-      "diagram": {
-        "kind": "circuit",
-        "elements": [
-          {
-            "type": "battery",
-            "label": "ε"
-          },
-          {
-            "type": "resistor",
-            "label": "R"
-          }
-        ],
-        "ammeter": true
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "ε",
-            "12 V"
-          ],
-          [
-            "R",
-            "6 Ω"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "写出欧姆定律。",
-        "type": "frq",
-        "answerLatex": "I=\\dfrac{\\varepsilon}{R}",
-        "solution": "理想串联。"
-      },
-      {
-        "stem": "求电流 I（A）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 2,
-        "tol": 0.01,
-        "answerLatex": "2",
-        "solution": "代入数据得 I=2.00 A。",
-        "solutionLatex": "I=\\dfrac{\\varepsilon}{R}=\\dfrac{12}{6}=2.00\\,\\mathrm{A}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动生电动势 · Motional emf",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "B=0.25 T，棒长 0.80 m，垂直切割速度 2.0 m/s。求动生电动势大小（V）。 · B=0.25 T, the rod is 0.80 m long, and the perpendicular speed is 2.0 m/s. Find the motional emf (V).",
+    "expected": 0.4,
+    "tol": 0.01,
+    "answerLatex": "0.4\\,\\mathrm{V}",
+    "solution": "ε = Bℓv = 0.4 V。 · ε = Bℓv = 0.4 V.",
+    "solutionLatex": "\\varepsilon=(0.25)(0.80)(2.0)=0.4\\,\\mathrm{V}",
     "topicLinks": [
       {
-        "href": "#/t/em/em-u13/13.4",
-        "label": "13.4 电感",
-        "topicId": "em-u13:13.4"
+        "href": "#/t/em/em-u13/13.2",
+        "label": "13.2 电磁感应",
+        "topicId": "em-u13:13.2"
       }
     ]
   },
-{
-  "id": "em-u13-q053",
-  "title": "13.7 位移电流与电场变化率",
-  "type": "frq",
-  "difficulty": "中",
-  "calculator": false,
-  "check": "numeric",
-  "stem": "平行板电容器以恒定电流 2.0 A 充电。求极板间电通量的变化率 dΦ_E/dt（V·m/s），取 ε₀=8.85×10⁻¹² C²/(N·m²)。",
-  "expected": 230000000000.0,
-  "tol": 0.03,
-  "answerLatex": "2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
-  "solution": "I_d=ε₀dΦ_E/dt，充电时 I_d=I，故 dΦ_E/dt=I/ε₀≈2.3×10¹¹ V·m/s。",
-  "solutionLatex": "\\dfrac{d\\Phi_E}{dt}=\\dfrac{I}{\\varepsilon_0}=\\dfrac{2.0}{8.85\\times10^{-12}}\\approx2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
-  "sourceId": "original",
-  "source": "Original AP-style item (this project)",
-  "license": "Project",
-  "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
-  "topicLinks": [
-    {
-      "href": "#/t/em/em-u13/13.7",
-      "label": "13.7 麦克斯韦方程与电磁波",
-      "topicId": "em-u13:13.7"
-    }
-  ]
-},
+  {
+    "id": "em-u13-q053",
+    "title": "13.7 位移电流与电场变化率",
+    "type": "frq",
+    "difficulty": "中",
+    "calculator": false,
+    "check": "numeric",
+    "stem": "平行板电容器以恒定电流 2.0 A 充电。求极板间电通量的变化率 dΦ_E/dt（V·m/s），取 ε₀=8.85×10⁻¹² C²/(N·m²)。",
+    "expected": 230000000000,
+    "tol": 0.03,
+    "answerLatex": "2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
+    "solution": "I_d=ε₀dΦ_E/dt，充电时 I_d=I，故 dΦ_E/dt=I/ε₀≈2.3×10¹¹ V·m/s。",
+    "solutionLatex": "\\dfrac{d\\Phi_E}{dt}=\\dfrac{I}{\\varepsilon_0}=\\dfrac{2.0}{8.85\\times10^{-12}}\\approx2.3\\times10^{11}\\,\\mathrm{V\\,m\\,s^{-1}}",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+    "topicLinks": [
+      {
+        "href": "#/t/em/em-u13/13.7",
+        "label": "13.7 麦克斯韦方程与电磁波",
+        "topicId": "em-u13:13.7"
+      }
+    ]
+  },
   {
     "kind": "set",
     "id": "em-u13-set4",
