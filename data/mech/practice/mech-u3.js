@@ -9,35 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-mech-u3-1": {
-    "title": "水平面加速度 · 物理情境",
-    "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-    "diagram": {
-      "kind": "fbd",
-      "surface": true,
-      "massLabel": "m",
-      "forces": [
-        {
-          "label": "N",
-          "dx": 0,
-          "dy": -50
-        },
-        {
-          "label": "mg",
-          "dx": 0,
-          "dy": 55
-        },
-        {
-          "label": "F",
-          "dx": 55,
-          "dy": 0
-        },
-        {
-          "label": "f",
-          "dx": -40,
-          "dy": 0
-        }
-      ]
-    },
+    "title": "质点的动能 · Kinetic energy of a particle",
+    "text": "质量 2.0 kg 的质点速率 4.0 m/s。 · A 2.0 kg particle moves at 4.0 m/s.",
     "table": {
       "headers": [
         "量",
@@ -49,16 +22,8 @@ export const stimuli = {
           "2.0 kg"
         ],
         [
-          "F",
-          "10 N"
-        ],
-        [
-          "μ_k",
-          "0.20"
-        ],
-        [
-          "g",
-          "9.8 m/s²"
+          "v",
+          "4.0 m/s"
         ]
       ]
     },
@@ -66,17 +31,11 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-mech-u3-2": {
-    "title": "滑轮系统 · 物理情境",
-    "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
-    "diagram": {
-      "kind": "pulley",
-      "m1": "m₁",
-      "m2": "m₂",
-      "R": true
-    },
+    "title": "抬高后的势能 · Potential after a lift",
+    "text": "把 1.0 kg 的物体从 U=0 的高度匀速升高 5.0 m。取 g=9.8 m/s²。 · A 1.0 kg object is lifted at constant speed through 5.0 m from the height where U=0. Take g=9.8 m/s².",
     "table": {
       "headers": [
         "量",
@@ -84,12 +43,12 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "m₁",
-          "2.0 kg"
+          "m",
+          "1.0 kg"
         ],
         [
-          "m₂",
-          "1.0 kg"
+          "h",
+          "5.0 m"
         ],
         [
           "g",
@@ -101,99 +60,43 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-mech-u3-3": {
-    "title": "v–t 图像 · 物理情境",
-    "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
-    "diagram": {
-      "kind": "motionGraph",
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          4,
-          -1
-        ]
+    "title": "恒力的功率 · Power of a constant force",
+    "text": "恒力 10 N 沿速度方向作用，瞬时速度 3.0 m/s。 · A constant 10 N force is parallel to the velocity, which is instantaneously 3.0 m/s.",
+    "table": {
+      "headers": [
+        "量",
+        "值"
       ],
-      "xLabel": "t",
-      "yLabel": "v"
+      "rows": [
+        [
+          "F",
+          "10 N"
+        ],
+        [
+          "v",
+          "3.0 m/s"
+        ]
+      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording.",
-    "graph": {
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          4,
-          -1
-        ]
-      ],
-      "xLabel": "t / s",
-      "yLabel": "v"
-    }
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   }
 };
 export const problems = [
   {
     "kind": "set",
     "id": "mech-u3-set1",
-    "title": "题组 1 · 共享刺激",
+    "title": "动能 · Kinetic energy",
     "sharedStimulus": "stim-mech-u3-1",
     "stimulus": {
-      "title": "水平面加速度 · 物理情境",
-      "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -50
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 55
-          },
-          {
-            "label": "F",
-            "dx": 55,
-            "dy": 0
-          },
-          {
-            "label": "f",
-            "dx": -40,
-            "dy": 0
-          }
-        ]
-      },
+      "title": "质点的动能 · Kinetic energy of a particle",
+      "text": "质量 2.0 kg 的质点速率 4.0 m/s。 · A 2.0 kg particle moves at 4.0 m/s.",
       "table": {
         "headers": [
           "量",
@@ -205,16 +108,8 @@ export const problems = [
             "2.0 kg"
           ],
           [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
+            "v",
+            "4.0 m/s"
           ]
         ]
       },
@@ -222,22 +117,22 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "mech-u3-q001",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动能定义 · Definition of kinetic energy",
+        "type": "frq",
+        "stem": "写出动能的符号式。 · Write the symbolic expression for kinetic energy.",
+        "answerLatex": "K=\\dfrac{1}{2}mv^{2}",
+        "solution": "动能取决于速率的平方。 · Kinetic energy depends on the square of the speed.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u3/3.1",
@@ -248,63 +143,64 @@ export const problems = [
       },
       {
         "id": "mech-u3-q002",
-        "title": "水平面加速度",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求物块加速度 a（m/s²）。",
-        "expected": 3.04,
-        "tol": 0.01,
-        "solution": "取 g=9.8 m/s²，代入得 a≈3.04 m/s²。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动能数值 · Kinetic-energy value",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求动能（J）。 · Find the kinetic energy (J).",
+        "expected": 16,
+        "tol": 0.01,
+        "answerLatex": "16\\,\\mathrm{J}",
+        "solution": "½×2×16 = 16 J。 · ½×2×16 = 16 J.",
+        "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u3/3.2",
-            "label": "3.2 力与势能",
-            "topicId": "mech-u3:3.2"
+            "href": "#/t/mech/mech-u3/3.1",
+            "label": "3.1 动能定理",
+            "topicId": "mech-u3:3.1"
           }
-        ],
-        "answerLatex": "3.04\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
+        ]
       },
       {
         "id": "mech-u3-q003",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "速率加倍 · Speed doubles",
+        "type": "mcq",
+        "stem": "若速率加倍、质量不变，动能变为原来的多少？ · If the speed doubles and the mass stays the same, the kinetic energy becomes what multiple of its original value?",
+        "choices": [
+          {
+            "text": "4 倍 · 4 times",
+            "correct": true
+          },
+          {
+            "text": "2 倍 · 2 times",
+            "correct": false
+          },
+          {
+            "text": "不变 · unchanged",
+            "correct": false
+          },
+          {
+            "text": "8 倍 · 8 times",
+            "correct": false
+          }
+        ],
+        "solution": "动能与 v² 成正比，变为 4 倍。 · Kinetic energy is proportional to v², so it becomes 4 times as large.",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u3/3.3",
-            "label": "3.3 机械能守恒",
-            "topicId": "mech-u3:3.3"
+            "href": "#/t/mech/mech-u3/3.1",
+            "label": "3.1 动能定理",
+            "topicId": "mech-u3:3.1"
           }
         ]
       }
@@ -313,17 +209,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "mech-u3-set2",
-    "title": "题组 2 · 共享刺激",
+    "title": "重力势能 · Gravitational potential",
     "sharedStimulus": "stim-mech-u3-2",
     "stimulus": {
-      "title": "滑轮系统 · 物理情境",
-      "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
-      "diagram": {
-        "kind": "pulley",
-        "m1": "m₁",
-        "m2": "m₂",
-        "R": true
-      },
+      "title": "抬高后的势能 · Potential after a lift",
+      "text": "把 1.0 kg 的物体从 U=0 的高度匀速升高 5.0 m。取 g=9.8 m/s²。 · A 1.0 kg object is lifted at constant speed through 5.0 m from the height where U=0. Take g=9.8 m/s².",
       "table": {
         "headers": [
           "量",
@@ -331,12 +221,12 @@ export const problems = [
         ],
         "rows": [
           [
-            "m₁",
-            "2.0 kg"
+            "m",
+            "1.0 kg"
           ],
           [
-            "m₂",
-            "1.0 kg"
+            "h",
+            "5.0 m"
           ],
           [
             "g",
@@ -348,84 +238,85 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "mech-u3-q004",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "重力势能 · Gravitational potential energy",
+        "type": "frq",
+        "stem": "近地面、g 近似常量时，写出重力势能。 · Near the ground, with g approximately constant, write the gravitational potential energy.",
+        "answerLatex": "U_g=mgh",
+        "solution": "零点可以任取，这里取起点为零。 · The zero is arbitrary; here it is the starting height.",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u3/3.4",
-            "label": "3.4 功率",
-            "topicId": "mech-u3:3.4"
+            "href": "#/t/mech/mech-u3/3.2",
+            "label": "3.2 力与势能",
+            "topicId": "mech-u3:3.2"
           }
         ]
       },
       {
         "id": "mech-u3-q005",
-        "title": "滑轮系统加速度",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求两物块加速度大小 a（m/s²）。",
-        "expected": 3.27,
-        "tol": 0.01,
-        "solution": "系统整体受力 (m₁−m₂)g，总质量 m₁+m₂。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "势能增加 · Increase in potential",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求势能的增加（J）。 · Find the increase in potential energy (J).",
+        "expected": 49,
+        "tol": 0.02,
+        "answerLatex": "49\\,\\mathrm{J}",
+        "solution": "mgh = 1×9.8×5 = 49 J。 · mgh = 1×9.8×5 = 49 J.",
+        "solutionLatex": "U=mgh=(1.0)(9.8)(5.0)=49\\,\\mathrm{J}",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u3/3.1",
-            "label": "3.1 动能定理",
-            "topicId": "mech-u3:3.1"
+            "href": "#/t/mech/mech-u3/3.2",
+            "label": "3.2 力与势能",
+            "topicId": "mech-u3:3.2"
           }
-        ],
-        "answerLatex": "3.27\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{(m_1-m_2)g}{m_1+m_2}=\\dfrac{(2.0-1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
+        ]
       },
       {
         "id": "mech-u3-q006",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "由静止下落 · Released from rest",
+        "type": "mcq",
+        "stem": "若此后只有重力做功，物体回到 U=0 的高度时动能是多少？ · If only gravity does work after that, what is the kinetic energy when the object returns to the height where U=0?",
+        "choices": [
+          {
+            "text": "49 J · 49 J",
+            "correct": true
+          },
+          {
+            "text": "9.8 J · 9.8 J",
+            "correct": false
+          },
+          {
+            "text": "0，因为回到了出发点的高度 · 0, because it is back at the original height",
+            "correct": false
+          },
+          {
+            "text": "98 J · 98 J",
+            "correct": false
+          }
+        ],
+        "solution": "机械能守恒，减少的势能变成动能。 · Mechanical energy is conserved, so the lost potential becomes kinetic energy.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u3/3.2",
@@ -436,162 +327,21 @@ export const problems = [
       },
       {
         "id": "mech-u3-q007",
-        "title": "定量/概念 (4)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "说明若某一参数加倍，目标量如何变化（定性+比例）。",
-        "answer": "a=F/m：m 不变时 F 加倍，a 加倍；F 不变时 m 加倍，a 减半。",
-        "solution": "牛顿第二定律的比例关系。",
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-        "topicLinks": [
-          {
-            "href": "#/t/mech/mech-u3/3.3",
-            "label": "3.3 机械能守恒",
-            "topicId": "mech-u3:3.3"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "kind": "set",
-    "id": "mech-u3-set3",
-    "title": "题组 3 · 共享刺激",
-    "sharedStimulus": "stim-mech-u3-3",
-    "stimulus": {
-      "title": "v–t 图像 · 物理情境",
-      "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
-      "diagram": {
-        "kind": "motionGraph",
-        "points": [
-          [
-            0,
-            0
-          ],
-          [
-            1,
-            3
-          ],
-          [
-            2,
-            3
-          ],
-          [
-            4,
-            -1
-          ]
-        ],
-        "xLabel": "t",
-        "yLabel": "v"
-      },
-      "sourceId": "openstax-university-physics",
-      "source": "OpenStax University Physics Volumes 1–3",
-      "license": "CC BY 4.0",
-      "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording.",
-      "graph": {
-        "points": [
-          [
-            0,
-            0
-          ],
-          [
-            1,
-            3
-          ],
-          [
-            2,
-            3
-          ],
-          [
-            4,
-            -1
-          ]
-        ],
-        "xLabel": "t / s",
-        "yLabel": "v"
-      }
-    },
-    "questions": [
-      {
-        "id": "mech-u3-q008",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "a=\\dfrac{\\Delta v}{\\Delta t}",
-        "solution": "v–t 图像斜率即加速度。",
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-        "topicLinks": [
-          {
-            "href": "#/t/mech/mech-u3/3.4",
-            "label": "3.4 功率",
-            "topicId": "mech-u3:3.4"
-          }
-        ]
-      },
-      {
-        "id": "mech-u3-q009",
-        "title": "v–t 图像斜率",
         "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "高度加倍后的势能 · Potential after the height doubles",
         "type": "frq",
         "check": "numeric",
-        "stem": "求 0–1 s 内的加速度 a（m/s²）。",
-        "expected": 3,
+        "stem": "质量仍是 1.0 kg，升高高度改为 10 m。取 g=9.8 m/s²。求势能增加（J）。 · The mass is still 1.0 kg and the lift is now 10 m. Take g=9.8 m/s². Find the potential-energy increase (J).",
+        "expected": 98,
         "tol": 0.01,
-        "solution": "v–t 图斜率即加速度。",
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-        "topicLinks": [
-          {
-            "href": "#/t/mech/mech-u3/3.1",
-            "label": "3.1 动能定理",
-            "topicId": "mech-u3:3.1"
-          }
-        ],
-        "answerLatex": "3.0\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{\\Delta v}{\\Delta t}=\\dfrac{3.0-0}{1.0-0}=3.0\\,\\mathrm{m\\,s^{-2}}."
-      },
-      {
-        "id": "mech-u3-q010",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "answerLatex": "98\\,\\mathrm{J}",
+        "solution": "U = mgh = 98 J。 · U = mgh = 98 J.",
+        "solutionLatex": "U=(1.0)(9.8)(10)=98\\,\\mathrm{J}",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u3/3.2",
@@ -603,40 +353,13 @@ export const problems = [
     ]
   },
   {
-    "id": "mech-u3-q011",
-    "title": "3.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
+    "kind": "set",
+    "id": "mech-u3-set3",
+    "title": "功率 · Power",
+    "sharedStimulus": "stim-mech-u3-3",
     "stimulus": {
-      "title": "动能定理",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
+      "title": "恒力的功率 · Power of a constant force",
+      "text": "恒力 10 N 沿速度方向作用，瞬时速度 3.0 m/s。 · A constant 10 N force is parallel to the velocity, which is instantaneously 3.0 m/s.",
       "table": {
         "headers": [
           "量",
@@ -644,95 +367,174 @@ export const problems = [
         ],
         "rows": [
           [
-            "m",
-            "2.0 kg"
-          ],
-          [
             "F",
             "10 N"
           ],
           [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
+            "v",
+            "3.0 m/s"
           ]
         ]
-      }
+      },
+      "sourceId": "openstax-university-physics",
+      "source": "OpenStax University Physics Volumes 1–3",
+      "license": "CC BY 4.0",
+      "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
-    "parts": [
+    "questions": [
       {
-        "stem": "沿水平方向写出牛顿第二定律。",
+        "id": "mech-u3-q008",
+        "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "瞬时功率 · Instantaneous power",
         "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
+        "stem": "力与速度同向时，写出瞬时功率。 · Write the instantaneous power when the force is parallel to the velocity.",
+        "answerLatex": "P=Fv",
+        "solution": "一般情形是点积 F·v。 · The general case is the dot product F·v.",
+        "topicLinks": [
+          {
+            "href": "#/t/mech/mech-u3/3.4",
+            "label": "3.4 功率",
+            "topicId": "mech-u3:3.4"
+          }
+        ]
       },
       {
-        "stem": "求加速度 a（m/s²）。",
+        "id": "mech-u3-q009",
+        "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "功率数值 · Power value",
         "type": "frq",
         "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
+        "stem": "求这个力的瞬时功率（W）。 · Find the instantaneous power of this force (W).",
+        "expected": 30,
+        "tol": 0.01,
+        "answerLatex": "30\\,\\mathrm{W}",
+        "solution": "P = 10×3 = 30 W。 · P = 10×3 = 30 W.",
+        "solutionLatex": "P=Fv=(10)(3.0)=30\\,\\mathrm{W}",
+        "topicLinks": [
+          {
+            "href": "#/t/mech/mech-u3/3.4",
+            "label": "3.4 功率",
+            "topicId": "mech-u3:3.4"
+          }
+        ]
+      },
+      {
+        "id": "mech-u3-q010",
+        "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "速度加倍 · Velocity doubles",
+        "type": "mcq",
+        "stem": "力不变，速度加倍且仍与力同向。功率如何？ · The force stays the same and the velocity doubles, still parallel to the force. What happens to the power?",
+        "choices": [
+          {
+            "text": "变为 60 W · It becomes 60 W",
+            "correct": true
+          },
+          {
+            "text": "仍是 30 W · It stays 30 W",
+            "correct": false
+          },
+          {
+            "text": "变为 15 W · It becomes 15 W",
+            "correct": false
+          },
+          {
+            "text": "变为 120 W · It becomes 120 W",
+            "correct": false
+          }
+        ],
+        "solution": "P = Fv，功率加倍。 · P = Fv, so the power doubles.",
+        "topicLinks": [
+          {
+            "href": "#/t/mech/mech-u3/3.4",
+            "label": "3.4 功率",
+            "topicId": "mech-u3:3.4"
+          }
+        ]
       }
-    ],
+    ]
+  },
+  {
+    "id": "mech-u3-q011",
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q012",
-    "title": "3.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「力与势能」，下列正确的是？",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "保守力与势能 · Conservative force and potential",
+    "type": "mcq",
+    "stem": "一维势能函数为 U(x)。哪项把保守力与 U 联系起来？ · A one-dimensional potential energy is U(x). Which statement relates the conservative force to U?",
     "choices": [
       {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
+        "text": "保守力满足 F_x = −dU/dx · A conservative force satisfies F_x = −dU/dx",
         "correct": true
       },
       {
-        "text": "可随意忽略惯性系要求",
+        "text": "动摩擦是保守力，因为它始终与速度反向 · Kinetic friction is conservative because it always opposes velocity",
         "correct": false
       },
       {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
+        "text": "力的方向就是 U 增大的方向 · The force points in the direction of increasing U",
         "correct": false
       },
       {
-        "text": "场线密度与物理强度无关",
+        "text": "U 的零点一旦选定就不能再平移 · Once chosen, the zero of U can never be shifted",
         "correct": false
       }
     ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "solution": "保守力指向势能下降的方向，F_x = −dU/dx。动摩擦没有势能函数。 · A conservative force points toward decreasing potential, F_x = −dU/dx. Kinetic friction has no potential.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.2",
+        "label": "3.2 力与势能",
+        "topicId": "mech-u3:3.2"
       }
     ]
   },
   {
     "id": "mech-u3-q013",
-    "title": "3.3 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -741,7 +543,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -758,124 +560,57 @@ export const problems = [
   },
   {
     "id": "mech-u3-q014",
-    "title": "3.4 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "功率",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 4.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 4.0 m/s. Find the kinetic energy (J).",
+    "expected": 16,
+    "tol": 0.01,
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "K = 16 J。 · K = 16 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q015",
-    "title": "3.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 5.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 5.0 m/s. Find the kinetic energy (J).",
+    "expected": 25,
+    "tol": 0.01,
+    "answerLatex": "25\\,\\mathrm{J}",
+    "solution": "K = 25 J。 · K = 25 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(5.0)^{2}=25\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
   },
   {
     "id": "mech-u3-q016",
-    "title": "3.2 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -884,7 +619,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -892,96 +627,30 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ],
     "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-u3-q017",
-    "title": "3.3 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "机械能守恒",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 6.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 6.0 m/s. Find the kinetic energy (J).",
+    "expected": 36,
+    "tol": 0.01,
+    "answerLatex": "36\\,\\mathrm{J}",
+    "solution": "K = 36 J。 · K = 36 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(6.0)^{2}=36\\,\\mathrm{J}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u3/3.1",
@@ -992,150 +661,34 @@ export const problems = [
   },
   {
     "id": "mech-u3-q018",
-    "title": "3.4 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「功率」，下列正确的是？",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "瞬时功率 · Instantaneous power",
+    "type": "mcq",
+    "stem": "物体在某时刻速度为 v，所受合力为 F_net。哪项正确？ · At one instant an object has velocity v and net force F_net. Which statement is correct?",
     "choices": [
       {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
+        "text": "净力的瞬时功率等于 F_net·v，也等于 dK/dt · The net-force power is F_net·v and equals dK/dt",
         "correct": true
       },
       {
-        "text": "可随意忽略惯性系要求",
+        "text": "任何一个分力的功率都等于 dK/dt · The power of every individual force equals dK/dt",
         "correct": false
       },
       {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
+        "text": "功率是矢量，方向与速度相同 · Power is a vector in the direction of the velocity",
         "correct": false
       },
       {
-        "text": "场线密度与物理强度无关",
+        "text": "P = F/v，所以速度越大功率越小 · P = F/v, so a larger speed means less power",
         "correct": false
       }
     ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u3-q019",
-    "title": "3.1 动能",
-    "type": "frq",
-    "difficulty": "难",
-    "calculator": false,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
-    "expected": 16,
-    "tol": 0.01,
-    "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
-      }
-    ],
-    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
-  },
-  {
-    "id": "mech-u3-q020",
-    "title": "3.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "力与势能",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "solution": "净力的瞬时功率是 F_net·v，也等于动能的变化率。单个非净力的功率不等于 dK/dt。 · The instantaneous power of the net force is F_net·v, which equals the rate of change of kinetic energy. The power of one non-net force is not dK/dt.",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u3/3.4",
@@ -1145,17 +698,17 @@ export const problems = [
     ]
   },
   {
-    "id": "mech-u3-q021",
-    "title": "3.3 定量练习",
+    "id": "mech-u3-q019",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
-    "difficulty": "中",
-    "calculator": true,
+    "difficulty": "难",
+    "calculator": false,
     "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
+    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{，速率 }v=4.0\\mathrm{m/s}\\text{，求动能 }K=\\dfrac{1}{2}mv^{2}",
+    "expected": 16,
     "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1168,11 +721,61 @@ export const problems = [
         "topicId": "mech-u3:3.1"
       }
     ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
+  },
+  {
+    "id": "mech-u3-q020",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q021",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 4.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 4.0 m/s. Find the kinetic energy (J).",
+    "expected": 16,
+    "tol": 0.01,
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "K = 16 J。 · K = 16 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
+      }
+    ]
   },
   {
     "id": "mech-u3-q022",
-    "title": "3.4 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1181,7 +784,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1189,144 +792,66 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ],
     "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-u3-q023",
-    "title": "3.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动能定理",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 5.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 5.0 m/s. Find the kinetic energy (J).",
+    "expected": 25,
+    "tol": 0.01,
+    "answerLatex": "25\\,\\mathrm{J}",
+    "solution": "K = 25 J。 · K = 25 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(5.0)^{2}=25\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q024",
-    "title": "3.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「力与势能」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 6.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 6.0 m/s. Find the kinetic energy (J).",
+    "expected": 36,
+    "tol": 0.01,
+    "answerLatex": "36\\,\\mathrm{J}",
+    "solution": "K = 36 J。 · K = 36 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(6.0)^{2}=36\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q025",
-    "title": "3.3 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1335,7 +860,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1352,124 +877,57 @@ export const problems = [
   },
   {
     "id": "mech-u3-q026",
-    "title": "3.4 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "功率",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q027",
-    "title": "3.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 4.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 4.0 m/s. Find the kinetic energy (J).",
+    "expected": 16,
+    "tol": 0.01,
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "K = 16 J。 · K = 16 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
   },
   {
     "id": "mech-u3-q028",
-    "title": "3.2 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1478,7 +936,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1486,96 +944,30 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ],
     "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-u3-q029",
-    "title": "3.3 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "机械能守恒",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 5.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 5.0 m/s. Find the kinetic energy (J).",
+    "expected": 25,
+    "tol": 0.01,
+    "answerLatex": "25\\,\\mathrm{J}",
+    "solution": "K = 25 J。 · K = 25 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(5.0)^{2}=25\\,\\mathrm{J}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u3/3.1",
@@ -1586,44 +978,32 @@ export const problems = [
   },
   {
     "id": "mech-u3-q030",
-    "title": "3.4 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「功率」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 6.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 6.0 m/s. Find the kinetic energy (J).",
+    "expected": 36,
+    "tol": 0.01,
+    "answerLatex": "36\\,\\mathrm{J}",
+    "solution": "K = 36 J。 · K = 36 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(6.0)^{2}=36\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q031",
-    "title": "3.1 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1632,124 +1012,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
-      }
-    ],
-    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
-  },
-  {
-    "id": "mech-u3-q032",
-    "title": "3.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "力与势能",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
-      }
-    ]
-  },
-  {
-    "id": "mech-u3-q033",
-    "title": "3.3 定量练习",
-    "type": "frq",
-    "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1762,11 +1025,61 @@ export const problems = [
         "topicId": "mech-u3:3.1"
       }
     ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
+  },
+  {
+    "id": "mech-u3-q032",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q033",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 4.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 4.0 m/s. Find the kinetic energy (J).",
+    "expected": 16,
+    "tol": 0.01,
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "K = 16 J。 · K = 16 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
+      }
+    ]
   },
   {
     "id": "mech-u3-q034",
-    "title": "3.4 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1775,7 +1088,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1783,144 +1096,66 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ],
     "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-u3-q035",
-    "title": "3.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动能定理",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 5.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 5.0 m/s. Find the kinetic energy (J).",
+    "expected": 25,
+    "tol": 0.01,
+    "answerLatex": "25\\,\\mathrm{J}",
+    "solution": "K = 25 J。 · K = 25 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(5.0)^{2}=25\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q036",
-    "title": "3.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「力与势能」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 6.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 6.0 m/s. Find the kinetic energy (J).",
+    "expected": 36,
+    "tol": 0.01,
+    "answerLatex": "36\\,\\mathrm{J}",
+    "solution": "K = 36 J。 · K = 36 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(6.0)^{2}=36\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q037",
-    "title": "3.3 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1929,7 +1164,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1946,124 +1181,57 @@ export const problems = [
   },
   {
     "id": "mech-u3-q038",
-    "title": "3.4 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "功率",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q039",
-    "title": "3.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 4.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 4.0 m/s. Find the kinetic energy (J).",
+    "expected": 16,
+    "tol": 0.01,
+    "answerLatex": "16\\,\\mathrm{J}",
+    "solution": "K = 16 J。 · K = 16 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
   },
   {
     "id": "mech-u3-q040",
-    "title": "3.2 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -2072,99 +1240,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
-      }
-    ],
-    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
-  },
-  {
-    "id": "mech-u3-q041",
-    "title": "3.3 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "机械能守恒",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2176,48 +1252,62 @@ export const problems = [
         "label": "3.1 动能定理",
         "topicId": "mech-u3:3.1"
       }
+    ],
+    "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
+  },
+  {
+    "id": "mech-u3-q041",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 5.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 5.0 m/s. Find the kinetic energy (J).",
+    "expected": 25,
+    "tol": 0.01,
+    "answerLatex": "25\\,\\mathrm{J}",
+    "solution": "K = 25 J。 · K = 25 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(5.0)^{2}=25\\,\\mathrm{J}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
+      }
     ]
   },
   {
     "id": "mech-u3-q042",
-    "title": "3.4 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「功率」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 6.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 6.0 m/s. Find the kinetic energy (J).",
+    "expected": 36,
+    "tol": 0.01,
+    "answerLatex": "36\\,\\mathrm{J}",
+    "solution": "K = 36 J。 · K = 36 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(6.0)^{2}=36\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.2",
-        "label": "3.2 力与势能",
-        "topicId": "mech-u3:3.2"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
   {
     "id": "mech-u3-q043",
-    "title": "3.1 动能",
+    "title": "动能 · Kinetic energy",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -2226,7 +1316,7 @@ export const problems = [
     "expected": 16,
     "tol": 0.01,
     "answerLatex": "16\\,\\mathrm{J}",
-    "solution": "代入数据得 K=16 J。",
+    "solution": "代入数据得 K=16 J。 · Kinetic energy is one-half m v squared.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -2234,101 +1324,35 @@ export const problems = [
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.3",
-        "label": "3.3 机械能守恒",
-        "topicId": "mech-u3:3.3"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ],
     "solutionLatex": "K=\\dfrac{1}{2}mv^{2}=\\dfrac{1}{2}(2.0)(4.0)^{2}=16\\,\\mathrm{J}."
   },
   {
     "id": "mech-u3-q044",
-    "title": "3.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "力与势能",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动能 · Kinetic energy",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速率 3.0 m/s。求动能（J）。 · The mass is 2.0 kg and the speed is 3.0 m/s. Find the kinetic energy (J).",
+    "expected": 9,
+    "tol": 0.01,
+    "answerLatex": "9\\,\\mathrm{J}",
+    "solution": "K = 9 J。 · K = 9 J.",
+    "solutionLatex": "K=\\dfrac{1}{2}(2.0)(3.0)^{2}=9\\,\\mathrm{J}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u3/3.4",
-        "label": "3.4 功率",
-        "topicId": "mech-u3:3.4"
+        "href": "#/t/mech/mech-u3/3.1",
+        "label": "3.1 动能定理",
+        "topicId": "mech-u3:3.1"
       }
     ]
   },
@@ -2541,82 +1565,82 @@ export const problems = [
       }
     ]
   },
-{
-  "id": "mech-u3-q067",
-  "title": "3.2 多物体系统的势能对数",
-  "type": "mcq",
-  "difficulty": "易",
-  "calculator": false,
-  "stem": "三个物体两两之间存在引力势能。系统的总势能包含多少个不同的 pair 项？",
-  "choices": [
-    {
-      "text": "3",
-      "correct": true
-    },
-    {
-      "text": "6",
-      "correct": false
-    },
-    {
-      "text": "9",
-      "correct": false
-    },
-    {
-      "text": "12",
-      "correct": false
-    }
-  ],
-  "solution": "无序对数为 N(N−1)/2=3；把 U₁₂ 与 U₂₁ 都算入会重复计数。",
-  "sourceId": "original",
-  "source": "Original AP-style item (this project)",
-  "license": "Project",
-  "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
-  "topicLinks": [
-    {
-      "href": "#/t/mech/mech-u3/3.2",
-      "label": "3.2 力与势能",
-      "topicId": "mech-u3:3.2"
-    }
-  ]
-},
-{
-  "id": "mech-u3-q068",
-  "title": "3.2 单对象系统只有动能",
-  "type": "mcq",
-  "difficulty": "中",
-  "calculator": false,
-  "stem": "若系统只包含一个质点（点模型），下列关于该系统能量的说法正确的是？",
-  "choices": [
-    {
-      "text": "它只能具有动能；势能属于相互作用的系统",
-      "correct": true
-    },
-    {
-      "text": "它可以同时具有动能和重力势能",
-      "correct": false
-    },
-    {
-      "text": "它一定没有机械能",
-      "correct": false
-    },
-    {
-      "text": "它的内能一定不为零",
-      "correct": false
-    }
-  ],
-  "solution": "CED 3.4.A.1：只含单个对象的系统只能有动能；重力势能属于物块–地球系统，内能需要内部结构。",
-  "sourceId": "original",
-  "source": "Original AP-style item (this project)",
-  "license": "Project",
-  "sourceUrl": "",
-  "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
-  "topicLinks": [
-    {
-      "href": "#/t/mech/mech-u3/3.2",
-      "label": "3.2 力与势能",
-      "topicId": "mech-u3:3.2"
-    }
-  ]
-}
+  {
+    "id": "mech-u3-q067",
+    "title": "3.2 多物体系统的势能对数",
+    "type": "mcq",
+    "difficulty": "易",
+    "calculator": false,
+    "stem": "三个物体两两之间存在引力势能。系统的总势能包含多少个不同的 pair 项？",
+    "choices": [
+      {
+        "text": "3",
+        "correct": true
+      },
+      {
+        "text": "6",
+        "correct": false
+      },
+      {
+        "text": "9",
+        "correct": false
+      },
+      {
+        "text": "12",
+        "correct": false
+      }
+    ],
+    "solution": "无序对数为 N(N−1)/2=3；把 U₁₂ 与 U₂₁ 都算入会重复计数。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.2",
+        "label": "3.2 力与势能",
+        "topicId": "mech-u3:3.2"
+      }
+    ]
+  },
+  {
+    "id": "mech-u3-q068",
+    "title": "3.2 单对象系统只有动能",
+    "type": "mcq",
+    "difficulty": "中",
+    "calculator": false,
+    "stem": "若系统只包含一个质点（点模型），下列关于该系统能量的说法正确的是？",
+    "choices": [
+      {
+        "text": "它只能具有动能；势能属于相互作用的系统",
+        "correct": true
+      },
+      {
+        "text": "它可以同时具有动能和重力势能",
+        "correct": false
+      },
+      {
+        "text": "它一定没有机械能",
+        "correct": false
+      },
+      {
+        "text": "它的内能一定不为零",
+        "correct": false
+      }
+    ],
+    "solution": "CED 3.4.A.1：只含单个对象的系统只能有动能；重力势能属于物块–地球系统，内能需要内部结构。",
+    "sourceId": "original",
+    "source": "Original AP-style item (this project)",
+    "license": "Project",
+    "sourceUrl": "",
+    "sourceNote": "原创 AP 风格题，非官方题；用于本轮 CED 覆盖。",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u3/3.2",
+        "label": "3.2 力与势能",
+        "topicId": "mech-u3:3.2"
+      }
+    ]
+  }
 ];

@@ -9,35 +9,8 @@ export const UNIT_REF = {
 };
 export const stimuli = {
   "stim-mech-u4-1": {
-    "title": "水平面加速度 · 物理情境",
-    "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-    "diagram": {
-      "kind": "fbd",
-      "surface": true,
-      "massLabel": "m",
-      "forces": [
-        {
-          "label": "N",
-          "dx": 0,
-          "dy": -50
-        },
-        {
-          "label": "mg",
-          "dx": 0,
-          "dy": 55
-        },
-        {
-          "label": "F",
-          "dx": 55,
-          "dy": 0
-        },
-        {
-          "label": "f",
-          "dx": -40,
-          "dy": 0
-        }
-      ]
-    },
+    "title": "质点动量 · Momentum of a particle",
+    "text": "质量 2.0 kg，速度 4.0 m/s。 · The mass is 2.0 kg and the velocity is 4.0 m/s.",
     "table": {
       "headers": [
         "量",
@@ -49,16 +22,8 @@ export const stimuli = {
           "2.0 kg"
         ],
         [
-          "F",
-          "10 N"
-        ],
-        [
-          "μ_k",
-          "0.20"
-        ],
-        [
-          "g",
-          "9.8 m/s²"
+          "v",
+          "4.0 m/s"
         ]
       ]
     },
@@ -66,17 +31,11 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-mech-u4-2": {
-    "title": "滑轮系统 · 物理情境",
-    "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
-    "diagram": {
-      "kind": "pulley",
-      "m1": "m₁",
-      "m2": "m₂",
-      "R": true
-    },
+    "title": "恒力的冲量 · Impulse of a constant force",
+    "text": "平均力 6.0 N 作用 0.50 s，物体质量 2.0 kg。 · An average force of 6.0 N acts for 0.50 s on a 2.0 kg object.",
     "table": {
       "headers": [
         "量",
@@ -84,16 +43,16 @@ export const stimuli = {
       ],
       "rows": [
         [
-          "m₁",
+          "F",
+          "6.0 N"
+        ],
+        [
+          "Δt",
+          "0.50 s"
+        ],
+        [
+          "m",
           "2.0 kg"
-        ],
-        [
-          "m₂",
-          "1.0 kg"
-        ],
-        [
-          "g",
-          "9.8 m/s²"
         ]
       ]
     },
@@ -101,99 +60,51 @@ export const stimuli = {
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   },
   "stim-mech-u4-3": {
-    "title": "v–t 图像 · 物理情境",
-    "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
-    "diagram": {
-      "kind": "motionGraph",
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          4,
-          -1
-        ]
+    "title": "粘在一起 · They stick together",
+    "text": "3.0 kg 以 4.0 m/s 运动，与静止的 1.0 kg 相撞后粘在一起。外力可忽略。 · A 3.0 kg object at 4.0 m/s hits a 1.0 kg object at rest and they stick. External forces are negligible.",
+    "table": {
+      "headers": [
+        "量",
+        "值"
       ],
-      "xLabel": "t",
-      "yLabel": "v"
+      "rows": [
+        [
+          "m1",
+          "3.0 kg"
+        ],
+        [
+          "v1",
+          "4.0 m/s"
+        ],
+        [
+          "m2",
+          "1.0 kg"
+        ],
+        [
+          "v2",
+          "0"
+        ]
+      ]
     },
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording.",
-    "graph": {
-      "points": [
-        [
-          0,
-          0
-        ],
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          4,
-          -1
-        ]
-      ],
-      "xLabel": "t / s",
-      "yLabel": "v"
-    }
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
   }
 };
 export const problems = [
   {
     "kind": "set",
     "id": "mech-u4-set1",
-    "title": "题组 1 · 共享刺激",
+    "title": "动量 · Momentum",
     "sharedStimulus": "stim-mech-u4-1",
     "stimulus": {
-      "title": "水平面加速度 · 物理情境",
-      "text": "水平面上一物块受水平拉力 F，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -50
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 55
-          },
-          {
-            "label": "F",
-            "dx": 55,
-            "dy": 0
-          },
-          {
-            "label": "f",
-            "dx": -40,
-            "dy": 0
-          }
-        ]
-      },
+      "title": "质点动量 · Momentum of a particle",
+      "text": "质量 2.0 kg，速度 4.0 m/s。 · The mass is 2.0 kg and the velocity is 4.0 m/s.",
       "table": {
         "headers": [
           "量",
@@ -205,16 +116,8 @@ export const problems = [
             "2.0 kg"
           ],
           [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
+            "v",
+            "4.0 m/s"
           ]
         ]
       },
@@ -222,22 +125,22 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "mech-u4-q001",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动量定义 · Definition of momentum",
+        "type": "frq",
+        "stem": "写出动量的符号式，并说明它是矢量。 · Write the symbolic expression for momentum and state that it is a vector.",
+        "answerLatex": "\\vec p=m\\vec v",
+        "solution": "方向与速度相同。 · The direction is the direction of the velocity.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.1",
@@ -248,58 +151,59 @@ export const problems = [
       },
       {
         "id": "mech-u4-q002",
-        "title": "水平面加速度",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求物块加速度 a（m/s²）。",
-        "expected": 3.04,
-        "tol": 0.01,
-        "solution": "取 g=9.8 m/s²，代入得 a≈3.04 m/s²。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动量大小 · Momentum magnitude",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求动量大小（kg·m/s）。 · Find the magnitude of the momentum (kg·m/s).",
+        "expected": 8,
+        "tol": 0.01,
+        "answerLatex": "8.0\\,\\mathrm{kg\\,m/s}",
+        "solution": "p = mv = 8.0。 · p = mv = 8.0.",
+        "solutionLatex": "p=mv=(2.0)(4.0)=8.0\\,\\mathrm{kg\\,m/s}",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u4/4.2",
-            "label": "4.2 动量守恒与碰撞",
-            "topicId": "mech-u4:4.2"
+            "href": "#/t/mech/mech-u4/4.1",
+            "label": "4.1 冲量与动量",
+            "topicId": "mech-u4:4.1"
           }
-        ],
-        "answerLatex": "3.04\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
+        ]
       },
       {
         "id": "mech-u4-q003",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "速度反向 · Velocity reverses",
+        "type": "mcq",
+        "stem": "速率不变但速度反向。动量变化的大小是多少？ · The speed is unchanged but the velocity reverses. What is the magnitude of the change in momentum?",
+        "choices": [
+          {
+            "text": "16 kg·m/s · 16 kg·m/s",
+            "correct": true
+          },
+          {
+            "text": "0，因为速率没变 · 0, because the speed did not change",
+            "correct": false
+          },
+          {
+            "text": "8 kg·m/s · 8 kg·m/s",
+            "correct": false
+          },
+          {
+            "text": "4 kg·m/s · 4 kg·m/s",
+            "correct": false
+          }
+        ],
+        "solution": "Δp = −8 − 8 = −16，大小是 16。 · Δp = −8 − 8 = −16, so the magnitude is 16.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.1",
@@ -313,17 +217,11 @@ export const problems = [
   {
     "kind": "set",
     "id": "mech-u4-set2",
-    "title": "题组 2 · 共享刺激",
+    "title": "冲量 · Impulse",
     "sharedStimulus": "stim-mech-u4-2",
     "stimulus": {
-      "title": "滑轮系统 · 物理情境",
-      "text": "m₁ 与 m₂ 由轻绳跨过理想定滑轮连接，且 m₁ > m₂。求系统加速度大小。",
-      "diagram": {
-        "kind": "pulley",
-        "m1": "m₁",
-        "m2": "m₂",
-        "R": true
-      },
+      "title": "恒力的冲量 · Impulse of a constant force",
+      "text": "平均力 6.0 N 作用 0.50 s，物体质量 2.0 kg。 · An average force of 6.0 N acts for 0.50 s on a 2.0 kg object.",
       "table": {
         "headers": [
           "量",
@@ -331,16 +229,16 @@ export const problems = [
         ],
         "rows": [
           [
-            "m₁",
+            "F",
+            "6.0 N"
+          ],
+          [
+            "Δt",
+            "0.50 s"
+          ],
+          [
+            "m",
             "2.0 kg"
-          ],
-          [
-            "m₂",
-            "1.0 kg"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
           ]
         ]
       },
@@ -348,105 +246,110 @@ export const problems = [
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording."
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "mech-u4-q004",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "\\sum \\vec F=m\\vec a",
-        "solution": "先定律、后代数。",
-        "sourceId": "openstax-university-physics",
-        "source": "OpenStax University Physics Volumes 1–3",
-        "license": "CC BY 4.0",
-        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-        "topicLinks": [
-          {
-            "href": "#/t/mech/mech-u4/4.2",
-            "label": "4.2 动量守恒与碰撞",
-            "topicId": "mech-u4:4.2"
-          }
-        ]
-      },
-      {
-        "id": "mech-u4-q005",
-        "title": "滑轮系统加速度",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求两物块加速度大小 a（m/s²）。",
-        "expected": 3.27,
-        "tol": 0.01,
-        "solution": "系统整体受力 (m₁−m₂)g，总质量 m₁+m₂。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "冲量–动量定理 · Impulse–momentum theorem",
+        "type": "frq",
+        "stem": "写出恒力冲量与动量变化的关系。 · Write the relation between a constant-force impulse and the change in momentum.",
+        "answerLatex": "F\\Delta t=\\Delta p",
+        "solution": "这是牛顿第二定律对时间积分。 · This is Newton’s second law integrated over time.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.1",
             "label": "4.1 冲量与动量",
             "topicId": "mech-u4:4.1"
           }
-        ],
-        "answerLatex": "3.27\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{(m_1-m_2)g}{m_1+m_2}=\\dfrac{(2.0-1.0)(9.8)}{2.0+1.0}=3.27\\,\\mathrm{m\\,s^{-2}}."
+        ]
       },
       {
-        "id": "mech-u4-q006",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "id": "mech-u4-q005",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "冲量大小 · Impulse magnitude",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求冲量大小（N·s）。 · Find the magnitude of the impulse (N·s).",
+        "expected": 3,
+        "tol": 0.01,
+        "answerLatex": "3.0\\,\\mathrm{N\\,s}",
+        "solution": "J = 6×0.5 = 3.0 N·s。 · J = 6×0.5 = 3.0 N·s.",
+        "solutionLatex": "J=F\\Delta t=(6.0)(0.50)=3.0\\,\\mathrm{N\\,s}",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u4/4.2",
-            "label": "4.2 动量守恒与碰撞",
-            "topicId": "mech-u4:4.2"
+            "href": "#/t/mech/mech-u4/4.1",
+            "label": "4.1 冲量与动量",
+            "topicId": "mech-u4:4.1"
+          }
+        ]
+      },
+      {
+        "id": "mech-u4-q006",
+        "difficulty": "中",
+        "sourceId": "openstax-university-physics",
+        "source": "OpenStax University Physics Volumes 1–3",
+        "license": "CC BY 4.0",
+        "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+        "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "速度增量 · Change in velocity",
+        "type": "mcq",
+        "stem": "若物体原来静止，这个冲量使速度变为多少？ · If the object starts at rest, what speed does this impulse produce?",
+        "choices": [
+          {
+            "text": "1.5 m/s · 1.5 m/s",
+            "correct": true
+          },
+          {
+            "text": "3.0 m/s · 3.0 m/s",
+            "correct": false
+          },
+          {
+            "text": "12 m/s · 12 m/s",
+            "correct": false
+          },
+          {
+            "text": "0.50 m/s · 0.50 m/s",
+            "correct": false
+          }
+        ],
+        "solution": "Δv = J/m = 1.5 m/s。 · Δv = J/m = 1.5 m/s.",
+        "topicLinks": [
+          {
+            "href": "#/t/mech/mech-u4/4.1",
+            "label": "4.1 冲量与动量",
+            "topicId": "mech-u4:4.1"
           }
         ]
       },
       {
         "id": "mech-u4-q007",
-        "title": "定量/概念 (4)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "说明若某一参数加倍，目标量如何变化（定性+比例）。",
-        "answer": "a=F/m：m 不变时 F 加倍，a 加倍；F 不变时 m 加倍，a 减半。",
-        "solution": "牛顿第二定律的比例关系。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "作用时间加倍后的冲量 · Impulse after the time doubles",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "平均力仍是 6.0 N，作用时间改为 1.0 s。求冲量大小（N·s）。 · The average force is still 6.0 N and it acts for 1.0 s. Find the impulse magnitude (N·s).",
+        "expected": 6,
+        "tol": 0.01,
+        "answerLatex": "6.0\\,\\mathrm{N\\,s}",
+        "solution": "J = FΔt = 6.0 N·s。 · J = FΔt = 6.0 N·s.",
+        "solutionLatex": "J=(6.0)(1.0)=6.0\\,\\mathrm{N\\,s}",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.1",
@@ -460,76 +363,55 @@ export const problems = [
   {
     "kind": "set",
     "id": "mech-u4-set3",
-    "title": "题组 3 · 共享刺激",
+    "title": "完全非弹性碰撞 · Perfectly inelastic collision",
     "sharedStimulus": "stim-mech-u4-3",
     "stimulus": {
-      "title": "v–t 图像 · 物理情境",
-      "text": "图为某物体的速度–时间图像。求 0–1 s 内的加速度。",
-      "diagram": {
-        "kind": "motionGraph",
-        "points": [
-          [
-            0,
-            0
-          ],
-          [
-            1,
-            3
-          ],
-          [
-            2,
-            3
-          ],
-          [
-            4,
-            -1
-          ]
+      "title": "粘在一起 · They stick together",
+      "text": "3.0 kg 以 4.0 m/s 运动，与静止的 1.0 kg 相撞后粘在一起。外力可忽略。 · A 3.0 kg object at 4.0 m/s hits a 1.0 kg object at rest and they stick. External forces are negligible.",
+      "table": {
+        "headers": [
+          "量",
+          "值"
         ],
-        "xLabel": "t",
-        "yLabel": "v"
+        "rows": [
+          [
+            "m1",
+            "3.0 kg"
+          ],
+          [
+            "v1",
+            "4.0 m/s"
+          ],
+          [
+            "m2",
+            "1.0 kg"
+          ],
+          [
+            "v2",
+            "0"
+          ]
+        ]
       },
       "sourceId": "openstax-university-physics",
       "source": "OpenStax University Physics Volumes 1–3",
       "license": "CC BY 4.0",
       "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-      "sourceNote": "Numbers/style inspired by OpenStax University Physics; original wording.",
-      "graph": {
-        "points": [
-          [
-            0,
-            0
-          ],
-          [
-            1,
-            3
-          ],
-          [
-            2,
-            3
-          ],
-          [
-            4,
-            -1
-          ]
-        ],
-        "xLabel": "t / s",
-        "yLabel": "v"
-      }
+      "sourceNote": "Adapted for AP-style practice; not a verbatim copy."
     },
     "questions": [
       {
         "id": "mech-u4-q008",
-        "title": "定量/概念 (1)",
-        "difficulty": "易",
-        "type": "frq",
-        "stem": "写出适用的核心定律（符号形式），并标明体系。",
-        "answerLatex": "a=\\dfrac{\\Delta v}{\\Delta t}",
-        "solution": "v–t 图像斜率即加速度。",
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "守恒量 · What is conserved",
+        "type": "frq",
+        "stem": "写出碰撞后共同速度的符号式，并说明动能是否守恒。 · Write the common speed after the collision and state whether kinetic energy is conserved.",
+        "answerLatex": "v=\\dfrac{m_1 v_1}{m_1+m_2}",
+        "solution": "动量守恒，完全非弹性碰撞动能不守恒。 · Momentum is conserved. Kinetic energy is not conserved in a perfectly inelastic collision.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.2",
@@ -540,58 +422,59 @@ export const problems = [
       },
       {
         "id": "mech-u4-q009",
-        "title": "v–t 图像斜率",
         "difficulty": "中",
-        "type": "frq",
-        "check": "numeric",
-        "stem": "求 0–1 s 内的加速度 a（m/s²）。",
-        "expected": 3,
-        "tol": 0.01,
-        "solution": "v–t 图斜率即加速度。",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "共同速度 · Common speed",
+        "type": "frq",
+        "check": "numeric",
+        "stem": "求粘在一起后的速度（m/s）。 · Find the speed after they stick (m/s).",
+        "expected": 3,
+        "tol": 0.01,
+        "answerLatex": "3.0\\,\\mathrm{m/s}",
+        "solution": "12/4 = 3.0 m/s。 · 12/4 = 3.0 m/s.",
+        "solutionLatex": "v=\\dfrac{(3.0)(4.0)}{4.0}=3.0\\,\\mathrm{m/s}",
         "topicLinks": [
           {
-            "href": "#/t/mech/mech-u4/4.1",
-            "label": "4.1 冲量与动量",
-            "topicId": "mech-u4:4.1"
+            "href": "#/t/mech/mech-u4/4.2",
+            "label": "4.2 动量守恒与碰撞",
+            "topicId": "mech-u4:4.2"
           }
-        ],
-        "answerLatex": "3.0\\,\\mathrm{m\\,s^{-2}}",
-        "solutionLatex": "a=\\dfrac{\\Delta v}{\\Delta t}=\\dfrac{3.0-0}{1.0-0}=3.0\\,\\mathrm{m\\,s^{-2}}."
+        ]
       },
       {
         "id": "mech-u4-q010",
-        "title": "定量/概念 (3)",
-        "difficulty": "难",
-        "type": "mcq",
-        "stem": "下列哪项正确描述图示关系？",
-        "choices": [
-          {
-            "text": "需用矢量/场线或回路规则一致地分析",
-            "correct": true
-          },
-          {
-            "text": "可忽略所有方向信息",
-            "correct": false
-          },
-          {
-            "text": "能量守恒在此情境永远不适用",
-            "correct": false
-          },
-          {
-            "text": "图示与方程无关",
-            "correct": false
-          }
-        ],
+        "difficulty": "中",
         "sourceId": "openstax-university-physics",
         "source": "OpenStax University Physics Volumes 1–3",
         "license": "CC BY 4.0",
         "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
         "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+        "title": "动能 · Kinetic energy",
+        "type": "mcq",
+        "stem": "碰撞后系统动能与碰撞前相比，哪项正确？ · Compared with before the collision, which statement about the kinetic energy is correct?",
+        "choices": [
+          {
+            "text": "动能减少 · Kinetic energy decreases",
+            "correct": true
+          },
+          {
+            "text": "动能守恒 · Kinetic energy is conserved",
+            "correct": false
+          },
+          {
+            "text": "动能增加 · Kinetic energy increases",
+            "correct": false
+          },
+          {
+            "text": "动量也不守恒 · Momentum is not conserved either",
+            "correct": false
+          }
+        ],
+        "solution": "碰前 K=24 J，碰后 K=½×4×9=18 J，动能减少。 · Before, K=24 J. After, K=½×4×9=18 J, so kinetic energy decreases.",
         "topicLinks": [
           {
             "href": "#/t/mech/mech-u4/4.2",
@@ -604,87 +487,21 @@ export const problems = [
   },
   {
     "id": "mech-u4-q011",
-    "title": "4.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "冲量与动量",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 3.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 3.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 6,
+    "tol": 0.01,
+    "answerLatex": "6\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 6 kg·m/s。 · p = 6 kg·m/s.",
+    "solutionLatex": "p=(2.0)(3.0)=6\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
@@ -695,33 +512,34 @@ export const problems = [
   },
   {
     "id": "mech-u4-q012",
-    "title": "4.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「动量守恒与碰撞」，下列正确的是？",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量守恒的条件 · When momentum is conserved",
+    "type": "mcq",
+    "stem": "两辆小车在水平气垫导轨上碰撞，导轨摩擦可忽略。哪项正确？ · Two carts collide on a horizontal air track, and friction is negligible. Which statement is correct?",
     "choices": [
       {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
+        "text": "碰撞前后系统总动量守恒，动能不一定守恒 · Total momentum is conserved; kinetic energy need not be",
         "correct": true
       },
       {
-        "text": "可随意忽略惯性系要求",
+        "text": "只有弹性碰撞动量才守恒 · Momentum is conserved only in an elastic collision",
         "correct": false
       },
       {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
+        "text": "动能在任何碰撞中都守恒 · Kinetic energy is conserved in every collision",
         "correct": false
       },
       {
-        "text": "场线密度与物理强度无关",
+        "text": "内力不能改变任何一个物体的动量 · Internal forces cannot change the momentum of either object",
         "correct": false
       }
     ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "solution": "合外力冲量为零时系统动量守恒。动能只在弹性碰撞中守恒。 · System momentum is conserved when the net external impulse is zero. Kinetic energy is conserved only in an elastic collision.",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.2",
@@ -732,7 +550,7 @@ export const problems = [
   },
   {
     "id": "mech-u4-q013",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -741,7 +559,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -758,124 +576,57 @@ export const problems = [
   },
   {
     "id": "mech-u4-q014",
-    "title": "4.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动量守恒与碰撞",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u4-q015",
-    "title": "4.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 4.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 4.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 8,
+    "tol": 0.01,
+    "answerLatex": "8\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 8 kg·m/s。 · p = 8 kg·m/s.",
+    "solutionLatex": "p=(2.0)(4.0)=8\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
         "label": "4.1 冲量与动量",
         "topicId": "mech-u4:4.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
+  },
+  {
+    "id": "mech-u4-q015",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 5.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 5.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 10,
+    "tol": 0.01,
+    "answerLatex": "10\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 10 kg·m/s。 · p = 10 kg·m/s.",
+    "solutionLatex": "p=(2.0)(5.0)=10\\,\\mathrm{kg\\,m/s}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
+      }
+    ]
   },
   {
     "id": "mech-u4-q016",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -884,7 +635,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -901,87 +652,21 @@ export const problems = [
   },
   {
     "id": "mech-u4-q017",
-    "title": "4.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "冲量与动量",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 6.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 6.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 12,
+    "tol": 0.01,
+    "answerLatex": "12\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 12 kg·m/s。 · p = 12 kg·m/s.",
+    "solutionLatex": "p=(2.0)(6.0)=12\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
@@ -992,44 +677,32 @@ export const problems = [
   },
   {
     "id": "mech-u4-q018",
-    "title": "4.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「动量守恒与碰撞」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 7.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 7.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 14,
+    "tol": 0.01,
+    "answerLatex": "14\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 14 kg·m/s。 · p = 14 kg·m/s.",
+    "solutionLatex": "p=(2.0)(7.0)=14\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
       }
     ]
   },
   {
     "id": "mech-u4-q019",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1038,7 +711,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1055,124 +728,57 @@ export const problems = [
   },
   {
     "id": "mech-u4-q020",
-    "title": "4.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动量守恒与碰撞",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u4-q021",
-    "title": "4.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 3.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 3.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 6,
+    "tol": 0.01,
+    "answerLatex": "6\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 6 kg·m/s。 · p = 6 kg·m/s.",
+    "solutionLatex": "p=(2.0)(3.0)=6\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
         "label": "4.1 冲量与动量",
         "topicId": "mech-u4:4.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
+  },
+  {
+    "id": "mech-u4-q021",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 4.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 4.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 8,
+    "tol": 0.01,
+    "answerLatex": "8\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 8 kg·m/s。 · p = 8 kg·m/s.",
+    "solutionLatex": "p=(2.0)(4.0)=8\\,\\mathrm{kg\\,m/s}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
+      }
+    ]
   },
   {
     "id": "mech-u4-q022",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1181,7 +787,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1198,87 +804,21 @@ export const problems = [
   },
   {
     "id": "mech-u4-q023",
-    "title": "4.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "冲量与动量",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 5.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 5.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 10,
+    "tol": 0.01,
+    "answerLatex": "10\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 10 kg·m/s。 · p = 10 kg·m/s.",
+    "solutionLatex": "p=(2.0)(5.0)=10\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
@@ -1289,44 +829,32 @@ export const problems = [
   },
   {
     "id": "mech-u4-q024",
-    "title": "4.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「动量守恒与碰撞」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 6.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 6.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 12,
+    "tol": 0.01,
+    "answerLatex": "12\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 12 kg·m/s。 · p = 12 kg·m/s.",
+    "solutionLatex": "p=(2.0)(6.0)=12\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
       }
     ]
   },
   {
     "id": "mech-u4-q025",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1335,7 +863,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1352,124 +880,57 @@ export const problems = [
   },
   {
     "id": "mech-u4-q026",
-    "title": "4.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动量守恒与碰撞",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u4-q027",
-    "title": "4.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 7.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 7.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 14,
+    "tol": 0.01,
+    "answerLatex": "14\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 14 kg·m/s。 · p = 14 kg·m/s.",
+    "solutionLatex": "p=(2.0)(7.0)=14\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
         "label": "4.1 冲量与动量",
         "topicId": "mech-u4:4.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
+  },
+  {
+    "id": "mech-u4-q027",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 3.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 3.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 6,
+    "tol": 0.01,
+    "answerLatex": "6\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 6 kg·m/s。 · p = 6 kg·m/s.",
+    "solutionLatex": "p=(2.0)(3.0)=6\\,\\mathrm{kg\\,m/s}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
+      }
+    ]
   },
   {
     "id": "mech-u4-q028",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1478,7 +939,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1495,87 +956,21 @@ export const problems = [
   },
   {
     "id": "mech-u4-q029",
-    "title": "4.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "冲量与动量",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 4.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 4.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 8,
+    "tol": 0.01,
+    "answerLatex": "8\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 8 kg·m/s。 · p = 8 kg·m/s.",
+    "solutionLatex": "p=(2.0)(4.0)=8\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
@@ -1586,44 +981,32 @@ export const problems = [
   },
   {
     "id": "mech-u4-q030",
-    "title": "4.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「动量守恒与碰撞」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 5.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 5.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 10,
+    "tol": 0.01,
+    "answerLatex": "10\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 10 kg·m/s。 · p = 10 kg·m/s.",
+    "solutionLatex": "p=(2.0)(5.0)=10\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
       }
     ]
   },
   {
     "id": "mech-u4-q031",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1632,7 +1015,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1649,124 +1032,57 @@ export const problems = [
   },
   {
     "id": "mech-u4-q032",
-    "title": "4.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动量守恒与碰撞",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u4-q033",
-    "title": "4.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 6.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 6.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 12,
+    "tol": 0.01,
+    "answerLatex": "12\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 12 kg·m/s。 · p = 12 kg·m/s.",
+    "solutionLatex": "p=(2.0)(6.0)=12\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
         "label": "4.1 冲量与动量",
         "topicId": "mech-u4:4.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
+  },
+  {
+    "id": "mech-u4-q033",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 7.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 7.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 14,
+    "tol": 0.01,
+    "answerLatex": "14\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 14 kg·m/s。 · p = 14 kg·m/s.",
+    "solutionLatex": "p=(2.0)(7.0)=14\\,\\mathrm{kg\\,m/s}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
+      }
+    ]
   },
   {
     "id": "mech-u4-q034",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1775,7 +1091,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1792,87 +1108,21 @@ export const problems = [
   },
   {
     "id": "mech-u4-q035",
-    "title": "4.1 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "冲量与动量",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
+    "difficulty": "中",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 3.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 3.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 6,
+    "tol": 0.01,
+    "answerLatex": "6\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 6 kg·m/s。 · p = 6 kg·m/s.",
+    "solutionLatex": "p=(2.0)(3.0)=6\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
@@ -1883,44 +1133,32 @@ export const problems = [
   },
   {
     "id": "mech-u4-q036",
-    "title": "4.2 概念 MCQ",
-    "type": "mcq",
     "difficulty": "中",
-    "stem": "关于「动量守恒与碰撞」，下列正确的是？",
-    "choices": [
-      {
-        "text": "适用定律有明确条件，矢量/符号必须一致",
-        "correct": true
-      },
-      {
-        "text": "可随意忽略惯性系要求",
-        "correct": false
-      },
-      {
-        "text": "能量与动量在任何过程中同型守恒且无条件",
-        "correct": false
-      },
-      {
-        "text": "场线密度与物理强度无关",
-        "correct": false
-      }
-    ],
-    "sourceId": "openstax-college-physics-2e",
-    "source": "OpenStax College Physics 2e",
-    "license": "CC BY-NC-SA 4.0",
-    "sourceUrl": "https://openstax.org/details/books/college-physics-2e",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 4.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 4.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 8,
+    "tol": 0.01,
+    "answerLatex": "8\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 8 kg·m/s。 · p = 8 kg·m/s.",
+    "solutionLatex": "p=(2.0)(4.0)=8\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
       }
     ]
   },
   {
     "id": "mech-u4-q037",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -1929,7 +1167,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
@@ -1946,124 +1184,57 @@ export const problems = [
   },
   {
     "id": "mech-u4-q038",
-    "title": "4.2 水平面滑动（有摩擦）",
-    "type": "frq",
-    "difficulty": "易",
-    "stimulus": {
-      "title": "动量守恒与碰撞",
-      "text": "水平面上一物块受水平拉力，动摩擦因数 μ_k。取 g=9.8 m/s²。求加速度。",
-      "diagram": {
-        "kind": "fbd",
-        "surface": true,
-        "massLabel": "m",
-        "forces": [
-          {
-            "label": "N",
-            "dx": 0,
-            "dy": -78
-          },
-          {
-            "label": "mg",
-            "dx": 0,
-            "dy": 78
-          },
-          {
-            "label": "F",
-            "dx": 40,
-            "dy": 0
-          },
-          {
-            "label": "f_k",
-            "dx": -16,
-            "dy": 0
-          }
-        ]
-      },
-      "table": {
-        "headers": [
-          "量",
-          "值"
-        ],
-        "rows": [
-          [
-            "m",
-            "2.0 kg"
-          ],
-          [
-            "F",
-            "10 N"
-          ],
-          [
-            "μ_k",
-            "0.20"
-          ],
-          [
-            "g",
-            "9.8 m/s²"
-          ]
-        ]
-      }
-    },
-    "parts": [
-      {
-        "stem": "沿水平方向写出牛顿第二定律。",
-        "type": "frq",
-        "answerLatex": "F-f_k=ma,\\quad f_k=\\mu_k mg",
-        "solution": "N=mg，动摩擦（kinetic friction）与运动反向。"
-      },
-      {
-        "stem": "求加速度 a（m/s²）。",
-        "type": "frq",
-        "check": "numeric",
-        "expected": 3.04,
-        "tol": 0.02,
-        "answerLatex": "3.04",
-        "solution": "代入数据得 a≈3.04 m/s²。",
-        "solutionLatex": "a=\\dfrac{F-\\mu_k mg}{m}=\\dfrac{10-(0.20)(2.0)(9.8)}{2.0}=3.04\\,\\mathrm{m\\,s^{-2}}."
-      }
-    ],
-    "sourceId": "openstax-university-physics",
-    "source": "OpenStax University Physics Volumes 1–3",
-    "license": "CC BY 4.0",
-    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
-    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
-    "topicLinks": [
-      {
-        "href": "#/t/mech/mech-u4/4.2",
-        "label": "4.2 动量守恒与碰撞",
-        "topicId": "mech-u4:4.2"
-      }
-    ]
-  },
-  {
-    "id": "mech-u4-q039",
-    "title": "4.1 定量练习",
-    "type": "frq",
     "difficulty": "中",
-    "calculator": true,
-    "check": "numeric",
-    "stemLatex": "\\text{质量 }m=2.0\\mathrm{kg}\\text{ 的物体受恒力 }F=10\\mathrm{N}\\text{，忽略摩擦，求加速度 }a",
-    "expected": 5,
-    "tol": 0.01,
-    "answerLatex": "5.0\\,\\mathrm{m\\,s^{-2}}",
-    "solution": "代入数据得 a=5.0 m/s²。",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
     "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
     "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 5.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 5.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 10,
+    "tol": 0.01,
+    "answerLatex": "10\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 10 kg·m/s。 · p = 10 kg·m/s.",
+    "solutionLatex": "p=(2.0)(5.0)=10\\,\\mathrm{kg\\,m/s}",
     "topicLinks": [
       {
         "href": "#/t/mech/mech-u4/4.1",
         "label": "4.1 冲量与动量",
         "topicId": "mech-u4:4.1"
       }
-    ],
-    "solutionLatex": "a=\\dfrac{F}{m}=\\dfrac{10}{2.0}=5.0\\,\\mathrm{m\\,s^{-2}}."
+    ]
+  },
+  {
+    "id": "mech-u4-q039",
+    "difficulty": "中",
+    "sourceId": "openstax-university-physics",
+    "source": "OpenStax University Physics Volumes 1–3",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://openstax.org/details/books/university-physics-volume-1",
+    "sourceNote": "Adapted for AP-style practice; not a verbatim copy.",
+    "title": "动量 · Momentum",
+    "type": "frq",
+    "check": "numeric",
+    "stem": "质量 2.0 kg，速度 6.0 m/s。求动量大小（kg·m/s）。 · The mass is 2.0 kg and the velocity is 6.0 m/s. Find the momentum magnitude (kg·m/s).",
+    "expected": 12,
+    "tol": 0.01,
+    "answerLatex": "12\\,\\mathrm{kg\\,m/s}",
+    "solution": "p = 12 kg·m/s。 · p = 12 kg·m/s.",
+    "solutionLatex": "p=(2.0)(6.0)=12\\,\\mathrm{kg\\,m/s}",
+    "topicLinks": [
+      {
+        "href": "#/t/mech/mech-u4/4.1",
+        "label": "4.1 冲量与动量",
+        "topicId": "mech-u4:4.1"
+      }
+    ]
   },
   {
     "id": "mech-u4-q040",
-    "title": "4.1 动量",
+    "title": "动量 · Momentum",
     "type": "frq",
     "difficulty": "难",
     "calculator": false,
@@ -2072,7 +1243,7 @@ export const problems = [
     "expected": 8,
     "tol": 0.01,
     "answerLatex": "8.0\\,\\mathrm{kg\\,m\\,s^{-1}}",
-    "solution": "由动量定义得 p=8.0 kg·m/s。",
+    "solution": "由动量定义得 p=8.0 kg·m/s。 · Momentum is m v.",
     "sourceId": "openstax-university-physics",
     "source": "OpenStax University Physics Volumes 1–3",
     "license": "CC BY 4.0",
